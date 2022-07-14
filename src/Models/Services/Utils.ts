@@ -11,7 +11,11 @@ import {
     IOATTwinModelNodes
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths, OATDataStorageKey } from '../Constants/Constants';
+import {
+    CharacterWidths,
+    OATDataStorageKey,
+    OATFilesStorageKey
+} from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -457,4 +461,13 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
         // Scheme - replace ":" with "\"
         return directoryPath.replace(':', '\\');
     }
+};
+
+/* Load files from local storage */
+export const loadFiles = () =>
+    JSON.parse(localStorage.getItem(OATFilesStorageKey));
+
+/* Save files from local storage */
+export const saveFiles = (files: ProjectData[]) => {
+    localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
 };

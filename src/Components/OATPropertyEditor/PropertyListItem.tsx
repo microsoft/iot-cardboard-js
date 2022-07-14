@@ -11,7 +11,7 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
@@ -37,8 +37,8 @@ type IPropertyListItem = {
     onDragEnterExternalItem?: (index: number) => any;
     onDragStart?: (event: any, item: any) => any;
     item?: DTDLProperty;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
+    onCurrentPropertyIndexChange: (index: number) => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
@@ -50,13 +50,13 @@ export const PropertyListItem = ({
     dispatch,
     draggingProperty,
     getItemClassName,
+    onCurrentPropertyIndexChange,
     onDragEnter,
     onDragEnterExternalItem,
     onDragStart,
     onPropertyDisplayNameChange,
     onMove,
     propertiesLength,
-    setCurrentPropertyIndex,
     setModalOpen,
     item,
     setLastPropertyFocused,
@@ -109,14 +109,14 @@ export const PropertyListItem = ({
             const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName].push(itemCopy);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoDuplicate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -167,7 +167,7 @@ export const PropertyListItem = ({
                         )}
                         validateOnFocusOut
                         onChange={(evt, value) => {
-                            setCurrentPropertyIndex(index);
+                            onCurrentPropertyIndexChange(index);
                             onPropertyDisplayNameChange(value, index);
                         }}
                         onBlur={() => setDisplayNameEditor(false)}
@@ -180,7 +180,7 @@ export const PropertyListItem = ({
                     iconProps={{ iconName: 'info' }}
                     title={t('OATPropertyEditor.info')}
                     onClick={() => {
-                        setCurrentPropertyIndex(index);
+                        onCurrentPropertyIndexChange(index);
                         setModalBody(FormBody.property);
                         setModalOpen(true);
                     }}

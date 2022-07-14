@@ -141,7 +141,7 @@ export const getHeaderStyles = () => {
     });
 };
 
-export const getSubMenuItemStyles: IStyle = () => {
+export const getSubMenuItemStyles = () => {
     const theme = useTheme();
     return {
         root: {
@@ -158,7 +158,7 @@ export const getSubMenuItemStyles: IStyle = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getSubMenuStyles: IStyle = () => {
+export const getSubMenuStyles = () => {
     const theme = useTheme();
     return {
         root: {
@@ -176,7 +176,17 @@ export const getSubMenuStyles: IStyle = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getPromptTextStyles: IStyle = () => {
+export const getSubMenuHiddenStyles = () => {
+    return {
+        root: {
+            pointerEvents: 'none',
+            opacity: 0,
+            visibility: 'hidden'
+        }
+    };
+};
+
+export const getPromptTextStyles = () => {
     return {
         root: {
             fontSize: '16px'
@@ -184,7 +194,7 @@ export const getPromptTextStyles: IStyle = () => {
     };
 };
 
-export const getCommandBarStyles: IStyle = () => {
+export const getCommandBarStyles = () => {
     return {
         root: {
             padding: '0px'

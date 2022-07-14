@@ -9,7 +9,7 @@ interface ITemplateListItemList {
     item?: DTDLProperty;
     index: number;
     deleteItem?: (index: number) => void;
-    getDragItemClassName?: (index: number) => void;
+    getDragItemClassName?: (index: number) => string;
     onDragEnter?: (event: any, index: number) => void;
     onDragEnterExternalItem?: (index: number) => void;
     onDragStart?: (event: any, index: number) => void;

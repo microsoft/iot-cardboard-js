@@ -7,7 +7,8 @@ import {
     PivotItem,
     Label,
     Text,
-    ActionButton
+    ActionButton,
+    IDropdownOption
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -23,34 +24,39 @@ import PropertiesModelSummary from './PropertiesModelSummary';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
+import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
+import FormUpdateProperty from './FormUpdateProperty';
+import FormAddEnumItem from './FormAddEnumItem';
+import { FormBody } from './Constants';
+import FormRootModelDetails from './FormRootModelDetails';
 interface IEditor {
+    currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    theme?: Theme;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    languages: IDropdownOption[];
+    onCurrentPropertyIndexChange: (index: number) => void;
+    onCurrentNestedPropertyIndexChange: (index: number) => void;
     state?: IOATEditorState;
+    theme?: Theme;
 }
 
 const Editor = ({
-    theme,
-    setModalBody,
-    setModalOpen,
-    setCurrentNestedPropertyIndex,
-    setCurrentPropertyIndex,
-    currentPropertyIndex,
     dispatch,
-    state
+    languages,
+    currentPropertyIndex,
+    currentNestedPropertyIndex,
+    onCurrentPropertyIndexChange,
+    onCurrentNestedPropertyIndexChange,
+    state,
+    theme
 }: IEditor) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertyListPivotColumnContent = getPropertyListPivotColumnContent();
     const propertyListStackItem = getPropertyListStackItem();
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalBody, setModalBody] = useState(null);
     const [draggingTemplate, setDraggingTemplate] = useState(false);
     const [draggingProperty, setDraggingProperty] = useState(false);
     const enteredTemplateRef = useRef(null);
@@ -75,7 +81,6 @@ const Editor = ({
                     property['@type'] !== ModelTypes.relationship &&
                     property['@type'] !== ModelTypes.untargeted
             );
-            return propertyItems;
         }
         return propertyItems;
     }, [model]);
@@ -87,120 +92,178 @@ const Editor = ({
         );
     }, [model]);
 
+    const onToggleTemplatesActive = () => {
+        dispatch({
+            type: SET_OAT_TEMPLATES_ACTIVE,
+            payload: !templatesActive
+        });
+    };
+
+    const onModalClose = () => {
+        setModalOpen(false);
+    };
+
+    const getModalBody = () => {
+        switch (modalBody) {
+            case FormBody.property:
+                return (
+                    <FormUpdateProperty
+                        dispatch={dispatch}
+                        currentPropertyIndex={currentPropertyIndex}
+                        currentNestedPropertyIndex={currentNestedPropertyIndex}
+                        onCurrentNestedPropertyIndexChange={
+                            onCurrentNestedPropertyIndexChange
+                        }
+                        setModalBody={setModalBody}
+                        state={state}
+                        languages={languages}
+                        onClose={onModalClose}
+                    />
+                );
+            case FormBody.enum:
+                return (
+                    <FormAddEnumItem
+                        onClose={onModalClose}
+                        dispatch={dispatch}
+                        currentPropertyIndex={currentPropertyIndex}
+                        currentNestedPropertyIndex={currentNestedPropertyIndex}
+                        setModalBody={setModalBody}
+                        state={state}
+                        languages={languages}
+                    />
+                );
+            case FormBody.rootModel:
+                return (
+                    <FormRootModelDetails
+                        onClose={onModalClose}
+                        dispatch={dispatch}
+                        setModalBody={setModalBody}
+                        state={state}
+                        languages={languages}
+                    />
+                );
+            default:
+                <></>;
+        }
+    };
+
     return (
-        <div className={propertyInspectorStyles.container}>
-            <Pivot className={propertyInspectorStyles.pivot}>
-                <PivotItem
-                    headerButtonProps={{
-                        disabled: state.modified
-                    }}
-                    headerText={t('OATPropertyEditor.properties')}
-                    className={propertyInspectorStyles.pivotItem}
-                >
-                    <Stack styles={propertyListPivotColumnContent}>
-                        <Stack.Item>
-                            <PropertiesModelSummary
-                                dispatch={dispatch}
-                                state={state}
-                                setModalBody={setModalBody}
-                                setModalOpen={setModalOpen}
-                                isSupportedModelType={isSupportedModelType}
-                            />
-                        </Stack.Item>
-                        <Stack.Item>
-                            <div
-                                className={
-                                    propertyInspectorStyles.propertyListHeaderWrap
-                                }
-                            >
-                                <Stack
+        <>
+            <div className={propertyInspectorStyles.container}>
+                <Pivot className={propertyInspectorStyles.pivot}>
+                    <PivotItem
+                        headerButtonProps={{
+                            disabled: state.modified
+                        }}
+                        headerText={t('OATPropertyEditor.properties')}
+                        className={propertyInspectorStyles.pivotItem}
+                    >
+                        <Stack styles={propertyListPivotColumnContent}>
+                            <Stack.Item>
+                                <PropertiesModelSummary
+                                    dispatch={dispatch}
+                                    state={state}
+                                    setModalBody={setModalBody}
+                                    setModalOpen={setModalOpen}
+                                    isSupportedModelType={isSupportedModelType}
+                                />
+                            </Stack.Item>
+                            <Stack.Item>
+                                <div
                                     className={
-                                        propertyInspectorStyles.rowSpaceBetween
+                                        propertyInspectorStyles.propertyListHeaderWrap
                                     }
                                 >
-                                    <Label>{`${t(
-                                        'OATPropertyEditor.properties'
-                                    )} ${
-                                        propertyList.length > 0
-                                            ? `(${propertyList.length})`
-                                            : ''
-                                    }`}</Label>
-                                    <ActionButton
-                                        onClick={() =>
-                                            dispatch({
-                                                type: SET_OAT_TEMPLATES_ACTIVE,
-                                                payload: true
-                                            })
-                                        }
+                                    <Stack
                                         className={
-                                            propertyInspectorStyles.viewTemplatesCta
+                                            propertyInspectorStyles.rowSpaceBetween
                                         }
                                     >
-                                        <FontIcon
+                                        <Label>{`${t(
+                                            'OATPropertyEditor.properties'
+                                        )} ${
+                                            propertyList.length > 0
+                                                ? `(${propertyList.length})`
+                                                : ''
+                                        }`}</Label>
+                                        <ActionButton
+                                            onClick={onToggleTemplatesActive}
                                             className={
-                                                propertyInspectorStyles.propertyHeadingIcon
+                                                propertyInspectorStyles.viewTemplatesCta
                                             }
-                                            iconName={'Library'}
-                                        />
-                                        <Text>
-                                            {t(
-                                                'OATPropertyEditor.viewTemplates'
-                                            )}
-                                        </Text>
-                                    </ActionButton>
-                                </Stack>
-                            </div>
-                        </Stack.Item>
+                                        >
+                                            <FontIcon
+                                                className={
+                                                    propertyInspectorStyles.propertyHeadingIcon
+                                                }
+                                                iconName={'Library'}
+                                            />
+                                            <Text>
+                                                {t(
+                                                    'OATPropertyEditor.viewTemplates'
+                                                )}
+                                            </Text>
+                                        </ActionButton>
+                                    </Stack>
+                                </div>
+                            </Stack.Item>
 
-                        <Stack.Item grow styles={propertyListStackItem}>
-                            <PropertyList
+                            <Stack.Item grow styles={propertyListStackItem}>
+                                <PropertyList
+                                    dispatch={dispatch}
+                                    state={state}
+                                    onCurrentPropertyIndexChange={
+                                        onCurrentPropertyIndexChange
+                                    }
+                                    setModalOpen={setModalOpen}
+                                    currentPropertyIndex={currentPropertyIndex}
+                                    enteredPropertyRef={enteredPropertyRef}
+                                    draggingTemplate={draggingTemplate}
+                                    enteredTemplateRef={enteredTemplateRef}
+                                    draggingProperty={draggingProperty}
+                                    setDraggingProperty={setDraggingProperty}
+                                    onCurrentNestedPropertyIndexChange={
+                                        onCurrentNestedPropertyIndexChange
+                                    }
+                                    setModalBody={setModalBody}
+                                    propertyList={propertyList}
+                                    isSupportedModelType={isSupportedModelType}
+                                />
+                            </Stack.Item>
+                        </Stack>
+                    </PivotItem>
+                    <PivotItem
+                        headerText={t('OATPropertyEditor.json')}
+                        className={propertyInspectorStyles.pivotItem}
+                    >
+                        {isSupportedModelType && (
+                            <JSONEditor
+                                theme={theme}
                                 dispatch={dispatch}
                                 state={state}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                currentPropertyIndex={currentPropertyIndex}
-                                enteredPropertyRef={enteredPropertyRef}
-                                draggingTemplate={draggingTemplate}
-                                enteredTemplateRef={enteredTemplateRef}
-                                draggingProperty={draggingProperty}
-                                setDraggingProperty={setDraggingProperty}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
-                                setModalBody={setModalBody}
-                                propertyList={propertyList}
-                                isSupportedModelType={isSupportedModelType}
                             />
-                        </Stack.Item>
-                    </Stack>
-                </PivotItem>
-                <PivotItem
-                    headerText={t('OATPropertyEditor.json')}
-                    className={propertyInspectorStyles.pivotItem}
-                >
-                    {isSupportedModelType && (
-                        <JSONEditor
-                            theme={theme}
-                            dispatch={dispatch}
-                            state={state}
-                        />
-                    )}
-                </PivotItem>
-            </Pivot>
-            {templatesActive && (
-                <TemplateColumn
-                    enteredPropertyRef={enteredPropertyRef}
-                    draggingTemplate={draggingTemplate}
-                    setDraggingTemplate={setDraggingTemplate}
-                    draggingProperty={draggingProperty}
-                    enteredTemplateRef={enteredTemplateRef}
-                    dispatch={dispatch}
-                    state={state}
-                />
-            )}
-        </div>
+                        )}
+                    </PivotItem>
+                </Pivot>
+                {templatesActive && (
+                    <TemplateColumn
+                        enteredPropertyRef={enteredPropertyRef}
+                        draggingTemplate={draggingTemplate}
+                        setDraggingTemplate={setDraggingTemplate}
+                        draggingProperty={draggingProperty}
+                        enteredTemplateRef={enteredTemplateRef}
+                        dispatch={dispatch}
+                        state={state}
+                    />
+                )}
+            </div>
+            <OATModal
+                isOpen={modalOpen}
+                className={propertyInspectorStyles.modal}
+            >
+                {getModalBody()}
+            </OATModal>
+        </>
     );
 };
 

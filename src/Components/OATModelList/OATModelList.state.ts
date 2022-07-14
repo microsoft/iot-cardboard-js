@@ -2,7 +2,7 @@ import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_DELETED_MODEL_ID,
@@ -16,7 +16,43 @@ import {
 
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
-    models: [],
+    models: [
+        {
+            '@id': 'dtmi:com:example:model0;1',
+            '@type': 'Interface',
+            displayName: 'Model0',
+            contents: [
+                {
+                    '@type': 'Relationship',
+                    '@id':
+                        'dtmi:com:example:model0;1Relationshipdtmi:com:example:model1;1_model1;1',
+                    name: 'relationship1',
+                    displayName: '',
+                    target: 'dtmi:com:example:model1;1'
+                },
+                {
+                    '@type': 'Relationship',
+                    '@id':
+                        'dtmi:com:example:model0;1Relationshipdtmi:com:example:model2;1_model2;1',
+                    name: 'relationship2',
+                    displayName: '',
+                    target: 'dtmi:com:example:model2;1'
+                }
+            ]
+        },
+        {
+            '@id': 'dtmi:com:example:model1;1',
+            '@type': 'Interface',
+            displayName: 'Model1',
+            contents: []
+        },
+        {
+            '@id': 'dtmi:com:example:model2;1',
+            '@type': 'Interface',
+            displayName: 'Model2',
+            contents: []
+        }
+    ],
     deletedModelId: '',
     selectedModelId: '',
     editedModelName: '',
@@ -24,7 +60,8 @@ export const defaultOATEditorState: IOATEditorState = {
     templatesActive: false,
     importModels: [],
     isJsonUploaderOpen: false,
-    templates: null
+    templates: null,
+    modelPositions: []
 };
 
 export const OATGraphViewerReducer = produce(
@@ -32,7 +69,7 @@ export const OATGraphViewerReducer = produce(
         const payload = action.payload;
 
         switch (action.type) {
-            case SET_OAT_PROPERTY_EDITOR_MODEL:
+            case SET_OAT_SELECTED_MODEL:
                 state.model = payload;
                 return;
             case SET_OAT_MODELS:

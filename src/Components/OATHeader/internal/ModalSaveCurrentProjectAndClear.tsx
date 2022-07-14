@@ -9,9 +9,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
+import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
 
 interface IModal {
     resetProject?: () => void;
@@ -47,7 +47,6 @@ export const ModalSaveCurrentProjectAndClear = ({
             const project = new ProjectData(
                 modelPositions,
                 models,
-                '',
                 projectName,
                 templates,
                 namespace,

@@ -2,7 +2,7 @@ import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS,
     SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_DELETED_MODEL_ID,
@@ -14,25 +14,12 @@ import {
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 
-export const defaultOATEditorState: IOATEditorState = {
-    model: null,
-    models: [],
-    deletedModelId: '',
-    selectedModelId: '',
-    editedModelName: '',
-    editedModelId: '',
-    templatesActive: false,
-    importModels: [],
-    isJsonUploaderOpen: false,
-    templates: null
-};
-
 export const OATGraphViewerReducer = produce(
     (state: IOATEditorState, action: IAction) => {
         const payload = action.payload;
 
         switch (action.type) {
-            case SET_OAT_PROPERTY_EDITOR_MODEL:
+            case SET_OAT_SELECTED_MODEL:
                 state.model = payload;
                 return;
             case SET_OAT_MODELS:

@@ -64,12 +64,3 @@ export const ImportSubMenu = ({
 };
 
 export default ImportSubMenu;
-
-ImportSubMenu.defaultProps = {
-    onUploadFile: () => {
-        // Empty
-    },
-    onUploadFolder: () => {
-        // Empty
-    }
-};

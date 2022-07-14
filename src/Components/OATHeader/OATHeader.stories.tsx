@@ -7,11 +7,11 @@ export default {
 };
 
 export const Default = () => {
-    const [elementHandler] = useState([]);
+    const [elements] = useState([]);
 
     return (
         <div>
-            <OATHeader elements={elementHandler} />
+            <OATHeader elements={elements} />
         </div>
     );
 };

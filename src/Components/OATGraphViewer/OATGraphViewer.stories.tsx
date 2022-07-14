@@ -1,10 +1,8 @@
 import React, { useReducer } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
-import {
-    OATGraphViewerReducer,
-    defaultOATEditorState
-} from './OATGraphViewer.state';
+import { OATGraphViewerReducer } from './OATGraphViewer.state';
+import { defaultOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.state';
 
 export default {
     title: 'Components/OATGraphViewer',

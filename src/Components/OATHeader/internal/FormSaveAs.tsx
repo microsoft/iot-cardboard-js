@@ -11,10 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { FromBody } from './Enums';
+import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
 
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -56,7 +56,6 @@ export const FormSaveAs = ({
                 files[foundIndex].data = new ProjectData(
                     modelPositions,
                     models,
-                    '',
                     projectName,
                     templates,
                     namespace,
@@ -76,7 +75,6 @@ export const FormSaveAs = ({
         const newProject = new ProjectData(
             modelPositions,
             models,
-            '',
             projectName,
             templates,
             namespace,
@@ -111,11 +109,7 @@ export const FormSaveAs = ({
             return file.name === value;
         });
 
-        if (fileAlreadyExists) {
-            setError(true);
-            return;
-        }
-        setError(false);
+        setError(fileAlreadyExists);
     };
 
     return (

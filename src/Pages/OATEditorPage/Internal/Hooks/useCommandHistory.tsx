@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 
 interface ICommandRecord {
-    do: () => void;
-    undo: () => void;
+    doFn: () => void;
+    undoFn: () => void;
 }
 
 interface ICommandHistory {
@@ -13,12 +13,8 @@ interface ICommandHistory {
     canUndo: boolean;
 }
 
-interface IUseCommandHistory {
-    initialState?: ICommandRecord[];
-}
-
 export const useCommandHistory = (
-    initialState?: IUseCommandHistory
+    initialState?: ICommandRecord[]
 ): ICommandHistory => {
     const [index, setIndex] = useState(0);
     const [history, setHistory] = useState(initialState);

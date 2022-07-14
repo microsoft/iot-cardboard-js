@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { TextField } from '@fluentui/react';
+import {
+    IStyleFunctionOrObject,
+    ITextFieldStyleProps,
+    ITextFieldStyles,
+    TextField
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
@@ -9,7 +14,7 @@ import {
 } from '../../../../Models/Constants';
 import { IOATEditorState } from '../../OATEditorPage.types';
 
-type IOATTexField = {
+type IOATTextFieldNameProps = {
     autoFocus?: boolean;
     borderless?: boolean;
     disabled?: boolean;
@@ -18,7 +23,7 @@ type IOATTexField = {
     placeholder?: string;
     state?: IOATEditorState;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    styles?: React.CSSProperties;
+    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
     model: IOATTwinModelNodes;
     models: IOATTwinModelNodes[];
 };
@@ -33,7 +38,7 @@ const OATTextFieldName = ({
     styles,
     model,
     models
-}: IOATTexField) => {
+}: IOATTextFieldNameProps) => {
     const { t } = useTranslation();
     const [nameLengthError, setNameLengthError] = useState(false);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
@@ -120,7 +125,7 @@ const OATTextFieldName = ({
         document.activeElement.blur();
     };
 
-    const onKeyDown = (event: Event) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             document.activeElement.blur();
         }

@@ -6,7 +6,7 @@ import {
 } from './OATPropertyEditor.styles';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import {
     IAction,
     IOATLastPropertyFocused
@@ -74,7 +74,7 @@ const PropertySelector = ({
             lastPropertyFocused.index
         ].schema = schemaCopy;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
@@ -93,7 +93,7 @@ const PropertySelector = ({
             ]
         ];
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
@@ -115,7 +115,7 @@ const PropertySelector = ({
 
         const undoOnClick = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -172,12 +172,11 @@ const PropertySelector = ({
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
                     {propertySelectorData.propertyTags.complex
-                        .filter((tag) =>
+                        .filter(() =>
                             lastPropertyFocused &&
-                            lastPropertyFocused.item.schema['@type'] ===
-                                'object'
-                                ? tag.type === 'object'
-                                : tag.type !== 'object'
+                            typeof lastPropertyFocused.item.schema === 'object'
+                                ? false
+                                : true
                         )
                         .map((tag) => (
                             <ActionButton

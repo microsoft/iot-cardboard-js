@@ -36,7 +36,6 @@ export interface IOATEditorState {
     error?: IOATError;
     modelPositions: any;
     namespace?: string;
-    edge?: string;
     confirmDeleteOpen?: IOATConfirmDelete;
     modelsMetadata?: IModelsMetadata[];
 }

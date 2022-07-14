@@ -13,10 +13,11 @@ import {
     OATRelationshipHandleName,
     OATComponentHandleName,
     OATExtendHandleName,
-    OATUntargetedRelationshipName
+    OATUntargetedRelationshipName,
+    OATInterfaceType
 } from '../../../Models/Constants/Constants';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../../Models/Constants/ActionTypes';
@@ -89,7 +90,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const modelCopy = deepCopy(model);
         modelCopy.displayName = value;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setNameText(value);
@@ -99,7 +100,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const modelCopy = deepCopy(model);
         modelCopy['@id'] = value;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setIdText(value);
@@ -188,7 +189,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     </>
                 )}
             </div>
-            {data.type === 'Interface' && (
+            {data.type === OATInterfaceType && (
                 <>
                     <TooltipHost
                         content={OATComponentHandleName}

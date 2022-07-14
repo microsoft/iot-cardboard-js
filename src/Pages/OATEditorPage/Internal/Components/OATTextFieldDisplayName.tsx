@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { TextField } from '@fluentui/react';
+import {
+    IStyleFunctionOrObject,
+    ITextFieldStyleProps,
+    ITextFieldStyles,
+    TextField
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     IOATTwinModelNodes,
@@ -7,16 +12,16 @@ import {
 } from '../../../../Models/Constants';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 
-type IOATTexField = {
+type IOATTextFieldDisplayNameProps = {
     autoFocus?: boolean;
     borderless?: boolean;
     disabled?: boolean;
     value: string;
-    onCommit?: (value: string) => void;
-    onChange?: () => void;
-    placeholder?: string;
     model?: IOATTwinModelNodes;
-    styles?: React.CSSProperties;
+    onChange?: () => void;
+    onCommit?: (value: string) => void;
+    placeholder?: string;
+    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
 };
 
 const OATTextFieldDisplayName = ({
@@ -29,7 +34,7 @@ const OATTextFieldDisplayName = ({
     placeholder,
     model,
     styles
-}: IOATTexField) => {
+}: IOATTextFieldDisplayNameProps) => {
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
     const [temporaryValue, setTemporaryValue] = useState(value);
@@ -59,7 +64,7 @@ const OATTextFieldDisplayName = ({
         document.activeElement.blur();
     };
 
-    const onKeyDown = (event: Event) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             onCommitChange();
         }
@@ -78,7 +83,6 @@ const OATTextFieldDisplayName = ({
             placeholder={placeholder}
             styles={styles}
             value={getModelPropertyListItemName(temporaryValue)}
-            placeholder={placeholder}
             onChange={(_ev, value) => {
                 onChangeClick(value);
             }}

@@ -19,7 +19,7 @@ import {
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS_METADATA
 } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
@@ -38,7 +38,8 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getModelPropertyListItemName
 } from './Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
@@ -46,21 +47,21 @@ import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTex
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-interface IModal {
+interface IModalFormRootModelProps {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    onClose?: () => void;
     state?: IOATEditorState;
     languages: IDropdownOption[];
 }
 
-export const FormUpdateProperty = ({
+export const FormRootModelDetails = ({
     dispatch,
-    setModalOpen,
+    onClose,
     setModalBody,
     state,
     languages
-}: IModal) => {
+}: IModalFormRootModelProps) => {
     const { execute } = useContext(CommandHistoryContext);
     const { model, models, modelsMetadata } = state;
     const { t } = useTranslation();
@@ -191,25 +192,21 @@ export const FormUpdateProperty = ({
                     ? multiLanguageSelectionsDescription
                     : model.description;
             modelCopy['@id'] = id ? id : model['@id'];
-            modelCopy.fileName = fileName ? fileName : model.fileName;
-            modelCopy.directoryPath = directoryPath
-                ? directoryPath
-                : model.directoryPath;
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
 
             updateMetadata();
 
             setModalBody(null);
-            setModalOpen(false);
+            onClose();
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
 
@@ -299,13 +296,11 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model && model.displayName
-                        ? typeof model.displayName === 'string'
-                            ? model.displayName
-                            : Object.values(model.displayName)[0]
-                        : ''}
+                    {model &&
+                        model.displayName &&
+                        getModelPropertyListItemName(model.displayName)}
                 </Label>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -325,9 +320,7 @@ export const FormUpdateProperty = ({
                     model={model}
                     models={models}
                     modalFormCommit
-                    onCommit={(value) => {
-                        setId(value);
-                    }}
+                    onCommit={setId}
                 />
             </div>
 
@@ -664,11 +657,11 @@ export const FormUpdateProperty = ({
                 <PrimaryButton
                     text={t('OATPropertyEditor.cancel')}
                     allowDisabledFocus
-                    onClick={() => setModalOpen(false)}
+                    onClick={onClose}
                 />
             </div>
         </>
     );
 };
 
-export default FormUpdateProperty;
+export default FormRootModelDetails;

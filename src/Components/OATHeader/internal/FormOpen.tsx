@@ -11,8 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { loadFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
+import { loadFiles } from '../../../Models/Services/Utils';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -28,7 +28,6 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
         const projectToOpen = new ProjectData(
             selectedFile.key.modelPositions,
             selectedFile.key.models,
-            '',
             selectedFile.key.projectName,
             selectedFile.key.templates,
             selectedFile.key.namespace,
@@ -66,9 +65,9 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             </div>
 
             <div className={headerStyles.modalRow}>
-                <Text>Select file:</Text>
+                <Text>{`${t('OATHeader.Select file')}:`}</Text>
                 <Dropdown
-                    placeholder="Files"
+                    placeholder={t('OATHeader.files')}
                     options={getFormatFilesToDropDownOptions()}
                     onChange={(_ev, option) => setSelectedFile(option)}
                 />

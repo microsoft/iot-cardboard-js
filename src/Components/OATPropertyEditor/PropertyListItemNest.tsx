@@ -16,7 +16,7 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import {
@@ -53,10 +53,8 @@ type IPropertyListItemNest = {
     index?: number;
     item?: DTDLProperty;
     lastPropertyFocused?: IOATLastPropertyFocused;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    onCurrentPropertyIndexChange: (index: number) => void;
+    onCurrentNestedPropertyIndexChange: (index: number) => void;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -78,11 +76,11 @@ export const PropertyListItemNest = ({
     onDragEnterExternalItem,
     onDragStart,
     onPropertyDisplayNameChange,
-    setCurrentPropertyIndex,
+    onCurrentPropertyIndexChange,
+    onCurrentNestedPropertyIndexChange,
     item,
     lastPropertyFocused,
     setLastPropertyFocused,
-    setCurrentNestedPropertyIndex,
     setModalOpen,
     setModalBody,
     state,
@@ -108,7 +106,7 @@ export const PropertyListItemNest = ({
     );
 
     const addPropertyCallback = () => {
-        setCurrentPropertyIndex(index);
+        onCurrentPropertyIndexChange(index);
         if (!lastPropertyFocused) {
             return;
         }
@@ -158,14 +156,14 @@ export const PropertyListItemNest = ({
             const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName].push(itemCopy);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoDuplicate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -195,7 +193,7 @@ export const PropertyListItemNest = ({
 
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    type: SET_OAT_SELECTED_MODEL,
                     payload: newModel
                 });
             };
@@ -207,7 +205,7 @@ export const PropertyListItemNest = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -239,14 +237,14 @@ export const PropertyListItemNest = ({
             ].splice(nestedIndex + direction, 0, temp);
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -261,6 +259,16 @@ export const PropertyListItemNest = ({
                 (item.schema.fields.length > 0 && collapsed))
         );
     }, [collapsed]);
+
+    const onAddPropertyBarMouseOver = (e) => {
+        setLastPropertyFocused({
+            item: item,
+            index: index
+        });
+        setPropertySelectorVisible(true);
+        addPropertyCallback();
+        definePropertySelectorPosition(e);
+    };
 
     return (
         <div
@@ -285,7 +293,6 @@ export const PropertyListItemNest = ({
             }}
         >
             <div
-                id={getModelPropertyListItemName(item.name)}
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
@@ -309,7 +316,11 @@ export const PropertyListItemNest = ({
                 >
                     {!displayNameEditor && (
                         <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                            {item.displayName}
+                            {item.displayName
+                                ? item.displayName
+                                : item.name
+                                ? item.name
+                                : ''}
                         </Text>
                     )}
                     {displayNameEditor && (
@@ -321,7 +332,7 @@ export const PropertyListItemNest = ({
                             )}
                             validateOnFocusOut
                             onChange={(evt, value) => {
-                                setCurrentPropertyIndex(index);
+                                onCurrentPropertyIndexChange(index);
                                 onPropertyDisplayNameChange(value, index);
                             }}
                             onGetErrorMessage={getErrorMessage}
@@ -355,8 +366,8 @@ export const PropertyListItemNest = ({
                         styles={iconWrapMoreStyles}
                         title={t('OATPropertyEditor.info')}
                         onClick={() => {
-                            setCurrentNestedPropertyIndex(null);
-                            setCurrentPropertyIndex(index);
+                            onCurrentNestedPropertyIndexChange(null);
+                            onCurrentPropertyIndexChange(index);
                             setModalOpen(true);
                             setModalBody(FormBody.property);
                         }}
@@ -379,9 +390,7 @@ export const PropertyListItemNest = ({
                                 onTemplateAddition={() => {
                                     onTemplateAddition();
                                 }}
-                                onDuplicate={() => {
-                                    onDuplicate();
-                                }}
+                                onDuplicate={onDuplicate}
                                 setSubMenuActive={setSubMenuActive}
                                 targetId={getModelPropertyListItemName(
                                     item.name
@@ -408,10 +417,12 @@ export const PropertyListItemNest = ({
                             parentIndex={index}
                             index={i}
                             getItemClassName={getNestedItemClassName}
-                            setCurrentNestedPropertyIndex={
-                                setCurrentNestedPropertyIndex
+                            onCurrentNestedPropertyIndexChange={
+                                onCurrentNestedPropertyIndexChange
                             }
-                            setCurrentPropertyIndex={setCurrentPropertyIndex}
+                            onCurrentPropertyIndexChange={
+                                onCurrentPropertyIndexChange
+                            }
                             setModalOpen={setModalOpen}
                             setModalBody={setModalBody}
                             deleteNestedItem={deleteNestedItem}
@@ -451,15 +462,7 @@ export const PropertyListItemNest = ({
             </div>
             {showObjectPropertySelector && (
                 <AddPropertyBar
-                    onMouseOver={(e) => {
-                        setLastPropertyFocused({
-                            item: item,
-                            index: index
-                        });
-                        setPropertySelectorVisible(true);
-                        addPropertyCallback(null);
-                        definePropertySelectorPosition(e);
-                    }}
+                    onMouseOver={onAddPropertyBarMouseOver}
                     classNameIcon={
                         propertyInspectorStyles.addPropertyBarIconNestItem
                     }
@@ -468,7 +471,7 @@ export const PropertyListItemNest = ({
             {hover && item.schema['@type'] === DTDLSchemaType.Enum && (
                 <AddPropertyBar
                     onClick={() => {
-                        addPropertyCallback(null);
+                        addPropertyCallback();
                     }}
                     classNameIcon={
                         propertyInspectorStyles.addPropertyBarIconNestItem

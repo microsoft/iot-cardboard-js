@@ -121,7 +121,7 @@ export const getModelsStyles = () => {
     });
 };
 
-export const getModelsIconStyles: IStyle = () => {
+export const getModelsIconStyles = () => {
     const theme = useTheme();
     return {
         root: {
@@ -133,7 +133,7 @@ export const getModelsIconStyles: IStyle = () => {
     } as Partial<IStyle>;
 };
 
-export const getModelsActionButtonStyles: IStyle = () => {
+export const getModelsActionButtonStyles = () => {
     return {
         root: {
             width: '100%',

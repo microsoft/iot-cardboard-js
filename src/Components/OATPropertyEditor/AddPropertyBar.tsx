@@ -3,7 +3,7 @@ import { FontIcon, ActionButton } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 
 type IAddPropertyBar = {
-    onMouseOver?: (event: MouseEvent) => void;
+    onMouseOver?: (event: React.MouseEvent<Element, MouseEvent>) => void;
     onClick?: () => void;
     classNameIcon?: string;
 };

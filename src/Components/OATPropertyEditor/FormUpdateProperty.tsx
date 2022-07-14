@@ -12,7 +12,8 @@ import {
     Dropdown,
     IChoiceGroupOption,
     MessageBar,
-    MessageBarType
+    MessageBarType,
+    IDropdownOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +22,7 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -46,24 +47,22 @@ interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     currentPropertyIndex?: number;
     currentNestedPropertyIndex?: number;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
+    languages: IDropdownOption[];
+    onCurrentNestedPropertyIndexChange: (index: number) => void;
+    onClose?: () => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    languages: IChoiceGroupOption[];
 }
 
 export const FormUpdateProperty = ({
     dispatch,
-    setModalOpen,
     currentPropertyIndex,
     currentNestedPropertyIndex,
-    setCurrentNestedPropertyIndex,
+    onCurrentNestedPropertyIndexChange,
     setModalBody,
     state,
-    languages
+    languages,
+    onClose
 }: IModal) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -221,23 +220,23 @@ export const FormUpdateProperty = ({
             ] = prop;
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(update, undoUpdate);
 
-        setModalOpen(false);
+        onClose();
         setModalBody(null);
-        setCurrentNestedPropertyIndex(null);
+        onCurrentNestedPropertyIndexChange(null);
     };
 
     const onUpdateProperty = () => {
@@ -275,21 +274,21 @@ export const FormUpdateProperty = ({
             const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(update, undoUpdate);
 
-        setModalOpen(false);
+        onClose();
         setModalBody(null);
     };
 
@@ -359,7 +358,7 @@ export const FormUpdateProperty = ({
                             : Object.values(model.displayName)[0]
                         : t('OATPropertyEditor.property')}
                 </Label>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={

@@ -4,7 +4,7 @@ import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODIFIED,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
@@ -110,7 +110,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
         const save = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
@@ -118,7 +118,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
         const undoSave = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };

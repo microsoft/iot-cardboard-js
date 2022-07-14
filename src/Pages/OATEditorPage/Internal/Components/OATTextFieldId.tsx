@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TextField } from '@fluentui/react';
+import {
+    IStyleFunctionOrObject,
+    ITextFieldStyleProps,
+    ITextFieldStyles,
+    TextField
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTMIRegex,
@@ -8,7 +13,7 @@ import {
     OATIdLengthLimit
 } from '../../../../Models/Constants';
 
-type IOATTexField = {
+type IOATTextFieldIdProps = {
     autoFocus?: boolean;
     borderless?: boolean;
     disabled?: boolean;
@@ -16,7 +21,7 @@ type IOATTexField = {
     onChange?: () => void;
     onCommit?: (value: string) => void;
     placeholder?: string;
-    styles?: React.CSSProperties;
+    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
     model: IOATTwinModelNodes;
     models: IOATTwinModelNodes[];
 };
@@ -32,7 +37,7 @@ const OATTextFieldId = ({
     placeholder,
     styles,
     value
-}: IOATTexField) => {
+}: IOATTextFieldIdProps) => {
     const { t } = useTranslation();
     const [idLengthError, setIdLengthError] = useState(false);
     const [
@@ -115,7 +120,7 @@ const OATTextFieldId = ({
         document.activeElement.blur();
     };
 
-    const onKeyDown = (event: Event) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             document.activeElement.blur();
         }

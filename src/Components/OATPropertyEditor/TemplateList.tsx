@@ -4,7 +4,7 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TemplateListItem';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES,
     SET_OAT_CONFIRM_DELETE_OPEN
 } from '../../Models/Constants/ActionTypes';
@@ -60,7 +60,7 @@ export const TemplateList = ({
             0,
             templates[draggedTemplateItemRef.current]
         );
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_SELECTED_MODEL, payload: newModel });
     };
 
     const onDragEnd = () => {
@@ -159,7 +159,7 @@ export const TemplateList = ({
             const newModel = deepCopy(model);
             newModel[propertiesKeyName].push(item);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         }

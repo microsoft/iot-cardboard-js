@@ -10,7 +10,7 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
@@ -29,8 +29,8 @@ type IPropertyList = {
     isSupportedModelType: boolean;
     propertyList?: DTDLProperty[];
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
+    onCurrentPropertyIndexChange: (index: number) => void;
+    onCurrentNestedPropertyIndexChange: (index: number) => void;
     setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,14 +38,14 @@ type IPropertyList = {
 };
 
 export const PropertyList = ({
-    setCurrentPropertyIndex,
     setModalOpen,
     enteredPropertyRef,
     draggingTemplate,
     enteredTemplateRef,
     draggingProperty,
+    onCurrentPropertyIndexChange,
+    onCurrentNestedPropertyIndexChange,
     setDraggingProperty,
-    setCurrentNestedPropertyIndex,
     setModalBody,
     currentPropertyIndex,
     dispatch,
@@ -105,7 +105,7 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: newModel
         });
 
@@ -170,14 +170,14 @@ export const PropertyList = ({
                 newModel[propertiesKeyName][index].displayName = value;
             }
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -209,7 +209,7 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    type: SET_OAT_SELECTED_MODEL,
                     payload: newModel
                 });
             };
@@ -221,7 +221,7 @@ export const PropertyList = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -275,14 +275,14 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(index, 1);
             newModel[propertiesKeyName].splice(index + direction, 0, item);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -349,14 +349,14 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
+                                onCurrentPropertyIndexChange={
+                                    onCurrentPropertyIndexChange
                                 }
                                 item={item}
                                 lastPropertyFocused={lastPropertyFocused}
                                 setLastPropertyFocused={setLastPropertyFocused}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
+                                onCurrentNestedPropertyIndexChange={
+                                    onCurrentNestedPropertyIndexChange
                                 }
                                 setModalOpen={setModalOpen}
                                 setModalBody={setModalBody}
@@ -394,8 +394,8 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
+                                onCurrentPropertyIndexChange={
+                                    onCurrentPropertyIndexChange
                                 }
                                 setModalOpen={setModalOpen}
                                 item={item}
@@ -423,14 +423,7 @@ export const PropertyList = ({
                     }}
                 >
                     {model && model[propertiesKeyName].length > 0 && (
-                        <AddPropertyBar
-                            onMouseOver={(e) => {
-                                onPropertyBarMouseOver(e);
-                            }}
-                            onClick={(e) => {
-                                onPropertyBarMouseOver(e);
-                            }}
-                        />
+                        <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
                     )}
                 </div>
             )}

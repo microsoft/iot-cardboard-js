@@ -788,20 +788,25 @@ export interface IOATGraphCustomEdgeData {
     displayName: string;
     type: string;
 }
+
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
 }
 
+export interface ILanguageOption {
+    key: string;
+}
 export interface IOATTwinModelNodes {
-    description?: string;
+    description?: string | Record<string, unknown>;
     comment?: string;
     '@id': string;
     '@type': string;
-    name: string;
-    displayName: string;
+    name: string | Record<string, unknown>;
+    displayName: string | Record<string, unknown>;
     contents: IOATTwinNodeContents[];
     extends?: string;
+    properties?: DTDLProperty[];
 }
 
 export interface IOATTwinNodeContents {
@@ -811,11 +816,18 @@ export interface IOATTwinNodeContents {
     displayName?: string;
     target?: string;
 }
+
+export interface DTDLPropertySchema {
+    '@type': string;
+    fields?: Record<string, any>[];
+    enumValues?: Record<string, any>[];
+}
+
 export interface DTDLProperty {
-    readonly ['@type']: string;
+    readonly ['@type']: string | string[];
     ['@id']?: string;
     name: string;
-    schema: string | Record<string, any>;
+    schema: DTDLPropertySchema | string | Record<string, any>;
     comment?: string;
     description?: string;
     displayName?: string;
@@ -824,6 +836,7 @@ export interface DTDLProperty {
 }
 
 export interface IOATNodeElement {
+    extends?: any;
     id: string;
     data?: IOATGraphCustomNodeData;
     position?: IOATNodePosition;
@@ -836,12 +849,12 @@ export interface IOATNodePosition {
 }
 
 export interface IOATRelationshipElement {
-    id?: string;
+    id: string;
     label?: string;
     markerEnd?: string;
-    source?: string;
+    source: string;
     sourceHandle?: string;
-    target?: string;
+    target: string;
     targetHandle?: string;
     type?: string;
     data?: IOATGraphCustomEdgeData;

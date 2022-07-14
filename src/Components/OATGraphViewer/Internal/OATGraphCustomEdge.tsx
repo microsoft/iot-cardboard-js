@@ -18,7 +18,7 @@ import {
     OATExtendHandleName
 } from '../../../Models/Constants/Constants';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_SELECTED_MODEL_ID
@@ -37,7 +37,7 @@ const offsetMedium = 10;
 const rightAngleValue = 1.5708;
 const separation = 10;
 
-const getPolygon = (vertexes: Position[]) =>
+const getPolygon = (vertexes: Position[]): string =>
     vertexes.map((v) => `${v.x},${v.y}`).join(' ');
 
 const getComponentPolygon = (
@@ -46,7 +46,7 @@ const getComponentPolygon = (
     baseVector: number,
     heightVector: number,
     verticalPolygon: boolean
-) => {
+): string => {
     const vertexAX = verticalPolygon
         ? polygonSourceX + offsetSmall * baseVector
         : polygonSourceX + offsetSmall * baseVector;
@@ -81,7 +81,7 @@ const getInheritancePolygon = (
     baseVector: number,
     heightVector: number,
     verticalPolygon: boolean
-) => {
+): string => {
     const vertexAX = verticalPolygon
         ? polygonTargetX + offsetSmall * baseVector
         : polygonTargetX + offsetMedium * baseVector;
@@ -109,7 +109,7 @@ const getRelationshipPolygon = (
     baseVector: number,
     heightVector: number,
     verticalPolygon: boolean
-) => {
+): string => {
     const vertexAX = verticalPolygon
         ? polygonTargetX + offsetSmall * heightVector
         : polygonTargetX + offsetMedium * baseVector;
@@ -132,7 +132,7 @@ const getRelationshipPolygon = (
     ]);
 };
 
-const getMidPointForNode = (node: Node) => {
+const getMidPointForNode = (node: Node): number[] => {
     let x = 0;
     let y = 0;
     if (node) {
@@ -492,7 +492,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         };
 
         const unselectRelationship = () => {
-            console.log('execute unselectRelationship');
             setCurrentNode(currentNodeIdRef.current);
             dispatch({
                 type: SET_OAT_SELECTED_MODEL_ID,
@@ -589,7 +588,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             const modelCopy = deepCopy(model);
             modelCopy.name = value;
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
             setNameText(value);
@@ -599,7 +598,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };

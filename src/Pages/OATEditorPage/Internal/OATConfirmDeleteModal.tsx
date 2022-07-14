@@ -6,15 +6,15 @@ import { IOATEditorState } from '../OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_CONFIRM_DELETE_OPEN } from '../../../Models/Constants/ActionTypes';
 
-interface IOATConfirmDeleteWrapperProps {
+interface IOATConfirmDeleteModalProps {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     state: IOATEditorState;
 }
 
-const OATConfirmDeleteWrapper = ({
+const OATConfirmDeleteModal = ({
     state,
     dispatch
-}: IOATConfirmDeleteWrapperProps) => {
+}: IOATConfirmDeleteModalProps) => {
     const { t } = useTranslation();
     const editorPageStyles = getEditorPageStyles();
     const { confirmDeleteOpen } = state;
@@ -59,4 +59,4 @@ const OATConfirmDeleteWrapper = ({
     );
 };
 
-export default OATConfirmDeleteWrapper;
+export default OATConfirmDeleteModal;

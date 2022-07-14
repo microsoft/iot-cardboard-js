@@ -5,7 +5,6 @@ import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 
 import FileSubMenu from './internal/FileSubMenu';
-import Modal from './internal/Modal';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
@@ -15,10 +14,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import {
-    IOATTwinModelNodes,
-    OATNamespaceDefaultValue
-} from '../../Models/Constants';
+import { OATNamespaceDefaultValue } from '../../Models/Constants';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
@@ -35,12 +31,11 @@ const ID_FILE = 'file';
 const ID_IMPORT = 'import';
 
 type OATHeaderProps = {
-    elements: IOATTwinModelNodes[];
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
 };
 
-const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
+const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
     const { t } = useTranslation();
     const { execute, undo, redo, canUndo, canRedo } = useContext(
         CommandHistoryContext
@@ -55,8 +50,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
     } = useDropzone();
     const [fileSubMenuActive, setFileSubMenuActive] = useState(false);
     const [importSubMenuActive, setImportSubMenuActive] = useState(false);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalBody, setModalBody] = useState(null);
     const {
         modelsMetadata,
         projectName,
@@ -82,7 +75,7 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 
     const onExportClick = () => {
         const zip = new JSZip();
-        for (const element of elements) {
+        for (const element of models) {
             const id = element['@id'];
             let fileName = null;
             let directoryPath = null;
@@ -150,7 +143,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                 const newProject = new ProjectData(
                     [],
                     [],
-                    t('OATHeader.description'),
                     projectName,
                     [],
                     OATNamespaceDefaultValue,
@@ -173,7 +165,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             const project = new ProjectData(
                 modelPositions,
                 models,
-                t('OATHeader.description'),
                 projectName,
                 templates,
                 namespace,
@@ -233,23 +224,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
             onClick: onDeleteAll
         }
     ];
-
-    const resetProject = () => {
-        const clearProject = new ProjectData(
-            [],
-            [],
-            t('OATHeader.description'),
-            t('OATHeader.untitledProject'),
-            [],
-            OATNamespaceDefaultValue,
-            []
-        );
-
-        dispatch({
-            type: SET_OAT_PROJECT,
-            payload: clearProject
-        });
-    };
 
     const onFilesUpload = (files: Array<File>) => {
         const newFiles = [];
@@ -394,6 +368,10 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
         }
     };
 
+    const onFileSubMenuClose = () => {
+        setFileSubMenuActive(false);
+    };
+
     useEffect(() => {
         onFilesUpload(acceptedFiles);
     }, [acceptedFiles]);
@@ -438,18 +416,14 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                         mozdirectory={''}
                         onChange={onFilesChange}
                     />
-                    {fileSubMenuActive && (
-                        <FileSubMenu
-                            subMenuActive={fileSubMenuActive}
-                            targetId={ID_FILE}
-                            setSubMenuActive={setFileSubMenuActive}
-                            setModalOpen={setModalOpen}
-                            setModalBody={setModalBody}
-                            dispatch={dispatch}
-                            state={state}
-                            resetProject={resetProject}
-                        />
-                    )}
+                    <FileSubMenu
+                        isActive={fileSubMenuActive}
+                        targetId={ID_FILE}
+                        onFileSubMenuClose={onFileSubMenuClose}
+                        dispatch={dispatch}
+                        state={state}
+                    />
+
                     {importSubMenuActive && (
                         <ImportSubMenu
                             subMenuActive={importSubMenuActive}
@@ -459,15 +433,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
                             uploadFile={onUploadFileClick}
                         />
                     )}
-                    <Modal
-                        modalOpen={modalOpen}
-                        setModalOpen={setModalOpen}
-                        setModalBody={setModalBody}
-                        modalBody={modalBody}
-                        dispatch={dispatch}
-                        state={state}
-                        resetProject={resetProject}
-                    />
                 </div>
                 <div className="cb-oat-header-model"></div>
             </div>
@@ -479,7 +444,6 @@ const OATHeader = ({ elements, dispatch, state }: OATHeaderProps) => {
 };
 
 OATHeader.defaultProps = {
-    elements: [],
     onImportClick: () => null
 };
 
