@@ -1,7 +1,9 @@
 import React, { useReducer } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
-import { OATPropertyEditorReducer } from './OATPropertyEditor.state';
-import { defaultOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.state';
+import {
+    defaultOATEditorState,
+    OATEditorPageReducer
+} from '../../Pages/OATEditorPage/OATEditorPage.state';
 import i18n from '../../i18n';
 
 export default {
@@ -11,7 +13,7 @@ export default {
 
 export const Default = (_args, { globals: { theme } }) => {
     const [state, dispatch] = useReducer(
-        OATPropertyEditorReducer,
+        OATEditorPageReducer,
         defaultOATEditorState
     );
 

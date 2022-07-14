@@ -942,7 +942,7 @@ export const getCancelButtonStyles = () => {
             marginRight: '8px',
             float: 'right'
         }
-    } as Partial<IStyle>;
+    } as IButtonStyles;
 };
 export const getSaveButtonStyles = () => {
     return {
@@ -950,5 +950,5 @@ export const getSaveButtonStyles = () => {
             zIndex: '202',
             float: 'right'
         }
-    } as Partial<IStyle>;
+    } as IButtonStyles;
 };

@@ -17,7 +17,7 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
+import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import {

@@ -800,12 +800,12 @@ export interface ILanguageOption {
 export interface IOATTwinModelNodes {
     description?: string | Record<string, unknown>;
     comment?: string;
+    contents?: DTDLProperty[];
     '@id': string;
     '@type': string;
-    name: string | Record<string, unknown>;
     displayName: string | Record<string, unknown>;
-    contents?: IOATTwinNodeContents[];
     extends?: string;
+    name: string | Record<string, unknown>;
     properties?: DTDLProperty[];
 }
 
@@ -815,26 +815,39 @@ export interface IOATTwinNodeContents {
     name?: string;
     displayName?: string;
     target?: string;
-    schema?: DTDLPropertySchema | string | Record<string, any>;
+    schema?: Record<string, any>;
     description?: string;
     comment?: string;
+    unit?: string;
+    writable?: boolean;
 }
 
 export interface DTDLPropertySchema {
     '@type': string;
     fields?: Record<string, any>[];
-    enumValues?: Record<string, any>[];
+    enumValues?: DTDLPropertyEnumValue[];
+    mapKey?: Record<string, any>;
+    mapValue?: Record<string, any>;
+    valueSchema?: string;
+}
+export interface DTDLPropertyEnumValue {
+    displayName?: string | Record<string, unknown>;
+    '@id'?: string;
+    name: string;
+    enumValue: string;
+    description?: string;
+    comment?: string;
 }
 
 export interface DTDLProperty {
-    readonly ['@type']: string | string[];
-    ['@id']?: string;
-    name: string;
-    schema: DTDLPropertySchema | string | Record<string, any>;
     comment?: string;
-    description?: string;
-    displayName?: string;
+    description?: string | Record<string, unknown>;
+    displayName?: string | Record<string, unknown>;
+    '@id'?: string;
+    name: string;
+    schema: DTDLPropertySchema | string;
     unit?: string;
+    readonly ['@type']: string | string[];
     writable?: boolean;
 }
 
@@ -864,7 +877,7 @@ export interface IOATRelationshipElement {
 }
 
 export interface IOATLastPropertyFocused {
-    item: DTDLProperty;
+    item: IOATTwinNodeContents;
     index: number;
 }
 

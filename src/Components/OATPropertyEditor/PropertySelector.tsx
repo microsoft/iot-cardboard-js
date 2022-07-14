@@ -82,16 +82,11 @@ const PropertySelector = ({
 
     const addProperty = async (tag) => {
         const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName] = [
-            ...modelCopy[propertiesKeyName],
-            ...[
-                {
-                    '@type': ['property'],
-                    name: `New_Property_${model[propertiesKeyName].length + 1}`,
-                    schema: getSchema(tag)
-                }
-            ]
-        ];
+        modelCopy[propertiesKeyName].push({
+            '@type': ['property'],
+            name: `New_Property_${model[propertiesKeyName].length + 1}`,
+            schema: getSchema(tag)
+        });
         dispatch({
             type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy

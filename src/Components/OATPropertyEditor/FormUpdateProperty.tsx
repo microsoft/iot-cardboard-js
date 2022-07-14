@@ -447,7 +447,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDisplayName
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.displayName')}
@@ -586,7 +586,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDescription
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.description')}

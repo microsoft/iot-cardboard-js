@@ -161,17 +161,14 @@ export const FormAddEnumItem = ({
 
     const onAddEnumValue = () => {
         const update = () => {
-            const activeItem =
-                model[propertiesKeyName][currentPropertyIndex].schema
-                    .enumValues;
             const prop = {
                 '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
-                name: name ? name : activeItem.name,
+                name: name ? name : '',
                 description:
                     languageSelectionDescription === singleLanguageOptionValue
                         ? description
                             ? description
-                            : activeItem.description
+                            : ''
                         : multiLanguageSelectionsDescription,
                 displayName:
                     languageSelection === singleLanguageOptionValue
@@ -179,8 +176,8 @@ export const FormAddEnumItem = ({
                             ? displayName
                             : 'enum_item'
                         : multiLanguageSelectionsDisplayName,
-                enumValue: enumValue ? enumValue : activeItem.enumValue,
-                comment: comment ? comment : activeItem.comment
+                enumValue: enumValue ? enumValue : '',
+                comment: comment ? comment : ''
             };
 
             const modelCopy = deepCopy(model);
