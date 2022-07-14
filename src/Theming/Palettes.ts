@@ -61,6 +61,18 @@ export const defaultSwatchIcons: IPickerOption[] = [
     {
         id: 'Shield',
         item: 'Shield'
+    },
+    {
+        id: 'Accept',
+        item: 'Accept'
+    },
+    {
+        id: 'Warning',
+        item: 'Warning'
+    },
+    {
+        id: 'Lightbulb',
+        item: 'Lightbulb'
     }
 ];
 
