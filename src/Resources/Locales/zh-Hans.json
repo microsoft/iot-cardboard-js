@@ -945,5 +945,6 @@
       "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。",
       "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     }
-  }
+  },
+  "fieldRequired": "此字段为必填项"
 }
