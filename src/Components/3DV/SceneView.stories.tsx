@@ -22,13 +22,7 @@ import {
     SET_ELEMENT_TO_GIZMO,
     SET_GIZMO_TRANSFORM_ITEM
 } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import {
-    Checkbox,
-    Dropdown,
-    IDropdownOption,
-    Stack,
-    TextField
-} from '@fluentui/react';
+import { Checkbox, Stack, TextField } from '@fluentui/react';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
@@ -41,87 +35,110 @@ export default {
     }
 };
 
-const defaultTransformedElementItems: TransformedElementItem[] = [
-    {
-        meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
-        parentMeshId: 'tank6_LOD0.003_primitive0',
-        transform: {
-            position: {
-                x: -3000,
-                y: 0,
-                z: 0
-            },
-            rotation: {
-                x: 0,
-                y: 0,
-                z: 0
-            }
+const tank6Transform: TransformedElementItem = {
+    meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
+    parentMeshId: 'tank6_LOD0.003_primitive0',
+    transform: {
+        position: {
+            x: -3000,
+            y: 0,
+            z: 0
+        },
+        rotation: {
+            x: 0,
+            y: 0,
+            z: 0
         }
     }
-];
+};
 
-const defaultMeshOptions = [
-    { key: 'Cube.003', text: 'Cube.003' },
-    { key: 'tank6_LOD0.016_primitive1', text: 'tank6_LOD0.016_primitive1' },
-    { key: 'tank1_LOD0', text: 'tank1_LOD0' },
-    { key: 'tank3_LOD0.004_primitive0', text: 'tank3_LOD0.004_primitive0' },
-    { key: 'tank4_LOD0.007_primitive0', text: 'tank4_LOD0.007_primitive0' },
-    { key: 'tank6_LOD0.003_primitive0', text: 'tank6_LOD0.003_primitive0' }
+const cube3Transform: TransformedElementItem = {
+    meshIds: [
+        'tank3_LOD0.004_primitive0',
+        'tank3_LOD0.004_primitive1',
+        'tank3_LOD0.004_primitive2'
+    ],
+    parentMeshId: 'tank3_LOD0.004_primitive0',
+    transform: {
+        position: {
+            x: 0,
+            y: 0,
+            z: -5000
+        },
+        rotation: {
+            x: 1,
+            y: 0,
+            z: 0
+        }
+    }
+};
+
+const defaultTransformedElementItems: TransformedElementItem[] = [
+    tank6Transform
 ];
 
 export const Transform = () => {
-    const [selectedMeshes, setSelectedMeshes] = useState<string[]>([]);
     const [transformedElementItems, setTransformedElementItems] = useState<
         TransformedElementItem[]
-    >([]);
+    >(defaultTransformedElementItems);
+    const [isTank6Transform, setIsTank6Transform] = useState<boolean>(true);
+    const [isCube3Transform, setIsCube3Transform] = useState<boolean>(false);
 
-    const onChange = (
-        event: React.FormEvent<HTMLDivElement>,
-        item: IDropdownOption
-    ): void => {
-        if (item) {
-            setSelectedMeshes(
-                item.selected
-                    ? [...selectedMeshes, item.key as string]
-                    : selectedMeshes.filter((key) => key !== item.key)
-            );
-        }
-    };
+    const onTransformTank6Change = useCallback(
+        (event, checked?: boolean) => {
+            if (!checked) {
+                setTransformedElementItems(
+                    transformedElementItems.filter(
+                        (obj) => obj != tank6Transform
+                    )
+                );
+            } else {
+                setTransformedElementItems([
+                    tank6Transform,
+                    ...transformedElementItems
+                ]);
+            }
+            setIsTank6Transform(!!checked);
+        },
+        [transformedElementItems]
+    );
 
-    useEffect(() => {
-        if (selectedMeshes.length == 0) {
-            setTransformedElementItems([]);
-        } else {
-            setTransformedElementItems([
-                {
-                    meshIds: deepCopy(selectedMeshes),
-                    parentMeshId: selectedMeshes[0],
-                    transform: defaultTransformedElementItems[0].transform
-                }
-            ]);
-        }
-    }, [selectedMeshes]);
+    const onTransformCube3Change = useCallback(
+        (event, checked?: boolean) => {
+            if (!checked) {
+                setTransformedElementItems(
+                    transformedElementItems.filter(
+                        (obj) => obj != cube3Transform
+                    )
+                );
+            } else {
+                setTransformedElementItems([
+                    cube3Transform,
+                    ...transformedElementItems
+                ]);
+            }
+            setIsCube3Transform(!!checked);
+        },
+        [transformedElementItems]
+    );
 
     return (
         <div>
-            <Dropdown
-                placeholder="Select meshes"
-                label="Create element"
-                selectedKeys={selectedMeshes}
-                onChange={onChange}
-                multiSelect
-                options={defaultMeshOptions}
-                style={{ width: '30%' }}
+            <Checkbox
+                label="Transform Tank 6"
+                checked={isTank6Transform}
+                onChange={onTransformTank6Change}
+            />
+            <Checkbox
+                label="Transform Cube 3"
+                checked={isCube3Transform}
+                onChange={onTransformCube3Change}
             />
             <div style={wrapperStyle}>
-                <div style={{ flex: 1, width: '100%', height: '650px' }}>
+                <div style={{ flex: 1, width: '100%' }}>
                     <SceneView
                         modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                        transformedElementItems={
-                            transformedElementItems.length == 0
-                                ? defaultTransformedElementItems
-                                : transformedElementItems
-                        }
+                        transformedElementItems={transformedElementItems}
                     />
                 </div>
             </div>

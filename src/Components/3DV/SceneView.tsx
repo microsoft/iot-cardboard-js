@@ -1674,16 +1674,8 @@ function SceneView(props: ISceneViewProps, ref) {
         if (scene && transformedElementItems && !isLoading) {
             if (debugLogging) {
                 console.time('transforming meshes');
-                // console.log('tr', transformedMeshItems);
-                transformedElementItems.forEach((transformedElementItem) => {
-                    console.log(transformedElementItem);
-                });
             }
             try {
-                console.log(
-                    'previously transformed elements',
-                    previouslyTransformedElements
-                );
                 // if there is a parent mesh in previouslyTransformedElements BUT NOT in transformedElementItems
                 // (meaning the element had been previously transformed but the transform is now turned off)
                 // reset the element to its original state (which had been preserved in previouslyTransformedElements)
@@ -1719,11 +1711,6 @@ function SceneView(props: ISceneViewProps, ref) {
                                 previouslyTransformedElement.transform.position.y;
                             prevTransParentMesh.position.z =
                                 previouslyTransformedElement.transform.position.z;
-
-                            console.log(
-                                'previously transformed parent mesh',
-                                prevTransParentMesh
-                            );
 
                             // set up to remove from previouslyTransformedElements
                             previouslyTransformedElement.meshId = null;
@@ -1773,7 +1760,6 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         parentMesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
-        console.log('old rotation', parentMesh.rotation);
 
         const pTParentMeshIds: string[] = previouslyTransformedElements.current.map(
             (pTE) => pTE.meshId
@@ -1807,10 +1793,6 @@ function SceneView(props: ISceneViewProps, ref) {
         parentMesh.position.x = transform.position.x;
         parentMesh.position.y = transform.position.y;
         parentMesh.position.z = transform.position.z;
-
-        console.log('new rotation', parentMesh.rotation);
-
-        console.log(parentMesh.id, transform);
     };
 
     // Handle gizmoElementItem
