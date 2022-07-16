@@ -1,5 +1,4 @@
 import React, { useRef, useMemo } from 'react';
-import { ModelTypes } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -31,6 +30,11 @@ import FormAddEnumItem from './FormAddEnumItem';
 import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
 import { EditorProps } from './Editor.types';
+import {
+    OATInterfaceType,
+    OATRelationshipHandleName,
+    OATUntargetedRelationshipName
+} from '../../Models/Constants/Constants';
 
 const Editor = ({
     dispatch,
@@ -50,7 +54,7 @@ const Editor = ({
     const { modalOpen, modalBody } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : ModelTypes.interface
+        model ? model['@type'] : OATInterfaceType
     );
 
     const propertyList = useMemo(() => {
@@ -64,8 +68,8 @@ const Editor = ({
             // Exclude relationships from propertyList
             propertyItems = model[propertiesKeyName].filter(
                 (property) =>
-                    property['@type'] !== ModelTypes.relationship &&
-                    property['@type'] !== ModelTypes.untargeted
+                    property['@type'] !== OATRelationshipHandleName &&
+                    property['@type'] !== OATUntargetedRelationshipName
             );
         }
         return propertyItems;
@@ -73,8 +77,8 @@ const Editor = ({
 
     const isSupportedModelType = useMemo(() => {
         return (
-            (model && model['@type'] === ModelTypes.interface) ||
-            (model && model['@type'] === ModelTypes.relationship)
+            (model && model['@type'] === OATInterfaceType) ||
+            (model && model['@type'] === OATRelationshipHandleName)
         );
     }, [model]);
 
