@@ -3,8 +3,8 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTMIRegex,
-    ModelTypes,
-    OATIdLengthLimit
+    OATIdLengthLimit,
+    OATRelationshipHandleName
 } from '../../../../Models/Constants';
 import { OATTextFieldIdProps } from './OATTextFieldId.types';
 
@@ -48,7 +48,7 @@ const OATTextFieldId = ({
             // Check format
             if (DTMIRegex.test(value)) {
                 setValidDTMIError(null);
-                if (model['@type'] === ModelTypes.relationship) {
+                if (model['@type'] === OATRelationshipHandleName) {
                     const repeatedIdOnRelationship = models.find(
                         (queryModel) =>
                             queryModel.contents &&

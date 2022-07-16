@@ -220,13 +220,6 @@ export enum GlobeTheme {
     Yellow = 'Yellow'
 }
 
-export enum ModelTypes {
-    relationship = 'Relationship',
-    untargeted = 'Untargeted',
-    interface = 'Interface',
-    component = 'Component'
-}
-
 export enum MultiLanguageSelectionType {
     displayName = 'displayName',
     description = 'description'

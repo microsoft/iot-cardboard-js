@@ -3,8 +3,8 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
-    ModelTypes,
-    OATNameLengthLimit
+    OATNameLengthLimit,
+    OATRelationshipHandleName
 } from '../../../../Models/Constants';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
 import { OATTextFieldNameProps } from './OATTextFieldName.types';
@@ -52,7 +52,7 @@ const OATTextFieldName = ({
                 setNameValidCharactersError(null);
                 // Check for duplicate name
                 // If model is a relationship, check if name is duplicate to any other relationship
-                if (model['@type'] === ModelTypes.relationship) {
+                if (model['@type'] === OATRelationshipHandleName) {
                     const repeatedNameOnRelationship = models.find(
                         (queryModel) =>
                             queryModel.contents &&
@@ -124,7 +124,7 @@ const OATTextFieldName = ({
                 ? t('OATPropertyEditor.errorNameLength')
                 : nameValidCharactersError
                 ? t('OATPropertyEditor.errorName')
-                : model['@type'] === ModelTypes.relationship
+                : model['@type'] === OATRelationshipHandleName
                 ? nameDuplicateRelationshipError
                     ? t('OATPropertyEditor.errorRepeatedEdgeName')
                     : ''

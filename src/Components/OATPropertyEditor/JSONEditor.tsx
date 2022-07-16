@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
-import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
@@ -17,6 +16,7 @@ import {
 import { parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
+import { OATRelationshipHandleName } from '../../Models/Constants';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
@@ -76,7 +76,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     };
 
     const checkDuplicateId = (modelValue: IOATTwinModelNodes) => {
-        if (modelValue['@type'] === ModelTypes.relationship) {
+        if (modelValue['@type'] === OATRelationshipHandleName) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>
                     queryModel.contents &&

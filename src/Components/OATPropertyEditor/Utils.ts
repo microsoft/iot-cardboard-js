@@ -1,16 +1,17 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
+import { MultiLanguageSelectionType } from '../../Models/Constants';
 import {
     DTMIRegex,
     OATCommentLengthLimit,
     OATDescriptionLengthLimit,
     OATDisplayNameLengthLimit,
-    OATIdLengthLimit
+    OATIdLengthLimit,
+    OATRelationshipHandleName
 } from '../../Models/Constants/Constants';
 
 /* Returns property collection attribute name depending on model type */
 export const getModelPropertyCollectionName = (type: string) => {
-    if (type && type === ModelTypes.relationship) {
+    if (type && type === OATRelationshipHandleName) {
         return 'properties';
     }
     return 'contents';

@@ -7,7 +7,6 @@ import {
     getPropertyEditorTextFieldStyles,
     getIconWrapFitContentStyles
 } from './OATPropertyEditor.styles';
-import { ModelTypes } from '../../Models/Constants/Enums';
 import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
@@ -21,6 +20,7 @@ import {
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getModelPropertyListItemName } from './Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
+import { OATInterfaceType } from '../../Models/Constants/Constants';
 
 export const PropertiesModelSummary = ({
     dispatch,
@@ -136,7 +136,7 @@ export const PropertiesModelSummary = ({
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && model['@type'] === ModelTypes.interface && (
+                {model && model['@type'] === OATInterfaceType && (
                     <IconButton
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}
