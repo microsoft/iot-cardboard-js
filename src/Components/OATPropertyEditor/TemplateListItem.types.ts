@@ -1,4 +1,4 @@
-import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { DTDLProperty } from '../../Models/Constants/Interfaces';
 
 export type TemplateListItemListProps = {
     draggingTemplate?: boolean;

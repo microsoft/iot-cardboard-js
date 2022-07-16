@@ -81,7 +81,7 @@ export const TemplateList = ({
         }, 0);
     };
 
-    const onDragEnter = (e: Event, i: number) => {
+    const onDragEnter = (e: React.DragEvent, i: number) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
@@ -117,7 +117,7 @@ export const TemplateList = ({
     };
 
     const getSchemaText = (itemSchema: string) => {
-        if (typeof itemSchema === 'object') {
+        if (typeof itemSchema === 'object' && itemSchema) {
             return itemSchema['@type'];
         }
 

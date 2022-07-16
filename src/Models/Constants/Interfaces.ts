@@ -844,10 +844,10 @@ export interface DTDLProperty {
     description?: string | Record<string, unknown>;
     displayName?: string | Record<string, unknown>;
     '@id'?: string;
-    name: string;
-    schema: DTDLPropertySchema | string;
+    name?: string;
+    schema?: DTDLPropertySchema;
     unit?: string;
-    readonly ['@type']: string | string[];
+    readonly ['@type']?: string | string[];
     writable?: boolean;
 }
 
