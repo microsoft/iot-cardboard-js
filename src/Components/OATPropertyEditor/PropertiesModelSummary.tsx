@@ -7,8 +7,6 @@ import {
     getPropertyEditorTextFieldStyles,
     getIconWrapFitContentStyles
 } from './OATPropertyEditor.styles';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { ModelTypes } from '../../Models/Constants/Enums';
 import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
@@ -22,20 +20,14 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getModelPropertyListItemName } from './Utils';
-
-type IPropertiesModelSummary = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-    isSupportedModelType?: boolean;
-};
+import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
 
 export const PropertiesModelSummary = ({
     dispatch,
     dispatchPE,
     state,
     isSupportedModelType
-}: IPropertiesModelSummary) => {
+}: PropertiesModelSummaryProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const { model, models } = state;

@@ -1,33 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import {
-    IStyleFunctionOrObject,
-    ITextFieldStyleProps,
-    ITextFieldStyles,
-    TextField
-} from '@fluentui/react';
+import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
-    IOATTwinModelNodes,
     ModelTypes,
     OATNameLengthLimit
 } from '../../../../Models/Constants';
-import { IOATEditorState } from '../../OATEditorPage.types';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
-
-type IOATTextFieldNameProps = {
-    autoFocus?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    value: string;
-    onCommit?: (value: string) => void;
-    placeholder?: string;
-    state?: IOATEditorState;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
-    model: IOATTwinModelNodes;
-    models: IOATTwinModelNodes[];
-};
+import { OATTextFieldNameProps } from './OATTextFieldName.types';
 
 const OATTextFieldName = ({
     autoFocus,
@@ -39,7 +19,7 @@ const OATTextFieldName = ({
     styles,
     model,
     models
-}: IOATTextFieldNameProps) => {
+}: OATTextFieldNameProps) => {
     const { t } = useTranslation();
     const [nameLengthError, setNameLengthError] = useState(false);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(

@@ -7,35 +7,16 @@ import {
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused
-} from '../../Models/Constants/Interfaces';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
+import { PropertySelectorProps } from './PropertySelector.types';
 
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height
-
-export interface IOATPropertySelectorPosition {
-    top: number;
-    left: number;
-}
-
-interface IPropertySelectorProps {
-    onTagClickCallback?: () => void;
-    className?: string;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    lastPropertyFocused?: IOATLastPropertyFocused;
-    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    propertySelectorPosition?: IOATPropertySelectorPosition;
-}
 
 const PropertySelector = ({
     className,
@@ -45,7 +26,7 @@ const PropertySelector = ({
     onTagClickCallback,
     state,
     propertySelectorPosition
-}: IPropertySelectorProps) => {
+}: PropertySelectorProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();

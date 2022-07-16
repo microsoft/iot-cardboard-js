@@ -1,5 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import { ModelTypes, Theme } from '../../Models/Constants/Enums';
+import { ModelTypes } from '../../Models/Constants/Enums';
 import {
     FontIcon,
     Stack,
@@ -7,8 +7,7 @@ import {
     PivotItem,
     Label,
     Text,
-    ActionButton,
-    IDropdownOption
+    ActionButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,7 +15,6 @@ import {
     getPropertyListPivotColumnContent,
     getPropertyListStackItem
 } from './OATPropertyEditor.styles';
-import { IAction } from '../../Models/Constants/Interfaces';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
 import TemplateColumn from './TemplateColumn';
@@ -26,22 +24,13 @@ import {
     SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_TEMPLATES_ACTIVE
 } from '../../Models/Constants/ActionTypes';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { getModelPropertyCollectionName } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
-interface IEditor {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    languages: IDropdownOption[];
-    state?: IOATEditorState;
-    statePE?: IOATPropertyEditorState;
-    theme?: Theme;
-}
+import { EditorProps } from './Editor.types';
 
 const Editor = ({
     dispatch,
@@ -50,7 +39,7 @@ const Editor = ({
     state,
     statePE,
     theme
-}: IEditor) => {
+}: EditorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertyListPivotColumnContent = getPropertyListPivotColumnContent();

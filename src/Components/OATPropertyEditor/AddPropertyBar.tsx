@@ -1,18 +1,13 @@
 import React from 'react';
 import { FontIcon, ActionButton } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-
-type IAddPropertyBar = {
-    onMouseOver?: (event: React.MouseEvent<Element, MouseEvent>) => void;
-    onClick?: () => void;
-    classNameIcon?: string;
-};
+import { AddPropertyBarProps } from './AddPropertyBar.types';
 
 export const AddPropertyBar = ({
     onClick,
     onMouseOver,
     classNameIcon
-}: IAddPropertyBar) => {
+}: AddPropertyBarProps) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     return (

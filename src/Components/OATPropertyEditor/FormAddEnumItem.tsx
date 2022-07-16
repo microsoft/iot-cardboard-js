@@ -8,8 +8,7 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption,
-    IDropdownOption
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -20,9 +19,7 @@ import {
     getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
 import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
@@ -41,18 +38,10 @@ import {
     OATNameLengthLimit
 } from '../../Models/Constants/Constants';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
+import { ModalFormAddEnumItemProps } from './FormAddEnumItem.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
-
-interface IModalFormAddEnumItemProps {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    languages: IDropdownOption[];
-    onClose?: () => void;
-    state?: IOATEditorState;
-    statePE?: IOATPropertyEditorState;
-}
 
 export const FormAddEnumItem = ({
     dispatch,
@@ -60,7 +49,7 @@ export const FormAddEnumItem = ({
     state,
     languages,
     statePE
-}: IModalFormAddEnumItemProps) => {
+}: ModalFormAddEnumItemProps) => {
     const { t } = useTranslation();
     const { currentPropertyIndex } = statePE;
     const { execute } = useContext(CommandHistoryContext);

@@ -17,33 +17,13 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
 import { FormBody } from './Constants';
-
-type IPropertyListItem = {
-    index?: number;
-    deleteItem?: (index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    draggingProperty?: boolean;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string, index?: number) => string;
-    onMove?: (index: number, moveUp: boolean) => void;
-    propertiesLength?: number;
-    onPropertyDisplayNameChange?: (value: string, index?: number) => void;
-    onDragEnter?: (event: any, item: any) => any;
-    onDragEnterExternalItem?: (index: number) => any;
-    onDragStart?: (event: any, item: any) => any;
-    item?: DTDLProperty;
-    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-};
+import { PropertyListItemProps } from './PropertyListItem.types';
 
 export const PropertyListItem = ({
     index,
@@ -61,7 +41,7 @@ export const PropertyListItem = ({
     setLastPropertyFocused,
     state,
     dispatchPE
-}: IPropertyListItem) => {
+}: PropertyListItemProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();

@@ -8,24 +8,16 @@ import {
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
 import { getModelPropertyCollectionName } from './Utils';
-
-type IEnumItem = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    index?: number;
-    item?: any;
-    state?: IOATEditorState;
-};
+import { PropertyListMapItemNestedProps } from './PropertyListMapItemNested.types';
 
 export const PropertyListMapItemNested = ({
     dispatch,
     item,
     index,
     state
-}: IEnumItem) => {
+}: PropertyListMapItemNestedProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const mapItemStyles = getMapItemStyles();

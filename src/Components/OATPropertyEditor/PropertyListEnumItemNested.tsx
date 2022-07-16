@@ -9,24 +9,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
-
-type IEnumItem = {
-    collectionLength?: number;
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    index?: number;
-    item?: any;
-    onMove?: (index: number, moveUp: boolean) => void;
-    parentIndex?: number;
-    state?: IOATEditorState;
-};
+import { EnumItemProps } from './PropertyListEnumItemNested.types';
 
 export const PropertyListEnumItemNested = ({
     collectionLength,
@@ -37,7 +25,7 @@ export const PropertyListEnumItemNested = ({
     index,
     parentIndex,
     state
-}: IEnumItem) => {
+}: EnumItemProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();

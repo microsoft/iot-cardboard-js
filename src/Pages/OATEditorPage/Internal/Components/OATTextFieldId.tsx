@@ -1,30 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-    IStyleFunctionOrObject,
-    ITextFieldStyleProps,
-    ITextFieldStyles,
-    TextField
-} from '@fluentui/react';
+import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTMIRegex,
-    IOATTwinModelNodes,
     ModelTypes,
     OATIdLengthLimit
 } from '../../../../Models/Constants';
-
-type IOATTextFieldIdProps = {
-    autoFocus?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    value: string;
-    onChange?: () => void;
-    onCommit?: (value: string) => void;
-    placeholder?: string;
-    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
-    model: IOATTwinModelNodes;
-    models: IOATTwinModelNodes[];
-};
+import { OATTextFieldIdProps } from './OATTextFieldId.types';
 
 const OATTextFieldId = ({
     autoFocus,
@@ -37,7 +19,7 @@ const OATTextFieldId = ({
     placeholder,
     styles,
     value
-}: IOATTextFieldIdProps) => {
+}: OATTextFieldIdProps) => {
     const { t } = useTranslation();
     const [idLengthError, setIdLengthError] = useState(false);
     const [

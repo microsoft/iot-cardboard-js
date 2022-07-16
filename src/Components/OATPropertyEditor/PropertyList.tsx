@@ -14,25 +14,11 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     getModelPropertyCollectionName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
-
-type IPropertyList = {
-    enteredPropertyRef: any;
-    enteredTemplateRef: any;
-    isSupportedModelType: boolean;
-    propertyList?: DTDLProperty[];
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
-};
+import { PropertyListProps } from './PropertyList.types';
 
 export const PropertyList = ({
     enteredPropertyRef,
@@ -43,7 +29,7 @@ export const PropertyList = ({
     statePE,
     propertyList,
     isSupportedModelType
-}: IPropertyList) => {
+}: PropertyListProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -371,7 +357,6 @@ export const PropertyList = ({
                                     model[propertiesKeyName].length
                                 }
                                 dispatchPE={dispatchPE}
-                                statePE={statePE}
                             />
                         );
                     } else if (typeof item['@type'] === 'object') {

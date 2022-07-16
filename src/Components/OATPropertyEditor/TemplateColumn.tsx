@@ -16,18 +16,7 @@ import {
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
-
-type ITemplateColumn = {
-    enteredPropertyRef: any;
-    enteredTemplateRef: any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
-};
+import { TemplateColumnProps } from './TemplateColumn.types';
 
 export const TemplateColumn = ({
     enteredPropertyRef,
@@ -36,7 +25,7 @@ export const TemplateColumn = ({
     state,
     dispatchPE,
     statePE
-}: ITemplateColumn) => {
+}: TemplateColumnProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();

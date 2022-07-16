@@ -23,49 +23,14 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused,
-    DTDLProperty
-} from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { FormBody } from './Constants';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
-
-type IPropertySelectorTriggerElementsBoundingBox = {
-    top: number;
-    left: number;
-};
-
-type IPropertyListItemNest = {
-    deleteItem?: (index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    draggingProperty?: boolean;
-    getItemClassName?: (index: number) => any;
-    getNestedItemClassName?: () => any;
-    getErrorMessage?: (value: any, index?: any) => string;
-    onPropertyDisplayNameChange?: (value: any, index?: any) => void;
-    onDragEnter?: (event: any, item: any) => any;
-    onDragEnterExternalItem?: (index: number) => any;
-    onDragStart?: (event: any, item: any) => any;
-    onMove?: (index: number, moveUp: boolean) => void;
-    propertiesLength?: number;
-    index?: number;
-    item?: DTDLProperty;
-    lastPropertyFocused?: IOATLastPropertyFocused;
-    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    state?: IOATEditorState;
-    statePE?: IOATPropertyEditorState;
-    setPropertySelectorVisible?: React.Dispatch<React.SetStateAction<boolean>>;
-    definePropertySelectorPosition?: (event: MouseEvent) => void;
-    propertySelectorTriggerElementsBoundingBox: IPropertySelectorTriggerElementsBoundingBox;
-};
+import { PropertyListItemNestProps } from './PropertyListItemNest.types';
 
 export const PropertyListItemNest = ({
     index,
@@ -88,9 +53,8 @@ export const PropertyListItemNest = ({
     propertySelectorTriggerElementsBoundingBox,
     onMove,
     propertiesLength,
-    dispatchPE,
-    statePE
-}: IPropertyListItemNest) => {
+    dispatchPE
+}: PropertyListItemNestProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();

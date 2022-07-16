@@ -8,8 +8,7 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption,
-    IDropdownOption
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -22,8 +21,6 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS_METADATA
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     deepCopy,
     getDirectoryPathFromDTMI,
@@ -43,23 +40,17 @@ import {
 } from './Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { ModalFormRootModelProps } from './FormRootModelDetails.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
-
-interface IModalFormRootModelProps {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    onClose?: () => void;
-    state?: IOATEditorState;
-    languages: IDropdownOption[];
-}
 
 export const FormRootModelDetails = ({
     dispatch,
     onClose,
     state,
     languages
-}: IModalFormRootModelProps) => {
+}: ModalFormRootModelProps) => {
     const { execute } = useContext(CommandHistoryContext);
     const { model, models, modelsMetadata } = state;
     const { t } = useTranslation();

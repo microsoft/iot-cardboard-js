@@ -17,27 +17,13 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
 import { FormBody } from './Constants';
-
-type IPropertyListItemNested = {
-    collectionLength?: number;
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string) => string;
-    index?: number;
-    item?: DTDLProperty;
-    onMove?: (index: number, moveUp: boolean) => void;
-    parentIndex?: number;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-};
+import { PropertyListItemNestedProps } from './PropertyListItemNested.types';
 
 export const PropertyListItemNested = ({
     collectionLength,
@@ -51,7 +37,7 @@ export const PropertyListItemNested = ({
     parentIndex,
     state,
     dispatchPE
-}: IPropertyListItemNested) => {
+}: PropertyListItemNestedProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const textFieldStyles = getPropertyEditorTextFieldStyles();

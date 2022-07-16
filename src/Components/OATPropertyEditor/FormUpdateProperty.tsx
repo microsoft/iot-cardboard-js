@@ -12,8 +12,7 @@ import {
     Dropdown,
     IChoiceGroupOption,
     MessageBar,
-    MessageBarType,
-    IDropdownOption
+    MessageBarType
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -26,8 +25,6 @@ import {
     SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
     SET_OAT_SELECTED_MODEL
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
@@ -43,18 +40,9 @@ import {
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue
 } from './Utils';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
+import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
-
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    languages: IDropdownOption[];
-    onClose?: () => void;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
-}
 
 export const FormUpdateProperty = ({
     dispatch,
@@ -63,7 +51,7 @@ export const FormUpdateProperty = ({
     languages,
     onClose,
     statePE
-}: IModal) => {
+}: FormUpdatePropertyProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();

@@ -8,8 +8,7 @@ import {
     SET_OAT_MODIFIED,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
-import { IAction, IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
@@ -17,12 +16,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-
-type JSONEditorProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    theme?: Theme;
-    state?: IOATEditorState;
-};
+import { JSONEditorProps } from './JSONEditor.types';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();

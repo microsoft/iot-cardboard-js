@@ -1,28 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-    IStyleFunctionOrObject,
-    ITextFieldStyleProps,
-    ITextFieldStyles,
-    TextField
-} from '@fluentui/react';
+import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    IOATTwinModelNodes,
-    OATDisplayNameLengthLimit
-} from '../../../../Models/Constants';
+import { OATDisplayNameLengthLimit } from '../../../../Models/Constants';
 import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
-
-type IOATTextFieldDisplayNameProps = {
-    autoFocus?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    value: string;
-    model?: IOATTwinModelNodes;
-    onChange?: () => void;
-    onCommit?: (value: string) => void;
-    placeholder?: string;
-    styles?: IStyleFunctionOrObject<ITextFieldStyleProps, ITextFieldStyles>;
-};
+import { OATTextFieldDisplayNameProps } from './OATTextFieldDisplayName.types';
 
 const OATTextFieldDisplayName = ({
     autoFocus,
@@ -34,7 +15,7 @@ const OATTextFieldDisplayName = ({
     placeholder,
     model,
     styles
-}: IOATTextFieldDisplayNameProps) => {
+}: OATTextFieldDisplayNameProps) => {
     const { t } = useTranslation();
     const [displayNameLengthError, setDisplayNameLengthError] = useState(null);
     const [temporaryValue, setTemporaryValue] = useState(value);
