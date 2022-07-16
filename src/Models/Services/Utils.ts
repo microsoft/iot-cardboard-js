@@ -367,14 +367,6 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModels(models: IOATTwinModelNodes[]) {
-    for (const model of models) {
-        const modelJson = JSON.stringify(model);
-        return parseModel(modelJson);
-    }
-    return true;
-}
-
 export async function parseModel(modelJson: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
