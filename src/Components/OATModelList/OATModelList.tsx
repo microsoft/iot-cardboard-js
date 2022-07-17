@@ -71,11 +71,8 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     }, [filter]);
 
     useEffect(() => {
-        if (model) {
-            currentNodeId.current = model['@id'];
-        } else {
-            currentNodeId.current = null;
-        }
+        currentNodeId.current = model ? model['@id'] : null;
+        // Set models, so that modelList items re-render and apply style changes if necessary
         setItems([...models]);
     }, [model]);
 
