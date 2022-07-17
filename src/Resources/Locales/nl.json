@@ -773,7 +773,9 @@
     "redo": "Opnieuw",
     "deleteAll": "Alles verwijderen",
     "folderUpload": "Map uploaden",
-    "fileUpload": "Bestand uploaden"
+    "fileUpload": "Bestand uploaden",
+    "files": "Archief",
+    "selectFile": "Selecteer bestand"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

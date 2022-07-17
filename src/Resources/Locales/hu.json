@@ -773,7 +773,9 @@
     "redo": "Újra kifest",
     "deleteAll": "Összes törlése",
     "folderUpload": "Mappa feltöltése",
-    "fileUpload": "Fájlfeltöltés"
+    "fileUpload": "Fájlfeltöltés",
+    "files": "Fájlokat",
+    "selectFile": "Fájl kiválasztása"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

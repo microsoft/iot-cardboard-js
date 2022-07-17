@@ -773,7 +773,9 @@
     "redo": "Повторить",
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
-    "fileUpload": "Загрузка файла"
+    "fileUpload": "Загрузка файла",
+    "files": "Файлы",
+    "selectFile": "Выберите файл"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

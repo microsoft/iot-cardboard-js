@@ -773,7 +773,9 @@
     "redo": "Refaire",
     "deleteAll": "Supprimer tout",
     "folderUpload": "Téléchargement de dossiers",
-    "fileUpload": "Téléchargement de fichiers"
+    "fileUpload": "Téléchargement de fichiers",
+    "files": "Fichiers",
+    "selectFile": "Sélectionner un fichier"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

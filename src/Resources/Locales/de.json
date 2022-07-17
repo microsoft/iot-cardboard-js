@@ -773,7 +773,9 @@
     "redo": "Noch einmal machen",
     "deleteAll": "Alle löschen",
     "folderUpload": "Ordner-Upload",
-    "fileUpload": "Datei-Upload"
+    "fileUpload": "Datei-Upload",
+    "files": "Dateien",
+    "selectFile": "Datei auswählen"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

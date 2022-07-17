@@ -773,7 +773,9 @@
     "redo": "Ponowić",
     "deleteAll": "Usuń wszystko",
     "folderUpload": "Przesyłanie folderu",
-    "fileUpload": "Przesyłanie plików"
+    "fileUpload": "Przesyłanie plików",
+    "files": "Pliki",
+    "selectFile": "Wybierz plik"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

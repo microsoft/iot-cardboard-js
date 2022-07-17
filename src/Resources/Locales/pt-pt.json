@@ -773,7 +773,9 @@
     "redo": "Redo",
     "deleteAll": "Apagar tudo",
     "folderUpload": "Upload de pasta",
-    "fileUpload": "Upload de arquivo"
+    "fileUpload": "Upload de arquivo",
+    "files": "Ficheiros",
+    "selectFile": "Selecione ficheiro"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",

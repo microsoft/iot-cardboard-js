@@ -773,7 +773,9 @@
     "redo": "다시",
     "deleteAll": "모두 삭제",
     "folderUpload": "폴더 업로드",
-    "fileUpload": "파일 업로드"
+    "fileUpload": "파일 업로드",
+    "files": "파일",
+    "selectFile": "파일 선택"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

@@ -773,7 +773,9 @@
     "redo": "Předělat",
     "deleteAll": "Smazat vše",
     "folderUpload": "Nahrání složky",
-    "fileUpload": "Nahrání souboru"
+    "fileUpload": "Nahrání souboru",
+    "files": "Soubory",
+    "selectFile": "Vybrat soubor"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
