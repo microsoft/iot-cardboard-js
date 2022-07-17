@@ -773,7 +773,9 @@
     "redo": "Rehacer",
     "deleteAll": "Eliminar todo",
     "folderUpload": "Carga de carpetas",
-    "fileUpload": "Carga de archivos"
+    "fileUpload": "Carga de archivos",
+    "files": "Archivos",
+    "selectFile": "Seleccionar archivo"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

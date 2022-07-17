@@ -773,7 +773,9 @@
     "redo": "Yinele",
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
-    "fileUpload": "Dosya yükleme"
+    "fileUpload": "Dosya yükleme",
+    "files": "Dosyaları",
+    "selectFile": "Dosya seç"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

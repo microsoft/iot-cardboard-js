@@ -773,7 +773,9 @@
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
-    "fileUpload": "Filuppladdning"
+    "fileUpload": "Filuppladdning",
+    "files": "ﬁler",
+    "selectFile": "Välj fil"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

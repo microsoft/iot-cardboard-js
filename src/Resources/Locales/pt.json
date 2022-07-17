@@ -773,7 +773,9 @@
     "redo": "Refazer",
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
-    "fileUpload": "Upload de arquivo"
+    "fileUpload": "Upload de arquivo",
+    "files": "Limas",
+    "selectFile": "Selecione arquivo"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

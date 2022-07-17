@@ -773,7 +773,9 @@
     "redo": "重做",
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
-    "fileUpload": "文件上传"
+    "fileUpload": "文件上传",
+    "files": "文件",
+    "selectFile": "选择文件"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

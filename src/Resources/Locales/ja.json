@@ -773,7 +773,9 @@
     "redo": "やり直す",
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
-    "fileUpload": "ファイルのアップロード"
+    "fileUpload": "ファイルのアップロード",
+    "files": "ファイル",
+    "selectFile": "ファイルの選択"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
