@@ -11,8 +11,13 @@ import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy } from '../../Models/Services/Utils';
 import {
+    deepCopy,
+    getNewModelNewModelsAndNewPositionsFromId
+} from '../../Models/Services/Utils';
+import {
+    SET_OAT_MODELS,
+    SET_OAT_MODELS_POSITIONS,
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_SELECTED_MODEL
@@ -30,7 +35,7 @@ export const PropertiesModelSummary = ({
 }: PropertiesModelSummaryProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
-    const { model, models } = state;
+    const { model, models, modelPositions } = state;
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = getIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
@@ -57,12 +62,28 @@ export const PropertiesModelSummary = ({
 
     const onIdCommit = (value) => {
         const commit = () => {
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = value;
+            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+                value,
+                model,
+                models,
+                modelPositions
+            );
+
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelData.positions
+            });
+
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelData.models
+            });
+
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                payload: modelData.model
             });
+
             setId(value);
             setIdEditor(false);
         };
@@ -71,6 +92,14 @@ export const PropertiesModelSummary = ({
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: model
+            });
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
             });
         };
 

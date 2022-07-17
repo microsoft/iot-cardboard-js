@@ -22,7 +22,6 @@ import ReactFlow, {
     MiniMap,
     Controls,
     Background,
-    removeElements,
     Edge
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
@@ -49,8 +48,6 @@ import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS,
     SET_OAT_MODELS_POSITIONS,
-    SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_DELETED_MODEL_ID,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
 import {
@@ -90,17 +87,7 @@ const newNodeOffset = 10;
 
 const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const { execute } = useContext(CommandHistoryContext);
-    const {
-        model,
-        models,
-        importModels,
-        deletedModelId,
-        selectedModelId,
-        editedModelName,
-        editedModelId,
-        modelPositions,
-        namespace
-    } = state;
+    const { model, models, importModels, modelPositions, namespace } = state;
 
     const idClassBase = `dtmi:${
         namespace ? namespace : OATNamespaceDefaultValue
@@ -413,7 +400,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             currentNodeIdRef.current = '';
         } else {
             const node = elements.find(
-                (element) => element.id === currentNodeIdRef.current
+                (element) => element.id === model['@id']
             );
 
             if (!node && model['@type'] === OATRelationshipHandleName) {
@@ -421,6 +408,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             }
 
             if (node && !node.source) {
+                //  Interface
                 const newId = model['@id'];
                 elements.forEach((x) => {
                     if (x.source && x.source === currentNodeIdRef.current) {
@@ -446,6 +434,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 setElements([...elements]);
                 currentNodeIdRef.current = newId;
             } else if (node && node.source) {
+                // Relationship
                 if (node.sourceHandle === OATComponentHandleName) {
                     elements.find(
                         (element) => element.id === node.target
@@ -472,7 +461,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (importModels && importModels.length > 0) {
             setLoading(true);
         }
-        // Detects when a Model is deleted outside of the component and Updates the elements state
         if (importModels.length > 0) {
             const potentialElements = getGraphViewerElementsFromModels(
                 importModels,
@@ -481,104 +469,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             applyLayoutToElements([...potentialElements]);
         }
     }, [importModels]);
-
-    useEffect(() => {
-        if (deletedModelId) {
-            const elementsToRemove = [
-                {
-                    id: deletedModelId
-                }
-            ];
-            onElementsRemove(elementsToRemove);
-        }
-    }, [deletedModelId]);
-
-    useEffect(() => {
-        // Detects when a Model is selected outside of the component
-        const node = elements.find((element) => element.id === selectedModelId);
-        let modelClicked = null;
-        if (node) {
-            currentNodeIdRef.current = node.id;
-            if (node.type === OATInterfaceType) {
-                modelClicked = {
-                    '@id': node.id,
-                    '@type': node.data.type,
-                    '@context': node.data.context,
-                    displayName: node.data.name,
-                    contents: node.data.content
-                };
-            } else {
-                modelClicked = new DTDLRelationship(
-                    node.id,
-                    node.data.name,
-                    node.data.displayName,
-                    node.data.description,
-                    node.data.comment,
-                    node.data.writable,
-                    node.data.content ? node.data.content : [],
-                    node.data.target,
-                    node.data.maxMultiplicity
-                );
-
-                if (node.data.type === OATExtendHandleName) {
-                    modelClicked['@type'] = OATExtendHandleName;
-                }
-            }
-        }
-
-        dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelClicked
-        });
-    }, [selectedModelId]);
-
-    useEffect(() => {
-        // Detects when a Model name is edited outside of the component and Updates the elements state
-        const node = elements.find((element) => element.id === selectedModelId);
-        if (node) {
-            node.data.name = editedModelName;
-            const modelClicked = {
-                '@id': node.id,
-                '@type': node.data.type,
-                '@context': node.data.context,
-                displayName: node.data.name,
-                contents: node.data.content
-            };
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelClicked
-            });
-            setElements([...elements]);
-        }
-    }, [editedModelName]);
-
-    useEffect(() => {
-        // Detects when a Model id is edited outside of the component and Updates the elements state
-        const node = elements.find((element) => element.id === selectedModelId);
-        if (node) {
-            elements
-                .filter((x) => x.source === currentNodeIdRef.current)
-                .forEach((x) => (x.source = editedModelId));
-            elements
-                .filter((x) => x.target === currentNodeIdRef.current)
-                .forEach((x) => (x.target = state.editedModelId));
-            node.id = state.editedModelId;
-            node.data.id = state.editedModelId;
-            const modelClicked = {
-                '@id': node.id,
-                '@type': node.data.type,
-                '@context': node.data.context,
-                displayName: node.data.name,
-                contents: node.data.content
-            };
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelClicked
-            });
-            setElements([...elements]);
-            currentNodeIdRef.current = editedModelId;
-        }
-    }, [editedModelId]);
 
     const setCurrentNode = (id: string) => {
         currentNodeIdRef.current = id;
@@ -614,42 +504,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
-
-    const onElementsRemove = (elementsToRemove: IOATNodeElement[]) => {
-        if (!state.modified) {
-            const remove = (elementsToRemove) => {
-                // Remove an specific node and all related edges
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: null
-                });
-                setElements((els) => removeElements(elementsToRemove, els));
-                // Reset deletedModelId so it can be used again
-                dispatch({
-                    type: SET_OAT_DELETED_MODEL_ID,
-                    payload: null
-                });
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL_ID,
-                    payload: null
-                });
-            };
-
-            const unRemove = () => {
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: model
-                });
-                setElements(elements);
-                dispatch({
-                    type: SET_OAT_DELETED_MODEL_ID,
-                    payload: null
-                });
-            };
-
-            execute(() => remove(elementsToRemove), unRemove);
-        }
-    };
 
     const onLoad = useCallback((_reactFlowInstance: any) => {
         _reactFlowInstance.fitView();
@@ -1098,6 +952,38 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         });
     }, [translatedOutput]);
 
+    const setModelFromClickedNode = (node) => {
+        let modelClicked = null;
+        if (node) {
+            currentNodeIdRef.current = node.id;
+            if (node.type === OATInterfaceType) {
+                modelClicked = {
+                    '@id': node.id,
+                    '@type': node.data.type,
+                    '@context': node.data.context,
+                    displayName: node.data.name,
+                    contents: node.data.content
+                };
+            } else {
+                modelClicked = new DTDLRelationship(
+                    node.id,
+                    node.data.name,
+                    node.data.displayName,
+                    node.data.description,
+                    node.data.comment,
+                    node.data.writable,
+                    node.data.content ? node.data.content : [],
+                    node.data.target,
+                    node.data.maxMultiplicity
+                );
+                if (node.data.type === OATExtendHandleName) {
+                    modelClicked['@type'] = OATExtendHandleName;
+                }
+            }
+        }
+        return modelClicked;
+    };
+
     const onElementClick = (
         evt: React.MouseEvent<Element, MouseEvent>,
         node: Edge
@@ -1105,22 +991,22 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         if (!state.modified) {
             // Checks if a node is selected to display it in the property editor
             if (
-                node.data.type === OATInterfaceType &&
                 translatedOutput &&
                 node.id !== currentNodeIdRef.current // Prevent re-execute the same node
             ) {
                 const onClick = () => {
-                    currentNodeIdRef.current = node.id;
+                    const clickedModel = setModelFromClickedNode(node);
                     dispatch({
-                        type: SET_OAT_SELECTED_MODEL_ID,
-                        payload: node.id
+                        type: SET_OAT_SELECTED_MODEL,
+                        payload: clickedModel
                     });
+                    currentNodeIdRef.current = node.id;
                 };
 
                 const undoOnClick = () => {
                     dispatch({
-                        type: SET_OAT_SELECTED_MODEL_ID,
-                        payload: selectedModelId
+                        type: SET_OAT_SELECTED_MODEL,
+                        payload: model
                     });
                 };
 
@@ -1143,15 +1029,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const onBackgroundClick = () => {
         const clearModel = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: null
             });
         };
 
         const undoClearModel = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: selectedModelId
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
             });
         };
 
@@ -1176,7 +1062,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     <ReactFlow
                         elements={elements}
                         onElementClick={onElementClick}
-                        onElementsRemove={onElementsRemove}
                         onConnectStart={onConnectStart}
                         onConnectStop={onConnectStop}
                         onLoad={onLoad}

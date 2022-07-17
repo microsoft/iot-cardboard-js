@@ -4,10 +4,6 @@ import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS,
-    SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_EDITED_MODEL_NAME,
-    SET_OAT_EDITED_MODEL_ID,
     SET_OAT_TEMPLATES_ACTIVE,
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN,
@@ -53,10 +49,6 @@ export const defaultOATEditorState: IOATEditorState = {
             contents: []
         }
     ],
-    deletedModelId: '',
-    selectedModelId: '',
-    editedModelName: '',
-    editedModelId: '',
     templatesActive: false,
     importModels: [],
     isJsonUploaderOpen: false,
@@ -74,18 +66,6 @@ export const OATGraphViewerReducer = produce(
                 return;
             case SET_OAT_MODELS:
                 state.models = payload;
-                return;
-            case SET_OAT_DELETED_MODEL_ID:
-                state.deletedModelId = payload;
-                return;
-            case SET_OAT_SELECTED_MODEL_ID:
-                state.selectedModelId = payload;
-                return;
-            case SET_OAT_EDITED_MODEL_NAME:
-                state.editedModelName = payload;
-                return;
-            case SET_OAT_EDITED_MODEL_ID:
-                state.editedModelId = payload;
                 return;
             case SET_OAT_TEMPLATES_ACTIVE:
                 state.templatesActive = payload;

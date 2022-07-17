@@ -19,9 +19,8 @@ import {
 } from '../../../Models/Constants/Constants';
 import {
     SET_OAT_SELECTED_MODEL,
-    SET_OAT_DELETED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_SELECTED_MODEL_ID
+    SET_OAT_MODELS
 } from '../../../Models/Constants/ActionTypes';
 import { getPropertyDisplayName } from '../../OATPropertyEditor/Utils';
 import { IOATGraphCustomEdgeProps } from '../../../Models/Constants';
@@ -153,14 +152,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const {
         dispatch,
-        setCurrentNode,
         showRelationships,
         showInheritances,
         showComponents,
-        currentNodeIdRef,
         state
     } = useContext(ElementsContext);
-    const { model, models, selectedModelId, deletedModelId } = state;
+    const { model, models } = state;
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
     const theme = useTheme();
@@ -193,10 +190,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     }, [edge, nodes]);
 
     useEffect(() => {
-        if (nameEditor && selectedModelId !== id) {
+        if (nameEditor && model && model['@id'] !== id) {
             setNameEditor(false);
         }
-    }, [id, nameEditor, selectedModelId]);
+    }, [id, nameEditor, model]);
 
     useEffect(() => {
         if (model && model.name) {
@@ -482,35 +479,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);
 
-    const setSelectedEdge = () => {
-        const selectRelationship = () => {
-            setCurrentNode(polygons.element.id);
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: polygons.element.data.id
-            });
-        };
-
-        const unselectRelationship = () => {
-            setCurrentNode(currentNodeIdRef.current);
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: selectedModelId
-            });
-        };
-
-        if (selectedModelId !== id) {
-            execute(selectRelationship, unselectRelationship);
-        }
-    };
-
-    const onNameClick = () => {
-        setSelectedEdge();
-    };
-
     const onNameDoubleClick = () => {
         setNameEditor(true);
-        setSelectedEdge();
     };
 
     const edgePath = useMemo(() => {
@@ -560,11 +530,32 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
     const onDelete = () => {
         const deletion = () => {
             const dispatchDelete = () => {
+                // Create models copy
+                const modelsCopy = deepCopy(models);
+                // Find relationship in models copy
+                for (const element of modelsCopy) {
+                    const edge = element.contents.find(
+                        (x) => x['@id'] === model['@id']
+                    );
+                    if (edge) {
+                        // Remove edge from model
+                        element.contents = element.contents.filter(
+                            (x) => x['@id'] !== id
+                        );
+                        break;
+                    }
+                }
                 dispatch({
-                    type: SET_OAT_DELETED_MODEL_ID,
-                    payload: data.id
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
+                });
+                // Dispatch selected model to null
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL,
+                    payload: null
                 });
             };
+
             dispatch({
                 type: SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
@@ -573,8 +564,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_DELETED_MODEL_ID,
-                payload: deletedModelId
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
             });
         };
 
@@ -612,7 +607,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 id={id}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
-                onClick={onNameClick}
                 onDoubleClick={onNameDoubleClick}
             />
             {data.type === OATExtendHandleName && showInheritances && (
@@ -624,7 +618,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             : graphViewerStyles.selectedInheritancePath
                     }
                     d={edgePath}
-                    onClick={onNameClick}
                     onDoubleClick={onNameDoubleClick}
                     markerEnd={markerEnd}
                 />
@@ -640,7 +633,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                                 : graphViewerStyles.selectedEdgePath
                         }
                         d={edgePath}
-                        onClick={onNameClick}
                         onDoubleClick={onNameDoubleClick}
                         markerEnd={markerEnd}
                     />
@@ -654,7 +646,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             : graphViewerStyles.selectedComponentPath
                     }
                     d={edgePath}
-                    onClick={onNameClick}
                     onDoubleClick={onNameDoubleClick}
                     markerEnd={markerEnd}
                 />
@@ -726,7 +717,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                             className={graphViewerStyles.textPath}
                             startOffset="50%"
                             textAnchor="middle"
-                            onClick={onNameClick}
                             onDoubleClick={onNameDoubleClick}
                         >
                             {getPropertyDisplayName(data)}

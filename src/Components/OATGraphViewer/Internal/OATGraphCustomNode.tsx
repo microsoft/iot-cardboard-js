@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { Icon, ActionButton, Label, TooltipHost } from '@fluentui/react';
 import { Handle } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
@@ -18,8 +19,9 @@ import {
 } from '../../../Models/Constants/Constants';
 import {
     SET_OAT_SELECTED_MODEL,
-    SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_CONFIRM_DELETE_OPEN
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_MODELS,
+    SET_OAT_MODELS_POSITIONS
 } from '../../../Models/Constants/ActionTypes';
 import {
     getPropertyDisplayName,
@@ -32,13 +34,17 @@ import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
-import { deepCopy } from '../../../Models/Services/Utils';
+import {
+    deepCopy,
+    getNewModelNewModelsAndNewPositionsFromId
+} from '../../../Models/Services/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     data,
     isConnectable
 }) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getPropertyDisplayName(data));
     const [idEditor, setIdEditor] = useState(false);
@@ -55,7 +61,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [handleHoverComponent, setHandleHoverComponent] = useState(false);
     const [handleHoverExtend, setHandleHoverExtend] = useState(false);
     const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
-    const { model, models } = state;
+    const { model, models, modelPositions } = state;
 
     const onNameClick = () => {
         if (!state.modified) {
@@ -71,40 +77,113 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     };
 
     const onDelete = () => {
-        if (!state.modified) {
+        const deletion = () => {
             const dispatchDelete = () => {
+                // Remove the model from the list
+                const newModels = deepCopy(models);
+                const index = newModels.findIndex(
+                    (element) => element['@id'] === model['@id']
+                );
+                newModels.splice(index, 1);
                 dispatch({
-                    type: SET_OAT_DELETED_MODEL_ID,
-                    payload: data.id
+                    type: SET_OAT_MODELS,
+                    payload: newModels
+                });
+                // Dispatch selected model to null
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL,
+                    payload: null
                 });
             };
             dispatch({
                 type: SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
+        };
+
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
+            });
+        };
+
+        if (!state.modified) {
+            execute(deletion, undoDeletion);
         }
     };
 
     const onDisplayNameCommit = (value: string) => {
-        setNameEditor(false);
-        const modelCopy = deepCopy(model);
-        modelCopy.displayName = value;
-        dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
-        });
-        setNameText(value);
+        const update = () => {
+            setNameEditor(false);
+            const modelCopy = deepCopy(model);
+            modelCopy.displayName = value;
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: modelCopy
+            });
+            setNameText(value);
+        };
+
+        const undoUpdate = () => {
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
+            });
+        };
+
+        execute(update, undoUpdate);
     };
 
     const onIdCommit = (value: string) => {
-        const modelCopy = deepCopy(model);
-        modelCopy['@id'] = value;
-        dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
-        });
-        setIdText(value);
+        const commit = () => {
+            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+                value,
+                model,
+                models,
+                modelPositions
+            );
 
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelData.positions
+            });
+
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelData.models
+            });
+
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: modelData.model
+            });
+        };
+
+        const undoCommit = () => {
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
+            });
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
+            });
+        };
+
+        if (value) {
+            execute(commit, undoCommit);
+        }
+
+        setIdText(value);
         setIdEditor(false);
     };
 
@@ -120,7 +199,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             )}
             <div
                 className={
-                    currentNodeIdRef && currentNodeIdRef.current === data.id
+                    model &&
+                    currentNodeIdRef &&
+                    currentNodeIdRef.current === data.id
                         ? graphViewerStyles.selectedNode
                         : graphViewerStyles.node
                 }

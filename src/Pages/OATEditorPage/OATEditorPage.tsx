@@ -71,7 +71,6 @@ const OATEditorPage = ({ theme }) => {
             templates,
             namespace
         };
-
         storeEditorData(oatEditorData);
     }, [
         models,

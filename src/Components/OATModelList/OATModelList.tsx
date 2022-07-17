@@ -8,14 +8,17 @@ import {
 } from './OATModelList.styles';
 import { IOATTwinModelNodes } from '../../Models/Constants';
 import {
-    SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_SELECTED_MODEL_ID,
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_SELECTED_MODEL
+    SET_OAT_SELECTED_MODEL,
+    SET_OAT_MODELS,
+    SET_OAT_MODELS_POSITIONS
 } from '../../Models/Constants/ActionTypes';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getNewModelNewModelsAndNewPositionsFromId
+} from '../../Models/Services/Utils';
 import {
     getModelPropertyListItemName,
     isDisplayNameDefined
@@ -27,7 +30,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     const theme = useTheme();
     const { execute } = useContext(CommandHistoryContext);
     const { t } = useTranslation();
-    const { model, models, deletedModelId, selectedModelId, modified } = state;
+    const { model, models, modified, modelPositions } = state;
     const modelsStyles = getModelsStyles();
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState('');
@@ -76,24 +79,30 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         setItems([...models]);
     }, [model]);
 
+    const getModelFormId = (id) => {
+        // Find the model with the given id
+        return models.find((element) => element['@id'] === id);
+    };
+
     const onSelectedClick = (id: string) => {
+        const selectedModel = getModelFormId(id);
         const select = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: id
+                type: SET_OAT_SELECTED_MODEL,
+                payload: selectedModel
             });
             currentNodeId.current = id;
         };
 
         const unSelect = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL_ID,
-                payload: selectedModelId
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
             });
-            currentNodeId.current = selectedModelId;
+            currentNodeId.current = model['@id'];
         };
 
-        if (!modified && id !== selectedModelId) {
+        if (!model || (model && id !== model['@id'])) {
             execute(select, unSelect);
         }
     };
@@ -117,9 +126,20 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     const onModelDelete = (id: string) => {
         const deletion = () => {
             const dispatchDelete = () => {
+                // Remove the model from the list
+                const newModels = deepCopy(models);
+                const index = newModels.findIndex(
+                    (element) => element['@id'] === id
+                );
+                newModels.splice(index, 1);
                 dispatch({
-                    type: SET_OAT_DELETED_MODEL_ID,
-                    payload: id
+                    type: SET_OAT_MODELS,
+                    payload: newModels
+                });
+                // Dispatch selected model to null
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL,
+                    payload: null
                 });
             };
             dispatch({
@@ -130,8 +150,12 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_DELETED_MODEL_ID,
-                payload: deletedModelId
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
             });
         };
 
@@ -146,11 +170,26 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
 
     const onCommitId = (value) => {
         const commit = () => {
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = value;
+            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+                value,
+                model,
+                models,
+                modelPositions
+            );
+
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelData.positions
+            });
+
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelData.models
+            });
+
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                payload: modelData.model
             });
 
             setIdText(value);
@@ -162,6 +201,14 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: model
+            });
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
             });
         };
 

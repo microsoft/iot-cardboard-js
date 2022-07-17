@@ -7,8 +7,7 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin,
-    IOATTwinModelNodes
+    DTwin
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import {
@@ -425,6 +424,36 @@ export const getStoredEditorModelMetadata = () => {
 export const getStoredEditorNamespaceData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.namespace ? oatData.namespace : null;
+};
+
+export const getNewModelNewModelsAndNewPositionsFromId = (
+    id,
+    model,
+    models,
+    modelPositions
+) => {
+    const modelCopy = deepCopy(model);
+    // Update the modelPositions
+    const newModelsPositions = deepCopy(modelPositions);
+    // Find the model position with the same id
+    const modelPositionIndex = newModelsPositions.findIndex(
+        (x) => x.id === modelCopy['@id']
+    );
+    newModelsPositions[modelPositionIndex].id = id;
+
+    // Update models
+    const newModels = deepCopy(models);
+    const modelIndex = newModels.findIndex(
+        (x) => x['@id'] === modelCopy['@id']
+    );
+    modelCopy['@id'] = id;
+    newModels[modelIndex] = modelCopy;
+
+    return {
+        model: modelCopy,
+        models: newModels,
+        positions: newModelsPositions
+    };
 };
 
 // Get fileName from DTMI
