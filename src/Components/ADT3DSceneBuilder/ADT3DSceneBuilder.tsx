@@ -705,21 +705,23 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         });
     };
 
-    const meshClickOnEditElement = (mesh) => {
-        const selectedMesh = state.coloredMeshItems.find(
-            (item) => item.meshId === mesh.id
-        );
-        let coloredMeshes = [...state.coloredMeshItems];
-
-        if (selectedMesh) {
-            coloredMeshes = state.coloredMeshItems.filter(
-                (item) => item.meshId !== selectedMesh.meshId
+    const meshClickOnEditElement = useCallback(
+        (mesh) => {
+            const selectedMesh = state.coloredMeshItems.find(
+                (item) => item.meshId === mesh.id
             );
-        } else {
-            coloredMeshes.push({ meshId: mesh.id });
-        }
-        setColoredMeshItems(coloredMeshes);
-    };
+            let coloredMeshes: CustomMeshItem[] = state.coloredMeshItems;
+            if (selectedMesh) {
+                coloredMeshes = state.coloredMeshItems.filter(
+                    (item) => item.meshId !== selectedMesh.meshId
+                );
+            } else {
+                coloredMeshes.push({ meshId: mesh.id });
+            }
+            setColoredMeshItems(coloredMeshes);
+        },
+        [state.coloredMeshItems]
+    );
 
     const addContextualMenuItems = (item, targetMenu) => {
         if (!targetMenu.sectionProps.items.find((ci) => ci.key === item.key)) {
