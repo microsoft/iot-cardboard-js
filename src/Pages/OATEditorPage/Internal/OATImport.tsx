@@ -32,12 +32,11 @@ const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
                     const content = await current.text();
                     newItem.content = JSON.parse(content);
                 } catch (error) {
-                    console.log(Error(error));
-                    alert(Error(error));
+                    console.log(error);
+                    alert(error);
                 }
                 items.push(newItem.content);
             }
-            dispatch;
             dispatch({
                 type: SET_OAT_IMPORT_MODELS,
                 payload: items
