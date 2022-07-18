@@ -1,13 +1,15 @@
 import React from 'react';
-import { IDropdownOption, Modal as FluentModal } from '@fluentui/react';
+import { Modal as FluentModal } from '@fluentui/react';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import FormRootModelDetails from './FormRootModelDetails';
-import { FormBody } from './Constants';
 
+export enum FromBody {
+    property = 'Property',
+    enum = 'Enum'
+}
 interface IModal {
     currentNestedPropertyIndex?: number;
     currentPropertyIndex?: number;
@@ -20,7 +22,6 @@ interface IModal {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;
-    languages: IDropdownOption[];
 }
 
 export const Modal = ({
@@ -32,14 +33,14 @@ export const Modal = ({
     setCurrentNestedPropertyIndex,
     setModalBody,
     modalBody,
-    state,
-    languages
+    state
 }: IModal) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     const getModalBody = () => {
         switch (modalBody) {
-            case FormBody.property:
+            case FromBody.property:
+            default:
                 return (
                     <FormUpdateProperty
                         setModalOpen={setModalOpen}
@@ -51,10 +52,9 @@ export const Modal = ({
                         }
                         setModalBody={setModalBody}
                         state={state}
-                        languages={languages}
                     />
                 );
-            case FormBody.enum:
+            case FromBody.enum:
                 return (
                     <FormAddEnumItem
                         setModalOpen={setModalOpen}
@@ -66,21 +66,8 @@ export const Modal = ({
                         }
                         setModalBody={setModalBody}
                         state={state}
-                        languages={languages}
                     />
                 );
-            case FormBody.rootModel:
-                return (
-                    <FormRootModelDetails
-                        setModalOpen={setModalOpen}
-                        dispatch={dispatch}
-                        setModalBody={setModalBody}
-                        state={state}
-                        languages={languages}
-                    />
-                );
-            default:
-                <></>;
         }
     };
 

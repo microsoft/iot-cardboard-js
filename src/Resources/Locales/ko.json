@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "재산",
       "noElementsSelected": "선택한 요소가 없습니다.",
       "noSelectionValue": "없음",
-      "propertyNotFound": "행동의 쌍둥이에서 찾을 수없는 속성"
+      "propertyNotFound": "행동의 쌍둥이에서 찾을 수없는 속성",
+      "propertyDropdownPlaceholder": "트윈 속성 선택"
     },
     "numericExpressionPlaceholder": "숫자로 평가되는 표현식을 입력합니다.",
     "behaviorId": "동작 ID",
     "widgetLibrary": "위젯 라이브러리",
     "exploreWidgets": "위젯을 탐색하고 3D 장면에 추가 정보 레이어를 추가하십시오.",
-    "allWidgets": "모든 위젯",
-    "myWidgets": "내 위젯",
-    "searchWidgets": "위젯 검색",
     "addWidget": "위젯 추가",
     "newWidget": "새로운 위젯",
     "createWidget": "위젯 만들기",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "속성 표현식",
+      "expressionPlaceholder": "속성 표현식 입력",
+      "selectProperty": "속성 선택",
+      "toggleLabel": "속성 표현식"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "패널 위젯",
       "description": "레이아웃 패널"
     },
-    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다."
+    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
+    "value": {
+      "title": "값 위젯",
+      "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
+      "typePlaceholder": "값의 유형을 선택합니다."
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "지난 30분",
@@ -773,7 +782,9 @@
     "redo": "다시",
     "deleteAll": "모두 삭제",
     "folderUpload": "폴더 업로드",
-    "fileUpload": "파일 업로드"
+    "fileUpload": "파일 업로드",
+    "files": "파일",
+    "selectFile": "파일 선택"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

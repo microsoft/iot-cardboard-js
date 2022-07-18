@@ -5,43 +5,45 @@ import {
     getPropertyInspectorStyles,
     getGeneralPropertiesWrapStyles,
     getPropertyEditorTextFieldStyles,
-    geIconWrapFitContentStyles
+    getIconWrapFitContentStyles
 } from './OATPropertyEditor.styles';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { ModelTypes } from '../../Models/Constants/Enums';
 import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy } from '../../Models/Services/Utils';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
+import {
+    deepCopy,
+    getNewModelNewModelsAndNewPositionsFromId
+} from '../../Models/Services/Utils';
+import {
+    SET_OAT_MODELS,
+    SET_OAT_MODELS_POSITIONS,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_SELECTED_MODEL
+} from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-
-type IPropertiesModelSummary = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    isSupportedModelType?: boolean;
-};
+import { getModelPropertyListItemName } from './Utils';
+import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
+import { OATInterfaceType } from '../../Models/Constants/Constants';
 
 export const PropertiesModelSummary = ({
     dispatch,
-    setModalBody,
-    setModalOpen,
+    dispatchPE,
     state,
     isSupportedModelType
-}: IPropertiesModelSummary) => {
+}: PropertiesModelSummaryProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
-    const { model, models } = state;
+    const { model, models, modelPositions } = state;
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const iconWrapStyles = geIconWrapFitContentStyles();
+    const iconWrapStyles = getIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
-    const textFieldStyes = getPropertyEditorTextFieldStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [displayName, setDisplayName] = useState(
-        model && model.displayName ? model.displayName : ''
+        model && model.displayName
+            ? getModelPropertyListItemName(model.displayName)
+            : ''
     );
     const [name, setName] = useState(model ? model.name : '');
     const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
@@ -49,27 +51,55 @@ export const PropertiesModelSummary = ({
     const [nameEditor, setNameEditor] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
     useEffect(() => {
-        setDisplayName(model && model.displayName ? model.displayName : '');
+        setDisplayName(
+            model && model.displayName
+                ? getModelPropertyListItemName(model.displayName)
+                : ''
+        );
         setName(model && model.name ? model.name : '');
         setId(model && model['@id'] ? model['@id'] : '');
     }, [model]);
 
     const onIdCommit = (value) => {
         const commit = () => {
-            const modelCopy = deepCopy(model);
-            modelCopy['@id'] = value;
+            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+                value,
+                model,
+                models,
+                modelPositions
+            );
+
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelData.positions
             });
+
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelData.models
+            });
+
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: modelData.model
+            });
+
             setId(value);
             setIdEditor(false);
         };
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
+            });
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
             });
         };
 
@@ -81,7 +111,7 @@ export const PropertiesModelSummary = ({
             const modelCopy = deepCopy(model);
             modelCopy.displayName = value;
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
             setDisplayName(value);
@@ -90,7 +120,7 @@ export const PropertiesModelSummary = ({
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -103,7 +133,7 @@ export const PropertiesModelSummary = ({
             const modelCopy = deepCopy(model);
             modelCopy.name = value;
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
             setName(value);
@@ -112,7 +142,7 @@ export const PropertiesModelSummary = ({
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -120,19 +150,27 @@ export const PropertiesModelSummary = ({
         execute(commit, undoCommit);
     };
 
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.rootModel
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+    };
+
     return (
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && model['@type'] === ModelTypes.interface && (
+                {model && model['@type'] === OATInterfaceType && (
                     <IconButton
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}
                         title={t('OATPropertyEditor.info')}
-                        onClick={() => {
-                            setModalBody(FormBody.rootModel);
-                            setModalOpen(true);
-                        }}
+                        onClick={onInfoButtonClick}
                     />
                 )}
             </div>
@@ -156,7 +194,7 @@ export const PropertiesModelSummary = ({
                 {idEditor && model && (
                     <OATTextFieldId
                         placeholder={t('id')}
-                        styles={textFieldStyes}
+                        styles={textFieldStyles}
                         disabled={!model}
                         value={isSupportedModelType && id}
                         model={model}
@@ -181,9 +219,12 @@ export const PropertiesModelSummary = ({
                     {nameEditor && model && (
                         <OATTextFieldName
                             placeholder={t('name')}
-                            styles={textFieldStyes}
+                            styles={textFieldStyles}
                             disabled={!model}
-                            value={isSupportedModelType && name}
+                            value={
+                                isSupportedModelType &&
+                                getModelPropertyListItemName(name)
+                            }
                             model={model}
                             models={models}
                             onCommit={onNameCommit}
@@ -204,14 +245,14 @@ export const PropertiesModelSummary = ({
                         }
                         onDoubleClick={() => setDisplayNameEditor(true)}
                     >
-                        {displayName.length > 0
+                        {displayName !== ''
                             ? displayName
                             : t('OATPropertyEditor.displayName')}
                     </Text>
                 )}
                 {displayNameEditor && model && (
                     <OATTextFieldDisplayName
-                        styles={textFieldStyes}
+                        styles={textFieldStyles}
                         borderless
                         placeholder={t('OATPropertyEditor.displayName')}
                         disabled={!model}

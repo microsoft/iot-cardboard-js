@@ -8,24 +8,17 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
-
-interface IModal {
-    resetProject?: () => void;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-}
+import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
+import { ModalSaveCurrentProjectAndClearProps } from './ModalSaveCurrentProjectAndClear.types';
 
 export const ModalSaveCurrentProjectAndClear = ({
     resetProject,
-    setModalOpen,
     setModalBody,
-    state
-}: IModal) => {
+    state,
+    onClose
+}: ModalSaveCurrentProjectAndClearProps) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const promptTextStyles = getPromptTextStyles();
@@ -47,7 +40,6 @@ export const ModalSaveCurrentProjectAndClear = ({
             const project = new ProjectData(
                 modelPositions,
                 models,
-                '',
                 projectName,
                 templates,
                 namespace,
@@ -70,7 +62,7 @@ export const ModalSaveCurrentProjectAndClear = ({
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -91,10 +83,7 @@ export const ModalSaveCurrentProjectAndClear = ({
                     onClick={onDoNotSave}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

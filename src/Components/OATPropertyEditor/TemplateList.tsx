@@ -4,35 +4,25 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TemplateListItem';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES,
-    SET_OAT_CONFIRM_DELETE_OPEN
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { getModelPropertyCollectionName } from './Utils';
 
-interface ITemplateList {
-    draggingTemplate?: boolean;
-    draggingProperty?: boolean;
-    enteredTemplateRef: any;
-    draggedTemplateItemRef: any;
-    enteredPropertyRef: any;
-    setDraggingTemplate?: (dragging: boolean) => boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-}
+import { getModelPropertyCollectionName } from './Utils';
+import { TemplateListProps } from './TemplateList.types';
 
 export const TemplateList = ({
     draggedTemplateItemRef,
     enteredPropertyRef,
     draggingTemplate,
-    setDraggingTemplate,
     enteredTemplateRef,
     draggingProperty,
     dispatch,
+    dispatchPE,
     state
-}: ITemplateList) => {
+}: TemplateListProps) => {
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
@@ -60,7 +50,7 @@ export const TemplateList = ({
             0,
             templates[draggedTemplateItemRef.current]
         );
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_SELECTED_MODEL, payload: newModel });
     };
 
     const onDragEnd = () => {
@@ -70,7 +60,10 @@ export const TemplateList = ({
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
-        setDraggingTemplate(false);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+            payload: false
+        });
         enteredPropertyRef.current = null;
     };
 
@@ -81,11 +74,14 @@ export const TemplateList = ({
         draggedTemplateItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            setDraggingTemplate(true);
+            dispatchPE({
+                type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+                payload: true
+            });
         }, 0);
     };
 
-    const onDragEnter = (e: Event, i: number) => {
+    const onDragEnter = (e: React.DragEvent, i: number) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
@@ -121,7 +117,7 @@ export const TemplateList = ({
     };
 
     const getSchemaText = (itemSchema: string) => {
-        if (typeof itemSchema === 'object') {
+        if (typeof itemSchema === 'object' && itemSchema) {
             return itemSchema['@type'];
         }
 
@@ -159,7 +155,7 @@ export const TemplateList = ({
             const newModel = deepCopy(model);
             newModel[propertiesKeyName].push(item);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         }

@@ -8,8 +8,7 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption,
-    IDropdownOption
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -19,11 +18,9 @@ import {
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS_METADATA
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     deepCopy,
     getDirectoryPathFromDTMI,
@@ -38,29 +35,22 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getModelPropertyListItemName
 } from './Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { ModalFormRootModelProps } from './FormRootModelDetails.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    languages: IDropdownOption[];
-}
-
-export const FormUpdateProperty = ({
+export const FormRootModelDetails = ({
     dispatch,
-    setModalOpen,
-    setModalBody,
+    onClose,
     state,
     languages
-}: IModal) => {
+}: ModalFormRootModelProps) => {
     const { execute } = useContext(CommandHistoryContext);
     const { model, models, modelsMetadata } = state;
     const { t } = useTranslation();
@@ -191,25 +181,19 @@ export const FormUpdateProperty = ({
                     ? multiLanguageSelectionsDescription
                     : model.description;
             modelCopy['@id'] = id ? id : model['@id'];
-            modelCopy.fileName = fileName ? fileName : model.fileName;
-            modelCopy.directoryPath = directoryPath
-                ? directoryPath
-                : model.directoryPath;
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
 
             updateMetadata();
-
-            setModalBody(null);
-            setModalOpen(false);
+            onClose();
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
 
@@ -299,13 +283,11 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model && model.displayName
-                        ? typeof model.displayName === 'string'
-                            ? model.displayName
-                            : Object.values(model.displayName)[0]
-                        : ''}
+                    {model &&
+                        model.displayName &&
+                        getModelPropertyListItemName(model.displayName)}
                 </Label>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -325,9 +307,7 @@ export const FormUpdateProperty = ({
                     model={model}
                     models={models}
                     modalFormCommit
-                    onCommit={(value) => {
-                        setId(value);
-                    }}
+                    onCommit={setId}
                 />
             </div>
 
@@ -361,7 +341,7 @@ export const FormUpdateProperty = ({
                                 ? t('OATPropertyEditor.errorDisplayName')
                                 : ''
                         }
-                        value={displayName}
+                        value={getModelPropertyListItemName(displayName)}
                     />
                 </div>
             )}
@@ -405,7 +385,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDisplayName
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.displayName')}
@@ -490,7 +470,7 @@ export const FormUpdateProperty = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolderDescription'
                         )}
-                        value={description}
+                        value={getModelPropertyListItemName(description)}
                         onChange={(_ev, value) =>
                             validateDescriptionChange(
                                 value,
@@ -546,7 +526,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDescription
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.description')}
@@ -664,11 +644,11 @@ export const FormUpdateProperty = ({
                 <PrimaryButton
                     text={t('OATPropertyEditor.cancel')}
                     allowDisabledFocus
-                    onClick={() => setModalOpen(false)}
+                    onClick={onClose}
                 />
             </div>
         </>
     );
 };
 
-export default FormUpdateProperty;
+export default FormRootModelDetails;

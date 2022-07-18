@@ -2,14 +2,7 @@ import React from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
-
-type ImportSubMenu = {
-    setSubMenuActive: React.Dispatch<React.SetStateAction<boolean>>;
-    subMenuActive?: boolean;
-    targetId?: string;
-    uploadFile?: () => void;
-    uploadFolder?: () => void;
-};
+import { ImportSubMenuProps } from './ImportSubMenu.types';
 
 export const ImportSubMenu = ({
     setSubMenuActive,
@@ -17,7 +10,7 @@ export const ImportSubMenu = ({
     targetId,
     uploadFile,
     uploadFolder
-}: ImportSubMenu) => {
+}: ImportSubMenuProps) => {
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
@@ -64,12 +57,3 @@ export const ImportSubMenu = ({
 };
 
 export default ImportSubMenu;
-
-ImportSubMenu.defaultProps = {
-    onUploadFile: () => {
-        // Empty
-    },
-    onUploadFolder: () => {
-        // Empty
-    }
-};

@@ -3,21 +3,7 @@ import { Text, IconButton } from '@fluentui/react';
 import { getPropertyListItemIconWrapMoreStyles } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
-interface ITemplateListItemList {
-    draggingTemplate?: boolean;
-    item?: DTDLProperty;
-    index: number;
-    deleteItem?: (index: number) => void;
-    getDragItemClassName?: (index: number) => void;
-    onDragEnter?: (event: any, index: number) => void;
-    onDragEnterExternalItem?: (index: number) => void;
-    onDragStart?: (event: any, index: number) => void;
-    onPropertyListAddition?: (item: DTDLProperty) => void;
-    onMove?: (index: number, moveUp: boolean) => void;
-    getSchemaText?: (schema: any) => string;
-    templatesLength?: number;
-}
+import { TemplateListItemListProps } from './TemplateListItem.types';
 
 export const TemplateListItem = ({
     draggingTemplate,
@@ -32,7 +18,7 @@ export const TemplateListItem = ({
     onPropertyListAddition,
     getSchemaText,
     templatesLength
-}: ITemplateListItemList) => {
+}: TemplateListItemListProps) => {
     const { t } = useTranslation();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);

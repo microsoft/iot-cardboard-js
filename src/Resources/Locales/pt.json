@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Propriedade",
       "noElementsSelected": "Nenhum elemento selecionado",
       "noSelectionValue": "Nenhum",
-      "propertyNotFound": "Propriedade não encontrada nos gêmeos do comportamento"
+      "propertyNotFound": "Propriedade não encontrada nos gêmeos do comportamento",
+      "propertyDropdownPlaceholder": "Selecione propriedade dupla"
     },
     "numericExpressionPlaceholder": "Digite uma expressão que avalia para um número",
     "behaviorId": "ID de comportamento",
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore nossos widgets e adicione uma camada extra de informações à sua cena 3D.",
-    "allWidgets": "Todos os widgets",
-    "myWidgets": "Meus widgets",
-    "searchWidgets": "Pesquisar widgets",
     "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expressão de propriedade",
+      "expressionPlaceholder": "Digite a expressão da propriedade",
+      "selectProperty": "Selecione a propriedade",
+      "toggleLabel": "Expressão de propriedade"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widget do painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é suportado atualmente"
+    "notSupported": "Este tipo de widget não é suportado atualmente",
+    "value": {
+      "title": "Widget de valor",
+      "description": "Widget básico para mostrar valores de propriedades gêmeas",
+      "typePlaceholder": "Selecione o tipo para o valor"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
@@ -773,7 +782,9 @@
     "redo": "Refazer",
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
-    "fileUpload": "Upload de arquivo"
+    "fileUpload": "Upload de arquivo",
+    "files": "Limas",
+    "selectFile": "Selecione arquivo"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

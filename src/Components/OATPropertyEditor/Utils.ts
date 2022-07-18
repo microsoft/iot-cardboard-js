@@ -1,22 +1,25 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { ModelTypes, MultiLanguageSelectionType } from '../../Models/Constants';
+import { MultiLanguageSelectionType } from '../../Models/Constants';
 import {
     DTMIRegex,
     OATCommentLengthLimit,
     OATDescriptionLengthLimit,
     OATDisplayNameLengthLimit,
-    OATIdLengthLimit
+    OATIdLengthLimit,
+    OATRelationshipHandleName
 } from '../../Models/Constants/Constants';
 
 /* Returns property collection attribute name depending on model type */
 export const getModelPropertyCollectionName = (type: string) => {
-    if (type && type === ModelTypes.relationship) {
+    if (type && type === OATRelationshipHandleName) {
         return 'properties';
     }
     return 'contents';
 };
 
-export const getModelPropertyListItemName = (name) => {
+export const getModelPropertyListItemName = (
+    name: string | Record<string, any>
+): string => {
     if (name && typeof name === 'string') {
         return name;
     } else if (name) {
@@ -25,7 +28,7 @@ export const getModelPropertyListItemName = (name) => {
     return '';
 };
 
-export const isDisplayNameDefined = (name) => {
+export const isDisplayNameDefined = (name: string | Record<string, any>) => {
     return (
         (name && typeof name === 'string' && name.length > 0) ||
         (name && Object.values(name)[0].length > 0)
@@ -41,7 +44,7 @@ export const getPropertyDisplayName = (property: DTDLProperty) => {
 
 /*  Handles language selection change on forms (DisplayName - Key - Dropdown) */
 export const setMultiLanguageSelectionsDisplayNameKey = (
-    value: string,
+    value: string | number,
     index: number = null,
     multiLanguageSelectionsDisplayName: any,
     setMultiLanguageSelectionsDisplayName: React.Dispatch<
@@ -94,7 +97,7 @@ export const setMultiLanguageSelectionsDisplayNameValue = (
 
 /*  Handles language selection change on forms (Description - Key - Dropdown) */
 export const setMultiLanguageSelectionsDescriptionKey = (
-    value: string,
+    value: string | number,
     index: number = null,
     multiLanguageSelectionsDescription: any,
     setMultiLanguageSelectionsDescription: React.Dispatch<

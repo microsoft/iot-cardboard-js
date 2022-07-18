@@ -11,38 +11,19 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
 import { FormBody } from './Constants';
-
-type IPropertyListItem = {
-    index?: number;
-    deleteItem?: (index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    draggingProperty?: boolean;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string, index?: number) => string;
-    onMove?: (index: number, moveUp: boolean) => void;
-    propertiesLength?: number;
-    onPropertyDisplayNameChange?: (value: string, index?: number) => void;
-    onDragEnter?: (event: any, item: any) => any;
-    onDragEnterExternalItem?: (index: number) => any;
-    onDragStart?: (event: any, item: any) => any;
-    item?: DTDLProperty;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-};
+import { PropertyListItemProps } from './PropertyListItem.types';
 
 export const PropertyListItem = ({
     index,
@@ -56,13 +37,11 @@ export const PropertyListItem = ({
     onPropertyDisplayNameChange,
     onMove,
     propertiesLength,
-    setCurrentPropertyIndex,
-    setModalOpen,
     item,
     setLastPropertyFocused,
-    setModalBody,
-    state
-}: IPropertyListItem) => {
+    state,
+    dispatchPE
+}: PropertyListItemProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -109,19 +88,42 @@ export const PropertyListItem = ({
             const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName].push(itemCopy);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoDuplicate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(duplicate, undoDuplicate);
+    };
+
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+    };
+
+    const onDisplayNameChange = (value) => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        onPropertyDisplayNameChange(value, index);
     };
 
     return (
@@ -167,8 +169,7 @@ export const PropertyListItem = ({
                         )}
                         validateOnFocusOut
                         onChange={(evt, value) => {
-                            setCurrentPropertyIndex(index);
-                            onPropertyDisplayNameChange(value, index);
+                            onDisplayNameChange(value);
                         }}
                         onBlur={() => setDisplayNameEditor(false)}
                         styles={textFieldStyles}
@@ -179,11 +180,7 @@ export const PropertyListItem = ({
                     styles={iconWrapStyles}
                     iconProps={{ iconName: 'info' }}
                     title={t('OATPropertyEditor.info')}
-                    onClick={() => {
-                        setCurrentPropertyIndex(index);
-                        setModalBody(FormBody.property);
-                        setModalOpen(true);
-                    }}
+                    onClick={onInfoButtonClick}
                 />
                 <IconButton
                     styles={iconWrapMoreStyles}

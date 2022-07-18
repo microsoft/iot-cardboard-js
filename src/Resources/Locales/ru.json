@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Свойство",
       "noElementsSelected": "Элементы не выбраны",
       "noSelectionValue": "Никакой",
-      "propertyNotFound": "Свойство, не найденное у близнецов поведения"
+      "propertyNotFound": "Свойство, не найденное у близнецов поведения",
+      "propertyDropdownPlaceholder": "Выберите двухместную недвижимость"
     },
     "numericExpressionPlaceholder": "Введите выражение, вычисляющее число",
     "behaviorId": "Идентификатор поведения",
     "widgetLibrary": "Библиотека виджетов",
     "exploreWidgets": "Изучите наши виджеты и добавьте дополнительный слой информации в свою 3D-сцену.",
-    "allWidgets": "Все виджеты",
-    "myWidgets": "Мои виджеты",
-    "searchWidgets": "Виджеты поиска",
     "addWidget": "Добавить виджет",
     "newWidget": "Новый виджет",
     "createWidget": "Создать виджет",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Двойной псевдоним с таким же именем уже существует, рассмотрите возможность его добавления."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Выражение свойства",
+      "expressionPlaceholder": "Введите выражение свойства",
+      "selectProperty": "Выберите недвижимость",
+      "toggleLabel": "Выражение свойства"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Виджет панели",
       "description": "Панель макета"
     },
-    "notSupported": "Этот тип виджета в настоящее время не поддерживается"
+    "notSupported": "Этот тип виджета в настоящее время не поддерживается",
+    "value": {
+      "title": "Виджет значения",
+      "description": "Базовый виджет для отображения значений свойств близнецов",
+      "typePlaceholder": "Выберите тип значения"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Последние 30 минут",
@@ -773,7 +782,9 @@
     "redo": "Повторить",
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
-    "fileUpload": "Загрузка файла"
+    "fileUpload": "Загрузка файла",
+    "files": "Файлы",
+    "selectFile": "Выберите файл"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

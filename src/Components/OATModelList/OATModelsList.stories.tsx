@@ -1,6 +1,8 @@
 import React, { useReducer } from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATModelList from './OATModelList';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
 import {
     OATGraphViewerReducer,
     defaultOATEditorState
@@ -11,50 +13,19 @@ export default {
     component: OATModelList
 };
 
-export const Default = (_args, { globals: { theme } }) => {
-    const [dispatch] = useReducer(OATGraphViewerReducer, defaultOATEditorState);
+export const Default = (_args, { globals: { theme, locale } }) => {
+    const [state, dispatch] = useReducer(
+        OATGraphViewerReducer,
+        defaultOATEditorState
+    );
 
-    const elementHandler = [
-        {
-            '@id': 'dtmi:com:example:model0;1',
-            '@type': 'Interface',
-            displayName: 'Model0',
-            contents: [
-                {
-                    '@type': 'Relationship',
-                    '@id':
-                        'dtmi:com:example:model0;1Relationshipdtmi:com:example:model1;1_model1;1',
-                    name: 'relationship1',
-                    displayName: '',
-                    target: 'dtmi:com:example:model1;1'
-                },
-                {
-                    '@type': 'Relationship',
-                    '@id':
-                        'dtmi:com:example:model0;1Relationshipdtmi:com:example:model2;1_model2;1',
-                    name: 'relationship2',
-                    displayName: '',
-                    target: 'dtmi:com:example:model2;1'
-                }
-            ]
-        },
-        {
-            '@id': 'dtmi:com:example:model1;1',
-            '@type': 'Interface',
-            displayName: 'Model1',
-            contents: []
-        },
-        {
-            '@id': 'dtmi:com:example:model2;1',
-            '@type': 'Interface',
-            displayName: 'Model2',
-            contents: []
-        }
-    ];
+    const providerValue = useCommandHistory([]);
 
     return (
-        <BaseComponent theme={theme}>
-            <OATModelList elements={elementHandler} dispatch={dispatch} />
+        <BaseComponent theme={theme} locale={locale}>
+            <CommandHistoryContext.Provider value={providerValue}>
+                <OATModelList state={state} dispatch={dispatch} />
+            </CommandHistoryContext.Provider>
         </BaseComponent>
     );
 };

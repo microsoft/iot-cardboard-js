@@ -8,8 +8,7 @@ import {
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption,
-    IDropdownOption
+    IChoiceGroupOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -19,10 +18,8 @@ import {
     getRadioGroupRowStyles,
     getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
+import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
@@ -41,32 +38,20 @@ import {
     OATNameLengthLimit
 } from '../../Models/Constants/Constants';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { ModalFormAddEnumItemProps } from './FormAddEnumItem.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: number;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    languages: IDropdownOption[];
-}
-
 export const FormAddEnumItem = ({
     dispatch,
-    setModalOpen,
-    currentPropertyIndex,
-    setModalBody,
+    onClose,
     state,
-    languages
-}: IModal) => {
+    languages,
+    statePE
+}: ModalFormAddEnumItemProps) => {
     const { t } = useTranslation();
+    const { currentPropertyIndex } = statePE;
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -165,17 +150,14 @@ export const FormAddEnumItem = ({
 
     const onAddEnumValue = () => {
         const update = () => {
-            const activeItem =
-                model[propertiesKeyName][currentPropertyIndex].schema
-                    .enumValues;
             const prop = {
                 '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
-                name: name ? name : activeItem.name,
+                name: name ? name : '',
                 description:
                     languageSelectionDescription === singleLanguageOptionValue
                         ? description
                             ? description
-                            : activeItem.description
+                            : ''
                         : multiLanguageSelectionsDescription,
                 displayName:
                     languageSelection === singleLanguageOptionValue
@@ -183,8 +165,8 @@ export const FormAddEnumItem = ({
                             ? displayName
                             : 'enum_item'
                         : multiLanguageSelectionsDisplayName,
-                enumValue: enumValue ? enumValue : activeItem.enumValue,
-                comment: comment ? comment : activeItem.comment
+                enumValue: enumValue ? enumValue : '',
+                comment: comment ? comment : ''
             };
 
             const modelCopy = deepCopy(model);
@@ -193,22 +175,21 @@ export const FormAddEnumItem = ({
             ].schema.enumValues.push(prop);
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(update, undoUpdate);
 
-        setModalOpen(false);
-        setModalBody(null);
+        onClose();
     };
 
     const getErrorMessage = (value: string) => {
@@ -295,7 +276,7 @@ export const FormAddEnumItem = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>{t('OATPropertyEditor.addEnumValue')}</Label>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -382,7 +363,7 @@ export const FormAddEnumItem = ({
                                     setMultiLanguageSelectionsDisplayName
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.displayName')}
@@ -523,7 +504,7 @@ export const FormAddEnumItem = ({
                                     setMultiLanguageSelectionsDescription
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.description')}

@@ -2,6 +2,7 @@ import { IADTBackgroundColor, IADTObjectColor } from '../Constants';
 import {
     defaultGaugeWidget,
     defaultLinkWidget,
+    defaultValueWidget,
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
@@ -104,6 +105,12 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         description: i18n.t('widgets.link.description'),
         iconName: 'Link',
         data: defaultLinkWidget
+    },
+    {
+        title: i18n.t('widgets.value.title'),
+        description: i18n.t('widgets.value.description'),
+        iconName: 'NumberField',
+        data: defaultValueWidget
     }
 ];
 

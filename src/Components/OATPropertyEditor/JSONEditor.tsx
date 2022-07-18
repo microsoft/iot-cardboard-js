@@ -1,15 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import Editor from '@monaco-editor/react';
-import { ModelTypes, Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODIFIED,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
-import { IAction, IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
@@ -17,18 +15,14 @@ import {
 } from './OATPropertyEditor.styles';
 import { parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-
-type JSONEditorProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    theme?: Theme;
-    state?: IOATEditorState;
-};
+import { JSONEditorProps } from './JSONEditor.types';
+import { OATRelationshipHandleName } from '../../Models/Constants';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
-    const themeToUse = (libTheme || theme) ?? Theme.Light;
+    const themeToUse = libTheme || theme;
     const editorRef = useRef(null);
     const { model, models } = state;
     const [content, setContent] = useState(null);
@@ -82,7 +76,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     };
 
     const checkDuplicateId = (modelValue: IOATTwinModelNodes) => {
-        if (modelValue['@type'] === ModelTypes.relationship) {
+        if (modelValue['@type'] === OATRelationshipHandleName) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>
                     queryModel.contents &&
@@ -110,7 +104,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
         const save = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
@@ -118,7 +112,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
         const undoSave = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };

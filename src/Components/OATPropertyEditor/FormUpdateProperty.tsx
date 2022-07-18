@@ -21,9 +21,10 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_SELECTED_MODEL
+} from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
@@ -39,32 +40,18 @@ import {
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue
 } from './Utils';
+import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    currentPropertyIndex?: number;
-    currentNestedPropertyIndex?: number;
-    setCurrentNestedPropertyIndex?: React.Dispatch<
-        React.SetStateAction<number>
-    >;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    languages: IChoiceGroupOption[];
-}
-
 export const FormUpdateProperty = ({
     dispatch,
-    setModalOpen,
-    currentPropertyIndex,
-    currentNestedPropertyIndex,
-    setCurrentNestedPropertyIndex,
-    setModalBody,
+    dispatchPE,
     state,
-    languages
-}: IModal) => {
+    languages,
+    onClose,
+    statePE
+}: FormUpdatePropertyProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -72,6 +59,7 @@ export const FormUpdateProperty = ({
     const columnLeftTextStyles = getModalLabelStyles();
 
     const { model } = state;
+    const { currentPropertyIndex, currentNestedPropertyIndex } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -221,23 +209,25 @@ export const FormUpdateProperty = ({
             ] = prop;
 
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(update, undoUpdate);
 
-        setModalOpen(false);
-        setModalBody(null);
-        setCurrentNestedPropertyIndex(null);
+        onClose();
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: null
+        });
     };
 
     const onUpdateProperty = () => {
@@ -275,22 +265,21 @@ export const FormUpdateProperty = ({
             const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: modelCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
 
         execute(update, undoUpdate);
 
-        setModalOpen(false);
-        setModalBody(null);
+        onClose();
     };
 
     useEffect(() => {
@@ -359,7 +348,7 @@ export const FormUpdateProperty = ({
                             : Object.values(model.displayName)[0]
                         : t('OATPropertyEditor.property')}
                 </Label>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
                         className={
@@ -446,7 +435,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDisplayName
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.displayName')}
@@ -585,7 +574,7 @@ export const FormUpdateProperty = ({
                                     setMultiLanguageSelectionsDescription
                                 )
                             }
-                            value={language.key}
+                            defaultSelectedKey={language.key}
                         />
                         <TextField
                             placeholder={t('OATPropertyEditor.description')}

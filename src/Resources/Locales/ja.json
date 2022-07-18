@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "財産",
       "noElementsSelected": "要素が選択されていません",
       "noSelectionValue": "何一つ",
-      "propertyNotFound": "プロパティが動作の双子に見つかりません"
+      "propertyNotFound": "プロパティが動作の双子に見つかりません",
+      "propertyDropdownPlaceholder": "ツインプロパティの選択"
     },
     "numericExpressionPlaceholder": "数値に評価される式を入力します。",
     "behaviorId": "動作 ID",
     "widgetLibrary": "ウィジェットライブラリ",
     "exploreWidgets": "ウィジェットを探索し、3Dシーンに情報のレイヤーを追加します。",
-    "allWidgets": "すべてのウィジェット",
-    "myWidgets": "マイウィジェット",
-    "searchWidgets": "検索ウィジェット",
     "addWidget": "ウィジェットの追加",
     "newWidget": "新しいウィジェット",
     "createWidget": "ウィジェットの作成",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "プロパティ式",
+      "expressionPlaceholder": "プロパティ式を入力",
+      "selectProperty": "プロパティの選択",
+      "toggleLabel": "プロパティ式"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "パネルウィジェット",
       "description": "レイアウトパネル"
     },
-    "notSupported": "このウィジェットの種類は現在サポートされていません"
+    "notSupported": "このウィジェットの種類は現在サポートされていません",
+    "value": {
+      "title": "値ウィジェット",
+      "description": "ツインプロパティの値を表示するための基本ウィジェット",
+      "typePlaceholder": "値のタイプを選択します。"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "最後の30分",
@@ -773,7 +782,9 @@
     "redo": "やり直す",
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
-    "fileUpload": "ファイルのアップロード"
+    "fileUpload": "ファイルのアップロード",
+    "files": "ファイル",
+    "selectFile": "ファイルの選択"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

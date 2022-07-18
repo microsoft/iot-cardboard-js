@@ -8,24 +8,16 @@ import {
     Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_NAMESPACE } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    state?: IOATEditorState;
-}
+import { FormSettingsProps } from './FormSettings.types';
 
 export const FormSettings = ({
-    setModalOpen,
     dispatch,
     setModalBody,
+    onClose,
     state
-}: IModal) => {
+}: FormSettingsProps) => {
     const { t } = useTranslation();
     const [namespace, setNamespace] = useState(state.namespace);
     const [namespaceError, setNamespaceError] = useState(false);
@@ -51,13 +43,13 @@ export const FormSettings = ({
             payload: namespace
         });
         setModalBody(null);
-        setModalOpen(false);
+        onClose();
     };
 
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -81,10 +73,7 @@ export const FormSettings = ({
                     disabled={namespaceError}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

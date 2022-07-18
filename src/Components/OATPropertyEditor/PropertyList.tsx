@@ -10,49 +10,26 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { DTDLProperty, IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     getModelPropertyCollectionName,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
-
-type IPropertyList = {
-    currentPropertyIndex: number;
-    draggingProperty: boolean;
-    draggingTemplate: boolean;
-    enteredPropertyRef: any;
-    enteredTemplateRef: any;
-    isSupportedModelType: boolean;
-    propertyList?: DTDLProperty[];
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setDraggingProperty: React.Dispatch<React.SetStateAction<boolean>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-};
+import { PropertyListProps } from './PropertyList.types';
 
 export const PropertyList = ({
-    setCurrentPropertyIndex,
-    setModalOpen,
     enteredPropertyRef,
-    draggingTemplate,
     enteredTemplateRef,
-    draggingProperty,
-    setDraggingProperty,
-    setCurrentNestedPropertyIndex,
-    setModalBody,
-    currentPropertyIndex,
     dispatch,
+    dispatchPE,
     state,
+    statePE,
     propertyList,
     isSupportedModelType
-}: IPropertyList) => {
+}: PropertyListProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -75,6 +52,11 @@ export const PropertyList = ({
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
     const { model, templates } = state;
+    const {
+        currentPropertyIndex,
+        draggingTemplate,
+        draggingProperty
+    } = statePE;
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -105,7 +87,7 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: newModel
         });
 
@@ -113,7 +95,10 @@ export const PropertyList = ({
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
-        setDraggingProperty(false);
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+            payload: false
+        });
         enteredTemplateRef.current = null;
     };
 
@@ -131,7 +116,10 @@ export const PropertyList = ({
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            setDraggingProperty(true);
+            dispatchPE({
+                type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+                payload: true
+            });
         }, 0);
     };
 
@@ -170,14 +158,14 @@ export const PropertyList = ({
                 newModel[propertiesKeyName][index].displayName = value;
             }
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -209,7 +197,7 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                    type: SET_OAT_SELECTED_MODEL,
                     payload: newModel
                 });
             };
@@ -221,7 +209,7 @@ export const PropertyList = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -275,14 +263,14 @@ export const PropertyList = ({
             newModel[propertiesKeyName].splice(index, 1);
             newModel[propertiesKeyName].splice(index + direction, 0, item);
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: newModel
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -349,17 +337,9 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
                                 item={item}
                                 lastPropertyFocused={lastPropertyFocused}
                                 setLastPropertyFocused={setLastPropertyFocused}
-                                setCurrentNestedPropertyIndex={
-                                    setCurrentNestedPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
-                                setModalBody={setModalBody}
                                 dispatch={dispatch}
                                 state={state}
                                 deleteItem={deleteItem}
@@ -376,6 +356,7 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
+                                dispatchPE={dispatchPE}
                             />
                         );
                     } else if (typeof item['@type'] === 'object') {
@@ -394,13 +375,8 @@ export const PropertyList = ({
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                setCurrentPropertyIndex={
-                                    setCurrentPropertyIndex
-                                }
-                                setModalOpen={setModalOpen}
                                 item={item}
                                 setLastPropertyFocused={setLastPropertyFocused}
-                                setModalBody={setModalBody}
                                 deleteItem={deleteItem}
                                 dispatch={dispatch}
                                 state={state}
@@ -408,6 +384,7 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
+                                dispatchPE={dispatchPE}
                             />
                         );
                     }
@@ -423,14 +400,7 @@ export const PropertyList = ({
                     }}
                 >
                     {model && model[propertiesKeyName].length > 0 && (
-                        <AddPropertyBar
-                            onMouseOver={(e) => {
-                                onPropertyBarMouseOver(e);
-                            }}
-                            onClick={(e) => {
-                                onPropertyBarMouseOver(e);
-                            }}
-                        />
+                        <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
                     )}
                 </div>
             )}

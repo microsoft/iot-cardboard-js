@@ -11,15 +11,15 @@ import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { loadFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
+import { loadFiles } from '../../../Models/Services/Utils';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
+    onClose?: () => void;
 }
 
-export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
+export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
     const [selectedFile, setSelectedFile] = useState(null);
@@ -28,7 +28,6 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
         const projectToOpen = new ProjectData(
             selectedFile.key.modelPositions,
             selectedFile.key.models,
-            '',
             selectedFile.key.projectName,
             selectedFile.key.templates,
             selectedFile.key.namespace,
@@ -39,7 +38,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
             payload: projectToOpen
         });
 
-        setModalOpen(false);
+        onClose();
         setModalBody(null);
     };
 
@@ -60,15 +59,15 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
 
             <div className={headerStyles.modalRow}>
-                <Text>Select file:</Text>
+                <Text>{`${t('OATHeader.Select file')}:`}</Text>
                 <Dropdown
-                    placeholder="Files"
+                    placeholder={t('OATHeader.files')}
                     options={getFormatFilesToDropDownOptions()}
                     onChange={(_ev, option) => setSelectedFile(option)}
                 />
@@ -81,10 +80,7 @@ export const FormOpen = ({ dispatch, setModalOpen, setModalBody }: IModal) => {
                     disabled={!selectedFile}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

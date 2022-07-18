@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
@@ -9,33 +10,20 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName
 } from './Utils';
 import { FormBody } from './Constants';
-
-type IPropertyListItemNested = {
-    collectionLength?: number;
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string) => string;
-    index?: number;
-    item?: DTDLProperty;
-    onMove?: (index: number, moveUp: boolean) => void;
-    parentIndex?: number;
-    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-};
+import { PropertyListItemNestedProps } from './PropertyListItemNested.types';
 
 export const PropertyListItemNested = ({
     collectionLength,
@@ -47,13 +35,11 @@ export const PropertyListItemNested = ({
     item,
     onMove,
     parentIndex,
-    setCurrentNestedPropertyIndex,
-    setCurrentPropertyIndex,
-    setModalBody,
-    setModalOpen,
-    state
-}: IPropertyListItemNested) => {
+    state,
+    dispatchPE
+}: PropertyListItemNestedProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
@@ -65,26 +51,71 @@ export const PropertyListItemNested = ({
         model ? model['@type'] : null
     );
 
-    const handleDuplicate = () => {
-        const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-        itemCopy.displayName = `${itemCopy.displayName}_${t(
-            'OATPropertyEditor.copy'
-        )}`;
-        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
+    const onDuplicate = () => {
+        const duplicate = () => {
+            const itemCopy = deepCopy(item);
+            itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+            itemCopy.displayName = `${itemCopy.displayName}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
+            itemCopy['@id'] = `${itemCopy['@id']}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
 
-        const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName][parentIndex].schema.fields.push(itemCopy);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+            const modelCopy = deepCopy(model);
+            modelCopy[propertiesKeyName][parentIndex].schema.fields.push(
+                itemCopy
+            );
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: modelCopy
+            });
+        };
+
+        const undoDuplicate = () => {
+            dispatch({
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
+            });
+        };
+
+        execute(duplicate, undoDuplicate);
     };
 
-    const handleTemplateAddition = () => {
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: [...templates.item]
+    const onTemplateAddition = () => {
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
+    };
+
+    const onInfoButtonClick = () => {
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: parentIndex
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatchPE({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
         });
     };
 
@@ -106,7 +137,10 @@ export const PropertyListItemNested = ({
                     placeholder={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={() => {
-                        setCurrentPropertyIndex(parentIndex);
+                        dispatchPE({
+                            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+                            payload: parentIndex
+                        });
                     }}
                     onBlur={() => setDisplayNameEditor(false)}
                     onGetErrorMessage={getErrorMessage}
@@ -117,12 +151,7 @@ export const PropertyListItemNested = ({
                 styles={iconWrapStyles}
                 iconProps={{ iconName: 'info' }}
                 title={t('OATPropertyEditor.info')}
-                onClick={() => {
-                    setCurrentNestedPropertyIndex(index);
-                    setCurrentPropertyIndex(parentIndex);
-                    setModalBody(FormBody.property);
-                    setModalOpen(true);
-                }}
+                onClick={onInfoButtonClick}
             />
             <IconButton
                 styles={iconWrapMoreStyles}
@@ -136,11 +165,11 @@ export const PropertyListItemNested = ({
                         index={index}
                         parentIndex={parentIndex}
                         subMenuActive={subMenuActive}
-                        handleTemplateAddition={() => {
-                            handleTemplateAddition();
+                        onTemplateAddition={() => {
+                            onTemplateAddition();
                         }}
-                        handleDuplicate={() => {
-                            handleDuplicate();
+                        onDuplicate={() => {
+                            onDuplicate();
                         }}
                         targetId={getModelPropertyListItemName(item.name)}
                         setSubMenuActive={setSubMenuActive}

@@ -6,15 +6,15 @@ import { getEditorPageStyles } from '../OATEditorPage.Styles';
 import { IOATEditorState } from '../OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 
-interface IOATErrorHandlingWrapperProps {
+interface IOATErrorHandlingModalProps {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     state: IOATEditorState;
 }
 
-const OATErrorHandlingWrapper = ({
+const OATErrorHandlingModal = ({
     state,
     dispatch
-}: IOATErrorHandlingWrapperProps) => {
+}: IOATErrorHandlingModalProps) => {
     const { t } = useTranslation();
     const editorPageStyles = getEditorPageStyles();
     const { error } = state;
@@ -65,4 +65,4 @@ const OATErrorHandlingWrapper = ({
     return <Modal isOpen={!!error}>{getComponentContent()}</Modal>;
 };
 
-export default OATErrorHandlingWrapper;
+export default OATErrorHandlingModal;

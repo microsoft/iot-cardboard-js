@@ -3,25 +3,11 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
-    IOATTwinModelNodes,
-    ModelTypes,
-    OATNameLengthLimit
+    OATNameLengthLimit,
+    OATRelationshipHandleName
 } from '../../../../Models/Constants';
-import { IOATEditorState } from '../../OATEditorPage.types';
-
-type IOATTexField = {
-    autoFocus?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    value: string;
-    onCommit?: (value: string) => void;
-    placeholder?: string;
-    state?: IOATEditorState;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    styles?: React.CSSProperties;
-    model: IOATTwinModelNodes;
-    models: IOATTwinModelNodes[];
-};
+import { getModelPropertyListItemName } from '../../../../Components/OATPropertyEditor/Utils';
+import { OATTextFieldNameProps } from './OATTextFieldName.types';
 
 const OATTextFieldName = ({
     autoFocus,
@@ -33,7 +19,7 @@ const OATTextFieldName = ({
     styles,
     model,
     models
-}: IOATTexField) => {
+}: OATTextFieldNameProps) => {
     const { t } = useTranslation();
     const [nameLengthError, setNameLengthError] = useState(false);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
@@ -52,7 +38,7 @@ const OATTextFieldName = ({
 
     useEffect(() => {
         if (model && model.name) {
-            setTemporaryName(model.name);
+            setTemporaryName(getModelPropertyListItemName(model.name));
         }
     }, [model]);
 
@@ -66,7 +52,7 @@ const OATTextFieldName = ({
                 setNameValidCharactersError(null);
                 // Check for duplicate name
                 // If model is a relationship, check if name is duplicate to any other relationship
-                if (model['@type'] === ModelTypes.relationship) {
+                if (model['@type'] === OATRelationshipHandleName) {
                     const repeatedNameOnRelationship = models.find(
                         (queryModel) =>
                             queryModel.contents &&
@@ -117,12 +103,14 @@ const OATTextFieldName = ({
             setNameValidCharactersError(false);
             setNameLengthError(false);
         }
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
     };
 
-    const onKeyDown = (event: Event) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
-            document.activeElement.blur();
+            onCommitChange();
         }
         if (event.key === 'Escape' || event.key === 'Tab') {
             setTemporaryName(originalValue);
@@ -136,7 +124,7 @@ const OATTextFieldName = ({
                 ? t('OATPropertyEditor.errorNameLength')
                 : nameValidCharactersError
                 ? t('OATPropertyEditor.errorName')
-                : model['@type'] === ModelTypes.relationship
+                : model['@type'] === OATRelationshipHandleName
                 ? nameDuplicateRelationshipError
                     ? t('OATPropertyEditor.errorRepeatedEdgeName')
                     : ''

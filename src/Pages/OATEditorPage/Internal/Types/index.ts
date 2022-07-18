@@ -1,4 +1,6 @@
 export type Position = {
+    position?: any;
+    id?: string;
     x: number;
     y: number;
 };

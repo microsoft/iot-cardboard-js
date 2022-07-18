@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Propriété",
       "noElementsSelected": "Aucun élément sélectionné",
       "noSelectionValue": "Aucun",
-      "propertyNotFound": "Propriété introuvable sur les jumeaux du comportement"
+      "propertyNotFound": "Propriété introuvable sur les jumeaux du comportement",
+      "propertyDropdownPlaceholder": "Sélectionner une propriété jumelle"
     },
     "numericExpressionPlaceholder": "Entrez une expression qui s’évalue à un nombre",
     "behaviorId": "ID de comportement",
     "widgetLibrary": "Bibliothèque de widgets",
     "exploreWidgets": "Explorez nos widgets et ajoutez une couche supplémentaire d’informations à votre scène 3D.",
-    "allWidgets": "Tous les widgets",
-    "myWidgets": "Mes widgets",
-    "searchWidgets": "Widgets de recherche",
     "addWidget": "Ajouter un widget",
     "newWidget": "Nouveau widget",
     "createWidget": "Créer un widget",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Un alias jumeau portant le même nom existe déjà, envisagez de l’ajouter à la place."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expression de propriété",
+      "expressionPlaceholder": "Entrer l’expression de propriété",
+      "selectProperty": "Sélectionner une propriété",
+      "toggleLabel": "Expression de propriété"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widget de panneau",
       "description": "Un panneau de mise en page"
     },
-    "notSupported": "Ce type de widget n’est actuellement pas pris en charge"
+    "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
+    "value": {
+      "title": "Widget Valeur",
+      "description": "Widget de base pour afficher les valeurs des propriétés jumelles",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Les 30 dernières minutes",
@@ -773,7 +782,9 @@
     "redo": "Refaire",
     "deleteAll": "Supprimer tout",
     "folderUpload": "Téléchargement de dossiers",
-    "fileUpload": "Téléchargement de fichiers"
+    "fileUpload": "Téléchargement de fichiers",
+    "files": "Fichiers",
+    "selectFile": "Sélectionner un fichier"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

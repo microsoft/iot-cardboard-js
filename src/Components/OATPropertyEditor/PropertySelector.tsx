@@ -6,36 +6,17 @@ import {
 } from './OATPropertyEditor.styles';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused
-} from '../../Models/Constants/Interfaces';
+import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 import { getModelPropertyCollectionName } from './Utils';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
+import { PropertySelectorProps } from './PropertySelector.types';
 
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height
-
-export interface IOATPropertySelectorPosition {
-    top: number;
-    left: number;
-}
-
-interface IPropertySelectorProps {
-    onTagClickCallback?: () => void;
-    className?: string;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    lastPropertyFocused?: IOATLastPropertyFocused;
-    setPropertySelectorVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    propertySelectorPosition?: IOATPropertySelectorPosition;
-}
 
 const PropertySelector = ({
     className,
@@ -45,7 +26,7 @@ const PropertySelector = ({
     onTagClickCallback,
     state,
     propertySelectorPosition
-}: IPropertySelectorProps) => {
+}: PropertySelectorProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -74,7 +55,7 @@ const PropertySelector = ({
             lastPropertyFocused.index
         ].schema = schemaCopy;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
@@ -82,18 +63,13 @@ const PropertySelector = ({
 
     const addProperty = async (tag) => {
         const modelCopy = deepCopy(model);
-        modelCopy[propertiesKeyName] = [
-            ...modelCopy[propertiesKeyName],
-            ...[
-                {
-                    '@type': ['property'],
-                    name: `New_Property_${model[propertiesKeyName].length + 1}`,
-                    schema: getSchema(tag)
-                }
-            ]
-        ];
+        modelCopy[propertiesKeyName].push({
+            '@type': ['property'],
+            name: `New_Property_${model[propertiesKeyName].length + 1}`,
+            schema: getSchema(tag)
+        });
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
+            type: SET_OAT_SELECTED_MODEL,
             payload: modelCopy
         });
         setPropertySelectorVisible(false);
@@ -115,7 +91,7 @@ const PropertySelector = ({
 
         const undoOnClick = () => {
             dispatch({
-                type: SET_OAT_PROPERTY_EDITOR_MODEL,
+                type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
         };
@@ -172,12 +148,11 @@ const PropertySelector = ({
             <Stack horizontal>
                 <div className={propertyInspectorStyles.propertyTagsWrapSecond}>
                     {propertySelectorData.propertyTags.complex
-                        .filter((tag) =>
+                        .filter(() =>
                             lastPropertyFocused &&
-                            lastPropertyFocused.item.schema['@type'] ===
-                                'object'
-                                ? tag.type === 'object'
-                                : tag.type !== 'object'
+                            typeof lastPropertyFocused.item.schema === 'object'
+                                ? false
+                                : true
                         )
                         .map((tag) => (
                             <ActionButton

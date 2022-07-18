@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Egenskap",
       "noElementsSelected": "Inga markerade element",
       "noSelectionValue": "Ingen",
-      "propertyNotFound": "Egenskap hittades inte på beteendets tvillingar"
+      "propertyNotFound": "Egenskap hittades inte på beteendets tvillingar",
+      "propertyDropdownPlaceholder": "Välj dubbel egenskap"
     },
     "numericExpressionPlaceholder": "Ange ett uttryck som utvärderas till ett tal",
     "behaviorId": "Beteende-ID",
     "widgetLibrary": "Widgetbibliotek",
     "exploreWidgets": "Utforska våra widgets och lägg till ett extra lager av information till din 3D-scen.",
-    "allWidgets": "Alla widgetar",
-    "myWidgets": "Mina widgets",
-    "searchWidgets": "Sök widgetar",
     "addWidget": "Lägga till widget",
     "newWidget": "Ny widget",
     "createWidget": "Skapa widget",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Det finns redan ett tvillingalias med samma namn, överväg att lägga till det i stället."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Egenskapsuttryck",
+      "expressionPlaceholder": "Ange egenskapsuttryck",
+      "selectProperty": "Välj egenskap",
+      "toggleLabel": "Egenskapsuttryck"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widgeten Panel",
       "description": "En layoutpanel"
     },
-    "notSupported": "Den här widgettypen stöds för närvarande inte"
+    "notSupported": "Den här widgettypen stöds för närvarande inte",
+    "value": {
+      "title": "Widgeten Värde",
+      "description": "Grundläggande widget för att visa värden för dubbla egenskaper",
+      "typePlaceholder": "Välj typ för värdet"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Senaste 30 minuter",
@@ -773,7 +782,9 @@
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
-    "fileUpload": "Filuppladdning"
+    "fileUpload": "Filuppladdning",
+    "files": "ﬁler",
+    "selectFile": "Välj fil"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

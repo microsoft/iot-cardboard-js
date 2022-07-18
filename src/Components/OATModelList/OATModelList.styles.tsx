@@ -1,4 +1,11 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    IButtonStyles,
+    IIconStyles
+} from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
@@ -121,7 +128,7 @@ export const getModelsStyles = () => {
     });
 };
 
-export const getModelsIconStyles: IStyle = () => {
+export const getModelsIconStyles = () => {
     const theme = useTheme();
     return {
         root: {
@@ -130,15 +137,15 @@ export const getModelsIconStyles: IStyle = () => {
             marginRight: '5px',
             marginTop: '5px'
         }
-    } as Partial<IStyle>;
+    } as IIconStyles;
 };
 
-export const getModelsActionButtonStyles: IStyle = () => {
+export const getModelsActionButtonStyles = () => {
     return {
         root: {
             width: '100%',
             height: 'fit-content',
             position: 'relative'
         }
-    } as Partial<IStyle>;
+    } as IButtonStyles;
 };

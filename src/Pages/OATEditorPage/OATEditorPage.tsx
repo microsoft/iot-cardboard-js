@@ -9,18 +9,16 @@ import {
     OATEditorPageReducer,
     defaultOATEditorState
 } from './OATEditorPage.state';
-import OATErrorHandlingWrapper from './Internal/OATErrorHandlingWrapper';
+import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
 import i18n from '../../i18n';
-import {
-    loadFiles,
-    saveFiles
-} from '../../Components/OATHeader/internal/Utils';
 import OATErrorPage from './Internal/OATErrorPage';
 import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext';
 import useCommandHistory from './Internal/Hooks/useCommandHistory';
-import OATConfirmDeleteWrapper from './Internal/OATConfirmDeleteWrapper';
+import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import {
     getStoredEditorData,
+    loadFiles,
+    saveFiles,
     storeEditorData
 } from '../../Models/Services/Utils';
 
@@ -73,7 +71,6 @@ const OATEditorPage = ({ theme }) => {
             templates,
             namespace
         };
-
         storeEditorData(oatEditorData);
     }, [
         models,
@@ -88,11 +85,7 @@ const OATEditorPage = ({ theme }) => {
         <CommandHistoryContext.Provider value={providerValue}>
             <ErrorBoundary FallbackComponent={OATErrorPage}>
                 <div className={editorPageStyles.container}>
-                    <OATHeader
-                        elements={state.models}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    <OATHeader dispatch={dispatch} state={state} />
                     <div
                         className={
                             state.templatesActive
@@ -100,12 +93,7 @@ const OATEditorPage = ({ theme }) => {
                                 : editorPageStyles.component
                         }
                     >
-                        <OATModelList
-                            elements={state.models}
-                            dispatch={dispatch}
-                            modified={state.modified}
-                            state={state}
-                        />
+                        <OATModelList dispatch={dispatch} state={state} />
                         <OATGraphViewer state={state} dispatch={dispatch} />
                         <OATPropertyEditor
                             theme={theme}
@@ -115,8 +103,8 @@ const OATEditorPage = ({ theme }) => {
                         />
                     </div>
                 </div>
-                <OATErrorHandlingWrapper state={state} dispatch={dispatch} />
-                <OATConfirmDeleteWrapper state={state} dispatch={dispatch} />
+                <OATErrorHandlingModal state={state} dispatch={dispatch} />
+                <OATConfirmDeleteModal state={state} dispatch={dispatch} />
             </ErrorBoundary>
         </CommandHistoryContext.Provider>
     );

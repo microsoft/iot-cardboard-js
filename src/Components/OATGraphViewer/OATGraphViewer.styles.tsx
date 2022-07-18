@@ -1,4 +1,18 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    IButtonStyles,
+    IStyleFunctionOrObject,
+    ILabelStyleProps,
+    ILabelStyles,
+    IStackProps,
+    IButtonProps,
+    IIconStyles,
+    ITextFieldStyles
+} from '@fluentui/react';
+import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
@@ -473,26 +487,26 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerButtonStyles: IStyle = () => {
+export const getGraphViewerButtonStyles = () => {
     return {
         root: {
             zIndex: '100',
             marginBottom: '8px'
         }
-    } as Partial<IStyle>;
+    } as Partial<IButtonStyles>;
 };
 
-export const getGraphViewerIconStyles: IStyle = () => {
+export const getGraphViewerIconStyles = () => {
     const theme = useTheme();
     return {
         root: {
             fontSize: FontSizes.size10,
             color: theme.semanticColors.actionLink
         }
-    } as Partial<IStyle>;
+    } as Partial<IIconStyles>;
 };
 
-export const getGraphViewerActionButtonStyles: IStyle = () => {
+export const getGraphViewerActionButtonStyles = () => {
     return {
         root: {
             height: FontSizes.size12,
@@ -501,47 +515,47 @@ export const getGraphViewerActionButtonStyles: IStyle = () => {
             top: '8px',
             right: '0'
         }
-    } as Partial<IStyle>;
+    } as IButtonProps;
 };
 
-export const getGraphViewerWarningStyles: IStyle = () => {
+export const getGraphViewerWarningStyles = () => {
     const theme = useTheme();
     return {
         root: {
             fontSize: FontSizes.size10,
             color: theme.semanticColors.severeWarningIcon
         }
-    } as Partial<IStyle>;
+    } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
 };
 
-export const getGraphViewerMinimapStyles: IStyle = () => {
+export const getGraphViewerMinimapStyles = () => {
     const theme = useTheme();
     return {
         background: theme.semanticColors.bodyBackground
-    } as Partial<IStyle>;
+    } as CSSProperties;
 };
 
-export const getGraphViewerFiltersStyles: IStyle = () => {
+export const getGraphViewerFiltersStyles = () => {
     return {
         root: {
             position: 'absolute',
             top: '10px',
             right: '10px'
         }
-    } as Partial<IStyle>;
+    } as IStackProps;
 };
 
-export const getGraphForceLayoutStyles: IStyle = () => {
+export const getGraphForceLayoutStyles = () => {
     return {
         root: {
             position: 'absolute',
             top: '110px',
             right: '10px'
         }
-    } as Partial<IStyle>;
+    } as IStackProps;
 };
 
-export const getRelationshipTextFieldStyles: IStyle = () => {
+export const getRelationshipTextFieldStyles = () => {
     const theme = useTheme();
     return {
         root: {
@@ -549,5 +563,5 @@ export const getRelationshipTextFieldStyles: IStyle = () => {
             color: theme.semanticColors.bodyText,
             background: theme.semanticColors.bodyBackground
         }
-    } as Partial<IStyle>;
+    } as Partial<ITextFieldStyles>;
 };

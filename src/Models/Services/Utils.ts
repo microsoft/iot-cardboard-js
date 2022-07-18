@@ -7,11 +7,14 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin,
-    IOATTwinModelNodes
+    DTwin
 } from '../Constants';
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths, OATDataStorageKey } from '../Constants/Constants';
+import {
+    CharacterWidths,
+    OATDataStorageKey,
+    OATFilesStorageKey
+} from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -363,14 +366,6 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModels(models: IOATTwinModelNodes[]) {
-    for (const model of models) {
-        const modelJson = JSON.stringify(model);
-        return parseModel(modelJson);
-    }
-    return true;
-}
-
 export async function parseModel(modelJson: string) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
@@ -431,6 +426,36 @@ export const getStoredEditorNamespaceData = () => {
     return oatData && oatData.namespace ? oatData.namespace : null;
 };
 
+export const getNewModelNewModelsAndNewPositionsFromId = (
+    id,
+    model,
+    models,
+    modelPositions
+) => {
+    const modelCopy = deepCopy(model);
+    // Update the modelPositions
+    const newModelsPositions = deepCopy(modelPositions);
+    // Find the model position with the same id
+    const modelPositionIndex = newModelsPositions.findIndex(
+        (x) => x.id === modelCopy['@id']
+    );
+    newModelsPositions[modelPositionIndex].id = id;
+
+    // Update models
+    const newModels = deepCopy(models);
+    const modelIndex = newModels.findIndex(
+        (x) => x['@id'] === modelCopy['@id']
+    );
+    modelCopy['@id'] = id;
+    newModels[modelIndex] = modelCopy;
+
+    return {
+        model: modelCopy,
+        models: newModels,
+        positions: newModelsPositions
+    };
+};
+
 // Get fileName from DTMI
 export const getFileNameFromDTMI = (dtmi: string) => {
     // Get id path - Get section between last ":" and ";"
@@ -457,4 +482,13 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
         // Scheme - replace ":" with "\"
         return directoryPath.replace(':', '\\');
     }
+};
+
+/* Load files from local storage */
+export const loadFiles = () =>
+    JSON.parse(localStorage.getItem(OATFilesStorageKey));
+
+/* Save files from local storage */
+export const saveFiles = (files: ProjectData[]) => {
+    localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
 };

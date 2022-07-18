@@ -3,23 +3,10 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTMIRegex,
-    IOATTwinModelNodes,
-    ModelTypes,
-    OATIdLengthLimit
+    OATIdLengthLimit,
+    OATRelationshipHandleName
 } from '../../../../Models/Constants';
-
-type IOATTexField = {
-    autoFocus?: boolean;
-    borderless?: boolean;
-    disabled?: boolean;
-    value: string;
-    onChange?: () => void;
-    onCommit?: (value: string) => void;
-    placeholder?: string;
-    styles?: React.CSSProperties;
-    model: IOATTwinModelNodes;
-    models: IOATTwinModelNodes[];
-};
+import { OATTextFieldIdProps } from './OATTextFieldId.types';
 
 const OATTextFieldId = ({
     autoFocus,
@@ -32,7 +19,7 @@ const OATTextFieldId = ({
     placeholder,
     styles,
     value
-}: IOATTexField) => {
+}: OATTextFieldIdProps) => {
     const { t } = useTranslation();
     const [idLengthError, setIdLengthError] = useState(false);
     const [
@@ -61,7 +48,7 @@ const OATTextFieldId = ({
             // Check format
             if (DTMIRegex.test(value)) {
                 setValidDTMIError(null);
-                if (model['@type'] === ModelTypes.relationship) {
+                if (model['@type'] === OATRelationshipHandleName) {
                     const repeatedIdOnRelationship = models.find(
                         (queryModel) =>
                             queryModel.contents &&
@@ -112,12 +99,14 @@ const OATTextFieldId = ({
             setIdAlreadyUsedInterfaceError(false);
             setValidDTMIError(false);
         }
-        document.activeElement.blur();
+        if (document.activeElement instanceof HTMLElement) {
+            document.activeElement.blur();
+        }
     };
 
-    const onKeyDown = (event: Event) => {
+    const onKeyDown = (event: React.KeyboardEvent) => {
         if (event.key === 'Enter') {
-            document.activeElement.blur();
+            onCommitChange();
         }
     };
 

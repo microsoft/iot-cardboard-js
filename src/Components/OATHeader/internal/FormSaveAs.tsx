@@ -8,31 +8,21 @@ import {
     Stack
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
-import { loadFiles, saveFiles } from './Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { FromBody } from './Enums';
-
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    resetProject?: () => void;
-    resetProjectOnSave?: boolean;
-    state?: IOATEditorState;
-}
+import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
+import { FromSaveAsProps } from './FormSaveAs.types';
 
 export const FormSaveAs = ({
     dispatch,
-    setModalOpen,
+    onClose,
     setModalBody,
     resetProject,
     resetProjectOnSave,
     state
-}: IModal) => {
+}: FromSaveAsProps) => {
     const { t } = useTranslation();
     const [projectName, setProjectName] = useState('');
     const [error, setError] = useState(false);
@@ -56,7 +46,6 @@ export const FormSaveAs = ({
                 files[foundIndex].data = new ProjectData(
                     modelPositions,
                     models,
-                    '',
                     projectName,
                     templates,
                     namespace,
@@ -76,7 +65,6 @@ export const FormSaveAs = ({
         const newProject = new ProjectData(
             modelPositions,
             models,
-            '',
             projectName,
             templates,
             namespace,
@@ -93,7 +81,7 @@ export const FormSaveAs = ({
         });
         saveFiles(files);
 
-        setModalOpen(false);
+        onClose();
         setModalBody(null);
         if (resetProjectOnSave) {
             resetProject();
@@ -111,17 +99,13 @@ export const FormSaveAs = ({
             return file.name === value;
         });
 
-        if (fileAlreadyExists) {
-            setError(true);
-            return;
-        }
-        setError(false);
+        setError(fileAlreadyExists);
     };
 
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
-                <ActionButton onClick={() => setModalOpen(false)}>
+                <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
@@ -151,10 +135,7 @@ export const FormSaveAs = ({
                     disabled={!projectName}
                 />
 
-                <PrimaryButton
-                    text={t('OATHeader.cancel')}
-                    onClick={() => setModalOpen(false)}
-                />
+                <PrimaryButton text={t('OATHeader.cancel')} onClick={onClose} />
             </div>
         </Stack>
     );

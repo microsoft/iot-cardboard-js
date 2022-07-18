@@ -208,6 +208,22 @@
             "type": "string",
             "description": "Expression which evaluates to a numeric value"
         },
+        "IDTDLPropertyType": {
+            "type": "string",
+            "enum": [
+                "boolean",
+                "date",
+                "dateTime",
+                "double",
+                "duration",
+                "enum",
+                "float",
+                "integer",
+                "long",
+                "string",
+                "time"
+            ]
+        },
         "IObjectIDs": {
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
@@ -330,7 +346,7 @@
         "ILinkWidgetConfiguration": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Widget configuration specifies widget specific properties that are used for rendering this Link",
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this link",
             "properties": {
                 "label": {
                     "type": "string"
@@ -341,6 +357,23 @@
                 }
             },
             "required": ["label", "linkExpression"]
+        },
+        "IValueWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this value",
+            "properties": {
+                "displayName": {
+                    "type": "string"
+                },
+                "valueExpression": {
+                    "$ref": "#/$defs/IValueExpression"
+                },
+                "type": {
+                    "$ref": "#/$defs/IDTDLPropertyType"
+                }
+            },
+            "required": ["displayName", "valueExpression", "type"]
         },
         "IGaugeWidget": {
             "type": "object",
@@ -391,6 +424,29 @@
             },
             "required": ["type", "id", "widgetConfiguration"]
         },
+        "IValueWidget": {
+            "type": "object",
+            "description": "A value widget which uses display name and value",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "const": "Value"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "groupID": {
+                    "$ref": "#/$defs/IGroupID"
+                },
+                "widgetConfiguration": {
+                    "$ref": "#/$defs/IValueWidgetConfiguration"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "id", "widgetConfiguration"]
+        },
         "IWidget": {
             "anyOf": [
                 {
@@ -398,6 +454,9 @@
                 },
                 {
                     "$ref": "#/$defs/ILinkWidget"
+                },
+                {
+                    "$ref": "#/$defs/IValueWidget"
                 }
             ]
         },

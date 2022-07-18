@@ -2,12 +2,8 @@ import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from './OATEditorPage.types';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODELS,
-    SET_OAT_SELECTED_MODEL_ID,
-    SET_OAT_DELETED_MODEL_ID,
-    SET_OAT_EDITED_MODEL_NAME,
-    SET_OAT_EDITED_MODEL_ID,
     SET_OAT_TEMPLATES_ACTIVE,
     SET_OAT_IMPORT_MODELS,
     SET_OAT_IS_JSON_UPLOADER_OPEN,
@@ -32,10 +28,7 @@ import {
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
     models: getStoredEditorModelsData(),
-    deletedModelId: '',
-    selectedModelId: '',
-    editedModelName: '',
-    editedModelId: '',
+
     templatesActive: false,
     importModels: [],
     isJsonUploaderOpen: false,
@@ -45,7 +38,6 @@ export const defaultOATEditorState: IOATEditorState = {
     modified: false,
     error: null,
     namespace: getStoredEditorNamespaceData(),
-    edge: null,
     confirmDeleteOpen: { open: false },
     modelsMetadata: getStoredEditorModelMetadata()
 };
@@ -55,24 +47,11 @@ export const OATEditorPageReducer = produce(
         const payload = action.payload;
 
         switch (action.type) {
-            case SET_OAT_PROPERTY_EDITOR_MODEL:
+            case SET_OAT_SELECTED_MODEL:
                 state.model = payload;
                 return;
             case SET_OAT_MODELS:
                 state.models = payload;
-                return;
-            case SET_OAT_DELETED_MODEL_ID:
-                state.deletedModelId = payload;
-                state.model = null;
-                return;
-            case SET_OAT_SELECTED_MODEL_ID:
-                state.selectedModelId = payload;
-                return;
-            case SET_OAT_EDITED_MODEL_NAME:
-                state.editedModelName = payload;
-                return;
-            case SET_OAT_EDITED_MODEL_ID:
-                state.editedModelId = payload;
                 return;
             case SET_OAT_TEMPLATES_ACTIVE:
                 state.templatesActive = payload;
