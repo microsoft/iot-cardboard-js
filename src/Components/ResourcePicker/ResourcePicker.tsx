@@ -220,26 +220,28 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 const existingOptionTexts = resources.map((resource) =>
                     getDisplayFieldValue(resource)
                 );
-                newOptions.push({
-                    key: 'additional-options',
-                    text: '---',
-                    itemType: SelectableOptionMenuItemType.Header
-                });
-                newOptions = newOptions.concat(
-                    additionalOptions
-                        .filter(
-                            (additionalOption) =>
-                                !existingOptionTexts.includes(additionalOption)
-                        )
-                        .map(
-                            (additionalOption) =>
-                                ({
-                                    key: additionalOption,
-                                    text: additionalOption,
-                                    styles: comboBoxOptionStyles
-                                } as IComboBoxOption)
-                        )
-                );
+
+                const optionsToAdd = additionalOptions
+                    .filter(
+                        (additionalOption) =>
+                            !existingOptionTexts.includes(additionalOption)
+                    )
+                    .map(
+                        (additionalOption) =>
+                            ({
+                                key: additionalOption,
+                                text: additionalOption,
+                                styles: comboBoxOptionStyles
+                            } as IComboBoxOption)
+                    );
+                if (optionsToAdd.length) {
+                    newOptions.push({
+                        key: 'additional-options',
+                        text: '---',
+                        itemType: SelectableOptionMenuItemType.Header
+                    });
+                    newOptions = newOptions.concat(optionsToAdd);
+                }
             }
             if (selectedOption) {
                 const selectedOptionInNewOptions = newOptions.find(
@@ -377,9 +379,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (onResourceChange) {
                 onResourceChange(
                     option.data || option.text,
-                    optionsRef.current?.map(
-                        (option) => option.data || option.text
-                    ) || []
+                    optionsRef.current
+                        ?.filter(
+                            (option) =>
+                                option.itemType !==
+                                SelectableOptionMenuItemType.Header
+                        )
+                        .map((option) => option.data || option.text) || []
                 );
             }
         } else {
@@ -407,18 +413,26 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 if (onResourceChange)
                     onResourceChange(
                         newParsedOptionValue,
-                        optionsRef.current?.map(
-                            (option) => option.data || option.text
-                        ) || []
+                        optionsRef.current
+                            ?.filter(
+                                (option) =>
+                                    option.itemType !==
+                                    SelectableOptionMenuItemType.Header
+                            )
+                            .map((option) => option.data || option.text) || []
                     );
             } else {
                 setSelectedOption(existingOption);
                 if (onResourceChange)
                     onResourceChange(
                         existingOption.data || existingOption.text,
-                        optionsRef.current?.map(
-                            (option) => option.data || option.text
-                        ) || []
+                        optionsRef.current
+                            ?.filter(
+                                (option) =>
+                                    option.itemType !==
+                                    SelectableOptionMenuItemType.Header
+                            )
+                            .map((option) => option.data || option.text) || []
                     );
             }
 
@@ -430,6 +444,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         const restOfOptions = optionsRef.current.filter(
             (o) => o.key !== option.key
         );
+        if (restOfOptions.length) {
+            const lastOption = restOfOptions[restOfOptions.length - 1];
+            if (lastOption.itemType === SelectableOptionMenuItemType.Header) {
+                // remove the '---' header if there is no option below
+                restOfOptions.splice(-1);
+            }
+        }
         setOptions(restOfOptions);
         optionsRef.current = restOfOptions;
 
@@ -438,13 +459,25 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (onResourceChange)
                 onResourceChange(
                     null,
-                    restOfOptions.map((option) => option.data || option.text)
+                    restOfOptions
+                        .filter(
+                            (option) =>
+                                option.itemType !==
+                                SelectableOptionMenuItemType.Header
+                        )
+                        .map((option) => option.data || option.text)
                 );
         } else {
             if (onResourceChange)
                 onResourceChange(
                     selectedOption?.data || selectedOption?.text,
-                    restOfOptions.map((option) => option.data || option.text)
+                    restOfOptions
+                        ?.filter(
+                            (option) =>
+                                option.itemType !==
+                                SelectableOptionMenuItemType.Header
+                        )
+                        .map((option) => option.data || option.text)
                 );
         }
     };

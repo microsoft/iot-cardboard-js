@@ -236,8 +236,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             props.onEnvironmentUrlChange(environmentUrlToEdit, environmentUrls);
         }
 
-        selectedStorageAccountUrlRef.current =
-            storageAccountToEdit.properties?.primaryEndpoints?.blob;
+        if (storageAccountToEdit) {
+            selectedStorageAccountUrlRef.current =
+                storageAccountToEdit.properties?.primaryEndpoints?.blob;
+        }
 
         setSelectedContainerUrl(containerUrlToEdit);
         if (props.storage?.onContainerUrlChange) {
@@ -450,6 +452,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             onResourcesLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
+                            allowFreeform={true}
                         />
                         {props.storage && (
                             <>
