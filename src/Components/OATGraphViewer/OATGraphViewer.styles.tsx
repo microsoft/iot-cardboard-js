@@ -7,7 +7,10 @@ import {
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
-    IStackProps
+    IStackProps,
+    IButtonProps,
+    IIconStyles,
+    ITextFieldStyles
 } from '@fluentui/react';
 import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
@@ -500,7 +503,7 @@ export const getGraphViewerIconStyles = () => {
             fontSize: FontSizes.size10,
             color: theme.semanticColors.actionLink
         }
-    } as Partial<IStyle>;
+    } as Partial<IIconStyles>;
 };
 
 export const getGraphViewerActionButtonStyles = () => {
@@ -512,7 +515,7 @@ export const getGraphViewerActionButtonStyles = () => {
             top: '8px',
             right: '0'
         }
-    } as Partial<IStyle>;
+    } as IButtonProps;
 };
 
 export const getGraphViewerWarningStyles = () => {
@@ -560,5 +563,5 @@ export const getRelationshipTextFieldStyles = () => {
             color: theme.semanticColors.bodyText,
             background: theme.semanticColors.bodyBackground
         }
-    } as Partial<IStyle>;
+    } as Partial<ITextFieldStyles>;
 };

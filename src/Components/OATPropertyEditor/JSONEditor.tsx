@@ -22,7 +22,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
-    const themeToUse = (libTheme || theme) ?? Theme.Light;
+    const themeToUse = libTheme || theme;
     const editorRef = useRef(null);
     const { model, models } = state;
     const [content, setContent] = useState(null);
