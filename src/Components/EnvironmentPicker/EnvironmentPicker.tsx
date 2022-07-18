@@ -452,7 +452,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             onResourcesLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
-                            allowFreeform={true}
                         />
                         {props.storage && (
                             <>
