@@ -1212,4 +1212,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     );
 };
 
+OATGraphViewer.defaultProps = {
+    importModels: []
+};
+
 export default OATGraphViewer;

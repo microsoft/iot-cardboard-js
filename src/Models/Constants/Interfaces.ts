@@ -1,4 +1,4 @@
-import { AbstractMesh, Scene } from '@babylonjs/core';
+import { AbstractMesh, int, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -788,7 +788,6 @@ export interface IOATGraphCustomEdgeData {
     displayName: string;
     type: string;
 }
-
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;

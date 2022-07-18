@@ -1,14 +1,16 @@
 import { TextField, useTheme } from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IGaugeWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
 import ValueRangeBuilder from '../../../../../ValueRangeBuilder/ValueRangeBuilder';
-import { getWidgetFormStyles } from '../WidgetForm.styles';
-import TwinPropertyDropown from '../../Internal/TwinPropertyDropdown';
 import useValueRangeBuilder from '../../../../../../Models/Hooks/useValueRangeBuilder';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
+import ViewerConfigUtility from '../../../../../../Models/Classes/ViewerConfigUtility';
+import useBehaviorAliasedTwinProperties from '../../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
+import TwinPropertyBuilder from '../../../../../TwinPropertyBuilder/TwinPropertyBuilder';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     formData,
@@ -16,7 +18,9 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit } = useContext(SceneBuilderContext);
+    const { behaviorToEdit, adapter, config, sceneId } = useContext(
+        SceneBuilderContext
+    );
 
     const {
         valueRangeBuilderState,
@@ -65,6 +69,31 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
         [updateWidgetData, formData]
     );
 
+    // MODELLED_PROPERTY_TODO ---- V2 iteration will change to modelled properties
+    // get the aliased properties for intellisense
+    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
+        behavior: behaviorToEdit,
+        isTwinAliasesIncluded: true
+    });
+
+    const getPropertyNames = useCallback(
+        (twinAlias: string) =>
+            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
+                twinAlias,
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
+    const aliasNames = useMemo(
+        () =>
+            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
+                aliasedProperties
+            ),
+        [aliasedProperties]
+    );
+
+    // MODELLED_PROPERTY_TODO ---- END BLOCK
     const theme = useTheme();
     const customStyles = getWidgetFormStyles(theme);
     return (
@@ -94,12 +123,27 @@ const GaugeWidgetBuilder: React.FC<IGaugeWidgetBuilderProps> = ({
                     )
                 }
             />
-            <TwinPropertyDropown
-                behavior={behaviorToEdit}
-                defaultSelectedKey={formData.valueExpression}
-                dataTestId={'widget-form-property-dropdown'}
-                onChange={onPropertyChange}
-                required
+            <TwinPropertyBuilder
+                mode="TOGGLE"
+                intellisenseProps={{
+                    onChange: onPropertyChange,
+                    defaultValue: formData.valueExpression,
+                    aliasNames: aliasNames,
+                    getPropertyNames: getPropertyNames,
+                    autoCompleteProps: {
+                        required: true
+                    }
+                }}
+                twinPropertyDropdownProps={{
+                    adapter,
+                    config,
+                    sceneId,
+                    behavior: behaviorToEdit,
+                    defaultSelectedKey: formData.valueExpression,
+                    dataTestId: 'widget-form-property-dropdown',
+                    onChange: onPropertyChange,
+                    required: true
+                }}
             />
             <ValueRangeBuilder
                 className={customStyles.rangeBuilderRoot}

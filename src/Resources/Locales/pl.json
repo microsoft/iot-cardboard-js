@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Własność",
       "noElementsSelected": "Brak wybranych elementów",
       "noSelectionValue": "Żaden",
-      "propertyNotFound": "Właściwość nie znaleziona na bliźniakach zachowania"
+      "propertyNotFound": "Właściwość nie znaleziona na bliźniakach zachowania",
+      "propertyDropdownPlaceholder": "Wybierz bliźniaczą właściwość"
     },
     "numericExpressionPlaceholder": "Wprowadzanie wyrażenia, którego wynikiem jest liczba",
     "behaviorId": "Identyfikator zachowania",
     "widgetLibrary": "Biblioteka widżetów",
     "exploreWidgets": "Zapoznaj się z naszymi widżetami i dodaj dodatkową warstwę informacji do sceny 3D.",
-    "allWidgets": "Wszystkie widżety",
-    "myWidgets": "Moje widżety",
-    "searchWidgets": "Widżety wyszukiwania",
     "addWidget": "Dodaj widżet",
     "newWidget": "Nowy widget",
     "createWidget": "Utwórz widżet",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Bliźniaczy alias o tej samej nazwie już istnieje, rozważ dodanie go zamiast tego."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Wyrażenie właściwości",
+      "expressionPlaceholder": "Wprowadź wyrażenie właściwości",
+      "selectProperty": "Wybierz właściwość",
+      "toggleLabel": "Wyrażenie właściwości"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widżet Panel",
       "description": "Panel układu"
     },
-    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany"
+    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
+    "value": {
+      "title": "Widżet Wartość",
+      "description": "Widżet Podstawowy do wyświetlania wartości bliźniaczych właściwości",
+      "typePlaceholder": "Wybierz typ wartości"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ostatnie 30 minut",

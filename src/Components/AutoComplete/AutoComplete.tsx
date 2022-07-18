@@ -34,6 +34,7 @@ export interface IAutoCompleteProps {
         selectedValue,
         changedPosition: number
     ) => string;
+    required?: boolean;
 }
 
 export function sleep(ms: number) {
@@ -51,7 +52,8 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     itemClassName,
     onValueChange: onChange,
     getItems,
-    onSelected
+    onSelected,
+    required = false
 }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const [calloutVisible, setCalloutVisible] = useState(false);
@@ -232,6 +234,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 onKeyDown={(e) => onKeyDown(e)}
                 onBlur={onBlur}
                 validateOnFocusOut={true}
+                required={required}
             />
             <Callout
                 styles={{ root: { marginTop: topRef.current } }}

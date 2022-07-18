@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Propriedade",
       "noElementsSelected": "Nenhum elemento selecionado",
       "noSelectionValue": "Nenhum.",
-      "propertyNotFound": "Propriedade não encontrada nos gémeos do comportamento"
+      "propertyNotFound": "Propriedade não encontrada nos gémeos do comportamento",
+      "propertyDropdownPlaceholder": "Selecione propriedade twin"
     },
     "numericExpressionPlaceholder": "Insira uma expressão que avalia um número",
     "behaviorId": "ID de comportamento",
     "widgetLibrary": "Biblioteca Widget",
     "exploreWidgets": "Explore os nossos widgets e adicione uma camada extra de informação à sua cena 3D.",
-    "allWidgets": "Todos os widgets",
-    "myWidgets": "Os meus widgets",
-    "searchWidgets": "Pesquisar widgets",
     "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
     "createWidget": "Criar widget",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "O pseudónimo gémeo com o mesmo nome já existe, considere adicioná-lo em vez disso."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expressão de propriedade",
+      "expressionPlaceholder": "Insira a expressão da propriedade",
+      "selectProperty": "Selecione propriedade",
+      "toggleLabel": "Expressão de propriedade"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widget painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é atualmente suportado"
+    "notSupported": "Este tipo de widget não é atualmente suportado",
+    "value": {
+      "title": "Widget de valor",
+      "description": "Widget básico para mostrar valores de propriedades gémeas",
+      "typePlaceholder": "Selecione o tipo para o valor"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",

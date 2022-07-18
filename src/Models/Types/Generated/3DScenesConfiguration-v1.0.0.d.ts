@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IStatusColoringVisual | IAlertVisual;
-export type IWidget = IGaugeWidget | ILinkWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -18,6 +18,18 @@ export type IGroupID = string;
  */
 export type IValueExpression = string;
 export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
+export type IDTDLPropertyType =
+    | 'boolean'
+    | 'date'
+    | 'dateTime'
+    | 'double'
+    | 'duration'
+    | 'enum'
+    | 'float'
+    | 'integer'
+    | 'long'
+    | 'string'
+    | 'time';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
@@ -170,7 +182,7 @@ export interface ILinkWidget {
     extensionProperties?: IExtensionProperties;
 }
 /**
- * Widget configuration specifies widget specific properties that are used for rendering this Link
+ * Widget configuration specifies widget specific properties that are used for rendering this link
  */
 export interface ILinkWidgetConfiguration {
     label: string;
@@ -178,6 +190,24 @@ export interface ILinkWidgetConfiguration {
      * Template string which evalues to http link
      */
     linkExpression: string;
+}
+/**
+ * A value widget which uses display name and value
+ */
+export interface IValueWidget {
+    type: 'Value';
+    id: string;
+    groupID?: IGroupID;
+    widgetConfiguration: IValueWidgetConfiguration;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration specifies widget specific properties that are used for rendering this value
+ */
+export interface IValueWidgetConfiguration {
+    displayName: string;
+    valueExpression: IValueExpression;
+    type: IDTDLPropertyType;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to

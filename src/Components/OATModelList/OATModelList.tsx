@@ -344,4 +344,11 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     );
 };
 
+OATModelList.defaultProps = {
+    elements: [],
+    onSelectedModel: () => null,
+    onEditedName: () => null,
+    onEditedId: () => null
+};
+
 export default OATModelList;

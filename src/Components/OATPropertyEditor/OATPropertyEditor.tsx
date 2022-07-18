@@ -30,3 +30,9 @@ const OATPropertyEditor = ({
 };
 
 export default OATPropertyEditor;
+
+OATPropertyEditor.defaultProps = {
+    setModalOpen: () => {
+        console.log('no modal');
+    }
+};
