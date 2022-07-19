@@ -46,6 +46,7 @@ import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null
@@ -311,6 +312,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents
+                                    }
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        setPivotToRequired(
+                                            coloredMeshItems.length > 0,
+                                            props,
+                                            defaultRenderer
+                                        )
                                     }
                                 >
                                     <MeshTab elementToEdit={elementToEdit} />
