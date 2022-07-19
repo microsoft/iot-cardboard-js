@@ -22,7 +22,7 @@ import {
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
     SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
-    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM,
     BuilderDirtyFormType
 } from './ADT3DSceneBuilder.types';
@@ -136,7 +136,7 @@ export const ADT3DSceneBuilderReducer: (
             case SET_MESH_IDS_TO_OUTLINE:
                 draft.outlinedMeshItems = payload;
                 break;
-            case SET_ELEMENT_TO_GIZMO:
+            case SET_GIZMO_ELEMENT_ITEM:
                 draft.gizmoElementItem = payload;
                 break;
             case SET_GIZMO_TRANSFORM_ITEM:

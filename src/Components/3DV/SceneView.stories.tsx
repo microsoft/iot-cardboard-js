@@ -19,7 +19,7 @@ import {
     defaultADT3DSceneBuilderState
 } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.state';
 import {
-    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM
 } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
 import { Checkbox, Stack, TextField } from '@fluentui/react';
@@ -35,7 +35,7 @@ export default {
     }
 };
 
-const defaultGizmoElementItems: TransformedElementItem = {
+const defaultGizmoElementItem: TransformedElementItem = {
     meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
     parentMeshId: 'tank6_LOD0.003_primitive0'
 };
@@ -66,7 +66,7 @@ export const Gizmo = () => {
     const setGizmoElementItem = useCallback(
         (gizmoElementItem: TransformedElementItem) => {
             dispatch({
-                type: SET_ELEMENT_TO_GIZMO,
+                type: SET_GIZMO_ELEMENT_ITEM,
                 payload: gizmoElementItem
             });
         },
@@ -77,7 +77,7 @@ export const Gizmo = () => {
         if (!checked) {
             setGizmoElementItem({ parentMeshId: null, meshIds: null });
         } else {
-            setGizmoElementItem(defaultGizmoElementItems);
+            setGizmoElementItem(defaultGizmoElementItem);
         }
         setIsGizmo(!!checked);
     }, []);
@@ -95,7 +95,7 @@ export const Gizmo = () => {
                 <SceneView
                     modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
                     gizmoElementItem={
-                        state.gizmoElementItem ?? defaultGizmoElementItems
+                        state.gizmoElementItem ?? defaultGizmoElementItem
                     }
                     setGizmoTransformItem={setGizmoTransformItem}
                     gizmoTransformItem={state.gizmoTransformItem}

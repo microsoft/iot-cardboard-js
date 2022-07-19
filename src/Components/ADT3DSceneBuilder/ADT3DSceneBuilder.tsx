@@ -45,7 +45,7 @@ import {
     IADT3DSceneBuilderStyles,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
@@ -287,7 +287,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     const setGizmoElementItem = useCallback(
         (gizmoElementItem: TransformedElementItem) => {
             dispatch({
-                type: SET_ELEMENT_TO_GIZMO,
+                type: SET_GIZMO_ELEMENT_ITEM,
                 payload: gizmoElementItem
             });
         },
