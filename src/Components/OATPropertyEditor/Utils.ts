@@ -35,6 +35,16 @@ export const isDisplayNameDefined = (name: string | Record<string, any>) => {
     );
 };
 
+export const getDisplayName = (name: string | Record<string, any>) => {
+    if (name && typeof name === 'string' && name.length > 0) {
+        return name;
+    }
+    if (name && Object.values(name)[0].length > 0) {
+        return Object.values(name)[0];
+    }
+    return null;
+};
+
 /* Returns property's display name, depending on whether it is a string or a object of localized displayNames */
 export const getPropertyDisplayName = (property: DTDLProperty) => {
     return typeof property.name === 'string'

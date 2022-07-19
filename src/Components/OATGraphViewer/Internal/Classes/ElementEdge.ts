@@ -1,26 +1,39 @@
-import { ElementEdgeData } from './ElementEdgeData';
+import {
+    DtdlInterfaceContent,
+    DtdlRelationship,
+    IOATRelationshipElement
+} from '../../../../Models/Constants';
 
-export class ElementEdge {
+export class ElementEdge implements IOATRelationshipElement {
     public id: string;
+    public label: string;
     public type: string;
+    public markerEnd: string;
     public source: string;
     public sourceHandle: string;
     public target: string;
-    public data: ElementEdgeData;
+    public targetHandle: string;
+    public data: DtdlRelationship | DtdlInterfaceContent;
 
     constructor(
         id: string,
+        label: string,
         type: string,
+        markerEnd: string,
         source: string,
         sourceHandle: string,
         target: string,
-        data: ElementEdgeData
+        targetHandle: string,
+        data: DtdlRelationship | DtdlInterfaceContent
     ) {
         this.id = id;
+        this.label = label;
         this.type = type;
+        this.markerEnd = markerEnd;
         this.source = source;
         this.sourceHandle = sourceHandle;
         this.target = target;
+        this.targetHandle = targetHandle;
         this.data = data;
     }
 }

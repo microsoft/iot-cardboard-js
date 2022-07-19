@@ -12,8 +12,11 @@ import {
 import { DtdlProperty } from '../Constants/dtdlInterfaces';
 import {
     CharacterWidths,
+    OATComponentHandleName,
     OATDataStorageKey,
-    OATFilesStorageKey
+    OATFilesStorageKey,
+    OATRelationshipHandleName,
+    OATUntargetedRelationshipName
 } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
@@ -408,14 +411,14 @@ export const getStoredEditorModelsData = () => {
 // Get stored models' positions OAT-data
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData.modelPositions
+    return oatData && oatData.modelsData && oatData.modelsData.modelPositions
         ? oatData.modelsData.modelPositions
         : [];
 };
 
 export const getStoredEditorModelMetadata = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData.modelsMetadata
+    return oatData && oatData.modelsData && oatData.modelsData.modelsMetadata
         ? oatData.modelsData.modelsMetadata
         : [];
 };
@@ -437,9 +440,9 @@ export const getNewModelNewModelsAndNewPositionsFromId = (
     const newModelsPositions = deepCopy(modelPositions);
     // Find the model position with the same id
     const modelPositionIndex = newModelsPositions.findIndex(
-        (x) => x.id === modelCopy['@id']
+        (x) => x['@id'] === modelCopy['@id']
     );
-    newModelsPositions[modelPositionIndex].id = id;
+    newModelsPositions[modelPositionIndex]['@id'] = id;
 
     // Update models
     const newModels = deepCopy(models);
@@ -484,11 +487,53 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
     }
 };
 
-/* Load files from local storage */
+// Load files from local storage
 export const loadFiles = () =>
-    JSON.parse(localStorage.getItem(OATFilesStorageKey));
+    JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
 
-/* Save files from local storage */
+// Save files from local storage
 export const saveFiles = (files: ProjectData[]) => {
     localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+};
+
+// Delete model
+export const deleteModelFromCollection = (id, data, models) => {
+    const newModels = deepCopy(models);
+    if (id.endsWith(OATUntargetedRelationshipName)) {
+        const match = newModels.find(
+            (element) => element['@id'] === id.substring(0, id.lastIndexOf(':'))
+        );
+        if (match) {
+            match.contents = match.contents.filter(
+                (content) =>
+                    content['@type'] !== OATRelationshipHandleName ||
+                    content.target
+            );
+        }
+    } else {
+        const index = newModels.findIndex(
+            (element) => element['@id'] === data['@id']
+        );
+        if (index >= 0) {
+            newModels.splice(index, 1);
+            newModels.forEach((element) => {
+                element.contents = element.contents.filter(
+                    (content) =>
+                        (content['@type'] === OATRelationshipHandleName &&
+                            content.target !== data['@id']) ||
+                        (content['@type'] === OATComponentHandleName &&
+                            content.schema !== data['@id'])
+                );
+                if (element.extends) {
+                    element.extends = Array.isArray(element.extends)
+                        ? element.extends.filter((ex) => ex !== data['@id'])
+                        : element.extends === data['@id']
+                        ? []
+                        : element.extends;
+                }
+            });
+        }
+    }
+
+    return newModels;
 };

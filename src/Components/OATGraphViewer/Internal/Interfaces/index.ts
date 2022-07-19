@@ -1,5 +1,5 @@
 export interface GraphViewerConnectionEvent extends Event {
-    path?: string;
+    path?: any[];
     clientX?: number;
     clientY?: number;
 }

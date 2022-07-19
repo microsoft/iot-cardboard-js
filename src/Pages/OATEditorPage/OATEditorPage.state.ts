@@ -28,7 +28,6 @@ import {
 export const defaultOATEditorState: IOATEditorState = {
     model: null,
     models: getStoredEditorModelsData(),
-
     templatesActive: false,
     importModels: [],
     isJsonUploaderOpen: false,

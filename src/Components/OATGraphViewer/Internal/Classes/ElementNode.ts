@@ -1,17 +1,17 @@
-import { ElementData } from './ElementData';
+import { DtdlInterface, IOATNodeElement } from '../../../../Models/Constants';
 import { ElementPosition } from './ElementPosition';
 
-export class ElementNode {
+export class ElementNode implements IOATNodeElement {
     public id: string;
     public type: string;
     public position: ElementPosition;
-    public data: ElementData;
+    public data: DtdlInterface;
 
     constructor(
         id: string,
         type: string,
         position: ElementPosition,
-        data: ElementData
+        data: DtdlInterface
     ) {
         this.id = id;
         this.type = type;

@@ -6,7 +6,6 @@ import {
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-import { IOATTwinModelNodes } from '../../Models/Constants';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_SELECTED_MODEL,
@@ -17,6 +16,7 @@ import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Componen
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import {
     deepCopy,
+    deleteModelFromCollection,
     getNewModelNewModelsAndNewPositionsFromId
 } from '../../Models/Services/Utils';
 import {
@@ -25,6 +25,7 @@ import {
 } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { OATModelListProps } from './OATModelList.types';
+import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 
 const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     const theme = useTheme();
@@ -120,15 +121,15 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         }
     };
 
-    const onModelDelete = (id: string) => {
+    const onModelDelete = (item: DtdlInterface) => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deepCopy(models);
-                const index = newModels.findIndex(
-                    (element) => element['@id'] === id
+                const newModels = deleteModelFromCollection(
+                    item['@id'],
+                    item,
+                    models
                 );
-                newModels.splice(index, 1);
                 dispatch({
                     type: SET_OAT_MODELS,
                     payload: newModels
@@ -245,7 +246,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
             : t('OATPropertyEditor.displayName');
     };
 
-    const onRenderCell = (item: IOATTwinModelNodes) => {
+    const onRenderCell = (item: DtdlInterface) => {
         return (
             <div
                 className={`${modelsStyles.modelNode} ${
@@ -269,7 +270,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                             {idEditor && currentNodeId.current === item['@id'] && (
                                 <OATTextFieldId
                                     value={idText}
-                                    model={model}
+                                    model={item}
                                     models={models}
                                     onChange={() => {
                                         setItems([...items]);
@@ -305,7 +306,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                                     <>
                                         <OATTextFieldDisplayName
                                             value={nameText}
-                                            model={model}
+                                            model={item}
                                             onChange={() => {
                                                 setItems([...items]);
                                             }}
@@ -322,7 +323,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                 </ActionButton>
                 <ActionButton
                     className={modelsStyles.nodeCancel}
-                    onClick={() => onModelDelete(item['@id'])}
+                    onClick={() => onModelDelete(item)}
                 >
                     <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>

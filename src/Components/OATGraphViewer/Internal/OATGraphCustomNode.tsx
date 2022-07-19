@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { Icon, ActionButton, Label, TooltipHost } from '@fluentui/react';
-import { Handle } from 'react-flow-renderer';
+import { Handle, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
 import {
@@ -24,7 +24,7 @@ import {
     SET_OAT_MODELS_POSITIONS
 } from '../../../Models/Constants/ActionTypes';
 import {
-    getPropertyDisplayName,
+    getDisplayName,
     isDisplayNameDefined
 } from '../../OATPropertyEditor/Utils';
 import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
@@ -36,19 +36,21 @@ import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
 import {
     deepCopy,
+    deleteModelFromCollection,
     getNewModelNewModelsAndNewPositionsFromId
 } from '../../../Models/Services/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
+    id,
     data,
     isConnectable
 }) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
     const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(getPropertyDisplayName(data));
+    const [nameText, setNameText] = useState(getDisplayName(data.displayName));
     const [idEditor, setIdEditor] = useState(false);
-    const [idText, setIdText] = useState(data.id);
+    const [idText, setIdText] = useState(data['@id']);
     const { dispatch, state, currentHovered, currentNodeIdRef } = useContext(
         ElementsContext
     );
@@ -61,11 +63,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [handleHoverComponent, setHandleHoverComponent] = useState(false);
     const [handleHoverExtend, setHandleHoverExtend] = useState(false);
     const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
-    const { model, models, modelPositions } = state;
+    const { models, modelPositions } = state;
 
     const onNameClick = () => {
         if (!state.modified) {
-            setNameText(getPropertyDisplayName(data));
+            setNameText(getDisplayName(data.displayName));
             setNameEditor(true);
         }
     };
@@ -80,11 +82,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deepCopy(models);
-                const index = newModels.findIndex(
-                    (element) => element['@id'] === model['@id']
-                );
-                newModels.splice(index, 1);
+                const newModels = deleteModelFromCollection(id, data, models);
                 dispatch({
                     type: SET_OAT_MODELS,
                     payload: newModels
@@ -108,7 +106,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                payload: data
             });
         };
 
@@ -120,7 +118,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const onDisplayNameCommit = (value: string) => {
         const update = () => {
             setNameEditor(false);
-            const modelCopy = deepCopy(model);
+            const modelCopy = deepCopy(data);
             modelCopy.displayName = value;
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
@@ -132,7 +130,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const undoUpdate = () => {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                payload: data
             });
         };
 
@@ -143,7 +141,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const commit = () => {
             const modelData = getNewModelNewModelsAndNewPositionsFromId(
                 value,
-                model,
+                data,
                 models,
                 modelPositions
             );
@@ -167,7 +165,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const undoCommit = () => {
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                payload: data
             });
             dispatch({
                 type: SET_OAT_MODELS,
@@ -189,19 +187,19 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     return (
         <>
-            {data.type === OATUntargetedRelationshipName && (
+            {data['@type'] === OATUntargetedRelationshipName && (
                 <Handle
                     type="target"
-                    position="top"
+                    position={Position.Top}
                     className={graphViewerStyles.handle}
                     isConnectable={isConnectable}
                 />
             )}
             <div
                 className={
-                    model &&
+                    data &&
                     currentNodeIdRef &&
-                    currentNodeIdRef.current === data.id
+                    currentNodeIdRef.current === data['@id']
                         ? graphViewerStyles.selectedNode
                         : graphViewerStyles.node
                 }
@@ -209,19 +207,19 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 <ActionButton styles={actionButtonStyles} onClick={onDelete}>
                     <Icon iconName="Delete" styles={iconStyles} />
                 </ActionButton>
-                {data.type !== OATUntargetedRelationshipName && (
+                {data['@type'] !== OATUntargetedRelationshipName && (
                     <>
                         <div className={graphViewerStyles.nodeContainer}>
                             <span>{t('OATGraphViewer.id')}:</span>
                             {!idEditor && (
                                 <Label onDoubleClick={onIdClick}>
-                                    {data.id}
+                                    {data['@id']}
                                 </Label>
                             )}
                             {idEditor && (
                                 <OATTextFieldId
                                     value={idText}
-                                    model={model}
+                                    model={data}
                                     models={models}
                                     onCommit={onIdCommit}
                                     autoFocus
@@ -233,21 +231,21 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                             {!nameEditor && (
                                 <Label
                                     className={
-                                        isDisplayNameDefined(data.name)
+                                        isDisplayNameDefined(data.displayName)
                                             ? ''
                                             : graphViewerStyles.placeholderText
                                     }
                                     onDoubleClick={onNameClick}
                                 >
-                                    {isDisplayNameDefined(data.name)
-                                        ? getPropertyDisplayName(data)
+                                    {isDisplayNameDefined(data.displayName)
+                                        ? getDisplayName(data.displayName)
                                         : t('OATPropertyEditor.displayName')}
                                 </Label>
                             )}
                             {nameEditor && (
                                 <OATTextFieldDisplayName
                                     value={nameText}
-                                    model={model}
+                                    model={data}
                                     onCommit={onDisplayNameCommit}
                                     autoFocus
                                     placeholder={t(
@@ -258,34 +256,37 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         </div>
                     </>
                 )}
-                {data.type === OATUntargetedRelationshipName && (
+                {data['@type'] === OATUntargetedRelationshipName && (
                     <>
                         <div
                             className={
                                 graphViewerStyles.untargetedNodeContainer
                             }
                         >
-                            <Label>{data.type}</Label>
+                            <Label>{data['@type']}</Label>
                         </div>
                     </>
                 )}
             </div>
-            {data.type === OATInterfaceType && (
+            {data['@type'] === OATInterfaceType && (
                 <>
                     <TooltipHost
                         content={OATComponentHandleName}
                         id={`${OATComponentHandleName}ToolTip`}
                         calloutProps={{
                             gapSpace: 6,
-                            target: `#${data.name}${OATComponentHandleName}`
+                            target: `#${getDisplayName(
+                                data.displayName
+                            )}${OATComponentHandleName}`
                         }}
                     >
                         <Handle
                             type="source"
-                            position="bottom"
+                            position={Position.Bottom}
                             id={OATComponentHandleName}
                             className={
-                                currentHovered && currentHovered.id === data.id
+                                currentHovered &&
+                                currentHovered.id === data['@id']
                                     ? graphViewerStyles.componentHandleFocus
                                     : graphViewerStyles.componentHandleHidden
                             }
@@ -301,7 +302,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 className={
                                     !handleHoverComponent &&
                                     currentHovered &&
-                                    currentHovered.id === data.id
+                                    currentHovered.id === data['@id']
                                         ? graphViewerStyles.handleContentComponent
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -309,7 +310,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
                             <Svg
                                 src={IconComponent}
-                                id={`${data.name}${OATComponentHandleName}`}
+                                id={`${getDisplayName(
+                                    data.displayName
+                                )}${OATComponentHandleName}`}
                                 className={
                                     handleHoverComponent
                                         ? graphViewerStyles.handleContentIcon
@@ -323,15 +326,18 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         id={`${OATRelationshipHandleName}ToolTip`}
                         calloutProps={{
                             gapSpace: 6,
-                            target: `#${data.name}${OATRelationshipHandleName}`
+                            target: `#${getDisplayName(
+                                data.displayName
+                            )}${OATRelationshipHandleName}`
                         }}
                     >
                         <Handle
                             type="source"
-                            position="bottom"
+                            position={Position.Bottom}
                             id={OATRelationshipHandleName}
                             className={
-                                currentHovered && currentHovered.id === data.id
+                                currentHovered &&
+                                currentHovered.id === data['@id']
                                     ? graphViewerStyles.relationshipHandleFocus
                                     : graphViewerStyles.relationshipHandleHidden
                             }
@@ -347,7 +353,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 className={
                                     !handleHoverRelationship &&
                                     currentHovered &&
-                                    currentHovered.id === data.id
+                                    currentHovered.id === data['@id']
                                         ? graphViewerStyles.handleContentRelationship
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -355,7 +361,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
                             <Svg
                                 src={IconRelationship}
-                                id={`${data.name}${OATRelationshipHandleName}`}
+                                id={`${getDisplayName(
+                                    data.displayName
+                                )}${OATRelationshipHandleName}`}
                                 className={
                                     handleHoverRelationship
                                         ? graphViewerStyles.handleContentIcon
@@ -369,15 +377,18 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         id={`${OATUntargetedRelationshipName}ToolTip`}
                         calloutProps={{
                             gapSpace: 6,
-                            target: `#${data.name}${OATUntargetedRelationshipName}`
+                            target: `#${getDisplayName(
+                                data.displayName
+                            )}${OATUntargetedRelationshipName}`
                         }}
                     >
                         <Handle
                             type="source"
-                            position="bottom"
+                            position={Position.Bottom}
                             id={OATUntargetedRelationshipName}
                             className={
-                                currentHovered && currentHovered.id === data.id
+                                currentHovered &&
+                                currentHovered.id === data['@id']
                                     ? graphViewerStyles.untargetRelationshipHandleFocus
                                     : graphViewerStyles.untargetRelationshipHandleHidden
                             }
@@ -393,7 +404,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 className={
                                     !handleHoverUntargeted &&
                                     currentHovered &&
-                                    currentHovered.id === data.id
+                                    currentHovered.id === data['@id']
                                         ? graphViewerStyles.handleContentRelationship
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -401,7 +412,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
                             <Svg
                                 src={IconUntargeted}
-                                id={`${data.name}${OATUntargetedRelationshipName}`}
+                                id={`${getDisplayName(
+                                    data.displayName
+                                )}${OATUntargetedRelationshipName}`}
                                 className={
                                     handleHoverUntargeted
                                         ? graphViewerStyles.handleContentIcon
@@ -415,15 +428,18 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                         id={`${OATExtendHandleName}ToolTip`}
                         calloutProps={{
                             gapSpace: 6,
-                            target: `#${data.name}${OATExtendHandleName}`
+                            target: `#${getDisplayName(
+                                data.displayName
+                            )}${OATExtendHandleName}`
                         }}
                     >
                         <Handle
                             type="source"
-                            position="bottom"
+                            position={Position.Bottom}
                             id={OATExtendHandleName}
                             className={
-                                currentHovered && currentHovered.id === data.id
+                                currentHovered &&
+                                currentHovered.id === data['@id']
                                     ? graphViewerStyles.extendHandleFocus
                                     : graphViewerStyles.extendHandleHidden
                             }
@@ -439,7 +455,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 className={
                                     !handleHoverExtend &&
                                     currentHovered &&
-                                    currentHovered.id === data.id
+                                    currentHovered.id === data['@id']
                                         ? graphViewerStyles.handleContentExtend
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -447,7 +463,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
                             <Svg
                                 src={IconInheritance}
-                                id={`${data.name}${OATExtendHandleName}`}
+                                id={`${getDisplayName(
+                                    data.displayName
+                                )}${OATExtendHandleName}`}
                                 className={
                                     handleHoverExtend
                                         ? graphViewerStyles.handleContentIcon

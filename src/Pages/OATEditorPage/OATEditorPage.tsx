@@ -3,7 +3,7 @@ import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
-import { getEditorPageStyles } from './OATEditorPage.Styles';
+import { getEditorPageStyles } from './OATEditorPage.styles';
 import { ErrorBoundary } from 'react-error-boundary';
 import {
     OATEditorPageReducer,

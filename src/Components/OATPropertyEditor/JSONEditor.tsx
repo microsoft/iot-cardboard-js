@@ -7,7 +7,6 @@ import {
     SET_OAT_MODIFIED,
     SET_OAT_ERROR
 } from '../../Models/Constants/ActionTypes';
-import { IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
@@ -17,6 +16,7 @@ import { parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
 import { OATRelationshipHandleName } from '../../Models/Constants';
+import { DTDLModel } from '../../Models/Classes/DTDL';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
@@ -75,7 +75,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         dispatch({ type: SET_OAT_MODIFIED, payload: false });
     };
 
-    const checkDuplicateId = (modelValue: IOATTwinModelNodes) => {
+    const checkDuplicateId = (modelValue: DTDLModel) => {
         if (modelValue['@type'] === OATRelationshipHandleName) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>

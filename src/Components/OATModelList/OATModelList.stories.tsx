@@ -4,9 +4,9 @@ import OATModelList from './OATModelList';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
 import {
-    OATGraphViewerReducer,
+    OATEditorPageReducer,
     defaultOATEditorState
-} from './OATModelList.state';
+} from '../../Pages/OATEditorPage/OATEditorPage.state';
 
 export default {
     title: 'Components/OATModelList',
@@ -15,7 +15,7 @@ export default {
 
 export const Default = (_args, { globals: { theme, locale } }) => {
     const [state, dispatch] = useReducer(
-        OATGraphViewerReducer,
+        OATEditorPageReducer,
         defaultOATEditorState
     );
 

@@ -3,14 +3,14 @@ import {
     ITextFieldStyleProps,
     ITextFieldStyles
 } from '@fluentui/react';
-import { IOATTwinModelNodes } from '../../../../Models/Constants/Interfaces';
+import { DtdlInterface, DtdlRelationship } from '../../../../Models/Constants';
 
 export type OATTextFieldDisplayNameProps = {
     autoFocus?: boolean;
     borderless?: boolean;
     disabled?: boolean;
     value: string;
-    model?: IOATTwinModelNodes;
+    model?: DtdlInterface | DtdlRelationship;
     onChange?: () => void;
     onCommit?: (value: string) => void;
     placeholder?: string;

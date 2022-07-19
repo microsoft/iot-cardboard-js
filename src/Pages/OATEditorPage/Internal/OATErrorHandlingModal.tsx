@@ -2,7 +2,7 @@ import React from 'react';
 import { PrimaryButton, Modal } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_ERROR } from '../../../Models/Constants/ActionTypes';
-import { getEditorPageStyles } from '../OATEditorPage.Styles';
+import { getEditorPageStyles } from '../OATEditorPage.styles';
 import { IOATEditorState } from '../OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 
