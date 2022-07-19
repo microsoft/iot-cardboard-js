@@ -344,7 +344,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     }, [getScenesConfig?.adapterResult]);
 
     // viewer callbacks
-
     const meshHoverOnBehaviorsIdle = (mesh: AbstractMesh) => {
         const meshIds = [];
         if (!contextualMenuProps.isVisible) {
