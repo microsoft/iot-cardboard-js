@@ -7,6 +7,7 @@ import React, {
     useRef,
     useState
 } from 'react';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 import { useTranslation } from 'react-i18next';
 import { DatasourceType } from '../../../../Models/Classes/3DVConfig';
 import {
@@ -21,7 +22,6 @@ import {
 } from '../../ADT3DSceneBuilder.types';
 import {
     DefaultButton,
-    IPivotItemProps,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -59,7 +59,6 @@ import {
     IValidityState,
     TabNames
 } from './BehaviorForm.types';
-import { customPivotItemStyles } from './BehaviorsForm.styles';
 import TwinsTab from './Internal/TwinsTab';
 import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
@@ -473,7 +472,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.elements')}
                                 itemKey={BehaviorPivot.elements}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
+                                    setPivotToRequired(
                                         behaviorState.validityMap?.get(
                                             'Elements'
                                         )?.isValid,
@@ -499,7 +498,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.twinsTab')}
                                 itemKey={BehaviorPivot.twins}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
+                                    setPivotToRequired(
                                         behaviorState.validityMap?.get('Twins')
                                             ?.isValid,
                                         props,
@@ -518,7 +517,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.statesTab')}
                                 itemKey={BehaviorPivot.states}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
+                                    setPivotToRequired(
                                         behaviorState.validityMap?.get('Status')
                                             ?.isValid,
                                         props,
@@ -535,7 +534,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.alertsTab')}
                                 itemKey={BehaviorPivot.alerts}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
+                                    setPivotToRequired(
                                         behaviorState.validityMap?.get('Alerts')
                                             ?.isValid,
                                         props,
@@ -550,7 +549,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.widgets')}
                                 itemKey={BehaviorPivot.widgets}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
+                                    setPivotToRequired(
                                         behaviorState.validityMap?.get(
                                             'Widgets'
                                         )?.isValid,
@@ -592,26 +591,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         </div>
     );
 };
-
-function _customTabRenderer(
-    isValid: boolean | undefined,
-    link?: IPivotItemProps,
-    defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
-): JSX.Element | null {
-    if (!link || !defaultRenderer) {
-        return null;
-    }
-    return (
-        <span className={customPivotItemStyles.root}>
-            {defaultRenderer({ ...link, itemIcon: undefined })}
-            {/* TODO: Add an aria label of some kind here for screen readers to see this error state */}
-            {isValid === false && (
-                <span className={customPivotItemStyles.alert} />
-            )}
-        </span>
-    );
-}
-
 function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
     let isValid = true;
     validityMap.forEach((x) => {

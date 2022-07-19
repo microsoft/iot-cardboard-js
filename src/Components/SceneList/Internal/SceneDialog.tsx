@@ -119,18 +119,27 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         if (!put3DFileBlob.adapterResult.hasNoData()) {
             const newlyAdded3DFile: IStorageBlob =
                 put3DFileBlob.adapterResult.result.data[0];
-            const sceneObjectForAddOrEdit = {
-                ...sceneToEdit,
-                assets: [
-                    {
-                        type: '3DAsset',
-                        url: newlyAdded3DFile.Path
-                    }
-                ]
-            };
             if (sceneToEdit) {
+                const sceneObjectForAddOrEdit = {
+                    ...sceneToEdit,
+                    assets: [
+                        {
+                            type: '3DAsset',
+                            url: newlyAdded3DFile.Path
+                        }
+                    ]
+                };
                 onEditScene(sceneObjectForAddOrEdit);
             } else {
+                const sceneObjectForAddOrEdit = {
+                    ...state.scene,
+                    assets: [
+                        {
+                            type: '3DAsset',
+                            url: newlyAdded3DFile.Path
+                        }
+                    ]
+                };
                 onAddScene(sceneObjectForAddOrEdit);
             }
         }
