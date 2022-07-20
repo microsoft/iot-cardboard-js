@@ -66,7 +66,7 @@ import {
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
 import { OATGraphProps } from './OATGraphViewer.types';
-import { DtdlInterface, DtdlRelationship } from '../../Models/Constants';
+import { DtdlInterface } from '../../Models/Constants';
 import { IModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const contextClassBase = 'dtmi:dtdl:context;2';
@@ -174,8 +174,8 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 ? content['@id']
                                 : `${input['@id']}${OATUntargetedRelationshipName}${id}`,
                             '',
-                            '',
                             OATRelationshipHandleName,
+                            '',
                             input['@id'],
                             OATUntargetedRelationshipName,
                             id,
@@ -399,50 +399,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [models]);
 
     useEffect(() => {
-        // Detect changes outside of the component on the selected model
-        if (!model) {
-            currentNodeIdRef.current = '';
-        } else {
-            const node = elements.find(
-                (element) => element.id === model['@id']
-            );
-
-            if (!node && model['@type'] === OATRelationshipHandleName) {
-                currentNodeIdRef.current = model['@id'];
-            }
-
-            if (node && !node.source) {
-                // Interface
-                const newId = model['@id'];
-                elements.forEach((x) => {
-                    if (x.source && x.source === currentNodeIdRef.current) {
-                        x.source = newId;
-                    }
-                    if (x.target && x.target === currentNodeIdRef.current) {
-                        x.target = newId;
-                    }
-                });
-                node.id = newId;
-                node.data = model;
-                setElements([...elements]);
-                currentNodeIdRef.current = newId;
-            } else if (node && node.source) {
-                // Relationship
-                const newId = model['@id'];
-                if (node.sourceHandle === OATComponentHandleName) {
-                    elements.find(
-                        (element) => element.id === node.target
-                    ).data.name = model['name'];
-                }
-                node.id = newId;
-                node.data = model;
-                setElements([...elements]);
-                currentNodeIdRef.current = newId;
-            }
-        }
-    }, [model]);
-
-    useEffect(() => {
         if (importModels && importModels.length > 0) {
             setLoading(true);
         }
@@ -458,7 +414,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const providerVal = useMemo(
         () => ({
             dispatch,
-            currentNodeIdRef,
             currentHovered,
             showRelationships,
             showInheritances,
@@ -467,7 +422,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
         }),
         [
             dispatch,
-            currentNodeIdRef,
             currentHovered,
             showRelationships,
             showInheritances,
@@ -658,8 +612,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             {
                 '@id': `${currentNodeIdRef.current}${currentHandleIdRef.current}`,
                 '@type': currentHandleIdRef.current,
-                name: '',
-                displayName: ''
+                name: ''
             }
         );
         const target = (evt.path || []).find(
@@ -778,11 +731,15 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                         elements
                     )};${versionClassBase}`;
                     params.data['@type'] = currentHandleIdRef.current;
-                    params.data.name = OATRelationshipHandleName
-                        ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
-                              elements
-                          )}`
-                        : '';
+                    params.data.name =
+                        currentHandleIdRef.current === OATRelationshipHandleName
+                            ? `${OATRelationshipHandleName}_${getNextRelationshipAmount(
+                                  elements
+                              )}`
+                            : currentHandleIdRef.current ===
+                              OATComponentHandleName
+                            ? name
+                            : '';
                     setElements((es) => addEdge(params, [...es, newNode]));
                 };
 
@@ -872,13 +829,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     sourceNode &&
                     targetNode &&
                     sourceNode.contents.every(
-                        (element) =>
-                            element.name !== targetNode.data.displayName
+                        (element) => element.name !== currentNode.data.name
                     )
                 ) {
                     const component = {
                         '@type': currentNode.data['@type'],
-                        name: targetNode.data.displayName,
+                        name: currentNode.data.name,
                         schema: currentNode.target
                     };
                     sourceNode.contents = [...sourceNode.contents, component];
@@ -993,6 +949,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 type: SET_OAT_SELECTED_MODEL,
                 payload: null
             });
+            currentNodeIdRef.current = null;
         };
 
         const undoClearModel = () => {
@@ -1000,6 +957,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 type: SET_OAT_SELECTED_MODEL,
                 payload: model
             });
+            currentNodeIdRef.current = model['@id'];
         };
 
         if (model) {

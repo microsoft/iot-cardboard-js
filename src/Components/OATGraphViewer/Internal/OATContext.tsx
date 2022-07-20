@@ -1,10 +1,9 @@
-import { Context, createContext, Dispatch, MutableRefObject } from 'react';
+import { Context, createContext, Dispatch } from 'react';
 import { IOATNodeElement } from '../../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 export interface ElementsContextProps {
     dispatch: Dispatch<any>;
-    currentNodeIdRef: MutableRefObject<any>;
     currentHovered: IOATNodeElement;
     showRelationships: boolean;
     showInheritances: boolean;
