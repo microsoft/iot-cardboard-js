@@ -542,7 +542,11 @@
         "noNumberPrefix": "트윈 이름은 숫자로 시작하면 안 됩니다."
       }
     },
-    "actions": "작업"
+    "actions": "작업",
+    "transform": {
+      "position": "위치",
+      "rotation": "회전"
+    }
   },
   "widgets": {
     "trend": {
