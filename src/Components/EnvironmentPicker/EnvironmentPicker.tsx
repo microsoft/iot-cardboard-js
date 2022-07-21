@@ -452,6 +452,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             onResourcesLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
+                            allowFreeform
                         />
                         {props.storage && (
                             <>
@@ -499,15 +500,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                             )
                                         );
                                     }}
+                                    allowFreeform
                                 />
 
                                 <ResourcePicker
                                     key={storageAccountToEdit?.id}
                                     styles={comboBoxSubComponentStyles}
-                                    disabled={
-                                        !hasFetchedResources.current
-                                            .storageAccounts
-                                    }
                                     adapter={props.adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
@@ -554,6 +552,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                     onResourcesLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
+                                    allowFreeform
                                 />
                             </>
                         )}

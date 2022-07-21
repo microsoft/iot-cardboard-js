@@ -22,7 +22,7 @@ import { createGUID, getDebugLogger } from '../Models/Services/Utils';
 
 const MAX_RESOURCE_TAKE_LIMIT = 1000;
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('AzureManagementAdapter', debugLogging);
 export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
