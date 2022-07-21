@@ -160,8 +160,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         showComponents,
         state
     } = useContext(ElementsContext);
-    const { model, models } = state;
-    const isSelected = useMemo(() => model && model['@id'] === id, [model]);
+    const { selection, models } = state;
 
     const graphViewerStyles = getGraphViewerStyles();
     const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
@@ -192,6 +191,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         const target = nodes.find((x) => x.id === edge.target);
         return [target, ...getMidPointForNode(target)];
     }, [edge, nodes]);
+
+    const isSelected = useMemo(
+        () =>
+            selection &&
+            selection.modelId === source.id &&
+            ((data['@type'] === OATExtendHandleName &&
+                selection.contentId === data['@id']) ||
+                (data['@type'] !== OATExtendHandleName &&
+                    selection.contentId === data.name)),
+        [data, selection, source]
+    );
 
     useEffect(() => {
         if (nameEditor && !isSelected) {
@@ -302,7 +312,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let relationshipPolygon = '';
         let edgePathTargetX = 0;
         let edgePathTargetY = 0;
-        // Using triangulated conection position to create inheritance and relationship polygons and angles to define orientation
+
+        // Using triangulated connection position to create inheritance and relationship polygons and angles to define orientation
         if (betaAngle < targetBetaAngle) {
             newHeight = targetHeight + adjustmentTargetY * heightVector;
             const newHypotenuse = newHeight / Math.sin(alphaAngle);
@@ -565,7 +576,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: data
+                payload: selection
             });
         };
 
@@ -584,10 +595,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 model &&
                 model.contents.find(
                     (link) =>
-                        (link['@type'] === OATRelationshipHandleName &&
-                            link['@id'] === id) ||
-                        (link['@type'] === OATComponentHandleName &&
-                            link.schema === target.id)
+                        link['@type'] === data['@type'] &&
+                        link.name === nameText
                 );
             if (link) {
                 link.name = value;
@@ -597,7 +606,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 });
                 dispatch({
                     type: SET_OAT_SELECTED_MODEL,
-                    payload: link
+                    payload: { modelId: source.id, contentId: value }
                 });
             }
 
@@ -612,7 +621,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: data
+                payload: selection
             });
         };
 

@@ -12,5 +12,4 @@ export type PropertyListItemNestedProps = {
     onMove?: (index: number, moveUp: boolean) => void;
     parentIndex?: number;
     state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 };

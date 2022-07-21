@@ -7,7 +7,5 @@ export type FormUpdatePropertyProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     languages: IDropdownOption[];
     onClose?: () => void;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
+    state?: IOATEditorState & IOATPropertyEditorState;
 };

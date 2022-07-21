@@ -22,9 +22,7 @@ export const TemplateColumn = ({
     enteredPropertyRef,
     enteredTemplateRef,
     dispatch,
-    state,
-    dispatchPE,
-    statePE
+    state
 }: TemplateColumnProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -32,7 +30,7 @@ export const TemplateColumn = ({
     const templateColumnStyles = getTemplateColumnStyles();
     const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();
     const draggedTemplateItemRef = useRef(null);
-    const { draggingTemplate, draggingProperty } = statePE;
+    const { draggingTemplate, draggingProperty } = state;
 
     return (
         <Stack styles={templateColumnStyles}>
@@ -82,7 +80,6 @@ export const TemplateColumn = ({
                 dispatch={dispatch}
                 state={state}
                 draggingTemplate={draggingTemplate}
-                dispatchPE={dispatchPE}
                 enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}
             />

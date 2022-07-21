@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import {
     getModelPropertyCollectionName,
+    getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { PropertyListProps } from './PropertyList.types';
@@ -24,9 +25,7 @@ export const PropertyList = ({
     enteredPropertyRef,
     enteredTemplateRef,
     dispatch,
-    dispatchPE,
     state,
-    statePE,
     propertyList,
     isSupportedModelType
 }: PropertyListProps) => {
@@ -51,12 +50,18 @@ export const PropertyList = ({
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
-    const { model, templates } = state;
     const {
+        selection,
+        models,
+        templates,
         currentPropertyIndex,
         draggingTemplate,
         draggingProperty
-    } = statePE;
+    } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -95,7 +100,7 @@ export const PropertyList = ({
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
             payload: false
         });
@@ -116,7 +121,7 @@ export const PropertyList = ({
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            dispatchPE({
+            dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
                 payload: true
             });
@@ -356,7 +361,6 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
-                                dispatchPE={dispatchPE}
                             />
                         );
                     } else if (typeof item['@type'] === 'object') {
@@ -384,7 +388,6 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
-                                dispatchPE={dispatchPE}
                             />
                         );
                     }

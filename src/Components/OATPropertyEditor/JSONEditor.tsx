@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Editor from '@monaco-editor/react';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +17,7 @@ import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Contex
 import { JSONEditorProps } from './JSONEditor.types';
 import { OATRelationshipHandleName } from '../../Models/Constants';
 import { DTDLModel } from '../../Models/Classes/DTDL';
+import { getTargetFromSelection } from './Utils';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
@@ -24,10 +25,15 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = libTheme || theme;
     const editorRef = useRef(null);
-    const { model, models } = state;
+    const { selection, models } = state;
     const [content, setContent] = useState(null);
     const cancelButtonStyles = getCancelButtonStyles();
     const saveButtonStyles = getSaveButtonStyles();
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));

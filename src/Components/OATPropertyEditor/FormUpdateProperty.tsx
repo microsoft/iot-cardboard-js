@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     TextField,
@@ -38,7 +38,8 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getTargetFromSelection
 } from './Utils';
 import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 const multiLanguageOptionValue = 'multiLanguage';
@@ -46,11 +47,9 @@ const singleLanguageOptionValue = 'singleLanguage';
 
 export const FormUpdateProperty = ({
     dispatch,
-    dispatchPE,
     state,
     languages,
-    onClose,
-    statePE
+    onClose
 }: FormUpdatePropertyProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -58,8 +57,16 @@ export const FormUpdateProperty = ({
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
 
-    const { model } = state;
-    const { currentPropertyIndex, currentNestedPropertyIndex } = statePE;
+    const {
+        models,
+        selection,
+        currentPropertyIndex,
+        currentNestedPropertyIndex
+    } = state;
+    const model = useMemo(() => getTargetFromSelection(models, selection), [
+        models,
+        selection
+    ]);
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -224,7 +231,7 @@ export const FormUpdateProperty = ({
         execute(update, undoUpdate);
 
         onClose();
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: null
         });

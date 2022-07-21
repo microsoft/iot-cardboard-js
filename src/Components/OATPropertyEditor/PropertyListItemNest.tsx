@@ -27,6 +27,7 @@ import {
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
+    getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { FormBody } from './Constants';
@@ -52,8 +53,7 @@ export const PropertyListItemNest = ({
     definePropertySelectorPosition,
     propertySelectorTriggerElementsBoundingBox,
     onMove,
-    propertiesLength,
-    dispatchPE
+    propertiesLength
 }: PropertyListItemNestProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -64,14 +64,18 @@ export const PropertyListItemNest = ({
     const [collapsed, setCollapsed] = useState(true);
     const [hover, setHover] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
-    const { model, templates } = state;
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
 
     const addPropertyCallback = () => {
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
         });
@@ -84,11 +88,11 @@ export const PropertyListItemNest = ({
                 setPropertySelectorVisible(true);
                 return;
             case DTDLSchemaType.Enum:
-                dispatchPE({
+                dispatch({
                     type: SET_OAT_PROPERTY_MODAL_BODY,
                     payload: FormBody.enum
                 });
-                dispatchPE({
+                dispatch({
                     type: SET_OAT_PROPERTY_MODAL_OPEN,
                     payload: true
                 });
@@ -245,20 +249,20 @@ export const PropertyListItemNest = ({
     };
 
     const onInfoButtonClick = () => {
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: null
         });
 
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: true
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: FormBody.property
         });
@@ -325,8 +329,8 @@ export const PropertyListItemNest = ({
                                 item.name
                             )}
                             validateOnFocusOut
-                            onChange={(evt, value) => {
-                                dispatchPE({
+                            onChange={(_, value) => {
+                                dispatch({
                                     type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
                                     payload: index
                                 });
@@ -414,7 +418,6 @@ export const PropertyListItemNest = ({
                             state={state}
                             onMove={moveNestedItem}
                             collectionLength={item.schema.fields.length}
-                            dispatchPE={dispatchPE}
                         />
                     ))}
 

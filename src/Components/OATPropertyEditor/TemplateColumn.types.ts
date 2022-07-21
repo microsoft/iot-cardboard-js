@@ -6,7 +6,5 @@ export type TemplateColumnProps = {
     enteredPropertyRef: any;
     enteredTemplateRef: any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
+    state?: IOATEditorState & IOATPropertyEditorState;
 };

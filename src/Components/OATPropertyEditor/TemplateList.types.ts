@@ -9,5 +9,4 @@ export type TemplateListProps = {
     enteredPropertyRef: any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 };

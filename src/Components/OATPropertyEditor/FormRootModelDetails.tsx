@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import {
     TextField,
     Text,
@@ -36,7 +36,8 @@ import {
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue,
-    getModelPropertyListItemName
+    getModelPropertyListItemName,
+    getTargetFromSelection
 } from './Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
@@ -52,7 +53,11 @@ export const FormRootModelDetails = ({
     languages
 }: ModalFormRootModelProps) => {
     const { execute } = useContext(CommandHistoryContext);
-    const { model, models, modelsMetadata } = state;
+    const { selection, models, modelsMetadata } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();

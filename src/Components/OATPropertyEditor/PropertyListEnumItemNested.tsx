@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
@@ -12,7 +12,8 @@ import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
     getModelPropertyCollectionName,
-    getModelPropertyListItemName
+    getModelPropertyListItemName,
+    getTargetFromSelection
 } from './Utils';
 import { EnumItemProps } from './PropertyListEnumItemNested.types';
 
@@ -32,7 +33,11 @@ export const PropertyListEnumItemNested = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const { model } = state;
+    const { models, selection } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null

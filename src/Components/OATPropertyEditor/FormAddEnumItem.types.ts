@@ -7,6 +7,5 @@ export type ModalFormAddEnumItemProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     languages: IDropdownOption[];
     onClose?: () => void;
-    state?: IOATEditorState;
-    statePE?: IOATPropertyEditorState;
+    state?: IOATEditorState & IOATPropertyEditorState;
 };

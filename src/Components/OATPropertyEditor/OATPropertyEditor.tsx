@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useCallback, useMemo, useReducer } from 'react';
 import Editor from './Editor';
 import {
     OATPropertyEditorReducer,
@@ -12,27 +12,32 @@ const OATPropertyEditor = ({
     state,
     languages
 }: OATPropertyEditorProps) => {
-    const [statePE, dispatchPE] = useReducer(
+    const [localState, localDispatch] = useReducer(
         OATPropertyEditorReducer,
         defaultOATPropertyEditorState
+    );
+
+    const combinedState = useMemo(() => ({ ...state, ...localState }), [
+        localState,
+        state
+    ]);
+
+    const combinedDispatch = useCallback(
+        (action) => {
+            localDispatch(action);
+            dispatch(action);
+        },
+        [localDispatch, dispatch]
     );
 
     return (
         <Editor
             theme={theme}
-            dispatch={dispatch}
-            state={state}
-            dispatchPE={dispatchPE}
-            statePE={statePE}
+            dispatch={combinedDispatch}
+            state={combinedState}
             languages={languages}
         />
     );
 };
 
 export default OATPropertyEditor;
-
-OATPropertyEditor.defaultProps = {
-    setModalOpen: () => {
-        console.log('no modal');
-    }
-};

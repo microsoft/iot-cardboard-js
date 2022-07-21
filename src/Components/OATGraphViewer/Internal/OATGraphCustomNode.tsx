@@ -36,8 +36,8 @@ import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
 import {
     deepCopy,
-    deleteModelFromCollection,
-    getNewModelNewModelsAndNewPositionsFromId
+    deleteModel,
+    updateModelId
 } from '../../../Models/Services/Utils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
@@ -61,8 +61,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     const [handleHoverComponent, setHandleHoverComponent] = useState(false);
     const [handleHoverExtend, setHandleHoverExtend] = useState(false);
     const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
-    const { model, models, modelPositions } = state;
-    const isSelected = useMemo(() => model && model['@id'] === id, [id, model]);
+    const { selection, models, modelPositions } = state;
+    const isSelected = useMemo(
+        () => selection && selection.modelId === id && !selection.contentId,
+        [id, selection]
+    );
 
     const onNameClick = () => {
         if (!state.modified) {
@@ -81,10 +84,10 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deleteModelFromCollection(id, data, models);
+                const modelsCopy = deleteModel(id, data, models);
                 dispatch({
                     type: SET_OAT_MODELS,
-                    payload: newModels
+                    payload: modelsCopy
                 });
                 // Dispatch selected model to null
                 dispatch({
@@ -105,7 +108,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: data
+                payload: selection
             });
         };
 
@@ -124,10 +127,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                     type: SET_OAT_MODELS,
                     payload: modelsCopy
                 });
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: model
-                });
             }
             setNameText(value);
             setNameEditor(false);
@@ -138,10 +137,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                 type: SET_OAT_MODELS,
                 payload: models
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: data
-            });
         };
 
         execute(update, undoUpdate);
@@ -149,39 +144,39 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
 
     const onIdCommit = (value: string) => {
         const commit = () => {
-            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+            const [modelsCopy, modelPositionsCopy] = updateModelId(
+                id,
                 value,
-                data,
                 models,
                 modelPositions
             );
 
             dispatch({
                 type: SET_OAT_MODELS_POSITIONS,
-                payload: modelData.positions
+                payload: modelPositionsCopy
             });
             dispatch({
                 type: SET_OAT_MODELS,
-                payload: modelData.models
+                payload: modelsCopy
             });
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: modelData.model
+                payload: { modelId: value }
             });
         };
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: data
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
             });
             dispatch({
                 type: SET_OAT_MODELS,
                 payload: models
             });
             dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+                type: SET_OAT_SELECTED_MODEL,
+                payload: selection
             });
         };
 

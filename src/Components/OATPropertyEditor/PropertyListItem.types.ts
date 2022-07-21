@@ -17,5 +17,4 @@ export type PropertyListItemProps = {
     item?: DTDLProperty;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
     state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
 };

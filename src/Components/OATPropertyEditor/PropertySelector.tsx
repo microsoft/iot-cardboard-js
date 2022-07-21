@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { ActionButton, Separator, Stack } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -10,7 +10,10 @@ import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
 
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getTargetFromSelection
+} from './Utils';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
 import { PropertySelectorProps } from './PropertySelector.types';
@@ -31,7 +34,11 @@ const PropertySelector = ({
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
-    const { model } = state;
+    const { models, selection } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null

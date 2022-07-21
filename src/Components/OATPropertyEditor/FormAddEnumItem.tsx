@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import {
     TextField,
     Text,
@@ -31,7 +31,8 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getTargetFromSelection
 } from './Utils';
 import {
     DTDLNameRegex,
@@ -47,11 +48,9 @@ export const FormAddEnumItem = ({
     dispatch,
     onClose,
     state,
-    languages,
-    statePE
+    languages
 }: ModalFormAddEnumItemProps) => {
     const { t } = useTranslation();
-    const { currentPropertyIndex } = statePE;
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
@@ -104,7 +103,12 @@ export const FormAddEnumItem = ({
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
     );
-    const { model } = state;
+    const { selection, models, currentPropertyIndex } = state;
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null

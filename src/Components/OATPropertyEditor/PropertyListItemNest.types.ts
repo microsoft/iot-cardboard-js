@@ -13,7 +13,6 @@ type IPropertySelectorTriggerElementsBoundingBox = {
 export type PropertyListItemNestProps = {
     deleteItem?: (index: number) => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;

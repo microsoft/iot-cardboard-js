@@ -1,22 +1,25 @@
 import { DTDLModel } from '../../../../Models/Classes/DTDL';
-import { IModelPosition, IModelsMetadata } from '../../OATEditorPage.types';
+import {
+    IOATModelPosition,
+    IOATModelsMetadata
+} from '../../OATEditorPage.types';
 
 export class ProjectData {
-    modelPositions?: IModelPosition[];
+    modelPositions?: IOATModelPosition[];
     models?: DTDLModel[];
     projectDescription?: string;
     projectName?: string;
     templates: any[];
     namespace?: string;
-    modelsMetadata?: IModelsMetadata[];
+    modelsMetadata?: IOATModelsMetadata[];
 
     constructor(
-        modelPositions: IModelPosition[],
+        modelPositions: IOATModelPosition[],
         models: DTDLModel[],
         projectName: string,
         templates: any[],
         namespace: string,
-        modelsMetadata: IModelsMetadata[]
+        modelsMetadata: IOATModelsMetadata[]
     ) {
         this.modelPositions = modelPositions;
         this.models = models;

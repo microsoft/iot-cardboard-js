@@ -1,13 +1,7 @@
-import {
-    IOATNodeElement,
-    IOATNodePosition,
-    IOATRelationshipElement
-} from '../../Models/Constants';
+import { IOATNodePosition } from '../../Models/Constants';
 import {
     DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship
+    DtdlProperty
 } from '../../Models/Constants/dtdlInterfaces';
 
 export interface IOATError {
@@ -22,19 +16,24 @@ export interface IOATConfirmDelete {
     callback?: () => void;
 }
 
-export interface IModelPosition {
+export interface IOATModelPosition {
     '@id': string;
     position: IOATNodePosition;
 }
 
-export interface IModelsMetadata {
+export interface IOATModelsMetadata {
     '@id': string;
     fileName?: string;
     directoryPath?: string;
 }
 
+export interface IOATSelection {
+    modelId: string;
+    contentId?: string;
+}
+
 export interface IOATEditorState {
-    model?: DtdlInterface | DtdlRelationship | DtdlInterfaceContent;
+    selection?: IOATSelection;
     models?: DtdlInterface[];
     templatesActive?: boolean;
     importModels?: [];
@@ -43,8 +42,8 @@ export interface IOATEditorState {
     projectName?: string;
     modified?: boolean;
     error?: IOATError;
-    modelPositions: IModelPosition[];
+    modelPositions: IOATModelPosition[];
     namespace?: string;
     confirmDeleteOpen?: IOATConfirmDelete;
-    modelsMetadata?: IModelsMetadata[];
+    modelsMetadata?: IOATModelsMetadata[];
 }

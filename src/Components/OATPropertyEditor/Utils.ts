@@ -1,5 +1,8 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { MultiLanguageSelectionType } from '../../Models/Constants';
+import {
+    DtdlInterface,
+    MultiLanguageSelectionType
+} from '../../Models/Constants';
 import {
     DTMIRegex,
     OATCommentLengthLimit,
@@ -8,8 +11,9 @@ import {
     OATIdLengthLimit,
     OATRelationshipHandleName
 } from '../../Models/Constants/Constants';
+import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-/* Returns property collection attribute name depending on model type */
+// Returns property collection attribute name depending on model type
 export const getModelPropertyCollectionName = (type: string) => {
     if (type && type === OATRelationshipHandleName) {
         return 'properties';
@@ -45,14 +49,14 @@ export const getDisplayName = (name: string | Record<string, any>) => {
     return null;
 };
 
-/* Returns property's display name, depending on whether it is a string or a object of localized displayNames */
+// Returns property's display name, depending on whether it is a string or a object of localized displayNames
 export const getPropertyDisplayName = (property: DTDLProperty) => {
     return typeof property.name === 'string'
         ? property.name
         : Object.values(property.name)[0];
 };
 
-/*  Handles language selection change on forms (DisplayName - Key - Dropdown) */
+// Handles language selection change on forms (DisplayName - Key - Dropdown)
 export const setMultiLanguageSelectionsDisplayNameKey = (
     value: string | number,
     index: number = null,
@@ -79,7 +83,7 @@ export const setMultiLanguageSelectionsDisplayNameKey = (
     );
 };
 
-/*  Handles language selection change on forms (DisplayName - Value - Dropdown) */
+// Handles language selection change on forms (DisplayName - Value - Dropdown)
 export const setMultiLanguageSelectionsDisplayNameValue = (
     value: string,
     index: number = null,
@@ -105,7 +109,7 @@ export const setMultiLanguageSelectionsDisplayNameValue = (
     }
 };
 
-/*  Handles language selection change on forms (Description - Key - Dropdown) */
+// Handles language selection change on forms (Description - Key - Dropdown)
 export const setMultiLanguageSelectionsDescriptionKey = (
     value: string | number,
     index: number = null,
@@ -132,7 +136,7 @@ export const setMultiLanguageSelectionsDescriptionKey = (
     );
 };
 
-/*  Handles language selection change on forms (Description - Value - TextField) */
+// Handles language selection change on forms (Description - Value - TextField)
 export const validateMultiLanguageSelectionsDescriptionValueChange = (
     value: string,
     index: number = null,
@@ -158,7 +162,7 @@ export const validateMultiLanguageSelectionsDescriptionValueChange = (
     }
 };
 
-/*  Handles language selection removal on forms */
+// Handles language selection removal on forms
 export const setMultiLanguageSelectionRemoval = (
     index: number,
     type: string,
@@ -216,11 +220,11 @@ export const setMultiLanguageSelectionRemoval = (
     }
 };
 
-/* Detects if mouse is below the trigger element */
+// Detects if mouse is below the trigger element
 export const shouldClosePropertySelectorOnMouseLeave = (e, boundingBox) =>
     e.clientY >= boundingBox.bottom;
 
-/* Handle display name change on forms */
+// Handle display name change on forms
 export const validateDisplayNameChange = (
     value,
     setDisplayName,
@@ -234,7 +238,7 @@ export const validateDisplayNameChange = (
     }
 };
 
-/* Handle description change on forms */
+// Handle description change on forms
 export const validateDescriptionChange = (
     value,
     setDescription,
@@ -248,7 +252,7 @@ export const validateDescriptionChange = (
     }
 };
 
-/* Handle comment change on forms */
+// Handle comment change on forms
 export const validateCommentChange = (value, setComment, setCommentError) => {
     if (value.length <= OATCommentLengthLimit) {
         setComment(value);
@@ -258,7 +262,7 @@ export const validateCommentChange = (value, setComment, setCommentError) => {
     }
 };
 
-/* Handle id change on forms */
+// Handle id change on forms
 export const validateIdChange = (
     value,
     setId,
@@ -284,4 +288,16 @@ export const validateIdChange = (
         setIdValidDTMIError(false);
         setIdErrorLength(false);
     }
+};
+
+export const getTargetFromSelection = (
+    models: DtdlInterface[],
+    selection: IOATSelection
+) => {
+    const model = models.find((m) => m['@id'] === selection.modelId);
+    if (!selection.contentId) {
+        return model;
+    }
+
+    return model.contents.find((c) => c.name === selection.contentId);
 };

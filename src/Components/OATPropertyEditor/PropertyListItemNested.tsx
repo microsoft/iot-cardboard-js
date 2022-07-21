@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
@@ -20,7 +20,8 @@ import {
 
 import {
     getModelPropertyCollectionName,
-    getModelPropertyListItemName
+    getModelPropertyListItemName,
+    getTargetFromSelection
 } from './Utils';
 import { FormBody } from './Constants';
 import { PropertyListItemNestedProps } from './PropertyListItemNested.types';
@@ -35,8 +36,7 @@ export const PropertyListItemNested = ({
     item,
     onMove,
     parentIndex,
-    state,
-    dispatchPE
+    state
 }: PropertyListItemNestedProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -45,7 +45,11 @@ export const PropertyListItemNested = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
-    const { model, templates } = state;
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -101,19 +105,19 @@ export const PropertyListItemNested = ({
     };
 
     const onInfoButtonClick = () => {
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: index
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: parentIndex
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: true
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: FormBody.property
         });
@@ -137,7 +141,7 @@ export const PropertyListItemNested = ({
                     placeholder={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={() => {
-                        dispatchPE({
+                        dispatch({
                             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
                             payload: parentIndex
                         });
