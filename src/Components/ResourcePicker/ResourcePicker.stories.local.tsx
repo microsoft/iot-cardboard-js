@@ -40,8 +40,12 @@ const Template: ResourcePickerStory = (args) => {
             }
             {...(args.resourceType ===
                 AzureResourceTypes.StorageBlobContainer && {
-                additionalResourceSearchParams: {
-                    storageAccountId: authenticationParameters.storage.accountId
+                searchParams: {
+                    ...args.searchParams,
+                    additionalParams: {
+                        storageAccountId:
+                            authenticationParameters.storage.accountId
+                    }
                 }
             })}
         />
@@ -54,7 +58,8 @@ ADTInstances.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Azure Digital Twins Data Owner']
+            AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
+            AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
         ]
     },
     label: 'ADT instances',
@@ -67,6 +72,7 @@ ADTInstances.args = {
     onResourceChange: (resource) => {
         console.log(typeof resource === 'string' ? resource : resource?.id);
     },
+    searchParams: { take: 500, filter: 'demo' },
     allowFreeform: true
 };
 

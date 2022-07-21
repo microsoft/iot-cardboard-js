@@ -57,7 +57,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     styles,
     label,
     loadingLabel,
-    additionalResourceSearchParams,
+    searchParams,
     onResourcesLoaded,
     onResourceChange,
     additionalOptions,
@@ -88,9 +88,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             adapter.getResourcesByPermissions(
                 resourceType,
                 requiredAccessRoles,
-                { additionalParams: additionalResourceSearchParams }
+                searchParams
             ),
-        refetchDependencies: [adapter, additionalResourceSearchParams],
+        refetchDependencies: [adapter, searchParams],
         isAdapterCalledOnMount: !disabled && shouldFetchResourcesOnMount
     });
 

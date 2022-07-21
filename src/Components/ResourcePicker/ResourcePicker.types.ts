@@ -13,7 +13,8 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     IAzureManagementAdapter,
-    IAzureResource
+    IAzureResource,
+    IAzureResourceSearchParams
 } from '../../Models/Constants/Interfaces';
 
 export interface IResourcePickerProps {
@@ -34,10 +35,7 @@ export interface IResourcePickerProps {
     displayField: AzureResourceDisplayFields; // which resource property to show as option text in the combobox
     label?: string;
     loadingLabel?: string;
-    additionalResourceSearchParams?: {
-        storageAccountId?: string;
-        [key: string]: any;
-    }; //for resource specific params for fetching gerReources (e.g storageAccountId for fetching StorageBlobContainer resource type)
+    searchParams?: IAzureResourceSearchParams;
     onResourcesLoaded?: (resources: Array<IAzureResource>) => void; // callback function to expose resources when they are fetched with useAdapter method on mount
     onResourceChange?: (
         resource: IAzureResource | string,
@@ -65,7 +63,6 @@ export interface IResourcePickerStyles {
     subComponentStyles?: IResourcePickerSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IResourcePickerSubComponentStyles {
     errorMessageBar: IMessageBarStyles;
     comboBox: Partial<IComboBoxStyles>;

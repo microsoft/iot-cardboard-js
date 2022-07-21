@@ -525,9 +525,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                             ]
                                         ]
                                     }}
-                                    additionalResourceSearchParams={{
-                                        storageAccountId:
-                                            storageAccountToEdit?.id
+                                    searchParams={{
+                                        additionalParams: {
+                                            storageAccountId:
+                                                storageAccountToEdit?.id
+                                        }
                                     }}
                                     shouldFetchResourcesOnMount={
                                         !hasFetchedResources.current

@@ -18,9 +18,12 @@ import {
     IAzureStorageBlobContainer,
     IAzureSubscription
 } from '../Models/Constants';
-import { createGUID } from '../Models/Services/Utils';
+import { createGUID, getDebugLogger } from '../Models/Services/Utils';
 
 const MAX_RESOURCE_TAKE_LIMIT = 1000;
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('AzureManagementAdapter', debugLogging);
 export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
     public tenantId: string;
@@ -97,7 +100,10 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 [],
                 token,
                 url,
-                { apiVersion: '2020-01-01' }
+                {
+                    apiVersion:
+                        AzureResourcesAPIVersions['Microsoft.Subscription']
+                }
             );
             return new AzureSubscriptionData(subscriptions);
         }, 'azureManagement');
@@ -115,7 +121,10 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 token,
                 url,
                 {
-                    apiVersion: '2021-04-01-preview',
+                    apiVersion:
+                        AzureResourcesAPIVersions[
+                            'Microsoft.Authorization/roleAssignments'
+                        ],
                     $filter: `atScope() and assignedTo('${uniqueObjectId}')`
                 }
             );
@@ -225,7 +234,12 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 [],
                 token,
                 url,
-                { apiVersion: '2021-09-01' }
+                {
+                    apiVersion:
+                        AzureResourcesAPIVersions[
+                            'Microsoft.Storage/storageAccounts'
+                        ]
+                }
             );
             return new AzureResourcesData(storageAccounts);
         }, 'azureManagement');
@@ -233,6 +247,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
     /** Returns list of all the storage containers in the provided storage account */
     async getContainersInStorageAccount(storageAccountId: string) {
+        // TODO: add id and url of storage account in local storage
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             const url = `https://management.azure.com${storageAccountId}/blobServices/default/containers`;
@@ -241,7 +256,12 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 [],
                 token,
                 url,
-                { apiVersion: '2021-09-01' }
+                {
+                    apiVersion:
+                        AzureResourcesAPIVersions[
+                            'Microsoft.Storage/storageAccounts/blobServices/containers'
+                        ]
+                }
             );
             return new AzureResourcesData(containers);
         }, 'azureManagement');
@@ -342,14 +362,18 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                                 storageAccount.id
                                             )
                                         )
-                                    ).catch((err) => {
+                                    ).catch((error) => {
                                         adapterMethodSandbox.pushError({
                                             type:
                                                 ComponentErrorType.DataFetchFailed,
                                             isCatastrophic: false,
-                                            rawError: err
+                                            rawError: error
                                         });
-                                        console.log(err.message);
+                                        logDebugConsole(
+                                            'error',
+                                            'Error(s) thrown fetching containers in storage account. {error}',
+                                            error
+                                        );
                                         return null;
                                     });
                                 } else {
@@ -421,7 +445,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     isCatastrophic: false,
                     rawError: error
                 });
-                console.log(error.message);
+                logDebugConsole(
+                    'error',
+                    'Error(s) thrown fetching resources. {error}',
+                    error
+                );
                 return null;
             }
         }, 'azureManagement');
@@ -452,6 +480,10 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             try {
+                logDebugConsole(
+                    'debug',
+                    `[START] Fetching ${resourceType} type resources`
+                );
                 const getResourcesResult = await this.getResources(
                     resourceType,
                     searchParams,
@@ -459,27 +491,50 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     userData
                 );
                 let resources: Array<IAzureResource> = getResourcesResult.getData();
+                logDebugConsole(
+                    'debug',
+                    '[END] Number of all resources fetched (before filter and take): ',
+                    resources.length
+                );
 
                 const resourcesWithPermissions: Array<IAzureResource> = [];
                 if (resources?.length) {
                     // apply searchParams to the list of resources returned
+                    logDebugConsole(
+                        'debug',
+                        '[START] Applying search params (filter and take)'
+                    );
+                    // start with filter string to test the passed filter string against all possible display fields/properties in resource
                     if (searchParams?.filter) {
-                        resources = resources.filter((resource) =>
-                            Object.keys(AzureResourceDisplayFields).some(
-                                (displayField) =>
-                                    !!resource[displayField]?.includes(
-                                        displayField
+                        resources = resources.filter((resource) => {
+                            return Object.keys(AzureResourceDisplayFields)
+                                .filter((f) => isNaN(Number(f)))
+                                .some((displayField) =>
+                                    resource[displayField]?.includes(
+                                        searchParams?.filter
                                     )
-                            )
-                        );
+                                );
+                        });
                     }
+
+                    // take the first n number of resources to make sure the browser won't crash with making thousands of requests
+                    // to check permissions for each resource, however, this might cause 0 result after checking the permissions for the first taken n resources
+                    // it is hard to limit the number of requests being made and make sure to capture the resources that we might have required access permissions
                     resources = resources.slice(
                         0,
                         searchParams?.take || MAX_RESOURCE_TAKE_LIMIT
-                    ); // take the first n number of resources to make sure the browser won't crash with making thousands of requests
-                    // to check permissions for each resource, however, this might cause 0 result after checking the permissions for the first taken n resources
-                    // it is hard to limit the number of requests being made and make sure to capture the resources that we might have required access permissions
+                    );
 
+                    logDebugConsole(
+                        'debug',
+                        '[END] Number of resources after search params (filter and take) applied and before checking assigned permissions for those resources: ',
+                        resources.length
+                    );
+
+                    logDebugConsole(
+                        'debug',
+                        `[START] Checking role assignments for those resources`
+                    );
                     const hasRoleDefinitionsResults = await Promise.all(
                         resources.map((resource) =>
                             this.hasRoleDefinitions(
@@ -503,6 +558,12 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                             );
                         }
                     });
+
+                    logDebugConsole(
+                        'debug',
+                        `[END] Number of resources for which the user has the required access permissions: `,
+                        resourcesWithPermissions.length
+                    );
                 }
 
                 return new AzureResourcesData(resourcesWithPermissions);
@@ -512,7 +573,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     isCatastrophic: false,
                     rawError: error
                 });
-                console.log(error.message);
+                logDebugConsole(
+                    'error',
+                    'Error(s) thrown fetching resources. {error}',
+                    error
+                );
                 return null;
             }
         }, 'azureManagement');

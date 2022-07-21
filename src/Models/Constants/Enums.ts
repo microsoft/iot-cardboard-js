@@ -249,7 +249,8 @@ export enum AzureResourcesAPIVersions {
     'Microsoft.DigitalTwins/digitalTwinsInstances' = '2022-05-31',
     'Microsoft.Storage/storageAccounts' = '2021-09-01',
     'Microsoft.Storage/storageAccounts/blobServices/containers' = '2021-09-01',
-    'Microsoft.Authorization/roleAssignments' = '2015-07-01'
+    'Microsoft.Authorization/roleAssignments' = '2015-07-01',
+    'Microsoft.Subscription' = '2020-01-01'
 }
 
 /** list of Azure Resource properties to be used as display in combobox list UI */
