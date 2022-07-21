@@ -217,8 +217,7 @@ abstract class ViewerConfigUtility {
     static editBehavior(
         config: I3DScenesConfig,
         behavior: IBehavior,
-        selectedLayerIds?: string[],
-        removedElements?: ITwinToObjectMapping[]
+        selectedLayerIds?: string[]
     ): I3DScenesConfig {
         const updatedConfig = deepCopy(config);
         const updatedBehavior = deepCopy(behavior);
@@ -227,37 +226,6 @@ abstract class ViewerConfigUtility {
         const behaviorIdx = updatedConfig.configuration.behaviors.findIndex(
             (b) => b.id === behavior.id
         );
-
-        // Get element ids from config (old) and form behavior (new)
-        const oldElementsDataSource = updatedConfig.configuration.behaviors[
-            behaviorIdx
-        ]?.datasources.find(
-            (b) =>
-                b.type === DatasourceType.ElementTwinToObjectMappingDataSource
-        ) as IElementTwinToObjectMappingDataSource;
-        const newElementsDataSource = updatedBehavior.datasources.find(
-            (b) =>
-                b.type === DatasourceType.ElementTwinToObjectMappingDataSource
-        ) as IElementTwinToObjectMappingDataSource;
-
-        // If found, remove elements that have been cleared out from old config
-        // and merge with new behavior values
-        if (oldElementsDataSource && newElementsDataSource) {
-            let oldElementIds = [...oldElementsDataSource.elementIDs];
-            if (removedElements) {
-                const removedElementIds = removedElements.map(
-                    (element) => element.id
-                );
-                oldElementIds = oldElementsDataSource.elementIDs.filter(
-                    (elementid) => !removedElementIds.includes(elementid)
-                );
-            }
-            const mergedElementIds = Array.from(
-                new Set([...oldElementIds, ...newElementsDataSource.elementIDs])
-            );
-            newElementsDataSource.elementIDs = mergedElementIds;
-        }
-
         // Update modified behavior
         updatedConfig.configuration.behaviors[behaviorIdx] = updatedBehavior;
 
