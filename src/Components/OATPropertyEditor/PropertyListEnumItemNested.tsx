@@ -8,7 +8,7 @@ import {
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
     getModelPropertyCollectionName,
@@ -50,7 +50,8 @@ export const PropertyListEnumItemNested = ({
             const prop = {
                 displayName: value
             };
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][parentIndex].schema.enumValues[
                 index
             ] = {
@@ -59,15 +60,15 @@ export const PropertyListEnumItemNested = ({
             };
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

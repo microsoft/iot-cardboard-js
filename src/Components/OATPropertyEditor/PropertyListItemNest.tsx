@@ -16,11 +16,11 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 
@@ -131,18 +131,19 @@ export const PropertyListItemNest = ({
                 'OATPropertyEditor.copy'
             )}`;
 
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName].push(itemCopy);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoDuplicate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -151,19 +152,20 @@ export const PropertyListItemNest = ({
 
     const deleteNestedItem = (parentIndex, index) => {
         const deletion = (parentIndex, index) => {
-            const newModel = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             if (
-                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
             ) {
-                newModel[propertiesKeyName][
+                modelCopy[propertiesKeyName][
                     parentIndex
                 ].schema.enumValues.splice(index, 1);
             } else if (
-                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Object
             ) {
-                newModel[propertiesKeyName][parentIndex].schema.fields.splice(
+                modelCopy[propertiesKeyName][parentIndex].schema.fields.splice(
                     index,
                     1
                 );
@@ -171,8 +173,8 @@ export const PropertyListItemNest = ({
 
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: newModel
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
                 });
             };
             dispatch({
@@ -183,8 +185,8 @@ export const PropertyListItemNest = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -196,34 +198,35 @@ export const PropertyListItemNest = ({
         onMove = (nestedIndex, moveUp) => {
             const parentIndex = index;
             const direction = moveUp ? -1 : 1;
-            const newModel = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             const collectionAttributeName =
-                newModel[propertiesKeyName][parentIndex].schema['@type'] ===
+                modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
                     ? 'enumValues'
                     : 'fields';
             // Move nested item up or down
             const temp =
-                newModel[propertiesKeyName][parentIndex].schema[
+                modelCopy[propertiesKeyName][parentIndex].schema[
                     collectionAttributeName
                 ][nestedIndex];
-            newModel[propertiesKeyName][parentIndex].schema[
+            modelCopy[propertiesKeyName][parentIndex].schema[
                 collectionAttributeName
             ].splice(nestedIndex, 1);
-            newModel[propertiesKeyName][parentIndex].schema[
+            modelCopy[propertiesKeyName][parentIndex].schema[
                 collectionAttributeName
             ].splice(nestedIndex + direction, 0, temp);
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

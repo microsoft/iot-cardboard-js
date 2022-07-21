@@ -18,8 +18,8 @@ import {
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import {
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS_METADATA
+    SET_OAT_MODELS_METADATA,
+    SET_OAT_MODELS
 } from '../../Models/Constants/ActionTypes';
 import {
     deepCopy,
@@ -167,7 +167,8 @@ export const FormRootModelDetails = ({
 
     const onFormSubmit = () => {
         const update = () => {
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy.comment = comment ? comment : model.comment;
             modelCopy.displayName =
                 languageSelection === singleLanguageOptionValue
@@ -188,8 +189,8 @@ export const FormRootModelDetails = ({
             modelCopy['@id'] = id ? id : model['@id'];
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
 
             updateMetadata();
@@ -198,10 +199,9 @@ export const FormRootModelDetails = ({
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
-
             dispatch({
                 type: SET_OAT_MODELS_METADATA,
                 payload: modelsMetadata

@@ -22,8 +22,8 @@ import {
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import {
-    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
-    SET_OAT_SELECTED_MODEL
+    SET_OAT_MODELS,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX
 } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
@@ -210,21 +210,22 @@ export const FormUpdateProperty = ({
                 name: activeNestedProperty.name
             };
 
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ] = prop;
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -269,18 +270,20 @@ export const FormUpdateProperty = ({
                 schema: activeProperty.schema,
                 name: activeProperty.name
             };
-            const modelCopy = deepCopy(model);
+
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

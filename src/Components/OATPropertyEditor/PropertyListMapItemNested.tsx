@@ -7,7 +7,7 @@ import {
     getListMapItemTextStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
     getModelPropertyCollectionName,
@@ -37,20 +37,22 @@ export const PropertyListMapItemNested = ({
     );
 
     const updateMapKeyName = (value: string) => {
-        const modelCopy = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 
     const updateMapValueName = (value: string) => {
-        const modelCopy = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 

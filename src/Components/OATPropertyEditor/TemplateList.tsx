@@ -4,10 +4,10 @@ import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
 import TemplateListItem from './TemplateListItem';
 import {
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES,
     SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+    SET_OAT_MODELS
 } from '../../Models/Constants/ActionTypes';
 
 import {
@@ -49,14 +49,15 @@ export const TemplateList = ({
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        const newModel = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         // + 1 so that it drops under current item
-        newModel[propertiesKeyName].splice(
+        modelCopy[propertiesKeyName].splice(
             enteredPropertyRef.current + 1,
             0,
             templates[draggedTemplateItemRef.current]
         );
-        dispatch({ type: SET_OAT_SELECTED_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_MODELS, payload: modelsCopy });
     };
 
     const onDragEnd = () => {
@@ -158,11 +159,12 @@ export const TemplateList = ({
 
     const onPropertyListAddition = (item) => {
         if (model) {
-            const newModel = deepCopy(model);
-            newModel[propertiesKeyName].push(item);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            modelCopy[propertiesKeyName].push(item);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         }
     };

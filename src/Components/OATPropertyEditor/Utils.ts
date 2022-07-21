@@ -1,6 +1,7 @@
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 import {
     DtdlInterface,
+    DtdlRelationship,
     MultiLanguageSelectionType
 } from '../../Models/Constants';
 import {
@@ -14,8 +15,12 @@ import {
 import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 // Returns property collection attribute name depending on model type
-export const getModelPropertyCollectionName = (type: string) => {
-    if (type && type === OATRelationshipHandleName) {
+export const getModelPropertyCollectionName = (type: string | string[]) => {
+    if (
+        type &&
+        (type === OATRelationshipHandleName ||
+            (Array.isArray(type) && type.includes(OATRelationshipHandleName)))
+    ) {
         return 'properties';
     }
     return 'contents';
@@ -300,4 +305,27 @@ export const getTargetFromSelection = (
     }
 
     return model.contents.find((c) => c.name === selection.contentId);
+};
+
+export const replaceTargetFromSelection = (
+    models: DtdlInterface[],
+    selection: IOATSelection,
+    newModel: DtdlInterface | DtdlRelationship
+) => {
+    const modelIndex = models.findIndex((m) => m['@id'] === selection.modelId);
+    if (modelIndex >= 0) {
+        if (!selection.contentId) {
+            models[modelIndex] = newModel as DtdlInterface;
+            return;
+        }
+
+        const contentIndex = models[modelIndex].contents.findIndex(
+            (c) => c.name === selection.contentId
+        );
+        if (contentIndex >= 0) {
+            models[modelIndex].contents[
+                contentIndex
+            ] = newModel as DtdlRelationship;
+        }
+    }
 };

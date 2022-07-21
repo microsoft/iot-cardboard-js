@@ -18,7 +18,7 @@ import {
     getRadioGroupRowStyles,
     getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
@@ -173,21 +173,22 @@ export const FormAddEnumItem = ({
                 comment: comment ? comment : ''
             };
 
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][
                 currentPropertyIndex
             ].schema.enumValues.push(prop);
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

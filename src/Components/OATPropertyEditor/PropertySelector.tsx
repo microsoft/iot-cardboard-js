@@ -6,7 +6,7 @@ import {
 } from './OATPropertyEditor.styles';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
 
@@ -43,10 +43,12 @@ const PropertySelector = ({
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
+
     const addNestedProperty = (tag: string, lastPropertyFocusedCopy) => {
-        const modelCopy = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
-        // We select the last property focused to add nested propertyes to that specific property
+        // We select the last property focused to add nested properties to that specific property
         const newProperty = {
             name: `${t('OATPropertyEditor.property')}_${
                 schemaCopy.fields.length + 1
@@ -62,22 +64,23 @@ const PropertySelector = ({
             lastPropertyFocused.index
         ].schema = schemaCopy;
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
         setPropertySelectorVisible(false);
     };
 
-    const addProperty = async (tag) => {
-        const modelCopy = deepCopy(model);
+    const addProperty = (tag) => {
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         modelCopy[propertiesKeyName].push({
-            '@type': ['property'],
+            '@type': 'Property',
             name: `New_Property_${model[propertiesKeyName].length + 1}`,
             schema: getSchema(tag)
         });
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
         setPropertySelectorVisible(false);
     };
@@ -98,8 +101,8 @@ const PropertySelector = ({
 
         const undoOnClick = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

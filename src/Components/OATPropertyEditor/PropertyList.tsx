@@ -10,8 +10,8 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import {
@@ -83,17 +83,18 @@ export const PropertyList = ({
             onPropertyItemDropOnTemplateList();
         }
 
-        const newModel = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         //  Replace entered item with dragged item
         // --> Remove dragged item from model and then place it on entered item's position
-        newModel[propertiesKeyName].splice(
+        modelCopy[propertiesKeyName].splice(
             dragEnteredItem.current,
             0,
-            newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
+            modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: newModel
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
 
         dragNode.current.removeEventListener('dragend', onDragEnd);
@@ -154,24 +155,25 @@ export const PropertyList = ({
 
     const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
-            const newModel = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(models, selection);
             if (index === undefined) {
-                newModel[propertiesKeyName][
+                modelCopy[propertiesKeyName][
                     currentPropertyIndex
                 ].displayName = value;
             } else {
-                newModel[propertiesKeyName][index].displayName = value;
+                modelCopy[propertiesKeyName][index].displayName = value;
             }
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -198,12 +200,13 @@ export const PropertyList = ({
         setLastPropertyFocused(null);
 
         const deletion = (index) => {
-            const newModel = deepCopy(model);
-            newModel[propertiesKeyName].splice(index, 1);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: newModel
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
                 });
             };
             dispatch({
@@ -214,8 +217,8 @@ export const PropertyList = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -263,20 +266,21 @@ export const PropertyList = ({
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
         const onMove = (index, moveUp) => {
             const direction = moveUp ? -1 : 1;
-            const newModel = deepCopy(model);
-            const item = newModel[propertiesKeyName][index];
-            newModel[propertiesKeyName].splice(index, 1);
-            newModel[propertiesKeyName].splice(index + direction, 0, item);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const item = modelCopy[propertiesKeyName][index];
+            modelCopy[propertiesKeyName].splice(index, 1);
+            modelCopy[propertiesKeyName].splice(index + direction, 0, item);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -363,7 +367,7 @@ export const PropertyList = ({
                                 }
                             />
                         );
-                    } else if (typeof item['@type'] === 'object') {
+                    } else {
                         return (
                             <PropertyListItem
                                 key={i}
