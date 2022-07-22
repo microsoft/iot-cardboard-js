@@ -156,13 +156,11 @@ export const PropertyList = ({
     const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
             const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(models, selection);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             if (index === undefined) {
-                modelCopy[propertiesKeyName][
-                    currentPropertyIndex
-                ].displayName = value;
+                modelCopy[propertiesKeyName][currentPropertyIndex].name = value;
             } else {
-                modelCopy[propertiesKeyName][index].displayName = value;
+                modelCopy[propertiesKeyName][index].name = value;
             }
             dispatch({
                 type: SET_OAT_MODELS,
@@ -289,46 +287,37 @@ export const PropertyList = ({
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
-            {isSupportedModelType &&
-                model &&
-                propertyList &&
-                propertyList.length === 0 && (
-                    <div
-                        className={
-                            propertyInspectorStyles.addPropertyMessageWrap
-                        }
-                        onMouseOver={(e) => {
-                            onAddPropertyLabelMouseOver(e);
+            {isSupportedModelType && propertyList && propertyList.length === 0 && (
+                <div
+                    className={propertyInspectorStyles.addPropertyMessageWrap}
+                    onMouseOver={(e) => {
+                        onAddPropertyLabelMouseOver(e);
+                    }}
+                    onMouseLeave={(e) => {
+                        onMouseLeave(e);
+                    }}
+                    ref={addPropertyLabelRef}
+                >
+                    <ActionButton
+                        onClick={(e) => {
+                            if (propertySelectorVisible) {
+                                setPropertySelectorVisible(false);
+                            } else {
+                                onAddPropertyLabelMouseOver(e);
+                            }
                         }}
-                        onMouseLeave={(e) => {
-                            onMouseLeave(e);
-                        }}
-                        ref={addPropertyLabelRef}
                     >
-                        <ActionButton
-                            onClick={(e) => {
-                                if (propertySelectorVisible) {
-                                    setPropertySelectorVisible(false);
-                                } else {
-                                    onAddPropertyLabelMouseOver(e);
-                                }
-                            }}
-                        >
-                            <FontIcon
-                                iconName={'CirclePlus'}
-                                className={
-                                    propertyInspectorStyles.iconAddProperty
-                                }
-                            />
-                            <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                        </ActionButton>
-                    </div>
-                )}
+                        <FontIcon
+                            iconName={'CirclePlus'}
+                            className={propertyInspectorStyles.iconAddProperty}
+                        />
+                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                    </ActionButton>
+                </div>
+            )}
 
-            {model &&
-                model[propertiesKeyName] &&
-                model[propertiesKeyName].length > 0 &&
-                model[propertiesKeyName].map((item, i) => {
+            {propertyList &&
+                propertyList.map((item, i) => {
                     if (typeof item.schema === 'object') {
                         return (
                             <PropertyListItemNest
@@ -406,9 +395,7 @@ export const PropertyList = ({
                         onMouseLeave(e);
                     }}
                 >
-                    {model && model[propertiesKeyName].length > 0 && (
-                        <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
-                    )}
+                    <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
                 </div>
             )}
 

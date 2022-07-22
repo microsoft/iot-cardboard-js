@@ -34,6 +34,7 @@ import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
 import { EditorProps } from './Editor.types';
 import {
+    OATComponentHandleName,
     OATInterfaceType,
     OATRelationshipHandleName,
     OATUntargetedRelationshipName
@@ -69,7 +70,8 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
             propertyItems = model[propertiesKeyName].filter(
                 (property) =>
                     property['@type'] !== OATRelationshipHandleName &&
-                    property['@type'] !== OATUntargetedRelationshipName
+                    property['@type'] !== OATUntargetedRelationshipName &&
+                    property['@type'] !== OATComponentHandleName
             );
         }
         return propertyItems;

@@ -62,17 +62,15 @@ export const FormRootModelDetails = ({
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [comment, setComment] = useState(model.comment);
-    const [displayName, setDisplayName] = useState(model.displayName);
-    const [description, setDescription] = useState(model.description);
-    const [id, setId] = useState(model['@id']);
-    const [languageSelection, setLanguageSelection] = useState(
-        singleLanguageOptionValue
-    );
+    const [comment, setComment] = useState('');
+    const [displayName, setDisplayName] = useState('');
+    const [description, setDescription] = useState('');
+    const [id, setId] = useState('');
+    const [languageSelection, setLanguageSelection] = useState('');
     const [
         languageSelectionDescription,
         setLanguageSelectionDescription
-    ] = useState(singleLanguageOptionValue);
+    ] = useState('');
     const [
         multiLanguageSelectionsDisplayName,
         setMultiLanguageSelectionsDisplayName
@@ -100,8 +98,35 @@ export const FormRootModelDetails = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [fileName, setFileName] = useState(null);
-    const [directoryPath, setDirectoryPath] = useState(null);
+    const [fileName, setFileName] = useState('');
+    const [directoryPath, setDirectoryPath] = useState('');
+
+    useEffect(() => {
+        setComment(model.comment);
+        setDisplayName(getModelPropertyListItemName(model.displayName));
+        setDescription(model.description);
+        setId(model['@id']);
+        setLanguageSelection(
+            !model.displayName || typeof model.displayName === 'string'
+                ? singleLanguageOptionValue
+                : multiLanguageOptionValue
+        );
+        setLanguageSelectionDescription(
+            !model.description || typeof model.description === 'string'
+                ? singleLanguageOptionValue
+                : multiLanguageOptionValue
+        );
+        setMultiLanguageSelectionsDisplayName(
+            model.displayName && typeof model.displayName === 'object'
+                ? model.displayName
+                : {}
+        );
+        setMultiLanguageSelectionsDescription(
+            model.description && typeof model.description === 'object'
+                ? model.description
+                : {}
+        );
+    }, [model]);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -321,7 +346,7 @@ export const FormRootModelDetails = ({
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <ChoiceGroup
-                    defaultSelectedKey={singleLanguageOptionValue}
+                    selectedKey={languageSelection}
                     options={options}
                     onChange={onLanguageSelect}
                     required={true}
@@ -458,7 +483,7 @@ export const FormRootModelDetails = ({
                     {t('OATPropertyEditor.description')}
                 </Text>
                 <ChoiceGroup
-                    defaultSelectedKey={singleLanguageOptionValue}
+                    selectedKey={languageSelectionDescription}
                     options={optionsDescription}
                     onChange={onLanguageSelectDescription}
                     required={true}

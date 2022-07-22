@@ -19,7 +19,6 @@ import {
     CharacterWidths,
     OATDataStorageKey,
     OATFilesStorageKey,
-    OATRelationshipHandleName,
     OATUntargetedRelationshipName
 } from '../Constants/Constants';
 import { Parser } from 'expr-eval';

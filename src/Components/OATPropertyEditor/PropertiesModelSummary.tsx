@@ -193,7 +193,7 @@ export const PropertiesModelSummary = ({
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('type')}</Text>
                 <Text className={propertyInspectorStyles.typeTextField}>
-                    {isSupportedModelType && model ? model['@type'] : ''}
+                    {model ? model['@type'] : ''}
                 </Text>
             </div>
 
@@ -250,35 +250,37 @@ export const PropertiesModelSummary = ({
                     )}
                 </div>
             )}
-            <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.displayName')}</Text>
-                {!displayNameEditor && model && (
-                    <Text
-                        className={
-                            displayName.length > 0
-                                ? propertyInspectorStyles.typeTextField
-                                : propertyInspectorStyles.typeTextFieldPlaceholder
-                        }
-                        onDoubleClick={() => setDisplayNameEditor(true)}
-                    >
-                        {displayName !== ''
-                            ? displayName
-                            : t('OATPropertyEditor.displayName')}
-                    </Text>
-                )}
-                {displayNameEditor && model && (
-                    <OATTextFieldDisplayName
-                        styles={textFieldStyles}
-                        borderless
-                        placeholder={t('OATPropertyEditor.displayName')}
-                        disabled={!model}
-                        value={isSupportedModelType && displayName}
-                        onCommit={onDisplayNameCommit}
-                        model={model}
-                        autoFocus
-                    />
-                )}
-            </div>
+            {isSupportedModelType && (
+                <div className={propertyInspectorStyles.gridRow}>
+                    <Text>{t('OATPropertyEditor.displayName')}</Text>
+                    {!displayNameEditor && model && (
+                        <Text
+                            className={
+                                displayName.length > 0
+                                    ? propertyInspectorStyles.typeTextField
+                                    : propertyInspectorStyles.typeTextFieldPlaceholder
+                            }
+                            onDoubleClick={() => setDisplayNameEditor(true)}
+                        >
+                            {displayName !== ''
+                                ? displayName
+                                : t('OATPropertyEditor.displayName')}
+                        </Text>
+                    )}
+                    {displayNameEditor && model && (
+                        <OATTextFieldDisplayName
+                            styles={textFieldStyles}
+                            borderless
+                            placeholder={t('OATPropertyEditor.displayName')}
+                            disabled={!model}
+                            value={isSupportedModelType && displayName}
+                            onCommit={onDisplayNameCommit}
+                            model={model}
+                            autoFocus
+                        />
+                    )}
+                </div>
+            )}
         </Stack>
     );
 };

@@ -129,7 +129,7 @@ export const PropertyListItem = ({
         });
     };
 
-    const onDisplayNameChange = (value) => {
+    const onNameChange = (value) => {
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
@@ -169,18 +169,16 @@ export const PropertyListItem = ({
             >
                 {!displayNameEditor && (
                     <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                        {item.displayName ? item.displayName : item.name}
+                        {getModelPropertyListItemName(item.name)}
                     </Text>
                 )}
                 {displayNameEditor && (
                     <TextField
                         borderless
-                        value={getModelPropertyListItemName(
-                            item.displayName ? item.displayName : item.name
-                        )}
+                        value={getModelPropertyListItemName(item.name)}
                         validateOnFocusOut
                         onChange={(evt, value) => {
-                            onDisplayNameChange(value);
+                            onNameChange(value);
                         }}
                         onBlur={() => setDisplayNameEditor(false)}
                         styles={textFieldStyles}

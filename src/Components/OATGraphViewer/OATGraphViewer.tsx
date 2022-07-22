@@ -129,14 +129,12 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                                 addTargetedRelationship(
                                     input['@id'],
                                     content,
-                                    idClassBase,
                                     elements
                                 );
                             } else {
                                 addUntargetedRelationship(
                                     input['@id'],
                                     content,
-                                    idClassBase,
                                     modelPositions,
                                     elements
                                 );
@@ -430,17 +428,11 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
             if (currentHandleIdRef.current === OATRelationshipHandleName) {
                 const relationship = {
-                    '@id': null,
                     '@type': OATRelationshipHandleName,
                     name: null,
                     target
                 };
-                addTargetedRelationship(
-                    source,
-                    relationship,
-                    idClassBase,
-                    elementsCopy
-                );
+                addTargetedRelationship(source, relationship, elementsCopy);
             } else if (currentHandleIdRef.current === OATComponentHandleName) {
                 const component = {
                     '@type': OATComponentHandleName,
@@ -469,7 +461,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 currentHandleIdRef.current === OATUntargetedRelationshipName
             ) {
                 const relationship = {
-                    '@id': null,
                     '@type': OATRelationshipHandleName,
                     name: null,
                     target
@@ -477,7 +468,6 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 addUntargetedRelationship(
                     source,
                     relationship,
-                    idClassBase,
                     modelPositions,
                     elementsCopy
                 );
@@ -613,7 +603,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             // Checks if a node is selected to display it in the property editor
             if (
                 translatedOutput &&
-                (!selection || node.id !== selection.modelId) // Prevent re-execute the same node
+                (!selection ||
+                    (node.type === OATInterfaceType &&
+                        (node.data['@id'] !== selection.modelId ||
+                            selection.contentId)) ||
+                    (node.type !== OATInterfaceType &&
+                        ((node as Edge<any>).source !== selection.modelId ||
+                            node.data.name !== selection.contentId))) // Prevent re-execute the same node
             ) {
                 const onClick = () => {
                     dispatch({

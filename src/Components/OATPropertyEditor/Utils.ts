@@ -227,7 +227,7 @@ export const setMultiLanguageSelectionRemoval = (
 
 // Detects if mouse is below the trigger element
 export const shouldClosePropertySelectorOnMouseLeave = (e, boundingBox) =>
-    e.clientY >= boundingBox.bottom;
+    boundingBox && e.clientY >= boundingBox.bottom;
 
 // Handle display name change on forms
 export const validateDisplayNameChange = (

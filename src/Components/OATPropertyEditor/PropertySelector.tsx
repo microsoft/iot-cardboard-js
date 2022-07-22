@@ -73,9 +73,10 @@ const PropertySelector = ({
     const addProperty = (tag) => {
         const modelsCopy = deepCopy(models);
         const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        modelCopy[propertiesKeyName] = modelCopy[propertiesKeyName] || [];
         modelCopy[propertiesKeyName].push({
             '@type': 'Property',
-            name: `New_Property_${model[propertiesKeyName].length + 1}`,
+            name: `New_Property_${modelCopy[propertiesKeyName].length + 1}`,
             schema: getSchema(tag)
         });
         dispatch({

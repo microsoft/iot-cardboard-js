@@ -23,17 +23,17 @@ export const versionClassBase = '1';
 export const contextClassBase = 'dtmi:dtdl:context;2';
 export const defaultNodePosition = 25;
 
-export const getNextRelationshipIndex = (
-    idClassBase: string,
+const getNextRelationshipIndex = (
+    sourceId: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     let relationshipIndex = 0;
     while (
         elements.some(
             (element) =>
-                element['source'] &&
-                element.id ===
-                    `${idClassBase}${OATRelationshipHandleName}${relationshipIndex};${versionClassBase}`
+                (element as ElementEdge).source === sourceId &&
+                (element.data as DtdlRelationship).name ===
+                    `${OATRelationshipHandleName}_${relationshipIndex}`
         )
     ) {
         relationshipIndex++;
@@ -41,7 +41,7 @@ export const getNextRelationshipIndex = (
     return relationshipIndex;
 };
 
-export const getNextComponentIndex = (
+const getNextComponentIndex = (
     sourceId: string,
     targetName: string,
     elements: (ElementNode | ElementEdge)[]
@@ -55,7 +55,7 @@ export const getNextComponentIndex = (
             int.contents.some(
                 (content) =>
                     content['schema'] &&
-                    content.name === `${targetName}${componentIndex}`
+                    content.name === `${targetName}_${componentIndex}`
             )
         ) {
             componentIndex++;
@@ -67,15 +67,12 @@ export const getNextComponentIndex = (
 export const addTargetedRelationship = (
     sourceId: string,
     relationship: DtdlInterfaceContent,
-    idClassBase: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const nextRelIndex = getNextRelationshipIndex(idClassBase, elements);
-    const id =
-        relationship['@id'] ||
-        `${idClassBase}${OATRelationshipHandleName}${nextRelIndex};${versionClassBase}`;
+    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
         relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
+    const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
         '',
@@ -87,7 +84,6 @@ export const addTargetedRelationship = (
         OATRelationshipHandleName,
         {
             ...relationship,
-            '@id': id,
             '@type': OATRelationshipHandleName,
             name
         }
@@ -100,16 +96,13 @@ export const addTargetedRelationship = (
 export const addUntargetedRelationship = (
     sourceId: string,
     relationship: DtdlInterfaceContent,
-    idClassBase: string,
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const nextRelIndex = getNextRelationshipIndex(idClassBase, elements);
-    const id =
-        relationship['@id'] ||
-        `${idClassBase}${OATRelationshipHandleName}${nextRelIndex};${versionClassBase}`;
+    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
         relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
+    const id = relationship['@id'] || `${sourceId}_${name}`;
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
         id,
