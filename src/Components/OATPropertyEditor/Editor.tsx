@@ -68,10 +68,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
         ) {
             // Exclude relationships from propertyList
             propertyItems = model[propertiesKeyName].filter(
-                (property) =>
-                    property['@type'] !== OATRelationshipHandleName &&
-                    property['@type'] !== OATUntargetedRelationshipName &&
-                    property['@type'] !== OATComponentHandleName
+                (property) => property['@type'] === 'Property'
             );
         }
         return propertyItems;
