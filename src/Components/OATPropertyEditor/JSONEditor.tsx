@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Editor from '@monaco-editor/react';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_MODIFIED,
-    SET_OAT_ERROR
+    SET_OAT_ERROR,
+    SET_OAT_MODELS
 } from '../../Models/Constants/ActionTypes';
-import { IOATTwinModelNodes } from '../../Models/Constants/Interfaces';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
-import { parseModel } from '../../Models/Services/Utils';
+import { deepCopy, parseModel } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
 import { OATRelationshipHandleName } from '../../Models/Constants';
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import { getTargetFromSelection, replaceTargetFromSelection } from './Utils';
 
 const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
@@ -24,10 +25,15 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const libTheme = useLibTheme();
     const themeToUse = libTheme || theme;
     const editorRef = useRef(null);
-    const { model, models } = state;
+    const { selection, models } = state;
     const [content, setContent] = useState(null);
     const cancelButtonStyles = getCancelButtonStyles();
     const saveButtonStyles = getSaveButtonStyles();
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));
@@ -75,7 +81,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         dispatch({ type: SET_OAT_MODIFIED, payload: false });
     };
 
-    const checkDuplicateId = (modelValue: IOATTwinModelNodes) => {
+    const checkDuplicateId = (modelValue: DTDLModel) => {
         if (modelValue['@type'] === OATRelationshipHandleName) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>
@@ -103,17 +109,19 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
         const validJson = await parseModel(content);
 
         const save = () => {
+            const modelsCopy = deepCopy(models);
+            replaceTargetFromSelection(modelsCopy, selection, newModel);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
             dispatch({ type: SET_OAT_MODIFIED, payload: false });
         };
 
         const undoSave = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

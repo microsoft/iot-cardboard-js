@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getEditorPageStyles } from '../OATEditorPage.Styles';
+import { getEditorPageStyles } from '../OATEditorPage.styles';
 
 const OATErrorPage = ({ error }) => {
     const { t } = useTranslation();

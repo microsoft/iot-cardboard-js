@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -7,9 +7,12 @@ import {
     getListMapItemTextStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getTargetFromSelection
+} from './Utils';
 import { PropertyListMapItemNestedProps } from './PropertyListMapItemNested.types';
 
 export const PropertyListMapItemNested = ({
@@ -23,27 +26,33 @@ export const PropertyListMapItemNested = ({
     const mapItemStyles = getMapItemStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const textStyles = getListMapItemTextStyles();
-    const { model } = state;
+    const { models, selection } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
 
     const updateMapKeyName = (value: string) => {
-        const modelCopy = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 
     const updateMapValueName = (value: string) => {
-        const modelCopy = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 

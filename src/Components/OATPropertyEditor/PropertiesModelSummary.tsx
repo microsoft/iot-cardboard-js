@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -11,10 +11,7 @@ import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import {
-    deepCopy,
-    getNewModelNewModelsAndNewPositionsFromId
-} from '../../Models/Services/Utils';
+import { deepCopy, updateModelId } from '../../Models/Services/Utils';
 import {
     SET_OAT_MODELS,
     SET_OAT_MODELS_POSITIONS,
@@ -23,19 +20,22 @@ import {
     SET_OAT_SELECTED_MODEL
 } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getModelPropertyListItemName } from './Utils';
+import { getModelPropertyListItemName, getTargetFromSelection } from './Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
 import { OATInterfaceType } from '../../Models/Constants/Constants';
 
 export const PropertiesModelSummary = ({
     dispatch,
-    dispatchPE,
     state,
     isSupportedModelType
 }: PropertiesModelSummaryProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
-    const { model, models, modelPositions } = state;
+    const { selection, models, modelPositions } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = getIconWrapFitContentStyles();
     const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
@@ -50,6 +50,7 @@ export const PropertiesModelSummary = ({
     const [idEditor, setIdEditor] = useState(false);
     const [nameEditor, setNameEditor] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
+
     useEffect(() => {
         setDisplayName(
             model && model.displayName
@@ -62,26 +63,27 @@ export const PropertiesModelSummary = ({
 
     const onIdCommit = (value) => {
         const commit = () => {
-            const modelData = getNewModelNewModelsAndNewPositionsFromId(
+            const [modelsCopy, modelPositionsCopy] = updateModelId(
+                id,
                 value,
-                model,
                 models,
                 modelPositions
             );
 
             dispatch({
                 type: SET_OAT_MODELS_POSITIONS,
-                payload: modelData.positions
+                payload: modelPositionsCopy
             });
-
             dispatch({
                 type: SET_OAT_MODELS,
-                payload: modelData.models
+                payload: modelsCopy
             });
-
             dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: modelData.model
+                payload:
+                    selection && selection.contentId
+                        ? { ...selection }
+                        : { modelId: value }
             });
 
             setId(value);
@@ -90,16 +92,16 @@ export const PropertiesModelSummary = ({
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS_POSITIONS,
+                payload: modelPositions
             });
             dispatch({
                 type: SET_OAT_MODELS,
                 payload: models
             });
             dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+                type: SET_OAT_SELECTED_MODEL,
+                payload: model
             });
         };
 
@@ -108,20 +110,23 @@ export const PropertiesModelSummary = ({
 
     const onDisplayNameCommit = (value) => {
         const commit = () => {
-            const modelCopy = deepCopy(model);
-            modelCopy.displayName = value;
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
-            });
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            if (modelCopy) {
+                modelCopy.displayName = value;
+                dispatch({
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
+                });
+            }
             setDisplayName(value);
             setDisplayNameEditor(false);
         };
 
         const undoCommit = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -130,20 +135,31 @@ export const PropertiesModelSummary = ({
 
     const onNameCommit = (value) => {
         const commit = () => {
-            const modelCopy = deepCopy(model);
-            modelCopy.name = value;
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
-            });
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            if (modelCopy) {
+                modelCopy.name = value;
+                dispatch({
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
+                });
+                dispatch({
+                    type: SET_OAT_SELECTED_MODEL,
+                    payload: { ...selection, contentId: name }
+                });
+            }
             setName(value);
             setNameEditor(false);
         };
 
         const undoCommit = () => {
             dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+            dispatch({
                 type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                payload: selection
             });
         };
 
@@ -151,11 +167,11 @@ export const PropertiesModelSummary = ({
     };
 
     const onInfoButtonClick = () => {
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: FormBody.rootModel
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: true
         });
@@ -177,7 +193,7 @@ export const PropertiesModelSummary = ({
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('type')}</Text>
                 <Text className={propertyInspectorStyles.typeTextField}>
-                    {isSupportedModelType && model ? model['@type'] : ''}
+                    {model ? model['@type'] : ''}
                 </Text>
             </div>
 
@@ -234,35 +250,37 @@ export const PropertiesModelSummary = ({
                     )}
                 </div>
             )}
-            <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('OATPropertyEditor.displayName')}</Text>
-                {!displayNameEditor && model && (
-                    <Text
-                        className={
-                            displayName.length > 0
-                                ? propertyInspectorStyles.typeTextField
-                                : propertyInspectorStyles.typeTextFieldPlaceholder
-                        }
-                        onDoubleClick={() => setDisplayNameEditor(true)}
-                    >
-                        {displayName !== ''
-                            ? displayName
-                            : t('OATPropertyEditor.displayName')}
-                    </Text>
-                )}
-                {displayNameEditor && model && (
-                    <OATTextFieldDisplayName
-                        styles={textFieldStyles}
-                        borderless
-                        placeholder={t('OATPropertyEditor.displayName')}
-                        disabled={!model}
-                        value={isSupportedModelType && displayName}
-                        onCommit={onDisplayNameCommit}
-                        model={model}
-                        autoFocus
-                    />
-                )}
-            </div>
+            {isSupportedModelType && (
+                <div className={propertyInspectorStyles.gridRow}>
+                    <Text>{t('OATPropertyEditor.displayName')}</Text>
+                    {!displayNameEditor && model && (
+                        <Text
+                            className={
+                                displayName.length > 0
+                                    ? propertyInspectorStyles.typeTextField
+                                    : propertyInspectorStyles.typeTextFieldPlaceholder
+                            }
+                            onDoubleClick={() => setDisplayNameEditor(true)}
+                        >
+                            {displayName !== ''
+                                ? displayName
+                                : t('OATPropertyEditor.displayName')}
+                        </Text>
+                    )}
+                    {displayNameEditor && model && (
+                        <OATTextFieldDisplayName
+                            styles={textFieldStyles}
+                            borderless
+                            placeholder={t('OATPropertyEditor.displayName')}
+                            disabled={!model}
+                            value={isSupportedModelType && displayName}
+                            onCommit={onDisplayNameCommit}
+                            model={model}
+                            autoFocus
+                        />
+                    )}
+                </div>
+            )}
         </Stack>
     );
 };

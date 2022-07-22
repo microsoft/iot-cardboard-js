@@ -23,7 +23,10 @@ import {
     SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_TEMPLATES_ACTIVE
 } from '../../Models/Constants/ActionTypes';
-import { getModelPropertyCollectionName } from './Utils';
+import {
+    getModelPropertyCollectionName,
+    getTargetFromSelection
+} from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormUpdateProperty from './FormUpdateProperty';
 import FormAddEnumItem from './FormAddEnumItem';
@@ -31,27 +34,25 @@ import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
 import { EditorProps } from './Editor.types';
 import {
+    OATComponentHandleName,
     OATInterfaceType,
     OATRelationshipHandleName,
     OATUntargetedRelationshipName
 } from '../../Models/Constants/Constants';
 
-const Editor = ({
-    dispatch,
-    dispatchPE,
-    languages,
-    state,
-    statePE,
-    theme
-}: EditorProps) => {
+const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertyListPivotColumnContent = getPropertyListPivotColumnContent();
     const propertyListStackItem = getPropertyListStackItem();
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { model, templatesActive } = state;
-    const { modalOpen, modalBody } = statePE;
+    const { models, selection, templatesActive, modalOpen, modalBody } = state;
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : OATInterfaceType
@@ -67,9 +68,7 @@ const Editor = ({
         ) {
             // Exclude relationships from propertyList
             propertyItems = model[propertiesKeyName].filter(
-                (property) =>
-                    property['@type'] !== OATRelationshipHandleName &&
-                    property['@type'] !== OATUntargetedRelationshipName
+                (property) => property['@type'] === 'Property'
             );
         }
         return propertyItems;
@@ -90,12 +89,11 @@ const Editor = ({
     };
 
     const onModalClose = () => {
-        // setModalOpen(false);
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: false
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: null
         });
@@ -107,10 +105,8 @@ const Editor = ({
                 return (
                     <FormUpdateProperty
                         dispatch={dispatch}
-                        dispatchPE={dispatchPE}
                         languages={languages}
                         onClose={onModalClose}
-                        statePE={statePE}
                         state={state}
                     />
                 );
@@ -120,7 +116,6 @@ const Editor = ({
                         dispatch={dispatch}
                         languages={languages}
                         onClose={onModalClose}
-                        statePE={statePE}
                         state={state}
                     />
                 );
@@ -153,7 +148,6 @@ const Editor = ({
                             <Stack.Item>
                                 <PropertiesModelSummary
                                     dispatch={dispatch}
-                                    dispatchPE={dispatchPE}
                                     state={state}
                                     isSupportedModelType={isSupportedModelType}
                                 />
@@ -201,9 +195,7 @@ const Editor = ({
                             <Stack.Item grow styles={propertyListStackItem}>
                                 <PropertyList
                                     dispatch={dispatch}
-                                    dispatchPE={dispatchPE}
                                     state={state}
-                                    statePE={statePE}
                                     enteredPropertyRef={enteredPropertyRef}
                                     enteredTemplateRef={enteredTemplateRef}
                                     propertyList={propertyList}
@@ -230,9 +222,7 @@ const Editor = ({
                         enteredPropertyRef={enteredPropertyRef}
                         enteredTemplateRef={enteredTemplateRef}
                         dispatch={dispatch}
-                        dispatchPE={dispatchPE}
                         state={state}
-                        statePE={statePE}
                     />
                 )}
             </div>

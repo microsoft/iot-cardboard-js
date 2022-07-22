@@ -3,7 +3,11 @@ import {
     ITextFieldStyleProps,
     ITextFieldStyles
 } from '@fluentui/react';
-import { IOATTwinModelNodes } from '../../../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlRelationship
+} from '../../../../Models/Constants';
 import { IOATEditorState } from '../../OATEditorPage.types';
 
 export type OATTextFieldNameProps = {
@@ -12,8 +16,8 @@ export type OATTextFieldNameProps = {
     disabled?: boolean;
     onCommit?: (value: string) => void;
     placeholder?: string;
-    model: IOATTwinModelNodes;
-    models: IOATTwinModelNodes[];
+    model: DtdlRelationship | DtdlInterfaceContent;
+    models: DtdlInterface[];
     value: string;
     setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
     state?: IOATEditorState;

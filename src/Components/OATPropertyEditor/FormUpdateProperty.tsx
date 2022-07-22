@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     TextField,
@@ -22,8 +22,8 @@ import {
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
 import {
-    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
-    SET_OAT_SELECTED_MODEL
+    SET_OAT_MODELS,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX
 } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
@@ -38,7 +38,8 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getTargetFromSelection
 } from './Utils';
 import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 const multiLanguageOptionValue = 'multiLanguage';
@@ -46,11 +47,9 @@ const singleLanguageOptionValue = 'singleLanguage';
 
 export const FormUpdateProperty = ({
     dispatch,
-    dispatchPE,
     state,
     languages,
-    onClose,
-    statePE
+    onClose
 }: FormUpdatePropertyProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -58,8 +57,17 @@ export const FormUpdateProperty = ({
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
 
-    const { model } = state;
-    const { currentPropertyIndex, currentNestedPropertyIndex } = statePE;
+    const {
+        models,
+        selection,
+        currentPropertyIndex,
+        currentNestedPropertyIndex
+    } = state;
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -72,41 +80,18 @@ export const FormUpdateProperty = ({
         model[propertiesKeyName][currentPropertyIndex].schema.fields[
             currentNestedPropertyIndex
         ];
+    const targetProperty = activeNestedProperty || activeProperty;
 
-    const [comment, setComment] = useState(
-        activeNestedProperty
-            ? activeNestedProperty.comment
-            : activeProperty.comment
-    );
-    const [description, setDescription] = useState(
-        activeNestedProperty
-            ? activeNestedProperty.description
-            : activeProperty.description
-    );
-    const [displayName, setDisplayName] = useState(
-        getModelPropertyListItemName(
-            activeNestedProperty
-                ? activeNestedProperty.displayName
-                    ? activeNestedProperty.displayName
-                    : activeNestedProperty.name
-                : activeProperty.displayName
-                ? activeProperty.displayName
-                : activeProperty.name
-        )
-    );
+    const [comment, setComment] = useState('');
+    const [description, setDescription] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const [writable, setWritable] = useState(true);
-    const [id, setId] = useState(
-        activeNestedProperty
-            ? activeNestedProperty['@id']
-            : activeProperty['@id']
-    );
-    const [languageSelection, setLanguageSelection] = useState(
-        singleLanguageOptionValue
-    );
+    const [id, setId] = useState('');
+    const [languageSelection, setLanguageSelection] = useState('');
     const [
         languageSelectionDescription,
         setLanguageSelectionDescription
-    ] = useState(singleLanguageOptionValue);
+    ] = useState('');
     const [
         multiLanguageSelectionsDisplayName,
         setMultiLanguageSelectionsDisplayName
@@ -131,12 +116,49 @@ export const FormUpdateProperty = ({
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
+
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
     const [idLengthError, setIdLengthError] = useState(null);
     const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const [idWarning, setIdWarning] = useState(null);
+
+    useEffect(() => {
+        setComment(targetProperty.comment);
+        setDescription(targetProperty.description);
+        setDisplayName(
+            getModelPropertyListItemName(
+                targetProperty.displayName || targetProperty.name
+            )
+        );
+        setWritable(targetProperty.writable || true);
+        setId(targetProperty['@id']);
+        setLanguageSelection(
+            !targetProperty.displayName ||
+                typeof targetProperty.displayName === 'string'
+                ? singleLanguageOptionValue
+                : multiLanguageOptionValue
+        );
+        setLanguageSelectionDescription(
+            !targetProperty.description ||
+                typeof targetProperty.description === 'string'
+                ? singleLanguageOptionValue
+                : multiLanguageOptionValue
+        );
+        setMultiLanguageSelectionsDisplayName(
+            targetProperty.displayName &&
+                typeof targetProperty.displayName === 'object'
+                ? targetProperty.displayName
+                : {}
+        );
+        setMultiLanguageSelectionsDescription(
+            targetProperty.description &&
+                typeof targetProperty.description === 'object'
+                ? targetProperty.description
+                : {}
+        );
+    }, [model]);
 
     const options: IChoiceGroupOption[] = [
         {
@@ -203,28 +225,29 @@ export const FormUpdateProperty = ({
                 name: activeNestedProperty.name
             };
 
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
                 currentNestedPropertyIndex
             ] = prop;
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
         execute(update, undoUpdate);
 
         onClose();
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: null
         });
@@ -262,18 +285,20 @@ export const FormUpdateProperty = ({
                 schema: activeProperty.schema,
                 name: activeProperty.name
             };
-            const modelCopy = deepCopy(model);
+
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -340,13 +365,7 @@ export const FormUpdateProperty = ({
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
                 <Label>
-                    {model[propertiesKeyName][currentPropertyIndex]
-                        ? typeof model[propertiesKeyName][currentPropertyIndex]
-                              .displayName === 'string'
-                            ? model[propertiesKeyName][currentPropertyIndex]
-                                  .displayName
-                            : Object.values(model.displayName)[0]
-                        : t('OATPropertyEditor.property')}
+                    {model[propertiesKeyName][currentPropertyIndex].name}
                 </Label>
                 <ActionButton onClick={onClose}>
                     <FontIcon
@@ -363,7 +382,7 @@ export const FormUpdateProperty = ({
                     {t('OATPropertyEditor.displayName')}
                 </Text>
                 <ChoiceGroup
-                    defaultSelectedKey={singleLanguageOptionValue}
+                    selectedKey={languageSelection}
                     options={options}
                     onChange={onLanguageSelect}
                     required={true}
@@ -503,7 +522,7 @@ export const FormUpdateProperty = ({
                     {t('OATPropertyEditor.description')}
                 </Text>
                 <ChoiceGroup
-                    defaultSelectedKey={singleLanguageOptionValue}
+                    selectedKey={languageSelectionDescription}
                     options={optionsDescription}
                     onChange={onLanguageSelectDescription}
                     required={true}

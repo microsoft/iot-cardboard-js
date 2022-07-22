@@ -26,9 +26,8 @@ import {
 } from '../../Models/Services/Utils';
 
 export const defaultOATEditorState: IOATEditorState = {
-    model: null,
+    selection: null,
     models: getStoredEditorModelsData(),
-
     templatesActive: false,
     importModels: [],
     isJsonUploaderOpen: false,
@@ -48,7 +47,7 @@ export const OATEditorPageReducer = produce(
 
         switch (action.type) {
             case SET_OAT_SELECTED_MODEL:
-                state.model = payload;
+                state.selection = payload;
                 return;
             case SET_OAT_MODELS:
                 state.models = payload;

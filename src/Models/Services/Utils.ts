@@ -9,11 +9,17 @@ import {
     ComponentErrorType,
     DTwin
 } from '../Constants';
-import { DtdlProperty } from '../Constants/dtdlInterfaces';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlProperty,
+    DtdlRelationship
+} from '../Constants/dtdlInterfaces';
 import {
     CharacterWidths,
     OATDataStorageKey,
-    OATFilesStorageKey
+    OATFilesStorageKey,
+    OATUntargetedRelationshipName
 } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
@@ -27,6 +33,7 @@ import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IDropdownOption } from '@fluentui/react';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
+import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 let ajv: Ajv = null;
 
 /** Validates input data with JSON schema */
@@ -408,14 +415,14 @@ export const getStoredEditorModelsData = () => {
 // Get stored models' positions OAT-data
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData.modelPositions
+    return oatData && oatData.modelsData && oatData.modelsData.modelPositions
         ? oatData.modelsData.modelPositions
         : [];
 };
 
 export const getStoredEditorModelMetadata = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData.modelsMetadata
+    return oatData && oatData.modelsData && oatData.modelsData.modelsMetadata
         ? oatData.modelsData.modelsMetadata
         : [];
 };
@@ -426,34 +433,55 @@ export const getStoredEditorNamespaceData = () => {
     return oatData && oatData.namespace ? oatData.namespace : null;
 };
 
-export const getNewModelNewModelsAndNewPositionsFromId = (
-    id,
-    model,
-    models,
-    modelPositions
+export const updateModelId = (
+    oldId: string,
+    newId: string,
+    models: DtdlInterface[],
+    modelPositions: IOATModelPosition[]
 ) => {
-    const modelCopy = deepCopy(model);
     // Update the modelPositions
-    const newModelsPositions = deepCopy(modelPositions);
+    const modelsPositionsCopy = deepCopy(modelPositions);
+
     // Find the model position with the same id
-    const modelPositionIndex = newModelsPositions.findIndex(
-        (x) => x.id === modelCopy['@id']
-    );
-    newModelsPositions[modelPositionIndex].id = id;
+    const modelPosition = modelsPositionsCopy.find((x) => x['@id'] === oldId);
+    if (modelPosition) {
+        modelPosition['@id'] = newId;
+    }
 
     // Update models
-    const newModels = deepCopy(models);
-    const modelIndex = newModels.findIndex(
-        (x) => x['@id'] === modelCopy['@id']
-    );
-    modelCopy['@id'] = id;
-    newModels[modelIndex] = modelCopy;
+    const modelsCopy = deepCopy(models);
+    const modelCopy = modelsCopy.find((x) => x['@id'] === oldId);
+    if (modelCopy) {
+        modelCopy['@id'] = newId;
+    }
 
-    return {
-        model: modelCopy,
-        models: newModels,
-        positions: newModelsPositions
-    };
+    // Update contents
+    modelsCopy.forEach((m) =>
+        m.contents.forEach((c) => {
+            const r = c as DtdlRelationship;
+            if (r && r.target === oldId) {
+                r.target = newId;
+            }
+            if (r && r['@id'] === oldId) {
+                r['@id'] = newId;
+            }
+
+            const p = c as DtdlInterfaceContent;
+            if (p && p.schema === oldId) {
+                p.schema = newId;
+            }
+
+            if (m.extends) {
+                const e = m.extends as string[];
+                const i = e.indexOf(oldId);
+                if (i >= 0) {
+                    e[i] = newId;
+                }
+            }
+        })
+    );
+
+    return [modelsCopy, modelsPositionsCopy];
 };
 
 // Get fileName from DTMI
@@ -484,11 +512,45 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
     }
 };
 
-/* Load files from local storage */
+// Load files from local storage
 export const loadFiles = () =>
-    JSON.parse(localStorage.getItem(OATFilesStorageKey));
+    JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
 
-/* Save files from local storage */
+// Save files from local storage
 export const saveFiles = (files: ProjectData[]) => {
     localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+};
+
+// Delete model
+export const deleteModel = (id, data, models) => {
+    const modelsCopy = deepCopy(models);
+    if (data['@type'] === OATUntargetedRelationshipName) {
+        const match = modelsCopy.find(
+            (element) => element['@id'] === data['@id']
+        );
+        if (match) {
+            match.contents = match.contents.filter(
+                (content) => content['@id'] !== id
+            );
+        }
+    } else {
+        const index = modelsCopy.findIndex((m) => m['@id'] === data['@id']);
+        if (index >= 0) {
+            modelsCopy.splice(index, 1);
+            modelsCopy.forEach((m) => {
+                m.contents = m.contents.filter(
+                    (content) =>
+                        content.target !== data['@id'] &&
+                        content.schema !== data['@id']
+                );
+                if (m.extends) {
+                    m.extends = (m.extends as string[]).filter(
+                        (ex) => ex !== data['@id']
+                    );
+                }
+            });
+        }
+    }
+
+    return modelsCopy;
 };

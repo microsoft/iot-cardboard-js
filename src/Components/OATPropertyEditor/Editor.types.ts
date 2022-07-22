@@ -6,9 +6,7 @@ import { Theme } from '../../Models/Constants/Enums';
 
 export type EditorProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
     languages: IDropdownOption[];
-    state?: IOATEditorState;
-    statePE?: IOATPropertyEditorState;
+    state?: IOATEditorState & IOATPropertyEditorState;
     theme?: Theme;
 };

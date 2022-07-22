@@ -3,7 +3,7 @@ import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Contex
 import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
-import { OATGraphViewerReducer } from './OATGraphViewer.state';
+import { OATEditorPageReducer } from '../../Pages/OATEditorPage/OATEditorPage.state';
 import { defaultOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.state';
 
 export default {
@@ -13,7 +13,7 @@ export default {
 
 export const Default = (_args, { globals: { theme, locale } }) => {
     const [state, dispatch] = useReducer(
-        OATGraphViewerReducer,
+        OATEditorPageReducer,
         defaultOATEditorState
     );
 

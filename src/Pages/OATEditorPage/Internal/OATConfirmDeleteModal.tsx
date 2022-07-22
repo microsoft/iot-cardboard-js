@@ -1,7 +1,7 @@
 import React from 'react';
 import { PrimaryButton, Modal, DefaultButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getEditorPageStyles } from '../OATEditorPage.Styles';
+import { getEditorPageStyles } from '../OATEditorPage.styles';
 import { IOATEditorState } from '../OATEditorPage.types';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_CONFIRM_DELETE_OPEN } from '../../../Models/Constants/ActionTypes';

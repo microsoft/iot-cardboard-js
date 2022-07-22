@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import {
     TextField,
     Text,
@@ -18,7 +18,7 @@ import {
     getRadioGroupRowStyles,
     getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
@@ -31,7 +31,8 @@ import {
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue
+    setMultiLanguageSelectionsDisplayNameValue,
+    getTargetFromSelection
 } from './Utils';
 import {
     DTDLNameRegex,
@@ -47,22 +48,20 @@ export const FormAddEnumItem = ({
     dispatch,
     onClose,
     state,
-    languages,
-    statePE
+    languages
 }: ModalFormAddEnumItemProps) => {
     const { t } = useTranslation();
-    const { currentPropertyIndex } = statePE;
     const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const textFieldStyles = getModalTextFieldStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [displayName, setDisplayName] = useState(null);
-    const [name, setName] = useState(null);
-    const [enumValue, setEnumValue] = useState(null);
-    const [id, setId] = useState(null);
-    const [comment, setComment] = useState(null);
-    const [description, setDescription] = useState(null);
+    const [displayName, setDisplayName] = useState('');
+    const [name, setName] = useState('');
+    const [enumValue, setEnumValue] = useState('');
+    const [id, setId] = useState('');
+    const [comment, setComment] = useState('');
+    const [description, setDescription] = useState('');
     const [errorRepeatedEnumValue, setErrorRepeatedEnumValue] = useState(null);
     const [languageSelection, setLanguageSelection] = useState(
         singleLanguageOptionValue
@@ -104,7 +103,12 @@ export const FormAddEnumItem = ({
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
     );
-    const { model } = state;
+    const { selection, models, currentPropertyIndex } = state;
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -169,21 +173,22 @@ export const FormAddEnumItem = ({
                 comment: comment ? comment : ''
             };
 
-            const modelCopy = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             modelCopy[propertiesKeyName][
                 currentPropertyIndex
             ].schema.enumValues.push(prop);
 
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 

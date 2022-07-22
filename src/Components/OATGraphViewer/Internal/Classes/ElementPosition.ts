@@ -1,4 +1,6 @@
-export class ElementPosition {
+import { IOATNodePosition } from '../../../../Models/Constants';
+
+export class ElementPosition implements IOATNodePosition {
     public x: number;
     public y: number;
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -10,12 +10,13 @@ import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
     SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 import {
     getModelPropertyCollectionName,
+    getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { PropertyListProps } from './PropertyList.types';
@@ -24,9 +25,7 @@ export const PropertyList = ({
     enteredPropertyRef,
     enteredTemplateRef,
     dispatch,
-    dispatchPE,
     state,
-    statePE,
     propertyList,
     isSupportedModelType
 }: PropertyListProps) => {
@@ -51,12 +50,18 @@ export const PropertyList = ({
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
-    const { model, templates } = state;
     const {
+        selection,
+        models,
+        templates,
         currentPropertyIndex,
         draggingTemplate,
         draggingProperty
-    } = statePE;
+    } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -78,24 +83,25 @@ export const PropertyList = ({
             onPropertyItemDropOnTemplateList();
         }
 
-        const newModel = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         //  Replace entered item with dragged item
         // --> Remove dragged item from model and then place it on entered item's position
-        newModel[propertiesKeyName].splice(
+        modelCopy[propertiesKeyName].splice(
             dragEnteredItem.current,
             0,
-            newModel[propertiesKeyName].splice(dragItem.current, 1)[0]
+            modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         dispatch({
-            type: SET_OAT_SELECTED_MODEL,
-            payload: newModel
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
 
         dragNode.current.removeEventListener('dragend', onDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
             payload: false
         });
@@ -116,7 +122,7 @@ export const PropertyList = ({
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            dispatchPE({
+            dispatch({
                 type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
                 payload: true
             });
@@ -149,24 +155,23 @@ export const PropertyList = ({
 
     const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
-            const newModel = deepCopy(model);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             if (index === undefined) {
-                newModel[propertiesKeyName][
-                    currentPropertyIndex
-                ].displayName = value;
+                modelCopy[propertiesKeyName][currentPropertyIndex].name = value;
             } else {
-                newModel[propertiesKeyName][index].displayName = value;
+                modelCopy[propertiesKeyName][index].name = value;
             }
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -193,12 +198,13 @@ export const PropertyList = ({
         setLastPropertyFocused(null);
 
         const deletion = (index) => {
-            const newModel = deepCopy(model);
-            newModel[propertiesKeyName].splice(index, 1);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: newModel
+                    type: SET_OAT_MODELS,
+                    payload: modelsCopy
                 });
             };
             dispatch({
@@ -209,8 +215,8 @@ export const PropertyList = ({
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -258,20 +264,21 @@ export const PropertyList = ({
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
         const onMove = (index, moveUp) => {
             const direction = moveUp ? -1 : 1;
-            const newModel = deepCopy(model);
-            const item = newModel[propertiesKeyName][index];
-            newModel[propertiesKeyName].splice(index, 1);
-            newModel[propertiesKeyName].splice(index + direction, 0, item);
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const item = modelCopy[propertiesKeyName][index];
+            modelCopy[propertiesKeyName].splice(index, 1);
+            modelCopy[propertiesKeyName].splice(index + direction, 0, item);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: newModel
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -280,46 +287,37 @@ export const PropertyList = ({
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
-            {isSupportedModelType &&
-                model &&
-                propertyList &&
-                propertyList.length === 0 && (
-                    <div
-                        className={
-                            propertyInspectorStyles.addPropertyMessageWrap
-                        }
-                        onMouseOver={(e) => {
-                            onAddPropertyLabelMouseOver(e);
+            {isSupportedModelType && propertyList && propertyList.length === 0 && (
+                <div
+                    className={propertyInspectorStyles.addPropertyMessageWrap}
+                    onMouseOver={(e) => {
+                        onAddPropertyLabelMouseOver(e);
+                    }}
+                    onMouseLeave={(e) => {
+                        onMouseLeave(e);
+                    }}
+                    ref={addPropertyLabelRef}
+                >
+                    <ActionButton
+                        onClick={(e) => {
+                            if (propertySelectorVisible) {
+                                setPropertySelectorVisible(false);
+                            } else {
+                                onAddPropertyLabelMouseOver(e);
+                            }
                         }}
-                        onMouseLeave={(e) => {
-                            onMouseLeave(e);
-                        }}
-                        ref={addPropertyLabelRef}
                     >
-                        <ActionButton
-                            onClick={(e) => {
-                                if (propertySelectorVisible) {
-                                    setPropertySelectorVisible(false);
-                                } else {
-                                    onAddPropertyLabelMouseOver(e);
-                                }
-                            }}
-                        >
-                            <FontIcon
-                                iconName={'CirclePlus'}
-                                className={
-                                    propertyInspectorStyles.iconAddProperty
-                                }
-                            />
-                            <Text>{t('OATPropertyEditor.addProperty')}</Text>
-                        </ActionButton>
-                    </div>
-                )}
+                        <FontIcon
+                            iconName={'CirclePlus'}
+                            className={propertyInspectorStyles.iconAddProperty}
+                        />
+                        <Text>{t('OATPropertyEditor.addProperty')}</Text>
+                    </ActionButton>
+                </div>
+            )}
 
-            {model &&
-                model[propertiesKeyName] &&
-                model[propertiesKeyName].length > 0 &&
-                model[propertiesKeyName].map((item, i) => {
+            {propertyList &&
+                propertyList.map((item, i) => {
                     if (typeof item.schema === 'object') {
                         return (
                             <PropertyListItemNest
@@ -356,10 +354,9 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
-                                dispatchPE={dispatchPE}
                             />
                         );
-                    } else if (typeof item['@type'] === 'object') {
+                    } else {
                         return (
                             <PropertyListItem
                                 key={i}
@@ -384,7 +381,6 @@ export const PropertyList = ({
                                 propertiesLength={
                                     model[propertiesKeyName].length
                                 }
-                                dispatchPE={dispatchPE}
                             />
                         );
                     }
@@ -399,9 +395,7 @@ export const PropertyList = ({
                         onMouseLeave(e);
                     }}
                 >
-                    {model && model[propertiesKeyName].length > 0 && (
-                        <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
-                    )}
+                    <AddPropertyBar onMouseOver={onPropertyBarMouseOver} />
                 </div>
             )}
 

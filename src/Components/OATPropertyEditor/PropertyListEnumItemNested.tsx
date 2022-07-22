@@ -1,91 +1,26 @@
-import React, { useState, useContext } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { TextField, Text, IconButton } from '@fluentui/react';
+import React, { useState } from 'react';
+import { Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
-    getPropertyListItemIconWrapMoreStyles,
-    getPropertyEditorTextFieldStyles
+    getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { SET_OAT_SELECTED_MODEL } from '../../Models/Constants/ActionTypes';
-import { deepCopy } from '../../Models/Services/Utils';
-import {
-    getModelPropertyCollectionName,
-    getModelPropertyListItemName
-} from './Utils';
+import { getModelPropertyListItemName } from './Utils';
 import { EnumItemProps } from './PropertyListEnumItemNested.types';
 
 export const PropertyListEnumItemNested = ({
     collectionLength,
     deleteNestedItem,
-    dispatch,
     item,
     onMove,
     index,
-    parentIndex,
-    state
+    parentIndex
 }: EnumItemProps) => {
     const { t } = useTranslation();
-    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const { model } = state;
-
-    const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
-    );
-
-    const updateEnum = (value: string) => {
-        const update = () => {
-            const activeItem =
-                model[propertiesKeyName][parentIndex].schema.enumValues[index];
-            const prop = {
-                displayName: value
-            };
-            const modelCopy = deepCopy(model);
-            modelCopy[propertiesKeyName][parentIndex].schema.enumValues[
-                index
-            ] = {
-                ...activeItem,
-                ...prop
-            };
-
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
-            });
-        };
-
-        const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
-            });
-        };
-
-        execute(update, undoUpdate);
-    };
-
-    const onGetErrorMessage = (value: string) => {
-        if (value === '') {
-            return value;
-        }
-
-        const find = model[propertiesKeyName][
-            parentIndex
-        ].schema.enumValues.find((item) => item.name === value);
-
-        if (!find) {
-            updateEnum(value);
-        }
-
-        return find
-            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-            : '';
-    };
 
     return (
         <div
@@ -94,17 +29,9 @@ export const PropertyListEnumItemNested = ({
             id={`enum_${item.name}`}
         >
             <div></div> {/* Needed for gridTemplateColumns style  */}
-            <TextField
-                styles={textFieldStyles}
-                borderless
-                placeholder={
-                    item.displayName
-                        ? getModelPropertyListItemName(item.displayName)
-                        : getModelPropertyListItemName(item.name)
-                }
-                validateOnFocusOut
-                onGetErrorMessage={onGetErrorMessage}
-            />
+            <Text>
+                {getModelPropertyListItemName(item.displayName || item.name)}
+            </Text>
             <Text>{item.enumValue}</Text>
             <IconButton
                 iconProps={{

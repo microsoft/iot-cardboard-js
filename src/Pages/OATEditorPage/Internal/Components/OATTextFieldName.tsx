@@ -3,6 +3,7 @@ import { TextField } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     DTDLNameRegex,
+    OATInterfaceType,
     OATNameLengthLimit,
     OATRelationshipHandleName
 } from '../../../../Models/Constants';
@@ -62,22 +63,16 @@ const OATTextFieldName = ({
                                     content.name !== originalValue // Prevent checking for duplicate name to itself
                             )
                     );
-                    if (!repeatedNameOnRelationship) {
-                        setNameDuplicateRelationshipError(false);
-                    } else {
-                        setNameDuplicateRelationshipError(true);
-                    }
-                } else {
+                    setNameDuplicateRelationshipError(
+                        !!repeatedNameOnRelationship
+                    );
+                } else if (model['@type'] === OATInterfaceType) {
                     // Check if name is duplicate to any other interface
                     const repeatedNameOnInterface = models.find(
                         (model) =>
                             model.name === value && model.name !== originalValue // Prevent checking for duplicate name to itself
                     );
-                    if (repeatedNameOnInterface) {
-                        setNameDuplicateInterfaceError(true);
-                    } else {
-                        setNameDuplicateInterfaceError(false);
-                    }
+                    setNameDuplicateInterfaceError(!!repeatedNameOnInterface);
                 }
             } else {
                 setNameValidCharactersError(true);

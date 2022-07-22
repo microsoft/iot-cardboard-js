@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
@@ -11,16 +11,17 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
+    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_SELECTED_MODEL,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
 
 import {
     getModelPropertyCollectionName,
-    getModelPropertyListItemName
+    getModelPropertyListItemName,
+    getTargetFromSelection
 } from './Utils';
 import { FormBody } from './Constants';
 import { PropertyListItemProps } from './PropertyListItem.types';
@@ -39,8 +40,7 @@ export const PropertyListItem = ({
     propertiesLength,
     item,
     setLastPropertyFocused,
-    state,
-    dispatchPE
+    state
 }: PropertyListItemProps) => {
     const { t } = useTranslation();
     const { execute } = useContext(CommandHistoryContext);
@@ -50,7 +50,11 @@ export const PropertyListItem = ({
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
-    const { model, templates } = state;
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -76,27 +80,34 @@ export const PropertyListItem = ({
 
     const onDuplicate = () => {
         const duplicate = () => {
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
             const itemCopy = deepCopy(item);
-            itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-            itemCopy.displayName = `${itemCopy.displayName}_${t(
-                'OATPropertyEditor.copy'
-            )}`;
-            itemCopy['@id'] = `${itemCopy['@id']}_${t(
-                'OATPropertyEditor.copy'
-            )}`;
+            if (itemCopy.name) {
+                itemCopy.name = `${itemCopy.name}_${t(
+                    'OATPropertyEditor.copy'
+                )}`;
+            }
+            if (itemCopy.displayName) {
+                itemCopy.displayName = `${itemCopy.displayName}_${t(
+                    'OATPropertyEditor.copy'
+                )}`;
+            }
+            if (itemCopy['@id']) {
+                delete itemCopy['@id'];
+            }
 
-            const modelCopy = deepCopy(model);
             modelCopy[propertiesKeyName].push(itemCopy);
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: modelCopy
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
             });
         };
 
         const undoDuplicate = () => {
             dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+                type: SET_OAT_MODELS,
+                payload: models
             });
         };
 
@@ -104,22 +115,22 @@ export const PropertyListItem = ({
     };
 
     const onInfoButtonClick = () => {
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: FormBody.property
         });
-        dispatchPE({
+        dispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: true
         });
     };
 
-    const onDisplayNameChange = (value) => {
-        dispatchPE({
+    const onNameChange = (value) => {
+        dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
         });
@@ -158,18 +169,16 @@ export const PropertyListItem = ({
             >
                 {!displayNameEditor && (
                     <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                        {item.displayName ? item.displayName : item.name}
+                        {getModelPropertyListItemName(item.name)}
                     </Text>
                 )}
                 {displayNameEditor && (
                     <TextField
                         borderless
-                        value={getModelPropertyListItemName(
-                            item.displayName ? item.displayName : item.name
-                        )}
+                        value={getModelPropertyListItemName(item.name)}
                         validateOnFocusOut
                         onChange={(evt, value) => {
-                            onDisplayNameChange(value);
+                            onNameChange(value);
                         }}
                         onBlur={() => setDisplayNameEditor(false)}
                         styles={textFieldStyles}

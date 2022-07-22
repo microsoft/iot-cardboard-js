@@ -9,7 +9,5 @@ export type PropertyListProps = {
     propertyList?: DTDLProperty[];
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    state?: IOATEditorState;
-    dispatchPE?: React.Dispatch<React.SetStateAction<IAction>>;
-    statePE?: IOATPropertyEditorState;
+    state?: IOATEditorState & IOATPropertyEditorState;
 };
