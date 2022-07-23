@@ -94,10 +94,10 @@
                 border: 1px solid var(--cb-color-theme-primary);
                 outline: none;
             }
+        }
 
-            option {
-                background-color: var(--cb-color-input-edited-bg);
-            }
+        option {
+            background-color: var(--cb-color-input-edited-bg);
         }
 
         input,
