@@ -899,7 +899,8 @@
     "warningId": "Nie zaleca się posiadania wartości ID.",
     "addToPropertyList": "Dodaj do listy właściwości",
     "moveDown": "Przechodzenie w dół",
-    "moveUp": "Przenieś się w górę"
+    "moveUp": "Przenieś się w górę",
+    "valueSchema": "Schemat wartości"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",
