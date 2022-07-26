@@ -8,10 +8,18 @@ import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { getModelPropertyListItemName } from './Utils';
 import { EnumItemProps } from './PropertyListEnumItemNested.types';
+import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_PROPERTY_MODAL_BODY
+} from '../../Models/Constants/ActionTypes';
+import { FormBody } from './Constants';
 
 export const PropertyListEnumItemNested = ({
     collectionLength,
     deleteNestedItem,
+    dispatch,
     item,
     onMove,
     index,
@@ -22,6 +30,27 @@ export const PropertyListEnumItemNested = ({
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
 
+    const onInfoButtonClick = () => {
+        console.log('index: ', index);
+        console.log('parentIndex: ', parentIndex);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: parentIndex
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+    };
+
     return (
         <div
             className={propertyInspectorStyles.enumItem}
@@ -29,10 +58,14 @@ export const PropertyListEnumItemNested = ({
             id={`enum_${item.name}`}
         >
             <div></div> {/* Needed for gridTemplateColumns style  */}
-            <Text>
-                {getModelPropertyListItemName(item.displayName || item.name)}
-            </Text>
+            <Text>{getModelPropertyListItemName(item.name)}</Text>
             <Text>{item.enumValue}</Text>
+            <IconButton
+                iconProps={{ iconName: 'info' }}
+                styles={iconWrapMoreStyles}
+                title={t('OATPropertyEditor.info')}
+                onClick={onInfoButtonClick}
+            />
             <IconButton
                 iconProps={{
                     iconName: 'more'

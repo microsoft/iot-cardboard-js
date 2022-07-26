@@ -11,8 +11,7 @@ import {
     IconButton,
     Dropdown,
     IChoiceGroupOption,
-    MessageBar,
-    MessageBarType
+    IDropdownOption
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -33,13 +32,13 @@ import {
     validateCommentChange,
     validateDescriptionChange,
     validateDisplayNameChange,
-    validateIdChange,
     setMultiLanguageSelectionRemoval,
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue,
-    getTargetFromSelection
+    getTargetFromSelection,
+    getNestedPropertyCollectionName
 } from './Utils';
 import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 const multiLanguageOptionValue = 'multiLanguage';
@@ -73,20 +72,28 @@ export const FormUpdateProperty = ({
         model ? model['@type'] : null
     );
 
+    const nestedPropertyCollectionName = getNestedPropertyCollectionName(
+        model[propertiesKeyName][currentPropertyIndex].schema['@type']
+    );
+
     const activeProperty = model[propertiesKeyName][currentPropertyIndex];
 
     const activeNestedProperty =
-        model[propertiesKeyName][currentPropertyIndex].schema.fields &&
-        model[propertiesKeyName][currentPropertyIndex].schema.fields[
-            currentNestedPropertyIndex
-        ];
+        model[propertiesKeyName][currentPropertyIndex].schema[
+            nestedPropertyCollectionName
+        ] &&
+        model[propertiesKeyName][currentPropertyIndex].schema[
+            nestedPropertyCollectionName
+        ][currentNestedPropertyIndex];
     const targetProperty = activeNestedProperty || activeProperty;
-
     const [comment, setComment] = useState('');
+    const [name, setName] = useState(targetProperty.name);
+    const [enumValue, setEnumValue] = useState(targetProperty.enumValue);
+    const [errorRepeatedEnumValue, setErrorRepeatedEnumValue] = useState(null);
+    const [nameError, setNameError] = useState('');
     const [description, setDescription] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [writable, setWritable] = useState(true);
-    const [id, setId] = useState('');
     const [languageSelection, setLanguageSelection] = useState('');
     const [
         languageSelectionDescription,
@@ -120,9 +127,17 @@ export const FormUpdateProperty = ({
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [idLengthError, setIdLengthError] = useState(null);
-    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
-    const [idWarning, setIdWarning] = useState(null);
+
+    const [valueSchema, setValueSchema] = useState(
+        activeProperty.schema.valueSchema
+            ? activeProperty.schema.valueSchema
+            : 'integer'
+    );
+
+    const valueSchemaOptions: IDropdownOption[] = [
+        { key: 'integer', text: 'integer' },
+        { key: 'string', text: 'string' }
+    ];
 
     useEffect(() => {
         setComment(targetProperty.comment);
@@ -133,7 +148,6 @@ export const FormUpdateProperty = ({
             )
         );
         setWritable(targetProperty.writable || true);
-        setId(targetProperty['@id']);
         setLanguageSelection(
             !targetProperty.displayName ||
                 typeof targetProperty.displayName === 'string'
@@ -200,10 +214,6 @@ export const FormUpdateProperty = ({
 
     const handleUpdatedNestedProperty = () => {
         const update = () => {
-            const activeNestedProperty =
-                model[propertiesKeyName][currentPropertyIndex].schema.fields[
-                    currentNestedPropertyIndex
-                ];
             const prop = {
                 comment: comment ? comment : activeNestedProperty.comment,
                 description:
@@ -220,16 +230,25 @@ export const FormUpdateProperty = ({
                         : multiLanguageSelectionsDisplayName,
                 writable,
                 unit: activeNestedProperty.unit,
-                '@id': id ? id : activeNestedProperty['@id'],
                 schema: activeNestedProperty.schema,
                 name: activeNestedProperty.name
             };
 
+            // Update nested enum value
+            if (
+                activeNestedProperty &&
+                activeProperty.schema['@type'] === 'Enum'
+            ) {
+                delete prop.displayName;
+                prop.name = name;
+                prop.enumValue = enumValue;
+            }
+
             const modelsCopy = deepCopy(models);
             const modelCopy = getTargetFromSelection(modelsCopy, selection);
-            modelCopy[propertiesKeyName][currentPropertyIndex].schema.fields[
-                currentNestedPropertyIndex
-            ] = prop;
+            modelCopy[propertiesKeyName][currentPropertyIndex].schema[
+                nestedPropertyCollectionName
+            ][currentNestedPropertyIndex] = prop;
 
             dispatch({
                 type: SET_OAT_MODELS,
@@ -281,10 +300,17 @@ export const FormUpdateProperty = ({
                 writable,
                 '@type': activeProperty['@type'],
                 unit: activeProperty.unit,
-                '@id': id ? id : activeProperty['@id'],
                 schema: activeProperty.schema,
                 name: activeProperty.name
             };
+
+            // Set valueSchema if enum
+            if (
+                targetProperty.schema &&
+                targetProperty.schema['@type'] === 'Enum'
+            ) {
+                prop.schema.valueSchema = valueSchema;
+            }
 
             const modelsCopy = deepCopy(models);
             const modelCopy = getTargetFromSelection(modelsCopy, selection);
@@ -305,6 +331,24 @@ export const FormUpdateProperty = ({
         execute(update, undoUpdate);
 
         onClose();
+    };
+
+    const onEnumValueChange = (value: string) => {
+        const find = activeProperty.schema.enumValues.find(
+            (item) => item.enumValue === value
+        );
+
+        // If enumValue found, but same value as before, do not set error
+        if (find && find.enumValue === targetProperty.enumValue) {
+            setEnumValue(value);
+            return;
+        }
+
+        if (!find && value !== '') {
+            setEnumValue(value);
+        }
+
+        setErrorRepeatedEnumValue(!!find);
     };
 
     useEffect(() => {
@@ -352,21 +396,10 @@ export const FormUpdateProperty = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
-    const getIdErrorMessage = () => {
-        const idError = idLengthError
-            ? t('OATPropertyEditor.errorIdLength')
-            : idValidDTMIError
-            ? t('OATPropertyEditor.errorIdValidDTMI')
-            : '';
-        return idError;
-    };
-
     return (
         <>
             <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Label>
-                    {model[propertiesKeyName][currentPropertyIndex].name}
-                </Label>
+                <Label>{targetProperty.name}</Label>
                 <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
@@ -377,43 +410,47 @@ export const FormUpdateProperty = ({
                 </ActionButton>
             </div>
 
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.displayName')}
-                </Text>
-                <ChoiceGroup
-                    selectedKey={languageSelection}
-                    options={options}
-                    onChange={onLanguageSelect}
-                    required={true}
-                    styles={radioGroupRowStyle}
-                />
-            </div>
-
-            {languageSelection === singleLanguageOptionValue && (
+            {targetProperty.displayName && (
                 <div className={propertyInspectorStyles.modalRow}>
-                    <div></div> {/* Needed for gridTemplateColumns style  */}
-                    <TextField
-                        placeholder={t(
-                            'OATPropertyEditor.modalTextInputPlaceHolder'
-                        )}
-                        value={displayName}
-                        validateOnFocusOut
-                        onChange={(e, v) =>
-                            validateDisplayNameChange(
-                                v,
-                                setDisplayName,
-                                setDisplayNameError
-                            )
-                        }
-                        errorMessage={
-                            displayNameError
-                                ? t('OATPropertyEditor.errorDisplayName')
-                                : ''
-                        }
+                    <Text styles={columnLeftTextStyles}>
+                        {t('OATPropertyEditor.displayName')}
+                    </Text>
+                    <ChoiceGroup
+                        selectedKey={languageSelection}
+                        options={options}
+                        onChange={onLanguageSelect}
+                        required={true}
+                        styles={radioGroupRowStyle}
                     />
                 </div>
             )}
+
+            {languageSelection === singleLanguageOptionValue &&
+                targetProperty.displayName && (
+                    <div className={propertyInspectorStyles.modalRow}>
+                        <div></div>
+                        {/* Needed for gridTemplateColumns style  */}
+                        <TextField
+                            placeholder={t(
+                                'OATPropertyEditor.modalTextInputPlaceHolder'
+                            )}
+                            value={displayName}
+                            validateOnFocusOut
+                            onChange={(e, v) =>
+                                validateDisplayNameChange(
+                                    v,
+                                    setDisplayName,
+                                    setDisplayNameError
+                                )
+                            }
+                            errorMessage={
+                                displayNameError
+                                    ? t('OATPropertyEditor.errorDisplayName')
+                                    : ''
+                            }
+                        />
+                    </div>
+                )}
 
             {languageSelection === multiLanguageOptionValue &&
                 multiLanguageSelectionsDisplayNames.length > 0 &&
@@ -514,6 +551,53 @@ export const FormUpdateProperty = ({
                         />
                         <Text>{t('OATPropertyEditor.region')}</Text>
                     </ActionButton>
+                </div>
+            )}
+
+            {activeNestedProperty && activeProperty.schema['@type'] === 'Enum' && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Text styles={columnLeftTextStyles}>
+                        {t('OATPropertyEditor.name')}
+                    </Text>
+                    <TextField
+                        placeholder={t(
+                            'OATPropertyEditor.modalTextInputPlaceHolder'
+                        )}
+                        onChange={(_ev, value) =>
+                            validateDisplayNameChange(
+                                value,
+                                setName,
+                                setNameError
+                            )
+                        }
+                        errorMessage={
+                            nameError
+                                ? t('OATPropertyEditor.errorDisplayNameLength')
+                                : ''
+                        }
+                        value={name}
+                    />
+                </div>
+            )}
+
+            {activeNestedProperty && activeProperty.schema['@type'] === 'Enum' && (
+                <div className={propertyInspectorStyles.modalRow}>
+                    <Text styles={columnLeftTextStyles}>
+                        {`${t('OATPropertyEditor.enumValue')}`}
+                    </Text>
+                    <TextField
+                        placeholder={t(
+                            'OATPropertyEditor.modalTextInputPlaceHolder'
+                        )}
+                        type="number"
+                        onChange={(_ev, value) => onEnumValueChange(value)}
+                        value={enumValue}
+                        errorMessage={
+                            errorRepeatedEnumValue
+                                ? t('OATPropertyEditor.errorRepeatedEnumValue')
+                                : ''
+                        }
+                    />
                 </div>
             )}
 
@@ -678,25 +762,22 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    onChange={(_ev, value) =>
-                        validateIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError,
-                            setIdWarning
-                        )
-                    }
-                    errorMessage={getIdErrorMessage()}
-                    value={id}
-                />
-            </div>
+            {targetProperty.schema &&
+                targetProperty.schema['@type'] === 'Enum' && (
+                    <div className={propertyInspectorStyles.modalRow}>
+                        <Text styles={columnLeftTextStyles}>
+                            {t('OATPropertyEditor.valueSchema')}
+                        </Text>
+                        <Dropdown
+                            placeholder={t('OATPropertyEditor.valueSchema')}
+                            options={valueSchemaOptions}
+                            onChange={(_ev, option) =>
+                                setValueSchema(option.key)
+                            }
+                            defaultSelectedKey={valueSchema}
+                        />
+                    </div>
+                )}
 
             <div className={propertyInspectorStyles.row}>
                 <Toggle
@@ -715,23 +796,10 @@ export const FormUpdateProperty = ({
                     allowDisabledFocus
                     onClick={onUpdateProperty}
                     disabled={
-                        displayNameError ||
-                        commentError ||
-                        descriptionError ||
-                        idLengthError ||
-                        idValidDTMIError
+                        displayNameError || commentError || descriptionError
                     }
                 />
             </div>
-
-            {idWarning && (
-                <MessageBar
-                    messageBarType={MessageBarType.warning}
-                    isMultiline={false}
-                >
-                    {t('OATPropertyEditor.warningId')}
-                </MessageBar>
-            )}
         </>
     );
 };

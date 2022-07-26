@@ -26,6 +26,13 @@ export const getModelPropertyCollectionName = (type: string | string[]) => {
     return 'contents';
 };
 
+export const getNestedPropertyCollectionName = (type: string | string[]) => {
+    if (type && type === 'Enum') {
+        return 'enumValues';
+    }
+    return 'fields';
+};
+
 export const getModelPropertyListItemName = (
     name: string | Record<string, any>
 ): string => {
