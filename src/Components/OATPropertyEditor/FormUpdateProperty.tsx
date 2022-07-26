@@ -240,7 +240,7 @@ export const FormUpdateProperty = ({
                 activeNestedProperty &&
                 activeProperty.schema['@type'] === 'Enum'
             ) {
-                delete prop.displayName;
+                prop.displayName = name;
                 prop.name = name;
                 prop.enumValue = enumValue;
             }
