@@ -419,15 +419,13 @@
       "propertyDropdownLabel": "Vlastnost",
       "noElementsSelected": "Nebyly vybrány žádné prvky",
       "noSelectionValue": "Žádný",
-      "propertyNotFound": "Vlastnost nebyla nalezena u dvojčat chování"
+      "propertyNotFound": "Vlastnost nebyla nalezena u dvojčat chování",
+      "propertyDropdownPlaceholder": "Vybrat vlastnost dvojčete"
     },
     "numericExpressionPlaceholder": "Zadejte výraz, který se vyhodnotí jako číslo",
     "behaviorId": "ID chování",
     "widgetLibrary": "Knihovna widgetů",
     "exploreWidgets": "Prozkoumejte naše widgety a přidejte do své 3D scény další vrstvu informací.",
-    "allWidgets": "Všechny widgety",
-    "myWidgets": "Moje widgety",
-    "searchWidgets": "Vyhledávací widgety",
     "addWidget": "Přidat widget",
     "newWidget": "Nový widget",
     "createWidget": "Vytvořit widget",
@@ -480,6 +478,12 @@
       "errors": {
         "twinAliasAlreadyExists": "Alias dvojčete se stejným názvem již existuje, zvažte jeho přidání."
       }
+    },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Výraz vlastnosti",
+      "expressionPlaceholder": "Zadejte výraz vlastnosti",
+      "selectProperty": "Vybrat nemovitost",
+      "toggleLabel": "Výraz vlastnosti"
     }
   },
   "widgets": {
@@ -501,7 +505,12 @@
       "title": "Widget Panel",
       "description": "Panel rozvržení"
     },
-    "notSupported": "Tento typ widgetu není v současné době podporován"
+    "notSupported": "Tento typ widgetu není v současné době podporován",
+    "value": {
+      "title": "Widget Hodnota",
+      "description": "Základní widget pro zobrazení hodnot vlastností dvojčete",
+      "typePlaceholder": "Vyberte typ hodnoty"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Posledních 30 minut",
@@ -773,7 +782,9 @@
     "redo": "Předělat",
     "deleteAll": "Smazat vše",
     "folderUpload": "Nahrání složky",
-    "fileUpload": "Nahrání souboru"
+    "fileUpload": "Nahrání souboru",
+    "files": "Soubory",
+    "selectFile": "Vybrat soubor"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
@@ -888,7 +899,8 @@
     "warningId": "Nedoporučuje se mít hodnotu pro ID.",
     "addToPropertyList": "Přidat do seznamu vlastností",
     "moveDown": "Posunout dolů",
-    "moveUp": "Povýšit"
+    "moveUp": "Povýšit",
+    "valueSchema": "Schéma hodnot"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
