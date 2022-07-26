@@ -43,7 +43,7 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
 AdtTwin.argTypes = {
     twinId: {
         control: { type: 'text' },
-        defaultValue: 'ActivePowerSensorTwin'
+        defaultValue: 'PasteurizationMachine_A01'
     }
 };
 
