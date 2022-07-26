@@ -41,6 +41,7 @@ import {
     getNestedPropertyCollectionName
 } from './Utils';
 import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
+import { DTDLNameRegex } from '../../Models/Constants/Constants';
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
@@ -90,7 +91,7 @@ export const FormUpdateProperty = ({
     const [name, setName] = useState(targetProperty.name);
     const [enumValue, setEnumValue] = useState(targetProperty.enumValue);
     const [errorRepeatedEnumValue, setErrorRepeatedEnumValue] = useState(null);
-    const [nameError, setNameError] = useState('');
+    const [nameError, setNameError] = useState(false);
     const [description, setDescription] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [writable, setWritable] = useState(true);
@@ -270,6 +271,16 @@ export const FormUpdateProperty = ({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: null
         });
+    };
+
+    const onNameChange = (value) => {
+        // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
+        if (DTDLNameRegex.test(value)) {
+            setNameError(false);
+            setName(value);
+        } else {
+            setNameError(true);
+        }
     };
 
     const onUpdateProperty = () => {
@@ -563,13 +574,7 @@ export const FormUpdateProperty = ({
                         placeholder={t(
                             'OATPropertyEditor.modalTextInputPlaceHolder'
                         )}
-                        onChange={(_ev, value) =>
-                            validateDisplayNameChange(
-                                value,
-                                setName,
-                                setNameError
-                            )
-                        }
+                        onChange={(_ev, value) => onNameChange(value)}
                         errorMessage={
                             nameError
                                 ? t('OATPropertyEditor.errorDisplayNameLength')
