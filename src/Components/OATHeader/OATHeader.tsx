@@ -230,32 +230,39 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         newFilesErrors,
         newFiles
     ) => {
-        if (file) {
-            let errorFound = false;
-            // Validate contents
-            let model = await file.text();
-            model = JSON.parse(model);
-            if (model.contents) {
-                // Find within contents, if @type equals relationship, push to newFilesErrors
-                for (const content of model.contents) {
-                    if (
-                        content['@type'] &&
-                        content['@type'] === OATRelationshipHandleName
-                    ) {
-                        newFilesErrors.push(
-                            t('OATHeader.errorSingleFileHoldsRelationships', {
-                                fileName: file.name
-                            })
-                        );
-                        errorFound = true;
-                        break;
+        try {
+            if (file) {
+                let errorFound = false;
+                // Validate contents
+                let model = await file.text();
+                model = JSON.parse(model);
+                if (model.contents) {
+                    // Find within contents, if @type equals relationship, push to newFilesErrors
+                    for (const content of model.contents) {
+                        if (
+                            content['@type'] &&
+                            content['@type'] === OATRelationshipHandleName
+                        ) {
+                            newFilesErrors.push(
+                                t(
+                                    'OATHeader.errorSingleFileHoldsRelationships',
+                                    {
+                                        fileName: file.name
+                                    }
+                                )
+                            );
+                            errorFound = true;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (!errorFound) {
-                newFiles.push(file);
+                if (!errorFound) {
+                    newFiles.push(file);
+                }
             }
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -282,7 +289,6 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
                     })
                 );
             }
-            file = new File([], '');
         }
 
         if (newFilesErrors.length > 0) {
