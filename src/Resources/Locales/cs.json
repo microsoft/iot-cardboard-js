@@ -784,7 +784,8 @@
     "folderUpload": "Nahrání složky",
     "fileUpload": "Nahrání souboru",
     "files": "Soubory",
-    "selectFile": "Vybrat soubor"
+    "selectFile": "Vybrat soubor",
+    "errorSingleFileHoldsRelationships": "Problém s {{fileName}}: Model obsahuje relace, které nejsou importovány"
   },
   "cameraControls": {
     "mouseControls": "Ovládání myší",
