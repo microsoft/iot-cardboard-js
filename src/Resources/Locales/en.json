@@ -779,6 +779,7 @@
         "settings": "Settings",
         "errorInvalidJSON": "Invalid JSON",
         "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
+        "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
         "errorFormatNoSupported": "File format not supported",
         "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
         "undo": "Undo",

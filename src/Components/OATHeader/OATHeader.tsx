@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { OATNamespaceDefaultValue } from '../../Models/Constants';
+import {
+    OATNamespaceDefaultValue,
+    OATRelationshipHandleName
+} from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -52,6 +55,7 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         templates,
         namespace
     } = state;
+    const [importingSingleFile, setImportingSingleFile] = useState(false);
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
@@ -125,10 +129,12 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
 
     const onUploadFolderClick = () => {
         uploadInputRef.current.click();
+        setImportingSingleFile(false);
     };
 
     const onUploadFileClick = () => {
         inputRef.current.click();
+        setImportingSingleFile(true);
     };
 
     const onDeleteAll = () => {
@@ -219,21 +225,66 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     ];
 
-    const onFilesUpload = (files: Array<File>) => {
+    const validateSingleFileRelationships = async (
+        file,
+        newFilesErrors,
+        newFiles
+    ) => {
+        if (file) {
+            let errorFound = false;
+            // Validate contents
+            let model = await file.text();
+            model = JSON.parse(model);
+            if (model.contents) {
+                // Find within contents, if @type equals relationship, push to newFilesErrors
+                for (const content of model.contents) {
+                    if (
+                        content['@type'] &&
+                        content['@type'] === OATRelationshipHandleName
+                    ) {
+                        newFilesErrors.push(
+                            t('OATHeader.errorSingleFileHoldsRelationships', {
+                                fileName: file.name
+                            })
+                        );
+                        errorFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!errorFound) {
+                newFiles.push(file);
+            }
+        }
+    };
+
+    const onFilesUpload = async (files: Array<File>) => {
         const newFiles = [];
         const newFilesErrors = [];
-        files.forEach((sF) => {
-            if (sF.type === 'application/json') {
-                newFiles.push(sF);
+
+        for (const file of files) {
+            if (file.type === 'application/json') {
+                if (importingSingleFile) {
+                    // Validate contents
+                    await validateSingleFileRelationships(
+                        file,
+                        newFilesErrors,
+                        newFiles
+                    );
+                } else {
+                    newFiles.push(file);
+                }
             } else {
                 newFilesErrors.push(
                     t('OATHeader.errorFileFormatNotSupported', {
-                        fileName: sF.name
+                        fileName: file.name
                     })
                 );
             }
-            sF = new File([], '');
-        });
+            file = new File([], '');
+        }
+
         if (newFilesErrors.length > 0) {
             let accumulatedError = '';
             for (const error of newFilesErrors) {
