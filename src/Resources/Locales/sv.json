@@ -899,7 +899,8 @@
     "warningId": "Att ha ett värde för ID rekommenderas inte.",
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
-    "moveUp": "Flytta upp"
+    "moveUp": "Flytta upp",
+    "valueSchema": "Värdeschema"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

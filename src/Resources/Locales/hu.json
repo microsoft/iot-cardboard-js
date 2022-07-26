@@ -899,7 +899,8 @@
     "warningId": "Az ID érték megadása nem javasolt.",
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
-    "moveUp": "Feljebb lépés"
+    "moveUp": "Feljebb lépés",
+    "valueSchema": "Értékséma"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

@@ -899,7 +899,8 @@
     "warningId": "Het hebben van een waarde voor ID wordt niet aanbevolen.",
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
-    "moveUp": "Overgaan"
+    "moveUp": "Overgaan",
+    "valueSchema": "Waardenschema"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

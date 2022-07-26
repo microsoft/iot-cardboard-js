@@ -899,7 +899,8 @@
     "warningId": "IDの値を持つことはお勧めしません。",
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
-    "moveUp": "上へ移動"
+    "moveUp": "上へ移動",
+    "valueSchema": "値スキーマ"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

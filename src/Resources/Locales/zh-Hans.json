@@ -899,7 +899,8 @@
     "warningId": "不建议为 ID 设置值。",
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
-    "moveUp": "上升"
+    "moveUp": "上升",
+    "valueSchema": "值架构"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

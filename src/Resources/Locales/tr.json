@@ -899,7 +899,8 @@
     "warningId": "Kimlik için bir değere sahip olmak önerilmez.",
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
-    "moveUp": "Yukarı Taşı"
+    "moveUp": "Yukarı Taşı",
+    "valueSchema": "Değer Şeması"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

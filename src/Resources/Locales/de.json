@@ -899,7 +899,8 @@
     "warningId": "Einen Wert für ID zu haben, wird nicht empfohlen.",
     "addToPropertyList": "Zur Eigenschaftsliste hinzufügen",
     "moveDown": "Nach unten verschieben",
-    "moveUp": "Aufrücken"
+    "moveUp": "Aufrücken",
+    "valueSchema": "Wertschema"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
