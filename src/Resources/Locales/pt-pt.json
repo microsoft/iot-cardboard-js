@@ -784,7 +784,8 @@
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
     "files": "Ficheiros",
-    "selectFile": "Selecione ficheiro"
+    "selectFile": "Selecione ficheiro",
+    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",

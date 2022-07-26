@@ -784,7 +784,8 @@
     "folderUpload": "フォルダのアップロード",
     "fileUpload": "ファイルのアップロード",
     "files": "ファイル",
-    "selectFile": "ファイルの選択"
+    "selectFile": "ファイルの選択",
+    "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

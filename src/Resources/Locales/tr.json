@@ -784,7 +784,8 @@
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
     "files": "Dosyaları",
-    "selectFile": "Dosya seç"
+    "selectFile": "Dosya seç",
+    "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

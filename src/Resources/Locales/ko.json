@@ -784,7 +784,8 @@
     "folderUpload": "폴더 업로드",
     "fileUpload": "파일 업로드",
     "files": "파일",
-    "selectFile": "파일 선택"
+    "selectFile": "파일 선택",
+    "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다."
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

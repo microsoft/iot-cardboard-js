@@ -784,7 +784,8 @@
     "folderUpload": "Téléchargement de dossiers",
     "fileUpload": "Téléchargement de fichiers",
     "files": "Fichiers",
-    "selectFile": "Sélectionner un fichier"
+    "selectFile": "Sélectionner un fichier",
+    "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

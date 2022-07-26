@@ -784,7 +784,8 @@
     "folderUpload": "Uppladdning av mapp",
     "fileUpload": "Filuppladdning",
     "files": "ﬁler",
-    "selectFile": "Välj fil"
+    "selectFile": "Välj fil",
+    "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

@@ -784,7 +784,8 @@
     "folderUpload": "Map uploaden",
     "fileUpload": "Bestand uploaden",
     "files": "Archief",
-    "selectFile": "Selecteer bestand"
+    "selectFile": "Selecteer bestand",
+    "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

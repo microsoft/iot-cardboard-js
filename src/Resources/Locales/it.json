@@ -784,7 +784,8 @@
     "folderUpload": "Caricamento cartella",
     "fileUpload": "Caricamento file",
     "files": "ﬁle",
-    "selectFile": "Seleziona file"
+    "selectFile": "Seleziona file",
+    "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

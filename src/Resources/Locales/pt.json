@@ -784,7 +784,8 @@
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
     "files": "Limas",
-    "selectFile": "Selecione arquivo"
+    "selectFile": "Selecione arquivo",
+    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

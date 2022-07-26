@@ -784,7 +784,8 @@
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
     "files": "文件",
-    "selectFile": "选择文件"
+    "selectFile": "选择文件",
+    "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

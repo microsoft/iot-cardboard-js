@@ -784,7 +784,8 @@
     "folderUpload": "Mappa feltöltése",
     "fileUpload": "Fájlfeltöltés",
     "files": "Fájlokat",
-    "selectFile": "Fájl kiválasztása"
+    "selectFile": "Fájl kiválasztása",
+    "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

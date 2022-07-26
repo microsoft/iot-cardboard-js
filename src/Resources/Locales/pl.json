@@ -784,7 +784,8 @@
     "folderUpload": "Przesyłanie folderu",
     "fileUpload": "Przesyłanie plików",
     "files": "Pliki",
-    "selectFile": "Wybierz plik"
+    "selectFile": "Wybierz plik",
+    "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
