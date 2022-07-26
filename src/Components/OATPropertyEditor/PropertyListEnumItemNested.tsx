@@ -31,8 +31,6 @@ export const PropertyListEnumItemNested = ({
     const [subMenuActive, setSubMenuActive] = useState(false);
 
     const onInfoButtonClick = () => {
-        console.log('index: ', index);
-        console.log('parentIndex: ', parentIndex);
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
             payload: index
