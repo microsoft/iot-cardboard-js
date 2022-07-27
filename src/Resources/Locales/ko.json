@@ -4,9 +4,11 @@
   "preview": "미리 보기",
   "loading": "로드...",
   "label": "레이블",
+  "labelPlaceholder": "레이블 입력",
   "min": "분",
   "max": "최대",
   "noData": "데이터 없음",
+  "noName": "이름 없음",
   "error": "데이터를 가져오는 중 오류 발생",
   "unsupportedFileType": "지원되지 않는 파일 형식",
   "selectProperties": "속성 선택",
@@ -14,6 +16,7 @@
   "theme": "주제",
   "hierarchy": "계층",
   "displayName": "표시 이름",
+  "displayNamePlaceholder": "표시 이름 입력",
   "realTimeStatus": "실시간 상태",
   "emptyCompositeCard": "빈 복합 카드",
   "compositeCardWithErrors": "오류 경계가 있는 복합 카드",
@@ -63,7 +66,11 @@
   "editTwin": "트윈 편집",
   "confirmDeletion": "삭제 확인",
   "confirmDeletionDesc": "확실한가요? 이 작업은 실행 취소할 수 없습니다.",
+  "discardChanges": "저장되지 않은 변경 내용을 폐기하시겠습니까?",
+  "discard": "버리다",
+  "discardChangesDesc": "확실한가요? 이 작업은 실행 취소할 수 없습니다.",
   "action": "행동",
+  "actions": "작업",
   "name": "이름",
   "title": "타이틀",
   "enterTitle": "제목 입력",
@@ -77,7 +84,7 @@
   "id": "아이디",
   "select": "고르다",
   "info": "정보",
-  "ADTInstances": "Azure Digital Twins Instances",
+  "ADTInstances": "Azure Digital Twins instances",
   "ADTInstancesInfo": "사용자에게 Azure 디지털 트윈 데이터 소유자 또는 Azure 디지털 트윈 데이터 판독기 권한이 있는 ADT 인스턴스 목록",
   "loadingInstances": "인스턴스 로드 중...",
   "selectInstance": "인스턴스 선택",
@@ -86,9 +93,10 @@
   "globe": "지구",
   "list": "목록",
   "selectFile": "파일 선택",
-  "uploadFile": "파일 업로드",
   "uploadingFile": "파일 업로드 중...",
   "twinId": "트윈 ID",
+  "active": "활동적인",
+  "invalidValue": "잘못된 값",
   "errors": {
     "errorBoundary": "오류 경계",
     "unkownError": "알 수 없는 오류가 발생했습니다.",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "겹치는 범위가 감지되었습니다. 모든 값 범위가 서로 다른지 확인합니다. 최소 값은 포함이고, 최대 값은 배타적입니다.",
-    "addValueRangeButtonText": "값 범위 추가",
+    "overlapDetectedMessage": "겹치는 범위가 감지되었습니다. 모든 범위가 서로 다른지 확인합니다. 최소 값은 포함이고, 최대 값은 배타적입니다.",
+    "addValueRangeButtonText": "범위 추가",
     "rangeValueInvalidMessage": "값은 숫자, '-무한대' 또는 '무한대'여야 합니다.",
-    "rangeInvalidMessage": "최소 값은 (<) 최대값보다 작아야 합니다.",
-    "colorButtonAriaLabel": "값 범위의 색상 선택",
-    "deleteValueRangeTitle": "값 범위 삭제",
+    "rangeInvalidMessage": "이 최소값은 (<) 최대값보다 작아야 합니다.",
+    "colorButtonAriaLabel": "범위에 대한 색상 선택",
+    "deleteValueRangeTitle": "범위 삭제",
     "negativeInfinityIconMessage": "값을 -Infinity로 설정",
     "positiveInfinityIconMessage": "값을 무한대로 설정"
   },
@@ -150,21 +158,32 @@
     "simulating": "시뮬레이션",
     "liveStatus": "패킷 번호: {{패킷 번호}} | {{totalSuccessPatches}}/{{totalTwinsPatched}} twins가 성공적으로 업데이트되었습니다.",
     "generateEnvironmentDescription": "모델, 쌍둥이 및 관계를 푸시하여 환경을 채웁니다.",
-    "simulateDescription": "환경에 이벤트 푸시"
+    "simulateDescription": "환경에 이벤트 푸시",
+    "pusherType": "시뮬레이션 유형",
+    "robotArms": "로봇 팔",
+    "dairyProduction": "유제품 시설"
   },
   "scenes": {
     "noScenes": "3D 장면이 없으며 새 장면을 추가하여 시작하십시오.",
     "addScene": "3D 장면 추가",
-    "sceneLatitude": "위도",
-    "sceneLongitude": "경도",
+    "latitude": "위도",
+    "longitude": "경도",
+    "sampleLatitude": "예: 6.4511366",
+    "sampleLongitude": "예: 3.3883963",
+    "longitudeErrorMessage": "입력 값은 -180도 및 180도 이내여야 합니다.",
+    "latitudeErrorMessage": "입력 값은 -90도 및 90도 이내여야 합니다.",
+    "showOnGlobe": "전 세계에 표시",
     "blobUrl": "3D 파일 얼룩 URL",
-    "addDialogTitle": "새 장면 만들기",
-    "addDialogSubText": "장면을 Blob 저장소의 3D 파일 URL과 연결",
-    "editDialogTitle": "장면 편집",
-    "editDialogSubText": "장면의 이름과 연결된 3D 파일 편집",
+    "dialogTitleCreate": "새 장면 만들기",
+    "dialogSubTitle": "URL을 통해 기존 3D 파일을 타겟팅하거나 컨테이너에 직접 새 파일을 업로드합니다.",
+    "dialogTitleEdit": "3D 장면 편집",
     "3dFileSelectionMode": "3D 파일 선택 모드",
-    "fromContainer": "컨테이너에서",
-    "3dFileAsset": "3D 파일 자산",
+    "sceneNamePlaceholder": "장면 이름 입력",
+    "sceneDescriptionPlaceholder": "장면 설명 입력",
+    "tabNameFromContainer": "파일 선택",
+    "tabNameUploadFile": "파일 업로드",
+    "3dFileAsset": "3D 파일 연결",
+    "description": "묘사",
     "overwriteIfExist": "파일이 이미 있는 경우 덮어쓰기",
     "fileExistsErrorMessage": "이 이름의 파일이 저장소에 이미 있으므로 컨테이너에서 해당 파일을 선택하거나 덮어쓸 수 있습니다."
   },
@@ -312,15 +331,19 @@
     "viewMode": "보기 모드",
     "enterBlobUrl": "Azure 저장소 컨테이너 Blob URL을 입력합니다.",
     "home": "집",
-    "globe": "지구"
+    "globe": "지구",
+    "globeView": "지구본 보기",
+    "listView": "목록 보기",
+    "breadcrumbAriaLabel": "버튼으로 렌더링된 항목이 있는 이동 경로 기록(Breadcrumb)",
+    "breadcrumbOverflowAriaLabel": "더 많은 링크"
   },
   "layersDropdown": {
     "placeholder": "선택한 레이어가 없습니다.",
-    "unlayeredBehaviors": "계층화되지 않은 동작",
-    "unlayered": "계층화되지 않은",
     "title": "레이어 선택",
     "selectAll": "모두 선택",
-    "selectNone": "모두 선택 취소"
+    "selectNone": "모두 선택 취소",
+    "unlayeredItemListItemDisplayName": "기본 레이어",
+    "unlayeredItemCollapsedDisplayName": "기본값"
   },
   "sceneLayers": {
     "noBehaviors": "동작 없음",
@@ -329,7 +352,7 @@
     "noneSelected": "선택한 레이어가 없습니다.",
     "newLayer": "새 레이어",
     "layerName": "레이어 이름",
-    "behaviorsOnThisLayer": "이 계층의 동작",
+    "behaviorsListTitle": "동작 ({{count}})",
     "layerNamePlaceholder": "레이어 이름 입력",
     "createNewLayer": "새 레이어 만들기",
     "editLayer": "레이어 편집",
@@ -337,7 +360,10 @@
     "layers": "레이어",
     "noLayersFound": "아직 레이어가 없습니다!",
     "noLayersDescription": "레이어는 동작에 대한 태그와 같습니다. 여기에서 레이어를 만드는 것으로 시작하십시오.",
-    "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다."
+    "noBehaviorsOnLayer": "이 계층에는 동작이 없습니다.",
+    "deleteConfirmationTitle": "이 레이어를 삭제하시겠습니까?",
+    "deleteConfirmationMessage": "이렇게 하면 모든 Digital Twins 환경에서 레이어 및 관련 동작이 영구적으로 제거됩니다.",
+    "infoCalloutContent": "계층은 소비자가 동작을 필터링할 수 있도록 하는 작업 기반 그룹화입니다. 레이어는 장면 전체에 걸쳐 존재합니다."
   },
   "3dSceneBuilder": {
     "elements": "요소",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "검색 동작",
     "modifyElement": "요소 수정",
     "manageTargetElements": "대상 요소 관리",
-    "selectBehaviorElements": "이 동작을 대상으로 지정할 요소 선택",
+    "elementsListInstructions": "이 동작의 시각화에 포함할 요소를 선택합니다.",
     "multiSelectElements": "다중 선택 요소",
-    "updateBehavior": "업데이트 동작",
     "removeBehaviorFromScene": "장면에서 동작 제거",
     "removeBehaviorFromAllScenes": "모든 장면에서 동작 제거",
     "manageSceneLayer": "씬 레이어 관리",
-    "createBehavior": "동작 만들기",
-    "modifyBehavior": "동작 수정",
     "addBehaviorButton": "동작 추가",
     "addBehavior": "비헤이비어 추가",
     "searchBehaviors": "검색 동작",
     "noAvailableBehaviors": "사용 가능한 동작이 없습니다.",
     "removeBehavior": "이 요소에서 동작 제거",
-    "addElementDetails": "요소 세부 정보 추가",
     "noBehaviorsOnElement": "이 요소에 할당된 동작이 없습니다.",
     "noElementsText": "아직 만들어진 요소가 없습니다.",
-    "noResults": "결과 없음",
+    "noResults": "결과를 찾을 수 없음",
     "behaviorsInSceneTitle": "이 장면에서 ({{count}})",
     "createWithElement": "{{element}}로 만들기",
     "elementActions": "요소 작업",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "모든 장면에서 이 동작을 제거하시겠습니까? 이 작업은 실행 취소할 수 없습니다.",
     "newElement": "새 요소",
     "newBehavior": "새 동작",
+    "modifyBehavior": "동작 편집",
+    "createBehavior": "동작 만들기",
+    "updateBehavior": "업데이트 동작",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "취소",
     "Done": "수행",
     "edit": "편집 {{elementDisplayName}}",
     "editBehavior": "동작 편집",
-    "searchTwinId": "트윈 ID 검색...",
+    "searchTwinId": "트윈 ID ($dtId)를 검색 ...",
     "noTwinsFound": "쌍둥이를 찾을 수 없음(검색은 대/소문자를 구분함)",
     "useNonExistingTwinId": "정확한 일치가 없으므로 사용하십시오.",
     "addBehaviorToScene": "장면에 동작 추가",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "연결된 트윈",
-    "linkedTwinInputInfo": "트윈 ID($dtId)를 입력하여 이 요소와 연결(대/소문자 구분)",
-    "noMeshAddedText": "아직 메쉬가 추가되지 않았으므로 3D 뷰어에서 메쉬를 선택하십시오.",
+    "primaryTwin": "기본 트윈",
     "meshes": "메시",
     "behaviorElementsDropdownLabel": "대상 요소",
     "behaviorElementsDropdownPlaceholder": "요소 선택",
+    "behaviorForm": {
+      "formSubTitle": "동작은 특정 조건(예: 특정 간격 또는 데이터 임계값)에서 발생하는 시각적 단서입니다."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "배지 색상",
+      "colorPickerLabel": "색",
       "expressionLabel": "트리거 표현식",
-      "expressionPlaceholder": "표현식을 입력하십시오 (예 : LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "배지 아이콘",
-      "notice": "이 동작은 아래 트리거 표현식이 true로 평가되는 경우에만 활성화됩니다.",
-      "notificationLabel": "알림 텍스트",
-      "notificationPlaceholder": "추가 컨텍스트에 대한 경고와 함께 표시할 텍스트입니다."
+      "expressionPlaceholder": "표현식을 입력하십시오 (예 : PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "아이콘",
+      "tabDescription": "텍스트와 함께 제공되는 아이콘인 경고는 중요한 데이터 조건에 주의를 기울이는 데 도움이 됩니다. 아래에서 표현식을 사용하여 시각화에서 경고를 트리거합니다.",
+      "notificationLabel": "시나리오 설명",
+      "notificationLabelTooltip": "이 텍스트는 이 배지가 활성 상태일 때 소비자 컨텍스트를 제공합니다.",
+      "notificationLabelDescriptionPart1": "트윈 속성은 템플릿 문자열 구문으로 둘러싸여야합니다.",
+      "notificationPlaceholder": "설명 입력",
+      "notificationLabelDescriptionPart2": "예를 들어 ${PrimaryTwin.DisplayName}에는 유지 관리가 필요합니다."
     },
     "behaviorStatusForm": {
-      "notice": "단일 속성을 사용하여 이 동작의 대상 요소를 다시 색칠합니다.",
-      "stateItemLabel": "상태 {{인덱스}}"
+      "tabDescription": "속성을 선택한 다음 특정 조건에 색상을 적용하기 위한 범위(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색)를 설정합니다.",
+      "stateItemLabel": "상태 {{인덱스}}",
+      "propertyExpressionTooltipContent": "여러 속성을 활용하는 더 복잡한 식에 사용자 지정 식을 사용합니다."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "위젯 추가",
+      "noData": "위젯을 아직 구성하지 않았습니다.",
+      "tabDescription": "요소의 컨텍스트에 나타나는 위젯 정의"
+    },
+    "elementForm": {
+      "twinNameTooltip": "이 필드는 대/소문자를 구분합니다.",
+      "twinNameDescription": "이 요소를 연결할 디지털 트윈을 선택합니다. 연결된 트윈의 속성을 연관된 동작에 사용합니다.",
+      "meshTabName": "메시",
+      "behaviorsTabName": "동작",
+      "twinTabName": "다른 쌍둥이",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "이 요소에 대한 3D 모델에서 연관된 메쉬를 선택합니다."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "이 요소에 대한 동작을 할당하거나 수정합니다. 나중에 언제든지 비헤이비어를 추가할 수 있습니다."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "이 쌍둥이에는 기본 쌍둥이 이외의 데이터가 포함되어 있으므로 상태에 활용할 수 있으며 경고 및 위젯에서 행동에 활용할 수 있습니다.",
+      "noDataMessage": "이 요소의 동작에 쌍둥이를 추가로 만들면 여기에 표시됩니다."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "위젯 라이브러리",
+      "dialogSubTitle": "위젯을 탐색하고 요소에 대한 데이터 기반 인사이트를 표시합니다."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "측정 단위",
+      "unitOfMeasurePlaceholder": "예: 마일/시간",
+      "linkUrlDescription": "URL을 입력하고 트윈 속성을 매개 변수로 추가합니다(예: ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "재산",
@@ -422,95 +484,99 @@
       "propertyNotFound": "행동의 쌍둥이에서 찾을 수없는 속성",
       "propertyDropdownPlaceholder": "트윈 속성 선택"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "속성 표현식",
+      "expressionPlaceholder": "속성 표현식 입력",
+      "singleProperty": "단일 속성",
+      "customExpression": "사용자 지정(고급)",
+      "dropdownPlaceholder": "속성 선택",
+      "toggleLabel": "표현식 모드",
+      "none": "없음",
+      "clearButtonText": "맑다"
+    },
     "numericExpressionPlaceholder": "숫자로 평가되는 표현식을 입력합니다.",
     "behaviorId": "동작 ID",
-    "widgetLibrary": "위젯 라이브러리",
-    "exploreWidgets": "위젯을 탐색하고 3D 장면에 추가 정보 레이어를 추가하십시오.",
-    "addWidget": "위젯 추가",
     "newWidget": "새로운 위젯",
+    "addWidget": "위젯 추가",
     "createWidget": "위젯 만들기",
     "updateWidget": "업데이트 위젯",
     "editWidget": "위젯 편집",
     "removeWidget": "위젯 제거",
     "noWidgets": "위젯을 찾을 수 없음",
     "modifyWidget": "위젯 수정",
-    "noWidgetsConfigured": "구성된 위젯이 없습니다.",
-    "unitOfMeasure": "측정 단위",
     "expression": "식",
     "warningBreakPointToggleLabel": "색상 중단점 사용",
     "warningBreakPointLabel": "경고 색상 중단점",
-    "linkWidgetUrlDescription": "링크 위젯 URL은 다음과 같은 자바 스크립트 템플릿 문자열 형식을 지원합니다 : $ {LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "경고 동작",
-      "statusBehavior": "상태 동작"
-    },
+    "linkWidgetUrlDescription": "링크 위젯 URL은 다음과 같은 JavaScript 템플릿 문자열 서식을 지원합니다: ${PrimaryTwin.property}",
     "notImplemented": "구현되지 않음",
-    "noLinkedTwinProperties": "표시할 연결된 트윈 속성이 없습니다.",
+    "noPrimaryTwinProperties": "표시할 기본 쌍 속성이 없습니다.",
     "twinAlias": {
       "title": "트윈 별칭",
-      "titlePlural": "트윈 별칭",
-      "aliasedTwin": "앨리어싱된 트윈",
-      "aliasedTwins": "별칭이 있는 쌍둥이",
-      "add": "트윈 별칭 추가",
-      "noTwinAliasesAdded": "아직 트윈 별칭이 추가되지 않았습니다.",
-      "new": "새 트윈 별칭",
-      "edit": "트윈 별칭 편집",
-      "create": "트윈 별칭 만들기",
-      "update": "트윈 별칭 업데이트",
-      "modify": "트윈 별칭 수정",
-      "search": "쌍둥이 별칭 검색",
+      "calloutDescription": "선택한 요소의 쌍 속성의 결합",
+      "add": "트윈 추가",
+      "new": "뉴 트윈",
+      "edit": "트윈 편집",
+      "create": "트윈 만들기",
+      "update": "업데이트 트윈",
+      "modify": "트윈 수정",
+      "search": "쌍둥이 검색",
       "searchProperties": "검색 속성",
       "noTwinAliasesToAdd": "추가할 트윈 별칭이 없습니다.",
       "removeFromBehavior": "동작에서 트윈 별칭 제거",
       "removeFromElement": "요소에서 트윈 별칭 제거",
       "commonProperties": "공통 속성",
       "twinAliasForm": {
-        "alias": "별명",
-        "elementTwinMappings": "요소 쌍 매핑",
+        "aliasNameLabel": "쌍둥이 이름",
+        "aliasNameTooltipContent": "생성 후에는 이 쌍둥이의 이름을 변경할 수 없습니다.",
+        "mappingSectionHeader": "요소에 대한 트윈 매핑",
+        "mappingSectionSubHeader": "각 요소에 대해 이 트윈이 참조하는 디지털 트윈을 선택합니다.",
         "elementTwinMappingsNotExist": "사용 가능한 매핑이 없으며 먼저 동작에 요소를 추가하십시오."
       },
+      "tabDescriptionPart1": "각 요소는 기본 트윈의 데이터를 활용합니다. 요소가 데이터를 활용할 수 있는 다른 쌍둥이를 추가합니다.",
+      "tabDescriptionPart2": "대상 요소 간의 공통된 속성을 보고 표현식의 기본 쌍 또는 다른 쌍둥이를 사용하여 이러한 속성을 참조합니다. ",
+      "linkedTwinListHeader": "연결된 쌍둥이 ({{count}})",
       "descriptions": {
-        "twins": "트윈을 사용하면 표현식에 사용할 수 있는 속성에 액세스할 수 있습니다.",
-        "linkedTwin": "LinkedTwin에는 연결된 쌍둥이 대상 요소 간에 공통된 모든 속성이 포함되어 있습니다.",
-        "aliasChangeNotAllowed": "별칭 변경은 생성 후 허용되지 않습니다.",
-        "commonProperties": "선택한 요소의 연결된 쌍 속성의 결합"
+        "commonProperties": "선택한 요소의 기본 쌍 속성의 결합"
       },
       "errors": {
-        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다."
+        "twinAliasAlreadyExists": "같은 이름의 트윈 별칭이 이미 있으므로 대신 추가하는 것이 좋습니다.",
+        "alphanumericOnly": "트윈 별칭은 영숫자만 포함해야 합니다.",
+        "noNumberPrefix": "트윈 이름은 숫자로 시작하면 안 됩니다."
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "속성 표현식",
-      "expressionPlaceholder": "속성 표현식 입력",
-      "selectProperty": "속성 선택",
-      "toggleLabel": "속성 표현식"
-    }
+    "actions": "작업"
   },
   "widgets": {
     "trend": {
       "title": "트렌드 위젯",
-      "description": "3D 장면의 컨텍스트에서 과거 데이터 표시"
+      "libraryName": "경향",
+      "description": "기록 데이터의 차트 표시"
     },
     "gauge": {
       "title": "게이지 위젯",
-      "description": "시각적 컨텍스트를 사용하여 수치 데이터점 표현"
+      "libraryName": "계기",
+      "description": "사용자 지정 범위를 가진 숫자 속성 표현"
     },
     "link": {
       "title": "링크 위젯",
-      "description": "URL을 연결하여 외부 콘텐츠 참조",
-      "urlPlaceholder": "https://mypowerbi.biz/${링크드트윈.$dtId}",
+      "libraryName": "링크",
+      "description": "요소와 관련된 URL로 이동합니다.",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "링크 열기"
+    },
+    "value": {
+      "title": "값 위젯",
+      "libraryName": "값",
+      "description": "기본 속성 표시",
+      "displayNamePlaceholder": "표시 이름 입력",
+      "typePlaceholder": "값의 유형을 선택합니다."
     },
     "panel": {
       "title": "패널 위젯",
+      "libraryName": "패널",
       "description": "레이아웃 패널"
     },
-    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
-    "value": {
-      "title": "값 위젯",
-      "description": "쌍둥이 속성의 값을 표시하는 기본 위젯",
-      "typePlaceholder": "값의 유형을 선택합니다."
-    }
+    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다."
   },
   "sdkStrings": {
     "Last 30 mins": "지난 30분",
@@ -592,8 +658,6 @@
     "Start time input": "시작 시간 입력",
     "End time input": "종료 시간 입력",
     "snap end time to latest": "종료 시간을 최신으로 스냅",
-    "zoom in": "확대",
-    "zoom out": "축소",
     "select quick time of": "빠른 시간 선택",
     "a time selection control dialog": "시간 선택 제어 대화 상자입니다.",
     "No color": "색상 없음",
@@ -683,7 +747,8 @@
       "undoAll": "모든 편집 내용 재설정",
       "expandTree": "트리 확장",
       "collapseTree": "트리 축소",
-      "save": "변경 내용 저장"
+      "save": "변경 내용 저장",
+      "refresh": "데이터 새로 고침"
     },
     "dateTimePicker": {
       "datePickerTitle": "날짜 선택기",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "환경 URL",
-    "containerUrl": "컨테이너 URL",
+    "environmentUrl": "Azure Digital Twins instance URL",
+    "containerUrl": "Azure Storage container URL",
     "enterEnvironmentUrl": "예: https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "예: https://example.blob.core.windows.net/example",
-    "editEnvironment": "환경 편집",
-    "descriptionForEnvironment": "환경을 연결하여 자산을 나열합니다.",
-    "descriptionForEnvAndCont": "환경 및 저장소 컨테이너 URL을 연결하여 장면을 나열합니다.",
+    "editEnvironment": "3D 장면 환경 구성",
+    "descriptionForEnvironment": "Azure 디지털 트윈 인스턴스를 연결하여 3D 장면 빌드를 시작합니다.",
+    "descriptionForEnvAndCont": "Azure 디지털 트윈 인스턴스와 저장소 컨테이너를 연결하여 3D 장면 빌드를 시작합니다.",
     "descriptionForLocalStorage": "구성 데이터는 로컬 저장소에 저장됩니다.",
     "selectContainerUrl": "스토리지 컨테이너 URL 선택",
     "noEnvironment": "환경이 추가되지 않음",
@@ -716,7 +781,7 @@
     "state": "상태",
     "allProperties": "모든 속성",
     "behaviorPreview": "미리 보기",
-    "LinkedTwinProperties": "연결된 트윈 속성"
+    "PrimaryTwin": "초등회 쌍둥이"
   },
   "svgTests": {
     "fluentUI": "유창한 이미지 구성 요소를 통한 SVG 로드(권장 패턴)",
@@ -724,7 +789,7 @@
     "reactComponent": "React 구성 요소 구문을 통한 SVG 그림"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "파일 선택 또는 Blob URL 입력",
+    "selectFileOrEnter": "파일 URL 입력 또는 목록에서 선택",
     "3dFileFromContainer": "컨테이너의 3D 파일",
     "loading3DFiles": "파일 로드 중...",
     "invalidBlobUrlPath": "지원되는 Blob URL(예: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)이 아닙니다.",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "주제",
-    "title": "뷰어 테마",
-    "style": "스타일",
-    "objectColors": "개체 색상",
-    "background": "배경",
+    "title": "장면 테마",
+    "style": "3D 모델 스타일",
+    "objectColors": "3D 모델 색상",
+    "background": "장면 배경",
     "default": "기본값",
     "transparent": "투명한",
     "wireframe": "와이어프레임"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "공유",
+    "copyButtonText": "링크 복사",
+    "copyConfirmationMessage": "링크가 복사되었습니다!",
+    "flyoutHeader": "장면 공유",
+    "includeElementsOption": "선택한 요소와의 연결",
+    "includeLayersOption": "선택한 레이어와의 연결"
   },
   "elementsPanel": {
     "title": "요소",
@@ -789,11 +862,124 @@
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
-    "select": "고르다",
-    "pan": "팬",
     "orbit": "궤도",
-    "zoom": "급상승"
+    "pan": "팬",
+    "reset": "재설정",
+    "select": "고르다",
+    "zoom": "급상승",
+    "zoomIn": "확대",
+    "zoomOut": "축소"
   },
+  "tutorialModal": {
+    "modalTitle": "3D 장면 스튜디오에 오신 것을 환영합니다!",
+    "publicPreview": "공개 미리 보기",
+    "closeAriaLabel": "모달 닫기",
+    "rootDocsLinkText": "문서조사",
+    "githubLinkText": "깃허브",
+    "quickstartLinkText": "빠른 시작",
+    "primaryButtonText": "데모 살펴보기",
+    "dismissText": "해고하다",
+    "nextSlide": "다음 슬라이드",
+    "previousSlide": "이전 슬라이드",
+    "statusIndicatorSelectedAria": "슬라이드 {{슬라이드}}가 선택됨",
+    "statusIndicatorUnselectedAria": "슬라이드 {{슬라이드}} 선택",
+    "tabs": {
+      "introduction": "소개",
+      "concepts": "개념",
+      "elements": "요소",
+      "behaviors": "동작",
+      "twins": "쌍둥이자리",
+      "widgets": "위젯",
+      "sceneLayers": "씬 레이어"
+    },
+    "frePages": {
+      "intro": {
+        "title": "우리의 최신 로우 코드 빌더",
+        "text": "이 로우 코드 빌더에서는 3D 전문 지식 없이도 Azure Digital Twins 데이터로 구동되는 3D 자산의 시각적 컨텍스트를 사용하여 운영 데이터를 모니터링, 진단 및 조사할 수 있습니다."
+      },
+      "builder": {
+        "title": "빌더에서 장면을 사용자 정의하십시오.",
+        "text": "3D Scenes Studio의 빌더는 씬을 구성하기 위한 기본 인터페이스입니다. 그것은 낮은 코드, 시각적 인 경험입니다."
+      },
+      "viewer": {
+        "title": "주변을 둘러 보거나 다른 곳에 삽입하십시오.",
+        "text": "스튜디오에서 바로 3D 장면을 볼 수 있습니다. 뷰어 구성 요소는 사용자 지정 응용 프로그램에 임베드할 수 있으며 제3자 구성 요소와 함께 사용할 수 있습니다."
+      }
+    },
+    "conceptsRoot": {
+      "title": "개념에 대해 더 깊이 파고 들으시겠습니까?",
+      "text": "도움말 콘텐츠를 찾아보거나 설명서에서 단계별 자습서를 확인하십시오!"
+    },
+    "docLinkBlurb": "자세한 내용은 여기<DocLink>doc</DocLink를 확인하세요>",
+    "tip": "팁",
+    "elements": {
+      "title": "요소란 무엇입니까?",
+      "content": "요소는 하나 이상의 기본 디지털 트윈의 데이터에 연결된 자체 정의된 3D 메시 집합입니다.\n\n기본 트윈은 요소의 주요 디지털 트윈 대응물입니다. 요소를 Azure Digital Twins 인스턴스의 쌍에 연결하여 요소가 3D 시각화 내에서 쌍 및 해당 데이터를 나타낼 수 있도록 합니다."
+    },
+    "behaviors": {
+      "title": "행동이란 무엇입니까?",
+      "mainContent": "동작은 관련 요소의 디지털 트윈에 있는 특정 데이터를 활용하여 뷰어 시각화를 유도하는 장면에 대한 시나리오입니다.\n\n비헤이비어를 생성하려면 쌍을 선택하고, 상태 및 경고를 구성하고, 위젯을 추가하고, 표시할 레이어를 선택하는 작업이 포함됩니다.\n\n",
+      "statusTitle": "상태",
+      "statusDescription": "상태는 요소의 상태 또는 상태를 나타내는 요소에 대한 데이터 기반 오버레이입니다. 값 범위를 설정하여 상태 경계를 만들고 시각화의 각 상태를 나타낼 색상을 선택합니다.\n\n",
+      "alertsTitle": "경고",
+      "alertsDescription": "경고는 요소에 주의가 필요한 시기를 빠르게 확인할 수 있도록 도와주는 조건부 알림입니다. 경고 배지를 아이콘, 색상 및 텍스트로 사용자 지정합니다.\n\n"
+    },
+    "twins": {
+      "title": "쌍둥이는 어떻게 선택하나요?",
+      "mainContent": "트윈스 탭에서 이 동작에 사용할 수 있는 데이터를 가진 쌍둥이 집합을 수정할 수 있습니다. 여기에는 대상 요소의 기본 쌍둥이와 추가 쌍둥이가 포함됩니다.\n\n추가 트윈은 요소에 대한 보조 디지털 트윈 데이터 소스입니다. 이 요소에 대한 동작 표현식에서 해당 쌍에서 속성을 사용할 수 있습니다. 이 동작에 대한 상태, 경고 및 위젯에서 활용하려는 기본 쌍 이외의 데이터가 있는 쌍둥이가 있는 경우에만 쌍둥이를 더 추가해야 합니다.\n\n",
+      "tipContent": "Azure 디지털 트윈 탐색기를 사용하면 이 요소의 기본 트윈과 관련될 수 있는 쌍둥이를 볼 수 있습니다. SELECT * FROM digitaltwins WHERE $dtId='primary-twin-id<'를 사용하여 그래프를 쿼리한 다음 두 번 클릭> 확장 기능을 사용하여 관련 쌍둥이를 탐색할 수 있습니다."
+    },
+    "widgets": {
+      "title": "위젯이란 무엇입니까?",
+      "mainContent": "위젯은 동작이 나타내는 시나리오를 이해하는 데 도움이 되는 추가 컨텍스트와 데이터를 제공하는 데이터 기반 시각적 개체입니다. 위젯을 구성하면 경고 또는 상태가 활성 상태일 때 올바른 데이터를 검색할 수 있는지 확인하는 데 도움이 됩니다.\n\n",
+      "typesOfWidgets": "위젯의 종류\n\n",
+      "gaugeDescription": "<밑줄>게이지:</밑줄> 수치 데이터 포인트를 시각적으로 표현하기 위한\n\n",
+      "linkDescription": "<밑줄>링크:</밑줄> 링크된 URL을 통해 외부에서 참조되는 콘텐츠를 포함하기 위한 목적\n\n",
+      "valueDescription": "<밑줄>값:</밑줄> 쌍 속성 값을 직접 표시하기 위한\n\n"
+    },
+    "sceneLayers": {
+      "title": "씬 레이어란 무엇인가요?",
+      "mainContent": "장면에 레이어를 만들어 동작을 구성할 수 있습니다. 레이어는 비헤이비어에 대한 태그처럼 작동하므로 함께 볼 필요가 있는 동작을 정의할 수 있으므로 다양한 역할이나 작업에 대한 장면의 사용자 지정 뷰를 만들 수 있습니다.\n\n장면에 레이어가 없으면 모든 동작이 장면 뷰어에 표시됩니다. 레이어로 태그가 지정되지 않은 모든 동작은 레이어로 태그가 지정될 때까지 기본 레이어에 표시됩니다.\n\n레이어를 만드는 한 가지 방법은 장면에 대한 빌드 보기의 [장면] 레이어 단추를 사용하는 것입니다. 또는 동작을 만들거나 수정하는 동안 레이어를 만들 수 있습니다."
+    }
+  },
+  "diagnose": "진단하다",
+  "resolve": "해결하다",
+  "verify": "확인",
+  "success": "성공!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "구성 파일 재설정",
+    "unauthorizedAccessErrorTitle": "액세스 제한",
+    "unauthorizedAccessErrorMessage": "이 저장소 컨테이너에 액세스할 수 없습니다. 액세스를 진단하거나 다른 컨테이너를 사용해 보십시오.",
+    "blobNotFoundErrorTitle": "Blob을 찾을 수 없음",
+    "blobNotFoundErrorMessage": "Blob이 존재하지 않습니다.",
+    "unknownErrorTitle": "알 수 없는 오류",
+    "corsErrorTitle": "CORS 오류",
+    "corsErrorMessage": "저장소 계정의 Blob 서비스에는 CORS가 장면에서 3D 자산을 사용할 수 있도록 하는 몇 가지 특정 속성이 있어야 합니다.",
+    "internalServerErrorMessage": "내부 서버 오류, 서버 로그를 확인하십시오.",
+    "diagnoseAccessPermissions": "액세스 권한 진단",
+    "checkingPermissions": "사용 권한 확인 중...",
+    "resolveIssues": "문제 해결",
+    "resolvingIssues": "문제 해결...",
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 판독기 및 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
+    "noMissingRoleDesc": "누락된 권한이 감지되지 않았으므로 할당된 사용 권한이 적용되는지 확인하려고 합니다.",
+    "finishedWithFailureDesc": "시도가 실패했습니다. 리소스 소유자에게 문의하십시오.",
+    "verifyingPermissionsMessage": "사용 권한 확인 중...\n이 작업은 몇 분 정도 걸릴 수 있습니다.",
+    "assignRoleSuccessDesc": "누락된 사용 권한이 할당되었습니다. 변경 사항이 적용되는지 확인하려고 시도하는 동안 잠시 기다려 주십시오.",
+    "refreshPage": "페이지 새로 고침",
+    "refreshing": "상쾌한",
+    "noContainerUrlErrorTitle": "컨테이너가 설정되지 않았습니다.",
+    "noContainerUrlErrorMessage": "컨테이너 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
+    "noADTInstanceUrlTitle": "ADT 인스턴스가 설정되지 않았습니다.",
+    "noADTInstanceUrlMessage": "ADT 인스턴스 URL이 설정되지 않았습니다. 아래를 클릭하여 설정하십시오.",
+    "configureEnvironment": "환경 구성",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "모델을 로드하는 중 오류 발생",
+      "3dAssetLoadingNetworkErrorMessage": "CORS 문제, 잘못된 Blob URL 또는 네트워크 오류일 수 있습니다. 이 자산 파일이 저장된 컨테이너의 소유자에게 문의하거나 나중에 다시 시도하십시오.",
+      "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
+      "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
+    }
+  },
+  "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
     "newModel": "새 모델",
     "name": "이름",

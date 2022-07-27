@@ -1,5 +1,5 @@
 import React from 'react';
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
+import { DefaultButton, PrimaryButton } from '@fluentui/react';
 import '../ModelCreate.scss';
 import { FormMode } from '../../../Models/Constants';
 

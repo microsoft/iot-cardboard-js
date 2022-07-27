@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Label, Text } from '@fluentui/react';
+import { Icon, Label, Stack, Text } from '@fluentui/react';
 import { components, MenuListProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -8,10 +8,13 @@ import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Typ
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import './TwinSearchDropdown.scss';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
+import TooltipCallout from '../TooltipCallout/TooltipCallout';
+import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
     label?: string;
     labelIconName?: string;
+    labelTooltip?: ITooltipCalloutContent;
     isLabelHidden?: boolean;
     descriptionText?: string;
     selectedTwinId?: string;
@@ -24,6 +27,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     adapter,
     label,
     labelIconName,
+    labelTooltip,
     isLabelHidden = false,
     descriptionText,
     selectedTwinId,
@@ -159,93 +163,107 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
 
     return (
         <div style={styles}>
-            {!isLabelHidden && (
-                <Label className="cb-label cb-required-icon">
-                    {labelIconName && (
-                        <Icon
-                            styles={{ root: { paddingRight: 4 } }}
-                            iconName={labelIconName}
-                            aria-hidden="true"
-                        />
-                    )}
-                    {label ?? t('twinId')}
-                </Label>
-            )}
-            <CreatableSelect
-                classNamePrefix="cb-search-autocomplete"
-                className="cb-search-autocomplete-container"
-                options={searchTwinAdapterData.isLoading ? [] : twinSuggestions}
-                defaultValue={twinSuggestions[0] ?? undefined}
-                defaultInputValue={selectedTwinId ?? ''}
-                value={selectedOption}
-                inputValue={twinIdSearchTerm}
-                components={{
-                    Option: CustomOption,
-                    MenuList: CustomMenuList
-                }}
-                onInputChange={(inputValue, actionMeta) => {
-                    if (actionMeta.action === 'input-change') {
-                        setTwinIdSearchTerm(inputValue);
-                        shouldAppendTwinSuggestions.current = false;
-                        twinSearchContinuationToken.current = null;
-                        searchTwinAdapterData.cancelAdapter();
-                        searchTwinAdapterData.callAdapter({
-                            searchTerm: inputValue,
-                            shouldSearchByModel: false,
-                            continuationToken:
-                                twinSearchContinuationToken.current
-                        } as AdapterMethodParamsForSearchADTTwins);
+            <Stack tokens={{ childrenGap: 4 }}>
+                {!isLabelHidden && (
+                    <Stack horizontal>
+                        <Label
+                            className="cb-label cb-required-icon"
+                            id={'twin-search-dropdown-label'}
+                        >
+                            {labelIconName && (
+                                <Icon
+                                    styles={{ root: { paddingRight: 4 } }}
+                                    iconName={labelIconName}
+                                    aria-hidden="true"
+                                />
+                            )}
+                            {label ?? t('twinId')}
+                        </Label>
+                        {labelTooltip && (
+                            <TooltipCallout content={labelTooltip} />
+                        )}
+                    </Stack>
+                )}
 
-                        if (!inputValue && actionMeta.prevInputValue) {
-                            setSelectedOption(null);
+                <CreatableSelect
+                    aria-labelledby="twin-search-dropdown-label"
+                    classNamePrefix="cb-search-autocomplete"
+                    className="cb-search-autocomplete-container"
+                    options={
+                        searchTwinAdapterData.isLoading ? [] : twinSuggestions
+                    }
+                    defaultValue={twinSuggestions[0] ?? undefined}
+                    defaultInputValue={selectedTwinId ?? ''}
+                    value={selectedOption}
+                    inputValue={twinIdSearchTerm}
+                    components={{
+                        Option: CustomOption,
+                        MenuList: CustomMenuList
+                    }}
+                    onInputChange={(inputValue, actionMeta) => {
+                        if (actionMeta.action === 'input-change') {
+                            setTwinIdSearchTerm(inputValue);
+                            shouldAppendTwinSuggestions.current = false;
+                            twinSearchContinuationToken.current = null;
+                            searchTwinAdapterData.cancelAdapter();
+                            searchTwinAdapterData.callAdapter({
+                                searchTerm: inputValue,
+                                shouldSearchByModel: false,
+                                continuationToken:
+                                    twinSearchContinuationToken.current
+                            } as AdapterMethodParamsForSearchADTTwins);
+
+                            if (!inputValue && actionMeta.prevInputValue) {
+                                setSelectedOption(null);
+                            }
+                        } else if (actionMeta.action === 'menu-close') {
+                            setTwinSuggestions(
+                                selectedOption ? [selectedOption] : []
+                            );
+                            setTwinIdSearchTerm(selectedOption?.value ?? '');
                         }
-                    } else if (actionMeta.action === 'menu-close') {
-                        setTwinSuggestions(
-                            selectedOption ? [selectedOption] : []
-                        );
-                        setTwinIdSearchTerm(selectedOption?.value ?? '');
+                    }}
+                    onChange={(option: any) => {
+                        if (!option) {
+                            setTwinSuggestions([]);
+                        } else {
+                            setTwinSuggestions([option]);
+                        }
+                        setTwinIdSearchTerm(option?.value ?? '');
+                        setSelectedOption(option);
+                        onTwinIdSelect(option?.value ?? undefined);
+                    }}
+                    onMenuOpen={() => {
+                        if (twinSuggestions.length === 0) {
+                            shouldAppendTwinSuggestions.current = false;
+                            twinSearchContinuationToken.current = null;
+                            searchTwinAdapterData.callAdapter({
+                                searchTerm: twinIdSearchTerm,
+                                shouldSearchByModel: false,
+                                continuationToken: null
+                            } as AdapterMethodParamsForSearchADTTwins);
+                        }
+                    }}
+                    placeholder={t('3dSceneBuilder.searchTwinId')}
+                    noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
+                    isLoading={searchTwinAdapterData.isLoading}
+                    formatCreateLabel={(inputValue: string) =>
+                        `${t(
+                            '3dSceneBuilder.useNonExistingTwinId'
+                        )} "${inputValue}"`
                     }
-                }}
-                onChange={(option: any) => {
-                    if (!option) {
-                        setTwinSuggestions([]);
-                    } else {
-                        setTwinSuggestions([option]);
-                    }
-                    setTwinIdSearchTerm(option?.value ?? '');
-                    setSelectedOption(option);
-                    onTwinIdSelect(option?.value ?? undefined);
-                }}
-                onMenuOpen={() => {
-                    if (twinSuggestions.length === 0) {
-                        shouldAppendTwinSuggestions.current = false;
-                        twinSearchContinuationToken.current = null;
-                        searchTwinAdapterData.callAdapter({
-                            searchTerm: twinIdSearchTerm,
-                            shouldSearchByModel: false,
-                            continuationToken: null
-                        } as AdapterMethodParamsForSearchADTTwins);
-                    }
-                }}
-                placeholder={t('3dSceneBuilder.searchTwinId')}
-                noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
-                isLoading={searchTwinAdapterData.isLoading}
-                formatCreateLabel={(inputValue: string) =>
-                    `${t(
-                        '3dSceneBuilder.useNonExistingTwinId'
-                    )} "${inputValue}"`
-                }
-                isSearchable
-                isClearable
-            />
-            {descriptionText && (
-                <Text
-                    className="cb-search-autocomplete-desc"
-                    variant={'xSmall'}
-                >
-                    {descriptionText}
-                </Text>
-            )}
+                    isSearchable
+                    isClearable
+                />
+                {descriptionText && (
+                    <Text
+                        className="cb-search-autocomplete-desc"
+                        variant={'small'}
+                    >
+                        {descriptionText}
+                    </Text>
+                )}
+            </Stack>
         </div>
     );
 };

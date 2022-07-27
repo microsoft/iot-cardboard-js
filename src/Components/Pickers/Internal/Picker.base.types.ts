@@ -24,7 +24,7 @@ export interface IPickerBaseProps {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<undefined, IPickerBaseStyles>;
+    styles?: IStyleFunctionOrObject<IPickerBaseStyleProps, IPickerBaseStyles>;
 }
 
 /** this maps directly to `IColorCellProps` from fluent except for the renamed `color` property since we are hijacking this control */

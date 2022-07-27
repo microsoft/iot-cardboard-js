@@ -14,7 +14,10 @@ import {
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { deepCopy } from '../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    sortAlphabetically
+} from '../../../../Models/Services/Utils';
 
 import {
     I3DScenesConfig,
@@ -22,6 +25,7 @@ import {
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../CardboardList/CardboardList';
 import { ICardboardListItem } from '../../../CardboardList/CardboardList.types';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { getLeftPanelStyles } from '../Shared/LeftPanel.styles';
@@ -123,9 +127,6 @@ const SceneBehaviors: React.FC<Props> = ({
         }
     }, [searchText, behaviorsInScene, behaviorsNotInScene]);
 
-    const itemsInSceneVisible = filteredItemsInScene?.length > 0;
-    const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
-
     // generate the list of items to show - In Scene
     useEffect(() => {
         const listItems = getListItems(
@@ -175,31 +176,37 @@ const SceneBehaviors: React.FC<Props> = ({
         setIsDeleteDialogOpen
     ]);
 
+    const itemsInSceneVisible = filteredItemsInScene?.length > 0;
+    const itemsNotInSceneVisible = filteredItemsNotInScene?.length > 0;
+
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const customStyles = getStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
+            <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                <SearchHeader
+                    onSearchTextChange={setSearchText}
+                    placeholder={t('3dSceneBuilder.searchBehaviorsPlaceholder')}
+                    searchText={searchText}
+                />
+            </div>
             <div className={commonPanelStyles.content}>
-                {behaviors.length === 0 ? (
-                    <p className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noBehaviorsText')}
-                    </p>
-                ) : (
-                    <>
-                        <SearchHeader
-                            onSearchTextChange={setSearchText}
-                            placeholder={t(
-                                '3dSceneBuilder.searchBehaviorsPlaceholder'
-                            )}
-                            searchText={searchText}
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                    {behaviors.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noBehaviorsText')}
+                            type={'info'}
+                            width={'compact'}
                         />
-                        {!itemsInSceneVisible && !itemsNotInSceneVisible && (
-                            <p className={commonPanelStyles.noDataText}>
-                                {t('3dSceneBuilder.noResults')}
-                            </p>
-                        )}
-                        <div className={customStyles.content}>
+                    ) : !itemsInSceneVisible && !itemsNotInSceneVisible ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noResults')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : (
+                        <>
                             {/* List of behaviors in the scene */}
                             {itemsInSceneVisible && (
                                 <>
@@ -247,9 +254,9 @@ const SceneBehaviors: React.FC<Props> = ({
                                     )}
                                 </>
                             )}
-                        </div>
-                    </>
-                )}
+                        </>
+                    )}
+                </div>
             </div>
             <PanelFooter>
                 <PrimaryButton
@@ -409,7 +416,7 @@ function getListItems(
                 return [];
         }
     };
-    return filteredElements.map((item) => {
+    const listItems = filteredElements.map((item) => {
         const metadata = ViewerConfigUtility.getBehaviorMetaData(
             config,
             sceneId,
@@ -446,6 +453,8 @@ function getListItems(
 
         return viewModel;
     });
+
+    return listItems.sort(sortAlphabetically('textPrimary'));
 }
 
 export default SceneBehaviors;
@@ -457,10 +466,6 @@ const getStyles = memoizeFunction((_theme: Theme) => {
             fontWeight: FontWeights.semibold,
             marginBottom: 4,
             paddingLeft: 8
-        } as IStyle,
-        content: {
-            height: 'calc(100% - 60px)',
-            overflow: 'auto'
         } as IStyle
     });
 });

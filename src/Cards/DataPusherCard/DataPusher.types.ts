@@ -1,18 +1,14 @@
 import { ADTAdapter } from '../../Adapters';
 import {
     ICardBaseProps,
-    IAdtPusherSimulation,
     DTModel,
     DTwin,
-    DTwinRelationship
+    DTwinRelationship,
+    AdtPusherSimulationType
 } from '../../Models/Constants';
 
 export interface IDataPusherProps extends ICardBaseProps {
     adapter: ADTAdapter;
-    Simulation: new (
-        startTimeMillis: number,
-        frequency: number
-    ) => IAdtPusherSimulation;
     initialInstanceUrl?: string;
     disablePastEvents?: boolean;
 }
@@ -44,6 +40,7 @@ export interface IDataPusherState {
             totalSuccessfulPatches: number;
         } | null;
     };
+    simulationType: AdtPusherSimulationType;
 }
 
 export interface IDataPusherContext {
@@ -66,5 +63,6 @@ export enum dataPusherActionType {
     SET_TWINS,
     SET_RELATIONSHIPS,
     SET_ARE_ASSETS_UPLOADED,
-    SET_ARE_ASSETS_SET
+    SET_ARE_ASSETS_SET,
+    SET_SIMULATION_TYPE
 }

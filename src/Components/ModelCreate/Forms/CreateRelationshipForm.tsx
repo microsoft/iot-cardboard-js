@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Dropdown, IDropdownOption } from '@fluentui/react/lib/Dropdown';
-import { SpinButton } from '@fluentui/react/lib/SpinButton';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Separator } from '@fluentui/react/lib/Separator';
+import {
+    Dropdown,
+    IDropdownOption,
+    SpinButton,
+    Toggle,
+    TextField,
+    Separator
+} from '@fluentui/react';
 import { DTDLProperty, DTDLRelationship } from '../../../Models/Classes/DTDL';
 import CreatePropertyForm from './CreatePropertyForm';
 import ElementsList from '../ElementsList';

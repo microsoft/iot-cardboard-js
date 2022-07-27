@@ -1,0 +1,22 @@
+[
+    {
+        "subscriptionId": "065ac863-6d2b-4101-ab17-f3fa2df406c2",
+        "tenantId": "49f988bf-86f1-41af-91ab-2d7cd011db47",
+        "displayName": "iotcardbord-mock-subscription-one"
+    },
+    {
+        "subscriptionId": "143830a8-5720-4668-83cd-bb4c44b0d567",
+        "tenantId": "49f988bf-86f1-41af-91ab-2d7cd011db47",
+        "displayName": "iotcardbord-mock-subscription-two"
+    },
+    {
+        "subscriptionId": "44fbd60d-8cf2-43a6-8115-34c785e8e426",
+        "tenantId": "49f988bf-86f1-41af-91ab-2d7cd011db47",
+        "displayName": "'iotcardbord-mock-subscription-three'"
+    },
+    {
+        "subscriptionId": "ee254ad1-3c34-47f6-878f-b8f9fcaef1b7",
+        "tenantId": "'49f988bf-86f1-41af-91ab-2d7cd011db47'",
+        "displayName": "iotcardbord-mock-subscription-four"
+    }
+]

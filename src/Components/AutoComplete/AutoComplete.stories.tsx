@@ -1,5 +1,5 @@
 import React from 'react';
-import { linkedTwinName } from '../../Models/Constants';
+import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
 import { AutoComplete } from './AutoComplete';
 import { Intellisense } from './Intellisense';
 
@@ -37,7 +37,7 @@ function getPropertyNames(aliasId: string) {
             'AliasProperty3',
             'AliasProp'
         ];
-    } else if (aliasId === linkedTwinName) {
+    } else if (aliasId === PRIMARY_TWIN_NAME) {
         return ['Temperature', 'Pressure', 'Humidity'];
     } else {
         return [];
@@ -48,7 +48,7 @@ export const OneLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={[linkedTwinName, 'Alias1', 'Alias2']}
+                aliasNames={[PRIMARY_TWIN_NAME, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
             />
         </div>
@@ -59,7 +59,7 @@ export const MultiLineIntellisense = () => {
     return (
         <div style={{ width: '600', padding: 40, alignItems: 'center' }}>
             <Intellisense
-                aliasNames={[linkedTwinName, 'Alias1', 'Alias2']}
+                aliasNames={[PRIMARY_TWIN_NAME, 'Alias1', 'Alias2']}
                 getPropertyNames={getPropertyNames}
                 autoCompleteProps={{
                     textFieldProps: { multiline: true, rows: 30 }

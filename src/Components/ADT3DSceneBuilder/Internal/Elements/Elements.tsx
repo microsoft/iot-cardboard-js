@@ -10,6 +10,7 @@ import {
     DefaultButton,
     IContextualMenuItem,
     PrimaryButton,
+    Text,
     useTheme
 } from '@fluentui/react';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -31,6 +32,27 @@ import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import PanelFooter from '../Shared/PanelFooter';
 import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
+
+const sortElements = (elements: ITwinToObjectMapping[]) => {
+    return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
+};
+
+const sortAndGroupElements = (
+    elements: ITwinToObjectMapping[],
+    selectedElements: ITwinToObjectMapping[]
+) => {
+    const sortedSelectedElements = sortElements(selectedElements);
+
+    const sortedElements = sortElements(elements);
+
+    // put selected items first
+    const nonSelectedElements = sortedElements?.filter(
+        (element) => !sortedSelectedElements?.find((x) => x.id === element.id)
+    );
+
+    return sortedSelectedElements?.concat(nonSelectedElements);
+};
 
 const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     elements,
@@ -63,7 +85,8 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         isEditBehavior || false
     );
 
-    const elementsSorted = useRef(false);
+    const allowElementsToBeSorted = useRef(true);
+    const lastSearch = useRef('');
 
     const [filteredElements, setFilteredElements] = useState<
         ITwinToObjectMapping[]
@@ -128,38 +151,63 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     // sort the list items
     useEffect(() => {
         if (elements) {
+            // when elements list is updated allow it to be sorted
+            allowElementsToBeSorted.current = true;
             const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
-            const sortedElements = elementsCopy.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
-            );
+            const sortedElements = sortElements(elementsCopy);
             setFilteredElements(sortedElements);
         }
     }, [elements]);
 
-    // put the selected items first in the list
+    // sort the list items and put the selected items first in the list
     useEffect(() => {
-        if (selectedElements?.length > 0 && !elementsSorted.current) {
-            // sort the list
-            elementsSorted.current = true;
-            selectedElements?.sort((a, b) =>
-                a.displayName > b.displayName ? 1 : -1
+        if (
+            elements &&
+            selectedElements?.length > 0 &&
+            allowElementsToBeSorted.current
+        ) {
+            const selectedElementsCopy: ITwinToObjectMapping[] = deepCopy(
+                selectedElements
             );
-
-            // put selected items first
-            const nonSelectedElements = elements?.filter(
-                (element) => !selectedElements.find((x) => x.id === element.id)
+            const elementsCopy: ITwinToObjectMapping[] = deepCopy(elements);
+            const sortedElements = sortAndGroupElements(
+                elementsCopy,
+                selectedElementsCopy
             );
-            setFilteredElements(selectedElements.concat(nonSelectedElements));
+            setFilteredElements(sortedElements);
         }
     }, [selectedElements]);
 
     // apply filtering
     useEffect(() => {
-        const filtered = elements.filter((element) =>
-            element.displayName.toLowerCase().includes(searchText.toLowerCase())
-        );
-        setFilteredElements(filtered);
-    }, [searchText]);
+        if (lastSearch.current != searchText) {
+            lastSearch.current = searchText;
+            const filtered = elements
+                ? deepCopy(
+                      elements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
+                  )
+                : [];
+            const filteredSelected = selectedElements
+                ? deepCopy(
+                      selectedElements?.filter((element) =>
+                          element.displayName
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                      )
+                  )
+                : [];
+
+            const sortedFilteredElements = sortAndGroupElements(
+                filtered,
+                filteredSelected
+            );
+            setFilteredElements(sortedFilteredElements);
+        }
+    }, [searchText, elements, selectedElements]);
 
     const onUpdateCheckbox = useCallback(
         (element: ITwinToObjectMapping) => {
@@ -167,9 +215,14 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 (x) => x.id === element.id
             );
             updateSelectedElements(element, shouldCheck);
-            elementsSorted.current = true;
+            // if user has updated the selected elements via the checkbox we shouldn't sort them again
+            allowElementsToBeSorted.current = false;
         },
-        [selectedElements, updateSelectedElements, elementsSorted.current]
+        [
+            selectedElements,
+            updateSelectedElements,
+            allowElementsToBeSorted.current
+        ]
     );
 
     const onMultiSelectChanged = useCallback(() => {
@@ -212,38 +265,48 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     return (
         <div className="cb-scene-builder-pivot-contents">
-            {isEditBehavior && (
-                <div className="cb-scene-builder-elements-title">
-                    {t('3dSceneBuilder.selectBehaviorElements')}
-                </div>
-            )}
-            {!hideSearch && (
-                <SearchHeader
-                    isSelectionEnabled={isSelectionEnabled}
-                    onMultiSelectClicked={
-                        !isEditBehavior && onMultiSelectChanged
-                    }
-                    onSearchTextChange={setSearchText}
-                    placeholder={t('3dSceneBuilder.searchElementsPlaceholder')}
-                    searchText={searchText}
-                />
-            )}
-            <div className={commonPanelStyles.content}>
-                {elements.length === 0 ? (
-                    <p className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noElementsText')}
-                    </p>
-                ) : filteredElements.length === 0 ? (
-                    <p className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noResults')}
-                    </p>
-                ) : (
-                    <CardboardList<ITwinToObjectMapping>
-                        items={listItems}
-                        listKey={`elements-in-scene`}
-                        textToHighlight={searchText}
+            <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                {isEditBehavior && (
+                    <Text className={commonPanelStyles.text}>
+                        {t('3dSceneBuilder.elementsListInstructions')}
+                    </Text>
+                )}
+                {!hideSearch && (
+                    <SearchHeader
+                        isSelectionEnabled={isSelectionEnabled}
+                        onMultiSelectClicked={
+                            !isEditBehavior && onMultiSelectChanged
+                        }
+                        onSearchTextChange={setSearchText}
+                        placeholder={t(
+                            '3dSceneBuilder.searchElementsPlaceholder'
+                        )}
+                        searchText={searchText}
                     />
                 )}
+            </div>
+            <div className={commonPanelStyles.content}>
+                <div className={commonPanelStyles.paddedLeftPanelBlock}>
+                    {elements.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noElementsText')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : filteredElements.length === 0 ? (
+                        <IllustrationMessage
+                            headerText={t('3dSceneBuilder.noResults')}
+                            type={'info'}
+                            width={'compact'}
+                        />
+                    ) : (
+                        <CardboardList<ITwinToObjectMapping>
+                            items={listItems}
+                            listKey={`elements-in-scene`}
+                            textToHighlight={searchText}
+                        />
+                    )}
+                </div>
             </div>
             {!isEditBehavior && (
                 <PanelFooter>
@@ -251,8 +314,11 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                         <div>
                             <PrimaryButton
                                 className="cb-scene-builder-create-button"
+                                data-testid={'elements-list-new-button'}
                                 text={t('3dSceneBuilder.createBehavior')}
-                                onClick={onCreateBehaviorClick}
+                                onClick={() => {
+                                    onCreateBehaviorClick('');
+                                }}
                                 disabled={
                                     selectedElements &&
                                     selectedElements.length > 0

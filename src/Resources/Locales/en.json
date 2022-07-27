@@ -4,9 +4,11 @@
     "preview": "Preview",
     "loading": "Loading...",
     "label": "Label",
+    "labelPlaceholder": "Enter label",
     "min": "Min",
     "max": "Max",
     "noData": "No data",
+    "noName": "No name",
     "error": "Error fetching data",
     "unsupportedFileType": "Unsupported file type",
     "selectProperties": "Select properties",
@@ -14,18 +16,19 @@
     "theme": "Theme",
     "hierarchy": "Hierarchy",
     "displayName": "Display name",
+    "displayNamePlaceholder": "Enter display name",
     "realTimeStatus": "Real-time status",
     "emptyCompositeCard": "Empty composite card",
     "compositeCardWithErrors": "Composite card with error boundaries",
     "showMore": "Show more",
-    "unauthorizedAccessErrorTitle": "Access Restricted",
+    "unauthorizedAccessErrorTitle": "Access restricted",
     "unauthorizedAccessErrorMessage": "You do not have access to this blob. Request Reader access or try a different blob.",
-    "nonExistentBlobErrorTitle": "Blob Error",
+    "nonExistentBlobErrorTitle": "Blob error",
     "nonExistentBlobErrorMessage": "Blob does not exist.",
     "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
-    "tryAgain": "Try Again",
-    "learnMore": "Learn More",
-    "DataFetchFailed": "Data Fetch Failed",
+    "tryAgain": "Try again",
+    "learnMore": "Learn more",
+    "DataFetchFailed": "Data fetch failed",
     "more": "More",
     "search": "Search",
     "noSearchResults": "No twins found for entered search term (search is case sensitive).",
@@ -63,7 +66,12 @@
     "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
+    "discardChanges": "Discard unsaved changes?",
+    "discard": "Discard",
+    "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
+    "actions": "Actions",
+    "fieldRequired": "This field is required",
     "name": "Name",
     "title": "Title",
     "enterTitle": "Enter title",
@@ -77,7 +85,7 @@
     "id": "Id",
     "select": "Select",
     "info": "Info",
-    "ADTInstances": "Azure Digital Twins Instances",
+    "ADTInstances": "Azure Digital Twins instances",
     "ADTInstancesInfo": "List of ADT instances for which the user has Azure Digital Twins Data Owner or Azure Digital Twins Data Reader permission",
     "loadingInstances": "Loading instances...",
     "selectInstance": "Select an instance",
@@ -86,9 +94,14 @@
     "globe": "Globe",
     "list": "List",
     "selectFile": "Select file",
-    "uploadFile": "Upload file",
     "uploadingFile": "Uploading file...",
     "twinId": "Twin ID",
+    "active": "Active",
+    "invalidValue": "Invalid value",
+    "diagnose": "Diagnose",
+    "resolve": "Resolve",
+    "verify": "Verify",
+    "success": "Success!",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -98,12 +111,12 @@
         }
     },
     "valueRangeBuilder": {
-        "overlapDetectedMessage": "Overlapping ranges detected. Verify that all value ranges are distinct. Min values are inclusive, Max values are exclusive.",
-        "addValueRangeButtonText": "Add value range",
+        "overlapDetectedMessage": "Overlapping ranges detected. Verify that all ranges are distinct. Min values are inclusive, Max values are exclusive.",
+        "addValueRangeButtonText": "Add range",
         "rangeValueInvalidMessage": "Values must be numeric, '-Infinity', or 'Infinity'",
-        "rangeInvalidMessage": "Min value must be less than (<) Max value",
-        "colorButtonAriaLabel": "Select color for value range",
-        "deleteValueRangeTitle": "Delete value range",
+        "rangeInvalidMessage": "This min value must be less than (<) max value",
+        "colorButtonAriaLabel": "Select color for range",
+        "deleteValueRangeTitle": "Delete range",
         "negativeInfinityIconMessage": "Set value to -Infinity",
         "positiveInfinityIconMessage": "Set value to Infinity"
     },
@@ -150,21 +163,32 @@
         "simulating": "Simulating",
         "liveStatus": "Packet number: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins successfully updated",
         "generateEnvironmentDescription": "Push models, twins, and relationships to populate your environment",
-        "simulateDescription": "Push events to your environment"
+        "simulateDescription": "Push events to your environment",
+        "pusherType": "Simulation Type",
+        "robotArms": "Robot arms",
+        "dairyProduction": "Dairy facility"
     },
     "scenes": {
         "noScenes": "You have no 3D scenes, add a new one to get started.",
         "addScene": "Add 3D scene",
-        "sceneLatitude": "Latitude",
-        "sceneLongitude": "Longitude",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "sampleLatitude": "e.g: 6.4511366",
+        "sampleLongitude": "e.g: 3.3883963",
+        "longitudeErrorMessage": "Input value must be within -180 and 180 degrees",
+        "latitudeErrorMessage": "Input value must be within -90 and 90 degrees",
+        "showOnGlobe": "Show on globe",
         "blobUrl": "3D file blob URL",
-        "addDialogTitle": "Create new scene",
-        "addDialogSubText": "Link your scene with the URL of your 3D file in blob storage",
-        "editDialogTitle": "Edit scene",
-        "editDialogSubText": "Edit the name and linked 3D file of your scene",
+        "dialogTitleCreate": "Create new scene",
+        "dialogSubTitle": "Target an existing 3D file via URL or upload a new file directly to your container",
+        "dialogTitleEdit": "Edit your 3D scene",
         "3dFileSelectionMode": "3D file selection mode",
-        "fromContainer": "From container",
-        "3dFileAsset": "3D file asset",
+        "sceneNamePlaceholder": "Enter a scene name",
+        "sceneDescriptionPlaceholder": "Enter a scene description",
+        "tabNameFromContainer": "Choose file",
+        "tabNameUploadFile": "Upload file",
+        "3dFileAsset": "Link 3D file",
+        "description": "Description",
         "overwriteIfExist": "Overwrite if file already exists",
         "fileExistsErrorMessage": "A file with this name already exist in storage, you can either select that file from container or overwrite."
     },
@@ -312,12 +336,16 @@
         "viewMode": "View mode",
         "enterBlobUrl": "Enter your Azure storage container blob URL",
         "home": "Home",
-        "globe": "Globe"
+        "globe": "Globe",
+        "globeView": "Globe view",
+        "listView": "List view",
+        "breadcrumbAriaLabel": "Breadcrumb with items rendered as buttons",
+        "breadcrumbOverflowAriaLabel": "More links"
     },
     "layersDropdown": {
         "placeholder": "No layers selected",
-        "unlayeredBehaviors": "Unlayered behaviors",
-        "unlayered": "Unlayered",
+        "unlayeredItemListItemDisplayName": "Default layer",
+        "unlayeredItemCollapsedDisplayName": "Default",
         "title": "Select layers",
         "selectAll": "Select all",
         "selectNone": "Deselect all"
@@ -329,7 +357,7 @@
         "noneSelected": "No layers selected",
         "newLayer": "New layer",
         "layerName": "Layer name",
-        "behaviorsOnThisLayer": "Behaviors on this layer",
+        "behaviorsListTitle": "Behaviors ({{count}})",
         "layerNamePlaceholder": "Enter layer name",
         "createNewLayer": "Create new layer",
         "editLayer": "Edit layer",
@@ -337,7 +365,10 @@
         "layers": "Layers",
         "noLayersFound": "You don't have any layers yet!",
         "noLayersDescription": "Layers are like tags on behaviors. Start by creating a layer here.",
-        "noBehaviorsOnLayer": "There are no behaviors on this layer"
+        "noBehaviorsOnLayer": "There are no behaviors on this layer",
+        "deleteConfirmationTitle": "Delete this layer?",
+        "deleteConfirmationMessage": "This permanently removes the layer and any associated behaviors from all Digital Twins environments.",
+        "infoCalloutContent": "Layers are task-based groupings that allow consumers to filter behaviors. Layers exist across scenes."
     },
     "3dSceneBuilder": {
         "elements": "Elements",
@@ -358,23 +389,19 @@
         "searchBehaviorsPlaceholder": "Search behaviors",
         "modifyElement": "Modify element",
         "manageTargetElements": "Manage target elements",
-        "selectBehaviorElements": "Select elements for this behavior to target",
+        "elementsListInstructions": "Select the elements you want included in this behavior's visualization",
         "multiSelectElements": "Multi-select elements",
-        "updateBehavior": "Update behavior",
         "removeBehaviorFromScene": "Remove behavior from scene",
         "removeBehaviorFromAllScenes": "Remove behavior from all scenes",
         "manageSceneLayer": "Manage scene layer",
-        "createBehavior": "Create behavior",
-        "modifyBehavior": "Modify Behavior",
         "addBehaviorButton": "Add behavior",
         "addBehavior": "Add Behavior",
         "searchBehaviors": "Search Behaviors",
         "noAvailableBehaviors": "No available behaviors",
         "removeBehavior": "Remove behavior from this element",
-        "addElementDetails": "Add element details",
         "noBehaviorsOnElement": "No behaviors assigned to this element",
-        "noElementsText": "No elements created yet",
-        "noResults": "No results",
+        "noElementsText": "No elements created yet. Select an object in the scene to create an element",
+        "noResults": "No results found",
         "behaviorsInSceneTitle": "In this scene ({{count}})",
         "createWithElement": "Create with {{element}}",
         "elementActions": "Element actions",
@@ -385,35 +412,76 @@
         "confirmRemoveBehaviorFromAllScenes": "Are you sure you want to remove this behavior from all scenes. You can't undo this action.",
         "newElement": "New element",
         "newBehavior": "New behavior",
+        "modifyBehavior": "Edit behavior",
+        "createBehavior": "Create behavior",
+        "updateBehavior": "Update behavior",
         "newBehaviorId": "NewBehaviorId",
         "cancel": "Cancel",
         "Done": "Done",
         "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
-        "searchTwinId": "Search Twin ID...",
+        "searchTwinId": "Search Twin ID ($dtId)...",
         "noTwinsFound": "No twins found (search is case sensitive)",
         "useNonExistingTwinId": "No exact match, use",
         "addBehaviorToScene": "Add behavior to scene",
         "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
         "elementMetaText": "{{numBehaviors}} behaviors",
-        "linkedTwin": "Linked twin",
-        "linkedTwinInputInfo": "Enter twin ID ($dtId) to link with this element (case sensitive)",
-        "noMeshAddedText": "No meshes added yet, please select meshes in 3D viewer",
+        "primaryTwin": "Primary twin",
         "meshes": "Meshes",
         "behaviorElementsDropdownLabel": "Target element",
         "behaviorElementsDropdownPlaceholder": "Select an element",
+        "actions": "Actions",
+        "behaviorForm": {
+            "formSubTitle": "Behaviors are visual cues that occur under specific conditions."
+        },
         "behaviorAlertForm": {
-            "colorPickerLabel": "Badge color",
+            "colorPickerLabel": "Color",
             "expressionLabel": "Trigger expression",
-            "expressionPlaceholder": "Enter expression (eg LinkedTwin.InFlow > 3)",
-            "iconPickerLabel": "Badge icon",
-            "notice": "This behavior will be enabled only when the below trigger expression evaluates to true.",
-            "notificationLabel": "Notification text",
-            "notificationPlaceholder": "Text to show with the alert for additional context."
+            "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 200)",
+            "iconPickerLabel": "Icon",
+            "tabDescription": "Alerts—icons accompanied by text—help draw attention to critical data conditions. Below, use expressions to trigger alerts in your visualization.",
+            "notificationLabel": "Scenario description",
+            "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
+            "notificationLabelDescriptionPart1": "Twin properties need to be surrounded with template string syntax.",
+            "notificationLabelDescriptionPart2": "E.g. ${PrimaryTwin.DisplayName} requires maintenance",
+            "notificationPlaceholder": "Enter a description"
         },
         "behaviorStatusForm": {
-            "notice": "Use a single property to recolor this behavior's target elements.",
-            "stateItemLabel": "State {{index}}"
+            "tabDescription": "Select a property, then set ranges for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "stateItemLabel": "State {{index}}",
+            "propertyExpressionTooltipContent": "Use a custom expression for more complex expressions that leverage multiple properties."
+        },
+        "behaviorWidgetsForm": {
+            "addWidgetButtonText": "Add widget",
+            "noData": "You haven't configured any widgets yet",
+            "tabDescription": "Define widgets that appear in the element's context"
+        },
+        "elementForm": {
+            "formSubTitle": "Elements link objects in your 3D model with digital twin data",
+            "twinNameTooltip": "This field is case sensitive",
+            "twinNameDescription": "Select a digital twin to link this element to. You will use this linked twin's properties for associated behaviors.",
+            "meshTabName": "Meshes",
+            "behaviorsTabName": "Behaviors",
+            "twinTabName": "Other twins"
+        },
+        "elementFormMeshTab": {
+            "noDataMessage": "Select associated meshes from your 3D model for this element."
+        },
+        "elementBehaviorMeshTab": {
+            "noDataMessage": "Assign or modify behaviors for this element. You can always add behaviors later."
+        },
+        "elementFormTwinTab": {
+            "tabDescription": "These twins contain data beyond your primary twin that you can leverage in your status, alerts, and widgets for your behaviors.",
+            "noDataMessage": "When you create additional twins in this element's behaviors, they'll show up here."
+        },
+        "widgetLibrary": {
+            "dialogTitle": "Widget library",
+            "dialogSubTitle": "Explore widgets and display data-driven-insights for your element."
+        },
+        "widgetForm": {
+            "unitOfMeasureLabel": "Unit of measure",
+            "unitOfMeasurePlaceholder": "E.g. miles/hour",
+            "linkUrlDescription": "Enter a URL and add twin properties as parameters--for instance, ${PrimaryTwin.SerialNumber}"
         },
         "twinPropertyDropdown": {
             "propertyDropdownLabel": "Property",
@@ -425,89 +493,92 @@
         "ModelledPropertyBuilder": {
             "expressionLabel": "Property expression",
             "expressionPlaceholder": "Enter property expression",
-            "selectProperty": "Select property",
-            "toggleLabel": "Expression mode"
+            "singleProperty": "Single property",
+            "customExpression": "Custom (advanced)",
+            "dropdownPlaceholder": "Select a property",
+            "toggleLabel": "Expression mode",
+            "none": "None",
+            "clearButtonText": "Clear"
         },
         "numericExpressionPlaceholder": "Enter an expression which evaluates to a number",
         "behaviorId": "Behavior Id",
-        "widgetLibrary": "Widget library",
-        "exploreWidgets": "Explore our widgets and add an extra layer of information to your 3D scene.",
-        "addWidget": "Add widget",
         "newWidget": "New widget",
+        "addWidget": "Add widget",
         "createWidget": "Create widget",
         "updateWidget": "Update widget",
         "editWidget": "Edit widget",
         "removeWidget": "Remove widget",
         "noWidgets": "No widgets found",
         "modifyWidget": "Modify widget",
-        "noWidgetsConfigured": "No widgets configured",
-        "unitOfMeasure": "Unit of measure",
         "expression": "Expression",
         "warningBreakPointToggleLabel": "Enable color break point",
         "warningBreakPointLabel": "Warning color break point",
-        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${LinkedTwin.property}",
-        "behaviorTypes": {
-            "alertBehavior": "Alert behavior",
-            "statusBehavior": "Status behavior"
-        },
+        "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${PrimaryTwin.property}",
         "notImplemented": "Not implemented",
-        "noLinkedTwinProperties": "No linked twin properties to display",
+        "noPrimaryTwinProperties": "No primary twin properties to display",
         "twinAlias": {
-            "title": "Twin alias",
-            "titlePlural": "Twin aliases",
-            "aliasedTwin": "Aliased twin",
-            "aliasedTwins": "Aliased twins",
-            "add": "Add twin alias",
-            "noTwinAliasesAdded": "No twin aliases added yet",
-            "new": "New twin alias",
-            "edit": "Edit twin alias",
-            "create": "Create twin alias",
-            "update": "Update twin alias",
-            "modify": "Modify twin alias",
-            "search": "Search twin aliases",
+            "title": "Twin",
+            "calloutDescription": "The union of twin properties of selected elements",
+            "add": "Add twin",
+            "new": "New twin",
+            "edit": "Edit twin",
+            "create": "Create twin",
+            "update": "Update twin",
+            "modify": "Modify twin",
+            "search": "Search twins",
             "searchProperties": "Search properties",
-            "noTwinAliasesToAdd": "No twin aliases to add",
-            "removeFromBehavior": "Remove twin alias from behavior",
-            "removeFromElement": "Remove twin alias from element",
+            "noTwinAliasesToAdd": "No twin to add",
+            "removeFromBehavior": "Remove twin from behavior",
+            "removeFromElement": "Remove twin from element",
             "commonProperties": "Common properties",
             "twinAliasForm": {
-                "alias": "Alias",
-                "elementTwinMappings": "Element twin mappings",
+                "aliasNameLabel": "Twin name",
+                "aliasNameTooltipContent": "You can't change this twin's name after creation.",
+                "mappingSectionHeader": "Twin mappings for elements",
+                "mappingSectionSubHeader": "For each element, select the digital twin that this twin references",
                 "elementTwinMappingsNotExist": "There is no available mapping, add elements to behavior first."
             },
+            "tabDescriptionPart1": "Each element leverages data from its primary twin. Add other twins that your elements can leverage data from.",
+            "tabDescriptionPart2": "View the properties in common between the targeted elements and reference these properties using the primary twin or the other twins in your expressions. ",
+            "linkedTwinListHeader": "Linked twins ({{count}})",
             "descriptions": {
-                "twins": "Twins give you access to properties which can be used in expressions.",
-                "linkedTwin": "The LinkedTwin contains all properties in common between the target elements linked twins.",
-                "aliasChangeNotAllowed": "Alias change is not allowed after creation.",
-                "commonProperties": "The union of linked twin properties of selected elements"
+                "commonProperties": "The union of primary twin properties of selected elements"
             },
             "errors": {
-                "twinAliasAlreadyExists": "Twin alias with the same name already exists, consider adding it instead."
+                "twinAliasAlreadyExists": "Twin with the same name already exists, consider adding it instead.",
+                "alphanumericOnly": "Twin name must only contain alphanumeric characters",
+                "noNumberPrefix": "Twin name must not start with a number"
             }
         }
     },
     "widgets": {
         "trend": {
             "title": "Trend widget",
-            "description": "Show historical data in context of your 3D scene"
+            "libraryName": "Trend",
+            "description": "Show charts of historical data"
         },
         "gauge": {
             "title": "Gauge widget",
-            "description": "Represent numerical datapoints with visual context"
+            "libraryName": "Gauge",
+            "description": "Represent numeric properties with custom ranges"
         },
         "link": {
             "title": "Link widget",
-            "description": "Reference external content by linking a URL",
-            "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+            "libraryName": "Link",
+            "description": "Navigate to URLs specific to the element",
+            "urlPlaceholder": "https://contoso.com/${PrimaryTwin.SerialNumber}",
             "openLink": "Open link"
         },
         "value": {
             "title": "Value widget",
-            "description": "A basic widget to show values of twin properties",
+            "libraryName": "Value",
+            "description": "Display any primitive property",
+            "displayNamePlaceholder": "Enter display name",
             "typePlaceholder": "Select the type for the value"
         },
         "panel": {
             "title": "Panel widget",
+            "libraryName": "Panel",
             "description": "A layout panel"
         },
         "notSupported": "This widget type is not currently supported"
@@ -592,8 +663,6 @@
         "Start time input": "Start time input",
         "End time input": "End time input",
         "snap end time to latest": "snap end time to latest",
-        "zoom in": "zoom in",
-        "zoom out": "zoom out",
         "select quick time of": "select quick time of",
         "a time selection control dialog": "a time selection control dialog.",
         "No color": "No color",
@@ -683,7 +752,8 @@
             "undoAll": "Reset all edits",
             "expandTree": "Expand tree",
             "collapseTree": "Collapse tree",
-            "save": "Save changes"
+            "save": "Save changes",
+            "refresh": "Refresh data"
         },
         "dateTimePicker": {
             "datePickerTitle": "Date picker",
@@ -693,13 +763,13 @@
         }
     },
     "environmentPicker": {
-        "environmentUrl": "Environment URL",
-        "containerUrl": "Container URL",
+        "environmentUrl": "Azure Digital Twins instance URL",
+        "containerUrl": "Azure Storage container URL",
         "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
         "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
-        "editEnvironment": "Edit environment",
-        "descriptionForEnvironment": "Connect your environment to list your assets.",
-        "descriptionForEnvAndCont": "Connect your environment and storage container URL to list your scenes.",
+        "editEnvironment": "Configure 3D Scenes environment",
+        "descriptionForEnvironment": "Link your Azure Digital Twins instance to begin building 3D scenes.",
+        "descriptionForEnvAndCont": "Link your Azure Digital Twins instance and your storage container to begin building 3D scenes.",
         "descriptionForLocalStorage": "Configuration data is saved in local storage.",
         "selectContainerUrl": "Select storage container URL",
         "noEnvironment": "No environment added",
@@ -716,7 +786,7 @@
         "state": "State",
         "allProperties": "All properties",
         "behaviorPreview": "Preview",
-        "LinkedTwinProperties": "Linked Twin properties"
+        "PrimaryTwin": "Primary Twin"
     },
     "svgTests": {
         "fluentUI": "SVG loading via Fluent Image component (recommended pattern)",
@@ -724,7 +794,7 @@
         "reactComponent": "SVG illustration via React component syntax"
     },
     "blobDropdown": {
-        "selectFileOrEnter": "Select file or enter blob URL",
+        "selectFileOrEnter": "Enter file URL or select from list",
         "3dFileFromContainer": "3D file in container",
         "loading3DFiles": "Loading files...",
         "invalidBlobUrlPath": "This is not a supported blob URL (e.g. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +802,21 @@
     },
     "modelViewerModePicker": {
         "buttonLabel": "Theme",
-        "title": "Viewer Theme",
-        "style": "Style",
-        "objectColors": "Object color",
-        "background": "Background",
+        "title": "Scene Theme",
+        "style": "3D model style",
+        "objectColors": "3D model color",
+        "background": "Scene background",
         "default": "Default",
         "transparent": "Transparent",
         "wireframe": "Wireframe"
+    },
+    "deeplinkFlyout": {
+        "buttonTitle": "Share",
+        "copyButtonText": "Copy link",
+        "copyConfirmationMessage": "Link copied!",
+        "flyoutHeader": "Share scene",
+        "includeElementsOption": "Link with selected element",
+        "includeLayersOption": "Link with selected layers"
     },
     "elementsPanel": {
         "title": "Elements",
@@ -909,9 +987,117 @@
     },
     "cameraControls": {
         "mouseControls": "Mouse Controls",
-        "select": "Select",
-        "pan": "Pan",
         "orbit": "Orbit",
-        "zoom": "Zoom"
+        "pan": "Pan",
+        "reset": "Reset",
+        "select": "Select",
+        "zoom": "Zoom",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out"
+    },
+    "tutorialModal": {
+        "modalTitle": "Welcome to 3D Scenes Studio!",
+        "publicPreview": "Public Preview",
+        "closeAriaLabel": "Close modal",
+        "rootDocsLinkText": "Documentation",
+        "githubLinkText": "GitHub",
+        "quickstartLinkText": "Quickstart",
+        "primaryButtonText": "Explore the demo",
+        "dismissText": "Dismiss",
+        "nextSlide": "Next slide",
+        "previousSlide": "Previous slide",
+        "statusIndicatorSelectedAria": "Slide {{slide}} selected",
+        "statusIndicatorUnselectedAria": "Select slide {{slide}}",
+        "tabs": {
+            "introduction": "Introduction",
+            "concepts": "Concepts",
+            "elements": "Elements",
+            "behaviors": "Behaviors",
+            "twins": "Twins",
+            "widgets": "Widgets",
+            "sceneLayers": "Scene layers"
+        },
+        "frePages": {
+            "intro": {
+                "title": "Our newest low-code builder",
+                "text": "In this low-code builder, you can monitor, diagnose, and investigate operational data with the visual context of 3D assets, powered by Azure Digital Twins data, without the need for 3D expertise."
+            },
+            "builder": {
+                "title": "Customize your scene in our Builder",
+                "text": "The builder in 3D Scenes Studio is the primary interface for configuring your scenes. It is a low-code, visual experience."
+            },
+            "viewer": {
+                "title": "Explore around, or embed it elsewhere",
+                "text": "View the 3D scene right here in the Studio. The viewer component can be embedded into custom applications, and can work in conjunction with 3rd party components."
+            }
+        },
+        "conceptsRoot": {
+            "title": "Need a deeper dive on the concepts?",
+            "text": "Browse the help content or check out our documentation for step by step tutorials!"
+        },
+        "docLinkBlurb": "For a more detailed step-by-step, check out the <DocLink>docs here.</DocLink>",
+        "tip": "Tip",
+        "elements": {
+            "title": "What's an element?",
+            "content": "An element is a self-defined set of 3D meshes that is linked to data on one or more underlying digital twins.\n\nA primary twin is the main digital twin counterpart for an element. You connect the element to a twin in your Azure Digital Twins instance so that the element can represent your twin and its data within the 3D visualization."
+        },
+        "behaviors": {
+            "title": "What's a behavior?",
+            "mainContent": "A behavior is a scenario for your scene that will leverage particular data on the related element's digital twin to drive viewer visualizations.\n\nCreating a behavior includes choosing twins, configuring status and alerts, adding a widget, and choosing which layer to display on.\n\n",
+            "statusTitle": "Status",
+            "statusDescription": "States are data-driven overlays on your elements to indicate the health or status of the element. Set value ranges to create state boundaries, and choose colors to represent each state in the visualization.\n\n",
+            "alertsTitle": "Alerts",
+            "alertsDescription": "Alerts are conditional notifications to help you quickly see when an element requires your attention. Customize your alert badge with an icon, color, and text.\n\n"
+        },
+        "twins": {
+            "title": "How do I choose twins?",
+            "mainContent": "On the Twins tab, you can modify the set of twins whose data is available to this behavior. This includes the targeted elements' primary twins and additional twins.\n\nAn additional twin is a secondary digital twin data source for an element. You'll be able to use properties from that twin in your behavior expressions for this element. You should only add additional twins when there are twins with data beyond your primary twin that you want to leverage in your status, alerts, and widgets for this behavior.\n\n",
+            "tipContent": "Azure Digital Twins Explorer can help you see twins that might be related to the primary twin for this element. You can query your graph using SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', and then use the double-click expansion feature to explore related twins."
+        },
+        "widgets": {
+            "title": "What's a widget?",
+            "mainContent": "Widgets are data-driven visuals that provide additional context and data, to help you understand the scenario that the behavior represents. Configuring widgets will help you make sure the right data is discoverable when an alert or status is active.\n\n",
+            "typesOfWidgets": "Types of widgets\n\n",
+            "gaugeDescription": "<Underline>Gauge:</Underline> For representing numerical data points visually\n\n",
+            "linkDescription": "<Underline>Link:</Underline> For including externally-referenced content via a linked URL\n\n",
+            "valueDescription": "<Underline>Value:</Underline> For directly displaying twin property values\n\n"
+        },
+        "sceneLayers": {
+            "title": "What's a scene layer?",
+            "mainContent": "You can create layers in your scene to help organize your behaviors. Layers act like tags on the behaviors, enabling you to define which behaviors need to be seen together, thus creating custom views of your scene for different roles or tasks.\n\nIf there are no layers in a scene, all of the behaviors will show up in the scene viewer. Any behaviors not tagged with a layer will appear in the Default layer until they're tagged with a layer.\n\nOne way to create layers is to use the Scene layers button in the Build view for a scene. Alternatively, you can create layers while creating or modifying a behavior."
+        }
+    },
+    "scenePageErrorHandling": {
+        "resetConfigFile": "Reset configuration file",
+        "unauthorizedAccessErrorTitle": "Access restricted",
+        "unauthorizedAccessErrorMessage": "You do not have access to this storage container. Diagnose your access or try a different container.",
+        "blobNotFoundErrorTitle": "Blob not found",
+        "blobNotFoundErrorMessage": "Blob does not exist.",
+        "unknownErrorTitle": "Unknown error",
+        "corsErrorTitle": "CORS error",
+        "corsErrorMessage": "Your storage account needs to have certain CORS properties enabled to be able to use 3D assets in your scenes.",
+        "internalServerErrorMessage": "Internal server error, please check server logs.",
+        "diagnoseAccessPermissions": "Diagnose access permissions",
+        "checkingPermissions": "Checking permissions...",
+        "resolveIssues": "Resolve issues",
+        "resolvingIssues": "Resolving issues...",
+        "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader and either Storage Blob Data Owner or Storage Blob Data Contributor.",
+        "assignRoleSuccessDesc": "Missing permissions have been assigned. Please wait while we are attempting to verify if the changes are in effect.",
+        "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
+        "finishedWithFailureDesc": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
+        "verifyingPermissionsMessage": "Verifying permissions...\nThis may take several minutes.",
+        "refreshPage": "Refresh page",
+        "refreshing": "Refreshing",
+        "noContainerUrlErrorTitle": "Container not set",
+        "noContainerUrlErrorMessage": "Your container url is not set. Click below to set it.",
+        "noADTInstanceUrlTitle": "ADT instance not set",
+        "noADTInstanceUrlMessage": "Your ADT instance url is not set. Click below to set it.",
+        "configureEnvironment": "Configure environment",
+        "sceneView": {
+            "3dAssetLoadingErrorTitle": "Error loading model",
+            "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
+            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again or check your access for that file.",
+            "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
+        }
     }
 }

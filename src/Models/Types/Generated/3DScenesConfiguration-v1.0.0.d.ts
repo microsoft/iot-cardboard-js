@@ -7,7 +7,7 @@
 
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
-export type IVisual = IPopoverVisual | IStatusColoringVisual | IAlertVisual;
+export type IVisual = IPopoverVisual | IExpressionRangeVisual;
 export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
 /**
  * Widget group to which a widget belongs
@@ -17,7 +17,6 @@ export type IGroupID = string;
  * Expression which evaluates to a numeric value
  */
 export type IValueExpression = string;
-export type INumericOrInfinityType = number | 'Infinity' | '-Infinity';
 export type IDTDLPropertyType =
     | 'boolean'
     | 'date'
@@ -30,6 +29,7 @@ export type IDTDLPropertyType =
     | 'long'
     | 'string'
     | 'time';
+export type IExpressionRangeType = 'NumericRange' | 'CategoricalValues';
 
 /**
  * A vocabulary to annotate and validate the JSON representation of 3D scene configuration data
@@ -68,13 +68,13 @@ export interface ITwinToObjectMapping {
     /**
      * The twin referenced by this element
      */
-    linkedTwinID: string;
+    primaryTwinID: string;
     /**
      * Array of of object IDs in the scene
      */
     objectIDs: string[];
     /**
-     * Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.
+     * Links to relevant twins other than the primary primaryTwin.  These aliases can be referenced in behavior expressions.
      */
     twinAliases?: {
         [k: string]: string;
@@ -163,13 +163,25 @@ export interface IGaugeWidgetConfiguration {
     valueRanges: IValueRange[];
 }
 /**
- * Numeric range to trigger coloring
+ * Range of values for which a visual indication is triggered
  */
 export interface IValueRange {
     id: string;
-    color: string;
-    min: INumericOrInfinityType;
-    max: INumericOrInfinityType;
+    /**
+     * min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true].
+     */
+    values: unknown[];
+    visual: IValueRangeVisual;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Visual data to apply when values are in range
+ */
+export interface IValueRangeVisual {
+    color?: string;
+    iconName?: string;
+    labelExpression?: string;
+    extensionProperties?: IExtensionProperties;
 }
 /**
  * A link widget which uses a string template to create a parametrized link
@@ -217,33 +229,16 @@ export interface IObjectIDs {
     extensionProperties?: IExtensionProperties;
 }
 /**
- * a StatusColoring visual is used for mapping an expression result to a color
+ * An expression range visual maps an expression result to a visual
  */
-export interface IStatusColoringVisual {
-    type: 'StatusColoring';
+export interface IExpressionRangeVisual {
+    type: 'ExpressionRangeVisual';
     /**
-     * Expression which evaluates to numeric value
+     * Expression to evaluate
      */
-    statusValueExpression: string;
+    valueExpression: string;
+    expressionType: IExpressionRangeType;
     valueRanges: IValueRange[];
-    objectIDs: IObjectIDs;
-    extensionProperties?: IExtensionProperties;
-}
-/**
- * Alert visual are used to show specific iconography when a boolean expression is true
- */
-export interface IAlertVisual {
-    type: 'Alert';
-    /**
-     * Expression which evaluates to a boolean value
-     */
-    triggerExpression: string;
-    /**
-     * Expression which evalues to a string value
-     */
-    labelExpression: string;
-    iconName: string;
-    color: string;
     objectIDs: IObjectIDs;
     extensionProperties?: IExtensionProperties;
 }

@@ -344,6 +344,24 @@ const PropertyInspector: React.FC<PropertyInspectorProps> = (props) => {
                 parentHandlesScroll={props.parentHandlesScroll}
                 readonly={props.readonly}
                 customCommandBarTitleSpan={props.customCommandBarTitleSpan}
+                onRefresh={() => {
+                    if (isTwin(props)) {
+                        // Refresh twin data
+                        twinData.callAdapter({
+                            twinId: props.twinId,
+                            shouldRefreshAfterPatch: true,
+                            resolvedTwin: props.resolvedTwin
+                        });
+                    } else {
+                        // Refresh relationship data
+                        relationshipData.callAdapter({
+                            twinId: props.twinId,
+                            relationshipId: props.relationshipId,
+                            shouldRefreshAfterPatch: true,
+                            resolvedRelationship: props.resolvedRelationship
+                        });
+                    }
+                }}
             />
         </div>
     );

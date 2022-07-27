@@ -41,6 +41,17 @@ i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Res
 i18n-auto-translation-msnyder -a azure-official -k SUBSCRIPTION_KEY -p ./src/Resources/Locales/en.json -l westus2 -f en -t zh-Hans
 ```
 
+## Handling merge conflicts
+
+If you get into a situation where you have to deal with a merge conflict, you can simply revert your changes to the non-english files and then let it retranslate your strings.
+
+1. backup your `en.json` changes
+1. revert non-en changes `git checkout origin/main src/Resources/Locales`
+1. Commit & push the non-english files
+1. Reapply your backup for `en.json`
+1. Merge with main (or swap these steps if it's easier)
+1. Commit & push the `en.json` changes
+
 ## Adding/removing a language
 
 - Add to the list of languages to translate in the build yml `.github/workflows/translation.yml`

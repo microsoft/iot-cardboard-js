@@ -7,6 +7,7 @@ import React, {
     useRef,
     useState
 } from 'react';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 import { useTranslation } from 'react-i18next';
 import { DatasourceType } from '../../../../Models/Classes/3DVConfig';
 import {
@@ -15,12 +16,12 @@ import {
 } from '../../../../Models/Constants/Enums';
 import {
     BehaviorSaveMode,
-    IADT3DSceneBuilderBehaviorFormProps
+    IADT3DSceneBuilderBehaviorFormProps,
+    SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
+    SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY
 } from '../../ADT3DSceneBuilder.types';
-import produce from 'immer';
 import {
     DefaultButton,
-    IPivotItemProps,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -58,10 +59,15 @@ import {
     IValidityState,
     TabNames
 } from './BehaviorForm.types';
-import { customPivotItemStyles } from './BehaviorsForm.styles';
 import TwinsTab from './Internal/TwinsTab';
 import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
+import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
+import {
+    useBehaviorFormContext,
+    BehaviorFormContextProvider
+} from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -81,6 +87,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     elements,
     builderMode,
     selectedElements,
+    removedElements,
     onBehaviorBackClick,
     onBehaviorSave,
     setSelectedElements,
@@ -91,36 +98,36 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const { t } = useTranslation();
 
     const {
-        config,
-        widgetFormInfo,
         behaviorTwinAliasFormInfo,
-        setBehaviorToEdit,
-        behaviorToEdit
+        config,
+        dispatch,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction,
+        state,
+        widgetFormInfo
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
 
-    const [state, dispatch] = useReducer(
+    const [behaviorState, behaviorDispatch] = useReducer(
         BehaviorFormReducer,
         defaultBehaviorFormState
     );
 
     const behaviorDraftWidgetBackup = useRef<IBehavior>(null);
+    const behaviorLayersDraftWidgetBackup = useRef<string[]>(null);
 
     const [
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
 
-    const [selectedLayerIds, setSelectedLayerIds] = useState(
-        ViewerConfigUtility.getActiveLayersForBehavior(
-            config,
-            behaviorToEdit.id
-        )
-    );
-
     useEffect(() => {
         const selectedElements = [];
 
-        behaviorToEdit.datasources
+        behaviorFormState.behaviorToEdit.datasources
             .filter(ViewerConfigUtility.isElementTwinToObjectMappingDataSource)
             .forEach((ds) => {
                 ds.elementIDs.forEach((elementId) => {
@@ -137,26 +144,48 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // Prior to entering widget form -- freeze copy of draft behavior
     useEffect(() => {
         // Backup draft if opening widget form
-        if (
-            (widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
-                widgetFormInfo.mode === WidgetFormMode.EditWidget) &&
-            !behaviorDraftWidgetBackup.current
-        ) {
-            behaviorDraftWidgetBackup.current = behaviorToEdit;
+        switch (widgetFormInfo.mode) {
+            case WidgetFormMode.CreateWidget:
+            case WidgetFormMode.EditWidget:
+                // capture the state when going into the form
+                if (!behaviorDraftWidgetBackup.current) {
+                    behaviorDraftWidgetBackup.current =
+                        behaviorFormState.behaviorToEdit;
+                }
+                if (!behaviorLayersDraftWidgetBackup.current) {
+                    behaviorLayersDraftWidgetBackup.current =
+                        behaviorFormState.behaviorSelectedLayerIds;
+                }
+                break;
+            case WidgetFormMode.Cancelled:
+                // If widget form is cancelled, restore backup
+                if (
+                    behaviorDraftWidgetBackup.current ||
+                    behaviorLayersDraftWidgetBackup.current
+                ) {
+                    behaviorFormDispatch({
+                        type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET,
+                        payload: {
+                            behavior: behaviorDraftWidgetBackup.current,
+                            layerIds: behaviorLayersDraftWidgetBackup.current
+                        }
+                    });
+                    behaviorDraftWidgetBackup.current = null;
+                    behaviorLayersDraftWidgetBackup.current = null;
+                }
+                break;
+            case WidgetFormMode.Committed:
+                // If changes committed, clear backup
+                behaviorDraftWidgetBackup.current = null;
+                behaviorLayersDraftWidgetBackup.current = null;
+                break;
         }
-        // If widget form is cancelled, restore backup
-        else if (
-            widgetFormInfo.mode === WidgetFormMode.Cancelled &&
-            behaviorDraftWidgetBackup.current
-        ) {
-            setBehaviorToEdit(behaviorDraftWidgetBackup.current);
-            behaviorDraftWidgetBackup.current = null;
-        }
-        // If changes committed, clear backup
-        else if (widgetFormInfo.mode === WidgetFormMode.Committed) {
-            behaviorDraftWidgetBackup.current = null;
-        }
-    }, [widgetFormInfo]);
+    }, [
+        behaviorFormDispatch,
+        behaviorFormState.behaviorSelectedLayerIds,
+        behaviorFormState.behaviorToEdit,
+        widgetFormInfo
+    ]);
 
     useEffect(() => {
         const elementIds = [];
@@ -164,27 +193,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             elementIds.push(element.id);
         });
 
-        setBehaviorToEdit(
-            produce((draft) => {
-                if (
-                    draft.datasources &&
-                    draft.datasources[0] &&
-                    draft.datasources[0].elementIDs
-                ) {
-                    draft.datasources[0].elementIDs = elementIds;
-                } else {
-                    draft.datasources[0] = {
-                        type:
-                            DatasourceType.ElementTwinToObjectMappingDataSource,
-                        elementIDs: elementIds
-                    };
+        behaviorFormDispatch({
+            type:
+                BehaviorFormContextActionType.FORM_BEHAVIOR_DATA_SOURCE_ADD_OR_UPDATE,
+            payload: {
+                source: {
+                    type: DatasourceType.ElementTwinToObjectMappingDataSource,
+                    elementIDs: elementIds
                 }
-            })
-        );
+            }
+        });
 
         onTabValidityChange('Twins', {
             isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
+                behaviorFormState.behaviorToEdit,
                 selectedElements
             )
         });
@@ -192,7 +214,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const onTabValidityChange = useCallback(
         (tabName: TabNames, state: IValidityState) => {
-            dispatch({
+            behaviorDispatch({
                 type: BehaviorFormActionType.SET_TAB_STATE,
                 payload: {
                     tabName: tabName,
@@ -206,15 +228,20 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     // need a local copy to intercept and update form validity
     const localUpdateSelectedElements = useCallback(
         (element: ITwinToObjectMapping, isSelected: boolean) => {
-            let count = getElementsFromBehavior(behaviorToEdit)?.elementIDs
-                .length;
+            let count = getElementsFromBehavior(
+                behaviorFormState.behaviorToEdit
+            )?.elementIDs.length;
             // if selecting, then add 1, else remove 1 from existing counts
             count = isSelected ? count + 1 : count - 1;
             const isValid = count > 0;
             updateSelectedElements(element, isSelected);
             onTabValidityChange('Elements', { isValid: isValid });
         },
-        [behaviorToEdit, updateSelectedElements, onTabValidityChange]
+        [
+            behaviorFormState.behaviorToEdit,
+            updateSelectedElements,
+            onTabValidityChange
+        ]
     );
 
     const onPivotItemClick = useCallback(
@@ -228,29 +255,77 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         },
         [setSelectedBehaviorPivotKey, selectedBehaviorPivotKey]
     );
+    const onLayerSelected = useCallback(
+        (layerId: string) => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_ADD,
+                payload: {
+                    layerId: layerId
+                }
+            });
+        },
+        [behaviorFormDispatch]
+    );
+    const onLayerUnselected = useCallback(
+        (layerId: string) => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_LAYERS_REMOVE,
+                payload: {
+                    layerId: layerId
+                }
+            });
+        },
+        [behaviorFormDispatch]
+    );
 
     const onSaveClick = useCallback(async () => {
         await onBehaviorSave(
             config,
-            behaviorToEdit,
+            behaviorFormState.behaviorToEdit,
             builderMode as BehaviorSaveMode,
-            selectedLayerIds,
-            selectedElements
+            behaviorFormState.behaviorSelectedLayerIds,
+            selectedElements,
+            removedElements
         );
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [
-        config,
-        behaviorToEdit,
+        behaviorFormState.behaviorSelectedLayerIds,
+        behaviorFormState.behaviorToEdit,
         builderMode,
+        config,
         onBehaviorBackClick,
         onBehaviorSave,
+        removedElements,
+        selectedElements,
         setSelectedElements
     ]);
-    const onCancelClick = useCallback(() => {
+
+    const discardChanges = useCallback(() => {
         onBehaviorBackClick();
         setSelectedElements([]);
     }, [onBehaviorBackClick, setSelectedElements]);
+
+    const onCancelClick = useCallback(() => {
+        if (behaviorFormState.isDirty) {
+            setUnsavedBehaviorChangesDialogOpen(true);
+            setUnsavedChangesDialogDiscardAction(discardChanges);
+        } else {
+            discardChanges();
+        }
+    }, [
+        behaviorFormState.isDirty,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction,
+        discardChanges
+    ]);
+
+    const onDiscardChangesClick = useCallback(() => {
+        setUnsavedBehaviorChangesDialogOpen(false);
+        if (state.unsavedChangesDialogDiscardAction) {
+            state.unsavedChangesDialogDiscardAction();
+        }
+    }, [setUnsavedBehaviorChangesDialogOpen, state]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -261,32 +336,73 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             ),
         [widgetFormInfo, behaviorTwinAliasFormInfo, builderMode]
     );
+
     // report out initial state
     useEffect(() => {
-        onTabValidityChange('Root', { isValid: !!behaviorToEdit.displayName });
-        const existingElementIds = getElementsFromBehavior(behaviorToEdit)
-            ?.elementIDs;
+        onTabValidityChange('Root', {
+            isValid: !!behaviorFormState.behaviorToEdit.displayName
+        });
+        const existingElementIds = getElementsFromBehavior(
+            behaviorFormState.behaviorToEdit
+        )?.elementIDs;
         onTabValidityChange('Elements', {
             isValid: existingElementIds?.length > 0
         });
         onTabValidityChange('Twins', {
             isValid: ViewerConfigUtility.areTwinAliasesValidInBehavior(
-                behaviorToEdit,
+                behaviorFormState.behaviorToEdit,
                 selectedElements
             )
         });
     }, []);
-    const isFormValid = checkValidityMap(state.validityMap);
 
-    // console.log(
-    //     `***Rendering, isValid: ${isFormValid}, Elements: ${
-    //         state.validityMap?.get('Elements')?.isValid
-    //     }, Twins: ${state.validityMap?.get('Twins')?.isValid}, Status: ${
-    //         state.validityMap?.get('Status')?.isValid
-    //     }, Alerts: ${state.validityMap?.get('Alerts')?.isValid}, Widgets: ${
-    //         state.validityMap?.get('Widgets')?.isValid
-    //     }`
-    // );
+    const notifySceneContextDirtyState = useCallback(
+        (isDirty: boolean) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
+                payload: {
+                    formType: 'behavior',
+                    value: isDirty
+                }
+            });
+        },
+        [dispatch]
+    );
+    const notifySceneContextDraftBehavior = useCallback(
+        (behavior: IBehavior) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
+                payload: behavior
+            });
+        },
+        [dispatch]
+    );
+
+    // mirror the form state up to the scene context (for navigation confirmation)
+    useEffect(() => {
+        notifySceneContextDirtyState(behaviorFormState.isDirty);
+    }, [behaviorFormState.isDirty, notifySceneContextDirtyState]);
+    // mirror the form state up to the scene context (for the behavior modal)
+    useEffect(() => {
+        notifySceneContextDraftBehavior(behaviorFormState.behaviorToEdit);
+    }, [behaviorFormState.behaviorToEdit, notifySceneContextDraftBehavior]);
+
+    // when we unmount, clear the form data
+    useEffect(() => {
+        return () => {
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_RESET
+            });
+            notifySceneContextDraftBehavior(null);
+            notifySceneContextDirtyState(false);
+        };
+    }, [
+        behaviorFormDispatch,
+        notifySceneContextDirtyState,
+        notifySceneContextDraftBehavior
+    ]);
+
+    const isFormValid = checkValidityMap(behaviorState.validityMap);
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 168);
@@ -300,7 +416,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             />
             {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
             widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
-                <WidgetForm selectedElements={selectedElements} />
+                <WidgetForm />
             ) : behaviorTwinAliasFormInfo ? (
                 <BehaviorTwinAliasForm
                     selectedElements={selectedElements}
@@ -313,23 +429,33 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             <Stack tokens={{ childrenGap: 12 }}>
                                 <TextField
                                     label={t('displayName')}
-                                    value={behaviorToEdit.displayName}
+                                    value={
+                                        behaviorFormState.behaviorToEdit
+                                            .displayName
+                                    }
                                     required
                                     onChange={(_e, newValue) => {
                                         onTabValidityChange('Root', {
                                             isValid: !!newValue
                                         });
-                                        setBehaviorToEdit(
-                                            produce((draft: IBehavior) => {
-                                                draft.displayName = newValue;
-                                            })
-                                        );
+                                        behaviorFormDispatch({
+                                            type:
+                                                BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                                            payload: {
+                                                name: newValue
+                                            }
+                                        });
                                     }}
                                 />
                                 <SceneLayerMultiSelectBuilder
-                                    behaviorId={behaviorToEdit.id}
-                                    selectedLayerIds={selectedLayerIds}
-                                    setSelectedLayerIds={setSelectedLayerIds}
+                                    behaviorId={
+                                        behaviorFormState.behaviorToEdit.id
+                                    }
+                                    selectedLayerIds={
+                                        behaviorFormState.behaviorSelectedLayerIds
+                                    }
+                                    onLayerSelected={onLayerSelected}
+                                    onLayerUnselected={onLayerUnselected}
                                 />
                             </Stack>
                         </div>
@@ -338,6 +464,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             selectedKey={selectedBehaviorPivotKey}
                             onLinkClick={onPivotItemClick}
                             className={commonFormStyles.pivot}
+                            overflowBehavior={'menu'}
                             styles={panelFormPivotStyles}
                         >
                             <PivotItem
@@ -345,9 +472,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.elements')}
                                 itemKey={BehaviorPivot.elements}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
-                                        state.validityMap?.get('Elements')
-                                            ?.isValid,
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get(
+                                            'Elements'
+                                        )?.isValid,
                                         props,
                                         defaultRenderer
                                     )
@@ -370,8 +498,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.twinsTab')}
                                 itemKey={BehaviorPivot.twins}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
-                                        state.validityMap?.get('Twins')
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get('Twins')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
@@ -389,8 +517,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.statesTab')}
                                 itemKey={BehaviorPivot.states}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
-                                        state.validityMap?.get('Status')
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get('Status')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
@@ -399,7 +527,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             >
                                 <StatusTab
                                     onValidityChange={onTabValidityChange}
-                                    selectedElements={selectedElements}
                                 />
                             </PivotItem>
                             <PivotItem
@@ -407,26 +534,25 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.alertsTab')}
                                 itemKey={BehaviorPivot.alerts}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
-                                        state.validityMap?.get('Alerts')
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get('Alerts')
                                             ?.isValid,
                                         props,
                                         defaultRenderer
                                     )
                                 }
                             >
-                                <AlertsTab
-                                    selectedElements={selectedElements}
-                                />
+                                <AlertsTab />
                             </PivotItem>
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
                                 headerText={t('3dSceneBuilder.widgets')}
                                 itemKey={BehaviorPivot.widgets}
                                 onRenderItemLink={(props, defaultRenderer) =>
-                                    _customTabRenderer(
-                                        state.validityMap?.get('Widgets')
-                                            ?.isValid,
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get(
+                                            'Widgets'
+                                        )?.isValid,
                                         props,
                                         defaultRenderer
                                     )
@@ -457,29 +583,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     </PanelFooter>
                 </>
             )}
+            <UnsavedChangesDialog
+                isOpen={state.unsavedBehaviorDialogOpen}
+                onConfirmDiscard={onDiscardChangesClick}
+                onClose={() => setUnsavedBehaviorChangesDialogOpen(false)}
+            />
         </div>
     );
 };
-
-function _customTabRenderer(
-    isValid: boolean | undefined,
-    link?: IPivotItemProps,
-    defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
-): JSX.Element | null {
-    if (!link || !defaultRenderer) {
-        return null;
-    }
-    return (
-        <span className={customPivotItemStyles.root}>
-            {defaultRenderer({ ...link, itemIcon: undefined })}
-            {/* TODO: Add an aria label of some kind here for screen readers to see this error state */}
-            {isValid === false && (
-                <span className={customPivotItemStyles.alert} />
-            )}
-        </span>
-    );
-}
-
 function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
     let isValid = true;
     validityMap.forEach((x) => {
@@ -488,4 +599,44 @@ function checkValidityMap(validityMap: Map<string, IValidityState>): boolean {
     return isValid;
 }
 
-export default SceneBehaviorsForm;
+const BehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
+    behaviors,
+    builderMode,
+    elements,
+    onBehaviorBackClick,
+    onBehaviorSave,
+    onElementClick,
+    onRemoveElement,
+    removedElements,
+    selectedElements,
+    setSelectedElements,
+    updateSelectedElements
+}) => {
+    const { config, state } = useContext(SceneBuilderContext);
+
+    const selectedLayerIds = ViewerConfigUtility.getActiveLayersForBehavior(
+        config,
+        state.selectedBehavior.id
+    );
+    return (
+        <BehaviorFormContextProvider
+            behaviorToEdit={state.selectedBehavior}
+            behaviorSelectedLayerIds={selectedLayerIds}
+        >
+            <SceneBehaviorsForm
+                behaviors={behaviors}
+                builderMode={builderMode}
+                elements={elements}
+                onBehaviorBackClick={onBehaviorBackClick}
+                onBehaviorSave={onBehaviorSave}
+                onElementClick={onElementClick}
+                onRemoveElement={onRemoveElement}
+                removedElements={removedElements}
+                selectedElements={selectedElements}
+                setSelectedElements={setSelectedElements}
+                updateSelectedElements={updateSelectedElements}
+            />
+        </BehaviorFormContextProvider>
+    );
+};
+export default BehaviorsForm;

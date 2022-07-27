@@ -5,15 +5,18 @@ import {
     DialogFooter,
     DialogType,
     FontIcon,
+    FontSizes,
     IComboBoxOption,
     IComboBoxStyles,
     Icon,
     IconButton,
+    IDialogContentProps,
+    Link,
     PrimaryButton,
     Spinner,
     SpinnerSize
 } from '@fluentui/react';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useBoolean, usePrevious } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -34,12 +37,14 @@ import './EnvironmentPicker.scss';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
+    DOCUMENTATION_LINKS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants/Constants';
 import { IADTInstance } from '../../Models/Constants/Interfaces';
+import { addHttpsPrefix } from '../../Models/Services/Utils';
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
@@ -55,11 +60,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         string | IADTInstance
     >('');
     const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
+        Boolean(props.isDialogHidden)
+    );
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasPulledEnvironmentsFromSubscription = useRef(false);
 
-    const dialogContentProps = {
+    const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
         title: t('environmentPicker.editEnvironment'),
         closeButtonAriaLabel: t('close'),
@@ -101,6 +108,32 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         isAdapterCalledOnMount: false
     });
 
+    const previousIsDialogHidden = usePrevious(props.isDialogHidden);
+    // Figure out if dialog needs to be open from props
+    useEffect(() => {
+        // Have undefined checked onMount to avoid an extra render
+        // Have is previous check from true to false, to just change dialogHidden on open
+        if (
+            previousIsDialogHidden !== undefined &&
+            previousIsDialogHidden === true &&
+            previousIsDialogHidden !== props.isDialogHidden
+        ) {
+            toggleIsDialogHidden();
+        }
+    }, [props.isDialogHidden]);
+
+    // Load data for Dialog on first open only
+    useEffect(() => {
+        if (
+            props.shouldPullFromSubscription &&
+            !hasPulledEnvironmentsFromSubscription.current &&
+            !environmentsState.isLoading &&
+            !isDialogHidden
+        ) {
+            environmentsState.callAdapter();
+        }
+    }, [environmentsState, props.shouldPullFromSubscription, isDialogHidden]);
+
     // set initial values based on props and local storage
     useEffect(() => {
         if (props.isLocalStorageEnabled) {
@@ -127,19 +160,19 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             let selectedEnvironmentUrl = '';
             try {
                 selectedEnvironmentUrl =
+                    props.environmentUrl ??
                     (JSON.parse(
                         localStorage.getItem(
                             props.selectedItemLocalStorageKey ??
                                 SelectedEnvironmentLocalStorageKey
                         )
-                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl ??
-                    (props.environmentUrl || '');
+                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
             } catch (error) {
                 selectedEnvironmentUrl = '';
             }
 
             if (
-                selectedEnvironmentUrl !== '' &&
+                selectedEnvironmentUrl &&
                 !environments.includes(selectedEnvironmentUrl)
             ) {
                 environments.push(selectedEnvironmentUrl);
@@ -151,7 +184,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             setEnvironments(props.environmentUrl ? [props.environmentUrl] : []);
         }
 
-        if (props.storage?.isLocalStorageEnabled) {
+        if (props.storage?.containerUrl) {
+            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
+            setContainers(
+                props.storage?.containerUrl ? [props.storage.containerUrl] : []
+            );
+        } else if (props.storage?.isLocalStorageEnabled) {
             let containerUrlsInLocalStorage: Array<string> = [];
             try {
                 containerUrlsInLocalStorage =
@@ -181,11 +219,6 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             }
             setSelectedContainerUrl(selectedContainerUrl);
             setContainers(containerUrlsInLocalStorage);
-        } else {
-            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
-            setContainers(
-                props.storage?.containerUrl ? [props.storage.containerUrl] : []
-            );
         }
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
     }, []);
@@ -225,8 +258,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
     const environmentOptions: Array<IComboBoxOption> = useMemo(
         () =>
-            environments.map((e: string | IADTInstance, idx) =>
-                typeof e === 'string'
+            environments.map((e: string | IADTInstance, idx) => {
+                if (!e) return;
+                return typeof e === 'string'
                     ? ({
                           key: `adt-environment-${idx}`,
                           text: e
@@ -235,8 +269,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                           key: `adt-environment-${idx}`,
                           text: 'https://' + e.hostName,
                           data: e
-                      } as IComboBoxOption)
-            ),
+                      } as IComboBoxOption);
+            }),
         [environments]
     );
 
@@ -287,15 +321,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const environmentInputError = useMemo(
         () =>
             environmentToEdit &&
-            !isValidUrlStr(
-                typeof environmentToEdit === 'string'
-                    ? environmentToEdit
-                    : 'https://' + environmentToEdit.hostName,
-                'environment'
-            )
+            !isValidUrlStr(getUrl(environmentToEdit), 'environment')
                 ? t('environmentPicker.errors.invalidEnvironmentUrl')
                 : undefined,
-        [environmentToEdit, environmentsState]
+        [environmentToEdit, isValidUrlStr, t]
     );
 
     const containerInputError = useMemo(
@@ -304,7 +333,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             !isValidUrlStr(containerUrlToEdit, 'container')
                 ? t('environmentPicker.errors.invalidContainerUrl')
                 : undefined,
-        [containerUrlToEdit]
+        [containerUrlToEdit, isValidUrlStr, t]
     );
 
     const onRenderOption = (
@@ -336,10 +365,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                     setEnvironments(restOfOptions);
                                     if (
                                         option.text ===
-                                        (typeof environmentToEdit === 'string'
-                                            ? environmentToEdit
-                                            : 'https://' +
-                                              environmentToEdit.hostName)
+                                        getUrl(environmentToEdit)
                                     ) {
                                         setEnvironmentToEdit('');
                                     }
@@ -360,19 +386,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     };
 
     const handleOnEditClick = useCallback(() => {
-        if (
-            props.shouldPullFromSubscription &&
-            !hasPulledEnvironmentsFromSubscription.current &&
-            !environmentsState.isLoading
-        ) {
-            environmentsState.callAdapter();
-        }
         toggleIsDialogHidden();
     }, []);
 
     const handleOnEnvironmentUrlChange = useCallback(
         (option, value) => {
-            if (value) {
+            if (option) {
+                setEnvironmentToEdit(option.data ?? option.text);
+            } else {
                 let newVal = value;
                 if (
                     // let user enter hostname and gracefully append https protocol
@@ -397,16 +418,14 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 ) {
                     setEnvironments(environments.concat(newVal));
                 }
-            } else {
-                setEnvironmentToEdit(option.data ?? option.text);
             }
         },
-        [environments]
+        [environments, isValidUrlStr]
     );
 
     const handleOnContainerUrlChange = useCallback(
         (option, value) => {
-            let newVal = value ?? option?.text;
+            let newVal = option ? option.text : value;
             if (!newVal.startsWith('https://')) {
                 // let user enter hostname and gracefully append https protocol
                 try {
@@ -431,10 +450,13 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 setContainers(containers.concat(newVal));
             }
         },
-        [containers]
+        [containers, isValidUrlStr]
     );
 
     const handleOnSave = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         setSelectedEnvironment(environmentToEdit);
         setSelectedContainerUrl(containerUrlToEdit);
 
@@ -449,25 +471,22 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             localStorage.setItem(
                 props.localStorageKey ?? EnvironmentsLocalStorageKey,
                 JSON.stringify(
-                    environments.map((e: string | IADTInstance) => ({
-                        config: {
-                            appAdtUrl:
-                                typeof e === 'string'
-                                    ? e
-                                    : 'https://' + e.hostName
-                        },
-                        name: typeof e === 'string' ? e : e.name
-                    }))
+                    environments.map((e: string | IADTInstance) => {
+                        if (!e) return;
+                        return {
+                            config: {
+                                appAdtUrl: getUrl(e)
+                            },
+                            name: typeof e === 'string' ? e : e.name
+                        };
+                    })
                 )
             );
             localStorage.setItem(
                 props.selectedItemLocalStorageKey ??
                     SelectedEnvironmentLocalStorageKey,
                 JSON.stringify({
-                    appAdtUrl:
-                        typeof environmentToEdit === 'string'
-                            ? environmentToEdit
-                            : 'https://' + environmentToEdit.hostName
+                    appAdtUrl: getUrl(environmentToEdit)
                 })
             );
         }
@@ -483,31 +502,48 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         toggleIsDialogHidden();
-    }, [environmentToEdit, containerUrlToEdit, environments, containers]);
+    }, [
+        environmentToEdit,
+        containerUrlToEdit,
+        props,
+        toggleIsDialogHidden,
+        environments,
+        containers
+    ]);
 
     const handleOnDismiss = useCallback(() => {
+        if (props.onDismiss) {
+            props.onDismiss();
+        }
         toggleIsDialogHidden();
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             // wait for dialog dismiss fade-out animation to reset the values
-            const selectedEnvironmentIndex = environments.findIndex(
-                (e: string | IADTInstance) =>
-                    (typeof e === 'string' ? e : 'https://' + e.hostName) ===
-                    (typeof selectedEnvironment === 'string'
-                        ? selectedEnvironment
-                        : 'https://' + selectedEnvironment.hostName)
-            );
-            setEnvironmentToEdit(selectedEnvironment);
-            setContainerUrlToEdit(selectedContainerUrl);
-            if (selectedEnvironmentIndex === -1) {
-                setEnvironments(environments.concat(selectedEnvironment));
+            if (selectedEnvironment) {
+                const selectedEnvironmentIndex = environments.findIndex(
+                    (e: string | IADTInstance) =>
+                        getUrl(e) === getUrl(selectedEnvironment)
+                );
+                if (selectedEnvironmentIndex === -1) {
+                    setEnvironments(environments.concat(selectedEnvironment));
+                }
             }
+            setEnvironmentToEdit(selectedEnvironment);
+
             if (
+                selectedContainerUrl &&
                 containers.findIndex((e) => e === selectedContainerUrl) === -1
             ) {
                 setContainers(containers.concat(selectedContainerUrl));
             }
+            setContainerUrlToEdit(selectedContainerUrl);
         }, 500);
-    }, [environmentToEdit, containerUrlToEdit]);
+    }, [
+        toggleIsDialogHidden,
+        environments,
+        selectedEnvironment,
+        selectedContainerUrl,
+        containers
+    ]);
 
     const displayNameForEnvironment = useCallback(
         (env: string | IADTInstance) => {
@@ -519,17 +555,20 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 return t('environmentPicker.noEnvironment');
             }
         },
-        []
+        [t]
     );
 
-    const displayNameForContainer = useCallback((containerUrl: string) => {
-        if (containerUrl) {
-            const urlObj = new URL(containerUrl);
-            return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
-        } else {
-            return t('environmentPicker.noContainer');
-        }
-    }, []);
+    const displayNameForContainer = useCallback(
+        (containerUrl: string) => {
+            if (containerUrl) {
+                const urlObj = new URL(containerUrl);
+                return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
+            } else {
+                return t('environmentPicker.noContainer');
+            }
+        },
+        [t]
+    );
 
     return (
         <BaseComponent
@@ -574,11 +613,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                         options={environmentOptions}
                         styles={comboBoxStyles}
                         required
-                        text={
-                            typeof environmentToEdit === 'string'
-                                ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
-                        }
+                        text={getUrl(environmentToEdit)}
                         onChange={(_e, option, _idx, value) =>
                             handleOnEnvironmentUrlChange(option, value)
                         }
@@ -601,11 +636,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 )}
                             </div>
                         )}
-                        selectedKey={
-                            typeof environmentToEdit === 'string'
-                                ? environmentToEdit
-                                : 'https://' + environmentToEdit.hostName
-                        }
+                        selectedKey={getUrl(environmentToEdit)}
                     />
                     {props.storage && (
                         <ComboBox
@@ -631,6 +662,18 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     )}
                 </div>
                 <DialogFooter>
+                    <Link
+                        styles={{
+                            root: {
+                                float: 'left',
+                                fontSize: FontSizes.size14
+                            }
+                        }}
+                        href={DOCUMENTATION_LINKS.overviewDocSetupSection}
+                        target={'_blank'}
+                    >
+                        {t('learnMore')}
+                    </Link>
                     <PrimaryButton
                         onClick={handleOnSave}
                         text={t('save')}
@@ -638,10 +681,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                             props.storage
                                 ? !(
                                       isValidUrlStr(
-                                          typeof environmentToEdit === 'string'
-                                              ? environmentToEdit
-                                              : 'https://' +
-                                                    environmentToEdit.hostName,
+                                          getUrl(environmentToEdit),
                                           'environment'
                                       ) &&
                                       isValidUrlStr(
@@ -650,10 +690,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                       )
                                   )
                                 : !isValidUrlStr(
-                                      typeof environmentToEdit === 'string'
-                                          ? environmentToEdit
-                                          : 'https://' +
-                                                environmentToEdit.hostName,
+                                      getUrl(environmentToEdit),
                                       'environment'
                                   )
                         }
@@ -666,6 +703,15 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             </Dialog>
         </BaseComponent>
     );
+};
+
+const getUrl = (environment: string | IADTInstance) => {
+    if (!environment) return '';
+    if (typeof environment === 'string') {
+        return environment;
+    } else {
+        return addHttpsPrefix(environment.hostName);
+    }
 };
 
 export default memo(EnvironmentPicker);

@@ -12,6 +12,9 @@ import svgr from '@svgr/rollup';
 import image from '@rollup/plugin-image';
 const parseExportListFromIndex = require('./tools/index-parser');
 
+const schemaTypesPath =
+    'src/Models/Types/Generated/3DScenesConfiguration-v1.0.0.d.ts';
+
 // Build map of library entry points -- this allows for splitting library into chunks & tree shaking
 const inputs = {
     index: 'src/index.ts',
@@ -83,7 +86,7 @@ const config = [
     },
     // Rollup .d.ts typing files associated to each chunk
     {
-        input: inputs,
+        input: { ...inputs, SchemaTypes: schemaTypesPath },
         output: [
             {
                 dir: 'dist',

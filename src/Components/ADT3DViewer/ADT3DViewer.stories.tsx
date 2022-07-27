@@ -4,7 +4,10 @@ import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
 import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
-import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    I3DScenesConfig,
+    ITwinToObjectMapping
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import { Checkbox, Dropdown, IDropdownOption } from '@fluentui/react';
 
@@ -64,7 +67,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
     const [hoveredIndex, setHoveredIndex] = useState(-1);
     const [clickedIndex, setClickedIndex] = useState(-1);
     const [coloredMeshes, setColoredMeshes] = useState<CustomMeshItem[]>();
-    const [zoomedMeshes, setZoomedMeshes] = useState<string[]>();
+    const [zoomedElementId, setZoomedElementId] = useState<string>();
     const [hideElementsPanel, setHideElementsPanel] = useState(true);
 
     const scenesConfig = mockVConfig as I3DScenesConfig;
@@ -89,7 +92,9 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         e.stopPropagation();
         if (index !== hoveredIndex) {
             setHoveredIndex(index);
-            const element = selectedScene.elements[index];
+            const element = selectedScene.elements[
+                index
+            ] as ITwinToObjectMapping;
             if (element?.objectIDs) {
                 setColoredMeshes(makeMeshItems(element.objectIDs as any));
             } else {
@@ -102,15 +107,17 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
         e.stopPropagation();
         if (clickedIndex !== index) {
             setClickedIndex(index);
-            const element = selectedScene.elements[index];
-            if (element?.objectIDs) {
-                setZoomedMeshes(element.objectIDs as any);
+            const element = selectedScene.elements[
+                index
+            ] as ITwinToObjectMapping;
+            if (element?.id) {
+                setZoomedElementId(element.id);
             } else {
-                setZoomedMeshes([]);
+                setZoomedElementId(null);
                 setColoredMeshes(null);
             }
         } else {
-            setZoomedMeshes([]);
+            setZoomedElementId(null);
             setColoredMeshes(null);
         }
     };
@@ -193,7 +200,7 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 sceneId={selectedScene.id}
                 connectionLineColor="#000"
                 coloredMeshItems={coloredMeshes}
-                zoomToMeshIds={zoomedMeshes}
+                zoomToElementId={zoomedElementId}
                 hideElementsPanel={hideElementsPanel}
             />
         </div>
@@ -347,6 +354,82 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
                 enableMeshSelection={true}
                 showHoverOnSelected={true}
                 showMeshesOnHover={true}
+                connectionLineColor="#000"
+            />
+        </div>
+    );
+};
+
+export const LayerSelect = (_args, { globals: { theme, locale } }) => {
+    const scenesConfig = mockVConfig as I3DScenesConfig;
+    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>(null);
+    const [sceneId, setSceneId] = useState<string>(
+        'f7053e7537048e03be4d1e6f8f93aa8a'
+    );
+
+    return (
+        <div style={{ width: '100%', height: '600px' }}>
+            <Dropdown
+                onChange={(_event, option) => setSelectedLayerIds(option.data)}
+                style={{ width: '200px' }}
+                options={[
+                    {
+                        data: null,
+                        text: 'All',
+                        key: 'all',
+                        selected: true
+                    },
+                    {
+                        data: [],
+                        text: 'None',
+                        key: 'none'
+                    },
+                    {
+                        data: ['8904b620aa83c649888dadc7c8fdf492'],
+                        text: 'Flow',
+                        key: 'flow'
+                    },
+                    {
+                        data: ['9624b620aa83c649888dadc7c8fdf541'],
+                        text: 'Temperature',
+                        key: 'temperature'
+                    },
+                    {
+                        data: [
+                            '9624b620aa83c649888dadc7c8fdf541',
+                            '8904b620aa83c649888dadc7c8fdf492'
+                        ],
+                        text: 'Temperature & Flow',
+                        key: 'temperatureFlow'
+                    }
+                ]}
+            />
+            <Dropdown
+                onChange={(_event, option) => setSceneId(option.data)}
+                style={{ width: '200px' }}
+                options={[
+                    {
+                        data: 'f7053e7537048e03be4d1e6f8f93aa8a',
+                        text: 'Scene 1',
+                        key: 'f7053e7537048e03be4d1e6f8f93aa8a',
+                        selected: true
+                    },
+                    {
+                        data: 'f7053e7537048e03be4d1e6f8f93aa8b',
+                        text: 'Scene 2',
+                        key: 'f7053e7537048e03be4d1e6f8f93aa8b'
+                    }
+                ]}
+            />
+            <ADT3DViewer
+                title="3D Viewer (Mock Data)"
+                theme={theme}
+                locale={locale}
+                selectedLayerIds={selectedLayerIds}
+                adapter={new MockAdapter()}
+                scenesConfig={scenesConfig}
+                pollingInterval={10000}
+                sceneId={sceneId}
                 connectionLineColor="#000"
             />
         </div>

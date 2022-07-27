@@ -14,7 +14,7 @@ import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfi
 import { deepCopy } from '../../Models/Services/Utils';
 
 export default {
-    title: 'Components/ADT3DSceneBuilder/ElementTwinAliasList',
+    title: 'Components/ADT3DSceneBuilder/Elements',
     component: ADT3DSceneBuilder
 };
 
@@ -48,8 +48,8 @@ const Template: SceneBuilderStory = (
     );
 };
 
-export const TwinAliasListEmpty = Template.bind({});
-TwinAliasListEmpty.play = async ({ canvasElement }) => {
+export const EditTwinAliasTabListEmpty = Template.bind({});
+EditTwinAliasTabListEmpty.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the elements tab
     const elementsTabButton = (await canvas.findAllByRole('tab'))[0];
@@ -66,8 +66,8 @@ TwinAliasListEmpty.play = async ({ canvasElement }) => {
     await userEvent.click(tab[2]);
 };
 
-export const TwinAliasList = Template.bind({});
-TwinAliasList.play = async ({ canvasElement }) => {
+export const EditTwinAliasTabList = Template.bind({});
+EditTwinAliasTabList.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the elements tab
     const elementsTabButton = (await canvas.findAllByRole('tab'))[0];
@@ -84,9 +84,9 @@ TwinAliasList.play = async ({ canvasElement }) => {
     await userEvent.click(tab[2]);
 };
 
-export const TwinAliasListItemMenu = Template.bind({});
-TwinAliasListItemMenu.play = async ({ canvasElement }) => {
-    await TwinAliasList.play({ canvasElement });
+export const EditTwinAliasListTabItemMenu = Template.bind({});
+EditTwinAliasListTabItemMenu.play = async ({ canvasElement }) => {
+    await EditTwinAliasTabList.play({ canvasElement });
     const canvas = within(canvasElement);
 
     // Find overflow menu of the first twin alias
@@ -97,9 +97,9 @@ TwinAliasListItemMenu.play = async ({ canvasElement }) => {
     await userEvent.click(twinAliasItem1MoreMenu);
 };
 
-export const TwinAliasRemove = Template.bind({});
-TwinAliasRemove.play = async ({ canvasElement }) => {
-    await TwinAliasListItemMenu.play({ canvasElement });
+export const EditTwinAliasTabRemove = Template.bind({});
+EditTwinAliasTabRemove.play = async ({ canvasElement }) => {
+    await EditTwinAliasListTabItemMenu.play({ canvasElement });
     await sleep(1000);
 
     // Find the remove item in the overflow menu in twin alias list item

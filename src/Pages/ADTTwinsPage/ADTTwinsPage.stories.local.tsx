@@ -1,6 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTandADXAdapter from '../../Adapters/ADTandADXAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { SearchSpan } from '../../Models/Classes/SearchSpan';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADTTwinsPage from './ADTTwinsPage';
@@ -30,11 +30,12 @@ export const ADT = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTandADXAdapter(
-                        authenticationParameters.adt.hostUrl,
+                    new ADT3DSceneAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
@@ -63,11 +64,12 @@ export const ADTWithReverseLookup = (args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTandADXAdapter(
-                        authenticationParameters.adt.hostUrl,
+                    new ADT3DSceneAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )

@@ -4,9 +4,11 @@
   "preview": "Anteprima",
   "loading": "Caricamento...",
   "label": "Etichetta",
+  "labelPlaceholder": "Inserisci etichetta",
   "min": "Min",
   "max": "Max",
   "noData": "Nessun dato",
+  "noName": "Nessun nome",
   "error": "Errore durante il recupero dei dati",
   "unsupportedFileType": "Tipo di file non supportato",
   "selectProperties": "Seleziona proprietà",
@@ -14,6 +16,7 @@
   "theme": "Tema",
   "hierarchy": "Gerarchia",
   "displayName": "Nome visualizzato",
+  "displayNamePlaceholder": "Immettere il nome visualizzato",
   "realTimeStatus": "Stato in tempo reale",
   "emptyCompositeCard": "Scheda composita vuota",
   "compositeCardWithErrors": "Scheda composita con limiti di errore",
@@ -63,7 +66,11 @@
   "editTwin": "Modifica doppia",
   "confirmDeletion": "Conferma eliminazione",
   "confirmDeletionDesc": "Sei sicuro? Non è possibile annullare questa azione.",
+  "discardChanges": "Scartare le modifiche non salvate?",
+  "discard": "Scartare",
+  "discardChangesDesc": "Sei sicuro? Non è possibile annullare questa azione.",
   "action": "Azione",
+  "actions": "Azioni",
   "name": "Nome",
   "title": "Titolo",
   "enterTitle": "Inserisci il titolo",
@@ -86,9 +93,10 @@
   "globe": "Globo",
   "list": "Lista",
   "selectFile": "Seleziona file",
-  "uploadFile": "Carica file",
   "uploadingFile": "Caricamento del file...",
   "twinId": "DOPPIA ID",
+  "active": "Attivo",
+  "invalidValue": "Valore non valido",
   "errors": {
     "errorBoundary": "Limite di errore",
     "unkownError": "Si è verificato un errore sconosciuto",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Intervalli sovrapposti rilevati. Verificare che tutti gli intervalli di valori siano distinti. I valori minimi sono inclusivi, i valori massimi sono esclusivi.",
-    "addValueRangeButtonText": "Aggiungi intervallo di valore",
+    "overlapDetectedMessage": "Intervalli sovrapposti rilevati. Verificare che tutti gli intervalli siano distinti. I valori minimi sono inclusivi, i valori massimi sono esclusivi.",
+    "addValueRangeButtonText": "Aggiungi intervallo",
     "rangeValueInvalidMessage": "I valori devono essere numerici, '-Infinity' o 'Infinity'",
-    "rangeInvalidMessage": "Il valore minimo deve essere inferiore a (<) valore massimo",
-    "colorButtonAriaLabel": "Selezionare il colore per l'intervallo di valori",
-    "deleteValueRangeTitle": "Elimina intervallo di valori",
+    "rangeInvalidMessage": "Questo valore minimo deve essere inferiore a (<) valore massimo",
+    "colorButtonAriaLabel": "Seleziona il colore per l'intervallo",
+    "deleteValueRangeTitle": "Elimina intervallo",
     "negativeInfinityIconMessage": "Impostare il valore su -Infinity",
     "positiveInfinityIconMessage": "Imposta il valore su Infinito"
   },
@@ -150,21 +158,32 @@
     "simulating": "Simulazione",
     "liveStatus": "Numero di pacchetto: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins aggiornato con successo",
     "generateEnvironmentDescription": "Eseguire il push di modelli, gemelli e relazioni per popolare l'ambiente",
-    "simulateDescription": "Esegui il push degli eventi nel tuo ambiente"
+    "simulateDescription": "Esegui il push degli eventi nel tuo ambiente",
+    "pusherType": "Tipo di simulazione",
+    "robotArms": "Bracci robotici",
+    "dairyProduction": "Stabilimento lattiero-caseario"
   },
   "scenes": {
     "noScenes": "Non hai scene 3D, aggiungine una nuova per iniziare.",
     "addScene": "Aggiungi scena 3D",
-    "sceneLatitude": "Latitudine",
-    "sceneLongitude": "Longitudine",
+    "latitude": "Latitudine",
+    "longitude": "Longitudine",
+    "sampleLatitude": "ad esempio: 6,4511366",
+    "sampleLongitude": "ad esempio: 3,3883963",
+    "longitudeErrorMessage": "Il valore di input deve essere compreso tra -180 e 180 gradi",
+    "latitudeErrorMessage": "Il valore di input deve essere compreso tra -90 e 90 gradi",
+    "showOnGlobe": "Mostra sul globo",
     "blobUrl": "URL BLOB di file 3D",
-    "addDialogTitle": "Crea una nuova scena",
-    "addDialogSubText": "Collegare la scena con l'URL del file 3D nell'archiviazione BLOB",
-    "editDialogTitle": "Modifica scena",
-    "editDialogSubText": "Modificare il nome e il file 3D collegato della scena",
+    "dialogTitleCreate": "Crea una nuova scena",
+    "dialogSubTitle": "Scegli come target un file 3D esistente tramite URL o carica un nuovo file direttamente sul tuo contenitore",
+    "dialogTitleEdit": "Modifica la tua scena 3D",
     "3dFileSelectionMode": "Modalità di selezione file 3D",
-    "fromContainer": "Dal contenitore",
-    "3dFileAsset": "Risorsa per file 3D",
+    "sceneNamePlaceholder": "Immettere il nome di una scena",
+    "sceneDescriptionPlaceholder": "Inserisci la descrizione di una scena",
+    "tabNameFromContainer": "Scegli il file",
+    "tabNameUploadFile": "Carica file",
+    "3dFileAsset": "Collega il file 3D",
+    "description": "Descrizione",
     "overwriteIfExist": "Sovrascrivi se il file esiste già",
     "fileExistsErrorMessage": "Un file con questo nome esiste già nella memoria, è possibile selezionare quel file dal contenitore o sovrascrivere."
   },
@@ -312,15 +331,19 @@
     "viewMode": "Modalità di visualizzazione",
     "enterBlobUrl": "Immettere l'URL BLOB del contenitore di archiviazione di Azure",
     "home": "Casa",
-    "globe": "Globo"
+    "globe": "Globo",
+    "globeView": "Vista globo",
+    "listView": "Visualizzazione elenco",
+    "breadcrumbAriaLabel": "Breadcrumb con elementi sottoposti a rendering come pulsanti",
+    "breadcrumbOverflowAriaLabel": "Altri link"
   },
   "layersDropdown": {
     "placeholder": "Nessun livello selezionato",
-    "unlayeredBehaviors": "Comportamenti non stratificati",
-    "unlayered": "Senza strati",
     "title": "Seleziona livelli",
     "selectAll": "Seleziona tutto",
-    "selectNone": "Deseleziona tutto"
+    "selectNone": "Deseleziona tutto",
+    "unlayeredItemListItemDisplayName": "Livello predefinito",
+    "unlayeredItemCollapsedDisplayName": "Default"
   },
   "sceneLayers": {
     "noBehaviors": "Nessun comportamento",
@@ -329,7 +352,7 @@
     "noneSelected": "Nessun livello selezionato",
     "newLayer": "Nuovo livello",
     "layerName": "Nome del livello",
-    "behaviorsOnThisLayer": "Comportamenti su questo livello",
+    "behaviorsListTitle": "Comportamenti ({{count}})",
     "layerNamePlaceholder": "Immettere il nome del livello",
     "createNewLayer": "Creare un nuovo livello",
     "editLayer": "Modifica livello",
@@ -337,7 +360,10 @@
     "layers": "Strati",
     "noLayersFound": "Non hai ancora alcun livello!",
     "noLayersDescription": "I livelli sono come tag sui comportamenti. Inizia creando un livello qui.",
-    "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello"
+    "noBehaviorsOnLayer": "Non ci sono comportamenti su questo livello",
+    "deleteConfirmationTitle": "Eliminare questo livello?",
+    "deleteConfirmationMessage": "In questo modo il livello e tutti i comportamenti associati vengono rimossi in modo permanente da tutti gli ambienti gemelli digitali.",
+    "infoCalloutContent": "I layer sono raggruppamenti basati su attività che consentono ai consumatori di filtrare i comportamenti. I livelli esistono tra le scene."
   },
   "3dSceneBuilder": {
     "elements": "Elementi",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "Comportamenti di ricerca",
     "modifyElement": "Elemento Modify",
     "manageTargetElements": "Gestire gli elementi di destinazione",
-    "selectBehaviorElements": "Selezionare gli elementi per questo comportamento da scegliere come destinazione",
+    "elementsListInstructions": "Selezionare gli elementi che si desidera includere nella visualizzazione di questo comportamento",
     "multiSelectElements": "Elementi multi-selezione",
-    "updateBehavior": "Comportamento di aggiornamento",
     "removeBehaviorFromScene": "Rimuovere il comportamento dalla scena",
     "removeBehaviorFromAllScenes": "Rimuovere il comportamento da tutte le scene",
     "manageSceneLayer": "Gestire il livello della scena",
-    "createBehavior": "Creare un comportamento",
-    "modifyBehavior": "Modifica comportamento",
     "addBehaviorButton": "Aggiungere un comportamento",
     "addBehavior": "Aggiungi comportamento",
     "searchBehaviors": "Comportamenti di ricerca",
     "noAvailableBehaviors": "Nessun comportamento disponibile",
     "removeBehavior": "Rimuovere il comportamento da questo elemento",
-    "addElementDetails": "Aggiungere i dettagli dell'elemento",
     "noBehaviorsOnElement": "Nessun comportamento assegnato a questo elemento",
     "noElementsText": "Nessun elemento creato ancora",
-    "noResults": "Nessun risultato",
+    "noResults": "Nessun risultato trovato",
     "behaviorsInSceneTitle": "In questa scena ({{count}})",
     "createWithElement": "Crea con {{element}}",
     "elementActions": "Azioni elemento",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Sei sicuro di voler rimuovere questo comportamento da tutte le scene. Non è possibile annullare questa azione.",
     "newElement": "Nuovo elemento",
     "newBehavior": "Nuovo comportamento",
+    "modifyBehavior": "Modificare il comportamento",
+    "createBehavior": "Creare un comportamento",
+    "updateBehavior": "Comportamento di aggiornamento",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annulla",
     "Done": "Fatto",
     "edit": "Modifica {{elementDisplayName}}",
     "editBehavior": "Modificare il comportamento",
-    "searchTwinId": "Cerca Twin ID...",
+    "searchTwinId": "Cerca Twin ID ($dtId)...",
     "noTwinsFound": "Nessun gemello trovato (la ricerca fa distinzione tra maiuscole e minuscole)",
     "useNonExistingTwinId": "Nessuna corrispondenza esatta, uso",
     "addBehaviorToScene": "Aggiungere un comportamento alla scena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementi, {{numSceneRefs}} scene",
     "elementMetaText": "Comportamenti di {{numBehaviors}}",
-    "linkedTwin": "Gemello collegato",
-    "linkedTwinInputInfo": "Immettere un ID doppio ($dtId) da collegare a questo elemento (con distinzione tra maiuscole e minuscole)",
-    "noMeshAddedText": "Nessuna mesh aggiunta ancora, selezionare le mesh nel visualizzatore 3D",
+    "primaryTwin": "Gemello primario",
     "meshes": "Maglie",
     "behaviorElementsDropdownLabel": "Elemento di destinazione",
     "behaviorElementsDropdownPlaceholder": "Seleziona un elemento",
+    "behaviorForm": {
+      "formSubTitle": "I comportamenti sono segnali visivi che si verificano in condizioni specifiche, ad esempio a intervalli specifici o a soglie di dati."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Colore del badge",
+      "colorPickerLabel": "Colore",
       "expressionLabel": "Espressione trigger",
-      "expressionPlaceholder": "Enter expression (es. LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "Icona del badge",
-      "notice": "Questo comportamento verrà attivato solo quando l'espressione trigger riportata di seguito viene valutata come true.",
-      "notificationLabel": "Testo della notifica",
-      "notificationPlaceholder": "Testo da visualizzare con l'avviso per un contesto aggiuntivo."
+      "expressionPlaceholder": "Enter expression (es. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Icona",
+      "tabDescription": "Gli avvisi, ovvero icone accompagnate da testo, aiutano ad attirare l'attenzione sulle condizioni critiche dei dati. Di seguito, utilizzare le espressioni per attivare avvisi nella visualizzazione.",
+      "notificationLabel": "Descrizione dello scenario",
+      "notificationLabelTooltip": "Questo testo fornirà un contesto di consumo quando questo badge è attivo.",
+      "notificationLabelDescriptionPart1": "Le proprietà gemelle devono essere circondate dalla sintassi della stringa del modello.",
+      "notificationPlaceholder": "Inserisci una descrizione",
+      "notificationLabelDescriptionPart2": "Ad esempio, ${PrimaryTwin.DisplayName} richiede manutenzione"
     },
     "behaviorStatusForm": {
-      "notice": "Utilizzare una singola proprietà per ricolorare gli elementi di destinazione di questo comportamento.",
-      "stateItemLabel": "Stato {{index}}"
+      "tabDescription": "Seleziona una proprietà, quindi imposta gli intervalli per l'applicazione del colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
+      "stateItemLabel": "Stato {{index}}",
+      "propertyExpressionTooltipContent": "Utilizzare un'espressione personalizzata per espressioni più complesse che sfruttano più proprietà."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Aggiungi widget",
+      "noData": "Non hai ancora configurato alcun widget",
+      "tabDescription": "Definire i widget visualizzati nel contesto dell'elemento"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Questo campo fa distinzione tra maiuscole e minuscole",
+      "twinNameDescription": "Selezionare un gemello digitale a cui collegare questo elemento. Le proprietà di questo gemello collegato verranno utilizzate per i comportamenti associati.",
+      "meshTabName": "Maglie",
+      "behaviorsTabName": "Comportamenti",
+      "twinTabName": "Altri gemelli",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Selezionare le mesh associate dal modello 3D per questo elemento."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Assegnare o modificare i comportamenti per questo elemento. È sempre possibile aggiungere comportamenti in un secondo momento."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Questi gemelli contengono dati oltre il tuo gemello principale che puoi sfruttare nel tuo stato, avvisi e widget per i tuoi comportamenti.",
+      "noDataMessage": "Quando crei altri gemelli nei comportamenti di questo elemento, verranno visualizzati qui."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Libreria di widget",
+      "dialogSubTitle": "Esplora i widget e visualizza informazioni dettagliate basate sui dati per il tuo elemento."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Unità di misura",
+      "unitOfMeasurePlaceholder": "Ad esempio miglia /ora",
+      "linkUrlDescription": "Inserisci un URL e aggiungi proprietà gemelle come parametri, ad esempio ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Proprietà",
@@ -422,95 +484,99 @@
       "propertyNotFound": "Proprietà non trovata sui gemelli del comportamento",
       "propertyDropdownPlaceholder": "Seleziona proprietà doppia"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Espressione di proprietà",
+      "expressionPlaceholder": "Immettere l'espressione di proprietà",
+      "singleProperty": "Proprietà singola",
+      "customExpression": "Personalizzato (avanzato)",
+      "dropdownPlaceholder": "Seleziona una proprietà",
+      "toggleLabel": "Modalità espressione",
+      "none": "Nessuno",
+      "clearButtonText": "Chiaro"
+    },
     "numericExpressionPlaceholder": "Immettere un'espressione che restituisce un numero",
     "behaviorId": "ID comportamento",
-    "widgetLibrary": "Libreria di widget",
-    "exploreWidgets": "Esplora i nostri widget e aggiungi un ulteriore livello di informazioni alla tua scena 3D.",
-    "addWidget": "Aggiungi widget",
     "newWidget": "Nuovo widget",
+    "addWidget": "Aggiungi widget",
     "createWidget": "Crea widget",
     "updateWidget": "Aggiorna widget",
     "editWidget": "Modifica widget",
     "removeWidget": "Rimuovi widget",
     "noWidgets": "Nessun widget trovato",
     "modifyWidget": "Modifica widget",
-    "noWidgetsConfigured": "Nessun widget configurato",
-    "unitOfMeasure": "Unità di misura",
     "expression": "Espressione",
     "warningBreakPointToggleLabel": "Abilita punto di interruzione colore",
     "warningBreakPointLabel": "Punto di interruzione del colore di avviso",
-    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportamento di avviso",
-      "statusBehavior": "Comportamento dello stato"
-    },
+    "linkWidgetUrlDescription": "L'URL del widget di collegamento supporta la formattazione della stringa del modello JavaScript come: ${PrimaryTwin.property}",
     "notImplemented": "Non implementato",
-    "noLinkedTwinProperties": "Nessuna proprietà gemella collegata da visualizzare",
+    "noPrimaryTwinProperties": "Nessuna proprietà gemella primaria da visualizzare",
     "twinAlias": {
       "title": "Alias gemello",
-      "titlePlural": "Alias gemelli",
-      "aliasedTwin": "Gemello con alias",
-      "aliasedTwins": "Gemelli con alias",
-      "add": "Aggiungi alias gemello",
-      "noTwinAliasesAdded": "Nessun alias gemello ancora aggiunto",
-      "new": "Nuovo alias gemello",
-      "edit": "Modifica alias doppio",
-      "create": "Creare un alias gemello",
-      "update": "Aggiorna alias gemello",
-      "modify": "Modificare l'alias gemello",
-      "search": "Cerca alias gemelli",
+      "calloutDescription": "L'unione di proprietà gemelle di elementi selezionati",
+      "add": "Aggiungi due gemelli",
+      "new": "Nuova gemella",
+      "edit": "Modifica doppia",
+      "create": "Crea gemello",
+      "update": "Aggiornamento gemello",
+      "modify": "Modifica gemello",
+      "search": "Cerca gemelli",
       "searchProperties": "Cerca immobili",
       "noTwinAliasesToAdd": "Nessun alias gemello da aggiungere",
       "removeFromBehavior": "Rimuovere l'alias gemello dal comportamento",
       "removeFromElement": "Rimuovere l'alias gemello dall'elemento",
       "commonProperties": "Proprietà comuni",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Mappature gemelle degli elementi",
+        "aliasNameLabel": "Nome gemello",
+        "aliasNameTooltipContent": "Non puoi cambiare il nome di questo gemello dopo la creazione.",
+        "mappingSectionHeader": "Mappature gemelle per gli elementi",
+        "mappingSectionSubHeader": "Per ogni elemento, selezionare il gemello digitale a cui fa riferimento questo gemello",
         "elementTwinMappingsNotExist": "Non è disponibile alcuna mappatura, aggiungi prima elementi al comportamento."
       },
+      "tabDescriptionPart1": "Ogni elemento sfrutta i dati del suo gemello primario. Aggiungi altri gemelli da cui i tuoi elementi possono sfruttare i dati.",
+      "tabDescriptionPart2": "Visualizzare le proprietà in comune tra gli elementi di destinazione e fare riferimento a queste proprietà utilizzando il gemello primario o gli altri gemelli nelle espressioni. ",
+      "linkedTwinListHeader": "Gemelli collegati ({{count}})",
       "descriptions": {
-        "twins": "I gemelli consentono di accedere a proprietà che possono essere utilizzate nelle espressioni.",
-        "linkedTwin": "LinkedTwin contiene tutte le proprietà in comune tra gli elementi di destinazione collegati gemelli.",
-        "aliasChangeNotAllowed": "La modifica dell'alias non è consentita dopo la creazione.",
-        "commonProperties": "L'unione delle proprietà gemelle collegate degli elementi selezionati"
+        "commonProperties": "L'unione delle proprietà gemelle primarie degli elementi selezionati"
       },
       "errors": {
-        "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo."
+        "twinAliasAlreadyExists": "L'alias gemello con lo stesso nome esiste già, considera invece di aggiungerlo.",
+        "alphanumericOnly": "L'alias gemello deve contenere solo caratteri alfanumerici",
+        "noNumberPrefix": "Il nome gemello non deve iniziare con un numero"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Espressione di proprietà",
-      "expressionPlaceholder": "Immettere l'espressione di proprietà",
-      "selectProperty": "Seleziona proprietà",
-      "toggleLabel": "Espressione di proprietà"
-    }
+    "actions": "Azioni"
   },
   "widgets": {
     "trend": {
       "title": "Widget Tendenze",
-      "description": "Mostra i dati storici nel contesto della tua scena 3D"
+      "libraryName": "Tendenza",
+      "description": "Mostra grafici di dati storici"
     },
     "gauge": {
       "title": "Widget Misura",
-      "description": "Rappresentare punti dati numerici con contesto visivo"
+      "libraryName": "Misuratore",
+      "description": "Rappresentare le proprietà numeriche con intervalli personalizzati"
     },
     "link": {
       "title": "Widget Link",
-      "description": "Fare riferimento a contenuti esterni collegando un URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "Collegamento",
+      "description": "Passare a URL specifici per l'elemento",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Apri link"
+    },
+    "value": {
+      "title": "Widget Valore",
+      "libraryName": "Valore",
+      "description": "Visualizzare qualsiasi proprietà primitiva",
+      "displayNamePlaceholder": "Immettere il nome visualizzato",
+      "typePlaceholder": "Selezionare il tipo per il valore"
     },
     "panel": {
       "title": "Widget del pannello",
+      "libraryName": "Pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato",
-    "value": {
-      "title": "Widget Valore",
-      "description": "Widget di base per mostrare i valori delle proprietà gemelle",
-      "typePlaceholder": "Selezionare il tipo per il valore"
-    }
+    "notSupported": "Questo tipo di widget non è attualmente supportato"
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",
@@ -592,8 +658,6 @@
     "Start time input": "Input dell'ora di inizio",
     "End time input": "Input dell'ora di fine",
     "snap end time to latest": "agganciare l'ora di fine all'ultima versione",
-    "zoom in": "ingrandire",
-    "zoom out": "zoom indietro",
     "select quick time of": "seleziona il tempo rapido di",
     "a time selection control dialog": "una finestra di dialogo di controllo della selezione del tempo.",
     "No color": "Nessun colore",
@@ -683,7 +747,8 @@
       "undoAll": "Ripristina tutte le modifiche",
       "expandTree": "Espandi albero",
       "collapseTree": "Comprimi albero",
-      "save": "Salvare le modifiche"
+      "save": "Salvare le modifiche",
+      "refresh": "Aggiornare i dati"
     },
     "dateTimePicker": {
       "datePickerTitle": "Selezione data",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL ambiente",
-    "containerUrl": "URL contenitore",
+    "environmentUrl": "URL dell'istanza di Gemelli digitali di Azure",
+    "containerUrl": "URL del contenitore di Archiviazione di Azure",
     "enterEnvironmentUrl": "ad esempio https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "ad esempio https://example.blob.core.windows.net/example",
-    "editEnvironment": "Modifica ambiente",
-    "descriptionForEnvironment": "Connetti il tuo ambiente per elencare le tue risorse.",
-    "descriptionForEnvAndCont": "Connetti l'ambiente e l'URL del contenitore di archiviazione per elencare le scene.",
+    "editEnvironment": "Configurare l'ambiente delle scene 3D",
+    "descriptionForEnvironment": "Collega l'istanza di Gemelli digitali di Azure per iniziare a creare scene 3D.",
+    "descriptionForEnvAndCont": "Collega l'istanza di Gemelli digitali di Azure e il contenitore di archiviazione per iniziare a creare scene 3D.",
     "descriptionForLocalStorage": "I dati di configurazione vengono salvati nell'archivio locale.",
     "selectContainerUrl": "Selezionare l'URL del contenitore di archiviazione",
     "noEnvironment": "Nessun ambiente aggiunto",
@@ -716,7 +781,7 @@
     "state": "Stato",
     "allProperties": "Tutte le proprietà",
     "behaviorPreview": "Anteprima",
-    "LinkedTwinProperties": "Proprietà gemelle collegate"
+    "PrimaryTwin": "Gemella primaria"
   },
   "svgTests": {
     "fluentUI": "Caricamento SVG tramite il componente Fluent Image (modello consigliato)",
@@ -724,7 +789,7 @@
     "reactComponent": "Illustrazione SVG tramite la sintassi del componente React"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Selezionare il file o immettere l'URL BLOB",
+    "selectFileOrEnter": "Inserisci l'URL del file o seleziona dall'elenco",
     "3dFileFromContainer": "File 3D nel contenitore",
     "loading3DFiles": "Caricamento dei file...",
     "invalidBlobUrlPath": "Non si tratta di un URL BLOB supportato (ad esempio https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Tema",
-    "title": "Tema visualizzatore",
-    "style": "Stile",
-    "objectColors": "Colore dell'oggetto",
-    "background": "Sfondo",
+    "title": "Tema scena",
+    "style": "Stile del modello 3D",
+    "objectColors": "Colore del modello 3D",
+    "background": "Sfondo della scena",
     "default": "Default",
     "transparent": "Trasparente",
     "wireframe": "Wireframe"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Condividi",
+    "copyButtonText": "Copia link",
+    "copyConfirmationMessage": "Link copiato!",
+    "flyoutHeader": "Condividi scena",
+    "includeElementsOption": "Collegamento con l'elemento selezionato",
+    "includeLayersOption": "Collegamento con i livelli selezionati"
   },
   "elementsPanel": {
     "title": "Elementi",
@@ -789,11 +862,124 @@
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",
-    "select": "Selezionare",
-    "pan": "Padella",
     "orbit": "Orbita",
-    "zoom": "Zoom"
+    "pan": "Padella",
+    "reset": "Resettare",
+    "select": "Selezionare",
+    "zoom": "Zoom",
+    "zoomIn": "Ingrandire",
+    "zoomOut": "Zoom indietro"
   },
+  "tutorialModal": {
+    "modalTitle": "Benvenuto a 3D Scenes Studio!",
+    "publicPreview": "Anteprima pubblica",
+    "closeAriaLabel": "Chiudi modale",
+    "rootDocsLinkText": "Documentazione",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Guida introduttiva",
+    "primaryButtonText": "Esplora la demo",
+    "dismissText": "Licenziare",
+    "nextSlide": "Diapositiva successiva",
+    "previousSlide": "Diapositiva precedente",
+    "statusIndicatorSelectedAria": "Diapositiva {{slide}} selected",
+    "statusIndicatorUnselectedAria": "Seleziona diapositiva {{slide}}",
+    "tabs": {
+      "introduction": "Introduzione",
+      "concepts": "Concetti",
+      "elements": "Elementi",
+      "behaviors": "Comportamenti",
+      "twins": "Gemelli",
+      "widgets": "Widget",
+      "sceneLayers": "Livelli scena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Il nostro nuovo costruttore low-code",
+        "text": "In questo generatore low-code è possibile monitorare, diagnosticare ed analizzare i dati operativi con il contesto visivo delle risorse 3D, basato sui dati di Gemelli digitali di Azure, senza la necessità di competenze 3D."
+      },
+      "builder": {
+        "title": "Personalizza la tua scena nel nostro Builder",
+        "text": "Il builder in 3D Scenes Studio è l'interfaccia principale per la configurazione delle scene. È un'esperienza visiva low-code."
+      },
+      "viewer": {
+        "title": "Esplora nei dintorni o incorporalo altrove",
+        "text": "Guarda la scena 3D proprio qui nello Studio. Il componente visualizzatore può essere incorporato in applicazioni personalizzate e può funzionare in combinazione con i componenti di terze parti."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Hai bisogno di un approfondimento sui concetti?",
+      "text": "Sfoglia il contenuto della guida o consulta la nostra documentazione per tutorial passo passo!"
+    },
+    "docLinkBlurb": "Per un passo più dettagliato, dai un'occhiata al <DocLink>docs qui.</DocLink>",
+    "tip": "Mancia",
+    "elements": {
+      "title": "Cos'è un elemento?",
+      "content": "Un elemento è un insieme autodefinito di mesh 3D collegato ai dati su uno o più gemelli digitali sottostanti.\n\nUn gemello primario è la principale controparte del gemello digitale per un elemento. È possibile connettere l'elemento a un gemello nell'istanza di Gemelli digitali di Azure in modo che l'elemento possa rappresentare il gemello e i relativi dati all'interno della visualizzazione 3D."
+    },
+    "behaviors": {
+      "title": "Cos'è un comportamento?",
+      "mainContent": "Un comportamento è uno scenario per la scena che sfrutterà dati particolari sul gemello digitale dell'elemento correlato per guidare le visualizzazioni degli spettatori.\n\nLa creazione di un comportamento include la scelta di due gemelli, la configurazione dello stato e degli avvisi, l'aggiunta di un widget e la scelta del livello su cui visualizzare.\n\n",
+      "statusTitle": "Stato",
+      "statusDescription": "Gli stati sono sovrapposizioni basate sui dati sugli elementi per indicare l'integrità o lo stato dell'elemento. Impostare intervalli di valori per creare limiti di stato e scegliere i colori per rappresentare ogni stato nella visualizzazione.\n\n",
+      "alertsTitle": "Avvisi",
+      "alertsDescription": "Gli avvisi sono notifiche condizionali che ti aiutano a vedere rapidamente quando un elemento richiede la tua attenzione. Personalizza il tuo badge di avviso con un'icona, un colore e un testo.\n\n"
+    },
+    "twins": {
+      "title": "Come scelgo i gemelli?",
+      "mainContent": "Nella scheda Gemelli è possibile modificare il set di gemelli i cui dati sono disponibili per questo comportamento. Ciò include i gemelli primari degli elementi mirati e i gemelli aggiuntivi.\n\nUn gemello aggiuntivo è un'origine dati secondaria del gemello digitale per un elemento. Sarai in grado di utilizzare le proprietà di quel gemello nelle espressioni di comportamento per questo elemento. Dovresti aggiungere altri gemelli solo quando ci sono gemelli con dati oltre il gemello principale che desideri sfruttare nel tuo stato, avvisi e widget per questo comportamento.\n\n",
+      "tipContent": "Esplora gemelli digitali di Azure può aiutarti a visualizzare i gemelli che potrebbero essere correlati al gemello principale per questo elemento. Puoi interrogare il tuo grafico usando SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', quindi utilizzare la funzione di espansione con doppio clic per esplorare i gemelli correlati."
+    },
+    "widgets": {
+      "title": "Cos'è un widget?",
+      "mainContent": "I widget sono oggetti visivi basati sui dati che forniscono contesto e dati aggiuntivi per aiutarti a comprendere lo scenario rappresentato dal comportamento. La configurazione dei widget ti aiuterà ad assicurarti che i dati corretti siano individuabili quando un avviso o uno stato è attivo.\n\n",
+      "typesOfWidgets": "Tipi di widget\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Underline> Per rappresentare visivamente i punti dati numerici\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Per includere contenuti con riferimenti esterni tramite un URL collegato\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Per visualizzare direttamente i valori delle proprietà gemelle\n\n"
+    },
+    "sceneLayers": {
+      "title": "Che cos'è un livello di scena?",
+      "mainContent": "È possibile creare livelli nella scena per organizzare i comportamenti. I livelli agiscono come tag sui comportamenti, consentendo di definire quali comportamenti devono essere visti insieme, creando così viste personalizzate della scena per ruoli o attività diversi.\n\nSe non ci sono livelli in una scena, tutti i comportamenti verranno visualizzati nel visualizzatore della scena. Tutti i comportamenti non contrassegnati con un livello verranno visualizzati nel livello predefinito finché non vengono contrassegnati con un livello.\n\nUn modo per creare livelli consiste nell'utilizzare il pulsante Livelli scena nella vista Crea per una scena. In alternativa, potete creare livelli durante la creazione o la modifica di un comportamento."
+    }
+  },
+  "diagnose": "Diagnosticare",
+  "resolve": "Risolvere",
+  "verify": "Verificare",
+  "success": "Successo!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Ripristina file di configurazione",
+    "unauthorizedAccessErrorTitle": "Accesso limitato",
+    "unauthorizedAccessErrorMessage": "Non si ha accesso a questo contenitore di archiviazione. Diagnosticare l'accesso o provare un contenitore diverso.",
+    "blobNotFoundErrorTitle": "BLOB non trovato",
+    "blobNotFoundErrorMessage": "BLOB non esiste.",
+    "unknownErrorTitle": "Errore sconosciuto",
+    "corsErrorTitle": "Errore CORS",
+    "corsErrorMessage": "Il servizio BLOB dell'account di archiviazione deve disporre di alcune proprietà specifiche per consentire a CORS di utilizzare le risorse 3D nelle scene.",
+    "internalServerErrorMessage": "Errore interno del server, controllare i registri del server.",
+    "diagnoseAccessPermissions": "Diagnosticare le autorizzazioni di accesso",
+    "checkingPermissions": "Controllo delle autorizzazioni...",
+    "resolveIssues": "Risolvere i problemi",
+    "resolvingIssues": "Risoluzione dei problemi...",
+    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
+    "noMissingRoleDesc": "Nessuna autorizzazione mancante rilevata, stiamo tentando di verificare se le autorizzazioni assegnate sono in vigore.",
+    "finishedWithFailureDesc": "Tentativo non riuscito, contattare il proprietario della risorsa.",
+    "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nQuesta operazione potrebbe richiedere alcuni minuti.",
+    "assignRoleSuccessDesc": "Sono state assegnate autorizzazioni mancanti. Attendi mentre stiamo tentando di verificare se le modifiche sono in vigore.",
+    "refreshPage": "Aggiorna pagina",
+    "refreshing": "Rinfrescante",
+    "noContainerUrlErrorTitle": "Contenitore non impostato",
+    "noContainerUrlErrorMessage": "L'URL del contenitore non è impostato. Clicca qui sotto per impostarlo.",
+    "noADTInstanceUrlTitle": "Istanza ADT non impostata",
+    "noADTInstanceUrlMessage": "L'URL dell'istanza ADT non è impostato. Clicca qui sotto per impostarlo.",
+    "configureEnvironment": "Configurare l'ambiente",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Errore durante il caricamento del modello",
+      "3dAssetLoadingNetworkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL BLOB non valido o di un errore di rete. Contattare il proprietario del contenitore in cui è archiviato il file di risorse o riprovare più tardi.",
+      "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file.",
+      "3dAssetDimensionError": "Potrebbe esserci un problema con le dimensioni del modello, si prega di verificare che non ci siano maglie errate."
+    }
+  },
+  "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {
     "newModel": "Nuovo modello",
     "name": "Nome",

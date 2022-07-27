@@ -1,7 +1,12 @@
 import {
+    classNamesFunction,
     ContextualMenu,
     ContextualMenuItemType,
+    css,
+    IContextualMenuItem,
     mergeStyleSets,
+    Stack,
+    styled,
     useTheme
 } from '@fluentui/react';
 import React, {
@@ -13,6 +18,7 @@ import React, {
 } from 'react';
 import {
     ADT3DSceneBuilderMode,
+    ADT3DScenePageModes,
     BehaviorModalMode
 } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
@@ -34,7 +40,11 @@ import {
     SET_WIDGET_FORM_INFO,
     BehaviorTwinAliasFormInfo,
     WidgetFormInfo,
-    ElementTwinAliasFormInfo
+    ElementTwinAliasFormInfo,
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+    SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -44,7 +54,7 @@ import {
     defaultADT3DSceneBuilderState
 } from './ADT3DSceneBuilder.state';
 import { IADTAdapter } from '../../Models/Constants/Interfaces';
-import BuilderLeftPanel from './Internal/BuilderLeftPanel';
+import BuilderLeftPanel from './Internal/BuilderLeftPanel/BuilderLeftPanel';
 import { useTranslation } from 'react-i18next';
 import { AbstractMesh } from '@babylonjs/core';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
@@ -55,7 +65,11 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { createGUID, deepCopy } from '../../Models/Services/Utils';
+import {
+    createGUID,
+    deepCopy,
+    getDebugLogger
+} from '../../Models/Services/Utils';
 import {
     DatasourceType,
     defaultBehavior
@@ -63,6 +77,15 @@ import {
 import { IADTObjectColor } from '../../Models/Constants';
 import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
+import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
+import {
+    DeeplinkContextProvider,
+    useDeeplinkContext
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
+import { getStyles } from './ADT3DSceneBuilder.styles';
+import SceneLayers from './Internal/SceneLayers/SceneLayers';
+import { SceneThemeContextProvider } from '../../Models/Context';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -76,26 +99,44 @@ export const SceneBuilderContext = React.createContext<I3DSceneBuilderContext>(
     null
 );
 
-const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
-    sceneId,
-    sceneViewProps,
-    adapter,
-    theme,
-    locale,
-    localeStrings
-}) => {
+const getClassNames = classNamesFunction<
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles
+>();
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADT3DSceneBuilder', debugLogging);
+
+const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
+    props
+) => {
+    const {
+        adapter,
+        locale,
+        localeStrings,
+        sceneId,
+        sceneViewProps,
+        showModeToggle = false,
+        styles,
+        theme
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const fluentTheme = useTheme();
     const [state, dispatch] = useReducer(
         ADT3DSceneBuilderReducer,
         defaultADT3DSceneBuilderState
     );
 
-    const [behaviorToEdit, setBehaviorToEdit] = useState<IBehavior>(null);
+    // styles
+    const classNames = getClassNames(styles, { theme: fluentTheme });
 
+    // state
     const previouslyColoredMeshItems = useRef([]);
     const elementContextualMenuItems = useRef([]);
-    const behaviorContextualMenuItems = useRef([]);
+    const behaviorContextualMenuItems = useRef<IContextualMenuItem[]>([]);
 
     const [
         contextualMenuProps,
@@ -180,6 +221,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 }
             }
         ];
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -196,59 +238,90 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [state.builderMode]);
 
-    const setColoredMeshItems = (coloredMeshItems: Array<CustomMeshItem>) => {
-        dispatch({
-            type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
-            payload: coloredMeshItems
-        });
-    };
+    const setUnsavedChangesDialogDiscardAction = useCallback(
+        (action: VoidFunction) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
+                payload: action
+            });
+        },
+        []
+    );
 
-    const setOutlinedMeshItems = (outlinedMeshItems: Array<CustomMeshItem>) => {
-        dispatch({
-            type: SET_MESH_IDS_TO_OUTLINE,
-            payload: outlinedMeshItems
-        });
-    };
+    const setUnsavedBehaviorChangesDialogOpen = useCallback(
+        (isOpen: boolean) => {
+            dispatch({
+                type: SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
+                payload: isOpen
+            });
+        },
+        []
+    );
 
-    const setWidgetFormInfo = (widgetFormInfo: WidgetFormInfo) => {
+    const setColoredMeshItems = useCallback(
+        (coloredMeshItems: Array<CustomMeshItem>) => {
+            dispatch({
+                type: SET_ADT_SCENE_ELEMENT_SELECTED_OBJECT_IDS,
+                payload: coloredMeshItems
+            });
+        },
+        []
+    );
+
+    const setOutlinedMeshItems = useCallback(
+        (outlinedMeshItems: Array<CustomMeshItem>) => {
+            dispatch({
+                type: SET_MESH_IDS_TO_OUTLINE,
+                payload: outlinedMeshItems
+            });
+        },
+        []
+    );
+
+    const setWidgetFormInfo = useCallback((widgetFormInfo: WidgetFormInfo) => {
         dispatch({
             type: SET_WIDGET_FORM_INFO,
             payload: widgetFormInfo
         });
-    };
+    }, []);
 
-    const setBehaviorTwinAliasFormInfo = (
-        behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo
-    ) => {
-        dispatch({
-            type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
-            payload: behaviorTwinAliasFormInfo
-        });
-    };
+    const setBehaviorTwinAliasFormInfo = useCallback(
+        (behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo) => {
+            dispatch({
+                type: SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
+                payload: behaviorTwinAliasFormInfo
+            });
+        },
+        []
+    );
 
-    const setElementTwinAliasFormInfo = (
-        elementTwinAliasFormInfo: ElementTwinAliasFormInfo
-    ) => {
-        dispatch({
-            type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
-            payload: elementTwinAliasFormInfo
-        });
-    };
+    const setElementTwinAliasFormInfo = useCallback(
+        (elementTwinAliasFormInfo: ElementTwinAliasFormInfo) => {
+            dispatch({
+                type: SET_ELEMENT_TWIN_ALIAS_FORM_INFO,
+                payload: elementTwinAliasFormInfo
+            });
+        },
+        []
+    );
 
-    const setIsLayerBuilderDialogOpen = (
-        isOpen: boolean,
-        behaviorId?: string,
-        onFocusDismiss?: (layerId: string) => void
-    ) => {
-        dispatch({
-            type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
-            payload: {
-                isOpen,
-                behaviorId: behaviorId,
-                onFocusDismiss
-            }
-        });
-    };
+    const setIsLayerBuilderDialogOpen = useCallback(
+        (
+            isOpen: boolean,
+            behaviorId?: string,
+            onFocusDismiss?: (layerId: string) => void
+        ) => {
+            dispatch({
+                type: SET_IS_LAYER_BUILDER_DIALOG_OPEN,
+                payload: {
+                    isOpen,
+                    behaviorId: behaviorId,
+                    onFocusDismiss
+                }
+            });
+        },
+        []
+    );
 
     const getScenesConfig = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
@@ -270,48 +343,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     }, [getScenesConfig?.adapterResult]);
 
-    const onMeshClicked = useCallback(
-        (mesh: AbstractMesh, e: PointerEvent) => {
-            if (mesh) {
-                switch (state.builderMode) {
-                    case ADT3DSceneBuilderMode.ElementsIdle:
-                        meshClickOnElementsIdle(mesh, e);
-                        break;
-
-                    case ADT3DSceneBuilderMode.EditElement:
-                    case ADT3DSceneBuilderMode.CreateElement:
-                        meshClickOnEditElement(mesh);
-                        break;
-
-                    case ADT3DSceneBuilderMode.BehaviorIdle:
-                        meshClickOnBehaviorsIdle(mesh, e);
-                        break;
-                }
-            } else {
-                elementContextualMenuItems.current[1].sectionProps.items = [];
-                if (
-                    state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
-                    state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
-                ) {
-                    setColoredMeshItems([]);
-                    setOutlinedMeshItems([]);
-                }
-            }
-        },
-        [state]
-    );
-
-    const onMeshHovered = (mesh: AbstractMesh) => {
-        switch (state.builderMode) {
-            case ADT3DSceneBuilderMode.ElementsIdle:
-                meshHoverOnElementsIdle(mesh);
-                break;
-            case ADT3DSceneBuilderMode.BehaviorIdle:
-                meshHoverOnBehaviorsIdle(mesh);
-                break;
-        }
-    };
-
+    // viewer callbacks
     const meshHoverOnBehaviorsIdle = (mesh: AbstractMesh) => {
         const meshIds = [];
         if (!contextualMenuProps.isVisible) {
@@ -388,193 +420,52 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         setColoredMeshItems(coloredMeshes);
     };
 
-    const meshClickOnBehaviorsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        let outlinedElements = [];
-        const elements: ITwinToObjectMapping[] = [];
-        // clear context menu
-        behaviorContextualMenuItems.current[1].sectionProps.items = [];
-        behaviorContextualMenuItems.current[2].sectionProps.items = [];
-        for (const element of state.elements) {
-            // find elements that contain this mesh
-            if (element.objectIDs.includes(mesh.id)) {
-                elements.push(element);
-                // color any meshes that are in the elements
-                outlinedElements = outlinedElements.concat(
-                    createCustomMeshItems(
-                        element.objectIDs,
-                        state.objectColor.outlinedMeshSelectedColor
-                    )
-                );
-            }
-        }
-
-        if (outlinedElements.length > 0) {
-            setOutlinedMeshItems(outlinedElements);
-            previouslyColoredMeshItems.current = outlinedElements;
-        } else {
-            setOutlinedMeshItems([]);
-        }
-
-        let behaviors: IBehavior[] = [];
-        // get behaviors that contain any of the elements
-        for (const element of elements) {
-            const behavior = ViewerConfigUtility.getBehaviorsOnElement(
-                element,
-                state.config?.configuration?.behaviors
-            );
-            if (behavior) {
-                behaviors = behaviors.concat(behavior);
-            }
-        }
-
-        // create edit behavior items for the context menu
-        for (const behavior of behaviors) {
-            const item = {
-                key: behavior.id,
-                text: t('3dSceneBuilder.edit', {
-                    elementDisplayName: behavior.displayName
-                }),
-                iconProps: {
-                    iconName: 'Edit',
-                    style: {
-                        fontSize: '14px',
-                        color: fluentTheme.semanticColors.bodyText
-                    }
-                },
-                onClick: () => {
-                    behaviorContextualMenuItems.current[1].sectionProps.items = [];
-                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                        payload: behavior
-                    });
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_MODE,
-                        payload: ADT3DSceneBuilderMode.EditBehavior
-                    });
-                },
-                onMouseOver: () => {
-                    // get elements that are contained in the hovered behavior
-                    let ids = [];
-                    const selectedElements = [];
-                    behavior.datasources
-                        .filter(
-                            ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                        )
-                        .forEach((ds) => {
-                            ds.elementIDs.forEach((elementId) => {
-                                const element = state.elements.find(
-                                    (el) => el.id === elementId
-                                );
-                                element && selectedElements.push(element);
-                            });
-                        });
-
-                    for (const element of selectedElements) {
-                        ids = ids.concat(element.objectIDs);
-                    }
-
-                    // colored meshes that are in the elements contained in the hovered behavior
-                    setOutlinedMeshItems(
-                        createCustomMeshItems(
-                            ids,
-                            state.objectColor.outlinedMeshHoverColor
-                        )
-                    );
-                },
-                onMouseOut: () => {
-                    // rest highlight and mesh colorings
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
-                }
-            };
-
-            // add edit behavior context menu items to the correct section
-            addContextualMenuItems(
-                item,
-                behaviorContextualMenuItems.current[1]
-            );
-        }
-
-        // loop through elements that contain the clicked mesh to create context menu items
-        for (const element of elements) {
-            const item = {
-                key: element.id,
-                text: t('3dSceneBuilder.createWithElement', {
-                    element: element.displayName
-                }),
-                iconProps: {
-                    iconName: 'Add',
-                    style: {
-                        fontSize: '14px',
-                        color: fluentTheme.semanticColors.bodyText
-                    }
-                },
-                onClick: () => {
-                    behaviorContextualMenuItems.current[1].sectionProps.items = [];
-                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    setOutlinedMeshItems([]);
-                    // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
-                    // memory is updated which causes bugs when creating new behaviors)
-                    const newBehavior: IBehavior = {
-                        ...deepCopy(defaultBehavior),
-                        id: createGUID()
-                    };
-                    newBehavior.datasources[0] = {
-                        type:
-                            DatasourceType.ElementTwinToObjectMappingDataSource,
-                        elementIDs: [element.id]
-                    };
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                        payload: newBehavior
-                    });
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_MODE,
-                        payload: ADT3DSceneBuilderMode.CreateBehavior
-                    });
-                },
-                onMouseOver: () => {
-                    // highlight the hovered element
-                    setOutlinedMeshItems(
+    const meshClickOnBehaviorsIdle = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            let outlinedElements = [];
+            const elements: ITwinToObjectMapping[] = [];
+            // clear context menu
+            behaviorContextualMenuItems.current[1].sectionProps.items = [];
+            behaviorContextualMenuItems.current[2].sectionProps.items = [];
+            for (const element of state.elements) {
+                // find elements that contain this mesh
+                if (element.objectIDs.includes(mesh.id)) {
+                    elements.push(element);
+                    // color any meshes that are in the elements
+                    outlinedElements = outlinedElements.concat(
                         createCustomMeshItems(
                             element.objectIDs,
-                            state.objectColor.outlinedMeshHoverColor
+                            state.objectColor.outlinedMeshSelectedColor
                         )
                     );
-                },
-                onMouseOut: () => {
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
                 }
-            };
+            }
 
-            // add create new behavior items to the context menu in the correct position
-            addContextualMenuItems(
-                item,
-                behaviorContextualMenuItems.current[2]
-            );
-        }
+            if (outlinedElements.length > 0) {
+                setOutlinedMeshItems(outlinedElements);
+                previouslyColoredMeshItems.current = outlinedElements;
+            } else {
+                setOutlinedMeshItems([]);
+            }
 
-        // only show the context menu on click if an element has been clicked
-        if (elements.length > 0) {
-            setContextualMenuProps({
-                isVisible: true,
-                x: e.offsetX,
-                y: e.offsetY,
-                items: behaviorContextualMenuItems.current
-            });
-        }
-    };
+            let behaviors: IBehavior[] = [];
+            // get behaviors that contain any of the elements
+            for (const element of elements) {
+                const behavior = ViewerConfigUtility.getBehaviorsOnElement(
+                    element?.id,
+                    state.config?.configuration?.behaviors
+                );
+                if (behavior) {
+                    behaviors = behaviors.concat(behavior);
+                }
+            }
 
-    const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        elementContextualMenuItems.current[1].sectionProps.items = [];
-        // find elements which contian the clicked mesh
-        for (const element of state.elements) {
-            if (element.objectIDs.includes(mesh.id)) {
-                // create context menu items for each element
-                const item = {
-                    key: element.id,
+            // create edit behavior items for the context menu
+            for (const behavior of behaviors) {
+                const item: IContextualMenuItem = {
+                    key: behavior.id,
                     text: t('3dSceneBuilder.edit', {
-                        elementDisplayName: element.displayName
+                        elementDisplayName: behavior.displayName
                     }),
                     iconProps: {
                         iconName: 'Edit',
@@ -584,14 +475,97 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         }
                     },
                     onClick: () => {
-                        elementContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[2].sectionProps.items = [];
                         dispatch({
-                            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-                            payload: element
+                            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                            payload: behavior
                         });
                         dispatch({
                             type: SET_ADT_SCENE_BUILDER_MODE,
-                            payload: ADT3DSceneBuilderMode.EditElement
+                            payload: ADT3DSceneBuilderMode.EditBehavior
+                        });
+                    },
+                    onMouseOver: () => {
+                        // get elements that are contained in the hovered behavior
+                        let ids: string[] = [];
+                        const selectedElements: ITwinToObjectMapping[] = [];
+                        behavior.datasources
+                            .filter(
+                                ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                            )
+                            .forEach((ds) => {
+                                ds.elementIDs.forEach((elementId) => {
+                                    const element = state.elements.find(
+                                        (el) => el.id === elementId
+                                    );
+                                    element && selectedElements.push(element);
+                                });
+                            });
+
+                        for (const element of selectedElements) {
+                            ids = ids.concat(element.objectIDs);
+                        }
+
+                        // colored meshes that are in the elements contained in the hovered behavior
+                        setOutlinedMeshItems(
+                            createCustomMeshItems(
+                                ids,
+                                state.objectColor.outlinedMeshHoverColor
+                            )
+                        );
+                    },
+                    onMouseOut: () => {
+                        // rest highlight and mesh colorings
+                        setOutlinedMeshItems(
+                            previouslyColoredMeshItems.current
+                        );
+                    }
+                };
+
+                // add edit behavior context menu items to the correct section
+                addContextualMenuItems(
+                    item,
+                    behaviorContextualMenuItems.current[1]
+                );
+            }
+
+            // loop through elements that contain the clicked mesh to create context menu items
+            for (const element of elements) {
+                const item = {
+                    key: element.id,
+                    text: t('3dSceneBuilder.createWithElement', {
+                        element: element.displayName
+                    }),
+                    iconProps: {
+                        iconName: 'Add',
+                        style: {
+                            fontSize: '14px',
+                            color: fluentTheme.semanticColors.bodyText
+                        }
+                    },
+                    onClick: () => {
+                        behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[2].sectionProps.items = [];
+                        setOutlinedMeshItems([]);
+                        // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
+                        // memory is updated which causes bugs when creating new behaviors)
+                        const newBehavior: IBehavior = {
+                            ...deepCopy(defaultBehavior),
+                            id: createGUID()
+                        };
+                        newBehavior.datasources[0] = {
+                            type:
+                                DatasourceType.ElementTwinToObjectMappingDataSource,
+                            elementIDs: [element.id]
+                        };
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                            payload: newBehavior
+                        });
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: ADT3DSceneBuilderMode.CreateBehavior
                         });
                     },
                     onMouseOver: () => {
@@ -604,48 +578,142 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                         );
                     },
                     onMouseOut: () => {
-                        setOutlinedMeshItems([]);
-                        setColoredMeshItems(previouslyColoredMeshItems.current);
+                        setOutlinedMeshItems(
+                            previouslyColoredMeshItems.current
+                        );
                     }
                 };
 
-                // add edit element items to the context menu in the correct position
+                // add create new behavior items to the context menu in the correct position
                 addContextualMenuItems(
                     item,
-                    elementContextualMenuItems.current[1]
+                    behaviorContextualMenuItems.current[2]
                 );
             }
-        }
 
-        // colored the selected mesh
-        const coloredMesh: CustomMeshItem = { meshId: mesh.id, color: null };
-        setColoredMeshItems([coloredMesh]);
-        setOutlinedMeshItems([]);
-        previouslyColoredMeshItems.current = [coloredMesh];
+            // only show the context menu on click if an element has been clicked
+            if (elements.length > 0) {
+                setContextualMenuProps({
+                    isVisible: true,
+                    x: e.offsetX,
+                    y: e.offsetY,
+                    items: behaviorContextualMenuItems.current
+                });
+            }
+        },
+        [
+            fluentTheme.semanticColors.bodyText,
+            setOutlinedMeshItems,
+            state.config?.configuration?.behaviors,
+            state.elements,
+            state.objectColor.outlinedMeshHoverColor,
+            state.objectColor.outlinedMeshSelectedColor,
+            t
+        ]
+    );
 
-        setContextualMenuProps({
-            isVisible: true,
-            x: e.offsetX,
-            y: e.offsetY,
-            items: elementContextualMenuItems.current
-        });
-    };
+    const meshClickOnElementsIdle = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            elementContextualMenuItems.current[1].sectionProps.items = [];
+            // find elements which contian the clicked mesh
+            for (const element of state.elements) {
+                if (element.objectIDs.includes(mesh.id)) {
+                    // create context menu items for each element
+                    const item = {
+                        key: element.id,
+                        text: t('3dSceneBuilder.edit', {
+                            elementDisplayName: element.displayName
+                        }),
+                        iconProps: {
+                            iconName: 'Edit',
+                            style: {
+                                fontSize: '14px',
+                                color: fluentTheme.semanticColors.bodyText
+                            }
+                        },
+                        onClick: () => {
+                            elementContextualMenuItems.current[1].sectionProps.items = [];
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                                payload: element
+                            });
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_MODE,
+                                payload: ADT3DSceneBuilderMode.EditElement
+                            });
+                        },
+                        onMouseOver: () => {
+                            // highlight the hovered element
+                            setOutlinedMeshItems(
+                                createCustomMeshItems(
+                                    element.objectIDs,
+                                    state.objectColor.outlinedMeshHoverColor
+                                )
+                            );
+                        },
+                        onMouseOut: () => {
+                            setOutlinedMeshItems([]);
+                            setColoredMeshItems(
+                                previouslyColoredMeshItems.current
+                            );
+                        }
+                    };
 
-    const meshClickOnEditElement = (mesh) => {
-        const selectedMesh = state.coloredMeshItems.find(
-            (item) => item.meshId === mesh.id
-        );
-        let coloredMeshes = [...state.coloredMeshItems];
+                    // add edit element items to the context menu in the correct position
+                    addContextualMenuItems(
+                        item,
+                        elementContextualMenuItems.current[1]
+                    );
+                }
+            }
 
-        if (selectedMesh) {
-            coloredMeshes = state.coloredMeshItems.filter(
-                (item) => item.meshId !== selectedMesh.meshId
+            // colored the selected mesh
+            const coloredMesh: CustomMeshItem = {
+                meshId: mesh.id,
+                color: null
+            };
+            setColoredMeshItems([coloredMesh]);
+            setOutlinedMeshItems([]);
+            previouslyColoredMeshItems.current = [coloredMesh];
+
+            setContextualMenuProps({
+                isVisible: true,
+                x: e.offsetX,
+                y: e.offsetY,
+                items: elementContextualMenuItems.current
+            });
+        },
+        [
+            fluentTheme.semanticColors.bodyText,
+            setColoredMeshItems,
+            setOutlinedMeshItems,
+            state.elements,
+            state.objectColor.outlinedMeshHoverColor,
+            t
+        ]
+    );
+
+    const meshClickOnEditElement = useCallback(
+        (mesh: AbstractMesh) => {
+            const selectedMesh = state.coloredMeshItems.find(
+                (item) => item.meshId === mesh.id
             );
-        } else {
-            coloredMeshes.push({ meshId: mesh.id });
-        }
-        setColoredMeshItems(coloredMeshes);
-    };
+
+            let coloredMeshes: CustomMeshItem[] = [];
+            if (selectedMesh) {
+                coloredMeshes = state.coloredMeshItems.filter(
+                    (item) => item.meshId !== selectedMesh.meshId
+                );
+            } else {
+                coloredMeshes = [
+                    ...state.coloredMeshItems,
+                    { meshId: mesh.id }
+                ];
+            }
+            setColoredMeshItems(coloredMeshes);
+        },
+        [setColoredMeshItems, state.coloredMeshItems]
+    );
 
     const addContextualMenuItems = (item, targetMenu) => {
         if (!targetMenu.sectionProps.items.find((ci) => ci.key === item.key)) {
@@ -653,40 +721,137 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         }
     };
 
-    const objectColorUpdated = (objectColor: IADTObjectColor) => {
+    const onMeshClicked = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            if (mesh) {
+                switch (state.builderMode) {
+                    case ADT3DSceneBuilderMode.ElementsIdle:
+                        meshClickOnElementsIdle(mesh, e);
+                        break;
+
+                    case ADT3DSceneBuilderMode.EditElement:
+                    case ADT3DSceneBuilderMode.CreateElement:
+                        meshClickOnEditElement(mesh);
+                        break;
+
+                    case ADT3DSceneBuilderMode.BehaviorIdle:
+                        meshClickOnBehaviorsIdle(mesh, e);
+                        break;
+                }
+            } else {
+                elementContextualMenuItems.current[1].sectionProps.items = [];
+                if (
+                    state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+                    state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
+                ) {
+                    setColoredMeshItems([]);
+                    setOutlinedMeshItems([]);
+                }
+            }
+        },
+        [
+            meshClickOnBehaviorsIdle,
+            meshClickOnEditElement,
+            meshClickOnElementsIdle,
+            setColoredMeshItems,
+            setOutlinedMeshItems,
+            state.builderMode
+        ]
+    );
+
+    const onMeshHovered = (mesh: AbstractMesh) => {
+        switch (state.builderMode) {
+            case ADT3DSceneBuilderMode.ElementsIdle:
+                meshHoverOnElementsIdle(mesh);
+                break;
+            case ADT3DSceneBuilderMode.BehaviorIdle:
+                meshHoverOnBehaviorsIdle(mesh);
+                break;
+        }
+    };
+
+    const objectColorUpdated = useCallback((objectColor: IADTObjectColor) => {
         dispatch({
             type: SET_ADT_SCENE_OBJECT_COLOR,
             payload: objectColor
         });
-    };
+    }, []);
+
+    const scenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_MODE,
+                payload: {
+                    mode: newScenePageMode
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+
+    // header callbacks
+    const handleScenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            const switchMode = () => {
+                scenePageModeChange(newScenePageMode);
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                    payload: null
+                });
+                dispatch({
+                    type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                    payload: null
+                });
+            };
+            // handle forms with changes before transitioning
+            if (
+                state.formDirtyState.get('behavior') ||
+                state.formDirtyState.get('element')
+            ) {
+                setUnsavedBehaviorChangesDialogOpen(true);
+                setUnsavedChangesDialogDiscardAction(() => {
+                    switchMode();
+                });
+            } else {
+                switchMode();
+            }
+        },
+        [
+            scenePageModeChange,
+            setUnsavedBehaviorChangesDialogOpen,
+            setUnsavedChangesDialogDiscardAction,
+            state.formDirtyState
+        ]
+    );
 
     const commonPanelStyles = getLeftPanelStyles(fluentTheme);
 
+    logDebugConsole('debug', 'Render');
     return (
         <SceneBuilderContext.Provider
             value={{
                 adapter,
-                theme,
+                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
+                coloredMeshItems: state.coloredMeshItems,
+                config: state.config,
+                dispatch,
+                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
+                getConfig: getScenesConfig.callAdapter,
                 locale,
                 localeStrings,
-                coloredMeshItems: state.coloredMeshItems,
-                setColoredMeshItems,
-                setOutlinedMeshItems,
-                config: state.config,
-                getConfig: getScenesConfig.callAdapter,
-                sceneId,
-                widgetFormInfo: state.widgetFormInfo,
-                setWidgetFormInfo,
-                behaviorTwinAliasFormInfo: state.behaviorTwinAliasFormInfo,
-                setBehaviorTwinAliasFormInfo,
-                elementTwinAliasFormInfo: state.elementTwinAliasFormInfo,
-                setElementTwinAliasFormInfo,
-                dispatch,
-                state,
                 objectColor: state.objectColor,
-                behaviorToEdit,
-                setBehaviorToEdit,
-                setIsLayerBuilderDialogOpen
+                sceneId,
+                setBehaviorTwinAliasFormInfo,
+                setColoredMeshItems,
+                setElementTwinAliasFormInfo,
+                setIsLayerBuilderDialogOpen,
+                setOutlinedMeshItems,
+                setUnsavedBehaviorChangesDialogOpen,
+                setUnsavedChangesDialogDiscardAction,
+                setWidgetFormInfo,
+                state,
+                theme,
+                widgetFormInfo: state.widgetFormInfo
             }}
         >
             <BaseComponent
@@ -694,20 +859,21 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                 theme={theme}
                 locale={locale}
                 localeStrings={localeStrings}
-                containerClassName="cb-scene-builder-card-wrapper"
+                containerClassName={css(
+                    classNames.root,
+                    'cb-scene-builder-card-wrapper'
+                )}
             >
                 {state.config && <BuilderLeftPanel />}
-                <div className="cb-scene-builder-canvas">
+                <div className={classNames.wrapper}>
                     {state.config && (
                         <ADT3DBuilder
                             objectColorUpdated={objectColorUpdated}
                             adapter={adapter as IADTAdapter}
                             modelUrl={
-                                state.config.configuration?.scenes[
-                                    state.config.configuration?.scenes.findIndex(
-                                        (s) => s.id === sceneId
-                                    )
-                                ]?.assets[0].url
+                                state.config.configuration?.scenes.find(
+                                    (x) => x.id === sceneId
+                                )?.assets[0].url
                             }
                             onMeshClicked={onMeshClicked}
                             onMeshHovered={onMeshHovered}
@@ -718,6 +884,24 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             showMeshesOnHover={state.enableHoverOnModel}
                         />
                     )}
+                    {/* Mode & layers */}
+                    <Stack
+                        horizontal
+                        styles={classNames.subComponentStyles.headerStack}
+                        tokens={{ childrenGap: 8 }}
+                    >
+                        {/* TODO: MOVE THEME PICKER HERE */}
+                        <SceneLayers />
+                        {showModeToggle && (
+                            <FloatingScenePageModeToggle
+                                sceneId={sceneId}
+                                handleScenePageModeChange={
+                                    handleScenePageModeChange
+                                }
+                                selectedMode={deeplinkState.mode}
+                            />
+                        )}
+                    </Stack>
                     {contextualMenuProps.isVisible && (
                         <div>
                             <div
@@ -745,15 +929,17 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
                             />
                         </div>
                     )}
+                    {/* Preview modal */}
                     {(state.builderMode ===
                         ADT3DSceneBuilderMode.CreateBehavior ||
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
-                        behaviorToEdit &&
+                        state.draftBehavior &&
                         !state.isLayerBuilderDialogOpen && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
-                                    behaviors={[behaviorToEdit]}
+                                    behaviors={[state.draftBehavior]}
+                                    element={undefined}
                                     twins={null}
                                     mode={BehaviorModalMode.preview}
                                     activeWidgetId={
@@ -767,4 +953,19 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = ({
         </SceneBuilderContext.Provider>
     );
 };
-export default React.memo(ADT3DSceneBuilder);
+
+const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
+    return (
+        <DeeplinkContextProvider>
+            <SceneThemeContextProvider>
+                <ADT3DSceneBuilderBase {...props} />
+            </SceneThemeContextProvider>
+        </DeeplinkContextProvider>
+    );
+};
+
+export default styled<
+    IADT3DSceneBuilderCardProps,
+    IADT3DSceneBuilderStyleProps,
+    IADT3DSceneBuilderStyles
+>(ADT3DSceneBuilder, getStyles);

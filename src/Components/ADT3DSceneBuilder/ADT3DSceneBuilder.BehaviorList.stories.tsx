@@ -61,6 +61,17 @@ BehaviorsTab.play = async ({ canvasElement }) => {
     await userEvent.click(behaviorsTabButton[1]);
 };
 
+export const EmptyBehaviorsList = Template.bind({});
+const emptyBehaviorsData = deepCopy(trucksMockVConfig);
+emptyBehaviorsData.configuration.behaviors = [];
+EmptyBehaviorsList.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+};
+EmptyBehaviorsList.parameters = {
+    data: emptyBehaviorsData
+};
+
 export const Search = Template.bind({});
 Search.play = async ({ canvasElement }) => {
     // switch to the behaviors tab
@@ -70,6 +81,17 @@ Search.play = async ({ canvasElement }) => {
     // type in the search box
     const searchBox = canvas.getByTestId('search-header-search-box');
     await userEvent.type(searchBox, 'wheels');
+};
+
+export const EmptySearch = Template.bind({});
+EmptySearch.play = async ({ canvasElement }) => {
+    // switch to the behaviors tab
+    await BehaviorsTab.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+    // type in the search box
+    const searchBox = canvas.getByTestId('search-header-search-box');
+    await userEvent.type(searchBox, 'unknown value');
 };
 
 const mockBehavior: IBehavior = {
@@ -206,7 +228,7 @@ MoreMenuShow.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // type in the search box
     const moreMenu = await canvas.findByTestId(
-        'context-menu-behaviors-in-scene-0-moreMenu'
+        'context-menu-behaviors-in-scene-1-moreMenu'
     );
     await userEvent.click(moreMenu);
     await sleep(1);

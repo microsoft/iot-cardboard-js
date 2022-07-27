@@ -1,4 +1,11 @@
-import { FontIcon, Separator } from '@fluentui/react';
+import {
+    classNamesFunction,
+    FontIcon,
+    Separator,
+    Stack,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React from 'react';
 import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../..';
 import i18n from '../../../i18n';
@@ -12,12 +19,17 @@ import {
     ElementTwinAliasFormInfo,
     WidgetFormInfo
 } from '../ADT3DSceneBuilder.types';
+import { getStyles } from './LeftPanelBuilderHeader.styles';
+import {
+    ILeftPanelBuilderHeaderStyleProps,
+    ILeftPanelBuilderHeaderStyles,
+    ILeftPanelBuilderHeaderProps
+} from './LeftPanelBuilderHeader.types';
 
-interface Props {
-    headerText: string;
-    subHeaderText: string | undefined;
-    iconName: string | undefined;
-}
+const getClassNames = classNamesFunction<
+    ILeftPanelBuilderHeaderStyleProps,
+    ILeftPanelBuilderHeaderStyles
+>();
 
 export const getLeftPanelBuilderHeaderParamsForBehaviors = (
     widgetFormInfo: WidgetFormInfo,
@@ -26,7 +38,7 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName: '' | CardboardIconNames = 'Ringer';
+        iconName: '' | CardboardIconNames;
 
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
@@ -58,8 +70,7 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
         } else if (builderMode === ADT3DSceneBuilderMode.EditBehavior) {
             headerText = i18n.t('3dSceneBuilder.modifyBehavior');
         }
-        subHeaderText = i18n.t('3dSceneBuilder.behaviorTypes.alertBehavior');
-        iconName = 'Ringer';
+        subHeaderText = i18n.t('3dSceneBuilder.behaviorForm.formSubTitle');
     }
 
     return {
@@ -76,7 +87,7 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
 ) => {
     let headerText = '',
         subHeaderText = '',
-        iconName: '' | CardboardIconNames = 'Ringer';
+        iconName: '' | CardboardIconNames;
 
     if (elementTwinAliasFormInfo) {
         if (
@@ -93,12 +104,12 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
             headerText = i18n.t('3dSceneBuilder.newElement');
-            subHeaderText = i18n.t('3dSceneBuilder.addElementDetails');
+            subHeaderText = i18n.t('3dSceneBuilder.elementForm.formSubTitle');
         } else if (builderMode === ADT3DSceneBuilderMode.EditElement) {
             headerText = i18n.t('3dSceneBuilder.modifyElement');
             subHeaderText = selectedElement?.displayName;
+            iconName = 'Shapes';
         }
-        iconName = 'Shapes';
     }
 
     return {
@@ -108,32 +119,45 @@ export const getLeftPanelBuilderHeaderParamsForElements = (
     };
 };
 
-const LeftPanelBuilderHeader: React.FC<Props> = ({
+const LeftPanelBuilderHeader: React.FC<ILeftPanelBuilderHeaderProps> = ({
     headerText,
     subHeaderText,
-    iconName
+    iconName,
+    styles
 }) => {
+    const classNames = getClassNames(styles, { theme: useTheme() });
     return (
-        <div className="cb-left-panel-builder-header-container">
-            <h2 className="cb-left-panel-builder-header">{headerText}</h2>
-            {(iconName || subHeaderText) && (
-                <div className="cb-left-panel-builder-subheader">
-                    {iconName && (
-                        <FontIcon
-                            iconName={iconName}
-                            className="cb-left-panel-builder-subheader-icon"
-                        />
-                    )}
-                    {subHeaderText && (
-                        <span className="cb-left-panel-builder-subheader-text">
-                            {subHeaderText}
-                        </span>
-                    )}
-                </div>
-            )}
+        <>
+            <Stack className={classNames.root} tokens={{ childrenGap: 8 }}>
+                <h2 className={classNames.header}>{headerText}</h2>
+                {(iconName || subHeaderText) && (
+                    <Stack
+                        horizontal
+                        className={classNames.subHeader}
+                        tokens={{ childrenGap: 4 }}
+                        styles={classNames.subComponentStyles.subHeaderStack}
+                    >
+                        {iconName && (
+                            <FontIcon
+                                iconName={iconName}
+                                className={classNames.subHeaderIcon}
+                            />
+                        )}
+                        {subHeaderText && (
+                            <span className={classNames.subHeaderText}>
+                                {subHeaderText}
+                            </span>
+                        )}
+                    </Stack>
+                )}
+            </Stack>
             <Separator />
-        </div>
+        </>
     );
 };
 
-export default LeftPanelBuilderHeader;
+export default styled<
+    ILeftPanelBuilderHeaderProps,
+    ILeftPanelBuilderHeaderStyleProps,
+    ILeftPanelBuilderHeaderStyles
+>(LeftPanelBuilderHeader, getStyles);

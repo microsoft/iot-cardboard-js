@@ -1,5 +1,4 @@
-import { Panel } from '@fluentui/react/lib/components/Panel/Panel';
-import { PanelType } from '@fluentui/react/lib/components/Panel/Panel.types';
+import { Panel, PanelType } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Locale, PropertyInspector, Theme } from '../../..';

@@ -3,6 +3,7 @@ import {
     css,
     DirectionalHint,
     ICalloutProps,
+    ITextField,
     ITextFieldProps,
     memoizeFunction,
     mergeStyleSets,
@@ -12,7 +13,7 @@ import {
 } from '@fluentui/react';
 import { useGuid } from '../../Models/Hooks';
 import React, { useRef, useState } from 'react';
-import CaretCoordinates from './CaretCoordinates';
+import { CaretCoordinates } from './CaretCoordinates';
 
 export interface IAutoCompleteProps {
     className?: string;
@@ -35,6 +36,7 @@ export interface IAutoCompleteProps {
         changedPosition: number
     ) => string;
     required?: boolean;
+    isLoading?: boolean;
 }
 
 export function sleep(ms: number) {
@@ -53,7 +55,8 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     onValueChange: onChange,
     getItems,
     onSelected,
-    required = false
+    required = false,
+    isLoading = false
 }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const [calloutVisible, setCalloutVisible] = useState(false);
@@ -65,6 +68,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     const topRef = useRef(0);
     const theme = useTheme();
     const styles = getStyles(theme);
+    const textFieldRef = useRef<ITextField>(null);
     itemContainerClassName = css(itemContainerClassName, styles.container);
     itemClassName = css(itemClassName, styles.autoCompleteItem);
     selectedItemClassName = css(
@@ -92,6 +96,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
             await sleep(50); // Wait for the re-render
             textField.setSelectionRange(caret, caret);
         }
+        textFieldRef.current?.focus?.();
         setCalloutVisible(false);
     };
 
@@ -235,6 +240,8 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 onBlur={onBlur}
                 validateOnFocusOut={true}
                 required={required}
+                componentRef={textFieldRef}
+                disabled={isLoading}
             />
             <Callout
                 styles={{ root: { marginTop: topRef.current } }}

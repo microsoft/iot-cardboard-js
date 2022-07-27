@@ -1,8 +1,4 @@
-import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
-import {
-    IIconStyleProps,
-    IIconStyles
-} from '@fluentui/react/lib/components/Icon/Icon.types';
+import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropertyTreeContext } from '../PropertyTree';

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Dropdown } from '@fluentui/react/lib/Dropdown';
+import { Dropdown, TextField } from '@fluentui/react';
 import BaseForm from './BaseForm';
 import { DTDLComponent } from '../../../Models/Classes/DTDL';
 import '../ModelCreate.scss';

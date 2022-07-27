@@ -1,0 +1,192 @@
+[
+  {
+    "@id": "dtmi:scenesdemo:ISSModule;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "ISSModule",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "CO2Level",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "Temperature",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "Humidity",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:ISSSolarPanel;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "ISSSolarPanel",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "Wattage",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:Windmill;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "Windmill",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "WindSpeed",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "HealthScore",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "OEE",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:RobotArm;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "RobotArm",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "FailedPickupsLastHr",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "HydraulicPressure",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "PickupFailedAlert",
+        "schema": "boolean"
+      },
+      {
+        "@type": "Property",
+        "name": "PickupFailedBoxID",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:Exchanger;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "Exchanger",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "WaterConductivity",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "SteelCorrosion",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "CopperCorrosion",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "BatchID",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "ProcessStep",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "TimeRemaining",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:StorageTanks;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "StorageTanks",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "TankLevel",
+        "schema": "double"
+      },
+      {
+        "@type": "Property",
+        "name": "BatchID",
+        "schema": "string"
+      },
+      {
+        "@type": "Property",
+        "name": "ProcessStep",
+        "schema": "string"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:TransferPipe;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "TransferPipe",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "FlowRate",
+        "schema": "double"
+      }
+    ]
+  },
+  {
+    "@id": "dtmi:scenesdemo:RefineryAsset;1",
+    "@type": "Interface",
+    "@context": [
+      "dtmi:dtdl:context;2"
+    ],
+    "displayName": "RefineryAsset",
+    "contents": [
+      {
+        "@type": "Property",
+        "name": "SpecificFuelConsumption",
+        "schema": "double"
+      }
+    ]
+  }
+]

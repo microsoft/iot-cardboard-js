@@ -1,22 +1,29 @@
-import React, { useEffect, useMemo } from 'react';
-import { IStepperWizardStep } from '../../../Models/Constants/Interfaces';
+import React, { useEffect, useMemo, useState } from 'react';
+import { IStepperWizardStep, StepperWizardType } from '../StepperWizard.types';
 import { IStep, Step } from './Step';
 import { StepSeparator } from './StepSeparator';
 
 interface IStepper {
+    type: StepperWizardType;
     steps: Array<IStepperWizardStep>;
     currentStepIndex: number;
+    isCurrentStepWithWarning: boolean;
     isNavigationDisabled: boolean;
+    includeIcons: boolean;
+    isAllCompletedSuccessfully: boolean;
 }
 export const Stepper: React.FC<IStepper> = ({
+    type,
     steps,
     currentStepIndex,
-    isNavigationDisabled
+    isCurrentStepWithWarning,
+    isNavigationDisabled,
+    includeIcons,
+    isAllCompletedSuccessfully
 }) => {
-    const [
-        internalCurrentStepIndex,
-        setInternalCurrentStepIndex
-    ] = React.useState(currentStepIndex ?? 0);
+    const [internalCurrentStepIndex, setInternalCurrentStepIndex] = useState(
+        currentStepIndex ?? 0
+    );
 
     useEffect(() => {
         if (currentStepIndex !== undefined) {
@@ -42,23 +49,40 @@ export const Stepper: React.FC<IStepper> = ({
     );
 
     return (
-        <nav>
+        <>
             {stepperMapProps.map(({ label, onClick }, index) => (
-                <div className={'cb-stepper-wizard-stepper'} key={index}>
+                <div
+                    className={`cb-stepper-wizard-stepper cb-stepper-${type}`}
+                    key={index}
+                >
                     <Step
-                        isFinished={internalCurrentStepIndex > index}
+                        type={type}
+                        isFinished={
+                            internalCurrentStepIndex > index ||
+                            isAllCompletedSuccessfully
+                        }
                         isSelected={internalCurrentStepIndex === index}
                         label={label}
                         onClick={onClick}
                         isNavigationDisabled={isNavigationDisabled}
+                        includeIcons={includeIcons}
+                        isAllCompletedSuccessfully={isAllCompletedSuccessfully}
+                        hasWarning={
+                            internalCurrentStepIndex === index &&
+                            isCurrentStepWithWarning
+                        }
                     />
                     {index !== steps.length - 1 && (
                         <StepSeparator
+                            orientation={type}
                             isFinished={internalCurrentStepIndex > index}
+                            isAllCompletedSuccessfully={
+                                isAllCompletedSuccessfully
+                            }
                         />
                     )}
                 </div>
             ))}
-        </nav>
+        </>
     );
 };

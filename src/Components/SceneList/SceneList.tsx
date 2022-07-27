@@ -23,7 +23,10 @@ import {
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { IBlobFile, IComponentError } from '../../Models/Constants/Interfaces';
+import {
+    IStorageBlob,
+    IComponentError
+} from '../../Models/Constants/Interfaces';
 import {
     ComponentErrorType,
     Supported3DFileTypes
@@ -36,6 +39,8 @@ import {
     IAsset,
     IScene
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import NoResults from '../../Resources/Static/noResults.svg';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -222,11 +227,67 @@ const SceneList: React.FC<SceneListProps> = ({
                 return <span>{fieldContent}</span>;
         }
     };
+    const columns: IColumn[] = [
+        {
+            key: 'scene-name',
+            name: t('name'),
+            minWidth: 100,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.displayName}</span>
+        },
+        {
+            key: 'scene-description',
+            name: t('scenes.description'),
+            minWidth: 280,
+            isResizable: true,
+            onRender: (item: IScene) => <span>{item.description}</span>
+        },
+        {
+            key: 'scene-urls',
+            name: t('scenes.blobUrl'),
+            minWidth: 280,
+            isResizable: true,
+            onRender: (item: IScene) => (
+                <ul className="cb-scene-list-blob-urls">
+                    {item.assets.map((a: IAsset, idx) => {
+                        return <li key={`blob-url-${idx}`}>{a.url}</li>;
+                    })}
+                </ul>
+            )
+        },
+        {
+            key: 'scene-action',
+            name: t('actions'),
+            fieldName: 'action',
+            minWidth: 100
+        }
+    ];
 
+    const getColumns = React.useMemo(() => {
+        if (ViewerConfigUtility.hasGlobeCoordinates(sceneList)) {
+            columns.splice(
+                3,
+                0,
+                {
+                    key: 'scene-latitude',
+                    name: t('scenes.latitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.latitude
+                },
+                {
+                    key: 'scene-longitude',
+                    name: t('scenes.longitude'),
+                    minWidth: 100,
+                    onRender: (item: IScene) => item.longitude
+                }
+            );
+        }
+        return columns;
+    }, [sceneList]);
     const renderBlobDropdown = useCallback(
         (
             onChange?: (blobUrl: string) => void,
-            onLoad?: (blobs: Array<IBlobFile>) => void
+            onLoad?: (blobs: Array<IStorageBlob>) => void
         ) => {
             return (
                 <BlobDropdown
@@ -289,56 +350,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DetailsList
                             selectionMode={SelectionMode.none}
                             items={sceneList}
-                            columns={[
-                                {
-                                    key: 'scene-name',
-                                    name: t('name'),
-                                    minWidth: 100,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <span>{item.displayName}</span>
-                                    )
-                                },
-                                {
-                                    key: 'scene-urls',
-                                    name: t('scenes.blobUrl'),
-                                    minWidth: 400,
-                                    isResizable: true,
-                                    onRender: (item: IScene) => (
-                                        <ul className="cb-scene-list-blob-urls">
-                                            {item.assets.map(
-                                                (a: IAsset, idx) => {
-                                                    return (
-                                                        <li
-                                                            key={`blob-url-${idx}`}
-                                                        >
-                                                            {a.url}
-                                                        </li>
-                                                    );
-                                                }
-                                            )}
-                                        </ul>
-                                    )
-                                },
-                                {
-                                    key: 'scene-latitude',
-                                    name: t('scenes.sceneLatitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.latitude
-                                },
-                                {
-                                    key: 'scene-longitude',
-                                    name: t('scenes.sceneLongitude'),
-                                    minWidth: 100,
-                                    onRender: (item: IScene) => item.longitude
-                                },
-                                {
-                                    key: 'scene-action',
-                                    name: t('action'),
-                                    fieldName: 'action',
-                                    minWidth: 100
-                                }
-                            ]}
+                            columns={getColumns}
                             setKey="set"
                             layoutMode={DetailsListLayoutMode.justified}
                             onRenderRow={renderListRow}
@@ -354,7 +366,6 @@ const SceneList: React.FC<SceneListProps> = ({
                             }}
                         />
                     </div>
-
                     <Dialog
                         hidden={!isConfirmDeleteDialogOpen}
                         onDismiss={() => setIsConfirmDeleteDialogOpen(false)}
@@ -382,47 +393,61 @@ const SceneList: React.FC<SceneListProps> = ({
                 </>
             ) : (
                 <div className="cb-scene-list-empty">
-                    <p>{t('scenes.noScenes')}</p>
-                    <PrimaryButton
-                        className="cb-scene-list-empty-button"
-                        onClick={() => {
-                            setIsSceneDialogOpen(true);
+                    <IllustrationMessage
+                        headerText={t('scenes.noScenes')}
+                        type={'error'}
+                        width={'wide'}
+                        buttonProps={{
+                            text: t('scenes.addScene'),
+                            onClick: () => {
+                                setIsSceneDialogOpen(true);
+                            },
+                            disabled: errors[0]?.type ? true : false
                         }}
-                        disabled={errors[0]?.type ? true : false}
-                        text={t('scenes.addScene')}
+                        imageProps={{
+                            src: NoResults,
+                            height: 200
+                        }}
+                        styles={{
+                            container: {
+                                padding: 0
+                            }
+                        }}
                     />
                 </div>
             )}
-            <SceneDialog
-                adapter={adapter}
-                isOpen={isSceneDialogOpen}
-                onClose={() => {
-                    setIsSceneDialogOpen(false);
-                    setSelectedScene(null);
-                    addScene.cancelAdapter();
-                    editScene.cancelAdapter();
-                }}
-                sceneToEdit={selectedScene}
-                onEditScene={(updatedScene) => {
-                    editScene.callAdapter({
-                        config: config,
-                        sceneId: updatedScene.id,
-                        scene: updatedScene
-                    });
-                }}
-                onAddScene={(newScene) => {
-                    let newId = createGUID();
-                    const existingIds = sceneList.map((s) => s.id);
-                    while (existingIds.includes(newId)) {
-                        newId = createGUID();
-                    }
-                    addScene.callAdapter({
-                        config: config,
-                        scene: { ...newScene, id: newId }
-                    });
-                }}
-                renderBlobDropdown={renderBlobDropdown}
-            />
+            {isSceneDialogOpen && (
+                <SceneDialog
+                    adapter={adapter}
+                    isOpen={isSceneDialogOpen}
+                    onClose={() => {
+                        setIsSceneDialogOpen(false);
+                        setSelectedScene(null);
+                        addScene.cancelAdapter();
+                        editScene.cancelAdapter();
+                    }}
+                    sceneToEdit={selectedScene}
+                    onEditScene={(updatedScene) => {
+                        editScene.callAdapter({
+                            config: config,
+                            sceneId: updatedScene.id,
+                            scene: updatedScene
+                        });
+                    }}
+                    onAddScene={(newScene) => {
+                        let newId = createGUID();
+                        const existingIds = sceneList.map((s) => s.id);
+                        while (existingIds.includes(newId)) {
+                            newId = createGUID();
+                        }
+                        addScene.callAdapter({
+                            config: config,
+                            scene: { ...newScene, id: newId }
+                        });
+                    }}
+                    renderBlobDropdown={renderBlobDropdown}
+                />
+            )}
         </BaseComponent>
     );
 };

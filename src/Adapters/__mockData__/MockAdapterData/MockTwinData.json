@@ -133,5 +133,130 @@
         "$dtId": "Sweden",
         "$etag": "W/\"5709203e-7248-4c78-aa9d-0b43d4170c3c\"",
         "$metadata": { "$model": "dtmi:assetGen:Country;1" }
+    },
+    {
+        "$dtId": "Tesla",
+        "$etag": "W/\"2603b3a5-94e9-405b-9247-f08c48790258\"",
+        "CarPackage": "Basic",
+        "chargeHistory": {
+            "Seattle": {
+                "city": "Seattle",
+                "cost": 15.07,
+                "amountCharged": 20,
+                "chargeEvent": {
+                    "start": "CHARGE_START"
+                }
+            }
+        },
+        "alternateName": "Sla",
+        "BatteryCapacity": 75,
+        "BatteryLevel": 85,
+        "CarName": "Model Y",
+        "ChargeStartTime": "12:42:50",
+        "DateActivated": "2020-10-15",
+        "dateCreated": "2020-08-01T10:42:08",
+        "description": "Tesla Model Y",
+        "LastDriven": "2022-05-01T12:45:00",
+        "Mileage": 15000,
+        "name": "Model Y",
+        "SaleNumber": 10182711,
+        "WheelInformation": {
+            "leftFrontPressure": 43,
+            "rightFrontPressure": 46,
+            "leftRearPressure": 44,
+            "rightRearPressure": 47,
+            "tireSpecification": {
+                "tireModel": "Standard",
+                "tireWidth": 19
+            }
+        },
+        "address": {
+            "addressCountry": "King",
+            "addressLocality": "En",
+            "addressRegion": "WA",
+            "postalCode": "98102",
+            "postOfficeBoxNumber": "10281",
+            "streetAddress": "101 1st Ave",
+            "$metadata": {
+                "addressCountry": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "addressLocality": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "addressRegion": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "postalCode": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "postOfficeBoxNumber": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "streetAddress": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                }
+            }
+        },
+        "location": {
+            "coordinates": "-101, 302",
+            "type": "Point",
+            "$metadata": {
+                "coordinates": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "type": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                }
+            }
+        },
+        "$metadata": {
+            "$model": "dtmi:com:cocrowle:teslamodely;1",
+            "CarPackage": {
+                "lastUpdateTime": "2022-04-26T00:57:54.2897135Z"
+            },
+            "chargeHistory": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "alternateName": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "BatteryCapacity": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "BatteryLevel": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "CarName": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "ChargeStartTime": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "DateActivated": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "dateCreated": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "description": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "LastDriven": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "Mileage": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "name": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "SaleNumber": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            },
+            "WheelInformation": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+            }
+        }
     }
 ]

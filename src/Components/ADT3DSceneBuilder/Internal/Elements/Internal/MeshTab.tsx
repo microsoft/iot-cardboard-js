@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
@@ -23,22 +23,37 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
         SceneBuilderContext
     );
 
+    const compareListItems = useCallback(() => {
+        if (elementToEdit.objectIDs.length === listItems.length) {
+            return false;
+        } else {
+            return true;
+        }
+    }, [elementToEdit.objectIDs.length, listItems.length]);
+
     // generate the list of items to show
     useEffect(() => {
-        const listItems = getListItems(
-            elementToEdit.objectIDs,
-            setColoredMeshItems,
-            objectColor
-        );
-        setListItems(listItems);
-    }, [elementToEdit, setColoredMeshItems, objectColor]);
+        if (compareListItems()) {
+            const listItems = getListItems(
+                elementToEdit.objectIDs,
+                setColoredMeshItems,
+                objectColor
+            );
+            setListItems(listItems);
+        }
+    }, [
+        elementToEdit.objectIDs,
+        setColoredMeshItems,
+        objectColor,
+        compareListItems
+    ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             {elementToEdit.objectIDs.length === 0 ? (
                 <div className={commonPanelStyles.noDataText}>
-                    {t('3dSceneBuilder.noMeshAddedText')}
+                    {t('3dSceneBuilder.elementFormMeshTab.noDataMessage')}
                 </div>
             ) : (
                 <CardboardList<string>
@@ -46,7 +61,7 @@ const MeshTab: React.FC<MeshTabProps> = ({ elementToEdit }) => {
                     listKey={`mesh-list`}
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(

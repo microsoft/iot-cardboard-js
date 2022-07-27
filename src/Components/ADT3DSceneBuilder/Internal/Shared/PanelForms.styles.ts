@@ -5,6 +5,7 @@ import {
     mergeStyleSets,
     Theme
 } from '@fluentui/react';
+import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
 import { leftPanelPivotStyles } from '../Shared/LeftPanel.styles';
 
 const classPrefix = 'form';
@@ -15,7 +16,7 @@ const classNames = {
     pivot: `${classPrefix}-pivot`
 };
 export const getPanelFormStyles = memoizeFunction(
-    (_theme: Theme, formHeaderHeight: number) => {
+    (_theme: Theme, formHeaderHeight: number, shouldPadContent = false) => {
         const breadcrumbHeight = '40px';
         return mergeStyleSets({
             root: [
@@ -30,17 +31,19 @@ export const getPanelFormStyles = memoizeFunction(
             ],
             content: [
                 classNames.content,
+                ...(shouldPadContent ? [leftPanelBuilderBlock] : []),
                 {
                     display: 'flex',
                     flex: 1,
                     flexDirection: 'column',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    position: 'relative'
                 } as IStyle
             ],
             header: [
                 classNames.header,
                 {
-                    padding: '0 0 4px'
+                    padding: '0 16px 4px'
                 } as IStyle
             ],
             pivot: [

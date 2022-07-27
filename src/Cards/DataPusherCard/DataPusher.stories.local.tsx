@@ -1,7 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import { ADTAdapter } from '../../Adapters';
-import AssetSimulation from '../../Models/Classes/Simulations/AssetSimulation';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import DataPusherCard from './DataPusherCard';
 
@@ -32,7 +31,6 @@ export const DataPusher = (_args, { globals: { theme, locale } }) => {
                         )
                     )
                 }
-                Simulation={AssetSimulation}
                 initialInstanceUrl={authenticationParameters.adt.hostUrl}
                 disablePastEvents={true}
             />

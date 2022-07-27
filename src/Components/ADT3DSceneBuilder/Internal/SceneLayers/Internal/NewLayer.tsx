@@ -8,8 +8,8 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { LayerDialogMode } from '../SceneLayers';
 import { sectionHeaderStyles } from '../SceneLayers.styles';
+import { LayerDialogMode } from '../SceneLayers.types';
 import PrimaryActionCalloutContents from './PrimaryActionCalloutContents';
 
 interface INewLayer {
@@ -102,7 +102,9 @@ const NewLayer: React.FC<INewLayer> = ({
                 {layerDraft.behaviorIDs.length > 0 ? (
                     <div>
                         <Text variant="medium" styles={sectionHeaderStyles}>
-                            {t('sceneLayers.behaviorsOnThisLayer')}
+                            {t('sceneLayers.behaviorsListTitle', {
+                                count: behaviorListItems.length
+                            })}
                         </Text>
                         <CardboardList
                             items={behaviorListItems}

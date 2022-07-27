@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from '@fluentui/react/lib/Text';
+import { Text } from '@fluentui/react';
 import './FormSection.scss';
 
 const FormSection = ({ title, children }) => (

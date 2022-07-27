@@ -3,7 +3,10 @@ import {
     KeyValuePairAdapterData,
     TsiClientAdapterData
 } from '../Models/Classes';
-import ADTModelData from '../Models/Classes/AdapterDataClasses/ADTModelData';
+import ADTModelData, {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
@@ -26,12 +29,23 @@ import {
     ComponentErrorType,
     DtdlInterface,
     IADTTwin,
-    IAliasedTwinProperty,
     IBlobAdapter,
-    IBlobFile,
+    IStorageBlob,
     IGetKeyValuePairsAdditionalParameters,
+    IModelledPropertyBuilderAdapter,
     IPropertyInspectorAdapter,
-    linkedTwinName
+    IAzureResource,
+    PRIMARY_TWIN_NAME,
+    IADTInstance,
+    IAzureUserSubscriptions,
+    AzureResourceTypes,
+    AzureResourceProviderEndpoints,
+    AzureAccessPermissionRoles,
+    MissingAzureRoleDefinitionAssignments,
+    IAzureRoleAssignment,
+    BlobStorageServiceCorsAllowedOrigins,
+    BlobStorageServiceCorsAllowedMethods,
+    BlobStorageServiceCorsAllowedHeaders
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -43,26 +57,35 @@ import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
+import mockSubscriptionData from './__mockData__/MockAdapterData/MockSubscriptionData.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
+import {
+    AzureMissingRoleDefinitionsData,
+    AzureResourcesData,
+    AzureRoleAssignmentsData
+} from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     getModelContentType,
+    parseDTDLModelsAsync,
     validate3DConfigWithSchema
 } from '../Models/Services/Utils';
-import BlobsData from '../Models/Classes/AdapterDataClasses/BlobsData';
+import {
+    StorageBlobsData,
+    StorageBlobServiceCorsRulesData
+} from '../Models/Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
-    IBehavior,
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
-import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
+import { AzureSubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
+import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 
 export default class MockAdapter
     implements
@@ -71,14 +94,15 @@ export default class MockAdapter
         ITsiClientChartDataAdapter,
         IBlobAdapter,
         Partial<IADTAdapter>,
-        IPropertyInspectorAdapter {
+        IPropertyInspectorAdapter,
+        IModelledPropertyBuilderAdapter {
     private mockData = null;
     private mockError = null;
-    private mockTwins: IADTTwin[] = null;
-    private mockModels: DtdlInterface[] = null;
+    public mockTwins: IADTTwin[] = null;
+    public mockModels: DtdlInterface[] = null;
     private networkTimeoutMillis;
     private isDataStatic;
-    private scenesConfig: I3DScenesConfig;
+    public scenesConfig: I3DScenesConfig;
     private mockEnvironmentHostName =
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
@@ -129,6 +153,29 @@ export default class MockAdapter
     async resetSceneConfig() {
         return new AdapterResult<ADTScenesConfigData>({
             result: null,
+            errorInfo: null
+        });
+    }
+
+    async getModelIdFromTwinId(twinId: string) {
+        const twinResult = await this.getADTTwin(twinId);
+        const twinData = twinResult.getData();
+        const modelId = twinData.$metadata.$model;
+
+        return new AdapterResult<ADTTwinToModelMappingData>({
+            result: new ADTTwinToModelMappingData({
+                twinId,
+                modelId
+            }),
+            errorInfo: null
+        });
+    }
+
+    async getAllAdtModels() {
+        const rawModels = (this.mockModels as any) as DtdlInterface[];
+        const parsedModels = await parseDTDLModelsAsync(rawModels);
+        return new AdapterResult<ADTAllModelsData>({
+            result: new ADTAllModelsData({ rawModels, parsedModels }),
             errorInfo: null
         });
     }
@@ -464,17 +511,17 @@ export default class MockAdapter
     async putBlob(file: File) {
         try {
             await this.mockNetwork();
-            const mockBlobFile: IBlobFile = {
+            const mockBlobFile: IStorageBlob = {
                 Name: file.name,
                 Path: `https://mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net/${file.name}`,
                 Properties: { 'Content-Length': file.size }
             };
-            return new AdapterResult<BlobsData>({
-                result: new BlobsData([mockBlobFile]),
+            return new AdapterResult<StorageBlobsData>({
+                result: new StorageBlobsData([mockBlobFile]),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<BlobsData>({
+            return new AdapterResult<StorageBlobsData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
@@ -509,7 +556,7 @@ export default class MockAdapter
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         // get scene based on id
-        const scene = config.configuration.scenes?.find(
+        const scene = config?.configuration?.scenes?.find(
             (scene) => scene.id === sceneId
         );
         let modelUrl = null;
@@ -555,8 +602,10 @@ export default class MockAdapter
 
                                 if (element) {
                                     // get primary twin
-                                    twins[linkedTwinName] = this.mockTwins.find(
-                                        (t) => t.$dtId === element.linkedTwinID
+                                    twins[
+                                        PRIMARY_TWIN_NAME
+                                    ] = this.mockTwins.find(
+                                        (t) => t.$dtId === element.primaryTwinID
                                     ) || {
                                         $dtId: 'machineID1',
                                         InFlow: 300,
@@ -635,31 +684,6 @@ export default class MockAdapter
         }
     }
 
-    async getADTInstances() {
-        const mockEnvironments = [
-            {
-                name: 'mockADTInstanceResourceName',
-                hostName:
-                    'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net',
-                resourceId: '12345',
-                location: 'wcus'
-            }
-        ];
-        try {
-            await this.mockNetwork();
-
-            return new AdapterResult({
-                result: new ADTInstancesData(mockEnvironments),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<ADTInstancesData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
     getBlobContainerURL = () => {
         return this.mockContainerUrl;
     };
@@ -676,88 +700,153 @@ export default class MockAdapter
         this.mockEnvironmentHostName = hostName;
     }
 
-    async getTwinsForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded
-    ): Promise<Record<string, any>> {
-        // get the element ids
-        const mappingIds = ViewerConfigUtility.getMappingIdsForBehavior(
-            behavior
-        );
+    async getSubscriptions() {
+        const mockSubscriptions: IAzureUserSubscriptions = {
+            value: mockSubscriptionData
+        };
+        try {
+            await this.mockNetwork();
 
-        // cycle through mapping ids to get twins for behavior and scene
-        const twins = {};
-        for (const id of mappingIds) {
-            const element = elementsInBehavior?.find(
-                (element) =>
-                    element.type === ElementType.TwinToObjectMapping &&
-                    element.id === id
-            ) as ITwinToObjectMapping;
+            return new AdapterResult({
+                result: new AzureSubscriptionData(mockSubscriptions),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<AzureSubscriptionData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
 
-            // get primary twin
-            try {
-                const linkedTwin = await this.getADTTwin(element.linkedTwinID);
-                twins[`${linkedTwinName}.` + element.linkedTwinID] =
-                    linkedTwin.result?.data;
-            } catch (err) {
-                console.error(err);
-            }
-
-            if (isTwinAliasesIncluded && behavior.twinAliases) {
-                // get aliased twins if exist
-                for (let i = 0; i < behavior.twinAliases.length; i++) {
-                    const twinAliasInBehavior = behavior.twinAliases[i];
-                    if (element.twinAliases?.[twinAliasInBehavior]) {
-                        try {
-                            const twin = await this.getADTTwin(
-                                element.twinAliases[twinAliasInBehavior]
-                            );
-                            const aliasedKey = `${twinAliasInBehavior}.${element.twinAliases[twinAliasInBehavior]}`; // construct keys for returned twins set consisting of twin alias + twin id
-                            if (!twins[aliasedKey]) {
-                                twins[aliasedKey] = twin.result?.data;
-                            }
-                        } catch (err) {
-                            console.error(err);
-                        }
-                    }
+    async getResources(
+        resourceType: AzureResourceTypes,
+        _providerEndpoint: string
+    ) {
+        const mockContainerResources: Array<IAzureResource> = [
+            {
+                name: 'container123',
+                id:
+                    '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container123',
+                type: AzureResourceTypes.Container,
+                properties: {
+                    publicAccess: 'Container'
                 }
             }
+        ];
+        const mockADTInstanceResources: Array<IAzureResource> = [
+            {
+                name: 'adtInstance123',
+                id:
+                    '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
+                type: AzureResourceTypes.ADT,
+                location: 'westus2',
+                properties: {
+                    hostName:
+                        'https://adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
+                }
+            }
+        ];
+        if (resourceType === AzureResourceTypes.ADT) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockADTInstanceResources),
+                errorInfo: null
+            });
+        } else if (resourceType === AzureResourceTypes.Container) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockContainerResources),
+                errorInfo: null
+            });
+        } else {
+            return new AdapterResult({
+                result: null,
+                errorInfo: null
+            });
         }
-        return twins;
     }
 
-    async getTwinPropertiesWithAliasesForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded
-    ): Promise<IAliasedTwinProperty[]> {
-        const propertiesWithAlias = await this.getTwinPropertiesForBehaviorWithFullName(
-            behavior,
-            elementsInBehavior,
-            isTwinAliasesIncluded
-        );
-        return propertiesWithAlias.map((properyWithAlias) => {
-            const splitted = properyWithAlias.split('.');
-            return { alias: splitted[0], property: splitted[1] };
-        });
+    async getADTInstances() {
+        try {
+            const adtInstanceResourcesResult = await this.getResources(
+                AzureResourceTypes.ADT,
+                AzureResourceProviderEndpoints.ADT
+            );
+            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
+            const digitalTwinsInstances: Array<IADTInstance> = adtInstanceResources.map(
+                (adtInstanceResource) =>
+                    ({
+                        id: adtInstanceResource.id,
+                        name: adtInstanceResource.name,
+                        hostName: adtInstanceResource.properties['hostName'],
+                        location: adtInstanceResource.location
+                    } as IADTInstance)
+            );
+
+            return new AdapterResult({
+                result: new ADTInstancesData(digitalTwinsInstances),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
-    async getTwinPropertiesForBehaviorWithFullName(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded
-    ): Promise<string[]> {
-        const twins = await this.getTwinsForBehavior(
-            behavior,
-            elementsInBehavior,
-            isTwinAliasesIncluded
-        );
-        return ViewerConfigUtility.getPropertyNamesWithAliasFromTwins(twins);
+    async getMissingStorageContainerAccessRoles(_containerURLString?: string) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new AzureMissingRoleDefinitionsData({
+                    alternated: [
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ]
+                    ]
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<AzureMissingRoleDefinitionsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async addMissingRolesToStorageContainer(
+        _missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+    ) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new AzureRoleAssignmentsData([
+                    {
+                        properties: {
+                            roleDefinitionId:
+                                '/subscriptions/subscriptionId123/providers/Microsoft.Authorization/roleDefinitions/00000000-0000-0000-0000-000000000000'
+                        },
+                        id:
+                            '/subscriptions/subscriptionId123/providers/Microsoft.Authorization/roleAssignments/roleAssignmentId123',
+                        type: 'Microsoft.Authorization/roleAssignments',
+                        name: 'roleAssignmentId123'
+                    } as IAzureRoleAssignment
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<AzureRoleAssignmentsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 
     async getContainerBlobs() {
-        const mockBlobs: Array<IBlobFile> = [
+        const mockBlobs: Array<IStorageBlob> = [
             {
                 Name: 'BasicObjects.gltf',
                 Path:
@@ -781,11 +870,11 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new BlobsData(mockBlobs),
+                result: new StorageBlobsData(mockBlobs),
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<BlobsData>({
+            return new AdapterResult<StorageBlobsData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
@@ -800,5 +889,44 @@ export default class MockAdapter
         this.mockTwinPropertiesMap['BoxA'] = {
             Volume: 237
         };
+    }
+
+    async getBlobServiceCorsProperties() {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new StorageBlobServiceCorsRulesData([
+                    {
+                        AllowedMethods: BlobStorageServiceCorsAllowedOrigins,
+                        AllowedOrigins: BlobStorageServiceCorsAllowedMethods,
+                        AllowedHeaders: BlobStorageServiceCorsAllowedHeaders,
+                        MaxAgeInSeconds: 0
+                    }
+                ]),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async setBlobServiceCorsProperties() {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new StorageBlobServiceCorsRulesData(''),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
     }
 }

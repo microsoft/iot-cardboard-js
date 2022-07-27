@@ -1,18 +1,23 @@
 
 module.exports = (componentName) => ({
-    content: `import { memoizeFunction, mergeStyleSets, IStyle } from '@fluentui/react';
+    content: `import {
+        I${componentName}StyleProps,
+        I${componentName}Styles
+    } from './${componentName}.types';
+    
+    export const classPrefix = 'cb-${componentName.toLowerCase()}';
+    const classNames = {
+        root: \`\${classPrefix}-root\`
+    };
+    export const getStyles = (
+        _props: I${componentName}StyleProps
+    ): I${componentName}Styles => {
+        return {
+            root: [classNames.root],
+            subComponentStyles: {}
+        };
+    };
 
-export const ${componentName[0].toLowerCase() + componentName.slice(1)}ClassPrefix = 'cb-${componentName.toLowerCase()}';
-
-const classNames = {
-    foo: \`\${${componentName[0].toLowerCase() + componentName.slice(1)}ClassPrefix}-foo\`
-};
-
-export const getStyles = memoizeFunction(() => {
-    return mergeStyleSets({
-        foo: [classNames.foo, {} as IStyle] 
-    });
-});
 `,
     extension: `.styles.ts`
 });

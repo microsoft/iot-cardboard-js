@@ -4,9 +4,11 @@
   "preview": "Előnézet",
   "loading": "Berakás...",
   "label": "Címke",
+  "labelPlaceholder": "Címke megadása",
   "min": "Min",
   "max": "Max",
   "noData": "Nincs adat",
+  "noName": "Nincs név",
   "error": "Hiba az adatok beolvasása közben",
   "unsupportedFileType": "Nem támogatott fájltípus",
   "selectProperties": "Tulajdonságok kiválasztása",
@@ -14,6 +16,7 @@
   "theme": "Téma",
   "hierarchy": "Hierarchia",
   "displayName": "Megjelenítendő név",
+  "displayNamePlaceholder": "Megjelenítendő név megadása",
   "realTimeStatus": "Valós idejű állapot",
   "emptyCompositeCard": "Üres kompozit kártya",
   "compositeCardWithErrors": "Összetett kártya hibahatárokkal",
@@ -63,7 +66,11 @@
   "editTwin": "Iker szerkesztése",
   "confirmDeletion": "Törlés megerősítése",
   "confirmDeletionDesc": "Biztos vagy benne? Ezt a műveletet nem lehet visszavonni.",
+  "discardChanges": "Elveti a nem mentett módosításokat?",
+  "discard": "Eldob",
+  "discardChangesDesc": "Biztos vagy benne? Ezt a műveletet nem lehet visszavonni.",
   "action": "Akció",
+  "actions": "Műveletek",
   "name": "Név",
   "title": "Cím",
   "enterTitle": "Cím megadása",
@@ -86,9 +93,10 @@
   "globe": "Földgömb",
   "list": "Lista",
   "selectFile": "Fájl kijelölése",
-  "uploadFile": "Fájl feltöltése",
   "uploadingFile": "Fájl feltöltése...",
   "twinId": "Ikerazonosító",
+  "active": "Aktív",
+  "invalidValue": "Érvénytelen érték",
   "errors": {
     "errorBoundary": "Hibahatár",
     "unkownError": "Ismeretlen hiba történt",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Egymást átfedő tartományokat észleltek. Ellenőrizze, hogy minden értéktartomány különbözik-e egymástól. A min értékek tartalmazzák, a Max értékek kizárólagosak.",
-    "addValueRangeButtonText": "Értéktartomány hozzáadása",
+    "overlapDetectedMessage": "Egymást átfedő tartományokat észleltek. Ellenőrizze, hogy minden tartomány külön-e. A min értékek tartalmazzák, a Max értékek kizárólagosak.",
+    "addValueRangeButtonText": "Tartomány hozzáadása",
     "rangeValueInvalidMessage": "Az értékeknek numerikusnak, \"-Végtelennek\" vagy \"Végtelennek\" kell lenniük.",
-    "rangeInvalidMessage": "A min értéknek kisebbnek kell lennie, mint (<) Max érték",
-    "colorButtonAriaLabel": "Szín kiválasztása az értéktartományhoz",
-    "deleteValueRangeTitle": "Értéktartomány törlése",
+    "rangeInvalidMessage": "Ennek a min értéknek kisebbnek kell lennie, mint (<) maximális érték",
+    "colorButtonAriaLabel": "Szín kiválasztása a tartományhoz",
+    "deleteValueRangeTitle": "Tartomány törlése",
     "negativeInfinityIconMessage": "Érték beállítása -Végtelenre",
     "positiveInfinityIconMessage": "Érték beállítása Végtelenre"
   },
@@ -150,21 +158,32 @@
     "simulating": "Szimuláló",
     "liveStatus": "Csomagszám: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} ikrek frissítése sikeresen megtörtént",
     "generateEnvironmentDescription": "Push modellek, ikrek, és a kapcsolatok, hogy benépesítse a környezetet",
-    "simulateDescription": "Események leküldése a környezetbe"
+    "simulateDescription": "Események leküldése a környezetbe",
+    "pusherType": "Szimuláció típusa",
+    "robotArms": "Robotkarok",
+    "dairyProduction": "Tejüzem"
   },
   "scenes": {
     "noScenes": "Nincsenek 3D-s jelenetei, adjon hozzá egy újat az induláshoz.",
     "addScene": "3D jelenet hozzáadása",
-    "sceneLatitude": "Szélesség",
-    "sceneLongitude": "Hosszúság",
+    "latitude": "Szélesség",
+    "longitude": "Hosszúság",
+    "sampleLatitude": "pl.: 6.4511366",
+    "sampleLongitude": "pl.: 3.3883963",
+    "longitudeErrorMessage": "A bemeneti értéknek -180 és 180 fokon belül kell lennie.",
+    "latitudeErrorMessage": "A bemeneti értéknek -90 és 90 fokon belül kell lennie",
+    "showOnGlobe": "Show a világon",
     "blobUrl": "3D fájl blob URL-címe",
-    "addDialogTitle": "Új jelenet létrehozása",
-    "addDialogSubText": "A jelenet összekapcsolása a 3D-s fájl URL-címével a blobtárolóban",
-    "editDialogTitle": "Jelenet szerkesztése",
-    "editDialogSubText": "A jelenet nevének és csatolt 3D-fájljának szerkesztése",
+    "dialogTitleCreate": "Új jelenet létrehozása",
+    "dialogSubTitle": "Meglévő 3D-s fájl megcélzása URL-címen keresztül, vagy új fájl feltöltése közvetlenül a tárolóba",
+    "dialogTitleEdit": "A 3D-s jelenet szerkesztése",
     "3dFileSelectionMode": "3D fájlkijelölési mód",
-    "fromContainer": "Tárolóból",
-    "3dFileAsset": "3D fájleszköz",
+    "sceneNamePlaceholder": "Jelenet nevének megadása",
+    "sceneDescriptionPlaceholder": "Jelenetleírás megadása",
+    "tabNameFromContainer": "Fájl kiválasztása",
+    "tabNameUploadFile": "Fájl feltöltése",
+    "3dFileAsset": "3D fájl csatolása",
+    "description": "Leírás",
     "overwriteIfExist": "Felülírás, ha a fájl már létezik",
     "fileExistsErrorMessage": "Egy ilyen nevű fájl már létezik a tárolóban, kiválaszthatja a fájlt a tárolóból, vagy felülírhatja."
   },
@@ -312,15 +331,19 @@
     "viewMode": "Nézet mód",
     "enterBlobUrl": "Adja meg az Azure Storage-tároló blob URL-címét",
     "home": "Otthon",
-    "globe": "Földgömb"
+    "globe": "Földgömb",
+    "globeView": "Földgömb nézet",
+    "listView": "Listanézet",
+    "breadcrumbAriaLabel": "Zsemlemorzsa gombként megjelenített elemekkel",
+    "breadcrumbOverflowAriaLabel": "További linkek"
   },
   "layersDropdown": {
     "placeholder": "Nincsenek kijelölt rétegek",
-    "unlayeredBehaviors": "Fedetlen viselkedés",
-    "unlayered": "Fedetlen",
     "title": "Rétegek kijelölése",
     "selectAll": "Az összes kijelölése",
-    "selectNone": "Az összes kijelölésének megszüntetése"
+    "selectNone": "Az összes kijelölésének megszüntetése",
+    "unlayeredItemListItemDisplayName": "Alapértelmezett réteg",
+    "unlayeredItemCollapsedDisplayName": "Alapértelmezett"
   },
   "sceneLayers": {
     "noBehaviors": "Nincs viselkedés",
@@ -329,7 +352,7 @@
     "noneSelected": "Nincsenek kijelölt rétegek",
     "newLayer": "Új réteg",
     "layerName": "Réteg neve",
-    "behaviorsOnThisLayer": "Viselkedés ezen a rétegen",
+    "behaviorsListTitle": "Viselkedés ({{count}})",
     "layerNamePlaceholder": "Rétegnév megadása",
     "createNewLayer": "Új réteg létrehozása",
     "editLayer": "Réteg szerkesztése",
@@ -337,7 +360,10 @@
     "layers": "Rétegek",
     "noLayersFound": "Még nincsenek rétegeid!",
     "noLayersDescription": "A rétegek olyanok, mint a viselkedéscímkék. Kezdje azzal, hogy itt létrehoz egy réteget.",
-    "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések."
+    "noBehaviorsOnLayer": "Ezen a rétegen nincsenek viselkedések.",
+    "deleteConfirmationTitle": "Törli ezt a réteget?",
+    "deleteConfirmationMessage": "Ez véglegesen eltávolítja a réteget és a kapcsolódó viselkedéseket az összes Digital Twins környezetből.",
+    "infoCalloutContent": "A rétegek feladatalapú csoportosítások, amelyek lehetővé teszik a fogyasztók számára a viselkedések szűrését. A rétegek a jelenetek között léteznek."
   },
   "3dSceneBuilder": {
     "elements": "Elemek",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "Keresési viselkedések",
     "modifyElement": "Elem módosítása",
     "manageTargetElements": "Célelemek kezelése",
-    "selectBehaviorElements": "Válassza ki a kívánt viselkedés elemeit",
+    "elementsListInstructions": "Válassza ki a viselkedés vizualizációjában szerepeltetni kívánt elemeket",
     "multiSelectElements": "Többszörös kijelölési elemek",
-    "updateBehavior": "Frissítési viselkedés",
     "removeBehaviorFromScene": "Viselkedés eltávolítása a jelenetből",
     "removeBehaviorFromAllScenes": "Viselkedés eltávolítása az összes jelenetből",
     "manageSceneLayer": "Jelenetréteg kezelése",
-    "createBehavior": "Viselkedés létrehozása",
-    "modifyBehavior": "Viselkedés módosítása",
     "addBehaviorButton": "Viselkedés hozzáadása",
     "addBehavior": "Viselkedés hozzáadása",
     "searchBehaviors": "Keresési viselkedés",
     "noAvailableBehaviors": "Nincs elérhető viselkedés",
     "removeBehavior": "Viselkedés eltávolítása ebből az elemből",
-    "addElementDetails": "Elem részleteinek hozzáadása",
     "noBehaviorsOnElement": "Nincs viselkedés hozzárendelve ehhez az elemhez",
     "noElementsText": "Még nem hoztak létre elemeket",
-    "noResults": "Nincs eredmény",
+    "noResults": "Nem található eredmény",
     "behaviorsInSceneTitle": "Ebben a jelenetben ({{count}})",
     "createWithElement": "Létrehozás a következővel: {{element}}",
     "elementActions": "Elemműveletek",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Biztos, hogy el szeretné távolítani ezt a viselkedést az összes jelenetből? Ezt a műveletet nem lehet visszavonni.",
     "newElement": "Új elem",
     "newBehavior": "Új viselkedés",
+    "modifyBehavior": "Viselkedés szerkesztése",
+    "createBehavior": "Viselkedés létrehozása",
+    "updateBehavior": "Frissítési viselkedés",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Érvénytelenít",
     "Done": "Kész",
     "edit": "{{elementDisplayName}} szerkesztése",
     "editBehavior": "Viselkedés szerkesztése",
-    "searchTwinId": "Keresés ikerazonosítóban...",
+    "searchTwinId": "Keresés Twin ID ($dtId)...",
     "noTwinsFound": "Nem található ikerpár (a keresés megkülönbözteti a kis- és nagybetűket)",
     "useNonExistingTwinId": "Nincs pontos egyezés, használat",
     "addBehaviorToScene": "Viselkedés hozzáadása a jelenethez",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Csatolt ikerpár",
-    "linkedTwinInputInfo": "Adja meg az ikerazonosítót ($dtId) az elemhez való csatoláshoz (kis- és nagybetűket megkülönböztető)",
-    "noMeshAddedText": "Még nincs háló hozzáadása, kérjük, válasszon hálókat a 3D-s megjelenítőben",
+    "primaryTwin": "Elsődleges ikerpár",
     "meshes": "Rácsvonalak",
     "behaviorElementsDropdownLabel": "Célelem",
     "behaviorElementsDropdownPlaceholder": "Elem kijelölése",
+    "behaviorForm": {
+      "formSubTitle": "A viselkedés olyan vizuális jelek, amelyek meghatározott körülmények között fordulnak elő – például meghatározott időközönként vagy adatküszöbökben."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Jelvény színe",
+      "colorPickerLabel": "Szín",
       "expressionLabel": "Eseményindító kifejezése",
-      "expressionPlaceholder": "Kifejezés megadása (pl. LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "Jelvény ikon",
-      "notice": "Ez a viselkedés csak akkor lesz engedélyezve, ha az alábbi eseményindító kifejezés igaz értéket ad ki.",
-      "notificationLabel": "Értesítés szövege",
-      "notificationPlaceholder": "A további környezethez tartozó riasztással megjelenítendő szöveg."
+      "expressionPlaceholder": "Kifejezés megadása (pl. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Ikon",
+      "tabDescription": "A figyelmeztetések – a szöveggel kísért ikonok – segítenek felhívni a figyelmet a kritikus adatfeltételekre. Az alábbiakban kifejezésekkel riasztásokat válthat ki a vizualizációban.",
+      "notificationLabel": "Forgatókönyv leírása",
+      "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív.",
+      "notificationLabelDescriptionPart1": "Az ikertulajdonságokat sablon karakterlánc szintaxissal kell körülvenni.",
+      "notificationPlaceholder": "Leírás megadása",
+      "notificationLabelDescriptionPart2": "Pl. ${PrimaryTwin.DisplayName} karbantartást igényel"
     },
     "behaviorStatusForm": {
-      "notice": "A viselkedés célelemeinek újraszínezéséhez használjon egyetlen tulajdonságot.",
-      "stateItemLabel": "Állapot {{index}}"
+      "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",
+      "stateItemLabel": "Állapot {{index}}",
+      "propertyExpressionTooltipContent": "Használjon egyéni kifejezést összetettebb kifejezésekhez, amelyek több tulajdonságot használnak."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget hozzáadása",
+      "noData": "Még nem állított be widgeteket",
+      "tabDescription": "Az elem környezetében megjelenő widgetek meghatározása"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Ez a mező megkülönbözteti a kis- és nagybetűket",
+      "twinNameDescription": "Jelöljön ki egy digitális ikerpárt, amelyhez csatolni szeretné ezt az elemet. A csatolt iker tulajdonságait a kapcsolódó viselkedésekhez fogja használni.",
+      "meshTabName": "Rácsvonalak",
+      "behaviorsTabName": "Viselkedésmódok",
+      "twinTabName": "Egyéb ikrek",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Válassza ki a kapcsolódó hálószemeket az elemhez tartozó 3D modellből."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Az elem viselkedésének hozzárendelése vagy módosítása. Később bármikor hozzáadhat viselkedést."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Ezek az ikrek az elsődleges ikertestvérén túli adatokat tartalmaznak, amelyeket az állapotodban, a riasztásokban és a widgetekben használhatsz a viselkedésedhez.",
+      "noDataMessage": "Amikor további ikreket hoz létre az elem viselkedésében, itt jelennek meg."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget könyvtár",
+      "dialogSubTitle": "Fedezze fel a widgeteket, és jelenítsen meg adatvezérelt betekintéseket az eleméhez."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Mértékegység",
+      "unitOfMeasurePlaceholder": "Pl. mérföld/óra",
+      "linkUrlDescription": "Írjon be egy URL-címet, és adjon hozzá ikertulajdonságokat paraméterként – például ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Ingatlan",
@@ -422,95 +484,99 @@
       "propertyNotFound": "A viselkedés ikrein nem található tulajdonság",
       "propertyDropdownPlaceholder": "Ikertulajdonság kiválasztása"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Tulajdonságkifejezés",
+      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
+      "singleProperty": "Egyetlen tulajdonság",
+      "customExpression": "Egyéni (speciális)",
+      "dropdownPlaceholder": "Tulajdonság kijelölése",
+      "toggleLabel": "Kifejezésmód",
+      "none": "Egyik sem",
+      "clearButtonText": "Világos"
+    },
     "numericExpressionPlaceholder": "Számmá kiértékelt kifejezés megadása",
     "behaviorId": "Viselkedésazonosító",
-    "widgetLibrary": "Widget könyvtár",
-    "exploreWidgets": "Fedezze fel widgetjeinket, és adjon hozzá egy további információréteget a 3D-s jelenetéhez.",
-    "addWidget": "Widget hozzáadása",
     "newWidget": "Új widget",
+    "addWidget": "Widget hozzáadása",
     "createWidget": "Widget létrehozása",
     "updateWidget": "Widget frissítése",
     "editWidget": "Widget szerkesztése",
     "removeWidget": "Widget eltávolítása",
     "noWidgets": "Nem található widget",
     "modifyWidget": "Widget módosítása",
-    "noWidgetsConfigured": "Nincs konfigurálva widget",
-    "unitOfMeasure": "Mértékegység",
     "expression": "Kifejezés",
     "warningBreakPointToggleLabel": "Színtörési pont engedélyezése",
     "warningBreakPointLabel": "Figyelmeztető színtörési pont",
-    "linkWidgetUrlDescription": "A hivatkozás widget URL-címe támogatja a JavaScript sablon karakterlánc-formázását, például: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Riasztási viselkedés",
-      "statusBehavior": "Állapot viselkedése"
-    },
+    "linkWidgetUrlDescription": "A hivatkozás widget URL-címe támogatja a JavaScript-sablon karakterlánc-formázását, például: ${PrimaryTwin.property}",
     "notImplemented": "Nincs megvalósítva",
-    "noLinkedTwinProperties": "Nincs megjelenítendő csatolt ikertulajdonság",
+    "noPrimaryTwinProperties": "Nincsenek megjelenítendő elsődleges ikertulajdonságok",
     "twinAlias": {
       "title": "Iker alias",
-      "titlePlural": "Iker álnevek",
-      "aliasedTwin": "Aliasozott ikerpár",
-      "aliasedTwins": "Álnevesített ikrek",
-      "add": "Iker alias hozzáadása",
-      "noTwinAliasesAdded": "Még nincs két alias hozzáadva",
-      "new": "Új iker alias",
-      "edit": "Iker alias szerkesztése",
-      "create": "Iker alias létrehozása",
-      "update": "Iker alias frissítése",
-      "modify": "Iker alias módosítása",
-      "search": "Keresés iker aliasokban",
+      "calloutDescription": "A kiválasztott elemek ikertulajdonságok uniója",
+      "add": "Iker hozzáadása",
+      "new": "Új ikerpár",
+      "edit": "Iker szerkesztése",
+      "create": "Iker létrehozása",
+      "update": "Iker frissítése",
+      "modify": "Iker módosítása",
+      "search": "Keresés ikrek",
       "searchProperties": "Keresési tulajdonságok",
       "noTwinAliasesToAdd": "Nincs hozzáadandó iker alias",
       "removeFromBehavior": "Iker alias eltávolítása a viselkedésből",
       "removeFromElement": "Iker alias eltávolítása az elemből",
       "commonProperties": "Gyakori tulajdonságok",
       "twinAliasForm": {
-        "alias": "Álnév",
-        "elementTwinMappings": "Elem ikerleképezései",
+        "aliasNameLabel": "Ikernév",
+        "aliasNameTooltipContent": "Nem változtathatod meg ennek az ikernek a nevét a teremtés után.",
+        "mappingSectionHeader": "Elemek ikerleképezései",
+        "mappingSectionSubHeader": "Minden elemhez válassza ki azt a digitális ikerpárt, amelyre ez az iker utal.",
         "elementTwinMappingsNotExist": "Nincs elérhető leképezés, először adjon hozzá elemeket a viselkedéshez."
       },
+      "tabDescriptionPart1": "Minden elem felhasználja az elsődleges ikeradatait. Adjon hozzá más ikreket, amelyekből az elemek kihasználhatják az adatokat.",
+      "tabDescriptionPart2": "Tekintse meg a megcélzott elemek közötti közös tulajdonságokat, és hivatkozzon ezekre a tulajdonságokra az elsődleges iker vagy a kifejezésekben szereplő többi ikerpár használatával. ",
+      "linkedTwinListHeader": "Csatolt ikrek ({{count}})",
       "descriptions": {
-        "twins": "Az ikrek hozzáférést biztosítanak a kifejezésekben használható tulajdonságokhoz.",
-        "linkedTwin": "A LinkedTwin tartalmazza az összes közös tulajdonságot a célelemekhez kapcsolódó ikrek között.",
-        "aliasChangeNotAllowed": "Az alias módosítása a létrehozás után nem engedélyezett.",
-        "commonProperties": "A kiválasztott elemek kapcsolt ikertulajdonságok uniója"
+        "commonProperties": "A kiválasztott elemek elsődleges ikertulajdonságok egyesítése"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását."
+        "twinAliasAlreadyExists": "Az azonos nevű ikeralias már létezik, fontolja meg a hozzáadását.",
+        "alphanumericOnly": "Az iker alias csak alfanumerikus karaktereket tartalmazhat",
+        "noNumberPrefix": "Az ikernév nem kezdődhet számmal"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Tulajdonságkifejezés",
-      "expressionPlaceholder": "Tulajdonságkifejezés megadása",
-      "selectProperty": "Tulajdonság kiválasztása",
-      "toggleLabel": "Tulajdonságkifejezés"
-    }
+    "actions": "Műveletek"
   },
   "widgets": {
     "trend": {
       "title": "Trend widget",
-      "description": "Előzményadatok megjelenítése a 3D-s jelenet kontextusában"
+      "libraryName": "Irányzat",
+      "description": "Előzményadatok diagramjainak megjelenítése"
     },
     "gauge": {
       "title": "Mérőműszer widget",
-      "description": "Numerikus adatpontok ábrázolása vizuális környezettel"
+      "libraryName": "Mérőeszköz",
+      "description": "Numerikus tulajdonságok ábrázolása egyéni tartományokkal"
     },
     "link": {
       "title": "Widget csatolása",
-      "description": "Külső tartalomra való hivatkozás URL-cím csatolásával",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "Láncszem",
+      "description": "Ugrás az elemre jellemző URL-címekre",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Hivatkozás megnyitása"
+    },
+    "value": {
+      "title": "Érték widget",
+      "libraryName": "Érték",
+      "description": "Bármely primitív tulajdonság megjelenítése",
+      "displayNamePlaceholder": "Megjelenítendő név megadása",
+      "typePlaceholder": "Az érték típusának kiválasztása"
     },
     "panel": {
       "title": "Panel widget",
+      "libraryName": "Panel",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
-    "value": {
-      "title": "Érték widget",
-      "description": "Alapvető widget az ikertulajdonságok értékeinek megjelenítéséhez",
-      "typePlaceholder": "Az érték típusának kiválasztása"
-    }
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",
@@ -592,8 +658,6 @@
     "Start time input": "Kezdési idő bemenete",
     "End time input": "Befejezési idő beírása",
     "snap end time to latest": "befejezési idő leképezése a legújabbra",
-    "zoom in": "nagyítás",
-    "zoom out": "kicsinyítés",
     "select quick time of": "válassza ki a gyors idő",
     "a time selection control dialog": "időkijelölés-vezérlő párbeszédpanel.",
     "No color": "Nincs szín",
@@ -683,7 +747,8 @@
       "undoAll": "Az összes szerkesztés alaphelyzetbe állítása",
       "expandTree": "Fa kibontása",
       "collapseTree": "Fa összecsukása",
-      "save": "Módosítások mentése"
+      "save": "Módosítások mentése",
+      "refresh": "Adatok frissítése"
     },
     "dateTimePicker": {
       "datePickerTitle": "Dátumválasztó",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Környezet URL-címe",
-    "containerUrl": "Tároló URL-címe",
+    "environmentUrl": "Azure Digital Twins példány URL-címe",
+    "containerUrl": "Azure Storage container URL-címe",
     "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
-    "editEnvironment": "Környezet szerkesztése",
-    "descriptionForEnvironment": "Csatlakoztassa a környezetet az eszközök listázásához.",
-    "descriptionForEnvAndCont": "Csatlakoztassa a környezet és a tároló TÁROLÓ URL-címét a jelenetek listához.",
+    "editEnvironment": "3D jelenetek környezetének konfigurálása",
+    "descriptionForEnvironment": "Kapcsolja össze az Azure Digital Twins-példányt a 3D-s jelenetek létrehozásának megkezdéséhez.",
+    "descriptionForEnvAndCont": "Kapcsolja össze az Azure Digital Twins-példányt és a tárolótárolót a 3D-s jelenetek létrehozásának megkezdéséhez.",
     "descriptionForLocalStorage": "A konfigurációs adatok a helyi tárolóba kerülnek.",
     "selectContainerUrl": "Tároló URL-címének kiválasztása",
     "noEnvironment": "Nincs hozzáadott környezet",
@@ -716,7 +781,7 @@
     "state": "Állam",
     "allProperties": "Minden tulajdonság",
     "behaviorPreview": "Előnézet",
-    "LinkedTwinProperties": "Csatolt ikertulajdonságok"
+    "PrimaryTwin": "Elsődleges ikerpár"
   },
   "svgTests": {
     "fluentUI": "SVG betöltése a Fluent Image komponensen keresztül (ajánlott minta)",
@@ -724,7 +789,7 @@
     "reactComponent": "SVG illusztráció a React komponens szintaxisán keresztül"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Fájl kijelölése vagy blob URL-címének megadása",
+    "selectFileOrEnter": "Fájl URL-címének megadása vagy kijelölés a listából",
     "3dFileFromContainer": "3D fájl a tárolóban",
     "loading3DFiles": "Fájlok betöltése...",
     "invalidBlobUrlPath": "Ez nem támogatott blob URL (pl. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Téma",
-    "title": "Megtekintő téma",
-    "style": "Stílus",
-    "objectColors": "Objektum színe",
-    "background": "Háttér",
+    "title": "Jelenet témája",
+    "style": "3D modell stílus",
+    "objectColors": "3D modell színe",
+    "background": "Jelenet háttere",
     "default": "Alapértelmezett",
     "transparent": "Átlátszó",
     "wireframe": "Drótváz"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Részvény",
+    "copyButtonText": "Hivatkozás másolása",
+    "copyConfirmationMessage": "Link másolva!",
+    "flyoutHeader": "Jelenet megosztása",
+    "includeElementsOption": "Csatolás a kijelölt elemmel",
+    "includeLayersOption": "Csatolás kijelölt rétegekkel"
   },
   "elementsPanel": {
     "title": "Elemek",
@@ -789,11 +862,124 @@
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
-    "select": "Kiválaszt",
-    "pan": "Serpenyő",
     "orbit": "Pálya",
-    "zoom": "Búg"
+    "pan": "Serpenyő",
+    "reset": "Átszed",
+    "select": "Kiválaszt",
+    "zoom": "Búg",
+    "zoomIn": "Nagyítás",
+    "zoomOut": "Kicsinyítés"
   },
+  "tutorialModal": {
+    "modalTitle": "Üdvözöljük a 3D Scenes Studio-ban!",
+    "publicPreview": "Nyilvános előzetes verzió",
+    "closeAriaLabel": "Modális mód bezárása",
+    "rootDocsLinkText": "Dokumentáció",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Rövid útmutató",
+    "primaryButtonText": "Fedezd fel a demót",
+    "dismissText": "Elbocsát",
+    "nextSlide": "Következő dia",
+    "previousSlide": "Előző dia",
+    "statusIndicatorSelectedAria": "A(z) {{dia}} dia kijelölve",
+    "statusIndicatorUnselectedAria": "{{dia} kijelölése",
+    "tabs": {
+      "introduction": "Bevezetés",
+      "concepts": "Fogalmak",
+      "elements": "Elemek",
+      "behaviors": "Viselkedésmódok",
+      "twins": "Ikrek",
+      "widgets": "Kütyü",
+      "sceneLayers": "Jelenetrétegek"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Legújabb alacsony kódú építőnk",
+        "text": "Ebben az alacsony kódú építőben 3D-s szakértelem nélkül figyelheti, diagnosztizálhatja és vizsgálhatja a működési adatokat a 3D-s eszközök vizuális környezetével, amelyet az Azure Digital Twins adatai táplálnak."
+      },
+      "builder": {
+        "title": "A jelenet testreszabása az építőnkben",
+        "text": "A 3D Scenes Studio építője az elsődleges felület a jelenetek konfigurálásához. Ez egy alacsony kódú, vizuális élmény."
+      },
+      "viewer": {
+        "title": "Fedezze körül, vagy ágyazza be máshová",
+        "text": "Tekintse meg a 3D-s jelenetet itt a stúdióban. A megjelenítő összetevő beágyazható egyéni alkalmazásokba, és harmadik féltől származó összetevőkkel együtt működhet."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Mélyebb merülésre van szüksége a fogalmakról?",
+      "text": "Böngésszen a súgó tartalmában, vagy nézze meg dokumentációnkat lépésről lépésre oktatóanyagokért!"
+    },
+    "docLinkBlurb": "A részletesebb lépésről lépésre, nézd meg a <DocLink>docs itt.</DocLink>",
+    "tip": "Borravaló",
+    "elements": {
+      "title": "Mi az az elem?",
+      "content": "Az elem egy 3D-s hálók önállóan definiált készlete, amely egy vagy több mögöttes digitális iker adataihoz kapcsolódik.\n\nAz elsődleges iker az elem fő digitális ikerpárja. Az elemet az Azure Digital Twins-példányban egy ikerpárhoz csatlakoztathatja, hogy az elem képviselhesse az ikertestvérét és annak adatait a 3D vizualizációban."
+    },
+    "behaviors": {
+      "title": "Mi az a viselkedés?",
+      "mainContent": "A viselkedés olyan forgatókönyv a jelenethez, amely a kapcsolódó elem digitális ikertestvérének bizonyos adatait felhasználja a nézői vizualizációk ösztönzésére.\n\nA viselkedés létrehozása magában foglalja az ikrek kiválasztását, az állapot és a riasztások konfigurálását, a widget hozzáadását és annak kiválasztását, hogy melyik rétegen jelenjen meg.\n\n",
+      "statusTitle": "Állapot",
+      "statusDescription": "Az állapotok az elemek adatvezérelt fedvényei, amelyek jelzik az elem állapotát vagy állapotát. Értéktartományok beállítása állapothatárok létrehozásához, és válassza ki a színeket, amelyek az egyes állapotokat képviselik a vizualizációban.\n\n",
+      "alertsTitle": "Figyelmeztetések",
+      "alertsDescription": "A riasztások feltételes értesítések, amelyek segítenek gyorsan látni, hogy egy elem mikor igényli a figyelmet. Testreszabhatja a figyelmeztető jelvényt egy ikonnal, színnel és szöveggel.\n\n"
+    },
+    "twins": {
+      "title": "Hogyan válasszunk ikreket?",
+      "mainContent": "Az Ikrek lapon módosíthatja azoknak az ikreknek a készletét, akiknek az adatai elérhetők ehhez a viselkedéshez. Ez magában foglalja a megcélzott elemek elsődleges ikreit és további ikreket.\n\nEgy további iker egy elem másodlagos digitális iker adatforrása. Ehhez az elemhez az iker tulajdonságait használhatja a viselkedéskifejezéseiben. Csak akkor adjon hozzá további ikreket, ha vannak olyan ikrek, amelyek az elsődleges ikertestvérén kívül olyan adatokkal rendelkeznek, amelyeket az állapotában, a riasztásokban és a widgetekben szeretne felhasználni ehhez a viselkedéshez.\n\n",
+      "tipContent": "Az Azure Digital Twins Explorer segítségével megtekintheti azokat az ikreket, amelyek kapcsolatban állhatnak az elem elsődleges ikertestvérével. A grafikont a SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' segítségével lekérdezheti, majd a dupla kattintással bővítő funkcióval felfedezheti a kapcsolódó ikreket."
+    },
+    "widgets": {
+      "title": "Mi az a widget?",
+      "mainContent": "A widgetek olyan adatvezérelt vizualizációk, amelyek további környezetet és adatokat biztosítanak, hogy segítsenek megérteni a viselkedés által képviselt forgatókönyvet. A widgetek konfigurálása segít abban, hogy megbizonyosodjon arról, hogy a megfelelő adatok felderíthetők-e, ha egy riasztás vagy állapot aktív.\n\n",
+      "typesOfWidgets": "A widgetek típusai\n\n",
+      "gaugeDescription": "<Underline>Gauge:</Aláhúzás> Numerikus adatpontok vizuális megjelenítéséhez\n\n",
+      "linkDescription": "<Underline>Link:</Underline> Külső hivatkozással ellátott tartalom csatolt URL-en keresztüli felvétele\n\n",
+      "valueDescription": "<Underline>Value:</Underline> Ikertulajdonság-értékek közvetlen megjelenítéséhez\n\n"
+    },
+    "sceneLayers": {
+      "title": "Mi az a jelenetréteg?",
+      "mainContent": "Rétegeket hozhat létre a jelenetben, hogy segítsen megszervezni a viselkedését. A rétegek címkékként működnek a viselkedésen, lehetővé téve annak meghatározását, hogy mely viselkedéseket kell együtt látni, így egyéni nézeteket hoz létre a jelenetről a különböző szerepkörökhöz vagy feladatokhoz.\n\nHa nincsenek rétegek egy jelenetben, az összes viselkedés megjelenik a jelenetmegjelenítőben. A réteggel nem jelölt viselkedések mindaddig megjelennek az Alapértelmezett rétegben, amíg egy réteggel nem vannak címkézve.\n\nA rétegek létrehozásának egyik módja a Jelenet rétegek gomb használata a Jelenet rétegek nézetben egy jelenethez. Másik lehetőségként rétegeket is létrehozhat a viselkedés létrehozása vagy módosítása közben."
+    }
+  },
+  "diagnose": "Diagnosztizál",
+  "resolve": "Megfejt",
+  "verify": "Igazol",
+  "success": "Siker!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Konfigurációs fájl alaphelyzetbe állítása",
+    "unauthorizedAccessErrorTitle": "Hozzáférés korlátozott",
+    "unauthorizedAccessErrorMessage": "Nincs hozzáférése ehhez a tárolótárolóhoz. Diagnosztizálja a hozzáférést, vagy próbáljon ki egy másik tárolót.",
+    "blobNotFoundErrorTitle": "Blob nem található",
+    "blobNotFoundErrorMessage": "Blob nem létezik.",
+    "unknownErrorTitle": "Ismeretlen hiba",
+    "corsErrorTitle": "CORS hiba",
+    "corsErrorMessage": "A tárfiók blob szolgáltatásának rendelkeznie kell néhány bizonyos tulajdonsággal, hogy a CORS képes legyen 3D-s eszközöket használni a jelenetekben.",
+    "internalServerErrorMessage": "Belső kiszolgálóhiba, ellenőrizze a kiszolgáló naplóit.",
+    "diagnoseAccessPermissions": "Hozzáférési engedélyek diagnosztizálása",
+    "checkingPermissions": "Engedélyek ellenőrzése...",
+    "resolveIssues": "Problémák megoldása",
+    "resolvingIssues": "Problémák megoldása...",
+    "missingPermissionsMessage": "Hiányoznak az engedélyei. Hozzá kell férnie olvasóként és tárolóblob adattulajdonosként vagy tárolóblob adatszolgáltatóként.",
+    "noMissingRoleDesc": "Nem észleltek hiányzó engedélyeket, megpróbáljuk ellenőrizni, hogy a hozzárendelt engedélyek érvényben vannak-e.",
+    "finishedWithFailureDesc": "A kísérlet sikertelen volt, lépjen kapcsolatba az erőforrás tulajdonosával.",
+    "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
+    "assignRoleSuccessDesc": "Hiányzó engedélyek vannak hozzárendelve. Kérjük, várjon, amíg megpróbáljuk ellenőrizni, hogy a módosítások érvényben vannak-e.",
+    "refreshPage": "Frissítési lap",
+    "refreshing": "Frissítő",
+    "noContainerUrlErrorTitle": "A tároló nincs beállítva",
+    "noContainerUrlErrorMessage": "A tároló URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "noADTInstanceUrlTitle": "Az Active Directory tanúsítvány példány nincs beállítva",
+    "noADTInstanceUrlMessage": "Az ADT-példány URL-címe nincs beállítva. Kattintson az alábbi gombra a beállításhoz.",
+    "configureEnvironment": "Környezet konfigurálása",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Hiba a modell betöltésekor",
+      "3dAssetLoadingNetworkErrorMessage": "Ez lehet CORS-probléma, érvénytelen blob URL-cím vagy hálózati hiba. Lépjen kapcsolatba annak a tárolónak a tulajdonosával, ahol az eszközfájlt tárolják, vagy próbálkozzon újra később.",
+      "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést.",
+      "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
+    }
+  },
+  "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
     "newModel": "Új modell",
     "name": "Név",

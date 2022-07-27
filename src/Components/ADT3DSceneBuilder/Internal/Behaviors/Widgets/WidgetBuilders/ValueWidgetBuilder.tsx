@@ -1,13 +1,32 @@
-import { Dropdown, Icon, IDropdownOption, TextField } from '@fluentui/react';
+import {
+    Dropdown,
+    Icon,
+    IDropdownOption,
+    Stack,
+    TextField,
+    useTheme
+} from '@fluentui/react';
 import produce from 'immer';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../../../Models/Constants/Constants';
+import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import TwinPropertyDropown from '../../../../../TwinPropertyBuilder/Internal/TwinPropertyDropdown';
+import ModelledPropertyBuilder from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import {
+    ModelledPropertyBuilderMode,
+    PropertyExpression
+} from '../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     formData,
@@ -15,8 +34,16 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     setIsWidgetConfigValid
 }) => {
     const { t } = useTranslation();
-    const { behaviorToEdit, config, sceneId, adapter } = useContext(
-        SceneBuilderContext
+    const {
+        config,
+        sceneId,
+        adapter,
+        state: { selectedElements }
+    } = useContext(SceneBuilderContext);
+    const { behaviorFormState } = useBehaviorFormContext();
+
+    const [isManualTypeDropdownShown, setIsManualTypeDropdownShown] = useState(
+        false
     );
 
     useEffect(() => {
@@ -44,10 +71,16 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
     );
 
     const onPropertyChange = useCallback(
-        (option: string) => {
+        (newPropertyExpression: PropertyExpression) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.valueExpression = option; // TODO: Also update the type as necessary after we get the modelled property
+                    draft.widgetConfiguration.valueExpression =
+                        newPropertyExpression.expression;
+                    // If type information included (non intellisense mode), update the value widget type
+                    if (newPropertyExpression.property) {
+                        draft.widgetConfiguration.type =
+                            newPropertyExpression.property.propertyType;
+                    }
                 })
             );
         },
@@ -69,7 +102,6 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
 
     const iconStyles = { marginRight: '8px' };
     const optionWrapperStyle = { display: 'flex', alignItems: 'center' };
-    const optionTextStyle = { marginTop: '-4px' };
     const onRenderTypeOption = (option: IDropdownOption): JSX.Element => {
         return (
             <div style={optionWrapperStyle}>
@@ -81,7 +113,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span style={optionTextStyle}>{option.text}</span>
+                <span>{option.text}</span>
             </div>
         );
     };
@@ -99,7 +131,7 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
                         title={option.data.icon}
                     />
                 )}
-                <span style={optionTextStyle}>{option.text}</span>
+                <span>{option.text}</span>
             </div>
         );
     };
@@ -114,37 +146,56 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
         []
     );
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
+
     return (
-        <>
-            <TextField
-                required
-                label={t('displayName')}
-                value={formData.widgetConfiguration.displayName}
-                onChange={onDisplayNameChange}
-            />
-            <TwinPropertyDropown // TODO: for now using existing TwinPropertyDropdown, replace this with ModelledPropertyBuilder
-                required
-                behavior={behaviorToEdit}
-                defaultSelectedKey={
-                    formData.widgetConfiguration.valueExpression
-                }
-                dataTestId={'behavior-form-state-property-dropdown'}
-                onChange={onPropertyChange}
-                config={config}
-                sceneId={sceneId}
-                adapter={adapter}
-            />
-            <Dropdown
-                required
-                placeholder={t('widgets.value.typePlaceholder')}
-                label={t('type')}
-                selectedKey={`value-type-${formData.widgetConfiguration.type}`}
-                onChange={onTypeChange}
-                options={typeOptions}
-                onRenderOption={onRenderTypeOption}
-                onRenderTitle={onRenderTypeTitle}
-            />
-        </>
+        <div className={customStyles.widgetFormContents}>
+            <Stack tokens={{ childrenGap: 8 }}>
+                <TextField
+                    required
+                    placeholder={t('widgets.value.displayNamePlaceholder')}
+                    label={t('displayName')}
+                    value={formData.widgetConfiguration.displayName}
+                    onChange={onDisplayNameChange}
+                />
+                <ModelledPropertyBuilder
+                    adapter={adapter}
+                    twinIdParams={{
+                        behavior: behaviorFormState.behaviorToEdit,
+                        config,
+                        sceneId,
+                        selectedElements
+                    }}
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
+                    propertyExpression={{
+                        expression:
+                            formData.widgetConfiguration.valueExpression || ''
+                    }}
+                    onChange={onPropertyChange}
+                    onInternalModeChanged={(internalMode) => {
+                        if (internalMode === 'INTELLISENSE') {
+                            setIsManualTypeDropdownShown(true);
+                        } else {
+                            setIsManualTypeDropdownShown(false);
+                        }
+                    }}
+                    required
+                />
+                {isManualTypeDropdownShown && (
+                    <Dropdown
+                        required
+                        placeholder={t('widgets.value.typePlaceholder')}
+                        label={t('type')}
+                        selectedKey={`value-type-${formData.widgetConfiguration.type}`}
+                        onChange={onTypeChange}
+                        options={typeOptions}
+                        onRenderOption={onRenderTypeOption}
+                        onRenderTitle={onRenderTypeTitle}
+                    />
+                )}
+            </Stack>
+        </div>
     );
 };
 

@@ -30,7 +30,7 @@ const AliasedTwinsTab: React.FC = () => {
                 mode: TwinAliasFormMode.EditTwinAlias
             });
         },
-        []
+        [setElementTwinAliasFormInfo]
     );
 
     // When removing a twin alias from an element, remove that alias from element's twinAliases object.
@@ -46,7 +46,7 @@ const AliasedTwinsTab: React.FC = () => {
                 })
             );
         },
-        []
+        [setElementToEdit]
     );
 
     useEffect(() => {
@@ -65,20 +65,27 @@ const AliasedTwinsTab: React.FC = () => {
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <Stack tokens={sectionStackTokens}>
-            <Text className={commonPanelStyles.text}>
-                {t('3dSceneBuilder.twinAlias.descriptions.twins')}
-            </Text>
+        <Stack
+            tokens={sectionStackTokens}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
             <div>
                 {twinAliasList.length === 0 ? (
                     <div className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.twinAlias.noTwinAliasesAdded')}
+                        {t('3dSceneBuilder.elementFormTwinTab.noDataMessage')}
                     </div>
                 ) : (
-                    <CardboardList<IElementTwinAliasItem>
-                        items={twinAliasList}
-                        listKey={`element-aliased-twin-list`}
-                    />
+                    <>
+                        <Text className={commonPanelStyles.text}>
+                            {t(
+                                '3dSceneBuilder.elementFormTwinTab.tabDescription'
+                            )}
+                        </Text>
+                        <CardboardList<IElementTwinAliasItem>
+                            items={twinAliasList}
+                            listKey={`element-aliased-twin-list`}
+                        />
+                    </>
                 )}
             </div>
         </Stack>

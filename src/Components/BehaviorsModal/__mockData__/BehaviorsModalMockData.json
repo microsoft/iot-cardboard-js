@@ -16,14 +16,14 @@
                         "type": "TwinToObjectMapping",
                         "id": "a7094c812e6870004b6485112cc859b6",
                         "displayName": "PasteurizationMachine_A02",
-                        "linkedTwinID": "PasteurizationMachine_A02",
+                        "primaryTwinID": "PasteurizationMachine_A02",
                         "objectIDs": ["tank3_LOD0.012_primitive2"]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "d2e033bcff9ff392b9b233e8571fcf28",
                         "displayName": "PasteurizationMachine_A03",
-                        "linkedTwinID": "PasteurizationMachine_A03",
+                        "primaryTwinID": "PasteurizationMachine_A03",
                         "objectIDs": [
                             "tank3_LOD0.003_primitive0",
                             "tank3_LOD0.003_primitive1",
@@ -34,7 +34,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "45131a84754280b924477f1df54ca547",
                         "displayName": "SaltMachine_C1",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "tank6_LOD0.004_primitive0",
                             "tank6_LOD0.004_primitive1"
@@ -44,28 +44,28 @@
                         "type": "TwinToObjectMapping",
                         "id": "0a624edf8ee4b4df7dc4e61c863d3724",
                         "displayName": "Xenia's Boiler",
-                        "linkedTwinID": "PasteurizationMachine_A03",
+                        "primaryTwinID": "PasteurizationMachine_A03",
                         "objectIDs": ["tank1_LOD0"]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "1955cd3fe666d4e7eb69974703f040c9",
                         "displayName": "Amy's Salt Machine",
-                        "linkedTwinID": "SaltMachine_C2",
+                        "primaryTwinID": "SaltMachine_C2",
                         "objectIDs": ["tank6_LOD0.013_primitive1"]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "41bca486feaf985f52130947d31675dc",
                         "displayName": "PasteurizationMachine_A01",
-                        "linkedTwinID": "PasteurizationMachine_A01",
+                        "primaryTwinID": "PasteurizationMachine_A01",
                         "objectIDs": ["tank4_LOD0.006_primitive2"]
                     },
                     {
                         "type": "TwinToObjectMapping",
                         "id": "8e3db965a88c8eac56af222786b53a08",
                         "displayName": "SaltMachine_C0",
-                        "linkedTwinID": "SaltMachine_C0",
+                        "primaryTwinID": "SaltMachine_C0",
                         "objectIDs": ["tank6_LOD0.001_primitive1"]
                     }
                 ],
@@ -105,25 +105,29 @@
                 ],
                 "visuals": [
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.OutFlow",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "PrimaryTwin.OutFlow",
                         "valueRanges": [
                             {
-                                "color": "#33A1FD",
-                                "min": 0,
-                                "max": 100,
-                                "id": "c824b3d6-1780-fb5b-e6e7-82ca733dc393"
+                                "values": [0, 100],
+                                "visual": {
+                                    "color": "#33A1FD"
+                                },
+                                "id": "c824b3d61780fb5be6e782ca733dc393"
                             },
                             {
-                                "color": "#26C485",
-                                "min": 100,
-                                "max": 200,
+                                "values": [100, 200],
+                                "visual": {
+                                    "color": "#26C485"
+                                },
                                 "id": "abf90f4206b683dc2a0eea53ec09c1e1"
                             },
                             {
-                                "color": "#FEE440",
-                                "min": 200,
-                                "max": "Infinity",
+                                "values": [200, "Infinity"],
+                                "visual": {
+                                    "color": "#FEE440"
+                                },
                                 "id": "d7b6d0f722e873e8904c471ee46a2b72"
                             }
                         ],
@@ -149,25 +153,29 @@
                 ],
                 "visuals": [
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.Temperature",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "PrimaryTwin.Temperature",
                         "valueRanges": [
                             {
-                                "color": "#33A1FD",
-                                "min": 0,
-                                "max": 12,
+                                "values": [0, 12],
+                                "visual": {
+                                    "color": "#33A1FD"
+                                },
                                 "id": "2cfd5bb8df4a4da1b3a682f46b979f3e"
                             },
                             {
-                                "color": "#26C485",
-                                "min": 12,
-                                "max": 100,
+                                "values": [12, 100],
+                                "visual": {
+                                    "color": "#26C485"
+                                },
                                 "id": "b79e2d21d15f4e7a9d6f23d4d7760ddb"
                             },
                             {
-                                "color": "#FEE440",
-                                "min": 100,
-                                "max": "Infinity",
+                                "values": [100, "Infinity"],
+                                "visual": {
+                                    "color": "#FEE440"
+                                },
                                 "id": "d0d2edff7c80438fa529206848837ca2"
                             }
                         ],
@@ -176,11 +184,20 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.InFlow > 0",
-                        "labelExpression": "Tank Too Full",
-                        "iconName": "CircleHalfFull",
-                        "color": "#de3b09",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "CategoricalValues",
+                        "valueExpression": "PrimaryTwin.InFlow > 0",
+                        "valueRanges": [
+                            {
+                                "id": "d0d2edff7c80438fa529206848867r5s",
+                                "values": [true],
+                                "visual": {
+                                    "labelExpression": "Tank Too Full",
+                                    "iconName": "CircleHalfFull",
+                                    "color": "#de3b09"
+                                }
+                            }
+                        ],
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
@@ -192,26 +209,29 @@
                             {
                                 "id": "740385bb6f8f235e5071ebca5ae0da89",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.Temperature",
+                                "valueExpression": "PrimaryTwin.Temperature",
                                 "widgetConfiguration": {
                                     "label": "Temperature",
                                     "valueRanges": [
                                         {
-                                            "color": "#26C485",
-                                            "min": 0,
-                                            "max": 40,
-                                            "id": "13a163ac-e41f-57a9-b021-b88bb3be8b1f"
+                                            "values": [0, 40],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            },
+                                            "id": "13a163ace41f57a9b021b88bb3be8b1f"
                                         },
                                         {
-                                            "color": "#FEE440",
-                                            "min": 40,
-                                            "max": 60,
+                                            "values": [40, 60],
+                                            "visual": {
+                                                "color": "#FEE440"
+                                            },
                                             "id": "740385bb6f8f235e5071ebca5ae0d3f1"
                                         },
                                         {
-                                            "color": "#C32F27",
-                                            "min": 60,
-                                            "max": 200,
+                                            "values": [60, 100],
+                                            "visual": {
+                                                "color": "#C32F27"
+                                            },
                                             "id": "636d276bd9a04dbd79948538aff4f5e3"
                                         }
                                     ],
@@ -223,7 +243,16 @@
                                 "id": "1d60362667067ff5763bb6f7765a9cc8",
                                 "widgetConfiguration": {
                                     "label": "Power BI",
-                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                    "linkExpression": "https://mypowerbi.biz/${PrimaryTwin.$dtId}"
+                                }
+                            },
+                            {
+                                "type": "Value",
+                                "id": "2d60362667067ff5763bb6f7765a9cc1",
+                                "widgetConfiguration": {
+                                    "displayName": "Temperature",
+                                    "valueExpression": "PrimaryTwin.Temperature",
+                                    "type": "double"
                                 }
                             }
                         ],
@@ -249,25 +278,28 @@
                 "visuals": [
                     {
                         "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.InFlow",
+                        "statusValueExpression": "PrimaryTwin.InFlow",
                         "valueRanges": [
                             {
-                                "color": "#33A1FD",
-                                "min": 0,
-                                "max": 20,
-                                "id": "b511182d-81c0-ea7a-3894-be960a850e9c"
+                                "values": [0, 20],
+                                "visual": {
+                                    "color": "#33A1FD"
+                                },
+                                "id": "b511182d81c0ea7a3894be960a850e9b"
                             },
                             {
-                                "color": "#26C485",
-                                "min": 20,
-                                "max": 100,
-                                "id": "bc3cae743ff451d5fdc0f185e629dca8"
+                                "values": [20, 100],
+                                "visual": {
+                                    "color": "#26C485"
+                                },
+                                "id": "bc3cae743ff451d5fdc0f185e629dca1"
                             },
                             {
-                                "color": "#d6940f",
-                                "min": 100,
-                                "max": 500,
-                                "id": "7224b620aa83c649888dadc7c8fdf1fb"
+                                "values": [100, 500],
+                                "visual": {
+                                    "color": "#d6940f"
+                                },
+                                "id": "7224b620aa83c649888dadc7c8fdf1fg"
                             }
                         ],
                         "objectIDs": {
@@ -275,11 +307,20 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "LinkedTwin.Temperature > 200",
-                        "labelExpression": "Temp too hot",
-                        "iconName": "Frigid",
-                        "color": "#d6940f",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "CategoricalValues",
+                        "valueExpression": "PrimaryTwin.Temperature > 200",
+                        "valueRanges": [
+                            {
+                                "id": "0pd2edff7c80438fa5292068485u765h",
+                                "values": [true],
+                                "visual": {
+                                    "labelExpression": "Temp too hot",
+                                    "iconName": "Frigid",
+                                    "color": "#d6940f"
+                                }
+                            }
+                        ],
                         "objectIDs": {
                             "expression": "objectIDs"
                         }
@@ -291,26 +332,29 @@
                             {
                                 "id": "",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.InFlow",
+                                "valueExpression": "PrimaryTwin.InFlow",
                                 "widgetConfiguration": {
                                     "label": "In Flow",
                                     "valueRanges": [
                                         {
-                                            "color": "#33A1FD",
-                                            "min": 0,
-                                            "max": 10,
-                                            "id": "b511182d-81c0-ea7a-3894-be960a850e9c"
+                                            "values": [0, 10],
+                                            "visual": {
+                                                "color": "#33A1FD"
+                                            },
+                                            "id": "b511182d81c0ea7a3894be960a850e8t"
                                         },
                                         {
-                                            "color": "#26C485",
-                                            "min": 10,
-                                            "max": 30,
-                                            "id": "bc3cae743ff451d5fdc0f185e629dca8"
+                                            "values": [10, 30],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            },
+                                            "id": "bc3cae743ff451d5fdc0f185e629dca7"
                                         },
                                         {
-                                            "color": "#FEE440",
-                                            "min": 30,
-                                            "max": 100,
+                                            "values": [30, 100],
+                                            "visual": {
+                                                "color": "#FEE440"
+                                            },
                                             "id": "7224b620aa83c649888dadc7c8fdf1fb"
                                         }
                                     ],
@@ -320,27 +364,30 @@
                             {
                                 "id": "",
                                 "type": "Gauge",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "label": "Out Flow",
                                     "valueRanges": [
                                         {
-                                            "color": "#33A1FD",
-                                            "min": 0,
-                                            "max": 10,
-                                            "id": "b511182d-81c0-ea7a-3894-be960a850e9c"
+                                            "values": [0, 10],
+                                            "visual": {
+                                                "color": "#33A1FD"
+                                            },
+                                            "id": "b511182d81c0ea7a3894be960a850e9c"
                                         },
                                         {
-                                            "color": "#26C485",
-                                            "min": 10,
-                                            "max": 30,
+                                            "values": [10, 30],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            },
                                             "id": "bc3cae743ff451d5fdc0f185e629dca8"
                                         },
                                         {
-                                            "color": "#FEE440",
-                                            "min": 30,
-                                            "max": 100,
-                                            "id": "7224b620aa83c649888dadc7c8fdf1fb"
+                                            "values": [30, 100],
+                                            "visual": {
+                                                "color": "#FEE440"
+                                            },
+                                            "id": "7224b620aa83c649888dadc7c8fdf1fu"
                                         }
                                     ],
                                     "units": "m/s"

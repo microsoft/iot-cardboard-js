@@ -166,10 +166,7 @@
                     "$ref": "#/$defs/IPopoverVisual"
                 },
                 {
-                    "$ref": "#/$defs/IStatusColoringVisual"
-                },
-                {
-                    "$ref": "#/$defs/IAlertVisual"
+                    "$ref": "#/$defs/IExpressionRangeVisual"
                 }
             ]
         },
@@ -240,9 +237,15 @@
         },
         "INumericOrInfinityType": {
             "anyOf": [
-                { "type": "number" },
-                { "const": "Infinity" },
-                { "const": "-Infinity" }
+                {
+                    "type": "number"
+                },
+                {
+                    "const": "Infinity"
+                },
+                {
+                    "const": "-Infinity"
+                }
             ]
         },
         "ICustomProperty": {
@@ -269,7 +272,7 @@
                 "displayName": {
                     "type": "string"
                 },
-                "linkedTwinID": {
+                "primaryTwinID": {
                     "type": "string",
                     "description": "The twin referenced by this element"
                 },
@@ -284,7 +287,7 @@
                 },
                 "twinAliases": {
                     "type": "object",
-                    "description": "Links to relevant twins other than the primary linkedTwin.  These aliases can be referenced in behavior expressions.",
+                    "description": "Links to relevant twins other than the primary primaryTwin.  These aliases can be referenced in behavior expressions.",
                     "additionalProperties": {
                         "type": "string"
                     }
@@ -297,7 +300,7 @@
                 "type",
                 "id",
                 "displayName",
-                "linkedTwinID",
+                "primaryTwinID",
                 "objectIDs"
             ]
         },
@@ -504,37 +507,24 @@
             },
             "required": ["type", "title", "widgets", "objectIDs"]
         },
-        "IValueRange": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Numeric range to trigger coloring",
-            "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "color": {
-                    "type": "string"
-                },
-                "min": {
-                    "$ref": "#/$defs/INumericOrInfinityType"
-                },
-                "max": {
-                    "$ref": "#/$defs/INumericOrInfinityType"
-                }
-            },
-            "required": ["id", "color", "min", "max"]
+        "IExpressionRangeType": {
+            "type": "string",
+            "enum": ["NumericRange", "CategoricalValues"]
         },
-        "IStatusColoringVisual": {
+        "IExpressionRangeVisual": {
             "type": "object",
-            "description": "a StatusColoring visual is used for mapping an expression result to a color",
+            "description": "An expression range visual maps an expression result to a visual",
             "additionalProperties": false,
             "properties": {
                 "type": {
-                    "const": "StatusColoring"
+                    "const": "ExpressionRangeVisual"
                 },
-                "statusValueExpression": {
+                "valueExpression": {
                     "type": "string",
-                    "description": "Expression which evaluates to numeric value"
+                    "description": "Expression to evaluate"
+                },
+                "expressionType": {
+                    "$ref": "#/$defs/IExpressionRangeType"
                 },
                 "valueRanges": {
                     "type": "array",
@@ -551,48 +541,52 @@
             },
             "required": [
                 "type",
-                "statusValueExpression",
+                "valueExpression",
+                "expressionType",
                 "valueRanges",
                 "objectIDs"
             ]
         },
-        "IAlertVisual": {
+        "IValueRange": {
             "type": "object",
-            "description": "Alert visual are used to show specific iconography when a boolean expression is true",
             "additionalProperties": false,
+            "description": "Range of values for which a visual indication is triggered",
             "properties": {
-                "type": {
-                    "const": "Alert"
-                },
-                "triggerExpression": {
-                    "type": "string",
-                    "description": "Expression which evaluates to a boolean value"
-                },
-                "labelExpression": {
-                    "type": "string",
-                    "description": "Expression which evalues to a string value"
-                },
-                "iconName": {
+                "id": {
                     "type": "string"
                 },
-                "color": {
-                    "type": "string"
+                "values": {
+                    "type": "array",
+                    "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]."
                 },
-                "objectIDs": {
-                    "$ref": "#/$defs/IObjectIDs"
+                "visual": {
+                    "$ref": "#/$defs/IValueRangeVisual"
                 },
                 "extensionProperties": {
                     "$ref": "#/$defs/IExtensionProperties"
                 }
             },
-            "required": [
-                "type",
-                "triggerExpression",
-                "labelExpression",
-                "iconName",
-                "color",
-                "objectIDs"
-            ]
+            "required": ["id", "values", "visual"]
+        },
+        "IValueRangeVisual": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Visual data to apply when values are in range",
+            "properties": {
+                "color": {
+                    "type": "string"
+                },
+                "iconName": {
+                    "type": "string"
+                },
+                "labelExpression": {
+                    "type": "string"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": []
         }
     }
 }

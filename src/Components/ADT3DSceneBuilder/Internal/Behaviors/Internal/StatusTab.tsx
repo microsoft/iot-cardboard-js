@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     IStackTokens,
@@ -8,21 +8,29 @@ import {
     useTheme
 } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import produce from 'immer';
 import {
     IBehavior,
-    IStatusColoringVisual,
-    ITwinToObjectMapping
+    IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ValueRangeBuilder from '../../../../ValueRangeBuilder/ValueRangeBuilder';
 import { defaultStatusColorVisual } from '../../../../../Models/Classes/3DVConfig';
 import { IValidityState, TabNames } from '../BehaviorForm.types';
-import { deepCopy } from '../../../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../../../Models/Services/Utils';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import useValueRangeBuilder from '../../../../../Models/Hooks/useValueRangeBuilder';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import useBehaviorAliasedTwinProperties from '../../../../../Models/Hooks/useBehaviorAliasedTwinProperties';
-import TwinPropertyBuilder from '../../../../TwinPropertyBuilder/TwinPropertyBuilder';
+import ModelledPropertyBuilder from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
+import {
+    ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
+    PropertyExpression
+} from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { DOCUMENTATION_LINKS } from '../../../../../Models/Constants';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('StatusTab', debugLogging);
 
 const getStatusFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isStatusColorVisual)[0] || null;
@@ -30,29 +38,32 @@ const getStatusFromBehavior = (behavior: IBehavior) =>
 const ROOT_LOC = '3dSceneBuilder.behaviorStatusForm';
 const LOC_KEYS = {
     stateItemLabel: `${ROOT_LOC}.stateItemLabel`,
-    notice: `${ROOT_LOC}.notice`,
+    tabDescription: `${ROOT_LOC}.tabDescription`,
     noElementsSelected: `${ROOT_LOC}.noElementsSelected`
 };
 
 interface IStatusTabProps {
     onValidityChange: (tabName: TabNames, state: IValidityState) => void;
-    selectedElements: Array<ITwinToObjectMapping>;
 }
-const StatusTab: React.FC<IStatusTabProps> = ({
-    onValidityChange,
-    selectedElements
-}) => {
-    const { t } = useTranslation();
+const StatusTab: React.FC<IStatusTabProps> = ({ onValidityChange }) => {
+    // contexts
     const {
-        behaviorToEdit,
-        setBehaviorToEdit,
         adapter,
         config,
-        sceneId
+        sceneId,
+        state: { selectedElements }
     } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
+
+    // hooks
+    const { t } = useTranslation();
 
     const statusVisualToEdit =
-        getStatusFromBehavior(behaviorToEdit) || defaultStatusColorVisual;
+        getStatusFromBehavior(behaviorFormState.behaviorToEdit) ||
+        defaultStatusColorVisual;
 
     const {
         valueRangeBuilderState,
@@ -64,11 +75,11 @@ const StatusTab: React.FC<IStatusTabProps> = ({
     });
 
     const validateForm = useCallback(
-        (visual: IStatusColoringVisual) => {
+        (visual: IExpressionRangeVisual) => {
             let isValid = true;
             if (visual) {
                 // only look at the ranges when the expression is populated
-                if (visual.statusValueExpression) {
+                if (visual.valueExpression) {
                     isValid = isValid && valueRangeBuilderState.areRangesValid;
                 }
             }
@@ -81,121 +92,136 @@ const StatusTab: React.FC<IStatusTabProps> = ({
     );
 
     const setProperty = useCallback(
-        (propertyName: keyof IStatusColoringVisual, value: string) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    // Assuming only 1 alert visual per behavior
-                    let statusVisual = getStatusFromBehavior(draft);
-                    // Edit flow
-                    if (statusVisual) {
-                        // selected the none option, clear the data
-                        if (!value) {
-                            const index = draft.visuals.indexOf(statusVisual);
-                            draft.visuals.splice(index, 1);
-                        }
-                        statusVisual[propertyName] = value as any;
-                    } else {
-                        statusVisual = deepCopy(defaultStatusColorVisual);
-                        statusVisual[propertyName] = value as any;
-                        statusVisual.valueRanges =
-                            valueRangeBuilderState.valueRanges;
-                        resetInitialValueRanges(
-                            valueRangeBuilderState.valueRanges
-                        );
-                        draft.visuals.push(statusVisual);
-                    }
-                    // check form validity
-                    validateForm(statusVisual);
-                })
+        (propertyName: keyof IExpressionRangeVisual, value: string) => {
+            logDebugConsole(
+                'info',
+                `[START] Update status visual property ${propertyName} to value `,
+                value
+            );
+            // Assuming only 1 alert visual per behavior
+            let statusVisual = getStatusFromBehavior(
+                behaviorFormState.behaviorToEdit
+            );
+            // Edit flow
+            if (statusVisual) {
+                // selected the none option, clear the visual
+                if (!value) {
+                    logDebugConsole('debug', 'Removing visual');
+                    behaviorFormDispatch({
+                        type:
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
+                    });
+                } else {
+                    logDebugConsole('debug', 'Updating existing visual');
+                    // update the value
+                    statusVisual[propertyName as any] = value as any;
+
+                    behaviorFormDispatch({
+                        type:
+                            BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
+                        payload: { visual: statusVisual }
+                    });
+                }
+            } else {
+                logDebugConsole(
+                    'debug',
+                    'Creating new visual and setting property'
+                );
+                // create flow
+                statusVisual = deepCopy(defaultStatusColorVisual);
+                statusVisual[propertyName as any] = value as any;
+                statusVisual.valueRanges = valueRangeBuilderState.valueRanges;
+                resetInitialValueRanges(valueRangeBuilderState.valueRanges);
+
+                behaviorFormDispatch({
+                    type:
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
+                    payload: { visual: statusVisual }
+                });
+            }
+            // check form validity
+            validateForm(statusVisual);
+            logDebugConsole(
+                'info',
+                `[END] Update status visual property ${propertyName}. {visual}`,
+                statusVisual
             );
         },
         [
-            setBehaviorToEdit,
-            getStatusFromBehavior,
-            deepCopy,
-            valueRangeBuilderState,
-            resetInitialValueRanges,
-            validateForm
+            behaviorFormState.behaviorToEdit,
+            validateForm,
+            behaviorFormDispatch,
+            valueRangeBuilderState.valueRanges,
+            resetInitialValueRanges
         ]
     );
 
     // Mirror value ranges in behavior to edit
     useEffect(() => {
-        setBehaviorToEdit(
-            produce((draft) => {
-                // Assuming only 1 status visual per behavior
-                const stateVisual = getStatusFromBehavior(draft);
-                if (stateVisual) {
-                    stateVisual.valueRanges =
-                        valueRangeBuilderState.valueRanges;
-                }
-            })
-        );
-    }, [valueRangeBuilderState.valueRanges]);
+        behaviorFormDispatch({
+            type:
+                BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
+            payload: { ranges: valueRangeBuilderState.valueRanges }
+        });
+    }, [behaviorFormDispatch, valueRangeBuilderState.valueRanges]);
 
     // update validity when range validity changes
     useEffect(() => {
-        validateForm(getStatusFromBehavior(behaviorToEdit));
-    }, [valueRangeBuilderState.areRangesValid]);
+        validateForm(getStatusFromBehavior(behaviorFormState.behaviorToEdit));
+    }, [
+        behaviorFormState.behaviorToEdit,
+        validateForm,
+        valueRangeBuilderState.areRangesValid
+    ]);
 
     const onPropertyChange = useCallback(
-        (option: string) => {
-            setProperty('statusValueExpression', option);
-        },
+        (newPropertyExpression: PropertyExpression) =>
+            setProperty('valueExpression', newPropertyExpression.expression),
         [setProperty]
     );
 
-    // MODELLED_PROPERTY_TODO ---- V2 iteration will change to modelled properties
-    // get the aliased properties for intellisense
-    const { options: aliasedProperties } = useBehaviorAliasedTwinProperties({
-        behavior: behaviorToEdit,
-        isTwinAliasesIncluded: true,
-        selectedElements
-    });
-
-    const getPropertyNames = useCallback(
-        (twinAlias: string) =>
-            ViewerConfigUtility.getPropertyNamesFromAliasedPropertiesByAlias(
-                twinAlias,
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-
-    const aliasNames = useMemo(
-        () =>
-            ViewerConfigUtility.getUniqueAliasNamesFromAliasedProperties(
-                aliasedProperties
-            ),
-        [aliasedProperties]
-    );
-    // MODELLED_PROPERTY_TODO ---- END BLOCK
-
+    logDebugConsole('debug', 'Render');
     const commonPanelStyles = getLeftPanelStyles(useTheme());
-    const showRangeBuilder = !!statusVisualToEdit.statusValueExpression;
+    const showRangeBuilder = !!statusVisualToEdit.valueExpression;
     return (
-        <Stack tokens={sectionStackTokens}>
-            <Text className={commonPanelStyles.text}>{t(LOC_KEYS.notice)}</Text>
+        <Stack
+            tokens={sectionStackTokens}
+            className={commonPanelStyles.paddedLeftPanelBlock}
+        >
+            <Text className={commonPanelStyles.text}>
+                {t(LOC_KEYS.tabDescription)}
+            </Text>
             <div>
-                <TwinPropertyBuilder
-                    mode="TOGGLE"
-                    intellisenseProps={{
-                        onChange: onPropertyChange,
-                        defaultValue: statusVisualToEdit.statusValueExpression,
-                        aliasNames: aliasNames,
-                        getPropertyNames: getPropertyNames
+                <ModelledPropertyBuilder
+                    adapter={adapter}
+                    customLabelTooltip={{
+                        buttonAriaLabel: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        calloutContent: t(
+                            '3dSceneBuilder.behaviorStatusForm.propertyExpressionTooltipContent'
+                        ),
+                        link: {
+                            url: DOCUMENTATION_LINKS.howToExpressions
+                        }
                     }}
-                    twinPropertyDropdownProps={{
-                        adapter,
+                    twinIdParams={{
+                        behavior: behaviorFormState.behaviorToEdit,
                         config,
                         sceneId,
-                        behavior: behaviorToEdit,
-                        selectedElements: selectedElements,
-                        defaultSelectedKey:
-                            statusVisualToEdit.statusValueExpression,
-                        dataTestId: 'behavior-form-state-property-dropdown',
-                        onChange: onPropertyChange
+                        selectedElements
                     }}
+                    isClearEnabled={true}
+                    mode={ModelledPropertyBuilderMode.TOGGLE}
+                    propertyExpression={{
+                        expression:
+                            getStatusFromBehavior(
+                                behaviorFormState.behaviorToEdit
+                            )?.valueExpression || ''
+                    }}
+                    onChange={onPropertyChange}
+                    allowedPropertyValueTypes={numericPropertyValueTypes}
+                    enableNoneDropdownOption
                 />
                 {showRangeBuilder && <Separator />}
             </div>
@@ -207,6 +233,6 @@ const StatusTab: React.FC<IStatusTabProps> = ({
         </Stack>
     );
 };
-const sectionStackTokens: IStackTokens = { childrenGap: 12 };
+const sectionStackTokens: IStackTokens = { childrenGap: 4 };
 
 export default StatusTab;

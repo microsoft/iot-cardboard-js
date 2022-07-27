@@ -9,6 +9,10 @@ import { ICardboardListItem } from '../CardboardList/CardboardList.types';
 export interface ICardboardListCalloutProps<T = void> {
     /** name of the class to put on the root node of the callout */
     className?: string;
+    /** test id for the callout primary button */
+    dataButtonTestId?: string;
+    /** optional sub header text on the callout describing the contents */
+    description?: string;
     /** header of the callout */
     title: string;
     /** to pass if the list to be rendered is CardboardList or CardboardBasicList */
@@ -44,9 +48,12 @@ export interface ICardboardListCalloutProps<T = void> {
     noResultText: string;
     /** props for primary action button in the callout */
     primaryActionProps?: PrimaryActionProps;
+    /** data-testid to be set for the upper most focus trap component */
+    focusTrapTestId?: string;
 }
 
 type PrimaryActionProps = {
     primaryActionLabel: string;
-    onPrimaryActionClick: () => void;
+    onPrimaryActionClick: (searchTerm: string) => void;
+    disabled?: boolean;
 };

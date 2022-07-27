@@ -3,10 +3,14 @@ import I18nProviderWrapper from '../../Models/Classes/I18NProviderWrapper';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 import { DTMIRegex, Locale } from '../../Models/Constants';
-import { Text } from '@fluentui/react/lib/Text';
-import { Panel, PanelType } from '@fluentui/react/lib/Panel';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { Breadcrumb, IBreadcrumbItem } from '@fluentui/react/lib/Breadcrumb';
+import {
+    Text,
+    TextField,
+    Panel,
+    PanelType,
+    Breadcrumb,
+    IBreadcrumbItem
+} from '@fluentui/react';
 import CreateRelationshipForm from './Forms/CreateRelationshipForm';
 import CreateComponentForm from './Forms/CreateComponentForm';
 import CreatePropertyForm from './Forms/CreatePropertyForm';

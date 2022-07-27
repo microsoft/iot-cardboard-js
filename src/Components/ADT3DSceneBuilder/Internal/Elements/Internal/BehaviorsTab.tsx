@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
 import { BehaviorState } from '../../../ADT3DSceneBuilder.types';
@@ -18,15 +18,17 @@ export interface IADT3DSceneBuilderElementBehaviorProps {
     behaviors: Array<IBehavior>;
     elementToEdit: ITwinToObjectMapping;
     onBehaviorClick: (behavior: IBehavior) => void;
-    onCreateBehaviorWithElements: () => void;
+    onCreateBehaviorWithElements: (preSearchedBehaviorName: string) => void;
     updateBehaviorsToEdit: (behaviorsToEdit: Array<IBehavior>) => void;
+    isCreateBehaviorDisabled?: boolean;
 }
 const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
     behaviors,
     elementToEdit,
     onBehaviorClick,
     onCreateBehaviorWithElements,
-    updateBehaviorsToEdit
+    updateBehaviorsToEdit,
+    isCreateBehaviorDisabled = false
 }) => {
     const { t } = useTranslation();
     const calloutTarget = 'calloutTarget';
@@ -45,7 +47,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         setBehaviorState(
             produce((draft) => {
                 draft.behaviorsOnElement = ViewerConfigUtility.getBehaviorsOnElement(
-                    elementToEdit,
+                    elementToEdit?.id,
                     deepCopy(behaviors)
                 );
 
@@ -55,11 +57,11 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 );
             })
         );
-    }, [behaviors]);
+    }, [behaviors, elementToEdit]);
 
     useEffect(() => {
         updateBehaviorsToEdit(behaviorState.behaviorsToEdit);
-    }, [behaviorState.behaviorsToEdit]);
+    }, [behaviorState.behaviorsToEdit, updateBehaviorsToEdit]);
 
     const removeBehavior = useCallback(() => {
         setBehaviorState(
@@ -71,31 +73,34 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
 
                 draft.behaviorToEdit = ViewerConfigUtility.removeElementFromBehavior(
                     elementToEdit,
-                    draft.behaviorToEdit
+                    deepCopy(draft.behaviorToEdit)
                 );
 
                 draft.behaviorsToEdit.push(draft.behaviorToEdit);
                 draft.availableBehaviors.push(draft.behaviorToEdit);
             })
         );
-    }, []);
+    }, [elementToEdit]);
 
-    const addBehaviorToElement = useCallback((behavior: IBehavior) => {
-        setBehaviorState(
-            produce((draft) => {
-                draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
-                    elementToEdit,
-                    behavior
-                );
-                draft.behaviorsOnElement.push(draft.behaviorToEdit);
-                draft.behaviorsToEdit.push(draft.behaviorToEdit);
-                draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
-                    draft.availableBehaviors,
-                    draft.behaviorToEdit
-                );
-            })
-        );
-    }, []);
+    const addBehaviorToElement = useCallback(
+        (behavior: IBehavior) => {
+            setBehaviorState(
+                produce((draft) => {
+                    draft.behaviorToEdit = ViewerConfigUtility.addElementToBehavior(
+                        elementToEdit,
+                        deepCopy(behavior)
+                    );
+                    draft.behaviorsOnElement.push(draft.behaviorToEdit);
+                    draft.behaviorsToEdit.push(draft.behaviorToEdit);
+                    draft.availableBehaviors = ViewerConfigUtility.removeBehaviorFromList(
+                        draft.availableBehaviors,
+                        draft.behaviorToEdit
+                    );
+                })
+            );
+        },
+        [elementToEdit]
+    );
 
     const setBehaviorToEdit = useCallback((item: IBehavior) => {
         setBehaviorState(
@@ -123,15 +128,16 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
         behaviorState.behaviorsOnElement,
         setBehaviorToEdit,
         onBehaviorClick,
-        removeBehavior
+        removeBehavior,
+        t
     ]);
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
-        <>
+        <div className={commonPanelStyles.paddedLeftPanelBlock}>
             {behaviorState.behaviorsOnElement?.length === 0 && (
                 <div className={commonPanelStyles.noDataText}>
-                    {t('3dSceneBuilder.noBehaviorsOnElement')}
+                    {t('3dSceneBuilder.elementBehaviorMeshTab.noDataMessage')}
                 </div>
             )}
             <CardboardList<IBehavior>
@@ -163,9 +169,10 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                     hideCallout={() => setShowAddBehavior(false)}
                     onAddBehavior={addBehaviorToElement}
                     onCreateBehaviorWithElements={onCreateBehaviorWithElements}
+                    isCreateBehaviorDisabled={isCreateBehaviorDisabled}
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(
@@ -215,4 +222,4 @@ function getListItems(
     });
 }
 
-export default BehaviorsTab;
+export default memo(BehaviorsTab);

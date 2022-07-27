@@ -10,7 +10,8 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
     calloutTarget,
     onAddBehavior,
     onCreateBehaviorWithElements,
-    hideCallout
+    hideCallout,
+    isCreateBehaviorDisabled = false
 }) => {
     const { t } = useTranslation();
 
@@ -35,7 +36,8 @@ const AddBehaviorCallout: React.FC<IADT3DSceneBuilderAddBehaviorCalloutProps> = 
             noResultText={t('3dSceneBuilder.noAvailableBehaviors')}
             primaryActionProps={{
                 onPrimaryActionClick: onCreateBehaviorWithElements,
-                primaryActionLabel: t('3dSceneBuilder.createBehavior')
+                primaryActionLabel: t('3dSceneBuilder.newBehavior'),
+                disabled: isCreateBehaviorDisabled
             }}
             searchBoxDataTestId="behavior-callout-search"
         />
