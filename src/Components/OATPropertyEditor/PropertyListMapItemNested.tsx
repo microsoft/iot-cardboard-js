@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TextField, Stack, Text } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
@@ -7,52 +7,58 @@ import {
     getListMapItemTextStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
-
-type IEnumItem = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    index?: number;
-    item?: any;
-    state?: IOATEditorState;
-};
+import {
+    getModelPropertyCollectionName,
+    getTargetFromSelection
+} from './Utils';
+import { PropertyListMapItemNestedProps } from './PropertyListMapItemNested.types';
 
 export const PropertyListMapItemNested = ({
     dispatch,
     item,
     index,
     state
-}: IEnumItem) => {
+}: PropertyListMapItemNestedProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const mapItemStyles = getMapItemStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const textStyles = getListMapItemTextStyles();
-    const { model } = state;
+    const { models, selection } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
-    const updateMapKeyName = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy.contents[index].schema.mapKey.name = value;
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
+    const updateMapKeyName = (value: string) => {
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 
-    const updateMapValueName = (value) => {
-        const modelCopy = deepCopy(model);
-        modelCopy.contents[index].schema.mapValue.name = value;
+    const updateMapValueName = (value: string) => {
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
+            type: SET_OAT_MODELS,
+            payload: modelsCopy
         });
     };
 
     return (
         <div className={propertyInspectorStyles.mapItemWrap}>
-            <Stack styles={mapItemStyles} tabIndex={0}>
+            <Stack styles={mapItemStyles}>
                 <Text styles={textStyles}>{t('OATPropertyEditor.key')}</Text>
                 <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField
@@ -64,7 +70,7 @@ export const PropertyListMapItemNested = ({
                     <Text>{item.schema.mapKey.schema}</Text>
                 </div>
             </Stack>
-            <Stack styles={mapItemStyles} tabIndex={0}>
+            <Stack styles={mapItemStyles}>
                 <Text styles={textStyles}>{t('OATPropertyEditor.value')}</Text>
                 <div className={propertyInspectorStyles.mapItemInputWrap}>
                     <TextField

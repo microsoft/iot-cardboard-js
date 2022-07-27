@@ -1,68 +1,52 @@
 import React, { useState } from 'react';
-import { TextField, Text, IconButton } from '@fluentui/react';
+import { Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
-    getPropertyListItemIconWrapMoreStyles,
-    getPropertyEditorTextFieldStyles
+    getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import { deepCopy } from '../../Models/Services/Utils';
-
-type IEnumItem = {
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    index?: number;
-    item?: any;
-    parentIndex?: number;
-    state?: IOATEditorState;
-};
+import { getModelPropertyListItemName } from './Utils';
+import { EnumItemProps } from './PropertyListEnumItemNested.types';
+import {
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_PROPERTY_MODAL_BODY
+} from '../../Models/Constants/ActionTypes';
+import { FormBody } from './Constants';
 
 export const PropertyListEnumItemNested = ({
+    collectionLength,
     deleteNestedItem,
     dispatch,
     item,
+    onMove,
     index,
-    parentIndex,
-    state
-}: IEnumItem) => {
+    parentIndex
+}: EnumItemProps) => {
     const { t } = useTranslation();
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const { model } = state;
 
-    const updateEnum = (value) => {
-        const activeItem = model.contents[parentIndex].schema.enumValues[index];
-        const prop = {
-            displayName: value
-        };
-        const modelCopy = deepCopy(model);
-        modelCopy.contents[parentIndex].schema.enumValues[index] = {
-            ...activeItem,
-            ...prop
-        };
+    const onInfoButtonClick = () => {
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: index
         });
-    };
-
-    const getErrorMessage = (value) => {
-        const find = model.contents[parentIndex].schema.enumValues.find(
-            (item) => item.name === value
-        );
-        if (!find && value !== '') {
-            updateEnum(value);
-        }
-
-        return find
-            ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
-            : '';
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: parentIndex
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
     };
 
     return (
@@ -72,14 +56,14 @@ export const PropertyListEnumItemNested = ({
             id={`enum_${item.name}`}
         >
             <div></div> {/* Needed for gridTemplateColumns style  */}
-            <TextField
-                styles={textFieldStyles}
-                borderless
-                placeholder={item.displayName}
-                validateOnFocusOut
-                onGetErrorMessage={getErrorMessage}
-            />
+            <Text>{getModelPropertyListItemName(item.name)}</Text>
             <Text>{item.enumValue}</Text>
+            <IconButton
+                iconProps={{ iconName: 'info' }}
+                styles={iconWrapMoreStyles}
+                title={t('OATPropertyEditor.info')}
+                onClick={onInfoButtonClick}
+            />
             <IconButton
                 iconProps={{
                     iconName: 'more'
@@ -98,6 +82,14 @@ export const PropertyListEnumItemNested = ({
                         addItemToTemplates={false}
                         targetId={`enum_${item.name}`}
                         setSubMenuActive={setSubMenuActive}
+                        onMoveUp={
+                            // Use function if item is not the first item in the list
+                            index > 0 ? onMove : null
+                        }
+                        onMoveDown={
+                            // Use function if item is not the last item in the list
+                            index < collectionLength - 1 ? onMove : null
+                        }
                     />
                 )}
             </IconButton>

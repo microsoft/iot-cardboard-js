@@ -1,4 +1,4 @@
-import { AbstractMesh, int, Scene } from '@babylonjs/core';
+import { AbstractMesh, Scene } from '@babylonjs/core';
 import {
     ADTModelData,
     ADTRelationshipsData,
@@ -64,6 +64,12 @@ import {
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlProperty,
+    DtdlRelationship
+} from './dtdlInterfaces';
 
 export interface IAction {
     type: string;
@@ -756,77 +762,42 @@ export interface IBlobFile {
     Properties: Record<string, any>;
 }
 
-export interface IOATGraphCustomNodeProps {
-    data: IOATGraphCustomNodeData;
+export interface IOATGraphCustomNodeProps extends IOATNodeElement {
     isConnectable: boolean;
 }
 
-export interface IOATGraphCustomNodeData {
-    id: string;
-    name: string;
-    type: string;
-    context: string;
-    content: IOATTwinNodeContents[];
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
 
-export interface IOATGraphCustomEdgeProps {
-    id: string;
-    sourceX: string;
-    sourceY: string;
-    targetX: string;
-    targetY: string;
-    sourcePosition: number;
-    targetPosition: number;
-    style: React.CSSProperties;
-    data: IOATGraphCustomEdgeData;
-    markerEnd: string;
-}
-
-export interface IOATGraphCustomEdgeData {
-    id: string;
-    name: string;
-    displayName: string;
-    type: string;
-}
 export interface IAliasedTwinProperty {
     alias: 'LinkedTwin' | string;
     property: string;
 }
 
-export interface IOATElementsChangeEventArgs {
-    digitalTwinsModels: IOATTwinModelNodes;
+export interface ILanguageOption {
+    key: string;
 }
 
-export interface IOATTwinModelNodes {
-    '@id': string;
+export interface DTDLPropertySchema {
     '@type': string;
-    displayName: string;
-    contents: IOATTwinNodeContents[];
-    extends?: string;
+    fields?: Record<string, any>[];
+    enumValues?: DTDLPropertyEnumValue[];
+    mapKey?: Record<string, any>;
+    mapValue?: Record<string, any>;
+    valueSchema?: string;
 }
-
-export interface IOATTwinNodeContents {
-    '@id': string;
-    '@type': string;
-    name?: string;
-    displayName?: string;
-    target?: string;
-}
-export interface DTDLProperty {
-    readonly ['@type']: string;
-    ['@id']?: string;
+export interface DTDLPropertyEnumValue {
+    displayName?: string | Record<string, unknown>;
+    '@id'?: string;
     name: string;
-    schema: string | Record<string, any>;
-    comment?: string;
+    enumValue: string;
     description?: string;
-    displayName?: string;
-    unit?: string;
-    writable?: boolean;
+    comment?: string;
 }
 
 export interface IOATNodeElement {
     id: string;
-    data?: IOATGraphCustomNodeData;
+    data?: DtdlInterface;
     position?: IOATNodePosition;
     type?: string;
 }
@@ -836,19 +807,25 @@ export interface IOATNodePosition {
     y: number;
 }
 
-export interface IOATRelationShipElement {
-    id?: string;
+export interface IOATRelationshipElement {
+    id: string;
     label?: string;
     markerEnd?: string;
-    source?: string;
+    source: string;
     sourceHandle?: string;
-    target?: string;
+    target: string;
     targetHandle?: string;
     type?: string;
-    data?: IOATGraphCustomEdgeData;
+    data?: DtdlRelationship | DtdlInterfaceContent;
 }
 
 export interface IOATLastPropertyFocused {
-    item: DTDLProperty;
+    item: DtdlProperty;
+    index: number;
+}
+
+export interface IOATProperty {
+    id: string;
+    displayName: string;
     index: number;
 }

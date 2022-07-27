@@ -1,31 +1,46 @@
 import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES_ACTIVE,
-    SET_OAT_TEMPLATES
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
+    SET_OAT_PROPERTY_MODAL_BODY
 } from '../../Models/Constants/ActionTypes';
+import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
-export const defaultOATEditorState: IOATEditorState = {
-    model: null,
-    templatesActive: false,
-    templates: null
+export const defaultOATPropertyEditorState: IOATPropertyEditorState = {
+    currentPropertyIndex: null,
+    currentNestedPropertyIndex: null,
+    draggingTemplate: false,
+    draggingProperty: false,
+    modalOpen: false,
+    modalBody: null
 };
 
 export const OATPropertyEditorReducer = produce(
-    (state: IOATEditorState, action: IAction) => {
+    (state: IOATPropertyEditorState, action: IAction) => {
         const payload = action.payload;
 
         switch (action.type) {
-            case SET_OAT_PROPERTY_EDITOR_MODEL:
-                state.model = payload;
+            case SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX:
+                state.currentPropertyIndex = payload;
                 return;
-            case SET_OAT_TEMPLATES_ACTIVE:
-                state.templatesActive = payload;
+            case SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX:
+                state.currentNestedPropertyIndex = payload;
                 return;
-            case SET_OAT_TEMPLATES:
-                state.templates = payload;
+            case SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE:
+                state.draggingTemplate = payload;
+                return;
+            case SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY:
+                state.draggingProperty = payload;
+                return;
+            case SET_OAT_PROPERTY_MODAL_OPEN:
+                state.modalOpen = payload;
+                return;
+            case SET_OAT_PROPERTY_MODAL_BODY:
+                state.modalBody = payload;
                 return;
         }
     }

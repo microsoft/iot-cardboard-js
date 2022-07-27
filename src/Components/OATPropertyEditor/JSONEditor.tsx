@@ -1,35 +1,49 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Editor from '@monaco-editor/react';
-import { Theme } from '../../Models/Constants/Enums';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROPERTY_EDITOR_MODEL } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    SET_OAT_MODIFIED,
+    SET_OAT_ERROR,
+    SET_OAT_MODELS
+} from '../../Models/Constants/ActionTypes';
+import { PrimaryButton, DefaultButton } from '@fluentui/react';
+import {
+    getCancelButtonStyles,
+    getSaveButtonStyles
+} from './OATPropertyEditor.styles';
+import { deepCopy, parseModel } from '../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { JSONEditorProps } from './JSONEditor.types';
+import { OATRelationshipHandleName } from '../../Models/Constants';
+import { DTDLModel } from '../../Models/Classes/DTDL';
+import { getTargetFromSelection, replaceTargetFromSelection } from './Utils';
 
-type OATPropertyEditorProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    theme?: Theme;
-    state?: IOATEditorState;
-};
-
-const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
+const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
-    const themeToUse = (libTheme || theme) ?? Theme.Light;
+    const themeToUse = libTheme || theme;
     const editorRef = useRef(null);
-    const { model } = state;
-    const [content, setContent] = useState(JSON.stringify(model, null, 2));
+    const { selection, models } = state;
+    const [content, setContent] = useState(null);
+    const cancelButtonStyles = getCancelButtonStyles();
+    const saveButtonStyles = getSaveButtonStyles();
+
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
 
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));
     }, [model]);
 
-    const onHandleEditorDidMount = (editor) => {
+    const onHandleEditorDidMount = (editor: any) => {
         editorRef.current = editor;
     };
 
-    const isJsonStringValid = (value) => {
+    const isJsonStringValid = (value: string) => {
         try {
             return JSON.parse(value);
         } catch (e) {
@@ -37,25 +51,11 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
         }
     };
 
-    const validateJSONValues = (json) => {
-        return json.contents
-            .map((property) => property.name)
-            .some((item, index, array) => array.indexOf(item) != index);
-    };
-
-    const onHandleEditorChange = (value) => {
-        const validJson = isJsonStringValid(value);
-        if (validJson) {
-            if (validateJSONValues(validJson)) {
-                alert(t('OATPropertyEditor.errorRepeatedPropertyName'));
-            } else {
-                dispatch({
-                    type: SET_OAT_PROPERTY_EDITOR_MODEL,
-                    payload: validJson
-                });
-            }
+    const onHandleEditorChange = (value: string) => {
+        if (value.replaceAll('\r\n', '\n') !== JSON.stringify(model, null, 2)) {
+            setContent(value);
+            dispatch({ type: SET_OAT_MODIFIED, payload: true });
         }
-        setContent(value);
     };
 
     function setEditorThemes(monaco: any) {
@@ -76,20 +76,109 @@ const JSONEditor = ({ dispatch, theme, state }: OATPropertyEditorProps) => {
         });
     }
 
-    return (
-        <Editor
-            defaultLanguage="json"
-            value={content}
-            onMount={onHandleEditorDidMount}
-            onChange={onHandleEditorChange}
-            theme={
-                themeToUse === 'dark' || theme === 'explorer'
-                    ? 'vs-dark'
-                    : themeToUse
+    const onCancelClick = () => {
+        setContent(JSON.stringify(model, null, 2));
+        dispatch({ type: SET_OAT_MODIFIED, payload: false });
+    };
+
+    const checkDuplicateId = (modelValue: DTDLModel) => {
+        if (modelValue['@type'] === OATRelationshipHandleName) {
+            const repeatedIdOnRelationship = models.find(
+                (queryModel) =>
+                    queryModel.contents &&
+                    queryModel.contents.find(
+                        (content) =>
+                            content['@id'] === modelValue['@id'] &&
+                            content['@id'] !== model['@id'] // Prevent checking for duplicate name to itself
+                    )
+            );
+            return !!repeatedIdOnRelationship;
+        } else {
+            // Check current value is not used by another model as @id within models
+            const repeatedIdModel = models.find(
+                (queryModel) =>
+                    queryModel['@id'] === modelValue['@id'] &&
+                    queryModel['@id'] !== model['@id']
+            );
+            return !!repeatedIdModel;
+        }
+    };
+
+    const onSaveClick = async () => {
+        const newModel = isJsonStringValid(content);
+        const validJson = await parseModel(content);
+
+        const save = () => {
+            const modelsCopy = deepCopy(models);
+            replaceTargetFromSelection(modelsCopy, selection, newModel);
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
+            });
+            dispatch({ type: SET_OAT_MODIFIED, payload: false });
+        };
+
+        const undoSave = () => {
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+        };
+
+        if (!validJson) {
+            if (checkDuplicateId(newModel)) {
+                // Dispatch error if duplicate id
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATPropertyEditor.errorInvalidJSON'),
+                        message: t('OATPropertyEditor.errorRepeatedId')
+                    }
+                });
+            } else {
+                execute(save, undoSave);
             }
-            beforeMount={setEditorThemes}
-            height={'95%'}
-        />
+        } else {
+            dispatch({
+                type: SET_OAT_ERROR,
+                payload: {
+                    title: t('OATPropertyEditor.errorInvalidJSON'),
+                    message: validJson
+                }
+            });
+        }
+    };
+
+    return (
+        <>
+            <Editor
+                defaultLanguage="json"
+                value={content}
+                onMount={onHandleEditorDidMount}
+                onChange={onHandleEditorChange}
+                theme={
+                    themeToUse === 'dark' || theme === 'explorer'
+                        ? 'vs-dark'
+                        : themeToUse
+                }
+                beforeMount={setEditorThemes}
+                height={'95%'}
+            />
+            {state.modified && (
+                <>
+                    <PrimaryButton
+                        styles={saveButtonStyles}
+                        onClick={onSaveClick}
+                        text={t('save')}
+                    ></PrimaryButton>
+                    <DefaultButton
+                        styles={cancelButtonStyles}
+                        onClick={onCancelClick}
+                        text={t('cancel')}
+                    ></DefaultButton>
+                </>
+            )}
+        </>
     );
 };
 

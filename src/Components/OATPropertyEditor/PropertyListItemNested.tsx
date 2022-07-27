@@ -1,167 +1,194 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
     getPropertyListItemIconWrapStyles,
-    getPropertyListItemIconWrapMoreStyles,
-    getPropertyInspectorStyles
+    getPropertyListItemIconWrapMoreStyles
 } from './OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { deepCopy } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_MODELS,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import {
-    IAction,
-    IOATLastPropertyFocused,
-    DTDLProperty
-} from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import AddPropertyBar from './AddPropertyBar';
-import PropertySelector from './PropertySelector';
 
-type IPropertyListItemNested = {
-    deleteNestedItem?: (parentIndex: number, index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string) => string;
-    index?: number;
-    item?: DTDLProperty;
-    parentIndex?: number;
-    setCurrentNestedPropertyIndex: React.Dispatch<React.SetStateAction<number>>;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-    lastPropertyFocused?: IOATLastPropertyFocused;
-};
+import {
+    getModelPropertyCollectionName,
+    getModelPropertyListItemName,
+    getTargetFromSelection
+} from './Utils';
+import { FormBody } from './Constants';
+import { PropertyListItemNestedProps } from './PropertyListItemNested.types';
 
 export const PropertyListItemNested = ({
+    collectionLength,
     deleteNestedItem,
     dispatch,
     getErrorMessage,
     getItemClassName,
     index,
     item,
+    onMove,
     parentIndex,
-    setCurrentNestedPropertyIndex,
-    setCurrentPropertyIndex,
-    setModalOpen,
-    state,
-    lastPropertyFocused
-}: IPropertyListItemNested) => {
+    state
+}: PropertyListItemNestedProps) => {
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const { execute } = useContext(CommandHistoryContext);
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const [hover, setHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
     );
-    const { model, templates } = state;
 
-    const handleDuplicate = () => {
-        const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-        itemCopy.displayName = `${itemCopy.displayName}_${t(
-            'OATPropertyEditor.copy'
-        )}`;
-        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
 
-        const modelCopy = deepCopy(model);
-        modelCopy.contents[parentIndex].schema.fields.push(itemCopy);
-        dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
-        });
+    const onDuplicate = () => {
+        const duplicate = () => {
+            const itemCopy = deepCopy(item);
+            itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
+            itemCopy.displayName = `${itemCopy.displayName}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
+            itemCopy['@id'] = `${itemCopy['@id']}_${t(
+                'OATPropertyEditor.copy'
+            )}`;
+
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            modelCopy[propertiesKeyName][parentIndex].schema.fields.push(
+                itemCopy
+            );
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
+            });
+        };
+
+        const undoDuplicate = () => {
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+        };
+
+        execute(duplicate, undoDuplicate);
     };
 
-    const handleTemplateAddition = () => {
+    const onTemplateAddition = () => {
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
+    };
+
+    const onInfoButtonClick = () => {
         dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: [...templates.item]
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: parentIndex
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
         });
     };
 
     return (
         <div
-            className={propertyInspectorStyles.propertyNestedItemRelativeWrap}
-            onMouseOver={() => {
-                setHover(true);
-            }}
-            onMouseLeave={() => {
-                setHover(false);
-            }}
+            className={getItemClassName(index)}
+            id={getModelPropertyListItemName(item.name)}
         >
-            <div className={getItemClassName(index)} id={item.name}>
-                <div></div> {/* Needed for gridTemplateColumns style  */}
+            <div></div> {/* Needed for gridTemplateColumns style  */}
+            {!displayNameEditor && (
+                <Text onDoubleClick={() => setDisplayNameEditor(true)}>
+                    {item.displayName}
+                </Text>
+            )}
+            {displayNameEditor && (
                 <TextField
                     styles={textFieldStyles}
                     borderless
-                    placeholder={item.name}
+                    placeholder={getModelPropertyListItemName(item.name)}
                     validateOnFocusOut
                     onChange={() => {
-                        setCurrentPropertyIndex(parentIndex);
+                        dispatch({
+                            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+                            payload: parentIndex
+                        });
                     }}
+                    onBlur={() => setDisplayNameEditor(false)}
                     onGetErrorMessage={getErrorMessage}
                 />
-                <Text>{item.schema}</Text>
-                <IconButton
-                    styles={iconWrapStyles}
-                    iconProps={{ iconName: 'info' }}
-                    title={t('OATPropertyEditor.info')}
-                    onClick={() => {
-                        setCurrentNestedPropertyIndex(index);
-                        setCurrentPropertyIndex(parentIndex);
-                        setModalOpen(true);
-                    }}
-                />
-                <IconButton
-                    styles={iconWrapMoreStyles}
-                    iconProps={{ iconName: 'more' }}
-                    title={t('OATPropertyEditor.more')}
-                    onClick={() => setSubMenuActive(!subMenuActive)}
-                >
-                    {subMenuActive && (
-                        <PropertyListItemSubMenu
-                            deleteNestedItem={deleteNestedItem}
-                            index={index}
-                            parentIndex={parentIndex}
-                            subMenuActive={subMenuActive}
-                            handleTemplateAddition={() => {
-                                handleTemplateAddition();
-                            }}
-                            handleDuplicate={() => {
-                                handleDuplicate();
-                            }}
-                            targetId={item.name}
-                            setSubMenuActive={setSubMenuActive}
-                        />
-                    )}
-                </IconButton>
-            </div>
-            {propertySelectorVisible && (
-                <PropertySelector
-                    setPropertySelectorVisible={setPropertySelectorVisible}
-                    lastPropertyFocused={lastPropertyFocused}
-                    targetId={item.name}
-                    dispatch={dispatch}
-                    state={state}
-                    className={
-                        propertyInspectorStyles.propertySelectorPropertyListHeader
-                    }
-                />
             )}
-            {hover && (
-                <AddPropertyBar
-                    onMouseOver={() => {
-                        setPropertySelectorVisible(true);
-                    }}
-                />
-            )}
+            <Text>{item.schema}</Text>
+            <IconButton
+                styles={iconWrapStyles}
+                iconProps={{ iconName: 'info' }}
+                title={t('OATPropertyEditor.info')}
+                onClick={onInfoButtonClick}
+            />
+            <IconButton
+                styles={iconWrapMoreStyles}
+                iconProps={{ iconName: 'more' }}
+                title={t('OATPropertyEditor.more')}
+                onClick={() => setSubMenuActive(!subMenuActive)}
+            >
+                {subMenuActive && (
+                    <PropertyListItemSubMenu
+                        deleteNestedItem={deleteNestedItem}
+                        index={index}
+                        parentIndex={parentIndex}
+                        subMenuActive={subMenuActive}
+                        onTemplateAddition={() => {
+                            onTemplateAddition();
+                        }}
+                        onDuplicate={() => {
+                            onDuplicate();
+                        }}
+                        targetId={getModelPropertyListItemName(item.name)}
+                        setSubMenuActive={setSubMenuActive}
+                        onMoveUp={
+                            // Use function if item is not the first item in the list
+                            index > 0 ? onMove : null
+                        }
+                        onMoveDown={
+                            // Use function if item is not the last item in the list
+                            index < collectionLength - 1 ? onMove : null
+                        }
+                    />
+                )}
+            </IconButton>
         </div>
     );
 };

@@ -1,85 +1,94 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext, useMemo } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import { deepCopy } from '../../Models/Services/Utils';
-import TemplateListItem from './TeplateListItem';
+import TemplateListItem from './TemplateListItem';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
-    SET_OAT_TEMPLATES
+    SET_OAT_TEMPLATES,
+    SET_OAT_CONFIRM_DELETE_OPEN,
+    SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+    SET_OAT_MODELS
 } from '../../Models/Constants/ActionTypes';
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-interface ITemplateList {
-    draggingTemplate?: boolean;
-    draggingProperty?: boolean;
-    enteredTemplateRef: any;
-    draggedTemplateItemRef: any;
-    enteredPropertyRef: any;
-    setDraggingTemplate?: (dragging: boolean) => boolean;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    state?: IOATEditorState;
-}
+import {
+    getModelPropertyCollectionName,
+    getTargetFromSelection
+} from './Utils';
+import { TemplateListProps } from './TemplateList.types';
 
 export const TemplateList = ({
     draggedTemplateItemRef,
     enteredPropertyRef,
     draggingTemplate,
-    setDraggingTemplate,
     enteredTemplateRef,
     draggingProperty,
     dispatch,
     state
-}: ITemplateList) => {
+}: TemplateListProps) => {
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const dragItem = useRef(null);
     const dragNode = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredTemplateRef.current);
-    const { model, templates } = state;
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
+    );
+
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
 
     const handleTemplateItemDropOnPropertyList = () => {
         // Prevent drop if duplicate
-        const isTemplateAlreadyInModel = model.contents.find(
+        const isTemplateAlreadyInModel = model[propertiesKeyName].find(
             (item) =>
                 item['@id'] === templates[draggedTemplateItemRef.current]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        const newModel = deepCopy(model);
+        const modelsCopy = deepCopy(models);
+        const modelCopy = getTargetFromSelection(modelsCopy, selection);
         // + 1 so that it drops under current item
-        newModel.contents.splice(
+        modelCopy[propertiesKeyName].splice(
             enteredPropertyRef.current + 1,
             0,
             templates[draggedTemplateItemRef.current]
         );
-        dispatch({ type: SET_OAT_PROPERTY_EDITOR_MODEL, payload: newModel });
+        dispatch({ type: SET_OAT_MODELS, payload: modelsCopy });
     };
 
-    const handleDragEnd = () => {
+    const onDragEnd = () => {
         if (enteredPropertyRef.current !== null) {
             handleTemplateItemDropOnPropertyList();
         }
-
-        dragNode.current.removeEventListener('dragend', handleDragEnd);
         dragItem.current = null;
         dragNode.current = null;
         draggedTemplateItemRef.current = null;
-        setDraggingTemplate(false);
+        dispatch({
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+            payload: false
+        });
         enteredPropertyRef.current = null;
     };
 
-    const handleDragStart = (e, propertyIndex) => {
+    const onDragStart = (e: Event, propertyIndex: number) => {
         dragItem.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', handleDragEnd);
+        dragNode.current.addEventListener('dragend', onDragEnd);
         draggedTemplateItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
-            setDraggingTemplate(true);
+            dispatch({
+                type: SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE,
+                payload: true
+            });
         }, 0);
     };
 
-    const handleDragEnter = (e, i) => {
+    const onDragEnter = (e: React.DragEvent, i: number) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
@@ -98,7 +107,7 @@ export const TemplateList = ({
         }
     };
 
-    const getDragItemClassName = (propertyIndex) => {
+    const getDragItemClassName = (propertyIndex: number) => {
         if (propertyIndex === dragItem.current && draggedTemplateItemRef) {
             return propertyInspectorStyles.templateItemDragging;
         }
@@ -109,27 +118,78 @@ export const TemplateList = ({
         return propertyInspectorStyles.templateItem;
     };
 
-    const handleDragEnterExternalItem = (i) => {
+    const onDragEnterExternalItem = (i: number) => {
         setEnteredItem(i);
         enteredTemplateRef.current = i;
     };
 
-    const getSchemaText = (itemSchema) => {
-        if (typeof itemSchema === 'object') {
+    const getSchemaText = (itemSchema: string) => {
+        if (typeof itemSchema === 'object' && itemSchema) {
             return itemSchema['@type'];
         }
 
         return itemSchema;
     };
 
-    const deleteItem = (index) => {
-        const newTemplate = deepCopy(templates);
-        newTemplate.splice(index, 1);
+    const deleteItem = (index: number) => {
+        const deletion = (index) => {
+            const newTemplate = deepCopy(templates);
+            newTemplate.splice(index, 1);
+            const dispatchDelete = () => {
+                dispatch({
+                    type: SET_OAT_TEMPLATES,
+                    payload: newTemplate
+                });
+            };
+            dispatch({
+                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
+        };
 
-        dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
-        });
+        const undoDeletion = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => deletion(index), undoDeletion);
+    };
+
+    const onPropertyListAddition = (item) => {
+        if (model) {
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            modelCopy[propertiesKeyName].push(item);
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
+            });
+        }
+    };
+
+    const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
+        const onMove = (index, moveUp) => {
+            const direction = moveUp ? -1 : 1;
+            const newTemplate = deepCopy(templates);
+            const item = newTemplate[index];
+            newTemplate.splice(index, 1);
+            newTemplate.splice(index + direction, 0, item);
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: newTemplate
+            });
+        };
+
+        const undoOnMove = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(() => onMove(index, moveUp), undoOnMove);
     };
 
     return (
@@ -137,8 +197,8 @@ export const TemplateList = ({
             className={propertyInspectorStyles.propertiesWrap}
             onDragEnter={
                 draggingTemplate
-                    ? (e) => handleDragEnter(e, 0)
-                    : () => handleDragEnterExternalItem(0)
+                    ? (e) => onDragEnter(e, 0)
+                    : () => onDragEnterExternalItem(0)
             }
         >
             {state &&
@@ -152,12 +212,13 @@ export const TemplateList = ({
                         index={i}
                         deleteItem={deleteItem}
                         getDragItemClassName={getDragItemClassName}
-                        handleDragEnter={handleDragEnter}
-                        handleDragEnterExternalItem={
-                            handleDragEnterExternalItem
-                        }
-                        handleDragStart={handleDragStart}
+                        onDragEnter={onDragEnter}
+                        onDragEnterExternalItem={onDragEnterExternalItem}
+                        onDragStart={onDragStart}
                         getSchemaText={getSchemaText}
+                        onPropertyListAddition={onPropertyListAddition}
+                        onMove={moveItemOnTemplateList}
+                        templatesLength={templates.length}
                     />
                 ))}
         </div>

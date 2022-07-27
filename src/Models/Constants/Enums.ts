@@ -219,3 +219,8 @@ export enum GlobeTheme {
     Grey = 'Grey',
     Yellow = 'Yellow'
 }
+
+export enum MultiLanguageSelectionType {
+    displayName = 'displayName',
+    description = 'description'
+}

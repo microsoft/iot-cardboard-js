@@ -1,11 +1,23 @@
-import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
+import {
+    IStyle,
+    mergeStyleSets,
+    useTheme,
+    FontSizes,
+    IButtonStyles,
+    IIconStyles
+} from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
-const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
+const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
 const classNames = {
     container: `${classPrefix}-container`,
-    modelList: `${classPrefix}-model-list`,
-    nodeCancel: `${classPrefix}-nodeCancel`
+    modelNode: `${classPrefix}-model-node`,
+    modelNodeSelected: `${classPrefix}-model-node-selected`,
+    modelNodeButtonContent: `${classPrefix}-model-node-button-content`,
+    nodeCancel: `${classPrefix}-nodeCancel`,
+    strongText: `${classPrefix}-strong-text`,
+    searchText: `${classPrefix}-searchText`,
+    placeholderText: `${classPrefix}-placeholder-text`
 };
 
 export const getModelsStyles = () => {
@@ -16,12 +28,42 @@ export const getModelsStyles = () => {
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
-                height: '100%'
+                maxHeight: 'calc(100vh - 100px)',
+                height: '100%',
+                overflowX: 'hidden',
+                '::-webkit-scrollbar': {
+                    width: '0px',
+                    opacity: '0'
+                }
             } as IStyle
         ],
-        modelList: [
-            classNames.modelList,
+        modelNode: [
+            classNames.modelNode,
             {
+                width: '95%',
+                height: 'fit-content',
+                display: 'grid',
+                marginLeft: '2%',
+                marginRight: '3%',
+                gridTemplateColumns: '94% 5%',
+                border: `1px solid ${theme.semanticColors.bodyDivider}`,
+                padding: '5px',
+                marginBottom: '10px'
+            } as IStyle
+        ],
+        modelNodeSelected: [
+            classNames.modelNodeSelected,
+            {
+                border: `2px solid ${theme.semanticColors.focusBorder}`,
+                borderRadius: '2px'
+            } as IStyle
+        ],
+        modelNodeButtonContent: [
+            classNames.modelNodeButtonContent,
+            {
+                height: 'fit-content',
+                display: 'flex',
+                flexDirection: 'column',
                 width: '100%'
             } as IStyle
         ],
@@ -29,7 +71,58 @@ export const getModelsStyles = () => {
             classNames.nodeCancel,
             {
                 height: FontSizes.size12,
-                float: 'right'
+                width: 'fit-content',
+                position: 'relative',
+                zIndex: '101',
+                float: 'right',
+                display: 'flex',
+                justifyContent: 'flex-end',
+                padding: 0
+            } as IStyle
+        ],
+        regularText: [
+            classNames.strongText,
+            {
+                textAlign: 'left',
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minHeight: '17px'
+            } as IStyle
+        ],
+        placeholderText: [
+            classNames.placeholderText,
+            {
+                textAlign: 'left',
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minHeight: '17px',
+                color: theme.semanticColors.inputPlaceholderText,
+                opacity: '.9'
+            } as IStyle
+        ],
+        strongText: [
+            classNames.strongText,
+            {
+                textAlign: 'left',
+                float: 'left',
+                maxWidth: '100%',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+            } as IStyle
+        ],
+        searchText: [
+            classNames.searchText,
+            {
+                marginLeft: '2%',
+                marginRight: '3%',
+                marginBottom: '10px'
             } as IStyle
         ]
     });
@@ -40,22 +133,19 @@ export const getModelsIconStyles = () => {
     return {
         root: {
             fontSize: FontSizes.size10,
-            color: theme.semanticColors.actionLink
+            color: theme.semanticColors.actionLink,
+            marginRight: '5px',
+            marginTop: '5px'
         }
-    } as Partial<IStyle>;
+    } as IIconStyles;
 };
 
 export const getModelsActionButtonStyles = () => {
-    const theme = useTheme();
     return {
         root: {
-            border: '1px',
-            borderColor: theme.semanticColors.bodyDivider,
-            borderStyle: 'solid',
-            padding: '5px',
-            margin: '5px',
-            width: '95%',
-            height: '50px'
+            width: '100%',
+            height: 'fit-content',
+            position: 'relative'
         }
-    } as Partial<IStyle>;
+    } as IButtonStyles;
 };

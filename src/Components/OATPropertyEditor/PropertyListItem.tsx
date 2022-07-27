@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
+import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyEditorTextFieldStyles,
@@ -10,36 +11,20 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_PROPERTY_EDITOR_MODEL,
+    SET_OAT_MODELS,
+    SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+    SET_OAT_PROPERTY_MODAL_BODY,
+    SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_TEMPLATES
 } from '../../Models/Constants/ActionTypes';
-import {
-    DTDLProperty,
-    IAction,
-    IOATLastPropertyFocused
-} from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
-import AddPropertyBar from './AddPropertyBar';
-import PropertySelector from './PropertySelector';
 
-type IPropertyListItem = {
-    index?: number;
-    deleteItem?: (index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    draggingProperty?: boolean;
-    getItemClassName?: (index: number) => any;
-    getErrorMessage?: (value: string, index?: number) => string;
-    handleDragEnter?: (event: any, item: any) => any;
-    handleDragEnterExternalItem?: (index: number) => any;
-    handleDragStart?: (event: any, item: any) => any;
-    item?: DTDLProperty;
-    lastPropertyFocused?: IOATLastPropertyFocused;
-    setCurrentPropertyIndex?: React.Dispatch<React.SetStateAction<number>>;
-    setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
-    state?: IOATEditorState;
-};
+import {
+    getModelPropertyCollectionName,
+    getModelPropertyListItemName,
+    getTargetFromSelection
+} from './Utils';
+import { FormBody } from './Constants';
+import { PropertyListItemProps } from './PropertyListItem.types';
 
 export const PropertyListItem = ({
     index,
@@ -47,99 +32,164 @@ export const PropertyListItem = ({
     dispatch,
     draggingProperty,
     getItemClassName,
-    getErrorMessage,
-    handleDragEnter,
-    handleDragEnterExternalItem,
-    handleDragStart,
-    setCurrentPropertyIndex,
-    setModalOpen,
+    onDragEnter,
+    onDragEnterExternalItem,
+    onDragStart,
+    onPropertyDisplayNameChange,
+    onMove,
+    propertiesLength,
     item,
-    lastPropertyFocused,
     setLastPropertyFocused,
-    setModalBody,
     state
-}: IPropertyListItem) => {
+}: PropertyListItemProps) => {
     const { t } = useTranslation();
+    const { execute } = useContext(CommandHistoryContext);
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapStyles = getPropertyListItemIconWrapStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const [subMenuActive, setSubMenuActive] = useState(false);
-    const [hover, setHover] = useState(false);
-    const [propertySelectorVisible, setPropertySelectorVisible] = useState(
-        false
+    const [displayNameEditor, setDisplayNameEditor] = useState(false);
+    const { models, selection, templates } = state;
+    const model = useMemo(
+        () => selection && getTargetFromSelection(models, selection),
+        [models, selection]
     );
-    const { model, templates } = state;
 
-    const handleTemplateAddition = () => {
+    const propertiesKeyName = getModelPropertyCollectionName(
+        model ? model['@type'] : null
+    );
+
+    const onTemplateAddition = () => {
+        const addition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: [...templates, item]
+            });
+        };
+
+        const undoAddition = () => {
+            dispatch({
+                type: SET_OAT_TEMPLATES,
+                payload: templates
+            });
+        };
+
+        execute(addition, undoAddition);
+    };
+
+    const onDuplicate = () => {
+        const duplicate = () => {
+            const modelsCopy = deepCopy(models);
+            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const itemCopy = deepCopy(item);
+            if (itemCopy.name) {
+                itemCopy.name = `${itemCopy.name}_${t(
+                    'OATPropertyEditor.copy'
+                )}`;
+            }
+            if (itemCopy.displayName) {
+                itemCopy.displayName = `${itemCopy.displayName}_${t(
+                    'OATPropertyEditor.copy'
+                )}`;
+            }
+            if (itemCopy['@id']) {
+                delete itemCopy['@id'];
+            }
+
+            modelCopy[propertiesKeyName].push(itemCopy);
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: modelsCopy
+            });
+        };
+
+        const undoDuplicate = () => {
+            dispatch({
+                type: SET_OAT_MODELS,
+                payload: models
+            });
+        };
+
+        execute(duplicate, undoDuplicate);
+    };
+
+    const onInfoButtonClick = () => {
         dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: [...templates, item]
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_BODY,
+            payload: FormBody.property
+        });
+        dispatch({
+            type: SET_OAT_PROPERTY_MODAL_OPEN,
+            payload: true
         });
     };
 
-    const handleDuplicate = () => {
-        const itemCopy = deepCopy(item);
-        itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
-        itemCopy.displayName = `${itemCopy.displayName}_${t(
-            'OATPropertyEditor.copy'
-        )}`;
-        itemCopy['@id'] = `${itemCopy['@id']}_${t('OATPropertyEditor.copy')}`;
-
-        const modelCopy = deepCopy(model);
-        modelCopy.contents.push(itemCopy);
+    const onNameChange = (value) => {
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_MODEL,
-            payload: modelCopy
+            type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
+            payload: index
         });
+        onPropertyDisplayNameChange(value, index);
     };
 
     return (
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
-                setHover(true);
-            }}
-            onMouseLeave={() => {
-                setHover(false);
-                setPropertySelectorVisible(false);
+                setLastPropertyFocused({
+                    item: item,
+                    index: index
+                });
             }}
         >
             <div
-                id={item.name}
+                id={getModelPropertyListItemName(item.name)}
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
-                    handleDragStart(e, index);
+                    onDragStart(e, index);
                 }}
                 onDragEnter={
                     draggingProperty
-                        ? (e) => handleDragEnter(e, index)
-                        : () => handleDragEnterExternalItem(index)
+                        ? (e) => onDragEnter(e, index)
+                        : () => onDragEnterExternalItem(index)
                 }
-                onFocus={() => setLastPropertyFocused(null)}
+                onFocus={() =>
+                    setLastPropertyFocused({
+                        item: item,
+                        index: index
+                    })
+                }
                 tabIndex={0}
             >
-                <TextField
-                    borderless
-                    value={item.name}
-                    validateOnFocusOut
-                    onChange={(evt, value) => {
-                        setCurrentPropertyIndex(index);
-                        getErrorMessage(value, index);
-                    }}
-                    styles={textFieldStyles}
-                />
+                {!displayNameEditor && (
+                    <Text onDoubleClick={() => setDisplayNameEditor(true)}>
+                        {getModelPropertyListItemName(item.name)}
+                    </Text>
+                )}
+                {displayNameEditor && (
+                    <TextField
+                        borderless
+                        value={getModelPropertyListItemName(item.name)}
+                        validateOnFocusOut
+                        onChange={(evt, value) => {
+                            onNameChange(value);
+                        }}
+                        onBlur={() => setDisplayNameEditor(false)}
+                        styles={textFieldStyles}
+                    />
+                )}
                 <Text>{item.schema}</Text>
                 <IconButton
                     styles={iconWrapStyles}
                     iconProps={{ iconName: 'info' }}
                     title={t('OATPropertyEditor.info')}
-                    onClick={() => {
-                        setCurrentPropertyIndex(index);
-                        setModalOpen(true);
-                        setModalBody('formProperty');
-                    }}
+                    onClick={onInfoButtonClick}
                 />
                 <IconButton
                     styles={iconWrapMoreStyles}
@@ -152,34 +202,22 @@ export const PropertyListItem = ({
                             deleteItem={deleteItem}
                             index={index}
                             subMenuActive={subMenuActive}
-                            handleTemplateAddition={handleTemplateAddition}
-                            handleDuplicate={handleDuplicate}
-                            targetId={item.name}
+                            onTemplateAddition={onTemplateAddition}
+                            onDuplicate={onDuplicate}
+                            targetId={getModelPropertyListItemName(item.name)}
                             setSubMenuActive={setSubMenuActive}
+                            onMoveUp={
+                                // Use function if item is not the first item in the list
+                                index > 0 ? onMove : null
+                            }
+                            onMoveDown={
+                                // Use function if item is not the last item in the list
+                                index < propertiesLength - 1 ? onMove : null
+                            }
                         />
                     )}
                 </IconButton>
-                {propertySelectorVisible && (
-                    <PropertySelector
-                        setPropertySelectorVisible={setPropertySelectorVisible}
-                        lastPropertyFocused={lastPropertyFocused}
-                        targetId={item.name}
-                        dispatch={dispatch}
-                        state={state}
-                        className={
-                            propertyInspectorStyles.propertySelectorPropertyListHeader
-                        }
-                    />
-                )}
             </div>
-            {hover && (
-                <AddPropertyBar
-                    onMouseOver={() => {
-                        setLastPropertyFocused(null);
-                        setPropertySelectorVisible(true);
-                    }}
-                />
-            )}
         </div>
     );
 };
