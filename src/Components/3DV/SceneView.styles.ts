@@ -13,7 +13,8 @@ const classNames = {
     canvasVisible: `${classPrefix}-canvas-visible`,
     errorMessage: `${classPrefix}-error-message`,
     globeTooltip: `${classPrefix}-globe-tooltip`,
-    root: `${classPrefix}-root`
+    root: `${classPrefix}-root`,
+    modelErrorMessage: `${classPrefix}-model-error-message`
 };
 export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
     mergeStyleSets({
@@ -76,6 +77,15 @@ export const getSceneViewStyles = memoizeFunction((theme: Theme) =>
             {
                 position: 'absolute'
             } as IStyle
+        ],
+        modelErrorMessage: [
+            classNames.modelErrorMessage,
+            {
+                position: 'absolute',
+                top: '64px',
+                left: '16px',
+                width: 'calc(100% - 16px)'
+            }
         ]
     })
 );

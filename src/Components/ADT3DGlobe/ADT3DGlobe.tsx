@@ -24,10 +24,8 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
 }) => {
     const [markers, setMarkers] = useState<Marker[]>([]);
     const [coloredMeshes, setColoredMeshes] = useState<CustomMeshItem[]>([]);
-    const sceneClickRef = useRef<any>();
     const sceneRef = useRef(null);
 
-    sceneClickRef.current = onSceneClick;
     const config = useAdapter({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
@@ -69,6 +67,7 @@ const ADT3DGlobe: React.FC<IADT3DGlobeProps> = ({
             latitude: scene.latitude || 0,
             longitude: scene.longitude || 0,
             name: scene.displayName || 'Unknown',
+            allowGrouping: true,
             UIElement: (
                 <ModelLabel
                     id={scene.id}

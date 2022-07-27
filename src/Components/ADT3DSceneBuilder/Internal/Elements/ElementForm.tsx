@@ -44,6 +44,7 @@ import {
     useElementFormContext
 } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
@@ -348,6 +349,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     '3dSceneBuilder.elementForm.meshTabName'
                                 )}
                                 className={commonPanelStyles.formTabContents}
+                                onRenderItemLink={(props, defaultRenderer) =>
+                                    setPivotToRequired(
+                                        coloredMeshItems.length > 0,
+                                        props,
+                                        defaultRenderer
+                                    )
+                                }
                             >
                                 <MeshTab
                                     elementToEdit={

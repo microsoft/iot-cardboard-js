@@ -44,8 +44,6 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
 
 export interface IADT3DSceneBuilderProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
-    mode: ADT3DScenePageModes;
-    sceneId: string;
     scenesConfig: I3DScenesConfig;
     refetchConfig?: () => void;
 }

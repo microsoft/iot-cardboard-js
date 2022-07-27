@@ -50,6 +50,7 @@ export interface Marker {
     position?: Vector3;
     attachedMeshIds?: string[];
     showIfOccluded?: boolean;
+    allowGrouping?: boolean;
     latitude?: number;
     longitude?: number;
     scene?: IScene;
@@ -102,7 +103,6 @@ export interface ICameraPosition {
 
 export interface ISceneViewProps {
     backgroundColor?: IADTBackgroundColor;
-    badgeGroups?: SceneViewBadgeGroup[];
     cameraInteractionType?: CameraInteraction;
     cameraPosition?: ICameraPosition;
     coloredMeshItems?: CustomMeshItem[];
@@ -112,11 +112,6 @@ export interface ISceneViewProps {
     objectColor?: IADTObjectColor;
     objectColorOptions?: IADTObjectColor[];
     objectStyle?: ViewerObjectStyle;
-    onBadgeGroupHover?: (
-        alert: SceneViewBadgeGroup,
-        left: number,
-        top: number
-    ) => void;
     onCameraMove?: (position: ICameraPosition) => void;
     onMeshClick?: SceneViewEventHandler;
     onMeshHover?: SceneViewEventHandler;
@@ -126,4 +121,5 @@ export interface ISceneViewProps {
     showMeshesOnHover?: boolean;
     unzoomedMeshOpacity?: number;
     zoomToMeshIds?: string[];
+    allowModelDimensionErrorMessage?: boolean;
 }
