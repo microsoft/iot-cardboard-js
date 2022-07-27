@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { OATNamespaceDefaultValue } from '../../Models/Constants';
+import {
+    OATNamespaceDefaultValue,
+    OATRelationshipHandleName
+} from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -219,21 +222,22 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     ];
 
-    const onFilesUpload = (files: Array<File>) => {
+    const onFilesUpload = async (files: Array<File>) => {
         const newFiles = [];
         const newFilesErrors = [];
-        files.forEach((sF) => {
-            if (sF.type === 'application/json') {
-                newFiles.push(sF);
+
+        for (const file of files) {
+            if (file.type === 'application/json') {
+                newFiles.push(file);
             } else {
                 newFilesErrors.push(
                     t('OATHeader.errorFileFormatNotSupported', {
-                        fileName: sF.name
+                        fileName: file.name
                     })
                 );
             }
-            sF = new File([], '');
-        });
+        }
+
         if (newFilesErrors.length > 0) {
             let accumulatedError = '';
             for (const error of newFilesErrors) {

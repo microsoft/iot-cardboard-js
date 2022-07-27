@@ -25,13 +25,8 @@ import {
     getModelPropertyCollectionName,
     validateCommentChange,
     validateDescriptionChange,
-    validateDisplayNameChange,
-    validateIdChange,
     setMultiLanguageSelectionRemoval,
     setMultiLanguageSelectionsDescriptionKey,
-    validateMultiLanguageSelectionsDescriptionValueChange,
-    setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue,
     getTargetFromSelection
 } from './Utils';
 import {
@@ -56,16 +51,11 @@ export const FormAddEnumItem = ({
     const columnLeftTextStyles = getModalLabelStyles();
     const textFieldStyles = getModalTextFieldStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
-    const [displayName, setDisplayName] = useState('');
     const [name, setName] = useState('');
     const [enumValue, setEnumValue] = useState('');
-    const [id, setId] = useState('');
     const [comment, setComment] = useState('');
     const [description, setDescription] = useState('');
     const [errorRepeatedEnumValue, setErrorRepeatedEnumValue] = useState(null);
-    const [languageSelection, setLanguageSelection] = useState(
-        singleLanguageOptionValue
-    );
     const [
         languageSelectionDescription,
         setLanguageSelectionDescription
@@ -78,10 +68,6 @@ export const FormAddEnumItem = ({
         multiLanguageSelectionsDisplayNames,
         setMultiLanguageSelectionsDisplayNames
     ] = useState([]);
-    const [
-        isAMultiLanguageDisplayNameEmpty,
-        setIsAMultiLanguageDisplayNameEmpty
-    ] = useState(true);
     const [
         multiLanguageSelectionsDescription,
         setMultiLanguageSelectionsDescription
@@ -96,9 +82,6 @@ export const FormAddEnumItem = ({
     ] = useState(true);
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
-    const [displayNameError, setDisplayNameError] = useState(null);
-    const [idLengthError, setIdLengthError] = useState(null);
-    const [idValidDTMIError, setIdValidDTMIError] = useState(null);
     const [nameLengthError, setNameLengthError] = useState(false);
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
@@ -113,18 +96,6 @@ export const FormAddEnumItem = ({
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
-
-    const options: IChoiceGroupOption[] = [
-        {
-            key: singleLanguageOptionValue,
-            text: t('OATPropertyEditor.singleLanguage'),
-            disabled: multiLanguageSelectionsDisplayNames.length > 0
-        },
-        {
-            key: multiLanguageOptionValue,
-            text: t('OATPropertyEditor.multiLanguage')
-        }
-    ];
 
     const optionsDescription: IChoiceGroupOption[] = [
         {
@@ -145,17 +116,9 @@ export const FormAddEnumItem = ({
         setLanguageSelectionDescription(option.key);
     };
 
-    const onLanguageSelect = (
-        ev: React.FormEvent<HTMLInputElement>,
-        option: IChoiceGroupOption
-    ): void => {
-        setLanguageSelection(option.key);
-    };
-
     const onAddEnumValue = () => {
         const update = () => {
             const prop = {
-                '@id': id ? `dtmi:com:adt:${id};` : 'dtmi:com:adt:enum;',
                 name: name ? name : '',
                 description:
                     languageSelectionDescription === singleLanguageOptionValue
@@ -163,12 +126,6 @@ export const FormAddEnumItem = ({
                             ? description
                             : ''
                         : multiLanguageSelectionsDescription,
-                displayName:
-                    languageSelection === singleLanguageOptionValue
-                        ? displayName
-                            ? displayName
-                            : 'enum_item'
-                        : multiLanguageSelectionsDisplayName,
                 enumValue: enumValue ? enumValue : '',
                 comment: comment ? comment : ''
             };
@@ -246,12 +203,6 @@ export const FormAddEnumItem = ({
         setMultiLanguageSelectionsDisplayNames(
             newMultiLanguageSelectionsDisplayNames
         );
-
-        // Check if array of object includes empty values
-        const hasEmptyValues = newMultiLanguageSelectionsDisplayNames.some(
-            (item) => item.value === ''
-        );
-        setIsAMultiLanguageDisplayNameEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDisplayName]);
 
     // Update multiLanguageSelectionsDescriptions on every new language change
@@ -290,147 +241,6 @@ export const FormAddEnumItem = ({
                     />
                 </ActionButton>
             </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.displayName')}
-                </Text>
-                <ChoiceGroup
-                    defaultSelectedKey={singleLanguageOptionValue}
-                    options={options}
-                    onChange={onLanguageSelect}
-                    required={true}
-                    styles={radioGroupRowStyle}
-                />
-            </div>
-
-            {languageSelection === singleLanguageOptionValue && (
-                <div className={propertyInspectorStyles.modalRow}>
-                    <div></div> {/* Needed for gridTemplateColumns style  */}
-                    <TextField
-                        placeholder={t(
-                            'OATPropertyEditor.modalTextInputPlaceHolder'
-                        )}
-                        value={displayName}
-                        styles={textFieldStyles}
-                        onChange={(e, v) =>
-                            validateDisplayNameChange(
-                                v,
-                                setDisplayName,
-                                setDisplayNameError
-                            )
-                        }
-                        errorMessage={
-                            displayNameError
-                                ? t('OATPropertyEditor.errorDisplayName')
-                                : ''
-                        }
-                    />
-                </div>
-            )}
-
-            {languageSelection === multiLanguageOptionValue &&
-                multiLanguageSelectionsDisplayNames.length > 0 &&
-                multiLanguageSelectionsDisplayNames.map((language, index) => (
-                    <div
-                        key={index}
-                        className={
-                            propertyInspectorStyles.modalRowLanguageSelection
-                        }
-                    >
-                        <IconButton
-                            iconProps={{ iconName: 'Cancel' }}
-                            title={t('OATPropertyEditor.delete')}
-                            ariaLabel={t('OATPropertyEditor.delete')}
-                            onClick={() =>
-                                setMultiLanguageSelectionRemoval(
-                                    index,
-                                    MultiLanguageSelectionType.displayName,
-                                    multiLanguageSelectionsDisplayName,
-                                    multiLanguageSelectionsDisplayNames,
-                                    multiLanguageSelectionsDescription,
-                                    multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayNames,
-                                    setMultiLanguageSelectionsDescription,
-                                    setMultiLanguageSelectionsDescriptions
-                                )
-                            }
-                        />
-                        <Dropdown
-                            placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
-                            onChange={(_ev, option) =>
-                                setMultiLanguageSelectionsDisplayNameKey(
-                                    option.key,
-                                    index,
-                                    multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName
-                                )
-                            }
-                            defaultSelectedKey={language.key}
-                        />
-                        <TextField
-                            placeholder={t('OATPropertyEditor.displayName')}
-                            value={language.value}
-                            onChange={(_ev, value) =>
-                                setMultiLanguageSelectionsDisplayNameValue(
-                                    value,
-                                    index,
-                                    multiLanguageSelectionsDisplayNames,
-                                    multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName,
-                                    setDisplayNameError
-                                )
-                            }
-                            disabled={
-                                !multiLanguageSelectionsDisplayNames[index].key
-                            }
-                            styles={textFieldStyles}
-                            errorMessage={
-                                displayNameError
-                                    ? t('OATPropertyEditor.errorDisplayName')
-                                    : ''
-                            }
-                        />
-                    </div>
-                ))}
-
-            {languageSelection === multiLanguageOptionValue && (
-                <div className={propertyInspectorStyles.regionButton}>
-                    <ActionButton
-                        disabled={
-                            isAMultiLanguageDisplayNameEmpty &&
-                            multiLanguageSelectionsDisplayNames.length !== 0
-                        }
-                        onClick={() => {
-                            const newMultiLanguageSelectionsDisplayNames = [
-                                ...multiLanguageSelectionsDisplayNames,
-                                {
-                                    key: '',
-                                    value: ''
-                                }
-                            ];
-
-                            setMultiLanguageSelectionsDisplayNames(
-                                newMultiLanguageSelectionsDisplayNames
-                            );
-                            if (
-                                newMultiLanguageSelectionsDisplayNames.length >
-                                0
-                            ) {
-                                setIsAMultiLanguageDisplayNameEmpty(true);
-                            }
-                        }}
-                    >
-                        <FontIcon
-                            iconName={'Add'}
-                            className={propertyInspectorStyles.iconAddProperty}
-                        />
-                        <Text>{t('OATPropertyEditor.region')}</Text>
-                    </ActionButton>
-                </div>
-            )}
 
             <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
@@ -625,31 +435,6 @@ export const FormAddEnumItem = ({
                 />
             </div>
 
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <TextField
-                    placeholder={t('OATPropertyEditor.id')}
-                    styles={textFieldStyles}
-                    onChange={(_ev, value) =>
-                        validateIdChange(
-                            value,
-                            setId,
-                            setIdLengthError,
-                            setIdValidDTMIError
-                        )
-                    }
-                    errorMessage={
-                        idLengthError
-                            ? t('OATPropertyEditor.errorIdLength')
-                            : idValidDTMIError
-                            ? t('OATPropertyEditor.errorIdValidDTMI')
-                            : ''
-                    }
-                />
-            </div>
-
             <div className={propertyInspectorStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
@@ -662,9 +447,7 @@ export const FormAddEnumItem = ({
                         nameLengthError ||
                         nameValidCharactersError ||
                         commentError ||
-                        descriptionError ||
-                        idLengthError ||
-                        idValidDTMIError
+                        descriptionError
                     }
                 />
             </div>

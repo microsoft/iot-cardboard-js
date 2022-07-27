@@ -784,7 +784,8 @@
     "folderUpload": "Ordner-Upload",
     "fileUpload": "Datei-Upload",
     "files": "Dateien",
-    "selectFile": "Datei auswählen"
+    "selectFile": "Datei auswählen",
+    "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -899,7 +900,8 @@
     "warningId": "Einen Wert für ID zu haben, wird nicht empfohlen.",
     "addToPropertyList": "Zur Eigenschaftsliste hinzufügen",
     "moveDown": "Nach unten verschieben",
-    "moveUp": "Aufrücken"
+    "moveUp": "Aufrücken",
+    "valueSchema": "Wertschema"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

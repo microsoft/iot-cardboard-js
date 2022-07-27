@@ -784,7 +784,8 @@
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
     "files": "Limas",
-    "selectFile": "Selecione arquivo"
+    "selectFile": "Selecione arquivo",
+    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -899,7 +900,8 @@
     "warningId": "Não é recomendado ter um valor para ID.",
     "addToPropertyList": "Adicionar à lista de propriedades",
     "moveDown": "Abaixe-se",
-    "moveUp": "Mova-se para cima"
+    "moveUp": "Mova-se para cima",
+    "valueSchema": "Esquema de valor"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

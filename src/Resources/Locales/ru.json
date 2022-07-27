@@ -784,7 +784,8 @@
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
     "files": "Файлы",
-    "selectFile": "Выберите файл"
+    "selectFile": "Выберите файл",
+    "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -899,7 +900,8 @@
     "warningId": "Не рекомендуется иметь значение для ID.",
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
-    "moveUp": "Придвигаться"
+    "moveUp": "Придвигаться",
+    "valueSchema": "Схема значений"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

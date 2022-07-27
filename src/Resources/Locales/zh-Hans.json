@@ -784,7 +784,8 @@
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
     "files": "文件",
-    "selectFile": "选择文件"
+    "selectFile": "选择文件",
+    "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -899,7 +900,8 @@
     "warningId": "不建议为 ID 设置值。",
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
-    "moveUp": "上升"
+    "moveUp": "上升",
+    "valueSchema": "值架构"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

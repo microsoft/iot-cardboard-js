@@ -134,7 +134,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
     };
 
     return (
-        <>
+        <div>
             <div className={propertyInspectorStyles.container}>
                 <Pivot className={propertyInspectorStyles.pivot}>
                     <PivotItem
@@ -232,7 +232,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
             >
                 {getModalBody()}
             </OATModal>
-        </>
+        </div>
     );
 };
 

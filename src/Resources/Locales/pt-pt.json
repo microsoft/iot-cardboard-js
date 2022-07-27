@@ -784,7 +784,8 @@
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
     "files": "Ficheiros",
-    "selectFile": "Selecione ficheiro"
+    "selectFile": "Selecione ficheiro",
+    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas"
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -899,7 +900,8 @@
     "warningId": "Não é recomendado ter um valor para ID.",
     "addToPropertyList": "Adicionar à lista de propriedades",
     "moveDown": "Desçam",
-    "moveUp": "Mover-se"
+    "moveUp": "Mover-se",
+    "valueSchema": "Esquema de valor"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

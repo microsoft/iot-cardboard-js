@@ -784,7 +784,8 @@
     "folderUpload": "Carga de carpetas",
     "fileUpload": "Carga de archivos",
     "files": "Archivos",
-    "selectFile": "Seleccionar archivo"
+    "selectFile": "Seleccionar archivo",
+    "errorSingleFileHoldsRelationships": "Problema con {{fileName}}: el modelo contiene relaciones que no se están importando"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",
@@ -899,7 +900,8 @@
     "warningId": "No se recomienda tener un valor para ID.",
     "addToPropertyList": "Agregar a la lista de propiedades",
     "moveDown": "Desplazar hacia abajo",
-    "moveUp": "Desplazar hacia arriba"
+    "moveUp": "Desplazar hacia arriba",
+    "valueSchema": "Esquema de valores"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
