@@ -13,7 +13,10 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { OATNamespaceDefaultValue } from '../../Models/Constants';
+import {
+    OATNamespaceDefaultValue,
+    OATRelationshipHandleName
+} from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
