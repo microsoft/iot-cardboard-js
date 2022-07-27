@@ -55,7 +55,6 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         templates,
         namespace
     } = state;
-    const [importingSingleFile, setImportingSingleFile] = useState(false);
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
@@ -129,12 +128,10 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
 
     const onUploadFolderClick = () => {
         uploadInputRef.current.click();
-        setImportingSingleFile(false);
     };
 
     const onUploadFileClick = () => {
         inputRef.current.click();
-        setImportingSingleFile(true);
     };
 
     const onDeleteAll = () => {
@@ -225,63 +222,13 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     ];
 
-    const validateSingleFileRelationships = async (
-        file,
-        newFilesErrors,
-        newFiles
-    ) => {
-        try {
-            if (file) {
-                let errorFound = false;
-                // Validate contents
-                let model = await file.text();
-                model = JSON.parse(model);
-                if (model.contents) {
-                    // Find within contents, if @type equals relationship, push to newFilesErrors
-                    for (const content of model.contents) {
-                        if (
-                            content['@type'] &&
-                            content['@type'] === OATRelationshipHandleName
-                        ) {
-                            newFilesErrors.push(
-                                t(
-                                    'OATHeader.errorSingleFileHoldsRelationships',
-                                    {
-                                        fileName: file.name
-                                    }
-                                )
-                            );
-                            errorFound = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!errorFound) {
-                    newFiles.push(file);
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const onFilesUpload = async (files: Array<File>) => {
         const newFiles = [];
         const newFilesErrors = [];
 
         for (const file of files) {
             if (file.type === 'application/json') {
-                if (importingSingleFile) {
-                    // Validate contents
-                    await validateSingleFileRelationships(
-                        file,
-                        newFilesErrors,
-                        newFiles
-                    );
-                } else {
-                    newFiles.push(file);
-                }
+                newFiles.push(file);
             } else {
                 newFilesErrors.push(
                     t('OATHeader.errorFileFormatNotSupported', {
