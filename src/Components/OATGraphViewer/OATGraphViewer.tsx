@@ -207,81 +207,73 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [loading, setLoading] = useState(false);
 
     const applyLayoutToElements = (inputElements) => {
-        try {
-            const nodes = inputElements.reduce((collection, element) => {
-                if (!element.source) {
-                    collection.push({
-                        id: element.id,
-                        x: element.position.x + nodeWidth / 2,
-                        y: element.position.y + nodeHeight / 2
-                    });
-                }
-                return collection;
-            }, []);
-
-            const links = inputElements.reduce((collection, element) => {
-                if (element.source) {
-                    collection.push({
-                        source: element.source,
-                        target: element.target
-                    });
-                }
-                return collection;
-            }, []);
-
-            forceSimulation(nodes)
-                .force(
-                    'link',
-                    forceLink(links)
-                        .id((d) => d.id)
-                        .distance(nodeWidth)
-                        .strength(1)
-                )
-                .force(
-                    'collide',
-                    forceCollide()
-                        .radius(nodeWidth / 2)
-                        .strength(1)
-                )
-                .force('x', forceX())
-                .force('y', forceY())
-                .force('center', forceCenter())
-                .on('end', () => {
-                    const newElements = inputElements.map((element) => {
-                        const node = nodes.find(
-                            (node) => !element.source && node.id === element.id
-                        );
-
-                        const newElement = { ...element };
-                        if (node) {
-                            newElement.position = {
-                                x:
-                                    node.x -
-                                    nodeWidth / 2 +
-                                    Math.random() / 1000,
-                                y: node.y - nodeHeight / 2
-                            };
-                        }
-
-                        return newElement;
-                    });
-
-                    const application = () => {
-                        setElements(newElements);
-                        setLoading(false);
-                    };
-
-                    const undoApplication = () => {
-                        setElements(inputElements);
-                    };
-
-                    execute(application, undoApplication);
-                    rfInstance.fitView();
+        const nodes = inputElements.reduce((collection, element) => {
+            if (!element.source) {
+                collection.push({
+                    id: element.id,
+                    x: element.position.x + nodeWidth / 2,
+                    y: element.position.y + nodeHeight / 2
                 });
-        } catch (error) {
-            setLoading(false);
-            console.error(`GraphViewer applyLayoutToElements - ${error}`);
-        }
+            }
+            return collection;
+        }, []);
+
+        const links = inputElements.reduce((collection, element) => {
+            if (element.source) {
+                collection.push({
+                    source: element.source,
+                    target: element.target
+                });
+            }
+            return collection;
+        }, []);
+
+        forceSimulation(nodes)
+            .force(
+                'link',
+                forceLink(links)
+                    .id((d) => d.id)
+                    .distance(nodeWidth)
+                    .strength(1)
+            )
+            .force(
+                'collide',
+                forceCollide()
+                    .radius(nodeWidth / 2)
+                    .strength(1)
+            )
+            .force('x', forceX())
+            .force('y', forceY())
+            .force('center', forceCenter())
+            .on('end', () => {
+                const newElements = inputElements.map((element) => {
+                    const node = nodes.find(
+                        (node) => !element.source && node.id === element.id
+                    );
+
+                    const newElement = { ...element };
+                    if (node) {
+                        newElement.position = {
+                            x: node.x - nodeWidth / 2 + Math.random() / 1000,
+                            y: node.y - nodeHeight / 2
+                        };
+                    }
+
+                    return newElement;
+                });
+
+                const application = () => {
+                    setElements(newElements);
+                    setLoading(false);
+                };
+
+                const undoApplication = () => {
+                    setElements(inputElements);
+                };
+
+                execute(application, undoApplication);
+                rfInstance.fitView();
+            });
     };
 
     const newModelId = useMemo(() => {

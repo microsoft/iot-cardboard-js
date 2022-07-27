@@ -396,8 +396,7 @@ export async function parseModels(models) {
         ModelParsingOption.PermitAnyTopLevelElement
     );
     try {
-        const JSONModels = models.map((model) => JSON.parse(model));
-        await modelParser.parse(JSONModels);
+        await modelParser.parse([JSON.stringify(models)]);
     } catch (err) {
         if (err.name === 'ParsingException') {
             return err._parsingErrors
