@@ -390,7 +390,6 @@ export async function parseModel(modelJson: string) {
     }
 }
 
-// Try parsing all models + new one
 export async function parseModels(models) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
