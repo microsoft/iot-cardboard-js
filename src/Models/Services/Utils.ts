@@ -390,6 +390,25 @@ export async function parseModel(modelJson: string) {
     }
 }
 
+// Try parsing all models + new one
+export async function parseModels(models) {
+    const modelParser = createParser(
+        ModelParsingOption.PermitAnyTopLevelElement
+    );
+    try {
+        const JSONModels = models.map((model) => JSON.parse(model));
+        await modelParser.parse(JSONModels);
+    } catch (err) {
+        if (err.name === 'ParsingException') {
+            return err._parsingErrors
+                .map((e) => `${e.action} ${e.cause}`)
+                .join('\n');
+        }
+
+        return err.message;
+    }
+}
+
 // Store OAT-data
 export const storeEditorData = (oatEditorData: ProjectData) => {
     localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));

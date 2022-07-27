@@ -13,10 +13,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import {
-    OATNamespaceDefaultValue,
-    OATRelationshipHandleName
-} from '../../Models/Constants';
+import { OATNamespaceDefaultValue } from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -316,34 +313,66 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
     };
 
     const handleFileListChanged = async (files: Array<File>) => {
-        const items = [];
+        const newModels = [];
         if (files.length > 0) {
             const filesErrors = [];
             let modelsMetadataReference = null;
             for (const current of files) {
                 const content = await current.text();
+                const JSONContent = JSON.parse(content);
                 const error = await parseModel(content);
-                if (!error) {
-                    modelsMetadataReference = populateMetadata(
-                        current,
-                        content,
-                        modelsMetadataReference
-                    );
 
-                    items.push(JSON.parse(content));
+                modelsMetadataReference = populateMetadata(
+                    current,
+                    content,
+                    modelsMetadataReference
+                );
+
+                newModels.push(JSONContent);
+
+                //
+                if (!error) {
+                    console.log('No error');
+                    // modelsMetadataReference = populateMetadata(
+                    //     current,
+                    //     content,
+                    //     modelsMetadataReference
+                    // );
+
+                    // items.push(JSONContent);
+                    // newModels.push(JSONContent);
                 } else {
-                    filesErrors.push(
-                        t('OATHeader.errorIssueWithFile', {
-                            fileName: current.name,
-                            error
-                        })
-                    );
+                    console.log('**** Error *****', error);
+                    /********* */
+                    // No getModels provided to resolve requisite reference(s): dtmi:com:example:model1;1
+                    // filesErrors.push(
+                    //     t('OATHeader.errorIssueWithFile', {
+                    //         fileName: current.name,
+                    //         error
+                    //     })
+                    // );
                 }
             }
             if (filesErrors.length === 0) {
+                const modelsCopy = deepCopy(models);
+                // Add new models to models copy
+                for (const model of newModels) {
+                    // Check if model already exists
+                    const modelExists = modelsCopy.find(
+                        (m) => m['@id'] === model['@id']
+                    );
+                    if (!modelExists) {
+                        modelsCopy.push(model);
+                    }
+                }
+                // dispatch({
+                //     type: SET_OAT_MODELS,
+                //     payload: modelsCopy
+                // });
+
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
-                    payload: items
+                    payload: modelsCopy
                 });
                 dispatch({
                     type: SET_OAT_MODELS_METADATA,

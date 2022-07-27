@@ -113,24 +113,34 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             if (input.contents) {
                 // Get the relationships
                 input.contents.forEach((content) => {
+                    const foundComponentTarget = models.find(
+                        (model) => model['@id'] === content.schema
+                    );
+
+                    const foundRelationshipTarget = models.find(
+                        (model) => model['@id'] === content.target
+                    );
+
                     switch (content['@type']) {
                         case OATComponentHandleName:
-                            addComponentRelationship(
-                                input['@id'],
-                                content,
-                                models.find(
-                                    (model) => model['@id'] === content.schema
-                                ).displayName,
-                                elements
-                            );
+                            if (foundComponentTarget) {
+                                addComponentRelationship(
+                                    input['@id'],
+                                    content,
+                                    foundComponentTarget.displayName,
+                                    elements
+                                );
+                            }
                             break;
                         case OATRelationshipHandleName:
                             if (content.target) {
-                                addTargetedRelationship(
-                                    input['@id'],
-                                    content,
-                                    elements
-                                );
+                                if (foundRelationshipTarget) {
+                                    addTargetedRelationship(
+                                        input['@id'],
+                                        content,
+                                        elements
+                                    );
+                                }
                             } else {
                                 addUntargetedRelationship(
                                     input['@id'],
@@ -149,7 +159,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     ? input.extends
                     : [input.extends]
                 ).forEach((extend) => {
-                    addExtendsRelationship(input['@id'], extend, elements);
+                    const foundExtendTarget = models.find(
+                        (model) => model['@id'] === extend
+                    );
+
+                    if (foundExtendTarget) {
+                        addExtendsRelationship(input['@id'], extend, elements);
+                    }
                 });
             }
 
@@ -191,73 +207,81 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const [loading, setLoading] = useState(false);
 
     const applyLayoutToElements = (inputElements) => {
-        const nodes = inputElements.reduce((collection, element) => {
-            if (!element.source) {
-                collection.push({
-                    id: element.id,
-                    x: element.position.x + nodeWidth / 2,
-                    y: element.position.y + nodeHeight / 2
+        try {
+            const nodes = inputElements.reduce((collection, element) => {
+                if (!element.source) {
+                    collection.push({
+                        id: element.id,
+                        x: element.position.x + nodeWidth / 2,
+                        y: element.position.y + nodeHeight / 2
+                    });
+                }
+                return collection;
+            }, []);
+
+            const links = inputElements.reduce((collection, element) => {
+                if (element.source) {
+                    collection.push({
+                        source: element.source,
+                        target: element.target
+                    });
+                }
+                return collection;
+            }, []);
+
+            forceSimulation(nodes)
+                .force(
+                    'link',
+                    forceLink(links)
+                        .id((d) => d.id)
+                        .distance(nodeWidth)
+                        .strength(1)
+                )
+                .force(
+                    'collide',
+                    forceCollide()
+                        .radius(nodeWidth / 2)
+                        .strength(1)
+                )
+                .force('x', forceX())
+                .force('y', forceY())
+                .force('center', forceCenter())
+                .on('end', () => {
+                    const newElements = inputElements.map((element) => {
+                        const node = nodes.find(
+                            (node) => !element.source && node.id === element.id
+                        );
+
+                        const newElement = { ...element };
+                        if (node) {
+                            newElement.position = {
+                                x:
+                                    node.x -
+                                    nodeWidth / 2 +
+                                    Math.random() / 1000,
+                                y: node.y - nodeHeight / 2
+                            };
+                        }
+
+                        return newElement;
+                    });
+
+                    const application = () => {
+                        setElements(newElements);
+                        setLoading(false);
+                    };
+
+                    const undoApplication = () => {
+                        setElements(inputElements);
+                    };
+
+                    execute(application, undoApplication);
+                    rfInstance.fitView();
                 });
-            }
-            return collection;
-        }, []);
-
-        const links = inputElements.reduce((collection, element) => {
-            if (element.source) {
-                collection.push({
-                    source: element.source,
-                    target: element.target
-                });
-            }
-            return collection;
-        }, []);
-
-        forceSimulation(nodes)
-            .force(
-                'link',
-                forceLink(links)
-                    .id((d) => d.id)
-                    .distance(nodeWidth)
-                    .strength(1)
-            )
-            .force(
-                'collide',
-                forceCollide()
-                    .radius(nodeWidth / 2)
-                    .strength(1)
-            )
-            .force('x', forceX())
-            .force('y', forceY())
-            .force('center', forceCenter())
-            .on('end', () => {
-                const newElements = inputElements.map((element) => {
-                    const node = nodes.find(
-                        (node) => !element.source && node.id === element.id
-                    );
-
-                    const newElement = { ...element };
-                    if (node) {
-                        newElement.position = {
-                            x: node.x - nodeWidth / 2 + Math.random() / 1000,
-                            y: node.y - nodeHeight / 2
-                        };
-                    }
-
-                    return newElement;
-                });
-
-                const application = () => {
-                    setElements(newElements);
-                    setLoading(false);
-                };
-
-                const undoApplication = () => {
-                    setElements(inputElements);
-                };
-
-                execute(application, undoApplication);
-                rfInstance.fitView();
-            });
+        } catch (error) {
+            setLoading(false);
+            console.error(`GraphViewer applyLayoutToElements - ${error}`);
+        }
     };
 
     const newModelId = useMemo(() => {
