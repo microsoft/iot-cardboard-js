@@ -113,16 +113,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             if (input.contents) {
                 // Get the relationships
                 input.contents.forEach((content) => {
-                    const foundComponentTarget = models.find(
-                        (model) => model['@id'] === content.schema
-                    );
-
-                    const foundRelationshipTarget = models.find(
-                        (model) => model['@id'] === content.target
-                    );
-
                     switch (content['@type']) {
                         case OATComponentHandleName:
+                            // eslint-disable-next-line no-case-declarations
+                            const foundComponentTarget = models.find(
+                                (model) => model['@id'] === content.schema
+                            );
+
                             if (foundComponentTarget) {
                                 addComponentRelationship(
                                     input['@id'],
@@ -134,6 +131,10 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             break;
                         case OATRelationshipHandleName:
                             if (content.target) {
+                                const foundRelationshipTarget = models.find(
+                                    (model) => model['@id'] === content.target
+                                );
+
                                 if (foundRelationshipTarget) {
                                     addTargetedRelationship(
                                         input['@id'],

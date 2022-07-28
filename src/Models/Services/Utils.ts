@@ -390,7 +390,7 @@ export async function parseModel(modelJson: string) {
     }
 }
 
-export async function parseModels(models) {
+export async function parseModels(models: DtdlInterface[]) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );

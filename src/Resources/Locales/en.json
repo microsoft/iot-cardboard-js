@@ -782,6 +782,7 @@
         "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
         "errorFormatNoSupported": "File format not supported",
         "errorIssueWithFile": "Issue with {{fileName}}: {{error}}",
+        "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",

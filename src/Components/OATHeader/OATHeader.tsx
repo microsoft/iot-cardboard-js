@@ -319,23 +319,38 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             let modelsMetadataReference = null;
             for (const current of files) {
                 const content = await current.text();
-                const JSONContent = JSON.parse(content);
-                newModels.push(JSONContent);
+                const jsonContent = JSON.parse(content);
+                newModels.push(jsonContent);
             }
 
             const combinedModels = [...models, ...newModels];
             const error = await parseModels(combinedModels);
 
+            const modelsCopy = deepCopy(models);
+            for (const model of newModels) {
+                // Check if model already exists
+                const modelExists = modelsCopy.find(
+                    (m) => m['@id'] === model['@id']
+                );
+                if (!modelExists) {
+                    modelsCopy.push(model);
+                } else {
+                    filesErrors.push(
+                        t('OATHeader.errorImportedModelAlreadyExists', {
+                            modelId: model['@id']
+                        })
+                    );
+                    break;
+                }
+            }
+
             if (!error) {
-                console.log('No error');
-                let loopIndex = 0;
-                for (const current of files) {
+                for (let i = 0; i < files.length; i++) {
                     modelsMetadataReference = populateMetadata(
-                        current,
-                        JSON.stringify(newModels[loopIndex]),
+                        files[i],
+                        JSON.stringify(newModels[i]),
                         modelsMetadataReference
                     );
-                    loopIndex++;
                 }
             } else {
                 filesErrors.push(
@@ -347,18 +362,6 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             }
 
             if (filesErrors.length === 0) {
-                const modelsCopy = deepCopy(models);
-                // Add new models to models copy
-                for (const model of newModels) {
-                    // Check if model already exists
-                    const modelExists = modelsCopy.find(
-                        (m) => m['@id'] === model['@id']
-                    );
-                    if (!modelExists) {
-                        modelsCopy.push(model);
-                    }
-                }
-
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
                     payload: modelsCopy
