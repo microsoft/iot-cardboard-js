@@ -168,8 +168,8 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     });
 
     // callbacks
-    const handleSaveElement = useCallback(() => {
-        saveElementAdapterData.callAdapter();
+    const handleSaveElement = useCallback(async () => {
+        await saveElementAdapterData.callAdapter();
     }, [saveElementAdapterData]);
 
     const notifySceneContextDirtyState = useCallback(
