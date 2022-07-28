@@ -778,6 +778,7 @@
         "errorNamespace": "The name may only contain the characters a-z, A-Z, 0-9, and underscore. The first character may not be a digit, and the last character may not be an underscore.",
         "settings": "Settings",
         "errorInvalidJSON": "Invalid JSON",
+        "errorFileInvalidJSON": "Issue with {{fileName}}: Invalid JSON",
         "errorFileFormatNotSupported": "Issue with {{fileName}}: Format not supported",
         "errorSingleFileHoldsRelationships": "Issue with {{fileName}}: Model holds relationships which are not being imported",
         "errorFormatNoSupported": "File format not supported",
