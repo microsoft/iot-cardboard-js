@@ -151,8 +151,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         'debug',
                         `Removing element ${formElementId} from behavior ${behavior.displayName} (${behavior.id}).`
                     );
-
-                    // TODO: should we remove the behavior if it no long maps to any elements?
                 }
             });
             // END of behaviors update which this element exists in
