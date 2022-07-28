@@ -45,7 +45,7 @@ import {
     IADT3DSceneBuilderStyles,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
-    SET_ELEMENT_TO_GIZMO,
+    SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
@@ -287,7 +287,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     const setGizmoElementItem = useCallback(
         (gizmoElementItem: TransformedElementItem) => {
             dispatch({
-                type: SET_ELEMENT_TO_GIZMO,
+                type: SET_GIZMO_ELEMENT_ITEM,
                 payload: gizmoElementItem
             });
         },
@@ -370,48 +370,6 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     }, [getScenesConfig?.adapterResult]);
 
     // viewer callbacks
-    const onMeshClicked = useCallback(
-        (mesh: AbstractMesh, e: PointerEvent) => {
-            if (mesh) {
-                switch (state.builderMode) {
-                    case ADT3DSceneBuilderMode.ElementsIdle:
-                        meshClickOnElementsIdle(mesh, e);
-                        break;
-
-                    case ADT3DSceneBuilderMode.EditElement:
-                    case ADT3DSceneBuilderMode.CreateElement:
-                        meshClickOnEditElement(mesh);
-                        break;
-
-                    case ADT3DSceneBuilderMode.BehaviorIdle:
-                        meshClickOnBehaviorsIdle(mesh, e);
-                        break;
-                }
-            } else {
-                elementContextualMenuItems.current[1].sectionProps.items = [];
-                if (
-                    state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
-                    state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
-                ) {
-                    setColoredMeshItems([]);
-                    setOutlinedMeshItems([]);
-                }
-            }
-        },
-        [setColoredMeshItems, setOutlinedMeshItems, state.builderMode]
-    );
-
-    const onMeshHovered = (mesh: AbstractMesh) => {
-        switch (state.builderMode) {
-            case ADT3DSceneBuilderMode.ElementsIdle:
-                meshHoverOnElementsIdle(mesh);
-                break;
-            case ADT3DSceneBuilderMode.BehaviorIdle:
-                meshHoverOnBehaviorsIdle(mesh);
-                break;
-        }
-    };
-
     const meshHoverOnBehaviorsIdle = (mesh: AbstractMesh) => {
         const meshIds = [];
         if (!contextualMenuProps.isVisible) {
@@ -488,193 +446,52 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
         setColoredMeshItems(coloredMeshes);
     };
 
-    const meshClickOnBehaviorsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        let outlinedElements = [];
-        const elements: ITwinToObjectMapping[] = [];
-        // clear context menu
-        behaviorContextualMenuItems.current[1].sectionProps.items = [];
-        behaviorContextualMenuItems.current[2].sectionProps.items = [];
-        for (const element of state.elements) {
-            // find elements that contain this mesh
-            if (element.objectIDs.includes(mesh.id)) {
-                elements.push(element);
-                // color any meshes that are in the elements
-                outlinedElements = outlinedElements.concat(
-                    createCustomMeshItems(
-                        element.objectIDs,
-                        state.objectColor.outlinedMeshSelectedColor
-                    )
-                );
-            }
-        }
-
-        if (outlinedElements.length > 0) {
-            setOutlinedMeshItems(outlinedElements);
-            previouslyColoredMeshItems.current = outlinedElements;
-        } else {
-            setOutlinedMeshItems([]);
-        }
-
-        let behaviors: IBehavior[] = [];
-        // get behaviors that contain any of the elements
-        for (const element of elements) {
-            const behavior = ViewerConfigUtility.getBehaviorsOnElement(
-                element?.id,
-                state.config?.configuration?.behaviors
-            );
-            if (behavior) {
-                behaviors = behaviors.concat(behavior);
-            }
-        }
-
-        // create edit behavior items for the context menu
-        for (const behavior of behaviors) {
-            const item: IContextualMenuItem = {
-                key: behavior.id,
-                text: t('3dSceneBuilder.edit', {
-                    elementDisplayName: behavior.displayName
-                }),
-                iconProps: {
-                    iconName: 'Edit',
-                    style: {
-                        fontSize: '14px',
-                        color: fluentTheme.semanticColors.bodyText
-                    }
-                },
-                onClick: () => {
-                    behaviorContextualMenuItems.current[1].sectionProps.items = [];
-                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                        payload: behavior
-                    });
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_MODE,
-                        payload: ADT3DSceneBuilderMode.EditBehavior
-                    });
-                },
-                onMouseOver: () => {
-                    // get elements that are contained in the hovered behavior
-                    let ids: string[] = [];
-                    const selectedElements: ITwinToObjectMapping[] = [];
-                    behavior.datasources
-                        .filter(
-                            ViewerConfigUtility.isElementTwinToObjectMappingDataSource
-                        )
-                        .forEach((ds) => {
-                            ds.elementIDs.forEach((elementId) => {
-                                const element = state.elements.find(
-                                    (el) => el.id === elementId
-                                );
-                                element && selectedElements.push(element);
-                            });
-                        });
-
-                    for (const element of selectedElements) {
-                        ids = ids.concat(element.objectIDs);
-                    }
-
-                    // colored meshes that are in the elements contained in the hovered behavior
-                    setOutlinedMeshItems(
-                        createCustomMeshItems(
-                            ids,
-                            state.objectColor.outlinedMeshHoverColor
-                        )
-                    );
-                },
-                onMouseOut: () => {
-                    // rest highlight and mesh colorings
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
-                }
-            };
-
-            // add edit behavior context menu items to the correct section
-            addContextualMenuItems(
-                item,
-                behaviorContextualMenuItems.current[1]
-            );
-        }
-
-        // loop through elements that contain the clicked mesh to create context menu items
-        for (const element of elements) {
-            const item = {
-                key: element.id,
-                text: t('3dSceneBuilder.createWithElement', {
-                    element: element.displayName
-                }),
-                iconProps: {
-                    iconName: 'Add',
-                    style: {
-                        fontSize: '14px',
-                        color: fluentTheme.semanticColors.bodyText
-                    }
-                },
-                onClick: () => {
-                    behaviorContextualMenuItems.current[1].sectionProps.items = [];
-                    behaviorContextualMenuItems.current[2].sectionProps.items = [];
-                    setOutlinedMeshItems([]);
-                    // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
-                    // memory is updated which causes bugs when creating new behaviors)
-                    const newBehavior: IBehavior = {
-                        ...deepCopy(defaultBehavior),
-                        id: createGUID()
-                    };
-                    newBehavior.datasources[0] = {
-                        type:
-                            DatasourceType.ElementTwinToObjectMappingDataSource,
-                        elementIDs: [element.id]
-                    };
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
-                        payload: newBehavior
-                    });
-                    dispatch({
-                        type: SET_ADT_SCENE_BUILDER_MODE,
-                        payload: ADT3DSceneBuilderMode.CreateBehavior
-                    });
-                },
-                onMouseOver: () => {
-                    // highlight the hovered element
-                    setOutlinedMeshItems(
+    const meshClickOnBehaviorsIdle = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            let outlinedElements = [];
+            const elements: ITwinToObjectMapping[] = [];
+            // clear context menu
+            behaviorContextualMenuItems.current[1].sectionProps.items = [];
+            behaviorContextualMenuItems.current[2].sectionProps.items = [];
+            for (const element of state.elements) {
+                // find elements that contain this mesh
+                if (element.objectIDs.includes(mesh.id)) {
+                    elements.push(element);
+                    // color any meshes that are in the elements
+                    outlinedElements = outlinedElements.concat(
                         createCustomMeshItems(
                             element.objectIDs,
-                            state.objectColor.outlinedMeshHoverColor
+                            state.objectColor.outlinedMeshSelectedColor
                         )
                     );
-                },
-                onMouseOut: () => {
-                    setOutlinedMeshItems(previouslyColoredMeshItems.current);
                 }
-            };
+            }
 
-            // add create new behavior items to the context menu in the correct position
-            addContextualMenuItems(
-                item,
-                behaviorContextualMenuItems.current[2]
-            );
-        }
+            if (outlinedElements.length > 0) {
+                setOutlinedMeshItems(outlinedElements);
+                previouslyColoredMeshItems.current = outlinedElements;
+            } else {
+                setOutlinedMeshItems([]);
+            }
 
-        // only show the context menu on click if an element has been clicked
-        if (elements.length > 0) {
-            setContextualMenuProps({
-                isVisible: true,
-                x: e.offsetX,
-                y: e.offsetY,
-                items: behaviorContextualMenuItems.current
-            });
-        }
-    };
+            let behaviors: IBehavior[] = [];
+            // get behaviors that contain any of the elements
+            for (const element of elements) {
+                const behavior = ViewerConfigUtility.getBehaviorsOnElement(
+                    element?.id,
+                    state.config?.configuration?.behaviors
+                );
+                if (behavior) {
+                    behaviors = behaviors.concat(behavior);
+                }
+            }
 
-    const meshClickOnElementsIdle = (mesh: AbstractMesh, e: PointerEvent) => {
-        elementContextualMenuItems.current[1].sectionProps.items = [];
-        // find elements which contian the clicked mesh
-        for (const element of state.elements) {
-            if (element.objectIDs.includes(mesh.id)) {
-                // create context menu items for each element
-                const item = {
-                    key: element.id,
+            // create edit behavior items for the context menu
+            for (const behavior of behaviors) {
+                const item: IContextualMenuItem = {
+                    key: behavior.id,
                     text: t('3dSceneBuilder.edit', {
-                        elementDisplayName: element.displayName
+                        elementDisplayName: behavior.displayName
                     }),
                     iconProps: {
                         iconName: 'Edit',
@@ -684,14 +501,97 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         }
                     },
                     onClick: () => {
-                        elementContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[2].sectionProps.items = [];
                         dispatch({
-                            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-                            payload: element
+                            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                            payload: behavior
                         });
                         dispatch({
                             type: SET_ADT_SCENE_BUILDER_MODE,
-                            payload: ADT3DSceneBuilderMode.EditElement
+                            payload: ADT3DSceneBuilderMode.EditBehavior
+                        });
+                    },
+                    onMouseOver: () => {
+                        // get elements that are contained in the hovered behavior
+                        let ids: string[] = [];
+                        const selectedElements: ITwinToObjectMapping[] = [];
+                        behavior.datasources
+                            .filter(
+                                ViewerConfigUtility.isElementTwinToObjectMappingDataSource
+                            )
+                            .forEach((ds) => {
+                                ds.elementIDs.forEach((elementId) => {
+                                    const element = state.elements.find(
+                                        (el) => el.id === elementId
+                                    );
+                                    element && selectedElements.push(element);
+                                });
+                            });
+
+                        for (const element of selectedElements) {
+                            ids = ids.concat(element.objectIDs);
+                        }
+
+                        // colored meshes that are in the elements contained in the hovered behavior
+                        setOutlinedMeshItems(
+                            createCustomMeshItems(
+                                ids,
+                                state.objectColor.outlinedMeshHoverColor
+                            )
+                        );
+                    },
+                    onMouseOut: () => {
+                        // rest highlight and mesh colorings
+                        setOutlinedMeshItems(
+                            previouslyColoredMeshItems.current
+                        );
+                    }
+                };
+
+                // add edit behavior context menu items to the correct section
+                addContextualMenuItems(
+                    item,
+                    behaviorContextualMenuItems.current[1]
+                );
+            }
+
+            // loop through elements that contain the clicked mesh to create context menu items
+            for (const element of elements) {
+                const item = {
+                    key: element.id,
+                    text: t('3dSceneBuilder.createWithElement', {
+                        element: element.displayName
+                    }),
+                    iconProps: {
+                        iconName: 'Add',
+                        style: {
+                            fontSize: '14px',
+                            color: fluentTheme.semanticColors.bodyText
+                        }
+                    },
+                    onClick: () => {
+                        behaviorContextualMenuItems.current[1].sectionProps.items = [];
+                        behaviorContextualMenuItems.current[2].sectionProps.items = [];
+                        setOutlinedMeshItems([]);
+                        // create new behavior and set data scource to the selected element (need to clone if not the defualt behavior in
+                        // memory is updated which causes bugs when creating new behaviors)
+                        const newBehavior: IBehavior = {
+                            ...deepCopy(defaultBehavior),
+                            id: createGUID()
+                        };
+                        newBehavior.datasources[0] = {
+                            type:
+                                DatasourceType.ElementTwinToObjectMappingDataSource,
+                            elementIDs: [element.id]
+                        };
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
+                            payload: newBehavior
+                        });
+                        dispatch({
+                            type: SET_ADT_SCENE_BUILDER_MODE,
+                            payload: ADT3DSceneBuilderMode.CreateBehavior
                         });
                     },
                     onMouseOver: () => {
@@ -704,52 +604,195 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         );
                     },
                     onMouseOut: () => {
-                        setOutlinedMeshItems([]);
-                        setColoredMeshItems(previouslyColoredMeshItems.current);
+                        setOutlinedMeshItems(
+                            previouslyColoredMeshItems.current
+                        );
                     }
                 };
 
-                // add edit element items to the context menu in the correct position
+                // add create new behavior items to the context menu in the correct position
                 addContextualMenuItems(
                     item,
-                    elementContextualMenuItems.current[1]
+                    behaviorContextualMenuItems.current[2]
                 );
             }
-        }
 
-        // colored the selected mesh
-        const coloredMesh: CustomMeshItem = { meshId: mesh.id, color: null };
-        setColoredMeshItems([coloredMesh]);
-        setOutlinedMeshItems([]);
-        previouslyColoredMeshItems.current = [coloredMesh];
+            // only show the context menu on click if an element has been clicked
+            if (elements.length > 0) {
+                setContextualMenuProps({
+                    isVisible: true,
+                    x: e.offsetX,
+                    y: e.offsetY,
+                    items: behaviorContextualMenuItems.current
+                });
+            }
+        },
+        [
+            fluentTheme.semanticColors.bodyText,
+            setOutlinedMeshItems,
+            state.config?.configuration?.behaviors,
+            state.elements,
+            state.objectColor.outlinedMeshHoverColor,
+            state.objectColor.outlinedMeshSelectedColor,
+            t
+        ]
+    );
 
-        setContextualMenuProps({
-            isVisible: true,
-            x: e.offsetX,
-            y: e.offsetY,
-            items: elementContextualMenuItems.current
-        });
-    };
+    const meshClickOnElementsIdle = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            elementContextualMenuItems.current[1].sectionProps.items = [];
+            // find elements which contian the clicked mesh
+            for (const element of state.elements) {
+                if (element.objectIDs.includes(mesh.id)) {
+                    // create context menu items for each element
+                    const item = {
+                        key: element.id,
+                        text: t('3dSceneBuilder.edit', {
+                            elementDisplayName: element.displayName
+                        }),
+                        iconProps: {
+                            iconName: 'Edit',
+                            style: {
+                                fontSize: '14px',
+                                color: fluentTheme.semanticColors.bodyText
+                            }
+                        },
+                        onClick: () => {
+                            elementContextualMenuItems.current[1].sectionProps.items = [];
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                                payload: element
+                            });
+                            dispatch({
+                                type: SET_ADT_SCENE_BUILDER_MODE,
+                                payload: ADT3DSceneBuilderMode.EditElement
+                            });
+                        },
+                        onMouseOver: () => {
+                            // highlight the hovered element
+                            setOutlinedMeshItems(
+                                createCustomMeshItems(
+                                    element.objectIDs,
+                                    state.objectColor.outlinedMeshHoverColor
+                                )
+                            );
+                        },
+                        onMouseOut: () => {
+                            setOutlinedMeshItems([]);
+                            setColoredMeshItems(
+                                previouslyColoredMeshItems.current
+                            );
+                        }
+                    };
 
-    const meshClickOnEditElement = (mesh) => {
-        const selectedMesh = state.coloredMeshItems.find(
-            (item) => item.meshId === mesh.id
-        );
-        let coloredMeshes = [...state.coloredMeshItems];
+                    // add edit element items to the context menu in the correct position
+                    addContextualMenuItems(
+                        item,
+                        elementContextualMenuItems.current[1]
+                    );
+                }
+            }
 
-        if (selectedMesh) {
-            coloredMeshes = state.coloredMeshItems.filter(
-                (item) => item.meshId !== selectedMesh.meshId
+            // colored the selected mesh
+            const coloredMesh: CustomMeshItem = {
+                meshId: mesh.id,
+                color: null
+            };
+            setColoredMeshItems([coloredMesh]);
+            setOutlinedMeshItems([]);
+            previouslyColoredMeshItems.current = [coloredMesh];
+
+            setContextualMenuProps({
+                isVisible: true,
+                x: e.offsetX,
+                y: e.offsetY,
+                items: elementContextualMenuItems.current
+            });
+        },
+        [
+            fluentTheme.semanticColors.bodyText,
+            setColoredMeshItems,
+            setOutlinedMeshItems,
+            state.elements,
+            state.objectColor.outlinedMeshHoverColor,
+            t
+        ]
+    );
+
+    const meshClickOnEditElement = useCallback(
+        (mesh: AbstractMesh) => {
+            const selectedMesh = state.coloredMeshItems.find(
+                (item) => item.meshId === mesh.id
             );
-        } else {
-            coloredMeshes.push({ meshId: mesh.id });
-        }
-        setColoredMeshItems(coloredMeshes);
-    };
+
+            let coloredMeshes: CustomMeshItem[] = [];
+            if (selectedMesh) {
+                coloredMeshes = state.coloredMeshItems.filter(
+                    (item) => item.meshId !== selectedMesh.meshId
+                );
+            } else {
+                coloredMeshes = [
+                    ...state.coloredMeshItems,
+                    { meshId: mesh.id }
+                ];
+            }
+            setColoredMeshItems(coloredMeshes);
+        },
+        [setColoredMeshItems, state.coloredMeshItems]
+    );
 
     const addContextualMenuItems = (item, targetMenu) => {
         if (!targetMenu.sectionProps.items.find((ci) => ci.key === item.key)) {
             targetMenu.sectionProps.items.push(item);
+        }
+    };
+
+    const onMeshClicked = useCallback(
+        (mesh: AbstractMesh, e: PointerEvent) => {
+            if (mesh) {
+                switch (state.builderMode) {
+                    case ADT3DSceneBuilderMode.ElementsIdle:
+                        meshClickOnElementsIdle(mesh, e);
+                        break;
+
+                    case ADT3DSceneBuilderMode.EditElement:
+                    case ADT3DSceneBuilderMode.CreateElement:
+                        meshClickOnEditElement(mesh);
+                        break;
+
+                    case ADT3DSceneBuilderMode.BehaviorIdle:
+                        meshClickOnBehaviorsIdle(mesh, e);
+                        break;
+                }
+            } else {
+                elementContextualMenuItems.current[1].sectionProps.items = [];
+                if (
+                    state.builderMode === ADT3DSceneBuilderMode.ElementsIdle ||
+                    state.builderMode === ADT3DSceneBuilderMode.BehaviorIdle
+                ) {
+                    setColoredMeshItems([]);
+                    setOutlinedMeshItems([]);
+                }
+            }
+        },
+        [
+            meshClickOnBehaviorsIdle,
+            meshClickOnEditElement,
+            meshClickOnElementsIdle,
+            setColoredMeshItems,
+            setOutlinedMeshItems,
+            state.builderMode
+        ]
+    );
+
+    const onMeshHovered = (mesh: AbstractMesh) => {
+        switch (state.builderMode) {
+            case ADT3DSceneBuilderMode.ElementsIdle:
+                meshHoverOnElementsIdle(mesh);
+                break;
+            case ADT3DSceneBuilderMode.BehaviorIdle:
+                meshHoverOnBehaviorsIdle(mesh);
+                break;
         }
     };
 

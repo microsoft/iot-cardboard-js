@@ -542,7 +542,11 @@
         "noNumberPrefix": "İkiz ad bir sayı ile başlamamalıdır"
       }
     },
-    "actions": "Eylemler"
+    "actions": "Eylemler",
+    "transform": {
+      "position": "Konum",
+      "rotation": "Rotasyon"
+    }
   },
   "widgets": {
     "trend": {
@@ -942,7 +946,9 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model yüklenirken hata oluştu",
       "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
-      "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin."
+      "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
+      "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     }
-  }
+  },
+  "fieldRequired": "Bu alan zorunludur"
 }

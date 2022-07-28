@@ -1,28 +1,13 @@
-import React, {
-    useCallback,
-    useEffect,
-    useReducer,
-    useRef,
-    useState
-} from 'react';
+import React from 'react';
 import SceneView from './SceneView';
 import {
     Marker,
-    TransformedElementItem,
-    TransformInfo
+    TransformedElementItem
 } from '../../Models/Classes/SceneView.types';
 import { ModelLabel } from '../ModelLabel/ModelLabel';
-import { createGUID, deepCopy } from '../../Models/Services/Utils';
+import { createGUID } from '../../Models/Services/Utils';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
-import {
-    ADT3DSceneBuilderReducer,
-    defaultADT3DSceneBuilderState
-} from '../ADT3DSceneBuilder/ADT3DSceneBuilder.state';
-import {
-    SET_ELEMENT_TO_GIZMO,
-    SET_GIZMO_TRANSFORM_ITEM
-} from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
-import { Checkbox, Stack, TextField } from '@fluentui/react';
+import { SceneViewWithGizmoWrapper } from './SceneViewWithGizmoWrapper';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
@@ -35,227 +20,20 @@ export default {
     }
 };
 
-const defaultGizmoElementItems: TransformedElementItem = {
+const defaultGizmoElementItem: TransformedElementItem = {
     meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
     parentMeshId: 'tank6_LOD0.003_primitive0'
 };
 
 export const Gizmo = () => {
-    const [state, dispatch] = useReducer(
-        ADT3DSceneBuilderReducer,
-        defaultADT3DSceneBuilderState
-    );
-    const [isGizmo, setIsGizmo] = useState<boolean>(true);
-
-    const setGizmoTransformItem = useCallback(
-        (gizmoTransformItem: TransformInfo) => {
-            dispatch({
-                type: SET_GIZMO_TRANSFORM_ITEM,
-                payload: gizmoTransformItem
-            });
-            console.log(
-                'new position: ',
-                gizmoTransformItem.position,
-                '\nnew rotation: ',
-                gizmoTransformItem.rotation
-            );
-        },
-        []
-    );
-
-    const setGizmoElementItem = useCallback(
-        (gizmoElementItem: TransformedElementItem) => {
-            dispatch({
-                type: SET_ELEMENT_TO_GIZMO,
-                payload: gizmoElementItem
-            });
-        },
-        []
-    );
-
-    const onGizmoChange = useCallback((event, checked?: boolean) => {
-        if (!checked) {
-            setGizmoElementItem({ parentMeshId: null, meshIds: null });
-        } else {
-            setGizmoElementItem(defaultGizmoElementItems);
-        }
-        setIsGizmo(!!checked);
-    }, []);
-
     return (
-        <div style={{ position: 'relative' }}>
-            <div>
-                <Checkbox
-                    label="Show Gizmo and Transform"
-                    checked={isGizmo}
-                    onChange={onGizmoChange}
-                />
-            </div>
-            <div>
-                <SceneView
+        <div style={wrapperStyle}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneViewWithGizmoWrapper
                     modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
-                    gizmoElementItem={
-                        state.gizmoElementItem ?? defaultGizmoElementItems
-                    }
-                    setGizmoTransformItem={setGizmoTransformItem}
-                    gizmoTransformItem={state.gizmoTransformItem}
+                    defaultGizmoElementItem={defaultGizmoElementItem}
                 />
             </div>
-            <div style={{ position: 'absolute', bottom: 0 }}>
-                {isGizmo && (
-                    <FakePanel
-                        gizmoTransformItem={state.gizmoTransformItem}
-                        setGizmoTransformItem={setGizmoTransformItem}
-                    ></FakePanel>
-                )}
-            </div>
-        </div>
-    );
-};
-
-interface IFakePanelProps {
-    gizmoTransformItem: TransformInfo;
-    setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
-}
-
-const FakePanel = (props: IFakePanelProps) => {
-    const { gizmoTransformItem, setGizmoTransformItem } = props;
-    const gizmoTransformItemDraftRef = useRef<TransformInfo>(null);
-
-    useEffect(() => {
-        if (gizmoTransformItem) {
-            gizmoTransformItemDraftRef.current = deepCopy(gizmoTransformItem);
-        }
-    }, [gizmoTransformItem]);
-
-    const onTransformChange = useCallback(
-        (event) => {
-            if (gizmoTransformItem) {
-                const { name, value } = event.target;
-                gizmoTransformItemDraftRef.current = deepCopy(
-                    gizmoTransformItem
-                );
-                const valueAsNumber = value;
-                switch (name) {
-                    case 'xPos':
-                        gizmoTransformItemDraftRef.current.position.x = valueAsNumber;
-                        break;
-                    case 'yPos':
-                        gizmoTransformItemDraftRef.current.position.y = valueAsNumber;
-                        break;
-                    case 'zPos':
-                        gizmoTransformItemDraftRef.current.position.z = valueAsNumber;
-                        break;
-                    case 'xRot':
-                        gizmoTransformItemDraftRef.current.rotation.x = valueAsNumber;
-                        break;
-                    case 'yRot':
-                        gizmoTransformItemDraftRef.current.rotation.y = valueAsNumber;
-                        break;
-                    case 'zRot':
-                        gizmoTransformItemDraftRef.current.rotation.z = valueAsNumber;
-                        break;
-                }
-                setGizmoTransformItem(gizmoTransformItemDraftRef.current);
-            }
-        },
-        [gizmoTransformItem]
-    );
-
-    const onTransformBlur = useCallback(() => {
-        setGizmoTransformItem({
-            position: {
-                x: Number(gizmoTransformItem.position.x),
-                y: Number(gizmoTransformItem.position.y),
-                z: Number(gizmoTransformItem.position.z)
-            },
-            rotation: {
-                x: Number(gizmoTransformItem.rotation.x),
-                y: Number(gizmoTransformItem.rotation.y),
-                z: Number(gizmoTransformItem.rotation.z)
-            }
-        });
-    }, [gizmoTransformItem]);
-
-    return (
-        <div style={{ padding: '20px' }}>
-            <Stack tokens={{ childrenGap: 12 }} horizontal>
-                <TextField
-                    label="X Position: "
-                    name="xPos"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.position.x
-                            : ''
-                    }
-                ></TextField>
-                <TextField
-                    label="Y Position: "
-                    name="yPos"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.position.y
-                            : ''
-                    }
-                ></TextField>
-                <TextField
-                    label="Z Position: "
-                    name="zPos"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.position.z
-                            : ''
-                    }
-                ></TextField>
-            </Stack>
-            <Stack tokens={{ childrenGap: 12 }} horizontal>
-                <TextField
-                    label="X Rotation: "
-                    name="xRot"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    validateOnFocusOut
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.rotation.x
-                            : ''
-                    }
-                ></TextField>
-                <TextField
-                    label="Y Rotation: "
-                    name="yRot"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.rotation.y
-                            : ''
-                    }
-                ></TextField>
-                <TextField
-                    label="Z Rotation: "
-                    name="zRot"
-                    type="number"
-                    onChange={onTransformChange}
-                    onBlur={onTransformBlur}
-                    value={
-                        gizmoTransformItem
-                            ? '' + gizmoTransformItem.rotation.z
-                            : ''
-                    }
-                ></TextField>
-            </Stack>
         </div>
     );
 };
