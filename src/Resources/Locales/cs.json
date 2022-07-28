@@ -785,7 +785,8 @@
     "undo": "Odčinit",
     "redo": "Předělat",
     "folderUpload": "Nahrání složky",
-    "fileUpload": "Nahrání souboru"
+    "fileUpload": "Nahrání souboru",
+    "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",

@@ -785,7 +785,8 @@
     "fileUpload": "Przesyłanie plików",
     "files": "Pliki",
     "selectFile": "Wybierz plik",
-    "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane"
+    "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
+    "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

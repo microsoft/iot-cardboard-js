@@ -785,7 +785,8 @@
     "fileUpload": "Datei-Upload",
     "files": "Dateien",
     "selectFile": "Datei auswählen",
-    "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden"
+    "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
+    "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
