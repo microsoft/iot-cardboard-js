@@ -27,10 +27,6 @@ module.exports = {
         '@storybook/addon-interactions',
         '@storybook/addon-a11y'
     ],
-    // Storybook collects usage telemetry this opts-out of it
-    core: {
-        disableTelemetry: true
-    },
     typescript: {
         check: false,
         reactDocgen: false
