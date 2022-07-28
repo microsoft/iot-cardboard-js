@@ -786,7 +786,8 @@
     "files": "Dateien",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
-    "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden"
+    "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
+    "errorFileInvalidJSON": "Problem mit {{fileName}}: Ungültiges JSON"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
