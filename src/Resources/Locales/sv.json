@@ -786,7 +786,8 @@
     "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
-    "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns"
+    "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
+    "errorFileInvalidJSON": "Problem med {{fileName}}: Ogiltig JSON"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

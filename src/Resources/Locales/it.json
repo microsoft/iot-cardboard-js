@@ -786,7 +786,8 @@
     "files": "ﬁle",
     "selectFile": "Seleziona file",
     "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate",
-    "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già"
+    "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
+    "errorFileInvalidJSON": "Problema con {{nomefile}}: JSON non valido"
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

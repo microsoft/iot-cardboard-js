@@ -786,7 +786,8 @@
     "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
-    "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var"
+    "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
+    "errorFileInvalidJSON": "{{fileName}} ile ilgili sorun: Geçersiz JSON"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
