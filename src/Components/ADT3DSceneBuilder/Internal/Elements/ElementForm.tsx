@@ -202,7 +202,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const handleCreateBehavior = useCallback(
         async (searchText: string) => {
             // Save element
-            handleSaveElement();
+            await handleSaveElement();
 
             onCreateBehaviorWithElements(
                 searchText,
