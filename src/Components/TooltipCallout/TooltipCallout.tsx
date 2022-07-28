@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     ITooltipCalloutProps,
     ITooltipCalloutStyleProps,
     ITooltipCalloutStyles
 } from './TooltipCallout.types';
 import { getStyles } from './TooltipCallout.styles';
-import { useBoolean, useId } from '@fluentui/react-hooks';
+import { useId } from '@fluentui/react-hooks';
 import {
     classNamesFunction,
     useTheme,
@@ -26,7 +26,7 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     const { content, calloutProps, dataTestId, styles } = props;
     const { buttonAriaLabel, calloutContent, iconName, link } = content;
     // state
-    const [flyoutVisible, { toggle: toggleFlyout }] = useBoolean(false);
+    const [flyoutVisible, setFlyoutVisible] = useState(false);
 
     // hooks
     const id = useId();
@@ -38,36 +38,43 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     });
 
     return (
-        <div className={classNames.root}>
+        <span
+            className={classNames.root}
+            onMouseEnter={() => setFlyoutVisible(true)}
+            onMouseLeave={() => setFlyoutVisible(false)}
+            onFocusCapture={() => setFlyoutVisible(true)}
+        >
             <IconButton
                 ariaLabel={buttonAriaLabel}
                 data-testid={dataTestId}
                 id={id}
                 iconProps={{ iconName: iconName || 'Info' }}
-                onFocus={toggleFlyout}
-                onBlur={toggleFlyout}
-                onMouseEnter={toggleFlyout}
-                onMouseLeave={toggleFlyout}
                 styles={classNames.subComponentStyles.button()}
             />
-            {flyoutVisible && (
-                <Callout
-                    directionalHint={DirectionalHint.rightCenter}
-                    {...calloutProps}
-                    target={`#${id}`}
-                    onDismiss={toggleFlyout}
-                    styles={classNames.subComponentStyles.callout}
-                >
-                    {calloutContent}
-                    {link && ' '}
-                    {link && (
-                        <Link target="_blank" href={link.url}>
-                            {link.text || t('learnMore')}
-                        </Link>
-                    )}
-                </Callout>
-            )}
-        </div>
+            <Callout
+                directionalHint={DirectionalHint.rightCenter}
+                {...calloutProps}
+                target={`#${id}`}
+                hidden={!flyoutVisible}
+                onMouseEnter={() => {
+                    console.log('entered');
+                    setFlyoutVisible(true);
+                }}
+                onDismiss={() => setFlyoutVisible(false)}
+                onMouseLeave={() => setFlyoutVisible(false)}
+                onBlur={() => setFlyoutVisible(false)}
+                styles={classNames.subComponentStyles.callout}
+                shouldUpdateWhenHidden
+            >
+                {calloutContent}
+                {link && ' '}
+                {link && (
+                    <Link target="_blank" href={link.url}>
+                        {link.text || t('learnMore')}
+                    </Link>
+                )}
+            </Callout>
+        </span>
     );
 };
 
