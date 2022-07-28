@@ -373,23 +373,6 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModel(modelJson: string) {
-    const modelParser = createParser(
-        ModelParsingOption.PermitAnyTopLevelElement
-    );
-    try {
-        await modelParser.parse([modelJson]);
-    } catch (err) {
-        if (err.name === 'ParsingException') {
-            return err._parsingErrors
-                .map((e) => `${e.action} ${e.cause}`)
-                .join('\n');
-        }
-
-        return err.message;
-    }
-}
-
 export async function parseModels(models: DtdlInterface[]) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
