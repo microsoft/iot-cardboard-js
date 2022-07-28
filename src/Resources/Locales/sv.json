@@ -785,7 +785,8 @@
     "fileUpload": "Filuppladdning",
     "files": "ﬁler",
     "selectFile": "Välj fil",
-    "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras"
+    "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
+    "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

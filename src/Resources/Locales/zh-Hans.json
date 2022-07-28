@@ -785,7 +785,8 @@
     "fileUpload": "文件上传",
     "files": "文件",
     "selectFile": "选择文件",
-    "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系"
+    "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
+    "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
