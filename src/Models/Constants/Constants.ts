@@ -261,6 +261,53 @@ export const CardboardClassNamePrefix = 'cb';
 export const globeUrl =
     'https://cardboardresources.blob.core.windows.net/public/Globe.glb';
 
+export const DTDLPropertyIconographyMap = {
+    Boolean: {
+        text: 'boolean',
+        icon: 'ToggleRight'
+    },
+    Date: {
+        text: 'date',
+        icon: 'Calendar'
+    },
+    DateTime: {
+        text: 'dateTime',
+        icon: 'DateTime'
+    },
+    Double: {
+        text: 'double',
+        icon: 'NumberSymbol'
+    },
+    Duration: {
+        text: 'duration',
+        icon: 'BufferTimeBefore'
+    },
+    Enum: {
+        text: 'enum',
+        icon: 'BulletedList2'
+    },
+    Float: {
+        text: 'float',
+        icon: 'NumberSymbol'
+    },
+    Integer: {
+        text: 'integer',
+        icon: 'NumberSymbol'
+    },
+    Long: {
+        text: 'long',
+        icon: 'NumberSymbol'
+    },
+    String: {
+        text: 'string',
+        icon: 'TextField'
+    },
+    Time: {
+        text: 'time',
+        icon: 'Clock'
+    }
+};
+
 export const propertySelectorData = {
     propertyTags: {
         primitive: [
