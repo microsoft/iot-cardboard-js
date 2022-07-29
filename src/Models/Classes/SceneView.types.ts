@@ -121,4 +121,5 @@ export interface ISceneViewProps {
     showMeshesOnHover?: boolean;
     unzoomedMeshOpacity?: number;
     zoomToMeshIds?: string[];
+    allowModelDimensionErrorMessage?: boolean;
 }

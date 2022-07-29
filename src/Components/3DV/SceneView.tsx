@@ -1,7 +1,12 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import '@babylonjs/loaders';
 import * as GUI from '@babylonjs/gui';
-import { ProgressIndicator, useTheme } from '@fluentui/react';
+import {
+    MessageBar,
+    MessageBarType,
+    ProgressIndicator,
+    useTheme
+} from '@fluentui/react';
 import React, {
     forwardRef,
     useCallback,
@@ -65,6 +70,7 @@ import { MarkersPlaceholder } from './Internal/MarkersPlaceholder';
 import { Markers } from './Internal/Markers';
 import axios from 'axios';
 import { LoadingErrorMessage } from './Internal/LoadingErrorMessage';
+import { useTranslation } from 'react-i18next';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
@@ -142,6 +148,7 @@ async function loadPromise(
 
 function SceneView(props: ISceneViewProps, ref) {
     const {
+        allowModelDimensionErrorMessage,
         backgroundColor,
         cameraInteractionType,
         cameraPosition,
@@ -209,6 +216,8 @@ function SceneView(props: ISceneViewProps, ref) {
     const [markersAndPositions, setMarkersAndPositions] = useState<
         { marker: Marker; left: number; top: number }[]
     >([]);
+
+    const [showModelError, setShowModelError] = useState(false);
 
     const isWireframe = objectStyle === ViewerObjectStyle.Wireframe;
 
@@ -350,6 +359,17 @@ function SceneView(props: ISceneViewProps, ref) {
                     const height = es_scaled.y;
                     const depth = es_scaled.z;
                     const radius = Math.max(width, height, depth);
+
+                    // check if the largest dimension is ALOT larger than the smallest dimension.
+                    // This can be caused by erroneous meshes which need to be fixed in a modelling tool
+                    if (
+                        allowModelDimensionErrorMessage &&
+                        radius > Math.min(width, height, depth) * 1000
+                    ) {
+                        setShowModelError(true);
+                    } else {
+                        setShowModelError(false);
+                    }
 
                     const center = someMeshFromTheArrayOfMeshes.getBoundingInfo()
                         .boundingBox.centerWorld;
@@ -1654,6 +1674,7 @@ function SceneView(props: ISceneViewProps, ref) {
     }, [outlinedMeshitems, meshMap.current]);
 
     const theme = useTheme();
+    const { t } = useTranslation();
     const customStyles = getSceneViewStyles(theme);
     return (
         <div className={customStyles.root}>
@@ -1683,6 +1704,19 @@ function SceneView(props: ISceneViewProps, ref) {
                 </div>
             )}
             <MarkersPlaceholder markers={markers} />
+            {showModelError && (
+                <div className={customStyles.modelErrorMessage}>
+                    <MessageBar
+                        onDismiss={() => setShowModelError(false)}
+                        isMultiline={false}
+                        messageBarType={MessageBarType.warning}
+                    >
+                        {t(
+                            'scenePageErrorHandling.sceneView.3dAssetDimensionError'
+                        )}
+                    </MessageBar>
+                </div>
+            )}
         </div>
     );
 }

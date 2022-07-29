@@ -46,6 +46,7 @@ import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null
@@ -70,7 +71,6 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         setColoredMeshItems,
         elementTwinAliasFormInfo
     } = useContext(SceneBuilderContext);
-
     const existingElementsRef = useRef(null);
     const newElementsRef = useRef(null);
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
@@ -144,9 +144,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
             // BEGINNING of behaviors update which this element exists in
             if (behaviorsToEdit) {
                 for (const behavior of behaviorsToEdit) {
+                    const selectedLayerIds = ViewerConfigUtility.getActiveLayersForBehavior(
+                        config,
+                        behavior.id
+                    );
+
                     updatedConfig = ViewerConfigUtility.editBehavior(
                         updatedConfig,
-                        behavior
+                        behavior,
+                        selectedLayerIds,
+                        [elementToEdit]
                     );
 
                     // add the behavior to the current scene if it is not there
@@ -311,6 +318,16 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents
+                                    }
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        setPivotToRequired(
+                                            coloredMeshItems.length > 0,
+                                            props,
+                                            defaultRenderer
+                                        )
                                     }
                                 >
                                     <MeshTab elementToEdit={elementToEdit} />

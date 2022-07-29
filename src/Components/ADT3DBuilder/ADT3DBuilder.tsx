@@ -81,7 +81,8 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                                   (adapter as any).authService.getToken(
                                       'storage'
                                   )
-                            : undefined
+                            : undefined,
+                        allowModelDimensionErrorMessage: true
                     }}
                 />
             </div>
