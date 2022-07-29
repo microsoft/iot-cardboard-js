@@ -13,10 +13,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import {
-    OATNamespaceDefaultValue,
-    OATRelationshipHandleName
-} from '../../Models/Constants';
+import { OATNamespaceDefaultValue } from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -24,7 +21,7 @@ import {
     deepCopy,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
-    parseModel
+    parseModels
 } from '../../Models/Services/Utils';
 import ImportSubMenu from './internal/ImportSubMenu';
 import { OATHeaderProps } from './OATHeader.types';
@@ -315,35 +312,77 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         reader.readAsDataURL(e.target.files[0]);
     };
 
+    const safeJsonParse = (value: string) => {
+        try {
+            const parsedJson = JSON.parse(value);
+            return parsedJson;
+        } catch (e) {
+            return null;
+        }
+    };
+
     const handleFileListChanged = async (files: Array<File>) => {
-        const items = [];
+        const newModels = [];
         if (files.length > 0) {
             const filesErrors = [];
             let modelsMetadataReference = null;
             for (const current of files) {
                 const content = await current.text();
-                const error = await parseModel(content);
-                if (!error) {
-                    modelsMetadataReference = populateMetadata(
-                        current,
-                        content,
-                        modelsMetadataReference
-                    );
-
-                    items.push(JSON.parse(content));
+                const validJson = safeJsonParse(content);
+                if (validJson) {
+                    newModels.push(validJson);
                 } else {
                     filesErrors.push(
-                        t('OATHeader.errorIssueWithFile', {
-                            fileName: current.name,
-                            error
+                        t('OATHeader.errorFileInvalidJSON', {
+                            fileName: current.name
                         })
                     );
+                    break;
                 }
             }
+
+            const combinedModels = [...models, ...newModels];
+            const error = await parseModels(combinedModels);
+
+            const modelsCopy = deepCopy(models);
+            for (const model of newModels) {
+                // Check if model already exists
+                const modelExists = modelsCopy.find(
+                    (m) => m['@id'] === model['@id']
+                );
+                if (!modelExists) {
+                    modelsCopy.push(model);
+                } else {
+                    filesErrors.push(
+                        t('OATHeader.errorImportedModelAlreadyExists', {
+                            modelId: model['@id']
+                        })
+                    );
+                    break;
+                }
+            }
+
+            if (!error) {
+                for (let i = 0; i < files.length; i++) {
+                    modelsMetadataReference = populateMetadata(
+                        files[i],
+                        JSON.stringify(newModels[i]),
+                        modelsMetadataReference
+                    );
+                }
+            } else {
+                filesErrors.push(
+                    t('OATHeader.errorIssueWithFile', {
+                        fileName: t('OATHeader.file'),
+                        error
+                    })
+                );
+            }
+
             if (filesErrors.length === 0) {
                 dispatch({
                     type: SET_OAT_IMPORT_MODELS,
-                    payload: items
+                    payload: modelsCopy
                 });
                 dispatch({
                     type: SET_OAT_MODELS_METADATA,

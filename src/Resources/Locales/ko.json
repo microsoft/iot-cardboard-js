@@ -785,7 +785,9 @@
     "fileUpload": "파일 업로드",
     "files": "파일",
     "selectFile": "파일 선택",
-    "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다."
+    "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
+    "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
+    "errorFileInvalidJSON": "{{fileName}} 문제 : 잘못된 JSON"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

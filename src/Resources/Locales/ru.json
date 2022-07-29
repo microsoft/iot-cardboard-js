@@ -785,7 +785,9 @@
     "fileUpload": "Загрузка файла",
     "files": "Файлы",
     "selectFile": "Выберите файл",
-    "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются"
+    "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
+    "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
+    "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

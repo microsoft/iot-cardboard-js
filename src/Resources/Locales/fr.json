@@ -785,7 +785,9 @@
     "fileUpload": "Téléchargement de fichiers",
     "files": "Fichiers",
     "selectFile": "Sélectionner un fichier",
-    "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées"
+    "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées",
+    "errorImportedModelAlreadyExists": "Problème avec {{modelId}} : Modèle avec le même @id existe déjà",
+    "errorFileInvalidJSON": "Problème avec {{fileName}} : JSON non valide"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

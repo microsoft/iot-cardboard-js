@@ -12,7 +12,7 @@ import {
     getCancelButtonStyles,
     getSaveButtonStyles
 } from './OATPropertyEditor.styles';
-import { deepCopy, parseModel } from '../../Models/Services/Utils';
+import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
 import { OATRelationshipHandleName } from '../../Models/Constants';
@@ -106,7 +106,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
-        const validJson = await parseModel(content);
+        const validJson = await parseModels([...models, content]);
 
         const save = () => {
             const modelsCopy = deepCopy(models);

@@ -785,7 +785,9 @@
     "fileUpload": "Upload de arquivo",
     "files": "Limas",
     "selectFile": "Selecione arquivo",
-    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados"
+    "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
+    "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
+    "errorFileInvalidJSON": "Problema com {{fileName}}: JSON inválido"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

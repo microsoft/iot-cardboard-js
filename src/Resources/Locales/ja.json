@@ -785,7 +785,9 @@
     "fileUpload": "ファイルのアップロード",
     "files": "ファイル",
     "selectFile": "ファイルの選択",
-    "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています"
+    "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
+    "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
+    "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
