@@ -416,7 +416,7 @@ export const storeEditorData = (oatEditorData: ProjectData) => {
 };
 
 // Get stored OAT-data
-export const getStoredEditorData = () => {
+export const getStoredEditorData = (): ProjectData => {
     return JSON.parse(localStorage.getItem(OATDataStorageKey));
 };
 
@@ -533,7 +533,7 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
 };
 
 // Load files from local storage
-export const loadFiles = () =>
+export const loadFiles = (): ProjectData[] =>
     JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
 
 // Save files from local storage
