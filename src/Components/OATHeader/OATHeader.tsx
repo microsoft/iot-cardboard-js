@@ -312,13 +312,13 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         reader.readAsDataURL(e.target.files[0]);
     };
 
-    const isJsonValid = (text) => {
+    const safeJsonParse = (value: string) => {
         try {
-            JSON.parse(text);
+            const parsedJson = JSON.parse(value);
+            return parsedJson;
         } catch (e) {
-            return false;
+            return null;
         }
-        return true;
     };
 
     const handleFileListChanged = async (files: Array<File>) => {
@@ -328,10 +328,9 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             let modelsMetadataReference = null;
             for (const current of files) {
                 const content = await current.text();
-                const validJson = isJsonValid(content);
+                const validJson = safeJsonParse(content);
                 if (validJson) {
-                    const jsonContent = JSON.parse(content);
-                    newModels.push(jsonContent);
+                    newModels.push(validJson);
                 } else {
                     filesErrors.push(
                         t('OATHeader.errorFileInvalidJSON', {
