@@ -4,9 +4,11 @@
   "preview": "プレビュー",
   "loading": "積載。。。",
   "label": "ラベル",
+  "labelPlaceholder": "ラベルを入力",
   "min": "分",
   "max": "マックス",
   "noData": "データなし",
+  "noName": "名前なし",
   "error": "データの取得中にエラーが発生しました",
   "unsupportedFileType": "サポートされていないファイルの種類",
   "selectProperties": "プロパティの選択",
@@ -14,11 +16,12 @@
   "theme": "テーマ",
   "hierarchy": "階層",
   "displayName": "表示名",
+  "displayNamePlaceholder": "表示名を入力",
   "realTimeStatus": "リアルタイムステータス",
   "emptyCompositeCard": "空のコンポジットカード",
   "compositeCardWithErrors": "エラー境界のあるコンポジットカード",
   "showMore": "もっと見る",
-  "unauthorizedAccessErrorTitle": "アクセス制限",
+  "unauthorizedAccessErrorTitle": "アクセス制限付き",
   "unauthorizedAccessErrorMessage": "この BLOB にアクセスできません。閲覧者アクセスを要求するか、別の BLOB を試してください。",
   "nonExistentBlobErrorTitle": "ブロブ エラー",
   "nonExistentBlobErrorMessage": "BLOB は存在しません。",
@@ -63,7 +66,11 @@
   "editTwin": "双子の編集",
   "confirmDeletion": "削除の確認",
   "confirmDeletionDesc": "確かですか。この操作を元に戻すことはできません。",
+  "discardChanges": "保存されていない変更を破棄しますか?",
+  "discard": "捨てる",
+  "discardChangesDesc": "確かですか。この操作を元に戻すことはできません。",
   "action": "アクション",
+  "actions": "アクション",
   "name": "名前",
   "title": "タイトル",
   "enterTitle": "タイトルを入力",
@@ -77,7 +84,7 @@
   "id": "身分証明書",
   "select": "選ぶ",
   "info": "情報",
-  "ADTInstances": "Azure Digital Twins Instances",
+  "ADTInstances": "Azure Digital Twins インスタンス",
   "ADTInstancesInfo": "ユーザーが Azure Digital Twins Data Owner または Azure Digital Twins Data Reader アクセス許可を持っている ADT インスタンスの一覧",
   "loadingInstances": "インスタンスを読み込んでいます...",
   "selectInstance": "インスタンスの選択",
@@ -86,9 +93,10 @@
   "globe": "球",
   "list": "リスト",
   "selectFile": "ファイルの選択",
-  "uploadFile": "ファイルのアップロード",
   "uploadingFile": "ファイルをアップロードしています...",
   "twinId": "ツイン ID",
+  "active": "能動",
+  "invalidValue": "無効な値",
   "errors": {
     "errorBoundary": "エラー境界",
     "unkownError": "不明なエラーが発生しました",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "重複する範囲が検出されました。すべての値の範囲が異なることを確認します。最小値は包括的で、最大値は排他的です。",
-    "addValueRangeButtonText": "値の範囲の追加",
+    "overlapDetectedMessage": "重複する範囲が検出されました。すべての範囲が異なることを確認します。最小値は包括的で、最大値は排他的です。",
+    "addValueRangeButtonText": "範囲の追加",
     "rangeValueInvalidMessage": "値は数値、'-無限大'、または '無限大' でなければなりません。",
-    "rangeInvalidMessage": "最小値は (<) 最大値より小さくなければなりません。",
-    "colorButtonAriaLabel": "値の範囲の色を選択",
-    "deleteValueRangeTitle": "値の範囲の削除",
+    "rangeInvalidMessage": "この最小値は、(<) 最大値より小さくなければなりません。",
+    "colorButtonAriaLabel": "範囲の色を選択",
+    "deleteValueRangeTitle": "範囲の削除",
     "negativeInfinityIconMessage": "値を -無限大に設定",
     "positiveInfinityIconMessage": "値を無限大に設定"
   },
@@ -150,21 +158,32 @@
     "simulating": "シミュレーション",
     "liveStatus": "パケット番号: {{パケット番号}} |{{totalSuccessPatches}}/{{totalTwinsPatched}} 双子が更新されました",
     "generateEnvironmentDescription": "モデル、ツイン、リレーションシップをプッシュして環境にデータを設定",
-    "simulateDescription": "環境へのイベントのプッシュ"
+    "simulateDescription": "環境へのイベントのプッシュ",
+    "pusherType": "シミュレーションの種類",
+    "robotArms": "ロボットアーム",
+    "dairyProduction": "酪農施設"
   },
   "scenes": {
     "noScenes": "3Dシーンがないので、新しいシーンを追加して開始します。",
     "addScene": "3D シーンの追加",
-    "sceneLatitude": "緯度",
-    "sceneLongitude": "経度",
+    "latitude": "緯度",
+    "longitude": "経度",
+    "sampleLatitude": "例: 6.4511366",
+    "sampleLongitude": "例: 3.3883963",
+    "longitudeErrorMessage": "入力値は -180 度から 180 度以内である必要があります。",
+    "latitudeErrorMessage": "入力値は -90 度から 90 度以内でなければなりません。",
+    "showOnGlobe": "地球儀に表示",
     "blobUrl": "3D ファイルの BLOB URL",
-    "addDialogTitle": "新しいシーンを作成する",
-    "addDialogSubText": "シーンを BLOB ストレージ内の 3D ファイルの URL にリンクする",
-    "editDialogTitle": "シーンの編集",
-    "editDialogSubText": "シーンの名前とリンクされた 3D ファイルを編集する",
+    "dialogTitleCreate": "新しいシーンを作成する",
+    "dialogSubTitle": "URL経由で既存の3Dファイルをターゲットにするか、新しいファイルをコンテナに直接アップロードする",
+    "dialogTitleEdit": "3D シーンを編集する",
     "3dFileSelectionMode": "3Dファイル選択モード",
-    "fromContainer": "コンテナから",
-    "3dFileAsset": "3D ファイルアセット",
+    "sceneNamePlaceholder": "シーン名を入力する",
+    "sceneDescriptionPlaceholder": "シーンの説明を入力する",
+    "tabNameFromContainer": "ファイルを選択",
+    "tabNameUploadFile": "ファイルのアップロード",
+    "3dFileAsset": "リンク 3D ファイル",
+    "description": "形容",
     "overwriteIfExist": "ファイルが既に存在する場合は上書きする",
     "fileExistsErrorMessage": "この名前のファイルはすでにストレージに存在します。コンテナからそのファイルを選択するか、上書きすることができます。"
   },
@@ -312,15 +331,19 @@
     "viewMode": "表示モード",
     "enterBlobUrl": "Azure ストレージ コンテナーの BLOB URL を入力します。",
     "home": "家",
-    "globe": "球"
+    "globe": "球",
+    "globeView": "地球儀",
+    "listView": "リストビュー",
+    "breadcrumbAriaLabel": "ボタンとしてレンダリングされた項目を含む階層リンク",
+    "breadcrumbOverflowAriaLabel": "その他のリンク"
   },
   "layersDropdown": {
     "placeholder": "レイヤーが選択されていません",
-    "unlayeredBehaviors": "階層化されていない動作",
-    "unlayered": "非レイヤー化",
     "title": "レイヤーの選択",
     "selectAll": "すべて選択",
-    "selectNone": "すべて選択解除"
+    "selectNone": "すべて選択解除",
+    "unlayeredItemListItemDisplayName": "デフォルトレイヤー",
+    "unlayeredItemCollapsedDisplayName": "デフォルト"
   },
   "sceneLayers": {
     "noBehaviors": "動作なし",
@@ -329,7 +352,7 @@
     "noneSelected": "レイヤーが選択されていません",
     "newLayer": "新しいレイヤー",
     "layerName": "レイヤー名",
-    "behaviorsOnThisLayer": "このレイヤー上の動作",
+    "behaviorsListTitle": "ビヘイビア ({{カウント}})",
     "layerNamePlaceholder": "レイヤー名を入力",
     "createNewLayer": "新しいレイヤーを作成する",
     "editLayer": "レイヤーの編集",
@@ -337,7 +360,10 @@
     "layers": "層",
     "noLayersFound": "あなたはまだレイヤーを持っていません!",
     "noLayersDescription": "レイヤーは、ビヘイビアのタグのようなものです。まず、ここでレイヤーを作成します。",
-    "noBehaviorsOnLayer": "このレイヤーには動作はありません"
+    "noBehaviorsOnLayer": "このレイヤーには動作はありません",
+    "deleteConfirmationTitle": "このレイヤーを削除しますか?",
+    "deleteConfirmationMessage": "これにより、レイヤーと関連するすべての動作がすべてのデジタルツイン環境から完全に削除されます。",
+    "infoCalloutContent": "レイヤーはタスクベースのグループで、コンシューマーが動作をフィルター処理できるようにします。レイヤーはシーン全体に存在します。"
   },
   "3dSceneBuilder": {
     "elements": "元素",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "検索動作",
     "modifyElement": "要素の変更",
     "manageTargetElements": "ターゲット要素の管理",
-    "selectBehaviorElements": "この動作をターゲットとする要素を選択する",
+    "elementsListInstructions": "このビヘイビアのビジュアライゼーションに含める要素を選択します。",
     "multiSelectElements": "複数選択要素",
-    "updateBehavior": "更新動作",
     "removeBehaviorFromScene": "シーンからビヘイビアを削除する",
     "removeBehaviorFromAllScenes": "すべてのシーンからビヘイビアを削除する",
     "manageSceneLayer": "シーンレイヤーの管理",
-    "createBehavior": "ビヘイビアの作成",
-    "modifyBehavior": "動作の変更",
     "addBehaviorButton": "動作の追加",
     "addBehavior": "ビヘイビアの追加",
     "searchBehaviors": "検索動作",
     "noAvailableBehaviors": "使用可能な動作がありません",
     "removeBehavior": "この要素から動作を削除する",
-    "addElementDetails": "要素の詳細を追加する",
     "noBehaviorsOnElement": "この要素にビヘイビアが割り当てられていません",
     "noElementsText": "要素はまだ作成されていません",
-    "noResults": "結果なし",
+    "noResults": "結果が見つかりません",
     "behaviorsInSceneTitle": "このシーンでは ({{カウント}})",
     "createWithElement": "{{要素}}で作成",
     "elementActions": "要素アクション",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "すべてのシーンからこの動作を削除してもよろしいですか?この操作を元に戻すことはできません。",
     "newElement": "新しい要素",
     "newBehavior": "新しい動作",
+    "modifyBehavior": "動作の編集",
+    "createBehavior": "ビヘイビアの作成",
+    "updateBehavior": "更新動作",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "キャンセル",
     "Done": "完成です",
     "edit": "{{elementDisplayName}} を編集",
     "editBehavior": "動作の編集",
-    "searchTwinId": "ツイン ID を検索...",
+    "searchTwinId": "検索ツイン ID ($dtId)...",
     "noTwinsFound": "双子が見つかりません (検索では大文字と小文字が区別されます)",
     "useNonExistingTwinId": "完全に一致しない、使用",
     "addBehaviorToScene": "シーンにビヘイビアを追加する",
     "behaviorMetaText": "{{numElementsInActiveScene}} elements, {{numSceneRefs}} scenes",
     "elementMetaText": "{{numBehaviors}} ビヘイビア",
-    "linkedTwin": "リンクされたツイン",
-    "linkedTwinInputInfo": "ツイン ID ($dtId) を入力して、この要素とリンクします (大文字と小文字を区別します)。",
-    "noMeshAddedText": "メッシュはまだ追加されていません。3Dビューアでメッシュを選択してください",
+    "primaryTwin": "プライマリツイン",
     "meshes": "メッシュ",
     "behaviorElementsDropdownLabel": "ターゲット要素",
     "behaviorElementsDropdownPlaceholder": "要素の選択",
+    "behaviorForm": {
+      "formSubTitle": "ビヘイビアは、特定の条件 (特定の間隔やデータのしきい値など) で発生する視覚的な手がかりです。"
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "バッジの色",
+      "colorPickerLabel": "色",
       "expressionLabel": "トリガー式",
-      "expressionPlaceholder": "式を入力してください(例えば、LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "バッジアイコン",
-      "notice": "この動作は、以下のトリガー式が true と評価された場合にのみ有効になります。",
-      "notificationLabel": "通知テキスト",
-      "notificationPlaceholder": "追加のコンテキストのアラートと共に表示するテキスト。"
+      "expressionPlaceholder": "式を入力する(例えば、プライマリツイン.InFlow > 200)",
+      "iconPickerLabel": "アイコン",
+      "tabDescription": "アラート (テキストが付いたアイコン) は、重要なデータ条件に注意を喚起するのに役立ちます。以下では、式を使用してビジュアライゼーションでアラートをトリガーします。",
+      "notificationLabel": "シナリオの説明",
+      "notificationLabelTooltip": "このテキストは、このバッジがアクティブなときにコンシューマーのコンテキストを提供します。",
+      "notificationLabelDescriptionPart1": "ツインプロパティは、テンプレート文字列構文で囲む必要があります。",
+      "notificationPlaceholder": "説明を入力する",
+      "notificationLabelDescriptionPart2": "たとえば、${PrimaryTwin.DisplayName} にはメンテナンスが必要です。"
     },
     "behaviorStatusForm": {
-      "notice": "1 つのプロパティを使用して、このビヘイビアのターゲット要素の色を変更します。",
-      "stateItemLabel": "状態 {{インデックス}}"
+      "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "stateItemLabel": "状態 {{インデックス}}",
+      "propertyExpressionTooltipContent": "カスタム式は、複数のプロパティを利用するより複雑な式に使用します。"
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "ウィジェットの追加",
+      "noData": "ウィジェットをまだ構成していない",
+      "tabDescription": "要素のコンテキストに表示されるウィジェットを定義する"
+    },
+    "elementForm": {
+      "twinNameTooltip": "このフィールドでは大文字と小文字が区別されます",
+      "twinNameDescription": "この要素をリンクするデジタルツインを選択します。このリンクされたツインのプロパティは、関連する動作に使用します。",
+      "meshTabName": "メッシュ",
+      "behaviorsTabName": "動作",
+      "twinTabName": "その他の双子",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "この要素の 3D モデルから関連メッシュを選択します。"
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "この要素の動作を割り当てまたは変更します。ビヘイビアは後でいつでも追加できます。"
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "これらのツインには、プライマリ ツイン以外のデータが含まれており、状態、アラート、および動作のウィジェットで活用できます。",
+      "noDataMessage": "この要素の動作に追加のツインを作成すると、ここに表示されます。"
+    },
+    "widgetLibrary": {
+      "dialogTitle": "ウィジェットライブラリ",
+      "dialogSubTitle": "ウィジェットを探索し、要素のデータ駆動型のインサイトを表示します。"
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "数量単位",
+      "unitOfMeasurePlaceholder": "例:マイル/時間",
+      "linkUrlDescription": "URL を入力し、ツイン プロパティをパラメーターとして追加します (たとえば、${PrimaryTwin.SerialNumber} など)。"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "財産",
@@ -422,95 +484,99 @@
       "propertyNotFound": "プロパティが動作の双子に見つかりません",
       "propertyDropdownPlaceholder": "ツインプロパティの選択"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "プロパティ式",
+      "expressionPlaceholder": "プロパティ式を入力",
+      "singleProperty": "単一のプロパティ",
+      "customExpression": "カスタム (詳細)",
+      "dropdownPlaceholder": "プロパティの選択",
+      "toggleLabel": "式モード",
+      "none": "何一つ",
+      "clearButtonText": "クリア"
+    },
     "numericExpressionPlaceholder": "数値に評価される式を入力します。",
     "behaviorId": "動作 ID",
-    "widgetLibrary": "ウィジェットライブラリ",
-    "exploreWidgets": "ウィジェットを探索し、3Dシーンに情報のレイヤーを追加します。",
-    "addWidget": "ウィジェットの追加",
     "newWidget": "新しいウィジェット",
+    "addWidget": "ウィジェットの追加",
     "createWidget": "ウィジェットの作成",
     "updateWidget": "更新ウィジェット",
     "editWidget": "ウィジェットの編集",
     "removeWidget": "ウィジェットの削除",
     "noWidgets": "ウィジェットが見つかりません",
     "modifyWidget": "ウィジェットの変更",
-    "noWidgetsConfigured": "ウィジェットが構成されていません",
-    "unitOfMeasure": "数量単位",
     "expression": "表現",
     "warningBreakPointToggleLabel": "カラーブレークポイントを有効にする",
     "warningBreakPointLabel": "警告色のブレークポイント",
-    "linkWidgetUrlDescription": "リンクウィジェットの URL は、次のような JavaScript テンプレート文字列フォーマットをサポートしています: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "アラートの動作",
-      "statusBehavior": "ステータスの動作"
-    },
+    "linkWidgetUrlDescription": "リンクウィジェットの URL は、次のような JavaScript テンプレート文字列フォーマットをサポートしています: ${PrimaryTwin.property}",
     "notImplemented": "未実装",
-    "noLinkedTwinProperties": "表示するリンクされたツインプロパティがありません",
+    "noPrimaryTwinProperties": "表示するプライマリツインプロパティがありません",
     "twinAlias": {
       "title": "ツインエイリアス",
-      "titlePlural": "ツインエイリアス",
-      "aliasedTwin": "別名ツイン",
-      "aliasedTwins": "別名双子",
-      "add": "ツインエイリアスの追加",
-      "noTwinAliasesAdded": "ツインエイリアスはまだ追加されていません",
-      "new": "新しいツインエイリアス",
-      "edit": "ツインエイリアスの編集",
-      "create": "ツインエイリアスの作成",
-      "update": "ツインエイリアスの更新",
-      "modify": "ツインエイリアスの変更",
-      "search": "双子エイリアスの検索",
+      "calloutDescription": "選択した要素の双子のプロパティの和集合",
+      "add": "ツインを追加する",
+      "new": "新しい双子",
+      "edit": "双子の編集",
+      "create": "ツインを作成する",
+      "update": "アップデートツイン",
+      "modify": "ツインの変更",
+      "search": "双子を検索",
       "searchProperties": "検索プロパティ",
       "noTwinAliasesToAdd": "追加するツインエイリアスがありません",
       "removeFromBehavior": "動作からツインエイリアスを削除する",
       "removeFromElement": "要素からツインエイリアスを削除する",
       "commonProperties": "共通プロパティ",
       "twinAliasForm": {
-        "alias": "別名",
-        "elementTwinMappings": "要素ツインマッピング",
+        "aliasNameLabel": "ツイン名",
+        "aliasNameTooltipContent": "作成後にこの双子の名前を変更することはできません。",
+        "mappingSectionHeader": "要素のツインマッピング",
+        "mappingSectionSubHeader": "要素ごとに、このツインが参照するデジタルツインを選択します。",
         "elementTwinMappingsNotExist": "使用可能なマッピングはありません。最初に動作に要素を追加します。"
       },
+      "tabDescriptionPart1": "各要素は、プライマリ ツインからのデータを活用します。要素がデータを活用できる他のツインを追加します。",
+      "tabDescriptionPart2": "ターゲット要素間で共通するプロパティを表示し、式内のプライマリ ツインまたは他のツインを使用してこれらのプロパティを参照します。",
+      "linkedTwinListHeader": "リンクされた双子 ({{カウント}})",
       "descriptions": {
-        "twins": "ツインを使用すると、式で使用できるプロパティにアクセスできます。",
-        "linkedTwin": "LinkedTwin には、リンクされたターゲット要素間で共通するすべてのプロパティが含まれています。",
-        "aliasChangeNotAllowed": "作成後のエイリアスの変更は許可されません。",
-        "commonProperties": "選択した要素のリンクされたツインプロパティの和集合"
+        "commonProperties": "選択した要素のプライマリツインプロパティの和集合"
       },
       "errors": {
-        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。"
+        "twinAliasAlreadyExists": "同じ名前のツインエイリアスが既に存在するため、代わりに追加することを検討してください。",
+        "alphanumericOnly": "ツイン エイリアスには英数字のみを含める必要があります。",
+        "noNumberPrefix": "ツイン名は数字で始まってはなりません"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "プロパティ式",
-      "expressionPlaceholder": "プロパティ式を入力",
-      "selectProperty": "プロパティの選択",
-      "toggleLabel": "プロパティ式"
-    }
+    "actions": "アクション"
   },
   "widgets": {
     "trend": {
       "title": "トレンドウィジェット",
-      "description": "3D シーンのコンテキストで履歴データを表示する"
+      "libraryName": "トレンド",
+      "description": "履歴データのグラフを表示する"
     },
     "gauge": {
       "title": "ゲージウィジェット",
-      "description": "視覚的なコンテキストで数値データポイントを表現する"
+      "libraryName": "ゲージ",
+      "description": "数値プロパティをカスタム範囲で表現する"
     },
     "link": {
       "title": "リンクウィジェット",
-      "description": "URL をリンクして外部コンテンツを参照する",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "リンク",
+      "description": "要素に固有の URL に移動する",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "リンクを開く"
+    },
+    "value": {
+      "title": "値ウィジェット",
+      "libraryName": "価値",
+      "description": "任意のプリミティブプロパティを表示する",
+      "displayNamePlaceholder": "表示名を入力",
+      "typePlaceholder": "値のタイプを選択します。"
     },
     "panel": {
       "title": "パネルウィジェット",
+      "libraryName": "パネル",
       "description": "レイアウトパネル"
     },
-    "notSupported": "このウィジェットの種類は現在サポートされていません",
-    "value": {
-      "title": "値ウィジェット",
-      "description": "ツインプロパティの値を表示するための基本ウィジェット",
-      "typePlaceholder": "値のタイプを選択します。"
-    }
+    "notSupported": "このウィジェットの種類は現在サポートされていません"
   },
   "sdkStrings": {
     "Last 30 mins": "最後の30分",
@@ -592,8 +658,6 @@
     "Start time input": "開始時刻入力",
     "End time input": "終了時刻入力",
     "snap end time to latest": "終了時刻を最新にスナップ",
-    "zoom in": "ズームインする",
-    "zoom out": "ズームアウト",
     "select quick time of": "のクイックタイムを選択",
     "a time selection control dialog": "時間選択制御ダイアログ。",
     "No color": "色なし",
@@ -683,7 +747,8 @@
       "undoAll": "すべての編集をリセットする",
       "expandTree": "ツリーの展開",
       "collapseTree": "ツリーの折りたたみ",
-      "save": "変更の保存"
+      "save": "変更の保存",
+      "refresh": "データの更新"
     },
     "dateTimePicker": {
       "datePickerTitle": "日付ピッカー",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "環境 URL",
-    "containerUrl": "コンテナ URL",
+    "environmentUrl": "Azure Digital Twins instance URL",
+    "containerUrl": "Azure Storage container URL",
     "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
-    "editEnvironment": "環境の編集",
-    "descriptionForEnvironment": "環境を接続して資産を一覧表示します。",
-    "descriptionForEnvAndCont": "環境とストレージコンテナのURLを接続して、シーンを一覧表示します。",
+    "editEnvironment": "3D シーン環境の構成",
+    "descriptionForEnvironment": "Azure デジタル ツインズ インスタンスをリンクして、3D シーンの構築を開始します。",
+    "descriptionForEnvAndCont": "Azure デジタル ツインズ インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
     "descriptionForLocalStorage": "構成データはローカルストレージに保存されます。",
     "selectContainerUrl": "ストレージコンテナのURLを選択",
     "noEnvironment": "環境は追加されていません",
@@ -716,7 +781,7 @@
     "state": "状態",
     "allProperties": "すべてのプロパティ",
     "behaviorPreview": "プレビュー",
-    "LinkedTwinProperties": "リンクされたツインのプロパティ"
+    "PrimaryTwin": "プライマリツイン"
   },
   "svgTests": {
     "fluentUI": "流暢な画像コンポーネントによるSVGの読み込み(推奨パターン)",
@@ -724,7 +789,7 @@
     "reactComponent": "Reactコンポーネント構文によるSVGイラストレーション"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "ファイルを選択するか、BLOB URL を入力します。",
+    "selectFileOrEnter": "ファイルのURLを入力するか、リストから選択します",
     "3dFileFromContainer": "コンテナ内の3Dファイル",
     "loading3DFiles": "ファイルをロードしています...",
     "invalidBlobUrlPath": "これはサポートされている BLOB URL ではありません (例: https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "テーマ",
-    "title": "視聴者のテーマ",
-    "style": "スタイル",
-    "objectColors": "オブジェクトの色",
-    "background": "バックグラウンド",
+    "title": "シーンテーマ",
+    "style": "3D モデルスタイル",
+    "objectColors": "3Dモデルの色",
+    "background": "シーンの背景",
     "default": "デフォルト",
     "transparent": "透明",
     "wireframe": "ワイヤーフレーム"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "共有",
+    "copyButtonText": "リンクのコピー",
+    "copyConfirmationMessage": "リンクがコピーされました!",
+    "flyoutHeader": "シーンの共有",
+    "includeElementsOption": "選択した要素とのリンク",
+    "includeLayersOption": "選択したレイヤーとのリンク"
   },
   "elementsPanel": {
     "title": "元素",
@@ -791,11 +864,124 @@
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
-    "select": "選ぶ",
-    "pan": "パン",
     "orbit": "軌道",
-    "zoom": "ズーム"
+    "pan": "パン",
+    "reset": "リセット",
+    "select": "選ぶ",
+    "zoom": "ズーム",
+    "zoomIn": "ズームインする",
+    "zoomOut": "ズームアウト"
   },
+  "tutorialModal": {
+    "modalTitle": "3Dシーンスタジオへようこそ!",
+    "publicPreview": "パブリック プレビュー",
+    "closeAriaLabel": "モーダルを閉じる",
+    "rootDocsLinkText": "ドキュメンテーション",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "クイック スタート",
+    "primaryButtonText": "デモを見る",
+    "dismissText": "解任する",
+    "nextSlide": "次のスライド",
+    "previousSlide": "前のスライド",
+    "statusIndicatorSelectedAria": "スライド {{スライド}} が選択されました",
+    "statusIndicatorUnselectedAria": "スライドを選択 {{スライド}}",
+    "tabs": {
+      "introduction": "紹介",
+      "concepts": "概念",
+      "elements": "元素",
+      "behaviors": "動作",
+      "twins": "双子",
+      "widgets": "ウィジェット",
+      "sceneLayers": "シーンレイヤー"
+    },
+    "frePages": {
+      "intro": {
+        "title": "最新のローコードビルダー",
+        "text": "このローコード ビルダーでは、Azure Digital Twins データによって強化された 3D 資産の視覚的なコンテキストを使用して、3D の専門知識を必要とせずに、運用データを監視、診断、および調査できます。"
+      },
+      "builder": {
+        "title": "ビルダーでシーンをカスタマイズする",
+        "text": "3D シーンスタジオのビルダーは、シーンを設定するための主要なインターフェイスです。それはローコード、視覚的な経験です。"
+      },
+      "viewer": {
+        "title": "周りを探索したり、他の場所に埋め込んだりする",
+        "text": "スタジオで3Dシーンをご覧ください。ビューアコンポーネントはカスタムアプリケーションに埋め込むことができ、サードパーティのコンポーネントと組み合わせて動作することができます。"
+      }
+    },
+    "conceptsRoot": {
+      "title": "コンセプトを深く掘り下げる必要がありますか?",
+      "text": "ヘルプコンテンツを閲覧するか、ドキュメントをチェックしてステップバイステップのチュートリアルを確認してください!"
+    },
+    "docLinkBlurb": "より詳細なステップバイステップについては、<DocLink>docs here.</DocLinkをご覧くださ>",
+    "tip": "先端",
+    "elements": {
+      "title": "要素とは何ですか?",
+      "content": "要素は、1 つ以上の基になるデジタル ツイン上のデータにリンクされた自己定義の 3D メッシュのセットです。\n\nプライマリツインは、要素の主要なデジタルツイン対応です。要素を Azure Digital Twins インスタンスのツインに接続して、要素が 3D ビジュアライゼーション内のツインとそのデータを表現できるようにします。"
+    },
+    "behaviors": {
+      "title": "動作とは",
+      "mainContent": "ビヘイビアは、関連する要素のデジタルツイン上の特定のデータを活用して視聴者のビジュアライゼーションを推進するシーンのシナリオです。\n\n動作の作成には、ツインの選択、ステータスとアラートの構成、ウィジェットの追加、表示するレイヤーの選択が含まれます。\n\n",
+      "statusTitle": "地位",
+      "statusDescription": "状態は、要素の正常性または状態を示すために、要素上のデータ駆動型のオーバーレイです。値の範囲を設定して状態の境界を作成し、ビジュアライゼーション内の各状態を表す色を選択します。\n\n",
+      "alertsTitle": "アラート",
+      "alertsDescription": "アラートは条件付き通知で、要素に注意が必要なタイミングをすばやく確認するのに役立ちます。アイコン、色、テキストでアラートバッジをカスタマイズします。\n\n"
+    },
+    "twins": {
+      "title": "双子の選び方は?",
+      "mainContent": "[ツイン] タブでは、この動作でデータを使用できるツインのセットを変更できます。これには、ターゲット要素のプライマリツインと追加のツインが含まれます。\n\n追加のツインは、要素のセカンダリ デジタル ツイン データ ソースです。この要素の動作式でそのツインのプロパティを使用できます。この動作のステータス、アラート、およびウィジェットで活用するプライマリ ツイン以外のデータを持つツインがある場合にのみ、ツインを追加する必要があります。\n\n",
+      "tipContent": "Azure デジタル ツイン エクスプローラーは、この要素のプライマリ ツインに関連する可能性のあるツインを表示するのに役立ちます。SELECT * FROM digitaltwins WHERE $dtId='<プライマリ-ツイン-id>'を使用してグラフを照会し、ダブルクリック拡張機能を使用して関連するツインを探索することができます。"
+    },
+    "widgets": {
+      "title": "ウィジェットとは何ですか?",
+      "mainContent": "ウィジェットは、追加のコンテキストとデータを提供するデータ駆動型のビジュアルであり、動作が表すシナリオを理解するのに役立ちます。ウィジェットを構成すると、アラートまたはステータスがアクティブなときに適切なデータを検出できるようにするのに役立ちます。\n\n",
+      "typesOfWidgets": "ウィジェットの種類\n\n",
+      "gaugeDescription": "<下線>ゲージ:</下線>数値データポイントを視覚的に表現するため\n\n",
+      "linkDescription": "<下線>リンク:</下線> リンクURLを介して外部参照コンテンツを含める場合\n\n",
+      "valueDescription": "<下線>値:</下線>ツインプロパティ値を直接表示する場合\n\n"
+    },
+    "sceneLayers": {
+      "title": "シーンレイヤーとは何ですか?",
+      "mainContent": "シーン内にレイヤーを作成して、動作を整理することができます。レイヤーはビヘイビアのタグのように機能するため、どのビヘイビアを一緒に表示する必要があるかを定義できるため、さまざまなロールやタスクのシーンのカスタムビューを作成できます。\n\nシーンにレイヤーがない場合、すべての動作がシーンビューアに表示されます。レイヤーでタグ付けされていないビヘイビアは、レイヤーでタグ付けされるまでデフォルトレイヤーに表示されます。\n\nレイヤーを作成する 1 つの方法は、シーンのビルドビューのシーンレイヤーボタンを使用することです。または、ビヘイビアーを作成または変更しながらレイヤーを作成することもできます。"
+    }
+  },
+  "diagnose": "診断する",
+  "resolve": "解決する",
+  "verify": "確かめる",
+  "success": "成功！",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "構成ファイルのリセット",
+    "unauthorizedAccessErrorTitle": "アクセス制限",
+    "unauthorizedAccessErrorMessage": "このストレージコンテナにアクセスできません。アクセスを診断するか、別のコンテナーを試してください。",
+    "blobNotFoundErrorTitle": "ブロブが見つかりません",
+    "blobNotFoundErrorMessage": "BLOB は存在しません。",
+    "unknownErrorTitle": "不明なエラー",
+    "corsErrorTitle": "CORS エラー",
+    "corsErrorMessage": "ストレージ アカウントの BLOB サービスには、CORS がシーンで 3D アセットを使用できるようにするための特定のプロパティがいくつか含まれている必要があります。",
+    "internalServerErrorMessage": "内部サーバーエラー、サーバーログを確認してください。",
+    "diagnoseAccessPermissions": "アクセス許可の診断",
+    "checkingPermissions": "権限を確認しています...",
+    "resolveIssues": "問題を解決する",
+    "resolvingIssues": "問題を解決しています...",
+    "missingPermissionsMessage": "アクセス許可がありません。閲覧者として、またストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。",
+    "noMissingRoleDesc": "不足しているアクセス許可は検出されませんでした。割り当てられたアクセス許可が有効かどうかを確認しようとしています。",
+    "finishedWithFailureDesc": "試行に失敗しました。リソース所有者に連絡してください。",
+    "verifyingPermissionsMessage": "アクセス許可を確認しています...\nこれには数分かかる場合があります。",
+    "assignRoleSuccessDesc": "不足しているアクセス許可が割り当てられています。変更が有効かどうかを確認しようとしている間、しばらくお待ちください。",
+    "refreshPage": "ページの更新",
+    "refreshing": "爽やか",
+    "noContainerUrlErrorTitle": "コンテナが設定されていません",
+    "noContainerUrlErrorMessage": "コンテナーの URL が設定されていません。以下をクリックして設定してください。",
+    "noADTInstanceUrlTitle": "ADT インスタンスが設定されていません",
+    "noADTInstanceUrlMessage": "ADT インスタンスの URL が設定されていません。以下をクリックして設定してください。",
+    "configureEnvironment": "環境の構成",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "モデルの読み込み中にエラーが発生しました",
+      "3dAssetLoadingNetworkErrorMessage": "これは、CORS の問題、無効な BLOB URL、またはネットワーク エラーである可能性があります。このアセットファイルが保存されているコンテナの所有者に連絡するか、後でもう一度やり直してください。",
+      "3dAssetLoadingGenericErrorMessage": "モデルの読み込み中にエラーが発生しました。キャッシュをクリアしてもう一度やり直すか、そのファイルへのアクセスを確認してください。",
+      "3dAssetDimensionError": "モデル寸法に問題がある可能性があります。誤ったメッシュがないことを確認してください。"
+    }
+  },
+  "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {
     "newModel": "新型",
     "name": "名前",

@@ -31,36 +31,48 @@ export const defaultSwatchColors: IPickerOption[] = [
 ];
 export const defaultSwatchIcons: IPickerOption[] = [
     {
-        id: 'Running',
-        item: 'Running'
+        id: 'FastForward',
+        item: 'FastForward'
     },
     {
-        id: 'Snowflake',
-        item: 'Snowflake'
+        id: 'Asterisk',
+        item: 'Asterisk'
     },
     {
         id: 'Frigid',
         item: 'Frigid'
     },
     {
-        id: 'BlowingSnow',
-        item: 'BlowingSnow'
+        id: 'RedEye',
+        item: 'RedEye'
     },
     {
         id: 'Ringer',
         item: 'Ringer'
     },
     {
-        id: 'AlarmClock',
-        item: 'AlarmClock'
+        id: 'Stopwatch',
+        item: 'Stopwatch'
     },
     {
-        id: 'FastMode',
-        item: 'FastMode'
+        id: 'SpeedHigh',
+        item: 'SpeedHigh'
     },
     {
-        id: 'ShieldAlert',
-        item: 'ShieldAlert'
+        id: 'Shield',
+        item: 'Shield'
+    },
+    {
+        id: 'Accept',
+        item: 'Accept'
+    },
+    {
+        id: 'Warning',
+        item: 'Warning'
+    },
+    {
+        id: 'Lightbulb',
+        item: 'Lightbulb'
     }
 ];
 

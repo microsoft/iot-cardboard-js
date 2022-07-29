@@ -10,13 +10,24 @@ import { ILayer } from '../../../../Models/Types/Generated/3DScenesConfiguration
 import ConfirmDeleteDialog from '../ConfirmDeleteDialog/ConfirmDeleteDialog';
 import { defaultLayer } from '../../../../Models/Classes/3DVConfig';
 import { createGUID } from '../../../../Models/Services/Utils';
-import { IFocusTrapZone } from '@fluentui/react';
+import {
+    classNamesFunction,
+    IFocusTrapZone,
+    styled,
+    useTheme
+} from '@fluentui/react';
+import {
+    ISceneLayersProps,
+    ISceneLayersStyleProps,
+    ISceneLayersStyles,
+    LayerDialogMode
+} from './SceneLayers.types';
+import { getStyles } from './SceneLayers.styles';
 
-export enum LayerDialogMode {
-    Root = 'root',
-    NewLayer = 'newLayer',
-    EditLayer = 'editLayer'
-}
+const getClassNames = classNamesFunction<
+    ISceneLayersStyleProps,
+    ISceneLayersStyles
+>();
 
 const getCalloutTitle = (mode: LayerDialogMode) => {
     switch (mode) {
@@ -29,7 +40,9 @@ const getCalloutTitle = (mode: LayerDialogMode) => {
     }
 };
 
-const SceneLayers: React.FC = () => {
+const SceneLayers: React.FC<ISceneLayersProps> = (props) => {
+    const { styles } = props;
+
     const { t } = useTranslation();
 
     const {
@@ -50,6 +63,11 @@ const SceneLayers: React.FC = () => {
 
     const keepOpenRef = useRef(false);
     const calloutRef = useRef<IFocusTrapZone>(null);
+
+    const classNames = getClassNames(styles, {
+        theme: useTheme(),
+        isFlyoutOpen: false
+    });
 
     // If behavior Id passed in as data, snap to new layer mode
     useEffect(() => {
@@ -84,11 +102,11 @@ const SceneLayers: React.FC = () => {
     };
 
     return (
-        <>
+        <div>
             <FocusCalloutButton
                 buttonText={t('sceneLayers.sceneLayers')}
                 calloutTitle={getCalloutTitle(mode)}
-                iconName="Stack"
+                iconName={'MapLayers'}
                 isOpen={isLayerBuilderDialogOpen}
                 setIsOpen={(isOpen: boolean) => {
                     if (!isOpen && keepOpenRef.current) {
@@ -107,6 +125,7 @@ const SceneLayers: React.FC = () => {
                     layerBuilderDialogData?.onFocusDismiss?.(layerDraft.id)
                 }
                 componentRef={calloutRef}
+                styles={classNames.subComponentStyles.button}
             >
                 {mode === LayerDialogMode.Root && (
                     <LayersListRoot
@@ -117,7 +136,7 @@ const SceneLayers: React.FC = () => {
                             });
                             setMode(LayerDialogMode.NewLayer);
                         }}
-                        layers={config.configuration.layers}
+                        layers={config?.configuration?.layers || []}
                         onLayerClick={(layer: ILayer) => {
                             setLayerDraft(layer);
                             setMode(LayerDialogMode.EditLayer);
@@ -155,9 +174,15 @@ const SceneLayers: React.FC = () => {
                     calloutRef.current.focus();
                 }}
                 onConfirmDeletion={() => onDeleteLayer(confirmDeleteLayerData)}
+                title={t('sceneLayers.deleteConfirmationTitle')}
+                message={t('sceneLayers.deleteConfirmationMessage')}
             />
-        </>
+        </div>
     );
 };
 
-export default SceneLayers;
+export default styled<
+    ISceneLayersProps,
+    ISceneLayersStyleProps,
+    ISceneLayersStyles
+>(SceneLayers, getStyles);

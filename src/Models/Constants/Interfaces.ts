@@ -29,7 +29,9 @@ import {
     FileUploadStatus,
     ADT3DAddInEventTypes,
     GlobeTheme,
-    ViewerModeStyles
+    ViewerObjectStyle,
+    AzureResourceTypes,
+    AzureAccessPermissionRoles
 } from './Enums';
 import {
     AdapterReturnType,
@@ -43,10 +45,17 @@ import {
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import ADTInstancesData from '../Classes/AdapterDataClasses/ADTInstancesData';
+import {
+    AzureRoleAssignmentsData,
+    AzureResourcesData
+} from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
-import { AssetDevice } from '../Classes/Simulations/Asset';
+import {
+    AzureUserAssignmentsData,
+    AzureSubscriptionData
+} from '../Classes/AdapterDataClasses/AzureManagementData';
+import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
     ICameraPosition,
@@ -55,13 +64,12 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import { ErrorObject } from 'ajv';
-import BlobsData from '../Classes/AdapterDataClasses/BlobsData';
+import { StorageBlobsData } from '../Classes/AdapterDataClasses/StorageData';
 import {
     I3DScenesConfig,
-    IBehavior,
-    IScene,
-    ITwinToObjectMapping
+    IScene
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 import {
@@ -70,6 +78,17 @@ import {
     DtdlProperty,
     DtdlRelationship
 } from './dtdlInterfaces';
+import { IStyleFunctionOrObject } from '@fluentui/react';
+import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
+import {
+    ADTAllModelsData,
+    ADTTwinToModelMappingData
+} from '../Classes/AdapterDataClasses/ADTModelData';
+import {
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+} from '../../Components/ADT3DViewer/ADT3DViewer.types';
+import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 
 export interface IAction {
     type: string;
@@ -239,11 +258,27 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
-export interface IADTInstance {
+export interface IAzureResource {
+    id: string;
     name: string;
-    hostName: string;
-    resourceId: string;
-    location: string;
+    type: AzureResourceTypes;
+    [additionalProperty: string]: any;
+    properties: Record<string, any>;
+}
+
+export interface IADTInstance {
+    // derived from IAzureResource
+    id: string;
+    name: string; // e.g. cardboard
+    hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
+    location: string; // e.g. westcentralus
+}
+
+export interface IStorageContainer {
+    // derived from IAzureResource
+    id: string;
+    name: string;
+    url?: string;
 }
 
 export interface IADTInstanceConnection {
@@ -377,6 +412,14 @@ export type IPropertyInspectorAdapter = Pick<
     | 'updateRelationship'
 >;
 
+export interface IModelledPropertyBuilderAdapter {
+    getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;
+    getAllAdtModels(): Promise<AdapterResult<ADTAllModelsData>>;
+    getModelIdFromTwinId(
+        twinId: string
+    ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
+}
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -384,7 +427,10 @@ export interface IADT3DViewerAdapter {
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
-export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
+export interface IADTAdapter
+    extends IKeyValuePairAdapter,
+        IADT3DViewerAdapter,
+        IModelledPropertyBuilderAdapter {
     getADTModels(
         params?: AdapterMethodParamsForGetADTModels
     ): AdapterReturnType<ADTAdapterModelsData>;
@@ -427,40 +473,31 @@ export interface IADTAdapter extends IKeyValuePairAdapter, IADT3DViewerAdapter {
     getIncomingRelationships(
         twinId: string
     ): Promise<AdapterResult<ADTRelationshipsData>>;
-    getADTInstances: (
+}
+
+export interface IAzureManagementAdapter {
+    getSubscriptions: () => AdapterReturnType<AzureSubscriptionData>;
+    getRoleAssignments: (
+        resourceId: string,
+        uniqueObjectId: string
+    ) => AdapterReturnType<AzureUserAssignmentsData>;
+    hasRoleDefinitions: (
+        resourceId: string,
+        uniqueObjectId: string,
+        enforcedRoleIds: Array<AzureAccessPermissionRoles>, // roles that have to exist
+        alternatedRoleIds: Array<AzureAccessPermissionRoles> // roles that one or the other has to exist
+    ) => Promise<boolean>;
+    getResources: (
+        resourceType: AzureResourceTypes,
+        providerEndpoint: string,
         tenantId?: string,
         uniqueObjectId?: string
-    ) => AdapterReturnType<ADTInstancesData>;
-    getTwinsForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<Record<string, any>>;
-    /**
-     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
-     * Returns the list of properties come in the format 'PropertyName'
-     * @param behavior behavior to look for the twins
-     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
-     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
-     */
-    getTwinPropertiesWithAliasesForBehavior(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<IAliasedTwinProperty[]>;
-    /**
-     * Gets the list of all the twin properties that are exposed for all twins related to a behavior (linked twins and aliased twins).
-     * Returns the list of full names of the properties come in the format 'LinkedTwin.PropertyName' if it is a linked twin property or
-     * 'TemperatureTag.Temperature' if it is an aliased twin property
-     * @param behavior behavior to look for the twins
-     * @param elementsInBehavior elements exist in dataSource of the behavior (these elements can be either the ones in config file or selected elements if behavior is in edit mode)
-     * @param isTwinAliasesIncluded to decide if aliased twin properties should be included in returned list (through twin alises in behavior and its elements)
-     */
-    getTwinPropertiesForBehaviorWithFullName(
-        behavior: IBehavior,
-        elementsInBehavior: Array<ITwinToObjectMapping>,
-        isTwinAliasesIncluded: boolean
-    ): Promise<string[]>;
+    ) => AdapterReturnType<AzureResourcesData>;
+    assignRole: (
+        roleId: AzureAccessPermissionRoles,
+        resourceId: string, // scope
+        uniqueObjectId: string
+    ) => AdapterReturnType<AzureRoleAssignmentsData>;
 }
 
 export interface IBlobAdapter {
@@ -472,8 +509,8 @@ export interface IBlobAdapter {
     ) => AdapterReturnType<ADTScenesConfigData>;
     getContainerBlobs: (
         fileTypes?: Array<string>
-    ) => AdapterReturnType<BlobsData>;
-    putBlob: (file: File) => AdapterReturnType<BlobsData>;
+    ) => AdapterReturnType<StorageBlobsData>;
+    putBlob: (file: File) => AdapterReturnType<StorageBlobsData>;
     resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
 }
 
@@ -552,16 +589,15 @@ export interface AssetRelationship {
 export interface AssetTwin {
     name: string;
     assetRelationships?: Array<AssetRelationship>;
-    devices: Array<AssetDevice>;
+    properties: Array<AssetProperty<any>>;
 }
 
-export interface IAssetDevice {
+export interface IAssetProperty<T> {
     id: string;
-    deviceName: string;
-    seedValue: number;
-    minValue: number;
-    maxValue: number;
-    properties: any;
+    propertyName: string;
+    currentValue: T;
+    getNextValue: (currentValue: T) => T;
+    schema?: string; // ADT schema for the property
 }
 
 export interface DTModelContent {
@@ -618,6 +654,11 @@ export interface IAdtPusherSimulation {
     generateTwinRelationships(): Array<DTwinRelationship>;
 }
 
+export enum AdtPusherSimulationType {
+    DairyProduction = 'dairyProduction',
+    RobotArms = 'robotArms'
+}
+
 export interface IGenerateADTAssetsProps {
     adapter: IADTAdapter;
     models: readonly DTModel[];
@@ -625,16 +666,6 @@ export interface IGenerateADTAssetsProps {
     relationships: readonly DTwinRelationship[];
     triggerUpload: boolean;
     onComplete(models, twins, relationships): void;
-}
-export interface IStepperWizardStep {
-    label: string;
-    onClick?: () => void;
-}
-
-export interface IStepperWizardProps {
-    steps: Array<IStepperWizardStep>;
-    currentStepIndex?: number;
-    isNavigationDisabled?: boolean;
 }
 
 export interface IJSONUploaderProps {
@@ -653,7 +684,7 @@ export interface IADTInstancesProps {
     theme?: Theme;
     locale?: Locale;
     localeStrings?: Record<string, any>;
-    adapter: IADTAdapter;
+    adapter: ADT3DSceneAdapter;
     hasLabel?: boolean;
     selectedInstance?: string;
     onInstanceChange?: (instanceHostName: string) => void;
@@ -695,9 +726,13 @@ export interface ISceneViewWrapperProps {
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     wrapperMode: WrapperMode;
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<undefined, ISceneViewWrapperStyles>;
 }
 
-export interface IADT3DViewerProps {
+export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
@@ -712,25 +747,33 @@ export interface IADT3DViewerProps {
     showMeshesOnHover?: boolean;
     showHoverOnSelected?: boolean;
     coloredMeshItems?: CustomMeshItem[];
-    zoomToMeshIds?: string[];
+    /**
+     * Ids of the elements to zoom the camera to focus on
+     */
+    zoomToElementId?: string;
     unzoomedMeshOpacity?: number;
     hideViewModePickerUI?: boolean;
     hideElementsPanel?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
+    /** show the toggle to switch between builder & viewer modes */
+    showModeToggle?: boolean;
     sceneViewProps?: ISceneViewProps;
+    selectedLayerIds?: string[];
+    /**
+     * Call to provide customized styling that will layer on top of the variant rules.
+     */
+    styles?: IStyleFunctionOrObject<IADT3DViewerStyleProps, IADT3DViewerStyles>;
 }
 
-export interface IADT3DViewerMode {
-    objectColor: IADTObjectColor;
-    isWireframe: boolean;
-    style: ViewerModeStyles;
-    background: IADTBackgroundColor;
+export interface ISceneViewerThemeCache {
+    backgroundKey: string;
+    objectColorKey: string;
+    objectStyle: ViewerObjectStyle;
 }
 
 export interface IADTObjectColor {
     color: string;
     baseColor: string;
-    fresnelColor: string;
     lightingStyle: number;
     reflectionTexture?: string;
     coloredMeshColor: string;
@@ -748,18 +791,41 @@ export interface IADTBackgroundColor {
     defaultBadgeTextColor: string;
     aggregateBadgeColor: string;
     aggregateBadgeTextColor: string;
+    objectLuminanceRatio?: number;
 }
 
-export interface IBlobFile {
+export interface IStorageBlob {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
 }
 
-export interface IBlobFile {
-    Name: string;
-    Path: string;
-    Properties: Record<string, any>;
+export interface IAzureUserRoleAssignments {
+    value: IAzureRoleAssignment[];
+}
+
+export interface IAzureRoleAssignment extends IAzureResource {
+    type: AzureResourceTypes.RoleAssignments;
+    properties: IAzureRoleAssignmentPropertyData;
+}
+
+export interface IAzureRoleAssignmentPropertyData {
+    roleDefinitionId: string;
+    [additionalProperty: string]: any;
+}
+
+export interface IAzureUserSubscriptions {
+    value: IAzureSubscriptions[];
+}
+
+export interface IAzureSubscriptions {
+    subscriptionId: string;
+    tenantId: string;
+    displayName: string;
+}
+
+export interface IAzureResourceGroup extends IAzureResource {
+    type: AzureResourceTypes.ResourceGroups;
 }
 
 export interface IOATGraphCustomNodeProps extends IOATNodeElement {
@@ -770,7 +836,7 @@ export interface IOATGraphCustomNodeProps extends IOATNodeElement {
 export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
 
 export interface IAliasedTwinProperty {
-    alias: 'LinkedTwin' | string;
+    alias: 'PrimaryTwin' | string;
     property: string;
 }
 
@@ -828,4 +894,11 @@ export interface IOATProperty {
     id: string;
     displayName: string;
     index: number;
+}
+export interface IBlobServiceCorsRule {
+    AllowedOrigins: Array<string>;
+    AllowedMethods: Array<string>;
+    AllowedHeaders?: Array<string>;
+    ExposedHeaders?: Array<string>;
+    MaxAgeInSeconds: number;
 }

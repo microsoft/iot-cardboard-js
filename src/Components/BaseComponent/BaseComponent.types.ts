@@ -23,4 +23,7 @@ export interface BaseComponentProps {
 
     /** Custom message to display under loading spinner: defaults to 'loading...' */
     customLoadingMessage?: string;
+
+    /** Disable base component default styles */
+    disableDefaultStyles?: boolean;
 }

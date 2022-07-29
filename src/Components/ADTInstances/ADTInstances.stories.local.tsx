@@ -1,8 +1,8 @@
 import React from 'react';
 import ADTInstances from './ADTInstances';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
+import { ADT3DSceneAdapter } from '../../Adapters';
 
 export default {
     title: 'Components/ADTInstances',
@@ -16,11 +16,12 @@ export const Instances = (_args, { globals: { theme, locale } }) => {
     ) : (
         <ADTInstances
             adapter={
-                new ADTAdapter(
-                    authenticationParameters.adt.hostUrl,
+                new ADT3DSceneAdapter(
                     new MsalAuthService(
                         authenticationParameters.adt.aadParameters
                     ),
+                    authenticationParameters.adt.hostUrl,
+                    authenticationParameters.storage.blobContainerUrl,
                     authenticationParameters.adt.aadParameters.tenantId,
                     authenticationParameters.adt.aadParameters.uniqueObjectId
                 )

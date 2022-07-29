@@ -4,9 +4,11 @@
   "preview": "Visualizar",
   "loading": "Carregamento...",
   "label": "Etiqueta",
+  "labelPlaceholder": "Digite rótulo",
   "min": "Min",
   "max": "Max",
   "noData": "Sem dados",
+  "noName": "Sem nome",
   "error": "Dados de busca de erros",
   "unsupportedFileType": "Tipo de arquivo sem suporte",
   "selectProperties": "Selecione propriedades",
@@ -14,6 +16,7 @@
   "theme": "Tema",
   "hierarchy": "Hierarquia",
   "displayName": "Nome de exibição",
+  "displayNamePlaceholder": "Digite o nome do display",
   "realTimeStatus": "Status em tempo real",
   "emptyCompositeCard": "Cartão composto vazio",
   "compositeCardWithErrors": "Cartão composto com limites de erro",
@@ -63,7 +66,11 @@
   "editTwin": "Editar gêmeo",
   "confirmDeletion": "Confirmar exclusão",
   "confirmDeletionDesc": "Tem certeza? Você não pode desfazer essa ação.",
+  "discardChanges": "Descartar alterações não salvas?",
+  "discard": "Descartar",
+  "discardChangesDesc": "Tem certeza? Você não pode desfazer essa ação.",
   "action": "Ação",
+  "actions": "Ações",
   "name": "Nome",
   "title": "Título",
   "enterTitle": "Digite título",
@@ -77,7 +84,7 @@
   "id": "Id",
   "select": "Selecionar",
   "info": "Informação",
-  "ADTInstances": "Casos de gêmeos digitais do Azure",
+  "ADTInstances": "Casos de Gêmeos Digitais Azure",
   "ADTInstancesInfo": "Lista de casos de ADT para as quais o usuário tem permissão do Azure Digital Twins Data Owner ou Azure Digital Twins Data Reader",
   "loadingInstances": "Casos de carregamento...",
   "selectInstance": "Selecione uma instância",
@@ -86,9 +93,10 @@
   "globe": "Globo",
   "list": "Lista",
   "selectFile": "Selecione arquivo",
-  "uploadFile": "Carregar arquivo",
   "uploadingFile": "Carregando arquivo...",
   "twinId": "ID duplo",
+  "active": "Ativo",
+  "invalidValue": "Valor inválido",
   "errors": {
     "errorBoundary": "Limite de erro",
     "unkownError": "Ocorreu erro desconhecido",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Faixas sobrepostas detectadas. Verifique se todas as faixas de valor são distintas. Os valores mínimos são inclusivos, os valores Max são exclusivos.",
-    "addValueRangeButtonText": "Adicionar faixa de valor",
+    "overlapDetectedMessage": "Faixas sobrepostas detectadas. Verifique se todas as faixas são distintas. Os valores mínimos são inclusivos, os valores Max são exclusivos.",
+    "addValueRangeButtonText": "Adicionar alcance",
     "rangeValueInvalidMessage": "Os valores devem ser numéricos, '-Infinito', ou 'Infinito'",
-    "rangeInvalidMessage": "O valor min deve ser menor que (<) Valor máximo",
-    "colorButtonAriaLabel": "Selecione cor para faixa de valor",
-    "deleteValueRangeTitle": "Excluir faixa de valor",
+    "rangeInvalidMessage": "Este valor min deve ser menor que (<) valor máximo",
+    "colorButtonAriaLabel": "Selecione cor para intervalo",
+    "deleteValueRangeTitle": "Exclusão de faixa",
     "negativeInfinityIconMessage": "Definir valor para -Infinito",
     "positiveInfinityIconMessage": "Definir valor para o Infinito"
   },
@@ -150,21 +158,32 @@
     "simulating": "Simulando",
     "liveStatus": "Número do pacote: {{packetNumber}} | {{totalSuccessfulPatches}}/{{/totalTwinsPatched}} gêmeos atualizados com sucesso",
     "generateEnvironmentDescription": "Empurre modelos, gêmeos e relacionamentos para povoar seu ambiente",
-    "simulateDescription": "Empurre eventos para o seu ambiente"
+    "simulateDescription": "Empurre eventos para o seu ambiente",
+    "pusherType": "Tipo de simulação",
+    "robotArms": "Braços robôs",
+    "dairyProduction": "Instalações de laticínios"
   },
   "scenes": {
     "noScenes": "Você não tem cenas 3D, adicione uma nova para começar.",
     "addScene": "Adicionar cena 3D",
-    "sceneLatitude": "Latitude",
-    "sceneLongitude": "Longitude",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "sampleLatitude": "por exemplo: 6.4511366",
+    "sampleLongitude": "por exemplo: 3.3883963",
+    "longitudeErrorMessage": "O valor de entrada deve estar dentro de -180 e 180 graus",
+    "latitudeErrorMessage": "O valor de entrada deve estar dentro de -90 e 90 graus",
+    "showOnGlobe": "Show na Globo",
     "blobUrl": "URL de bolha de arquivo 3D",
-    "addDialogTitle": "Criar uma nova cena",
-    "addDialogSubText": "Vincule sua cena com a URL do seu arquivo 3D no armazenamento de bolhas",
-    "editDialogTitle": "Editar cena",
-    "editDialogSubText": "Edite o nome e o arquivo 3D vinculado da sua cena",
+    "dialogTitleCreate": "Criar uma nova cena",
+    "dialogSubTitle": "Segmente um arquivo 3D existente via URL ou carregue um novo arquivo diretamente para o seu contêiner",
+    "dialogTitleEdit": "Edite sua cena 3D",
     "3dFileSelectionMode": "Modo de seleção de arquivos 3D",
-    "fromContainer": "Do contêiner",
-    "3dFileAsset": "Ativo de arquivo 3D",
+    "sceneNamePlaceholder": "Digite um nome de cena",
+    "sceneDescriptionPlaceholder": "Digite uma descrição da cena",
+    "tabNameFromContainer": "Escolha arquivo",
+    "tabNameUploadFile": "Carregar arquivo",
+    "3dFileAsset": "Vincular arquivo 3D",
+    "description": "Descrição",
     "overwriteIfExist": "Substituir se o arquivo já existe",
     "fileExistsErrorMessage": "Um arquivo com este nome já existe no armazenamento, você pode selecionar esse arquivo a partir de contêiner ou sobregravar."
   },
@@ -312,15 +331,19 @@
     "viewMode": "Modo de visualização",
     "enterBlobUrl": "Digite sua URL de bolha de contêiner de armazenamento do Azure",
     "home": "Casa",
-    "globe": "Globo"
+    "globe": "Globo",
+    "globeView": "Visão do Globo",
+    "listView": "Exibição da lista",
+    "breadcrumbAriaLabel": "Migalhas de pão com itens renderizados como botões",
+    "breadcrumbOverflowAriaLabel": "Mais links"
   },
   "layersDropdown": {
     "placeholder": "Sem camadas selecionadas",
-    "unlayeredBehaviors": "Comportamentos semcamadas",
-    "unlayered": "Semcamadas",
     "title": "Selecione camadas",
     "selectAll": "Selecione todos",
-    "selectNone": "Desmarque todos"
+    "selectNone": "Desmarque todos",
+    "unlayeredItemListItemDisplayName": "Camada padrão",
+    "unlayeredItemCollapsedDisplayName": "Inadimplência"
   },
   "sceneLayers": {
     "noBehaviors": "Sem comportamentos",
@@ -329,7 +352,7 @@
     "noneSelected": "Sem camadas selecionadas",
     "newLayer": "Nova camada",
     "layerName": "Nome da camada",
-    "behaviorsOnThisLayer": "Comportamentos nesta camada",
+    "behaviorsListTitle": "Comportamentos ({{count}})",
     "layerNamePlaceholder": "Digite o nome da camada",
     "createNewLayer": "Criar nova camada",
     "editLayer": "Editar camada",
@@ -337,7 +360,10 @@
     "layers": "Camadas",
     "noLayersFound": "Você ainda não tem camadas!",
     "noLayersDescription": "Camadas são como tags em comportamentos. Comece criando uma camada aqui.",
-    "noBehaviorsOnLayer": "Não há comportamentos nesta camada"
+    "noBehaviorsOnLayer": "Não há comportamentos nesta camada",
+    "deleteConfirmationTitle": "Apagar essa camada?",
+    "deleteConfirmationMessage": "Isso remove permanentemente a camada e quaisquer comportamentos associados de todos os ambientes de Gêmeos Digitais.",
+    "infoCalloutContent": "As camadas são agrupamentos baseados em tarefas que permitem aos consumidores filtrar comportamentos. Camadas existem entre as cenas."
   },
   "3dSceneBuilder": {
     "elements": "Elementos",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "Comportamentos de pesquisa",
     "modifyElement": "Modificar elemento",
     "manageTargetElements": "Gerenciar elementos-alvo",
-    "selectBehaviorElements": "Selecione elementos para esse comportamento para segmentar",
+    "elementsListInstructions": "Selecione os elementos que deseja incluídos na visualização deste comportamento",
     "multiSelectElements": "Elementos multi-selecionados",
-    "updateBehavior": "Atualizar o comportamento",
     "removeBehaviorFromScene": "Remover o comportamento da cena",
     "removeBehaviorFromAllScenes": "Remova o comportamento de todas as cenas",
     "manageSceneLayer": "Gerenciar camada de cena",
-    "createBehavior": "Criar comportamento",
-    "modifyBehavior": "Modificar o comportamento",
     "addBehaviorButton": "Adicionar comportamento",
     "addBehavior": "Adicionar comportamento",
     "searchBehaviors": "Comportamentos de pesquisa",
     "noAvailableBehaviors": "Sem comportamentos disponíveis",
     "removeBehavior": "Remover o comportamento deste elemento",
-    "addElementDetails": "Adicionar detalhes do elemento",
     "noBehaviorsOnElement": "Nenhum comportamento atribuído a este elemento",
     "noElementsText": "Nenhum elemento criado ainda",
-    "noResults": "Sem resultados",
+    "noResults": "Nenhum resultado encontrado",
     "behaviorsInSceneTitle": "Nesta cena ({{count}})",
     "createWithElement": "Criar com {{element}}",
     "elementActions": "Ações de elementos",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Tem certeza que quer remover esse comportamento de todas as cenas. Você não pode desfazer essa ação.",
     "newElement": "Novo elemento",
     "newBehavior": "Novo comportamento",
+    "modifyBehavior": "Editar comportamento",
+    "createBehavior": "Criar comportamento",
+    "updateBehavior": "Atualizar o comportamento",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Cancelar",
     "Done": "Terminado",
     "edit": "Editar {{elementDisplayName}}",
     "editBehavior": "Editar comportamento",
-    "searchTwinId": "Pesquise a dupla de id...",
+    "searchTwinId": "Pesquisar twin id ($dtId)...",
     "noTwinsFound": "Nenhum gêmeo encontrado (a busca é sensível ao caso)",
     "useNonExistingTwinId": "Sem correspondência exata, use",
     "addBehaviorToScene": "Adicionar comportamento à cena",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementos{{numSceneRefs}}",
     "elementMetaText": "{{numBehaviors}} comportamentos",
-    "linkedTwin": "Gêmeo ligado",
-    "linkedTwinInputInfo": "Digite o ID gêmeo ($dtId) para vincular-se a este elemento (sensível ao caso)",
-    "noMeshAddedText": "Sem malhas adicionadas ainda, selecione malhas no visualizador 3D",
+    "primaryTwin": "Gêmeo primário",
     "meshes": "Malhas",
     "behaviorElementsDropdownLabel": "Elemento alvo",
     "behaviorElementsDropdownPlaceholder": "Selecione um elemento",
+    "behaviorForm": {
+      "formSubTitle": "Comportamentos são pistas visuais que ocorrem em condições específicas — por exemplo, em intervalos específicos ou em limiares de dados."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Cor do crachá",
+      "colorPickerLabel": "Cor",
       "expressionLabel": "Expressão do gatilho",
-      "expressionPlaceholder": "Inserir expressão (por exemplo, LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "Ícone do crachá",
-      "notice": "Esse comportamento só será ativado quando a expressão do gatilho abaixo avaliar a verdade.",
-      "notificationLabel": "Texto de notificação",
-      "notificationPlaceholder": "Texto para mostrar com o alerta para contexto adicional."
+      "expressionPlaceholder": "Inserir expressão (por exemplo, PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Ícone",
+      "tabDescription": "Alertas — ícones acompanhados de texto — ajudam a chamar a atenção para condições críticas de dados. Abaixo, use expressões para disparar alertas em sua visualização.",
+      "notificationLabel": "Descrição do cenário",
+      "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando esse crachá estiver ativo.",
+      "notificationLabelDescriptionPart1": "As propriedades gêmeas precisam ser cercadas com sintaxe de string de modelo.",
+      "notificationPlaceholder": "Digite uma descrição",
+      "notificationLabelDescriptionPart2": "Por exemplo, ${PrimaryTwin.DisplayName} requer manutenção"
     },
     "behaviorStatusForm": {
-      "notice": "Use uma única propriedade para recolorir os elementos-alvo desse comportamento.",
-      "stateItemLabel": "Estado {{índice}}"
+      "tabDescription": "Selecione uma propriedade e, em seguida, defina faixas para aplicar cores a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "stateItemLabel": "Estado {{índice}}",
+      "propertyExpressionTooltipContent": "Use uma expressão personalizada para expressões mais complexas que aproveitem várias propriedades."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Adicionar widget",
+      "noData": "Você ainda não configurou nenhum widgets",
+      "tabDescription": "Definir widgets que aparecem no contexto do elemento"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Este campo é sensível ao caso",
+      "twinNameDescription": "Selecione um gêmeo digital para vincular esse elemento. Você usará as propriedades deste gêmeo vinculado para comportamentos associados.",
+      "meshTabName": "Malhas",
+      "behaviorsTabName": "Comportamentos",
+      "twinTabName": "Outros gêmeos",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Selecione as malhas associadas do seu modelo 3D para este elemento."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Atribua ou modifique comportamentos para este elemento. Você sempre pode adicionar comportamentos depois."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Esses gêmeos contêm dados além de seu gêmeo principal que você pode aproveitar em seu status, alertas e widgets para seus comportamentos.",
+      "noDataMessage": "Quando você cria gêmeos adicionais nos comportamentos deste elemento, eles aparecerão aqui."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Biblioteca Widget",
+      "dialogSubTitle": "Explorar widgets e exibir insights orientados por dados para o seu elemento."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Unidade de medida",
+      "unitOfMeasurePlaceholder": "Por exemplo, milhas/hora",
+      "linkUrlDescription": "Digite uma URL e adicione propriedades gêmeas como parâmetros — por exemplo, ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Propriedade",
@@ -422,95 +484,99 @@
       "propertyNotFound": "Propriedade não encontrada nos gêmeos do comportamento",
       "propertyDropdownPlaceholder": "Selecione propriedade dupla"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Expressão de propriedade",
+      "expressionPlaceholder": "Digite a expressão da propriedade",
+      "singleProperty": "Propriedade única",
+      "customExpression": "Personalizado (avançado)",
+      "dropdownPlaceholder": "Selecione uma propriedade",
+      "toggleLabel": "Modo de expressão",
+      "none": "Nenhum",
+      "clearButtonText": "Claro"
+    },
     "numericExpressionPlaceholder": "Digite uma expressão que avalia para um número",
     "behaviorId": "ID de comportamento",
-    "widgetLibrary": "Biblioteca Widget",
-    "exploreWidgets": "Explore nossos widgets e adicione uma camada extra de informações à sua cena 3D.",
-    "addWidget": "Adicionar widget",
     "newWidget": "Novo widget",
+    "addWidget": "Adicionar widget",
     "createWidget": "Criar widget",
     "updateWidget": "Atualizar widget",
     "editWidget": "Editar widget",
     "removeWidget": "Remover widget",
     "noWidgets": "Não foram encontrados widgets",
     "modifyWidget": "Modificar widget",
-    "noWidgetsConfigured": "Sem widgets configurados",
-    "unitOfMeasure": "Unidade de medida",
     "expression": "Expressão",
     "warningBreakPointToggleLabel": "Habilitar ponto de quebra de cor",
     "warningBreakPointLabel": "Ponto de quebra de cor de aviso",
-    "linkWidgetUrlDescription": "O URL do widget link suporta a formatação de sequência de caracteres do modelo JavaScript, tais como: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Comportamento de alerta",
-      "statusBehavior": "Comportamento de status"
-    },
+    "linkWidgetUrlDescription": "O URL do widget link suporta a formatação de sequência de caracteres javaScript, tais como: ${PrimaryTwin.property}",
     "notImplemented": "Não implementado",
-    "noLinkedTwinProperties": "Sem propriedades gêmeas vinculadas para exibir",
+    "noPrimaryTwinProperties": "Sem propriedades gêmeas primárias para exibir",
     "twinAlias": {
       "title": "Alias gêmeos",
-      "titlePlural": "Codinomes gêmeos",
-      "aliasedTwin": "Gêmeo aliased",
-      "aliasedTwins": "Gêmeos aliasados",
-      "add": "Adicionar alias gêmeos",
-      "noTwinAliasesAdded": "Nenhum codinome gêmeo adicionado ainda",
-      "new": "Novo pseudônimo gêmeo",
-      "edit": "Editar o pseudônimo de gêmeos",
-      "create": "Criar alias gêmeos",
-      "update": "Atualizar o pseudônimo de gêmeos",
-      "modify": "Modificar o pseudônimo de gêmeos",
-      "search": "Pesquise codinomes gêmeos",
+      "calloutDescription": "A união de propriedades gêmeas de elementos selecionados",
+      "add": "Adicionar gêmeos",
+      "new": "Novo gêmeo",
+      "edit": "Editar gêmeo",
+      "create": "Criar gêmeos",
+      "update": "Atualizar gêmeo",
+      "modify": "Modificar gêmeos",
+      "search": "Busca de gêmeos",
       "searchProperties": "Propriedades de pesquisa",
       "noTwinAliasesToAdd": "Sem codinomes gêmeos para adicionar",
       "removeFromBehavior": "Remover o pseudônimo de gêmeos do comportamento",
       "removeFromElement": "Remover o pseudônimo de gêmeos do elemento",
       "commonProperties": "Propriedades comuns",
       "twinAliasForm": {
-        "alias": "Cognome",
-        "elementTwinMappings": "Mapeamentos de elementos gêmeos",
+        "aliasNameLabel": "Nome duplo",
+        "aliasNameTooltipContent": "Você não pode mudar o nome desse gêmeo após a criação.",
+        "mappingSectionHeader": "Mapeamentos duplos para elementos",
+        "mappingSectionSubHeader": "Para cada elemento, selecione o gêmeo digital que este gêmeo faz referências",
         "elementTwinMappingsNotExist": "Não há mapeamento disponível, adicione elementos ao comportamento primeiro."
       },
+      "tabDescriptionPart1": "Cada elemento aproveita dados de seu gêmeo principal. Adicione outros gêmeos dos seus elementos.",
+      "tabDescriptionPart2": "Veja as propriedades em comum entre os elementos-alvo e referencia essas propriedades usando o gêmeo primário ou os outros gêmeos em suas expressões. ",
+      "linkedTwinListHeader": "Gêmeos vinculados ({{count}})",
       "descriptions": {
-        "twins": "Gêmeos lhe dão acesso a propriedades que podem ser usadas em expressões.",
-        "linkedTwin": "O LinkedTwin contém todas as propriedades em comum entre os elementos-alvo ligados gêmeos.",
-        "aliasChangeNotAllowed": "A mudança de pseudônimo não é permitida após a criação.",
-        "commonProperties": "A união de propriedades gêmeas vinculadas de elementos selecionados"
+        "commonProperties": "A união das propriedades gêmeas primárias dos elementos selecionados"
       },
       "errors": {
-        "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar."
+        "twinAliasAlreadyExists": "O pseudônimo de gêmeos com o mesmo nome já existe, considere adicioná-lo em seu lugar.",
+        "alphanumericOnly": "O pseudônimo gêmeo só deve conter caracteres alfanuméricos",
+        "noNumberPrefix": "O nome duplo não deve começar com um número"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Expressão de propriedade",
-      "expressionPlaceholder": "Digite a expressão da propriedade",
-      "selectProperty": "Selecione a propriedade",
-      "toggleLabel": "Expressão de propriedade"
-    }
+    "actions": "Ações"
   },
   "widgets": {
     "trend": {
       "title": "Widget de tendência",
-      "description": "Mostre dados históricos no contexto de sua cena 3D"
+      "libraryName": "Tendência",
+      "description": "Mostrar gráficos de dados históricos"
     },
     "gauge": {
       "title": "Widget de medidor",
-      "description": "Representar pontos de dados numéricos com contexto visual"
+      "libraryName": "Medida",
+      "description": "Representar propriedades numéricas com faixas personalizadas"
     },
     "link": {
       "title": "Widget de link",
-      "description": "Referenciar conteúdo externo vinculando uma URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "Link",
+      "description": "Navegue até URLs específicas do elemento",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Link aberto"
+    },
+    "value": {
+      "title": "Widget de valor",
+      "libraryName": "Valor",
+      "description": "Exibir qualquer propriedade primitiva",
+      "displayNamePlaceholder": "Digite o nome do display",
+      "typePlaceholder": "Selecione o tipo para o valor"
     },
     "panel": {
       "title": "Widget do painel",
+      "libraryName": "Painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é suportado atualmente",
-    "value": {
-      "title": "Widget de valor",
-      "description": "Widget básico para mostrar valores de propriedades gêmeas",
-      "typePlaceholder": "Selecione o tipo para o valor"
-    }
+    "notSupported": "Este tipo de widget não é suportado atualmente"
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
@@ -592,8 +658,6 @@
     "Start time input": "Entrada de tempo de início",
     "End time input": "Entrada de tempo final",
     "snap end time to latest": "snap tempo final para mais recente",
-    "zoom in": "ampliar",
-    "zoom out": "ampliar",
     "select quick time of": "selecionar tempo rápido de",
     "a time selection control dialog": "um diálogo de controle de seleção de tempo.",
     "No color": "Sem cor",
@@ -683,7 +747,8 @@
       "undoAll": "Redefinir todas as edições",
       "expandTree": "Expandir árvore",
       "collapseTree": "Árvore de colapso",
-      "save": "Salvar alterações"
+      "save": "Salvar alterações",
+      "refresh": "Atualizar dados"
     },
     "dateTimePicker": {
       "datePickerTitle": "Catador de datas",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL do ambiente",
-    "containerUrl": "URL do contêiner",
+    "environmentUrl": "URL de exemplo de gêmeos digitais do Azure",
+    "containerUrl": "URL do contêiner de armazenamento azure",
     "enterEnvironmentUrl": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "por exemplo, https://example.blob.core.windows.net/example",
-    "editEnvironment": "Editar ambiente",
-    "descriptionForEnvironment": "Conecte seu ambiente para listar seus ativos.",
-    "descriptionForEnvAndCont": "Conecte seu ambiente e url de contêiner de armazenamento para listar suas cenas.",
+    "editEnvironment": "Configure o ambiente de cenas 3D",
+    "descriptionForEnvironment": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
+    "descriptionForEnvAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
     "descriptionForLocalStorage": "Os dados de configuração são salvos no armazenamento local.",
     "selectContainerUrl": "Selecione URL do contêiner de armazenamento",
     "noEnvironment": "Nenhum ambiente adicionado",
@@ -716,7 +781,7 @@
     "state": "Estado",
     "allProperties": "Todas as propriedades",
     "behaviorPreview": "Visualizar",
-    "LinkedTwinProperties": "Propriedades gêmeas vinculadas"
+    "PrimaryTwin": "Gêmeo Primário"
   },
   "svgTests": {
     "fluentUI": "Carregamento SVG via componente de imagem fluente (padrão recomendado)",
@@ -724,7 +789,7 @@
     "reactComponent": "Ilustração SVG via Sintaxe de componente React"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Selecione arquivo ou digite URL blob",
+    "selectFileOrEnter": "Digite URL de arquivo ou selecione a partir de lista",
     "3dFileFromContainer": "Arquivo 3D no contêiner",
     "loading3DFiles": "Carregando arquivos...",
     "invalidBlobUrlPath": "Esta não é uma URL blob suportada (por exemplo, https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Tema",
-    "title": "Tema do espectador",
-    "style": "Estilo",
-    "objectColors": "Cor do objeto",
-    "background": "Fundo",
+    "title": "Tema da cena",
+    "style": "Estilo de modelo 3D",
+    "objectColors": "Cor do modelo 3D",
+    "background": "Fundo da cena",
     "default": "Inadimplência",
     "transparent": "Transparente",
     "wireframe": "Wireframe"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Compartilhar",
+    "copyButtonText": "Copiar link",
+    "copyConfirmationMessage": "Link copiado!",
+    "flyoutHeader": "Compartilhar cena",
+    "includeElementsOption": "Link com elemento selecionado",
+    "includeLayersOption": "Link com camadas selecionadas"
   },
   "elementsPanel": {
     "title": "Elementos",
@@ -791,11 +864,124 @@
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
-    "select": "Selecionar",
-    "pan": "Panela",
     "orbit": "Órbita",
-    "zoom": "Zoom"
+    "pan": "Panela",
+    "reset": "Repor",
+    "select": "Selecionar",
+    "zoom": "Zoom",
+    "zoomIn": "Ampliar",
+    "zoomOut": "Diminuir o zoom"
   },
+  "tutorialModal": {
+    "modalTitle": "Bem-vindos ao Estúdio de Cenas 3D!",
+    "publicPreview": "Pré-visualização pública",
+    "closeAriaLabel": "Fechar modal",
+    "rootDocsLinkText": "Documentação",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Início rápido",
+    "primaryButtonText": "Explore a demonstração",
+    "dismissText": "Demitir",
+    "nextSlide": "Próximo slide",
+    "previousSlide": "Slide anterior",
+    "statusIndicatorSelectedAria": "Slide {{slide}} selecionado",
+    "statusIndicatorUnselectedAria": "Selecione slide {{slide}}",
+    "tabs": {
+      "introduction": "Introdução",
+      "concepts": "Conceitos",
+      "elements": "Elementos",
+      "behaviors": "Comportamentos",
+      "twins": "Gêmeos",
+      "widgets": "Widgets",
+      "sceneLayers": "Camadas de cena"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Nosso mais novo construtor de códigos baixos",
+        "text": "Neste construtor de baixo código, você pode monitorar, diagnosticar e investigar dados operacionais com o contexto visual de ativos 3D, alimentados por dados do Azure Digital Twins, sem a necessidade de experiência 3D."
+      },
+      "builder": {
+        "title": "Personalize sua cena em nosso Construtor",
+        "text": "O construtor em 3D Scenes Studio é a interface principal para configurar suas cenas. É uma experiência visual de baixo código."
+      },
+      "viewer": {
+        "title": "Explore ao redor, ou incorpore-o em outro lugar",
+        "text": "Veja a cena 3D aqui no Estúdio. O componente do visualizador pode ser incorporado em aplicativos personalizados e pode funcionar em conjunto com componentes de terceiros."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Precisa de um mergulho mais profundo nos conceitos?",
+      "text": "Navegue pelo conteúdo da ajuda ou confira nossa documentação para tutoriais passo a passo!"
+    },
+    "docLinkBlurb": "Para um passo a passo mais detalhado, confira os <Docs>docs >.</DocLink>",
+    "tip": "Ponta",
+    "elements": {
+      "title": "O que é um elemento?",
+      "content": "Um elemento é um conjunto auto-definido de malhas 3D que está ligado a dados de um ou mais gêmeos digitais subjacentes.\n\nUm gêmeo primário é a principal contrapartida digital gêmea para um elemento. Você conecta o elemento a um gêmeo na sua instância Azure Digital Twins para que o elemento possa representar seu gêmeo e seus dados dentro da visualização 3D."
+    },
+    "behaviors": {
+      "title": "O que é um comportamento?",
+      "mainContent": "Um comportamento é um cenário para sua cena que irá aproveitar dados específicos sobre o gêmeo digital do elemento relacionado para impulsionar visualizações de visualizações de espectadores.\n\nCriar um comportamento inclui escolher gêmeos, configurar status e alertas, adicionar um widget e escolher em qual camada ser exibida.\n\n",
+      "statusTitle": "Estado",
+      "statusDescription": "Os estados são sobreposições baseadas em dados em seus elementos para indicar a saúde ou o estado do elemento. Defina faixas de valor para criar limites estaduais e escolha cores para representar cada estado na visualização.\n\n",
+      "alertsTitle": "Alertas",
+      "alertsDescription": "Alertas são notificações condicionais para ajudá-lo a ver rapidamente quando um elemento requer sua atenção. Personalize seu crachá de alerta com um ícone, cor e texto.\n\n"
+    },
+    "twins": {
+      "title": "Como escolho gêmeos?",
+      "mainContent": "Na guia Twins, você pode modificar o conjunto de gêmeos cujos dados estão disponíveis para esse comportamento. Isso inclui os gêmeos primários dos elementos-alvo e gêmeos adicionais.\n\nUm gêmeo adicional é uma fonte de dados digital dupla secundária para um elemento. Você poderá usar propriedades desse gêmeo em suas expressões de comportamento para este elemento. Você só deve adicionar gêmeos adicionais quando houver gêmeos com dados além do seu gêmeo principal que você deseja aproveitar em seu status, alertas e widgets para este comportamento.\n\n",
+      "tipContent": "O Azure Digital Twins Explorer pode ajudá-lo a ver gêmeos que podem estar relacionados com o gêmeo principal para este elemento. Você pode consultar seu gráfico usando SELECT * DE digitaltwins WHERE $dtId='<primary-twin-id>' e, em seguida, use o recurso de expansão de clique duplo para explorar gêmeos relacionados."
+    },
+    "widgets": {
+      "title": "O que é um widget?",
+      "mainContent": "Widgets são visuais baseados em dados que fornecem contexto e dados adicionais, para ajudá-lo a entender o cenário que o comportamento representa. A configuração de widgets ajudará a certificar-se de que os dados certos são descobertos quando um alerta ou status estiver ativo.\n\n",
+      "typesOfWidgets": "Tipos de widgets\n\n",
+      "gaugeDescription": "<Adessinha>Gauge:</Sublinhado> Para representar pontos de dados numéricos visualmente\n\n",
+      "linkDescription": "<Insecos>Link:</Sublinhado> Para incluir conteúdo com referência externa através de uma URL vinculada\n\n",
+      "valueDescription": "<Sabaixo>Valorize:</Sublinhado> Para exibir diretamente valores de propriedade dupla\n\n"
+    },
+    "sceneLayers": {
+      "title": "O que é uma camada de cena?",
+      "mainContent": "Você pode criar camadas em sua cena para ajudar a organizar seus comportamentos. As camadas agem como tags nos comportamentos, permitindo que você defina quais comportamentos precisam ser vistos juntos, criando assim visões personalizadas de sua cena para diferentes funções ou tarefas.\n\nSe não houver camadas em uma cena, todos os comportamentos aparecerão no espectador da cena. Quaisquer comportamentos não marcados com uma camada aparecerão na camada Padrão até que sejam marcados com uma camada.\n\nUma maneira de criar camadas é usar o botão Camadas de cena na exibição 'Compilar', para uma cena. Alternativamente, você pode criar camadas ao criar ou modificar um comportamento."
+    }
+  },
+  "diagnose": "Diagnosticar",
+  "resolve": "Resolver",
+  "verify": "Verificar",
+  "success": "Êxito!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Arquivo de configuração de redefinição",
+    "unauthorizedAccessErrorTitle": "Acesso restrito",
+    "unauthorizedAccessErrorMessage": "Você não tem acesso a este contêiner de armazenamento. Diagnostice seu acesso ou tente um recipiente diferente.",
+    "blobNotFoundErrorTitle": "Blob não encontrado",
+    "blobNotFoundErrorMessage": "Blob não existe.",
+    "unknownErrorTitle": "Erro desconhecido",
+    "corsErrorTitle": "Erro cors",
+    "corsErrorMessage": "O serviço de bolhas da sua conta de armazenamento deve ter algumas propriedades certas para permitir que o CORS possa usar ativos 3D em suas cenas.",
+    "internalServerErrorMessage": "Erro interno do servidor, verifique os registros do servidor.",
+    "diagnoseAccessPermissions": "Diagnosticar permissões de acesso",
+    "checkingPermissions": "Verificando permissões...",
+    "resolveIssues": "Resolver problemas",
+    "resolvingIssues": "Resolvendo problemas...",
+    "missingPermissionsMessage": "Você tem permissões perdidas. Você precisará de acesso como leitor e proprietário de dados do Storage Blob ou colaborador de dados do Blob de armazenamento.",
+    "noMissingRoleDesc": "Sem permissões perdidas detectadas, estamos tentando verificar se as permissões atribuídas estão em vigor.",
+    "finishedWithFailureDesc": "Tentativa falhada, entre em contato com o proprietário do recurso.",
+    "verifyingPermissionsMessage": "Verificando permissões...\nIsso pode levar vários minutos.",
+    "assignRoleSuccessDesc": "Permissões perdidas foram atribuídas. Por favor, aguarde enquanto tentamos verificar se as alterações estão em vigor.",
+    "refreshPage": "Página de atualização",
+    "refreshing": "Refrescante",
+    "noContainerUrlErrorTitle": "Recipiente não definido",
+    "noContainerUrlErrorMessage": "Sua url de contêiner não está definida. Clique abaixo para configurá-lo.",
+    "noADTInstanceUrlTitle": "Instância ADT não definida",
+    "noADTInstanceUrlMessage": "Sua url de instância ADT não está definida. Clique abaixo para configurá-lo.",
+    "configureEnvironment": "Configurar ambiente",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Modelo de carregamento de erros",
+      "3dAssetLoadingNetworkErrorMessage": "Isso pode ser um problema cors, url de bolha inválido ou um erro de rede. Entre em contato com o proprietário do contêiner onde este arquivo de ativos é armazenado ou tente novamente mais tarde.",
+      "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar seu cache e tente novamente ou verifique seu acesso para esse arquivo.",
+      "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, por favor, verifique se não há malhas errôneas."
+    }
+  },
+  "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {
     "newModel": "Novo Modelo",
     "name": "Nome",

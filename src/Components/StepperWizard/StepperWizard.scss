@@ -1,7 +1,17 @@
 @import '../../Resources/Styles/BaseStyles';
 
 .cb-stepper-wizard {
+    display: flex;
     font-size: 14px;
+    justify-content: center;
+
+    &.cb-stepper-vertical {
+        flex-direction: column;
+    }
+
+    &.cb-stepper-horizontal {
+        flex-direction: row;
+    }
 
     .cb-stepper-wizard-step {
         align-items: center;
@@ -10,6 +20,14 @@
         flex-wrap: wrap;
         gap: 12px;
         padding: 2px;
+
+        &.cb-stepper-vertical {
+            flex-direction: row;
+        }
+
+        &.cb-stepper-horizontal {
+            flex-direction: column;
+        }
 
         &.cb-step-is-selected {
             font-weight: 600;
@@ -20,11 +38,26 @@
         }
     }
 
+    .cb-stepper-wizard-stepper {
+        display: flex;
+
+        &.cb-stepper-vertical {
+            flex-direction: column;
+        }
+
+        &.cb-stepper-horizontal {
+            flex-direction: row;
+        }
+    }
+
     .cb-stepper-wizard-step-circle {
+        align-items: center;
         background: transparent;
         border: 2px solid var(--cb-color-natural-light);
         border-radius: 16px;
+        display: flex;
         height: 16px;
+        justify-content: center;
         width: 16px;
 
         &.cb-step-is-finished,
@@ -32,19 +65,54 @@
             background: var(--cb-color-theme-primary);
             border-color: var(--cb-color-theme-primary);
         }
+
+        &.cb-green-line {
+            background: var(--cb-color-success);
+            border-color: var(--cb-color-success);
+        }
+    }
+
+    .cb-stepper-wizard-step-circle-icon {
+        font-size: 10px !important;
+    }
+
+    .cb-stepper-wizard-step-label {
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 60px;
     }
 
     .cb-stepper-wizard-stepper-separator {
-        padding: 0 9px 2px;
+        &.cb-stepper-vertical {
+            padding: 9px;
+        }
+
+        &.cb-stepper-horizontal {
+            padding-top: 9px;
+        }
     }
 
     .cb-stepper-wizard-stepper-separator-line {
         background: var(--cb-color-natural-light);
-        height: 20px;
-        width: 2px;
+
+        &.cb-stepper-vertical {
+            height: 20px;
+            width: 2px;
+        }
+
+        &.cb-stepper-horizontal {
+            height: 2px;
+            width: 20px;
+        }
 
         &.cb-step-is-finished {
             background: var(--cb-color-theme-primary);
+        }
+
+        &.cb-green-line {
+            background: var(--cb-color-success);
         }
     }
 }

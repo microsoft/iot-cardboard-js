@@ -1,10 +1,25 @@
-import { IComponentError } from '../../Models/Constants';
+import { ADT3DSceneAdapter, MockAdapter } from '../../Adapters';
+import {
+    IAdapterData,
+    IComponentError,
+    IUseAdapter
+} from '../../Models/Constants';
 
 export interface ScenePageErrorHandlingWrapperProps {
+    adapter: ADT3DSceneAdapter | MockAdapter;
     errors: Array<IComponentError>;
     primaryClickAction?: {
         buttonText: string;
         onClick: () => void;
     };
-    children?: React.ReactNode;
+    verifyCallbackAdapterData?: IUseAdapter<IAdapterData>;
+}
+
+export enum ScenePageErrorHandlingMode {
+    Idle,
+    CheckingIssues,
+    DiagnosedIssues,
+    ResolvingIssues,
+    FinishedWithSuccess,
+    FinishedWithFailure
 }

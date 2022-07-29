@@ -2,183 +2,250 @@ import {
     AssetRelationship,
     AssetTwin,
     ADTPatch,
-    IAssetDevice
+    IAssetProperty
 } from '../../Constants';
-import AssetSimulation from './AssetSimulation';
 
 export class Asset {
     public name: string;
-    public assetSimulation: AssetSimulation;
     public relationships: Array<AssetRelationship>;
     public twins: Array<AssetTwin>;
-    public devices: Array<IAssetDevice>;
+    public properties: Array<IAssetProperty<any>>;
 
-    private getDeviceInstances() {
-        const deviceInstances = [];
-        this.devices.forEach((device) => {
-            deviceInstances.push(new AssetDevice(device));
+    public getDoubleValue = (minValue: number, maxValue: number) => {
+        return (currentValue: number) => {
+            const direction =
+                currentValue > maxValue
+                    ? -1
+                    : currentValue < minValue
+                    ? 1
+                    : Math.random() < 0.5
+                    ? -1
+                    : 1;
+            const step =
+                direction * (Math.random() * (maxValue - minValue) * 0.02);
+            return (currentValue += step);
+        };
+    };
+
+    public getIntegerValue = (minValue: number, maxValue: number) => {
+        return (currentValue: number) => {
+            const direction =
+                currentValue >= maxValue
+                    ? -1
+                    : currentValue <= minValue
+                    ? 1
+                    : Math.random() < 0.5
+                    ? -1
+                    : 1;
+            return (currentValue += direction);
+        };
+    };
+
+    public getBooleanValue = (isTrueThreshold: number) => {
+        return (_currentValue: boolean) => {
+            return Math.random() > isTrueThreshold;
+        };
+    };
+
+    public getStringValue = () => {
+        return (_currentValue: boolean) => {
+            const fourDigitNumber = Math.floor(Math.random() * 1000);
+            return `Box${fourDigitNumber}`;
+        };
+    };
+
+    private getAssetProperties() {
+        const assetProperties = [];
+        this.properties.forEach((property) => {
+            assetProperties.push(new AssetProperty(property));
         });
-        return deviceInstances;
+        return assetProperties;
     }
 
-    constructor(name: string, assetSimulation: AssetSimulation) {
-        this.devices = [];
+    constructor(name: string) {
+        this.properties = [];
         this.relationships = [];
         this.twins = [];
         this.name = name;
-        this.assetSimulation = assetSimulation;
+
         switch (name) {
+            case 'RobotArm': {
+                this.properties = [
+                    {
+                        id: this.name,
+                        propertyName: 'FailedPickupsLastHr',
+                        currentValue: 1,
+                        getNextValue: this.getIntegerValue(0, 5),
+                        schema: 'integer'
+                    },
+                    {
+                        id: this.name,
+                        propertyName: 'PickupFailedAlert',
+                        currentValue: false,
+                        getNextValue: this.getBooleanValue(0.75),
+                        schema: 'boolean'
+                    },
+                    {
+                        id: this.name,
+                        propertyName: 'PickupFailedBoxID',
+                        currentValue: 'Box1',
+                        getNextValue: this.getStringValue(),
+                        schema: 'string'
+                    },
+                    {
+                        id: this.name,
+                        propertyName: 'HydraulicPressure',
+                        currentValue: 20,
+                        getNextValue: this.getDoubleValue(10, 100)
+                    }
+                ];
+                [1, 2, 3, 4, 5, 6].forEach((idx) => {
+                    this.twins.push({
+                        name: `Arm${idx}`,
+                        properties: this.getAssetProperties()
+                    });
+                });
+                break;
+            }
+            case 'DistributionCenter': {
+                this.relationships.push({
+                    name: 'contains',
+                    target: 'RobotArm'
+                });
+                this.twins.push({
+                    name: 'DistCtr',
+                    assetRelationships: [1, 2, 3, 4, 5, 6].map((idx) => {
+                        return {
+                            name: 'contains',
+                            target: `Arm${idx}`,
+                            targetModel: 'RobotArm'
+                        };
+                    }),
+                    properties: []
+                });
+                break;
+            }
             case 'Car': {
-                this.devices = [
+                this.properties = [
                     {
                         id: this.name,
-                        deviceName: 'Speed',
-                        seedValue: Math.floor(Math.random() * 20) + 40,
-                        minValue: 0,
-                        maxValue: 100,
-                        properties: { Units: 'MPH' }
+                        propertyName: 'Speed',
+                        currentValue: Math.floor(Math.random() * 20) + 40,
+                        getNextValue: this.getDoubleValue(0, 100)
                     },
                     {
                         id: this.name,
-                        deviceName: 'OutdoorTemperature',
-                        seedValue: Math.floor(Math.random()) + 40,
-                        minValue: 20,
-                        maxValue: 80,
-                        properties: { Units: 'DegF' }
+                        propertyName: 'OutdoorTemperature',
+                        currentValue: Math.floor(Math.random()) + 40,
+                        getNextValue: this.getDoubleValue(20, 80)
                     },
                     {
                         id: this.name,
-                        deviceName: 'OilPressure',
-                        seedValue: Math.floor(Math.random()) + 30,
-                        minValue: 28,
-                        maxValue: 32,
-                        properties: { Units: 'KPA' }
+                        propertyName: 'OilPressure',
+                        currentValue: Math.floor(Math.random()) + 30,
+                        getNextValue: this.getDoubleValue(28, 32)
                     }
                 ];
                 this.twins.push({
                     name: 'CarTwin',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 break;
             }
             case 'Windmill': {
-                this.devices = [
+                this.properties = [
                     {
                         id: this.name,
-                        deviceName: 'OutdoorTemperature',
-                        seedValue: Math.floor(Math.random() * 20) + 40,
-                        minValue: 0,
-                        maxValue: 100,
-                        properties: { Units: 'degF' }
+                        propertyName: 'OutdoorTemperature',
+                        currentValue: Math.floor(Math.random() * 20) + 40,
+                        getNextValue: this.getDoubleValue(0, 100)
                     },
                     {
                         id: this.name,
-                        deviceName: 'AtmosphericPressure',
-                        seedValue: Math.floor(Math.random()) + 30,
-                        minValue: 29,
-                        maxValue: 31,
-                        properties: { Units: 'in' }
+                        propertyName: 'AtmosphericPressure',
+                        currentValue: Math.floor(Math.random()) + 30,
+                        getNextValue: this.getDoubleValue(29, 31)
                     },
 
                     {
                         id: this.name,
-                        deviceName: 'WindVelocity',
-                        seedValue: Math.floor(Math.random() * 30),
-                        minValue: 0,
-                        maxValue: 70,
-                        properties: { Units: 'mph' }
+                        propertyName: 'WindVelocity',
+                        currentValue: Math.floor(Math.random() * 30),
+                        getNextValue: this.getDoubleValue(0, 70)
                     },
                     {
                         id: this.name,
-                        deviceName: 'BearingTemperature',
-                        seedValue: Math.floor(Math.random() * 30) + 90,
-                        minValue: 90,
-                        maxValue: 200,
-                        properties: { Units: 'degF' }
+                        propertyName: 'BearingTemperature',
+                        currentValue: Math.floor(Math.random() * 30) + 90,
+                        getNextValue: this.getDoubleValue(90, 200)
                     },
                     {
                         id: this.name,
-                        deviceName: 'OilViscosity',
-                        seedValue: Math.floor(Math.random() * 5) + 10,
-                        minValue: 10,
-                        maxValue: 80,
-                        properties: { Units: 'cSt' }
+                        propertyName: 'OilViscosity',
+                        currentValue: Math.floor(Math.random() * 5) + 10,
+                        getNextValue: this.getDoubleValue(10, 80)
                     }
                 ];
 
                 this.twins.push({
                     name: 'Windmill_1',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 break;
             }
             case 'HVACSystem': {
-                this.devices = [
+                this.properties = [
                     {
                         id: this.name,
-                        deviceName: 'FanSpeed',
-                        seedValue: Math.floor(Math.random() * 20) + 40,
-                        minValue: 0,
-                        maxValue: 100,
-                        properties: { Units: 'MPH' }
+                        propertyName: 'FanSpeed',
+                        currentValue: Math.floor(Math.random() * 20) + 40,
+                        getNextValue: this.getDoubleValue(0, 100)
                     },
                     {
                         id: this.name,
-                        deviceName: 'CoolerTemperature',
-                        seedValue: Math.floor(Math.random()) + 40,
-                        minValue: 20,
-                        maxValue: 60,
-                        properties: { Units: 'DegF' }
+                        propertyName: 'CoolerTemperature',
+                        currentValue: Math.floor(Math.random()) + 40,
+                        getNextValue: this.getDoubleValue(20, 60)
                     },
                     {
                         id: this.name,
-                        deviceName: 'HeaterTemperature',
-                        seedValue: Math.floor(Math.random()) + 50,
-                        minValue: 40,
-                        maxValue: 100,
-                        properties: { Units: 'DegF' }
+                        propertyName: 'HeaterTemperature',
+                        currentValue: Math.floor(Math.random()) + 50,
+                        getNextValue: this.getDoubleValue(40, 100)
                     }
                 ];
 
                 this.twins.push({
                     name: 'HVACSystem_1',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 break;
             }
             case 'PasteurizationMachine': {
-                this.devices = [
+                this.properties = [
                     {
                         id: this.name,
-                        deviceName: 'InFlow',
-                        seedValue: Math.floor(Math.random() * 300) + 50,
-                        minValue: 50,
-                        maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        propertyName: 'InFlow',
+                        currentValue: Math.floor(Math.random() * 300) + 50,
+                        getNextValue: this.getDoubleValue(50, 600)
                     },
                     {
                         id: this.name,
-                        deviceName: 'OutFlow',
-                        seedValue: Math.floor(Math.random() * 300) + 50,
-                        minValue: 50,
-                        maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        propertyName: 'OutFlow',
+                        currentValue: Math.floor(Math.random() * 300) + 50,
+                        getNextValue: this.getDoubleValue(50, 600)
                     },
                     {
                         id: this.name,
-                        deviceName: 'Temperature',
-                        seedValue: Math.floor(Math.random()) + 120,
-                        minValue: 110,
-                        maxValue: 250,
-                        properties: { Units: 'DegF' }
+                        propertyName: 'Temperature',
+                        currentValue: Math.floor(Math.random()) + 120,
+                        getNextValue: this.getDoubleValue(110, 250)
                     },
                     {
                         id: this.name,
-                        deviceName: 'PercentFull',
-                        seedValue: Math.floor(Math.random()),
-                        minValue: 0,
-                        maxValue: 1,
-                        properties: { Units: 'Percent' }
+                        propertyName: 'PercentFull',
+                        currentValue: Math.floor(Math.random()),
+                        getNextValue: this.getDoubleValue(0, 1)
                     }
                 ];
 
@@ -196,7 +263,7 @@ export class Asset {
                             targetModel: 'SaltMachine'
                         }
                     ],
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A02',
@@ -207,7 +274,7 @@ export class Asset {
                             targetModel: 'SaltMachine'
                         }
                     ],
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A03',
@@ -218,7 +285,7 @@ export class Asset {
                             targetModel: 'SaltMachine'
                         }
                     ],
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 this.twins.push({
                     name: 'PasteurizationMachine_A04',
@@ -229,41 +296,37 @@ export class Asset {
                             targetModel: 'SaltMachine'
                         }
                     ],
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 break;
             }
             case 'SaltMachine': {
-                this.devices = [
+                this.properties = [
                     {
                         id: this.name,
-                        deviceName: 'InFlow',
-                        seedValue: Math.floor(Math.random() * 300) + 50,
-                        minValue: 50,
-                        maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        propertyName: 'InFlow',
+                        currentValue: Math.floor(Math.random() * 300) + 50,
+                        getNextValue: this.getDoubleValue(50, 600)
                     },
                     {
                         id: this.name,
-                        deviceName: 'OutFlow',
-                        seedValue: Math.floor(Math.random() * 300) + 50,
-                        minValue: 50,
-                        maxValue: 600,
-                        properties: { Units: 'Gallons' }
+                        propertyName: 'OutFlow',
+                        currentValue: Math.floor(Math.random() * 300) + 50,
+                        getNextValue: this.getDoubleValue(50, 600)
                     }
                 ];
 
                 this.twins.push({
                     name: 'SaltMachine_C0',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 this.twins.push({
                     name: 'SaltMachine_C1',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 this.twins.push({
                     name: 'SaltMachine_C2',
-                    devices: this.getDeviceInstances()
+                    properties: this.getAssetProperties()
                 });
                 break;
             }
@@ -284,7 +347,7 @@ export class Asset {
                             targetModel: 'SaltMachine'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 this.twins.push({
@@ -301,7 +364,7 @@ export class Asset {
                             targetModel: 'PasteurizationMachine'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 this.twins.push({
@@ -318,7 +381,7 @@ export class Asset {
                             targetModel: 'PasteurizationMachine'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 this.twins.push({
@@ -335,7 +398,7 @@ export class Asset {
                             targetModel: 'PasteurizationMachine'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 break;
@@ -391,7 +454,7 @@ export class Asset {
                             targetModel: 'MaintenancePersonnel'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 this.twins.push({
@@ -413,7 +476,7 @@ export class Asset {
                             targetModel: 'MaintenancePersonnel'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
 
                 break;
@@ -432,7 +495,7 @@ export class Asset {
                             targetModel: 'Factory'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
                 this.twins.push({
                     name: 'Sweden',
@@ -443,7 +506,7 @@ export class Asset {
                             targetModel: 'Factory'
                         }
                     ],
-                    devices: []
+                    properties: []
                 });
                 break;
             }
@@ -453,40 +516,33 @@ export class Asset {
     }
 }
 
-export class AssetDevice {
+export class AssetProperty<T> {
     public id: string;
-    public deviceName: string;
-    private seedValue: number;
-    public minValue: number;
-    private maxValue: number;
-    public properties: any;
+    public propertyName: string;
+    private currentValue: T;
+    private getNextValue: (currentValue: T) => T;
+    public schema: string;
 
-    constructor(assetParams: IAssetDevice) {
-        this.id = assetParams.id;
-        this.deviceName = assetParams.deviceName;
-        this.seedValue = assetParams.seedValue;
-        this.minValue = assetParams.minValue;
-        this.maxValue = assetParams.maxValue;
-        this.properties = assetParams.properties;
+    constructor({
+        id,
+        propertyName,
+        currentValue,
+        getNextValue,
+        schema = 'double'
+    }: IAssetProperty<T>) {
+        this.id = id;
+        this.propertyName = propertyName;
+        this.currentValue = currentValue;
+        this.getNextValue = getNextValue;
+        this.schema = schema;
     }
 
     tick() {
-        const direction =
-            this.seedValue > this.maxValue
-                ? -1
-                : this.seedValue < this.minValue
-                ? 1
-                : Math.random() < 0.5
-                ? -1
-                : 1;
-        const step =
-            direction *
-            (Math.random() * (this.maxValue - this.minValue) * 0.02);
-        this.seedValue += step;
+        this.currentValue = this.getNextValue(this.currentValue);
         const event: ADTPatch = {
             op: 'replace',
-            path: `/${this.deviceName}`,
-            value: this.seedValue
+            path: `/${this.propertyName}`,
+            value: this.currentValue
         };
         return event;
     }

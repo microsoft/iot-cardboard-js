@@ -14,7 +14,7 @@ import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { BlobDropdownProps } from './BlobDropdown.types';
 import './BlobDropdown.scss';
-import { IBlobFile } from '../../Models/Constants/Interfaces';
+import { IStorageBlob } from '../../Models/Constants/Interfaces';
 import { SupportedBlobFileTypes } from '../../Models/Constants/Enums';
 import prettyBytes from 'pretty-bytes';
 import { ValidContainerHostSuffixes } from '../../Models/Constants/Constants';
@@ -35,7 +35,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
     selectedBlobUrl
 }) => {
     const { t } = useTranslation();
-    const [files, setFiles] = useState<Array<IBlobFile>>([]);
+    const [files, setFiles] = useState<Array<IStorageBlob>>([]);
     const [customUrls, setCustomUrls] = useState<Array<string>>([]); // no local storage support yet
     const [valueToEdit, setValueToEdit] = useState(selectedBlobUrl ?? '');
     const [inputOrOption, setInputOrOption] = useState<'input' | 'option'>(
@@ -50,7 +50,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
 
     useEffect(() => {
         if (!containerBlobsAdapterData.adapterResult.hasNoData()) {
-            const files: Array<IBlobFile> =
+            const files: Array<IStorageBlob> =
                 containerBlobsAdapterData.adapterResult.result?.data;
             setFiles(files);
             if (onLoad) {
@@ -86,7 +86,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         () =>
             files
                 .map(
-                    (f: IBlobFile) =>
+                    (f: IStorageBlob) =>
                         ({
                             key: f.Path,
                             text: f.Name,
@@ -185,7 +185,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         );
     };
 
-    const getFileSize = useCallback((file: IBlobFile) => {
+    const getFileSize = useCallback((file: IStorageBlob) => {
         try {
             return prettyBytes(file?.Properties?.['Content-Length']);
         } catch (error) {
@@ -214,7 +214,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
 
     const handleChange = useCallback(
         (option, value) => {
-            setInputOrOption(value ? 'input' : 'option');
+            setInputOrOption(option ? 'option' : 'input');
             let newVal = value ?? option?.text;
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {

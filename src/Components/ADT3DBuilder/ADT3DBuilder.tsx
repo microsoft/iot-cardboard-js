@@ -1,75 +1,70 @@
-import React from 'react';
-import './ADT3DBuilder.scss';
+import React, { useCallback } from 'react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
-import {
-    CustomMeshItem,
-    ISceneViewProps,
-    Marker
-} from '../../Models/Classes/SceneView.types';
-import {
-    IADTAdapter,
-    IADTObjectColor
-} from '../../Models/Constants/Interfaces';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { AbstractMesh, Scene } from '@babylonjs/core';
-import { SceneViewWrapper } from '../3DV/SceneViewWrapper';
+import SceneViewWrapper from '../3DV/SceneViewWrapper';
 import { WrapperMode } from '../3DV/SceneView.types';
+import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import { getDebugLogger } from '../../Models/Services/Utils';
+import { getStyles } from './ADT3DBuilder.styles';
+import {
+    IADT3DBuilderProps,
+    IADT3DBuilderStyleProps,
+    IADT3DBuilderStyles
+} from './ADT3DBuilder.types';
 
-interface ADT3DBuilderProps {
-    adapter: IADTAdapter; // for now
-    modelUrl: string;
-    title?: string;
-    onMeshClicked?: (clickedMesh: AbstractMesh, e: PointerEvent) => void;
-    onMeshHovered?: (clickedMesh: AbstractMesh) => void;
-    showMeshesOnHover?: boolean;
-    coloredMeshItems?: CustomMeshItem[];
-    showHoverOnSelected?: boolean;
-    outlinedMeshItems?: CustomMeshItem[];
-    objectColorUpdated?: (objectColor: IADTObjectColor) => void;
-    hideViewModePickerUI?: boolean;
-    sceneViewProps?: ISceneViewProps;
-}
+const getClassNames = classNamesFunction<
+    IADT3DBuilderStyleProps,
+    IADT3DBuilderStyles
+>();
 
-const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
-    adapter,
-    modelUrl,
-    sceneViewProps,
-    onMeshClicked,
-    onMeshHovered,
-    showMeshesOnHover,
-    coloredMeshItems,
-    showHoverOnSelected,
-    outlinedMeshItems,
-    objectColorUpdated,
-    hideViewModePickerUI
-}) => {
-    const meshClick = (
-        _marker: Marker,
-        mesh: AbstractMesh,
-        _scene: Scene,
-        e: PointerEvent
-    ) => {
-        if (onMeshClicked) {
-            onMeshClicked(mesh, e);
-        }
-    };
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADT3DBuilder', debugLogging);
 
-    const meshHover = (
-        _marker: Marker,
-        mesh: AbstractMesh,
-        _scene: Scene,
-        _e: PointerEvent
-    ) => {
-        if (onMeshHovered) {
-            onMeshHovered(mesh);
-        }
-    };
+const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
+    const {
+        adapter,
+        modelUrl,
+        sceneViewProps,
+        onMeshClicked,
+        onMeshHovered,
+        showMeshesOnHover,
+        coloredMeshItems,
+        showHoverOnSelected,
+        outlinedMeshItems,
+        objectColorUpdated,
+        hideViewModePickerUI,
+        styles
+    } = props;
+
+    // styles
+    const fluentTheme = useTheme();
+    const classNames = getClassNames(styles, { theme: fluentTheme });
+
+    // viewer callbacks
+    const meshClick = useCallback(
+        (mesh: AbstractMesh, _scene: Scene, e: PointerEvent) => {
+            if (onMeshClicked) {
+                onMeshClicked(mesh, e);
+            }
+        },
+        [onMeshClicked]
+    );
+    const meshHover = useCallback(
+        (mesh: AbstractMesh, _scene: Scene, _e: PointerEvent) => {
+            if (onMeshHovered) {
+                onMeshHovered(mesh);
+            }
+        },
+        [onMeshHovered]
+    );
 
     const svp = sceneViewProps || {};
 
+    logDebugConsole('debug', 'Render ADT3DBuilder');
     return (
-        <BaseComponent>
-            <div className="cb-adt3dbuilder-wrapper">
+        <BaseComponent containerClassName={classNames.root}>
+            <div className={classNames.wrapper}>
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
                     hideViewModePickerUI={hideViewModePickerUI}
@@ -88,7 +83,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
                                   (adapter as any).authService.getToken(
                                       'storage'
                                   )
-                            : undefined
+                            : undefined,
+                        allowModelDimensionErrorMessage: true
                     }}
                 />
             </div>
@@ -96,4 +92,8 @@ const ADT3DBuilder: React.FC<ADT3DBuilderProps> = ({
     );
 };
 
-export default withErrorBoundary(ADT3DBuilder);
+export default styled<
+    IADT3DBuilderProps,
+    IADT3DBuilderStyleProps,
+    IADT3DBuilderStyles
+>(withErrorBoundary(ADT3DBuilder), getStyles);

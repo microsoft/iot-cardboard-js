@@ -1,8 +1,8 @@
 import {
     ChoiceGroup,
-    DefaultButton,
     FocusTrapCallout,
     FontIcon,
+    FontSizes,
     IChoiceGroupOption,
     IColorCellProps,
     IconButton,
@@ -12,91 +12,64 @@ import {
     Theme,
     useTheme
 } from '@fluentui/react';
-import produce from 'immer';
-import React, { useEffect, useState } from 'react';
+import { useBoolean } from '@fluentui/react-hooks';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADTBackgroundColor, ViewerModeStyles } from '../../Models/Constants';
-import DefaultStyle from '../../Resources/Static/default.svg';
-import TransparentStyle from '../../Resources/Static/transparent.svg';
-import WireframeStyle from '../../Resources/Static/wireframe.svg';
+import {
+    IADTBackgroundColor,
+    IADTObjectColor,
+    ViewerObjectStyle
+} from '../../Models/Constants';
+import { IObjectStyleOption } from '../../Models/Context/SceneThemeContext/SceneThemeContext.types';
+import { getDebugLogger } from '../../Models/Services/Utils';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 
-export interface ViewerMode {
-    objectColor: string;
-    background: string;
-    style: ViewerModeStyles;
-}
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ModelViewerModePicker', debugLogging);
 
 interface ModelViewerModePickerProps {
-    objectColors: any[];
-    backgroundColors: IADTBackgroundColor[];
-    defaultViewerMode?: ViewerMode;
-    viewerModeUpdated: (viewerMode: ViewerMode) => void;
+    selectedObjectColor: string;
+    selectedObjectStyle: ViewerObjectStyle;
+    selectedSceneBackground: string;
+    objectColorOptions: IADTObjectColor[];
+    backgroundColorOptions: IADTBackgroundColor[];
+    objectStyleOptions: IObjectStyleOption[];
+    onChangeObjectColor: (value: string) => void;
+    onChangeObjectStyle: (value: ViewerObjectStyle) => void;
+    onChangeSceneBackground: (value: string) => void;
 }
 
-const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
-    objectColors,
-    backgroundColors,
-    defaultViewerMode,
-    viewerModeUpdated
-}) => {
-    const [showPicker, setShowPicker] = useState(false);
-    const [viewerMode, setViewerMode] = useState<ViewerMode>(null);
+const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = (props) => {
+    const {
+        backgroundColorOptions,
+        objectColorOptions,
+        objectStyleOptions,
+        onChangeObjectColor,
+        onChangeObjectStyle,
+        onChangeSceneBackground,
+        selectedObjectColor,
+        selectedObjectStyle,
+        selectedSceneBackground
+    } = props;
+    const [showPicker, { toggle: togglePicker }] = useBoolean(false);
     const [colors, setColors] = useState<IColorCellProps[]>([]);
     const [backgrounds, setBackgrounds] = useState<IColorCellProps[]>([]);
-    const [selectedObjectColor, setSelectedObjectColor] = useState<string>(
-        objectColors[0].color
-    );
     const calloutAnchor = 'cb-theme-callout-anchor';
     const { t } = useTranslation();
     const theme = useTheme();
     const styles = getStyles(theme);
 
-    const styleOptions: IChoiceGroupOption[] = [
-        {
-            key: ViewerModeStyles.Default,
-            imageSrc: DefaultStyle,
-            imageAlt: t('modelViewerModePicker.default'),
-            selectedImageSrc: DefaultStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.default'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
-            }
-        },
-        {
-            key: ViewerModeStyles.Transparent,
-            imageSrc: TransparentStyle,
-            imageAlt: t('modelViewerModePicker.transparent'),
-            selectedImageSrc: TransparentStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.transparent'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
-            }
-        },
-        {
-            key: ViewerModeStyles.Wireframe,
-            imageSrc: WireframeStyle,
-            imageAlt: t('modelViewerModePicker.wireframe'),
-            selectedImageSrc: WireframeStyle,
-            imageSize: { width: 40, height: 40 },
-            text: t('modelViewerModePicker.wireframe'),
-            styles: {
-                innerField: { width: 100, padding: 0, justifyContent: 'center' }
-            }
-        }
-    ];
-
     useEffect(() => {
         const colors: IColorCellProps[] = [];
-        objectColors.forEach((oc) => {
+        objectColorOptions.forEach((oc) => {
             colors.push({ id: oc.color, color: oc.color });
         });
 
         setColors(colors);
 
         const backgrounds: IColorCellProps[] = [];
-        backgroundColors.forEach((background) => {
+        backgroundColorOptions.forEach((background) => {
             // optimistically try to parse a hex from a radial gradient, gracefully degrade if unable
             let hexBackground = background.color;
             if (background.color.startsWith('radial-gradient')) {
@@ -116,111 +89,55 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
         });
 
         setBackgrounds(backgrounds);
-        setSelectedObjectColor(objectColors[0].color);
-
-        setViewerMode({
-            objectColor: null,
-            background: backgroundColors[0].color,
-            style: ViewerModeStyles.Default
-        });
-
-        viewerModeUpdated({
-            objectColor: null,
-            background: backgroundColors[0].color,
-            style: ViewerModeStyles.Default
-        });
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    useEffect(() => {
-        if (defaultViewerMode) {
-            setViewerMode({
-                objectColor:
-                    defaultViewerMode?.style !== ViewerModeStyles.Default
-                        ? defaultViewerMode.objectColor
-                        : null,
-                background: defaultViewerMode.background,
-                style: defaultViewerMode.style
-            });
+    const updateStyle = useCallback(
+        (_e: any, option: IChoiceGroupOption) => {
+            onChangeObjectStyle(option.key as ViewerObjectStyle);
+        },
+        [onChangeObjectStyle]
+    );
 
-            setSelectedObjectColor(
-                defaultViewerMode?.style !== ViewerModeStyles.Default
-                    ? defaultViewerMode.objectColor
-                    : objectColors[0].color
-            );
-        }
-    }, [defaultViewerMode]);
+    const updateObjectColor = useCallback(
+        (_e, _id, objectColor: string) => {
+            onChangeObjectColor(objectColor);
+        },
+        [onChangeObjectColor]
+    );
 
-    const updateStyle = (style: ViewerModeStyles) => {
-        setViewerMode(
-            produce((draft) => {
-                if (style === ViewerModeStyles.Default) {
-                    draft.objectColor = null;
-                } else {
-                    draft.objectColor = selectedObjectColor;
-                }
-                draft.style = style;
+    const updateBackgroundColor = useCallback(
+        (_e, backgroundColor: string) => {
+            onChangeSceneBackground(backgroundColor);
+        },
+        [onChangeSceneBackground]
+    );
 
-                viewerModeUpdated({
-                    objectColor: draft.objectColor,
-                    background: draft.background,
-                    style: draft.style
-                });
-            })
-        );
-    };
+    const styleChoiceOptions = useMemo(
+        () => mapStylesToOptions(objectStyleOptions),
+        [objectStyleOptions]
+    );
 
-    const updateObjectColor = (objectColor: string) => {
-        setViewerMode(
-            produce((draft) => {
-                if (draft.style === ViewerModeStyles.Default) {
-                    draft.objectColor = null;
-                } else {
-                    draft.objectColor = objectColor;
-                }
-
-                viewerModeUpdated({
-                    objectColor: draft.objectColor,
-                    background: draft.background,
-                    style: draft.style
-                });
-            })
-        );
-
-        setSelectedObjectColor(objectColor);
-    };
-
-    const updateBackgroundColor = (backgroundColor: string) => {
-        setViewerMode(
-            produce((draft) => {
-                draft.background = backgroundColor;
-
-                viewerModeUpdated({
-                    objectColor: draft.objectColor,
-                    background: draft.background,
-                    style: draft.style
-                });
-            })
-        );
-    };
-
+    logDebugConsole('debug', 'render', props);
     return (
         <div>
-            <DefaultButton
-                iconProps={{ iconName: 'Color' }}
-                onClick={() => setShowPicker(!showPicker)}
-                id={calloutAnchor}
-            >
-                {t('modelViewerModePicker.buttonLabel')}
-            </DefaultButton>
+            <HeaderControlGroup>
+                <HeaderControlButton
+                    dataTestId="scene-theme-picker-button"
+                    iconProps={{ iconName: 'Color' }}
+                    id={calloutAnchor}
+                    onClick={togglePicker}
+                    title={t('modelViewerModePicker.buttonLabel')}
+                    isActive={showPicker}
+                />
+            </HeaderControlGroup>
             {showPicker && (
                 <FocusTrapCallout
-                    gapSpace={12}
                     focusTrapProps={{
                         isClickableOutsideFocusTrap: true
                     }}
                     target={`#${calloutAnchor}`}
-                    isBeakVisible={false}
-                    onDismiss={() => setShowPicker(false)}
+                    onDismiss={togglePicker}
                     backgroundColor={theme.semanticColors.bodyBackground}
                 >
                     <div className={styles.calloutContent}>
@@ -236,11 +153,10 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                     iconProps={{
                                         iconName: 'Cancel',
                                         style: {
-                                            fontSize: '14',
-                                            height: '32'
+                                            fontSize: FontSizes.size14
                                         }
                                     }}
-                                    onClick={() => setShowPicker(false)}
+                                    onClick={togglePicker}
                                 />
                             </div>
                         </div>
@@ -248,11 +164,9 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                             {t('modelViewerModePicker.style')}
                         </h4>
                         <ChoiceGroup
-                            defaultSelectedKey={viewerMode?.style}
-                            options={styleOptions}
-                            onChange={(e, option) =>
-                                updateStyle(option.key as ViewerModeStyles)
-                            }
+                            selectedKey={selectedObjectStyle}
+                            options={styleChoiceOptions}
+                            onChange={updateStyle}
                         />
                         <h4 className={styles.subHeading}>
                             {t('modelViewerModePicker.objectColors')}
@@ -260,22 +174,26 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                         <div className={styles.colorPicker}>
                             <SwatchColorPicker
                                 disabled={
-                                    viewerMode?.style ===
-                                    ViewerModeStyles.Default
+                                    selectedObjectStyle ===
+                                    ViewerObjectStyle.Default
                                 }
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={colors.length}
-                                defaultSelectedId={
-                                    viewerMode?.objectColor
-                                        ? viewerMode.objectColor
-                                        : selectedObjectColor
-                                }
+                                selectedId={selectedObjectColor}
                                 cellShape={'circle'}
                                 colorCells={colors}
-                                onChange={(e, id, color) =>
-                                    updateObjectColor(color)
-                                }
+                                onChange={updateObjectColor}
+                                getColorGridCellStyles={(props) => {
+                                    if (props.disabled) {
+                                        return {
+                                            colorCell: {
+                                                opacity: '0.1'
+                                            },
+                                            svg: null
+                                        };
+                                    }
+                                }}
                             />
                         </div>
                         <h4 className={styles.subHeading}>
@@ -286,10 +204,10 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
                                 cellHeight={32}
                                 cellWidth={32}
                                 columnCount={backgrounds.length}
-                                defaultSelectedId={viewerMode?.background}
+                                selectedId={selectedSceneBackground}
                                 cellShape={'circle'}
                                 colorCells={backgrounds}
-                                onChange={(e, id) => updateBackgroundColor(id)}
+                                onChange={updateBackgroundColor}
                             />
                         </div>
                     </div>
@@ -297,6 +215,21 @@ const ModelViewerModePicker: React.FC<ModelViewerModePickerProps> = ({
             )}
         </div>
     );
+};
+
+const mapStylesToOptions = (
+    styles: IObjectStyleOption[]
+): IChoiceGroupOption[] => {
+    return styles.map((x) => ({
+        ...x,
+        styles: {
+            innerField: {
+                width: 100,
+                padding: 0,
+                justifyContent: 'center'
+            }
+        }
+    }));
 };
 
 const getStyles = memoizeFunction((_theme: Theme) => {

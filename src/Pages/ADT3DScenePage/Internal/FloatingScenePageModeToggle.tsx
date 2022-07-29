@@ -1,26 +1,39 @@
-import { Pivot, PivotItem } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Pivot,
+    PivotItem,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { ADT3DScenePageModes } from '../../../Models/Constants/Enums';
-import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IFloatingScenePageModeToggleStyleProps,
+    IFloatingScenePageModeToggleStyles,
+    IFloatingScenePageModeToggleProps
+} from './FloatingScenePageModeToggle.types';
+import { getStyles } from './FloatingScenePageModeToggle.styles';
 
-interface Props {
-    handleScenePageModeChange: (newScenePageMode: ADT3DScenePageModes) => void;
-    selectedMode: ADT3DScenePageModes;
-    scene: IScene;
-}
+const getClassNames = classNamesFunction<
+    IFloatingScenePageModeToggleStyleProps,
+    IFloatingScenePageModeToggleStyles
+>();
 
-const FloatingScenePageModeToggle: React.FC<Props> = ({
-    handleScenePageModeChange,
-    selectedMode,
-    scene
-}) => {
+const FloatingScenePageModeToggle: React.FC<IFloatingScenePageModeToggleProps> = (
+    props
+) => {
+    const { handleScenePageModeChange, selectedMode, sceneId, styles } = props;
+    // hooks
     const { t } = useTranslation();
 
-    if (!scene) return null;
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
+
+    if (!sceneId) return null;
 
     return (
-        <div className="cb-scene-page-mode-toggle-container">
+        <div className={classNames.root}>
             <Pivot
                 selectedKey={selectedMode}
                 onLinkClick={(item) =>
@@ -28,6 +41,7 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
                         item.props.itemKey as ADT3DScenePageModes
                     )
                 }
+                styles={classNames.subComponentStyles.pivot}
             >
                 <PivotItem
                     headerText={t('build')}
@@ -42,4 +56,8 @@ const FloatingScenePageModeToggle: React.FC<Props> = ({
     );
 };
 
-export default FloatingScenePageModeToggle;
+export default styled<
+    IFloatingScenePageModeToggleProps,
+    IFloatingScenePageModeToggleStyleProps,
+    IFloatingScenePageModeToggleStyles
+>(FloatingScenePageModeToggle, getStyles);

@@ -1,13 +1,15 @@
 import React, { memo, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    SearchBox,
-    PrimaryButton,
+    DirectionalHint,
     FocusTrapCallout,
-    useTheme,
+    PrimaryButton,
+    SearchBox,
     Spinner,
     SpinnerSize,
-    DirectionalHint
+    Stack,
+    Text,
+    useTheme
 } from '@fluentui/react';
 import { ICardboardListCalloutProps } from './CardboardListCallout.types';
 import { ICardboardListItem } from '../CardboardList/CardboardList.types';
@@ -24,6 +26,7 @@ const CardboardListCallout = <T extends unknown>({
     calloutProps,
     calloutTarget,
     className,
+    description,
     directionalHint,
     filterPlaceholder,
     filterPredicate,
@@ -36,8 +39,10 @@ const CardboardListCallout = <T extends unknown>({
     noResultText,
     onDismiss,
     primaryActionProps,
+    title,
+    dataButtonTestId,
     searchBoxDataTestId,
-    title
+    focusTrapTestId
 }: ICardboardListCalloutProps<T>) => {
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState('');
@@ -55,7 +60,7 @@ const CardboardListCallout = <T extends unknown>({
                 )
             );
         },
-        [listItems]
+        [filterPredicate, listItems]
     );
 
     useEffect(() => {
@@ -63,10 +68,13 @@ const CardboardListCallout = <T extends unknown>({
     }, [listItems]);
 
     const theme = useTheme();
-    const styles = getCardboardListCalloutComponentStyles();
+    const styles = getCardboardListCalloutComponentStyles(theme);
     const calloutStyles = getCardboardListCalloutStyles(theme);
     return (
         <FocusTrapCallout
+            {...(focusTrapTestId && {
+                'data-testid': focusTrapTestId
+            })}
             className={className}
             {...calloutProps}
             focusTrapProps={{
@@ -79,8 +87,12 @@ const CardboardListCallout = <T extends unknown>({
             onDismiss={onDismiss}
             styles={calloutStyles}
         >
-            <h4 className={styles.title}>{title}</h4>
-            {listItems.length > 0 && (
+            <Stack tokens={{ childrenGap: 8 }}>
+                <h4 className={styles.title}>{title}</h4>
+                {description && (
+                    <Text className={styles.description}>{description}</Text>
+                )}
+
                 <SearchBox
                     {...(searchBoxDataTestId && {
                         'data-testid': searchBoxDataTestId
@@ -91,38 +103,44 @@ const CardboardListCallout = <T extends unknown>({
                         filterListItems(value);
                     }}
                 />
-            )}
 
-            {isListLoading ? (
-                <Spinner size={SpinnerSize.xSmall} />
-            ) : filteredListItems?.length === 0 ? (
-                <div className={styles.resultText}>{noResultText}</div>
-            ) : listType === 'Basic' ? (
-                <CardboardBasicList
-                    className={styles.list}
-                    listProps={listProps}
-                    items={filteredListItems as string[]}
-                    listKey={listKey}
-                    textToHighlight={searchText}
-                />
-            ) : (
-                <CardboardList<T>
-                    className={styles.list}
-                    listProps={listProps}
-                    items={filteredListItems as ICardboardListItem<T>[]}
-                    listKey={listKey}
-                    textToHighlight={searchText}
-                />
-            )}
+                {isListLoading ? (
+                    <Spinner size={SpinnerSize.xSmall} />
+                ) : filteredListItems?.length === 0 ? (
+                    <div className={styles.resultText}>{noResultText}</div>
+                ) : listType === 'Basic' ? (
+                    <CardboardBasicList
+                        className={styles.list}
+                        listProps={listProps}
+                        items={filteredListItems as string[]}
+                        listKey={listKey}
+                        textToHighlight={searchText}
+                    />
+                ) : (
+                    <CardboardList<T>
+                        className={styles.list}
+                        listProps={listProps}
+                        items={filteredListItems as ICardboardListItem<T>[]}
+                        listKey={listKey}
+                        textToHighlight={searchText}
+                    />
+                )}
 
-            {primaryActionProps && (
-                <PrimaryButton
-                    styles={cardboardListCalloutPrimaryButtonStyles}
-                    onClick={primaryActionProps.onPrimaryActionClick}
-                >
-                    {primaryActionProps.primaryActionLabel}
-                </PrimaryButton>
-            )}
+                {primaryActionProps && (
+                    <PrimaryButton
+                        {...(dataButtonTestId && {
+                            'data-testid': dataButtonTestId
+                        })}
+                        styles={cardboardListCalloutPrimaryButtonStyles}
+                        onClick={() =>
+                            primaryActionProps.onPrimaryActionClick(searchText)
+                        }
+                        disabled={!!primaryActionProps.disabled}
+                    >
+                        {primaryActionProps.primaryActionLabel}
+                    </PrimaryButton>
+                )}
+            </Stack>
         </FocusTrapCallout>
     );
 };

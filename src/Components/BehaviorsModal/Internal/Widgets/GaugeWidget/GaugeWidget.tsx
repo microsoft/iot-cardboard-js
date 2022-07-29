@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { parseExpression } from '../../../../../Models/Services/Utils';
+import { parseLinkedTwinExpression } from '../../../../../Models/Services/Utils';
 import { IGaugeWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { getStyles } from './GaugeWidget.styles';
@@ -23,10 +23,12 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
             value = Number(
                 widget.widgetConfiguration.valueRanges
                     .slice(0)
-                    .sort((a, b) => Number(a.min) - Number(b.min))[0].min
+                    .sort(
+                        (a, b) => Number(a.values[0]) - Number(b.values[0])
+                    )[0].values[0]
             );
         } else {
-            value = parseExpression(expression, twins);
+            value = parseLinkedTwinExpression(expression, twins);
             if (!value) {
                 value = 0;
             }

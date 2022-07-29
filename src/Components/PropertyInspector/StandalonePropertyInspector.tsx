@@ -8,14 +8,12 @@ import {
 } from './StandalonePropertyInspector.types';
 import PropertyInspectorModel from './PropertyInspectoryModel';
 import { ADTPatch, PropertyInspectorPatchMode } from '../../Models/Constants';
-import { CommandBar } from '@fluentui/react/lib/components/CommandBar/CommandBar';
+import { CommandBar, MessageBar, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import StandalonePropertyInspectorReducer, {
     defaultStandalonePropertyInspectorState,
     spiActionType
 } from './StandalonePropertyInspector.state';
-import { MessageBar } from '@fluentui/react/lib/components/MessageBar/MessageBar';
-import { MessageBarType } from '@fluentui/react/lib/components/MessageBar/MessageBar.types';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import {
@@ -169,6 +167,7 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                     customTitleSpan={props.customCommandBarTitleSpan}
                     editStatus={state.editStatus}
                     readonly={props.readonly}
+                    onRefresh={props.onRefresh}
                 />
                 <div
                     className={`cb-property-inspector-scrollable-container ${
@@ -268,6 +267,7 @@ type StandalonePropertyInspectorCommandBarProps = {
     editStatus: Record<string, boolean>;
     readonly: boolean;
     customTitleSpan?: React.ReactNode;
+    onRefresh?: () => any;
 };
 
 const PropertyInspectorCommandBarButton: React.FC<IButtonProps> = (props) => {
@@ -285,7 +285,8 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
     commandBarTitle,
     editStatus,
     readonly,
-    customTitleSpan
+    customTitleSpan,
+    onRefresh
 }) => {
     const { t } = useTranslation();
 
@@ -343,6 +344,22 @@ const StandalonePropertyInspectorCommandBar: React.FC<StandalonePropertyInspecto
                         iconProps: { iconName: 'CollapseContent' },
                         onClick: () => setIsTreeCollapsed(true)
                     },
+                    ...(onRefresh
+                        ? [
+                              {
+                                  key: 'refresh',
+                                  text: t(
+                                      'propertyInspector.commandBar.refresh'
+                                  ),
+                                  ariaLabel: t(
+                                      'propertyInspector.commandBar.refresh'
+                                  ),
+                                  iconOnly: true,
+                                  iconProps: { iconName: 'Refresh' },
+                                  onClick: () => onRefresh()
+                              }
+                          ]
+                        : []),
                     ...(!readonly
                         ? [
                               {

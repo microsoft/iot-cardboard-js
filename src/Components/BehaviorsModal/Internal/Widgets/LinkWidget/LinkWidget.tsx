@@ -2,7 +2,10 @@ import { Icon, PrimaryButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BehaviorModalMode } from '../../../../../Models/Constants';
-import { performSubstitutions } from '../../../../../Models/Services/Utils';
+import {
+    wrapTextInTemplateString,
+    parseLinkedTwinExpression
+} from '../../../../../Models/Services/Utils';
 import { ILinkWidget } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './LinkWidget.styles';
@@ -19,7 +22,10 @@ export const LinkWidget: React.FC<IProp> = ({ widget }) => {
     const link =
         mode === BehaviorModalMode.preview
             ? linkExpression
-            : performSubstitutions(linkExpression, twins);
+            : parseLinkedTwinExpression(
+                  wrapTextInTemplateString(linkExpression),
+                  twins
+              );
     const styles = getStyles();
     return (
         <div className={styles.linkContainer}>

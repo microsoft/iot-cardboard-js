@@ -3,7 +3,8 @@ import {
     DTModel,
     DTwin,
     DTwinRelationship,
-    IAdtPusherSimulation
+    IAdtPusherSimulation,
+    AdtPusherSimulationType
 } from '../../Constants';
 import {
     AssetRelationship,
@@ -20,24 +21,27 @@ const modelTwinsRelationshipsData = {
 
 export default class AssetSimulation implements IAdtPusherSimulation {
     private assets: Array<Asset>;
-    private typeIds: any;
     public seedTimeMillis: number;
     private intervalMillis: number;
 
-    constructor(seedTimeMillis: number, intervalMillis: number) {
+    constructor(
+        seedTimeMillis: number,
+        intervalMillis: number,
+        simulationType: AdtPusherSimulationType
+    ) {
         this.assets = [];
         this.seedTimeMillis = seedTimeMillis;
         this.intervalMillis = intervalMillis;
-        this.assets.push(new Asset('PasteurizationMachine', this));
-        this.assets.push(new Asset('SaltMachine', this));
-        this.assets.push(new Asset('MaintenancePersonnel', this));
-        this.assets.push(new Asset('Factory', this));
-        this.assets.push(new Asset('Country', this));
-
-        this.typeIds = {
-            PasteurizationMachine: 'a259fb24-3359-4252-9bc8-c3c8583edc67',
-            HVACSystem: '04bb3d5b-2b3e-4d45-933e-fb0087be3685'
-        };
+        if (simulationType === AdtPusherSimulationType.DairyProduction) {
+            this.assets.push(new Asset('PasteurizationMachine'));
+            this.assets.push(new Asset('SaltMachine'));
+            this.assets.push(new Asset('MaintenancePersonnel'));
+            this.assets.push(new Asset('Factory'));
+            this.assets.push(new Asset('Country'));
+        } else if (simulationType === AdtPusherSimulationType.RobotArms) {
+            this.assets.push(new Asset('RobotArm'));
+            this.assets.push(new Asset('DistributionCenter'));
+        }
     }
 
     generateTwinId(name: string) {
@@ -55,7 +59,7 @@ export default class AssetSimulation implements IAdtPusherSimulation {
             asset.twins.forEach(function (twin: AssetTwin) {
                 const updateTwin: DTwinUpdateEvent = {
                     dtId: twin.name,
-                    patchJSON: twin.devices.map(function (d) {
+                    patchJSON: twin.properties.map(function (d) {
                         return d.tick() as ADTPatch;
                     })
                 };
@@ -67,11 +71,11 @@ export default class AssetSimulation implements IAdtPusherSimulation {
 
     generateDTModels(download = false) {
         const dtdlModels = this.assets.map((asset) => {
-            const propertyContents: Array<DTModelContent> = asset.devices.map(
-                (device) => ({
+            const propertyContents: Array<DTModelContent> = asset.properties.map(
+                (property) => ({
                     '@type': 'Property',
-                    name: device.deviceName,
-                    schema: 'double'
+                    name: property.propertyName,
+                    schema: property.schema || 'double'
                 })
             );
             const relationshipContents: Array<any> = asset.relationships.map(
@@ -121,8 +125,8 @@ export default class AssetSimulation implements IAdtPusherSimulation {
                         $model: `dtmi:assetGen:${asset.name};${modelTwinsRelationshipsData.versionNumber}`
                     }
                 };
-                asset.devices.forEach((device) => {
-                    twin[`${device.deviceName}`] = device.minValue;
+                asset.properties.forEach((property) => {
+                    twin[`${property.propertyName}`] = property.currentValue;
                 });
                 twins.push(twin);
             });

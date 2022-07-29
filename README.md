@@ -1,8 +1,17 @@
 ![build](https://github.com/microsoft/iot-cardboard-js/workflows/build/badge.svg?branch=main) [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://main--601c6b2fcd385c002100f14c.chromatic.com) ![npm (tag)](https://img.shields.io/npm/v/@microsoft/iot-cardboard-js/beta)
 # Quick start 📦
 ## What is **iot-cardboard-js**?
-**iot-cardboard-js** or *cardboard* is an open source React component library for creating internet of things (IoT) web experiences.
+**iot-cardboard-js** or *Cardboard* is an open source React component library for creating internet of things (IoT) web experiences.  
 
+The components in Cardboard are also used for building the experiences in [Azure Digital Twins 3D Scenes Studio](https://explorer.digitaltwins.azure.net/3dscenes/demo), and can be leveraged by Azure Digital Twins customers in their own applications.  Learn more about leveraging Cardboard components for 3D Scenes in the [wiki](https://github.com/microsoft/iot-cardboard-js/wiki/Embedding-3D-Scenes).
+
+The 3D visualization components in this library leverage the fantastic [BabylonJS](https://www.babylonjs.com/) library under the hood.  If you haven't used it yet, we can't say enough great things about the library, definitely check it out!
+
+Viewer Mode
+![image](https://user-images.githubusercontent.com/57726991/173465604-844492d1-89c8-4378-8bd7-131ef966002a.png)
+
+Builder mode
+![image](https://user-images.githubusercontent.com/57726991/173465578-93eb1b54-e1b5-40a6-944c-9185c5fb14ca.png)
 
 ## Storybook 📖
 This project is developed using Storybook - an open source tool for building UI components in isolation.  Our [hosted storybook](https://main--601c6b2fcd385c002100f14c.chromatic.com) showcases the current library of **iot-cardboard-js** components.  [Learn more about Storybook](https://storybook.js.org/).
@@ -31,7 +40,7 @@ import {
     MsalAuthService,
     KeyValuePairCard,
     //...
-} from 'iot-cardboard-js';
+} from '@microsoft/iot-cardboard-js';
 ```
 
 This is the easiest method of importing components and, in most cases, will allow unused code to be tree shaken from our library.

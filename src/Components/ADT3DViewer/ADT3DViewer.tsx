@@ -21,26 +21,84 @@ import {
 } from '../../Models/Classes/SceneView.types';
 import { VisualType } from '../../Models/Classes/3DVConfig';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
-import { SceneViewWrapper } from '../../Components/3DV/SceneViewWrapper';
+import SceneViewWrapper from '../../Components/3DV/SceneViewWrapper';
 import BehaviorsModal from '../BehaviorsModal/BehaviorsModal';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
-import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
-import ViewerElementsPanel from '../ElementsPanel/ViewerElementsPanel';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
-import { DefaultButton, IButtonStyles, memoizeFunction } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { useBoolean } from '@fluentui/react-hooks';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import AlertModal from '../AlertModal/AlertModal';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
-    unlayeredBehaviorKey
+    DEFAULT_LAYER_ID
 } from '../LayerDropdown/LayerDropdown';
 import { WrapperMode } from '../3DV/SceneView.types';
+import {
+    ITwinToObjectMapping,
+    IVisual,
+    IBehavior
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    useDeeplinkContext,
+    DeeplinkContextProvider
+} from '../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
+import ViewerElementsPanelRenderer from '../ViewerElementsPanelRenderer/ViewerElementsPanelRenderer';
+import { classNamesFunction, Stack, styled, useTheme } from '@fluentui/react';
+import { getStyles } from './ADT3DViewer.styles';
+import {
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+} from './ADT3DViewer.types';
+import {
+    ADT3DScenePageModes,
+    BehaviorModalMode,
+    IADTBackgroundColor
+} from '../../Models/Constants';
+import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
+import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
+import { SceneThemeContextProvider } from '../../Models/Context';
+import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
+import AlertBadge from '../AlertBadge/AlertBadge';
+import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 
-const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
+const getClassNames = classNamesFunction<
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+>();
+
+const createBadge = (
+    badgeGroup: SceneViewBadgeGroup,
+    backgroundColor: IADTBackgroundColor,
+    onBadgeGroupHover: (
+        alert: SceneViewBadgeGroup,
+        left: number,
+        top: number
+    ) => void
+) => {
+    const id = 'cb-badge-' + badgeGroup.id;
+    const marker: Marker = {
+        id: id,
+        attachedMeshIds: [badgeGroup.meshId],
+        showIfOccluded: true,
+        name: 'badge',
+        UIElement: (
+            <AlertBadge
+                badgeGroup={badgeGroup}
+                onBadgeGroupHover={onBadgeGroupHover}
+                backgroundColor={backgroundColor}
+            />
+        )
+    };
+
+    return marker;
+};
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('ADT3DViewer', debugLogging);
+
+const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     theme,
     locale,
     adapter,
@@ -55,29 +113,69 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
     outlinedMeshItems: outlinedMeshItemsProp,
-    zoomToMeshIds: zoomToMeshIdsProp,
+    zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
-    hideViewModePickerUI
+    hideViewModePickerUI,
+    selectedLayerIds,
+    showModeToggle = false,
+    styles
 }) => {
+    // hooks
+    const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    const {
+        modelUrl,
+        sceneVisuals,
+        sceneAlerts,
+        isLoading,
+        triggerRuntimeRefetch
+    } = useRuntimeSceneData(
+        adapter,
+        sceneId,
+        scenesConfig,
+        pollingInterval,
+        deeplinkState.selectedLayerIds
+    );
+    const sceneWrapperId = useGuid();
+    const selectedMesh = useRef(null);
+    const sceneRef = useRef(null);
+    const isDeeplinkContextLoaded = useRef(false);
+    const prevLayerCount = useRef<number>(-1); // track the count of layers so we know to refresh the selections if the count changes
+    const hasUserChangedLayers = useRef<boolean>(false); // need to know once a user makes a selection so we stop auto selecting items
+    const prevSceneId = useRef<string>(sceneId); // need to know if user swaps scenes (using scene dropdown) since we won't get remounted
+    const initialDeeplinkLayers = useRef<string[]>(
+        deeplinkState.selectedLayerIds
+    ); // grab the initial layers on mount
+
+    // reset the refs when the scene changes
+    if (prevSceneId.current !== sceneId) {
+        hasUserChangedLayers.current = false;
+        prevLayerCount.current = -1;
+        prevSceneId.current = sceneId;
+        initialDeeplinkLayers.current = deeplinkState.selectedLayerIds;
+    }
+
+    const behaviorIdsInScene = useMemo(
+        () => ViewerConfigUtility.getBehaviorIdsInScene(scenesConfig, sceneId),
+        [scenesConfig, sceneId]
+    );
+
+    // styles
+    const fluentTheme = useTheme();
+    const classNames = getClassNames(styles, { theme: fluentTheme });
+
+    // --- State setup ---
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
-    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
+    const [markers, setMarkers] = useState<Marker[]>([]);
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
     // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
     const outlinedMeshItemsRef = useRef(outlinedMeshItems);
-    const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>(
-        zoomToMeshIdsProp || []
-    );
-    const selectedMeshIdsRef = useRef(zoomToMeshIds);
+    const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>([]);
     const [showPopUp, setShowPopUp] = useState(false);
-    const [
-        isElementsPanelVisible,
-        { toggle: toggleIsElementsPanelVisible }
-    ] = useBoolean(!hideElementsPanel);
 
     const [
         behaviorModalSceneVisualElementId,
@@ -95,10 +193,22 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         setAlertPanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
-    const layersInScene = useMemo(
-        () => ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId),
-        [scenesConfig, sceneId]
+    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
+        null
     );
+
+    const { sceneThemeState } = useSceneThemeContext();
+
+    // --- Data fetches ---
+
+    const layersInScene = useMemo(() => {
+        logDebugConsole(
+            'debug',
+            'Getting layers from config',
+            scenesConfig?.configuration?.layers
+        );
+        return ViewerConfigUtility.getLayersInScene(scenesConfig, sceneId);
+    }, [scenesConfig, sceneId]);
 
     const unlayeredBehaviorsPresent = useMemo(
         () =>
@@ -106,56 +216,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                 scenesConfig,
                 sceneId
             ).length > 0,
+
         [scenesConfig, sceneId]
     );
-
-    const [selectedLayerIds, setSelectedLayerIds] = useState<string[]>([
-        // Add unlayered behavior option if unlayered behaviors present
-        ...(unlayeredBehaviorsPresent ? [unlayeredBehaviorKey] : []),
-        ...layersInScene.map((lis) => lis.id)
-    ]);
-
-    const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
-        null
-    );
-
-    const { t } = useTranslation();
-    const sceneWrapperId = useGuid();
-    const selectedMesh = useRef(null);
-    const sceneRef = useRef(null);
-
-    const {
-        modelUrl,
-        sceneVisuals,
-        sceneAlerts,
-        isLoading,
-        triggerRuntimeRefetch
-    } = useRuntimeSceneData(
-        adapter,
-        sceneId,
-        scenesConfig,
-        pollingInterval,
-        selectedLayerIds
-    );
-
-    useEffect(() => {
-        refetchConfig && refetchConfig();
-    }, []);
-
-    useEffect(() => {
-        if (coloredMeshItemsProp) {
-            setColoredMeshItems(coloredMeshItemsProp);
-        } else {
-            const coloredMeshes = [];
-            sceneVisuals.forEach((sceneVisual) => {
-                sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
-                    coloredMeshes.push(sceneColoredMeshItem);
-                });
-            });
-            setAlertBadges(sceneAlerts);
-            setColoredMeshItems(coloredMeshes);
-        }
-    }, [sceneVisuals, coloredMeshItemsProp]);
 
     // panel items includes partial SceneVisual object with filtered properties needed to render elements panel overlay
     const panelItems: Array<IViewerElementsPanelItem> = useMemo(
@@ -168,49 +231,346 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         [sceneVisuals]
     );
 
-    const showPopover = (sceneVisual: Partial<SceneVisual>) => {
-        setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
-        setShowPopUp(true);
-        const meshIds = sceneVisual.element.objectIDs;
-        const outlinedMeshItems = createCustomMeshItems(
-            meshIds,
-            DefaultViewerModeObjectColor.outlinedMeshSelectedColor
-        );
+    // --- helpers ---
+    const getElementByMeshId = useCallback(
+        (meshId: string) =>
+            ViewerConfigUtility.getElementsInScene(
+                scenesConfig,
+                sceneId
+            ).find((x) => x.objectIDs.includes(meshId)),
+        [sceneId, scenesConfig]
+    );
 
-        setSelectedVisual(sceneVisual);
-        setOutlinedMeshItems(outlinedMeshItems);
-        outlinedMeshItemsRef.current = outlinedMeshItems;
-        selectedMeshIdsRef.current = meshIds;
-    };
+    // --- handle deep links ---
 
-    const meshClick = (_marker: Marker, mesh: any, scene: any) => {
+    // update SceneId on the deeplink context if the prop changes
+    // needed for embed cases
+    useEffect(() => {
+        deeplinkDispatch({
+            type: DeeplinkContextActionType.SET_SCENE_ID,
+            payload: {
+                sceneId: sceneId
+            }
+        });
+    }, [deeplinkDispatch, sceneId]);
+
+    const setSelectedLayerIds = useCallback(
+        (ids: string[], isUserUpdate: boolean) => {
+            logDebugConsole(
+                'debug',
+                'Selected layer ids changed (ids, isUserUpdate)',
+                ids,
+                isUserUpdate
+            );
+            if (isUserUpdate) {
+                hasUserChangedLayers.current = true; // track when the user does it so we know when to stop allowing auto updates to the selections
+            }
+            deeplinkDispatch?.({
+                type: DeeplinkContextActionType.SET_LAYER_IDS,
+                payload: {
+                    ids: ids
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+    const userSetSelectedLayerIds = useCallback(
+        (ids: string[]) => {
+            setSelectedLayerIds(ids, true);
+        },
+        [setSelectedLayerIds]
+    );
+
+    // initialize the layers list
+    useEffect(() => {
+        if (behaviorIdsInScene.length === 0) {
+            logDebugConsole('debug', 'No behaviors, not setting layers');
+            return;
+        }
+
+        // if we don't have any layer id from the context, set initial values
+        // we have to refresh the list if the adapter call finishes and updates the number of layers
+        // we have to not set the layers if the change came from a user
+        const layerCountChanged =
+            prevLayerCount.current !== layersInScene.length;
+        const noUserUpdate = !hasUserChangedLayers.current;
+        const noSelectedLayers = !deeplinkState?.selectedLayerIds?.length;
+        prevLayerCount.current = layersInScene.length;
+        const layersSetOnDeeplink = initialDeeplinkLayers.current.length;
+        const shouldAutoSetLayers =
+            noUserUpdate &&
+            !layersSetOnDeeplink &&
+            (noSelectedLayers || layerCountChanged);
+        if (shouldAutoSetLayers) {
+            // Add unlayered behavior option if unlayered behaviors present
+            const layers = [
+                ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
+                ...layersInScene.map((lis) => lis.id)
+            ];
+            logDebugConsole(
+                'debug',
+                'No layers found in state. Setting default layers {new layers, layersInScene}',
+                layers,
+                layersInScene
+            );
+            setSelectedLayerIds(layers, false);
+        } else {
+            logDebugConsole(
+                'debug',
+                'Not auto selecting layers. {noUserUpdate, layersSetOnDeeplink, didLayerCountChange, noSelectedLayers, behaviorIdsInScene}',
+                noUserUpdate,
+                layersSetOnDeeplink,
+                layerCountChanged,
+                noSelectedLayers,
+                behaviorIdsInScene
+            );
+        }
+    }, [
+        behaviorIdsInScene,
+        deeplinkState?.selectedLayerIds,
+        deeplinkState?.selectedLayerIds?.length,
+        layersInScene,
+        setSelectedLayerIds,
+        unlayeredBehaviorsPresent
+    ]);
+
+    // this needs to run when sceneId is changed to ensure the correct layers are displayed
+    useEffect(() => {
+        // only set layers if selectedLayerIds has been passed as a prop
+        if (selectedLayerIds !== undefined) {
+            if (selectedLayerIds) {
+                setSelectedLayerIds(selectedLayerIds, true);
+            } else {
+                // if layers are null set all layers as selected
+                const layers = [
+                    ...(unlayeredBehaviorsPresent ? [DEFAULT_LAYER_ID] : []),
+                    ...layersInScene.map((lis) => lis.id)
+                ];
+
+                setSelectedLayerIds(layers, true);
+            }
+        }
+    }, [selectedLayerIds, sceneId]);
+
+    const setSelectedElementId = useCallback(
+        (elementId: string) => {
+            logDebugConsole('debug', 'Selected Element Id: ', elementId);
+            deeplinkDispatch?.({
+                type: DeeplinkContextActionType.SET_ELEMENT_ID,
+                payload: {
+                    id: elementId
+                }
+            });
+        },
+        [deeplinkDispatch]
+    );
+    const setZoomMeshesByElement = useCallback(
+        (elementId: string) => {
+            logDebugConsole('debug', 'Zooming to Element Id: ', elementId);
+            if (elementId) {
+                const elements = ViewerConfigUtility.getElementsInScene(
+                    scenesConfig,
+                    sceneId
+                );
+                if (elements?.length) {
+                    const element = elements.find((x) => x.id === elementId);
+                    setZoomToMeshIds(element?.objectIDs);
+                } else {
+                    // clear the zooming if we can't find the element
+                    setZoomToMeshIds([]);
+                }
+            } else {
+                // clear the zooming if we can't find the element
+                setZoomToMeshIds([]);
+            }
+        },
+        [sceneId, scenesConfig]
+    );
+
+    // initialize the zoomed elements
+    // Zoom to elements if it's on the context, but only on first mount/when data is present
+    useEffect(() => {
+        if (
+            !isDeeplinkContextLoaded.current &&
+            scenesConfig &&
+            deeplinkState.selectedElementId &&
+            panelItems?.length
+        ) {
+            isDeeplinkContextLoaded.current = true;
+            const panelItem = panelItems.find(
+                (x) => x.element.id === deeplinkState.selectedElementId
+            );
+            if (panelItem) {
+                onElementPanelItemClicked(undefined, panelItem, undefined);
+            }
+        }
+        // first mount only when data is present
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scenesConfig, panelItems]);
+
+    useEffect(() => {
+        // if the zoom prop is provided, use that over the deeplink values
+        if (zoomToElementIdProp) {
+            // take the first one since we only support a single element id today
+            setZoomMeshesByElement(zoomToElementIdProp);
+            setSelectedElementId(zoomToElementIdProp);
+        }
+    }, [setSelectedElementId, setZoomMeshesByElement, zoomToElementIdProp]);
+
+    const showPopover = useCallback(
+        (sceneVisual: Partial<SceneVisual>) => {
+            setBehaviorModalSceneVisuaElementlId(sceneVisual.element.id);
+            setShowPopUp(true);
+            const meshIds = sceneVisual.element.objectIDs;
+            const outlinedMeshItems = createCustomMeshItems(
+                meshIds,
+                DefaultViewerModeObjectColor.outlinedMeshSelectedColor
+            );
+
+            setSelectedVisual(sceneVisual);
+            setOutlinedMeshItems(outlinedMeshItems);
+            outlinedMeshItemsRef.current = outlinedMeshItems;
+            setSelectedElementId(getElementByMeshId(meshIds[0])?.id);
+        },
+        [getElementByMeshId, setSelectedElementId]
+    );
+
+    // elements panel callbacks
+    const onElementPanelItemClicked = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            setShowPopUp(false);
+            setZoomMeshesByElement(panelItem.element.id);
+            setSelectedElementId(panelItem.element.id);
+            showPopover(panelItem);
+            setIsAlertPopoverVisible(false);
+        },
+        [setSelectedElementId, setZoomMeshesByElement, showPopover]
+    );
+    const onElementPanelItemHovered = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                if (!currentlyOutlinedMeshIds.includes(meshId)) {
+                    newOutlinedMeshItems.push({
+                        meshId,
+                        color:
+                            DefaultViewerModeObjectColor.outlinedMeshHoverColor
+                    });
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
+        },
+        []
+    );
+    const onElementPanelItemBlured = useCallback(
+        (
+            _item: ITwinToObjectMapping | IVisual,
+            panelItem: IViewerElementsPanelItem,
+            _behavior?: IBehavior
+        ) => {
+            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
+                (meshItem) => meshItem.meshId
+            );
+            panelItem.element.objectIDs?.forEach((meshId) => {
+                const meshIndex = currentlyOutlinedMeshIds.findIndex(
+                    (outlinedMeshId) => outlinedMeshId === meshId
+                );
+                if (
+                    meshIndex !== -1 &&
+                    deeplinkState.selectedElementId !==
+                        getElementByMeshId(meshId)?.id
+                ) {
+                    newOutlinedMeshItems.splice(meshIndex, 1);
+                }
+            });
+            setOutlinedMeshItems(newOutlinedMeshItems);
+        },
+        [deeplinkState.selectedElementId, getElementByMeshId]
+    );
+
+    useEffect(() => {
+        logDebugConsole('debug', 'Refetch config');
+        refetchConfig && refetchConfig();
+        // only run on first mount
+        // // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        if (coloredMeshItemsProp) {
+            setColoredMeshItems(coloredMeshItemsProp);
+        } else {
+            const coloredMeshes = [];
+            sceneVisuals.forEach((sceneVisual) => {
+                sceneVisual.coloredMeshItems.forEach((sceneColoredMeshItem) => {
+                    coloredMeshes.push(sceneColoredMeshItem);
+                });
+            });
+            setColoredMeshItems(coloredMeshes);
+        }
+    }, [sceneVisuals, coloredMeshItemsProp]);
+
+    useEffect(() => {
+        if (sceneAlerts) {
+            const markers: Marker[] = [];
+            sceneAlerts.forEach((alert) => {
+                const badge = createBadge(
+                    alert,
+                    sceneThemeState.sceneBackground,
+                    onBadgeGroupHover
+                );
+                markers.push(badge);
+            });
+
+            setMarkers(markers);
+        }
+        // sceneThemeState.sceneBackground is a dependancy as we need to rerun this useEffect when
+        // the background color changes to ensure we update the badge colors
+    }, [sceneAlerts, sceneThemeState.sceneBackground]);
+
+    // mesh callbacks
+    const meshClick = (mesh: { id: string }, scene: any) => {
+        // update the selected element on the context
+        setSelectedElementId(getElementByMeshId(mesh?.id)?.id);
+
         if (sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
             );
 
+            const clearSelections = () => {
+                selectedMesh.current = null;
+                setShowPopUp(false);
+                setZoomMeshesByElement(undefined);
+                setSelectedElementId(undefined);
+                setOutlinedMeshItems([]);
+                setSelectedVisual(null);
+                outlinedMeshItemsRef.current = [];
+            };
+
             if (sceneVisual) {
                 if (selectedMesh.current === mesh) {
-                    selectedMesh.current = null;
-                    setShowPopUp(false);
-                    setZoomToMeshIds([]);
-                    setOutlinedMeshItems([]);
-                    setSelectedVisual(null);
-                    outlinedMeshItemsRef.current = [];
-                    selectedMeshIdsRef.current = [];
+                    // if it's the same mesh that's already selected, then unselect
+                    clearSelections();
                 } else {
                     selectedMesh.current = mesh;
                     sceneRef.current = scene;
                     showPopover(sceneVisual);
                 }
             } else {
-                selectedMesh.current = null;
-                setShowPopUp(false);
-                setZoomToMeshIds([]);
-                setOutlinedMeshItems([]);
-                setSelectedVisual(null);
-                outlinedMeshItemsRef.current = [];
-                selectedMeshIdsRef.current = [];
+                // if there's no visual, then clear the selection
+                clearSelections();
             }
         }
 
@@ -234,8 +594,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
     };
-
-    const meshHover = (marker: Marker, mesh: any) => {
+    const meshHover = (mesh: { id: string }) => {
         if (mesh && sceneVisuals) {
             const sceneVisual = sceneVisuals.find((sceneVisual) =>
                 sceneVisual.element.objectIDs.find((id) => id === mesh?.id)
@@ -243,7 +602,9 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             if (
                 sceneVisual &&
                 []
-                    .concat(...sceneVisual?.behaviors.map((b) => b.visuals))
+                    .concat(
+                        ...(sceneVisual?.behaviors.map((b) => b.visuals) || [])
+                    )
                     .find((visual) => visual.type === VisualType.Popover)
             ) {
                 document.body.style.cursor = 'pointer';
@@ -252,7 +613,6 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
             }
         }
     };
-
     const onBadgeGroupHover = (
         badgeGroup: SceneViewBadgeGroup,
         left: number,
@@ -270,103 +630,69 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
         }
     };
 
-    const onElementPanelItemClicked = useCallback(
-        (_item, panelItem, _behavior) => {
-            setShowPopUp(false);
-            setZoomToMeshIds(panelItem.element.objectIDs);
-            showPopover(panelItem);
-            setIsAlertPopoverVisible(false);
-        },
-        []
-    );
-
-    const onElementPanelItemHovered = useCallback(
-        (_item, panelItem, _behavior) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
-            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
-                (meshItem) => meshItem.meshId
-            );
-            panelItem.element.objectIDs?.forEach((meshId) => {
-                if (!currentlyOutlinedMeshIds.includes(meshId)) {
-                    newOutlinedMeshItems.push({
-                        meshId,
-                        color:
-                            DefaultViewerModeObjectColor.outlinedMeshHoverColor
-                    });
+    // header callbacks
+    const handleScenePageModeChange = useCallback(
+        (newScenePageMode: ADT3DScenePageModes) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_MODE,
+                payload: {
+                    mode: newScenePageMode
                 }
             });
-            setOutlinedMeshItems(newOutlinedMeshItems);
         },
-        []
+        [deeplinkDispatch]
     );
 
-    const onElementPanelItemBlured = useCallback(
-        (_item, panelItem, _behavior) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
-            const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
-                (meshItem) => meshItem.meshId
-            );
-            panelItem.element.objectIDs?.forEach((meshId) => {
-                const meshIndex = currentlyOutlinedMeshIds.findIndex(
-                    (outlinedMeshId) => outlinedMeshId === meshId
-                );
-                if (
-                    meshIndex !== -1 &&
-                    !selectedMeshIdsRef.current?.includes(meshId)
-                ) {
-                    newOutlinedMeshItems.splice(meshIndex, 1);
-                }
-            });
-            setOutlinedMeshItems(newOutlinedMeshItems);
-        },
-        []
+    const behaviorModalSceneVisual = useMemo(
+        () =>
+            sceneVisuals.find(
+                (sv) => sv.element.id === behaviorModalSceneVisualElementId
+            ),
+        [behaviorModalSceneVisualElementId, sceneVisuals]
     );
 
-    useEffect(() => {
-        if (zoomToMeshIdsProp) {
-            setZoomToMeshIds(zoomToMeshIdsProp);
-        }
-    }, [zoomToMeshIdsProp]);
+    const onCloseBehaviorsModal = useCallback(() => {
+        setShowPopUp(false);
+        setZoomMeshesByElement(undefined);
+        setSelectedElementId(undefined);
+        setOutlinedMeshItems([]);
+        setSelectedVisual(null);
+        outlinedMeshItemsRef.current = [];
+    }, [setSelectedElementId, setZoomMeshesByElement]);
 
-    const elementsPanelToggleButtonStyles = toggleElementsPanelStyles();
-
-    const behaviorModalSceneVisual = sceneVisuals.find(
-        (sv) => sv.element.id === behaviorModalSceneVisualElementId
+    const onPropertyInspectorPatch = useCallback(
+        () => triggerRuntimeRefetch(),
+        [adapter]
     );
 
     const svp = sceneViewProps || {};
-
+    const sceneName = ViewerConfigUtility.getSceneById(scenesConfig, sceneId)
+        ?.displayName;
+    logDebugConsole('debug', 'Render');
     return (
         <BaseComponent
             isLoading={isLoading && !sceneVisuals}
             theme={theme}
             locale={locale}
+            containerClassName={classNames.root}
         >
-            <div id={sceneWrapperId} className="cb-adt-3dviewer-wrapper">
-                <DefaultButton
-                    toggle
-                    checked={isElementsPanelVisible}
-                    styles={elementsPanelToggleButtonStyles}
-                    iconProps={{
-                        iconName: 'BulletedTreeList',
-                        styles: { root: { fontSize: 20 } }
-                    }}
-                    ariaLabel={
-                        hideElementsPanel
-                            ? t('elementsPanel.showPanel')
-                            : t('elementsPanel.hidePanel')
-                    }
-                    onClick={toggleIsElementsPanelVisible}
+            <div id={sceneWrapperId} className={classNames.wrapper}>
+                <SceneBreadcrumbFactory
+                    sceneId={sceneId}
+                    sceneName={sceneName}
+                    onSceneChange={onCloseBehaviorsModal}
+                    onNavigate={(_action, navigate) => navigate()}
                 />
-                {isElementsPanelVisible && (
-                    <ViewerElementsPanel
-                        isLoading={isLoading}
-                        panelItems={panelItems}
-                        onItemClick={onElementPanelItemClicked}
-                        onItemHover={onElementPanelItemHovered}
-                        onItemBlur={onElementPanelItemBlured}
-                    />
-                )}
+                {/* Left panel */}
+                <ViewerElementsPanelRenderer
+                    isLoading={isLoading}
+                    initialPanelOpen={!hideElementsPanel}
+                    items={panelItems}
+                    onItemBlur={onElementPanelItemBlured}
+                    onItemClick={onElementPanelItemClicked}
+                    onItemHover={onElementPanelItemHovered}
+                />
+                {/* Viewer */}
                 <SceneViewWrapper
                     adapter={adapter}
                     config={scenesConfig}
@@ -377,18 +703,16 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
-                        badgeGroups: alertBadges,
-                        modelUrl: modelUrl,
                         coloredMeshItems: coloredMeshItems,
+                        markers: markers,
+                        modelUrl: modelUrl,
+                        onMeshClick: meshClick,
+                        onMeshHover: meshHover,
                         outlinedMeshitems: outlinedMeshItems,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
-                        zoomToMeshIds: zoomToMeshIds,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
-                        onBadgeGroupHover: onBadgeGroupHover,
-                        onMeshClick: (marker, mesh, scene) =>
-                            meshClick(marker, mesh, scene),
-                        onMeshHover: (marker, mesh) => meshHover(marker, mesh),
+                        zoomToMeshIds: zoomToMeshIds,
                         ...svp,
                         getToken: (adapter as any).authService
                             ? () =>
@@ -398,31 +722,45 @@ const ADT3DViewer: React.FC<IADT3DViewerProps & BaseComponentProps> = ({
                             : undefined
                     }}
                 />
-                <div className="cb-layer-dropdown-container">
-                    <LayerDropdown
-                        layers={layersInScene}
-                        selectedLayerIds={selectedLayerIds}
-                        setSelectedLayerIds={setSelectedLayerIds}
-                        showUnlayeredOption={unlayeredBehaviorsPresent}
-                    />
-                </div>
+                {/* Mode & layers */}
+                <Stack
+                    horizontal
+                    styles={classNames.subComponentStyles.headerStack}
+                    tokens={{ childrenGap: 8 }}
+                >
+                    <DeeplinkFlyout mode="Options" />
+                    {/* TODO: MOVE THEME PICKER HERE */}
+                    <div className={classNames.layersPicker}>
+                        <LayerDropdown
+                            layers={layersInScene}
+                            selectedLayerIds={deeplinkState.selectedLayerIds}
+                            setSelectedLayerIds={userSetSelectedLayerIds}
+                            showUnlayeredOption={unlayeredBehaviorsPresent}
+                        />
+                    </div>
+                    {showModeToggle && (
+                        <FloatingScenePageModeToggle
+                            sceneId={sceneId}
+                            handleScenePageModeChange={
+                                handleScenePageModeChange
+                            }
+                            selectedMode={deeplinkState.mode}
+                        />
+                    )}
+                </Stack>
             </div>
             {showPopUp && (
                 <BehaviorsModal
-                    onClose={() => {
-                        setShowPopUp(false);
-                        setZoomToMeshIds([]);
-                        setOutlinedMeshItems([]);
-                        outlinedMeshItemsRef.current = [];
-                        selectedMeshIdsRef.current = [];
-                    }}
-                    twins={behaviorModalSceneVisual?.twins}
-                    behaviors={behaviorModalSceneVisual?.behaviors}
-                    title={behaviorModalSceneVisual?.element?.displayName}
                     adapter={
                         hasPropertyInspectorAdapter(adapter) ? adapter : null
                     }
-                    onPropertyInspectorPatch={() => triggerRuntimeRefetch()}
+                    behaviors={behaviorModalSceneVisual?.behaviors || []}
+                    element={behaviorModalSceneVisual?.element}
+                    mode={BehaviorModalMode.viewer}
+                    onClose={onCloseBehaviorsModal}
+                    onPropertyInspectorPatch={onPropertyInspectorPatch}
+                    title={behaviorModalSceneVisual?.element?.displayName}
+                    twins={behaviorModalSceneVisual?.twins || {}}
                 />
             )}
             {isAlertPopoverVisible && (
@@ -449,26 +787,18 @@ const hasPropertyInspectorAdapter = (
     !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
     !!(adapter as IADT3DViewerAdapter).getSceneData;
 
-const toggleElementsPanelStyles = memoizeFunction(
-    () =>
-        ({
-            root: {
-                minWidth: 'unset',
-                width: 64,
-                height: 54,
-                border: '1px solid var(--cb-color-modal-border)',
-                borderRadius: 4,
-                backdropFilter: 'blur(50px)',
-                color: 'var(--cb-color-text-primary)',
-                position: 'absolute',
-                zIndex: 999,
-                left: 20,
-                bottom: 20
-            },
-            rootChecked: {
-                background: 'var(--cb-color-glassy-modal)'
-            }
-        } as Partial<IButtonStyles>)
-);
+const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
+    return (
+        <DeeplinkContextProvider>
+            <SceneThemeContextProvider>
+                <ADT3DViewerBase {...props} />
+            </SceneThemeContextProvider>
+        </DeeplinkContextProvider>
+    );
+};
 
-export default withErrorBoundary(ADT3DViewer);
+export default styled<
+    IADT3DViewerProps,
+    IADT3DViewerStyleProps,
+    IADT3DViewerStyles
+>(withErrorBoundary(ADT3DViewer), getStyles);

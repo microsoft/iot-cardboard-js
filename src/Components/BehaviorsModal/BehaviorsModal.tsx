@@ -7,16 +7,19 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import React, { createContext, useRef, useState } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
 import {
     BehaviorModalMode,
     DTwin,
-    IPropertyInspectorAdapter,
-    linkedTwinName
+    IPropertyInspectorAdapter
 } from '../../Models/Constants';
-import { IBehavior } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IBehavior,
+    ITwinToObjectMapping
+} from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 import PropertyInspector from '../PropertyInspector/PropertyInspector';
 import { OnCommitPatchParams } from '../PropertyInspector/StandalonePropertyInspector.types';
 import {
@@ -27,15 +30,26 @@ import {
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
 
-export interface IBehaviorsModalProps {
-    onClose?: () => any;
-    title?: string;
-    behaviors: IBehavior[];
-    twins: Record<string, DTwin>;
-    mode?: BehaviorModalMode;
+export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
+    (ViewerModeProps | PreviewModeProps);
+interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
     adapter?: IPropertyInspectorAdapter;
+    behaviors: IBehavior[];
+    onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
+    title?: string;
+    twins: Record<string, DTwin>;
+}
+
+interface ViewerModeProps {
+    mode: BehaviorModalMode.viewer;
+    element: ITwinToObjectMapping;
+}
+
+interface PreviewModeProps {
+    mode: BehaviorModalMode.preview;
+    element?: undefined;
 }
 
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
@@ -51,21 +65,25 @@ enum BehaviorModalPivotKey {
     Properties = 'properties'
 }
 
-const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
-    onClose,
-    behaviors = [],
-    title,
-    twins,
-    mode = BehaviorModalMode.viewer,
-    activeWidgetId,
-    adapter,
-    onPropertyInspectorPatch
-}) => {
+const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
+    const {
+        activeWidgetId,
+        adapter,
+        behaviors = [],
+        element,
+        mode = BehaviorModalMode.viewer,
+        onClose,
+        onPropertyInspectorPatch,
+        title,
+        twins
+    } = props;
     const { t } = useTranslation();
     const boundaryRef = useRef<HTMLDivElement>(null);
     const titleId = useId('title');
     const theme = useTheme();
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
+
+    const scenePageContext = useContext(ADT3DScenePageContext);
 
     const [activePivot, setActivePivot] = useState<BehaviorModalPivotKey>(
         BehaviorModalPivotKey.State
@@ -181,24 +199,26 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = ({
                                 adapter && (
                                     <PropertyInspector
                                         adapter={adapter}
-                                        twinId={twins[linkedTwinName].$dtId}
+                                        twinId={element?.primaryTwinID || ''}
                                         parentHandlesScroll={true}
                                         onPatch={(patchData) =>
                                             onPropertyInspectorPatch &&
                                             onPropertyInspectorPatch(patchData)
                                         }
-                                        readonly={true}
+                                        readonly={
+                                            !scenePageContext?.isTwinPropertyInspectorPatchModeEnabled
+                                        }
                                         customCommandBarTitleSpan={
                                             <span
                                                 className={
                                                     styles.customPropertyInspectorCommandBarTitle
                                                 }
                                                 title={t(
-                                                    'behaviorsModal.LinkedTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             >
                                                 {t(
-                                                    'behaviorsModal.LinkedTwinProperties'
+                                                    'behaviorsModal.PrimaryTwin'
                                                 )}
                                             </span>
                                         }

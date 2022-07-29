@@ -1,4 +1,11 @@
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
@@ -6,6 +13,7 @@ import {
     PivotItem,
     PrimaryButton,
     Separator,
+    Stack,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -16,7 +24,6 @@ import {
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { ADT3DSceneBuilderMode } from '../../../../Models/Constants/Enums';
 import { createGUID, deepCopy } from '../../../../Models/Services/Utils';
-import useAdapter from '../../../../Models/Hooks/useAdapter';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
@@ -33,12 +40,13 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
-    IScene,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ElementType } from '../../../../Models/Classes/3DVConfig';
 import { createCustomMeshItems } from '../../../3DV/SceneView.Utils';
 import ElementTwinAliasForm from './Internal/ElementTwinAliasForm';
+import useAdapter from '../../../../Models/Hooks/useAdapter';
+import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 
 export const ElementFormContext = React.createContext<IElementFormContext>(
     null
@@ -50,18 +58,47 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     behaviors,
     onElementSave,
     onElementBackClick,
-    onBehaviorSave,
     onBehaviorClick,
     onCreateBehaviorWithElements
 }) => {
     const { t } = useTranslation();
+    const {
+        adapter,
+        config,
+        getConfig,
+        sceneId,
+        coloredMeshItems,
+        setColoredMeshItems,
+        elementTwinAliasFormInfo
+    } = useContext(SceneBuilderContext);
+
+    const existingElementsRef = useRef(null);
+    const newElementsRef = useRef(null);
     const [elementToEdit, setElementToEdit] = useState<ITwinToObjectMapping>(
-        selectedElement ?? {
-            type: ElementType.TwinToObjectMapping,
-            id: '',
-            displayName: '',
-            linkedTwinID: '',
-            objectIDs: []
+        () => {
+            const existingElements = config.configuration?.scenes
+                ?.find((s) => s.id === sceneId)
+                .elements.filter(
+                    ViewerConfigUtility.isTwinToObjectMappingElement
+                );
+            existingElementsRef.current = existingElements;
+            if (builderMode === ADT3DSceneBuilderMode.EditElement) {
+                return selectedElement;
+            } else {
+                // builderMode is ADT3DSceneBuilderMode.CreateElement
+                let newId = createGUID();
+                const existingIds = existingElements?.map((e) => e.id);
+                while (existingIds?.includes(newId)) {
+                    newId = createGUID();
+                }
+                return {
+                    type: ElementType.TwinToObjectMapping,
+                    id: newId,
+                    displayName: '',
+                    primaryTwinID: '',
+                    objectIDs: []
+                };
+            }
         }
     );
 
@@ -69,73 +106,91 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         []
     );
 
-    const {
-        adapter,
-        config,
-        sceneId,
-        getConfig,
-        coloredMeshItems,
-        setColoredMeshItems,
-        elementTwinAliasFormInfo
-    } = useContext(SceneBuilderContext);
-    const configRef = useRef(config);
+    const isCreateElementDisabled = !(
+        elementToEdit?.displayName &&
+        elementToEdit?.primaryTwinID &&
+        elementToEdit?.objectIDs?.length > 0
+    );
 
-    const updateTwinToObjectMappings = useAdapter({
-        adapterMethod: (params: { elements: Array<ITwinToObjectMapping> }) => {
-            const sceneToUpdate: IScene = deepCopy(
-                config.configuration.scenes[
-                    config.configuration.scenes.findIndex(
-                        (s) => s.id === sceneId
-                    )
-                ]
-            );
-            sceneToUpdate.elements = params.elements;
-            configRef.current = ViewerConfigUtility.editScene(
-                config,
+    useEffect(() => {
+        if (selectedElement) {
+            setElementToEdit(selectedElement);
+        }
+    }, [selectedElement]);
+
+    const saveElementAdapterData = useAdapter({
+        adapterMethod: () => {
+            let updatedConfig = deepCopy(config);
+
+            // BEGINNING of updating elements in scene
+            const newElements = existingElementsRef.current
+                ? [...existingElementsRef.current]
+                : [];
+
+            if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
+                newElements.push(elementToEdit);
+            } else {
+                newElements[
+                    newElements.findIndex((e) => e.id === selectedElement.id)
+                ] = elementToEdit;
+            }
+            newElementsRef.current = newElements;
+            updatedConfig = ViewerConfigUtility.updateElementsInScene(
+                updatedConfig,
                 sceneId,
-                sceneToUpdate
+                newElements
             );
-            return adapter.putScenesConfig(configRef.current);
+            // END of updating elements in scene
+
+            // BEGINNING of behaviors update which this element exists in
+            if (behaviorsToEdit) {
+                for (const behavior of behaviorsToEdit) {
+                    updatedConfig = ViewerConfigUtility.editBehavior(
+                        updatedConfig,
+                        behavior
+                    );
+
+                    // add the behavior to the current scene if it is not there
+                    updatedConfig = ViewerConfigUtility.addBehaviorToScene(
+                        updatedConfig,
+                        sceneId,
+                        behavior
+                    );
+                }
+            }
+            // END of behaviors update which this element exists in
+
+            return adapter.putScenesConfig(updatedConfig);
         },
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
-    const handleSaveElement = async () => {
-        const existingElements = config.configuration?.scenes
-            ?.find((s) => s.id === sceneId)
-            .elements.filter(ViewerConfigUtility.isTwinToObjectMappingElement);
+    const handleSaveElement = useCallback(async () => {
+        await saveElementAdapterData.callAdapter();
+    }, [saveElementAdapterData]);
 
-        const newElements = existingElements ? [...existingElements] : [];
+    const handleCreateBehavior = useCallback(
+        async (searchText: string) => {
+            // Save element
+            await handleSaveElement();
 
-        if (builderMode === ADT3DSceneBuilderMode.CreateElement) {
-            let newId = createGUID();
-            const existingIds = existingElements?.map((e) => e.id);
-            while (existingIds?.includes(newId)) {
-                newId = createGUID();
-            }
-            const newElement = { ...elementToEdit, id: newId };
-            newElements.push(newElement);
-        } else {
-            newElements[
-                existingElements.findIndex((e) => e.id === selectedElement.id)
-            ] = elementToEdit;
-        }
-
-        await updateTwinToObjectMappings.callAdapter({
-            elements: newElements
-        });
-
-        for (const behavior of behaviorsToEdit) {
-            await onBehaviorSave(
-                configRef.current,
-                behavior,
-                ADT3DSceneBuilderMode.EditBehavior
+            onCreateBehaviorWithElements(
+                searchText,
+                elementToEdit // new element
             );
-        }
+        },
+        [handleSaveElement, onCreateBehaviorWithElements, elementToEdit]
+    );
 
-        onElementSave(newElements);
-    };
+    useEffect(() => {
+        if (saveElementAdapterData.adapterResult.result) {
+            getConfig();
+            if (newElementsRef.current) {
+                onElementSave(newElementsRef.current);
+            }
+        }
+    }, [saveElementAdapterData?.adapterResult]);
 
     useEffect(() => {
         if (selectedElement) {
@@ -143,7 +198,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                 createCustomMeshItems(selectedElement.objectIDs, null)
             );
         }
-    }, []);
+    }, [selectedElement]);
 
     useEffect(() => {
         const meshIds = [];
@@ -156,39 +211,23 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
     }, [coloredMeshItems]);
 
-    useEffect(() => {
-        if (updateTwinToObjectMappings.adapterResult.result) {
-            getConfig();
-        }
-    }, [updateTwinToObjectMappings?.adapterResult]);
-
     const handleSelectTwinId = (selectedTwinId: string) => {
         if (
             !elementToEdit.displayName ||
-            elementToEdit.displayName === elementToEdit.linkedTwinID
+            elementToEdit.displayName === elementToEdit.primaryTwinID
         ) {
             setElementToEdit({
                 ...elementToEdit,
-                linkedTwinID: selectedTwinId,
+                primaryTwinID: selectedTwinId,
                 displayName: selectedTwinId
             });
         } else {
             setElementToEdit({
                 ...elementToEdit,
-                linkedTwinID: selectedTwinId
+                primaryTwinID: selectedTwinId
             });
         }
     };
-
-    useEffect(() => {
-        if (updateTwinToObjectMappings.adapterResult.result) {
-            getConfig();
-        }
-    }, [updateTwinToObjectMappings?.adapterResult]);
-
-    useEffect(() => {
-        configRef.current = config;
-    }, [config]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -227,28 +266,39 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <>
                         <div className={commonFormStyles.content}>
                             <div className={commonFormStyles.header}>
-                                <TwinSearchDropdown
-                                    adapter={adapter}
-                                    label={t('3dSceneBuilder.linkedTwin')}
-                                    selectedTwinId={
-                                        selectedElement?.linkedTwinID
-                                    }
-                                    onTwinIdSelect={handleSelectTwinId}
-                                    descriptionText={t(
-                                        '3dSceneBuilder.linkedTwinInputInfo'
-                                    )}
-                                />
-                                <TextField
-                                    label={t('name')}
-                                    value={elementToEdit?.displayName}
-                                    required
-                                    onChange={(e) => {
-                                        setElementToEdit({
-                                            ...elementToEdit,
-                                            displayName: e.currentTarget.value
-                                        });
-                                    }}
-                                />
+                                <Stack tokens={{ childrenGap: 8 }}>
+                                    <TwinSearchDropdown
+                                        adapter={adapter}
+                                        descriptionText={t(
+                                            '3dSceneBuilder.elementForm.twinNameDescription'
+                                        )}
+                                        label={t('3dSceneBuilder.primaryTwin')}
+                                        labelTooltip={{
+                                            buttonAriaLabel: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            ),
+                                            calloutContent: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            )
+                                        }}
+                                        selectedTwinId={
+                                            selectedElement?.primaryTwinID
+                                        }
+                                        onTwinIdSelect={handleSelectTwinId}
+                                    />
+                                    <TextField
+                                        label={t('name')}
+                                        value={elementToEdit?.displayName}
+                                        required
+                                        onChange={(e) => {
+                                            setElementToEdit({
+                                                ...elementToEdit,
+                                                displayName:
+                                                    e.currentTarget.value
+                                            });
+                                        }}
+                                    />
+                                </Stack>
                             </div>
                             <Separator />
                             <Pivot
@@ -257,15 +307,29 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 styles={panelFormPivotStyles}
                             >
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.meshes')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.meshTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
+                                    }
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        setPivotToRequired(
+                                            coloredMeshItems.length > 0,
+                                            props,
+                                            defaultRenderer
+                                        )
                                     }
                                 >
                                     <MeshTab elementToEdit={elementToEdit} />
                                 </PivotItem>
                                 <PivotItem
-                                    headerText={t('3dSceneBuilder.behaviors')}
+                                    headerText={t(
+                                        '3dSceneBuilder.elementForm.behaviorsTabName'
+                                    )}
                                     className={
                                         commonPanelStyles.formTabContents
                                     }
@@ -278,21 +342,22 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         <BehaviorsTab
                                             elementToEdit={elementToEdit}
                                             behaviors={behaviors}
-                                            updateBehaviorsToEdit={(
-                                                behaviors
-                                            ) => {
-                                                setBehaviorsToEdit(behaviors);
-                                            }}
+                                            updateBehaviorsToEdit={
+                                                setBehaviorsToEdit
+                                            }
                                             onBehaviorClick={onBehaviorClick}
                                             onCreateBehaviorWithElements={
-                                                onCreateBehaviorWithElements
+                                                handleCreateBehavior
+                                            }
+                                            isCreateBehaviorDisabled={
+                                                isCreateElementDisabled
                                             }
                                         />
                                     </div>
                                 </PivotItem>
                                 <PivotItem
                                     headerText={t(
-                                        '3dSceneBuilder.twinAlias.aliasedTwins'
+                                        '3dSceneBuilder.elementForm.twinTabName'
                                     )}
                                     className={
                                         commonPanelStyles.formTabContents
@@ -317,13 +382,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         ? t('3dSceneBuilder.createElement')
                                         : t('3dSceneBuilder.updateElement')
                                 }
-                                disabled={
-                                    !(
-                                        elementToEdit?.displayName &&
-                                        elementToEdit?.linkedTwinID &&
-                                        elementToEdit?.objectIDs?.length > 0
-                                    )
-                                }
+                                disabled={isCreateElementDisabled}
                             />
                             <DefaultButton
                                 text={t('cancel')}

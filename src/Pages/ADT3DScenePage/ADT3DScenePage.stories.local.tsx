@@ -1,6 +1,6 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import ADTandBlobAdapter from '../../Adapters/ADTandBlobAdapter';
+import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADT3DScenePage from './ADT3DScenePage';
 
@@ -34,12 +34,12 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                 theme={theme}
                 locale={locale}
                 adapter={
-                    new ADTandBlobAdapter(
-                        authenticationParameters.adt.hostUrl,
-                        authenticationParameters.storage.blobContainerUrl,
+                    new ADT3DSceneAdapter(
                         new MsalAuthService(
                             authenticationParameters.adt.aadParameters
                         ),
+                        authenticationParameters.adt.hostUrl,
+                        authenticationParameters.storage.blobContainerUrl,
                         authenticationParameters.adt.aadParameters.tenantId,
                         authenticationParameters.adt.aadParameters.uniqueObjectId
                     )
@@ -52,6 +52,7 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                     },
                     storage: { isLocalStorageEnabled: true, onContainerChange }
                 }}
+                enableTwinPropertyInspectorPatchMode
             />
         </div>
     );

@@ -6,3 +6,7 @@ export const textOverflow: IStyle = {
     display: 'block',
     overflow: 'hidden'
 };
+
+export const leftPanelBuilderBlock = {
+    padding: '0px 16px'
+};

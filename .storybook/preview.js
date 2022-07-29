@@ -4,6 +4,7 @@ import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
 import { Locale } from '../src/Models/Constants/Enums';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
+import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
 import { SearchSpan } from '../src/Models/Classes/SearchSpan';
 
 // global inputs for all stories, but it is not included in args
@@ -41,7 +42,7 @@ export const globalTypes = {
                 { value: Locale.RU, right: 'RU', title: 'Русский' },
                 { value: Locale.SV, right: 'SV', title: 'Svenska' },
                 { value: Locale.TR, right: 'TR', title: 'Türkçe' },
-                { value: Locale.ZH, right: 'ZH', title: 'Chinese' },
+                { value: Locale.ZH, right: 'ZH', title: 'Chinese' }
             ],
             showName: true
         }
@@ -120,6 +121,15 @@ const decoratorWithWrapper = (Story, context) => {
         </div>
     );
 };
+const decoratorWithDebug = (Story, context) => {
+    return (
+        <LoggingContextProvider>
+            <Story {...context} />
+        </LoggingContextProvider>
+    );
+};
+
 addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);
 addDecorator(decoratorWithWrapper);
+addDecorator(decoratorWithDebug);

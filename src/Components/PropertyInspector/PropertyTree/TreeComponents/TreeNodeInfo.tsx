@@ -1,5 +1,5 @@
 import { IIconStyleProps, IIconStyles, TooltipHost } from '@fluentui/react';
-import { Icon } from '@fluentui/react/lib/components/Icon/Icon';
+import { Icon } from '@fluentui/react';
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DTDLType } from '../../../../Models/Classes/DTDL';

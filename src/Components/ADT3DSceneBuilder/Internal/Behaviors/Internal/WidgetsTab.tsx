@@ -5,8 +5,13 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import { ActionButton, IContextualMenuItem, useTheme } from '@fluentui/react';
-import produce from 'immer';
+import {
+    ActionButton,
+    IContextualMenuItem,
+    Stack,
+    Text,
+    useTheme
+} from '@fluentui/react';
 import { TFunction, useTranslation } from 'react-i18next';
 import WidgetLibraryDialog from '../Widgets/WidgetLibraryDialog/WidgetLibraryDialog';
 import { availableWidgets } from '../../../../../Models/Constants/Constants';
@@ -23,30 +28,42 @@ import {
     IWidget
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
-    defaultOnClickPopover,
     IWidgetLibraryItem,
-    VisualType,
     WidgetType
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { createGUID } from '../../../../../Models/Services/Utils';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 const getPopoverFromBehavior = (behavior: IBehavior) =>
     behavior.visuals.filter(ViewerConfigUtility.isPopoverVisual)[0] || null;
 
+const ROOT_LOC = '3dSceneBuilder.behaviorWidgetsForm';
+const LOC_KEYS = {
+    addButtonText: `${ROOT_LOC}.addWidgetButtonText`,
+    noData: `${ROOT_LOC}.noData`,
+    tabDescription: `${ROOT_LOC}.tabDescription`
+};
+
 const WidgetsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { setWidgetFormInfo, setBehaviorToEdit, behaviorToEdit } = useContext(
-        SceneBuilderContext
-    );
+    const { setWidgetFormInfo } = useContext(SceneBuilderContext);
+    const {
+        behaviorFormDispatch,
+        behaviorFormState
+    } = useBehaviorFormContext();
     const [isLibraryDialogOpen, setIsLibraryDialogOpen] = useState(false);
     const [listItems, setListItems] = useState<ICardboardListItem<IWidget>[]>(
         []
     );
 
     const widgets = useMemo(() => {
-        return getPopoverFromBehavior(behaviorToEdit)?.widgets || [];
-    }, [behaviorToEdit]);
+        return (
+            getPopoverFromBehavior(behaviorFormState.behaviorToEdit)?.widgets ||
+            []
+        );
+    }, [behaviorFormState.behaviorToEdit]);
 
     const onEditWidgetStart = useCallback(
         (id: string) => {
@@ -71,30 +88,19 @@ const WidgetsTab: React.FC = () => {
                 });
             }
         },
-        [setWidgetFormInfo]
+        [setWidgetFormInfo, widgets]
     );
 
     const onRemoveWidget = useCallback(
         (id: string) => {
-            setBehaviorToEdit(
-                produce((draft) => {
-                    const popoverDraft = getPopoverFromBehavior(draft);
-                    const indexOfWidgetToRemove = popoverDraft.widgets.findIndex(
-                        (w) => w.id === id
-                    );
-                    popoverDraft.widgets.splice(indexOfWidgetToRemove, 1);
-
-                    if (popoverDraft.widgets.length === 0) {
-                        // If removing all widgets, remove popover container
-                        const popOverIdx = draft.visuals.findIndex(
-                            (v) => v.type === VisualType.Popover
-                        );
-                        draft.visuals.splice(popOverIdx, 1);
-                    }
-                })
-            );
+            behaviorFormDispatch({
+                type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE,
+                payload: {
+                    widgetId: id
+                }
+            });
         },
-        [setBehaviorToEdit, getPopoverFromBehavior]
+        [behaviorFormDispatch]
     );
 
     const onWidgetAdd = useCallback(
@@ -104,24 +110,8 @@ const WidgetsTab: React.FC = () => {
                 mode: WidgetFormMode.CreateWidget,
                 widgetId: createGUID()
             });
-
-            // Add popover visual if not already present
-            const popOver = getPopoverFromBehavior(behaviorToEdit);
-
-            if (!popOver) {
-                setBehaviorToEdit(
-                    produce((draft) => {
-                        draft.visuals.push(defaultOnClickPopover);
-                    })
-                );
-            }
         },
-        [
-            setWidgetFormInfo,
-            setBehaviorToEdit,
-            behaviorToEdit,
-            getPopoverFromBehavior
-        ]
+        [setWidgetFormInfo]
     );
 
     // generate the list of items to show
@@ -133,17 +123,24 @@ const WidgetsTab: React.FC = () => {
             t
         );
         setListItems(listItems);
-    }, [widgets, onEditWidgetStart, onRemoveWidget]);
+    }, [widgets, onEditWidgetStart, onRemoveWidget, t]);
 
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <>
-            <div className={commonPanelStyles.formTabContents}>
+        <div className={commonPanelStyles.formTabContents}>
+            <Stack
+                tokens={{ childrenGap: 8 }}
+                className={commonPanelStyles.paddedLeftPanelBlock}
+            >
+                <Text className={commonPanelStyles.text}>
+                    {t(LOC_KEYS.tabDescription)}
+                </Text>
+
                 {!widgets?.length ? (
                     <div className={commonPanelStyles.noDataText}>
-                        {t('3dSceneBuilder.noWidgetsConfigured')}
+                        {t(LOC_KEYS.noData)}
                     </div>
                 ) : (
                     <CardboardList<IWidget>
@@ -153,13 +150,13 @@ const WidgetsTab: React.FC = () => {
                 )}
                 <ActionButton
                     styles={actionButtonStyles}
-                    text={t('3dSceneBuilder.addWidget')}
+                    text={t(LOC_KEYS.addButtonText)}
                     data-testid={'widgetForm-addWidget'}
                     onClick={() => {
                         setIsLibraryDialogOpen(true);
                     }}
                 />
-            </div>
+            </Stack>
             {isLibraryDialogOpen && (
                 <WidgetLibraryDialog
                     setIsLibraryDialogOpen={setIsLibraryDialogOpen}
@@ -168,7 +165,7 @@ const WidgetsTab: React.FC = () => {
                     }
                 />
             )}
-        </>
+        </div>
     );
 };
 function getListItems(

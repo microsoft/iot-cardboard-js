@@ -1,4 +1,4 @@
 export enum WrapperMode {
-    Builder = 'builder',
-    Viewer = 'viewr'
+    Builder = 'Builder',
+    Viewer = 'Viewer'
 }

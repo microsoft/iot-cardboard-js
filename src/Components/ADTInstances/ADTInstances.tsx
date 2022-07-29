@@ -8,7 +8,7 @@ import {
 } from '@fluentui/react';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADTInstancesProps, IADTInstance } from '../../Models/Constants';
+import { IADTInstance, IADTInstancesProps } from '../../Models/Constants';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import './ADTInstances.scss';
 import BaseComponent from '../BaseComponent/BaseComponent';
@@ -25,7 +25,6 @@ const ADTInstances: React.FC<IADTInstancesProps> = ({
     const { t } = useTranslation();
     const [instances, setInstances] = useState<Array<IADTInstance>>([]);
     const [selectedOption, setSelectedOption] = useState(selectedInstance);
-
     const environmentsState = useAdapter({
         adapterMethod: () => adapter.getADTInstances(),
         refetchDependencies: [adapter]

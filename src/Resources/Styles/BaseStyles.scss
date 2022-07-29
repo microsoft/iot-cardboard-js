@@ -18,11 +18,24 @@
     animation: fadeIn 0.367s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
 }
 
+@mixin cb-scene-builder-left-panel-block {
+    padding: 0 16px;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
     to {
         opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
     }
 }

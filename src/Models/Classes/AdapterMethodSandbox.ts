@@ -61,10 +61,10 @@ class AdapterMethodSandbox {
             return null;
         }
 
-        let token;
+        let token = '';
         try {
             token = await this.authService.getToken(tokenFor);
-            if (!token) {
+            if (!token && token !== '') {
                 throw new Error('Token undefined');
             }
         } catch (err) {

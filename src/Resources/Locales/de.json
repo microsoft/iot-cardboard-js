@@ -4,9 +4,11 @@
   "preview": "Vorschau",
   "loading": "Laden...",
   "label": "Etikett",
+  "labelPlaceholder": "Label eingeben",
   "min": "Min",
   "max": "Max",
   "noData": "Keine Daten",
+  "noName": "Kein Name",
   "error": "Fehler beim Abrufen von Daten",
   "unsupportedFileType": "Nicht unterstützter Dateityp",
   "selectProperties": "Eigenschaften auswählen",
@@ -14,6 +16,7 @@
   "theme": "Thema",
   "hierarchy": "Hierarchie",
   "displayName": "Anzeigename",
+  "displayNamePlaceholder": "Anzeigenamen eingeben",
   "realTimeStatus": "Echtzeit-Status",
   "emptyCompositeCard": "Leere Composite-Karte",
   "compositeCardWithErrors": "Composite-Karte mit Fehlergrenzen",
@@ -63,7 +66,11 @@
   "editTwin": "Zwilling bearbeiten",
   "confirmDeletion": "Löschen bestätigen",
   "confirmDeletionDesc": "Bist du sicher? Sie können diese Aktion nicht rückgängig machen.",
+  "discardChanges": "Nicht gespeicherte Änderungen verwerfen?",
+  "discard": "Abwerfen",
+  "discardChangesDesc": "Bist du sicher? Sie können diese Aktion nicht rückgängig machen.",
   "action": "Aktion",
+  "actions": "Aktionen",
   "name": "Name",
   "title": "Titel",
   "enterTitle": "Titel eingeben",
@@ -86,9 +93,10 @@
   "globe": "Kugel",
   "list": "Liste",
   "selectFile": "Datei auswählen",
-  "uploadFile": "Datei hochladen",
   "uploadingFile": "Datei wird hochgeladen...",
   "twinId": "Twin-ID",
+  "active": "Aktiv",
+  "invalidValue": "Ungültiger Wert",
   "errors": {
     "errorBoundary": "Fehlergrenze",
     "unkownError": "Unbekannter Fehler aufgetreten",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Überlappende Bereiche erkannt. Stellen Sie sicher, dass alle Wertebereiche unterschiedlich sind. Min-Werte sind inklusive, Max-Werte sind exklusiv.",
-    "addValueRangeButtonText": "Value-Bereich hinzufügen",
+    "overlapDetectedMessage": "Überlappende Bereiche erkannt. Stellen Sie sicher, dass alle Bereiche unterschiedlich sind. Min-Werte sind inklusive, Max-Werte sind exklusiv.",
+    "addValueRangeButtonText": "Bereich hinzufügen",
     "rangeValueInvalidMessage": "Die Werte müssen numerisch, \"-unendlich\" oder \"unendlich\" sein",
-    "rangeInvalidMessage": "Der Mindestwert muss kleiner als (<) sein. Max. Wert",
-    "colorButtonAriaLabel": "Farbe für Wertebereich auswählen",
-    "deleteValueRangeTitle": "Löschwertbereich",
+    "rangeInvalidMessage": "Dieser Mindestwert muss kleiner als (<) Maximalwert sein.",
+    "colorButtonAriaLabel": "Farbe für Bereich auswählen",
+    "deleteValueRangeTitle": "Bereich löschen",
     "negativeInfinityIconMessage": "Setzen Sie den Wert auf -Infinity",
     "positiveInfinityIconMessage": "Setzen Sie den Wert auf Unendlichkeit"
   },
@@ -150,21 +158,32 @@
     "simulating": "Nachahmend",
     "liveStatus": "Paketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} Zwillinge erfolgreich aktualisiert",
     "generateEnvironmentDescription": "Pushen von Modellen, Zwillingen und Beziehungen, um Ihre Umgebung zu füllen",
-    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung"
+    "simulateDescription": "Übertragen von Ereignissen in Ihre Umgebung",
+    "pusherType": "Art der Simulation",
+    "robotArms": "Roboterarme",
+    "dairyProduction": "Molkerei"
   },
   "scenes": {
     "noScenes": "Sie haben keine 3D-Szenen, fügen Sie eine neue hinzu, um loszulegen.",
     "addScene": "3D-Szene hinzufügen",
-    "sceneLatitude": "Breite",
-    "sceneLongitude": "Länge",
+    "latitude": "Breite",
+    "longitude": "Länge",
+    "sampleLatitude": "z.B.: 6.4511366",
+    "sampleLongitude": "z.B.: 3.3883963",
+    "longitudeErrorMessage": "Der Eingangswert muss innerhalb von -180 und 180 Grad liegen",
+    "latitudeErrorMessage": "Eingangswert muss innerhalb von -90 und 90 Grad liegen",
+    "showOnGlobe": "Auf Globus anzeigen",
     "blobUrl": "3D-Datei-Blob-URL",
-    "addDialogTitle": "Neue Szene erstellen",
-    "addDialogSubText": "Verknüpfen Sie Ihre Szene mit der URL Ihrer 3D-Datei im Blobspeicher",
-    "editDialogTitle": "Szene bearbeiten",
-    "editDialogSubText": "Bearbeiten Sie den Namen und die verknüpfte 3D-Datei Ihrer Szene",
+    "dialogTitleCreate": "Neue Szene erstellen",
+    "dialogSubTitle": "Richten Sie eine vorhandene 3D-Datei per URL aus oder laden Sie eine neue Datei direkt in Ihren Container hoch",
+    "dialogTitleEdit": "Bearbeiten der 3D-Szene",
     "3dFileSelectionMode": "3D-Dateiauswahlmodus",
-    "fromContainer": "Aus dem Container",
-    "3dFileAsset": "3D-Datei-Asset",
+    "sceneNamePlaceholder": "Eingeben eines Szenennamens",
+    "sceneDescriptionPlaceholder": "Eingeben einer Szenenbeschreibung",
+    "tabNameFromContainer": "Datei auswählen",
+    "tabNameUploadFile": "Datei hochladen",
+    "3dFileAsset": "3D-Datei verknüpfen",
+    "description": "Beschreibung",
     "overwriteIfExist": "Überschreiben, wenn die Datei bereits vorhanden ist",
     "fileExistsErrorMessage": "Eine Datei mit diesem Namen ist bereits im Speicher vorhanden, Sie können diese Datei entweder aus dem Container auswählen oder überschreiben."
   },
@@ -312,15 +331,19 @@
     "viewMode": "Ansichtsmodus",
     "enterBlobUrl": "Geben Sie Ihre Azure-Speichercontainer-Blob-URL ein",
     "home": "Heim",
-    "globe": "Kugel"
+    "globe": "Kugel",
+    "globeView": "Globus-Ansicht",
+    "listView": "Listenansicht",
+    "breadcrumbAriaLabel": "Breadcrumb mit Elementen, die als Schaltflächen gerendert werden",
+    "breadcrumbOverflowAriaLabel": "Weitere Links"
   },
   "layersDropdown": {
     "placeholder": "Keine Ebenen ausgewählt",
-    "unlayeredBehaviors": "Unschichtiges Verhalten",
-    "unlayered": "Ungeschichtet",
     "title": "Ebenen auswählen",
     "selectAll": "Alle auswählen",
-    "selectNone": "Alle abwählen"
+    "selectNone": "Alle abwählen",
+    "unlayeredItemListItemDisplayName": "Standardebene",
+    "unlayeredItemCollapsedDisplayName": "Vorgabe"
   },
   "sceneLayers": {
     "noBehaviors": "Keine Verhaltensweisen",
@@ -329,7 +352,7 @@
     "noneSelected": "Keine Ebenen ausgewählt",
     "newLayer": "Neue Ebene",
     "layerName": "Name der Ebene",
-    "behaviorsOnThisLayer": "Verhalten auf dieser Ebene",
+    "behaviorsListTitle": "Verhalten ({{count}})",
     "layerNamePlaceholder": "Geben Sie den Layer-Namen ein",
     "createNewLayer": "Neuen Layer erstellen",
     "editLayer": "Ebene bearbeiten",
@@ -337,7 +360,10 @@
     "layers": "Schichten",
     "noLayersFound": "Sie haben noch keine Ebenen!",
     "noLayersDescription": "Ebenen sind wie Tags für Verhaltensweisen. Beginnen Sie hier, indem Sie eine Ebene erstellen.",
-    "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene"
+    "noBehaviorsOnLayer": "Es gibt keine Verhaltensweisen auf dieser Ebene",
+    "deleteConfirmationTitle": "Diese Ebene löschen?",
+    "deleteConfirmationMessage": "Dadurch werden die Ebene und alle damit verbundenen Verhaltensweisen dauerhaft aus allen Digital Twins-Umgebungen entfernt.",
+    "infoCalloutContent": "Ebenen sind aufgabenbasierte Gruppierungen, mit denen Verbraucher Verhalten filtern können. Ebenen sind in allen Szenen vorhanden."
   },
   "3dSceneBuilder": {
     "elements": "Elemente",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "Suchverhalten",
     "modifyElement": "Element ändern",
     "manageTargetElements": "Verwalten von Zielelementen",
-    "selectBehaviorElements": "Auswählen von Elementen, auf die dieses Verhalten abzielen soll",
+    "elementsListInstructions": "Wählen Sie die Elemente aus, die in die Visualisierung dieses Verhaltens aufgenommen werden sollen",
     "multiSelectElements": "Elemente mit mehreren Auswahlmöglichkeiten",
-    "updateBehavior": "Aktualisierungsverhalten",
     "removeBehaviorFromScene": "Entfernen des Verhaltens aus der Szene",
     "removeBehaviorFromAllScenes": "Entfernen des Verhaltens aus allen Szenen",
     "manageSceneLayer": "Szenenebene verwalten",
-    "createBehavior": "Verhalten erzeugen",
-    "modifyBehavior": "Verhalten ändern",
     "addBehaviorButton": "Verhalten hinzufügen",
     "addBehavior": "Verhalten hinzufügen",
     "searchBehaviors": "Suchverhalten",
     "noAvailableBehaviors": "Keine Verhaltensweisen verfügbar",
     "removeBehavior": "Entfernen des Verhaltens aus diesem Element",
-    "addElementDetails": "Hinzufügen von Elementdetails",
     "noBehaviorsOnElement": "Diesem Element sind keine Verhaltensweisen zugewiesen",
     "noElementsText": "Noch keine Elemente erstellt",
-    "noResults": "Keine Ergebnisse",
+    "noResults": "Keine Ergebnisse gefunden",
     "behaviorsInSceneTitle": "In dieser Szene ({{count}})",
     "createWithElement": "Erstellen mit {{element}}",
     "elementActions": "Elementaktionen",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Sind Sie sicher, dass Sie dieses Verhalten aus allen Szenen entfernen möchten? Sie können diese Aktion nicht rückgängig machen.",
     "newElement": "Neues Element",
     "newBehavior": "Neues Verhalten",
+    "modifyBehavior": "Verhalten bearbeiten",
+    "createBehavior": "Verhalten erzeugen",
+    "updateBehavior": "Aktualisierungsverhalten",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Abbrechen",
     "Done": "Fertig",
     "edit": "{{elementDisplayName}} bearbeiten",
     "editBehavior": "Verhalten bearbeiten",
-    "searchTwinId": "Twin ID suchen...",
+    "searchTwinId": "Twin ID ($dtId) suchen...",
     "noTwinsFound": "Keine Zwillinge gefunden (bei der Suche wird zwischen Groß- und Kleinschreibung unterschieden)",
     "useNonExistingTwinId": "Keine exakte Übereinstimmung, Verwendung",
     "addBehaviorToScene": "Verhalten zur Szene hinzufügen",
     "behaviorMetaText": "{{numElementsInActiveScene}}-Elemente, {{numSceneRefs}}-Szenen",
     "elementMetaText": "{{numBehaviors}} Verhalten",
-    "linkedTwin": "Verbundener Zwilling",
-    "linkedTwinInputInfo": "Geben Sie eine Zwillings-ID ($dtId) ein, um eine Verknüpfung mit diesem Element herzustellen (Groß-/Kleinschreibung beachten)",
-    "noMeshAddedText": "Noch keine Meshes hinzugefügt, bitte wählen Sie Meshes im 3D-Viewer aus",
+    "primaryTwin": "Primärer Zwilling",
     "meshes": "Maschen",
     "behaviorElementsDropdownLabel": "Zielelement",
     "behaviorElementsDropdownPlaceholder": "Auswählen eines Elements",
+    "behaviorForm": {
+      "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Farbe des Abzeichens",
+      "colorPickerLabel": "Farbe",
       "expressionLabel": "Trigger-Ausdruck",
-      "expressionPlaceholder": "Enter Ausdruck (z.B. LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "Badge-Symbol",
-      "notice": "Dieses Verhalten wird nur aktiviert, wenn der folgende Triggerausdruck als true ausgewertet wird.",
-      "notificationLabel": "Benachrichtigungstext",
-      "notificationPlaceholder": "Text, der mit der Warnung für zusätzlichen Kontext angezeigt werden soll."
+      "expressionPlaceholder": "Geben Sie den Ausdruck ein (z. B. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Ikone",
+      "tabDescription": "Warnungen – Symbole, die von Text begleitet werden – helfen, die Aufmerksamkeit auf kritische Datenzustände zu lenken. Verwenden Sie unten Ausdrücke, um Warnungen in Ihrer Visualisierung auszulösen.",
+      "notificationLabel": "Szenariobeschreibung",
+      "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
+      "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
+      "notificationPlaceholder": "Geben Sie eine Beschreibung ein",
+      "notificationLabelDescriptionPart2": "Z.B. ${PrimaryTwin.DisplayName} erfordert Wartung"
     },
     "behaviorStatusForm": {
-      "notice": "Verwenden Sie eine einzelne Eigenschaft, um die Zielelemente dieses Verhaltens neu einzufärben.",
-      "stateItemLabel": "Status {{index}}"
+      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "stateItemLabel": "Status {{index}}",
+      "propertyExpressionTooltipContent": "Verwenden Sie einen benutzerdefinierten Ausdruck für komplexere Ausdrücke, die mehrere Eigenschaften nutzen."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget hinzufügen",
+      "noData": "Sie haben noch keine Widgets konfiguriert",
+      "tabDescription": "Definieren von Widgets, die im Kontext des Elements angezeigt werden"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Bei diesem Feld wird zwischen Groß- und Kleinschreibung unterschieden",
+      "twinNameDescription": "Wählen Sie einen digitalen Zwilling aus, mit dem dieses Element verknüpft werden soll. Sie verwenden die Eigenschaften dieses verknüpften Zwillings für zugeordnete Verhaltensweisen.",
+      "meshTabName": "Maschen",
+      "behaviorsTabName": "Verhaltensweisen",
+      "twinTabName": "Andere Zwillinge",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Wählen Sie die zugehörigen Netze aus dem 3D-Modell für dieses Element aus."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Zuweisen oder Ändern von Verhalten für dieses Element. Sie können Verhaltensweisen später jederzeit hinzufügen."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Diese Zwillinge enthalten Daten, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für Ihr Verhalten nutzen können.",
+      "noDataMessage": "Wenn Sie zusätzliche Zwillinge im Verhalten dieses Elements erstellen, werden diese hier angezeigt."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget-Bibliothek",
+      "dialogSubTitle": "Erkunden Sie Widgets und zeigen Sie datengesteuerte Einblicke für Ihr Element an."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Maßeinheit",
+      "unitOfMeasurePlaceholder": "Z.B. Meilen/Stunde",
+      "linkUrlDescription": "Geben Sie eine URL ein und fügen Sie Zwillingseigenschaften als Parameter hinzu, z. B. ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigentum",
@@ -422,95 +484,99 @@
       "propertyNotFound": "Eigenschaft, die bei den Zwillingen des Verhaltens nicht gefunden wurde",
       "propertyDropdownPlaceholder": "Twin-Eigenschaft auswählen"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschaftsausdruck",
+      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
+      "singleProperty": "Einzelobjekt",
+      "customExpression": "Benutzerdefiniert (erweitert)",
+      "dropdownPlaceholder": "Wählen Sie eine Immobilie aus",
+      "toggleLabel": "Ausdrucksmodus",
+      "none": "Nichts",
+      "clearButtonText": "Klar"
+    },
     "numericExpressionPlaceholder": "Geben Sie einen Ausdruck ein, der zu einer Zahl ausgewertet wird.",
     "behaviorId": "Verhaltens-ID",
-    "widgetLibrary": "Widget-Bibliothek",
-    "exploreWidgets": "Erkunden Sie unsere Widgets und fügen Sie Ihrer 3D-Szene eine zusätzliche Informationsebene hinzu.",
-    "addWidget": "Widget hinzufügen",
     "newWidget": "Neues Widget",
+    "addWidget": "Widget hinzufügen",
     "createWidget": "Widget erstellen",
     "updateWidget": "Widget \"Aktualisieren\"",
     "editWidget": "Widget \"Bearbeiten\"",
     "removeWidget": "Widget entfernen",
     "noWidgets": "Keine Widgets gefunden",
     "modifyWidget": "Widget \"Ändern\"",
-    "noWidgetsConfigured": "Keine Widgets konfiguriert",
-    "unitOfMeasure": "Maßeinheit",
     "expression": "Ausdruck",
     "warningBreakPointToggleLabel": "Farbhaltepunkt aktivieren",
     "warningBreakPointLabel": "Unterbrechungspunkt der Warnfarbe",
-    "linkWidgetUrlDescription": "Die Link-Widget-URL unterstützt die Formatierung von JavaScript-Vorlagenzeichenfolgen wie: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Warnungsverhalten",
-      "statusBehavior": "Statusverhalten"
-    },
+    "linkWidgetUrlDescription": "Link-Widget-URL unterstützt JavaScript-Vorlagenzeichenfolgenformatierung wie: ${PrimaryTwin.property}",
     "notImplemented": "Nicht implementiert",
-    "noLinkedTwinProperties": "Keine verknüpften Zwillingseigenschaften zum Anzeigen",
+    "noPrimaryTwinProperties": "Keine primären Zwillingseigenschaften, die angezeigt werden sollen",
     "twinAlias": {
       "title": "Twin-Alias",
-      "titlePlural": "Zwillingsaliase",
-      "aliasedTwin": "Aliased Zwilling",
-      "aliasedTwins": "Gestrichelte Zwillinge",
-      "add": "Hinzufügen eines Zwillingsalias",
-      "noTwinAliasesAdded": "Noch keine Zwillingsaliase hinzugefügt",
-      "new": "Neuer Zwillingsalias",
-      "edit": "Zwillingsalias bearbeiten",
-      "create": "Erstellen eines Zwillingsalias",
-      "update": "Zwillingsalias aktualisieren",
-      "modify": "Zwillingsalias ändern",
-      "search": "Suche nach Zwillingsaliasen",
+      "calloutDescription": "Die Vereinigung von Zwillingseigenschaften ausgewählter Elemente",
+      "add": "Zweibettzimmer hinzufügen",
+      "new": "Neuer Zwilling",
+      "edit": "Zwilling bearbeiten",
+      "create": "Zwilling erstellen",
+      "update": "Zwilling aktualisieren",
+      "modify": "Zwilling modifizieren",
+      "search": "Zwillinge suchen",
       "searchProperties": "Immobilien suchen",
       "noTwinAliasesToAdd": "Keine Zwillingsaliasnamen zum Hinzufügen",
       "removeFromBehavior": "Entfernen des Zwillingsalias aus dem Verhalten",
       "removeFromElement": "Entfernen des Zwillingsalias aus dem Element",
       "commonProperties": "Gemeingüter",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Element-Twin-Mappings",
+        "aliasNameLabel": "Zwillingsname",
+        "aliasNameTooltipContent": "Sie können den Namen dieses Zwillings nach der Schöpfung nicht mehr ändern.",
+        "mappingSectionHeader": "Twin-Mappings für Elemente",
+        "mappingSectionSubHeader": "Wählen Sie für jedes Element den digitalen Zwilling aus, auf den dieser Zwilling verweist",
         "elementTwinMappingsNotExist": "Es ist keine Zuordnung verfügbar, fügen Sie dem Verhalten zuerst Elemente hinzu."
       },
+      "tabDescriptionPart1": "Jedes Element nutzt Daten aus seinem primären Zwilling. Fügen Sie weitere Zwillinge hinzu, von denen Ihre Elemente Daten nutzen können.",
+      "tabDescriptionPart2": "Zeigen Sie die gemeinsamen Eigenschaften zwischen den Zielelementen an, und verweisen Sie auf diese Eigenschaften, indem Sie den primären Zwilling oder die anderen Zwillinge in Ihren Ausdrücken verwenden. ",
+      "linkedTwinListHeader": "Verknüpfte Zwillinge ({{count}})",
       "descriptions": {
-        "twins": "Zwillinge geben Ihnen Zugriff auf Eigenschaften, die in Ausdrücken verwendet werden können.",
-        "linkedTwin": "Der LinkedTwin enthält alle gemeinsamen Eigenschaften zwischen den Zielelementen verknüpften Zwillingen.",
-        "aliasChangeNotAllowed": "Eine Änderung des Alias ist nach der Erstellung nicht mehr zulässig.",
-        "commonProperties": "Die Vereinigung verknüpfter Zwillingseigenschaften ausgewählter Elemente"
+        "commonProperties": "Die Vereinigung primärer Zwillingseigenschaften ausgewählter Elemente"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen."
+        "twinAliasAlreadyExists": "Twin Alias mit dem gleichen Namen existiert bereits, erwägen Sie stattdessen, es hinzuzufügen.",
+        "alphanumericOnly": "Zwillingsalias darf nur alphanumerische Zeichen enthalten",
+        "noNumberPrefix": "Zwillingsname darf nicht mit einer Zahl beginnen"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Eigenschaftsausdruck",
-      "expressionPlaceholder": "Eigenschaftsausdruck eingeben",
-      "selectProperty": "Eigenschaft auswählen",
-      "toggleLabel": "Eigenschaftsausdruck"
-    }
+    "actions": "Aktionen"
   },
   "widgets": {
     "trend": {
       "title": "Trend-Widget",
-      "description": "Zeigen Sie historische Daten im Kontext Ihrer 3D-Szene an"
+      "libraryName": "Trend",
+      "description": "Diagramme mit historischen Daten anzeigen"
     },
     "gauge": {
       "title": "Messgerät-Widget",
-      "description": "Darstellen numerischer Datenpunkte mit visuellem Kontext"
+      "libraryName": "Messgerät",
+      "description": "Darstellen numerischer Eigenschaften mit benutzerdefinierten Bereichen"
     },
     "link": {
       "title": "Link-Widget",
-      "description": "Verweisen auf externe Inhalte durch Verknüpfen einer URL",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "Verbinden",
+      "description": "Navigieren Sie zu URLs, die für das Element spezifisch sind",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Link öffnen"
+    },
+    "value": {
+      "title": "Wert-Widget",
+      "libraryName": "Wert",
+      "description": "Anzeigen einer beliebigen primitiven Eigenschaft",
+      "displayNamePlaceholder": "Anzeigenamen eingeben",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
     },
     "panel": {
       "title": "Panel-Widget",
+      "libraryName": "Gremium",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
-    "value": {
-      "title": "Wert-Widget",
-      "description": "Einfaches Widget zum Anzeigen von Werten von Zwillingseigenschaften",
-      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
-    }
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",
@@ -592,8 +658,6 @@
     "Start time input": "Eingabe der Startzeit",
     "End time input": "Endzeiteingabe",
     "snap end time to latest": "Endzeit auf Neueste einstellen",
-    "zoom in": "vergrößern",
-    "zoom out": "verkleinern",
     "select quick time of": "Wählen Sie Schnellzeit von",
     "a time selection control dialog": "ein Dialogfeld zur Steuerung der Zeitauswahl.",
     "No color": "Keine Farbe",
@@ -683,7 +747,8 @@
       "undoAll": "Alle Bearbeitungen zurücksetzen",
       "expandTree": "Baum erweitern",
       "collapseTree": "Baum reduzieren",
-      "save": "Änderungen speichern"
+      "save": "Änderungen speichern",
+      "refresh": "Aktualisieren von Daten"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumsauswahl",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Umgebungs-URL",
-    "containerUrl": "Container-URL",
+    "environmentUrl": "Azure Digital Twins-Instanz-URL",
+    "containerUrl": "URL des Azure-Speichercontainers",
     "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
-    "editEnvironment": "Umgebung bearbeiten",
-    "descriptionForEnvironment": "Verbinden Sie Ihre Umgebung, um Ihre Assets aufzulisten.",
-    "descriptionForEnvAndCont": "Verbinden Sie Ihre Umgebung und die Speichercontainer-URL, um Ihre Szenen aufzulisten.",
+    "editEnvironment": "Konfigurieren der 3D-Szenenumgebung",
+    "descriptionForEnvironment": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz, um mit der Erstellung von 3D-Szenen zu beginnen.",
+    "descriptionForEnvAndCont": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz mit Ihrem Speichercontainer, um mit der Erstellung von 3D-Szenen zu beginnen.",
     "descriptionForLocalStorage": "Konfigurationsdaten werden im lokalen Speicher gespeichert.",
     "selectContainerUrl": "Speichercontainer-URL auswählen",
     "noEnvironment": "Keine Umgebung hinzugefügt",
@@ -716,7 +781,7 @@
     "state": "Zustand",
     "allProperties": "Alle Immobilien",
     "behaviorPreview": "Vorschau",
-    "LinkedTwinProperties": "Verknüpfte Twin-Eigenschaften"
+    "PrimaryTwin": "Primäre Zwillingszwillinge"
   },
   "svgTests": {
     "fluentUI": "SVG-Laden über Fluent Image-Komponente (empfohlenes Muster)",
@@ -724,7 +789,7 @@
     "reactComponent": "SVG-Darstellung über React-Komponentensyntax"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Datei auswählen oder Blob-URL eingeben",
+    "selectFileOrEnter": "Datei-URL eingeben oder aus Liste auswählen",
     "3dFileFromContainer": "3D-Datei im Container",
     "loading3DFiles": "Dateien werden geladen...",
     "invalidBlobUrlPath": "Dies ist keine unterstützte Blob-URL (z. B. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Thema",
-    "title": "Viewer-Design",
-    "style": "Stil",
-    "objectColors": "Objektfarbe",
-    "background": "Hintergrund",
+    "title": "Szene-Design",
+    "style": "3D-Modellstil",
+    "objectColors": "Farbe des 3D-Modells",
+    "background": "Hintergrund der Szene",
     "default": "Vorgabe",
     "transparent": "Durchsichtig",
     "wireframe": "Drahtmodell"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Freigeben",
+    "copyButtonText": "Link kopieren",
+    "copyConfirmationMessage": "Link kopiert!",
+    "flyoutHeader": "Szene teilen",
+    "includeElementsOption": "Mit ausgewähltem Element verknüpfen",
+    "includeLayersOption": "Mit ausgewählten Ebenen verknüpfen"
   },
   "elementsPanel": {
     "title": "Elemente",
@@ -791,11 +864,124 @@
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
-    "select": "Auswählen",
-    "pan": "Pfanne",
     "orbit": "Umlaufbahn",
-    "zoom": "Zoom"
+    "pan": "Pfanne",
+    "reset": "Zurücksetzen",
+    "select": "Auswählen",
+    "zoom": "Zoom",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern"
   },
+  "tutorialModal": {
+    "modalTitle": "Willkommen bei 3D Scenes Studio!",
+    "publicPreview": "Öffentliche Vorschau",
+    "closeAriaLabel": "Modal schließen",
+    "rootDocsLinkText": "Dokumentation",
+    "githubLinkText": "GitHub",
+    "quickstartLinkText": "Schnellstart",
+    "primaryButtonText": "Entdecken Sie die Demo",
+    "dismissText": "Entlassen",
+    "nextSlide": "Nächste Folie",
+    "previousSlide": "Vorherige Folie",
+    "statusIndicatorSelectedAria": "Folie {{slide}} ausgewählt",
+    "statusIndicatorUnselectedAria": "Wählen Sie Folie {{slide}}",
+    "tabs": {
+      "introduction": "Einleitung",
+      "concepts": "Konzepte",
+      "elements": "Elemente",
+      "behaviors": "Verhaltensweisen",
+      "twins": "Zwillinge",
+      "widgets": "Widgets",
+      "sceneLayers": "Szenen-Layer"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Unser neuester Low-Code-Builder",
+        "text": "In diesem Low-Code-Generator können Sie Betriebsdaten mit dem visuellen Kontext von 3D-Assets überwachen, diagnostizieren und untersuchen, die auf Azure Digital Twins-Daten basieren, ohne dass 3D-Fachwissen erforderlich ist."
+      },
+      "builder": {
+        "title": "Passen Sie Ihre Szene in unserem Builder an",
+        "text": "Der Builder in 3D Scenes Studio ist die primäre Schnittstelle zum Konfigurieren Ihrer Szenen. Es ist eine Low-Code, visuelle Erfahrung."
+      },
+      "viewer": {
+        "title": "Erkunden Sie die Umgebung oder betten Sie sie an anderer Stelle ein",
+        "text": "Sehen Sie sich die 3D-Szene direkt hier im Studio an. Die Viewer-Komponente kann in benutzerdefinierte Anwendungen eingebettet werden und kann in Verbindung mit 3rd-Party-Komponenten verwendet werden."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Brauchen Sie einen tieferen Einblick in die Konzepte?",
+      "text": "Durchsuchen Sie den Hilfeinhalt oder lesen Sie unsere Dokumentation für Schritt-für-Schritt-Anleitungen!"
+    },
+    "docLinkBlurb": "Einen detaillierteren Schritt für Schritt finden Sie in den <DocLink>docs hier.</DocLink>",
+    "tip": "Trinkgeld",
+    "elements": {
+      "title": "Was ist ein Element?",
+      "content": "Ein Element ist ein selbstdefinierter Satz von 3D-Netzen, der mit Daten zu einem oder mehreren zugrunde liegenden digitalen Zwillingen verknüpft ist.\n\nEin primärer Zwilling ist das Hauptgegenstück des digitalen Zwillings für ein Element. Sie verbinden das Element mit einem Zwilling in Ihrer Azure Digital Twins-Instanz, sodass das Element Ihren Zwilling und seine Daten in der 3D-Visualisierung darstellen kann."
+    },
+    "behaviors": {
+      "title": "Was ist ein Verhalten?",
+      "mainContent": "Ein Verhalten ist ein Szenario für Ihre Szene, das bestimmte Daten auf dem digitalen Zwilling des zugehörigen Elements nutzt, um Visualisierungen des Betrachters zu steuern.\n\nDas Erstellen eines Verhaltens umfasst das Auswählen von Zwillingen, das Konfigurieren von Status und Warnungen, das Hinzufügen eines Widgets und das Auswählen der anzuzeigenden Ebene.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Zustände sind datengesteuerte Überlagerungen Ihrer Elemente, um die Integrität oder den Status des Elements anzuzeigen. Legen Sie Wertebereiche fest, um Zustandsgrenzen zu erstellen, und wählen Sie Farben aus, um jeden Status in der Visualisierung darzustellen.\n\n",
+      "alertsTitle": "Alarmsignale",
+      "alertsDescription": "Warnungen sind bedingte Benachrichtigungen, mit denen Sie schnell erkennen können, wann ein Element Ihre Aufmerksamkeit erfordert. Passen Sie Ihr Benachrichtigungs-Badge mit einem Symbol, einer Farbe und einem Text an.\n\n"
+    },
+    "twins": {
+      "title": "Wie wähle ich Zwillinge aus?",
+      "mainContent": "Auf der Registerkarte Zwillinge können Sie die Gruppe von Zwillingen ändern, deren Daten für dieses Verhalten verfügbar sind. Dazu gehören die primären Zwillinge der Zielelemente und zusätzliche Zwillinge.\n\nEin zusätzlicher Zwilling ist eine sekundäre digitale Zwillingsdatenquelle für ein Element. Sie können Eigenschaften aus diesem Zwilling in Ihren Verhaltensausdrücken für dieses Element verwenden. Sie sollten nur dann zusätzliche Zwillinge hinzufügen, wenn es Zwillinge mit Daten gibt, die über Ihren primären Zwilling hinausgehen und die Sie in Ihrem Status, Ihren Warnungen und Widgets für dieses Verhalten nutzen möchten.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kann Ihnen helfen, Zwillinge zu sehen, die möglicherweise mit dem primären Zwilling für dieses Element verwandt sind. Sie können Ihr Diagramm mit SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>' abfragen und dann die Doppelklick-Erweiterungsfunktion verwenden, um verwandte Zwillinge zu erkunden."
+    },
+    "widgets": {
+      "title": "Was ist ein Widget?",
+      "mainContent": "Widgets sind datengesteuerte visuelle Elemente, die zusätzlichen Kontext und zusätzliche Daten bereitstellen, um Ihnen zu helfen, das Szenario zu verstehen, das das Verhalten darstellt. Durch das Konfigurieren von Widgets können Sie sicherstellen, dass die richtigen Daten erkennbar sind, wenn eine Warnung oder ein Status aktiv ist.\n\n",
+      "typesOfWidgets": "Arten von Widgets\n\n",
+      "gaugeDescription": "<Unterstreichung>Spur:</Unterstreichung> Zur visuellen Darstellung numerischer Datenpunkte\n\n",
+      "linkDescription": "<Unterstreichung>Link:</Unterstreichung> Zum Einbinden von extern referenzierten Inhalten über eine verlinkte URL\n\n",
+      "valueDescription": "<Unterstreichung>Wert:</Unterstreichung> Zum direkten Anzeigen von Twin-Eigenschaftswerten\n\n"
+    },
+    "sceneLayers": {
+      "title": "Was ist eine Szenenebene?",
+      "mainContent": "Sie können Ebenen in Ihrer Szene erstellen, um Ihr Verhalten zu organisieren. Ebenen verhalten sich wie Tags für die Verhaltensweisen, sodass Sie definieren können, welche Verhaltensweisen zusammen angezeigt werden müssen, und so benutzerdefinierte Ansichten Ihrer Szene für verschiedene Rollen oder Aufgaben erstellen.\n\nWenn es keine Ebenen in einer Szene gibt, werden alle Verhaltensweisen im Szenenbetrachter angezeigt. Alle Verhaltensweisen, die nicht mit einer Ebene gekennzeichnet sind, werden in der Standardebene angezeigt, bis sie mit einer Ebene gekennzeichnet sind.\n\nEine Möglichkeit, Ebenen zu erstellen, besteht darin, die Schaltfläche \"Szenenebenen\" in der Ansicht \"Erstellen\" für eine Szene zu verwenden. Alternativ können Sie Ebenen erstellen, während Sie ein Verhalten erstellen oder ändern."
+    }
+  },
+  "diagnose": "Diagnostizieren",
+  "resolve": "Beschließen",
+  "verify": "Überprüfen",
+  "success": "Erfolg!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Konfigurationsdatei zurücksetzen",
+    "unauthorizedAccessErrorTitle": "Zugriff eingeschränkt",
+    "unauthorizedAccessErrorMessage": "Sie haben keinen Zugriff auf diesen Lagerbehälter. Diagnostizieren Sie Ihren Zugriff, oder versuchen Sie es mit einem anderen Container.",
+    "blobNotFoundErrorTitle": "Blob nicht gefunden",
+    "blobNotFoundErrorMessage": "Blob existiert nicht.",
+    "unknownErrorTitle": "Unbekannter Fehler",
+    "corsErrorTitle": "CORS-Fehler",
+    "corsErrorMessage": "Der Blob-Dienst Ihres Speicherkontos sollte über einige bestimmte Eigenschaften verfügen, damit CORS 3D-Assets in Ihren Szenen verwenden kann.",
+    "internalServerErrorMessage": "Interner Serverfehler, bitte überprüfen Sie die Serverprotokolle.",
+    "diagnoseAccessPermissions": "Diagnostizieren von Zugriffsberechtigungen",
+    "checkingPermissions": "Berechtigungen werden überprüft...",
+    "resolveIssues": "Beheben von Problemen",
+    "resolvingIssues": "Probleme lösen...",
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
+    "noMissingRoleDesc": "Keine fehlenden Berechtigungen erkannt, versuchen wir zu überprüfen, ob zugewiesene Berechtigungen wirksam sind.",
+    "finishedWithFailureDesc": "Der Versuch ist fehlgeschlagen, wenden Sie sich an den Ressourcenbesitzer.",
+    "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
+    "assignRoleSuccessDesc": "Fehlende Berechtigungen wurden vergeben. Bitte warten Sie, während wir versuchen zu überprüfen, ob die Änderungen wirksam sind.",
+    "refreshPage": "Seite aktualisieren",
+    "refreshing": "Auffrischend",
+    "noContainerUrlErrorTitle": "Container nicht festgelegt",
+    "noContainerUrlErrorMessage": "Ihre Container-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "noADTInstanceUrlTitle": "ADT-Instanz nicht festgelegt",
+    "noADTInstanceUrlMessage": "Ihre ADT-Instanz-URL ist nicht festgelegt. Klicken Sie unten, um es einzustellen.",
+    "configureEnvironment": "Umgebung konfigurieren",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Fehler beim Laden des Modells",
+      "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
+      "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei.",
+      "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
+    }
+  },
+  "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
     "newModel": "Neues Modell",
     "name": "Name",

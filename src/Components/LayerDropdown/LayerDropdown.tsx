@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { LayerDropdownProps } from './LayerDropdown.types';
 import {
     defaultLayerButtonStyles,
-    dropdownStyles,
+    getDropdownStyles,
     getEyeIconStyles,
     getStyles,
     iconStyles
@@ -15,13 +15,14 @@ import {
     IDropdownOption,
     IDropdownProps,
     IRenderFunction,
-    ISelectableOption
+    ISelectableOption,
+    useTheme
 } from '@fluentui/react';
 import i18n from '../../i18n';
 import { useTranslation } from 'react-i18next';
 import { ILayer } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-export const unlayeredBehaviorKey = 'scene-layer-dropdown-unlayered-behaviors';
+export const DEFAULT_LAYER_ID = 'scene-layer-dropdown-unlayered-behaviors';
 export const showHideAllKey = 'show-hide-all';
 
 const LayerDropdown: React.FC<LayerDropdownProps> = ({
@@ -31,6 +32,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
     showUnlayeredOption = true
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
 
     const options = useMemo(
         () =>
@@ -51,7 +53,9 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         [setSelectedLayerIds, selectedLayerIds]
     );
 
+    const hasNoLayerOptions = layers.length === 0; // select all, divider, default, divider
     const styles = getStyles();
+    const dropdownStyles = getDropdownStyles(theme, hasNoLayerOptions);
 
     const onRenderTitle = useCallback(
         (options: IDropdownOption[], defaultRender): JSX.Element => {
@@ -62,8 +66,12 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                         {defaultRender(
                             options.map((o) => ({
                                 ...o,
-                                ...(o.key === unlayeredBehaviorKey
-                                    ? { text: t('layersDropdown.unlayered') }
+                                ...(o.key === DEFAULT_LAYER_ID
+                                    ? {
+                                          text: t(
+                                              'layersDropdown.unlayeredItemCollapsedDisplayName'
+                                          )
+                                      }
                                     : {})
                             }))
                         )}
@@ -71,7 +79,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
                 </>
             );
         },
-        [styles]
+        [styles.titleText, t]
     );
 
     const onRenderPlaceholder = useCallback(
@@ -90,7 +98,7 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         (isSelectAllMode: boolean) => {
             if (isSelectAllMode) {
                 setSelectedLayerIds([
-                    unlayeredBehaviorKey,
+                    DEFAULT_LAYER_ID,
                     ...layers.map((l) => l.id)
                 ]);
             } else {
@@ -127,11 +135,14 @@ const LayerDropdown: React.FC<LayerDropdownProps> = ({
         [onShowHide]
     );
 
-    if (layers.length === 0) return null;
-
     return (
         <Dropdown
-            placeholder={t('layersDropdown.placeholder')}
+            disabled={hasNoLayerOptions}
+            placeholder={
+                hasNoLayerOptions
+                    ? t('layersDropdown.unlayeredItemListItemDisplayName')
+                    : t('layersDropdown.placeholder')
+            }
             title={t('layersDropdown.title')}
             selectedKeys={selectedLayerIds}
             onChange={onChange}
@@ -155,16 +166,18 @@ const LayerIcon = () => (
 );
 
 const getLayerOptionsData = (
-    layers: ILayer[],
+    layers: ILayer[] = [],
     showUnlayeredOption: boolean,
-    selectedLayerIds
+    selectedLayerIds: string[] = []
 ) => {
     const options: IDropdownOption[] = [
         ...(showUnlayeredOption
             ? [
                   {
-                      key: unlayeredBehaviorKey,
-                      text: i18n.t('layersDropdown.unlayeredBehaviors')
+                      key: DEFAULT_LAYER_ID,
+                      text: i18n.t(
+                          'layersDropdown.unlayeredItemListItemDisplayName'
+                      )
                   }
               ]
             : []),

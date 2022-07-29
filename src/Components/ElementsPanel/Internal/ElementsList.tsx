@@ -3,23 +3,21 @@ import React, { memo, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
-    getSceneElementStatusColor,
-    parseExpression,
-    performSubstitutions
+    wrapTextInTemplateString,
+    parseLinkedTwinExpression
 } from '../../../Models/Services/Utils';
 import {
-    IAlertVisual,
     IBehavior,
-    IStatusColoringVisual,
+    IExpressionRangeVisual,
     ITwinToObjectMapping,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
+import { StatusPills } from '../../StatusPills/StatusPills';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,
-    getElementsPanelStatusStyles,
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
 import {
@@ -31,7 +29,7 @@ import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
 
 const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
-    panelItems,
+    panelItems = [],
     filterTerm,
     onItemClick,
     onItemHover,
@@ -88,11 +86,11 @@ function getListItems(
         const element = panelItem.element;
         let statuses: Array<{
             behavior: IBehavior;
-            statusVisual: IStatusColoringVisual;
+            statusVisual: IExpressionRangeVisual;
         }> = [];
         let alerts: Array<{
             behavior: IBehavior;
-            alertVisual: IAlertVisual;
+            alertVisual: IExpressionRangeVisual;
             alertVisualDisplayTitle: string;
         }> = [];
 
@@ -111,18 +109,21 @@ function getListItems(
                     .filter(
                         (visual) =>
                             ViewerConfigUtility.isAlertVisual(visual) &&
-                            parseExpression(
-                                visual.triggerExpression,
+                            parseLinkedTwinExpression(
+                                visual.valueExpression,
                                 panelItem.twins
                             )
                     )
                     .map(
-                        (alertVisual: IAlertVisual) =>
+                        (alertVisual: IExpressionRangeVisual) =>
                             ({
                                 behavior: b,
                                 alertVisual: alertVisual,
-                                alertVisualDisplayTitle: performSubstitutions(
-                                    alertVisual.labelExpression,
+                                alertVisualDisplayTitle: parseLinkedTwinExpression(
+                                    wrapTextInTemplateString(
+                                        alertVisual.valueRanges[0].visual
+                                            .labelExpression
+                                    ),
                                     panelItem.twins
                                 )
                             } as any)
@@ -168,13 +169,13 @@ function getListItems(
 
         alerts.map((alert) => {
             const alertStyles = getElementsPanelAlertStyles(
-                alert.alertVisual.color
+                alert.alertVisual.valueRanges[0].visual.color
             );
             const onEnter =
                 onItemHover && (() => onItemHover(element, panelItem));
             const onLeave =
                 onItemBlur && (() => onItemBlur(element, panelItem));
-            const alertItem: ICardboardGroupedListItem<IAlertVisual> = {
+            const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
                 ariaLabel: alert.alertVisualDisplayTitle,
                 buttonProps: {
                     customStyles: buttonStyles.alertButton,
@@ -186,7 +187,12 @@ function getListItems(
                 iconStart: {
                     name: (
                         <span className={alertStyles.alertCircle}>
-                            <Icon iconName={alert.alertVisual.iconName} />
+                            <Icon
+                                iconName={
+                                    alert.alertVisual.valueRanges[0].visual
+                                        .iconName
+                                }
+                            />
                         </span>
                     )
                 },
@@ -206,37 +212,19 @@ function getListItems(
 interface IElementStatusProps {
     statuses: {
         behavior: IBehavior;
-        statusVisual: IStatusColoringVisual;
+        statusVisual: IExpressionRangeVisual;
     }[];
     panelItem: IViewerElementsPanelItem;
 }
 const ElementStatus: React.FC<IElementStatusProps> = (props) => {
     const { statuses, panelItem } = props;
+    const statusVisuals = statuses.map((s) => s.statusVisual);
     return (
-        <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 40,
-                overflow: 'hidden'
-            }}
-        >
-            {statuses.map((status, index) => (
-                <div
-                    key={index}
-                    className={
-                        getElementsPanelStatusStyles(
-                            getSceneElementStatusColor(
-                                status.statusVisual.statusValueExpression,
-                                status.statusVisual.valueRanges,
-                                panelItem.twins
-                            )
-                        ).statusLine
-                    }
-                ></div>
-            ))}
-        </div>
+        <StatusPills
+            statusVisuals={statusVisuals}
+            twins={panelItem.twins}
+            width={'wide'}
+        />
     );
 };
 

@@ -13,7 +13,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "5ba433d52b8445979fabc818fd40ae3d",
                         "displayName": "leftWheels",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": [
                             "wheel1Mesh_primitive0",
                             "wheel2Mesh_primitive0"
@@ -24,7 +24,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
-                        "linkedTwinID": "SaltMachine_C1",
+                        "primaryTwinID": "SaltMachine_C1",
                         "objectIDs": ["tankMesh"],
                         "twinAliases": {
                             "temperatureTag": "PasteurizationMachine_A01"
@@ -35,7 +35,7 @@
                         "type": "TwinToObjectMapping",
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
-                        "linkedTwinID": "BoxA",
+                        "primaryTwinID": "BoxA",
                         "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
                     }
                 ],
@@ -75,28 +75,31 @@
                                 "type": "Gauge",
                                 "id": "3dbbbde93325c334c93e47d077b93995",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
-                                "valueExpression": "LinkedTwin.OutFlow",
+                                "valueExpression": "PrimaryTwin.OutFlow",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Left",
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
-                                            "min": "-Infinity",
-                                            "max": 200,
-                                            "color": "#C32F27"
+                                            "values": ["-Infinity", 200],
+                                            "visual": {
+                                                "color": "#C32F27"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "min": 500,
-                                            "max": 800,
-                                            "color": "#FEE440"
+                                            "values": [500, 800],
+                                            "visual": {
+                                                "color": "#FEE440"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                            "min": 800,
-                                            "max": 1000,
-                                            "color": "#26C485"
+                                            "values": [800, 1000],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            }
                                         }
                                     ]
                                 },
@@ -106,22 +109,24 @@
                                 "type": "Gauge",
                                 "id": "093aef7283a517432d32a267593ca876",
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
-                                "valueExpression": "LinkedTwin.InFlow",
+                                "valueExpression": "PrimaryTwin.InFlow",
                                 "widgetConfiguration": {
                                     "units": "PSI",
                                     "label": "Right",
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf149",
-                                            "min": 700,
-                                            "max": 900,
-                                            "color": "#26C485"
+                                            "values": [700, 900],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fc3sak",
-                                            "min": 2000,
-                                            "max": 3000,
-                                            "color": "#26C485"
+                                            "values": [2000, 3000],
+                                            "visual": {
+                                                "color": "#26C485"
+                                            }
                                         }
                                     ]
                                 }
@@ -132,7 +137,7 @@
                                 "groupID": "29dd688a00554d46be0eead725c668b4",
                                 "widgetConfiguration": {
                                     "label": "Power BI",
-                                    "linkExpression": "https://mypowerbi.biz/${LinkedTwin.$dtId}"
+                                    "linkExpression": "https://mypowerbi.biz/${PrimaryTwin.$dtId}"
                                 }
                             },
                             {
@@ -141,7 +146,7 @@
                                 "id": "2d60362667067ff5763bb6f7765a9cc1",
                                 "widgetConfiguration": {
                                     "displayName": "InFlow",
-                                    "valueExpression": "LinkedTwin.InFlow",
+                                    "valueExpression": "PrimaryTwin.InFlow",
                                     "type": "double"
                                 }
                             }
@@ -168,20 +173,23 @@
                         }
                     },
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "LinkedTwin.InFlow",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "PrimaryTwin.InFlow",
                         "valueRanges": [
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                "color": "#FF0000",
-                                "min": 21,
-                                "max": "Infinity"
+                                "values": [21, "Infinity"],
+                                "visual": {
+                                    "color": "#FF0000"
+                                }
                             },
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf163",
-                                "color": "#0000FF",
-                                "min": "-Infinity",
-                                "max": 20
+                                "values": ["-Infinity", 20],
+                                "visual": {
+                                    "color": "#0000FF"
+                                }
                             }
                         ],
                         "objectIDs": {
@@ -203,20 +211,23 @@
                 ],
                 "visuals": [
                     {
-                        "type": "StatusColoring",
-                        "statusValueExpression": "temperatureTag.OutFlow",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "NumericRange",
+                        "valueExpression": "temperatureTag.OutFlow",
                         "valueRanges": [
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
-                                "color": "#0000FF",
-                                "min": 100,
-                                "max": "Infinity"
+                                "values": [100, "Infinity"],
+                                "visual": {
+                                    "color": "#0000FF"
+                                }
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
-                                "color": "#00FF00",
-                                "min": "-Infinity",
-                                "max": 100
+                                "values": ["-Infinity", 100],
+                                "visual": {
+                                    "color": "#00FF00"
+                                }
                             }
                         ],
                         "objectIDs": {
@@ -225,11 +236,20 @@
                         }
                     },
                     {
-                        "type": "Alert",
-                        "triggerExpression": "temperatureTag.Temperature > 25",
-                        "labelExpression": "${LinkedTwin.$dtId} is too hot!",
-                        "iconName": "heart",
-                        "color": "#00FF00",
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "CategoricalValues",
+                        "valueExpression": "temperatureTag.Temperature > 25",
+                        "valueRanges": [
+                            {
+                                "id": "d0d2edff7c80438fa529206848866i91",
+                                "values": [true],
+                                "visual": {
+                                    "labelExpression": "${PrimaryTwin.$dtId} is too hot!",
+                                    "iconName": "heart",
+                                    "color": "#00FF00"
+                                }
+                            }
+                        ],
                         "objectIDs": {
                             "expression": "objectIDs"
                         }

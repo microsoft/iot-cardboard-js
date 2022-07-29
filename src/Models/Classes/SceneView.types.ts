@@ -15,7 +15,7 @@ import {
     IADTBackgroundColor,
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
-import { CameraInteraction } from '../Constants';
+import { CameraInteraction, ViewerObjectStyle } from '../Constants';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -42,18 +42,21 @@ export interface SelectedMesh {
     material: Material;
 }
 
-export class Marker {
+export interface Marker {
     name: string;
+    id: string;
+    UIElement: any;
+    GroupedUIElement?: any;
     position?: Vector3;
+    attachedMeshIds?: string[];
+    showIfOccluded?: boolean;
+    allowGrouping?: boolean;
     latitude?: number;
     longitude?: number;
-    color: string;
-    isNav?: boolean;
     scene?: IScene;
 }
 
 export type SceneViewCallbackHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: IPointerEvent
@@ -87,7 +90,6 @@ export interface SceneViewBadgeGroup {
 }
 
 export type SceneViewEventHandler = (
-    marker: Marker,
     mesh: AbstractMesh,
     scene: BABYLON.Scene,
     e: PointerEvent
@@ -100,28 +102,24 @@ export interface ICameraPosition {
 }
 
 export interface ISceneViewProps {
-    modelUrl?: string | 'Globe';
-    markers?: Marker[];
-    onSceneLoaded?: (scene: BABYLON.Scene) => void;
-    onMeshClick?: SceneViewEventHandler;
-    onMeshHover?: SceneViewEventHandler;
-    onBadgeGroupHover?: (
-        alert: SceneViewBadgeGroup,
-        left: number,
-        top: number
-    ) => void;
-    onCameraMove?: (position: ICameraPosition) => void;
-    isWireframe?: boolean;
-    showMeshesOnHover?: boolean;
-    getToken?: () => Promise<string>;
-    coloredMeshItems?: CustomMeshItem[];
-    outlinedMeshitems?: CustomMeshItem[];
-    zoomToMeshIds?: string[];
-    unzoomedMeshOpacity?: number;
-    showHoverOnSelected?: boolean;
-    objectColors?: IADTObjectColor;
-    badgeGroups?: SceneViewBadgeGroup[];
     backgroundColor?: IADTBackgroundColor;
     cameraInteractionType?: CameraInteraction;
     cameraPosition?: ICameraPosition;
+    coloredMeshItems?: CustomMeshItem[];
+    getToken?: () => Promise<string>;
+    markers?: Marker[];
+    modelUrl?: string | 'Globe';
+    objectColor?: IADTObjectColor;
+    objectColorOptions?: IADTObjectColor[];
+    objectStyle?: ViewerObjectStyle;
+    onCameraMove?: (position: ICameraPosition) => void;
+    onMeshClick?: SceneViewEventHandler;
+    onMeshHover?: SceneViewEventHandler;
+    onSceneLoaded?: (scene: BABYLON.Scene) => void;
+    outlinedMeshitems?: CustomMeshItem[];
+    showHoverOnSelected?: boolean;
+    showMeshesOnHover?: boolean;
+    unzoomedMeshOpacity?: number;
+    zoomToMeshIds?: string[];
+    allowModelDimensionErrorMessage?: boolean;
 }

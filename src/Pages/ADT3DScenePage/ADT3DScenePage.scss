@@ -10,15 +10,9 @@
         background: transparent;
     }
 
-    .cb-scene-page-container {
-        background-color: var(--cb-color-bg-canvas);
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        padding: 16px;
-    }
-
     .cb-scene-page-scene-environment-picker {
+        display: flex;
+        flex: 1;
         padding-bottom: 20px;
     }
 
@@ -26,13 +20,9 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        overflow: auto;
-    }
-
-    .cb-scene-page-scene-globe-container {
-        display: flex;
-        flex-direction: column;
         height: 100%;
+        min-width: 1035px;
+        overflow: auto;
     }
 
     .cb-base-composite-card-item:last-child {
@@ -44,6 +34,12 @@
     .cb-scene-page-action-button {
         margin-top: 20px;
         width: 100px;
+    }
+
+    .cb-scene-page-scene-globe-container {
+        flex-grow: 1;
+        height: calc(100% - 40px);
+        overflow: hidden;
     }
 
     .cb-scene-builder-and-viewer-container {
@@ -96,26 +92,4 @@
             height: 100%;
         }
     }
-}
-
-.cb-scene-page-mode-toggle-container {
-    position: absolute;
-    right: 20px;
-    top: 22px;
-    z-index: 1;
-}
-
-.cb-left-panel-builder-header {
-    font-weight: 600;
-    margin: 0 0 8px;
-}
-
-.cb-left-panel-builder-subheader-icon {
-    margin-right: 8px;
-}
-
-.cb-left-panel-builder-subheader {
-    align-items: center;
-    color: var(--cb-color-text-secondary);
-    display: flex;
 }

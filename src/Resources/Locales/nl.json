@@ -4,9 +4,11 @@
   "preview": "Voorbeeld",
   "loading": "Laden...",
   "label": "Etiket",
+  "labelPlaceholder": "Voer het label in",
   "min": "Min",
   "max": "Max",
   "noData": "Geen gegevens",
+  "noName": "Geen naam",
   "error": "Fout bij het ophalen van gegevens",
   "unsupportedFileType": "Niet-ondersteund bestandstype",
   "selectProperties": "Selecteer eigenschappen",
@@ -14,6 +16,7 @@
   "theme": "Thema",
   "hierarchy": "Hiërarchie",
   "displayName": "Weergegeven naam",
+  "displayNamePlaceholder": "Voer de weergavenaam in",
   "realTimeStatus": "Real-time status",
   "emptyCompositeCard": "Lege composietkaart",
   "compositeCardWithErrors": "Samengestelde kaart met foutgrenzen",
@@ -63,7 +66,11 @@
   "editTwin": "Tweeling bewerken",
   "confirmDeletion": "Verwijdering bevestigen",
   "confirmDeletionDesc": "Weet je het zeker? U kunt deze actie niet ongedaan maken.",
+  "discardChanges": "Niet-opgeslagen wijzigingen weggooien?",
+  "discard": "Afdanken",
+  "discardChangesDesc": "Weet je het zeker? U kunt deze actie niet ongedaan maken.",
   "action": "Actie",
+  "actions": "Acties",
   "name": "Naam",
   "title": "Titel",
   "enterTitle": "Titel invoeren",
@@ -77,7 +84,7 @@
   "id": "Legitimatiebewijs",
   "select": "Selecteren",
   "info": "Info",
-  "ADTInstances": "Azure Digital Twins Instances",
+  "ADTInstances": "Azure Digital Twins-exemplaren",
   "ADTInstancesInfo": "Lijst met ADT-exemplaren waarvoor de gebruiker de machtiging Azure Digital Twins Data Owner of Azure Digital Twins Data Reader heeft",
   "loadingInstances": "Instanties laden...",
   "selectInstance": "Selecteer een instantie",
@@ -86,9 +93,10 @@
   "globe": "Bol",
   "list": "Lijst",
   "selectFile": "Selecteer bestand",
-  "uploadFile": "Bestand uploaden",
   "uploadingFile": "Bestand uploaden...",
   "twinId": "Dubbele ID",
+  "active": "Actief",
+  "invalidValue": "Ongeldige waarde",
   "errors": {
     "errorBoundary": "Foutgrens",
     "unkownError": "Onbekende fout opgetreden",
@@ -98,12 +106,12 @@
     }
   },
   "valueRangeBuilder": {
-    "overlapDetectedMessage": "Overlappende bereiken gedetecteerd. Controleer of alle waardebereiken verschillend zijn. Min waarden zijn inclusief, Max waarden zijn exclusief.",
-    "addValueRangeButtonText": "Waardebereik toevoegen",
+    "overlapDetectedMessage": "Overlappende bereiken gedetecteerd. Controleer of alle bereiken verschillend zijn. Min waarden zijn inclusief, Max waarden zijn exclusief.",
+    "addValueRangeButtonText": "Bereik toevoegen",
     "rangeValueInvalidMessage": "Waarden moeten numeriek, '-Oneindig' of 'Oneindig' zijn",
-    "rangeInvalidMessage": "Minwaarde moet lager zijn dan (<) Max waarde",
-    "colorButtonAriaLabel": "Selecteer kleur voor waardebereik",
-    "deleteValueRangeTitle": "Waardebereik verwijderen",
+    "rangeInvalidMessage": "Deze minwaarde moet lager zijn dan (<) max waarde",
+    "colorButtonAriaLabel": "Selecteer kleur voor bereik",
+    "deleteValueRangeTitle": "Bereik verwijderen",
     "negativeInfinityIconMessage": "Waarde instellen op -Oneindig",
     "positiveInfinityIconMessage": "Waarde instellen op Oneindig"
   },
@@ -150,21 +158,32 @@
     "simulating": "Simuleren",
     "liveStatus": "Pakketnummer: {{packetNumber}} | {{totalSuccessfulPatches}}/{{totalTwinsPatched}} twins succesvol bijgewerkt",
     "generateEnvironmentDescription": "Push modellen, tweelingen en relaties om uw omgeving te bevolken",
-    "simulateDescription": "Push evenementen naar uw omgeving"
+    "simulateDescription": "Push evenementen naar uw omgeving",
+    "pusherType": "Simulatie type",
+    "robotArms": "Robotarmen",
+    "dairyProduction": "Zuivelfaciliteit"
   },
   "scenes": {
     "noScenes": "Je hebt geen 3D-scènes, voeg een nieuwe toe om aan de slag te gaan.",
     "addScene": "3D-scène toevoegen",
-    "sceneLatitude": "Breedtegraad",
-    "sceneLongitude": "Lengtegraad",
+    "latitude": "Breedtegraad",
+    "longitude": "Lengtegraad",
+    "sampleLatitude": "bijvoorbeeld: 6,4511366",
+    "sampleLongitude": "bijvoorbeeld: 3,3883963",
+    "longitudeErrorMessage": "De invoerwaarde moet binnen -180 en 180 graden zijn",
+    "latitudeErrorMessage": "De invoerwaarde moet binnen -90 en 90 graden zijn",
+    "showOnGlobe": "Toon op globe",
     "blobUrl": "BLOB-URL voor 3D-bestanden",
-    "addDialogTitle": "Nieuwe scène maken",
-    "addDialogSubText": "Uw scène koppelen aan de URL van uw 3D-bestand in blobopslag",
-    "editDialogTitle": "Scène bewerken",
-    "editDialogSubText": "Bewerk de naam en het gekoppelde 3D-bestand van uw scène",
+    "dialogTitleCreate": "Nieuwe scène maken",
+    "dialogSubTitle": "Target een bestaand 3D-bestand via URL of upload een nieuw bestand rechtstreeks naar uw container",
+    "dialogTitleEdit": "Uw 3D-scène bewerken",
     "3dFileSelectionMode": "3D-bestandsselectiemodus",
-    "fromContainer": "Uit container",
-    "3dFileAsset": "3D-bestandsmiddel",
+    "sceneNamePlaceholder": "Voer een scènenaam in",
+    "sceneDescriptionPlaceholder": "Voer een scènebeschrijving in",
+    "tabNameFromContainer": "Kies bestand",
+    "tabNameUploadFile": "Bestand uploaden",
+    "3dFileAsset": "3D-bestand koppelen",
+    "description": "Beschrijving",
     "overwriteIfExist": "Overschrijven als het bestand al bestaat",
     "fileExistsErrorMessage": "Een bestand met deze naam bestaat al in de opslag, u kunt dat bestand selecteren in de container of overschrijven."
   },
@@ -312,15 +331,19 @@
     "viewMode": "Weergavemodus",
     "enterBlobUrl": "Voer de blob-URL van uw Azure-opslagcontainer in",
     "home": "Thuis",
-    "globe": "Bol"
+    "globe": "Bol",
+    "globeView": "Globe weergave",
+    "listView": "Lijstweergave",
+    "breadcrumbAriaLabel": "Broodkruimel met items weergegeven als knoppen",
+    "breadcrumbOverflowAriaLabel": "Meer links"
   },
   "layersDropdown": {
     "placeholder": "Geen lagen geselecteerd",
-    "unlayeredBehaviors": "Ongelaagd gedrag",
-    "unlayered": "Ongelaagd",
     "title": "Lagen selecteren",
     "selectAll": "Alles selecteren",
-    "selectNone": "Alles deselecteren"
+    "selectNone": "Alles deselecteren",
+    "unlayeredItemListItemDisplayName": "Standaardlaag",
+    "unlayeredItemCollapsedDisplayName": "Verstek"
   },
   "sceneLayers": {
     "noBehaviors": "Geen gedrag",
@@ -329,7 +352,7 @@
     "noneSelected": "Geen lagen geselecteerd",
     "newLayer": "Nieuwe laag",
     "layerName": "Laagnaam",
-    "behaviorsOnThisLayer": "Gedrag op deze laag",
+    "behaviorsListTitle": "Gedrag ({{count}})",
     "layerNamePlaceholder": "Laagnaam invoeren",
     "createNewLayer": "Nieuwe laag maken",
     "editLayer": "Laag bewerken",
@@ -337,7 +360,10 @@
     "layers": "Lagen",
     "noLayersFound": "Je hebt nog geen lagen!",
     "noLayersDescription": "Lagen zijn als tags op gedragingen. Begin hier met het maken van een laag.",
-    "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag"
+    "noBehaviorsOnLayer": "Er zijn geen gedragingen op deze laag",
+    "deleteConfirmationTitle": "Deze laag verwijderen?",
+    "deleteConfirmationMessage": "Dit verwijdert permanent de laag en alle bijbehorende gedragingen uit alle Digital Twins-omgevingen.",
+    "infoCalloutContent": "Lagen zijn taakgebaseerde groeperingen waarmee consumenten gedrag kunnen filteren. Er bestaan lagen over scènes heen."
   },
   "3dSceneBuilder": {
     "elements": "Elementen",
@@ -358,23 +384,19 @@
     "searchBehaviorsPlaceholder": "Zoekgedrag",
     "modifyElement": "Element wijzigen",
     "manageTargetElements": "Doelelementen beheren",
-    "selectBehaviorElements": "Selecteer elementen voor dit gedrag om te targeten",
+    "elementsListInstructions": "Selecteer de elementen die u wilt opnemen in de visualisatie van dit gedrag",
     "multiSelectElements": "Multi-select elementen",
-    "updateBehavior": "Gedrag bijwerken",
     "removeBehaviorFromScene": "Gedrag uit scène verwijderen",
     "removeBehaviorFromAllScenes": "Gedrag uit alle scènes verwijderen",
     "manageSceneLayer": "Scènelaag beheren",
-    "createBehavior": "Gedrag creëren",
-    "modifyBehavior": "Gedrag wijzigen",
     "addBehaviorButton": "Gedrag toevoegen",
     "addBehavior": "Gedrag toevoegen",
     "searchBehaviors": "Zoekgedrag",
     "noAvailableBehaviors": "Geen beschikbaar gedrag",
     "removeBehavior": "Gedrag uit dit element verwijderen",
-    "addElementDetails": "Elementdetails toevoegen",
     "noBehaviorsOnElement": "Geen gedrag toegewezen aan dit element",
     "noElementsText": "Nog geen elementen gemaakt",
-    "noResults": "Geen resultaten",
+    "noResults": "Geen resultaten gevonden",
     "behaviorsInSceneTitle": "In deze scène ({{count}})",
     "createWithElement": "Maken met {{element}}",
     "elementActions": "Elementacties",
@@ -385,35 +407,75 @@
     "confirmRemoveBehaviorFromAllScenes": "Weet je zeker dat je dit gedrag uit alle scènes wilt verwijderen. U kunt deze actie niet ongedaan maken.",
     "newElement": "Nieuw element",
     "newBehavior": "Nieuw gedrag",
+    "modifyBehavior": "Gedrag bewerken",
+    "createBehavior": "Gedrag creëren",
+    "updateBehavior": "Gedrag bijwerken",
     "newBehaviorId": "NewBehaviorId",
     "cancel": "Annuleren",
     "Done": "Klaar",
     "edit": "Bewerken {{elementDisplayName}}",
     "editBehavior": "Gedrag bewerken",
-    "searchTwinId": "Zoek Twin ID...",
+    "searchTwinId": "Zoek Twin ID ($dtId)...",
     "noTwinsFound": "Geen tweeling gevonden (zoeken is hoofdlettergevoelig)",
     "useNonExistingTwinId": "Geen exacte overeenkomst, gebruik",
     "addBehaviorToScene": "Gedrag toevoegen aan scène",
     "behaviorMetaText": "{{numElementsInActiveScene}} elementen, {{numSceneRefs}} scènes",
     "elementMetaText": "{{numBehaviors}} behaviors",
-    "linkedTwin": "Gekoppelde tweeling",
-    "linkedTwinInputInfo": "Voer dubbele ID ($dtId) in om met dit element te koppelen (hoofdlettergevoelig)",
-    "noMeshAddedText": "Nog geen meshes toegevoegd, selecteer meshes in 3D viewer",
+    "primaryTwin": "Primaire tweeling",
     "meshes": "Netten",
     "behaviorElementsDropdownLabel": "Doelelement",
     "behaviorElementsDropdownPlaceholder": "Selecteer een element",
+    "behaviorForm": {
+      "formSubTitle": "Gedragingen zijn visuele aanwijzingen die optreden onder specifieke omstandigheden, bijvoorbeeld met specifieke intervallen of bij gegevensdrempels."
+    },
     "behaviorAlertForm": {
-      "colorPickerLabel": "Badge kleur",
+      "colorPickerLabel": "Kleur",
       "expressionLabel": "Triggerexpressie",
-      "expressionPlaceholder": "Expressie invoeren (bijv. LinkedTwin.InFlow > 3)",
-      "iconPickerLabel": "Badge-pictogram",
-      "notice": "Dit gedrag wordt alleen ingeschakeld wanneer de onderstaande triggerexpressie wordt geëvalueerd naar true.",
-      "notificationLabel": "Tekst van melding",
-      "notificationPlaceholder": "Tekst die bij de waarschuwing moet worden weergegeven voor extra context."
+      "expressionPlaceholder": "Expressie invoeren (bijv. PrimaryTwin.InFlow > 200)",
+      "iconPickerLabel": "Pictogram",
+      "tabDescription": "Waarschuwingen , pictogrammen vergezeld van tekst, helpen de aandacht te vestigen op kritieke gegevenscondities. Gebruik hieronder expressies om waarschuwingen in uw visualisatie te activeren.",
+      "notificationLabel": "Beschrijving van het scenario",
+      "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is.",
+      "notificationLabelDescriptionPart1": "Dubbele eigenschappen moeten worden omgeven door syntaxis van sjabloonreeksen.",
+      "notificationPlaceholder": "Voer een beschrijving in",
+      "notificationLabelDescriptionPart2": "Bijvoorbeeld ${PrimaryTwin.DisplayName} vereist onderhoud"
     },
     "behaviorStatusForm": {
-      "notice": "Gebruik één eigenschap om de doelelementen van dit gedrag opnieuw in te kleuren.",
-      "stateItemLabel": "Staat {{index}}"
+      "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "stateItemLabel": "Staat {{index}}",
+      "propertyExpressionTooltipContent": "Gebruik een aangepaste expressie voor complexere expressies die gebruikmaken van meerdere eigenschappen."
+    },
+    "behaviorWidgetsForm": {
+      "addWidgetButtonText": "Widget toevoegen",
+      "noData": "Je hebt nog geen widgets geconfigureerd",
+      "tabDescription": "Widgets definiëren die in de context van het element worden weergegeven"
+    },
+    "elementForm": {
+      "twinNameTooltip": "Dit veld is hoofdlettergevoelig",
+      "twinNameDescription": "Selecteer een digitale tweeling waaraan u dit element wilt koppelen. Je gebruikt de eigenschappen van deze gekoppelde tweeling voor geassocieerd gedrag.",
+      "meshTabName": "Netten",
+      "behaviorsTabName": "Gedrag",
+      "twinTabName": "Andere tweelingen",
+      "formSubTitle": ""
+    },
+    "elementFormMeshTab": {
+      "noDataMessage": "Selecteer gekoppelde netten in uw 3D-model voor dit element."
+    },
+    "elementBehaviorMeshTab": {
+      "noDataMessage": "Gedrag voor dit element toewijzen of wijzigen. U kunt later altijd gedragingen toevoegen."
+    },
+    "elementFormTwinTab": {
+      "tabDescription": "Deze tweelingen bevatten gegevens die verder gaan dan je primaire tweeling die je kunt gebruiken in je status, waarschuwingen en widgets voor je gedrag.",
+      "noDataMessage": "Wanneer je extra tweelingen creëert in het gedrag van dit element, verschijnen ze hier."
+    },
+    "widgetLibrary": {
+      "dialogTitle": "Widget bibliotheek",
+      "dialogSubTitle": "Verken widgets en geef gegevensgestuurde inzichten weer voor uw element."
+    },
+    "widgetForm": {
+      "unitOfMeasureLabel": "Meeteenheid",
+      "unitOfMeasurePlaceholder": "Bijv. mijlen/uur",
+      "linkUrlDescription": "Voer een URL in en voeg dubbele eigenschappen toe als parameters, bijvoorbeeld ${PrimaryTwin.SerialNumber}"
     },
     "twinPropertyDropdown": {
       "propertyDropdownLabel": "Eigenschap",
@@ -422,95 +484,99 @@
       "propertyNotFound": "Eigendom niet gevonden op de tweeling van het gedrag",
       "propertyDropdownPlaceholder": "Selecteer twin property"
     },
+    "ModelledPropertyBuilder": {
+      "expressionLabel": "Eigenschapsexpressie",
+      "expressionPlaceholder": "Eigenschapsexpressie invoeren",
+      "singleProperty": "Enkele woning",
+      "customExpression": "Aangepast (geavanceerd)",
+      "dropdownPlaceholder": "Selecteer een woning",
+      "toggleLabel": "Expressiemodus",
+      "none": "Geen",
+      "clearButtonText": "Duidelijk"
+    },
     "numericExpressionPlaceholder": "Een expressie invoeren die evalueert tot een getal",
     "behaviorId": "Gedrag Id",
-    "widgetLibrary": "Widget bibliotheek",
-    "exploreWidgets": "Verken onze widgets en voeg een extra informatielaag toe aan uw 3D-scène.",
-    "addWidget": "Widget toevoegen",
     "newWidget": "Nieuwe widget",
+    "addWidget": "Widget toevoegen",
     "createWidget": "Widget maken",
     "updateWidget": "Widget bijwerken",
     "editWidget": "Widget bewerken",
     "removeWidget": "Widget verwijderen",
     "noWidgets": "Geen widgets gevonden",
     "modifyWidget": "Widget wijzigen",
-    "noWidgetsConfigured": "Geen widgets geconfigureerd",
-    "unitOfMeasure": "Meeteenheid",
     "expression": "Uitdrukking",
     "warningBreakPointToggleLabel": "Kleuronderbrekingspunt inschakelen",
     "warningBreakPointLabel": "Waarschuwingskleuronderbrekingspunt",
-    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${LinkedTwin.property}",
-    "behaviorTypes": {
-      "alertBehavior": "Alert gedrag",
-      "statusBehavior": "Statusgedrag"
-    },
+    "linkWidgetUrlDescription": "Link widget URL ondersteunt JavaScript template string opmaak zoals: ${PrimaryTwin.property}",
     "notImplemented": "Niet geïmplementeerd",
-    "noLinkedTwinProperties": "Geen gekoppelde dubbele eigenschappen om weer te geven",
+    "noPrimaryTwinProperties": "Geen primaire dubbele eigenschappen om weer te geven",
     "twinAlias": {
       "title": "Dubbele alias",
-      "titlePlural": "Tweeling aliassen",
-      "aliasedTwin": "Aliased tweeling",
-      "aliasedTwins": "Aliased tweeling",
-      "add": "Dubbele alias toevoegen",
-      "noTwinAliasesAdded": "Nog geen tweelingaliassen toegevoegd",
-      "new": "Nieuwe tweelingalias",
-      "edit": "Dubbele alias bewerken",
-      "create": "Dubbele alias maken",
-      "update": "Dubbele alias bijwerken",
-      "modify": "Dubbele alias wijzigen",
-      "search": "Dubbele aliassen zoeken",
+      "calloutDescription": "De vereniging van dubbele eigenschappen van geselecteerde elementen",
+      "add": "Twee toevoegen",
+      "new": "Nieuwe tweeling",
+      "edit": "Tweeling bewerken",
+      "create": "Twee maken",
+      "update": "Update tweeling",
+      "modify": "Twee wijzigen",
+      "search": "Zoek tweelingen",
       "searchProperties": "Zoek eigenschappen",
       "noTwinAliasesToAdd": "Geen dubbele aliassen om toe te voegen",
       "removeFromBehavior": "Dubbele alias uit gedrag verwijderen",
       "removeFromElement": "Dubbele alias uit element verwijderen",
       "commonProperties": "Gemeenschappelijke eigenschappen",
       "twinAliasForm": {
-        "alias": "Alias",
-        "elementTwinMappings": "Element twin mappings",
+        "aliasNameLabel": "Dubbele naam",
+        "aliasNameTooltipContent": "Je kunt de naam van deze tweeling niet veranderen na het maken.",
+        "mappingSectionHeader": "Dubbele toewijzingen voor elementen",
+        "mappingSectionSubHeader": "Selecteer voor elk element de digitale tweeling waarnaar deze tweeling verwijst",
         "elementTwinMappingsNotExist": "Er is geen beschikbare toewijzing, voeg eerst elementen toe aan gedrag."
       },
+      "tabDescriptionPart1": "Elk element maakt gebruik van gegevens van zijn primaire tweeling. Voeg andere tweelingen toe waarvan uw elementen gegevens kunnen gebruiken.",
+      "tabDescriptionPart2": "Bekijk de eigenschappen die de doelelementen gemeen hebben en verwijs naar deze eigenschappen met behulp van de primaire tweeling of de andere tweeling in uw expressies. ",
+      "linkedTwinListHeader": "Gekoppelde tweeling ({{count}})",
       "descriptions": {
-        "twins": "Tweelingen geven u toegang tot eigenschappen die kunnen worden gebruikt in uitdrukkingen.",
-        "linkedTwin": "De LinkedTwin bevat alle eigenschappen die gemeenschappelijk zijn tussen de doelelementen gekoppelde tweelingen.",
-        "aliasChangeNotAllowed": "Aliaswijziging is niet toegestaan na het maken.",
-        "commonProperties": "De vereniging van gekoppelde tweelingeigenschappen van geselecteerde elementen"
+        "commonProperties": "De vereniging van primaire tweelingeigenschappen van geselecteerde elementen"
       },
       "errors": {
-        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen."
+        "twinAliasAlreadyExists": "Dubbele alias met dezelfde naam bestaat al, overweeg deze in plaats daarvan toe te voegen.",
+        "alphanumericOnly": "Dubbele alias mag alleen alfanumerieke tekens bevatten",
+        "noNumberPrefix": "Tweelingnaam mag niet beginnen met een getal"
       }
     },
-    "ModelledPropertyBuilder": {
-      "expressionLabel": "Eigenschapsexpressie",
-      "expressionPlaceholder": "Eigenschapsexpressie invoeren",
-      "selectProperty": "Selecteer eigenschap",
-      "toggleLabel": "Eigenschapsexpressie"
-    }
+    "actions": "Acties"
   },
   "widgets": {
     "trend": {
       "title": "Trend widget",
-      "description": "Historische gegevens weergeven in de context van uw 3D-scène"
+      "libraryName": "Trend",
+      "description": "Grafieken met historische gegevens weergeven"
     },
     "gauge": {
       "title": "Meter widget",
-      "description": "Numerieke gegevenspunten weergeven met visuele context"
+      "libraryName": "Meten",
+      "description": "Numerieke eigenschappen weergeven met aangepaste bereiken"
     },
     "link": {
       "title": "Link widget",
-      "description": "Verwijs naar externe inhoud door een URL te koppelen",
-      "urlPlaceholder": "https://mypowerbi.biz/${LinkedTwin.$dtId}",
+      "libraryName": "Verbinden",
+      "description": "Navigeer naar URL's die specifiek zijn voor het element",
+      "urlPlaceholder": "https://contoso.com/userManual/${PrimaryTwin.SerialNumber}",
       "openLink": "Link openen"
+    },
+    "value": {
+      "title": "Waarde widget",
+      "libraryName": "Waarde",
+      "description": "Geef elke primitieve eigenschap weer",
+      "displayNamePlaceholder": "Voer de weergavenaam in",
+      "typePlaceholder": "Selecteer het type voor de waarde"
     },
     "panel": {
       "title": "Paneelwidget",
+      "libraryName": "Paneel",
       "description": "Een indelingspaneel"
     },
-    "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
-    "value": {
-      "title": "Waarde widget",
-      "description": "Basiswidget om waarden van dubbele eigenschappen weer te geven",
-      "typePlaceholder": "Selecteer het type voor de waarde"
-    }
+    "notSupported": "Dit widgettype wordt momenteel niet ondersteund"
   },
   "sdkStrings": {
     "Last 30 mins": "Laatste 30 minuten",
@@ -592,8 +658,6 @@
     "Start time input": "Invoer starttijd",
     "End time input": "Eindtijd invoer",
     "snap end time to latest": "snap eindtijd naar laatste",
-    "zoom in": "inzoomen",
-    "zoom out": "uitzoomen",
     "select quick time of": "selecteer snelle tijd van",
     "a time selection control dialog": "een dialoogvenster voor tijdselectie.",
     "No color": "Geen kleur",
@@ -683,7 +747,8 @@
       "undoAll": "Alle bewerkingen opnieuw instellen",
       "expandTree": "Boomstructuur uitbreiden",
       "collapseTree": "Boom instorten",
-      "save": "Wijzigingen opslaan"
+      "save": "Wijzigingen opslaan",
+      "refresh": "Gegevens vernieuwen"
     },
     "dateTimePicker": {
       "datePickerTitle": "Datumkiezer",
@@ -693,13 +758,13 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Omgevings-URL",
-    "containerUrl": "Container-URL",
+    "environmentUrl": "URL van Azure Digital Twins-instantie",
+    "containerUrl": "Url van Azure Storage-container",
     "enterEnvironmentUrl": "bijv. https://example.api.wus2.digitaltwins.azure.net",
     "enterContainerUrl": "bijv. https://example.blob.core.windows.net/example",
-    "editEnvironment": "Omgeving bewerken",
-    "descriptionForEnvironment": "Verbind uw omgeving om uw assets te vermelden.",
-    "descriptionForEnvAndCont": "Verbind de URL van uw omgeving en opslagcontainer om uw scènes weer te geven.",
+    "editEnvironment": "3D-scèneomgeving configureren",
+    "descriptionForEnvironment": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
+    "descriptionForEnvAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
     "descriptionForLocalStorage": "Configuratiegegevens worden opgeslagen in lokale opslag.",
     "selectContainerUrl": "Url van opslagcontainer selecteren",
     "noEnvironment": "Geen omgeving toegevoegd",
@@ -716,7 +781,7 @@
     "state": "Staat",
     "allProperties": "Alle woningen",
     "behaviorPreview": "Voorbeeld",
-    "LinkedTwinProperties": "Linked Twin accommodaties"
+    "PrimaryTwin": "Primaire Twin"
   },
   "svgTests": {
     "fluentUI": "SVG laden via Fluent Image component (aanbevolen patroon)",
@@ -724,7 +789,7 @@
     "reactComponent": "SVG-illustratie via de syntaxis van de component React"
   },
   "blobDropdown": {
-    "selectFileOrEnter": "Selecteer bestand of voer blob-URL in",
+    "selectFileOrEnter": "Voer de bestands-URL in of selecteer uit de lijst",
     "3dFileFromContainer": "3D-bestand in container",
     "loading3DFiles": "Bestanden laden...",
     "invalidBlobUrlPath": "Dit is geen ondersteunde blob-URL (bijv. https://<storageAccountName>.blob.core.windows.net/<containerName>/<3DFileName>)",
@@ -732,13 +797,21 @@
   },
   "modelViewerModePicker": {
     "buttonLabel": "Thema",
-    "title": "Viewer Thema",
-    "style": "Stijl",
-    "objectColors": "Objectkleur",
-    "background": "Achtergrond",
+    "title": "Scène Thema",
+    "style": "3D-modelstijl",
+    "objectColors": "3D-modelkleur",
+    "background": "Achtergrond van de scène",
     "default": "Verstek",
     "transparent": "Doorzichtig",
     "wireframe": "Draadframe"
+  },
+  "deeplinkFlyout": {
+    "buttonTitle": "Delen",
+    "copyButtonText": "Link kopiëren",
+    "copyConfirmationMessage": "Link gekopieerd!",
+    "flyoutHeader": "Scène delen",
+    "includeElementsOption": "Koppeling met geselecteerd element",
+    "includeLayersOption": "Koppeling met geselecteerde lagen"
   },
   "elementsPanel": {
     "title": "Elementen",
@@ -791,11 +864,124 @@
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
-    "select": "Selecteren",
-    "pan": "Pan",
     "orbit": "Baan",
-    "zoom": "Zoom"
+    "pan": "Pan",
+    "reset": "Terugstellen",
+    "select": "Selecteren",
+    "zoom": "Zoom",
+    "zoomIn": "Inzoomen",
+    "zoomOut": "Uitzoomen"
   },
+  "tutorialModal": {
+    "modalTitle": "Welkom bij 3D Scenes Studio!",
+    "publicPreview": "Openbare preview",
+    "closeAriaLabel": "Modaal sluiten",
+    "rootDocsLinkText": "Documentatie",
+    "githubLinkText": "Github",
+    "quickstartLinkText": "Snelstart",
+    "primaryButtonText": "Bekijk de demo",
+    "dismissText": "Ontslaan",
+    "nextSlide": "Volgende dia",
+    "previousSlide": "Vorige dia",
+    "statusIndicatorSelectedAria": "Dia {{slide}} geselecteerd",
+    "statusIndicatorUnselectedAria": "Dia {{slide}} selecteren",
+    "tabs": {
+      "introduction": "Introductie",
+      "concepts": "Concepten",
+      "elements": "Elementen",
+      "behaviors": "Gedrag",
+      "twins": "Tweeling",
+      "widgets": "Widgets",
+      "sceneLayers": "Scènelagen"
+    },
+    "frePages": {
+      "intro": {
+        "title": "Onze nieuwste low-code bouwer",
+        "text": "In deze low-code builder kunt u operationele gegevens bewaken, diagnosticeren en onderzoeken met de visuele context van 3D-assets, aangedreven door Azure Digital Twins-gegevens, zonder dat u 3D-expertise nodig hebt."
+      },
+      "builder": {
+        "title": "Pas uw scène aan in onze Builder",
+        "text": "De bouwer in 3D Scenes Studio is de primaire interface voor het configureren van uw scènes. Het is een low-code, visuele ervaring."
+      },
+      "viewer": {
+        "title": "Verken rond of sluit het elders in",
+        "text": "Bekijk de 3D-scène hier in de Studio. De viewercomponent kan worden ingesloten in aangepaste toepassingen en kan samenwerken met 3rd party-componenten."
+      }
+    },
+    "conceptsRoot": {
+      "title": "Wil je dieper ingaan op de concepten?",
+      "text": "Blader door de Help-inhoud of bekijk onze documentatie voor stapsgewijze zelfstudies!"
+    },
+    "docLinkBlurb": "Ga voor stap-voor-stap naar de <DocLink>docs here.</DocLink>",
+    "tip": "Fooi",
+    "elements": {
+      "title": "Wat is een element?",
+      "content": "Een element is een zelf gedefinieerde set 3D-meshes die is gekoppeld aan gegevens over een of meer onderliggende digitale tweelingen.\n\nEen primaire tweeling is de belangrijkste digitale tweeling tegenhanger voor een element. U verbindt het element met een tweeling in uw Azure Digital Twins-instantie, zodat het element uw tweeling en de bijbehorende gegevens kan vertegenwoordigen in de 3D-visualisatie."
+    },
+    "behaviors": {
+      "title": "Wat is een gedrag?",
+      "mainContent": "Een gedrag is een scenario voor uw scène waarin bepaalde gegevens over de digitale tweeling van het gerelateerde element worden gebruikt om viewervisualisaties te stimuleren.\n\nHet maken van een gedrag omvat het kiezen van tweelingen, het configureren van status en waarschuwingen, het toevoegen van een widget en het kiezen van de laag waarop moet worden weergegeven.\n\n",
+      "statusTitle": "Status",
+      "statusDescription": "Staten zijn gegevensgestuurde overlays op uw elementen om de status of status van het element aan te geven. Stel waardebereiken in om statusgrenzen te maken en kies kleuren om elke status in de visualisatie weer te geven.\n\n",
+      "alertsTitle": "Waarschuwingen",
+      "alertsDescription": "Waarschuwingen zijn voorwaardelijke meldingen waarmee u snel kunt zien wanneer een element uw aandacht vereist. Pas uw waarschuwingsbadge aan met een pictogram, kleur en tekst.\n\n"
+    },
+    "twins": {
+      "title": "Hoe kies ik een tweeling?",
+      "mainContent": "Op het tabblad Tweelingen kunt u de set tweelingen wijzigen waarvan de gegevens beschikbaar zijn voor dit gedrag. Dit omvat de primaire tweelingen van de beoogde elementen en extra tweelingen.\n\nEen extra tweeling is een secundaire digitale tweelinggegevensbron voor een element. U kunt eigenschappen van die tweeling gebruiken in uw gedragsexpressies voor dit element. Voeg alleen extra tweelingen toe als er tweelingen zijn met gegevens buiten uw primaire tweeling die u wilt gebruiken in uw status, waarschuwingen en widgets voor dit gedrag.\n\n",
+      "tipContent": "Azure Digital Twins Explorer kan u helpen tweelingen te zien die mogelijk gerelateerd zijn aan de primaire tweeling voor dit element. U kunt uw grafiek opvragen met SELECT * FROM digitaltwins WHERE $dtId='<primary-twin-id>', en vervolgens de dubbelklik-uitbreidingsfunctie gebruiken om gerelateerde tweelingen te verkennen."
+    },
+    "widgets": {
+      "title": "Wat is een widget?",
+      "mainContent": "Widgets zijn gegevensgestuurde visuals die extra context en gegevens bieden om u te helpen het scenario te begrijpen dat het gedrag vertegenwoordigt. Door widgets te configureren, kunt u ervoor zorgen dat de juiste gegevens detecteerbaar zijn wanneer een waarschuwing of status actief is.\n\n",
+      "typesOfWidgets": "Soorten widgets\n\n",
+      "gaugeDescription": "<Onderlijn>Gauge:</Onderstrepen> Voor het visueel weergeven van numerieke gegevenspunten\n\n",
+      "linkDescription": "<Onderlijnd>Link:</Onderstrepen> Voor het opnemen van inhoud waarnaar extern wordt verwezen via een gekoppelde URL\n\n",
+      "valueDescription": "<Onderlijn>Waarde:</Onderstrepen> Voor het rechtstreeks weergeven van dubbele eigenschapswaarden\n\n"
+    },
+    "sceneLayers": {
+      "title": "Wat is een scènelaag?",
+      "mainContent": "U kunt lagen in uw scène maken om uw gedrag te ordenen. Lagen fungeren als tags op het gedrag, zodat u kunt definiëren welk gedrag samen moet worden gezien, waardoor aangepaste weergaven van uw scène worden gemaakt voor verschillende rollen of taken.\n\nAls er geen lagen in een scène zijn, worden alle gedragingen weergegeven in de scèneviewer. Gedragingen die niet met een laag zijn gelabeld, worden in de standaardlaag weergegeven totdat ze met een laag zijn gelabeld.\n\nU kunt lagen maken door de knop Scènelagen in de weergave Bouwen voor een scène te gebruiken. U kunt ook lagen maken tijdens het maken of wijzigen van een gedrag."
+    }
+  },
+  "diagnose": "Diagnosticeren",
+  "resolve": "Oplossen",
+  "verify": "Verifiëren",
+  "success": "Succes!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Configuratiebestand opnieuw instellen",
+    "unauthorizedAccessErrorTitle": "Toegang beperkt",
+    "unauthorizedAccessErrorMessage": "U hebt geen toegang tot deze opslagcontainer. Diagnosticeer uw toegang of probeer een andere container.",
+    "blobNotFoundErrorTitle": "Blob niet gevonden",
+    "blobNotFoundErrorMessage": "Blob bestaat niet.",
+    "unknownErrorTitle": "Onbekende fout",
+    "corsErrorTitle": "CORS-fout",
+    "corsErrorMessage": "De blobservice van uw opslagaccount moet bepaalde eigenschappen hebben om CORS in staat te stellen 3D-elementen in uw scènes te gebruiken.",
+    "internalServerErrorMessage": "Interne serverfout, controleer de serverlogboeken.",
+    "diagnoseAccessPermissions": "Toegangsmachtigingen diagnosticeren",
+    "checkingPermissions": "Machtigingen controleren...",
+    "resolveIssues": "Problemen oplossen",
+    "resolvingIssues": "Problemen oplossen...",
+    "missingPermissionsMessage": "Er ontbreken machtigingen. U hebt toegang nodig als reader en eigenaar van opslagblobdesktgegevens of opslag blobgegevensbijdrager.",
+    "noMissingRoleDesc": "Er worden geen ontbrekende machtigingen gedetecteerd, we proberen te controleren of toegewezen machtigingen van kracht zijn.",
+    "finishedWithFailureDesc": "Poging mislukt, neem contact op met de eigenaar van de bron.",
+    "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren.",
+    "assignRoleSuccessDesc": "Er zijn ontbrekende machtigingen toegewezen. Wacht even terwijl we proberen te controleren of de wijzigingen van kracht zijn.",
+    "refreshPage": "Pagina vernieuwen",
+    "refreshing": "Verfrissend",
+    "noContainerUrlErrorTitle": "Container niet ingesteld",
+    "noContainerUrlErrorMessage": "Uw container-URL is niet ingesteld. Klik hieronder om het in te stellen.",
+    "noADTInstanceUrlTitle": "ADT-instantie niet ingesteld",
+    "noADTInstanceUrlMessage": "Uw URL voor het ADT-exemplaar is niet ingesteld. Klik hieronder om het in te stellen.",
+    "configureEnvironment": "Omgeving configureren",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Model voor fout bij laden",
+      "3dAssetLoadingNetworkErrorMessage": "Dit kan een CORS-probleem, ongeldige blob-url of een netwerkfout zijn. Neem contact op met de eigenaar van de container waar dit activabestand is opgeslagen of probeer het later opnieuw.",
+      "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand.",
+      "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
+    }
+  },
+  "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
     "newModel": "Nieuw model",
     "name": "Naam",

@@ -7,7 +7,8 @@ import {
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
-    DTwin
+    DTwin,
+    IConsoleLogFunction
 } from '../Constants';
 import {
     DtdlInterface,
@@ -34,7 +35,18 @@ import { IDropdownOption } from '@fluentui/react';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { isConstant, toConstant } from 'constantinople';
+
 let ajv: Ajv = null;
+const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
+
+/** Parse DTDL models via model parser */
+export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
+    const modelDict = await parser.parse(
+        dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+    );
+    return modelDict;
+};
 
 /** Validates input data with JSON schema */
 export const validate3DConfigWithSchema = (
@@ -46,8 +58,7 @@ export const validate3DConfigWithSchema = (
     if (valid) {
         return data;
     } else {
-        // TODO remove error printing
-        console.log('Schema validation errors: ', validate.errors);
+        console.error('Schema validation errors: ', validate.errors);
         throw new ComponentError({
             type: ComponentErrorType.JsonSchemaError,
             jsonSchemaErrors: validate.errors
@@ -240,15 +251,19 @@ export function parseExpression(expression: string, twins: any) {
 }
 
 export function deepCopy<T>(object: T): T {
-    return JSON.parse(JSON.stringify(object)) as T;
+    if (object) {
+        return JSON.parse(JSON.stringify(object)) as T;
+    } else {
+        return object;
+    }
 }
 
 export function getSceneElementStatusColor(
-    statusValueExpression: string,
+    valueExpression: string,
     valueRanges: IValueRange[],
     twins: Record<string, DTwin>
 ) {
-    const value = parseExpression(statusValueExpression, twins);
+    const value = parseLinkedTwinExpression(valueExpression, twins);
     return ViewerConfigUtility.getColorOrNullFromStatusValueRange(
         valueRanges,
         value
@@ -315,28 +330,33 @@ export function getTransparentColor(
     return `rgba(${hexToRgbCss(hex)}, ${transparency})`;
 }
 
-export function performSubstitutions(
+export function wrapTextInTemplateString(text: string) {
+    if (!text) return '';
+    const templatedText = text.replace(/`/g, '');
+    return '`' + templatedText + '`';
+}
+
+export function stripTemplateStringsFromText(text: string) {
+    if (!text) return '';
+    return text.replace(/`/g, '');
+}
+
+export function parseLinkedTwinExpression(
     expression: string,
-    twins: Record<string, DTwin>
+    twins: Record<string, DTwin>,
+    fallbackResult?: any
 ) {
-    while (expression) {
-        const n = expression.indexOf('${');
-        if (n < 0) {
-            break;
-        }
+    let result: any = fallbackResult ?? '';
 
-        const m = expression.indexOf('}', n + 1);
-        if (m < 0) {
-            break;
+    try {
+        if (isConstant(expression, { ...twins, Math: Math })) {
+            result = toConstant(expression, { ...twins, Math: Math });
         }
-
-        const sub = expression.substring(n + 2, m);
-        const target = parseExpression(sub, twins);
-        expression =
-            expression.substring(0, n) + target + expression.substring(m + 1);
+    } catch (err) {
+        console.log(`${expression} - could not be parsed into constant`);
     }
 
-    return expression;
+    return result;
 }
 
 export function hexToColor4(hex: string): BABYLON.Color4 {
@@ -554,3 +574,58 @@ export const deleteModel = (id, data, models) => {
 
     return modelsCopy;
 };
+export function addHttpsPrefix(url: string) {
+    if (url?.startsWith('https://')) {
+        // if it's got the prefix, don't add anything
+        return url;
+    } else if (url) {
+        // if we have a value, add the prefix
+        return 'https://' + url;
+    } else {
+        // if we didn't get anything, then just give back whatever value we got ('', undefined, null)
+        return url;
+    }
+}
+
+/**
+ * Sort function to order items alphabetically. Case insensitive sort
+ * NOTE: only works when property is one layer down
+ * @param propertyName name of the property to sort on
+ * @example listItems.sort(sortAlphabetically('textPrimary'))
+ * @returns Sort function to pass to `.sort()`
+ */
+export function sortAlphabetically<T>(propertyName: keyof T) {
+    return (a: T, b: T) => {
+        const aVal = (a[propertyName] as unknown) as string;
+        const bVal = (b[propertyName] as unknown) as string;
+        return aVal?.toLowerCase() > bVal?.toLowerCase() ? 1 : -1;
+    };
+}
+
+export function getDebugLogger(
+    context: string,
+    enabled: boolean
+): IConsoleLogFunction {
+    if (!enabled) return () => undefined;
+    return (
+        level: 'debug' | 'info' | 'warn' | 'error',
+        message: string,
+        ...args: unknown[]
+    ) => {
+        const formattedMessage = `[CB-DEBUG][${context}] ${message}`;
+        switch (level) {
+            case 'debug':
+                console.debug(formattedMessage, ...args);
+                break;
+            case 'error':
+                console.error(formattedMessage, ...args);
+                break;
+            case 'warn':
+                console.warn(formattedMessage, ...args);
+                break;
+            default:
+                console.info(formattedMessage, ...args);
+                break;
+        }
+    };
+}

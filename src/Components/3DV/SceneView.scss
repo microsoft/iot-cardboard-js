@@ -1,9 +1,10 @@
-@font-face {
-    font-family: 'iconFont';
-    src: local('segmdl2'), url('./segmdl2.ttf');
+.cb-sceneview-builder-wrapper {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
 }
 
-.cb-sceneview-wrapper {
+.cb-sceneview-viewer-wrapper {
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -13,12 +14,4 @@
     height: 100%;
     overflow: hidden;
     width: calc(100% + 360px);
-}
-
-.cb-adt-3dviewer-tool-button-container {
-    display: flex;
-    left: 20px;
-    position: absolute;
-    top: 10px;
-    z-index: 1;
 }

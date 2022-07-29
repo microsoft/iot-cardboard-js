@@ -56,7 +56,7 @@ WidgetsList.play = async ({ canvasElement }) => {
 
     // click the behavior
     const listItem = await canvas.findByTestId(
-        'cardboard-list-item-behaviors-in-scene-0'
+        'cardboard-list-item-behaviors-in-scene-1'
     );
     await userEvent.click(listItem);
 
