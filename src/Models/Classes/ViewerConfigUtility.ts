@@ -643,19 +643,17 @@ abstract class ViewerConfigUtility {
         sceneId: string
     ) {
         if (!config) return [];
+        const selectedLayers = deepCopy(selectedLayerIds);
         const uniqueBehaviorIds = new Map();
 
         // Check if unlayered behavior mode selected
-        const isUnlayeredBehaviorActive = selectedLayerIds.includes(
+        const isUnlayeredBehaviorActive = selectedLayers.includes(
             DEFAULT_LAYER_ID
         );
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
-            selectedLayerIds.splice(
-                selectedLayerIds.indexOf(DEFAULT_LAYER_ID),
-                1
-            );
+            selectedLayers.splice(selectedLayers.indexOf(DEFAULT_LAYER_ID), 1);
 
             // Add all behaviors WITHOUT LAYERS in scene to Id dict
             const unlayeredBehaviorIdsInScene = ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
@@ -669,7 +667,7 @@ abstract class ViewerConfigUtility {
 
         // Add behavior Ids from selected scene layers to Id dict
         config?.configuration.layers.forEach((layer) => {
-            if (selectedLayerIds.includes(layer.id)) {
+            if (selectedLayers.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
                     uniqueBehaviorIds.set(behaviorId, '');
                 });

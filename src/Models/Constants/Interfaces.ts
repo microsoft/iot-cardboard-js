@@ -417,7 +417,8 @@ export interface IModelledPropertyBuilderAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
+        visibleLayerIds?: string[]
     ): AdapterReturnType<ADT3DViewerData>;
 }
 

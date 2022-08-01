@@ -40,11 +40,21 @@ export const useRuntimeSceneData = (
     );
 
     const sceneData = useAdapter({
-        adapterMethod: () => adapter.getSceneData(sceneId, scenesConfig),
+        adapterMethod: () =>
+            adapter.getSceneData(sceneId, scenesConfig, selectedLayerIds),
         refetchDependencies: [sceneId, scenesConfig],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
+
+    useEffect(() => {
+        logDebugConsole(
+            'info',
+            'Selected layers changed, fetching updated twin data',
+            selectedLayerIds
+        );
+        sceneData.callAdapter();
+    }, [selectedLayerIds.length]);
 
     /**
      * After getting ADT3DViewerData (including scene visuals along with 3d model URL) from adapter, parse it to
@@ -52,7 +62,7 @@ export const useRuntimeSceneData = (
      *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
-            let sceneVisuals = deepCopy(
+            const sceneVisuals = deepCopy(
                 sceneData.adapterResult.result.data.sceneVisuals
             );
 
@@ -64,12 +74,12 @@ export const useRuntimeSceneData = (
                 );
 
                 // Apply layer filtering to behaviors - splice out behaviors not in selected layers
-                sceneVisuals = sceneVisuals.map((sv) => ({
-                    ...sv,
-                    behaviors: sv.behaviors.filter((b) =>
+                sceneVisuals.forEach((sv) => {
+                    const filteredBehaviors = sv.behaviors.filter((b) =>
                         behaviorIdsInSelectedLayers.includes(b.id)
-                    )
-                }));
+                    );
+                    sv.behaviors = filteredBehaviors;
+                });
             }
 
             const twinIds = new Set<string>();
@@ -85,11 +95,6 @@ export const useRuntimeSceneData = (
                 for (const twinId in sceneVisual.twins) {
                     twinIds.add(sceneVisual.twins[twinId].$dtId);
                 }
-                // logDebugConsole(
-                //     'debug',
-                //     `Processing element ${sceneVisual.element.id}. The twinId set has ${twinIds.size}. `,
-                //     twinIds.values()
-                // );
 
                 // const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
@@ -112,7 +117,6 @@ export const useRuntimeSceneData = (
                                             meshId: meshId,
                                             color: color
                                         };
-                                        // coloredMeshItems.push(coloredMesh);
                                         sceneVisual.coloredMeshItems.push(
                                             coloredMesh
                                         );
@@ -193,7 +197,7 @@ export const useRuntimeSceneData = (
             ) => {
                 const MIN_INTERVAL = 10000;
                 const fastestPossibleRefreshRateSeconds = Math.max(
-                    twinCount / 10,
+                    twinCount * 1000, // 1s per twin
                     MIN_INTERVAL
                 );
                 const actualRefreshRateSeconds =
@@ -211,10 +215,8 @@ export const useRuntimeSceneData = (
                 );
                 return actualRefreshRateSeconds;
             };
-            console.log(`**running: refresh rate: ${pollingInterval}`);
 
             setPollingInterval(computeInterval(twinIds.size, pollingConfig));
-
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneVisuals);
             setSceneAlerts(groupedAlerts);

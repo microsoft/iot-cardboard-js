@@ -232,7 +232,7 @@ export function parseExpression(expression: string, twins: any) {
     try {
         result = Parser.evaluate(expression, twins) as any;
     } catch {
-        console.log(`Unable to parse expression: ${expression}`);
+        console.error(`Unable to parse expression: ${expression}`);
     }
 
     return result;
@@ -341,7 +341,7 @@ export function parseLinkedTwinExpression(
             result = toConstant(expression, { ...twins, Math: Math });
         }
     } catch (err) {
-        console.log(`${expression} - could not be parsed into constant`);
+        console.error(`${expression} - could not be parsed into constant`);
     }
 
     return result;
