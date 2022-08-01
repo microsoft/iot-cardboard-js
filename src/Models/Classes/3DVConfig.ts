@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { v4 } from 'uuid';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
