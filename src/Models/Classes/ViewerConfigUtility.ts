@@ -11,6 +11,7 @@ import {
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
     ILayer,
+    IPollingConfiguration,
     IPopoverVisual,
     IScene,
     ITwinToObjectMapping,
@@ -71,6 +72,19 @@ abstract class ViewerConfigUtility {
         const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
         return updatedConfig;
+    }
+
+    /** Scene polling configuration */
+    static getPollingConfig(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): IPollingConfiguration {
+        const defaultConfig: IPollingConfiguration = {
+            pollingStrategy: 'Realtime',
+            maximumPollingInterval: 10000
+        };
+        if (!config || !sceneId) return defaultConfig;
+        return defaultConfig;
     }
 
     /** Create new layer */

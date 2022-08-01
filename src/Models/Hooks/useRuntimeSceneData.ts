@@ -10,25 +10,30 @@ import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
 import {
     deepCopy,
+    getDebugLogger,
     getSceneElementStatusColor,
     parseLinkedTwinExpression
 } from '../Services/Utils';
 import {
     I3DScenesConfig,
     IBehavior,
-    IExpressionRangeVisual
+    IExpressionRangeVisual,
+    IPollingConfiguration
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('useRuntimeSceneData', debugLogging);
 
 export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,
     sceneId: string,
     scenesConfig: I3DScenesConfig,
-    pollingInterval: number,
     /** Optional array of layer Ids to apply SceneVisual behavior filtering */
     selectedLayerIds: string[] = null
 ) => {
     const [modelUrl, setModelUrl] = useState('');
+    const [pollingInterval, setPollingInterval] = useState(10);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
     const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
         []
@@ -67,6 +72,7 @@ export const useRuntimeSceneData = (
                 }));
             }
 
+            const twinIds = new Set<string>();
             const alerts: Array<{
                 sceneVisual: SceneVisual;
                 sceneViewBadge: SceneViewBadge;
@@ -75,6 +81,15 @@ export const useRuntimeSceneData = (
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
                 sceneVisual.coloredMeshItems = [];
+
+                for (const twinId in sceneVisual.twins) {
+                    twinIds.add(sceneVisual.twins[twinId].$dtId);
+                }
+                // logDebugConsole(
+                //     'debug',
+                //     `Processing element ${sceneVisual.element.id}. The twinId set has ${twinIds.size}. `,
+                //     twinIds.values()
+                // );
 
                 // const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
@@ -166,11 +181,46 @@ export const useRuntimeSceneData = (
                 }
             });
 
+            // fetch the config
+            const pollingConfig = ViewerConfigUtility.getPollingConfig(
+                scenesConfig,
+                sceneId
+            );
+
+            const computeInterval = (
+                twinCount: number,
+                pollingConfig: IPollingConfiguration
+            ) => {
+                const MIN_INTERVAL = 10000;
+                const fastestPossibleRefreshRateSeconds = Math.max(
+                    twinCount / 10,
+                    MIN_INTERVAL
+                );
+                const actualRefreshRateSeconds =
+                    pollingConfig.pollingStrategy === 'Limited' &&
+                    pollingConfig.maximumPollingInterval
+                        ? Math.max(
+                              fastestPossibleRefreshRateSeconds,
+                              pollingConfig.maximumPollingInterval
+                          )
+                        : fastestPossibleRefreshRateSeconds;
+                logDebugConsole(
+                    'debug',
+                    `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
+                    pollingConfig
+                );
+                return actualRefreshRateSeconds;
+            };
+            console.log(`**running: refresh rate: ${pollingInterval}`);
+
+            setPollingInterval(computeInterval(twinIds.size, pollingConfig));
+
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneVisuals);
             setSceneAlerts(groupedAlerts);
         }
     }, [
+        pollingInterval,
         sceneData.adapterResult.result,
         sceneId,
         scenesConfig,

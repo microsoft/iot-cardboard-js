@@ -104,7 +104,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     adapter,
     sceneId,
     scenesConfig,
-    pollingInterval,
     addInProps,
     sceneViewProps,
     refetchConfig,
@@ -133,7 +132,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         adapter,
         sceneId,
         scenesConfig,
-        pollingInterval,
         deeplinkState.selectedLayerIds
     );
     const sceneWrapperId = useGuid();

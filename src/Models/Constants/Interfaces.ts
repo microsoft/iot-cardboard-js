@@ -732,7 +732,6 @@ export interface IADT3DViewerProps extends BaseComponentProps {
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
-    pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
