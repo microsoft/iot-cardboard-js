@@ -487,7 +487,6 @@
     "ModelledPropertyBuilder": {
       "expressionLabel": "Výraz vlastnosti",
       "expressionPlaceholder": "Zadejte výraz vlastnosti",
-      "selectProperty": "Vybrat nemovitost",
       "singleProperty": "Jedna nemovitost",
       "customExpression": "Vlastní (pokročilé)",
       "dropdownPlaceholder": "Vyberte nemovitost",
