@@ -58,7 +58,7 @@ export const validate3DConfigWithSchema = (
 export const createGUID = (isWithDashes = false) => {
     let id: string = v4();
     if (!isWithDashes) {
-        id = id.replaceAll('-', '');
+        id = id.replace(/-/g, '');
     }
     return id;
 };
