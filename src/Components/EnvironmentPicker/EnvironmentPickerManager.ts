@@ -14,7 +14,7 @@ import {
 } from './EnvironmentPicker.types';
 
 class EnvironmentPickerManager {
-    static displayTextForEnvironment = (env: string | IAzureResource) => {
+    static displayTextForEnvironment(env: string | IAzureResource) {
         try {
             if (env) {
                 const urlObj = new URL(
@@ -31,12 +31,12 @@ class EnvironmentPickerManager {
             console.log(error.message);
             return null;
         }
-    };
+    }
 
-    static displayTextForContainer = (
+    static displayTextForContainer(
         container: string | IAzureResource,
         storageAccount: string | IAzureResource
-    ) => {
+    ) {
         if (container && storageAccount) {
             const containerName = this.getContainerName(container);
             const urlObj = new URL(
@@ -48,13 +48,13 @@ class EnvironmentPickerManager {
             return `${urlObj.hostname.split('.')[0]}/${containerName}`;
         }
         return null;
-    };
+    }
 
-    static getResourceUrl = (
+    static getResourceUrl(
         resource: IAzureResource | string,
         resourceType: AzureResourceTypes, // always pass this in case the resource is string type
         parentResource?: IAzureResource | string
-    ) => {
+    ) {
         if (resource) {
             if (typeof resource === 'string') {
                 // it means the option is manually entered using freeform
@@ -114,22 +114,22 @@ class EnvironmentPickerManager {
             }
         }
         return null;
-    };
+    }
 
-    static getResourceUrls = (
+    static getResourceUrls(
         resources: Array<IAzureResource | string>,
         resourceType: AzureResourceTypes, // always pass this in case the resource is string type
         parentResource?: IAzureResource | string
-    ) => {
+    ) {
         return resources.map((resource) =>
             this.getResourceUrl(resource, resourceType, parentResource)
         );
-    };
+    }
 
-    static isResourceUrlsEqual = (
+    static isResourceUrlsEqual(
         resourceUrlStr1: string,
         resourceUrlStr2: string
-    ) => {
+    ) {
         if (resourceUrlStr1?.endsWith('/')) {
             resourceUrlStr1 = resourceUrlStr1.slice(0, -1);
         }
@@ -137,9 +137,9 @@ class EnvironmentPickerManager {
             resourceUrlStr2 = resourceUrlStr2.slice(0, -1);
         }
         return resourceUrlStr1 === resourceUrlStr2;
-    };
+    }
 
-    static getContainerNameFromUrl = (containerUrl: string) => {
+    static getContainerNameFromUrl(containerUrl: string) {
         try {
             const containerUrlObj = new URL(containerUrl);
             return containerUrlObj.pathname.split('/')[1];
@@ -147,16 +147,16 @@ class EnvironmentPickerManager {
             console.log(error.message);
             return null;
         }
-    };
+    }
 
-    static getContainerName = (container: string | IAzureResource) => {
+    static getContainerName(container: string | IAzureResource) {
         return typeof container === 'string' ? container : container?.name;
-    };
+    }
 
-    static findStorageAccountFromResources = (
+    static findStorageAccountFromResources(
         storageAccount: string | IAzureResource,
         resources: Array<IAzureResource>
-    ) => {
+    ) {
         if (typeof storageAccount === 'string') {
             return resources.find((resource) =>
                 this.isResourceUrlsEqual(
@@ -170,9 +170,9 @@ class EnvironmentPickerManager {
         } else {
             return storageAccount;
         }
-    };
+    }
 
-    static getStorageAccountUrlFromContainerUrl = (containerUrl: string) => {
+    static getStorageAccountUrlFromContainerUrl(containerUrl: string) {
         try {
             if (containerUrl) {
                 const urlObj = new URL(containerUrl);
@@ -184,9 +184,9 @@ class EnvironmentPickerManager {
             console.log(error.message);
             return null;
         }
-    };
+    }
 
-    static getStorageAndContainerFromContainerUrl = (containerUrl: string) => {
+    static getStorageAndContainerFromContainerUrl(containerUrl: string) {
         try {
             if (containerUrl) {
                 const urlObj = new URL(containerUrl);
@@ -201,18 +201,18 @@ class EnvironmentPickerManager {
             console.log(error.message);
             return null;
         }
-    };
+    }
 
-    static getStorageAccountId = (
+    static getStorageAccountId(
         storageAccount: string | IAzureResource,
         storageAccountToContainersMapping: Array<StorageAccountToContainersMapping>
-    ) => {
+    ) {
         return typeof storageAccount === 'string'
             ? storageAccountToContainersMapping?.find(
                   (mapping) => mapping.storageAccountUrl === storageAccount
               )?.storageAccountId
             : storageAccount?.id;
-    };
+    }
 
     static getEnvironmentUrlsFromLocalStorage(localStorageKey: string) {
         let environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage>;
