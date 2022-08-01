@@ -43,3 +43,14 @@ export type ADTEnvironmentInLocalStorage = {
 export type ADTSelectedEnvironmentInLocalStorage = {
     appAdtUrl: string;
 };
+
+export type StorageAccountsInLocalStorage = {
+    id: string;
+    url: string;
+};
+
+export type StorageAccountToContainersMapping = {
+    storageAccountId: string;
+    storageAccountUrl: string;
+    containerNames: Array<string>;
+};

@@ -265,16 +265,16 @@ ResetAfterChanges.play = async ({ canvasElement }) => {
     userEvent.click(behaviorsTabButton);
 };
 
-// export const UpdateStorageUrl = Template.bind({});
-// UpdateStorageUrl.args = {
+// export const UpdateStorageContainerUrl = Template.bind({});
+// UpdateStorageContainerUrl.args = {
 //     initialState: GET_MOCK_BEHAVIOR_FORM_STATE(),
 //     BehaviorFormProps: defaultBehaviorFormOptions
 // } as StoryProps;
-// UpdateStorageUrl.play = async ({ canvasElement }) => {
+// UpdateStorageContainerUrl.play = async ({ canvasElement }) => {
 //     const canvas = within(canvasElement);
 //     // Finds the button and clicks it
 //     const behaviorsTabButton = await canvas.findByTestId(
-//         'BehaviorFormContext-ChangeStorageUrl'
+//         'BehaviorFormContext-ChangeStorageContainerUrl'
 //     );
 //     await userEvent.click(behaviorsTabButton);
 // };

@@ -42,7 +42,12 @@ const comboBoxOptionStyles = {
     },
     flexContainer: { span: { width: '100%' } }
 };
-
+const freeformOptionsHeaderText = '---';
+const freeformOptionsHeader = {
+    key: 'additional-options',
+    text: freeformOptionsHeaderText,
+    itemType: SelectableOptionMenuItemType.Header
+};
 const getClassNames = classNamesFunction<
     IResourcePickerStyleProps,
     IResourcePickerStyles
@@ -60,7 +65,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     searchParams,
     onResourcesLoaded,
     onResourceChange,
-    additionalOptions,
+    additionalOptions: additionalOptionsProp,
     selectedOption: selectedOptionProp,
     allowFreeform = false,
     disabled = false
@@ -71,7 +76,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     });
 
     const [options, setOptions] = useState([]);
-    const optionsRef = useRef(null);
     const [selectedOption, setSelectedOption] = useState<IComboBoxOption>(
         selectedOptionProp
             ? {
@@ -81,8 +85,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
               }
             : null
     );
+    const [additionalOptions, setAdditionalOptions] = useState<
+        Array<IComboBoxOption>
+    >([]);
     const [selectedKey, setSelectedKey] = useState<string>(null); // resource id or the option text if manually entered option
     const [error, setError] = useState(null);
+    const resourcesRef = useRef<Array<IAzureResource>>([]);
+
     const resourcesState = useAdapter({
         adapterMethod: () =>
             adapter.getResourcesByPermissions(
@@ -150,112 +159,49 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [displayField]
     );
 
-    useEffect(() => {
-        let newOptions: Array<IComboBoxOption> = [];
-        if (resourcesState.adapterResult.getCatastrophicError()) {
-            setError(resourcesState.adapterResult.getCatastrophicError());
-            newOptions =
-                additionalOptions?.map(
-                    (additionalOption) =>
-                        ({
-                            key: additionalOption,
-                            text: additionalOption,
-                            styles: comboBoxOptionStyles
-                        } as IComboBoxOption)
-                ) || [];
-            if (
-                selectedOption &&
-                !additionalOptions?.includes(selectedOption.text)
-            ) {
-                newOptions = newOptions.concat([selectedOption]);
-            }
-        } else if (!resourcesState.adapterResult.hasNoData()) {
-            const resources: Array<IAzureResource> =
-                resourcesState.adapterResult.result?.data;
-
-            if (onResourcesLoaded) {
-                onResourcesLoaded(resources);
-            }
-
-            let lastHeader = '';
-            // after fetching resources, first attempt to append those to the dropdown list
-            resources.forEach((r) => {
-                if (r.subscriptionName && lastHeader !== r.subscriptionName) {
-                    newOptions.push({
-                        key: r.subscriptionName,
-                        text: r.subscriptionName,
-                        itemType: SelectableOptionMenuItemType.Header
-                    });
-                    newOptions.push({
-                        key: r.id,
-                        text:
-                            getDisplayFieldValue(r) ||
-                            t('resourcesPicker.displayFieldNotFound', {
-                                displayField:
-                                    AzureResourceDisplayFields[displayField],
-                                id: r.id
-                            }),
-                        data: r,
-                        styles: comboBoxOptionStyles
-                    } as IComboBoxOption);
-                    lastHeader = r.subscriptionName;
-                } else {
-                    newOptions.push({
-                        key: r.id,
-                        text:
-                            getDisplayFieldValue(r) ||
-                            t('resourcesPicker.displayFieldNotFound', {
-                                displayField:
-                                    AzureResourceDisplayFields[displayField],
-                                id: r.id
-                            }),
-                        data: r,
-                        styles: comboBoxOptionStyles
-                    } as IComboBoxOption);
-                }
-            });
-
+    // after fetching the resources merge them with existing options in the dropdown
+    const mergeOptionsWithProps = useCallback(
+        (options, additionalOptions, selectedOption) => {
             if (additionalOptions) {
                 // do the merging with existing options: add the additional options manually entered by user to the end if it is not in the fetched data
-                const existingOptionTexts = resources.map((resource) =>
-                    getDisplayFieldValue(resource)
+                const existingOptionTexts =
+                    resourcesRef.current?.map((resource) =>
+                        getDisplayFieldValue(resource)
+                    ) || [];
+
+                const optionsToAdd = additionalOptions.filter(
+                    (additionalOption) =>
+                        existingOptionTexts.findIndex((existingOptionText) =>
+                            isValuesEqual(
+                                existingOptionText,
+                                additionalOption.text
+                            )
+                        ) === -1
                 );
 
-                const optionsToAdd = additionalOptions
-                    .filter(
-                        (additionalOption) =>
-                            !existingOptionTexts.includes(additionalOption)
-                    )
-                    .map(
-                        (additionalOption) =>
-                            ({
-                                key: additionalOption,
-                                text: additionalOption,
-                                styles: comboBoxOptionStyles
-                            } as IComboBoxOption)
-                    );
                 if (optionsToAdd.length) {
-                    newOptions.push({
-                        key: 'additional-options',
-                        text: '---',
-                        itemType: SelectableOptionMenuItemType.Header
-                    });
-                    newOptions = newOptions.concat(optionsToAdd);
+                    if (resourcesRef.current?.length > 0) {
+                        // add the freeform options header if the resources are fetched and exists
+                        options.push(freeformOptionsHeader);
+                    }
+                    options = options.concat(optionsToAdd);
                 }
             }
             if (selectedOption) {
-                const selectedOptionInNewOptions = newOptions.find(
-                    (option) => option.text === selectedOption.text
+                const selectedOptionInNewOptions = options.find((option) =>
+                    isValuesEqual(option.text, selectedOption.text)
                 );
                 if (!selectedOptionInNewOptions) {
-                    if (!additionalOptions) {
-                        newOptions.push({
-                            key: 'additional-options',
-                            text: '---',
-                            itemType: SelectableOptionMenuItemType.Header
-                        });
+                    const freeFromOptionsHeaderExist = options?.find(
+                        (option) =>
+                            option.itemType ===
+                                SelectableOptionMenuItemType.Header &&
+                            option.text === freeformOptionsHeaderText
+                    );
+                    if (!freeFromOptionsHeaderExist) {
+                        options.push(freeformOptionsHeader);
                     }
-                    newOptions = newOptions.concat([selectedOption]);
+                    options = options.concat([selectedOption]);
                 } else {
                     setSelectedKey(
                         selectedOptionInNewOptions.data?.id ||
@@ -263,39 +209,140 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     );
                 }
             }
+            return options;
+        },
+        []
+    );
+
+    const optionsFromResources = () => {
+        const newOptions: Array<IComboBoxOption> = [];
+        let lastHeader = '';
+        // after fetching resources, first start the dropdown with that
+        resourcesRef.current?.forEach((r) => {
+            if (r.subscriptionName && lastHeader !== r.subscriptionName) {
+                newOptions.push({
+                    key: r.subscriptionName,
+                    text: r.subscriptionName,
+                    itemType: SelectableOptionMenuItemType.Header
+                });
+                newOptions.push({
+                    key: r.id,
+                    text:
+                        getDisplayFieldValue(r) ||
+                        t('resourcesPicker.displayFieldNotFound', {
+                            displayField:
+                                AzureResourceDisplayFields[displayField],
+                            id: r.id
+                        }),
+                    data: r,
+                    styles: comboBoxOptionStyles
+                } as IComboBoxOption);
+                lastHeader = r.subscriptionName;
+            } else {
+                newOptions.push({
+                    key: r.id,
+                    text:
+                        getDisplayFieldValue(r) ||
+                        t('resourcesPicker.displayFieldNotFound', {
+                            displayField:
+                                AzureResourceDisplayFields[displayField],
+                            id: r.id
+                        }),
+                    data: r,
+                    styles: comboBoxOptionStyles
+                } as IComboBoxOption);
+            }
+        });
+        return newOptions;
+    };
+
+    // reset the dropdown options after fetching data, first options are resources, last items are the freeform added ones
+    useEffect(() => {
+        let newOptions: Array<IComboBoxOption> = [];
+        if (resourcesState.adapterResult.getCatastrophicError()) {
+            resourcesRef.current = null;
+            setError(resourcesState.adapterResult.getCatastrophicError());
+            newOptions = additionalOptions || [];
+            if (
+                selectedOption &&
+                !additionalOptions?.find((o) => o.text === selectedOption.text)
+            ) {
+                newOptions = newOptions.concat([selectedOption]);
+            }
+        } else if (!resourcesState.adapterResult.hasNoData()) {
+            const resources: Array<IAzureResource> =
+                resourcesState.adapterResult.result?.data;
+            resourcesRef.current = resources;
+
+            if (onResourcesLoaded) {
+                onResourcesLoaded(resources);
+            }
+
+            newOptions = mergeOptionsWithProps(
+                optionsFromResources(),
+                additionalOptions,
+                selectedOption
+            );
         } else {
+            resourcesRef.current = [];
             // by default on mount, set the options as additional options and/or selected option for the dropdown
             if (additionalOptions) {
-                newOptions = additionalOptions.map(
-                    (additionalOption) =>
-                        ({
-                            key: additionalOption,
-                            text: additionalOption,
-                            styles: comboBoxOptionStyles
-                        } as IComboBoxOption)
-                );
+                newOptions = additionalOptions;
             }
             if (
                 selectedOption &&
-                !additionalOptions?.includes(selectedOption.text)
+                !additionalOptions?.find((o) => o.text === selectedOption.text)
             ) {
                 newOptions = newOptions.concat([selectedOption]);
             }
         }
 
         setOptions(newOptions);
-        optionsRef.current = newOptions;
     }, [resourcesState.adapterResult]);
 
     useEffect(() => {
+        if (selectedOptionProp) {
+            setSelectedOption({
+                key: selectedOptionProp,
+                text: selectedOptionProp,
+                styles: comboBoxOptionStyles
+            });
+        } else {
+            setSelectedOption(null);
+        }
+    }, [selectedOptionProp]);
+
+    useEffect(() => {
         if (selectedOption) {
-            const selectedKey = optionsRef.current?.find(
+            const selectedKey = options?.find(
                 (option) =>
                     option.text === parsedOptionText(selectedOption.text)
             )?.key;
             setSelectedKey(selectedKey);
+        } else {
+            setSelectedKey(null);
         }
     }, [selectedOption]);
+
+    useEffect(() => {
+        setAdditionalOptions(
+            additionalOptionsProp?.map((aO) => ({
+                key: aO,
+                text: aO,
+                styles: comboBoxOptionStyles
+            })) || []
+        );
+    }, [additionalOptionsProp]);
+
+    useEffect(() => {
+        setOptions(
+            mergeOptionsWithProps(
+                optionsFromResources(),
+                additionalOptions,
+                selectedOption
+            )
+        );
+    }, [additionalOptions]);
 
     const parsedOptionText = useCallback((value) => {
         if (!value) return value;
@@ -372,141 +419,174 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
     }, [selectedOption, resourceType, isValidUrlStr, t]);
 
-    const handleOnChange = useCallback((option, value) => {
-        if (option) {
-            setSelectedOption(option);
-            setSelectedKey(option.data?.id ?? option.text);
-            if (onResourceChange) {
-                onResourceChange(
-                    option.data || option.text,
-                    optionsRef.current
-                        ?.filter(
-                            (option) =>
-                                option.itemType !==
-                                SelectableOptionMenuItemType.Header
-                        )
-                        .map((option) => option.data || option.text) || []
-                );
+    const isValuesEqual = (value1: string, value2: string) => {
+        if (displayField === AzureResourceDisplayFields.url) {
+            if (value1?.endsWith('/')) {
+                value1 = value1.slice(0, -1);
             }
+            if (value2?.endsWith('/')) {
+                value2 = value2.slice(0, -1);
+            }
+            return value1 === value2;
         } else {
-            const newParsedOptionValue = parsedOptionText(value);
+            return value1 === value2;
+        }
+    };
 
-            const existingOption = optionsRef.current.find(
-                (option) => option.text === newParsedOptionValue
-            );
-            if (!existingOption) {
-                const newOption = {
-                    key: newParsedOptionValue,
-                    text: newParsedOptionValue,
-                    styles: comboBoxOptionStyles
-                };
-                setSelectedOption(newOption);
-
-                if (isValidUrlStr(newParsedOptionValue)) {
-                    const newOptions = [
-                        ...deepCopy(optionsRef.current),
-                        newOption
-                    ];
-                    setOptions(newOptions);
-                    optionsRef.current = newOptions;
-                }
-                if (onResourceChange)
+    const handleOnChange = useCallback(
+        (option, value) => {
+            if (option) {
+                setSelectedOption(option);
+                setSelectedKey(option.data?.id ?? option.text);
+                if (onResourceChange) {
                     onResourceChange(
-                        newParsedOptionValue,
-                        optionsRef.current
+                        option.data || option.text,
+                        options
                             ?.filter(
                                 (option) =>
                                     option.itemType !==
                                     SelectableOptionMenuItemType.Header
                             )
                             .map((option) => option.data || option.text) || []
+                    );
+                }
+            } else {
+                const newParsedOptionValue = parsedOptionText(value);
+
+                const existingOption = options.find((option) =>
+                    isValuesEqual(option.text, newParsedOptionValue)
+                );
+                if (!existingOption) {
+                    const newOption = {
+                        key: newParsedOptionValue,
+                        text: newParsedOptionValue,
+                        styles: comboBoxOptionStyles
+                    };
+
+                    let newOptions = deepCopy(options);
+                    if (
+                        displayField !== AzureResourceDisplayFields.url ||
+                        (displayField === AzureResourceDisplayFields.url &&
+                            isValidUrlStr(newParsedOptionValue))
+                    ) {
+                        const freeFromOptionsHeaderExist = options?.find(
+                            (option) =>
+                                option.itemType ===
+                                    SelectableOptionMenuItemType.Header &&
+                                option.text === freeformOptionsHeaderText
+                        );
+                        newOptions = freeFromOptionsHeaderExist
+                            ? [...newOptions, newOption]
+                            : [...newOptions, freeformOptionsHeader, newOption];
+                        setOptions(newOptions);
+                        setSelectedOption(newOption);
+                        setSelectedKey(newParsedOptionValue);
+                    }
+                    if (onResourceChange)
+                        onResourceChange(
+                            newParsedOptionValue,
+                            newOptions
+                                ?.filter(
+                                    (option) =>
+                                        option.itemType !==
+                                        SelectableOptionMenuItemType.Header
+                                )
+                                .map((option) => option.data || option.text) ||
+                                []
+                        );
+                } else {
+                    setSelectedOption(existingOption);
+                    setSelectedKey(existingOption.key);
+                    if (onResourceChange)
+                        onResourceChange(
+                            existingOption.data || existingOption.text,
+                            options
+                                ?.filter(
+                                    (option) =>
+                                        option.itemType !==
+                                        SelectableOptionMenuItemType.Header
+                                )
+                                .map((option) => option.data || option.text) ||
+                                []
+                        );
+                }
+            }
+        },
+        [options]
+    );
+
+    const handleOnRemove = useCallback(
+        (option: IComboBoxOption) => {
+            const restOfOptions = options.filter((o) => o.key !== option.key);
+            if (restOfOptions.length) {
+                const lastOption = restOfOptions[restOfOptions.length - 1];
+                if (
+                    lastOption.itemType === SelectableOptionMenuItemType.Header
+                ) {
+                    // remove the '---' freeform options header if there is no option below
+                    restOfOptions.splice(-1);
+                }
+            }
+            setOptions(restOfOptions);
+
+            if (option.key === selectedOption?.key) {
+                setSelectedOption(null);
+                if (onResourceChange)
+                    onResourceChange(
+                        null,
+                        restOfOptions
+                            .filter(
+                                (option) =>
+                                    option.itemType !==
+                                    SelectableOptionMenuItemType.Header
+                            )
+                            .map((option) => option.data || option.text)
                     );
             } else {
-                setSelectedOption(existingOption);
                 if (onResourceChange)
                     onResourceChange(
-                        existingOption.data || existingOption.text,
-                        optionsRef.current
+                        selectedOption?.data || selectedOption?.text,
+                        restOfOptions
                             ?.filter(
                                 (option) =>
                                     option.itemType !==
                                     SelectableOptionMenuItemType.Header
                             )
-                            .map((option) => option.data || option.text) || []
+                            .map((option) => option.data || option.text)
                     );
             }
+        },
+        [options, selectedOption]
+    );
 
-            setSelectedKey(newParsedOptionValue);
-        }
-    }, []);
-
-    const handleOnRemove = (option: IComboBoxOption) => {
-        const restOfOptions = optionsRef.current.filter(
-            (o) => o.key !== option.key
-        );
-        if (restOfOptions.length) {
-            const lastOption = restOfOptions[restOfOptions.length - 1];
-            if (lastOption.itemType === SelectableOptionMenuItemType.Header) {
-                // remove the '---' header if there is no option below
-                restOfOptions.splice(-1);
-            }
-        }
-        setOptions(restOfOptions);
-        optionsRef.current = restOfOptions;
-
-        if (option.key === selectedOption?.key) {
-            setSelectedOption(null);
-            if (onResourceChange)
-                onResourceChange(
-                    null,
-                    restOfOptions
-                        .filter(
-                            (option) =>
-                                option.itemType !==
-                                SelectableOptionMenuItemType.Header
-                        )
-                        .map((option) => option.data || option.text)
-                );
-        } else {
-            if (onResourceChange)
-                onResourceChange(
-                    selectedOption?.data || selectedOption?.text,
-                    restOfOptions
-                        ?.filter(
-                            (option) =>
-                                option.itemType !==
-                                SelectableOptionMenuItemType.Header
-                        )
-                        .map((option) => option.data || option.text)
-                );
-        }
-    };
-
-    const handleOnRender = (option: IComboBoxOption) => {
-        return (
-            <div className={classNames.comboBoxOptionWrapper}>
-                <span className={classNames.comboBoxOptionText}>
-                    {option.text}
-                </span>
-                {option.itemType !== SelectableOptionMenuItemType.Header &&
-                    !resourcesState.isLoading &&
-                    resourcesState.adapterResult?.result?.data?.findIndex(
-                        (r) => r.id === option.key
-                    ) === -1 && (
-                        <Icon
-                            iconName="Delete"
-                            aria-hidden="true"
-                            title={t('resourcesPicker.removeFromList')}
-                            style={{ paddingLeft: 12 }}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                handleOnRemove(option);
-                            }}
-                        />
-                    )}
-            </div>
-        );
-    };
+    const handleOnRender = useCallback(
+        (option: IComboBoxOption) => {
+            return (
+                <div className={classNames.comboBoxOptionWrapper}>
+                    <span className={classNames.comboBoxOptionText}>
+                        {option.text}
+                    </span>
+                    {option.itemType !== SelectableOptionMenuItemType.Header &&
+                        !resourcesState.isLoading &&
+                        resourcesState.adapterResult?.result?.data?.findIndex(
+                            (r) => r.id === option.key
+                        ) === -1 && (
+                            <Icon
+                                iconName="Delete"
+                                aria-hidden="true"
+                                title={t('resourcesPicker.removeFromList')}
+                                style={{ paddingLeft: 12 }}
+                                onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleOnRemove(option);
+                                }}
+                            />
+                        )}
+                </div>
+            );
+        },
+        [classNames, resourcesState]
+    );
 
     return (
         <div className={classNames.root}>

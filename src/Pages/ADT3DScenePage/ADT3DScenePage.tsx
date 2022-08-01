@@ -97,13 +97,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     const getCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.getBlobServiceCorsProperties(),
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        refetchDependencies: [adapter, deeplinkState.storageContainerUrl]
     });
 
     const setCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.setBlobServiceCorsProperties(),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        refetchDependencies: [adapter, deeplinkState.storageContainerUrl]
     });
 
     const scenesConfig = useAdapter({
@@ -111,7 +111,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
         refetchDependencies: [
             adapter,
-            deeplinkState.storageUrl,
+            deeplinkState.storageContainerUrl,
             state.selectedScene
         ]
     });
@@ -154,9 +154,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     );
     const setBlobContainerUrl = useCallback(
         (url: string) => {
-            // store url to context
+            // store container url to context
             deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_STORAGE_URL,
+                type: DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL,
                 payload: { url }
             });
             adapter.setBlobContainerPath(url);
@@ -240,8 +240,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // update the adapter if the Storage instance changes
     useEffect(() => {
-        adapter.setBlobContainerPath(deeplinkState.storageUrl);
-    }, [adapter, deeplinkState.storageUrl]);
+        adapter.setBlobContainerPath(deeplinkState.storageContainerUrl);
+    }, [adapter, deeplinkState.storageContainerUrl]);
 
     // when a scene is selected show it
     useEffect(() => {
@@ -268,7 +268,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // store the scene config when the fetch resolves
     useEffect(() => {
         const storageContainerNotSet =
-            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
+            !deeplinkState.storageContainerUrl ||
+            deeplinkState.storageContainerUrl === '';
         const adtUrlNotSet =
             !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
         if (
@@ -315,7 +316,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [
         deeplinkState.adtUrl,
-        deeplinkState.storageUrl,
+        deeplinkState.storageContainerUrl,
         scenesConfig.adapterResult
     ]);
 
@@ -426,7 +427,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+            if (
+                !deeplinkState.storageContainerUrl ||
+                deeplinkState.storageContainerUrl === ''
+            ) {
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullContainerError
@@ -461,7 +465,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
+    }, [
+        deeplinkState.storageContainerUrl,
+        getCorsPropertiesAdapterData?.adapterResult
+    ]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -516,7 +523,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         })}
                                         storage={{
                                             containerUrl:
-                                                deeplinkState.storageUrl,
+                                                deeplinkState.storageContainerUrl,
                                             onContainerUrlChange: handleContainerUrlChange,
                                             ...(environmentPickerOptions
                                                 ?.storage
@@ -575,9 +582,11 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 {state.currentStep ===
                                     ADT3DScenePageSteps.SceneList && (
                                     <div className="cb-scene-page-scene-list-container">
-                                        {deeplinkState.storageUrl && (
+                                        {deeplinkState.storageContainerUrl && (
                                             <SceneList
-                                                key={deeplinkState.storageUrl}
+                                                key={
+                                                    deeplinkState.storageContainerUrl
+                                                }
                                                 title={'All scenes'}
                                                 theme={theme}
                                                 locale={locale}
@@ -638,7 +647,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
         <DeeplinkContextProvider
             initialState={{
                 adtUrl: adtHostUrl ? `https://${adtHostUrl}` : adtHostUrl,
-                storageUrl: adapter.getBlobContainerURL()
+                storageContainerUrl: adapter.getBlobContainerURL()
             }}
         >
             <SceneThemeContextProvider>

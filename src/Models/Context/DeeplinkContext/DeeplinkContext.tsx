@@ -21,7 +21,7 @@ import {
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
 
-// &mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockstorage.blob.core.windows.net/mockContainerName&adtUrl=https://mockadt.api.wcus.digitaltwins.azure.net
+// &mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageContainerUrl=https://mockstorage.blob.core.windows.net/mockContainerName&adtUrl=https://mockadt.api.wcus.digitaltwins.azure.net
 
 export const DeeplinkContext = React.createContext<IDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
@@ -59,8 +59,8 @@ export const DeeplinkContextReducer: (
                 draft.sceneId = action.payload.sceneId || '';
                 break;
             }
-            case DeeplinkContextActionType.SET_STORAGE_URL: {
-                draft.storageUrl = action.payload.url || '';
+            case DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL: {
+                draft.storageContainerUrl = action.payload.url || '';
                 break;
             }
         }
@@ -100,7 +100,8 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             parseArrayParam(parsed.selectedLayerIds) ||
             initialState.selectedLayerIds ||
             [],
-        storageUrl: parsed.storageUrl || initialState.storageUrl || ''
+        storageContainerUrl:
+            parsed.storageContainerUrl || initialState.storageContainerUrl || ''
     };
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
@@ -160,7 +161,7 @@ const buildDeeplink = (
             : undefined,
         mode: currentState.mode,
         adtUrl: currentState.adtUrl,
-        storageUrl: currentState.storageUrl
+        storageContainerUrl: currentState.storageContainerUrl
     };
 
     // if we only want the stringified object

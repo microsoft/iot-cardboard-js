@@ -64,7 +64,7 @@ export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
             '8904b620aa83c649888dadc7c8fdf492',
             '9624b620aa83c649888dadc7c8fdf541'
         ],
-        storageUrl:
+        storageContainerUrl:
             'https://mockStorageAccountName.blob.core.windows.net/mockContainer'
     };
     return (
@@ -93,7 +93,7 @@ export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
             '8904b620aa83c649888dadc7c8fdf492',
             '9624b620aa83c649888dadc7c8fdf541'
         ],
-        storageUrl:
+        storageContainerUrl:
             'https://mockStorageAccountName.blob.core.windows.net/mockContainer'
     };
     return (
@@ -209,7 +209,7 @@ export const ThemeCustomization = (_args, { globals: { theme, locale } }) => {
             '8904b620aa83c649888dadc7c8fdf492',
             '9624b620aa83c649888dadc7c8fdf541'
         ],
-        storageUrl:
+        storageContainerUrl:
             'https://mockStorageAccountName.blob.core.windows.net/mockContainer'
     };
     return (
