@@ -6,6 +6,7 @@
  */
 
 export type IElement = ITwinToObjectMapping | ICustomProperty;
+export type IPollingStrategy = 'Realtime' | 'Limited';
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
 export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
@@ -49,14 +50,29 @@ export interface I3DScenesConfig {
  * A scene is a single view that can be rendered from 3D assets
  */
 export interface IScene {
+    assets: IAsset[];
+    behaviorIDs: string[];
+    elements: IElement[];
     id: string;
-    displayName: string;
     description?: string;
+    displayName: string;
     latitude?: number;
     longitude?: number;
-    elements: IElement[];
-    behaviorIDs: string[];
-    assets: IAsset[];
+    pollingConfiguration?: IPollingConfiguration;
+}
+/**
+ * A 3D asset used to create the scene
+ */
+export interface IAsset {
+    type: string;
+    url: string;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Optional bag of non-schematized extension properties
+ */
+export interface IExtensionProperties {
+    [k: string]: unknown;
 }
 /**
  * An elements maps twins to objects in the scene
@@ -82,12 +98,6 @@ export interface ITwinToObjectMapping {
     extensionProperties?: IExtensionProperties;
 }
 /**
- * Optional bag of non-schematized extension properties
- */
-export interface IExtensionProperties {
-    [k: string]: unknown;
-}
-/**
  * Free form property
  */
 export interface ICustomProperty {
@@ -95,12 +105,11 @@ export interface ICustomProperty {
     [k: string]: unknown;
 }
 /**
- * A 3D asset used to create the scene
+ * Configures the strategy and parameters for the polling of twin data from the twin graph
  */
-export interface IAsset {
-    type: string;
-    url: string;
-    extensionProperties?: IExtensionProperties;
+export interface IPollingConfiguration {
+    pollingStrategy: IPollingStrategy;
+    maximumPollingInterval?: number;
 }
 /**
  * A behavior applies visual or interactive representations of twin state to objects in the scene

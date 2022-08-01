@@ -43,25 +43,10 @@
             "description": "A scene is a single view that can be rendered from 3D assets",
             "additionalProperties": false,
             "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "displayName": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "elements": {
+                "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/IElement"
+                        "$ref": "#/$defs/IAsset"
                     }
                 },
                 "behaviorIDs": {
@@ -72,11 +57,29 @@
                         "description": "A reference to a behavior present in this scene"
                     }
                 },
-                "assets": {
+                "elements": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/IAsset"
+                        "$ref": "#/$defs/IElement"
                     }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "pollingConfiguration": {
+                    "$ref": "#/$defs/IPollingConfiguration"
                 }
             },
             "required": [
@@ -192,6 +195,24 @@
                 }
             },
             "required": ["id", "displayName", "behaviorIDs"]
+        },
+        "IPollingConfiguration": {
+            "type": "object",
+            "description": "Configures the strategy and parameters for the polling of twin data from the twin graph",
+            "additionalProperties": false,
+            "properties": {
+                "pollingStrategy": {
+                    "$ref": "#/$defs/IPollingStrategy"
+                },
+                "maximumPollingInterval": {
+                    "type": "number"
+                }
+            },
+            "required": ["pollingStrategy"]
+        },
+        "IPollingStrategy": {
+            "type": "string",
+            "enum": ["Realtime", "Limited"]
         },
         "IExtensionProperties": {
             "type": "object",

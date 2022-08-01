@@ -140,6 +140,7 @@
         "copy-readme": "shx cp README.md dist/",
         "pack": "shx mkdir ./build_artifacts && cd dist && npm pack && shx mv *.tgz ../build_artifacts",
         "generateCerts": "mkdirp certificates && cd certificates && mkcert create-ca && mkcert create-cert",
+        "generate-schema": "node .\\tools\\generate-3d-schema-types.js",
         "storybook": "npm run generateCerts && start-storybook -p 443 --https --ssl-ca certificates/ca.crt --ssl-cert certificates/cert.crt --ssl-key certificates/cert.key",
         "storybook:noSSL": "start-storybook -p 3001",
         "storybook:export": "build-storybook",
