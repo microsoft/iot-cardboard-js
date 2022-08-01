@@ -109,7 +109,7 @@ interface IFakePanelProps {
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
 }
 
-const FakePanel = (props: IFakePanelProps) => {
+export const FakePanel = (props: IFakePanelProps) => {
     const { gizmoTransformItem, setGizmoTransformItem } = props;
     const gizmoTransformItemDraftRef = useRef<TransformInfo>(null);
     const { t } = useTranslation();

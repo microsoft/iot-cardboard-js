@@ -5,7 +5,7 @@ import {
     IExpressionRangeVisual,
     IValueRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { FontSizes, Stack, Text, TextField, useTheme } from '@fluentui/react';
+import { FontSizes, Stack, Text, useTheme } from '@fluentui/react';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import {
     defaultSwatchColors,
@@ -28,12 +28,10 @@ import {
     ModelledPropertyBuilderMode,
     PropertyExpression
 } from '../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import {
-    TransformedElementItem,
-    TransformInfo
-} from '../../../../../Models/Classes/SceneView.types';
+import { TransformedElementItem } from '../../../../../Models/Classes/SceneView.types';
 import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+import { FakePanel } from '../../../../3DV/SceneViewWithGizmoWrapper';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('AlertsTab', debugLogging);
@@ -145,7 +143,6 @@ const AlertsTab: React.FC = () => {
 
     const setValueRangeProperty = useCallback(
         (propertyName: keyof IValueRangeVisual, value: string | any) => {
-            //er ... sorry for the typing change
             logDebugConsole(
                 'info',
                 `[START] Update value range property ${propertyName} to value `,
@@ -234,66 +231,6 @@ const AlertsTab: React.FC = () => {
         [setValueRangeProperty]
     );
 
-    // onTransformChange()
-    // const onTransformChange = useCallback(
-    //     (newValue: HTMLTextAreaElement) =>
-    //         setBehaviorToEdit(
-    //             produce((draft) => {
-    //                 const alertVisual = getAndCreateIfNotExistsAlertVisual(
-    //                     draft
-    //                 );
-    //                 alertVisual.valueRanges[0].visual.extensionProperties = {
-    //                     transform: true,
-    //                     // xRot: newValue.rotation.x,
-    //                     // yRot: newValue.rotation.y,
-    //                     // zRot: newValue.rotation.z,
-    //                     // xPos: newValue.position.x,
-    //                     // yPos: newValue.position.y,
-    //                     // zPos: newValue.position.z
-    //                     xRot: newValue,
-    //                     yRot: 0,
-    //                     zRot: 0,
-    //                     xPos: 0,
-    //                     yPos: 0,
-    //                     zPos: 0
-    //                 };
-    //             })
-    //         ),
-    //     [setBehaviorToEdit]
-    // );
-    const onTransformChange = useCallback(
-        (event) => {
-            const { name, value } = event.target;
-            const newGizmoTransformItem: TransformInfo = deepCopy(
-                gizmoTransformItem
-            );
-            const valueAsNumber = Number(value);
-            console.log(gizmoTransformItem);
-            switch (name) {
-                case 'xPos':
-                    newGizmoTransformItem.position.x = valueAsNumber;
-                    break;
-                case 'yPos':
-                    newGizmoTransformItem.position.y = valueAsNumber;
-                    break;
-                case 'zPos':
-                    newGizmoTransformItem.position.z = valueAsNumber;
-                    break;
-                case 'xRot':
-                    newGizmoTransformItem.rotation.x = valueAsNumber;
-                    break;
-                case 'yRot':
-                    newGizmoTransformItem.rotation.y = valueAsNumber;
-                    break;
-                case 'zRot':
-                    newGizmoTransformItem.rotation.z = valueAsNumber;
-                    break;
-            }
-            setGizmoTransformItem(newGizmoTransformItem);
-        },
-        [setValueRangeProperty]
-    );
-
     const onNoteChange = useCallback(
         (newPropertyExpression: PropertyExpression) =>
             setValueRangeProperty(
@@ -360,84 +297,11 @@ const AlertsTab: React.FC = () => {
                                 }
                             }}
                         />
-
-                        {/* <TransformInput
-                        onTransformChange
-                        ></> */}
                     </Stack>
-                    <Stack tokens={{ childrenGap: 12 }} horizontal>
-                        <TextField
-                            label="X Position: "
-                            name="xPos"
-                            type="number"
-                            onChange={onTransformChange}
-                            // validateOnFocusIn
-                            // validateOnFocusOut
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.position.x
-                                    : ''
-                            }
-                        ></TextField>
-                        <TextField
-                            label="Y Position: "
-                            name="yPos"
-                            type="number"
-                            onChange={onTransformChange}
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.position.y
-                                    : ''
-                            }
-                        ></TextField>
-                        <TextField
-                            label="Z Position: "
-                            name="zPos"
-                            type="number"
-                            onChange={onTransformChange}
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.position.z
-                                    : ''
-                            }
-                        ></TextField>
-                    </Stack>
-                    <Stack tokens={{ childrenGap: 12 }} horizontal>
-                        <TextField
-                            label="X Rotation: "
-                            name="xRot"
-                            type="number"
-                            onChange={onTransformChange}
-                            validateOnFocusOut
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.rotation.x
-                                    : ''
-                            }
-                        ></TextField>
-                        <TextField
-                            label="Y Rotation: "
-                            name="yRot"
-                            type="number"
-                            onChange={onTransformChange}
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.rotation.y
-                                    : ''
-                            }
-                        ></TextField>
-                        <TextField
-                            label="Z Rotation: "
-                            name="zRot"
-                            type="number"
-                            onChange={onTransformChange}
-                            value={
-                                gizmoTransformItem
-                                    ? '' + gizmoTransformItem.rotation.z
-                                    : ''
-                            }
-                        ></TextField>
-                    </Stack>
+                    <FakePanel
+                        gizmoTransformItem={gizmoTransformItem}
+                        setGizmoTransformItem={setGizmoTransformItem}
+                    />
                     <Stack tokens={{ childrenGap: 4 }}>
                         <ModelledPropertyBuilder
                             adapter={adapter}
