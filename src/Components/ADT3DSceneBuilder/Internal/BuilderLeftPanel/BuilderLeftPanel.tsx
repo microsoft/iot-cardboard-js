@@ -7,7 +7,6 @@ import {
 } from '@fluentui/react';
 import React, { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { v4 } from 'uuid';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode
@@ -194,7 +193,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
     );
 
     const onCreateElementClick = useCallback(() => {
-        setSelectedElement(getDefaultElement({ id: v4() }));
+        setSelectedElement(getDefaultElement({ id: createGUID() }));
         setSceneMode(ADT3DSceneBuilderMode.CreateElement);
         setColoredMeshItems([]);
     }, [setColoredMeshItems, setSceneMode, setSelectedElement]);
