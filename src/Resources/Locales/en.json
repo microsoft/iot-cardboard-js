@@ -941,7 +941,7 @@
             "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
         }
     },
-    "resourcesPicker": {
+    "resourcesPicke": {
         "select": "Select a resource",
         "noOption": "No resources found",
         "loadingResources": "Loading resources",
