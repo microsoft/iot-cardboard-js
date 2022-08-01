@@ -858,7 +858,9 @@
     "fileUpload": "Fájlfeltöltés",
     "files": "Fájlokat",
     "selectFile": "Fájl kiválasztása",
-    "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg"
+    "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
+    "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
+    "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

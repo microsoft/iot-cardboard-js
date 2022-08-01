@@ -114,23 +114,34 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 // Get the relationships
                 input.contents.forEach((content) => {
                     switch (content['@type']) {
-                        case OATComponentHandleName:
-                            addComponentRelationship(
-                                input['@id'],
-                                content,
-                                models.find(
-                                    (model) => model['@id'] === content.schema
-                                ).displayName,
-                                elements
+                        case OATComponentHandleName: {
+                            const foundComponentTarget = models.find(
+                                (model) => model['@id'] === content.schema
                             );
-                            break;
-                        case OATRelationshipHandleName:
-                            if (content.target) {
-                                addTargetedRelationship(
+
+                            if (foundComponentTarget) {
+                                addComponentRelationship(
                                     input['@id'],
                                     content,
+                                    foundComponentTarget.displayName,
                                     elements
                                 );
+                            }
+                            break;
+                        }
+                        case OATRelationshipHandleName:
+                            if (content.target) {
+                                const foundRelationshipTarget = models.find(
+                                    (model) => model['@id'] === content.target
+                                );
+
+                                if (foundRelationshipTarget) {
+                                    addTargetedRelationship(
+                                        input['@id'],
+                                        content,
+                                        elements
+                                    );
+                                }
                             } else {
                                 addUntargetedRelationship(
                                     input['@id'],
@@ -149,7 +160,13 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                     ? input.extends
                     : [input.extends]
                 ).forEach((extend) => {
-                    addExtendsRelationship(input['@id'], extend, elements);
+                    const foundExtendTarget = models.find(
+                        (model) => model['@id'] === extend
+                    );
+
+                    if (foundExtendTarget) {
+                        addExtendsRelationship(input['@id'], extend, elements);
+                    }
                 });
             }
 

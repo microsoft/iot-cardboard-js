@@ -393,12 +393,12 @@ export function rgbToHex(r, g, b) {
     return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
-export async function parseModel(modelJson: string) {
+export async function parseModels(models: DtdlInterface[]) {
     const modelParser = createParser(
         ModelParsingOption.PermitAnyTopLevelElement
     );
     try {
-        await modelParser.parse([modelJson]);
+        await modelParser.parse([JSON.stringify(models)]);
     } catch (err) {
         if (err.name === 'ParsingException') {
             return err._parsingErrors

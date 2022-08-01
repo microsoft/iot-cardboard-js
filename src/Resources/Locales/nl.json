@@ -858,7 +858,9 @@
     "fileUpload": "Bestand uploaden",
     "files": "Archief",
     "selectFile": "Selecteer bestand",
-    "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd"
+    "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
+    "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
+    "errorFileInvalidJSON": "Probleem met {{bestandsnaam}}: ongeldige JSON"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
