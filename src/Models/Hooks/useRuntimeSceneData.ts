@@ -47,6 +47,7 @@ export const useRuntimeSceneData = (
         pollingIntervalMillis: pollingInterval
     });
 
+    // fetch updated twin data when the layer selections change
     useEffect(() => {
         logDebugConsole(
             'info',
