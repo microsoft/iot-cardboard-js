@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "加载模型时出错",
       "3dAssetLoadingNetworkErrorMessage": "这可能是 CORS 问题、无效的 Blob URL 或网络错误。请与存储此资产文件的容器的所有者联系，或稍后重试。",
-      "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。"
+      "3dAssetLoadingGenericErrorMessage": "加载模型时出错。请尝试清除缓存，然后重试或检查您对该文件的访问权限。",
+      "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "选择资源",
     "loadingResources": "加载资源",
@@ -957,4 +959,7 @@
     },
     "noOption": "未找到资源"
   }
+=======
+  "fieldRequired": "此字段为必填项"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

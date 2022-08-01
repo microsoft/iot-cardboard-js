@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Fel vid laddning av modell",
       "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
-      "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen."
+      "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen.",
+      "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Välj en resurs",
     "loadingResources": "Läsa in resurser",
@@ -957,4 +959,7 @@
     },
     "noOption": "Inga resurser hittades"
   }
+=======
+  "fieldRequired": "Det här fältet är obligatoriskt"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

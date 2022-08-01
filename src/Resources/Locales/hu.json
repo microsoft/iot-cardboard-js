@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Hiba a modell betöltésekor",
       "3dAssetLoadingNetworkErrorMessage": "Ez lehet CORS-probléma, érvénytelen blob URL-cím vagy hálózati hiba. Lépjen kapcsolatba annak a tárolónak a tulajdonosával, ahol az eszközfájlt tárolják, vagy próbálkozzon újra később.",
-      "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést."
+      "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést.",
+      "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Erőforrás kiválasztása",
     "loadingResources": "Erőforrások betöltése",
@@ -957,4 +959,7 @@
     },
     "noOption": "Nem található forrás"
   }
+=======
+  "fieldRequired": "A mező kitöltése kötelező"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

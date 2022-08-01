@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model při načítání chyb",
       "3dAssetLoadingNetworkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL objektu BLOB nebo chybu sítě. Obraťte se na vlastníka kontejneru, ve kterém je tento soubor datového zdroje uložený, nebo to zkuste znovu později.",
-      "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru."
+      "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
+      "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Výběr zdroje",
     "loadingResources": "Načítání zdrojů",
@@ -957,4 +959,7 @@
     },
     "noOption": "Nebyly nalezeny žádné zdroje"
   }
+=======
+  "fieldRequired": "Toto pole je povinné"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

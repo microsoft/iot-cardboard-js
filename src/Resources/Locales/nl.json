@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model voor fout bij laden",
       "3dAssetLoadingNetworkErrorMessage": "Dit kan een CORS-probleem, ongeldige blob-url of een netwerkfout zijn. Neem contact op met de eigenaar van de container waar dit activabestand is opgeslagen of probeer het later opnieuw.",
-      "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand."
+      "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand.",
+      "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Selecteer een resource",
     "loadingResources": "Bronnen laden",
@@ -957,4 +959,7 @@
     },
     "noOption": "Geen bronnen gevonden"
   }
+=======
+  "fieldRequired": "Dit veld is verplicht"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

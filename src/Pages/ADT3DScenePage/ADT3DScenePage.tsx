@@ -615,11 +615,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                     <>
                                         <div className="cb-scene-builder-and-viewer-container">
                                             <ADT3DSceneBuilderContainer
-                                                mode={deeplinkState.mode}
                                                 scenesConfig={
                                                     state.scenesConfig
                                                 }
-                                                sceneId={deeplinkState.sceneId}
                                                 adapter={adapter}
                                                 theme={theme}
                                                 locale={locale}

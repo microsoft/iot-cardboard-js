@@ -69,6 +69,7 @@
     "discardChangesDesc": "Are you sure? You can't undo this action.",
     "action": "Action",
     "actions": "Actions",
+    "fieldRequired": "This field is required",
     "name": "Name",
     "title": "Title",
     "enterTitle": "Enter title",
@@ -936,7 +937,8 @@
         "sceneView": {
             "3dAssetLoadingErrorTitle": "Error loading model",
             "3dAssetLoadingNetworkErrorMessage": "This could be a CORS issue, invalid blob url or a network error. Please contact the owner of the container where this asset file is stored or try again later.",
-            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again or check your access for that file."
+            "3dAssetLoadingGenericErrorMessage": "Error loading model. Try clearing your cache and try again or check your access for that file.",
+            "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
         }
     },
     "resourcesPicker": {

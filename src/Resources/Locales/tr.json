@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Model yüklenirken hata oluştu",
       "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
-      "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin."
+      "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
+      "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Kaynak seçme",
     "loadingResources": "Kaynakları yükleme",
@@ -957,4 +959,7 @@
     },
     "noOption": "Kaynak bulunamadı"
   }
+=======
+  "fieldRequired": "Bu alan zorunludur"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }

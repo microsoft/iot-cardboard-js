@@ -936,9 +936,11 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Erreur de chargement du modèle",
       "3dAssetLoadingNetworkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL d’objet blob non valide ou d’une erreur réseau. Veuillez contacter le propriétaire du conteneur dans lequel ce fichier de ressources est stocké ou réessayer ultérieurement.",
-      "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier."
+      "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier.",
+      "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     }
   },
+<<<<<<< HEAD
   "resourcesPicker": {
     "select": "Sélectionner une ressource",
     "loadingResources": "Chargement des ressources",
@@ -957,4 +959,7 @@
     },
     "noOption": "Aucune ressource trouvée"
   }
+=======
+  "fieldRequired": "Ce champ est obligatoire"
+>>>>>>> eac5633cec5cb90b69441473e43237d7e8444a75
 }
