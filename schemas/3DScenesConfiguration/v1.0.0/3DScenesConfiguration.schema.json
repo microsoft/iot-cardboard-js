@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "$id": "https://raw.githubusercontent.com/microsoft/iot-cardboard-js/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
     "title": "I3DScenesConfig",
     "description": "A vocabulary to annotate and validate the JSON representation of 3D scene configuration data",
     "type": "object",
