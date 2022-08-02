@@ -25,6 +25,7 @@ import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { IDropdownOption } from '@fluentui/react';
 import { isConstant, toConstant } from 'constantinople';
 import { v4 } from 'uuid';
+import TreeMap from 'ts-treemap';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -223,6 +224,42 @@ export function getTimeStamp() {
     const date = encodeURIComponent(d.toLocaleDateString().replace(/\//g, '-'));
     const timeStamp = `${date}_${hours - 12}:${minutes}:${seconds}`;
     return timeStamp;
+}
+
+/**
+ * Takes in a duration in milliseconds and returns and object that has the value converted to the best units to describe that duration (ex: seconds, minutes, hours, days, years).
+ * @param milliseconds millisecond duration to convert
+ * @returns an object containing the scaled version and the locale resource key for the units
+ */
+export function formatTimeInRelevantUnits(
+    milliseconds: number
+): { value: number; displayStringKey: string } {
+    const DEFAULT_RESULT = {
+        value: 0,
+        displayStringKey: 'duration.milliseconds'
+    };
+    if (milliseconds < 1) {
+        return DEFAULT_RESULT;
+    }
+    const timeUnits = new TreeMap<number, string>();
+    timeUnits.set(1, 'duration.millisecond');
+    timeUnits.set(1000, 'duration.second');
+    timeUnits.set(60 * 1000, 'duration.minute');
+    timeUnits.set(60 * 60 * 1000, 'duration.hour');
+    timeUnits.set(24 * 60 * 60 * 1000, 'duration.day');
+    timeUnits.set(365 * 24 * 60 * 60 * 1000, 'duration.year');
+    const unitBelow = timeUnits.floorEntry(milliseconds);
+
+    const value = milliseconds / unitBelow[0];
+    let units = unitBelow[1];
+    // make the key plural if it's != 1
+    if (value !== 1) {
+        units += 's';
+    }
+    return {
+        value: value,
+        displayStringKey: units
+    };
 }
 
 export function parseExpression(expression: string, twins: any) {
