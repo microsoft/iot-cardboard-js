@@ -17,7 +17,6 @@ export interface IADT3DBuilderProps {
     showHoverOnSelected?: boolean;
     outlinedMeshItems?: CustomMeshItem[];
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
-    hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

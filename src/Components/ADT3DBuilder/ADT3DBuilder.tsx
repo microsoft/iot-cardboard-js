@@ -33,7 +33,6 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
         showHoverOnSelected,
         outlinedMeshItems,
         objectColorUpdated,
-        hideViewModePickerUI,
         styles
     } = props;
 
@@ -67,7 +66,6 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
             <div className={classNames.wrapper}>
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
-                    hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Builder}
                     sceneViewProps={{
                         ...svp,
