@@ -12,7 +12,7 @@ export const getStyles = (
 ): ITooltipCalloutStyles => {
     const { theme } = props;
     return {
-        root: classNames.root,
+        root: [classNames.root],
         subComponentStyles: {
             button: {
                 root: {
