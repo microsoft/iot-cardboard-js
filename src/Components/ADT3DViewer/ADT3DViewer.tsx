@@ -170,10 +170,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     const [coloredMeshItems, setColoredMeshItems] = useState<CustomMeshItem[]>(
         coloredMeshItemsProp || []
     );
+    const [markers, setMarkers] = useState<Marker[]>([]);
     const [transformedElementItems, setTransformedElementItems] = useState<
         TransformedElementItem[]
     >(transformedElementItemsProp || []);
-    const [alertBadges, setAlertBadges] = useState<SceneViewBadgeGroup[]>();
     const [outlinedMeshItems, setOutlinedMeshItems] = useState<
         CustomMeshItem[]
     >(outlinedMeshItemsProp || []);
@@ -527,6 +527,24 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     }, [sceneVisuals, coloredMeshItemsProp]);
 
     useEffect(() => {
+        if (sceneAlerts) {
+            const markers: Marker[] = [];
+            sceneAlerts.forEach((alert) => {
+                const badge = createBadge(
+                    alert,
+                    sceneThemeState.sceneBackground,
+                    onBadgeGroupHover
+                );
+                markers.push(badge);
+            });
+
+            setMarkers(markers);
+        }
+        // sceneThemeState.sceneBackground is a dependancy as we need to rerun this useEffect when
+        // the background color changes to ensure we update the badge colors
+    }, [sceneAlerts, sceneThemeState.sceneBackground]);
+
+    useEffect(() => {
         if (transformedElementItemsProp) {
             setTransformedElementItems(transformedElementItemsProp);
         } else {
@@ -542,7 +560,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         }
     }, [sceneVisuals, transformedElementItemsProp]);
 
-    // mesh callbakcs
+    // mesh callbacks
     const meshClick = (mesh: { id: string }, scene: any) => {
         // update the selected element on the context
         setSelectedElementId(getElementByMeshId(mesh?.id)?.id);
@@ -710,6 +728,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
                         coloredMeshItems: coloredMeshItems,
+                        markers: markers,
                         transformedElementItems: transformedElementItems,
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,
