@@ -287,13 +287,21 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
-    /** Adds existing behavior to the target scene */
+    /**
+     * Adds existing behavior to the target scene
+     * @param config configuration data for the scene
+     * @param sceneId id of the scene to update
+     * @param behavior behavior to add to the scene
+     * @param updateInPlace whether to update the config object provided or return a new copy
+     * @returns
+     */
     static addBehaviorToScene(
         config: I3DScenesConfig,
         sceneId: string,
-        behavior: IBehavior
+        behavior: IBehavior,
+        updateInPlace = false
     ): I3DScenesConfig {
-        const updatedConfig = deepCopy(config);
+        const updatedConfig = updateInPlace ? config : deepCopy(config);
         const currentScene = updatedConfig.configuration.scenes.find(
             (scene) => scene.id === sceneId
         );
@@ -821,25 +829,6 @@ abstract class ViewerConfigUtility {
         );
     }
 
-    /** get a list of behaviors where this element is not a part of */
-    static getAvailableBehaviorsForElement(
-        element: ITwinToObjectMapping,
-        behaviors: Array<IBehavior>
-    ) {
-        return (
-            behaviors.filter((behavior) => {
-                const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
-                    behavior
-                );
-                return (
-                    dataSources.length === 0 ||
-                    !dataSources?.[0]?.elementIDs ||
-                    !dataSources?.[0]?.elementIDs?.includes(element?.id)
-                );
-            }) || []
-        );
-    }
-
     static getElementTwinToObjectMappingDataSourcesFromBehavior(
         behavior: IBehavior
     ) {
@@ -894,37 +883,33 @@ abstract class ViewerConfigUtility {
         );
     }
 
-    static removeElementFromBehavior(
-        element: ITwinToObjectMapping,
-        behavior: IBehavior
-    ) {
+    static removeElementFromBehavior(elementId: string, behavior: IBehavior) {
         const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
             behavior
         );
         dataSources[0].elementIDs = dataSources[0].elementIDs.filter(
-            (mappingId) => mappingId !== element.id
+            (mappingId) => mappingId !== elementId
         );
         behavior.datasources = dataSources;
 
         return behavior;
     }
 
-    static addElementToBehavior(
-        element: ITwinToObjectMapping,
-        behavior: IBehavior
-    ) {
+    static addElementToBehavior(elementId: string, behavior: IBehavior) {
         const dataSources = ViewerConfigUtility.getElementTwinToObjectMappingDataSourcesFromBehavior(
             behavior
         );
-        if (
-            dataSources?.[0]?.elementIDs &&
-            !dataSources[0].elementIDs.includes(element.id)
-        ) {
-            dataSources[0].elementIDs.push(element.id);
+        // initialized
+        if (dataSources?.[0]?.elementIDs) {
+            // add it
+            if (!dataSources[0].elementIDs.includes(elementId)) {
+                dataSources[0].elementIDs.push(elementId);
+            }
         } else {
+            // not initialized, create the data source
             dataSources[0] = {
                 type: DatasourceType.ElementTwinToObjectMappingDataSource,
-                elementIDs: [element.id]
+                elementIDs: [elementId]
             };
         }
         behavior.datasources = dataSources;
