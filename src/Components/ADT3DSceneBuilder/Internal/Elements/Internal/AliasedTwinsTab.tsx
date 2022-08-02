@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import {
     IContextualMenuItem,
@@ -12,56 +12,45 @@ import { IElementTwinAliasItem } from '../../../../../Models/Classes/3DVConfig';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
 import { CardboardList } from '../../../../CardboardList/CardboardList';
-import { ElementFormContext } from '../ElementForm';
-import produce from 'immer';
 import { TwinAliasFormMode } from '../../../../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
+import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
+import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 
 const AliasedTwinsTab: React.FC = () => {
     const { t } = useTranslation();
-    const { elementToEdit, setElementToEdit } = useContext(ElementFormContext);
+    const { elementFormDispatch, elementFormState } = useElementFormContext();
     const { setElementTwinAliasFormInfo } = useContext(SceneBuilderContext);
-    const [twinAliasList, setTwinAliasList] = useState([]);
 
-    const onTwinAliasClick = useCallback(
-        (twinAliasItem: IElementTwinAliasItem) => {
-            setElementTwinAliasFormInfo({
-                twinAlias: twinAliasItem,
-                mode: TwinAliasFormMode.EditTwinAlias
-            });
-        },
-        [setElementTwinAliasFormInfo]
-    );
+    const onTwinAliasClick = (twinAliasItem: IElementTwinAliasItem) => {
+        setElementTwinAliasFormInfo({
+            twinAlias: twinAliasItem,
+            mode: TwinAliasFormMode.EditTwinAlias
+        });
+    };
 
     // When removing a twin alias from an element, remove that alias from element's twinAliases object.
     // If the result is length 0, remove the whole twinAliases key from element
-    const onTwinAliasRemoveFromElement = useCallback(
-        (twinAliasItem: IElementTwinAliasItem) => {
-            setElementToEdit(
-                produce((draft) => {
-                    delete draft.twinAliases[twinAliasItem.alias];
-                    if (Object.keys(draft.twinAliases).length === 0) {
-                        delete draft.twinAliases;
-                    }
-                })
-            );
-        },
-        [setElementToEdit]
-    );
+    const onTwinAliasRemoveFromElement = (
+        twinAliasItem: IElementTwinAliasItem
+    ) => {
+        elementFormDispatch({
+            type: ElementFormContextActionType.FORM_ELEMENT_TWIN_ALIAS_REMOVE,
+            payload: {
+                aliasName: twinAliasItem.alias
+            }
+        });
+    };
 
-    useEffect(() => {
-        const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromElement(
-            elementToEdit
-        );
-        setTwinAliasList(
-            getTwinAliasListItems(
-                twinAliases,
-                onTwinAliasClick,
-                onTwinAliasRemoveFromElement,
-                t
-            )
-        );
-    }, [elementToEdit]);
+    const twinAliases = ViewerConfigUtility.getTwinAliasItemsFromElement(
+        elementFormState.elementToEdit
+    );
+    const twinAliasList = getTwinAliasListItems(
+        twinAliases,
+        onTwinAliasClick,
+        onTwinAliasRemoveFromElement,
+        t
+    );
 
     const commonPanelStyles = getLeftPanelStyles(useTheme());
     return (
