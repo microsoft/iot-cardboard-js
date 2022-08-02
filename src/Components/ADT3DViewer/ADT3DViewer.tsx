@@ -577,15 +577,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         if (enableMeshSelection) {
             let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
+                // see if the item is already selected
                 const coloredMesh = coloredMeshItems.find(
                     (item) => item.meshId === mesh.id
                 );
                 if (coloredMesh) {
+                    // unselect
                     coloredMeshes = coloredMeshes.filter(
                         (item) => item.meshId !== coloredMesh.meshId
                     );
                     setColoredMeshItems(coloredMeshes);
                 } else {
+                    // select
                     coloredMeshes.push({ meshId: mesh.id });
                     setColoredMeshItems(coloredMeshes);
                 }
