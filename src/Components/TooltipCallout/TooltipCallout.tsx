@@ -37,34 +37,32 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     });
 
     return (
-        <div>
-            <TooltipHost
-                directionalHint={DirectionalHint.rightCenter}
-                {...calloutProps}
-                delay={TooltipDelay.zero}
-                styles={classNames.subComponentStyles.callout}
-                content={
-                    <div style={{ fontSize: '14px' }}>
-                        {calloutContent}
-                        {link && ' '}
-                        {link && (
-                            <Link target="_blank" href={link.url}>
-                                {link.text || t('learnMore')}
-                            </Link>
-                        )}
-                    </div>
-                }
-                style={{ maxWidth: '290px' }}
-            >
-                <IconButton
-                    ariaLabel={buttonAriaLabel}
-                    data-testid={dataTestId}
-                    id={id}
-                    iconProps={{ iconName: iconName || 'Info' }}
-                    styles={classNames.subComponentStyles.button()}
-                />
-            </TooltipHost>
-        </div>
+        <TooltipHost
+            directionalHint={DirectionalHint.rightCenter}
+            {...calloutProps}
+            delay={TooltipDelay.zero}
+            styles={classNames.subComponentStyles.callout}
+            content={
+                <div style={{ fontSize: '14px' }}>
+                    {calloutContent}
+                    {link && ' '}
+                    {link && (
+                        <Link target="_blank" href={link.url}>
+                            {link.text || t('learnMore')}
+                        </Link>
+                    )}
+                </div>
+            }
+            style={{ maxWidth: '290px' }}
+        >
+            <IconButton
+                ariaLabel={buttonAriaLabel}
+                data-testid={dataTestId}
+                id={id}
+                iconProps={{ iconName: iconName || 'Info' }}
+                styles={classNames.subComponentStyles.button()}
+            />
+        </TooltipHost>
     );
 };
 
