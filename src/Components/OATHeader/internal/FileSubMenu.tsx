@@ -195,7 +195,8 @@ export const FileSubMenu = ({
         }
     };
 
-    useEffect(() => {
+    const onProjectChange = () => {
+        setFiles(loadFiles());
         // Check if current file is stored
         let foundIndex = -1;
         if (files.length > 0 && projectName) {
@@ -205,7 +206,11 @@ export const FileSubMenu = ({
                 setIsFileStored(true);
             }
         }
-    }, []);
+    };
+
+    useEffect(() => {
+        onProjectChange();
+    }, [projectName, isActive]);
 
     return (
         <>
