@@ -42,20 +42,10 @@ export const useRuntimeSceneData = (
     const sceneData = useAdapter({
         adapterMethod: () =>
             adapter.getSceneData(sceneId, scenesConfig, selectedLayerIds),
-        refetchDependencies: [sceneId, scenesConfig],
+        refetchDependencies: [sceneId, scenesConfig, selectedLayerIds],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
-
-    // fetch updated twin data when the layer selections change
-    useEffect(() => {
-        logDebugConsole(
-            'info',
-            'Selected layers changed, fetching updated twin data',
-            selectedLayerIds
-        );
-        sceneData.callAdapter();
-    }, [selectedLayerIds.length]);
 
     /**
      * After getting ADT3DViewerData (including scene visuals along with 3d model URL) from adapter, parse it to
