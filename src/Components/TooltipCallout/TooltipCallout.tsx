@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     ITooltipCalloutProps,
     ITooltipCalloutStyleProps,
@@ -10,10 +10,11 @@ import {
     classNamesFunction,
     useTheme,
     styled,
-    Callout,
     DirectionalHint,
     IconButton,
-    Link
+    Link,
+    TooltipHost,
+    TooltipDelay
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,8 +26,6 @@ const getClassNames = classNamesFunction<
 const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     const { content, calloutProps, dataTestId, styles } = props;
     const { buttonAriaLabel, calloutContent, iconName, link } = content;
-    // state
-    const [flyoutVisible, setFlyoutVisible] = useState(false);
 
     // hooks
     const id = useId();
@@ -38,43 +37,34 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     });
 
     return (
-        <span
-            className={classNames.root}
-            onMouseEnter={() => setFlyoutVisible(true)}
-            onMouseLeave={() => setFlyoutVisible(false)}
-            onFocusCapture={() => setFlyoutVisible(true)}
-        >
-            <IconButton
-                ariaLabel={buttonAriaLabel}
-                data-testid={dataTestId}
-                id={id}
-                iconProps={{ iconName: iconName || 'Info' }}
-                styles={classNames.subComponentStyles.button()}
-            />
-            <Callout
+        <div>
+            <TooltipHost
                 directionalHint={DirectionalHint.rightCenter}
                 {...calloutProps}
-                target={`#${id}`}
-                hidden={!flyoutVisible}
-                onMouseEnter={() => {
-                    console.log('entered');
-                    setFlyoutVisible(true);
-                }}
-                onDismiss={() => setFlyoutVisible(false)}
-                onMouseLeave={() => setFlyoutVisible(false)}
-                onBlur={() => setFlyoutVisible(false)}
+                delay={TooltipDelay.zero}
                 styles={classNames.subComponentStyles.callout}
-                shouldUpdateWhenHidden
+                content={
+                    <div style={{ fontSize: '14px' }}>
+                        {calloutContent}
+                        {link && ' '}
+                        {link && (
+                            <Link target="_blank" href={link.url}>
+                                {link.text || t('learnMore')}
+                            </Link>
+                        )}
+                    </div>
+                }
+                style={{ maxWidth: '290px' }}
             >
-                {calloutContent}
-                {link && ' '}
-                {link && (
-                    <Link target="_blank" href={link.url}>
-                        {link.text || t('learnMore')}
-                    </Link>
-                )}
-            </Callout>
-        </span>
+                <IconButton
+                    ariaLabel={buttonAriaLabel}
+                    data-testid={dataTestId}
+                    id={id}
+                    iconProps={{ iconName: iconName || 'Info' }}
+                    styles={classNames.subComponentStyles.button()}
+                />
+            </TooltipHost>
+        </div>
     );
 };
 

@@ -12,11 +12,7 @@ export const getStyles = (
 ): ITooltipCalloutStyles => {
     const { theme } = props;
     return {
-        root: {
-            height: 'fit-content',
-            width: 'fit-content',
-            ...[classNames.root]
-        },
+        root: classNames.root,
         subComponentStyles: {
             button: {
                 root: {
@@ -26,13 +22,7 @@ export const getStyles = (
             },
             callout: {
                 root: {
-                    maxWidth: 300,
-                    padding: 8
-                    // },
-                    // beak: {
-                    //     border: '8px solid transparent',
-                    //     padding: '8px',
-                    //     margin: '8px'
+                    display: 'inline-block'
                 }
             }
         }
