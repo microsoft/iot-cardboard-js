@@ -167,13 +167,6 @@ export type ElementTwinAliasFormInfo = null | {
     mode: TwinAliasFormMode;
 };
 
-export interface IElementFormContext {
-    elementToEdit: ITwinToObjectMapping;
-    setElementToEdit: React.Dispatch<
-        React.SetStateAction<ITwinToObjectMapping>
-    >;
-}
-
 export interface IContextMenuProps {
     isVisible: boolean;
     x: number;
@@ -189,8 +182,6 @@ export interface IADT3DSceneBuilderElementListProps {
 
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedElement: ITwinToObjectMapping;
-    behaviors: Array<IBehavior>;
     onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
@@ -320,11 +311,4 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IValueWidget;
     updateWidgetData: (widgetData: IValueWidget) => void;
-}
-
-export interface BehaviorState {
-    behaviorToEdit: IBehavior;
-    behaviorsOnElement: Array<IBehavior>;
-    behaviorsToEdit: Array<IBehavior>;
-    availableBehaviors: Array<IBehavior>;
 }
