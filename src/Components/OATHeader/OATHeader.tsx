@@ -25,6 +25,13 @@ import {
 } from '../../Models/Services/Utils';
 import ImportSubMenu from './internal/ImportSubMenu';
 import { OATHeaderProps } from './OATHeader.types';
+import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
+import { FromBody } from './internal/Enums';
+import ModalDelete from './internal/ModalDelete';
+import FormSaveAs from './internal/FormSaveAs';
+import ModalSaveCurrentProjectAndClear from './internal/ModalSaveCurrentProjectAndClear';
+import FormSettings from './internal/FormSettings';
+import FromOpen from './internal/FormOpen';
 
 const ID_FILE = 'file';
 const ID_IMPORT = 'import';
@@ -52,6 +59,8 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         templates,
         namespace
     } = state;
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalBody, setModalBody] = useState(null);
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
@@ -409,6 +418,89 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         setFileSubMenuActive(false);
     };
 
+    const onModalClose = () => {
+        setModalOpen(false);
+    };
+
+    const resetProject = () => {
+        const clearProject = new ProjectData(
+            [],
+            [],
+            t('OATHeader.untitledProject'),
+            [],
+            OATNamespaceDefaultValue,
+            []
+        );
+
+        dispatch({
+            type: SET_OAT_PROJECT,
+            payload: clearProject
+        });
+    };
+
+    const getModalBody = () => {
+        switch (modalBody) {
+            case FromBody.delete:
+                return (
+                    <ModalDelete
+                        onClose={onModalClose}
+                        setModalBody={setModalBody}
+                        state={state}
+                        resetProject={resetProject}
+                    />
+                );
+            case FromBody.open:
+                return (
+                    <FromOpen
+                        dispatch={dispatch}
+                        setModalBody={setModalBody}
+                        onClose={onModalClose}
+                    />
+                );
+            case FromBody.save:
+                return (
+                    <FormSaveAs
+                        dispatch={dispatch}
+                        onClose={onModalClose}
+                        setModalBody={setModalBody}
+                        resetProject={resetProject}
+                        state={state}
+                    />
+                );
+            case FromBody.saveCurrentProjectAndClear:
+                return (
+                    <ModalSaveCurrentProjectAndClear
+                        onClose={onModalClose}
+                        setModalBody={setModalBody}
+                        state={state}
+                        resetProject={resetProject}
+                    />
+                );
+            case FromBody.saveNewProjectAndClear:
+                return (
+                    <FormSaveAs
+                        onClose={onModalClose}
+                        dispatch={dispatch}
+                        setModalBody={setModalBody}
+                        resetProjectOnSave
+                        resetProject={resetProject}
+                        state={state}
+                    />
+                );
+            case FromBody.settings:
+                return (
+                    <FormSettings
+                        onClose={onModalClose}
+                        dispatch={dispatch}
+                        setModalBody={setModalBody}
+                        state={state}
+                    />
+                );
+            default:
+                return <></>;
+        }
+    };
+
     useEffect(() => {
         onFilesUpload(acceptedFiles);
     }, [acceptedFiles]);
@@ -453,13 +545,17 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
                         mozdirectory={''}
                         onChange={onFilesChange}
                     />
-                    <FileSubMenu
-                        isActive={fileSubMenuActive}
-                        targetId={ID_FILE}
-                        onFileSubMenuClose={onFileSubMenuClose}
-                        dispatch={dispatch}
-                        state={state}
-                    />
+                    {fileSubMenuActive && (
+                        <FileSubMenu
+                            targetId={ID_FILE}
+                            onFileSubMenuClose={onFileSubMenuClose}
+                            dispatch={dispatch}
+                            state={state}
+                            resetProject={resetProject}
+                            setModalOpen={setModalOpen}
+                            setModalBody={setModalBody}
+                        />
+                    )}
 
                     {importSubMenuActive && (
                         <ImportSubMenu
@@ -476,6 +572,10 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             <div {...getRootProps()}>
                 <input {...getInputProps()} />
             </div>
+
+            <OATModal isOpen={modalOpen} className={headerStyles.modal}>
+                {getModalBody()}
+            </OATModal>
         </div>
     );
 };

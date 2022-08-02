@@ -1,45 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { ActionButton, Text, Callout } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    getSubMenuItemStyles,
-    getSubMenuStyles,
-    getSubMenuHiddenStyles,
-    getHeaderStyles
-} from '../OATHeader.styles';
-import { OATNamespaceDefaultValue } from '../../../Models/Constants';
-import {
-    SET_OAT_PROJECT,
-    SET_OAT_PROJECT_NAME
-} from '../../../Models/Constants/ActionTypes';
-import { FromBody } from './Enums';
+import { getSubMenuItemStyles, getSubMenuStyles } from '../OATHeader.styles';
+import { SET_OAT_PROJECT_NAME } from '../../../Models/Constants/ActionTypes';
 import { deepCopy, loadFiles, saveFiles } from '../../../Models/Services/Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
-import ModalDelete from './ModalDelete';
-import FormSaveAs from './FormSaveAs';
-import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
-import FormSettings from './FormSettings';
-import FromOpen from './FormOpen';
-import OATModal from '../../../Pages/OATEditorPage/Internal/Components/OATModal';
+import { FromBody } from './Enums';
+
 import { FileSubMenuProps } from './FileSubMenu.types';
 
 export const FileSubMenu = ({
     dispatch,
     onFileSubMenuClose,
-    isActive,
     state,
-    targetId
+    targetId,
+    resetProject,
+    setModalOpen,
+    setModalBody
 }: FileSubMenuProps) => {
     const { t } = useTranslation();
     const subMenuItemStyles = getSubMenuItemStyles();
     const subMenuStyles = getSubMenuStyles();
-    const headerStyles = getHeaderStyles();
-    const subMenuHiddenStyles = getSubMenuHiddenStyles();
     const [files, setFiles] = useState(loadFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [modalBody, setModalBody] = useState(null);
     const {
         modelPositions,
         models,
@@ -81,8 +65,9 @@ export const FileSubMenu = ({
     };
 
     const onNew = () => {
+        console.log('neew');
         onFileSubMenuClose();
-
+        console.log('isFileStored', isFileStored);
         if (isFileStored) {
             // Check if current project has been modified
             if (
@@ -112,89 +97,6 @@ export const FileSubMenu = ({
         }
     };
 
-    const resetProject = () => {
-        const clearProject = new ProjectData(
-            [],
-            [],
-            t('OATHeader.untitledProject'),
-            [],
-            OATNamespaceDefaultValue,
-            []
-        );
-
-        dispatch({
-            type: SET_OAT_PROJECT,
-            payload: clearProject
-        });
-    };
-
-    const onModalClose = () => {
-        setModalOpen(false);
-    };
-
-    const getModalBody = () => {
-        switch (modalBody) {
-            case FromBody.delete:
-                return (
-                    <ModalDelete
-                        onClose={onModalClose}
-                        setModalBody={setModalBody}
-                        state={state}
-                        resetProject={resetProject}
-                    />
-                );
-            case FromBody.open:
-                return (
-                    <FromOpen
-                        dispatch={dispatch}
-                        setModalBody={setModalBody}
-                        onClose={onModalClose}
-                    />
-                );
-            case FromBody.save:
-                return (
-                    <FormSaveAs
-                        dispatch={dispatch}
-                        onClose={onModalClose}
-                        setModalBody={setModalBody}
-                        resetProject={resetProject}
-                        state={state}
-                    />
-                );
-            case FromBody.saveCurrentProjectAndClear:
-                return (
-                    <ModalSaveCurrentProjectAndClear
-                        onClose={onModalClose}
-                        setModalBody={setModalBody}
-                        state={state}
-                        resetProject={resetProject}
-                    />
-                );
-            case FromBody.saveNewProjectAndClear:
-                return (
-                    <FormSaveAs
-                        onClose={onModalClose}
-                        dispatch={dispatch}
-                        setModalBody={setModalBody}
-                        resetProjectOnSave
-                        resetProject={resetProject}
-                        state={state}
-                    />
-                );
-            case FromBody.settings:
-                return (
-                    <FormSettings
-                        onClose={onModalClose}
-                        dispatch={dispatch}
-                        setModalBody={setModalBody}
-                        state={state}
-                    />
-                );
-            default:
-                return <></>;
-        }
-    };
-
     useEffect(() => {
         // Check if current file is stored
         let foundIndex = -1;
@@ -208,73 +110,64 @@ export const FileSubMenu = ({
     }, []);
 
     return (
-        <>
-            <Callout
-                styles={isActive ? subMenuStyles : subMenuHiddenStyles}
-                role="dialog"
-                gapSpace={0}
-                target={`#${targetId}`}
-                isBeakVisible={false}
-                setInitialFocus
-                onDismiss={onFileSubMenuClose}
-            >
-                <ActionButton styles={subMenuItemStyles} onClick={onNew}>
-                    <Text>{t('OATHeader.new')}</Text>
-                </ActionButton>
+        <Callout
+            styles={subMenuStyles}
+            role="dialog"
+            gapSpace={0}
+            target={`#${targetId}`}
+            isBeakVisible={false}
+            setInitialFocus
+            onDismiss={onFileSubMenuClose}
+        >
+            <ActionButton styles={subMenuItemStyles} onClick={onNew}>
+                <Text>{t('OATHeader.new')}</Text>
+            </ActionButton>
 
-                {files.length > 0 && (
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={() => {
-                            onFileSubMenuClose();
-                            setModalBody(FromBody.open);
-                            setModalOpen(true);
-                        }}
-                    >
-                        <Text>{t('OATHeader.open')}</Text>
-                    </ActionButton>
-                )}
-
+            {files.length > 0 && (
                 <ActionButton
                     styles={subMenuItemStyles}
                     onClick={() => {
                         onFileSubMenuClose();
-                        setModalBody(FromBody.save);
+                        setModalBody(FromBody.open);
                         setModalOpen(true);
                     }}
                 >
-                    <Text>{t('OATHeader.saveAs')}</Text>
+                    <Text>{t('OATHeader.open')}</Text>
                 </ActionButton>
+            )}
 
-                <ActionButton styles={subMenuItemStyles} onClick={onSave}>
-                    <Text>{t('OATHeader.save')}</Text>
-                </ActionButton>
+            <ActionButton
+                styles={subMenuItemStyles}
+                onClick={() => {
+                    setModalBody(FromBody.save);
+                    setModalOpen(true);
+                    onFileSubMenuClose();
+                }}
+            >
+                <Text>{t('OATHeader.saveAs')}</Text>
+            </ActionButton>
 
-                {isFileStored && (
-                    <ActionButton
-                        styles={subMenuItemStyles}
-                        onClick={() => {
-                            onFileSubMenuClose();
-                            setModalBody(FromBody.delete);
-                            setModalOpen(true);
-                        }}
-                    >
-                        <Text>{t('OATHeader.delete')}</Text>
-                    </ActionButton>
-                )}
+            <ActionButton styles={subMenuItemStyles} onClick={onSave}>
+                <Text>{t('OATHeader.save')}</Text>
+            </ActionButton>
 
+            {isFileStored && (
                 <ActionButton
                     styles={subMenuItemStyles}
-                    onClick={onSettingsClick}
+                    onClick={() => {
+                        onFileSubMenuClose();
+                        setModalBody(FromBody.delete);
+                        setModalOpen(true);
+                    }}
                 >
-                    <Text>{t('OATHeader.settings')}</Text>
+                    <Text>{t('OATHeader.delete')}</Text>
                 </ActionButton>
-            </Callout>
+            )}
 
-            <OATModal isOpen={modalOpen} className={headerStyles.modal}>
-                {getModalBody()}
-            </OATModal>
-        </>
+            <ActionButton styles={subMenuItemStyles} onClick={onSettingsClick}>
+                <Text>{t('OATHeader.settings')}</Text>
+            </ActionButton>
+        </Callout>
     );
 };
 

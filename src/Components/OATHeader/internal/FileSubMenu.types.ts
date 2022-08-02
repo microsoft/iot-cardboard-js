@@ -4,7 +4,9 @@ import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.type
 export type FileSubMenuProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     onFileSubMenuClose: () => void;
-    isActive?: boolean;
     state?: IOATEditorState;
     targetId?: string;
+    resetProject?: () => void;
+    setModalOpen?: (isOpen: boolean) => void;
+    setModalBody?: (body: string) => void;
 };
