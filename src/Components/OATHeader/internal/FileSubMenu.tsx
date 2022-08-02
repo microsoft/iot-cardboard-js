@@ -65,9 +65,7 @@ export const FileSubMenu = ({
     };
 
     const onNew = () => {
-        console.log('neew');
         onFileSubMenuClose();
-        console.log('isFileStored', isFileStored);
         if (isFileStored) {
             // Check if current project has been modified
             if (
