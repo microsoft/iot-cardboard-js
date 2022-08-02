@@ -25,12 +25,13 @@ import BaseComponent from '../../../BaseComponent/BaseComponent';
 import useAdapter from '../../../../Models/Hooks/useAdapter';
 import {
     DatasourceType,
-    defaultBehavior
+    defaultBehavior,
+    getDefaultElement
 } from '../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import SceneBehaviors from '../Behaviors/Behaviors';
 import BehaviorsForm from '../Behaviors/BehaviorsForm';
-import SceneElementForm from '../Elements/ElementForm';
+import ElementForm from '../Elements/ElementForm';
 import SceneElements from '../Elements/Elements';
 import SceneBreadcrumbFactory from '../../../SceneBreadcrumb/SceneBreadcrumbFactory';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
@@ -54,6 +55,7 @@ import {
 import { getStyles } from './BuilderLeftPanel.styles';
 import { BreadcrumbAction } from '../../../SceneBreadcrumb/SceneBreadcrumb.types';
 import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
+import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('BuilderLeftPanel', debugLogging);
@@ -106,7 +108,8 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 ViewerConfigUtility.addBehaviorToScene(
                     config,
                     sceneId,
-                    params.behavior
+                    params.behavior,
+                    false
                 )
             ),
         refetchDependencies: [adapter],
@@ -140,7 +143,7 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             selectedElements: Array<ITwinToObjectMapping>; // update selected elements for behavior (e.g. in case twin aliases are changed)
             removedElements: Array<ITwinToObjectMapping>;
         }) => {
-            let updatedConfigWithBehavior;
+            let updatedConfigWithBehavior: I3DScenesConfig;
             if (params.mode === ADT3DSceneBuilderMode.CreateBehavior) {
                 updatedConfigWithBehavior = ViewerConfigUtility.addBehavior(
                     params.config,
@@ -179,94 +182,113 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         [dispatch]
     );
 
-    const onCreateElementClick = () => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-            payload: null
-        });
+    // START of scene element related callbacks
+    const setSelectedElement = useCallback(
+        (element: ITwinToObjectMapping) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                payload: element
+            });
+        },
+        [dispatch]
+    );
+
+    const onCreateElementClick = useCallback(() => {
+        setSelectedElement(getDefaultElement({ id: createGUID() }));
         setSceneMode(ADT3DSceneBuilderMode.CreateElement);
         setColoredMeshItems([]);
-    };
+    }, [setColoredMeshItems, setSceneMode, setSelectedElement]);
 
-    const onRemoveElement = (newElements: Array<ITwinToObjectMapping>) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_ELEMENTS,
-            payload: newElements
-        });
-        setColoredMeshItems([]);
-        getConfig();
-    };
+    const onRemoveElement = useCallback(
+        (newElements: Array<ITwinToObjectMapping>) => {
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_ELEMENTS,
+                payload: newElements
+            });
+            setColoredMeshItems([]);
+            getConfig();
+        },
+        [dispatch, getConfig, setColoredMeshItems]
+    );
 
-    const onElementClick = (element: ITwinToObjectMapping) => {
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
-            payload: element
-        });
-        setSceneMode(ADT3DSceneBuilderMode.EditElement);
+    const onElementClick = useCallback(
+        (element: ITwinToObjectMapping) => {
+            setSelectedElement(element);
+            setSceneMode(ADT3DSceneBuilderMode.EditElement);
 
-        setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
-    };
+            setColoredMeshItems(createCustomMeshItems(element.objectIDs, null));
+        },
+        [setColoredMeshItems, setSceneMode, setSelectedElement]
+    );
 
-    const updateSelectedElements = (
-        updatedElement: ITwinToObjectMapping,
-        isSelected
-    ) => {
-        let selectedElements = state.selectedElements
-            ? deepCopy(state.selectedElements)
-            : [];
-        let removedElements = state.removedElements
-            ? deepCopy(state.removedElements)
-            : [];
+    const updateSelectedElements = useCallback(
+        (updatedElement: ITwinToObjectMapping, isSelected: boolean) => {
+            let selectedElements = state.selectedElements
+                ? deepCopy(state.selectedElements)
+                : [];
+            let removedElements = state.removedElements
+                ? deepCopy(state.removedElements)
+                : [];
 
-        // add element if selected and not in list
-        if (
-            isSelected &&
-            !selectedElements.find(
-                (element) => element.id === updatedElement.id
-            )
-        ) {
-            selectedElements.push(updatedElement);
-            // Filter out from removed elements if re-selected
-            removedElements = removedElements.filter(
-                (element) => element.id !== updatedElement.id
-            );
-        }
-
-        // remove element if not selected and in list
-        if (
-            !isSelected &&
-            selectedElements.find((element) => element.id === updatedElement.id)
-        ) {
-            removedElements.push(updatedElement);
-            selectedElements = selectedElements.filter(
-                (element) => element.id !== updatedElement.id
-            );
-        }
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
-            payload: selectedElements
-        });
-
-        dispatch({
-            type: SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
-            payload: removedElements
-        });
-
-        const meshIds = [];
-        for (const element of selectedElements) {
-            for (const id of element.objectIDs) {
-                meshIds.push(id);
+            // add element if selected and not in list
+            if (
+                isSelected &&
+                !selectedElements.find(
+                    (element) => element.id === updatedElement.id
+                )
+            ) {
+                selectedElements.push(updatedElement);
+                // Filter out from removed elements if re-selected
+                removedElements = removedElements.filter(
+                    (element) => element.id !== updatedElement.id
+                );
             }
-        }
 
-        setSceneViewAttributes({
-            outlinedMeshItems: createCustomMeshItems(
-                meshIds,
-                objectColor.outlinedMeshSelectedColor
-            )
-        });
-    };
+            // remove element if not selected and in list
+            if (
+                !isSelected &&
+                selectedElements.find(
+                    (element) => element.id === updatedElement.id
+                )
+            ) {
+                removedElements.push(updatedElement);
+                selectedElements = selectedElements.filter(
+                    (element) => element.id !== updatedElement.id
+                );
+            }
+
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENTS,
+                payload: selectedElements
+            });
+
+            dispatch({
+                type: SET_ADT_SCENE_BUILDER_REMOVED_ELEMENTS,
+                payload: removedElements
+            });
+
+            const meshIds = [];
+            for (const element of selectedElements) {
+                for (const id of element.objectIDs) {
+                    meshIds.push(id);
+                }
+            }
+
+            setSceneViewAttributes({
+                outlinedMeshItems: createCustomMeshItems(
+                    meshIds,
+                    objectColor.outlinedMeshSelectedColor
+                )
+            });
+        },
+        [
+            dispatch,
+            objectColor.outlinedMeshSelectedColor,
+            setSceneViewAttributes,
+            state.removedElements,
+            state.selectedElements
+        ]
+    );
 
     const setSelectedElements = useCallback(
         (elements: Array<ITwinToObjectMapping>) => {
@@ -474,54 +496,64 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
         [onBackClick]
     );
 
+    const onDiscardChangesClick = useCallback(() => {
+        setUnsavedBehaviorChangesDialogOpen(false);
+        if (state.unsavedChangesDialogDiscardAction) {
+            state.unsavedChangesDialogDiscardAction();
+        }
+    }, [setUnsavedBehaviorChangesDialogOpen, state]);
+
     const onBreadcrumbNavigate = useCallback(
-        (action: BreadcrumbAction, navigate: () => void): boolean => {
+        (action: BreadcrumbAction, navigate: () => void) => {
             logDebugConsole(
                 'debug',
                 `[START] pre-breadcrumb navigation of action ${action}`
             );
             // check if we should interupt the navigation flow
+            let shouldNavigate = true;
             const actions: BreadcrumbAction[] = ['goToHome', 'goToScene'];
             if (actions.includes(action)) {
                 if (isBehaviorFormMode) {
                     const isDirty = state.formDirtyState.get('behavior');
                     if (isDirty) {
+                        logDebugConsole(
+                            'debug',
+                            'Behavior form is dirty. Showing confirmation dialog.'
+                        );
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             setSceneViewAttributes({ outlinedMeshItems: [] });
                             setSelectedElements([]);
                             navigate();
                         });
-                        logDebugConsole(
-                            'debug',
-                            `[END] pre-breadcrumb navigation of action ${action} on BehaviorForm. {isDirty}`,
-                            isDirty
-                        );
-                        return; // early return so we don't navigate
+                        shouldNavigate = false;
                     }
                 } else if (isElementFormMode) {
                     const isDirty = state.formDirtyState.get('element');
                     if (isDirty) {
                         logDebugConsole(
                             'debug',
-                            `[END] pre-breadcrumb navigation of action ${action} on ElementForm. {isDirty}`,
-                            isDirty
+                            'Element form is dirty. Showing confirmation dialog.'
                         );
                         setUnsavedBehaviorChangesDialogOpen(true);
                         setUnsavedChangesDialogDiscardAction(() => {
                             navigate();
                         });
-                        return; // early return so we don't navigate
+                        shouldNavigate = false;
                     }
                 }
             }
             logDebugConsole(
                 'debug',
-                `[END] pre-breadcrumb navigation of action ${action}. Navigating.`
+                `[END] pre-breadcrumb navigation of action ${action}. {ShouldNavigate}.`,
+                shouldNavigate
             );
-            setSceneViewAttributes({ outlinedMeshItems: [] });
-            setSelectedElements([]);
-            navigate();
+
+            if (shouldNavigate) {
+                setSceneViewAttributes({ outlinedMeshItems: [] });
+                setSelectedElements([]);
+                navigate();
+            }
         },
         [
             isBehaviorFormMode,
@@ -531,6 +563,19 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
             state.formDirtyState
         ]
     );
+
+    // clear the dialog state when switching to the forms
+    useEffect(() => {
+        if (isElementFormMode || isBehaviorFormMode) {
+            setUnsavedBehaviorChangesDialogOpen(false);
+            setUnsavedChangesDialogDiscardAction(undefined);
+        }
+    }, [
+        isElementFormMode,
+        isBehaviorFormMode,
+        setUnsavedBehaviorChangesDialogOpen,
+        setUnsavedChangesDialogDiscardAction
+    ]);
 
     logDebugConsole('debug', 'Render');
     return (
@@ -591,10 +636,8 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                 </Pivot>
             )}
             {isElementFormMode && (
-                <SceneElementForm
+                <ElementForm
                     builderMode={state.builderMode}
-                    behaviors={behaviors}
-                    selectedElement={state.selectedElement}
                     onElementBackClick={() =>
                         onBackClick(ADT3DSceneBuilderMode.ElementsIdle)
                     }
@@ -618,6 +661,11 @@ const BuilderLeftPanel: React.FC<IBuilderLeftPanelProps> = ({ styles }) => {
                     updateSelectedElements={updateSelectedElements}
                 />
             )}
+            <UnsavedChangesDialog
+                isOpen={state.unsavedBehaviorDialogOpen}
+                onConfirmDiscard={onDiscardChangesClick}
+                onClose={() => setUnsavedBehaviorChangesDialogOpen(false)}
+            />
         </BaseComponent>
     );
 };
