@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     }
   },
-  "fieldRequired": "Ce champ est obligatoire"
+  "fieldRequired": "Ce champ est obligatoire",
+  "viewerRefresh": {
+    "lastRefreshed": "Dernière actualisation : {{value}} {{units}} ago",
+    "refreshRate": "Taux de rafraîchissement : {{valeur}} {{unités}}"
+  },
+  "duration": {
+    "millisecond": "milliseconde",
+    "milliseconds": "Millisecondes",
+    "second": "deuxième",
+    "seconds": "Secondes",
+    "minute": "minute",
+    "minutes": "compte-rendu",
+    "hour": "heure",
+    "hours": "Heures",
+    "day": "jour",
+    "days": "Jours",
+    "year": "année",
+    "years": "années"
+  }
 }

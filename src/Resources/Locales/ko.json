@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     }
   },
-  "fieldRequired": "이 필드는 필수입니다."
+  "fieldRequired": "이 필드는 필수입니다.",
+  "viewerRefresh": {
+    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
+    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "밀리초",
+    "milliseconds": "밀리초",
+    "second": "초",
+    "seconds": "초",
+    "minute": "분",
+    "minutes": "분",
+    "hour": "시",
+    "hours": "시간",
+    "day": "하루",
+    "days": "일",
+    "year": "년",
+    "years": "년"
+  }
 }

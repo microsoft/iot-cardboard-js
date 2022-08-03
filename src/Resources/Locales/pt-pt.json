@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, verifique se não existem malhas erróneas."
     }
   },
-  "fieldRequired": "Este campo é necessário"
+  "fieldRequired": "Este campo é necessário",
+  "viewerRefresh": {
+    "lastRefreshed": "Última atualização: {{value}} {{units}}",
+    "refreshRate": "Taxa de atualização: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milissegundo",
+    "milliseconds": "milissegundos",
+    "second": "segundo",
+    "seconds": "segundos",
+    "minute": "minuto",
+    "minutes": "minutos",
+    "hour": "hora",
+    "hours": "horas",
+    "day": "dia",
+    "days": "Dias",
+    "year": "ano",
+    "years": "anos"
+  }
 }
