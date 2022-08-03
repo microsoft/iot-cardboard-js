@@ -21,6 +21,7 @@ export interface IRefreshButtonProps {
 }
 
 export interface IRefreshButtonStyleProps {
+    isRefreshing: boolean;
     theme: ITheme;
 }
 export interface IRefreshButtonStyles {
