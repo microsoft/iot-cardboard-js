@@ -845,7 +845,6 @@
     "dontSave": "Не экономьте",
     "doYouWantToSaveChangesYouMadeTo": "Вы хотите сохранить изменения, внесенные в",
     "doYouWantToDelete": "Вы хотите удалить",
-    "projectWithSameNameAlreadyExistsMessage?": "Проект с таким названием уже существует, хотите его переопределить?",
     "overwrite": "перезаписать",
     "namespace": "Пространство имен",
     "enterANamespace": "Ввод пространства имен",
@@ -864,7 +863,9 @@
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
-    "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON"
+    "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON",
+    "deleteProjectMessage": "Вы уверены, что хотите удалить {{имя_проекта}}?",
+    "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

@@ -845,7 +845,6 @@
     "dontSave": "不保存",
     "doYouWantToSaveChangesYouMadeTo": "是否要保存所做的更改",
     "doYouWantToDelete": "是否要删除",
-    "projectWithSameNameAlreadyExistsMessage?": "具有相同名称的项目已经存在，您是否要覆盖它？",
     "overwrite": "改写",
     "namespace": "Namespace",
     "enterANamespace": "输入命名空间",
@@ -864,7 +863,9 @@
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
-    "errorFileInvalidJSON": "{{文件名}} 的问题：无效的 JSON"
+    "errorFileInvalidJSON": "{{文件名}} 的问题：无效的 JSON",
+    "deleteProjectMessage": "是否确实要删除 {{项目名称}}？",
+    "errorSameName": "具有相同名称的项目已存在。是否要覆盖它？"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

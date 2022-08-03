@@ -845,7 +845,6 @@
     "dontSave": "Não salve.",
     "doYouWantToSaveChangesYouMadeTo": "Você quer salvar as mudanças que você fez para",
     "doYouWantToDelete": "Você quer excluir",
-    "projectWithSameNameAlreadyExistsMessage?": "Projeto com mesmo nome já existe, você gostaria de substituí-lo?",
     "overwrite": "sobrescrever",
     "namespace": "Namespace",
     "enterANamespace": "Digite um namespace",
@@ -864,7 +863,9 @@
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
-    "errorFileInvalidJSON": "Problema com {{fileName}}: JSON inválido"
+    "errorFileInvalidJSON": "Problema com {{fileName}}: JSON inválido",
+    "deleteProjectMessage": "Tem certeza de que deseja excluir {{projectName}}?",
+    "errorSameName": "Projeto com mesmo nome já existe. Gostaria de substituir?"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

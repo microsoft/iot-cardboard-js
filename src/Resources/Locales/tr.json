@@ -845,7 +845,6 @@
     "dontSave": "Kaydetme",
     "doYouWantToSaveChangesYouMadeTo": "Yaptığınız değişiklikleri kaydetmek istiyor musunuz?",
     "doYouWantToDelete": "Silmek istiyor musunuz?",
-    "projectWithSameNameAlreadyExistsMessage?": "Aynı ada sahip proje zaten var, geçersiz kılmak ister misiniz?",
     "overwrite": "Üzerine",
     "namespace": "Namespace",
     "enterANamespace": "Ad alanı girme",
@@ -864,7 +863,9 @@
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
-    "errorFileInvalidJSON": "{{fileName}} ile ilgili sorun: Geçersiz JSON"
+    "errorFileInvalidJSON": "{{fileName}} ile ilgili sorun: Geçersiz JSON",
+    "deleteProjectMessage": "{{projectName}} silmek istediğinizden emin misiniz?",
+    "errorSameName": "Aynı ada sahip proje zaten var. Üzerine yazmak ister misiniz?"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

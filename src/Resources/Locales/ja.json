@@ -845,7 +845,6 @@
     "dontSave": "保存しない",
     "doYouWantToSaveChangesYouMadeTo": "行った変更を保存しますか",
     "doYouWantToDelete": "削除しますか",
-    "projectWithSameNameAlreadyExistsMessage?": "同じ名前のプロジェクトが既に存在しますが、上書きしますか?",
     "overwrite": "上書き",
     "namespace": "名前空間",
     "enterANamespace": "名前空間を入力する",
@@ -864,7 +863,9 @@
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
-    "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON"
+    "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
+    "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
+    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

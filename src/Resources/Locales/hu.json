@@ -845,7 +845,6 @@
     "dontSave": "Ne mentsen",
     "doYouWantToSaveChangesYouMadeTo": "Menti a módosításokat, amelyeket",
     "doYouWantToDelete": "Törölni szeretné?",
-    "projectWithSameNameAlreadyExistsMessage?": "Az azonos nevű projekt már létezik, felül szeretné bírálni?",
     "overwrite": "Felülírja",
     "namespace": "Namespace",
     "enterANamespace": "Névtér megadása",
@@ -864,7 +863,9 @@
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
-    "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON"
+    "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON",
+    "deleteProjectMessage": "Biztosan törölni szeretnéd a {{projectName}} sablont?",
+    "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

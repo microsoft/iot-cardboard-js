@@ -845,7 +845,6 @@
     "dontSave": "Spara inte",
     "doYouWantToSaveChangesYouMadeTo": "Vill du spara de ändringar du gjort i",
     "doYouWantToDelete": "Vill du ta bort",
-    "projectWithSameNameAlreadyExistsMessage?": "Projekt med samma namn finns redan, vill du åsidosätta det?",
     "overwrite": "skriva över",
     "namespace": "Namespace",
     "enterANamespace": "Ange ett namnområde",
@@ -864,7 +863,9 @@
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
-    "errorFileInvalidJSON": "Problem med {{fileName}}: Ogiltig JSON"
+    "errorFileInvalidJSON": "Problem med {{fileName}}: Ogiltig JSON",
+    "deleteProjectMessage": "Är du säker på att du vill ta bort {{projectName}}?",
+    "errorSameName": "Projekt med samma namn finns redan. Vill du skriva över det?"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

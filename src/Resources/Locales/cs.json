@@ -848,7 +848,6 @@
     "dontSave": "Neukládejte",
     "doYouWantToSaveChangesYouMadeTo": "Chcete uložit změny, které jste provedli v {{projectName}}?",
     "doYouWantToDelete": "Chcete smazat?",
-    "projectWithSameNameAlreadyExistsMessage?": "Projekt se stejným názvem již existuje. Chcete ji přepsat?",
     "overwrite": "Přepsat",
     "namespace": "Namespace",
     "enterANamespace": "Zadání oboru názvů",
@@ -864,7 +863,9 @@
     "folderUpload": "Nahrání složky",
     "fileUpload": "Nahrání souboru",
     "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
-    "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON"
+    "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
+    "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
+    "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
