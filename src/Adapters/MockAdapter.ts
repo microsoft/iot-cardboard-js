@@ -579,6 +579,9 @@ export default class MockAdapter
                         config,
                         behaviorId
                     );
+                    if (!behavior) {
+                        continue;
+                    }
                     const mappingIds: string[] = [];
                     // cycle through the datasources of behavior
                     for (const dataSource of behavior.datasources) {

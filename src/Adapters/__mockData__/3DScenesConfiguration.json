@@ -82,7 +82,11 @@
                     "421cc93046fa4b589bc2ec1dd1009c90",
                     "d6a2d68bc4007f3fa624eab19105e44b",
                     "1e0aa8384c4546c7ae1ca6e6d244922e"
-                ]
+                ],
+                "pollingConfiguration": {
+                    "pollingStrategy": "Realtime",
+                    "maximumPollingInterval": 0
+                }
             },
             {
                 "id": "D258513E-44D8-4041-9551-F5FEDE1BBCC9",
@@ -197,7 +201,11 @@
                         "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m_2.glb",
                         "extensionProperties": {}
                     }
-                ]
+                ],
+                "pollingConfiguration": {
+                    "pollingStrategy": "Limited",
+                    "maximumPollingInterval": 30000
+                }
             },
             {
                 "id": "f7053e7537048e03be4d1e6f8f900000",
@@ -209,7 +217,11 @@
                     }
                 ],
                 "elements": [],
-                "behaviorIDs": []
+                "behaviorIDs": [],
+                "pollingConfiguration": {
+                    "pollingStrategy": "Limited",
+                    "maximumPollingInterval": 60000
+                }
             }
         ],
         "behaviors": [

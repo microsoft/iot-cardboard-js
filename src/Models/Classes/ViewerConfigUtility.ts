@@ -79,11 +79,20 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IPollingConfiguration {
+        console.log('Fetching config');
         const defaultConfig: IPollingConfiguration = {
             pollingStrategy: 'Realtime',
             maximumPollingInterval: 10000
         };
-        if (!config || !sceneId) return defaultConfig;
+        if (config && sceneId) {
+            const scene = this.getSceneById(config, sceneId);
+            console.log('Scene', scene);
+            if (scene && scene.pollingConfiguration) {
+                console.log('Config', scene.pollingConfiguration);
+                return scene.pollingConfiguration;
+            }
+        }
+
         return defaultConfig;
     }
 

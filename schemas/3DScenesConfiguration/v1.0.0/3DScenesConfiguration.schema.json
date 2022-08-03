@@ -198,7 +198,7 @@
         },
         "IPollingConfiguration": {
             "type": "object",
-            "description": "Configures the strategy and parameters for the polling of twin data from the twin graph",
+            "description": "Configures the strategy and parameters for the polling of twin data from the twin graph. NOTE: `MaximumPollingInterval` is required when polling strategy is `Limited`",
             "additionalProperties": false,
             "properties": {
                 "pollingStrategy": {
@@ -212,7 +212,8 @@
         },
         "IPollingStrategy": {
             "type": "string",
-            "enum": ["Realtime", "Limited"]
+            "enum": ["Realtime", "Limited"],
+            "description": "The strategy to use for polling data. Realtime fetches as often as possible given the number of visible twins. Limited will refresh at a rate equal to the ceiling of the `Realtime` value and the `MaximumPollingInterval`"
         },
         "IExtensionProperties": {
             "type": "object",
