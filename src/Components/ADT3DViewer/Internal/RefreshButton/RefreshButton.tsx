@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
     IRefreshButtonProps,
     IRefreshButtonStyleProps,
@@ -84,9 +84,10 @@ const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
         setTimeSinceLastRefresh(timeSinceRefresh);
     }, 1000);
 
-    const refreshFrequencyDisplay = formatTimeInRelevantUnits(
-        refreshFrequency,
-        DurationUnits.seconds
+    const refreshFrequencyDisplay = useMemo(
+        () =>
+            formatTimeInRelevantUnits(refreshFrequency, DurationUnits.seconds),
+        [refreshFrequency]
     );
 
     return (

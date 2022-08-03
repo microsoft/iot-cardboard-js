@@ -667,7 +667,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     const onPropertyInspectorPatch = useCallback(
         () => triggerRuntimeRefetch(),
-        [adapter]
+        [triggerRuntimeRefetch]
     );
 
     const svp = sceneViewProps || {};
