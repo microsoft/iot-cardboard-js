@@ -1742,10 +1742,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     (cPTE) => cPTE.meshId != null
                 );
 
-                // concern: how to choose parent? will determine pivot point
-                // could be different than one user chooses on build mode
-                // also: is parent relationship maintained ... ? should it be deleted after somehow??
-                // maybe save pivot point in absolute (i.e. world) coordinates under extensionProperties too?
                 transformedElementItems.forEach((transformedElementItem) => {
                     const meshIds = transformedElementItem.meshIds;
                     const parentMeshId = transformedElementItem.parentMeshId;
@@ -1768,7 +1764,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('debug', 'Mesh transform cleanup'); // do i need to do anything here?
+            debugLog('debug', 'Mesh transform cleanup');
         };
     }, [transformedElementItems, isLoading]);
 
