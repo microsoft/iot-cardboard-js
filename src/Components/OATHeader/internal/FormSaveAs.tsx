@@ -116,13 +116,7 @@ export const FormSaveAs = ({
                     placeholder={t('OATHeader.enterAName')}
                     value={projectName}
                     onChange={(e, v) => onProjectNameChange(v)}
-                    errorMessage={
-                        error
-                            ? t(
-                                  'OATHeader.projectWithSameNameAlreadyExistsMessage'
-                              )
-                            : null
-                    }
+                    errorMessage={error ? t('OATHeader.errorSameName') : null}
                 />
             </div>
 

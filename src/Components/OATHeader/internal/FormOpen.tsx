@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
     Text,
     ActionButton,
@@ -56,6 +56,14 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
         }
     };
 
+    const formattedFiles = useMemo(() => getFormatFilesToDropDownOptions(), []);
+
+    useEffect(() => {
+        if (formattedFiles.length > 0) {
+            setSelectedFile(formattedFiles[0]);
+        }
+    }, [formattedFiles]);
+
     return (
         <Stack>
             <div className={headerStyles.modalRowFlexEnd}>
@@ -65,11 +73,12 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
             </div>
 
             <div className={headerStyles.modalRow}>
-                <Text>{`${t('OATHeader.Select file')}:`}</Text>
+                <Text>{`${t('OATHeader.selectFile')}:`}</Text>
                 <Dropdown
                     placeholder={t('OATHeader.files')}
-                    options={getFormatFilesToDropDownOptions()}
+                    options={formattedFiles}
                     onChange={(_ev, option) => setSelectedFile(option)}
+                    defaultSelectedKey={formattedFiles[0].key}
                 />
             </div>
 
