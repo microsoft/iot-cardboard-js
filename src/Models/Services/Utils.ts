@@ -8,7 +8,8 @@ import {
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
     DTwin,
-    IConsoleLogFunction
+    IConsoleLogFunction,
+    DurationUnits
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -232,25 +233,39 @@ export function getTimeStamp() {
  * @returns an object containing the scaled version and the locale resource key for the units
  */
 export function formatTimeInRelevantUnits(
-    milliseconds: number
+    milliseconds: number,
+    minimumUnits: DurationUnits = DurationUnits.milliseconds
 ): { value: number; displayStringKey: string } {
     const DEFAULT_RESULT = {
         value: 0,
-        displayStringKey: 'duration.milliseconds'
+        displayStringKey: 'duration.seconds'
     };
     if (milliseconds < 1) {
         return DEFAULT_RESULT;
     }
     const timeUnits = new TreeMap<number, string>();
-    timeUnits.set(1, 'duration.millisecond');
-    timeUnits.set(1000, 'duration.second');
-    timeUnits.set(60 * 1000, 'duration.minute');
-    timeUnits.set(60 * 60 * 1000, 'duration.hour');
-    timeUnits.set(24 * 60 * 60 * 1000, 'duration.day');
-    timeUnits.set(365 * 24 * 60 * 60 * 1000, 'duration.year');
-    const unitBelow = timeUnits.floorEntry(milliseconds);
+    minimumUnits <= DurationUnits.milliseconds &&
+        timeUnits.set(1, 'duration.millisecond');
+    minimumUnits <= DurationUnits.seconds &&
+        timeUnits.set(1000, 'duration.second');
+    minimumUnits <= DurationUnits.minutes &&
+        timeUnits.set(60 * 1000, 'duration.minute');
+    minimumUnits <= DurationUnits.hours &&
+        timeUnits.set(60 * 60 * 1000, 'duration.hour');
+    minimumUnits <= DurationUnits.days &&
+        timeUnits.set(24 * 60 * 60 * 1000, 'duration.day');
+    minimumUnits <= DurationUnits.years &&
+        timeUnits.set(365 * 24 * 60 * 60 * 1000, 'duration.year');
 
-    const value = milliseconds / unitBelow[0];
+    // get the next entry below, if there isn't one, get the next one larger
+    let unitBelow = timeUnits.floorEntry(milliseconds);
+    let value = milliseconds / (unitBelow?.[0] || 1);
+
+    if (!unitBelow) {
+        unitBelow = timeUnits.higherEntry(milliseconds);
+        value = 0;
+    }
+
     let units = unitBelow[1];
     // make the key plural if it's != 1
     if (value !== 1) {

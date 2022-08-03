@@ -947,6 +947,10 @@
             "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
         }
     },
+    "viewerRefresh": {
+        "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
+        "refreshRate": "Refresh rate: {{value}} {{units}}"
+    },
     "duration": {
         "millisecond": "millisecond",
         "milliseconds": "milliseconds",
