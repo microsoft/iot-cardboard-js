@@ -542,7 +542,11 @@
         "noNumberPrefix": "Az ikernév nem kezdődhet számmal"
       }
     },
-    "actions": "Műveletek"
+    "actions": "Műveletek",
+    "transform": {
+      "position": "Pozíció",
+      "rotation": "Forgás"
+    }
   },
   "widgets": {
     "trend": {
