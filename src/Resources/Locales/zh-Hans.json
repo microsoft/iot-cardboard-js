@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     }
   },
-  "fieldRequired": "此字段为必填项"
+  "fieldRequired": "此字段为必填项",
+  "viewerRefresh": {
+    "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
+    "refreshRate": "刷新率： {{值}} {{单位}}"
+  },
+  "duration": {
+    "millisecond": "毫秒",
+    "milliseconds": "毫秒",
+    "second": "第二",
+    "seconds": "秒",
+    "minute": "分钟",
+    "minutes": "纪要",
+    "hour": "小时",
+    "hours": "小时",
+    "day": "日",
+    "days": "日",
+    "year": "年",
+    "years": "年"
+  }
 }

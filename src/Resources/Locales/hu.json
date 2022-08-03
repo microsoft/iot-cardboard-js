@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     }
   },
-  "fieldRequired": "A mező kitöltése kötelező"
+  "fieldRequired": "A mező kitöltése kötelező",
+  "viewerRefresh": {
+    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
+    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
+  },
+  "duration": {
+    "millisecond": "Ezredmásodperc",
+    "milliseconds": "Ezredmásodperc",
+    "second": "második",
+    "seconds": "repeta",
+    "minute": "perc",
+    "minutes": "jegyzőkönyv",
+    "hour": "óra",
+    "hours": "Óra",
+    "day": "nap",
+    "days": "Napok",
+    "year": "év",
+    "years": "Év"
+  }
 }

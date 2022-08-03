@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     }
   },
-  "fieldRequired": "Dieses Feld ist ein Pflichtfeld"
+  "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
+  "viewerRefresh": {
+    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
+    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
+  },
+  "duration": {
+    "millisecond": "Millisekunde",
+    "milliseconds": "Millisekunden",
+    "second": "Sekunde",
+    "seconds": "Nachschlag",
+    "minute": "Minute",
+    "minutes": "Protokoll",
+    "hour": "Stunde",
+    "hours": "Stunden",
+    "day": "Tag",
+    "days": "Tage",
+    "year": "Jahr",
+    "years": "Jahre"
+  }
 }

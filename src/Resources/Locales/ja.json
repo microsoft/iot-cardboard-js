@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "モデル寸法に問題がある可能性があります。誤ったメッシュがないことを確認してください。"
     }
   },
-  "fieldRequired": "このフィールドは必須です"
+  "fieldRequired": "このフィールドは必須です",
+  "viewerRefresh": {
+    "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
+    "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
+  },
+  "duration": {
+    "millisecond": "ミリセカント",
+    "milliseconds": "ミリ秒",
+    "second": "秒",
+    "seconds": "お代わり",
+    "minute": "分",
+    "minutes": "議事録",
+    "hour": "時",
+    "hours": "時間",
+    "day": "日",
+    "days": "日",
+    "year": "年",
+    "years": "月日"
+  }
 }

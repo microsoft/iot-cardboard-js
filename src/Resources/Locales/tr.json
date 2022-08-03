@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     }
   },
-  "fieldRequired": "Bu alan zorunludur"
+  "fieldRequired": "Bu alan zorunludur",
+  "viewerRefresh": {
+    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
+    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
+  },
+  "duration": {
+    "millisecond": "milisaniye",
+    "milliseconds": "Milisaniye",
+    "second": "saniye",
+    "seconds": "Saniye",
+    "minute": "dakika",
+    "minutes": "tutanak",
+    "hour": "saat",
+    "hours": "Saat",
+    "day": "gün",
+    "days": "Gün",
+    "year": "yıl",
+    "years": "Yıl"
+  }
 }

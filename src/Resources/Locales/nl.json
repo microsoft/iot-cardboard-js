@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
     }
   },
-  "fieldRequired": "Dit veld is verplicht"
+  "fieldRequired": "Dit veld is verplicht",
+  "viewerRefresh": {
+    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
+    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milliseconde",
+    "milliseconds": "Milliseconden",
+    "second": "tweede",
+    "seconds": "Seconden",
+    "minute": "minuut",
+    "minutes": "notulen",
+    "hour": "uur",
+    "hours": "uren",
+    "day": "dag",
+    "days": "Dagen",
+    "year": "jaar",
+    "years": "jaren"
+  }
 }

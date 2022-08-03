@@ -950,5 +950,23 @@
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     }
   },
-  "fieldRequired": "Det här fältet är obligatoriskt"
+  "fieldRequired": "Det här fältet är obligatoriskt",
+  "viewerRefresh": {
+    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
+    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "millisekund",
+    "milliseconds": "Millisekunder",
+    "second": "andra",
+    "seconds": "Sekunder",
+    "minute": "minut",
+    "minutes": "protokoll",
+    "hour": "timme",
+    "hours": "Timmar",
+    "day": "dag",
+    "days": "Dagar",
+    "year": "år",
+    "years": "år"
+  }
 }
