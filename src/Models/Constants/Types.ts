@@ -5,7 +5,8 @@ import {
     IADTAdapter,
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter,
-    AzureAccessPermissionRoles
+    AzureAccessPermissionRoles,
+    AzureResourceTypes
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -179,4 +180,34 @@ export type IConsoleLogFunction = (
 export type MissingAzureRoleDefinitionAssignments = {
     enforced?: Array<AzureAccessPermissionRoles>;
     alternated?: Array<AzureAccessPermissionRoles>;
+};
+
+/** AdapterMethodParamsForGetAzureResources is used for setting the paramter for the getResources method in AzureManagementAdapter
+ * @param resourceType set the type to get the resources of that type
+ * @param searchParams parameters used for get resources requests agains the management API
+ * @param resourceProviderEndpoint if provided, the Azure Management API is going to only make call against this provider endpoint, otherwise will use predefined mapping based on passed resource type
+ * @param userData used for making requests against management API for getting subscriptions or checking role assignments for the logged in user
+ */
+export type AdapterMethodParamsForGetAzureResources = {
+    resourceType: AzureResourceTypes;
+    searchParams?: AzureResourceSearchParams;
+    resourceProviderEndpoint?: string;
+    userData?: {
+        tenantId: string;
+        uniqueObjectId: string;
+    };
+};
+
+/** AzureResourceSearchParams is used for handling get resources requests in resource picker component.
+ * @param take the number of resources to return to limit the number of following requests to check the permission against, but drawback of this approach is that the taken bucket of resources may not be the ones that user has required permissions
+ * @param filter used to filter resources based on AzureResourceDisplayFields
+ * @param additionalParams is for resource specific params (e.g storageAccountId for fetching StorageBlobContainer resource type) to limit the number of requests for performance
+ */
+export type AzureResourceSearchParams = {
+    take?: number;
+    filter?: string;
+    additionalParams?: {
+        storageAccountId?: string;
+        [key: string]: any;
+    };
 };

@@ -6,6 +6,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
+import { AzureResourceSearchParams } from '../../Models/Constants';
 import {
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
@@ -13,38 +14,34 @@ import {
 } from '../../Models/Constants/Enums';
 import {
     IAzureManagementAdapter,
-    IAzureResource,
-    IAzureResourceSearchParams
+    IAzureResource
 } from '../../Models/Constants/Interfaces';
 
 export interface IResourcePickerProps {
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
-    styles?: IStyleFunctionOrObject<
-        IResourcePickerStyleProps,
-        IResourcePickerStyles
-    >;
     adapter: IAzureManagementAdapter | MockAdapter;
+    additionalOptions?: Array<string>; // options that are entered by user which doesn't exist in the options list yet
+    allowFreeform?: boolean; // whether the ComboBox allows freeform user input, rather than restricting to the options of data fetch
+    disabled?: boolean;
+    displayField: AzureResourceDisplayFields; // which resource property to show as option text in the combobox
+    label?: string;
+    loadingLabel?: string;
+    onChange?: (
+        resource: IAzureResource | string,
+        resources?: Array<IAzureResource | string>
+    ) => void; // callback function to expose the selected resource and optionally list of resources in dropdown when it is changed in the combobox
+    onLoaded?: (resources: Array<IAzureResource>) => void; // callback function to expose resources when they are fetched with useAdapter method on mount
     resourceType: AzureResourceTypes;
     requiredAccessRoles: {
         enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
         interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
     };
-    shouldFetchResourcesOnMount?: boolean;
-    displayField: AzureResourceDisplayFields; // which resource property to show as option text in the combobox
-    label?: string;
-    loadingLabel?: string;
-    searchParams?: IAzureResourceSearchParams;
-    onResourcesLoaded?: (resources: Array<IAzureResource>) => void; // callback function to expose resources when they are fetched with useAdapter method on mount
-    onResourceChange?: (
-        resource: IAzureResource | string,
-        resources?: Array<IAzureResource | string>
-    ) => void; // callback function to expose the selected resource and optionally list of resources in dropdown when it is changed in the combobox
-    additionalOptions?: Array<string>; // options that are entered by user which doesn't exist in the options list yet
+    searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
-    allowFreeform?: boolean; // whether the ComboBox allows freeform user input, rather than restricting to the options of data fetch
-    disabled?: boolean;
+    shouldFetchResourcesOnMount?: boolean;
+    styles?: IStyleFunctionOrObject<
+        IResourcePickerStyleProps,
+        IResourcePickerStyles
+    >;
 }
 
 export interface IResourcePickerStyleProps {

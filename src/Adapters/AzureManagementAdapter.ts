@@ -5,6 +5,7 @@ import {
     AzureSubscriptionData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
+    AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
     AzureResourcesAPIVersions,
@@ -291,22 +292,12 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     }
 
     /** Returns list of all the resources of the given type in all of user's subscriptions */
-    async getResources(
-        resourceType: AzureResourceTypes,
-        searchParams?: {
-            take?: number;
-            filter?: string;
-            additionalParams?: {
-                storageAccountId?: string;
-                [key: string]: any;
-            };
-        },
-        resourceProviderEndpoint?: string,
-        userData?: {
-            tenantId: string; // needed for accessing subscriptions which the logged in user's is in to pull the resources from
-            uniqueObjectId: string; // needed for accessing subscriptions which the logged in user's is in to pull the resources from
-        }
-    ) {
+    async getResources({
+        resourceType,
+        searchParams,
+        resourceProviderEndpoint,
+        userData
+    }: AdapterMethodParamsForGetAzureResources) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         if (userData) {
@@ -456,39 +447,23 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     }
 
     /** Returns list of all the resources of the given type and access role ids in all of user's subscriptions */
-    async getResourcesByPermissions(
-        resourceType: AzureResourceTypes,
+    async getResourcesByPermissions(params: {
+        getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: {
-            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-        },
-        searchParams?: {
-            take?: number;
-            filter?: string;
-            additionalParams?: {
-                storageAccountId?: string;
-                [key: string]: any;
-            };
-        },
-        resourceProviderEndpoint?: string,
-        userData?: {
-            tenantId: string; // needed for accessing subscriptions which the logged in user's is in to pull the resources from
-            uniqueObjectId: string; // needed for accessing subscriptions which the logged in user's is in to pull the resources from
-        }
-    ) {
+            enforcedRoleIds: AzureAccessPermissionRoles[];
+            interchangeableRoleIds: AzureAccessPermissionRoles[];
+        };
+    }) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async () => {
             try {
                 logDebugConsole(
                     'debug',
-                    `[START] Fetching ${resourceType} type resources`
+                    `[START] Fetching ${params.getResourcesParams.resourceType} type resources`
                 );
                 const getResourcesResult = await this.getResources(
-                    resourceType,
-                    searchParams,
-                    resourceProviderEndpoint,
-                    userData
+                    params.getResourcesParams
                 );
                 let resources: Array<IAzureResource> = getResourcesResult.getData();
                 logDebugConsole(
@@ -505,13 +480,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         '[START] Applying search params (filter and take)'
                     );
                     // start with filter string to test the passed filter string against all possible display fields/properties in resource
-                    if (searchParams?.filter) {
+                    if (params.getResourcesParams.searchParams?.filter) {
                         resources = resources.filter((resource) => {
                             return Object.keys(AzureResourceDisplayFields)
                                 .filter((f) => isNaN(Number(f)))
                                 .some((displayField) =>
                                     resource[displayField]?.includes(
-                                        searchParams?.filter
+                                        params.getResourcesParams.searchParams
+                                            ?.filter
                                     )
                                 );
                         });
@@ -522,7 +498,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     // it is hard to limit the number of requests being made and make sure to capture the resources that we might have required access permissions
                     resources = resources.slice(
                         0,
-                        searchParams?.take || MAX_RESOURCE_TAKE_LIMIT
+                        params.getResourcesParams.searchParams?.take ||
+                            MAX_RESOURCE_TAKE_LIMIT
                     );
 
                     logDebugConsole(
@@ -542,9 +519,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                 this.uniqueObjectId,
                                 {
                                     enforcedRoleIds:
-                                        requiredAccessRoles.enforcedRoleIds,
+                                        params.requiredAccessRoles
+                                            .enforcedRoleIds,
                                     interchangeableRoleIds:
-                                        requiredAccessRoles.interchangeableRoleIds
+                                        params.requiredAccessRoles
+                                            .interchangeableRoleIds
                                 }
                             )
                         )

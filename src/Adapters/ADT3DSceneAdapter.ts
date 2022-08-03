@@ -99,13 +99,15 @@ export default class ADT3DSceneAdapter {
 
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const digitalTwinInstances = await this.getResourcesByPermissions(
-                AzureResourceTypes.DigitalTwinInstance,
-                {
+            const digitalTwinInstances = await this.getResourcesByPermissions({
+                getResourcesParams: {
+                    resourceType: AzureResourceTypes.DigitalTwinInstance
+                },
+                requiredAccessRoles: {
                     enforcedRoleIds: EnforcedADTAccessRoleIds,
                     interchangeableRoleIds: InterchangeableADTAccessRoleIds
                 }
-            );
+            });
             const result = digitalTwinInstances.result.data;
             const instance = result.find(
                 (d) => d.properties.hostName === this.adtHostUrl
@@ -174,9 +176,10 @@ export default class ADT3DSceneAdapter {
             try {
                 const storageEndPoint = `${AzureResourceTypes.StorageAccount}/${storageAccountName}/blobServices/default/containers`;
                 const storageResourcesInUsersSubscriptionsResult = await this.getResources(
-                    AzureResourceTypes.StorageBlobContainer,
-                    null,
-                    storageEndPoint
+                    {
+                        resourceType: AzureResourceTypes.StorageBlobContainer,
+                        resourceProviderEndpoint: storageEndPoint
+                    }
                 );
 
                 const storageResources: Array<IAzureResource> = storageResourcesInUsersSubscriptionsResult?.getData();

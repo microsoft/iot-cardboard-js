@@ -44,7 +44,8 @@ import {
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
     IAzureSubscription,
-    AzureResourceDisplayFields
+    AzureResourceDisplayFields,
+    AdapterMethodParamsForGetAzureResources
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -717,7 +718,9 @@ export default class MockAdapter
         }
     }
 
-    async getResources(resourceType: AzureResourceTypes) {
+    async getResources({
+        resourceType
+    }: AdapterMethodParamsForGetAzureResources) {
         const mockStorageContainerResources: Array<IAzureResource> = [
             {
                 name: 'container123',
@@ -778,28 +781,22 @@ export default class MockAdapter
         }
     }
 
-    async getResourcesByPermissions(
-        resourceType: AzureResourceTypes,
-        _requiredAccessRoles: {
-            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-        },
-        searchParams?: {
-            take?: number;
-            filter?: string;
-            additionalParams?: {
-                storageAccountId?: string;
-                [key: string]: any;
-            };
-        }
-    ) {
+    async getResourcesByPermissions(params: {
+        getResourcesParams: AdapterMethodParamsForGetAzureResources;
+        requiredAccessRoles: {
+            enforcedRoleIds: AzureAccessPermissionRoles[];
+            interchangeableRoleIds: AzureAccessPermissionRoles[];
+        };
+    }) {
         try {
-            const getResourcesResult = await this.getResources(resourceType);
+            const getResourcesResult = await this.getResources(
+                params.getResourcesParams
+            );
             let resources: Array<IAzureResource> = getResourcesResult.getData();
 
             if (resources?.length) {
                 // apply searchParams to the list of resources returned
-                if (searchParams?.filter) {
+                if (params.getResourcesParams.searchParams?.filter) {
                     resources = resources.filter((resource) =>
                         Object.keys(AzureResourceDisplayFields).some(
                             (displayField) =>
@@ -809,7 +806,8 @@ export default class MockAdapter
                 }
                 resources = resources.slice(
                     0,
-                    searchParams?.take || MAX_RESOURCE_TAKE_LIMIT
+                    params.getResourcesParams.searchParams?.take ||
+                        MAX_RESOURCE_TAKE_LIMIT
                 ); // take the first n number of resources to make sure the browser won't crash with making thousands of requests
 
                 // no need to emulate hasRoleDefinitions

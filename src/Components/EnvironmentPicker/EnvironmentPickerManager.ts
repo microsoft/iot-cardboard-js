@@ -126,7 +126,7 @@ class EnvironmentPickerManager {
         );
     }
 
-    static isResourceUrlsEqual(
+    static areResourceUrlsEqual(
         resourceUrlStr1: string,
         resourceUrlStr2: string
     ) {
@@ -159,7 +159,7 @@ class EnvironmentPickerManager {
     ) {
         if (typeof storageAccount === 'string') {
             return resources.find((resource) =>
-                this.isResourceUrlsEqual(
+                this.areResourceUrlsEqual(
                     this.getResourceUrl(
                         resource,
                         AzureResourceTypes.StorageAccount
@@ -286,7 +286,7 @@ class EnvironmentPickerManager {
         );
     }
 
-    static getStorageAccountsFromLocalStorage() {
+    static getStorageAccountOptionsFromLocalStorage() {
         try {
             return JSON.parse(
                 localStorage.getItem(StorageAccountsLocalStorageKey)
@@ -333,7 +333,7 @@ class EnvironmentPickerManager {
         }
     }
 
-    static updateContainersInLocalStorage(
+    static updateContainerOptionsInLocalStorage(
         containers: Array<IAzureResource | string>,
         parentStorageAccount: IAzureResource | string,
         localStorageKey: string

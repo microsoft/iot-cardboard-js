@@ -7,11 +7,20 @@ import {
     FontSizes,
     IconButton,
     IDialogContentProps,
+    IModalProps,
+    IModalStyles,
     Link,
     PrimaryButton
 } from '@fluentui/react';
 import { useBoolean, usePrevious } from '@fluentui/react-hooks';
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import {
@@ -32,6 +41,19 @@ import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/Deeplin
 import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import EnvironmentPickerManager from './EnvironmentPickerManager';
 import { deepCopy } from '../../Models/Services/Utils';
+import produce from 'immer';
+
+const dialogStyles: Partial<IModalStyles> = {
+    main: {
+        width: '640px !important',
+        maxWidth: 'unset !important',
+        minHeight: 'fit-content'
+    }
+};
+const modalProps: IModalProps = {
+    isBlocking: false,
+    styles: dialogStyles
+};
 
 const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const { t } = useTranslation();
@@ -67,7 +89,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
         Boolean(props.isDialogHidden)
     );
-    const [firstTimeVisible, setFirstTimeVisible] = useState(false); // not to render resouce picker components with data fetch requests if the dialog has not opened yet for the first time
+    const [firstTimeVisible, setFirstTimeVisible] = useState(false); // not to render resource picker components in the dialog content with data fetch requests if the dialog has not opened yet for the first time
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasFetchedResources = useRef({
         adtInstances: false,
@@ -75,31 +97,23 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         storageBlobContainers: false
     });
 
-    const dialogContentProps: IDialogContentProps = {
-        type: DialogType.normal,
-        title: t('environmentPicker.editEnvironment'),
-        closeButtonAriaLabel: t('close'),
-        subText: props.isLocalStorageEnabled
-            ? (props.storage
-                  ? t('environmentPicker.descriptionForEnvAndCont')
-                  : t('environmentPicker.descriptionForEnvironment')) +
-              ' ' +
-              t('environmentPicker.descriptionForLocalStorage')
-            : props.storage
-            ? t('environmentPicker.descriptionForEnvAndCont')
-            : t('environmentPicker.descriptionForEnvironment')
-    };
-    const dialogStyles = {
-        main: {
-            width: '640px !important',
-            maxWidth: 'unset !important',
-            minHeight: 'fit-content'
-        }
-    };
-    const modalProps = {
-        isBlocking: false,
-        styles: dialogStyles
-    };
+    const dialogContentProps: IDialogContentProps = useMemo(
+        () => ({
+            type: DialogType.normal,
+            title: t('environmentPicker.editEnvironment'),
+            closeButtonAriaLabel: t('close'),
+            subText: props.isLocalStorageEnabled
+                ? (props.storage
+                      ? t('environmentPicker.descriptionForEnvAndCont')
+                      : t('environmentPicker.descriptionForEnvironment')) +
+                  ' ' +
+                  t('environmentPicker.descriptionForLocalStorage')
+                : props.storage
+                ? t('environmentPicker.descriptionForEnvAndCont')
+                : t('environmentPicker.descriptionForEnvironment')
+        }),
+        [t]
+    );
 
     const previousIsDialogHidden = usePrevious(props.isDialogHidden);
     // Figure out if dialog needs to be open from props
@@ -124,7 +138,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     // set initial values based on props and local storage
     useEffect(() => {
         let environmentUrls = [],
-            selectedEnvironmentUrl;
+            selectedEnvironmentUrl: string;
         if (props.environmentUrl) {
             // passed environmentUrl has precedence over the selected environment in localstorage, if enabled
             environmentUrls = [props.environmentUrl];
@@ -171,7 +185,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         });
 
         let containerUrls = [],
-            selectedContainerUrl,
+            selectedContainerUrl: string,
             storageAccounts: Array<StorageAccountsInLocalStorage> = []; // list of storage accounts in local storage
         if (props.storage?.containerUrl) {
             containerUrls = [props.storage.containerUrl];
@@ -185,7 +199,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             const selectedContainerUrlInLocalStorage = EnvironmentPickerManager.getSelectedContainerUrlFromLocalStorage(
                 props.selectedItemLocalStorageKey
             );
-            storageAccounts = EnvironmentPickerManager.getStorageAccountsFromLocalStorage();
+            storageAccounts = EnvironmentPickerManager.getStorageAccountOptionsFromLocalStorage();
 
             // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
             selectedContainerUrl =
@@ -218,7 +232,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 if (!isPairAdded) {
                     const newPair: StorageAccountToContainersMapping = {
                         storageAccountId: storageAccounts?.find((item) =>
-                            EnvironmentPickerManager.isResourceUrlsEqual(
+                            EnvironmentPickerManager.areResourceUrlsEqual(
                                 item.url,
                                 pair.storageAccountUrl
                             )
@@ -294,10 +308,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             props.onDismiss();
         }
 
-        setEnvironmentItems({
-            ...environmentItems,
-            selectedEnvironment: environmentItems.environmentToEdit
-        });
+        setEnvironmentItems(
+            produce((draft) => {
+                draft.selectedEnvironment = environmentItems.environmentToEdit;
+            })
+        );
         if (props.onEnvironmentUrlChange) {
             props.onEnvironmentUrlChange(
                 EnvironmentPickerManager.getResourceUrl(
@@ -311,10 +326,11 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
 
-        setContainerItems({
-            ...containerItems,
-            selectedContainer: containerItems.containerToEdit
-        });
+        setContainerItems(
+            produce((draft) => {
+                draft.selectedContainer = containerItems.containerToEdit;
+            })
+        );
         if (props.storage?.onContainerUrlChange) {
             props.storage.onContainerUrlChange(
                 EnvironmentPickerManager.getResourceUrl(
@@ -330,10 +346,12 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
 
-        setStorageAccountItems({
-            ...storageAccountItems,
-            selectedStorageAccount: storageAccountItems.storageAccountToEdit
-        });
+        setStorageAccountItems(
+            produce((draft) => {
+                draft.selectedStorageAccount =
+                    storageAccountItems.storageAccountToEdit;
+            })
+        );
 
         if (props.isLocalStorageEnabled) {
             EnvironmentPickerManager.updateEnvironmentsInLocalStorage(
@@ -346,7 +364,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
             );
         }
         if (props.storage?.isLocalStorageEnabled) {
-            EnvironmentPickerManager.updateContainersInLocalStorage(
+            EnvironmentPickerManager.updateContainerOptionsInLocalStorage(
                 containerItems.containers,
                 storageAccountItems.storageAccountToEdit,
                 props.storage.localStorageKey
@@ -453,7 +471,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
 
                         defaultStorageAccountToContainersMappingRef.current
                             ?.find((mapping) =>
-                                EnvironmentPickerManager.isResourceUrlsEqual(
+                                EnvironmentPickerManager.areResourceUrlsEqual(
                                     mapping.storageAccountUrl,
                                     EnvironmentPickerManager.getResourceUrl(
                                         storageAccountItems.selectedStorageAccount,
@@ -507,39 +525,42 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         resource: IAzureResource | string,
         resources: Array<IAzureResource | string>
     ) => {
-        setEnvironmentItems({
-            ...environmentItems,
-            environmentToEdit: resource,
-            environments: resources
-        });
+        setEnvironmentItems(
+            produce((draft) => {
+                draft.environmentToEdit = resource;
+                draft.environments = resources;
+            })
+        );
     };
 
     const handleOnStorageAccountResourceChange = (
         resource: IAzureResource | string,
         resources: Array<IAzureResource | string>
     ) => {
-        setStorageAccountItems({
-            ...storageAccountItems,
-            storageAccountToEdit: resource,
-            storageAccounts: resources
-        });
+        setStorageAccountItems(
+            produce((draft) => {
+                draft.storageAccountToEdit = resource;
+                draft.storageAccounts = resources;
+            })
+        );
 
         // when changing the storage account, update the containers from default mappings until containers are fetched
-        setContainerItems({
-            ...containerItems,
-            containers:
-                defaultStorageAccountToContainersMappingRef.current?.find(
-                    (mapping) =>
-                        EnvironmentPickerManager.isResourceUrlsEqual(
-                            mapping.storageAccountUrl,
-                            EnvironmentPickerManager.getResourceUrl(
-                                resource,
-                                AzureResourceTypes.StorageAccount
+        setContainerItems(
+            produce((draft) => {
+                draft.containers =
+                    defaultStorageAccountToContainersMappingRef.current?.find(
+                        (mapping) =>
+                            EnvironmentPickerManager.areResourceUrlsEqual(
+                                mapping.storageAccountUrl,
+                                EnvironmentPickerManager.getResourceUrl(
+                                    resource,
+                                    AzureResourceTypes.StorageAccount
+                                )
                             )
-                        )
-                )?.containerNames || [],
-            containerToEdit: null
-        });
+                    )?.containerNames || [];
+                draft.containerToEdit = null;
+            })
+        );
         hasFetchedResources.current.storageBlobContainers = false; // reset this flag as we click on different storage account since it fetches containers again with different storage account id
     };
 
@@ -547,16 +568,17 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         resource: IAzureResource | string,
         resources: Array<IAzureResource | string>
     ) => {
-        setContainerItems({
-            ...containerItems,
-            containerToEdit: resource,
-            containers: resources
-        });
+        setContainerItems(
+            produce((draft) => {
+                draft.containerToEdit = resource;
+                draft.containers = resources;
+            })
+        );
 
         // update mappings in case change is based on addition or removal of a resource
         const defaultStorageAccountMapping = defaultStorageAccountToContainersMappingRef.current?.find(
             (mapping) =>
-                EnvironmentPickerManager.isResourceUrlsEqual(
+                EnvironmentPickerManager.areResourceUrlsEqual(
                     EnvironmentPickerManager.getResourceUrl(
                         storageAccountItems.storageAccountToEdit,
                         AzureResourceTypes.StorageAccount
@@ -644,8 +666,8 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                 environmentItems.environmentToEdit,
                                 AzureResourceTypes.DigitalTwinInstance
                             )}
-                            onResourceChange={handleOnEnvironmentResourceChange}
-                            onResourcesLoaded={(_resources) => {
+                            onChange={handleOnEnvironmentResourceChange}
+                            onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
                             allowFreeform
@@ -685,23 +707,24 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                         storageAccountItems.storageAccounts,
                                         AzureResourceTypes.StorageAccount
                                     )}
-                                    onResourceChange={
+                                    onChange={
                                         handleOnStorageAccountResourceChange
                                     }
-                                    onResourcesLoaded={(resources) => {
+                                    onLoaded={(resources) => {
                                         hasFetchedResources.current.storageAccounts = true;
                                         hasFetchedResources.current.storageBlobContainers = false;
                                         const fetchedResource = EnvironmentPickerManager.findStorageAccountFromResources(
                                             storageAccountItems.storageAccountToEdit,
                                             resources
                                         );
-                                        setStorageAccountItems({
-                                            ...storageAccountItems,
-                                            storageAccounts: resources,
-                                            storageAccountToEdit:
-                                                fetchedResource ||
-                                                storageAccountItems.storageAccountToEdit
-                                        });
+                                        setStorageAccountItems(
+                                            produce((draft) => {
+                                                draft.storageAccountToEdit =
+                                                    fetchedResource ||
+                                                    storageAccountItems.storageAccountToEdit;
+                                                draft.storageAccounts = resources;
+                                            })
+                                        );
                                     }}
                                     allowFreeform
                                 />
@@ -753,10 +776,10 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                                     selectedOption={EnvironmentPickerManager.getContainerName(
                                         containerItems.containerToEdit
                                     )}
-                                    onResourceChange={
+                                    onChange={
                                         handleOnStorageContainerResourceChange
                                     }
-                                    onResourcesLoaded={(_resources) => {
+                                    onLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
                                     allowFreeform

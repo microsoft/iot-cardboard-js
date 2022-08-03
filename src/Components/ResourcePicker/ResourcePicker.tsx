@@ -63,8 +63,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     label,
     loadingLabel,
     searchParams,
-    onResourcesLoaded,
-    onResourceChange,
+    onLoaded,
+    onChange,
     additionalOptions: additionalOptionsProp,
     selectedOption: selectedOptionProp,
     allowFreeform = false,
@@ -94,11 +94,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const resourcesState = useAdapter({
         adapterMethod: () =>
-            adapter.getResourcesByPermissions(
-                resourceType,
-                requiredAccessRoles,
-                searchParams
-            ),
+            adapter.getResourcesByPermissions({
+                getResourcesParams: {
+                    resourceType,
+                    searchParams
+                },
+                requiredAccessRoles
+            }),
         refetchDependencies: [adapter, searchParams],
         isAdapterCalledOnMount: !disabled && shouldFetchResourcesOnMount
     });
@@ -122,7 +124,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 return t('resourcesPicker.noOption');
             }
         }
-    }, [resourceType, t, options.length]);
+    }, [resourceType, t, options.length, displayField]);
 
     const loadingLabelText = useMemo(() => {
         switch (resourceType) {
@@ -161,7 +163,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     // after fetching the resources merge them with existing options in the dropdown
     const mergeOptionsWithProps = useCallback(
-        (options, additionalOptions, selectedOption) => {
+        (
+            options: IComboBoxOption[],
+            additionalOptions: IComboBoxOption[],
+            selectedOption: IComboBoxOption
+        ) => {
             if (additionalOptions) {
                 // do the merging with existing options: add the additional options manually entered by user to the end if it is not in the fetched data
                 const existingOptionTexts =
@@ -172,7 +178,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 const optionsToAdd = additionalOptions.filter(
                     (additionalOption) =>
                         existingOptionTexts.findIndex((existingOptionText) =>
-                            isValuesEqual(
+                            areValuesEqual(
                                 existingOptionText,
                                 additionalOption.text
                             )
@@ -189,7 +195,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             if (selectedOption) {
                 const selectedOptionInNewOptions = options.find((option) =>
-                    isValuesEqual(option.text, selectedOption.text)
+                    areValuesEqual(option.text, selectedOption.text)
                 );
                 if (!selectedOptionInNewOptions) {
                     const freeFromOptionsHeaderExist = options?.find(
@@ -214,11 +220,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         []
     );
 
-    const optionsFromResources = () => {
+    const getOptionsFromResources = (resources: IAzureResource[]) => {
         const newOptions: Array<IComboBoxOption> = [];
         let lastHeader = '';
         // after fetching resources, first start the dropdown with that
-        resourcesRef.current?.forEach((r) => {
+        resources?.forEach((r) => {
             if (r.subscriptionName && lastHeader !== r.subscriptionName) {
                 newOptions.push({
                     key: r.subscriptionName,
@@ -274,12 +280,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 resourcesState.adapterResult.result?.data;
             resourcesRef.current = resources;
 
-            if (onResourcesLoaded) {
-                onResourcesLoaded(resources);
+            if (onLoaded) {
+                onLoaded(resources);
             }
 
             newOptions = mergeOptionsWithProps(
-                optionsFromResources(),
+                getOptionsFromResources(resources),
                 additionalOptions,
                 selectedOption
             );
@@ -316,13 +322,18 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (selectedOption) {
             const selectedKey = options?.find(
                 (option) =>
-                    option.text === parsedOptionText(selectedOption.text)
+                    option.text ===
+                    sanitizeOptionText(
+                        selectedOption.text,
+                        displayField,
+                        resourceType
+                    )
             )?.key;
             setSelectedKey(selectedKey);
         } else {
             setSelectedKey(null);
         }
-    }, [selectedOption]);
+    }, [selectedOption, options]);
 
     useEffect(() => {
         setAdditionalOptions(
@@ -337,74 +348,18 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     useEffect(() => {
         setOptions(
             mergeOptionsWithProps(
-                optionsFromResources(),
+                getOptionsFromResources(resourcesRef.current),
                 additionalOptions,
                 selectedOption
             )
         );
     }, [additionalOptions]);
 
-    const parsedOptionText = useCallback((value) => {
-        if (!value) return value;
-
-        if (displayField === AzureResourceDisplayFields.url) {
-            // let user enter hostname and gracefully append https protocol
-            let newVal = value;
-            if (!newVal.startsWith('https://')) {
-                if (
-                    (resourceType === AzureResourceTypes.DigitalTwinInstance &&
-                        ValidAdtHostSuffixes.some(
-                            (suffix) =>
-                                newVal.endsWith(suffix) ||
-                                newVal.endsWith(suffix + '/')
-                        )) ||
-                    ((resourceType ===
-                        AzureResourceTypes.StorageBlobContainer ||
-                        resourceType === AzureResourceTypes.StorageAccount) &&
-                        ValidContainerHostSuffixes.some(
-                            (suffix) =>
-                                newVal.endsWith(suffix) ||
-                                newVal.endsWith(suffix + '/')
-                        ))
-                ) {
-                    newVal = 'https://' + newVal;
-                }
-            }
-            return newVal;
-        } else {
-            return value;
-        }
-    }, []);
-
-    const isValidUrlStr = useCallback((urlStr: string) => {
-        try {
-            let endsWithValidSuffix = true;
-            switch (resourceType) {
-                case AzureResourceTypes.DigitalTwinInstance:
-                    endsWithValidSuffix = ValidAdtHostSuffixes.some((suffix) =>
-                        new URL(urlStr).hostname.endsWith(suffix)
-                    );
-                    break;
-                case AzureResourceTypes.StorageAccount:
-                case AzureResourceTypes.StorageBlobContainer:
-                    endsWithValidSuffix = ValidContainerHostSuffixes.some(
-                        (suffix) => new URL(urlStr).hostname.endsWith(suffix)
-                    );
-                    break;
-            }
-            return (
-                urlStr && urlStr.startsWith('https://') && endsWithValidSuffix
-            );
-        } catch (error) {
-            return false;
-        }
-    }, []);
-
     const inputError = useMemo(() => {
         if (
             selectedOption &&
             displayField === AzureResourceDisplayFields.url &&
-            !isValidUrlStr(selectedOption.text)
+            !isValidUrlStr(selectedOption.text, resourceType)
         ) {
             switch (resourceType) {
                 case AzureResourceTypes.DigitalTwinInstance:
@@ -419,7 +374,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
     }, [selectedOption, resourceType, isValidUrlStr, t]);
 
-    const isValuesEqual = (value1: string, value2: string) => {
+    const areValuesEqual = (value1: string, value2: string) => {
         if (displayField === AzureResourceDisplayFields.url) {
             if (value1?.endsWith('/')) {
                 value1 = value1.slice(0, -1);
@@ -435,11 +390,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const handleOnChange = useCallback(
         (option, value) => {
+            // when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
+            // 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
+            // existing option, option is not null and value is null; when we enter a new value using freeform, value is not null and option is null
             if (option) {
                 setSelectedOption(option);
                 setSelectedKey(option.data?.id ?? option.text);
-                if (onResourceChange) {
-                    onResourceChange(
+                if (onChange) {
+                    onChange(
                         option.data || option.text,
                         options
                             ?.filter(
@@ -451,10 +409,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     );
                 }
             } else {
-                const newParsedOptionValue = parsedOptionText(value);
+                const newParsedOptionValue = sanitizeOptionText(
+                    value,
+                    displayField,
+                    resourceType
+                );
 
                 const existingOption = options.find((option) =>
-                    isValuesEqual(option.text, newParsedOptionValue)
+                    areValuesEqual(option.text, newParsedOptionValue)
                 );
                 if (!existingOption) {
                     const newOption = {
@@ -467,7 +429,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     if (
                         displayField !== AzureResourceDisplayFields.url ||
                         (displayField === AzureResourceDisplayFields.url &&
-                            isValidUrlStr(newParsedOptionValue))
+                            isValidUrlStr(newParsedOptionValue, resourceType))
                     ) {
                         const freeFromOptionsHeaderExist = options?.find(
                             (option) =>
@@ -482,8 +444,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         setSelectedOption(newOption);
                         setSelectedKey(newParsedOptionValue);
                     }
-                    if (onResourceChange)
-                        onResourceChange(
+                    if (onChange)
+                        onChange(
                             newParsedOptionValue,
                             newOptions
                                 ?.filter(
@@ -497,8 +459,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 } else {
                     setSelectedOption(existingOption);
                     setSelectedKey(existingOption.key);
-                    if (onResourceChange)
-                        onResourceChange(
+                    if (onChange)
+                        onChange(
                             existingOption.data || existingOption.text,
                             options
                                 ?.filter(
@@ -531,8 +493,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
             if (option.key === selectedOption?.key) {
                 setSelectedOption(null);
-                if (onResourceChange)
-                    onResourceChange(
+                if (onChange)
+                    onChange(
                         null,
                         restOfOptions
                             .filter(
@@ -543,8 +505,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                             .map((option) => option.data || option.text)
                     );
             } else {
-                if (onResourceChange)
-                    onResourceChange(
+                if (onChange)
+                    onChange(
                         selectedOption?.data || selectedOption?.text,
                         restOfOptions
                             ?.filter(
@@ -638,6 +600,63 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             />
         </div>
     );
+};
+
+const sanitizeOptionText = (
+    value: string,
+    displayField: AzureResourceDisplayFields,
+    resourceType: AzureResourceTypes
+) => {
+    if (!value) return value;
+
+    if (displayField === AzureResourceDisplayFields.url) {
+        // let user enter hostname and gracefully append https protocol
+        let newVal = value;
+        if (!newVal.startsWith('https://')) {
+            if (
+                (resourceType === AzureResourceTypes.DigitalTwinInstance &&
+                    ValidAdtHostSuffixes.some(
+                        (suffix) =>
+                            newVal.endsWith(suffix) ||
+                            newVal.endsWith(suffix + '/')
+                    )) ||
+                ((resourceType === AzureResourceTypes.StorageBlobContainer ||
+                    resourceType === AzureResourceTypes.StorageAccount) &&
+                    ValidContainerHostSuffixes.some(
+                        (suffix) =>
+                            newVal.endsWith(suffix) ||
+                            newVal.endsWith(suffix + '/')
+                    ))
+            ) {
+                newVal = 'https://' + newVal;
+            }
+        }
+        return newVal;
+    } else {
+        return value;
+    }
+};
+
+const isValidUrlStr = (urlStr: string, resourceType: AzureResourceTypes) => {
+    try {
+        let endsWithValidSuffix = true;
+        switch (resourceType) {
+            case AzureResourceTypes.DigitalTwinInstance:
+                endsWithValidSuffix = ValidAdtHostSuffixes.some((suffix) =>
+                    new URL(urlStr).hostname.endsWith(suffix)
+                );
+                break;
+            case AzureResourceTypes.StorageAccount:
+            case AzureResourceTypes.StorageBlobContainer:
+                endsWithValidSuffix = ValidContainerHostSuffixes.some(
+                    (suffix) => new URL(urlStr).hostname.endsWith(suffix)
+                );
+                break;
+        }
+        return urlStr && urlStr.startsWith('https://') && endsWithValidSuffix;
+    } catch (error) {
+        return false;
+    }
 };
 
 export default memo(

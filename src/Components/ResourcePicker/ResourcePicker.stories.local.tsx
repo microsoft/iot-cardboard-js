@@ -69,7 +69,7 @@ ADTInstances.args = {
         'https://example2.api.wus.digitaltwins.azure.net'
     ],
     selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
-    onResourceChange: (resource) => {
+    onChange: (resource) => {
         console.log(typeof resource === 'string' ? resource : resource?.id);
     },
     searchParams: { take: 500, filter: 'demo' },

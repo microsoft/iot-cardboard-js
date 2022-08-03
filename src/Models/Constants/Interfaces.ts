@@ -38,7 +38,8 @@ import {
     AdapterMethodParams,
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
-    AdapterMethodParamsForSearchADTTwins
+    AdapterMethodParamsForSearchADTTwins,
+    AdapterMethodParamsForGetAzureResources
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -501,46 +502,20 @@ export interface IAzureManagementAdapter {
         }
     ) => Promise<boolean>;
     getResources: (
-        resourceType: AzureResourceTypes,
-        searchParams?: IAzureResourceSearchParams,
-        resourceProviderEndpoint?: string, // if provided, the Azure Management API is going to only make call against this provider endpoint, otherwise will use predefined mapping based on passed resource type
-        userData?: {
-            tenantId: string;
-            uniqueObjectId: string;
-        }
+        params: AdapterMethodParamsForGetAzureResources
     ) => AdapterReturnType<AzureResourcesData>;
-    getResourcesByPermissions: (
-        resourceType: AzureResourceTypes,
+    getResourcesByPermissions: (params: {
+        getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: {
             enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
             interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-        },
-        searchParams?: IAzureResourceSearchParams,
-        resourceProviderEndpoint?: string, // if provided, the Azure Management API is going to only make call against this provider endpoint, otherwise will use predefined mapping based on passed resource type
-        userData?: {
-            tenantId: string;
-            uniqueObjectId: string;
-        }
-    ) => AdapterReturnType<AzureResourcesData>;
+        };
+    }) => AdapterReturnType<AzureResourcesData>;
     assignRole: (
         roleId: AzureAccessPermissionRoles,
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
-}
-
-/** IAzureResourceSearchParams is used for handling requests in resource picker component.
- * 'take' is the number of resources to return to limit the number of following requests to check the permission against, but drawback of this approach is that the taken bucket of resources may not be the ones that user has required permissions,
- * 'filter' is used to filter resources based on AzureResourceDisplayFields,
- * 'additionalParams' is for resource specific params (e.g storageAccountId for fetching StorageBlobContainer resource type) to limit the number of requests for performance
- */
-export interface IAzureResourceSearchParams {
-    take?: number;
-    filter?: string;
-    additionalParams?: {
-        storageAccountId?: string;
-        [key: string]: any;
-    };
 }
 
 export interface IBlobAdapter {
