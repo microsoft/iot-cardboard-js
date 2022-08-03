@@ -240,7 +240,7 @@ export function formatTimeInRelevantUnits(
         value: 0,
         displayStringKey: 'duration.seconds'
     };
-    if (milliseconds < 1) {
+    if (!milliseconds || milliseconds < 1) {
         return DEFAULT_RESULT;
     }
     const timeUnits = new TreeMap<number, string>();
@@ -259,11 +259,12 @@ export function formatTimeInRelevantUnits(
 
     // get the next entry below, if there isn't one, get the next one larger
     let unitBelow = timeUnits.floorEntry(milliseconds);
-    let value = milliseconds / (unitBelow?.[0] || 1);
+    let value = 0;
 
     if (!unitBelow) {
         unitBelow = timeUnits.higherEntry(milliseconds);
-        value = 0;
+    } else {
+        value = milliseconds / unitBelow[0];
     }
 
     let units = unitBelow[1];
