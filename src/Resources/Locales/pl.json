@@ -542,7 +542,11 @@
         "noNumberPrefix": "Podwójna nazwa nie może zaczynać się od cyfry"
       }
     },
-    "actions": "Akcje"
+    "actions": "Akcje",
+    "transform": {
+      "position": "Pozycja",
+      "rotation": "Obrót"
+    }
   },
   "widgets": {
     "trend": {
@@ -942,7 +946,9 @@
     "sceneView": {
       "3dAssetLoadingErrorTitle": "Błąd ładowania modelu",
       "3dAssetLoadingNetworkErrorMessage": "Może to być problem CORS, nieprawidłowy adres URL obiektu blob lub błąd sieciowy. Skontaktuj się z właścicielem kontenera, w którym jest przechowywany ten plik zasobu, lub spróbuj ponownie później.",
-      "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku."
+      "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
+      "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     }
-  }
+  },
+  "fieldRequired": "To pole jest wymagane"
 }

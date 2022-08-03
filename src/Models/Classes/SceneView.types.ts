@@ -149,4 +149,5 @@ export interface ISceneViewProps {
     transformedElementItems?: TransformedElementItem[];
     unzoomedMeshOpacity?: number;
     zoomToMeshIds?: string[];
+    allowModelDimensionErrorMessage?: boolean;
 }

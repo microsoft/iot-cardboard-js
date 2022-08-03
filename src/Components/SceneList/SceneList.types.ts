@@ -33,7 +33,6 @@ export enum SelectionModeOf3DFile {
 
 export interface SceneDialogState {
     scene: IScene;
-    sceneBlobUrl: string;
     isSelectedFileExistInBlob: boolean;
     isOverwriteFile: boolean;
     blobsInContainer: IStorageBlob[];

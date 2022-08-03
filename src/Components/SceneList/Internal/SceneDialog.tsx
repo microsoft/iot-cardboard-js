@@ -35,6 +35,7 @@ import {
     getDefaultSceneDialogState,
     SceneDialogReducer
 } from './SceneDialog.state';
+import { IScene } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 const fileUploadLabelTooltipStyles: ITooltipHostStyles = {
     root: {
         display: 'inline-block',
@@ -114,27 +115,6 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
-
-    useEffect(() => {
-        if (!put3DFileBlob.adapterResult.hasNoData()) {
-            const newlyAdded3DFile: IStorageBlob =
-                put3DFileBlob.adapterResult.result.data[0];
-            const sceneObjectForAddOrEdit = {
-                ...sceneToEdit,
-                assets: [
-                    {
-                        type: '3DAsset',
-                        url: newlyAdded3DFile.Path
-                    }
-                ]
-            };
-            if (sceneToEdit) {
-                onEditScene(sceneObjectForAddOrEdit);
-            } else {
-                onAddScene(sceneObjectForAddOrEdit);
-            }
-        }
-    }, [put3DFileBlob.adapterResult.result]);
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.normal,
@@ -233,11 +213,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                 fileToUpload: state.selectedFile
             });
         } else {
-            if (sceneToEdit) {
-                onEditScene(state.scene);
-            } else {
-                onAddScene(state.scene);
-            }
+            saveScene(undefined); // don't need the url, it's on the state
         }
     };
 
@@ -304,6 +280,38 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         });
     }, []);
 
+    const saveScene = useCallback(
+        (fileUrl: string) => {
+            // need to store the newly stored file URL since the call just finished
+            const sceneToSave: IScene = fileUrl
+                ? {
+                      ...state.scene,
+                      assets: [
+                          {
+                              type: '3DAsset',
+                              url: fileUrl
+                          }
+                      ]
+                  }
+                : state.scene;
+            if (sceneToEdit) {
+                onEditScene(sceneToSave);
+            } else {
+                onAddScene(sceneToSave);
+            }
+        },
+        [onAddScene, onEditScene, sceneToEdit, state.scene]
+    );
+
+    // when storing the file finishes during save, trigger the callbacks
+    useEffect(() => {
+        if (!put3DFileBlob.adapterResult.hasNoData()) {
+            const newlyAdded3DFile: IStorageBlob =
+                put3DFileBlob.adapterResult.result.data[0];
+            saveScene(newlyAdded3DFile.Path);
+        }
+    }, [put3DFileBlob.adapterResult.result]);
+
     const isSubmitButtonDisabled = useMemo(() => {
         return (
             !state.scene.displayName ||
@@ -312,7 +320,7 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
                     isNaN(state.scene.longitude))) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromContainer &&
-                !state.sceneBlobUrl) ||
+                !state.scene.assets?.[0]?.url) ||
             (state.selected3DFilePivotItem ===
                 SelectionModeOf3DFile.FromComputer &&
                 (!state.selectedFile ||
@@ -322,12 +330,15 @@ const SceneDialog: React.FC<ISceneDialogProps> = ({
         );
     }, [
         state.scene.displayName,
-        state.sceneBlobUrl,
+        state.scene.latitude,
+        state.scene.longitude,
+        state.scene.assets,
+        state.isShowOnGlobeEnabled,
         state.selected3DFilePivotItem,
         state.selectedFile,
         state.isSelectedFileExistInBlob,
         state.isOverwriteFile,
-        put3DFileBlob
+        put3DFileBlob.isLoading
     ]);
     const styleStack: IStackStyles = {
         root: {

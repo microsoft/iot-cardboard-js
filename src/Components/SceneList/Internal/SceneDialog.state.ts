@@ -20,7 +20,6 @@ export const getDefaultSceneDialogState = (
         behaviorIDs: [],
         assets: []
     },
-    sceneBlobUrl: scene ? scene?.assets?.[0]?.url || '' : '',
     isShowOnGlobeEnabled: Boolean(
         !(isNaN(scene?.latitude) || isNaN(scene?.longitude))
     ),
@@ -52,7 +51,12 @@ export const SceneDialogReducer: (
                 draft.scene.longitude = action.payload.longitude;
                 break;
             case SceneDialogActionType.SET_SCENE_BLOB_URL:
-                draft.sceneBlobUrl = action.payload.sceneBlobUrl;
+                draft.scene.assets = [
+                    {
+                        type: '3DAsset',
+                        url: action.payload.sceneBlobUrl
+                    }
+                ];
                 break;
             case SceneDialogActionType.SET_IS_SELECTED_FILE_EXIST_IN_BLOB:
                 draft.isSelectedFileExistInBlob =
