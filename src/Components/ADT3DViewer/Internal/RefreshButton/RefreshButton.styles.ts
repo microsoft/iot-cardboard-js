@@ -25,7 +25,7 @@ export const getStyles = (
                         icon: props.isRefreshing
                             ? {
                                   transition: `${ANIMATION_DURATION_SECONDS}s`,
-                                  transform: 'rotate(720deg)'
+                                  transform: 'rotate(360deg)'
                               }
                             : {}
                     }
