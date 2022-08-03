@@ -8,6 +8,7 @@ import { IHeaderControlButtonStyles } from '../../../HeaderControlButton/HeaderC
 import { IHeaderControlGroupStyles } from '../../../HeaderControlGroup/HeaderControlGroup.types';
 
 export interface IRefreshButtonProps {
+    isRefreshing: boolean;
     lastRefreshTimeInMs: number;
     refreshFrequency: number;
     onClick: () => void;

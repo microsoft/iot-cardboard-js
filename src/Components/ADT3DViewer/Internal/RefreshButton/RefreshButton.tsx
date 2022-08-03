@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     IRefreshButtonProps,
     IRefreshButtonStyleProps,
@@ -31,11 +31,19 @@ const LOC_KEYS = {
     refreshRate: `${ROOT_LOC}.refreshRate`
 };
 const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
-    const { lastRefreshTimeInMs, onClick, refreshFrequency, styles } = props;
+    const {
+        isRefreshing,
+        lastRefreshTimeInMs,
+        onClick,
+        refreshFrequency,
+        styles
+    } = props;
     const iconAnimationTimeout = useRef<NodeJS.Timeout>();
 
     // state
-    const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+    const [isRefreshInProgress, setIsRefreshInProgress] = useState<boolean>(
+        false
+    );
     const [timeSinceLastRefresh, setTimeSinceLastRefresh] = useState<{
         value: number;
         displayStringKey: string;
@@ -50,23 +58,20 @@ const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        isRefreshing: isRefreshing,
+        isRefreshing: isRefreshInProgress,
         theme: useTheme()
     });
 
-    // callbacks
-    const localOnClick = useCallback(() => {
-        setIsRefreshing(true); // apply the styling
-
-        console.log('Setting timeout');
-        clearTimeout(iconAnimationTimeout.current); // clear any outstanding timeout
-        iconAnimationTimeout.current = setTimeout(() => {
-            console.log('Clearing');
-            setIsRefreshing(false);
-        }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // set a timer to remove the style after it's done
-
-        onClick(); // notify the caller of the action
-    }, []);
+    // set local state when we are notified about refreshing, then give it time to animate
+    useEffect(() => {
+        if (isRefreshing) {
+            setIsRefreshInProgress(true); // apply the styling
+            clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
+            setTimeout(() => {
+                setIsRefreshInProgress(false);
+            }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
+        }
+    }, [isRefreshing]);
 
     // to get live updating we have to trigger renders and recalculate on a regular cadence so set a timer to keep checking
     setTimeout(() => {
@@ -123,7 +128,7 @@ const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
                         id={buttonId}
                         iconProps={{ iconName: 'Refresh' }}
                         isActive={false}
-                        onClick={localOnClick}
+                        onClick={onClick}
                         styles={
                             classNames.subComponentStyles.headerControlButton
                         }
