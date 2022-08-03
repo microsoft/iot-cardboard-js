@@ -22,8 +22,7 @@ export const getStyles = (
             },
             callout: {
                 root: {
-                    maxWidth: 300,
-                    padding: 8
+                    display: 'inline-block'
                 }
             }
         }

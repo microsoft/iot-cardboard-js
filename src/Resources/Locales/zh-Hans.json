@@ -544,7 +544,11 @@
         "noNumberPrefix": "孪生名称不得以数字开头"
       }
     },
-    "actions": "行动"
+    "actions": "行动",
+    "transform": {
+      "position": "位置",
+      "rotation": "旋转"
+    }
   },
   "widgets": {
     "trend": {

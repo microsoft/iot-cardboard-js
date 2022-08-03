@@ -31,6 +31,5 @@ export interface ISceneViewWrapperStyles {
 }
 
 export interface ISceneViewWrapperSubComponentStyles {
-    rightHeaderControlsStack: IStackStyles;
     cameraControlsStack: IStackStyles;
 }

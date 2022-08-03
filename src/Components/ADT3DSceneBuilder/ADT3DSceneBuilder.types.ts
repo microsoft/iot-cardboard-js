@@ -15,7 +15,9 @@ import {
 } from '../../Models/Classes/3DVConfig';
 import {
     CustomMeshItem,
-    ISceneViewProps
+    ISceneViewProps,
+    TransformedElementItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
     ADT3DSceneBuilderMode,
@@ -74,6 +76,8 @@ export const SET_IS_LAYER_BUILDER_DIALOG_OPEN =
     'SET_IS_LAYER_BUILDER_DIALOG_OPEN';
 export const SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY =
     'SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY';
+export const SET_GIZMO_ELEMENT_ITEM = 'SET_PARENT_MESH_IDS_TO_GIZMO';
+export const SET_GIZMO_TRANSFORM_ITEM = 'SET_GIZMO_TRANSFORM_ITEM';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -120,6 +124,8 @@ export interface I3DSceneBuilderContext {
     coloredMeshItems: Array<CustomMeshItem>;
     setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
     setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
+    setGizmoElementItem: (item: TransformedElementItem) => void;
+    setGizmoTransformItem: (item: TransformInfo) => void;
     widgetFormInfo: WidgetFormInfo;
     setWidgetFormInfo: (widgetFormInfo: WidgetFormInfo) => void;
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo;
@@ -161,13 +167,6 @@ export type ElementTwinAliasFormInfo = null | {
     mode: TwinAliasFormMode;
 };
 
-export interface IElementFormContext {
-    elementToEdit: ITwinToObjectMapping;
-    setElementToEdit: React.Dispatch<
-        React.SetStateAction<ITwinToObjectMapping>
-    >;
-}
-
 export interface IContextMenuProps {
     isVisible: boolean;
     x: number;
@@ -183,8 +182,6 @@ export interface IADT3DSceneBuilderElementListProps {
 
 export interface IADT3DSceneBuilderElementFormProps {
     builderMode: ADT3DSceneBuilderMode;
-    selectedElement: ITwinToObjectMapping;
-    behaviors: Array<IBehavior>;
     onElementSave: (newElements: Array<ITwinToObjectMapping>) => void;
     onElementBackClick: () => void;
     onBehaviorClick: (behavior: IBehavior) => void;
@@ -274,6 +271,8 @@ export interface ADT3DSceneBuilderState {
     elementTwinAliasFormInfo: ElementTwinAliasFormInfo;
     enableHoverOnModel: boolean;
     formDirtyState: Map<BuilderDirtyFormType, boolean>;
+    gizmoElementItem: TransformedElementItem;
+    gizmoTransformItem: TransformInfo;
     isLayerBuilderDialogOpen: boolean;
     layerBuilderDialogData: {
         behaviorId: string;
@@ -312,11 +311,4 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IValueWidget;
     updateWidgetData: (widgetData: IValueWidget) => void;
-}
-
-export interface BehaviorState {
-    behaviorToEdit: IBehavior;
-    behaviorsOnElement: Array<IBehavior>;
-    behaviorsToEdit: Array<IBehavior>;
-    availableBehaviors: Array<IBehavior>;
 }

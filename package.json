@@ -50,7 +50,8 @@
         "react-transition-group": "^4.4.2",
         "recharts": "^2.1.8",
         "tsiclient": "^1.4.12",
-        "use-deep-compare-effect": "^1.8.1"
+        "use-deep-compare-effect": "^1.8.1",
+        "uuid": "^8.3.2"
     },
     "devDependencies": {
         "@babel/core": "^7.12.10",

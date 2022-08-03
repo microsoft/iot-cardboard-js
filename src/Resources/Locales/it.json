@@ -544,7 +544,11 @@
         "noNumberPrefix": "Il nome gemello non deve iniziare con un numero"
       }
     },
-    "actions": "Azioni"
+    "actions": "Azioni",
+    "transform": {
+      "position": "Posizione",
+      "rotation": "Rotazione"
+    }
   },
   "widgets": {
     "trend": {

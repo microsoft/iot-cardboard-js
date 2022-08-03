@@ -36,6 +36,7 @@ import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { isConstant, toConstant } from 'constantinople';
+import { v4 } from 'uuid';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -67,14 +68,11 @@ export const validate3DConfigWithSchema = (
 };
 
 export const createGUID = (isWithDashes = false) => {
-    const s4 = () => {
-        return Math.floor((1 + Math.random()) * 0x10000)
-            .toString(16)
-            .substring(1);
-    };
-    return isWithDashes
-        ? `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`
-        : `${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}${s4()}`;
+    let id: string = v4();
+    if (!isWithDashes) {
+        id = id.replace(/-/g, '');
+    }
+    return id;
 };
 
 export const getFileType = (fileName: string, defaultType = '') => {

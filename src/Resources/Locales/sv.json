@@ -544,7 +544,11 @@
         "noNumberPrefix": "Tvillingnamnet får inte börja med ett nummer"
       }
     },
-    "actions": "Åtgärder"
+    "actions": "Åtgärder",
+    "transform": {
+      "position": "Position",
+      "rotation": "Rotation"
+    }
   },
   "widgets": {
     "trend": {
