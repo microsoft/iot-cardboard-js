@@ -85,7 +85,7 @@
                 ],
                 "pollingConfiguration": {
                     "pollingStrategy": "Realtime",
-                    "maximumPollingInterval": 0
+                    "minimumPollingFrequency": 0
                 }
             },
             {
@@ -204,7 +204,7 @@
                 ],
                 "pollingConfiguration": {
                     "pollingStrategy": "Limited",
-                    "maximumPollingInterval": 30000
+                    "minimumPollingFrequency": 30000
                 }
             },
             {
@@ -220,7 +220,7 @@
                 "behaviorIDs": [],
                 "pollingConfiguration": {
                     "pollingStrategy": "Limited",
-                    "maximumPollingInterval": 60000
+                    "minimumPollingFrequency": 60000
                 }
             }
         ],

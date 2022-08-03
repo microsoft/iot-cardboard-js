@@ -74,7 +74,7 @@
                 /* the polling configuration will fetch data as quickly as allowed given the number of twins on the screen */
                 "pollingConfiguration": {
                     "pollingStrategy": "Realtime",
-                    "maximumPollingInterval": 0
+                    "minimumPollingFrequency": 0
                 }
             }
         ],

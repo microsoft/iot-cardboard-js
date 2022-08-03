@@ -1,5 +1,8 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
-import { PRIMARY_TWIN_NAME } from '../Constants';
+import {
+    MINIMUM_REFRESH_RATE_IN_MILLISECONDS,
+    PRIMARY_TWIN_NAME
+} from '../Constants';
 import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy, getDebugLogger } from '../Services/Utils';
 import {
@@ -79,16 +82,13 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IPollingConfiguration {
-        console.log('Fetching config');
         const defaultConfig: IPollingConfiguration = {
             pollingStrategy: 'Realtime',
-            maximumPollingInterval: 10000
+            minimumPollingFrequency: MINIMUM_REFRESH_RATE_IN_MILLISECONDS
         };
         if (config && sceneId) {
             const scene = this.getSceneById(config, sceneId);
-            console.log('Scene', scene);
             if (scene && scene.pollingConfiguration) {
-                console.log('Config', scene.pollingConfiguration);
                 return scene.pollingConfiguration;
             }
         }

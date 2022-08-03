@@ -200,10 +200,10 @@ export const useRuntimeSceneData = (
                 );
                 const actualRefreshRateSeconds =
                     pollingConfig.pollingStrategy === 'Limited' &&
-                    pollingConfig.maximumPollingInterval
+                    pollingConfig.minimumPollingFrequency
                         ? Math.max(
                               fastestPossibleRefreshRateSeconds,
-                              pollingConfig.maximumPollingInterval
+                              pollingConfig.minimumPollingFrequency
                           )
                         : fastestPossibleRefreshRateSeconds;
                 logDebugConsole(
