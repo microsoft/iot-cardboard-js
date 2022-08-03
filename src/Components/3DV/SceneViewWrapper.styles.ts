@@ -1,7 +1,6 @@
 import {
     BUILDER_CAMERA_CONTROLS_BOTTOM_OFFSET,
-    VIEWER_CAMERA_CONTROLS_BOTTOM_OFFSET,
-    VIEWER_HEADER_TOP_OFFSET
+    VIEWER_CAMERA_CONTROLS_BOTTOM_OFFSET
 } from '../../Models/Constants/StyleConstants';
 import { WrapperMode } from './SceneView.types';
 import {
