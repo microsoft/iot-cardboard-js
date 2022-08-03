@@ -13,6 +13,8 @@ import {
     Icon
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
+import QueryBuilder from './Internal/QueryBuilder';
+import AdvancedSearchResults from './Internal/AdvancedSearchResults';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -29,7 +31,7 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     return (
         <Modal
             isOpen={isOpen}
-            onDismiss={() => onDismiss()}
+            onDismiss={onDismiss}
             titleAriaId={titleId}
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
@@ -46,12 +48,10 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
             </div>
             <div className={classNames.content}>
                 <div className={classNames.queryContainer}>
-                    {/* TODO: Replace this with query builder container */}
-                    Query fields container
+                    <QueryBuilder />
                 </div>
                 <div className={classNames.resultsContainer}>
-                    {/* TODO: Replace this with results details list */}
-                    Results details list
+                    <AdvancedSearchResults />
                 </div>
             </div>
         </Modal>
