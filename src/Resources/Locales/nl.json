@@ -841,7 +841,6 @@
     "dontSave": "Niet opslaan",
     "doYouWantToSaveChangesYouMadeTo": "Wilt u de wijzigingen opslaan die u hebt aangebracht in",
     "doYouWantToDelete": "Wilt u verwijderen",
-    "projectWithSameNameAlreadyExistsMessage?": "Project met dezelfde naam bestaat al, wil je het overschrijven?",
     "overwrite": "overschrijven",
     "namespace": "Namespace",
     "enterANamespace": "Een naamruimte invoeren",
@@ -860,7 +859,9 @@
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
-    "errorFileInvalidJSON": "Probleem met {{bestandsnaam}}: ongeldige JSON"
+    "errorFileInvalidJSON": "Probleem met {{bestandsnaam}}: ongeldige JSON",
+    "deleteProjectMessage": "Weet u zeker dat u {{projectName}} wilt verwijderen?",
+    "errorSameName": "Project met dezelfde naam bestaat al. Wil je het overschrijven?"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
