@@ -156,7 +156,6 @@ function SceneView(props: ISceneViewProps, ref) {
         cameraInteractionType,
         cameraPosition,
         coloredMeshItems,
-        transformedElementItems,
         getToken,
         gizmoElementItem,
         gizmoTransformItem,
@@ -172,6 +171,7 @@ function SceneView(props: ISceneViewProps, ref) {
         setGizmoTransformItem,
         showHoverOnSelected,
         showMeshesOnHover,
+        transformedElementItems,
         unzoomedMeshOpacity,
         zoomToMeshIds
     } = props;
@@ -1694,16 +1694,8 @@ function SceneView(props: ISceneViewProps, ref) {
         if (scene && transformedElementItems && !isLoading) {
             if (debugLogging) {
                 console.time('transforming meshes');
-                // console.log('tr', transformedMeshItems);
-                transformedElementItems.forEach((transformedElementItem) => {
-                    console.log(transformedElementItem);
-                });
             }
             try {
-                console.log(
-                    'previously transformed elements',
-                    previouslyTransformedElements
-                );
                 // if there is a parent mesh in previouslyTransformedElements BUT NOT in transformedElementItems
                 // (meaning the element had been previously transformed but the transform is now turned off)
                 // reset the element to its original state (which had been preserved in previouslyTransformedElements)
@@ -1740,11 +1732,6 @@ function SceneView(props: ISceneViewProps, ref) {
                             prevTransParentMesh.position.z =
                                 previouslyTransformedElement.transform.position.z;
 
-                            console.log(
-                                'previously transformed parent mesh',
-                                prevTransParentMesh
-                            );
-
                             // set up to remove from previouslyTransformedElements
                             previouslyTransformedElement.meshId = null;
                         }
@@ -1755,10 +1742,6 @@ function SceneView(props: ISceneViewProps, ref) {
                     (cPTE) => cPTE.meshId != null
                 );
 
-                // concern: how to choose parent? will determine pivot point
-                // could be different than one user chooses on build mode
-                // also: is parent relationship maintained ... ? should it be deleted after somehow??
-                // maybe save pivot point in absolute (i.e. world) coordinates under extensionProperties too?
                 transformedElementItems.forEach((transformedElementItem) => {
                     const meshIds = transformedElementItem.meshIds;
                     const parentMeshId = transformedElementItem.parentMeshId;
@@ -1781,7 +1764,7 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         return () => {
-            debugLog('debug', 'Mesh transform cleanup'); // do i need to do anything here?
+            debugLog('debug', 'Mesh transform cleanup');
         };
     }, [transformedElementItems, isLoading]);
 
@@ -1793,7 +1776,6 @@ function SceneView(props: ISceneViewProps, ref) {
         }
 
         parentMesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
-        console.log('old rotation', parentMesh.rotation);
 
         const pTParentMeshIds: string[] = previouslyTransformedElements.current.map(
             (pTE) => pTE.meshId
@@ -1827,10 +1809,6 @@ function SceneView(props: ISceneViewProps, ref) {
         parentMesh.position.x = transform.position.x;
         parentMesh.position.y = transform.position.y;
         parentMesh.position.z = transform.position.z;
-
-        console.log('new rotation', parentMesh.rotation);
-
-        console.log(parentMesh.id, transform);
     };
 
     // Handle gizmoElementItem
