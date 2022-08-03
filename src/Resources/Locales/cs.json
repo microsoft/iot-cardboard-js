@@ -544,7 +544,11 @@
         "noNumberPrefix": "Dvojče nesmí začínat číslem"
       }
     },
-    "actions": "Akce"
+    "actions": "Akce",
+    "transform": {
+      "position": "Postavení",
+      "rotation": "Rotace"
+    }
   },
   "widgets": {
     "trend": {

@@ -20,11 +20,15 @@ export interface IOATModelPosition {
     '@id': string;
     position: IOATNodePosition;
 }
-
 export interface IOATModelsMetadata {
     '@id': string;
     fileName?: string;
     directoryPath?: string;
+}
+
+export interface IOATModelData {
+    modelPositions?: IOATModelPosition[];
+    modelsMetadata?: IOATModelsMetadata[];
 }
 
 export interface IOATSelection {
