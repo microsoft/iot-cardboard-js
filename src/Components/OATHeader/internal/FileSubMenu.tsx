@@ -196,21 +196,24 @@ export const FileSubMenu = ({
     };
 
     const onProjectChange = () => {
-        setFiles(loadFiles());
+        const currentFiles = loadFiles();
+        setFiles(currentFiles);
         // Check if current file is stored
         let foundIndex = -1;
-        if (files.length > 0 && projectName) {
-            foundIndex = files.findIndex((file) => file.name === projectName);
+        if (currentFiles.length > 0 && projectName) {
+            foundIndex = currentFiles.findIndex(
+                (file) => file.name === projectName
+            );
             setFileIndex(foundIndex);
-            if (foundIndex > -1) {
-                setIsFileStored(true);
-            }
+            setIsFileStored(foundIndex > -1);
+        } else {
+            setIsFileStored(false);
         }
     };
 
     useEffect(() => {
         onProjectChange();
-    }, [projectName, isActive]);
+    }, [projectName]);
 
     return (
         <>

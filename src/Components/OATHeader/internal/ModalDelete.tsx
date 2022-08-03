@@ -36,7 +36,6 @@ export const ModalDelete = ({
             resetProject();
             setModalBody(FromBody.settings);
         }
-        setModalBody('saveNewProjectAndClear');
     };
 
     return (
@@ -48,9 +47,11 @@ export const ModalDelete = ({
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
-                <Text styles={promptTextStyles}>{`${t(
-                    'OATHeader.delete'
-                )} ${projectName}`}</Text>
+                <Text styles={promptTextStyles}>
+                    {t('OATHeader.deleteProjectMessage', {
+                        projectName: projectName
+                    })}
+                </Text>
             </div>
 
             <div className={headerStyles.modalRowCenterItem}>
