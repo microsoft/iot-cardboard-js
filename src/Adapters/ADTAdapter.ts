@@ -179,7 +179,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTTwin(twinId: string, useCache = false) {
+    getADTTwin(twinId: string, useCache = false, forceRefresh = false) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         const getDataMethod = () =>
             adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -198,7 +198,11 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             );
         if (useCache) {
-            return this.adtTwinCache.getEntity(twinId, getDataMethod);
+            return this.adtTwinCache.getEntity(
+                twinId,
+                getDataMethod,
+                forceRefresh
+            );
         } else {
             return getDataMethod();
         }
@@ -937,7 +941,8 @@ export default class ADTAdapter implements IADTAdapter {
     async getSceneData(
         sceneId: string,
         config: I3DScenesConfig,
-        visibleLayerIds?: string[]
+        visibleLayerIds?: string[],
+        bustCache?: boolean
     ) {
         logDebugConsole(
             'info',
@@ -1034,7 +1039,7 @@ export default class ADTAdapter implements IADTAdapter {
                     );
                     const twinResults = await Promise.all(
                         twinIdsArray.map((twinId) =>
-                            this.getADTTwin(twinId, true)
+                            this.getADTTwin(twinId, true, bustCache)
                         )
                     );
                     logDebugConsole(

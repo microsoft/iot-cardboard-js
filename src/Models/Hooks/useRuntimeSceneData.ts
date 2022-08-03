@@ -41,12 +41,13 @@ export const useRuntimeSceneData = (
     );
 
     const sceneData = useAdapter({
-        adapterMethod: () => {
+        adapterMethod: (args?: { isManualRefresh: boolean }) => {
             setLastRefreshTime(Date.now());
             return adapter.getSceneData(
                 sceneId,
                 scenesConfig,
-                selectedLayerIds
+                selectedLayerIds,
+                args?.isManualRefresh ?? false
             );
         },
         refetchDependencies: [sceneId, scenesConfig, selectedLayerIds],
@@ -232,7 +233,8 @@ export const useRuntimeSceneData = (
         sceneVisuals,
         sceneAlerts,
         isLoading: sceneData.isLoading,
-        triggerRuntimeRefetch: sceneData.callAdapter,
+        triggerRuntimeRefetch: () =>
+            sceneData.callAdapter({ isManualRefresh: true }),
         lastRefreshTime: lastRefreshTime,
         nextRefreshTime: lastRefreshTime + pollingInterval
     };

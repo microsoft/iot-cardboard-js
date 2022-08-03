@@ -418,7 +418,8 @@ export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
         config: I3DScenesConfig,
-        visibleLayerIds?: string[]
+        visibleLayerIds?: string[],
+        bustCache?: boolean
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
