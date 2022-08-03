@@ -539,7 +539,11 @@
         "noNumberPrefix": "İkiz ad bir sayı ile başlamamalıdır"
       }
     },
-    "actions": "Eylemler"
+    "actions": "Eylemler",
+    "transform": {
+      "position": "Konum",
+      "rotation": "Rotasyon"
+    }
   },
   "widgets": {
     "trend": {

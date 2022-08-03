@@ -539,7 +539,11 @@
         "noNumberPrefix": "Tweelingnaam mag niet beginnen met een getal"
       }
     },
-    "actions": "Acties"
+    "actions": "Acties",
+    "transform": {
+      "position": "Positie",
+      "rotation": "Rotatie"
+    }
   },
   "widgets": {
     "trend": {

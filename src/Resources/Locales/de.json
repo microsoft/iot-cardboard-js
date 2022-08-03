@@ -539,7 +539,11 @@
         "noNumberPrefix": "Zwillingsname darf nicht mit einer Zahl beginnen"
       }
     },
-    "actions": "Aktionen"
+    "actions": "Aktionen",
+    "transform": {
+      "position": "Position",
+      "rotation": "Drehung"
+    }
   },
   "widgets": {
     "trend": {

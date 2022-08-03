@@ -1,10 +1,10 @@
 import {
     IButtonStyles,
-    ICalloutContentStyles,
-    ICalloutProps,
     IStyle,
     IStyleFunctionOrObject,
-    ITheme
+    ITheme,
+    ITooltipHostProps,
+    ITooltipStyles
 } from '@fluentui/react';
 import { IIconNames } from '../../Models/Constants';
 
@@ -22,7 +22,7 @@ export interface ITooltipCalloutContent {
 
 export interface ITooltipCalloutProps {
     content: ITooltipCalloutContent;
-    calloutProps?: Omit<ICalloutProps, 'target' | 'onDismiss' | 'styles'>;
+    calloutProps?: Omit<ITooltipHostProps, 'styles'>;
     dataTestId?: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -47,5 +47,5 @@ export interface ITooltipCalloutStyles {
 
 export interface ITooltipCalloutSubComponentStyles {
     button?: IButtonStyles;
-    callout?: Partial<ICalloutContentStyles>;
+    callout?: Partial<ITooltipStyles>;
 }

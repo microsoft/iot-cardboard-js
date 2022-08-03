@@ -539,7 +539,11 @@
         "noNumberPrefix": "Nome gémeo não deve começar com um número"
       }
     },
-    "actions": "Ações"
+    "actions": "Ações",
+    "transform": {
+      "position": "Posição",
+      "rotation": "Rotação"
+    }
   },
   "widgets": {
     "trend": {

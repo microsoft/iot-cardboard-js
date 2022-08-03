@@ -62,7 +62,6 @@ import {
 import TwinsTab from './Internal/TwinsTab';
 import SceneLayerMultiSelectBuilder from '../SceneLayerMultiSelectBuilder/SceneLayerMultiSelectBuilder';
 import BehaviorTwinAliasForm from './Twins/BehaviorTwinAliasForm';
-import UnsavedChangesDialog from '../UnsavedChangesDialog/UnsavedChangesDialog';
 import {
     useBehaviorFormContext,
     BehaviorFormContextProvider
@@ -103,7 +102,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         dispatch,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        state,
         widgetFormInfo
     } = useContext(SceneBuilderContext);
     const {
@@ -319,13 +317,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setUnsavedChangesDialogDiscardAction,
         discardChanges
     ]);
-
-    const onDiscardChangesClick = useCallback(() => {
-        setUnsavedBehaviorChangesDialogOpen(false);
-        if (state.unsavedChangesDialogDiscardAction) {
-            state.unsavedChangesDialogDiscardAction();
-        }
-    }, [setUnsavedBehaviorChangesDialogOpen, state]);
 
     const { headerText, subHeaderText, iconName } = useMemo(
         () =>
@@ -583,11 +574,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                     </PanelFooter>
                 </>
             )}
-            <UnsavedChangesDialog
-                isOpen={state.unsavedBehaviorDialogOpen}
-                onConfirmDiscard={onDiscardChangesClick}
-                onClose={() => setUnsavedBehaviorChangesDialogOpen(false)}
-            />
         </div>
     );
 };

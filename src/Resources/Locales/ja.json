@@ -539,7 +539,11 @@
         "noNumberPrefix": "ツイン名は数字で始まってはなりません"
       }
     },
-    "actions": "アクション"
+    "actions": "アクション",
+    "transform": {
+      "position": "立場",
+      "rotation": "自転"
+    }
   },
   "widgets": {
     "trend": {

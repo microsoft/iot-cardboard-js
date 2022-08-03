@@ -23,17 +23,20 @@ export class SceneVisual {
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
     alertBadgeGroup?: SceneViewBadgeGroup[];
+    transformedElementItems?: TransformedElementItem[];
 
     constructor(
         element: ITwinToObjectMapping,
         behaviors: IBehavior[],
         twins: Record<string, DTwin>,
-        coloredMeshItems?: CustomMeshItem[]
+        coloredMeshItems?: CustomMeshItem[],
+        transformedElementItems?: TransformedElementItem[]
     ) {
         this.element = element;
         this.coloredMeshItems = coloredMeshItems;
         this.behaviors = behaviors;
         this.twins = twins;
+        this.transformedElementItems = transformedElementItems;
     }
 }
 
@@ -65,6 +68,27 @@ export type SceneViewCallbackHandler = (
 export interface CustomMeshItem {
     meshId: string;
     color?: string;
+    transform?: TransformInfo;
+}
+
+export interface TransformedElementItem {
+    meshIds: string[];
+    parentMeshId: string;
+    transform?: TransformInfo;
+    original?: TransformInfo;
+}
+
+export interface TransformInfo {
+    rotation: {
+        x: number;
+        y: number;
+        z: number;
+    };
+    position: {
+        x: number;
+        y: number;
+        z: number;
+    };
 }
 
 export interface SceneViewBadge {
@@ -107,6 +131,8 @@ export interface ISceneViewProps {
     cameraPosition?: ICameraPosition;
     coloredMeshItems?: CustomMeshItem[];
     getToken?: () => Promise<string>;
+    gizmoElementItem?: TransformedElementItem;
+    gizmoTransformItem?: TransformInfo;
     markers?: Marker[];
     modelUrl?: string | 'Globe';
     objectColor?: IADTObjectColor;
@@ -117,6 +143,7 @@ export interface ISceneViewProps {
     onMeshHover?: SceneViewEventHandler;
     onSceneLoaded?: (scene: BABYLON.Scene) => void;
     outlinedMeshitems?: CustomMeshItem[];
+    setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     showHoverOnSelected?: boolean;
     showMeshesOnHover?: boolean;
     unzoomedMeshOpacity?: number;

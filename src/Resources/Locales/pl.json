@@ -539,7 +539,11 @@
         "noNumberPrefix": "Podwójna nazwa nie może zaczynać się od cyfry"
       }
     },
-    "actions": "Akcje"
+    "actions": "Akcje",
+    "transform": {
+      "position": "Pozycja",
+      "rotation": "Obrót"
+    }
   },
   "widgets": {
     "trend": {

@@ -62,6 +62,7 @@ import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
+import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -577,15 +578,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         if (enableMeshSelection) {
             let coloredMeshes = [...coloredMeshItems];
             if (mesh) {
+                // see if the item is already selected
                 const coloredMesh = coloredMeshItems.find(
                     (item) => item.meshId === mesh.id
                 );
                 if (coloredMesh) {
+                    // unselect
                     coloredMeshes = coloredMeshes.filter(
                         (item) => item.meshId !== coloredMesh.meshId
                     );
                     setColoredMeshItems(coloredMeshes);
                 } else {
+                    // select
                     coloredMeshes.push({ meshId: mesh.id });
                     setColoredMeshItems(coloredMeshes);
                 }
@@ -699,7 +703,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
-                    hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
@@ -729,7 +732,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     tokens={{ childrenGap: 8 }}
                 >
                     <DeeplinkFlyout mode="Options" />
-                    {/* TODO: MOVE THEME PICKER HERE */}
+                    {!hideViewModePickerUI && <SceneThemePicker />}
                     <div className={classNames.layersPicker}>
                         <LayerDropdown
                             layers={layersInScene}
