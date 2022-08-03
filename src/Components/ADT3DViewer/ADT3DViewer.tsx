@@ -63,6 +63,7 @@ import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
+import RefreshButton from './Internal/RefreshButton/RefreshButton';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -124,10 +125,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const {
+        isLoading,
+        lastRefreshTime,
+        nextRefreshTime,
         modelUrl,
         sceneVisuals,
         sceneAlerts,
-        isLoading,
         triggerRuntimeRefetch
     } = useRuntimeSceneData(
         adapter,
@@ -723,12 +726,17 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                             : undefined
                     }}
                 />
-                {/* Mode & layers */}
+                {/* Header controls */}
                 <Stack
                     horizontal
                     styles={classNames.subComponentStyles.headerStack}
                     tokens={{ childrenGap: 8 }}
                 >
+                    <RefreshButton
+                        lastRefreshTimeInMs={lastRefreshTime}
+                        refreshFrequency={nextRefreshTime - lastRefreshTime}
+                        onClick={triggerRuntimeRefetch}
+                    />
                     <DeeplinkFlyout mode="Options" />
                     {!hideViewModePickerUI && <SceneThemePicker />}
                     <div className={classNames.layersPicker}>

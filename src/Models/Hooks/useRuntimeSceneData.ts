@@ -34,14 +34,21 @@ export const useRuntimeSceneData = (
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [pollingInterval, setPollingInterval] = useState(10);
+    const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
     const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
         []
     );
 
     const sceneData = useAdapter({
-        adapterMethod: () =>
-            adapter.getSceneData(sceneId, scenesConfig, selectedLayerIds),
+        adapterMethod: () => {
+            setLastRefreshTime(Date.now());
+            return adapter.getSceneData(
+                sceneId,
+                scenesConfig,
+                selectedLayerIds
+            );
+        },
         refetchDependencies: [sceneId, scenesConfig, selectedLayerIds],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
@@ -225,7 +232,9 @@ export const useRuntimeSceneData = (
         sceneVisuals,
         sceneAlerts,
         isLoading: sceneData.isLoading,
-        triggerRuntimeRefetch: sceneData.callAdapter
+        triggerRuntimeRefetch: sceneData.callAdapter,
+        lastRefreshTime: lastRefreshTime,
+        nextRefreshTime: lastRefreshTime + pollingInterval
     };
 };
 function buildAlert(
