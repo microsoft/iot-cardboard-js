@@ -1717,20 +1717,22 @@ function SceneView(props: ISceneViewProps, ref) {
                             const prevTransParentMesh: BABYLON.Mesh =
                                 meshMap.current?.[prevTransParentMeshId];
                             // setting rotation back to original
-                            prevTransParentMesh.rotationQuaternion = null;
-                            prevTransParentMesh.rotation.x =
-                                previouslyTransformedElement.transform.rotation.x;
-                            prevTransParentMesh.rotation.y =
-                                previouslyTransformedElement.transform.rotation.y;
-                            prevTransParentMesh.rotation.z =
-                                previouslyTransformedElement.transform.rotation.z;
-                            // setting position back to original
-                            prevTransParentMesh.position.x =
-                                previouslyTransformedElement.transform.position.x;
-                            prevTransParentMesh.position.y =
-                                previouslyTransformedElement.transform.position.y;
-                            prevTransParentMesh.position.z =
-                                previouslyTransformedElement.transform.position.z;
+                            if (prevTransParentMesh) {
+                                prevTransParentMesh.rotationQuaternion = null;
+                                prevTransParentMesh.rotation.x =
+                                    previouslyTransformedElement.transform.rotation.x;
+                                prevTransParentMesh.rotation.y =
+                                    previouslyTransformedElement.transform.rotation.y;
+                                prevTransParentMesh.rotation.z =
+                                    previouslyTransformedElement.transform.rotation.z;
+                                // setting position back to original
+                                prevTransParentMesh.position.x =
+                                    previouslyTransformedElement.transform.position.x;
+                                prevTransParentMesh.position.y =
+                                    previouslyTransformedElement.transform.position.y;
+                                prevTransParentMesh.position.z =
+                                    previouslyTransformedElement.transform.position.z;
+                            }
 
                             // set up to remove from previouslyTransformedElements
                             previouslyTransformedElement.meshId = null;
@@ -1762,10 +1764,6 @@ function SceneView(props: ISceneViewProps, ref) {
                 console.timeEnd('transforming meshes');
             }
         }
-
-        return () => {
-            debugLog('debug', 'Mesh transform cleanup');
-        };
     }, [transformedElementItems, isLoading]);
 
     const transformMesh = (transformedElementItem: TransformedElementItem) => {
