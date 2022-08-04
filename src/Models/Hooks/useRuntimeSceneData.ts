@@ -22,7 +22,7 @@ import {
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('useRuntimeSceneData', debugLogging);
 
 export const useRuntimeSceneData = (
