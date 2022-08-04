@@ -23,7 +23,9 @@ import {
     IComboBoxOption,
     VirtualizedComboBox,
     Icon,
-    SelectableOptionMenuItemType
+    SelectableOptionMenuItemType,
+    IRenderFunction,
+    IOnRenderComboBoxLabelProps
 } from '@fluentui/react';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
@@ -567,7 +569,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [classNames, resourcesState, handleOnRemove, t]
     );
 
-    const handleOnRenderLabel = useMemo(
+    const handleOnRenderLabel: IRenderFunction<IOnRenderComboBoxLabelProps> = useCallback(
         () => (
             <div className={classNames.labelContainer}>
                 <span className={classNames.label}>{label}</span>
