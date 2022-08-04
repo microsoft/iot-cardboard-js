@@ -656,8 +656,8 @@ abstract class PropertyInspectorModel {
 
     static conformSyntax = (inputEl) => {
         // Update syntax of all object keys
-        if (!inputEl) return;
         if (typeof inputEl === 'object') {
+            if (!inputEl) return;
             Object.keys(inputEl).forEach((key) => {
                 // Update to simplified DTDL syntax (conform to our interface)
                 if (key in dtdlSyntaxMap) {
