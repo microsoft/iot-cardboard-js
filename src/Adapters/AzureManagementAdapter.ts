@@ -47,7 +47,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         token: string, // TODO: if fetch takes so long, token might expire
         url: string,
         params?: { apiVersion: string; $filter?: string },
-        nextLink?: string
+        nextLink?: string // this is a full url which includes all the params, so dont include api-version param in the request if there is nextLink
     ) {
         const result = await axios({
             method: 'get',

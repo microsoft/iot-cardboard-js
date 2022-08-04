@@ -139,6 +139,23 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
     }, [resourceType, t]);
 
+    const areValuesEqual = useCallback(
+        (value1: string, value2: string) => {
+            if (displayField === AzureResourceDisplayFields.url) {
+                if (value1?.endsWith('/')) {
+                    value1 = value1.slice(0, -1);
+                }
+                if (value2?.endsWith('/')) {
+                    value2 = value2.slice(0, -1);
+                }
+                return value1 === value2;
+            } else {
+                return value1 === value2;
+            }
+        },
+        [displayField]
+    );
+
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
             if (displayField === AzureResourceDisplayFields.url) {
@@ -217,51 +234,53 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             return options;
         },
-        []
+        [areValuesEqual, getDisplayFieldValue]
     );
 
-    const getOptionsFromResources = (resources: IAzureResource[]) => {
-        const newOptions: Array<IComboBoxOption> = [];
-        let lastHeader = '';
-        // after fetching resources, first start the dropdown with that
-        resources?.forEach((r) => {
-            if (r.subscriptionName && lastHeader !== r.subscriptionName) {
-                newOptions.push({
-                    key: r.subscriptionName,
-                    text: r.subscriptionName,
-                    itemType: SelectableOptionMenuItemType.Header
-                });
-                newOptions.push({
-                    key: r.id,
-                    text:
-                        getDisplayFieldValue(r) ||
-                        t('resourcesPicker.displayFieldNotFound', {
-                            displayField:
-                                AzureResourceDisplayFields[displayField],
-                            id: r.id
-                        }),
-                    data: r,
-                    styles: comboBoxOptionStyles
-                } as IComboBoxOption);
-                lastHeader = r.subscriptionName;
-            } else {
-                newOptions.push({
-                    key: r.id,
-                    text:
-                        getDisplayFieldValue(r) ||
-                        t('resourcesPicker.displayFieldNotFound', {
-                            displayField:
-                                AzureResourceDisplayFields[displayField],
-                            id: r.id
-                        }),
-                    data: r,
-                    styles: comboBoxOptionStyles
-                } as IComboBoxOption);
-            }
-        });
-        return newOptions;
-    };
-
+    const getOptionsFromResources = useCallback(
+        (resources: IAzureResource[]) => {
+            const newOptions: Array<IComboBoxOption> = [];
+            let lastHeader = '';
+            // after fetching resources, first start the dropdown with that
+            resources?.forEach((r) => {
+                if (r.subscriptionName && lastHeader !== r.subscriptionName) {
+                    newOptions.push({
+                        key: r.subscriptionName,
+                        text: r.subscriptionName,
+                        itemType: SelectableOptionMenuItemType.Header
+                    });
+                    newOptions.push({
+                        key: r.id,
+                        text:
+                            getDisplayFieldValue(r) ||
+                            t('resourcesPicker.displayFieldNotFound', {
+                                displayField:
+                                    AzureResourceDisplayFields[displayField],
+                                id: r.id
+                            }),
+                        data: r,
+                        styles: comboBoxOptionStyles
+                    } as IComboBoxOption);
+                    lastHeader = r.subscriptionName;
+                } else {
+                    newOptions.push({
+                        key: r.id,
+                        text:
+                            getDisplayFieldValue(r) ||
+                            t('resourcesPicker.displayFieldNotFound', {
+                                displayField:
+                                    AzureResourceDisplayFields[displayField],
+                                id: r.id
+                            }),
+                        data: r,
+                        styles: comboBoxOptionStyles
+                    } as IComboBoxOption);
+                }
+            });
+            return newOptions;
+        },
+        [getDisplayFieldValue, displayField, t]
+    );
     // reset the dropdown options after fetching data, first options are resources, last items are the freeform added ones
     useEffect(() => {
         let newOptions: Array<IComboBoxOption> = [];
@@ -304,7 +323,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
 
         setOptions(newOptions);
-    }, [resourcesState.adapterResult]);
+    }, [
+        resourcesState.adapterResult,
+        additionalOptions,
+        getOptionsFromResources,
+        mergeOptionsWithProps,
+        onLoaded,
+        selectedOption
+    ]);
 
     useEffect(() => {
         if (selectedOptionProp) {
@@ -333,7 +359,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         } else {
             setSelectedKey(null);
         }
-    }, [selectedOption, options]);
+    }, [selectedOption, options, displayField, resourceType]);
 
     useEffect(() => {
         setAdditionalOptions(
@@ -353,7 +379,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 selectedOption
             )
         );
-    }, [additionalOptions]);
+    }, [
+        additionalOptions,
+        getOptionsFromResources,
+        mergeOptionsWithProps,
+        selectedOption
+    ]);
 
     const inputError = useMemo(() => {
         if (
@@ -372,21 +403,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     return undefined;
             }
         }
-    }, [selectedOption, resourceType, isValidUrlStr, t]);
-
-    const areValuesEqual = (value1: string, value2: string) => {
-        if (displayField === AzureResourceDisplayFields.url) {
-            if (value1?.endsWith('/')) {
-                value1 = value1.slice(0, -1);
-            }
-            if (value2?.endsWith('/')) {
-                value2 = value2.slice(0, -1);
-            }
-            return value1 === value2;
-        } else {
-            return value1 === value2;
-        }
-    };
+    }, [selectedOption, resourceType, t, displayField]);
 
     const handleOnChange = useCallback(
         (option, value) => {
@@ -474,7 +491,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 }
             }
         },
-        [options]
+        [options, areValuesEqual, displayField, onChange, resourceType]
     );
 
     const handleOnRemove = useCallback(
@@ -518,7 +535,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     );
             }
         },
-        [options, selectedOption]
+        [options, selectedOption, onChange]
     );
 
     const handleOnRender = useCallback(
@@ -547,7 +564,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 </div>
             );
         },
-        [classNames, resourcesState]
+        [classNames, resourcesState, handleOnRemove, t]
     );
 
     return (
