@@ -34,7 +34,11 @@ import { IADTObjectColor } from '../../../../Models/Constants';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
-import { ISceneViewContextState } from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';
+import {
+    ISceneViewContextState,
+    SceneViewContextAction,
+    SceneViewContextActionType
+} from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const sortElements = (elements: ITwinToObjectMapping[]) => {
     return elements?.sort((a, b) => (a.displayName > b.displayName ? 1 : -1));
@@ -78,7 +82,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
     const { adapter, config, sceneId, objectColor } = useContext(
         SceneBuilderContext
     );
-    const { setSceneViewAttributes } = useSceneViewContext();
+    const { sceneViewDispatch } = useSceneViewContext();
 
     const [isSelectionEnabled, setIsSelectionEnabled] = useState(
         isEditBehavior || false
@@ -126,6 +130,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
 
     useEffect(() => {
         let outlinedMeshes = [];
+        // TODO: Create dispatch action for group of elements
         if (selectedElements) {
             for (const selectedElement of selectedElements) {
                 outlinedMeshes = outlinedMeshes.concat(
@@ -136,7 +141,12 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
                 );
             }
 
-            setSceneViewAttributes({ outlinedMeshItems: outlinedMeshes });
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: outlinedMeshes
+                }
+            });
         }
     }, [selectedElements]);
 
@@ -241,7 +251,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
             selectedElements,
             setElementToDelete,
             setIsDeleteDialogOpen,
-            setSceneViewAttributes,
+            sceneViewDispatch,
             objectColor,
             t
         );
@@ -256,7 +266,7 @@ const SceneElements: React.FC<IADT3DSceneBuilderElementsProps> = ({
         selectedElements,
         setElementToDelete,
         setIsDeleteDialogOpen,
-        setSceneViewAttributes,
+        sceneViewDispatch,
         objectColor
     ]);
 
@@ -367,7 +377,7 @@ function getListItems(
         React.SetStateAction<ITwinToObjectMapping>
     >,
     setIsDeleteDialogOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    setSceneViewAttributes: (state: ISceneViewContextState) => void,
+    sceneViewDispatch: React.Dispatch<SceneViewContextAction>,
     objectColor: IADTObjectColor,
     t: TFunction<string>
 ): ICardboardListItem<ITwinToObjectMapping>[] {
@@ -438,13 +448,20 @@ function getListItems(
                     )
                 );
             }
-            setSceneViewAttributes({ outlinedMeshItems: highlightedElements });
+            // TODO: Change this to group elements dispatch
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: highlightedElements
+                }
+            });
         } else {
-            setSceneViewAttributes({
-                outlinedMeshItems: createCustomMeshItems(
-                    element?.objectIDs,
-                    objectColor.outlinedMeshHoverColor
-                )
+            sceneViewDispatch({
+                type: SceneViewContextActionType.SET_SCENE_OUTLINED_MESHES,
+                payload: {
+                    meshIds: element?.objectIDs,
+                    color: objectColor.outlinedMeshHoverColor
+                }
             });
         }
     };
@@ -457,15 +474,16 @@ function getListItems(
                     meshIds = meshIds.concat(element?.objectIDs);
                 }
             }
-            setSceneViewAttributes({
-                outlinedMeshItems: createCustomMeshItems(
-                    meshIds,
-                    objectColor.outlinedMeshSelectedColor
-                )
+            sceneViewDispatch({
+                type: SceneViewContextActionType.SET_SCENE_OUTLINED_MESHES,
+                payload: {
+                    meshIds: meshIds,
+                    color: objectColor.outlinedMeshSelectedColor
+                }
             });
         } else {
-            setSceneViewAttributes({
-                outlinedMeshItems: []
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES
             });
         }
     };

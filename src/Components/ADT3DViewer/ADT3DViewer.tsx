@@ -66,6 +66,7 @@ import {
 } from '../../Models/Context/SceneViewContext/SceneViewContext';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
+import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -126,7 +127,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
-    const { sceneViewState, setSceneViewAttributes } = useSceneViewContext();
+    const { sceneViewState, sceneViewDispatch } = useSceneViewContext();
     const {
         modelUrl,
         sceneVisuals,
@@ -427,7 +428,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             );
 
             setSelectedVisual(sceneVisual);
-            setSceneViewAttributes({ outlinedMeshItems: outlinedMeshItems });
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: outlinedMeshItems
+                }
+            });
             setSelectedElementId(getElementByMeshId(meshIds[0])?.id);
         },
         [getElementByMeshId, setSelectedElementId]
@@ -470,7 +476,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 }
             });
 
-            setSceneViewAttributes({ outlinedMeshItems: newOutlinedMeshItems });
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: newOutlinedMeshItems
+                }
+            });
         },
         []
     );
@@ -499,7 +510,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 }
             });
 
-            setSceneViewAttributes({ outlinedMeshItems: newOutlinedMeshItems });
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: newOutlinedMeshItems
+                }
+            });
         },
         [deeplinkState.selectedElementId, getElementByMeshId]
     );
@@ -558,7 +574,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 setShowPopUp(false);
                 setZoomMeshesByElement(undefined);
                 setSelectedElementId(undefined);
-                setSceneViewAttributes({ outlinedMeshItems: [] });
+                sceneViewDispatch({
+                    type: SceneViewContextActionType.RESET_OUTLINED_MESHES
+                });
                 setSelectedVisual(null);
             };
 
@@ -661,7 +679,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         setShowPopUp(false);
         setZoomMeshesByElement(undefined);
         setSelectedElementId(undefined);
-        setSceneViewAttributes({ outlinedMeshItems: [] });
+        sceneViewDispatch({
+            type: SceneViewContextActionType.RESET_OUTLINED_MESHES
+        });
         setSelectedVisual(null);
     }, [setSelectedElementId, setZoomMeshesByElement]);
 
