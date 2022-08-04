@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Dit veld is verplicht",
-  "viewerRefresh": {
-    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
-    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "milliseconde",
     "milliseconds": "Milliseconden",
@@ -968,5 +964,9 @@
     "days": "Dagen",
     "year": "jaar",
     "years": "jaren"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
+    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
   }
 }

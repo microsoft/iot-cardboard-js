@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Questo campo è obbligatorio",
-  "viewerRefresh": {
-    "lastRefreshed": "Ultimo aggiornamento: {{value}} {{units}} fa",
-    "refreshRate": "Frequenza di aggiornamento: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "millisecondo",
     "milliseconds": "Millisecondi",
@@ -968,5 +964,9 @@
     "days": "Giorni",
     "year": "anno",
     "years": "anni"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Ultimo aggiornamento: {{value}} {{units}} fa",
+    "refreshRate": "Frequenza di aggiornamento: {{value}} {{units}}"
   }
 }

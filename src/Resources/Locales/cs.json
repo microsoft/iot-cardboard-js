@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Toto pole je povinné",
-  "viewerRefresh": {
-    "lastRefreshed": "Poslední aktualizace: {{value}} {{units}} ago",
-    "refreshRate": "Obnovovací frekvence: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "milisekunda",
     "milliseconds": "milisekundy",
@@ -968,5 +964,9 @@
     "days": "Dny",
     "year": "rok",
     "years": "roky"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Poslední aktualizace: {{value}} {{units}} ago",
+    "refreshRate": "Obnovovací frekvence: {{value}} {{units}}"
   }
 }

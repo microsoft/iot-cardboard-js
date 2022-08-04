@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "此字段为必填项",
-  "viewerRefresh": {
-    "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
-    "refreshRate": "刷新率： {{值}} {{单位}}"
-  },
   "duration": {
     "millisecond": "毫秒",
     "milliseconds": "毫秒",
@@ -968,5 +964,9 @@
     "days": "日",
     "year": "年",
     "years": "年"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
+    "refreshRate": "刷新率： {{值}} {{单位}}"
   }
 }
