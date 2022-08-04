@@ -283,6 +283,16 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         },
         [getDisplayFieldValue, displayField, t]
     );
+
+    const getResourcesFromOptions = (options: Array<IComboBoxOption>) => {
+        return options
+            ?.filter(
+                (option) =>
+                    option.itemType !== SelectableOptionMenuItemType.Header
+            )
+            .map((option) => option.data || option.text);
+    };
+
     // reset the dropdown options after fetching data, first options are resources, last items are the freeform added ones
     useEffect(() => {
         let newOptions: Array<IComboBoxOption> = [];
@@ -418,13 +428,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 if (onChange) {
                     onChange(
                         option.data || option.text,
-                        options
-                            ?.filter(
-                                (option) =>
-                                    option.itemType !==
-                                    SelectableOptionMenuItemType.Header
-                            )
-                            .map((option) => option.data || option.text) || []
+                        getResourcesFromOptions(options) || []
                     );
                 }
             } else {
@@ -466,14 +470,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     if (onChange)
                         onChange(
                             newParsedOptionValue,
-                            newOptions
-                                ?.filter(
-                                    (option) =>
-                                        option.itemType !==
-                                        SelectableOptionMenuItemType.Header
-                                )
-                                .map((option) => option.data || option.text) ||
-                                []
+                            getResourcesFromOptions(newOptions) || []
                         );
                 } else {
                     setSelectedOption(existingOption);
@@ -481,14 +478,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     if (onChange)
                         onChange(
                             existingOption.data || existingOption.text,
-                            options
-                                ?.filter(
-                                    (option) =>
-                                        option.itemType !==
-                                        SelectableOptionMenuItemType.Header
-                                )
-                                .map((option) => option.data || option.text) ||
-                                []
+                            getResourcesFromOptions(options) || []
                         );
                 }
             }
@@ -510,30 +500,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             setOptions(restOfOptions);
 
+            const restOfResources = getResourcesFromOptions(restOfOptions);
             if (option.key === selectedOption?.key) {
                 setSelectedOption(null);
-                if (onChange)
-                    onChange(
-                        null,
-                        restOfOptions
-                            .filter(
-                                (option) =>
-                                    option.itemType !==
-                                    SelectableOptionMenuItemType.Header
-                            )
-                            .map((option) => option.data || option.text)
-                    );
+                if (onChange) onChange(null, restOfResources);
             } else {
                 if (onChange)
                     onChange(
                         selectedOption?.data || selectedOption?.text,
-                        restOfOptions
-                            ?.filter(
-                                (option) =>
-                                    option.itemType !==
-                                    SelectableOptionMenuItemType.Header
-                            )
-                            .map((option) => option.data || option.text)
+                        restOfResources
                     );
             }
         },
@@ -596,7 +571,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 )}
             </div>
         ),
-        [error, classNames, resourcesState]
+        [
+            error,
+            classNames,
+            resourcesState,
+            label,
+            loadingLabel,
+            loadingLabelText,
+            t
+        ]
     );
 
     return (
