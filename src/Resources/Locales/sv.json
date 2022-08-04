@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
-  "viewerRefresh": {
-    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
-    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "millisekund",
     "milliseconds": "Millisekunder",
@@ -968,5 +964,9 @@
     "days": "Dagar",
     "year": "år",
     "years": "år"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
+    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
   }
 }

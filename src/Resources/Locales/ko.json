@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "이 필드는 필수입니다.",
-  "viewerRefresh": {
-    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
-    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "밀리초",
     "milliseconds": "밀리초",
@@ -968,5 +964,9 @@
     "days": "일",
     "year": "년",
     "years": "년"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
+    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
   }
 }

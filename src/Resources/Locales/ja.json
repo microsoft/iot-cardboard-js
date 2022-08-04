@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "このフィールドは必須です",
-  "viewerRefresh": {
-    "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
-    "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
-  },
   "duration": {
     "millisecond": "ミリセカント",
     "milliseconds": "ミリ秒",
@@ -968,5 +964,9 @@
     "days": "日",
     "year": "年",
     "years": "月日"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
+    "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
   }
 }

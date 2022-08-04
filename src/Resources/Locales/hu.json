@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "A mező kitöltése kötelező",
-  "viewerRefresh": {
-    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
-    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
-  },
   "duration": {
     "millisecond": "Ezredmásodperc",
     "milliseconds": "Ezredmásodperc",
@@ -968,5 +964,9 @@
     "days": "Napok",
     "year": "év",
     "years": "Év"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
+    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
   }
 }

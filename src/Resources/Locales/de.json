@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
-  "viewerRefresh": {
-    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
-    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
-  },
   "duration": {
     "millisecond": "Millisekunde",
     "milliseconds": "Millisekunden",
@@ -968,5 +964,9 @@
     "days": "Tage",
     "year": "Jahr",
     "years": "Jahre"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
+    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
   }
 }

@@ -951,10 +951,6 @@
     }
   },
   "fieldRequired": "Bu alan zorunludur",
-  "viewerRefresh": {
-    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
-    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
-  },
   "duration": {
     "millisecond": "milisaniye",
     "milliseconds": "Milisaniye",
@@ -968,5 +964,9 @@
     "days": "Gün",
     "year": "yıl",
     "years": "Yıl"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
+    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
   }
 }
