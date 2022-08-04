@@ -28,7 +28,7 @@ const getClassNames = classNamesFunction<
     ISceneRefreshButtonStyles
 >();
 
-const ROOT_LOC = 'viewerRefresh';
+const ROOT_LOC = 'sceneRefreshButton';
 const LOC_KEYS = {
     lastRefreshed: `${ROOT_LOC}.lastRefreshed`,
     refreshRate: `${ROOT_LOC}.refreshRate`
