@@ -14,11 +14,11 @@ import {
 } from './EnvironmentPicker.types';
 
 class EnvironmentPickerManager {
-    static displayTextForEnvironment(env: string | IAzureResource) {
+    static getEnvironmentDisplayText(env: string | IAzureResource) {
         try {
             if (env) {
                 const urlObj = new URL(
-                    this.getResourceUrl(
+                    EnvironmentPickerManager.getResourceUrl(
                         env,
                         AzureResourceTypes.DigitalTwinInstance
                     )
@@ -28,19 +28,21 @@ class EnvironmentPickerManager {
                 return null;
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
 
-    static displayTextForContainer(
+    static getContainerDisplayText(
         container: string | IAzureResource,
         storageAccount: string | IAzureResource
     ) {
         if (container && storageAccount) {
-            const containerName = this.getContainerName(container);
+            const containerName = EnvironmentPickerManager.getContainerName(
+                container
+            );
             const urlObj = new URL(
-                this.getResourceUrl(
+                EnvironmentPickerManager.getResourceUrl(
                     storageAccount,
                     AzureResourceTypes.StorageAccount
                 )
@@ -122,7 +124,11 @@ class EnvironmentPickerManager {
         parentResource?: IAzureResource | string
     ) {
         return resources.map((resource) =>
-            this.getResourceUrl(resource, resourceType, parentResource)
+            EnvironmentPickerManager.getResourceUrl(
+                resource,
+                resourceType,
+                parentResource
+            )
         );
     }
 
@@ -144,7 +150,7 @@ class EnvironmentPickerManager {
             const containerUrlObj = new URL(containerUrl);
             return containerUrlObj.pathname.split('/')[1];
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
@@ -159,8 +165,8 @@ class EnvironmentPickerManager {
     ) {
         if (typeof storageAccount === 'string') {
             return resources.find((resource) =>
-                this.areResourceUrlsEqual(
-                    this.getResourceUrl(
+                EnvironmentPickerManager.areResourceUrlsEqual(
+                    EnvironmentPickerManager.getResourceUrl(
                         resource,
                         AzureResourceTypes.StorageAccount
                     ),
@@ -181,7 +187,7 @@ class EnvironmentPickerManager {
                 return null;
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
@@ -198,7 +204,7 @@ class EnvironmentPickerManager {
                 return null;
             }
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
@@ -214,16 +220,16 @@ class EnvironmentPickerManager {
             : storageAccount?.id;
     }
 
-    static getEnvironmentUrlsFromLocalStorage(localStorageKey: string) {
+    static getEnvironmentUrlsFromLocalStorage(
+        localStorageKey: string = EnvironmentsLocalStorageKey
+    ) {
         let environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage>;
         try {
             environmentsInLocalStorage = JSON.parse(
-                localStorage.getItem(
-                    localStorageKey ?? EnvironmentsLocalStorageKey
-                )
+                localStorage.getItem(localStorageKey)
             );
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             environmentsInLocalStorage = null;
         }
 
@@ -237,14 +243,14 @@ class EnvironmentPickerManager {
 
     static updateEnvironmentsInLocalStorage(
         environments: Array<string | IAzureResource>,
-        localStorageKey: string
+        localStorageKey: string = EnvironmentsLocalStorageKey
     ) {
-        const environmentUrls = this.getResourceUrls(
+        const environmentUrls = EnvironmentPickerManager.getResourceUrls(
             environments,
             AzureResourceTypes.DigitalTwinInstance
         );
         localStorage.setItem(
-            localStorageKey ?? EnvironmentsLocalStorageKey,
+            localStorageKey,
             JSON.stringify(
                 environmentUrls
                     ?.filter((e) => e) // filter out nulls or empty strings
@@ -258,27 +264,27 @@ class EnvironmentPickerManager {
         );
     }
 
-    static getSelectedEnvironmentUrlFromLocalStorage(localStorageKey: string) {
+    static getSelectedEnvironmentUrlFromLocalStorage(
+        localStorageKey: string = SelectedEnvironmentLocalStorageKey
+    ) {
         try {
             return (JSON.parse(
-                localStorage.getItem(
-                    localStorageKey ?? SelectedEnvironmentLocalStorageKey
-                )
+                localStorage.getItem(localStorageKey)
             ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
 
     static updateSelectedEnvironmentInLocalStorage(
         selectedEnvironment: string | IAzureResource,
-        localStorageKey: string
+        localStorageKey: string = SelectedEnvironmentLocalStorageKey
     ) {
         localStorage.setItem(
-            localStorageKey ?? SelectedEnvironmentLocalStorageKey,
+            localStorageKey,
             JSON.stringify({
-                appAdtUrl: this.getResourceUrl(
+                appAdtUrl: EnvironmentPickerManager.getResourceUrl(
                     selectedEnvironment,
                     AzureResourceTypes.DigitalTwinInstance
                 )
@@ -292,7 +298,7 @@ class EnvironmentPickerManager {
                 localStorage.getItem(StorageAccountsLocalStorageKey)
             );
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return null;
         }
     }
@@ -310,7 +316,7 @@ class EnvironmentPickerManager {
                                 typeof storageAccount === 'string'
                                     ? null
                                     : storageAccount.id,
-                            url: this.getResourceUrl(
+                            url: EnvironmentPickerManager.getResourceUrl(
                                 storageAccount,
                                 AzureResourceTypes.StorageAccount
                             )
@@ -328,7 +334,7 @@ class EnvironmentPickerManager {
                 )
             );
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
             return [];
         }
     }
@@ -336,33 +342,30 @@ class EnvironmentPickerManager {
     static updateContainerOptionsInLocalStorage(
         containers: Array<IAzureResource | string>,
         parentStorageAccount: IAzureResource | string,
-        localStorageKey: string
+        localStorageKey: string = ContainersLocalStorageKey
     ) {
-        const containerUrls = this.getResourceUrls(
+        const containerUrls = EnvironmentPickerManager.getResourceUrls(
             containers,
             AzureResourceTypes.StorageBlobContainer,
             parentStorageAccount
         );
-        localStorage.setItem(
-            localStorageKey ?? ContainersLocalStorageKey,
-            JSON.stringify(containerUrls)
-        );
+        localStorage.setItem(localStorageKey, JSON.stringify(containerUrls));
     }
 
-    static getSelectedContainerUrlFromLocalStorage(localStorageKey: string) {
-        return localStorage.getItem(
-            localStorageKey ?? SelectedContainerLocalStorageKey
-        );
+    static getSelectedContainerUrlFromLocalStorage(
+        localStorageKey: string = SelectedContainerLocalStorageKey
+    ) {
+        return localStorage.getItem(localStorageKey);
     }
 
     static updateSelectedContainerInLocalStorage(
         selectedContainer: string | IAzureResource,
         selectedStorageAccount: string | IAzureResource,
-        localStorageKey: string
+        localStorageKey: string = SelectedContainerLocalStorageKey
     ) {
         localStorage.setItem(
-            localStorageKey ?? SelectedContainerLocalStorageKey,
-            this.getResourceUrl(
+            localStorageKey,
+            EnvironmentPickerManager.getResourceUrl(
                 selectedContainer,
                 AzureResourceTypes.StorageBlobContainer,
                 selectedStorageAccount

@@ -567,6 +567,36 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [classNames, resourcesState, handleOnRemove, t]
     );
 
+    const handleOnRenderLabel = useMemo(
+        () => (
+            <div className={classNames.labelContainer}>
+                <span className={classNames.label}>{label}</span>
+                {error && (
+                    <MessageBar
+                        messageBarType={MessageBarType.error}
+                        isMultiline={false}
+                        onDismiss={() => {
+                            setError(null);
+                        }}
+                        dismissButtonAriaLabel={t('close')}
+                        styles={classNames.subComponentStyles.errorMessageBar}
+                    >
+                        {error.name}
+                    </MessageBar>
+                )}
+                {resourcesState.isLoading && (
+                    <Spinner
+                        size={SpinnerSize.xSmall}
+                        label={loadingLabel ?? loadingLabelText}
+                        ariaLive="assertive"
+                        labelPosition="right"
+                    />
+                )}
+            </div>
+        ),
+        [error, classNames, resourcesState]
+    );
+
     return (
         <div className={classNames.root}>
             <VirtualizedComboBox
@@ -584,35 +614,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 onChange={(_e, option, _idx, value) => {
                     handleOnChange(option, value);
                 }}
-                onRenderLabel={() => (
-                    <div className={classNames.labelContainer}>
-                        <span className={classNames.label}>{label}</span>
-                        {error && (
-                            <MessageBar
-                                messageBarType={MessageBarType.error}
-                                isMultiline={false}
-                                onDismiss={() => {
-                                    setError(null);
-                                }}
-                                dismissButtonAriaLabel={t('close')}
-                                styles={
-                                    classNames.subComponentStyles
-                                        .errorMessageBar
-                                }
-                            >
-                                {error.name}
-                            </MessageBar>
-                        )}
-                        {resourcesState.isLoading && (
-                            <Spinner
-                                size={SpinnerSize.xSmall}
-                                label={loadingLabel ?? loadingLabelText}
-                                ariaLive="assertive"
-                                labelPosition="right"
-                            />
-                        )}
-                    </div>
-                )}
+                onRenderLabel={handleOnRenderLabel}
                 onRenderOption={handleOnRender}
             />
         </div>

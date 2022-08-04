@@ -500,9 +500,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         containerItems
     ]);
 
-    const displayTextForEnvironment = useCallback(
+    const getEnvironmentDisplayText = useCallback(
         (env: string | IAzureResource) => {
-            const displayText = EnvironmentPickerManager.displayTextForEnvironment(
+            const displayText = EnvironmentPickerManager.getEnvironmentDisplayText(
                 env
             );
             return displayText || t('environmentPicker.noEnvironment');
@@ -510,9 +510,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         [t]
     );
 
-    const displayTextForContainer = useCallback(
+    const getContainerDisplayText = useCallback(
         (container: string | IAzureResource) => {
-            const displayText = EnvironmentPickerManager.displayTextForContainer(
+            const displayText = EnvironmentPickerManager.getContainerDisplayText(
                 container,
                 storageAccountItems.selectedStorageAccount
             );
@@ -602,7 +602,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         >
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {displayTextForEnvironment(
+                    {getEnvironmentDisplayText(
                         environmentItems.selectedEnvironment
                     )}
                 </span>
@@ -618,7 +618,7 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                 <div className="cb-environment-picker-container">
                     <FontIcon iconName={'Database'} />
                     <span className="cb-environment-picker-container-title">
-                        {displayTextForContainer(
+                        {getContainerDisplayText(
                             containerItems.selectedContainer
                         )}
                     </span>
