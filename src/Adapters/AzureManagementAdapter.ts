@@ -21,7 +21,7 @@ import {
 } from '../Models/Constants';
 import { createGUID, getDebugLogger } from '../Models/Services/Utils';
 
-const MAX_RESOURCE_TAKE_LIMIT = 1000;
+// const MAX_RESOURCE_TAKE_LIMIT = 1000; // if necessary limit the number of resources to check against permissions
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('AzureManagementAdapter', debugLogging);
@@ -493,14 +493,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         });
                     }
 
-                    // take the first n number of resources to make sure the browser won't crash with making thousands of requests
+                    // if necessary, take the first n number of resources to make sure the browser won't crash with making thousands of requests
                     // to check permissions for each resource, however, this might cause 0 result after checking the permissions for the first taken n resources
                     // it is hard to limit the number of requests being made and make sure to capture the resources that we might have required access permissions
-                    resources = resources.slice(
-                        0,
-                        params.getResourcesParams.searchParams?.take ||
-                            MAX_RESOURCE_TAKE_LIMIT
-                    );
+                    // resources = resources.slice(
+                    //     0,
+                    //     params.getResourcesParams.searchParams?.take ||
+                    //         MAX_RESOURCE_TAKE_LIMIT
+                    // );
 
                     logDebugConsole(
                         'debug',
