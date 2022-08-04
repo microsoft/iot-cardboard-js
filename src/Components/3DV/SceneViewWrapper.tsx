@@ -31,7 +31,6 @@ import {
     ISceneViewWrapperStyleProps,
     ISceneViewWrapperStyles
 } from './SceneViewWrapper.types';
-import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import { WrapperMode } from './SceneView.types';
 import { SceneViewContext } from '../../Models/Context/SceneViewContext/SceneViewContext';
@@ -46,7 +45,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         adapter,
         addInProps,
         config,
-        hideViewModePickerUI,
         objectColorUpdated,
         sceneId,
         sceneViewProps,
@@ -214,12 +212,6 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                         )
                     }
                 />
-            </Stack>
-            <Stack
-                horizontal
-                styles={classNames.subComponentStyles.rightHeaderControlsStack}
-            >
-                {!hideViewModePickerUI && <SceneThemePicker />}
             </Stack>
         </div>
     );

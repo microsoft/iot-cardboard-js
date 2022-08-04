@@ -31,8 +31,10 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
         showMeshesOnHover,
         coloredMeshItems,
         showHoverOnSelected,
+        gizmoElementItem,
+        gizmoTransformItem,
+        setGizmoTransformItem,
         objectColorUpdated,
-        hideViewModePickerUI,
         styles
     } = props;
 
@@ -66,7 +68,6 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
             <div className={classNames.wrapper}>
                 <SceneViewWrapper
                     objectColorUpdated={objectColorUpdated}
-                    hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Builder}
                     sceneViewProps={{
                         ...svp,
@@ -76,6 +77,9 @@ const ADT3DBuilder: React.FC<IADT3DBuilderProps> = (props) => {
                         coloredMeshItems: coloredMeshItems,
                         showMeshesOnHover: showMeshesOnHover ?? true,
                         showHoverOnSelected: showHoverOnSelected,
+                        gizmoElementItem: gizmoElementItem,
+                        gizmoTransformItem: gizmoTransformItem,
+                        setGizmoTransformItem: setGizmoTransformItem,
                         getToken: (adapter as any).authService
                             ? () =>
                                   (adapter as any).authService.getToken(

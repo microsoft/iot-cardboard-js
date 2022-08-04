@@ -542,7 +542,11 @@
         "noNumberPrefix": "Имя близнеца не должно начинаться с числа"
       }
     },
-    "actions": "Действия"
+    "actions": "Действия",
+    "transform": {
+      "position": "Позиция",
+      "rotation": "Вращение"
+    }
   },
   "widgets": {
     "trend": {

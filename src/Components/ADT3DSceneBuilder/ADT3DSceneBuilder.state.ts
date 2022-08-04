@@ -21,6 +21,8 @@ import {
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY,
     SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
+    SET_GIZMO_ELEMENT_ITEM,
+    SET_GIZMO_TRANSFORM_ITEM,
     BuilderDirtyFormType
 } from './ADT3DSceneBuilder.types';
 import {
@@ -40,6 +42,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     elementTwinAliasFormInfo: null,
     enableHoverOnModel: false,
     formDirtyState: new Map<BuilderDirtyFormType, boolean>(),
+    gizmoElementItem: null,
+    gizmoTransformItem: null,
     isLayerBuilderDialogOpen: false,
     layerBuilderDialogData: null,
     objectColor: DefaultViewerModeObjectColor,
@@ -126,6 +130,12 @@ export const ADT3DSceneBuilderReducer: (
                 break;
             case SET_REVERT_TO_HOVER_COLOR:
                 draft.showHoverOnSelected = payload;
+                break;
+            case SET_GIZMO_ELEMENT_ITEM:
+                draft.gizmoElementItem = payload;
+                break;
+            case SET_GIZMO_TRANSFORM_ITEM:
+                draft.gizmoTransformItem = payload;
                 break;
             case SET_IS_LAYER_BUILDER_DIALOG_OPEN:
                 draft.isLayerBuilderDialogOpen = payload.isOpen;

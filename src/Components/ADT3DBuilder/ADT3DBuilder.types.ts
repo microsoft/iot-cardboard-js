@@ -2,7 +2,9 @@ import { AbstractMesh } from '@babylonjs/core';
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import {
     CustomMeshItem,
-    ISceneViewProps
+    ISceneViewProps,
+    TransformedElementItem,
+    TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import { IADTAdapter, IADTObjectColor } from '../../Models/Constants';
 
@@ -15,8 +17,10 @@ export interface IADT3DBuilderProps {
     showMeshesOnHover?: boolean;
     coloredMeshItems?: CustomMeshItem[];
     showHoverOnSelected?: boolean;
+    gizmoElementItem?: TransformedElementItem;
+    gizmoTransformItem?: TransformInfo;
+    setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
-    hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

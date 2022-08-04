@@ -514,6 +514,10 @@
         "linkWidgetUrlDescription": "Link widget URL supports JavaScript template string formatting such as: ${PrimaryTwin.property}",
         "notImplemented": "Not implemented",
         "noPrimaryTwinProperties": "No primary twin properties to display",
+        "transform": {
+            "position": "Position",
+            "rotation": "Rotation"
+        },
         "twinAlias": {
             "title": "Twin",
             "calloutDescription": "The union of twin properties of selected elements",

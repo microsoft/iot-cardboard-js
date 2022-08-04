@@ -716,7 +716,6 @@ export interface ISceneViewWrapperProps {
     sceneViewProps: ISceneViewProps;
     sceneVisuals?: SceneVisual[];
     addInProps?: IADT3DAddInProps;
-    hideViewModePickerUI?: boolean;
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
     wrapperMode: WrapperMode;

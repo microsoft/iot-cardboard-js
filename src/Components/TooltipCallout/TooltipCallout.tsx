@@ -5,15 +5,16 @@ import {
     ITooltipCalloutStyles
 } from './TooltipCallout.types';
 import { getStyles } from './TooltipCallout.styles';
-import { useBoolean, useId } from '@fluentui/react-hooks';
+import { useId } from '@fluentui/react-hooks';
 import {
     classNamesFunction,
     useTheme,
     styled,
-    Callout,
     DirectionalHint,
     IconButton,
-    Link
+    Link,
+    TooltipHost,
+    TooltipDelay
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
@@ -25,8 +26,6 @@ const getClassNames = classNamesFunction<
 const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     const { content, calloutProps, dataTestId, styles } = props;
     const { buttonAriaLabel, calloutContent, iconName, link } = content;
-    // state
-    const [flyoutVisible, { toggle: toggleFlyout }] = useBoolean(false);
 
     // hooks
     const id = useId();
@@ -38,26 +37,13 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
     });
 
     return (
-        <div className={classNames.root}>
-            <IconButton
-                ariaLabel={buttonAriaLabel}
-                data-testid={dataTestId}
-                id={id}
-                iconProps={{ iconName: iconName || 'Info' }}
-                onFocus={toggleFlyout}
-                onBlur={toggleFlyout}
-                onMouseEnter={toggleFlyout}
-                onMouseLeave={toggleFlyout}
-                styles={classNames.subComponentStyles.button()}
-            />
-            {flyoutVisible && (
-                <Callout
-                    directionalHint={DirectionalHint.rightCenter}
-                    {...calloutProps}
-                    target={`#${id}`}
-                    onDismiss={toggleFlyout}
-                    styles={classNames.subComponentStyles.callout}
-                >
+        <TooltipHost
+            directionalHint={DirectionalHint.rightCenter}
+            {...calloutProps}
+            delay={TooltipDelay.zero}
+            styles={classNames.subComponentStyles.callout}
+            content={
+                <div style={{ fontSize: '14px' }}>
                     {calloutContent}
                     {link && ' '}
                     {link && (
@@ -65,9 +51,18 @@ const TooltipCallout: React.FC<ITooltipCalloutProps> = (props) => {
                             {link.text || t('learnMore')}
                         </Link>
                     )}
-                </Callout>
-            )}
-        </div>
+                </div>
+            }
+            style={{ maxWidth: '290px' }}
+        >
+            <IconButton
+                ariaLabel={buttonAriaLabel}
+                data-testid={dataTestId}
+                id={id}
+                iconProps={{ iconName: iconName || 'Info' }}
+                styles={classNames.subComponentStyles.button()}
+            />
+        </TooltipHost>
     );
 };
 

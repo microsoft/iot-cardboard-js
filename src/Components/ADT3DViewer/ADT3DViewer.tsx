@@ -67,6 +67,7 @@ import {
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
+import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -724,7 +725,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     sceneId={sceneId}
                     sceneVisuals={sceneVisuals}
                     addInProps={addInProps}
-                    hideViewModePickerUI={hideViewModePickerUI}
                     wrapperMode={WrapperMode.Viewer}
                     selectedVisual={selectedVisual}
                     sceneViewProps={{
@@ -753,7 +753,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     tokens={{ childrenGap: 8 }}
                 >
                     <DeeplinkFlyout mode="Options" />
-                    {/* TODO: MOVE THEME PICKER HERE */}
+                    {!hideViewModePickerUI && <SceneThemePicker />}
                     <div className={classNames.layersPicker}>
                         <LayerDropdown
                             layers={layersInScene}

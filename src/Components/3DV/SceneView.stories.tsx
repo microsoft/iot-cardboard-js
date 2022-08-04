@@ -1,9 +1,13 @@
 import React from 'react';
 import SceneView from './SceneView';
-import { Marker } from '../../Models/Classes/SceneView.types';
+import {
+    Marker,
+    TransformedElementItem
+} from '../../Models/Classes/SceneView.types';
 import { ModelLabel } from '../ModelLabel/ModelLabel';
 import { createGUID } from '../../Models/Services/Utils';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { SceneViewWithGizmoWrapper } from './SceneViewWithGizmoWrapper';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
@@ -14,6 +18,24 @@ export default {
     parameters: {
         chromatic: { delay: 10000 } // give the model time to load
     }
+};
+
+const defaultGizmoElementItem: TransformedElementItem = {
+    meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
+    parentMeshId: 'tank6_LOD0.003_primitive0'
+};
+
+export const Gizmo = () => {
+    return (
+        <div style={wrapperStyle}>
+            <div style={{ flex: 1, width: '100%' }}>
+                <SceneViewWithGizmoWrapper
+                    modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                    defaultGizmoElementItem={defaultGizmoElementItem}
+                />
+            </div>
+        </div>
+    );
 };
 
 export const Globe = () => {
