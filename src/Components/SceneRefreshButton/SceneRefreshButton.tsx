@@ -1,10 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
-    IRefreshButtonProps,
-    IRefreshButtonStyleProps,
-    IRefreshButtonStyles
-} from './RefreshButton.types';
-import { ANIMATION_DURATION_SECONDS, getStyles } from './RefreshButton.styles';
+    ISceneRefreshButtonProps,
+    ISceneRefreshButtonStyleProps,
+    ISceneRefreshButtonStyles
+} from './SceneRefreshButton.types';
+import {
+    ANIMATION_DURATION_SECONDS,
+    getStyles
+} from './SceneRefreshButton.styles';
 import {
     classNamesFunction,
     useTheme,
@@ -14,15 +17,15 @@ import {
     Stack
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import HeaderControlButton from '../../../HeaderControlButton/HeaderControlButton';
-import HeaderControlGroup from '../../../HeaderControlGroup/HeaderControlGroup';
-import { formatTimeInRelevantUnits } from '../../../../Models/Services/Utils';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
+import { formatTimeInRelevantUnits } from '../../Models/Services/Utils';
 import { useTranslation } from 'react-i18next';
-import { DurationUnits } from '../../../../Models/Constants';
+import { DurationUnits } from '../../Models/Constants';
 
 const getClassNames = classNamesFunction<
-    IRefreshButtonStyleProps,
-    IRefreshButtonStyles
+    ISceneRefreshButtonStyleProps,
+    ISceneRefreshButtonStyles
 >();
 
 const ROOT_LOC = 'viewerRefresh';
@@ -30,7 +33,7 @@ const LOC_KEYS = {
     lastRefreshed: `${ROOT_LOC}.lastRefreshed`,
     refreshRate: `${ROOT_LOC}.refreshRate`
 };
-const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
+const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
     const {
         isRefreshing,
         lastRefreshTimeInMs,
@@ -142,7 +145,7 @@ const RefreshButton: React.FC<IRefreshButtonProps> = (props) => {
 };
 
 export default styled<
-    IRefreshButtonProps,
-    IRefreshButtonStyleProps,
-    IRefreshButtonStyles
->(RefreshButton, getStyles);
+    ISceneRefreshButtonProps,
+    ISceneRefreshButtonStyleProps,
+    ISceneRefreshButtonStyles
+>(SceneRefreshButton, getStyles);

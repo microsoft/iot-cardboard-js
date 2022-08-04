@@ -4,10 +4,10 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IHeaderControlButtonStyles } from '../../../HeaderControlButton/HeaderControlButton.types';
-import { IHeaderControlGroupStyles } from '../../../HeaderControlGroup/HeaderControlGroup.types';
+import { IHeaderControlButtonStyles } from '../HeaderControlButton/HeaderControlButton.types';
+import { IHeaderControlGroupStyles } from '../HeaderControlGroup/HeaderControlGroup.types';
 
-export interface IRefreshButtonProps {
+export interface ISceneRefreshButtonProps {
     isRefreshing: boolean;
     lastRefreshTimeInMs: number;
     refreshFrequency: number;
@@ -16,16 +16,16 @@ export interface IRefreshButtonProps {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        IRefreshButtonStyleProps,
-        IRefreshButtonStyles
+        ISceneRefreshButtonStyleProps,
+        ISceneRefreshButtonStyles
     >;
 }
 
-export interface IRefreshButtonStyleProps {
+export interface ISceneRefreshButtonStyleProps {
     isRefreshing: boolean;
     theme: ITheme;
 }
-export interface IRefreshButtonStyles {
+export interface ISceneRefreshButtonStyles {
     root: IStyle;
     button: IStyle;
     callout: IStyle;
@@ -33,10 +33,10 @@ export interface IRefreshButtonStyles {
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IRefreshButtonSubComponentStyles;
+    subComponentStyles?: ISceneRefreshButtonSubComponentStyles;
 }
 
-export interface IRefreshButtonSubComponentStyles {
+export interface ISceneRefreshButtonSubComponentStyles {
     callout?: Partial<ICalloutContentStyles>;
     headerControlGroup?: IHeaderControlGroupStyles;
     headerControlButton?: IHeaderControlButtonStyles;

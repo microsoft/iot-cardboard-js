@@ -1,19 +1,19 @@
 import {
-    IRefreshButtonStyleProps,
-    IRefreshButtonStyles
-} from './RefreshButton.types';
+    ISceneRefreshButtonStyleProps,
+    ISceneRefreshButtonStyles
+} from './SceneRefreshButton.types';
 
 export const ANIMATION_DURATION_SECONDS = 2.5;
 
-export const classPrefix = 'cb-refreshbutton';
+export const classPrefix = 'cb-SceneRefreshButton';
 const classNames = {
     root: `${classPrefix}-root`,
     button: `${classPrefix}-button`,
     callout: `${classPrefix}-callout`
 };
 export const getStyles = (
-    props: IRefreshButtonStyleProps
-): IRefreshButtonStyles => {
+    props: ISceneRefreshButtonStyleProps
+): ISceneRefreshButtonStyles => {
     return {
         root: [classNames.root],
         button: [classNames.button],

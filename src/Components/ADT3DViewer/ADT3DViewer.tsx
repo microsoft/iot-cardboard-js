@@ -63,7 +63,7 @@ import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
-import RefreshButton from './Internal/RefreshButton/RefreshButton';
+import SceneRefreshButton from '../SceneRefreshButton/SceneRefreshButton';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -732,7 +732,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     styles={classNames.subComponentStyles.headerStack}
                     tokens={{ childrenGap: 8 }}
                 >
-                    <RefreshButton
+                    <SceneRefreshButton
                         isRefreshing={isLoading}
                         lastRefreshTimeInMs={lastRefreshTime}
                         refreshFrequency={nextRefreshTime - lastRefreshTime}
