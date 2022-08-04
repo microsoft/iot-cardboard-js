@@ -1,12 +1,8 @@
 import {
     ChoiceGroup,
     classNamesFunction,
-    FocusTrapCallout,
-    FontIcon,
-    FontSizes,
     IChoiceGroupOption,
     IColorCellProps,
-    IconButton,
     Stack,
     styled,
     SwatchColorPicker,
@@ -17,9 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { ViewerObjectStyle } from '../../Models/Constants';
 import { IObjectStyleOption } from '../../Models/Context/SceneThemeContext/SceneThemeContext.types';
 import { getDebugLogger } from '../../Models/Services/Utils';
-import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 import HeaderControlButtonWithCallout from '../HeaderControlButtonWithCallout/HeaderControlButtonWithCallout';
-import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 import { getStyles } from './ModelViewerModePicker.styles';
 import {
     IModelViewerModePickerProps,
@@ -54,11 +48,9 @@ const ModelViewerModePicker: React.FC<IModelViewerModePickerProps> = (
     // state
     const [colors, setColors] = useState<IColorCellProps[]>([]);
     const [backgrounds, setBackgrounds] = useState<IColorCellProps[]>([]);
-    const calloutAnchor = 'cb-theme-callout-anchor';
 
     // hooks
     const { t } = useTranslation();
-    const theme = useTheme();
 
     // styles
     const classNames = getClassNames(styles, {
@@ -125,72 +117,70 @@ const ModelViewerModePicker: React.FC<IModelViewerModePickerProps> = (
 
     logDebugConsole('debug', 'render', props);
     return (
-        <div>
-            <HeaderControlButtonWithCallout
-                buttonProps={{
-                    iconName: 'Color',
-                    testId: 'scene-theme-picker-button',
-                    title: t('modelViewerModePicker.buttonLabel')
-                }}
-                calloutProps={{
-                    iconName: 'Color',
-                    title: t('modelViewerModePicker.title')
-                }}
-            >
-                <Stack tokens={{ childrenGap: 8 }}>
-                    <h4 className={classNames.subHeader}>
-                        {t('modelViewerModePicker.style')}
-                    </h4>
-                    <ChoiceGroup
-                        selectedKey={selectedObjectStyle}
-                        options={styleChoiceOptions}
-                        onChange={updateStyle}
-                    />
-                    <h4 className={classNames.subHeader}>
-                        {t('modelViewerModePicker.objectColors')}
-                    </h4>
-                    <div className={classNames.colorPicker}>
-                        <SwatchColorPicker
-                            disabled={
-                                selectedObjectStyle ===
-                                ViewerObjectStyle.Default
+        <HeaderControlButtonWithCallout
+            buttonProps={{
+                iconName: 'Color',
+                testId: 'scene-theme-picker-button',
+                title: t('modelViewerModePicker.buttonLabel')
+            }}
+            calloutProps={{
+                iconName: 'Color',
+                title: t('modelViewerModePicker.title')
+            }}
+            styles={classNames.subComponentStyles.headerControlWithCallout}
+        >
+            <Stack tokens={{ childrenGap: 8 }}>
+                <h4 className={classNames.subHeader}>
+                    {t('modelViewerModePicker.style')}
+                </h4>
+                <ChoiceGroup
+                    selectedKey={selectedObjectStyle}
+                    options={styleChoiceOptions}
+                    onChange={updateStyle}
+                />
+                <h4 className={classNames.subHeader}>
+                    {t('modelViewerModePicker.objectColors')}
+                </h4>
+                <div className={classNames.colorPicker}>
+                    <SwatchColorPicker
+                        disabled={
+                            selectedObjectStyle === ViewerObjectStyle.Default
+                        }
+                        cellHeight={32}
+                        cellWidth={32}
+                        columnCount={colors.length}
+                        selectedId={selectedObjectColor}
+                        cellShape={'circle'}
+                        colorCells={colors}
+                        onChange={updateObjectColor}
+                        getColorGridCellStyles={(props) => {
+                            if (props.disabled) {
+                                return {
+                                    colorCell: {
+                                        opacity: '0.1'
+                                    },
+                                    svg: null
+                                };
                             }
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={colors.length}
-                            selectedId={selectedObjectColor}
-                            cellShape={'circle'}
-                            colorCells={colors}
-                            onChange={updateObjectColor}
-                            getColorGridCellStyles={(props) => {
-                                if (props.disabled) {
-                                    return {
-                                        colorCell: {
-                                            opacity: '0.1'
-                                        },
-                                        svg: null
-                                    };
-                                }
-                            }}
-                        />
-                    </div>
-                    <h4 className={classNames.subHeader}>
-                        {t('modelViewerModePicker.background')}
-                    </h4>
-                    <div className={classNames.colorPicker}>
-                        <SwatchColorPicker
-                            cellHeight={32}
-                            cellWidth={32}
-                            columnCount={backgrounds.length}
-                            selectedId={selectedSceneBackground}
-                            cellShape={'circle'}
-                            colorCells={backgrounds}
-                            onChange={updateBackgroundColor}
-                        />
-                    </div>
-                </Stack>
-            </HeaderControlButtonWithCallout>
-        </div>
+                        }}
+                    />
+                </div>
+                <h4 className={classNames.subHeader}>
+                    {t('modelViewerModePicker.background')}
+                </h4>
+                <div className={classNames.colorPicker}>
+                    <SwatchColorPicker
+                        cellHeight={32}
+                        cellWidth={32}
+                        columnCount={backgrounds.length}
+                        selectedId={selectedSceneBackground}
+                        cellShape={'circle'}
+                        colorCells={backgrounds}
+                        onChange={updateBackgroundColor}
+                    />
+                </div>
+            </Stack>
+        </HeaderControlButtonWithCallout>
     );
 };
 
