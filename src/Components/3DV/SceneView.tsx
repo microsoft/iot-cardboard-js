@@ -49,7 +49,9 @@ import {
     getBoundingBox,
     getCameraPosition,
     getMarkerPosition,
-    removeGroupedItems
+    removeGroupedItems,
+    transformInfoFromMesh,
+    transformMeshFromTransformInfo
 } from './SceneView.Utils';
 import {
     makeMaterial,
@@ -1716,22 +1718,11 @@ function SceneView(props: ISceneViewProps, ref) {
                         if (!tEIParentMeshIds.includes(prevTransParentMeshId)) {
                             const prevTransParentMesh: BABYLON.Mesh =
                                 meshMap.current?.[prevTransParentMeshId];
-                            // setting rotation back to original
                             if (prevTransParentMesh) {
-                                prevTransParentMesh.rotationQuaternion = null;
-                                prevTransParentMesh.rotation.x =
-                                    previouslyTransformedElement.transform.rotation.x;
-                                prevTransParentMesh.rotation.y =
-                                    previouslyTransformedElement.transform.rotation.y;
-                                prevTransParentMesh.rotation.z =
-                                    previouslyTransformedElement.transform.rotation.z;
-                                // setting position back to original
-                                prevTransParentMesh.position.x =
-                                    previouslyTransformedElement.transform.position.x;
-                                prevTransParentMesh.position.y =
-                                    previouslyTransformedElement.transform.position.y;
-                                prevTransParentMesh.position.z =
-                                    previouslyTransformedElement.transform.position.z;
+                                transformMeshFromTransformInfo(
+                                    prevTransParentMesh,
+                                    previouslyTransformedElement.transform
+                                );
                             }
 
                             // set up to remove from previouslyTransformedElements
@@ -1779,34 +1770,19 @@ function SceneView(props: ISceneViewProps, ref) {
             (pTE) => pTE.meshId
         );
 
-        const transform = transformedElementItem.transform;
+        const newTransform = transformedElementItem.transform;
 
         // only add parentMesh to previouslyTransformedElements ONCE for the ORIGINAL status
         if (!pTParentMeshIds.includes(transformedElementItem.parentMeshId)) {
+            const originalTransform = transformInfoFromMesh(parentMesh);
             previouslyTransformedElements.current.push({
                 meshId: transformedElementItem.parentMeshId,
-                transform: {
-                    position: {
-                        x: parentMesh.position.x,
-                        y: parentMesh.position.y,
-                        z: parentMesh.position.z
-                    },
-                    rotation: {
-                        x: parentMesh.rotation.x,
-                        y: parentMesh.rotation.y,
-                        z: parentMesh.rotation.z
-                    }
-                }
+                transform: originalTransform
             });
         }
 
-        parentMesh.rotation.x = transform.rotation.x;
-        parentMesh.rotation.y = transform.rotation.y;
-        parentMesh.rotation.z = transform.rotation.z;
-
-        parentMesh.position.x = transform.position.x;
-        parentMesh.position.y = transform.position.y;
-        parentMesh.position.z = transform.position.z;
+        // set mesh to new transform
+        transformMeshFromTransformInfo(parentMesh, newTransform);
     };
 
     // Handle gizmoElementItem
@@ -1844,21 +1820,11 @@ function SceneView(props: ISceneViewProps, ref) {
                                 gizmoTransformItemDraftRef.current.parentMeshId
                             ];
                         parentMesh.rotationQuaternion = null;
-                        const position =
-                            gizmoTransformItemDraftRef.current.original
-                                .position;
-                        const rotation =
-                            gizmoTransformItemDraftRef.current.original
-                                .rotation;
-                        parentMesh.position = new BABYLON.Vector3(
-                            position.x,
-                            position.y,
-                            position.z
-                        );
-                        parentMesh.rotation = new BABYLON.Vector3(
-                            rotation.x,
-                            rotation.y,
-                            rotation.z
+                        const originalTransform =
+                            gizmoTransformItemDraftRef.current.original;
+                        transformMeshFromTransformInfo(
+                            parentMesh,
+                            originalTransform
                         );
                     }
                 } else {
@@ -1890,31 +1856,17 @@ function SceneView(props: ISceneViewProps, ref) {
                             gizmoManager.gizmos.rotationGizmo.attachedMesh;
 
                         // set both original and transform to original state of mesh
-                        originalTransform = {
-                            position: {
-                                x: attachedMesh.position.x,
-                                y: attachedMesh.position.y,
-                                z: attachedMesh.position.z
-                            },
-                            rotation: {
-                                x: attachedMesh.rotation.x,
-                                y: attachedMesh.rotation.y,
-                                z: attachedMesh.rotation.z
-                            }
-                        };
+                        originalTransform = transformInfoFromMesh(attachedMesh);
 
                         // allows transform values to persist clicking to and away from tab
                         // may need changing if we allow multiple elements in a sceneVisual to be gizmo'd
                         if (gizmoTransformItemDraftRef.current) {
                             const transform =
                                 gizmoTransformItemDraftRef.current.transform;
-                            attachedMesh.rotation.x = transform.rotation.x;
-                            attachedMesh.rotation.y = transform.rotation.y;
-                            attachedMesh.rotation.z = transform.rotation.z;
-
-                            attachedMesh.position.x = transform.position.x;
-                            attachedMesh.position.y = transform.position.y;
-                            attachedMesh.position.z = transform.position.z;
+                            transformMeshFromTransformInfo(
+                                attachedMesh,
+                                transform
+                            );
                         } else {
                             gizmoTransformItemDraftRef.current = {
                                 meshIds: deepCopy(meshIds),
@@ -1999,13 +1951,10 @@ function SceneView(props: ISceneViewProps, ref) {
                         ];
 
                     // should update element when user inputs value in field
-                    parentMesh.position.x = gizmoTransformItem.position.x;
-                    parentMesh.position.y = gizmoTransformItem.position.y;
-                    parentMesh.position.z = gizmoTransformItem.position.z;
-
-                    parentMesh.rotation.x = gizmoTransformItem.rotation.x;
-                    parentMesh.rotation.y = gizmoTransformItem.rotation.y;
-                    parentMesh.rotation.z = gizmoTransformItem.rotation.z;
+                    transformMeshFromTransformInfo(
+                        parentMesh,
+                        gizmoTransformItem
+                    );
                 }
             } catch {
                 console.warn(
