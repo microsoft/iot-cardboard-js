@@ -968,5 +968,29 @@
   "sceneRefreshButton": {
     "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
     "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "シーン構成",
+    "calloutTitle": "シーン構成",
+    "calloutDescription": "このシーンのデータを更新する頻度をカスタマイズする",
+    "strategyDropdownLabel": "更新戦略",
+    "strategyTooltip": "「リアルタイム」を使用して、できるだけ早くデータを取得します(最大:10秒ごと)。\n「制限付き」を使用して、更新の頻度を低速のレートに制限するレート制限を選択します。",
+    "strategyOptions": {
+      "realtime": "リアルタイム",
+      "limited": "狹"
+    },
+    "rateDropdownLabel": "最小リフレッシュレート",
+    "rateTooltip": "これを使用して、自動更新の頻度を低速のレートに制限します。",
+    "rateOptions": {
+      "30sec": "30秒",
+      "1min": "1 分",
+      "2min": "所要時間: 2 分",
+      "5min": "所要時間: 5 分",
+      "10min": "所要時間: 10 分",
+      "30min": "所要時間: 30 分",
+      "1hour": "所要時間: 1 時間",
+      "2hour": "所要時間: 2 時間",
+      "5hour": "所要時間: 5 時間"
+    }
   }
 }

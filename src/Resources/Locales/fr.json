@@ -968,5 +968,29 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Dernière actualisation : {{value}} {{units}} ago",
     "refreshRate": "Taux de rafraîchissement : {{valeur}} {{unités}}"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Configuration de la scène",
+    "calloutTitle": "Configuration de la scène",
+    "calloutDescription": "Personnaliser la fréquence d'actualisation des données de cette scène",
+    "strategyDropdownLabel": "Stratégie d’actualisation",
+    "strategyTooltip": "Utilisez 'Realtime' pour récupérer les données le plus rapidement possible (max: toutes les 10 secondes). \nUtilisez « Limité » pour sélectionner une limite de débit qui limite la fréquence des actualisations à une vitesse plus lente.",
+    "strategyOptions": {
+      "realtime": "En temps réel",
+      "limited": "Limité"
+    },
+    "rateDropdownLabel": "Taux de rafraîchissement minimum",
+    "rateTooltip": "Utilisez cette option pour limiter la fréquence des actualisations automatiques à un rythme plus lent.",
+    "rateOptions": {
+      "30sec": "30 secondes",
+      "1min": "1 minute",
+      "2min": "2 minutes",
+      "5min": "5 minutes",
+      "10min": "10 minutes",
+      "30min": "30 minutes",
+      "1hour": "1 heure",
+      "2hour": "2 heures",
+      "5hour": "5 heures"
+    }
   }
 }
