@@ -10,7 +10,7 @@ export interface ISceneViewContext {
 }
 
 export interface ISceneViewContextProviderProps {
-    outlinedMeshItems: CustomMeshItem[];
+    outlinedMeshItems?: CustomMeshItem[];
 }
 
 export interface ISceneViewContextState {
@@ -45,11 +45,9 @@ export type SceneViewContextAction =
       }
     | {
           type: SceneViewContextActionType.OUTLINE_ELEMENT_MESHES;
-          // TODO: Add this type when colored meshes are included in this pattern
-          // | SceneViewContextActionType.SET_SCENE_COLORED_MESHES
           payload: {
               elements: ITwinToObjectMapping[];
-              mesh: AbstractMesh;
+              meshId: string;
               color?: string;
           };
       }

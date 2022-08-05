@@ -816,7 +816,7 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
         <DeeplinkContextProvider>
             <SceneThemeContextProvider>
                 <SceneViewContextProvider
-                    outlinedMeshItems={props.outlinedMeshItems || []}
+                    outlinedMeshItems={props.outlinedMeshItems}
                 >
                     <ADT3DViewerBase {...props} />
                 </SceneViewContextProvider>

@@ -372,7 +372,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                     type: SceneViewContextActionType.OUTLINE_ELEMENT_MESHES,
                     payload: {
                         elements: state.elements,
-                        mesh: mesh,
+                        meshId: mesh.id,
                         color: state.objectColor.outlinedMeshHoverColor
                     }
                 });
@@ -995,7 +995,7 @@ const ADT3DSceneBuilder: React.FC<IADT3DSceneBuilderCardProps> = (props) => {
     return (
         <DeeplinkContextProvider>
             <SceneThemeContextProvider>
-                <SceneViewContextProvider outlinedMeshItems={[]}>
+                <SceneViewContextProvider>
                     <ADT3DSceneBuilderBase {...props} />
                 </SceneViewContextProvider>
             </SceneThemeContextProvider>

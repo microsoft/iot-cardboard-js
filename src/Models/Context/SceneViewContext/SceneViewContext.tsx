@@ -56,7 +56,7 @@ export const SceneViewContextReducer: (
             case SceneViewContextActionType.OUTLINE_BEHAVIOR_MESHES: {
                 const behavior = action.payload.behavior;
                 // get elements that are contained in the hovered behavior
-                let meshIds: string[] = [];
+                let meshIds: Set<string> = new Set();
                 const selectedElements: ITwinToObjectMapping[] = [];
                 behavior.datasources
                     .filter(
@@ -72,30 +72,32 @@ export const SceneViewContextReducer: (
                     });
 
                 for (const element of selectedElements) {
-                    meshIds = meshIds.concat(element.objectIDs);
+                    for (const id of element.objectIDs) {
+                        meshIds = meshIds.add(id);
+                    }
                 }
 
                 const customMeshItems = createCustomMeshItems(
-                    meshIds,
+                    Array.from(meshIds),
                     action.payload.color
                 );
                 draft.outlinedMeshItems = customMeshItems;
                 break;
             }
             case SceneViewContextActionType.OUTLINE_ELEMENT_MESHES: {
-                const meshIds = [];
+                const meshIds: Set<string> = new Set();
                 for (const element of action.payload.elements) {
                     // find elements that contain this mesh
-                    if (element.objectIDs.includes(action.payload.mesh.id)) {
+                    if (element.objectIDs.includes(action.payload.meshId)) {
                         for (const id of element.objectIDs) {
                             // add meshes that make up element to highlight
-                            meshIds.push(id);
+                            meshIds.add(id);
                         }
                     }
                 }
 
                 const customMeshItems = createCustomMeshItems(
-                    meshIds,
+                    Array.from(meshIds),
                     action.payload.color
                 );
                 draft.outlinedMeshItems = customMeshItems;
@@ -135,7 +137,9 @@ export const SceneViewContextProvider: React.FC<ISceneViewContextProviderProps> 
     }
 
     const { outlinedMeshItems } = props;
-    initialOutlinedMeshItems = deepCopy(outlinedMeshItems);
+    initialOutlinedMeshItems = outlinedMeshItems
+        ? deepCopy(outlinedMeshItems)
+        : [];
 
     const defaultState: ISceneViewContextState = {
         outlinedMeshItems: initialOutlinedMeshItems
