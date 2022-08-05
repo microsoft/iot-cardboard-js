@@ -542,7 +542,9 @@
         "noNumberPrefix": "Tweelingnaam mag niet beginnen met een getal"
       }
     },
-    "actions": "Acties"
+    "actions": "Acties",
+    "twinId": "Dubbele ID",
+    "properties": "Eigenschappen"
   },
   "widgets": {
     "trend": {

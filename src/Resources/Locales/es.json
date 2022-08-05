@@ -542,7 +542,9 @@
         "noNumberPrefix": "El nombre del gemelo no debe comenzar con un número"
       }
     },
-    "actions": "Acciones"
+    "actions": "Acciones",
+    "twinId": "Identificación doble",
+    "properties": "Propiedades"
   },
   "widgets": {
     "trend": {

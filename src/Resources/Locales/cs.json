@@ -542,7 +542,9 @@
         "noNumberPrefix": "Dvojče nesmí začínat číslem"
       }
     },
-    "actions": "Akce"
+    "actions": "Akce",
+    "twinId": "ID dvojčat",
+    "properties": "Vlastnosti"
   },
   "widgets": {
     "trend": {

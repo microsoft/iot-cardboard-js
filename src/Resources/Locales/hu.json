@@ -542,7 +542,9 @@
         "noNumberPrefix": "Az ikernév nem kezdődhet számmal"
       }
     },
-    "actions": "Műveletek"
+    "actions": "Műveletek",
+    "twinId": "Ikerazonosító",
+    "properties": "Kellékek"
   },
   "widgets": {
     "trend": {

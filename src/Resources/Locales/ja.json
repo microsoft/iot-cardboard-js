@@ -542,7 +542,9 @@
         "noNumberPrefix": "ツイン名は数字で始まってはなりません"
       }
     },
-    "actions": "アクション"
+    "actions": "アクション",
+    "twinId": "ツイン ID",
+    "properties": "プロパティ"
   },
   "widgets": {
     "trend": {

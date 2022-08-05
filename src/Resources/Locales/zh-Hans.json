@@ -542,7 +542,9 @@
         "noNumberPrefix": "孪生名称不得以数字开头"
       }
     },
-    "actions": "行动"
+    "actions": "行动",
+    "twinId": "双床 ID",
+    "properties": "性能"
   },
   "widgets": {
     "trend": {

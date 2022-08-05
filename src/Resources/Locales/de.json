@@ -542,7 +542,9 @@
         "noNumberPrefix": "Zwillingsname darf nicht mit einer Zahl beginnen"
       }
     },
-    "actions": "Aktionen"
+    "actions": "Aktionen",
+    "twinId": "Twin-ID",
+    "properties": "Eigenschaften"
   },
   "widgets": {
     "trend": {
