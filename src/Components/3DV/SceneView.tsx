@@ -44,14 +44,14 @@ import {
     UtilityLayerRenderer
 } from '@babylonjs/core';
 import {
-    transformMeshFromTransformInfo,
     convertLatLonToVector3,
     elementsOverlap,
     getBoundingBox,
     getCameraPosition,
     getMarkerPosition,
     removeGroupedItems,
-    transformInfoFromMesh
+    transformInfoFromMesh,
+    transformMeshFromTransformInfo
 } from './SceneView.Utils';
 import {
     makeMaterial,
