@@ -955,6 +955,30 @@
         "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
         "refreshRate": "Refresh rate: {{value}} {{units}}"
     },
+    "sceneRefreshConfigurator": {
+        "headerButtonTitle": "Scene configuration",
+        "calloutTitle": "Scene configuration",
+        "calloutDescription": "Customize how often this scene's data is refreshed",
+        "strategyDropdownLabel": "Refresh strategy",
+        "strategyTooltip": "Use 'Realtime' to fetch data as quickly as possible (max: every 10 seconds). \nUse 'Limited' to select a rate limit that limits the frequency of refreshes to a slower rate.",
+        "strategyOptions": {
+            "realtime": "Realtime",
+            "limited": "Limited"
+        },
+        "rateDropdownLabel": "Minimum refresh rate",
+        "rateTooltip": "Use this to limit the frequency of automatic refreshes to a slower rate.",
+        "rateOptions": {
+            "30sec": "30 seconds",
+            "1min": "1 minute",
+            "2min": "2 minutes",
+            "5min": "5 minutes",
+            "10min": "10 minutes",
+            "30min": "30 minutes",
+            "1hour": "1 hour",
+            "2hour": "2 hours",
+            "5hour": "5 hours"
+        }
+    },
     "duration": {
         "millisecond": "millisecond",
         "milliseconds": "milliseconds",

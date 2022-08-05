@@ -49,6 +49,9 @@ export const DOCUMENTATION_LINKS = {
 
 /** this is the minimum frequency we support for fetching data from ADT */
 export const MINIMUM_REFRESH_RATE_IN_MILLISECONDS = 10000;
+export const ONE_SECOND = 1000;
+export const ONE_MINUTE = 60 * ONE_SECOND;
+export const ONE_HOUR = 60 * ONE_MINUTE;
 
 export const dtdlPrimitiveTypesList = [
     'boolean',

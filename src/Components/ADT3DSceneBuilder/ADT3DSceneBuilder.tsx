@@ -93,6 +93,7 @@ import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
+import SceneRefreshConfigurator from '../SceneRefreshConfigurator/SceneRefreshConfigurator';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -921,6 +922,10 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         styles={classNames.subComponentStyles.headerStack}
                         tokens={{ childrenGap: 8 }}
                     >
+                        <SceneRefreshConfigurator
+                            config={state.config}
+                            sceneId={sceneId}
+                        />
                         <SceneThemePicker />
                         <SceneLayers />
                         {showModeToggle && (
