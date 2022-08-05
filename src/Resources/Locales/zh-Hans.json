@@ -543,8 +543,14 @@
       }
     },
     "actions": "行动",
+
     "twinId": "双床 ID",
     "properties": "性能"
+    "transform": {
+      "position": "位置",
+      "rotation": "旋转"
+    }
+
   },
   "widgets": {
     "trend": {

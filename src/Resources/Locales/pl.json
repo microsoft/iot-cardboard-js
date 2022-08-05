@@ -543,8 +543,15 @@
       }
     },
     "actions": "Akcje",
+
     "twinId": "Podwójny identyfikator",
     "properties": "Właściwości"
+
+    "transform": {
+      "position": "Pozycja",
+      "rotation": "Obrót"
+    }
+
   },
   "widgets": {
     "trend": {

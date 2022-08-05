@@ -543,8 +543,15 @@
       }
     },
     "actions": "Действия",
+
     "twinId": "Твин ID",
     "properties": "Свойства"
+
+    "transform": {
+      "position": "Позиция",
+      "rotation": "Вращение"
+    }
+
   },
   "widgets": {
     "trend": {

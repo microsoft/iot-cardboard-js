@@ -543,8 +543,15 @@
       }
     },
     "actions": "Acties",
+
     "twinId": "Dubbele ID",
     "properties": "Eigenschappen"
+
+    "transform": {
+      "position": "Positie",
+      "rotation": "Rotatie"
+    }
+
   },
   "widgets": {
     "trend": {

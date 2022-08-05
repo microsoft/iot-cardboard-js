@@ -543,8 +543,15 @@
       }
     },
     "actions": "Åtgärder",
+
     "twinId": "Tvilling-ID",
     "properties": "Egenskaper"
+
+    "transform": {
+      "position": "Position",
+      "rotation": "Rotation"
+    }
+
   },
   "widgets": {
     "trend": {
