@@ -542,7 +542,9 @@
         "noNumberPrefix": "İkiz ad bir sayı ile başlamamalıdır"
       }
     },
-    "actions": "Eylemler"
+    "actions": "Eylemler",
+    "twinId": "İkiz Kimlik",
+    "properties": "Özellikler"
   },
   "widgets": {
     "trend": {

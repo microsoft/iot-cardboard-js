@@ -542,7 +542,9 @@
         "noNumberPrefix": "Nome gémeo não deve começar com um número"
       }
     },
-    "actions": "Ações"
+    "actions": "Ações",
+    "twinId": "ID de gémeos",
+    "properties": "Propriedades"
   },
   "widgets": {
     "trend": {

@@ -542,7 +542,9 @@
         "noNumberPrefix": "Tvillingnamnet får inte börja med ett nummer"
       }
     },
-    "actions": "Åtgärder"
+    "actions": "Åtgärder",
+    "twinId": "Tvilling-ID",
+    "properties": "Egenskaper"
   },
   "widgets": {
     "trend": {

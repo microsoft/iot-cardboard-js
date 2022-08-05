@@ -542,7 +542,9 @@
         "noNumberPrefix": "Имя близнеца не должно начинаться с числа"
       }
     },
-    "actions": "Действия"
+    "actions": "Действия",
+    "twinId": "Твин ID",
+    "properties": "Свойства"
   },
   "widgets": {
     "trend": {

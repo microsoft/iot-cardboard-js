@@ -542,7 +542,9 @@
         "noNumberPrefix": "Le nom jumeau ne doit pas commencer par un nombre"
       }
     },
-    "actions": "Actions"
+    "actions": "Actions",
+    "twinId": "Id jumeau",
+    "properties": "Propriétés"
   },
   "widgets": {
     "trend": {
