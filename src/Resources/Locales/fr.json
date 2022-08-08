@@ -542,7 +542,11 @@
         "noNumberPrefix": "Le nom jumeau ne doit pas commencer par un nombre"
       }
     },
-    "actions": "Actions"
+    "actions": "Actions",
+    "transform": {
+      "position": "Position",
+      "rotation": "Rotation"
+    }
   },
   "widgets": {
     "trend": {
