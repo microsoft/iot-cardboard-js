@@ -1,6 +1,15 @@
 import { cleanup } from '@testing-library/react-hooks';
-import { DTwin, PRIMARY_TWIN_NAME } from '../../Constants';
-import { I3DScenesConfig } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    DTwin,
+    MINIMUM_REFRESH_RATE_IN_MILLISECONDS,
+    PRIMARY_TWIN_NAME
+} from '../../Constants';
+import {
+    I3DScenesConfig,
+    IPollingConfiguration,
+    IPollingStrategy,
+    IScene
+} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../ViewerConfigUtility';
 import {
     ALIASED_TWIN_ID_1,
@@ -203,6 +212,280 @@ describe('ViewerConfigUtility', () => {
             expect(result).not.toBeFalsy();
             expect(result.length).toEqual(2); // cause 2 real elements, skips the custom
             expect(result).toMatchSnapshot(); // validate the full output
+        });
+    });
+
+    describe('Polling Configuration', () => {
+        const TEST_SCENE_ID = 'mock_scene_id';
+        const GET_TEST_SCENE_CONFIG = (
+            pollingConfiguration: IPollingConfiguration
+        ): I3DScenesConfig => ({
+            $schema: {} as any,
+            configuration: {
+                scenes: [
+                    {
+                        id: TEST_SCENE_ID,
+                        pollingConfiguration: pollingConfiguration,
+                        ...({} as IScene)
+                    } as IScene
+                ],
+                behaviors: [],
+                layers: []
+            }
+        });
+
+        describe('getPollingConfig', () => {
+            test('returns default config when input Config is null', () => {
+                // ARRANGE
+                // ACT
+                const result = ViewerConfigUtility.getPollingConfig(
+                    null,
+                    TEST_SCENE_ID
+                );
+
+                // ASSERT
+                expect(result).toBeDefined();
+                expect(result.pollingStrategy).toEqual('Realtime');
+                expect(result.minimumPollingFrequency).toEqual(
+                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                );
+            });
+            test('returns default config when input SceneId is null', () => {
+                // ARRANGE
+                // ACT
+                const result = ViewerConfigUtility.getPollingConfig(
+                    GET_TEST_SCENE_CONFIG({ pollingStrategy: 'Realtime' }),
+                    null
+                );
+
+                // ASSERT
+                expect(result).toBeDefined();
+                expect(result.pollingStrategy).toEqual('Realtime');
+                expect(result.minimumPollingFrequency).toEqual(
+                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                );
+            });
+            test('returns default config when input SceneId not found in config', () => {
+                // ARRANGE
+                // ACT
+                const result = ViewerConfigUtility.getPollingConfig(
+                    GET_TEST_SCENE_CONFIG({ pollingStrategy: 'Realtime' }),
+                    'non-existent-scene-id'
+                );
+
+                // ASSERT
+                expect(result).toBeDefined();
+                expect(result.pollingStrategy).toEqual('Realtime');
+                expect(result.minimumPollingFrequency).toEqual(
+                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                );
+            });
+            test('returns the polling configuration in config scene is found', () => {
+                // ARRANGE
+                // ACT
+                const result = ViewerConfigUtility.getPollingConfig(
+                    GET_TEST_SCENE_CONFIG({
+                        pollingStrategy: 'Limited',
+                        minimumPollingFrequency: 1000
+                    }),
+                    TEST_SCENE_ID
+                );
+
+                // ASSERT
+                expect(result).toBeDefined();
+                expect(result.pollingStrategy).toEqual('Limited');
+                expect(result.minimumPollingFrequency).toEqual(1000);
+            });
+        });
+
+        describe('setPollingStrategy', () => {
+            test('returns false when input Config is null', () => {
+                // ARRANGE
+                const newPollingStrategy: IPollingStrategy = 'Limited';
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    null,
+                    TEST_SCENE_ID,
+                    newPollingStrategy
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns false when input SceneId is null', () => {
+                // ARRANGE
+                const newPollingStrategy: IPollingStrategy = 'Limited';
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    config,
+                    null,
+                    newPollingStrategy
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns false when input Polling Strategy is null', () => {
+                // ARRANGE
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    config,
+                    TEST_SCENE_ID,
+                    null
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns false when Scene does not exist', () => {
+                // ARRANGE
+                const newPollingStrategy: IPollingStrategy = 'Limited';
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    config,
+                    'non-existent-scene-id',
+                    newPollingStrategy
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns true when sets polling strategy', () => {
+                // ARRANGE
+                const newPollingStrategy: IPollingStrategy = 'Limited';
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    config,
+                    TEST_SCENE_ID,
+                    newPollingStrategy
+                );
+
+                // ASSERT
+                expect(result).toBeTruthy();
+                expect(
+                    ViewerConfigUtility.getPollingConfig(config, TEST_SCENE_ID)
+                        .pollingStrategy
+                ).toEqual(newPollingStrategy);
+            });
+            test('returns true & sets frequency to defaul when setting polling strategy to Realtime', () => {
+                // ARRANGE
+                const newPollingStrategy: IPollingStrategy = 'Realtime';
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Limited'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingStrategy(
+                    config,
+                    TEST_SCENE_ID,
+                    newPollingStrategy
+                );
+
+                // ASSERT
+                expect(result).toBeTruthy();
+                const newConfig = ViewerConfigUtility.getPollingConfig(
+                    config,
+                    TEST_SCENE_ID
+                );
+                expect(newConfig.pollingStrategy).toEqual(newPollingStrategy);
+                expect(newConfig.minimumPollingFrequency).toEqual(
+                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                );
+            });
+        });
+
+        describe('setPollingRate', () => {
+            test('returns false when input Config is null', () => {
+                // ARRANGE
+                const newPollingRate = 1000;
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingRate(
+                    null,
+                    TEST_SCENE_ID,
+                    newPollingRate
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns false when input SceneId is null', () => {
+                // ARRANGE
+                const newPollingRate = 1000;
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingRate(
+                    config,
+                    null,
+                    newPollingRate
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns false when Scene does not exist is null', () => {
+                // ARRANGE
+                const newPollingRate = 1000;
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: 'Realtime'
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingRate(
+                    config,
+                    'non-existent-scene-id',
+                    newPollingRate
+                );
+
+                // ASSERT
+                expect(result).toBeFalsy();
+            });
+            test('returns true & sets frequency to provided value & defaults strategy to Limited if not set', () => {
+                // ARRANGE
+                const newPollingRate = 1000;
+                const config = GET_TEST_SCENE_CONFIG({
+                    pollingStrategy: '' as any, // simulate a bad state
+                    minimumPollingFrequency: 5000
+                });
+
+                // ACT
+                const result = ViewerConfigUtility.setPollingRate(
+                    config,
+                    TEST_SCENE_ID,
+                    newPollingRate
+                );
+
+                // ASSERT
+                expect(result).toBeTruthy();
+                const newConfig = ViewerConfigUtility.getPollingConfig(
+                    config,
+                    TEST_SCENE_ID
+                );
+                expect(newConfig.pollingStrategy).toEqual('Limited');
+                expect(newConfig.minimumPollingFrequency).toEqual(
+                    newPollingRate
+                );
+            });
         });
     });
 });

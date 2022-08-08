@@ -171,6 +171,9 @@ abstract class ViewerConfigUtility {
                 );
                 scene.pollingConfiguration = {
                     ...scene.pollingConfiguration,
+                    pollingStrategy:
+                        scene.pollingConfiguration?.pollingStrategy ||
+                        'Limited',
                     minimumPollingFrequency: rateInMilliseconds
                 };
                 return true;
