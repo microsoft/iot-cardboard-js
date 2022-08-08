@@ -15,7 +15,7 @@ import {
     IDetailsListProps,
     IconButton
 } from '@fluentui/react';
-import { IADTTwin } from '../../Models/Constants';
+import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<

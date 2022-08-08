@@ -1,12 +1,11 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import AdvancedSearchResultDetailsList from './AdvancedSearchResultDetailsList';
 import { IAdvancedSearchResultDetailsListProps } from './AdvancedSearchResultDetailsList.types';
-import { IADTTwin } from '../../Models/Constants';
+import { IADTTwin } from '../../../../Models/Constants';
+import twinData from '../../../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
 
-import twinData from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
-//'.../Adapters\__mockData__\MockAdapterData\DemoEnvsTwinData.json'
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 const filteredTwins: IADTTwin[] = twinData;
 

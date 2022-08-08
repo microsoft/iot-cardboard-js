@@ -4,13 +4,13 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IADTTwin } from '../../Models/Constants';
+import { IADTTwin } from '../../../../Models/Constants';
 
 export interface IAdvancedSearchResultDetailsListProps {
     filteredTwinsResult: IADTTwin[];
     additionalColumns: IColumn[];
     // callback function from parent on what to do once the user selects or deselects a twin
-    callbackFunction: void;
+    callbackFunction?: void; //not meant to be optional, just did that for now so the stories work
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
