@@ -6,6 +6,26 @@ import {
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
+import { DTDLSchemaType } from '../../Models/Classes/DTDL';
+import IconBoolean from '../../Resources/Static/Boolean.svg';
+import IconData from '../../Resources/Static/Data.svg';
+import IconDatetime from '../../Resources/Static/Datetime.svg';
+import IconDouble from '../../Resources/Static/Double.svg';
+import IconDuration from '../../Resources/Static/duration.svg';
+import IconEnum from '../../Resources/Static/Enum.svg';
+import IconFloat from '../../Resources/Static/Float.svg';
+import IconInteger from '../../Resources/Static/Integer.svg';
+import IconLineString from '../../Resources/Static/linestring.svg';
+import IconLong from '../../Resources/Static/long.svg';
+import IconMap from '../../Resources/Static/map.svg';
+import IconMultiPoint from '../../Resources/Static/multipoint.svg';
+import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
+import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
+import IconObject from '../../Resources/Static/object.svg';
+import IconPoint from '../../Resources/Static/point.svg';
+import IconPolygon from '../../Resources/Static/polygon.svg';
+import IconString from '../../Resources/Static/string.svg';
+import IconTime from '../../Resources/Static/time.svg';
 import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -208,6 +228,19 @@ export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+export const OATFilesStorageKey = 'oat-files';
+export const OATDataStorageKey = 'oat-data';
+export const OATUntargetedRelationshipName = 'Untargeted';
+export const OATRelationshipHandleName = 'Relationship';
+export const OATComponentHandleName = 'Component';
+export const OATExtendHandleName = 'Extend';
+export const OATInterfaceType = 'Interface';
+export const OATNamespaceDefaultValue = 'com:example';
+export const OATCommentLengthLimit = 512;
+export const OATDescriptionLengthLimit = 512;
+export const OATDisplayNameLengthLimit = 64;
+export const OATNameLengthLimit = 64;
+export const OATIdLengthLimit = 2048;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';
@@ -229,49 +262,158 @@ export const globeUrl =
     'https://cardboardresources.blob.core.windows.net/public/Globe.glb';
 
 export const DTDLPropertyIconographyMap = {
-    boolean: {
+    Boolean: {
         text: 'boolean',
         icon: 'ToggleRight'
     },
-    date: {
+    Date: {
         text: 'date',
         icon: 'Calendar'
     },
-    datetime: {
+    DateTime: {
         text: 'dateTime',
         icon: 'DateTime'
     },
-    double: {
+    Double: {
         text: 'double',
         icon: 'NumberSymbol'
     },
-    duration: {
+    Duration: {
         text: 'duration',
         icon: 'BufferTimeBefore'
     },
-    enum: {
+    Enum: {
         text: 'enum',
         icon: 'BulletedList2'
     },
-    float: {
+    Float: {
         text: 'float',
         icon: 'NumberSymbol'
     },
-    integer: {
+    Integer: {
         text: 'integer',
         icon: 'NumberSymbol'
     },
-    long: {
+    Long: {
         text: 'long',
         icon: 'NumberSymbol'
     },
-    string: {
+    String: {
         text: 'string',
         icon: 'TextField'
     },
-    time: {
+    Time: {
         text: 'time',
         icon: 'Clock'
+    }
+};
+
+export const propertySelectorData = {
+    propertyTags: {
+        primitive: [
+            {
+                name: 'dateTime',
+                title: 'OATPropertyEditor.dateTime',
+                icon: IconDatetime
+            },
+            {
+                name: 'duration',
+                title: 'OATPropertyEditor.duration',
+                icon: IconDuration
+            },
+            {
+                name: 'boolean',
+                title: 'OATPropertyEditor.boolean',
+                icon: IconBoolean
+            },
+            {
+                name: 'string',
+                title: 'OATPropertyEditor.string',
+                icon: IconString
+            },
+            {
+                name: 'data',
+                title: 'OATPropertyEditor.data',
+                icon: IconData
+            },
+            {
+                name: 'long',
+                title: 'OATPropertyEditor.long',
+                icon: IconLong
+            },
+            {
+                name: 'integer',
+                title: 'OATPropertyEditor.integer',
+                icon: IconInteger
+            },
+            {
+                name: 'double',
+                title: 'OATPropertyEditor.double',
+                icon: IconDouble
+            },
+            {
+                name: 'float',
+                title: 'OATPropertyEditor.float',
+                icon: IconFloat
+            },
+            {
+                name: 'time',
+                title: 'OATPropertyEditor.time',
+                icon: IconTime
+            }
+        ],
+        complex: [
+            {
+                name: DTDLSchemaType.Object,
+                title: 'OATPropertyEditor.object',
+                icon: IconObject,
+                complex: true
+            },
+            {
+                name: DTDLSchemaType.Map,
+                title: 'OATPropertyEditor.map',
+                icon: IconMap,
+                complex: true
+            },
+            {
+                name: DTDLSchemaType.Enum,
+                title: 'OATPropertyEditor.enum',
+                icon: IconEnum,
+                complex: true
+            }
+        ],
+        geospatial: [
+            {
+                name: 'point',
+                title: 'OATPropertyEditor.point',
+                icon: IconPoint
+            },
+            {
+                name: 'linestring',
+                title: 'OATPropertyEditor.linestring',
+                icon: IconLineString
+            },
+            {
+                name: 'polygon',
+                title: 'OATPropertyEditor.polygon',
+                icon: IconPolygon
+            },
+            {
+                name: 'multiPoint',
+                title: 'OATPropertyEditor.multiPoint',
+                icon: IconMultiPoint
+            },
+            {
+                name: 'multiLinestring',
+                title: 'OATPropertyEditor.multiLinestring',
+                icon: IconMultiLineString
+            },
+            {
+                name: 'multiPolygon',
+                title: 'OATPropertyEditor.multiPolygon',
+                icon: IconMultiPolygon
+            }
+        ]
     }
 };
 
