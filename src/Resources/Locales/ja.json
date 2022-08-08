@@ -543,6 +543,8 @@
       }
     },
     "actions": "アクション",
+    "twinId": "ツイン ID",
+    "properties": "プロパティ",
     "transform": {
       "position": "立場",
       "rotation": "自転"

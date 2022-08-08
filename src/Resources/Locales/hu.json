@@ -543,6 +543,8 @@
       }
     },
     "actions": "Műveletek",
+    "twinId": "Ikerazonosító",
+    "properties": "Kellékek",
     "transform": {
       "position": "Pozíció",
       "rotation": "Forgás"

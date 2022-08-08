@@ -543,6 +543,8 @@
       }
     },
     "actions": "Eylemler",
+    "twinId": "İkiz Kimlik",
+    "properties": "Özellikler",
     "transform": {
       "position": "Konum",
       "rotation": "Rotasyon"

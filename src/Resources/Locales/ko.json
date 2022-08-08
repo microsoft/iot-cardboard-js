@@ -543,6 +543,8 @@
       }
     },
     "actions": "작업",
+    "twinId": "트윈 ID",
+    "properties": "속성",
     "transform": {
       "position": "위치",
       "rotation": "회전"

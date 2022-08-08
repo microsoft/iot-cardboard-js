@@ -543,6 +543,8 @@
       }
     },
     "actions": "Akce",
+    "twinId": "ID dvojčat",
+    "properties": "Vlastnosti",
     "transform": {
       "position": "Postavení",
       "rotation": "Rotace"

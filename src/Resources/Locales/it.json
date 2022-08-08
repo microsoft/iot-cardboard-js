@@ -543,6 +543,8 @@
       }
     },
     "actions": "Azioni",
+    "twinId": "DOPPIA ID",
+    "properties": "Proprietà",
     "transform": {
       "position": "Posizione",
       "rotation": "Rotazione"
