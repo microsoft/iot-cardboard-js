@@ -35,7 +35,6 @@ import { deepCopy } from '../../../../Models/Services/Utils';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import { useSceneViewContext } from '../../../../Models/Context/SceneViewContext/SceneViewContext';
 import {
-    ISceneViewContextState,
     SceneViewContextAction,
     SceneViewContextActionType
 } from '../../../../Models/Context/SceneViewContext/SceneViewContext.types';

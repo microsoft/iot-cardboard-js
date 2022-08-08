@@ -3,7 +3,6 @@ import {
     IBehavior,
     ITwinToObjectMapping
 } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
-import { AbstractMesh } from '@babylonjs/core';
 export interface ISceneViewContext {
     sceneViewState: ISceneViewContextState;
     sceneViewDispatch: React.Dispatch<SceneViewContextAction>;
