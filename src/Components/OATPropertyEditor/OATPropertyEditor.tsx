@@ -1,14 +1,42 @@
-import React from 'react';
-import { useTheme } from '@fluentui/react';
-import BaseComponent from '../BaseComponent/BaseComponent';
+import React, { useCallback, useMemo, useReducer } from 'react';
+import Editor from './Editor';
+import {
+    OATPropertyEditorReducer,
+    defaultOATPropertyEditorState
+} from './OATPropertyEditor.state';
+import { OATPropertyEditorProps } from './OATPropertyEditor.types';
 
-const OATPropertyEditor = () => {
-    const theme = useTheme();
+const OATPropertyEditor = ({
+    theme,
+    dispatch,
+    state,
+    languages
+}: OATPropertyEditorProps) => {
+    const [localState, localDispatch] = useReducer(
+        OATPropertyEditorReducer,
+        defaultOATPropertyEditorState
+    );
+
+    const combinedState = useMemo(() => ({ ...state, ...localState }), [
+        localState,
+        state
+    ]);
+
+    const combinedDispatch = useCallback(
+        (action) => {
+            localDispatch(action);
+            dispatch(action);
+        },
+        [localDispatch, dispatch]
+    );
 
     return (
-        <BaseComponent theme={theme}>
-            <div></div>
-        </BaseComponent>
+        <Editor
+            theme={theme}
+            dispatch={combinedDispatch}
+            state={combinedState}
+            languages={languages}
+        />
     );
 };
 
