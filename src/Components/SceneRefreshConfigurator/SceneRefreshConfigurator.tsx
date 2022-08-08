@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ISceneRefreshConfiguratorProps,
     ISceneRefreshConfiguratorStyleProps,
@@ -24,6 +24,7 @@ import { getDebugLogger } from '../../Models/Services/Utils';
 import { ONE_SECOND, ONE_MINUTE, ONE_HOUR } from '../../Models/Constants';
 
 const debugLogging = true;
+``;
 const logDebugConsole = getDebugLogger(
     'SceneRefreshConfigurator',
     debugLogging
@@ -73,11 +74,12 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     const pollingConfig = ViewerConfigUtility.getPollingConfig(config, sceneId);
 
     // state
+    // need local state to trigger renders on selection changes
     const [
         selectedPollingStrategy,
         setSelectedPollingStrategy
     ] = useState<IPollingStrategy>(pollingConfig.pollingStrategy);
-
+    // need local state to trigger renders on selection changes
     const [selectedPollingRate, setSelectedPollingRate] = useState<number>(
         pollingConfig.minimumPollingFrequency
     );
@@ -134,6 +136,16 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
         };
     };
 
+    // side effects
+    useEffect(() => {
+        // ensure that state never gets out of sync with the config
+        setSelectedPollingStrategy(pollingConfig.pollingStrategy);
+    }, [pollingConfig.pollingStrategy]);
+    useEffect(() => {
+        // ensure that state never gets out of sync with the config
+        setSelectedPollingRate(pollingConfig.minimumPollingFrequency);
+    }, [pollingConfig.minimumPollingFrequency]);
+
     logDebugConsole('debug', 'Render {pollingConfig}', pollingConfig);
     return (
         <HeaderControlButtonWithCallout
@@ -180,6 +192,7 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     );
 };
 
+// NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
 const getStrategyOptions = (
     t: TFunction
 ): IDropdownOption<IPollingStrategy>[] => {
@@ -197,6 +210,7 @@ const getStrategyOptions = (
     ];
 };
 
+// NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
 const getRateOptions = (t: TFunction): IDropdownOption<number>[] => {
     return [
         {

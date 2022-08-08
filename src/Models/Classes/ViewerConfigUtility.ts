@@ -91,12 +91,16 @@ abstract class ViewerConfigUtility {
         if (config && sceneId) {
             const scene = this.getSceneById(config, sceneId);
             if (scene && scene.pollingConfiguration) {
+                const configToUse: IPollingConfiguration = {
+                    ...defaultConfig,
+                    ...scene.pollingConfiguration
+                };
                 logDebugConsole(
                     'debug',
                     'Found polling configuration in config',
-                    scene.pollingConfiguration
+                    configToUse
                 );
-                return scene.pollingConfiguration;
+                return configToUse;
             }
         }
 
@@ -133,7 +137,9 @@ abstract class ViewerConfigUtility {
                     pollingStrategy: pollingStrategy
                 };
                 // set the rate back to the default if changing strategy
-                if (pollingStrategy === 'Realtime') {
+                if (pollingStrategy === 'Limited') {
+                    scene.pollingConfiguration.minimumPollingFrequency = 30000; // set a default value that is in the options list
+                } else {
                     scene.pollingConfiguration.minimumPollingFrequency = MINIMUM_REFRESH_RATE_IN_MILLISECONDS;
                 }
                 return true;
