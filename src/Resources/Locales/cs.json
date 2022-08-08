@@ -1106,51 +1106,5 @@
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     }
   },
-<<<<<<< HEAD
-  "fieldRequired": "Toto pole je povinné",
-  "duration": {
-    "millisecond": "milisekunda",
-    "milliseconds": "milisekundy",
-    "second": "vteřina",
-    "seconds": "sekundy",
-    "minute": "minuta",
-    "minutes": "minuty",
-    "hour": "hodina",
-    "hours": "hodiny",
-    "day": "den",
-    "days": "Dny",
-    "year": "rok",
-    "years": "roky"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Poslední aktualizace: {{value}} {{units}} ago",
-    "refreshRate": "Obnovovací frekvence: {{value}} {{units}}"
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Konfigurace scény",
-    "calloutTitle": "Konfigurace scény",
-    "calloutDescription": "Přizpůsobení četnosti aktualizace dat této scény",
-    "strategyDropdownLabel": "Strategie aktualizace",
-    "strategyTooltip": "Pomocí funkce \"Realtime\" můžete data načíst co nejrychleji (max. každých 10 sekund). \nPomocí možnosti \"Omezeno\" vyberte limit rychlosti, který omezuje frekvenci obnovení na pomalejší rychlost.",
-    "strategyOptions": {
-      "realtime": "V reálném čase",
-      "limited": "Omezený"
-    },
-    "rateDropdownLabel": "Minimální obnovovací frekvence",
-    "rateTooltip": "Slouží k omezení frekvence automatických aktualizací na pomalejší rychlost.",
-    "rateOptions": {
-      "30sec": "30 sekund",
-      "1min": "1 minuta",
-      "2min": "2 minuty",
-      "5min": "5 minut",
-      "10min": "10 minut",
-      "30min": "30 minut",
-      "1hour": "1 hodina",
-      "2hour": "2 hodiny",
-      "5hour": "5 hodin"
-    }
-  }
-=======
   "fieldRequired": "Toto pole je povinné"
->>>>>>> origin/msnyder-refreshrate
 }

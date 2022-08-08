@@ -1009,35 +1009,6 @@
     "errorReachedInheritanceLimit": "Elérte az öröklési korlátot",
     "errorInheritance": "Kettőnél több interfésztől nem örökölhet"
   },
-<<<<<<< HEAD
-  "sceneRefreshButton": {
-    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
-    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Jelenet konfigurációja",
-    "calloutTitle": "Jelenet konfigurációja",
-    "calloutDescription": "A jelenet adatainak frissítésének testreszabása",
-    "strategyDropdownLabel": "Stratégia frissítése",
-    "strategyTooltip": "A \"Valós idejű\" funkcióval a lehető leggyorsabban lekérheti az adatokat (max. 10 másodpercenként). \nA \"Korlátozott\" beállítással kiválaszthatja azt a díjkorlátot, amely a frissítések gyakoriságát lassabb sebességre korlátozza.",
-    "strategyOptions": {
-      "realtime": "Valós idejű",
-      "limited": "Korlátolt"
-    },
-    "rateDropdownLabel": "Minimális frissítési gyakoriság",
-    "rateTooltip": "Ezzel az automatikus frissítések gyakoriságát lassabbra korlátozhatja.",
-    "rateOptions": {
-      "30sec": "30 másodperc",
-      "1min": "1 perc",
-      "2min": "2 perc",
-      "5min": "5 perc",
-      "10min": "10 perc",
-      "30min": "30 perc",
-      "1hour": "1 óra",
-      "2hour": "2 óra",
-      "5hour": "5 óra"
-    }
-=======
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
     "general": "Általános",
@@ -1135,6 +1106,5 @@
     "messageHeader": "Üzenet",
     "stackHeader": "Boglya",
     "tryAgain": "Próbáld újra"
->>>>>>> origin/msnyder-refreshrate
   }
 }

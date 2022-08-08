@@ -1009,35 +1009,6 @@
     "errorReachedInheritanceLimit": "Osiągnięty limit dziedziczenia",
     "errorInheritance": "Nie może dziedziczyć z więcej niż dwóch interfejsów"
   },
-<<<<<<< HEAD
-  "sceneRefreshButton": {
-    "lastRefreshed": "Ostatnio odświeżone: {{value}} {{units}} temu",
-    "refreshRate": "Częstotliwość odświeżania: {{value}} {{units}}"
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Konfiguracja sceny",
-    "calloutTitle": "Konfiguracja sceny",
-    "calloutDescription": "Dostosowywanie częstotliwości odświeżania danych tej sceny",
-    "strategyDropdownLabel": "Odśwież strategię",
-    "strategyTooltip": "Użyj opcji \"Realtime\", aby pobrać dane tak szybko, jak to możliwe (maks.: co 10 sekund). \nUżyj opcji \"Ograniczone\", aby wybrać limit szybkości, który ogranicza częstotliwość odświeżania do wolniejszej szybkości.",
-    "strategyOptions": {
-      "realtime": "W czasie rzeczywistym",
-      "limited": "Ograniczony"
-    },
-    "rateDropdownLabel": "Minimalna częstotliwość odświeżania",
-    "rateTooltip": "Służy do ograniczania częstotliwości automatycznego odświeżania do wolniejszej szybkości.",
-    "rateOptions": {
-      "30sec": "30 sekund",
-      "1min": "1 minuta",
-      "2min": "2 minuty",
-      "5min": "5 minut",
-      "10min": "10 minut",
-      "30min": "30 minut",
-      "1hour": "1 godzina",
-      "2hour": "2 godziny",
-      "5hour": "5 godzin"
-    }
-=======
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
     "general": "Ogólne",
@@ -1135,6 +1106,5 @@
     "messageHeader": "Komunikat",
     "stackHeader": "Stos",
     "tryAgain": "Spróbuj ponownie"
->>>>>>> origin/msnyder-refreshrate
   }
 }

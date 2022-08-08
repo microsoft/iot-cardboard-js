@@ -1009,35 +1009,6 @@
     "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
     "errorInheritance": "Får inte ärva från fler än två gränssnitt"
   },
-<<<<<<< HEAD
-  "sceneRefreshButton": {
-    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
-    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Scen konfiguration",
-    "calloutTitle": "Scen konfiguration",
-    "calloutDescription": "Anpassa hur ofta den här scenens data uppdateras",
-    "strategyDropdownLabel": "Uppdatera strategi",
-    "strategyTooltip": "Använd \"Realtid\" för att hämta data så snabbt som möjligt (max: var 10:e sekund). \nAnvänd \"Begränsad\" för att välja en hastighetsgräns som begränsar uppdateringsfrekvensen till en långsammare hastighet.",
-    "strategyOptions": {
-      "realtime": "Realtid",
-      "limited": "Begränsad"
-    },
-    "rateDropdownLabel": "Minsta uppdateringsfrekvens",
-    "rateTooltip": "Använd detta för att begränsa frekvensen för automatiska uppdateringar till en långsammare hastighet.",
-    "rateOptions": {
-      "30sec": "30 sekunder",
-      "1min": "1 minut",
-      "2min": "2 minuter",
-      "5min": "5 minuter",
-      "10min": "10 minuter",
-      "30min": "30 minuter",
-      "1hour": "1 timme",
-      "2hour": "2 timmar",
-      "5hour": "5 timmar"
-    }
-=======
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
     "general": "Allmänt",
@@ -1135,6 +1106,5 @@
     "messageHeader": "Meddelande",
     "stackHeader": "Stack",
     "tryAgain": "Försök igen"
->>>>>>> origin/msnyder-refreshrate
   }
 }
