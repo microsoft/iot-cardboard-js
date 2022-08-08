@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "Dit veld is verplicht",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "milliseconde",
-    "milliseconds": "Milliseconden",
-    "second": "tweede",
-    "seconds": "Seconden",
-    "minute": "minuut",
-    "minutes": "notulen",
-    "hour": "uur",
-    "hours": "uren",
-    "day": "dag",
-    "days": "Dagen",
-    "year": "jaar",
-    "years": "jaren"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
-    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
-=======
   "OATGraphViewer": {
     "newModel": "Nieuw model",
     "name": "Naam",
@@ -1125,6 +1106,5 @@
     "messageHeader": "Bericht",
     "stackHeader": "Stapel",
     "tryAgain": "Probeer het opnieuw"
->>>>>>> origin/main
   }
 }

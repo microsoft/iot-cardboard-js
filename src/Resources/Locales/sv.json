@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "millisekund",
-    "milliseconds": "Millisekunder",
-    "second": "andra",
-    "seconds": "Sekunder",
-    "minute": "minut",
-    "minutes": "protokoll",
-    "hour": "timme",
-    "hours": "Timmar",
-    "day": "dag",
-    "days": "Dagar",
-    "year": "år",
-    "years": "år"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
-    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
-=======
   "OATGraphViewer": {
     "newModel": "Ny modell",
     "name": "Namn",
@@ -1125,6 +1106,5 @@
     "messageHeader": "Meddelande",
     "stackHeader": "Stack",
     "tryAgain": "Försök igen"
->>>>>>> origin/main
   }
 }

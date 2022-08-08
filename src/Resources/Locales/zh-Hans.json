@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "此字段为必填项",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "毫秒",
-    "milliseconds": "毫秒",
-    "second": "第二",
-    "seconds": "秒",
-    "minute": "分钟",
-    "minutes": "纪要",
-    "hour": "小时",
-    "hours": "小时",
-    "day": "日",
-    "days": "日",
-    "year": "年",
-    "years": "年"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
-    "refreshRate": "刷新率： {{值}} {{单位}}"
-=======
   "OATGraphViewer": {
     "newModel": "新型号",
     "name": "名字",
@@ -1125,6 +1106,5 @@
     "messageHeader": "消息",
     "stackHeader": "叠",
     "tryAgain": "再试一次"
->>>>>>> origin/main
   }
 }

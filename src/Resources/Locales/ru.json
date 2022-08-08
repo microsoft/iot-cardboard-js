@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "Это поле обязательно для заполнения",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "миллисекунда",
-    "milliseconds": "Миллисекунд",
-    "second": "секунда",
-    "seconds": "товары второго сорта",
-    "minute": "минута",
-    "minutes": "протокол",
-    "hour": "час",
-    "hours": "Часов",
-    "day": "день",
-    "days": "Дни недели",
-    "year": "год",
-    "years": "годы"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Последнее обновление: {{значение}} {{единицы}} назад",
-    "refreshRate": "Частота обновления: {{значение}} {{единицы}}"
-=======
   "OATGraphViewer": {
     "newModel": "Новая модель",
     "name": "Имя",
@@ -1125,6 +1106,5 @@
     "messageHeader": "Сообщение",
     "stackHeader": "Стек",
     "tryAgain": "Повторить"
->>>>>>> origin/main
   }
 }

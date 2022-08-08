@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "このフィールドは必須です",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "ミリセカント",
-    "milliseconds": "ミリ秒",
-    "second": "秒",
-    "seconds": "お代わり",
-    "minute": "分",
-    "minutes": "議事録",
-    "hour": "時",
-    "hours": "時間",
-    "day": "日",
-    "days": "日",
-    "year": "年",
-    "years": "月日"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
-    "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
-=======
   "OATGraphViewer": {
     "newModel": "新型",
     "name": "名前",
@@ -1125,6 +1106,5 @@
     "messageHeader": "メッセージ",
     "stackHeader": "スタック",
     "tryAgain": "もう一度やり直してください"
->>>>>>> origin/main
   }
 }

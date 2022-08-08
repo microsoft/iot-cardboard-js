@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "A mező kitöltése kötelező",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "Ezredmásodperc",
-    "milliseconds": "Ezredmásodperc",
-    "second": "második",
-    "seconds": "repeta",
-    "minute": "perc",
-    "minutes": "jegyzőkönyv",
-    "hour": "óra",
-    "hours": "Óra",
-    "day": "nap",
-    "days": "Napok",
-    "year": "év",
-    "years": "Év"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
-    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
-=======
   "OATGraphViewer": {
     "newModel": "Új modell",
     "name": "Név",
@@ -1125,6 +1106,5 @@
     "messageHeader": "Üzenet",
     "stackHeader": "Boglya",
     "tryAgain": "Próbáld újra"
->>>>>>> origin/main
   }
 }

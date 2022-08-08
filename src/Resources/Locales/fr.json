@@ -987,25 +987,6 @@
     }
   },
   "fieldRequired": "Ce champ est obligatoire",
-<<<<<<< HEAD
-  "duration": {
-    "millisecond": "milliseconde",
-    "milliseconds": "Millisecondes",
-    "second": "deuxième",
-    "seconds": "Secondes",
-    "minute": "minute",
-    "minutes": "compte-rendu",
-    "hour": "heure",
-    "hours": "Heures",
-    "day": "jour",
-    "days": "Jours",
-    "year": "année",
-    "years": "années"
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Dernière actualisation : {{value}} {{units}} ago",
-    "refreshRate": "Taux de rafraîchissement : {{valeur}} {{unités}}"
-=======
   "OATGraphViewer": {
     "newModel": "Nouveau modèle",
     "name": "Nom",
@@ -1125,6 +1106,5 @@
     "messageHeader": "Message",
     "stackHeader": "Pile",
     "tryAgain": "Réessayez"
->>>>>>> origin/main
   }
 }
