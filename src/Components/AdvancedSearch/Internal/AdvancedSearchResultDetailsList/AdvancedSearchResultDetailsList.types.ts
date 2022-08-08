@@ -4,7 +4,12 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IADTTwin } from '../../../../Models/Constants';
+import {
+    IADTTwin,
+    IPropertyInspectorAdapter,
+    Locale,
+    Theme
+} from '../../../../Models/Constants';
 
 export interface IAdvancedSearchResultDetailsListProps {
     filteredTwinsResult: IADTTwin[];
@@ -18,6 +23,9 @@ export interface IAdvancedSearchResultDetailsListProps {
         IAdvancedSearchResultDetailsListStyleProps,
         IAdvancedSearchResultDetailsListStyles
     >;
+    theme?: Theme;
+    locale?: Locale;
+    adapter?: IPropertyInspectorAdapter;
 }
 
 export interface IAdvancedSearchResultDetailsListStyleProps {

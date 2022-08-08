@@ -13,22 +13,27 @@ import {
     DetailsListLayoutMode,
     IColumn,
     IDetailsListProps,
-    IconButton
+    IconButton,
+    SelectionMode
 } from '@fluentui/react';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
 >();
 
-const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = (
-    props
-) => {
+const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
+    filteredTwinsResult,
+    additionalColumns,
+    callbackFunction,
+    styles,
+    adapter,
+    theme,
+    locale
+}) => {
     const { t } = useTranslation();
 
-    const { styles } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
@@ -49,9 +54,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         }
     ];
-
-    const filteredItems = props.filteredTwinsResult;
-    const additionalColumns = props.additionalColumns;
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: any,
         _itemIndex: number,
@@ -67,7 +69,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                         ariaLabel={'inspect property'}
                         onClick={(event) => {
                             event.stopPropagation();
-                            alert('property inspector shows up here');
+                            alert('TO-DO, make property inspector show up');
                         }}
                         className={'cb-scenes-action-button'}
                     />
@@ -82,10 +84,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     }, []);
     return (
         <div className={classNames.root}>
-            <h1>{'Results (' + filteredItems.length + ')'}</h1>
+            <h1>{'Results (' + filteredTwinsResult.length + ')'}</h1>
             <section>
                 <DetailsList
-                    items={filteredItems}
+                    items={filteredTwinsResult}
                     columns={
                         additionalColumns.length > 0
                             ? columns.concat(additionalColumns)
@@ -98,6 +100,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     checkButtonAriaLabel="select row"
                     onItemInvoked={onItemInvoked}
                     onRenderItemColumn={renderItemColumn}
+                    selectionMode={SelectionMode.single}
                 />
             </section>
         </div>
