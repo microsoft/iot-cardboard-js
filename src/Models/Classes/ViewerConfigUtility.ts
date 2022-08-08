@@ -644,7 +644,7 @@ abstract class ViewerConfigUtility {
         });
 
         // Find behavior Ids in the scene with no associated layer
-        const unlayeredBehaviorIdMap = new Set();
+        const unlayeredBehaviorIdMap = new Set<string>();
         behaviorIdsInScene.forEach((behaviorId) => {
             if (!layeredBehaviorIds.has(behaviorId)) {
                 unlayeredBehaviorIdMap.add(behaviorId);
@@ -660,17 +660,17 @@ abstract class ViewerConfigUtility {
         sceneId: string
     ) {
         if (!config) return [];
-        const selectedLayers = deepCopy(selectedLayerIds);
-        const uniqueBehaviorIds = new Map();
+        const localSelectedLayerIds = deepCopy(selectedLayerIds);
+        const uniqueBehaviorIds = new Set<string>();
 
         // Check if unlayered behavior mode selected
-        const isUnlayeredBehaviorActive = selectedLayers.includes(
+        const isUnlayeredBehaviorActive = localSelectedLayerIds.includes(
             DEFAULT_LAYER_ID
         );
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
-            selectedLayers.splice(selectedLayers.indexOf(DEFAULT_LAYER_ID), 1);
+            localSelectedLayerIds.splice(localSelectedLayerIds.indexOf(DEFAULT_LAYER_ID), 1);
 
             // Add all behaviors WITHOUT LAYERS in scene to Id dict
             const unlayeredBehaviorIdsInScene = ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
@@ -678,15 +678,15 @@ abstract class ViewerConfigUtility {
                 sceneId
             );
             unlayeredBehaviorIdsInScene.forEach((id) =>
-                uniqueBehaviorIds.set(id, '')
+                uniqueBehaviorIds.add(id)
             );
         }
 
         // Add behavior Ids from selected scene layers to Id dict
         config?.configuration.layers.forEach((layer) => {
-            if (selectedLayers.includes(layer.id)) {
+            if (localSelectedLayerIds.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
-                    uniqueBehaviorIds.set(behaviorId, '');
+                    uniqueBehaviorIds.add(behaviorId);
                 });
             }
         });

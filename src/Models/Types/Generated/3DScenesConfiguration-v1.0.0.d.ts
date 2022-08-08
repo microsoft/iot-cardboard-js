@@ -112,6 +112,9 @@ export interface ICustomProperty {
  */
 export interface IPollingConfiguration {
     pollingStrategy: IPollingStrategy;
+    /**
+     * The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency.
+     */
     minimumPollingFrequency?: number;
 }
 /**

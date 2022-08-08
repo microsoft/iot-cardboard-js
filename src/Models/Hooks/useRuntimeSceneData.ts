@@ -7,6 +7,7 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { MINIMUM_REFRESH_RATE_IN_MILLISECONDS } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
 import {
     deepCopy,
@@ -33,7 +34,9 @@ export const useRuntimeSceneData = (
     selectedLayerIds: string[] = null
 ) => {
     const [modelUrl, setModelUrl] = useState('');
-    const [pollingInterval, setPollingInterval] = useState(10);
+    const [pollingInterval, setPollingInterval] = useState(
+        MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+    );
     const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
     const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
