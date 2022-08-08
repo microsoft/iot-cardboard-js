@@ -968,5 +968,29 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
     "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Sahne yapılandırması",
+    "calloutTitle": "Sahne yapılandırması",
+    "calloutDescription": "Bu sahnenin verilerinin ne sıklıkta yenileneceğini özelleştirme",
+    "strategyDropdownLabel": "Stratejiyi yenile",
+    "strategyTooltip": "Verileri mümkün olduğunca çabuk almak için \"Gerçek Zamanlı\" seçeneğini kullanın (maksimum: her 10 saniyede bir). \nYenileme sıklığını daha yavaş bir hızla sınırlayan bir hız sınırı seçmek için \"Sınırlı\" seçeneğini kullanın.",
+    "strategyOptions": {
+      "realtime": "Gerçek zamanlı",
+      "limited": "Sınırlı"
+    },
+    "rateDropdownLabel": "Minimum yenileme hızı",
+    "rateTooltip": "Otomatik yenileme sıklığını daha yavaş bir hızla sınırlamak için bunu kullanın.",
+    "rateOptions": {
+      "30sec": "30 saniye",
+      "1min": "1 dakika",
+      "2min": "2 dakika",
+      "5min": "5 dakika",
+      "10min": "10 dakika",
+      "30min": "30 dakika",
+      "1hour": "1 saat",
+      "2hour": "2 saat",
+      "5hour": "5 saat"
+    }
   }
 }

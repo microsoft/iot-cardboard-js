@@ -968,5 +968,29 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
     "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Szenenkonfiguration",
+    "calloutTitle": "Szenenkonfiguration",
+    "calloutDescription": "Anpassen, wie oft die Daten dieser Szene aktualisiert werden",
+    "strategyDropdownLabel": "Strategie aktualisieren",
+    "strategyTooltip": "Verwenden Sie \"Echtzeit\", um Daten so schnell wie möglich abzurufen (max: alle 10 Sekunden). \nVerwenden Sie \"Begrenzt\", um ein Ratenlimit auszuwählen, das die Häufigkeit von Aktualisierungen auf eine langsamere Rate beschränkt.",
+    "strategyOptions": {
+      "realtime": "Echtzeit",
+      "limited": "Begrenzt"
+    },
+    "rateDropdownLabel": "Minimale Bildwiederholfrequenz",
+    "rateTooltip": "Verwenden Sie diese Option, um die Häufigkeit automatischer Aktualisierungen auf eine langsamere Rate zu beschränken.",
+    "rateOptions": {
+      "30sec": "30 Sekunden",
+      "1min": "1 Minute",
+      "2min": "2 Minuten",
+      "5min": "5 Minuten",
+      "10min": "10 Minuten",
+      "30min": "30 Minuten",
+      "1hour": "1 Stunde",
+      "2hour": "2 Stunden",
+      "5hour": "5 Stunden"
+    }
   }
 }

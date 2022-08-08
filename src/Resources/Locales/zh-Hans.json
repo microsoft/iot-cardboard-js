@@ -968,5 +968,29 @@
   "sceneRefreshButton": {
     "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
     "refreshRate": "刷新率： {{值}} {{单位}}"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "场景配置",
+    "calloutTitle": "场景配置",
+    "calloutDescription": "自定义此场景数据的刷新频率",
+    "strategyDropdownLabel": "刷新策略",
+    "strategyTooltip": "使用“实时”尽可能快地获取数据（最多：每 10 秒一次）。\n使用“受限”选择将刷新频率限制为较慢速率的速率限制。",
+    "strategyOptions": {
+      "realtime": "实时",
+      "limited": "有限"
+    },
+    "rateDropdownLabel": "最小刷新率",
+    "rateTooltip": "使用此选项可将自动刷新的频率限制为较慢的速率。",
+    "rateOptions": {
+      "30sec": "30 秒",
+      "1min": "1 分钟",
+      "2min": "2 分钟",
+      "5min": "5 分钟",
+      "10min": "10 分钟",
+      "30min": "30 分钟",
+      "1hour": "1 小时",
+      "2hour": "2 小时",
+      "5hour": "5 小时"
+    }
   }
 }
