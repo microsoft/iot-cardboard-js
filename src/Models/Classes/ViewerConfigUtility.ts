@@ -670,7 +670,10 @@ abstract class ViewerConfigUtility {
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
-            localSelectedLayerIds.splice(localSelectedLayerIds.indexOf(DEFAULT_LAYER_ID), 1);
+            localSelectedLayerIds.splice(
+                localSelectedLayerIds.indexOf(DEFAULT_LAYER_ID),
+                1
+            );
 
             // Add all behaviors WITHOUT LAYERS in scene to Id dict
             const unlayeredBehaviorIdsInScene = ViewerConfigUtility.getUnlayeredBehaviorIdsInScene(
