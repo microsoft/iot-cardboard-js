@@ -1106,5 +1106,23 @@
     "messageHeader": "İleti",
     "stackHeader": "Yığın",
     "tryAgain": "Yeniden Deneyin"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
+    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
+  },
+  "duration": {
+    "millisecond": "milisaniye",
+    "milliseconds": "Milisaniye",
+    "second": "saniye",
+    "seconds": "Saniye",
+    "minute": "dakika",
+    "minutes": "tutanak",
+    "hour": "saat",
+    "hours": "Saat",
+    "day": "gün",
+    "days": "Gün",
+    "year": "yıl",
+    "years": "Yıl"
   }
 }

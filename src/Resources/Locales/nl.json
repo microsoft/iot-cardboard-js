@@ -1106,5 +1106,23 @@
     "messageHeader": "Bericht",
     "stackHeader": "Stapel",
     "tryAgain": "Probeer het opnieuw"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
+    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milliseconde",
+    "milliseconds": "Milliseconden",
+    "second": "tweede",
+    "seconds": "Seconden",
+    "minute": "minuut",
+    "minutes": "notulen",
+    "hour": "uur",
+    "hours": "uren",
+    "day": "dag",
+    "days": "Dagen",
+    "year": "jaar",
+    "years": "jaren"
   }
 }
