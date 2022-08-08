@@ -1106,5 +1106,23 @@
     "messageHeader": "메시지",
     "stackHeader": "스택",
     "tryAgain": "다시 한 번 시도해 보세요"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
+    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "밀리초",
+    "milliseconds": "밀리초",
+    "second": "초",
+    "seconds": "초",
+    "minute": "분",
+    "minutes": "분",
+    "hour": "시",
+    "hours": "시간",
+    "day": "하루",
+    "days": "일",
+    "year": "년",
+    "years": "년"
   }
 }
