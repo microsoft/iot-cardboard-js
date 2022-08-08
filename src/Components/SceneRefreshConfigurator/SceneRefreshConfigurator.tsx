@@ -23,7 +23,7 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { ONE_SECOND, ONE_MINUTE, ONE_HOUR } from '../../Models/Constants';
 
-const debugLogging = true;
+const debugLogging = false;
 ``;
 const logDebugConsole = getDebugLogger(
     'SceneRefreshConfigurator',
