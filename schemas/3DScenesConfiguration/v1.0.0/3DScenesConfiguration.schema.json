@@ -205,7 +205,8 @@
                     "$ref": "#/$defs/IPollingStrategy"
                 },
                 "minimumPollingFrequency": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency."
                 }
             },
             "required": ["pollingStrategy"]

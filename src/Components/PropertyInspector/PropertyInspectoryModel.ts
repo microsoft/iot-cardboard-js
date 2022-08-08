@@ -177,6 +177,9 @@ abstract class PropertyInspectorModel {
         } else if (typeof modelProperty.schema === 'object') {
             switch (modelProperty.schema['@type']) {
                 case DTDLSchemaType.Object:
+                    PropertyInspectorModel.conformSyntax(
+                        modelProperty.schema?.fields
+                    );
                     return {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
@@ -237,6 +240,7 @@ abstract class PropertyInspectorModel {
                         )
                     };
                 case DTDLSchemaType.Enum: {
+                    PropertyInspectorModel.conformSyntax(modelProperty);
                     return {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
@@ -646,53 +650,62 @@ abstract class PropertyInspectorModel {
         }
     };
 
+    static replaceKeyInObj = (obj, oldKey, newKey) => {
+        delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
+    };
+
+    static conformSyntax = (inputEl) => {
+        // Update syntax of all object keys
+        if (typeof inputEl === 'object') {
+            if (!inputEl) return;
+            Object.keys(inputEl).forEach((key) => {
+                // Update to simplified DTDL syntax (conform to our interface)
+                if (key in dtdlSyntaxMap) {
+                    PropertyInspectorModel.replaceKeyInObj(
+                        inputEl,
+                        key,
+                        dtdlSyntaxMap[key]
+                    );
+                }
+
+                // If value @ key is string, check if string is present in syntax map
+                if (
+                    typeof inputEl[key] === 'string' &&
+                    inputEl[key] in dtdlSyntaxMap
+                ) {
+                    inputEl[key] = dtdlSyntaxMap[inputEl[key]];
+                }
+
+                // If value @ key is array, recursively iterate array items
+                if (Array.isArray(inputEl[key])) {
+                    inputEl[key].forEach((item) => {
+                        PropertyInspectorModel.conformSyntax(item);
+                    });
+                }
+
+                // if value @ key is object, recursively iterate object keys
+                if (inputEl[key] && typeof inputEl[key] === 'object') {
+                    PropertyInspectorModel.conformSyntax(inputEl[key]);
+                }
+            });
+        } else if (Array.isArray(inputEl)) {
+            inputEl.forEach((item, idx) => {
+                if (typeof item === 'string' && item in dtdlSyntaxMap) {
+                    PropertyInspectorModel.replaceKeyInObj(
+                        inputEl,
+                        idx,
+                        dtdlSyntaxMap[item]
+                    );
+                }
+            });
+        }
+    };
+
     static conformDtdlInterface = (model: DtdlInterface) => {
         if (!model) return null;
         const conformedModel = JSON.parse(JSON.stringify(model));
 
-        const replaceKeyInObj = (obj, oldKey, newKey) => {
-            delete Object.assign(obj, { [newKey]: obj[oldKey] })[oldKey];
-        };
-
-        const conformSyntax = (inputEl) => {
-            // Update syntax of all object keys
-            if (typeof inputEl === 'object') {
-                Object.keys(inputEl).forEach((key) => {
-                    // Update to simplified DTDL syntax (conform to our interface)
-                    if (key in dtdlSyntaxMap) {
-                        replaceKeyInObj(inputEl, key, dtdlSyntaxMap[key]);
-                    }
-
-                    // If value @ key is string, check if string is present in syntax map
-                    if (
-                        typeof inputEl[key] === 'string' &&
-                        inputEl[key] in dtdlSyntaxMap
-                    ) {
-                        inputEl[key] = dtdlSyntaxMap[inputEl[key]];
-                    }
-
-                    // If value @ key is array, recursively iterate array items
-                    if (Array.isArray(inputEl[key])) {
-                        inputEl[key].forEach((item) => {
-                            conformSyntax(item);
-                        });
-                    }
-
-                    // if value @ key is object, recursively iterate object keys
-                    if (inputEl[key] && typeof inputEl[key] === 'object') {
-                        conformSyntax(inputEl[key]);
-                    }
-                });
-            } else if (Array.isArray(inputEl)) {
-                inputEl.forEach((item, idx) => {
-                    if (typeof item === 'string' && item in dtdlSyntaxMap) {
-                        replaceKeyInObj(inputEl, idx, dtdlSyntaxMap[item]);
-                    }
-                });
-            }
-        };
-
-        conformSyntax(conformedModel);
+        PropertyInspectorModel.conformSyntax(conformedModel);
         return conformedModel;
     };
 

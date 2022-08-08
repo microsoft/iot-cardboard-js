@@ -946,10 +946,11 @@ export default class ADTAdapter implements IADTAdapter {
     ) {
         logDebugConsole(
             'info',
-            '[START] Fetching scene data {sceneId, config, visibleLayers}',
+            '[START] Fetching scene data {sceneId, config, visibleLayers, bustCache}',
             sceneId,
             config,
-            visibleLayerIds
+            visibleLayerIds,
+            bustCache
         );
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 

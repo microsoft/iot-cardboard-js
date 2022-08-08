@@ -1,5 +1,6 @@
 import React from 'react';
 import OATEditorPage from './OATEditorPage';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 export default {
     title: 'Pages/OATEditorPage',
@@ -9,10 +10,10 @@ export default {
     }
 };
 
-export const OATModelEditorPage = (_args) => {
+export const OATModelEditorPage = (args, { globals: { theme, locale } }) => {
     return (
-        <div>
-            <OATEditorPage />
-        </div>
+        <BaseComponent locale={locale} theme={theme}>
+            <OATEditorPage theme={theme} />
+        </BaseComponent>
     );
 };

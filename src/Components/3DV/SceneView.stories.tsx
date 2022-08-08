@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import SceneView from './SceneView';
 import {
     Marker,
@@ -7,6 +7,7 @@ import {
 import { ModelLabel } from '../ModelLabel/ModelLabel';
 import { createGUID } from '../../Models/Services/Utils';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import { Checkbox } from '@fluentui/react';
 import { SceneViewWithGizmoWrapper } from './SceneViewWithGizmoWrapper';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
@@ -18,6 +19,117 @@ export default {
     parameters: {
         chromatic: { delay: 10000 } // give the model time to load
     }
+};
+
+const tank6Transform: TransformedElementItem = {
+    meshIds: ['tank6_LOD0.003_primitive0', 'tank6_LOD0.003_primitive1'],
+    parentMeshId: 'tank6_LOD0.003_primitive0',
+    transform: {
+        position: {
+            x: -3000,
+            y: 0,
+            z: 0
+        },
+        rotation: {
+            x: 0,
+            y: 0,
+            z: 0
+        }
+    }
+};
+
+const cube3Transform: TransformedElementItem = {
+    meshIds: [
+        'tank3_LOD0.004_primitive0',
+        'tank3_LOD0.004_primitive1',
+        'tank3_LOD0.004_primitive2'
+    ],
+    parentMeshId: 'tank3_LOD0.004_primitive0',
+    transform: {
+        position: {
+            x: 0,
+            y: 0,
+            z: -5000
+        },
+        rotation: {
+            x: 1,
+            y: 0,
+            z: 0
+        }
+    }
+};
+
+const defaultTransformedElementItems: TransformedElementItem[] = [
+    tank6Transform
+];
+
+export const Transform = () => {
+    const [transformedElementItems, setTransformedElementItems] = useState<
+        TransformedElementItem[]
+    >(defaultTransformedElementItems);
+    const [isTank6Transform, setIsTank6Transform] = useState<boolean>(true);
+    const [isCube3Transform, setIsCube3Transform] = useState<boolean>(false);
+
+    const onTransformTank6Change = useCallback(
+        (event, checked?: boolean) => {
+            if (!checked) {
+                setTransformedElementItems(
+                    transformedElementItems.filter(
+                        (obj) => obj != tank6Transform
+                    )
+                );
+            } else {
+                setTransformedElementItems([
+                    tank6Transform,
+                    ...transformedElementItems
+                ]);
+            }
+            setIsTank6Transform(!!checked);
+        },
+        [transformedElementItems]
+    );
+
+    const onTransformCube3Change = useCallback(
+        (event, checked?: boolean) => {
+            if (!checked) {
+                setTransformedElementItems(
+                    transformedElementItems.filter(
+                        (obj) => obj != cube3Transform
+                    )
+                );
+            } else {
+                setTransformedElementItems([
+                    cube3Transform,
+                    ...transformedElementItems
+                ]);
+            }
+            setIsCube3Transform(!!checked);
+        },
+        [transformedElementItems]
+    );
+
+    return (
+        <div>
+            <Checkbox
+                label="Transform Tank 6"
+                checked={isTank6Transform}
+                onChange={onTransformTank6Change}
+            />
+            <Checkbox
+                label="Transform Cube 3"
+                checked={isCube3Transform}
+                onChange={onTransformCube3Change}
+            />
+            <div style={wrapperStyle}>
+                <div style={{ flex: 1, width: '100%' }}>
+                    <SceneView
+                        modelUrl="https://cardboardresources.blob.core.windows.net/cardboard-mock-files/OutdoorTanks.gltf"
+                        transformedElementItems={transformedElementItems}
+                    />
+                </div>
+            </div>
+        </div>
+    );
 };
 
 const defaultGizmoElementItem: TransformedElementItem = {

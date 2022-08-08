@@ -553,11 +553,7 @@ export default class MockAdapter
         });
     }
 
-    async getSceneData(
-        sceneId: string,
-        config: I3DScenesConfig
-        // visibleLayerIds?: string[]
-    ) {
+    async getSceneData(sceneId: string, config: I3DScenesConfig) {
         const adapterMethodSandbox = new AdapterMethodSandbox();
 
         // get scene based on id
@@ -582,7 +578,7 @@ export default class MockAdapter
                     if (!behavior) {
                         continue;
                     }
-                    const mappingIds: string[] = [];
+                    const mappingIds = new Set<string>();
                     // cycle through the datasources of behavior
                     for (const dataSource of behavior.datasources) {
                         // if its a TwinToObjectMappingDatasource get the mapping id
@@ -591,17 +587,15 @@ export default class MockAdapter
                             DatasourceType.ElementTwinToObjectMappingDataSource
                         ) {
                             dataSource.elementIDs.forEach((mappingId) => {
-                                mappingIds.push(mappingId);
+                                mappingIds.add(mappingId);
                             });
                         }
-
-                        // TODO get FilteredTwinDatasources
                     }
 
                     // cycle through mapping ids to get twins for behavior and scene
-                    for (const id of mappingIds) {
+                    for (const id of Array.from(mappingIds)) {
                         const twins = {};
-                        const element: ITwinToObjectMapping = scene.elements.find(
+                        const element: ITwinToObjectMapping = scene.elements?.find(
                             (mapping) =>
                                 mapping.type ===
                                     ElementType.TwinToObjectMapping &&

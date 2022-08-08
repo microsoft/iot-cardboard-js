@@ -51,10 +51,6 @@ class AdapterEntityCache<T extends IAdapterData> {
         key: string,
         getEntityData: () => Promise<AdapterResult<T>>
     ): void {
-        // const getEntityData = () =>
-        //     new Promise<AdapterResult<T>>((resolve, _reject) => {
-        //         setTimeout(() => resolve(data));
-        //     });
         const newCachedEntity = new CachedEntity(getEntityData);
         this.cachedEntities[key] = newCachedEntity;
     }

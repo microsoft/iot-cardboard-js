@@ -136,7 +136,6 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
                         styles={
                             classNames.subComponentStyles.headerControlButton
                         }
-                        // title={t(LOC_KEYS.buttonTitle)}
                     />
                 </TooltipHost>
             </HeaderControlGroup>

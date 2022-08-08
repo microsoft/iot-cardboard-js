@@ -146,6 +146,7 @@ export interface ISceneViewProps {
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     showHoverOnSelected?: boolean;
     showMeshesOnHover?: boolean;
+    transformedElementItems?: TransformedElementItem[];
     unzoomedMeshOpacity?: number;
     zoomToMeshIds?: string[];
     allowModelDimensionErrorMessage?: boolean;
