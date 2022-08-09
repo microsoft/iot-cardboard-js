@@ -24,13 +24,11 @@ const getClassNames = classNamesFunction<
 >();
 
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
-    filteredTwinsResult,
-    additionalColumns,
-    callbackFunction,
+    twins,
+    searchedProperties,
+    OnTwinSelection,
     styles,
-    adapter,
-    theme,
-    locale
+    adapter
 }) => {
     const { t } = useTranslation();
 
@@ -42,20 +40,31 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: `twin-id + ${Math.random()}`,
             name: t('twinId'),
             fieldName: '$dtId',
-            minWidth: 100,
+            minWidth: 50,
             maxWidth: 200,
             isResizable: true
         },
         {
             key: 'properties',
             name: t('properties'),
-            minWidth: 100,
+            minWidth: 50,
             maxWidth: 200,
             isResizable: true
         }
     ];
+
+    const additionalColumns: IColumn[] = searchedProperties.map((name) => {
+        return {
+            key: name + Math.random(),
+            name: name,
+            fieldName: name,
+            minWidth: 50,
+            maxWidth: 200,
+            isResizable: true
+        };
+    });
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
-        item: any,
+        item: IADTTwin,
         _itemIndex: number,
         column: IColumn
     ) => {
@@ -65,11 +74,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 return (
                     <IconButton
                         iconProps={{ iconName: 'EntryView' }}
-                        title={'inspect property'}
-                        ariaLabel={'inspect property'}
+                        title={t('advancedSearch.inspectProperty')}
+                        ariaLabel={t('advancedSearch.inspectProperty')}
                         onClick={(event) => {
                             event.stopPropagation();
-                            alert('TO-DO, make property inspector show up');
                         }}
                         className={'cb-scenes-action-button'}
                     />
@@ -79,31 +87,28 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     };
 
-    const onItemInvoked = useCallback((twin: IADTTwin) => {
-        alert(`Twin Id ${twin.$dtId} was selected`);
-    }, []);
     return (
-        <div className={classNames.root}>
-            <h1>{'Results (' + filteredTwinsResult.length + ')'}</h1>
-            <section>
+        <section className={classNames.root}>
+            <h3>{'Results (' + twins.length + ')'}</h3>
+            <div>
                 <DetailsList
-                    items={filteredTwinsResult}
+                    items={twins}
                     columns={
                         additionalColumns.length > 0
                             ? columns.concat(additionalColumns)
                             : columns
                     }
                     layoutMode={DetailsListLayoutMode.fixedColumns}
-                    selectionPreservedOnEmptyClick={true}
-                    ariaLabelForSelectionColumn="Toggle selection"
-                    ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-                    checkButtonAriaLabel="select row"
-                    onItemInvoked={onItemInvoked}
+                    selectionPreservedOnEmptyClick={false}
+                    ariaLabelForSelectionColumn={t(
+                        'advancedSearch.toggleSelection'
+                    )}
+                    checkButtonAriaLabel={t('selectRow')}
                     onRenderItemColumn={renderItemColumn}
                     selectionMode={SelectionMode.single}
                 />
-            </section>
-        </div>
+            </div>
+        </section>
     );
 };
 

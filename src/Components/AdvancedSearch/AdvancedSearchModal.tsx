@@ -25,24 +25,7 @@ const getClassNames = classNamesFunction<
 
 const filteredTwins: IADTTwin[] = twinData;
 
-const cols = [
-    {
-        key: `FailedPickupsLastHr + ${Math.random()}`,
-        name: 'Failed Pickups Last Hr',
-        fieldName: 'FailedPickupsLastHr',
-        minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
-    },
-    {
-        key: `HydraulicPressure + ${Math.random()}`,
-        name: 'Hydraulic Pressure',
-        fieldName: 'HydraulicPressure',
-        minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
-    }
-];
+const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
 const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const { isOpen, onDismiss, styles } = props;
     const classNames = getClassNames(styles, {
@@ -74,8 +57,8 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                 </div>
                 <div className={classNames.resultsContainer}></div>
                 <AdvancedSearchResultDetailsList
-                    filteredTwinsResult={filteredTwins}
-                    additionalColumns={cols}
+                    twins={filteredTwins}
+                    searchedProperties={cols}
                 />
             </div>
         </Modal>

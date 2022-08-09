@@ -8,27 +8,9 @@ import twinData from '../../../../Adapters/__mockData__/MockAdapterData/DemoEnvs
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 const filteredTwins: IADTTwin[] = twinData;
-
-const cols = [
-    {
-        key: `FailedPickupsLastHr + ${Math.random()}`,
-        name: 'Failed Pickups Last Hr',
-        fieldName: 'FailedPickupsLastHr',
-        minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
-    },
-    {
-        key: `HydraulicPressure + ${Math.random()}`,
-        name: 'Hydraulic Pressure',
-        fieldName: 'HydraulicPressure',
-        minWidth: 100,
-        maxWidth: 200,
-        isResizable: true
-    }
-];
+const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
 export default {
-    title: 'Components/AdvancedSearchResultDetailsList',
+    title: 'Components/AdvancedSearch/SearchResults',
     component: AdvancedSearchResultDetailsList,
     decorators: [
         getDefaultStoryDecorator<IAdvancedSearchResultDetailsListProps>(
@@ -47,6 +29,6 @@ const Template: AdvancedSearchResultDetailsListStory = (args) => {
 
 export const Base = Template.bind({}) as AdvancedSearchResultDetailsListStory;
 Base.args = {
-    filteredTwinsResult: filteredTwins,
-    additionalColumns: cols
+    twins: filteredTwins,
+    searchedProperties: cols
 } as IAdvancedSearchResultDetailsListProps;
