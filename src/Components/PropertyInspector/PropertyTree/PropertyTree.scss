@@ -96,6 +96,10 @@
             }
         }
 
+        option {
+            background-color: var(--cb-color-input-edited-bg);
+        }
+
         input,
         textarea {
             padding: 2px 6px;

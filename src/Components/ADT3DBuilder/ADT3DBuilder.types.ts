@@ -22,7 +22,6 @@ export interface IADT3DBuilderProps {
     gizmoTransformItem?: TransformInfo;
     setGizmoTransformItem?: (gizmoTransformItem: TransformInfo) => void;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
-    hideViewModePickerUI?: boolean;
     sceneViewProps?: ISceneViewProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
