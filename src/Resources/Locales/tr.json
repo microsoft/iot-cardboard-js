@@ -1124,6 +1124,7 @@
     "days": "Gün",
     "year": "yıl",
     "years": "Yıl"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Sahne yapılandırması",
@@ -1148,5 +1149,7 @@
       "2hour": "2 saat",
       "5hour": "5 saat"
     }
+=======
+>>>>>>> origin/main
   }
 }

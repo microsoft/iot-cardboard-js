@@ -1124,6 +1124,7 @@
     "days": "Dagar",
     "year": "år",
     "years": "år"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Scen konfiguration",
@@ -1148,5 +1149,7 @@
       "2hour": "2 timmar",
       "5hour": "5 timmar"
     }
+=======
+>>>>>>> origin/main
   }
 }

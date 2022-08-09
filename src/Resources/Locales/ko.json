@@ -1124,6 +1124,7 @@
     "days": "일",
     "year": "년",
     "years": "년"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "장면 구성",
@@ -1148,5 +1149,7 @@
       "2hour": "2시간",
       "5hour": "5시간"
     }
+=======
+>>>>>>> origin/main
   }
 }

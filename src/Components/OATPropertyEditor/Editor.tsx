@@ -34,10 +34,8 @@ import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
 import { EditorProps } from './Editor.types';
 import {
-    OATComponentHandleName,
     OATInterfaceType,
-    OATRelationshipHandleName,
-    OATUntargetedRelationshipName
+    OATRelationshipHandleName
 } from '../../Models/Constants/Constants';
 
 const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {

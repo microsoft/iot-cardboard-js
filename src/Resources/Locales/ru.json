@@ -1124,6 +1124,7 @@
     "days": "Дни недели",
     "year": "год",
     "years": "годы"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Конфигурация сцены",
@@ -1148,5 +1149,7 @@
       "2hour": "2 часа",
       "5hour": "5 часов"
     }
+=======
+>>>>>>> origin/main
   }
 }

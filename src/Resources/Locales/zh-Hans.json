@@ -1124,6 +1124,7 @@
     "days": "日",
     "year": "年",
     "years": "年"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "场景配置",
@@ -1148,5 +1149,7 @@
       "2hour": "2 小时",
       "5hour": "5 小时"
     }
+=======
+>>>>>>> origin/main
   }
 }

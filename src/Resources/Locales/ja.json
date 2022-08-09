@@ -1124,6 +1124,7 @@
     "days": "日",
     "year": "年",
     "years": "月日"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "シーン構成",
@@ -1148,5 +1149,7 @@
       "2hour": "所要時間: 2 時間",
       "5hour": "所要時間: 5 時間"
     }
+=======
+>>>>>>> origin/main
   }
 }

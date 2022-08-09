@@ -1124,6 +1124,7 @@
     "days": "Dias",
     "year": "ano",
     "years": "Anos"
+<<<<<<< HEAD
   },
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Configuração da cena",
@@ -1148,5 +1149,7 @@
       "2hour": "2 horas",
       "5hour": "5 horas"
     }
+=======
+>>>>>>> origin/main
   }
 }
