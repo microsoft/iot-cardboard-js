@@ -1124,32 +1124,5 @@
     "days": "Giorni",
     "year": "anno",
     "years": "anni"
-<<<<<<< HEAD
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Configurazione della scena",
-    "calloutTitle": "Configurazione della scena",
-    "calloutDescription": "Personalizzare la frequenza con cui i dati di questa scena vengono aggiornati",
-    "strategyDropdownLabel": "Aggiorna la strategia",
-    "strategyTooltip": "Usa \"In tempo reale\" per recuperare i dati il più rapidamente possibile (max: ogni 10 secondi). \nUsa \"Limitato\" per selezionare un limite di frequenza che limiti la frequenza degli aggiornamenti a una frequenza più lenta.",
-    "strategyOptions": {
-      "realtime": "In tempo reale",
-      "limited": "Limitato"
-    },
-    "rateDropdownLabel": "Frequenza di aggiornamento minima",
-    "rateTooltip": "Utilizzare questa opzione per limitare la frequenza degli aggiornamenti automatici a una velocità più lenta.",
-    "rateOptions": {
-      "30sec": "30 secondi",
-      "1min": "1 minuto",
-      "2min": "2 minuti",
-      "5min": "5 minuti",
-      "10min": "10 minuti",
-      "30min": "30 minuti",
-      "1hour": "1 ora",
-      "2hour": "2 ore",
-      "5hour": "5 ore"
-    }
-=======
->>>>>>> origin/main
   }
 }

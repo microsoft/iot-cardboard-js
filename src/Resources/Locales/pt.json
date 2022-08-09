@@ -1124,32 +1124,5 @@
     "days": "Dias",
     "year": "ano",
     "years": "Anos"
-<<<<<<< HEAD
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Configuração da cena",
-    "calloutTitle": "Configuração da cena",
-    "calloutDescription": "Personalize com que frequência os dados desta cena são atualizados",
-    "strategyDropdownLabel": "Estratégia de atualização",
-    "strategyTooltip": "Use 'Realtime' para buscar dados o mais rápido possível (máximo: a cada 10 segundos). \nUse 'Limitado' para selecionar um limite de taxa que limite a frequência de atualizações a uma taxa mais lenta.",
-    "strategyOptions": {
-      "realtime": "Tempo real",
-      "limited": "Limitado"
-    },
-    "rateDropdownLabel": "Taxa mínima de atualização",
-    "rateTooltip": "Use isso para limitar a frequência de atualizações automáticas a uma taxa mais lenta.",
-    "rateOptions": {
-      "30sec": "30 segundos",
-      "1min": "1 minuto",
-      "2min": "2 minutos",
-      "5min": "5 minutos",
-      "10min": "10 minutos",
-      "30min": "30 min.",
-      "1hour": "1 hora",
-      "2hour": "2 horas",
-      "5hour": "5 horas"
-    }
-=======
->>>>>>> origin/main
   }
 }
