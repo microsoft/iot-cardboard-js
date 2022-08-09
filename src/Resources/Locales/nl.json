@@ -1124,5 +1124,29 @@
     "days": "Dagen",
     "year": "jaar",
     "years": "jaren"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Scène configuratie",
+    "calloutTitle": "Scène configuratie",
+    "calloutDescription": "Aanpassen hoe vaak de gegevens van deze scène worden vernieuwd",
+    "strategyDropdownLabel": "Vernieuwstrategie",
+    "strategyTooltip": "Gebruik 'Realtime' om zo snel mogelijk data op te halen (max: elke 10 seconden). \nGebruik 'Beperkt' om een snelheidslimiet te selecteren die de frequentie van vernieuwingen beperkt tot een langzamere snelheid.",
+    "strategyOptions": {
+      "realtime": "Realtime",
+      "limited": "Beperkt"
+    },
+    "rateDropdownLabel": "Minimale verversingssnelheid",
+    "rateTooltip": "Gebruik dit om de frequentie van automatische vernieuwingen te beperken tot een langzamere snelheid.",
+    "rateOptions": {
+      "30sec": "30 seconden",
+      "1min": "1 minuut",
+      "2min": "2 minuten",
+      "5min": "5 minuten",
+      "10min": "10 minuten",
+      "30min": "30 minuten",
+      "1hour": "1 uur",
+      "2hour": "2 uur",
+      "5hour": "5 uur"
+    }
   }
 }

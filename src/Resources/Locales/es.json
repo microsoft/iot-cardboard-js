@@ -1124,5 +1124,29 @@
     "days": "Días",
     "year": "año",
     "years": "años"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Configuración de escenas",
+    "calloutTitle": "Configuración de escenas",
+    "calloutDescription": "Personalizar la frecuencia con la que se actualizan los datos de esta escena",
+    "strategyDropdownLabel": "Estrategia de actualización",
+    "strategyTooltip": "Utilice 'Realtime' para obtener datos lo más rápido posible (máx.: cada 10 segundos). \nUtilice 'Limitado' para seleccionar un límite de velocidad que limite la frecuencia de las actualizaciones a una velocidad más lenta.",
+    "strategyOptions": {
+      "realtime": "En tiempo real",
+      "limited": "Limitado"
+    },
+    "rateDropdownLabel": "Frecuencia de actualización mínima",
+    "rateTooltip": "Utilice esto para limitar la frecuencia de las actualizaciones automáticas a una velocidad más lenta.",
+    "rateOptions": {
+      "30sec": "30 segundos",
+      "1min": "1 minuto",
+      "2min": "2 minutos",
+      "5min": "5 minutos",
+      "10min": "10 minutos",
+      "30min": "30 minutos",
+      "1hour": "1 hora",
+      "2hour": "2 horas",
+      "5hour": "5 horas"
+    }
   }
 }
