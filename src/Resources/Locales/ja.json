@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "モデル寸法に問題がある可能性があります。誤ったメッシュがないことを確認してください。"
     }
   },
-  "fieldRequired": "このフィールドは必須です"
+  "fieldRequired": "このフィールドは必須です",
+  "advancedSearch": {
+    "toggleSelection": "選択範囲の切り替え",
+    "selectRow": "行の選択",
+    "inspectProperty": "プロパティの検査"
+  }
 }

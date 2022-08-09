@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, verifique se não existem malhas erróneas."
     }
   },
-  "fieldRequired": "Este campo é necessário"
+  "fieldRequired": "Este campo é necessário",
+  "advancedSearch": {
+    "toggleSelection": "Seleção toggle",
+    "selectRow": "Selecione linha",
+    "inspectProperty": "inspecionar propriedade"
+  }
 }

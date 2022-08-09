@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "您的模型尺寸可能存在问题，请检查是否有错误的网格。"
     }
   },
-  "fieldRequired": "此字段为必填项"
+  "fieldRequired": "此字段为必填项",
+  "advancedSearch": {
+    "toggleSelection": "切换选择",
+    "selectRow": "选择行",
+    "inspectProperty": "检查财产"
+  }
 }

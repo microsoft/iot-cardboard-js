@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
     }
   },
-  "fieldRequired": "Bu alan zorunludur"
+  "fieldRequired": "Bu alan zorunludur",
+  "advancedSearch": {
+    "toggleSelection": "Seçimi değiştir",
+    "selectRow": "Satır seç",
+    "inspectProperty": "mülkü denetleme"
+  }
 }

@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
     }
   },
-  "fieldRequired": "Det här fältet är obligatoriskt"
+  "fieldRequired": "Det här fältet är obligatoriskt",
+  "advancedSearch": {
+    "toggleSelection": "Växla markering",
+    "selectRow": "Markera rad",
+    "inspectProperty": "inspektera egendom"
+  }
 }

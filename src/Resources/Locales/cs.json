@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     }
   },
-  "fieldRequired": "Toto pole je povinné"
+  "fieldRequired": "Toto pole je povinné",
+  "advancedSearch": {
+    "toggleSelection": "Přepnout výběr",
+    "selectRow": "Vybrat řádek",
+    "inspectProperty": "zkontrolovat nemovitost"
+  }
 }

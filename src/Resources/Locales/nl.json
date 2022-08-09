@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
     }
   },
-  "fieldRequired": "Dit veld is verplicht"
+  "fieldRequired": "Dit veld is verplicht",
+  "advancedSearch": {
+    "toggleSelection": "Selectie in-/uitschakelen",
+    "selectRow": "Rij selecteren",
+    "inspectProperty": "onroerend goed inspecteren"
+  }
 }
