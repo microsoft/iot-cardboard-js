@@ -8,7 +8,8 @@ import {
     ADTModel_InBIM_RelationshipName,
     ComponentErrorType,
     DTwin,
-    IConsoleLogFunction
+    IConsoleLogFunction,
+    DurationUnits
 } from '../Constants';
 import {
     DtdlInterface,
@@ -37,6 +38,7 @@ import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { isConstant, toConstant } from 'constantinople';
 import { v4 } from 'uuid';
+import TreeMap from 'ts-treemap';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -237,12 +239,63 @@ export function getTimeStamp() {
     return timeStamp;
 }
 
+/**
+ * Takes in a duration in milliseconds and returns and object that has the value converted to the best units to describe that duration (ex: seconds, minutes, hours, days, years).
+ * @param milliseconds millisecond duration to convert
+ * @returns an object containing the scaled version and the locale resource key for the units
+ */
+export function formatTimeInRelevantUnits(
+    milliseconds: number,
+    minimumUnits: DurationUnits = DurationUnits.milliseconds
+): { value: number; displayStringKey: string } {
+    const DEFAULT_RESULT = {
+        value: 0,
+        displayStringKey: 'duration.seconds'
+    };
+    if (!milliseconds || milliseconds < 1) {
+        return DEFAULT_RESULT;
+    }
+    const timeUnits = new TreeMap<number, string>();
+    minimumUnits <= DurationUnits.milliseconds &&
+        timeUnits.set(1, 'duration.millisecond');
+    minimumUnits <= DurationUnits.seconds &&
+        timeUnits.set(1000, 'duration.second');
+    minimumUnits <= DurationUnits.minutes &&
+        timeUnits.set(60 * 1000, 'duration.minute');
+    minimumUnits <= DurationUnits.hours &&
+        timeUnits.set(60 * 60 * 1000, 'duration.hour');
+    minimumUnits <= DurationUnits.days &&
+        timeUnits.set(24 * 60 * 60 * 1000, 'duration.day');
+    minimumUnits <= DurationUnits.years &&
+        timeUnits.set(365 * 24 * 60 * 60 * 1000, 'duration.year');
+
+    // get the next entry below, if there isn't one, get the next one larger
+    let unitBelow = timeUnits.floorEntry(milliseconds);
+    let value = 0;
+
+    if (!unitBelow) {
+        unitBelow = timeUnits.higherEntry(milliseconds);
+    } else {
+        value = milliseconds / unitBelow[0];
+    }
+
+    let units = unitBelow[1];
+    // make the key plural if it's != 1
+    if (value !== 1) {
+        units += 's';
+    }
+    return {
+        value: value,
+        displayStringKey: units
+    };
+}
+
 export function parseExpression(expression: string, twins: any) {
     let result: any = '';
     try {
         result = Parser.evaluate(expression, twins) as any;
     } catch {
-        console.log(`Unable to parse expression: ${expression}`);
+        console.error(`Unable to parse expression: ${expression}`);
     }
 
     return result;
@@ -351,7 +404,7 @@ export function parseLinkedTwinExpression(
             result = toConstant(expression, { ...twins, Math: Math });
         }
     } catch (err) {
-        console.log(`${expression} - could not be parsed into constant`);
+        console.error(`${expression} - could not be parsed into constant`);
     }
 
     return result;

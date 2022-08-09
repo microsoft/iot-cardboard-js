@@ -67,6 +67,9 @@ export const DOCUMENTATION_LINKS = {
     howToWidgets: `${HOW_TO_DOC}#widgets`
 };
 
+/** this is the minimum frequency we support for fetching data from ADT */
+export const MINIMUM_REFRESH_RATE_IN_MILLISECONDS = 10000;
+
 export const dtdlPrimitiveTypesList = [
     'boolean',
     'date',

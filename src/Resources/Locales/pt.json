@@ -1106,5 +1106,23 @@
     "messageHeader": "Mensagem",
     "stackHeader": "Pilha",
     "tryAgain": "Tentar novamente"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Última atualização: {{value}} {{units}} atrás",
+    "refreshRate": "Taxa de atualização: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milissegundo",
+    "milliseconds": "Milissegundos",
+    "second": "segundo",
+    "seconds": "Segundos",
+    "minute": "minuto",
+    "minutes": "ata",
+    "hour": "hora",
+    "hours": "Horas",
+    "day": "dia",
+    "days": "Dias",
+    "year": "ano",
+    "years": "Anos"
   }
 }

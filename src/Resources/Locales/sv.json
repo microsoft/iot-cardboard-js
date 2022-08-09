@@ -1106,5 +1106,23 @@
     "messageHeader": "Meddelande",
     "stackHeader": "Stack",
     "tryAgain": "Försök igen"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
+    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "millisekund",
+    "milliseconds": "Millisekunder",
+    "second": "andra",
+    "seconds": "Sekunder",
+    "minute": "minut",
+    "minutes": "protokoll",
+    "hour": "timme",
+    "hours": "Timmar",
+    "day": "dag",
+    "days": "Dagar",
+    "year": "år",
+    "years": "år"
   }
 }

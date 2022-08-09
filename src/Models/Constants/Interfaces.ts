@@ -423,7 +423,9 @@ export interface IModelledPropertyBuilderAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
+        visibleLayerIds?: string[],
+        bustCache?: boolean
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
@@ -737,7 +739,6 @@ export interface IADT3DViewerProps extends BaseComponentProps {
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
-    pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;

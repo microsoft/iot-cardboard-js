@@ -1106,5 +1106,23 @@
     "messageHeader": "Nachricht",
     "stackHeader": "Stapel",
     "tryAgain": "Wiederholen"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
+    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
+  },
+  "duration": {
+    "millisecond": "Millisekunde",
+    "milliseconds": "Millisekunden",
+    "second": "Sekunde",
+    "seconds": "Nachschlag",
+    "minute": "Minute",
+    "minutes": "Protokoll",
+    "hour": "Stunde",
+    "hours": "Stunden",
+    "day": "Tag",
+    "days": "Tage",
+    "year": "Jahr",
+    "years": "Jahre"
   }
 }

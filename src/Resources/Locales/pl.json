@@ -1106,5 +1106,23 @@
     "messageHeader": "Komunikat",
     "stackHeader": "Stos",
     "tryAgain": "Spróbuj ponownie"
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Ostatnio odświeżone: {{value}} {{units}} temu",
+    "refreshRate": "Częstotliwość odświeżania: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milisekunda",
+    "milliseconds": "Milisekund",
+    "second": "sekunda",
+    "seconds": "Sekund",
+    "minute": "minuta",
+    "minutes": "protokół",
+    "hour": "godzina",
+    "hours": "Godzin",
+    "day": "dzień",
+    "days": "Dni",
+    "year": "rok",
+    "years": "lata"
   }
 }

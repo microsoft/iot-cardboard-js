@@ -1106,5 +1106,23 @@
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
     }
   },
-  "fieldRequired": "Toto pole je povinné"
+  "fieldRequired": "Toto pole je povinné",
+  "sceneRefreshButton": {
+    "lastRefreshed": "Poslední aktualizace: {{value}} {{units}} ago",
+    "refreshRate": "Obnovovací frekvence: {{value}} {{units}}"
+  },
+  "duration": {
+    "millisecond": "milisekunda",
+    "milliseconds": "milisekundy",
+    "second": "vteřina",
+    "seconds": "sekundy",
+    "minute": "minuta",
+    "minutes": "minuty",
+    "hour": "hodina",
+    "hours": "hodiny",
+    "day": "den",
+    "days": "Dny",
+    "year": "rok",
+    "years": "roky"
+  }
 }
