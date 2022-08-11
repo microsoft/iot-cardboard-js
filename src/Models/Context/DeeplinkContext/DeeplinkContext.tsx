@@ -4,7 +4,12 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useReducer } from 'react';
-import { ADT3DScenePageModes } from '../../Constants';
+import { ADTSelectedEnvironmentInLocalStorage } from '../../../Components/EnvironmentPicker/EnvironmentPicker.types';
+import {
+    ADT3DScenePageModes,
+    SelectedContainerLocalStorageKey,
+    SelectedEnvironmentLocalStorageKey
+} from '../../Constants';
 import { getDebugLogger } from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
@@ -39,6 +44,9 @@ export const DeeplinkContextReducer: (
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
+                if (action.payload.url) {
+                    updateSelectedEnvironmentInLocalStorage(action.payload.url);
+                }
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
@@ -61,6 +69,9 @@ export const DeeplinkContextReducer: (
             }
             case DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL: {
                 draft.storageContainerUrl = action.payload.url || '';
+                if (action.payload.url) {
+                    updateSelectedContainerInLocalStorage(action.payload.url);
+                }
                 break;
             }
         }
@@ -89,7 +100,11 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IDeeplinkContextState = {
-        adtUrl: parsed.adtUrl || initialState.adtUrl || '',
+        adtUrl:
+            parsed.adtUrl ||
+            initialState.adtUrl ||
+            getSelectedEnvironmentUrlFromLocalStorage() ||
+            '',
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
         selectedElementId:
@@ -101,7 +116,10 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             initialState.selectedLayerIds ||
             [],
         storageContainerUrl:
-            parsed.storageContainerUrl || initialState.storageContainerUrl || ''
+            parsed.storageContainerUrl ||
+            initialState.storageContainerUrl ||
+            getSelectedContainerUrlFromLocalStorage() ||
+            ''
     };
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
@@ -198,3 +216,44 @@ const parseArrayParam = (value: string): string[] => {
     if (!value) return undefined;
     return value.split(ARRAY_VALUE_SEPARATOR);
 };
+
+// START of local storage handling
+/**
+ * read the selected environment url from local storage if exists to set the initial value of 'adtUrl' in the initial default state of DeeplinkContext
+ */
+const getSelectedEnvironmentUrlFromLocalStorage = () => {
+    try {
+        return (JSON.parse(
+            localStorage.getItem(SelectedEnvironmentLocalStorageKey)
+        ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
+};
+
+/**
+ * read the selected container url from local storage if exists to set the initial value of 'storageContainerUrl' in the initial default state of DeeplinkContext
+ */
+const getSelectedContainerUrlFromLocalStorage = () => {
+    return localStorage.getItem(SelectedContainerLocalStorageKey);
+};
+
+/**
+ * update the selected environment url in local storage along with the update in the state of DeeplinkContext
+ */
+const updateSelectedEnvironmentInLocalStorage = (
+    selectedEnvironmentUrl: string
+) => {
+    localStorage.setItem(
+        SelectedEnvironmentLocalStorageKey,
+        JSON.stringify({
+            appAdtUrl: selectedEnvironmentUrl
+        })
+    );
+};
+
+const updateSelectedContainerInLocalStorage = (selectedContainer: string) => {
+    localStorage.setItem(SelectedContainerLocalStorageKey, selectedContainer);
+};
+// END of local storage handling

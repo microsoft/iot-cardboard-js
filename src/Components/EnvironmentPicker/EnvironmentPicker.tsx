@@ -47,8 +47,6 @@ import {
     AzureResourceTypes,
     IAzureResource
 } from '../../Models/Constants';
-import { useDeeplinkContext } from '../../Models/Context/DeeplinkContext/DeeplinkContext';
-import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/DeeplinkContext.types';
 import {
     areResourceUrlsEqual,
     getContainerDisplayText,
@@ -59,16 +57,12 @@ import {
     getEnvironmentUrlsFromLocalStorage,
     getResourceUrl,
     getResourceUrls,
-    getSelectedContainerUrlFromLocalStorage,
-    getSelectedEnvironmentUrlFromLocalStorage,
     getStorageAccountId,
     getStorageAccountOptionsFromLocalStorage,
     getStorageAccountUrlFromContainerUrl,
     getStorageAndContainerFromContainerUrl,
     updateContainerOptionsInLocalStorage,
     updateEnvironmentsInLocalStorage,
-    updateSelectedContainerInLocalStorage,
-    updateSelectedEnvironmentInLocalStorage,
     updateStorageAccountsInLocalStorage
 } from './EnvironmentPickerManager';
 import {
@@ -103,7 +97,6 @@ const EnvironmentPicker = ({
     storage
 }: EnvironmentPickerProps) => {
     const { t } = useTranslation();
-    const { deeplinkDispatch } = useDeeplinkContext();
 
     const [state, dispatch] = useReducer(
         EnvironmentPickerReducer,
@@ -167,33 +160,21 @@ const EnvironmentPicker = ({
 
     // set initial values based on props and local storage
     useEffect(() => {
-        let environmentUrls = [],
-            selectedEnvironmentUrl: string;
+        let environmentUrls = [];
         if (environmentUrl) {
             // passed environmentUrl has precedence over the selected environment in localstorage, if enabled
             environmentUrls = [environmentUrl];
-            selectedEnvironmentUrl = environmentUrl;
         }
         if (isLocalStorageEnabled) {
             const environmentUrlsInLocalStorage: Array<string> = getEnvironmentUrlsFromLocalStorage(
                 localStorageKey
             );
 
-            const selectedEnvironmentUrlInLocalStorage = getSelectedEnvironmentUrlFromLocalStorage(
-                selectedItemLocalStorageKey
-            );
-            selectedEnvironmentUrl =
-                selectedEnvironmentUrl || selectedEnvironmentUrlInLocalStorage;
-
             if (
-                selectedEnvironmentUrlInLocalStorage &&
-                !environmentUrlsInLocalStorage.includes(
-                    selectedEnvironmentUrlInLocalStorage
-                )
+                environmentUrl &&
+                !environmentUrlsInLocalStorage.includes(environmentUrl)
             ) {
-                environmentUrlsInLocalStorage.push(
-                    selectedEnvironmentUrlInLocalStorage
-                );
+                environmentUrlsInLocalStorage.push(environmentUrl);
             }
 
             environmentUrls = environmentUrls.concat(
@@ -202,48 +183,30 @@ const EnvironmentPicker = ({
                 )
             );
         }
-        deeplinkDispatch({
-            type: DeeplinkContextActionType.SET_ADT_URL,
-            payload: {
-                url: selectedEnvironmentUrl
-            }
-        });
         dispatch({
             type: SET_ENVIRONMENT_ITEMS,
             payload: {
                 environments: environmentUrls,
-                selectedEnvironment: selectedEnvironmentUrl,
-                environmentToEdit: selectedEnvironmentUrl
+                selectedEnvironment: environmentUrl,
+                environmentToEdit: environmentUrl
             }
         });
 
         let containerUrls = [],
-            selectedContainerUrl: string,
             storageAccounts: Array<StorageAccountsInLocalStorage> = []; // list of storage accounts in local storage
         if (storage?.containerUrl) {
             containerUrls = [storage.containerUrl];
-            selectedContainerUrl = storage.containerUrl;
         }
         if (storage?.isLocalStorageEnabled) {
             const containerUrlsInLocalStorage: Array<string> =
                 getContainerUrlsFromLocalStorage(storage.localStorageKey) || [];
-            const selectedContainerUrlInLocalStorage = getSelectedContainerUrlFromLocalStorage(
-                selectedItemLocalStorageKey
-            );
-            storageAccounts = getStorageAccountOptionsFromLocalStorage();
 
-            // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
-            selectedContainerUrl =
-                selectedContainerUrl || selectedContainerUrlInLocalStorage;
+            storageAccounts = getStorageAccountOptionsFromLocalStorage();
             if (
-                selectedContainerUrlInLocalStorage &&
-                !containerUrlsInLocalStorage.includes(
-                    selectedContainerUrlInLocalStorage
-                )
+                storage.containerUrl &&
+                !containerUrlsInLocalStorage.includes(storage.containerUrl)
             ) {
-                containerUrlsInLocalStorage.push(
-                    selectedContainerUrlInLocalStorage
-                );
+                containerUrlsInLocalStorage.push(storage.containerUrl);
             }
             containerUrls = containerUrls.concat(
                 containerUrlsInLocalStorage.filter(
@@ -304,9 +267,10 @@ const EnvironmentPicker = ({
                 } as StorageAccountToContainersMapping
             ];
         }
+        adapter.setBlobContainerPath(storage.containerUrl);
 
         const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
-            selectedContainerUrl
+            storage.containerUrl
         );
         const storageAccountUrls = defaultStorageAccountToContainersMappingRef.current?.map(
             (pair) => pair.storageAccountUrl
@@ -319,14 +283,6 @@ const EnvironmentPicker = ({
                 storageAccountToEdit: selectedStorageAccountUrl
             }
         });
-
-        // we need to set the context inside this component since there is this localstorage logic implemented here,
-        // otherwise it is set in the parent ADT3DScenePage components onchange handler
-        deeplinkDispatch({
-            type: DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL,
-            payload: { url: selectedContainerUrl }
-        });
-        adapter.setBlobContainerPath(selectedContainerUrl);
         dispatch({
             type: SET_CONTAINER_ITEMS,
             payload: {
@@ -337,9 +293,9 @@ const EnvironmentPicker = ({
                             selectedStorageAccountUrl
                     )?.containerNames || [],
                 selectedContainer: getContainerNameFromUrl(
-                    selectedContainerUrl
+                    storage.containerUrl
                 ),
-                containerToEdit: getContainerNameFromUrl(selectedContainerUrl)
+                containerToEdit: getContainerNameFromUrl(storage.containerUrl)
             }
         });
 
@@ -387,21 +343,12 @@ const EnvironmentPicker = ({
                 state.environmentItems.environments,
                 localStorageKey
             );
-            updateSelectedEnvironmentInLocalStorage(
-                state.environmentItems.environmentToEdit,
-                selectedItemLocalStorageKey
-            );
         }
         if (storage?.isLocalStorageEnabled) {
             updateContainerOptionsInLocalStorage(
                 state.containerItems.containers,
                 state.storageAccountItems.storageAccountToEdit,
                 storage.localStorageKey
-            );
-            updateSelectedContainerInLocalStorage(
-                state.containerItems.containerToEdit,
-                state.storageAccountItems.storageAccountToEdit,
-                storage.selectedItemLocalStorageKey
             );
             updateStorageAccountsInLocalStorage(
                 state.storageAccountItems.storageAccounts

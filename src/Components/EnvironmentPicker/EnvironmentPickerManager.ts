@@ -2,13 +2,10 @@ import { AzureResourceTypes, IAzureResource } from '../../Models/Constants';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
-    SelectedContainerLocalStorageKey,
-    SelectedEnvironmentLocalStorageKey,
     StorageAccountsLocalStorageKey
 } from '../../Models/Constants/Constants';
 import {
     ADTEnvironmentInLocalStorage,
-    ADTSelectedEnvironmentInLocalStorage,
     StorageAccountsInLocalStorage,
     StorageAccountToContainersMapping
 } from './EnvironmentPicker.types';
@@ -251,34 +248,6 @@ export const updateEnvironmentsInLocalStorage = (
     );
 };
 
-export const getSelectedEnvironmentUrlFromLocalStorage = (
-    localStorageKey: string = SelectedEnvironmentLocalStorageKey
-) => {
-    try {
-        return (JSON.parse(
-            localStorage.getItem(localStorageKey)
-        ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
-    } catch (error) {
-        console.error(error.message);
-        return null;
-    }
-};
-
-export const updateSelectedEnvironmentInLocalStorage = (
-    selectedEnvironment: string | IAzureResource,
-    localStorageKey: string = SelectedEnvironmentLocalStorageKey
-) => {
-    localStorage.setItem(
-        localStorageKey,
-        JSON.stringify({
-            appAdtUrl: getResourceUrl(
-                selectedEnvironment,
-                AzureResourceTypes.DigitalTwinInstance
-            )
-        })
-    );
-};
-
 export const getStorageAccountOptionsFromLocalStorage = () => {
     try {
         return JSON.parse(localStorage.getItem(StorageAccountsLocalStorageKey));
@@ -333,25 +302,4 @@ export const updateContainerOptionsInLocalStorage = (
         parentStorageAccount
     );
     localStorage.setItem(localStorageKey, JSON.stringify(containerUrls));
-};
-
-export const getSelectedContainerUrlFromLocalStorage = (
-    localStorageKey: string = SelectedContainerLocalStorageKey
-) => {
-    return localStorage.getItem(localStorageKey);
-};
-
-export const updateSelectedContainerInLocalStorage = (
-    selectedContainer: string | IAzureResource,
-    selectedStorageAccount: string | IAzureResource,
-    localStorageKey: string = SelectedContainerLocalStorageKey
-) => {
-    localStorage.setItem(
-        localStorageKey,
-        getResourceUrl(
-            selectedContainer,
-            AzureResourceTypes.StorageBlobContainer,
-            selectedStorageAccount
-        )
-    );
 };
