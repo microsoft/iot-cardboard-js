@@ -242,7 +242,7 @@ export function getTimeStamp() {
 /**
  * Takes in a duration in milliseconds and returns and object that has the value converted to the best units to describe that duration (ex: seconds, minutes, hours, days, years).
  * @param milliseconds millisecond duration to convert
- * @returns an object containing the scaled version and the locale resource key for the units
+ * @returns an object containing the scaled version and the locale resource key for the units, NOTE: the resource key expects the value to be passed in as an argument to populate the value ex: `t(formattedTime.displayStringKey, {value: formattedTime.value})`
  */
 export function formatTimeInRelevantUnits(
     milliseconds: number,
