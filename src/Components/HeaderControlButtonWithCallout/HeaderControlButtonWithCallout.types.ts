@@ -33,8 +33,6 @@ export interface IHeaderControlButtonWithCalloutStyleProps {
 }
 export interface IHeaderControlButtonWithCalloutStyles {
     root: IStyle;
-    // calloutContent: IStyle;
-    // header: IStyle;
     title: IStyle;
 
     /**

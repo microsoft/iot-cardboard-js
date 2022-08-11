@@ -19,7 +19,6 @@ export const getStyles = (
             classNames.calloutDescription,
             {
                 fontSize: FontSizes.small
-                // color: props.theme.palette.neutralSecondary
             }
         ],
         subHeader: [

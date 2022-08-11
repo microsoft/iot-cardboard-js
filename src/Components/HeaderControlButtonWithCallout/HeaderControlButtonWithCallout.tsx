@@ -32,7 +32,7 @@ const HeaderControlButtonWithCallout: React.FC<IHeaderControlButtonWithCalloutPr
     const calloutAnchor = useId();
 
     // state
-    const [showPicker, { toggle: togglePicker }] = useBoolean(false);
+    const [isCalloutVisible, { toggle: toggleCallout }] = useBoolean(false);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -46,18 +46,18 @@ const HeaderControlButtonWithCallout: React.FC<IHeaderControlButtonWithCalloutPr
                     dataTestId={buttonProps.testId}
                     iconProps={{ iconName: buttonProps.iconName }}
                     id={calloutAnchor}
-                    onClick={togglePicker}
+                    onClick={toggleCallout}
                     title={buttonProps.title}
-                    isActive={showPicker}
+                    isActive={isCalloutVisible}
                 />
             </HeaderControlGroup>
-            {showPicker && (
+            {isCalloutVisible && (
                 <FocusTrapCallout
                     focusTrapProps={{
                         isClickableOutsideFocusTrap: true
                     }}
                     target={`#${calloutAnchor}`}
-                    onDismiss={togglePicker}
+                    onDismiss={toggleCallout}
                     styles={classNames.subComponentStyles.callout}
                 >
                     <Stack tokens={{ childrenGap: 8 }}>
@@ -75,7 +75,7 @@ const HeaderControlButtonWithCallout: React.FC<IHeaderControlButtonWithCalloutPr
                                     iconName: 'Cancel',
                                     style: classNames.subComponentStyles.calloutCloseIcon()
                                 }}
-                                onClick={togglePicker}
+                                onClick={toggleCallout}
                             />
                         </Stack>
                         {children}
