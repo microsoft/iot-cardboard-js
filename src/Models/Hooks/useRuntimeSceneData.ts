@@ -97,7 +97,6 @@ export const useRuntimeSceneData = (
             sceneVisuals.forEach((sceneVisual) => {
                 sceneVisual.transformedElementItems = []; // initialize
 
-                // const transformedMeshItems: Array<CustomMeshItem> = []; --> an array of all the transformed meshes
                 sceneVisual.behaviors?.forEach((behavior) => {
                     behavior.visuals?.forEach((visual) => {
                         if (visual.type !== VisualType.ExpressionRangeVisual) {
@@ -126,7 +125,7 @@ export const useRuntimeSceneData = (
                                     extensionProperties &&
                                     values.includes(currentValue)
                                 ) {
-                                    // only add if has transform too ... currently transform is just another value set to "true"
+                                    // check if transform == true
                                     // (issues with "unknown" types unable to be an object)
                                     if (extensionProperties.transform) {
                                         //have to assume that extensionProperties will have all the right info
@@ -145,7 +144,7 @@ export const useRuntimeSceneData = (
                                         // iterate through each mesh in the element and add its meshId to a
                                         // TransformedElement object and assign the transform (as decided by
                                         // extensionProperties) to that TransformedElement
-                                        // problem: who is the parent? for now, we can just do the first one ...
+                                        // TODO: problem: who is the parent? for now, we can just do the first one ...
                                         const transformedElementItem: TransformedElementItem = {
                                             meshIds: [],
                                             parentMeshId: null,
@@ -164,7 +163,6 @@ export const useRuntimeSceneData = (
                                         transformedElementItem.transform = deepCopy(
                                             transform
                                         );
-                                        // console.log(transformedElementItem);
                                         sceneVisual.transformedElementItems.push(
                                             transformedElementItem
                                         );

@@ -10,7 +10,6 @@ import {
 import { getStyles } from './BabylonSandbox.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import { createGUID } from '../../Models/Services/Utils';
-import { getBoundingBox } from '../3DV/SceneView.Utils';
 
 const getClassNames = classNamesFunction<
     IBabylonSandboxStyleProps,
@@ -23,8 +22,7 @@ const getClassNames = classNamesFunction<
 function setupCamera(
     scene: BABYLON.Scene,
     arcRotate: boolean,
-    center?: BABYLON.Vector3,
-    radius?: number
+    center?: BABYLON.Vector3
 ): BABYLON.ArcRotateCamera | BABYLON.FreeCamera {
     // Creates, angles, distances and targets the camera
     const camera = arcRotate
@@ -32,7 +30,6 @@ function setupCamera(
               'Camera',
               0,
               Math.PI / 2.5,
-              //   radius ? radius : 33,
               33,
               center ? center : BABYLON.Vector3.Zero(),
               scene
@@ -110,33 +107,19 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             gizmoManager.usePointerToAttachGizmos = false;
             gizmoManager.rotationGizmoEnabled = true;
             gizmoManager.positionGizmoEnabled = true;
-            // gizmoManager.gizmos.boundingBoxGizmo.ignoreChildren = true;
 
             BABYLON.SceneLoader.ImportMeshAsync(
                 '',
-                // 'https://assets.babylonjs.com/meshes/',
-                // 'https://dl.dropbox.com/s/s1p66hldqurou0w/Xwing_rig.glb',
                 'https://dl.dropbox.com/s/2cq4fnsg8nqxckg/TruckBoxesEnginesPastmachine.gltf',
-                // 'https://dl.dropbox.com/s/t1wepbusypqevn4/mercedes.glb',
-                // 'both_houses_scene.babylon'
-                // 'Xwing_rig.glb'
                 'TruckBoxesEnginesPastmachine.gltf'
-                // 'mercedes.glb'
-            ).then((result) => {
-                const meshes = result.meshes;
-                const bbox = getBoundingBox(meshes);
-                // const center = bbox.boundingBox.centerWorld;
-                // const radius = bbox.diagonalLength / 2;
-                // camera = setupCamera(scene, arcRotate, center, radius);
-                console.log(result);
-            });
+            );
 
             //////////// GUI STUFF //////////////////////////////////////////
             const guiCanvas = GUI.AdvancedDynamicTexture.CreateFullscreenUI(
                 'UI'
             );
 
-            // X Y Z label???
+            // X Y Z label
             const rotationTB = new GUI.TextBlock(
                 '',
                 'xRotation: \n\nyRotation: \n\nzRotation: '
@@ -208,8 +191,6 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
             //////////// GUI STUFF //////////////////////////////////////////
 
             scene.onPointerDown = function castRay() {
-                // scene.onKeyboardObservable.clear();
-
                 const ray = scene.createPickingRay(
                     scene.pointerX,
                     scene.pointerY,
@@ -221,23 +202,10 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
 
                 if (hit.pickedMesh) {
                     pickedMeshRef.current = hit.pickedMesh;
-                    // console.log(hit.pickedMesh);
-                    // setGizmoManager(new BABYLON.GizmoManager(scene));
                     pickedMeshRef.current.rotationQuaternion = null;
                     gizmoManager.attachToMesh(pickedMeshRef.current);
-                    console.log('gizmo?');
-                    console.log(
-                        'clicked mesh: ',
-                        pickedMeshRef.current.name,
-                        'at position: ',
-                        pickedMeshRef.current.absolutePosition,
-                        'and local rotation: ',
-                        pickedMeshRef.current.rotation
-                    );
                 }
             };
-
-            // setGizmoManager(new BABYLON.GizmoManager(scene));
 
             engineRef.current.runRenderLoop(() => {
                 scene.render();

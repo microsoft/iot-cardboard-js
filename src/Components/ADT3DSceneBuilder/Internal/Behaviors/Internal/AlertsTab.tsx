@@ -73,8 +73,6 @@ const AlertsTab: React.FC = () => {
     // hooks
     const { t } = useTranslation();
 
-    // const [inputValue, setInputValue] = useState()
-
     const alertVisualStateRef = useRef<IExpressionRangeVisual>(
         getAlertFromBehavior(behaviorFormState.behaviorToEdit) ||
             getDefaultAlertVisualWithId()
@@ -84,7 +82,6 @@ const AlertsTab: React.FC = () => {
 
     useEffect(() => {
         if (selectedElements.length > 0) {
-            console.log('selectedElements: ', selectedElements);
             // these should have the transform property populated if already transformed?
             const element = selectedElements[0]; // just grabbing the first element for now -- later need to support selecting diff meshes
             // iterate through all meshes in selectedElement; assign first mesh as parent
@@ -93,7 +90,6 @@ const AlertsTab: React.FC = () => {
                 meshIds: [],
                 parentMeshId: ''
             };
-            // gizmoElementRef.current.meshIds = [];
             const meshIds = gizmoElementRef.current.meshIds;
             if (element.objectIDs.length > 0) {
                 gizmoElementRef.current.parentMeshId = element.objectIDs[0];
@@ -101,13 +97,11 @@ const AlertsTab: React.FC = () => {
                     meshIds.push(objectID);
                 });
                 setGizmoElementItem(gizmoElementRef.current); // just adding one gizmoElement so far ...
-                console.log('gizmo element ref: ', gizmoElementRef.current);
             }
         }
         return () => {
             // clean up gizmo after exiting tab
             setGizmoElementItem({ parentMeshId: null, meshIds: null });
-            // setGizmoElementItem(null);
         };
     }, [selectedElements]);
 
