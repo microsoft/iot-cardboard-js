@@ -224,6 +224,11 @@ export enum GlobeTheme {
     Yellow = 'Yellow'
 }
 
+export enum MultiLanguageSelectionType {
+    displayName = 'displayName',
+    description = 'description'
+}
+
 /** we can extend this list as needed */
 export enum AzureResourceProviderEndpoints {
     ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',

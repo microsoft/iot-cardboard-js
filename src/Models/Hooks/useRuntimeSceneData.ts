@@ -7,36 +7,53 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
+import { MINIMUM_REFRESH_RATE_IN_MILLISECONDS } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
 import {
     deepCopy,
+    getDebugLogger,
     getSceneElementStatusColor,
     parseLinkedTwinExpression
 } from '../Services/Utils';
 import {
     I3DScenesConfig,
     IBehavior,
-    IExpressionRangeVisual
+    IExpressionRangeVisual,
+    IPollingConfiguration
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('useRuntimeSceneData', debugLogging);
 
 export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,
     sceneId: string,
     scenesConfig: I3DScenesConfig,
-    pollingInterval: number,
     /** Optional array of layer Ids to apply SceneVisual behavior filtering */
     selectedLayerIds: string[] = null
 ) => {
     const [modelUrl, setModelUrl] = useState('');
+    const [pollingInterval, setPollingInterval] = useState(
+        MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+    );
+    const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
     const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
         []
     );
 
     const sceneData = useAdapter({
-        adapterMethod: () => adapter.getSceneData(sceneId, scenesConfig),
-        refetchDependencies: [sceneId, scenesConfig],
+        adapterMethod: (args?: { isManualRefresh: boolean }) => {
+            setLastRefreshTime(Date.now());
+            return adapter.getSceneData(
+                sceneId,
+                scenesConfig,
+                selectedLayerIds,
+                args?.isManualRefresh ?? false
+            );
+        },
+        refetchDependencies: [sceneId, scenesConfig, selectedLayerIds],
         isLongPolling: true,
         pollingIntervalMillis: pollingInterval
     });
@@ -47,7 +64,7 @@ export const useRuntimeSceneData = (
      *  */
     useEffect(() => {
         if (sceneData?.adapterResult?.result?.data) {
-            let sceneVisuals = deepCopy(
+            const sceneVisuals = deepCopy(
                 sceneData.adapterResult.result.data.sceneVisuals
             );
 
@@ -59,14 +76,15 @@ export const useRuntimeSceneData = (
                 );
 
                 // Apply layer filtering to behaviors - splice out behaviors not in selected layers
-                sceneVisuals = sceneVisuals.map((sv) => ({
-                    ...sv,
-                    behaviors: sv.behaviors.filter((b) =>
+                sceneVisuals.forEach((sv) => {
+                    const filteredBehaviors = sv.behaviors.filter((b) =>
                         behaviorIdsInSelectedLayers.includes(b.id)
-                    )
-                }));
+                    );
+                    sv.behaviors = filteredBehaviors;
+                });
             }
 
+            const twinIds = new Set<string>();
             const alerts: Array<{
                 sceneVisual: SceneVisual;
                 sceneViewBadge: SceneViewBadge;
@@ -75,6 +93,10 @@ export const useRuntimeSceneData = (
             // if they are triggered by the element's behaviors and currently active
             sceneVisuals.forEach((sceneVisual) => {
                 sceneVisual.coloredMeshItems = [];
+
+                for (const twinId in sceneVisual.twins) {
+                    twinIds.add(sceneVisual.twins[twinId].$dtId);
+                }
 
                 // const coloredMeshItems: Array<CustomMeshItem> = [];
                 sceneVisual.behaviors?.forEach((behavior) => {
@@ -97,7 +119,6 @@ export const useRuntimeSceneData = (
                                             meshId: meshId,
                                             color: color
                                         };
-                                        // coloredMeshItems.push(coloredMesh);
                                         sceneVisual.coloredMeshItems.push(
                                             coloredMesh
                                         );
@@ -166,11 +187,44 @@ export const useRuntimeSceneData = (
                 }
             });
 
+            // fetch the config
+            const pollingConfig = ViewerConfigUtility.getPollingConfig(
+                scenesConfig,
+                sceneId
+            );
+
+            const computeInterval = (
+                twinCount: number,
+                pollingConfig: IPollingConfiguration
+            ) => {
+                const MIN_INTERVAL = 10000;
+                const fastestPossibleRefreshRateSeconds = Math.max(
+                    twinCount * 1000, // 1s per twin
+                    MIN_INTERVAL
+                );
+                const actualRefreshRateSeconds =
+                    pollingConfig.pollingStrategy === 'Limited' &&
+                    pollingConfig.minimumPollingFrequency
+                        ? Math.max(
+                              fastestPossibleRefreshRateSeconds,
+                              pollingConfig.minimumPollingFrequency
+                          )
+                        : fastestPossibleRefreshRateSeconds;
+                logDebugConsole(
+                    'debug',
+                    `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
+                    pollingConfig
+                );
+                return actualRefreshRateSeconds;
+            };
+
+            setPollingInterval(computeInterval(twinIds.size, pollingConfig));
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneVisuals);
             setSceneAlerts(groupedAlerts);
         }
     }, [
+        pollingInterval,
         sceneData.adapterResult.result,
         sceneId,
         scenesConfig,
@@ -182,7 +236,10 @@ export const useRuntimeSceneData = (
         sceneVisuals,
         sceneAlerts,
         isLoading: sceneData.isLoading,
-        triggerRuntimeRefetch: sceneData.callAdapter
+        triggerRuntimeRefetch: () =>
+            sceneData.callAdapter({ isManualRefresh: true }),
+        lastRefreshTime: lastRefreshTime,
+        nextRefreshTime: lastRefreshTime + pollingInterval
     };
 };
 function buildAlert(

@@ -29,6 +29,7 @@ import {
     Marker,
     SceneViewCallbackHandler,
     TransformedElementItem,
+    CustomMeshItem,
     TransformInfo
 } from '../../Models/Classes/SceneView.types';
 import {
@@ -48,7 +49,9 @@ import {
     getBoundingBox,
     getCameraPosition,
     getMarkerPosition,
-    removeGroupedItems
+    removeGroupedItems,
+    transformInfoFromMesh,
+    transformMeshFromTransformInfo
 } from './SceneView.Utils';
 import {
     makeMaterial,
@@ -143,7 +146,7 @@ async function loadPromise(
             );
         });
     } catch (e) {
-        console.log(e);
+        console.error(e);
         onError(null, e.message, e);
     }
 }
@@ -170,6 +173,7 @@ function SceneView(props: ISceneViewProps, ref) {
         setGizmoTransformItem,
         showHoverOnSelected,
         showMeshesOnHover,
+        transformedElementItems,
         unzoomedMeshOpacity,
         zoomToMeshIds
     } = props;
@@ -217,6 +221,7 @@ function SceneView(props: ISceneViewProps, ref) {
     const zoomedMeshesRef = useRef([]);
     const lastCameraPositionRef = useRef('');
     const markersRef = useRef<Marker[]>(null);
+    const previouslyTransformedElements = useRef<CustomMeshItem[]>([]);
     const gizmoManagerRef = useRef<BABYLON.GizmoManager>(undefined);
     const gizmoTransformItemDraftRef = useRef<TransformedElementItem>(null);
 
@@ -1680,6 +1685,106 @@ function SceneView(props: ISceneViewProps, ref) {
         };
     }, [outlinedMeshitems, meshMap.current]);
 
+    // SETUP LOGIC FOR HANDLING TRANSFORMING MESHES
+    useEffect(() => {
+        debugLog(
+            'debug',
+            'transform meshes based on transformedMeshItems prop' +
+                (scene ? ' with scene' : ' no scene')
+        );
+
+        if (scene && transformedElementItems && !isLoading) {
+            if (debugLogging) {
+                console.time('transforming meshes');
+            }
+            try {
+                // if there is a parent mesh in previouslyTransformedElements BUT NOT in transformedElementItems
+                // (meaning the element had been previously transformed but the transform is now turned off)
+                // reset the element to its original state (which had been preserved in previouslyTransformedElements)
+                // and remove element from previouslyTransformedElements
+
+                // grab all parentMeshIds from the new transformedElementsItems
+                const tEIParentMeshIds = transformedElementItems.map(
+                    (tEI) => tEI.parentMeshId
+                );
+                // iterate through all previously transformed elements
+                previouslyTransformedElements.current.forEach(
+                    (previouslyTransformedElement) => {
+                        // get mesh id for the previously transformed element
+                        const prevTransParentMeshId =
+                            previouslyTransformedElement.meshId;
+                        // if the parentMeshIds to be transformed DOES NOT include the previouslyTransformedParentMeshId,
+                        // then that means the transformation no longer applies and the element should be reset
+                        if (!tEIParentMeshIds.includes(prevTransParentMeshId)) {
+                            const prevTransParentMesh: BABYLON.Mesh =
+                                meshMap.current?.[prevTransParentMeshId];
+                            if (prevTransParentMesh) {
+                                transformMeshFromTransformInfo(
+                                    prevTransParentMesh,
+                                    previouslyTransformedElement.transform
+                                );
+                            }
+
+                            // set up to remove from previouslyTransformedElements
+                            previouslyTransformedElement.meshId = null;
+                        }
+                    }
+                );
+                // remove all elements with parent mesh id of null (aka was already reset)
+                previouslyTransformedElements.current = previouslyTransformedElements.current.filter(
+                    (cPTE) => cPTE.meshId != null
+                );
+
+                transformedElementItems.forEach((transformedElementItem) => {
+                    const meshIds = transformedElementItem.meshIds;
+                    const parentMeshId = transformedElementItem.parentMeshId;
+                    meshIds.forEach((meshId) => {
+                        if (meshId != parentMeshId) {
+                            // set parent of each mesh (that isn't the designated parent) to parent mesh
+                            meshMap.current?.[meshId].setParent(
+                                meshMap.current?.[parentMeshId]
+                            );
+                        }
+                    });
+                    transformMesh(transformedElementItem); // only call transform on parent mesh
+                });
+            } catch {
+                console.warn('unable to transform mesh');
+            }
+            if (debugLogging) {
+                console.timeEnd('transforming meshes');
+            }
+        }
+    }, [transformedElementItems, isLoading]);
+
+    const transformMesh = (transformedElementItem: TransformedElementItem) => {
+        const parentMesh: BABYLON.Mesh =
+            meshMap.current?.[transformedElementItem.parentMeshId];
+        if (!parentMesh) {
+            return;
+        }
+
+        parentMesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
+
+        const pTParentMeshIds: string[] = previouslyTransformedElements.current.map(
+            (pTE) => pTE.meshId
+        );
+
+        const newTransform = transformedElementItem.transform;
+
+        // only add parentMesh to previouslyTransformedElements ONCE for the ORIGINAL status
+        if (!pTParentMeshIds.includes(transformedElementItem.parentMeshId)) {
+            const originalTransform = transformInfoFromMesh(parentMesh);
+            previouslyTransformedElements.current.push({
+                meshId: transformedElementItem.parentMeshId,
+                transform: originalTransform
+            });
+        }
+
+        // set mesh to new transform
+        transformMeshFromTransformInfo(parentMesh, newTransform);
+    };
+
     // Handle gizmoElementItem
     useEffect(() => {
         debugLog(
@@ -1715,21 +1820,11 @@ function SceneView(props: ISceneViewProps, ref) {
                                 gizmoTransformItemDraftRef.current.parentMeshId
                             ];
                         parentMesh.rotationQuaternion = null;
-                        const position =
-                            gizmoTransformItemDraftRef.current.original
-                                .position;
-                        const rotation =
-                            gizmoTransformItemDraftRef.current.original
-                                .rotation;
-                        parentMesh.position = new BABYLON.Vector3(
-                            position.x,
-                            position.y,
-                            position.z
-                        );
-                        parentMesh.rotation = new BABYLON.Vector3(
-                            rotation.x,
-                            rotation.y,
-                            rotation.z
+                        const originalTransform =
+                            gizmoTransformItemDraftRef.current.original;
+                        transformMeshFromTransformInfo(
+                            parentMesh,
+                            originalTransform
                         );
                     }
                 } else {
@@ -1761,31 +1856,17 @@ function SceneView(props: ISceneViewProps, ref) {
                             gizmoManager.gizmos.rotationGizmo.attachedMesh;
 
                         // set both original and transform to original state of mesh
-                        originalTransform = {
-                            position: {
-                                x: attachedMesh.position.x,
-                                y: attachedMesh.position.y,
-                                z: attachedMesh.position.z
-                            },
-                            rotation: {
-                                x: attachedMesh.rotation.x,
-                                y: attachedMesh.rotation.y,
-                                z: attachedMesh.rotation.z
-                            }
-                        };
+                        originalTransform = transformInfoFromMesh(attachedMesh);
 
                         // allows transform values to persist clicking to and away from tab
                         // may need changing if we allow multiple elements in a sceneVisual to be gizmo'd
                         if (gizmoTransformItemDraftRef.current) {
                             const transform =
                                 gizmoTransformItemDraftRef.current.transform;
-                            attachedMesh.rotation.x = transform.rotation.x;
-                            attachedMesh.rotation.y = transform.rotation.y;
-                            attachedMesh.rotation.z = transform.rotation.z;
-
-                            attachedMesh.position.x = transform.position.x;
-                            attachedMesh.position.y = transform.position.y;
-                            attachedMesh.position.z = transform.position.z;
+                            transformMeshFromTransformInfo(
+                                attachedMesh,
+                                transform
+                            );
                         } else {
                             gizmoTransformItemDraftRef.current = {
                                 meshIds: deepCopy(meshIds),
@@ -1870,13 +1951,10 @@ function SceneView(props: ISceneViewProps, ref) {
                         ];
 
                     // should update element when user inputs value in field
-                    parentMesh.position.x = gizmoTransformItem.position.x;
-                    parentMesh.position.y = gizmoTransformItem.position.y;
-                    parentMesh.position.z = gizmoTransformItem.position.z;
-
-                    parentMesh.rotation.x = gizmoTransformItem.rotation.x;
-                    parentMesh.rotation.y = gizmoTransformItem.rotation.y;
-                    parentMesh.rotation.z = gizmoTransformItem.rotation.z;
+                    transformMeshFromTransformInfo(
+                        parentMesh,
+                        gizmoTransformItem
+                    );
                 }
             } catch {
                 console.warn(

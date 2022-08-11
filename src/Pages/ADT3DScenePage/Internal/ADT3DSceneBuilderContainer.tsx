@@ -82,7 +82,6 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
                 <div className="cb-scene-view-viewer">
                     <ADT3DViewer
                         adapter={adapter}
-                        pollingInterval={10000}
                         sceneId={sceneId}
                         scenesConfig={scenesConfig}
                         refetchConfig={refetchConfig}

@@ -1,6 +1,6 @@
 // all properties are required unless explicitly specified as optional
 {
-    "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "$schema": "https://raw.githubusercontent.com/microsoft/iot-cardboard-js/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
     // actual configuration is captured in configuration
     "configuration": {
         /* the scenes property is an array of scene objects
@@ -10,7 +10,6 @@
                 // most objects in this file contain id, and displayName
                 "id": "58e02362287440d9a5bf3f8d6d6bfcf9",
                 "displayName": "TruckAndBoxes1",
-
                 // scenes contain elements, which map twins to objects in the scene
                 "elements": [
                     {
@@ -33,7 +32,9 @@
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
                         "primaryTwinID": "SaltMachine_C1",
-                        "objectIDs": ["tankMesh"],
+                        "objectIDs": [
+                            "tankMesh"
+                        ],
                         /* in some situations, elements will need to reference more than just the PrimaryTwin
                            aliases are used for other relevant twins, and they can be referenced in behavior expressions
                            twinAliases is an optional field
@@ -48,7 +49,10 @@
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
                         "primaryTwinID": "BoxA",
-                        "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
+                        "objectIDs": [
+                            "boxLid1Mesh",
+                            "boxBody1Mesh"
+                        ]
                     }
                 ],
                 /* scenes reference the behaviors that are used in them to support faster resolution of elements from behaviors
@@ -66,10 +70,14 @@
                         "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/TruckBoxesEnginesPastmachineReduced.gltf",
                         "extensionProperties": {}
                     }
-                ]
+                ],
+                /* the polling configuration will fetch data as quickly as allowed given the number of twins on the screen */
+                "pollingConfiguration": {
+                    "pollingStrategy": "Realtime",
+                    "minimumPollingFrequency": 10000
+                }
             }
         ],
-
         /* behaviors are used for reflecting twin state on objects of a scene
            in practice, this is used for coloring meshes, badging objects when alerts happen, 
            and building interactive experiences, like popovers with charts. */
@@ -77,7 +85,6 @@
             {
                 "id": "bf1ec41d7886438d880c140fb1bb570a",
                 "displayName": "wheelsTooLow",
-
                 /*  datasources are designed to return an array of objects, and each object is expected to have the same schema.
                     The objects returned by datasources are then mapped over in visuals.  Conceptually, it should feel like this...
                     getDatasources().forEach(ds => applyVisuals(ds)) */
@@ -103,17 +110,14 @@
                         // A popover displays information about a datasource when you click on any of the associated objectIDs
                         "type": "Popover",
                         "title": "Average Tire Pressure",
-
                         // widgets are placed in the popover, and can be grouped using groups below
                         "widgets": [
                             {
                                 // this is a gauge that displays the outflow property of the primary twin returned from the datasource above
                                 "type": "Gauge",
-
                                 // groupID is optional, may not match with any group either, we should handle its non-presence or mismatched value gracefully
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
                                 "valueExpression": "PrimaryTwin.OutFlow",
-
                                 /* widget configuration specifies widget specific properties that are used for rendering this gauge
                                    like units, label, min and max value
                                    this is intended to grow, and will likely be strongly typed but may have a broad schema
@@ -196,7 +200,6 @@
                                 "orientation": "Horizontal"
                             }
                         ],
-
                         // objectIDs specify the objects in the scene that this visual pertains to
                         "objectIDs": {
                             // in this case, the IDs of the objects are from the datasource, where they are called objectIDs, since they are from an Element
@@ -209,18 +212,21 @@
             {
                 "id": "8b99ab46fabd45fab3adbaf88245a6b5",
                 "displayName": "tankTooHot",
-                "twinAliases": ["temperatureTag"],
+                "twinAliases": [
+                    "temperatureTag"
+                ],
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
+                        "elementIDs": [
+                            "4cb0990d646a4bbea3e1102676e200fe"
+                        ]
                     }
                 ],
                 "visuals": [
                     {
                         // a StatusColoring visual is used for mapping an expression result to a color
                         "type": "StatusColoring",
-
                         /* right now this is numeric, but you can imagine that we could support categorical values by using
                            something like "values: ['Good']" instead of min/max */
                         "statusValueExpression": "temperatureTag.OutFlow",
@@ -255,20 +261,23 @@
                 ]
             }
         ],
-
         /* layers are used for showing only certain gropus of behaviors at a time 
            customers should be able to specify which layers a behavior belongs to, and toggle layers in the viewer component */
         "layers": [
             {
                 "id": "3511cc0c61394d0e857cde735ddb4e81",
                 "displayName": "TireStuff",
-                "behaviorIDs": ["bf1ec41d7886438d880c140fb1bb570a"],
+                "behaviorIDs": [
+                    "bf1ec41d7886438d880c140fb1bb570a"
+                ],
                 "extensionProperties": {}
             },
             {
                 "id": "a2912b78335c4e75a58ba72d987fefac",
                 "displayName": "HotStuff",
-                "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
+                "behaviorIDs": [
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
                 "extensionProperties": {}
             }
         ]
