@@ -128,7 +128,6 @@ export default class ADTAdapter implements IADTAdapter {
                 );
             },
             retryDelay: (retryCount) => {
-                console.log((Math.pow(2, retryCount) - Math.random()) * 1000);
                 return (Math.pow(2, retryCount) - Math.random()) * 1000;
             }
         });
@@ -184,7 +183,7 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    getADTTwin(twinId: string, useCache = false) {
+    getADTTwin(twinId: string, useCache = false, forceRefresh = false) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         const getDataMethod = () =>
             adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
@@ -203,7 +202,11 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             );
         if (useCache) {
-            return this.adtTwinCache.getEntity(twinId, getDataMethod);
+            return this.adtTwinCache.getEntity(
+                twinId,
+                getDataMethod,
+                forceRefresh
+            );
         } else {
             return getDataMethod();
         }
@@ -270,7 +273,7 @@ export default class ADTAdapter implements IADTAdapter {
                                 ).continuationToken as string;
                                 await appendModels(continuationToken);
                             } catch (e) {
-                                console.log(
+                                console.error(
                                     'Continuation token for models call unsuccessfully parsed',
                                     e
                                 );
@@ -939,12 +942,19 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    async getSceneData(sceneId: string, config: I3DScenesConfig) {
+    async getSceneData(
+        sceneId: string,
+        config: I3DScenesConfig,
+        visibleLayerIds?: string[],
+        bustCache?: boolean
+    ) {
         logDebugConsole(
             'info',
-            '[START] Fetching scene data {sceneId, config}',
+            '[START] Fetching scene data {sceneId, config, visibleLayers, bustCache}',
             sceneId,
-            config
+            config,
+            visibleLayerIds,
+            bustCache
         );
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -981,13 +991,30 @@ export default class ADTAdapter implements IADTAdapter {
 
                 if (scene.behaviorIDs) {
                     // get all twins for all behaviors in the scene
-                    for (const sceneBehaviorId of scene.behaviorIDs) {
+                    for (const behaviorId of scene.behaviorIDs) {
                         const behavior = ViewerConfigUtility.getBehaviorById(
                             config,
-                            sceneBehaviorId
+                            behaviorId
                         );
-                        if (!behavior) {
-                            // skip if we don't find the behavior
+
+                        // skip if we don't find the behavior OR if it's not in a visible layer
+                        const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
+                            config,
+                            visibleLayerIds,
+                            sceneId
+                        );
+                        if (
+                            !behavior ||
+                            (visibleLayerIds &&
+                                behaviorIdsInSelectedLayers &&
+                                !behaviorIdsInSelectedLayers.includes(
+                                    behaviorId
+                                ))
+                        ) {
+                            logDebugConsole(
+                                'debug',
+                                `Not refreshing twins for behavior (id: ${behavior.id}, name: ${behavior.displayName}) that is not in the selected layers`
+                            );
                             continue;
                         }
                         const {
@@ -1017,7 +1044,7 @@ export default class ADTAdapter implements IADTAdapter {
                     );
                     const twinResults = await Promise.all(
                         twinIdsArray.map((twinId) =>
-                            this.getADTTwin(twinId, true)
+                            this.getADTTwin(twinId, true, bustCache)
                         )
                     );
                     logDebugConsole(

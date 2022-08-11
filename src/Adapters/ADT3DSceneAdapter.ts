@@ -164,7 +164,7 @@ export default class ADT3DSceneAdapter {
             } catch (error) {
                 storageAccountName = null;
                 containerName = null;
-                console.log(error);
+                console.error(error);
             }
         } else {
             storageAccountName = this.storageAccountName;

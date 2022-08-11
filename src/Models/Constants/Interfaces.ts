@@ -69,6 +69,12 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlProperty,
+    DtdlRelationship
+} from './dtdlInterfaces';
 import { IStyleFunctionOrObject } from '@fluentui/react';
 import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
 import {
@@ -435,7 +441,9 @@ export interface IModelledPropertyBuilderAdapter {
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
-        config: I3DScenesConfig
+        config: I3DScenesConfig,
+        visibleLayerIds?: string[],
+        bustCache?: boolean
     ): AdapterReturnType<ADT3DViewerData>;
 }
 
@@ -755,7 +763,6 @@ export interface IADT3DViewerProps extends BaseComponentProps {
         | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
-    pollingInterval: number;
     title?: string;
     connectionLineColor?: string;
     enableMeshSelection?: boolean;
@@ -817,11 +824,73 @@ export interface IStorageBlob {
     Properties: Record<string, any>;
 }
 
+export interface IOATGraphCustomNodeProps extends IOATNodeElement {
+    isConnectable: boolean;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
+
 export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;
     property: string;
 }
 
+export interface ILanguageOption {
+    key: string;
+}
+
+export interface DTDLPropertySchema {
+    '@type': string;
+    fields?: Record<string, any>[];
+    enumValues?: DTDLPropertyEnumValue[];
+    mapKey?: Record<string, any>;
+    mapValue?: Record<string, any>;
+    valueSchema?: string;
+}
+export interface DTDLPropertyEnumValue {
+    displayName?: string | Record<string, unknown>;
+    '@id'?: string;
+    name: string;
+    enumValue: string;
+    description?: string;
+    comment?: string;
+}
+
+export interface IOATNodeElement {
+    id: string;
+    data?: DtdlInterface;
+    position?: IOATNodePosition;
+    type?: string;
+}
+
+export interface IOATNodePosition {
+    x: number;
+    y: number;
+}
+
+export interface IOATRelationshipElement {
+    id: string;
+    label?: string;
+    markerEnd?: string;
+    source: string;
+    sourceHandle?: string;
+    target: string;
+    targetHandle?: string;
+    type?: string;
+    data?: DtdlRelationship | DtdlInterfaceContent;
+}
+
+export interface IOATLastPropertyFocused {
+    item: DtdlProperty;
+    index: number;
+}
+
+export interface IOATProperty {
+    id: string;
+    displayName: string;
+    index: number;
+}
 export interface IBlobServiceCorsRule {
     AllowedOrigins: Array<string>;
     AllowedMethods: Array<string>;

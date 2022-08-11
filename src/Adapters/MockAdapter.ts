@@ -84,6 +84,7 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
+import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -566,90 +567,86 @@ export default class MockAdapter
 
             if (scene.behaviorIDs) {
                 // cycle through behaviors for scene
-                for (const sceneBehavior of scene.behaviorIDs) {
+                for (const behaviorId of scene.behaviorIDs) {
                     // cycle through all behaviors
                     // check if behavior is relevent for the current scene
-                    for (const behavior of config.configuration?.behaviors)
-                        if (sceneBehavior === behavior.id) {
-                            const mappingIds: string[] = [];
-                            // cycle through the datasources of behavior
-                            for (const dataSource of behavior.datasources) {
-                                // if its a TwinToObjectMappingDatasource get the mapping id
-                                if (
-                                    dataSource.type ===
-                                    DatasourceType.ElementTwinToObjectMappingDataSource
-                                ) {
-                                    dataSource.elementIDs.forEach(
-                                        (mappingId) => {
-                                            mappingIds.push(mappingId);
-                                        }
-                                    );
-                                }
+                    const behavior = ViewerConfigUtility.getBehaviorById(
+                        config,
+                        behaviorId
+                    );
+                    if (!behavior) {
+                        continue;
+                    }
+                    const mappingIds = new Set<string>();
+                    // cycle through the datasources of behavior
+                    for (const dataSource of behavior.datasources) {
+                        // if its a TwinToObjectMappingDatasource get the mapping id
+                        if (
+                            dataSource.type ===
+                            DatasourceType.ElementTwinToObjectMappingDataSource
+                        ) {
+                            dataSource.elementIDs.forEach((mappingId) => {
+                                mappingIds.add(mappingId);
+                            });
+                        }
+                    }
 
-                                // TODO get FilteredTwinDatasources
-                            }
+                    // cycle through mapping ids to get twins for behavior and scene
+                    for (const id of Array.from(mappingIds)) {
+                        const twins = {};
+                        const element: ITwinToObjectMapping = scene.elements?.find(
+                            (mapping) =>
+                                mapping.type ===
+                                    ElementType.TwinToObjectMapping &&
+                                mapping.id === id
+                        ) as ITwinToObjectMapping;
 
-                            // cycle through mapping ids to get twins for behavior and scene
-                            for (const id of mappingIds) {
-                                const twins = {};
-                                const element: ITwinToObjectMapping = scene.elements.find(
-                                    (mapping) =>
-                                        mapping.type ===
-                                            ElementType.TwinToObjectMapping &&
-                                        mapping.id === id
-                                ) as ITwinToObjectMapping;
+                        if (element) {
+                            // get primary twin
+                            twins[PRIMARY_TWIN_NAME] = this.mockTwins.find(
+                                (t) => t.$dtId === element.primaryTwinID
+                            ) || {
+                                $dtId: 'machineID1',
+                                InFlow: 300,
+                                OutFlow: 250,
+                                Temperature: 50,
+                                displayName: 'My Machine 1'
+                            };
 
-                                if (element) {
-                                    // get primary twin
-                                    twins[
-                                        PRIMARY_TWIN_NAME
-                                    ] = this.mockTwins.find(
-                                        (t) => t.$dtId === element.primaryTwinID
+                            // check for twin aliases and add to twins object
+                            if (element.twinAliases) {
+                                for (const alias of Object.keys(
+                                    element.twinAliases
+                                )) {
+                                    twins[alias] = this.mockTwins.find(
+                                        (t) =>
+                                            t.$dtId ===
+                                            element.twinAliases[alias]
                                     ) || {
-                                        $dtId: 'machineID1',
+                                        $dtId: 'machineID2',
                                         InFlow: 300,
                                         OutFlow: 250,
                                         Temperature: 50,
-                                        displayName: 'My Machine 1'
+                                        displayName: 'My Machine 2'
                                     };
-
-                                    // check for twin aliases and add to twins object
-                                    if (element.twinAliases) {
-                                        for (const alias of Object.keys(
-                                            element.twinAliases
-                                        )) {
-                                            twins[alias] = this.mockTwins.find(
-                                                (t) =>
-                                                    t.$dtId ===
-                                                    element.twinAliases[alias]
-                                            ) || {
-                                                $dtId: 'machineID2',
-                                                InFlow: 300,
-                                                OutFlow: 250,
-                                                Temperature: 50,
-                                                displayName: 'My Machine 2'
-                                            };
-                                        }
-                                    }
-
-                                    const existingSceneVisual = sceneVisuals.find(
-                                        (sV) => sV.element.id === id
-                                    );
-                                    if (!existingSceneVisual) {
-                                        const sceneVisual = new SceneVisual(
-                                            element,
-                                            [behavior],
-                                            twins
-                                        );
-                                        sceneVisuals.push(sceneVisual);
-                                    } else {
-                                        existingSceneVisual.behaviors.push(
-                                            behavior
-                                        );
-                                    }
                                 }
                             }
+
+                            const existingSceneVisual = sceneVisuals.find(
+                                (sV) => sV.element.id === id
+                            );
+                            if (!existingSceneVisual) {
+                                const sceneVisual = new SceneVisual(
+                                    element,
+                                    [behavior],
+                                    twins
+                                );
+                                sceneVisuals.push(sceneVisual);
+                            } else {
+                                existingSceneVisual.behaviors.push(behavior);
+                            }
                         }
+                    }
                 }
             }
         }

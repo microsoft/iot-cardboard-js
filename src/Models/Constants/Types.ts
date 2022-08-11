@@ -171,6 +171,15 @@ export type CardboardIconNames =
     | 'SpeedHigh'
     | 'View';
 
+export enum DurationUnits {
+    milliseconds = 0,
+    seconds = 1,
+    minutes = 2,
+    hours = 3,
+    days = 4,
+    years = 5
+}
+
 export type IConsoleLogFunction = (
     level: 'debug' | 'info' | 'warn' | 'error',
     message: string,

@@ -224,6 +224,11 @@ export enum GlobeTheme {
     Yellow = 'Yellow'
 }
 
+export enum MultiLanguageSelectionType {
+    displayName = 'displayName',
+    description = 'description'
+}
+
 /** expand as necessary, it is also used as provider endpoint based on the values: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types and https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers */
 export enum AzureResourceTypes {
     DigitalTwinInstance = 'Microsoft.DigitalTwins/digitalTwinsInstances',
