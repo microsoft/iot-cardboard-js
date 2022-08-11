@@ -1142,7 +1142,7 @@
       "5hour": "5 óra"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Utoljára frissített {{value}} {{units}} ezelőtt",
     "refreshRate": "Minden {{érték}} {{egység}} frissítése"
   }
