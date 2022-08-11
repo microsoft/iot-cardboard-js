@@ -1125,7 +1125,7 @@
     "year": "ano",
     "years": "Anos"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "Configuração da cena",
     "calloutTitle": "Configuração da cena",
     "calloutDescription": "Configure configurações para esta cena",

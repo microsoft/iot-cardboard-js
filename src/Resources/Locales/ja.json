@@ -1125,7 +1125,7 @@
     "year": "年",
     "years": "月日"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "シーン構成",
     "calloutTitle": "シーン構成",
     "calloutDescription": "このシーンの設定を構成する",

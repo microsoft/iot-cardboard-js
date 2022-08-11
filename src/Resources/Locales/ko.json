@@ -1125,7 +1125,7 @@
     "year": "년",
     "years": "년"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "장면 구성",
     "calloutTitle": "장면 구성",
     "calloutDescription": "이 장면에 대한 설정 구성",

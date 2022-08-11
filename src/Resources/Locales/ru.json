@@ -1125,7 +1125,7 @@
     "year": "год",
     "years": "годы"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "Конфигурация сцены",
     "calloutTitle": "Конфигурация сцены",
     "calloutDescription": "Настройка параметров для этой сцены",

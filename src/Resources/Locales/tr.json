@@ -1125,7 +1125,7 @@
     "year": "yıl",
     "years": "Yıl"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "Sahne yapılandırması",
     "calloutTitle": "Sahne yapılandırması",
     "calloutDescription": "Bu sahne için ayarları yapılandırma",
