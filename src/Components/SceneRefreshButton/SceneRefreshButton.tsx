@@ -85,7 +85,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
             DurationUnits.seconds
         );
         setTimeSinceLastRefresh(timeSinceRefresh);
-    }, 1000);
+    }, 900);
 
     const refreshFrequencyDisplay = useMemo(
         () =>
