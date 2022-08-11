@@ -1126,24 +1126,10 @@
     "calloutTitle": "Szenenkonfiguration",
     "calloutDescription": "Konfigurieren von Einstellungen für diese Szene",
     "rateDropdownLabel": "Minimale Bildwiederholfrequenz",
-    "rateTooltip": "Sie können die Häufigkeit der Aktualisierung von Daten einschränken, um das Anforderungsvolumen zu reduzieren. Hinweis: Das Aktualisierungsintervall kann für komplexere Szenen dynamisch angepasst werden.",
-    "rateOptions": {
-      "2sec": "2 Sekunden",
-      "5sec": "5 Sekunden",
-      "10sec": "10 Sekunden",
-      "30sec": "30 Sekunden",
-      "1min": "1 Minute",
-      "2min": "2 Minuten",
-      "5min": "5 Minuten",
-      "10min": "10 Minuten",
-      "30min": "30 Minuten",
-      "1hour": "1 Stunde",
-      "2hour": "2 Stunden",
-      "5hour": "5 Stunden"
-    }
+    "rateTooltip": "Sie können die Häufigkeit der Aktualisierung von Daten einschränken, um das Anforderungsvolumen zu reduzieren. Hinweis: Das Aktualisierungsintervall kann für komplexere Szenen dynamisch angepasst werden."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Letzte Aktualisierung von {{value}} {{units}} vor",
-    "refreshRate": "Aktualisieren aller {{value}} {{units}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Zuletzt aktualisiert {{timeWithUnits}} vor",
+    "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
   }
 }

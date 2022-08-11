@@ -1126,24 +1126,10 @@
     "calloutTitle": "Konfigurace scény",
     "calloutDescription": "Konfigurace nastavení pro tuto scénu",
     "rateDropdownLabel": "Minimální obnovovací frekvence",
-    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény.",
-    "rateOptions": {
-      "2sec": "2 sekundy",
-      "5sec": "5 sekund",
-      "10sec": "10 sekund",
-      "30sec": "30 sekund",
-      "1min": "1 minuta",
-      "2min": "2 minuty",
-      "5min": "5 minut",
-      "10min": "10 minut",
-      "30min": "30 minut",
-      "1hour": "1 hodina",
-      "2hour": "2 hodiny",
-      "5hour": "5 hodin"
-    }
+    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Naposledy aktualizováno {{value}} {{units}} před",
-    "refreshRate": "Aktualizace všech {{value}} {{units}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Naposledy aktualizováno {{timeWithUnits}} před",
+    "refreshRate": "Aktualizace každého {{timeWithUnits}}"
   }
 }

@@ -1126,24 +1126,10 @@
     "calloutTitle": "Configuration de la scène",
     "calloutDescription": "Configurer les paramètres de cette scène",
     "rateDropdownLabel": "Taux de rafraîchissement minimum",
-    "rateTooltip": "Vous pouvez limiter la fréquence d’actualisation des données pour réduire le volume de demandes. Remarque : l’intervalle d’actualisation peut être ajusté dynamiquement pour les scènes plus complexes.",
-    "rateOptions": {
-      "2sec": "2 secondes",
-      "5sec": "5 secondes",
-      "10sec": "10 secondes",
-      "30sec": "30 secondes",
-      "1min": "1 minute",
-      "2min": "2 minutes",
-      "5min": "5 minutes",
-      "10min": "10 minutes",
-      "30min": "30 minutes",
-      "1hour": "1 heure",
-      "2hour": "2 heures",
-      "5hour": "5 heures"
-    }
+    "rateTooltip": "Vous pouvez limiter la fréquence d’actualisation des données pour réduire le volume de demandes. Remarque : l’intervalle d’actualisation peut être ajusté dynamiquement pour les scènes plus complexes."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Dernière actualisation de {{value}} {{units}}",
-    "refreshRate": "Actualisation de chaque {{valeur}} {{unités}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Dernière actualisation de {{timeWithUnits}}",
+    "refreshRate": "Actualisation de chaque {{timeWithUnits}}"
   }
 }
