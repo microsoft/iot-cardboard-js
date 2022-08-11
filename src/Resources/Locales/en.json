@@ -1107,43 +1107,29 @@
             "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
         }
     },
-    "sceneRefreshButton": {
-        "lastRefreshed": "Last refreshed {{value}} {{units}} ago",
-        "refreshRate": "Refreshing every {{value}} {{units}}"
+    "sceneRefreshButton1": {
+        "lastRefreshed": "Last refreshed {{timeWithUnits}} ago",
+        "refreshRate": "Refreshing every {{timeWithUnits}}"
     },
     "sceneRefreshConfigurator": {
         "headerButtonTitle": "Scene configuration",
         "calloutTitle": "Scene configuration",
         "calloutDescription": "Configure settings for this scene",
         "rateDropdownLabel": "Minimum refresh rate",
-        "rateTooltip": "You can limit how often data is refreshed to reduce request volume. Note: refresh interval may be adjusted dynamically for more complex scenes.",
-        "rateOptions": {
-            "2sec": "2 seconds",
-            "5sec": "5 seconds",
-            "10sec": "10 seconds",
-            "30sec": "30 seconds",
-            "1min": "1 minute",
-            "2min": "2 minutes",
-            "5min": "5 minutes",
-            "10min": "10 minutes",
-            "30min": "30 minutes",
-            "1hour": "1 hour",
-            "2hour": "2 hours",
-            "5hour": "5 hours"
-        }
+        "rateTooltip": "You can limit how often data is refreshed to reduce request volume. Note: refresh interval may be adjusted dynamically for more complex scenes."
     },
     "duration": {
-        "millisecond": "millisecond",
-        "milliseconds": "milliseconds",
-        "second": "second",
-        "seconds": "seconds",
-        "minute": "minute",
-        "minutes": "minutes",
-        "hour": "hour",
-        "hours": "hours",
-        "day": "day",
-        "days": "days",
-        "year": "year",
-        "years": "years"
+        "millisecond": "{{value}} millisecond",
+        "milliseconds": "{{value}} milliseconds",
+        "second": "{{value}} second",
+        "seconds": "{{value}} seconds",
+        "minute": "{{value}} minute",
+        "minutes": "{{value}} minutes",
+        "hour": "{{value}} hour",
+        "hours": "{{value}} hours",
+        "day": "{{value}} day",
+        "days": "{{value}} days",
+        "year": "{{value}} year",
+        "years": "{{value}} years"
     }
 }

@@ -281,7 +281,7 @@ export function formatTimeInRelevantUnits(
 
     let units = unitBelow[1];
     // make the key plural if it's != 1
-    if (value !== 1) {
+    if (Math.round(value) != 1) {
         units += 's';
     }
     return {

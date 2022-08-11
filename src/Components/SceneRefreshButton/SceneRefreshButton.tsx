@@ -85,7 +85,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
             DurationUnits.seconds
         );
         setTimeSinceLastRefresh(timeSinceRefresh);
-    }, 900);
+    }, 450);
 
     const refreshFrequencyDisplay = useMemo(
         () =>
@@ -105,21 +105,25 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
                         <Stack>
                             <div>
                                 {t(LOC_KEYS.lastRefreshed, {
-                                    value: Math.round(
-                                        timeSinceLastRefresh.value
-                                    ),
-                                    units: t(
-                                        timeSinceLastRefresh.displayStringKey
+                                    timeWithUnits: t(
+                                        timeSinceLastRefresh.displayStringKey,
+                                        {
+                                            value: Math.round(
+                                                timeSinceLastRefresh.value
+                                            )
+                                        }
                                     )
                                 })}
                             </div>
                             <div>
                                 {t(LOC_KEYS.refreshRate, {
-                                    value: Math.round(
-                                        refreshFrequencyDisplay.value
-                                    ),
-                                    units: t(
-                                        refreshFrequencyDisplay.displayStringKey
+                                    timeWithUnits: t(
+                                        refreshFrequencyDisplay.displayStringKey,
+                                        {
+                                            value: Math.round(
+                                                refreshFrequencyDisplay.value
+                                            )
+                                        }
                                     )
                                 })}
                             </div>

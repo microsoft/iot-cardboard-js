@@ -19,8 +19,16 @@ import HeaderControlButtonWithCallout from '../HeaderControlButtonWithCallout/He
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { TFunction } from 'i18next';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { getDebugLogger } from '../../Models/Services/Utils';
-import { ONE_SECOND, ONE_MINUTE, ONE_HOUR } from '../../Models/Constants';
+import {
+    formatTimeInRelevantUnits,
+    getDebugLogger
+} from '../../Models/Services/Utils';
+import {
+    ONE_SECOND,
+    ONE_MINUTE,
+    ONE_HOUR,
+    DurationUnits
+} from '../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger(
@@ -39,21 +47,7 @@ const LOC_KEYS = {
     calloutTitle: `${ROOT_LOC}.calloutTitle`,
     calloutDescription: `${ROOT_LOC}.calloutDescription`,
     rateDropdownLabel: `${ROOT_LOC}.rateDropdownLabel`,
-    rateTooltip: `${ROOT_LOC}.rateTooltip`,
-    rateOptions: {
-        sec2: `${ROOT_LOC}.rateOptions.2sec`,
-        sec5: `${ROOT_LOC}.rateOptions.5sec`,
-        sec10: `${ROOT_LOC}.rateOptions.10sec`,
-        sec30: `${ROOT_LOC}.rateOptions.30sec`,
-        min1: `${ROOT_LOC}.rateOptions.1min`,
-        min2: `${ROOT_LOC}.rateOptions.2min`,
-        min5: `${ROOT_LOC}.rateOptions.5min`,
-        min10: `${ROOT_LOC}.rateOptions.10min`,
-        min30: `${ROOT_LOC}.rateOptions.30min`,
-        hour1: `${ROOT_LOC}.rateOptions.1hour`,
-        hour2: `${ROOT_LOC}.rateOptions.2hour`,
-        hour5: `${ROOT_LOC}.rateOptions.5hour`
-    }
+    rateTooltip: `${ROOT_LOC}.rateTooltip`
 };
 const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     props
@@ -154,68 +148,38 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
 
 // NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
 const getRateOptions = (t: TFunction): IDropdownOption<number>[] => {
-    return [
-        {
-            data: 2 * ONE_SECOND,
-            key: 2 * ONE_SECOND,
-            text: t(LOC_KEYS.rateOptions.sec2)
-        },
-        {
-            data: 5 * ONE_SECOND,
-            key: 5 * ONE_SECOND,
-            text: t(LOC_KEYS.rateOptions.sec5)
-        },
-        {
-            data: 10 * ONE_SECOND,
-            key: 10 * ONE_SECOND,
-            text: t(LOC_KEYS.rateOptions.sec10)
-        },
-        {
-            data: 30 * ONE_SECOND,
-            key: 30 * ONE_SECOND,
-            text: t(LOC_KEYS.rateOptions.sec30)
-        },
-        {
-            data: ONE_MINUTE,
-            key: ONE_MINUTE,
-            text: t(LOC_KEYS.rateOptions.min1)
-        },
-        {
-            data: 2 * ONE_MINUTE,
-            key: 2 * ONE_MINUTE,
-            text: t(LOC_KEYS.rateOptions.min2)
-        },
-        {
-            data: 5 * ONE_MINUTE,
-            key: 5 * ONE_MINUTE,
-            text: t(LOC_KEYS.rateOptions.min5)
-        },
-        {
-            data: 10 * ONE_MINUTE,
-            key: 10 * ONE_MINUTE,
-            text: t(LOC_KEYS.rateOptions.min10)
-        },
-        {
-            data: 30 * ONE_MINUTE,
-            key: 30 * ONE_MINUTE,
-            text: t(LOC_KEYS.rateOptions.min30)
-        },
-        {
-            data: ONE_HOUR,
-            key: ONE_HOUR,
-            text: t(LOC_KEYS.rateOptions.hour1)
-        },
-        {
-            data: 2 * ONE_HOUR,
-            key: 2 * ONE_HOUR,
-            text: t(LOC_KEYS.rateOptions.hour2)
-        },
-        {
-            data: 5 * ONE_HOUR,
-            key: 5 * ONE_HOUR,
-            text: t(LOC_KEYS.rateOptions.hour5)
-        }
+    const durations: number[] = [
+        2 * ONE_SECOND,
+        5 * ONE_SECOND,
+        10 * ONE_SECOND,
+        30 * ONE_SECOND,
+        ONE_MINUTE,
+        2 * ONE_MINUTE,
+        5 * ONE_MINUTE,
+        10 * ONE_MINUTE,
+        30 * ONE_MINUTE,
+        ONE_HOUR,
+        2 * ONE_HOUR,
+        5 * ONE_HOUR,
+        10 * ONE_HOUR
     ];
+
+    const options: IDropdownOption<number>[] = [];
+    for (const duration of durations) {
+        const formattedTime = formatTimeInRelevantUnits(
+            duration,
+            DurationUnits.seconds
+        );
+        options.push({
+            data: duration,
+            key: duration,
+            text: t(formattedTime.displayStringKey, {
+                value: formattedTime.value
+            })
+        });
+    }
+
+    return options;
 };
 
 export default styled<
