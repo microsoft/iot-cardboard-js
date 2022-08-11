@@ -29,7 +29,7 @@ const AlertBadge: React.FC<IAlertBadgeProps> = ({
                     ? classNames.groupContainer
                     : classNames.singleContainer
             }
-            onMouseMove={(element) => {
+            onMouseOver={(element) => {
                 if (onBadgeGroupHover) {
                     const container: HTMLDivElement =
                         element.target['parentElement'];

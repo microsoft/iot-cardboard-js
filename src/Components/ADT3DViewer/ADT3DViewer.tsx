@@ -630,12 +630,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         });
         // Adding offsets to ensure the popover covers the alerts badges as per the designs
         setAlertPopoverPosition({ left: left - 50, top: top - 30 });
-        if (!isAlertPopoverVisible) {
-            setIsAlertPopoverVisible(true);
-        } else {
-            setIsAlertPopoverVisible(false); // Hide old popover
-            setIsAlertPopoverVisible(true); // Show new popover
-        }
+        setIsAlertPopoverVisible(true);
     };
 
     // header callbacks
