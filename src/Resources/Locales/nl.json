@@ -1126,24 +1126,10 @@
     "calloutTitle": "Scène configuratie",
     "calloutDescription": "Instellingen voor deze scène configureren",
     "rateDropdownLabel": "Minimale verversingssnelheid",
-    "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. Opmerking: het vernieuwingsinterval kan dynamisch worden aangepast voor complexere scènes.",
-    "rateOptions": {
-      "2sec": "2 seconden",
-      "5sec": "5 seconden",
-      "10sec": "10 seconden",
-      "30sec": "30 seconden",
-      "1min": "1 minuut",
-      "2min": "2 minuten",
-      "5min": "5 minuten",
-      "10min": "10 minuten",
-      "30min": "30 minuten",
-      "1hour": "1 uur",
-      "2hour": "2 uur",
-      "5hour": "5 uur"
-    }
+    "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. Opmerking: het vernieuwingsinterval kan dynamisch worden aangepast voor complexere scènes."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Laatst vernieuwd {{value}} {{units}} geleden",
-    "refreshRate": "Elke {{value}} {{units}} vernieuwen"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Laatst vernieuwd {{timeWithUnits}} geleden",
+    "refreshRate": "Elke {{timeWithUnits}} vernieuwen"
   }
 }

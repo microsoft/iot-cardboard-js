@@ -1126,24 +1126,10 @@
     "calloutTitle": "Configuração da cena",
     "calloutDescription": "Configure configurações para esta cena",
     "rateDropdownLabel": "Taxa mínima de atualização",
-    "rateTooltip": "Você pode limitar a frequência com que os dados são atualizados para reduzir o volume de solicitação. Nota: o intervalo de atualização pode ser ajustado dinamicamente para cenas mais complexas.",
-    "rateOptions": {
-      "2sec": "2 segundos",
-      "5sec": "5 segundos",
-      "10sec": "10 segundos",
-      "30sec": "30 segundos",
-      "1min": "1 minuto",
-      "2min": "2 minutos",
-      "5min": "5 minutos",
-      "10min": "10 minutos",
-      "30min": "30 min.",
-      "1hour": "1 hora",
-      "2hour": "2 horas",
-      "5hour": "5 horas"
-    }
+    "rateTooltip": "Você pode limitar a frequência com que os dados são atualizados para reduzir o volume de solicitação. Nota: o intervalo de atualização pode ser ajustado dinamicamente para cenas mais complexas."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Última atualização {{value}} {{units}} atrás",
-    "refreshRate": "Atualizando cada {{value}} {{units}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Última atualização {{timeWithUnits}} atrás",
+    "refreshRate": "Refrescando cada {{timeWithUnits}}"
   }
 }

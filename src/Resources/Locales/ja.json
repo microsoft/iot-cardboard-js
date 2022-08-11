@@ -1126,24 +1126,10 @@
     "calloutTitle": "シーン構成",
     "calloutDescription": "このシーンの設定を構成する",
     "rateDropdownLabel": "最小リフレッシュレート",
-    "rateTooltip": "データを更新する頻度を制限して、要求量を減らすことができます。注: 更新間隔は、より複雑なシーンに合わせて動的に調整できます。",
-    "rateOptions": {
-      "2sec": "2 秒",
-      "5sec": "5秒",
-      "10sec": "10秒",
-      "30sec": "30秒",
-      "1min": "1 分",
-      "2min": "所要時間: 2 分",
-      "5min": "所要時間: 5 分",
-      "10min": "所要時間: 10 分",
-      "30min": "所要時間: 30 分",
-      "1hour": "所要時間: 1 時間",
-      "2hour": "所要時間: 2 時間",
-      "5hour": "所要時間: 5 時間"
-    }
+    "rateTooltip": "データを更新する頻度を制限して、要求量を減らすことができます。注: 更新間隔は、より複雑なシーンに合わせて動的に調整できます。"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "最後に更新された {{値}} {{単位}} 前",
-    "refreshRate": "すべての{{値}}{{単位}}を更新する"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "最後に更新された {{timeWithUnits}} 前",
+    "refreshRate": "{{timeWithUnits}} のたびに更新する"
   }
 }

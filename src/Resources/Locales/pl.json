@@ -1126,24 +1126,10 @@
     "calloutTitle": "Konfiguracja sceny",
     "calloutDescription": "Konfigurowanie ustawień dla tej sceny",
     "rateDropdownLabel": "Minimalna częstotliwość odświeżania",
-    "rateTooltip": "Możesz ograniczyć częstotliwość odświeżania danych, aby zmniejszyć liczbę żądań. Uwaga: interwał odświeżania można dostosowywać dynamicznie dla bardziej złożonych scen.",
-    "rateOptions": {
-      "2sec": "2 sekundy",
-      "5sec": "5 sekund",
-      "10sec": "10 sekund",
-      "30sec": "30 sekund",
-      "1min": "1 minuta",
-      "2min": "2 minuty",
-      "5min": "5 minut",
-      "10min": "10 minut",
-      "30min": "30 minut",
-      "1hour": "1 godzina",
-      "2hour": "2 godziny",
-      "5hour": "5 godzin"
-    }
+    "rateTooltip": "Możesz ograniczyć częstotliwość odświeżania danych, aby zmniejszyć liczbę żądań. Uwaga: interwał odświeżania można dostosowywać dynamicznie dla bardziej złożonych scen."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Ostatnio odświeżony {{value}} {{units}} temu",
-    "refreshRate": "Odświeżanie każdej {{wartości}} {{jednostek}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Ostatnio odświeżony {{timeWithUnits}} temu",
+    "refreshRate": "Odświeżanie co {{timeWithUnits}}"
   }
 }

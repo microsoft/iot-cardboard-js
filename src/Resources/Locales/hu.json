@@ -1126,24 +1126,10 @@
     "calloutTitle": "Jelenet konfigurációja",
     "calloutDescription": "A jelenet beállításainak konfigurálása",
     "rateDropdownLabel": "Minimális frissítési gyakoriság",
-    "rateTooltip": "A kérelmek mennyiségének csökkentése érdekében korlátozhatja az adatok frissítésének gyakoriságát. Megjegyzés: a frissítési időköz dinamikusan beállítható összetettebb jelenetek esetén.",
-    "rateOptions": {
-      "2sec": "2 másodperc",
-      "5sec": "5 másodperc",
-      "10sec": "10 másodperc",
-      "30sec": "30 másodperc",
-      "1min": "1 perc",
-      "2min": "2 perc",
-      "5min": "5 perc",
-      "10min": "10 perc",
-      "30min": "30 perc",
-      "1hour": "1 óra",
-      "2hour": "2 óra",
-      "5hour": "5 óra"
-    }
+    "rateTooltip": "A kérelmek mennyiségének csökkentése érdekében korlátozhatja az adatok frissítésének gyakoriságát. Megjegyzés: a frissítési időköz dinamikusan beállítható összetettebb jelenetek esetén."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Utoljára frissített {{value}} {{units}} ezelőtt",
-    "refreshRate": "Minden {{érték}} {{egység}} frissítése"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
+    "refreshRate": "Frissítés minden {{timeWithUnits}}"
   }
 }

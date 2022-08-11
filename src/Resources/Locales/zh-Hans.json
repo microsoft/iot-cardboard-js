@@ -1126,24 +1126,10 @@
     "calloutTitle": "场景配置",
     "calloutDescription": "配置此场景的设置",
     "rateDropdownLabel": "最小刷新率",
-    "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：对于更复杂的场景，刷新间隔可能会动态调整。",
-    "rateOptions": {
-      "2sec": "2 秒",
-      "5sec": "5 秒",
-      "10sec": "10 秒",
-      "30sec": "30 秒",
-      "1min": "1 分钟",
-      "2min": "2 分钟",
-      "5min": "5 分钟",
-      "10min": "10 分钟",
-      "30min": "30 分钟",
-      "1hour": "1 小时",
-      "2hour": "2 小时",
-      "5hour": "5 小时"
-    }
+    "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：对于更复杂的场景，刷新间隔可能会动态调整。"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "上次刷新 {{值}} {{单位}} 前",
-    "refreshRate": "刷新每个 {{值}} {{单位}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "上次刷新 {{timeWithUnits}} 前",
+    "refreshRate": "刷新每个 {{timeWithUnits}}"
   }
 }

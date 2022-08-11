@@ -1126,24 +1126,10 @@
     "calloutTitle": "장면 구성",
     "calloutDescription": "이 장면에 대한 설정 구성",
     "rateDropdownLabel": "최소 새로 고침 빈도",
-    "rateTooltip": "요청 볼륨을 줄이기 위해 데이터를 새로 고치는 빈도를 제한할 수 있습니다. 참고: 새로 고침 간격은 더 복잡한 장면에 대해 동적으로 조정될 수 있습니다.",
-    "rateOptions": {
-      "2sec": "2초",
-      "5sec": "5초",
-      "10sec": "10초",
-      "30sec": "30초",
-      "1min": "1분",
-      "2min": "2분",
-      "5min": "5분",
-      "10min": "10분",
-      "30min": "30분",
-      "1hour": "1시간",
-      "2hour": "2시간",
-      "5hour": "5시간"
-    }
+    "rateTooltip": "요청 볼륨을 줄이기 위해 데이터를 새로 고치는 빈도를 제한할 수 있습니다. 참고: 새로 고침 간격은 더 복잡한 장면에 대해 동적으로 조정될 수 있습니다."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Last refreshed {{value}} {{units}} ago",
-    "refreshRate": "모든 {{값}} {{단위}} 새로 고침"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "마지막으로 새로 고친 {{timeWithUnits}} 전",
+    "refreshRate": "{{timeWithUnits}} 마다 새로 고침"
   }
 }

@@ -1126,24 +1126,10 @@
     "calloutTitle": "Sahne yapılandırması",
     "calloutDescription": "Bu sahne için ayarları yapılandırma",
     "rateDropdownLabel": "Minimum yenileme hızı",
-    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. Not: Yenileme aralığı daha karmaşık sahneler için dinamik olarak ayarlanabilir.",
-    "rateOptions": {
-      "2sec": "2 saniye",
-      "5sec": "5 saniye",
-      "10sec": "10 saniye",
-      "30sec": "30 saniye",
-      "1min": "1 dakika",
-      "2min": "2 dakika",
-      "5min": "5 dakika",
-      "10min": "10 dakika",
-      "30min": "30 dakika",
-      "1hour": "1 saat",
-      "2hour": "2 saat",
-      "5hour": "5 saat"
-    }
+    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. Not: Yenileme aralığı daha karmaşık sahneler için dinamik olarak ayarlanabilir."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "En son yenilenen {{değer}} {{birimler}} önce",
-    "refreshRate": "Her {{değer}} {{birim}} yenilemesi"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Son yenilenen {{timeWithUnits}} önce",
+    "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
   }
 }

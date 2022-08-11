@@ -1126,24 +1126,10 @@
     "calloutTitle": "Scen konfiguration",
     "calloutDescription": "Konfigurera inställningar för den här scenen",
     "rateDropdownLabel": "Minsta uppdateringsfrekvens",
-    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. Uppdateringsintervallet kan justeras dynamiskt för mer komplexa scener.",
-    "rateOptions": {
-      "2sec": "2 sekunder",
-      "5sec": "5 sekunder",
-      "10sec": "10 sekunder",
-      "30sec": "30 sekunder",
-      "1min": "1 minut",
-      "2min": "2 minuter",
-      "5min": "5 minuter",
-      "10min": "10 minuter",
-      "30min": "30 minuter",
-      "1hour": "1 timme",
-      "2hour": "2 timmar",
-      "5hour": "5 timmar"
-    }
+    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. Uppdateringsintervallet kan justeras dynamiskt för mer komplexa scener."
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Senast uppdaterad {{value}} {{units}} ago",
-    "refreshRate": "Uppdatera varje {{värde}} {{units}}"
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Senast uppdaterad {{timeWithUnits}} sedan",
+    "refreshRate": "Uppdatera varje {{timeWithUnits}}"
   }
 }
