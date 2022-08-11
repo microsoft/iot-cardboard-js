@@ -89,7 +89,6 @@ function BabylonSandbox(props: IBabylonSandboxProps) {
     // setting up engine based on the canvas & scene based on engine
     useEffect(() => {
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
-        console.log(canvas);
         if (canvas) {
             engineRef.current = new BABYLON.Engine(canvas, true);
             setScene(new BABYLON.Scene(engineRef.current));
