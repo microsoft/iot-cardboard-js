@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
     ISceneRefreshButtonProps,
     ISceneRefreshButtonStyleProps,
@@ -34,13 +34,7 @@ const LOC_KEYS = {
     refreshRate: `${ROOT_LOC}.refreshRate`
 };
 const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
-    const {
-        isRefreshing,
-        lastRefreshTimeInMs,
-        onClick,
-        refreshFrequency,
-        styles
-    } = props;
+    const { lastRefreshTimeInMs, onClick, refreshFrequency, styles } = props;
     const iconAnimationTimeout = useRef<NodeJS.Timeout>();
 
     // state
@@ -65,16 +59,14 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         theme: useTheme()
     });
 
-    // set local state when we are notified about refreshing, then give it time to animate
-    useEffect(() => {
-        if (isRefreshing) {
-            setIsRefreshInProgress(true); // apply the styling
-            clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
-            setTimeout(() => {
-                setIsRefreshInProgress(false);
-            }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
-        }
-    }, [isRefreshing]);
+    const localOnClick = useCallback(() => {
+        setIsRefreshInProgress(true); // apply the styling
+        clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
+        setTimeout(() => {
+            setIsRefreshInProgress(false);
+        }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
+        onClick();
+    }, []);
 
     // to get live updating we have to trigger renders and recalculate on a regular cadence so set a timer to keep checking
     setTimeout(() => {
@@ -136,7 +128,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
                         id={buttonId}
                         iconProps={{ iconName: 'Refresh' }}
                         isActive={false}
-                        onClick={onClick}
+                        onClick={localOnClick}
                         styles={
                             classNames.subComponentStyles.headerControlButton
                         }
