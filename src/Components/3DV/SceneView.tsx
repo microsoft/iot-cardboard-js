@@ -79,7 +79,7 @@ import { useTranslation } from 'react-i18next';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
-const debugLogging = true;
+const debugLogging = false;
 const debugLog = getDebugLogger('SceneView', debugLogging);
 
 function debounce(func: any, timeout = 300) {
