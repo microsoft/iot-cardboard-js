@@ -31,7 +31,6 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -54,7 +53,6 @@ export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 showMeshesOnHover={true}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -196,7 +194,6 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={selectedScene.id}
                 connectionLineColor="#000"
                 coloredMeshItems={coloredMeshes}
@@ -279,7 +276,6 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
                 addInProps={addInProps}
@@ -310,7 +306,6 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -329,7 +324,6 @@ export const MockWithHover = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 showMeshesOnHover={true}
                 connectionLineColor="#000"
@@ -349,7 +343,6 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 enableMeshSelection={true}
                 showHoverOnSelected={true}
@@ -428,7 +421,6 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 selectedLayerIds={selectedLayerIds}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={sceneId}
                 connectionLineColor="#000"
             />
