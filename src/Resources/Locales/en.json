@@ -1107,7 +1107,7 @@
             "3dAssetDimensionError": "There may be an issue with your model dimensions, please check there are no erroneous meshes."
         }
     },
-    "sceneRefreshButton1": {
+    "sceneRefreshButton": {
         "lastRefreshed": "Last refreshed {{timeWithUnits}} ago",
         "refreshRate": "Refreshing every {{timeWithUnits}}"
     },
