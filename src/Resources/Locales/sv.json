@@ -1125,7 +1125,7 @@
     "year": "år",
     "years": "år"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "Scen konfiguration",
     "calloutTitle": "Scen konfiguration",
     "calloutDescription": "Konfigurera inställningar för den här scenen",
