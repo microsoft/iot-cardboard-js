@@ -1125,12 +1125,12 @@
     "year": "ano",
     "years": "anos"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Configuração de cena",
     "calloutTitle": "Configuração de cena",
     "calloutDescription": "Configurar configurações para esta cena",
     "rateDropdownLabel": "Taxa mínima de atualização",
-    "rateTooltip": "Pode limitar a frequência com que os dados são atualizados para reduzir o volume de pedidos. NOTA: O intervalo de atualização pode ser ajustado para ser mais complexo.",
+    "rateTooltip": "Pode limitar a frequência com que os dados são atualizados para reduzir o volume de pedidos. Nota: o intervalo de atualização pode ser ajustado dinamicamente para cenas mais complexas.",
     "rateOptions": {
       "2sec": "2 segundos",
       "5sec": "5 segundos",

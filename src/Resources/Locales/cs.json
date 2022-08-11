@@ -1125,12 +1125,12 @@
     "year": "rok",
     "years": "roky"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Konfigurace scény",
     "calloutTitle": "Konfigurace scény",
     "calloutDescription": "Konfigurace nastavení pro tuto scénu",
     "rateDropdownLabel": "Minimální obnovovací frekvence",
-    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. POZNÁMKA: Interval aktualizace může být upraven pro složitější.",
+    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény.",
     "rateOptions": {
       "2sec": "2 sekundy",
       "5sec": "5 sekund",
