@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimální obnovovací frekvence",
     "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Naposledy aktualizováno {{timeWithUnits}} před",
     "refreshRate": "Aktualizace každého {{timeWithUnits}}"
   }

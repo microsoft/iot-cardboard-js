@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Taux de rafraîchissement minimum",
     "rateTooltip": "Vous pouvez limiter la fréquence d’actualisation des données pour réduire le volume de demandes. Remarque : l’intervalle d’actualisation peut être ajusté dynamiquement pour les scènes plus complexes."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Dernière actualisation de {{timeWithUnits}}",
     "refreshRate": "Actualisation de chaque {{timeWithUnits}}"
   }

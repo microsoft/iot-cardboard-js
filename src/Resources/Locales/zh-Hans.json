@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "最小刷新率",
     "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：对于更复杂的场景，刷新间隔可能会动态调整。"
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "上次刷新 {{timeWithUnits}} 前",
     "refreshRate": "刷新每个 {{timeWithUnits}}"
   }

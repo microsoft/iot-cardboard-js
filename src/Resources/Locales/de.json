@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimale Bildwiederholfrequenz",
     "rateTooltip": "Sie können die Häufigkeit der Aktualisierung von Daten einschränken, um das Anforderungsvolumen zu reduzieren. Hinweis: Das Aktualisierungsintervall kann für komplexere Szenen dynamisch angepasst werden."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Zuletzt aktualisiert {{timeWithUnits}} vor",
     "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
   }
