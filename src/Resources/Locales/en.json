@@ -1111,19 +1111,16 @@
         "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
         "refreshRate": "Refresh rate: {{value}} {{units}}"
     },
-    "sceneRefreshConfigurator": {
+    "sceneRefreshConfigurator1": {
         "headerButtonTitle": "Scene configuration",
         "calloutTitle": "Scene configuration",
-        "calloutDescription": "Customize how often this scene's data is refreshed",
-        "strategyDropdownLabel": "Refresh strategy",
-        "strategyTooltip": "Use 'Realtime' to fetch data as quickly as possible (max: every 10 seconds). \nUse 'Limited' to select a rate limit that limits the frequency of refreshes to a slower rate.",
-        "strategyOptions": {
-            "realtime": "Realtime",
-            "limited": "Limited"
-        },
+        "calloutDescription": "Configure settings for this scene",
         "rateDropdownLabel": "Minimum refresh rate",
-        "rateTooltip": "Use this to limit the frequency of automatic refreshes to a slower rate.",
+        "rateTooltip": "You can limit how often data is refreshed to reduce request volume. NOTE: Refresh interval may be adjusted for more complex.",
         "rateOptions": {
+            "2sec": "2 seconds",
+            "5sec": "5 seconds",
+            "10sec": "10 seconds",
             "30sec": "30 seconds",
             "1min": "1 minute",
             "2min": "2 minutes",

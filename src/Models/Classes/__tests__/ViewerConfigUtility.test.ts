@@ -7,7 +7,6 @@ import {
 import {
     I3DScenesConfig,
     IPollingConfiguration,
-    IPollingStrategy,
     IScene
 } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../ViewerConfigUtility';
@@ -245,7 +244,6 @@ describe('ViewerConfigUtility', () => {
 
                 // ASSERT
                 expect(result).toBeDefined();
-                expect(result.pollingStrategy).toEqual('Realtime');
                 expect(result.minimumPollingFrequency).toEqual(
                     MINIMUM_REFRESH_RATE_IN_MILLISECONDS
                 );
@@ -254,13 +252,12 @@ describe('ViewerConfigUtility', () => {
                 // ARRANGE
                 // ACT
                 const result = ViewerConfigUtility.getPollingConfig(
-                    GET_TEST_SCENE_CONFIG({ pollingStrategy: 'Realtime' }),
+                    GET_TEST_SCENE_CONFIG({ minimumPollingFrequency: 2000 }),
                     null
                 );
 
                 // ASSERT
                 expect(result).toBeDefined();
-                expect(result.pollingStrategy).toEqual('Realtime');
                 expect(result.minimumPollingFrequency).toEqual(
                     MINIMUM_REFRESH_RATE_IN_MILLISECONDS
                 );
@@ -269,13 +266,12 @@ describe('ViewerConfigUtility', () => {
                 // ARRANGE
                 // ACT
                 const result = ViewerConfigUtility.getPollingConfig(
-                    GET_TEST_SCENE_CONFIG({ pollingStrategy: 'Realtime' }),
+                    GET_TEST_SCENE_CONFIG({ minimumPollingFrequency: 2000 }),
                     'non-existent-scene-id'
                 );
 
                 // ASSERT
                 expect(result).toBeDefined();
-                expect(result.pollingStrategy).toEqual('Realtime');
                 expect(result.minimumPollingFrequency).toEqual(
                     MINIMUM_REFRESH_RATE_IN_MILLISECONDS
                 );
@@ -285,7 +281,6 @@ describe('ViewerConfigUtility', () => {
                 // ACT
                 const result = ViewerConfigUtility.getPollingConfig(
                     GET_TEST_SCENE_CONFIG({
-                        pollingStrategy: 'Limited',
                         minimumPollingFrequency: 1000
                     }),
                     TEST_SCENE_ID
@@ -293,121 +288,7 @@ describe('ViewerConfigUtility', () => {
 
                 // ASSERT
                 expect(result).toBeDefined();
-                expect(result.pollingStrategy).toEqual('Limited');
                 expect(result.minimumPollingFrequency).toEqual(1000);
-            });
-        });
-
-        describe('setPollingStrategy', () => {
-            test('returns false when input Config is null', () => {
-                // ARRANGE
-                const newPollingStrategy: IPollingStrategy = 'Limited';
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    null,
-                    TEST_SCENE_ID,
-                    newPollingStrategy
-                );
-
-                // ASSERT
-                expect(result).toBeFalsy();
-            });
-            test('returns false when input SceneId is null', () => {
-                // ARRANGE
-                const newPollingStrategy: IPollingStrategy = 'Limited';
-                const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
-                });
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    config,
-                    null,
-                    newPollingStrategy
-                );
-
-                // ASSERT
-                expect(result).toBeFalsy();
-            });
-            test('returns false when input Polling Strategy is null', () => {
-                // ARRANGE
-                const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
-                });
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    config,
-                    TEST_SCENE_ID,
-                    null
-                );
-
-                // ASSERT
-                expect(result).toBeFalsy();
-            });
-            test('returns false when Scene does not exist', () => {
-                // ARRANGE
-                const newPollingStrategy: IPollingStrategy = 'Limited';
-                const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
-                });
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    config,
-                    'non-existent-scene-id',
-                    newPollingStrategy
-                );
-
-                // ASSERT
-                expect(result).toBeFalsy();
-            });
-            test('returns true when sets polling strategy', () => {
-                // ARRANGE
-                const newPollingStrategy: IPollingStrategy = 'Limited';
-                const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
-                });
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    config,
-                    TEST_SCENE_ID,
-                    newPollingStrategy
-                );
-
-                // ASSERT
-                expect(result).toBeTruthy();
-                expect(
-                    ViewerConfigUtility.getPollingConfig(config, TEST_SCENE_ID)
-                        .pollingStrategy
-                ).toEqual(newPollingStrategy);
-            });
-            test('returns true & sets frequency to defaul when setting polling strategy to Realtime', () => {
-                // ARRANGE
-                const newPollingStrategy: IPollingStrategy = 'Realtime';
-                const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Limited'
-                });
-
-                // ACT
-                const result = ViewerConfigUtility.setPollingStrategy(
-                    config,
-                    TEST_SCENE_ID,
-                    newPollingStrategy
-                );
-
-                // ASSERT
-                expect(result).toBeTruthy();
-                const newConfig = ViewerConfigUtility.getPollingConfig(
-                    config,
-                    TEST_SCENE_ID
-                );
-                expect(newConfig.pollingStrategy).toEqual(newPollingStrategy);
-                expect(newConfig.minimumPollingFrequency).toEqual(
-                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
-                );
             });
         });
 
@@ -430,7 +311,7 @@ describe('ViewerConfigUtility', () => {
                 // ARRANGE
                 const newPollingRate = 1000;
                 const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
+                    minimumPollingFrequency: 2000
                 });
 
                 // ACT
@@ -447,7 +328,7 @@ describe('ViewerConfigUtility', () => {
                 // ARRANGE
                 const newPollingRate = 1000;
                 const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: 'Realtime'
+                    minimumPollingFrequency: 2000
                 });
 
                 // ACT
@@ -460,11 +341,10 @@ describe('ViewerConfigUtility', () => {
                 // ASSERT
                 expect(result).toBeFalsy();
             });
-            test('returns true & sets frequency to provided value & defaults strategy to Limited if not set', () => {
+            test('returns true & sets frequency to provided value if not set', () => {
                 // ARRANGE
                 const newPollingRate = 1000;
                 const config = GET_TEST_SCENE_CONFIG({
-                    pollingStrategy: '' as any, // simulate a bad state
                     minimumPollingFrequency: 5000
                 });
 
@@ -481,7 +361,6 @@ describe('ViewerConfigUtility', () => {
                     config,
                     TEST_SCENE_ID
                 );
-                expect(newConfig.pollingStrategy).toEqual('Limited');
                 expect(newConfig.minimumPollingFrequency).toEqual(
                     newPollingRate
                 );

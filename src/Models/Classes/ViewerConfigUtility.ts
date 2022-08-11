@@ -15,7 +15,6 @@ import {
     IExpressionRangeVisual,
     ILayer,
     IPollingConfiguration,
-    IPollingStrategy,
     IPopoverVisual,
     IScene,
     ITwinToObjectMapping,
@@ -85,7 +84,6 @@ abstract class ViewerConfigUtility {
     ): IPollingConfiguration {
         const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         const defaultConfig: IPollingConfiguration = {
-            pollingStrategy: 'Realtime',
             minimumPollingFrequency: MINIMUM_REFRESH_RATE_IN_MILLISECONDS
         };
         if (config && sceneId) {
@@ -113,49 +111,6 @@ abstract class ViewerConfigUtility {
     }
 
     /**
-     * Sets the polling strategy value in the configuration file
-     * @param config current configuration file
-     * @param sceneId the current scene id
-     * @param pollingStrategy the strategy to set in the config
-     * @returns boolean indicating success
-     */
-    static setPollingStrategy(
-        config: I3DScenesConfig,
-        sceneId: string,
-        pollingStrategy: IPollingStrategy
-    ): boolean {
-        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
-        if (config && sceneId && pollingStrategy) {
-            const scene = this.getSceneById(config, sceneId);
-            if (scene) {
-                logDebugConsole(
-                    'debug',
-                    `Updating polling strategy from ${scene.pollingConfiguration?.pollingStrategy} to ${pollingStrategy}`
-                );
-                scene.pollingConfiguration = {
-                    ...scene.pollingConfiguration,
-                    pollingStrategy: pollingStrategy
-                };
-                // set the rate back to the default if changing strategy
-                if (pollingStrategy === 'Limited') {
-                    scene.pollingConfiguration.minimumPollingFrequency = 30000; // set a default value that is in the options list
-                } else {
-                    scene.pollingConfiguration.minimumPollingFrequency = MINIMUM_REFRESH_RATE_IN_MILLISECONDS;
-                }
-                return true;
-            } else {
-                console.error(
-                    `Unable to find the scene (id: ${sceneId}) to update the polling configuration`
-                );
-            }
-        } else {
-            console.error(
-                'Invalid arguments. Unable to update the polling configuration.'
-            );
-        }
-        return false;
-    }
-    /**
      * sets the polling refresh rate in the config
      * @param config current configuration file
      * @param sceneId current scene id
@@ -177,9 +132,6 @@ abstract class ViewerConfigUtility {
                 );
                 scene.pollingConfiguration = {
                     ...scene.pollingConfiguration,
-                    pollingStrategy:
-                        scene.pollingConfiguration?.pollingStrategy ||
-                        'Limited',
                     minimumPollingFrequency: rateInMilliseconds
                 };
                 return true;

@@ -17,14 +17,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import HeaderControlButtonWithCallout from '../HeaderControlButtonWithCallout/HeaderControlButtonWithCallout';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
-import { IPollingStrategy } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { TFunction } from 'i18next';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { ONE_SECOND, ONE_MINUTE, ONE_HOUR } from '../../Models/Constants';
 
 const debugLogging = false;
-``;
 const logDebugConsole = getDebugLogger(
     'SceneRefreshConfigurator',
     debugLogging
@@ -40,15 +38,12 @@ const LOC_KEYS = {
     headerButtonTitle: `${ROOT_LOC}.headerButtonTitle`,
     calloutTitle: `${ROOT_LOC}.calloutTitle`,
     calloutDescription: `${ROOT_LOC}.calloutDescription`,
-    strategyDropdownLabel: `${ROOT_LOC}.strategyDropdownLabel`,
-    strategyTooltip: `${ROOT_LOC}.strategyTooltip`,
     rateDropdownLabel: `${ROOT_LOC}.rateDropdownLabel`,
     rateTooltip: `${ROOT_LOC}.rateTooltip`,
-    strategyOptions: {
-        realtime: `${ROOT_LOC}.strategyOptions.realtime`,
-        limited: `${ROOT_LOC}.strategyOptions.limited`
-    },
     rateOptions: {
+        sec2: `${ROOT_LOC}.rateOptions.2sec`,
+        sec5: `${ROOT_LOC}.rateOptions.5sec`,
+        sec10: `${ROOT_LOC}.rateOptions.10sec`,
         sec30: `${ROOT_LOC}.rateOptions.30sec`,
         min1: `${ROOT_LOC}.rateOptions.1min`,
         min2: `${ROOT_LOC}.rateOptions.2min`,
@@ -69,16 +64,10 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     const { t } = useTranslation();
 
     // data
-    const strategyOptions = getStrategyOptions(t);
     const rateOptions = getRateOptions(t);
     const pollingConfig = ViewerConfigUtility.getPollingConfig(config, sceneId);
 
     // state
-    // need local state to trigger renders on selection changes
-    const [
-        selectedPollingStrategy,
-        setSelectedPollingStrategy
-    ] = useState<IPollingStrategy>(pollingConfig.pollingStrategy);
     // need local state to trigger renders on selection changes
     const [selectedPollingRate, setSelectedPollingRate] = useState<number>(
         pollingConfig.minimumPollingFrequency
@@ -90,19 +79,6 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     });
 
     // callbacks
-    const onStrategyChange = (
-        _event: React.FormEvent<HTMLDivElement>,
-        option: IDropdownOption<IPollingStrategy>
-    ) => {
-        logDebugConsole(
-            'info',
-            `Updating selected polling strategy to ${option.data}. {config, sceneId}`,
-            config,
-            sceneId
-        );
-        setSelectedPollingStrategy(option.data);
-        ViewerConfigUtility.setPollingStrategy(config, sceneId, option.data);
-    };
     const onRateChange = (
         _event: React.FormEvent<HTMLDivElement>,
         option: IDropdownOption<number>
@@ -139,10 +115,6 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     // side effects
     useEffect(() => {
         // ensure that state never gets out of sync with the config
-        setSelectedPollingStrategy(pollingConfig.pollingStrategy);
-    }, [pollingConfig.pollingStrategy]);
-    useEffect(() => {
-        // ensure that state never gets out of sync with the config
         setSelectedPollingRate(pollingConfig.minimumPollingFrequency);
     }, [pollingConfig.minimumPollingFrequency]);
 
@@ -166,53 +138,38 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
                 </span>
 
                 <Dropdown
-                    ariaLabel={t(LOC_KEYS.strategyDropdownLabel)}
-                    label={t(LOC_KEYS.strategyDropdownLabel)}
-                    selectedKey={selectedPollingStrategy}
-                    options={strategyOptions}
-                    onChange={onStrategyChange}
+                    ariaLabel={t(LOC_KEYS.rateDropdownLabel)}
+                    label={t(LOC_KEYS.rateDropdownLabel)}
+                    selectedKey={selectedPollingRate}
+                    options={rateOptions}
+                    onChange={onRateChange}
                     onRenderLabel={getLabelRenderFunction(
-                        t(LOC_KEYS.strategyTooltip)
+                        t(LOC_KEYS.rateTooltip)
                     )}
                 />
-                {pollingConfig.pollingStrategy !== 'Realtime' && (
-                    <Dropdown
-                        ariaLabel={t(LOC_KEYS.rateDropdownLabel)}
-                        label={t(LOC_KEYS.rateDropdownLabel)}
-                        selectedKey={selectedPollingRate}
-                        options={rateOptions}
-                        onChange={onRateChange}
-                        onRenderLabel={getLabelRenderFunction(
-                            t(LOC_KEYS.rateTooltip)
-                        )}
-                    />
-                )}
             </Stack>
         </HeaderControlButtonWithCallout>
     );
 };
 
 // NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
-const getStrategyOptions = (
-    t: TFunction
-): IDropdownOption<IPollingStrategy>[] => {
-    return [
-        {
-            data: 'Realtime',
-            key: 'Realtime',
-            text: t(LOC_KEYS.strategyOptions.realtime)
-        },
-        {
-            data: 'Limited',
-            key: 'Limited' as IPollingStrategy,
-            text: t(LOC_KEYS.strategyOptions.limited)
-        }
-    ];
-};
-
-// NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
 const getRateOptions = (t: TFunction): IDropdownOption<number>[] => {
     return [
+        {
+            data: 2 * ONE_SECOND,
+            key: 2 * ONE_SECOND,
+            text: t(LOC_KEYS.rateOptions.sec2)
+        },
+        {
+            data: 5 * ONE_SECOND,
+            key: 5 * ONE_SECOND,
+            text: t(LOC_KEYS.rateOptions.sec5)
+        },
+        {
+            data: 10 * ONE_SECOND,
+            key: 10 * ONE_SECOND,
+            text: t(LOC_KEYS.rateOptions.sec10)
+        },
         {
             data: 30 * ONE_SECOND,
             key: 30 * ONE_SECOND,
