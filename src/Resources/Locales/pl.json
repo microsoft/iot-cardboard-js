@@ -1125,19 +1125,16 @@
     "year": "rok",
     "years": "lata"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Konfiguracja sceny",
     "calloutTitle": "Konfiguracja sceny",
-    "calloutDescription": "Dostosowywanie częstotliwości odświeżania danych tej sceny",
-    "strategyDropdownLabel": "Odśwież strategię",
-    "strategyTooltip": "Użyj opcji \"Realtime\", aby pobrać dane tak szybko, jak to możliwe (maks.: co 10 sekund). \nUżyj opcji \"Ograniczone\", aby wybrać limit szybkości, który ogranicza częstotliwość odświeżania do wolniejszej szybkości.",
-    "strategyOptions": {
-      "realtime": "W czasie rzeczywistym",
-      "limited": "Ograniczony"
-    },
+    "calloutDescription": "Konfigurowanie ustawień dla tej sceny",
     "rateDropdownLabel": "Minimalna częstotliwość odświeżania",
-    "rateTooltip": "Służy do ograniczania częstotliwości automatycznego odświeżania do wolniejszej szybkości.",
+    "rateTooltip": "Możesz ograniczyć częstotliwość odświeżania danych, aby zmniejszyć liczbę żądań. UWAGA: Interwał odświeżania można dostosować do bardziej złożonych.",
     "rateOptions": {
+      "2sec": "2 sekundy",
+      "5sec": "5 sekund",
+      "10sec": "10 sekund",
       "30sec": "30 sekund",
       "1min": "1 minuta",
       "2min": "2 minuty",

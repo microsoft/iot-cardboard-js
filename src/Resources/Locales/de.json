@@ -1125,19 +1125,16 @@
     "year": "Jahr",
     "years": "Jahre"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Szenenkonfiguration",
     "calloutTitle": "Szenenkonfiguration",
-    "calloutDescription": "Anpassen, wie oft die Daten dieser Szene aktualisiert werden",
-    "strategyDropdownLabel": "Strategie aktualisieren",
-    "strategyTooltip": "Verwenden Sie \"Echtzeit\", um Daten so schnell wie möglich abzurufen (max: alle 10 Sekunden). \nVerwenden Sie \"Begrenzt\", um ein Ratenlimit auszuwählen, das die Häufigkeit von Aktualisierungen auf eine langsamere Rate beschränkt.",
-    "strategyOptions": {
-      "realtime": "Echtzeit",
-      "limited": "Begrenzt"
-    },
+    "calloutDescription": "Konfigurieren von Einstellungen für diese Szene",
     "rateDropdownLabel": "Minimale Bildwiederholfrequenz",
-    "rateTooltip": "Verwenden Sie diese Option, um die Häufigkeit automatischer Aktualisierungen auf eine langsamere Rate zu beschränken.",
+    "rateTooltip": "Sie können die Häufigkeit der Aktualisierung von Daten einschränken, um das Anforderungsvolumen zu reduzieren. HINWEIS: Das Aktualisierungsintervall kann für komplexere Personen angepasst werden.",
     "rateOptions": {
+      "2sec": "2 Sekunden",
+      "5sec": "5 Sekunden",
+      "10sec": "10 Sekunden",
       "30sec": "30 Sekunden",
       "1min": "1 Minute",
       "2min": "2 Minuten",

@@ -1125,19 +1125,16 @@
     "year": "yıl",
     "years": "Yıl"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Sahne yapılandırması",
     "calloutTitle": "Sahne yapılandırması",
-    "calloutDescription": "Bu sahnenin verilerinin ne sıklıkta yenileneceğini özelleştirme",
-    "strategyDropdownLabel": "Stratejiyi yenile",
-    "strategyTooltip": "Verileri mümkün olduğunca çabuk almak için \"Gerçek Zamanlı\" seçeneğini kullanın (maksimum: her 10 saniyede bir). \nYenileme sıklığını daha yavaş bir hızla sınırlayan bir hız sınırı seçmek için \"Sınırlı\" seçeneğini kullanın.",
-    "strategyOptions": {
-      "realtime": "Gerçek zamanlı",
-      "limited": "Sınırlı"
-    },
+    "calloutDescription": "Bu sahne için ayarları yapılandırma",
     "rateDropdownLabel": "Minimum yenileme hızı",
-    "rateTooltip": "Otomatik yenileme sıklığını daha yavaş bir hızla sınırlamak için bunu kullanın.",
+    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. NOT: Yenileme aralığı daha karmaşık olacak şekilde ayarlanabilir.",
     "rateOptions": {
+      "2sec": "2 saniye",
+      "5sec": "5 saniye",
+      "10sec": "10 saniye",
       "30sec": "30 saniye",
       "1min": "1 dakika",
       "2min": "2 dakika",

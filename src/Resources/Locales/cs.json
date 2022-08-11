@@ -1125,19 +1125,16 @@
     "year": "rok",
     "years": "roky"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Konfigurace scény",
     "calloutTitle": "Konfigurace scény",
-    "calloutDescription": "Přizpůsobení četnosti aktualizace dat této scény",
-    "strategyDropdownLabel": "Strategie aktualizace",
-    "strategyTooltip": "Pomocí funkce \"Realtime\" můžete data načíst co nejrychleji (max. každých 10 sekund). \nPomocí možnosti \"Omezeno\" vyberte limit rychlosti, který omezuje frekvenci obnovení na pomalejší rychlost.",
-    "strategyOptions": {
-      "realtime": "V reálném čase",
-      "limited": "Omezený"
-    },
+    "calloutDescription": "Konfigurace nastavení pro tuto scénu",
     "rateDropdownLabel": "Minimální obnovovací frekvence",
-    "rateTooltip": "Slouží k omezení frekvence automatických aktualizací na pomalejší rychlost.",
+    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. POZNÁMKA: Interval aktualizace může být upraven pro složitější.",
     "rateOptions": {
+      "2sec": "2 sekundy",
+      "5sec": "5 sekund",
+      "10sec": "10 sekund",
       "30sec": "30 sekund",
       "1min": "1 minuta",
       "2min": "2 minuty",

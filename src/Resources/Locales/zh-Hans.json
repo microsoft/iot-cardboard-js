@@ -1125,19 +1125,16 @@
     "year": "年",
     "years": "年"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "场景配置",
     "calloutTitle": "场景配置",
-    "calloutDescription": "自定义此场景数据的刷新频率",
-    "strategyDropdownLabel": "刷新策略",
-    "strategyTooltip": "使用“实时”尽可能快地获取数据（最多：每 10 秒一次）。\n使用“受限”选择将刷新频率限制为较慢速率的速率限制。",
-    "strategyOptions": {
-      "realtime": "实时",
-      "limited": "有限"
-    },
+    "calloutDescription": "配置此场景的设置",
     "rateDropdownLabel": "最小刷新率",
-    "rateTooltip": "使用此选项可将自动刷新的频率限制为较慢的速率。",
+    "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：刷新间隔可能会针对更复杂的内容进行调整。",
     "rateOptions": {
+      "2sec": "2 秒",
+      "5sec": "5 秒",
+      "10sec": "10 秒",
       "30sec": "30 秒",
       "1min": "1 分钟",
       "2min": "2 分钟",

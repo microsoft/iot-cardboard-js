@@ -1125,19 +1125,16 @@
     "year": "år",
     "years": "år"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Scen konfiguration",
     "calloutTitle": "Scen konfiguration",
-    "calloutDescription": "Anpassa hur ofta den här scenens data uppdateras",
-    "strategyDropdownLabel": "Uppdatera strategi",
-    "strategyTooltip": "Använd \"Realtid\" för att hämta data så snabbt som möjligt (max: var 10:e sekund). \nAnvänd \"Begränsad\" för att välja en hastighetsgräns som begränsar uppdateringsfrekvensen till en långsammare hastighet.",
-    "strategyOptions": {
-      "realtime": "Realtid",
-      "limited": "Begränsad"
-    },
+    "calloutDescription": "Konfigurera inställningar för den här scenen",
     "rateDropdownLabel": "Minsta uppdateringsfrekvens",
-    "rateTooltip": "Använd detta för att begränsa frekvensen för automatiska uppdateringar till en långsammare hastighet.",
+    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. UPPDATERINGSintervallet kan justeras för mer komplexa.",
     "rateOptions": {
+      "2sec": "2 sekunder",
+      "5sec": "5 sekunder",
+      "10sec": "10 sekunder",
       "30sec": "30 sekunder",
       "1min": "1 minut",
       "2min": "2 minuter",

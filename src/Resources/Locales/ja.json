@@ -1125,19 +1125,16 @@
     "year": "年",
     "years": "月日"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "シーン構成",
     "calloutTitle": "シーン構成",
-    "calloutDescription": "このシーンのデータを更新する頻度をカスタマイズする",
-    "strategyDropdownLabel": "更新戦略",
-    "strategyTooltip": "「リアルタイム」を使用して、できるだけ早くデータを取得します(最大:10秒ごと)。\n「制限付き」を使用して、更新の頻度を低速のレートに制限するレート制限を選択します。",
-    "strategyOptions": {
-      "realtime": "リアルタイム",
-      "limited": "狹"
-    },
+    "calloutDescription": "このシーンの設定を構成する",
     "rateDropdownLabel": "最小リフレッシュレート",
-    "rateTooltip": "これを使用して、自動更新の頻度を低速のレートに制限します。",
+    "rateTooltip": "データを更新する頻度を制限して、要求量を減らすことができます。メモ: 更新間隔は、より複雑になるように調整できます。",
     "rateOptions": {
+      "2sec": "2 秒",
+      "5sec": "5秒",
+      "10sec": "10秒",
       "30sec": "30秒",
       "1min": "1 分",
       "2min": "所要時間: 2 分",

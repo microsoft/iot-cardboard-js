@@ -1125,19 +1125,16 @@
     "year": "년",
     "years": "년"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "장면 구성",
     "calloutTitle": "장면 구성",
-    "calloutDescription": "이 장면의 데이터가 새로 고쳐지는 빈도 사용자 지정",
-    "strategyDropdownLabel": "새로 고침 전략",
-    "strategyTooltip": "'Realtime'을 사용하여 가능한 한 빨리 데이터를 가져옵니다(최대: 10초마다). \n'제한됨'을 사용하여 새로 고침 빈도를 더 느린 속도로 제한하는 속도 제한을 선택합니다.",
-    "strategyOptions": {
-      "realtime": "실시간",
-      "limited": "제한"
-    },
+    "calloutDescription": "이 장면에 대한 설정 구성",
     "rateDropdownLabel": "최소 새로 고침 빈도",
-    "rateTooltip": "이를 사용하여 자동 새로 고침의 빈도를 더 느린 속도로 제한할 수 있습니다.",
+    "rateTooltip": "요청 볼륨을 줄이기 위해 데이터를 새로 고치는 빈도를 제한할 수 있습니다. 참고: 새로 고침 간격은 더 복잡하게 조정될 수 있습니다.",
     "rateOptions": {
+      "2sec": "2초",
+      "5sec": "5초",
+      "10sec": "10초",
       "30sec": "30초",
       "1min": "1분",
       "2min": "2분",

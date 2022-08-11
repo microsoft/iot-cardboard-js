@@ -1125,19 +1125,16 @@
     "year": "anno",
     "years": "anni"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Configurazione della scena",
     "calloutTitle": "Configurazione della scena",
-    "calloutDescription": "Personalizzare la frequenza con cui i dati di questa scena vengono aggiornati",
-    "strategyDropdownLabel": "Aggiorna la strategia",
-    "strategyTooltip": "Usa \"In tempo reale\" per recuperare i dati il più rapidamente possibile (max: ogni 10 secondi). \nUsa \"Limitato\" per selezionare un limite di frequenza che limiti la frequenza degli aggiornamenti a una frequenza più lenta.",
-    "strategyOptions": {
-      "realtime": "In tempo reale",
-      "limited": "Limitato"
-    },
+    "calloutDescription": "Configurare le impostazioni per questa scena",
     "rateDropdownLabel": "Frequenza di aggiornamento minima",
-    "rateTooltip": "Utilizzare questa opzione per limitare la frequenza degli aggiornamenti automatici a una velocità più lenta.",
+    "rateTooltip": "È possibile limitare la frequenza di aggiornamento dei dati per ridurre il volume delle richieste. NOTA: l'intervallo di aggiornamento può essere regolato per motivi più complessi.",
     "rateOptions": {
+      "2sec": "2 secondi",
+      "5sec": "5 secondi",
+      "10sec": "10 secondi",
       "30sec": "30 secondi",
       "1min": "1 minuto",
       "2min": "2 minuti",
