@@ -1107,10 +1107,6 @@
     "stackHeader": "Stapel",
     "tryAgain": "Probeer het opnieuw"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
-    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "milliseconde",
     "milliseconds": "Milliseconden",
@@ -1145,5 +1141,9 @@
       "2hour": "2 uur",
       "5hour": "5 uur"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Laatst vernieuwd {{value}} {{units}} geleden",
+    "refreshRate": "Elke {{value}} {{units}} vernieuwen"
   }
 }

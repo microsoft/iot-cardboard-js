@@ -1107,10 +1107,6 @@
     "stackHeader": "Yığın",
     "tryAgain": "Yeniden Deneyin"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
-    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
-  },
   "duration": {
     "millisecond": "milisaniye",
     "milliseconds": "Milisaniye",
@@ -1145,5 +1141,9 @@
       "2hour": "2 saat",
       "5hour": "5 saat"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "En son yenilenen {{değer}} {{birimler}} önce",
+    "refreshRate": "Her {{değer}} {{birim}} yenilemesi"
   }
 }

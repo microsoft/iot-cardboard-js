@@ -1107,10 +1107,6 @@
     "stackHeader": "スタック",
     "tryAgain": "もう一度やり直してください"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "最後に更新されました: {{値}} {{単位}} 前",
-    "refreshRate": "リフレッシュレート: {{値}} {{単位}}"
-  },
   "duration": {
     "millisecond": "ミリセカント",
     "milliseconds": "ミリ秒",
@@ -1145,5 +1141,9 @@
       "2hour": "所要時間: 2 時間",
       "5hour": "所要時間: 5 時間"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "最後に更新された {{値}} {{単位}} 前",
+    "refreshRate": "すべての{{値}}{{単位}}を更新する"
   }
 }

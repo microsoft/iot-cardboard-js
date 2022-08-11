@@ -1107,10 +1107,6 @@
     "stackHeader": "Stos",
     "tryAgain": "Spróbuj ponownie"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Ostatnio odświeżone: {{value}} {{units}} temu",
-    "refreshRate": "Częstotliwość odświeżania: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "milisekunda",
     "milliseconds": "Milisekund",
@@ -1145,5 +1141,9 @@
       "2hour": "2 godziny",
       "5hour": "5 godzin"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Ostatnio odświeżony {{value}} {{units}} temu",
+    "refreshRate": "Odświeżanie każdej {{wartości}} {{jednostek}}"
   }
 }

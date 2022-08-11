@@ -1107,10 +1107,6 @@
     "stackHeader": "Stapel",
     "tryAgain": "Wiederholen"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
-    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
-  },
   "duration": {
     "millisecond": "Millisekunde",
     "milliseconds": "Millisekunden",
@@ -1145,5 +1141,9 @@
       "2hour": "2 Stunden",
       "5hour": "5 Stunden"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Letzte Aktualisierung von {{value}} {{units}} vor",
+    "refreshRate": "Aktualisieren aller {{value}} {{units}}"
   }
 }

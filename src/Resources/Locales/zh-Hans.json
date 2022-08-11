@@ -1107,10 +1107,6 @@
     "stackHeader": "叠",
     "tryAgain": "再试一次"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "上次刷新时间：{{值}} {{单位}} 前",
-    "refreshRate": "刷新率： {{值}} {{单位}}"
-  },
   "duration": {
     "millisecond": "毫秒",
     "milliseconds": "毫秒",
@@ -1145,5 +1141,9 @@
       "2hour": "2 小时",
       "5hour": "5 小时"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "上次刷新 {{值}} {{单位}} 前",
+    "refreshRate": "刷新每个 {{值}} {{单位}}"
   }
 }

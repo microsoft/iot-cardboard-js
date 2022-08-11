@@ -1107,10 +1107,6 @@
     "stackHeader": "스택",
     "tryAgain": "다시 한 번 시도해 보세요"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
-    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "밀리초",
     "milliseconds": "밀리초",
@@ -1145,5 +1141,9 @@
       "2hour": "2시간",
       "5hour": "5시간"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Last refreshed {{value}} {{units}} ago",
+    "refreshRate": "모든 {{값}} {{단위}} 새로 고침"
   }
 }

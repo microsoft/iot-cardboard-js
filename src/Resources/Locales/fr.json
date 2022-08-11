@@ -1107,10 +1107,6 @@
     "stackHeader": "Pile",
     "tryAgain": "Réessayez"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Dernière actualisation : {{value}} {{units}} ago",
-    "refreshRate": "Taux de rafraîchissement : {{valeur}} {{unités}}"
-  },
   "duration": {
     "millisecond": "milliseconde",
     "milliseconds": "Millisecondes",
@@ -1145,5 +1141,9 @@
       "2hour": "2 heures",
       "5hour": "5 heures"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Dernière actualisation de {{value}} {{units}}",
+    "refreshRate": "Actualisation de chaque {{valeur}} {{unités}}"
   }
 }

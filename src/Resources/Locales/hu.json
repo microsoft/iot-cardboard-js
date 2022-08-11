@@ -1107,10 +1107,6 @@
     "stackHeader": "Boglya",
     "tryAgain": "Próbáld újra"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
-    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
-  },
   "duration": {
     "millisecond": "Ezredmásodperc",
     "milliseconds": "Ezredmásodperc",
@@ -1145,5 +1141,9 @@
       "2hour": "2 óra",
       "5hour": "5 óra"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Utoljára frissített {{value}} {{units}} ezelőtt",
+    "refreshRate": "Minden {{érték}} {{egység}} frissítése"
   }
 }

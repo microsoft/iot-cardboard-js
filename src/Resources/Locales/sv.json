@@ -1107,10 +1107,6 @@
     "stackHeader": "Stack",
     "tryAgain": "Försök igen"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
-    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "millisekund",
     "milliseconds": "Millisekunder",
@@ -1145,5 +1141,9 @@
       "2hour": "2 timmar",
       "5hour": "5 timmar"
     }
+  },
+  "sceneRefreshButton1": {
+    "lastRefreshed": "Senast uppdaterad {{value}} {{units}} ago",
+    "refreshRate": "Uppdatera varje {{värde}} {{units}}"
   }
 }
