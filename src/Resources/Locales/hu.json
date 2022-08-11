@@ -1125,7 +1125,7 @@
     "year": "év",
     "years": "Év"
   },
-  "sceneRefreshConfigurator1": {
+  "sceneRefreshConfigurator": {
     "headerButtonTitle": "Jelenet konfigurációja",
     "calloutTitle": "Jelenet konfigurációja",
     "calloutDescription": "A jelenet beállításainak konfigurálása",
