@@ -146,7 +146,7 @@ async function loadPromise(
             );
         });
     } catch (e) {
-        console.log(e);
+        console.error(e);
         onError(null, e.message, e);
     }
 }

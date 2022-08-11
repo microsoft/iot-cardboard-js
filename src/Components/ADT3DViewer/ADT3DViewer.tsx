@@ -64,6 +64,7 @@ import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
+import SceneRefreshButton from '../SceneRefreshButton/SceneRefreshButton';
 
 const getClassNames = classNamesFunction<
     IADT3DViewerStyleProps,
@@ -106,7 +107,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     adapter,
     sceneId,
     scenesConfig,
-    pollingInterval,
     addInProps,
     sceneViewProps,
     refetchConfig,
@@ -127,16 +127,17 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const {
+        isLoading,
+        lastRefreshTime,
+        nextRefreshTime,
         modelUrl,
         sceneVisuals,
         sceneAlerts,
-        isLoading,
         triggerRuntimeRefetch
     } = useRuntimeSceneData(
         adapter,
         sceneId,
         scenesConfig,
-        pollingInterval,
         deeplinkState.selectedLayerIds
     );
     const sceneWrapperId = useGuid();
@@ -687,7 +688,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 
     const onPropertyInspectorPatch = useCallback(
         () => triggerRuntimeRefetch(),
-        [adapter]
+        [triggerRuntimeRefetch]
     );
 
     const svp = sceneViewProps || {};
@@ -747,12 +748,18 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                             : undefined
                     }}
                 />
-                {/* Mode & layers */}
+                {/* Header controls */}
                 <Stack
                     horizontal
                     styles={classNames.subComponentStyles.headerStack}
                     tokens={{ childrenGap: 8 }}
                 >
+                    <SceneRefreshButton
+                        isRefreshing={isLoading}
+                        lastRefreshTimeInMs={lastRefreshTime}
+                        refreshFrequency={nextRefreshTime - lastRefreshTime}
+                        onClick={triggerRuntimeRefetch}
+                    />
                     <DeeplinkFlyout mode="Options" />
                     {!hideViewModePickerUI && <SceneThemePicker />}
                     <div className={classNames.layersPicker}>

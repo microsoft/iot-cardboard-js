@@ -92,6 +92,7 @@ import { DeeplinkContextActionType } from '../../Models/Context/DeeplinkContext/
 import { getStyles } from './ADT3DSceneBuilder.styles';
 import SceneLayers from './Internal/SceneLayers/SceneLayers';
 import { SceneThemeContextProvider } from '../../Models/Context';
+import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -921,7 +922,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         styles={classNames.subComponentStyles.headerStack}
                         tokens={{ childrenGap: 8 }}
                     >
-                        {/* TODO: MOVE THEME PICKER HERE */}
+                        <SceneThemePicker />
                         <SceneLayers />
                         {showModeToggle && (
                             <FloatingScenePageModeToggle

@@ -44,7 +44,7 @@ export interface IHeaderControlButtonStyleProps {
     theme: ITheme;
 }
 export interface IHeaderControlButtonStyles {
-    root: IStyle;
+    root?: IStyle;
 
     /**
      * SubComponent styles.
