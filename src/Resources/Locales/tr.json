@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimum yenileme hızı",
     "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. Not: Yenileme aralığı daha karmaşık sahneler için dinamik olarak ayarlanabilir."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Son yenilenen {{timeWithUnits}} önce",
     "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
   }

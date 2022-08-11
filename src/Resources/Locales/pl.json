@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimalna częstotliwość odświeżania",
     "rateTooltip": "Możesz ograniczyć częstotliwość odświeżania danych, aby zmniejszyć liczbę żądań. Uwaga: interwał odświeżania można dostosowywać dynamicznie dla bardziej złożonych scen."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Ostatnio odświeżony {{timeWithUnits}} temu",
     "refreshRate": "Odświeżanie co {{timeWithUnits}}"
   }

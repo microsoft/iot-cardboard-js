@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minsta uppdateringsfrekvens",
     "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. Uppdateringsintervallet kan justeras dynamiskt för mer komplexa scener."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Senast uppdaterad {{timeWithUnits}} sedan",
     "refreshRate": "Uppdatera varje {{timeWithUnits}}"
   }

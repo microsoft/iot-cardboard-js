@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimális frissítési gyakoriság",
     "rateTooltip": "A kérelmek mennyiségének csökkentése érdekében korlátozhatja az adatok frissítésének gyakoriságát. Megjegyzés: a frissítési időköz dinamikusan beállítható összetettebb jelenetek esetén."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
     "refreshRate": "Frissítés minden {{timeWithUnits}}"
   }

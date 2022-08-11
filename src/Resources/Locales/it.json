@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Frequenza di aggiornamento minima",
     "rateTooltip": "È possibile limitare la frequenza di aggiornamento dei dati per ridurre il volume delle richieste. Nota: l'intervallo di aggiornamento può essere regolato dinamicamente per scene più complesse."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Ultimo aggiornamento {{timeWithUnits}} fa",
     "refreshRate": "Aggiornamento di ogni {{timeWithUnits}}"
   }

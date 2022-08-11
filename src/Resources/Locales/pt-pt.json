@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Taxa mínima de atualização",
     "rateTooltip": "Pode limitar a frequência com que os dados são atualizados para reduzir o volume de pedidos. Nota: o intervalo de atualização pode ser ajustado dinamicamente para cenas mais complexas."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Última refrescada {{timeWithUnits}}",
     "refreshRate": "Refrescante cada {{timeWithUnits}}"
   }

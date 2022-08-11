@@ -1128,7 +1128,7 @@
     "rateDropdownLabel": "Minimale verversingssnelheid",
     "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. Opmerking: het vernieuwingsinterval kan dynamisch worden aangepast voor complexere scènes."
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Laatst vernieuwd {{timeWithUnits}} geleden",
     "refreshRate": "Elke {{timeWithUnits}} vernieuwen"
   }
