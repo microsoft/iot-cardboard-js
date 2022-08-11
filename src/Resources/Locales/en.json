@@ -1111,12 +1111,12 @@
         "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
         "refreshRate": "Refresh rate: {{value}} {{units}}"
     },
-    "sceneRefreshConfigurator": {
+    "sceneRefreshConfigurator1": {
         "headerButtonTitle": "Scene configuration",
         "calloutTitle": "Scene configuration",
         "calloutDescription": "Configure settings for this scene",
         "rateDropdownLabel": "Minimum refresh rate",
-        "rateTooltip": "You can limit how often data is refreshed to reduce request volume. NOTE: Refresh interval may be adjusted for more complex.",
+        "rateTooltip": "You can limit how often data is refreshed to reduce request volume. Note: refresh interval may be adjusted dynamically for more complex scenes.",
         "rateOptions": {
             "2sec": "2 seconds",
             "5sec": "5 seconds",

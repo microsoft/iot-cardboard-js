@@ -199,17 +199,15 @@ export const useRuntimeSceneData = (
             ) => {
                 const MIN_INTERVAL = 10000;
                 const fastestPossibleRefreshRateSeconds = Math.max(
-                    twinCount * 1000, // 1s per twin
+                    twinCount * 100, // 10 twin/second
                     MIN_INTERVAL
                 );
-                const actualRefreshRateSeconds =
-                    pollingConfig.pollingStrategy === 'Limited' &&
-                    pollingConfig.minimumPollingFrequency
-                        ? Math.max(
-                              fastestPossibleRefreshRateSeconds,
-                              pollingConfig.minimumPollingFrequency
-                          )
-                        : fastestPossibleRefreshRateSeconds;
+                const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
+                    ? Math.max(
+                          fastestPossibleRefreshRateSeconds,
+                          pollingConfig.minimumPollingFrequency
+                      )
+                    : fastestPossibleRefreshRateSeconds;
                 logDebugConsole(
                     'debug',
                     `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
