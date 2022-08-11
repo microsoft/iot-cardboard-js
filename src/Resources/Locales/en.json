@@ -1111,7 +1111,7 @@
         "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
         "refreshRate": "Refresh rate: {{value}} {{units}}"
     },
-    "sceneRefreshConfigurator1": {
+    "sceneRefreshConfigurator": {
         "headerButtonTitle": "Scene configuration",
         "calloutTitle": "Scene configuration",
         "calloutDescription": "Configure settings for this scene",
