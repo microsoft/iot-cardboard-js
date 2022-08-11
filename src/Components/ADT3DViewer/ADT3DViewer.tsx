@@ -60,8 +60,13 @@ import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/Flo
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import SceneBreadcrumbFactory from '../SceneBreadcrumb/SceneBreadcrumbFactory';
+import {
+    SceneViewContextProvider,
+    useSceneViewContext
+} from '../../Models/Context/SceneViewContext/SceneViewContext';
 import AlertBadge from '../AlertBadge/AlertBadge';
 import { useSceneThemeContext } from '../../Models/Context/SceneThemeContext/SceneThemeContext';
+import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
 import SceneRefreshButton from '../SceneRefreshButton/SceneRefreshButton';
 
@@ -113,7 +118,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     enableMeshSelection,
     showHoverOnSelected,
     coloredMeshItems: coloredMeshItemsProp,
-    outlinedMeshItems: outlinedMeshItemsProp,
     zoomToElementId: zoomToElementIdProp,
     unzoomedMeshOpacity,
     hideElementsPanel,
@@ -124,6 +128,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 }) => {
     // hooks
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
+    const { sceneViewState, sceneViewDispatch } = useSceneViewContext();
     const {
         isLoading,
         lastRefreshTime,
@@ -171,11 +176,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         coloredMeshItemsProp || []
     );
     const [markers, setMarkers] = useState<Marker[]>([]);
-    const [outlinedMeshItems, setOutlinedMeshItems] = useState<
-        CustomMeshItem[]
-    >(outlinedMeshItemsProp || []);
-    // need outlined meshes ref to keep track of very recent value independent from render cycle to be used in onhover/onblur of elements in panel
-    const outlinedMeshItemsRef = useRef(outlinedMeshItems);
     const [zoomToMeshIds, setZoomToMeshIds] = useState<Array<string>>([]);
     const [showPopUp, setShowPopUp] = useState(false);
 
@@ -430,8 +430,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             );
 
             setSelectedVisual(sceneVisual);
-            setOutlinedMeshItems(outlinedMeshItems);
-            outlinedMeshItemsRef.current = outlinedMeshItems;
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: outlinedMeshItems
+                }
+            });
             setSelectedElementId(getElementByMeshId(meshIds[0])?.id);
         },
         [getElementByMeshId, setSelectedElementId]
@@ -458,7 +462,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             panelItem: IViewerElementsPanelItem,
             _behavior?: IBehavior
         ) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const newOutlinedMeshItems = deepCopy(
+                sceneViewState.outlinedMeshItems
+            );
             const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
                 (meshItem) => meshItem.meshId
             );
@@ -471,7 +477,13 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     });
                 }
             });
-            setOutlinedMeshItems(newOutlinedMeshItems);
+
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: newOutlinedMeshItems
+                }
+            });
         },
         []
     );
@@ -481,7 +493,9 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             panelItem: IViewerElementsPanelItem,
             _behavior?: IBehavior
         ) => {
-            const newOutlinedMeshItems = deepCopy(outlinedMeshItemsRef.current);
+            const newOutlinedMeshItems = deepCopy(
+                sceneViewState.outlinedMeshItems
+            );
             const currentlyOutlinedMeshIds = newOutlinedMeshItems.map(
                 (meshItem) => meshItem.meshId
             );
@@ -497,7 +511,13 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     newOutlinedMeshItems.splice(meshIndex, 1);
                 }
             });
-            setOutlinedMeshItems(newOutlinedMeshItems);
+
+            sceneViewDispatch({
+                type: SceneViewContextActionType.RESET_OUTLINED_MESHES,
+                payload: {
+                    outlinedMeshItems: newOutlinedMeshItems
+                }
+            });
         },
         [deeplinkState.selectedElementId, getElementByMeshId]
     );
@@ -556,9 +576,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 setShowPopUp(false);
                 setZoomMeshesByElement(undefined);
                 setSelectedElementId(undefined);
-                setOutlinedMeshItems([]);
+                sceneViewDispatch({
+                    type: SceneViewContextActionType.RESET_OUTLINED_MESHES
+                });
                 setSelectedVisual(null);
-                outlinedMeshItemsRef.current = [];
             };
 
             if (sceneVisual) {
@@ -660,9 +681,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         setShowPopUp(false);
         setZoomMeshesByElement(undefined);
         setSelectedElementId(undefined);
-        setOutlinedMeshItems([]);
+        sceneViewDispatch({
+            type: SceneViewContextActionType.RESET_OUTLINED_MESHES
+        });
         setSelectedVisual(null);
-        outlinedMeshItemsRef.current = [];
     }, [setSelectedElementId, setZoomMeshesByElement]);
 
     const onPropertyInspectorPatch = useCallback(
@@ -712,7 +734,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                         modelUrl: modelUrl,
                         onMeshClick: meshClick,
                         onMeshHover: meshHover,
-                        outlinedMeshitems: outlinedMeshItems,
                         showHoverOnSelected: showHoverOnSelected,
                         showMeshesOnHover: showMeshesOnHover,
                         unzoomedMeshOpacity: unzoomedMeshOpacity,
@@ -801,7 +822,11 @@ const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {
     return (
         <DeeplinkContextProvider>
             <SceneThemeContextProvider>
-                <ADT3DViewerBase {...props} />
+                <SceneViewContextProvider
+                    outlinedMeshItems={props.outlinedMeshItems}
+                >
+                    <ADT3DViewerBase {...props} />
+                </SceneViewContextProvider>
             </SceneThemeContextProvider>
         </DeeplinkContextProvider>
     );

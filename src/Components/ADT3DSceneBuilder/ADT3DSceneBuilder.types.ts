@@ -123,7 +123,6 @@ export interface I3DSceneBuilderContext {
     sceneId: string;
     coloredMeshItems: Array<CustomMeshItem>;
     setColoredMeshItems: (objects: Array<CustomMeshItem>) => void;
-    setOutlinedMeshItems: (ids: Array<CustomMeshItem>) => void;
     setGizmoElementItem: (item: TransformedElementItem) => void;
     setGizmoTransformItem: (item: TransformInfo) => void;
     widgetFormInfo: WidgetFormInfo;
@@ -280,7 +279,6 @@ export interface ADT3DSceneBuilderState {
     };
     objectColor: IADTObjectColor;
     originalBehaviorToEdit: IBehavior;
-    outlinedMeshItems: Array<CustomMeshItem>;
     removedElements: Array<ITwinToObjectMapping>;
     selectedBehavior: IBehavior;
     /** copy of the behavior being edited by the form. Reflects changes in realtime but should not be edited */
