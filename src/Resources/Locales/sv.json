@@ -1125,12 +1125,12 @@
     "year": "år",
     "years": "år"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Scen konfiguration",
     "calloutTitle": "Scen konfiguration",
     "calloutDescription": "Konfigurera inställningar för den här scenen",
     "rateDropdownLabel": "Minsta uppdateringsfrekvens",
-    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. UPPDATERINGSintervallet kan justeras för mer komplexa.",
+    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. Uppdateringsintervallet kan justeras dynamiskt för mer komplexa scener.",
     "rateOptions": {
       "2sec": "2 sekunder",
       "5sec": "5 sekunder",

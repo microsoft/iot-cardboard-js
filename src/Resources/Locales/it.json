@@ -1125,12 +1125,12 @@
     "year": "anno",
     "years": "anni"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Configurazione della scena",
     "calloutTitle": "Configurazione della scena",
     "calloutDescription": "Configurare le impostazioni per questa scena",
     "rateDropdownLabel": "Frequenza di aggiornamento minima",
-    "rateTooltip": "È possibile limitare la frequenza di aggiornamento dei dati per ridurre il volume delle richieste. NOTA: l'intervallo di aggiornamento può essere regolato per motivi più complessi.",
+    "rateTooltip": "È possibile limitare la frequenza di aggiornamento dei dati per ridurre il volume delle richieste. Nota: l'intervallo di aggiornamento può essere regolato dinamicamente per scene più complesse.",
     "rateOptions": {
       "2sec": "2 secondi",
       "5sec": "5 secondi",

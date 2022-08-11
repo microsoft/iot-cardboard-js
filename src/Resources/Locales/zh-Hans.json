@@ -1125,12 +1125,12 @@
     "year": "年",
     "years": "年"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "场景配置",
     "calloutTitle": "场景配置",
     "calloutDescription": "配置此场景的设置",
     "rateDropdownLabel": "最小刷新率",
-    "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：刷新间隔可能会针对更复杂的内容进行调整。",
+    "rateTooltip": "您可以限制数据刷新的频率以减少请求量。注意：对于更复杂的场景，刷新间隔可能会动态调整。",
     "rateOptions": {
       "2sec": "2 秒",
       "5sec": "5 秒",

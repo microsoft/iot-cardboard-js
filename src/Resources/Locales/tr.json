@@ -1125,12 +1125,12 @@
     "year": "yıl",
     "years": "Yıl"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Sahne yapılandırması",
     "calloutTitle": "Sahne yapılandırması",
     "calloutDescription": "Bu sahne için ayarları yapılandırma",
     "rateDropdownLabel": "Minimum yenileme hızı",
-    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. NOT: Yenileme aralığı daha karmaşık olacak şekilde ayarlanabilir.",
+    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. Not: Yenileme aralığı daha karmaşık sahneler için dinamik olarak ayarlanabilir.",
     "rateOptions": {
       "2sec": "2 saniye",
       "5sec": "5 saniye",

@@ -1125,12 +1125,12 @@
     "year": "jaar",
     "years": "jaren"
   },
-  "sceneRefreshConfigurator": {
+  "sceneRefreshConfigurator1": {
     "headerButtonTitle": "Scène configuratie",
     "calloutTitle": "Scène configuratie",
     "calloutDescription": "Instellingen voor deze scène configureren",
     "rateDropdownLabel": "Minimale verversingssnelheid",
-    "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. OPMERKING: Het vernieuwingsinterval kan worden aangepast voor complexere.",
+    "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. Opmerking: het vernieuwingsinterval kan dynamisch worden aangepast voor complexere scènes.",
     "rateOptions": {
       "2sec": "2 seconden",
       "5sec": "5 seconden",
