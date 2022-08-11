@@ -1142,7 +1142,7 @@
       "5hour": "5시간"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Last refreshed {{value}} {{units}} ago",
     "refreshRate": "모든 {{값}} {{단위}} 새로 고침"
   }

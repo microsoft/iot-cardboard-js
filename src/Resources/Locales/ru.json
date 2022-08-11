@@ -1142,7 +1142,7 @@
       "5hour": "5 часов"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Последнее обновление {{значение}} {{единицы}} назад",
     "refreshRate": "Обновление каждого {{значение}} {{единицы}}"
   }

@@ -1142,7 +1142,7 @@
       "5hour": "5 horas"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Última actualización {{valor}} {{unidades}} hace mucho tiempo",
     "refreshRate": "Actualización de cada {{valor}} {{unidades}}"
   }

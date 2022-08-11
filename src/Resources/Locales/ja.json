@@ -1142,7 +1142,7 @@
       "5hour": "所要時間: 5 時間"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "最後に更新された {{値}} {{単位}} 前",
     "refreshRate": "すべての{{値}}{{単位}}を更新する"
   }

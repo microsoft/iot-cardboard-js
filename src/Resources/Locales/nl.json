@@ -1142,7 +1142,7 @@
       "5hour": "5 uur"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Laatst vernieuwd {{value}} {{units}} geleden",
     "refreshRate": "Elke {{value}} {{units}} vernieuwen"
   }

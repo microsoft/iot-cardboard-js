@@ -1142,7 +1142,7 @@
       "5hour": "5 hodin"
     }
   },
-  "sceneRefreshButton1": {
+  "sceneRefreshButton": {
     "lastRefreshed": "Naposledy aktualizováno {{value}} {{units}} před",
     "refreshRate": "Aktualizace všech {{value}} {{units}}"
   }
