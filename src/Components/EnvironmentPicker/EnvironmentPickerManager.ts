@@ -114,7 +114,7 @@ export const getResourceUrls = (
     resourceType: AzureResourceTypes, // always pass this in case the resource is string type
     parentResource?: IAzureResource | string
 ) => {
-    return resources.map((resource) =>
+    return resources?.map((resource) =>
         getResourceUrl(resource, resourceType, parentResource)
     );
 };
@@ -123,13 +123,14 @@ export const areResourceUrlsEqual = (
     resourceUrlStr1: string,
     resourceUrlStr2: string
 ) => {
-    if (resourceUrlStr1?.endsWith('/')) {
+    if (!resourceUrlStr1 || !resourceUrlStr2) return false;
+    if (resourceUrlStr1.endsWith('/')) {
         resourceUrlStr1 = resourceUrlStr1.slice(0, -1);
     }
-    if (resourceUrlStr2?.endsWith('/')) {
+    if (resourceUrlStr2.endsWith('/')) {
         resourceUrlStr2 = resourceUrlStr2.slice(0, -1);
     }
-    return resourceUrlStr1 === resourceUrlStr2;
+    return resourceUrlStr1.toLowerCase() === resourceUrlStr2.toLowerCase();
 };
 
 export const getContainerNameFromUrl = (containerUrl: string) => {

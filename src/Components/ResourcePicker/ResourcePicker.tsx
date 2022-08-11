@@ -143,14 +143,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const areValuesEqual = useCallback(
         (value1: string, value2: string) => {
+            if (!value1 || !value2) return false;
             if (displayField === AzureResourceDisplayFields.url) {
-                if (value1?.endsWith('/')) {
+                if (value1.endsWith('/')) {
                     value1 = value1.slice(0, -1);
                 }
-                if (value2?.endsWith('/')) {
+                if (value2.endsWith('/')) {
                     value2 = value2.slice(0, -1);
                 }
-                return value1 === value2;
+                return value1.toLowerCase() === value2.toLowerCase();
             } else {
                 return value1 === value2;
             }
@@ -196,6 +197,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
                 const optionsToAdd = additionalOptions.filter(
                     (additionalOption) =>
+                        additionalOption.text &&
                         existingOptionTexts.findIndex((existingOptionText) =>
                             areValuesEqual(
                                 existingOptionText,
@@ -212,7 +214,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     options = options.concat(optionsToAdd);
                 }
             }
-            if (selectedOption) {
+            if (selectedOption?.text) {
                 const selectedOptionInNewOptions = options.find((option) =>
                     areValuesEqual(option.text, selectedOption.text)
                 );
@@ -302,7 +304,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             newOptions = additionalOptions || [];
             if (
                 selectedOption &&
-                !additionalOptions?.find((o) => o.text === selectedOption.text)
+                !additionalOptions?.find((o) =>
+                    areValuesEqual(o.text, selectedOption.text)
+                )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
             }
@@ -328,7 +332,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             if (
                 selectedOption &&
-                !additionalOptions?.find((o) => o.text === selectedOption.text)
+                !additionalOptions?.find((o) =>
+                    areValuesEqual(o.text, selectedOption.text)
+                )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
             }
@@ -346,13 +352,18 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     useEffect(() => {
         if (selectedOptionProp) {
-            setSelectedOption({
-                key: selectedOptionProp,
-                text: selectedOptionProp,
-                styles: comboBoxOptionStyles
-            });
-        } else {
-            setSelectedOption(null);
+            const existingOption = options?.find((o) =>
+                areValuesEqual(o.text, selectedOptionProp)
+            );
+            if (existingOption) {
+                setSelectedOption(existingOption);
+            } else {
+                setSelectedOption({
+                    key: selectedOptionProp,
+                    text: selectedOptionProp,
+                    styles: comboBoxOptionStyles
+                });
+            }
         }
     }, [selectedOptionProp]);
 
@@ -419,9 +430,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const handleOnChange = useCallback(
         (option, value) => {
-            // when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
-            // 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
-            // existing option, option is not null and value is null; when we enter a new value using freeform, value is not null and option is null
+            /**
+             * when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
+             * 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
+             * existing option, option is not null and value is null; when we enter a new value using freeform, value is not null and option is null
+             */
             if (option) {
                 setSelectedOption(option);
                 setSelectedKey(option.data?.id ?? option.text);
@@ -438,22 +451,22 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     resourceType
                 );
 
-                const existingOption = options.find((option) =>
-                    areValuesEqual(option.text, newParsedOptionValue)
-                );
-                if (!existingOption) {
-                    const newOption = {
-                        key: newParsedOptionValue,
-                        text: newParsedOptionValue,
-                        styles: comboBoxOptionStyles
-                    };
+                if (
+                    displayField !== AzureResourceDisplayFields.url ||
+                    (displayField === AzureResourceDisplayFields.url &&
+                        isValidUrlStr(newParsedOptionValue, resourceType))
+                ) {
+                    const existingOption = options.find((option) =>
+                        areValuesEqual(option.text, newParsedOptionValue)
+                    );
+                    if (!existingOption) {
+                        const newOption = {
+                            key: newParsedOptionValue,
+                            text: newParsedOptionValue,
+                            styles: comboBoxOptionStyles
+                        };
 
-                    let newOptions = deepCopy(options);
-                    if (
-                        displayField !== AzureResourceDisplayFields.url ||
-                        (displayField === AzureResourceDisplayFields.url &&
-                            isValidUrlStr(newParsedOptionValue, resourceType))
-                    ) {
+                        let newOptions = deepCopy(options);
                         const freeFromOptionsHeaderExist = options?.find(
                             (option) =>
                                 option.itemType ===
@@ -466,20 +479,21 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         setOptions(newOptions);
                         setSelectedOption(newOption);
                         setSelectedKey(newParsedOptionValue);
+
+                        if (onChange)
+                            onChange(
+                                newParsedOptionValue,
+                                getResourcesFromOptions(newOptions) || []
+                            );
+                    } else {
+                        setSelectedOption(existingOption);
+                        setSelectedKey(existingOption.key);
+                        if (onChange)
+                            onChange(
+                                existingOption.data || existingOption.text,
+                                getResourcesFromOptions(options) || []
+                            );
                     }
-                    if (onChange)
-                        onChange(
-                            newParsedOptionValue,
-                            getResourcesFromOptions(newOptions) || []
-                        );
-                } else {
-                    setSelectedOption(existingOption);
-                    setSelectedKey(existingOption.key);
-                    if (onChange)
-                        onChange(
-                            existingOption.data || existingOption.text,
-                            getResourcesFromOptions(options) || []
-                        );
                 }
             }
         },
