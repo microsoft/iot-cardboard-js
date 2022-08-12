@@ -71,7 +71,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         if (isRefreshing) {
             setIsRefreshInProgress(true); // apply the styling
             clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
-            setTimeout(() => {
+            iconAnimationTimeout.current = setTimeout(() => {
                 setIsRefreshInProgress(false);
             }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
         }
