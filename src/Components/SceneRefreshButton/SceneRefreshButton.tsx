@@ -42,6 +42,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         styles
     } = props;
     const iconAnimationTimeout = useRef<NodeJS.Timeout>();
+    const lastRefreshTimeout = useRef<NodeJS.Timeout>();
 
     // state
     const [isRefreshInProgress, setIsRefreshInProgress] = useState<boolean>(
@@ -76,8 +77,9 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         }
     }, [isRefreshing]);
 
+    clearTimeout(lastRefreshTimeout.current);
     // to get live updating we have to trigger renders and recalculate on a regular cadence so set a timer to keep checking
-    setTimeout(() => {
+    lastRefreshTimeout.current = setTimeout(() => {
         const timeSince =
             lastRefreshTimeInMs > 0 ? Date.now() - lastRefreshTimeInMs : 0;
         const timeSinceRefresh = formatTimeInRelevantUnits(
@@ -92,6 +94,15 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
             formatTimeInRelevantUnits(refreshFrequency, DurationUnits.seconds),
         [refreshFrequency]
     );
+
+    // side effects
+    useEffect(() => {
+        // clear the timeouts on unmount
+        return () => {
+            clearTimeout(lastRefreshTimeout.current);
+            clearTimeout(iconAnimationTimeout.current);
+        };
+    }, []);
 
     return (
         <div className={classNames.root}>
