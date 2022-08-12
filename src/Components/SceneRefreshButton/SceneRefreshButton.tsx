@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import {
     ISceneRefreshButtonProps,
     ISceneRefreshButtonStyleProps,
@@ -35,7 +41,8 @@ const LOC_KEYS = {
 };
 const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
     const { lastRefreshTimeInMs, onClick, refreshFrequency, styles } = props;
-    const iconAnimationTimeout = useRef<NodeJS.Timeout>();
+    const iconAnimationTimeout = useRef(null);
+    const lastRefreshTimeout = useRef(null);
 
     // state
     const [isRefreshInProgress, setIsRefreshInProgress] = useState<boolean>(
@@ -62,14 +69,15 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
     const localOnClick = useCallback(() => {
         setIsRefreshInProgress(true); // apply the styling
         clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
-        setTimeout(() => {
+        iconAnimationTimeout.current = setTimeout(() => {
             setIsRefreshInProgress(false);
         }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
         onClick();
     }, []);
 
+    clearTimeout(lastRefreshTimeout.current);
     // to get live updating we have to trigger renders and recalculate on a regular cadence so set a timer to keep checking
-    setTimeout(() => {
+    lastRefreshTimeout.current = setTimeout(() => {
         const timeSince =
             lastRefreshTimeInMs > 0 ? Date.now() - lastRefreshTimeInMs : 0;
         const timeSinceRefresh = formatTimeInRelevantUnits(
@@ -84,6 +92,15 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
             formatTimeInRelevantUnits(refreshFrequency, DurationUnits.seconds),
         [refreshFrequency]
     );
+
+    // side effects
+    useEffect(() => {
+        // clear the timeouts on unmount
+        return () => {
+            clearTimeout(lastRefreshTimeout.current);
+            clearTimeout(iconAnimationTimeout.current);
+        };
+    }, []);
 
     return (
         <div className={classNames.root}>
