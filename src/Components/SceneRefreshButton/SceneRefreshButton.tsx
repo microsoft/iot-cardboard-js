@@ -41,8 +41,8 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         refreshFrequency,
         styles
     } = props;
-    const iconAnimationTimeout = useRef<NodeJS.Timeout>();
-    const lastRefreshTimeout = useRef<NodeJS.Timeout>();
+    const iconAnimationTimeout = useRef(null);
+    const lastRefreshTimeout = useRef(null);
 
     // state
     const [isRefreshInProgress, setIsRefreshInProgress] = useState<boolean>(
