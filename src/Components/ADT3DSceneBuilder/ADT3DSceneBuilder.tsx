@@ -930,6 +930,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         tokens={{ childrenGap: 8 }}
                     >
                         <SceneRefreshConfigurator
+                            adapter={adapter}
                             config={state.config}
                             sceneId={sceneId}
                         />

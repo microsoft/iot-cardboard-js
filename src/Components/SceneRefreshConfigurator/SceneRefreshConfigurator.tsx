@@ -29,6 +29,8 @@ import {
     ONE_HOUR,
     DurationUnits
 } from '../../Models/Constants';
+import useAdapter from '../../Models/Hooks/useAdapter';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger(
@@ -52,10 +54,18 @@ const LOC_KEYS = {
 const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     props
 ) => {
-    const { config, sceneId, styles } = props;
+    const { adapter, config, sceneId, styles } = props;
 
     // hooks
     const { t } = useTranslation();
+    const saveConfig = useAdapter({
+        adapterMethod: async (params: { config: I3DScenesConfig }) => {
+            await adapter.putScenesConfig(params.config);
+            return adapter.getScenesConfig();
+        },
+        refetchDependencies: [adapter],
+        isAdapterCalledOnMount: false
+    });
 
     // data
     const rateOptions = getRateOptions(t);
@@ -73,7 +83,7 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
     });
 
     // callbacks
-    const onRateChange = (
+    const onRateChange = async (
         _event: React.FormEvent<HTMLDivElement>,
         option: IDropdownOption<number>
     ) => {
@@ -85,6 +95,7 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
         );
         setSelectedPollingRate(option.data);
         ViewerConfigUtility.setPollingRate(config, sceneId, option.data);
+        await saveConfig.callAdapter({ config });
     };
 
     const getLabelRenderFunction = (tooltipText: string) => {
@@ -149,8 +160,6 @@ const SceneRefreshConfigurator: React.FC<ISceneRefreshConfiguratorProps> = (
 // NOTE: key and data must match, using data to get type safety, but uses key when setting the selected key so they have to match
 const getRateOptions = (t: TFunction): IDropdownOption<number>[] => {
     const durations: number[] = [
-        2 * ONE_SECOND,
-        5 * ONE_SECOND,
         10 * ONE_SECOND,
         30 * ONE_SECOND,
         ONE_MINUTE,
@@ -158,10 +167,7 @@ const getRateOptions = (t: TFunction): IDropdownOption<number>[] => {
         5 * ONE_MINUTE,
         10 * ONE_MINUTE,
         30 * ONE_MINUTE,
-        ONE_HOUR,
-        2 * ONE_HOUR,
-        5 * ONE_HOUR,
-        10 * ONE_HOUR
+        ONE_HOUR
     ];
 
     const options: IDropdownOption<number>[] = [];

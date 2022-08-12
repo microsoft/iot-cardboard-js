@@ -1,7 +1,7 @@
 import { cleanup } from '@testing-library/react-hooks';
 import {
     DTwin,
-    MINIMUM_REFRESH_RATE_IN_MILLISECONDS,
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
     PRIMARY_TWIN_NAME
 } from '../../Constants';
 import {
@@ -245,7 +245,7 @@ describe('ViewerConfigUtility', () => {
                 // ASSERT
                 expect(result).toBeDefined();
                 expect(result.minimumPollingFrequency).toEqual(
-                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                    DEFAULT_REFRESH_RATE_IN_MILLISECONDS
                 );
             });
             test('returns default config when input SceneId is null', () => {
@@ -259,7 +259,7 @@ describe('ViewerConfigUtility', () => {
                 // ASSERT
                 expect(result).toBeDefined();
                 expect(result.minimumPollingFrequency).toEqual(
-                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                    DEFAULT_REFRESH_RATE_IN_MILLISECONDS
                 );
             });
             test('returns default config when input SceneId not found in config', () => {
@@ -273,7 +273,7 @@ describe('ViewerConfigUtility', () => {
                 // ASSERT
                 expect(result).toBeDefined();
                 expect(result.minimumPollingFrequency).toEqual(
-                    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+                    DEFAULT_REFRESH_RATE_IN_MILLISECONDS
                 );
             });
             test('returns the polling configuration in config scene is found', () => {

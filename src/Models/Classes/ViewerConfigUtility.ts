@@ -1,6 +1,6 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
 import {
-    MINIMUM_REFRESH_RATE_IN_MILLISECONDS,
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
     PRIMARY_TWIN_NAME
 } from '../Constants';
 import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
@@ -84,7 +84,7 @@ abstract class ViewerConfigUtility {
     ): IPollingConfiguration {
         const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         const defaultConfig: IPollingConfiguration = {
-            minimumPollingFrequency: MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+            minimumPollingFrequency: DEFAULT_REFRESH_RATE_IN_MILLISECONDS
         };
         if (config && sceneId) {
             const scene = this.getSceneById(config, sceneId);
@@ -104,8 +104,9 @@ abstract class ViewerConfigUtility {
 
         logDebugConsole(
             'debug',
-            'No polling configuration found in config, using default',
-            defaultConfig
+            `No polling configuration found in config (sceneId: ${sceneId}), using default. {defaultPollingConfig, config}`,
+            defaultConfig,
+            config
         );
         return defaultConfig;
     }

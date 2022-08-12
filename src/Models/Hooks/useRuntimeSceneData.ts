@@ -7,7 +7,7 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
-import { MINIMUM_REFRESH_RATE_IN_MILLISECONDS } from '../Constants';
+import { DEFAULT_REFRESH_RATE_IN_MILLISECONDS } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
 import {
     deepCopy,
@@ -35,7 +35,7 @@ export const useRuntimeSceneData = (
 ) => {
     const [modelUrl, setModelUrl] = useState('');
     const [pollingInterval, setPollingInterval] = useState(
-        MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+        DEFAULT_REFRESH_RATE_IN_MILLISECONDS
     );
     const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
@@ -197,11 +197,7 @@ export const useRuntimeSceneData = (
                 twinCount: number,
                 pollingConfig: IPollingConfiguration
             ) => {
-                const MIN_INTERVAL = 10000;
-                const fastestPossibleRefreshRateSeconds = Math.max(
-                    twinCount * 100, // 10 twin/second
-                    MIN_INTERVAL
-                );
+                const fastestPossibleRefreshRateSeconds = twinCount * 100; // 10 twin/second
                 const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
                     ? Math.max(
                           fastestPossibleRefreshRateSeconds,

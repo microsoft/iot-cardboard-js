@@ -1,8 +1,10 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import { ADT3DSceneAdapter, MockAdapter } from '../../Adapters';
 import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IHeaderControlButtonWithCalloutStyles } from '../HeaderControlButtonWithCallout/HeaderControlButtonWithCallout.types';
 
 export interface ISceneRefreshConfiguratorProps {
+    adapter: ADT3DSceneAdapter | MockAdapter;
     config: I3DScenesConfig; // the scene configuration
     sceneId: string; // current scene id
     /**
