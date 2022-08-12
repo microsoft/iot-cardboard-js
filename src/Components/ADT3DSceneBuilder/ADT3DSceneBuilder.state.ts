@@ -12,7 +12,6 @@ import {
     SET_ADT_SCENE_BUILDER_SELECTED_BEHAVIOR,
     SET_WIDGET_FORM_INFO,
     SET_REVERT_TO_HOVER_COLOR,
-    SET_MESH_IDS_TO_OUTLINE,
     SET_ADT_SCENE_OBJECT_COLOR,
     SET_IS_LAYER_BUILDER_DIALOG_OPEN,
     SET_BEHAVIOR_TWIN_ALIAS_FORM_INFO,
@@ -39,6 +38,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     builderMode: ADT3DSceneBuilderMode.ElementsIdle,
     coloredMeshItems: [],
     config: null,
+    draftBehavior: null,
     elements: [],
     elementTwinAliasFormInfo: null,
     enableHoverOnModel: false,
@@ -49,10 +49,8 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     layerBuilderDialogData: null,
     objectColor: DefaultViewerModeObjectColor,
     originalBehaviorToEdit: null,
-    outlinedMeshItems: [],
     removedElements: null,
     selectedBehavior: null,
-    draftBehavior: null,
     selectedElement: null,
     selectedElements: null,
     selectedPivotTab: ADT3DSceneTwinBindingsMode.Elements,
@@ -133,9 +131,6 @@ export const ADT3DSceneBuilderReducer: (
             case SET_REVERT_TO_HOVER_COLOR:
                 draft.showHoverOnSelected = payload;
                 break;
-            case SET_MESH_IDS_TO_OUTLINE:
-                draft.outlinedMeshItems = payload;
-                break;
             case SET_GIZMO_ELEMENT_ITEM:
                 draft.gizmoElementItem = payload;
                 break;
@@ -161,18 +156,15 @@ export const ADT3DSceneBuilderReducer: (
                         draft.selectedPivotTab =
                             ADT3DSceneTwinBindingsMode.Elements;
                         draft.enableHoverOnModel = false;
-                        draft.outlinedMeshItems = [];
                         break;
                     case ADT3DSceneBuilderMode.BehaviorIdle:
                         draft.selectedBehavior = null;
                         draft.selectedPivotTab =
                             ADT3DSceneTwinBindingsMode.Behaviors;
-                        draft.outlinedMeshItems = [];
                         break;
                     case ADT3DSceneBuilderMode.EditElement:
                     case ADT3DSceneBuilderMode.CreateElement:
                         draft.enableHoverOnModel = true;
-                        draft.outlinedMeshItems = [];
                         break;
                     default:
                         draft.enableHoverOnModel = false;

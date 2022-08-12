@@ -27,13 +27,11 @@ export const ViewerElementsPanel = () => {
     const scenesConfig = mockVConfig as I3DScenesConfig;
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
-    const pollingInterval = 5000;
 
     const { sceneVisuals, isLoading } = useRuntimeSceneData(
         adapter,
         sceneId,
-        scenesConfig,
-        pollingInterval
+        scenesConfig
     );
 
     const panelItems: Array<IViewerElementsPanelItem> = useMemo(
