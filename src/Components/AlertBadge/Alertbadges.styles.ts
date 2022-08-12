@@ -20,6 +20,7 @@ export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
                 height: '22px',
                 borderRadius: '16px',
                 textAlign: 'center',
+                pointerEvents: 'none',
                 lineHeight: '22px'
             } as IStyle
         ],
@@ -32,6 +33,7 @@ export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
                 height: '22px',
                 borderRadius: '16px',
                 textAlign: 'center',
+                pointerEvents: 'none',
                 lineHeight: '22px',
                 selectors: {
                     ':nth-child(2),:nth-child(4)': {
@@ -52,6 +54,7 @@ export const getStyles = (props: IAlertBadgeStyleProps): IAlertBadgeStyles => {
                 height: '22px',
                 borderRadius: '16px',
                 textAlign: 'center',
+                pointerEvents: 'none',
                 lineHeight: '22px'
             } as IStyle
         ],
