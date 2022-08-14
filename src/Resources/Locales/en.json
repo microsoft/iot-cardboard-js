@@ -956,6 +956,7 @@
     "advancedSearch": {
         "toggleSelection": "Toggle selection",
         "selectRow": "Select row",
-        "inspectProperty": "inspect property"
+        "inspectProperty": "Inspect Property",
+        "results": "Results ({{twins.length}})"
     }
 }

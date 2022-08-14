@@ -26,7 +26,7 @@ const getClassNames = classNamesFunction<
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     twins,
     searchedProperties,
-    OnTwinSelection,
+    onTwinSelection,
     styles,
     adapter
 }) => {
@@ -90,6 +90,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     return (
         <section className={classNames.root}>
             <h3>{'Results (' + twins.length + ')'}</h3>
+            <h3>{t('advancedSearch.results', {twins.length})}</h3>
             <div>
                 <DetailsList
                     items={twins}
