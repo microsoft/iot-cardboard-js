@@ -5,7 +5,8 @@ import AdvancedSearchResultDetailsList from './AdvancedSearchResultDetailsList';
 import { IAdvancedSearchResultDetailsListProps } from './AdvancedSearchResultDetailsList.types';
 import { IADTTwin } from '../../../../Models/Constants';
 import twinData from '../../../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
-
+import useAuthParams from '../../../../../.storybook/useAuthParams';
+import MockAdapter from '../../../../Adapters/MockAdapter';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 const filteredTwins: IADTTwin[] = twinData;
 const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
@@ -24,7 +25,17 @@ type AdvancedSearchResultDetailsListStory = ComponentStory<
 >;
 
 const Template: AdvancedSearchResultDetailsListStory = (args) => {
-    return <AdvancedSearchResultDetailsList {...args} />;
+    const authenticationParameters = useAuthParams();
+    return !authenticationParameters ? (
+        <div></div>
+    ) : (
+        <div style={wrapperStyle}>
+            <AdvancedSearchResultDetailsList
+                adapter={new MockAdapter()}
+                {...args}
+            />
+        </div>
+    );
 };
 
 export const Base = Template.bind({}) as AdvancedSearchResultDetailsListStory;

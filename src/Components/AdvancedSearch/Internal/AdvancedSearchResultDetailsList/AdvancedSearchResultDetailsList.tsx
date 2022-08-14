@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -14,10 +14,14 @@ import {
     IColumn,
     IDetailsListProps,
     IconButton,
-    SelectionMode
+    SelectionMode,
+    Selection,
+    Callout
 } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import PropertyInspector from '../../../PropertyInspector/PropertyInspector';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -31,6 +35,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     adapter
 }) => {
     const { t } = useTranslation();
+    const [currentTwin, setTwin] = useState<any>(null);
+    const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
 
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -72,20 +78,29 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         switch (column.key) {
             case 'properties':
                 return (
-                    <IconButton
+                    <PropertyInspectorCalloutButton
+                        twinId={currentTwin}
+                        adapter={adapter}
                         iconProps={{ iconName: 'EntryView' }}
                         title={t('advancedSearch.inspectProperty')}
                         ariaLabel={t('advancedSearch.inspectProperty')}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                        }}
-                        className={'cb-scenes-action-button'}
                     />
                 );
             default:
                 return <span>{fieldContent}</span>;
         }
     };
+    const selection = new Selection({
+        getKey(item, index?) {
+            return item + index;
+        },
+        onSelectionChanged: () => {
+            setTwin(selection.getSelection());
+            //OnTwinSelection(currentTwin);
+        }
+    });
+    console.log(currentTwin);
+    console.log(isVisible);
 
     return (
         <section className={classNames.root}>
@@ -103,10 +118,19 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     ariaLabelForSelectionColumn={t(
                         'advancedSearch.toggleSelection'
                     )}
-                    checkButtonAriaLabel={t('selectRow')}
+                    checkButtonAriaLabel={t('advancedSearch.selectRow')}
                     onRenderItemColumn={renderItemColumn}
                     selectionMode={SelectionMode.single}
+                    selection={selection}
                 />
+                {isVisible && (
+                    <Callout target={'#resultButton'} onDismiss={setIsVisible}>
+                        <PropertyInspector
+                            adapter={adapter}
+                            twinId={currentTwin.$dtId}
+                        />
+                    </Callout>
+                )}
             </div>
         </section>
     );
