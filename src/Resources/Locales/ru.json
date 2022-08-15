@@ -1124,11 +1124,5 @@
     "days": "Дни недели",
     "year": "год",
     "years": "годы"
-  },
-  "advancedSearch": {
-    "toggleSelection": "Переключение на выбор Twin",
-    "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
-    "results": "Результаты ({{twinCount}})"
   }
 }

@@ -1124,11 +1124,5 @@
     "days": "Tage",
     "year": "Jahr",
     "years": "Jahre"
-  },
-  "advancedSearch": {
-    "toggleSelection": "Zum Auswählen von Twin umschalten",
-    "selectRow": "Twin Selected",
-    "inspectProperty": "Inspect-Eigenschaft",
-    "results": "Ergebnisse ({{twinCount}})"
   }
 }

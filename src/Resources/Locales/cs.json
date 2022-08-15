@@ -1124,11 +1124,5 @@
     "days": "Dny",
     "year": "rok",
     "years": "roky"
-  },
-  "advancedSearch": {
-    "toggleSelection": "Přepnout na Vybrat dvojče",
-    "selectRow": "Vybrané dvojče",
-    "inspectProperty": "Zkontrolovat nemovitost",
-    "results": "Výsledky ({{twinCount}})"
   }
 }
