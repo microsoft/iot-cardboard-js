@@ -1121,6 +1121,7 @@
     "year": "rok",
     "years": "lata"
   },
+<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Konfiguracja sceny",
     "calloutTitle": "Konfiguracja sceny",
@@ -1131,5 +1132,12 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Ostatnio odświeżony {{timeWithUnits}} temu",
     "refreshRate": "Odświeżanie co {{timeWithUnits}}"
+=======
+  "advancedSearch": {
+    "toggleSelection": "Przełącz na Wybierz Twin",
+    "selectRow": "Twin Selected",
+    "inspectProperty": "Sprawdź nieruchomość",
+    "results": "Wyniki ({{twinCount}})"
+>>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

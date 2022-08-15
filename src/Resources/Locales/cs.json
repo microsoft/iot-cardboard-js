@@ -1120,16 +1120,5 @@
     "days": "Dny",
     "year": "rok",
     "years": "roky"
-  },
-  "sceneRefreshConfigurator": {
-    "headerButtonTitle": "Konfigurace scény",
-    "calloutTitle": "Konfigurace scény",
-    "calloutDescription": "Konfigurace nastavení pro tuto scénu",
-    "rateDropdownLabel": "Minimální obnovovací frekvence",
-    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény."
-  },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Naposledy aktualizováno {{timeWithUnits}} před",
-    "refreshRate": "Aktualizace každého {{timeWithUnits}}"
   }
 }

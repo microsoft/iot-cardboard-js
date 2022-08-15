@@ -1121,6 +1121,7 @@
     "year": "év",
     "years": "Év"
   },
+<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Jelenet konfigurációja",
     "calloutTitle": "Jelenet konfigurációja",
@@ -1131,5 +1132,12 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
     "refreshRate": "Frissítés minden {{timeWithUnits}}"
+=======
+  "advancedSearch": {
+    "toggleSelection": "Váltás az iker kiválasztásához",
+    "selectRow": "Iker kiválasztva",
+    "inspectProperty": "Ingatlan ellenőrzése",
+    "results": "Eredmények ({{twinCount}})"
+>>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }
