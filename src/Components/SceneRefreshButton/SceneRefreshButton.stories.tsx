@@ -7,20 +7,20 @@ import { ISceneRefreshButtonProps } from './SceneRefreshButton.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/RefreshButton',
+    title: 'Components/SceneRefreshButton',
     component: SceneRefreshButton,
     decorators: [
         getDefaultStoryDecorator<ISceneRefreshButtonProps>(wrapperStyle)
     ]
 };
 
-type RefreshButtonStory = ComponentStory<typeof SceneRefreshButton>;
+type SceneRefreshButtonStory = ComponentStory<typeof SceneRefreshButton>;
 
-const Template: RefreshButtonStory = (args) => {
+const Template: SceneRefreshButtonStory = (args) => {
     return <SceneRefreshButton {...args} />;
 };
 
-export const Base = Template.bind({}) as RefreshButtonStory;
+export const Base = Template.bind({}) as SceneRefreshButtonStory;
 Base.args = {
     lastRefreshTimeInMs: Date.now() - 2000,
     refreshFrequency: 20000,

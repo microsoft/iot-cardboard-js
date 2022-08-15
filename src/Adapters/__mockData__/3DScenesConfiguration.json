@@ -84,8 +84,7 @@
                     "1e0aa8384c4546c7ae1ca6e6d244922e"
                 ],
                 "pollingConfiguration": {
-                    "pollingStrategy": "Realtime",
-                    "minimumPollingFrequency": 0
+                    "minimumPollingFrequency": 10000
                 }
             },
             {
@@ -203,7 +202,6 @@
                     }
                 ],
                 "pollingConfiguration": {
-                    "pollingStrategy": "Limited",
                     "minimumPollingFrequency": 30000
                 }
             },
@@ -219,7 +217,6 @@
                 "elements": [],
                 "behaviorIDs": [],
                 "pollingConfiguration": {
-                    "pollingStrategy": "Limited",
                     "minimumPollingFrequency": 60000
                 }
             }

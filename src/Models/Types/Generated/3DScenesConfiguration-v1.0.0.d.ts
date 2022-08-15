@@ -6,10 +6,6 @@
  */
 
 export type IElement = ITwinToObjectMapping | ICustomProperty;
-/**
- * The strategy to use for polling data. Realtime fetches as often as possible given the number of visible twins. Limited will refresh at a rate equal to the ceiling of the `Realtime` value and the `MinimumPollingFrequency`
- */
-export type IPollingStrategy = 'Realtime' | 'Limited';
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
 export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
@@ -108,14 +104,13 @@ export interface ICustomProperty {
     [k: string]: unknown;
 }
 /**
- * Configures the strategy and parameters for the polling of twin data from the twin graph. NOTE: `MinimumPollingFrequency` is required when polling strategy is `Limited`
+ * Configures the parameters for the polling of twin data from the twin graph.
  */
 export interface IPollingConfiguration {
-    pollingStrategy: IPollingStrategy;
     /**
      * The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency.
      */
-    minimumPollingFrequency?: number;
+    minimumPollingFrequency: number;
 }
 /**
  * A behavior applies visual or interactive representations of twin state to objects in the scene

@@ -15,6 +15,18 @@ module.exports = (componentName) => ({
     
     const ${componentName}: React.FC<I${componentName}Props> = (props) => {
         const { styles } = props;
+
+        // contexts
+
+        // state
+
+        // hooks
+
+        // callbacks
+
+        // side effects
+
+        // styles
         const classNames = getClassNames(styles, {
             theme: useTheme()
         });

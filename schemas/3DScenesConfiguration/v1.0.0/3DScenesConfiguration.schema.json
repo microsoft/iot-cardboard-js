@@ -198,23 +198,15 @@
         },
         "IPollingConfiguration": {
             "type": "object",
-            "description": "Configures the strategy and parameters for the polling of twin data from the twin graph. NOTE: `MinimumPollingFrequency` is required when polling strategy is `Limited`",
+            "description": "Configures the parameters for the polling of twin data from the twin graph.",
             "additionalProperties": false,
             "properties": {
-                "pollingStrategy": {
-                    "$ref": "#/$defs/IPollingStrategy"
-                },
                 "minimumPollingFrequency": {
                     "type": "number",
                     "description": "The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency."
                 }
             },
-            "required": ["pollingStrategy"]
-        },
-        "IPollingStrategy": {
-            "type": "string",
-            "enum": ["Realtime", "Limited"],
-            "description": "The strategy to use for polling data. Realtime fetches as often as possible given the number of visible twins. Limited will refresh at a rate equal to the ceiling of the `Realtime` value and the `MinimumPollingFrequency`"
+            "required": ["minimumPollingFrequency"]
         },
         "IExtensionProperties": {
             "type": "object",

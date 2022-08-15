@@ -752,7 +752,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     tokens={{ childrenGap: 8 }}
                 >
                     <SceneRefreshButton
-                        isRefreshing={isLoading}
                         lastRefreshTimeInMs={lastRefreshTime}
                         refreshFrequency={nextRefreshTime - lastRefreshTime}
                         onClick={triggerRuntimeRefetch}
