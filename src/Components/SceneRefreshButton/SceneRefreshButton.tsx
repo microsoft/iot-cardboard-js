@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import {
     ISceneRefreshButtonProps,
     ISceneRefreshButtonStyleProps,
@@ -34,14 +40,9 @@ const LOC_KEYS = {
     refreshRate: `${ROOT_LOC}.refreshRate`
 };
 const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
-    const {
-        isRefreshing,
-        lastRefreshTimeInMs,
-        onClick,
-        refreshFrequency,
-        styles
-    } = props;
-    const iconAnimationTimeout = useRef<NodeJS.Timeout>();
+    const { lastRefreshTimeInMs, onClick, refreshFrequency, styles } = props;
+    const iconAnimationTimeout = useRef(null);
+    const lastRefreshTimeout = useRef(null);
 
     // state
     const [isRefreshInProgress, setIsRefreshInProgress] = useState<boolean>(
@@ -65,19 +66,18 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
         theme: useTheme()
     });
 
-    // set local state when we are notified about refreshing, then give it time to animate
-    useEffect(() => {
-        if (isRefreshing) {
-            setIsRefreshInProgress(true); // apply the styling
-            clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
-            setTimeout(() => {
-                setIsRefreshInProgress(false);
-            }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
-        }
-    }, [isRefreshing]);
+    const localOnClick = useCallback(() => {
+        setIsRefreshInProgress(true); // apply the styling
+        clearTimeout(iconAnimationTimeout.current); // clear any pending timeouts
+        iconAnimationTimeout.current = setTimeout(() => {
+            setIsRefreshInProgress(false);
+        }, ANIMATION_DURATION_SECONDS * 1000 + 0.1); // give it enough time to finish the animation, then remove the style
+        onClick();
+    }, []);
 
+    clearTimeout(lastRefreshTimeout.current);
     // to get live updating we have to trigger renders and recalculate on a regular cadence so set a timer to keep checking
-    setTimeout(() => {
+    lastRefreshTimeout.current = setTimeout(() => {
         const timeSince =
             lastRefreshTimeInMs > 0 ? Date.now() - lastRefreshTimeInMs : 0;
         const timeSinceRefresh = formatTimeInRelevantUnits(
@@ -85,13 +85,22 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
             DurationUnits.seconds
         );
         setTimeSinceLastRefresh(timeSinceRefresh);
-    }, 1000);
+    }, 450);
 
     const refreshFrequencyDisplay = useMemo(
         () =>
             formatTimeInRelevantUnits(refreshFrequency, DurationUnits.seconds),
         [refreshFrequency]
     );
+
+    // side effects
+    useEffect(() => {
+        // clear the timeouts on unmount
+        return () => {
+            clearTimeout(lastRefreshTimeout.current);
+            clearTimeout(iconAnimationTimeout.current);
+        };
+    }, []);
 
     return (
         <div className={classNames.root}>
@@ -105,21 +114,25 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
                         <Stack>
                             <div>
                                 {t(LOC_KEYS.lastRefreshed, {
-                                    value: Math.round(
-                                        timeSinceLastRefresh.value
-                                    ),
-                                    units: t(
-                                        timeSinceLastRefresh.displayStringKey
+                                    timeWithUnits: t(
+                                        timeSinceLastRefresh.displayStringKey,
+                                        {
+                                            value: Math.round(
+                                                timeSinceLastRefresh.value
+                                            )
+                                        }
                                     )
                                 })}
                             </div>
                             <div>
                                 {t(LOC_KEYS.refreshRate, {
-                                    value: Math.round(
-                                        refreshFrequencyDisplay.value
-                                    ),
-                                    units: t(
-                                        refreshFrequencyDisplay.displayStringKey
+                                    timeWithUnits: t(
+                                        refreshFrequencyDisplay.displayStringKey,
+                                        {
+                                            value: Math.round(
+                                                refreshFrequencyDisplay.value
+                                            )
+                                        }
                                     )
                                 })}
                             </div>
@@ -132,7 +145,7 @@ const SceneRefreshButton: React.FC<ISceneRefreshButtonProps> = (props) => {
                         id={buttonId}
                         iconProps={{ iconName: 'Refresh' }}
                         isActive={false}
-                        onClick={onClick}
+                        onClick={localOnClick}
                         styles={
                             classNames.subComponentStyles.headerControlButton
                         }

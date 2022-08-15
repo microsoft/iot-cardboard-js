@@ -17,11 +17,13 @@ import {
     IDeeplinkContextState,
     DeeplinkContextAction,
     DeeplinkContextActionType,
-    IDeeplinkContextProviderProps,
-    IPublicDeeplink,
-    IDeeplinkOptions,
-    DEEPLINK_SERIALIZATION_OPTIONS
+    IDeeplinkOptions
 } from './DeeplinkContext.types';
+import {
+    DEEPLINK_SERIALIZATION_OPTIONS,
+    IDeeplinkContextProviderProps,
+    IPublicDeeplink
+} from '..';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);

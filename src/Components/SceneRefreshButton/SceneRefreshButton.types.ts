@@ -8,7 +8,6 @@ import { IHeaderControlButtonStyles } from '../HeaderControlButton/HeaderControl
 import { IHeaderControlGroupStyles } from '../HeaderControlGroup/HeaderControlGroup.types';
 
 export interface ISceneRefreshButtonProps {
-    isRefreshing: boolean;
     lastRefreshTimeInMs: number;
     refreshFrequency: number;
     onClick: () => void;
