@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Kijelölés váltása",
     "selectRow": "Sor kijelölése",
-    "inspectProperty": "ellenőrizze az ingatlant"
+    "inspectProperty": "ellenőrizze az ingatlant",
+    "results": "Eredmények ({{twinCount}})"
   }
 }

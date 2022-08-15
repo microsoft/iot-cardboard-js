@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "選択範囲の切り替え",
     "selectRow": "行の選択",
-    "inspectProperty": "プロパティの検査"
+    "inspectProperty": "プロパティの検査",
+    "results": "結果 ({{twinCount}})"
   }
 }

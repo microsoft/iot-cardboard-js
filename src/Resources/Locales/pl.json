@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Przełączanie zaznaczenia",
     "selectRow": "Wybierz wiersz",
-    "inspectProperty": "sprawdź nieruchomość"
+    "inspectProperty": "sprawdź nieruchomość",
+    "results": "Wyniki ({{twinCount}})"
   }
 }

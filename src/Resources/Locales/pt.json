@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Seleção de alternar",
     "selectRow": "Selecione a linha",
-    "inspectProperty": "inspecionar propriedade"
+    "inspectProperty": "inspecionar propriedade",
+    "results": "Resultados ({{twinCount}})"
   }
 }

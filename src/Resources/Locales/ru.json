@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Переключение выбора",
     "selectRow": "Выбрать строку",
-    "inspectProperty": "осмотр имущества"
+    "inspectProperty": "осмотр имущества",
+    "results": "Результаты ({{twinCount}})"
   }
 }

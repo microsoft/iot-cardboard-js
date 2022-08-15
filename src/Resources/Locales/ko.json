@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "선택 토글",
     "selectRow": "행 선택",
-    "inspectProperty": "속성 검사"
+    "inspectProperty": "속성 검사",
+    "results": "결과 ({{twinCount}})"
   }
 }
