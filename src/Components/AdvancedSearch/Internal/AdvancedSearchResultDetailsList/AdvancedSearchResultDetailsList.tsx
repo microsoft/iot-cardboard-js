@@ -36,6 +36,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+    const propertyKey = `properties + ${Math.random()}`;
     const columns: IColumn[] = [
         {
             key: `twin-id + ${Math.random()}`,
@@ -46,7 +47,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         },
         {
-            key: 'properties',
+            key: `${propertyKey}`,
             name: t('properties'),
             minWidth: 50,
             maxWidth: 200,
@@ -71,7 +72,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     ) => {
         const fieldContent = String(item[column.fieldName]);
         switch (column.key) {
-            case 'properties':
+            case `${propertyKey}`:
                 return (
                     <IconButton
                         iconProps={{ iconName: 'EntryView' }}
@@ -104,7 +105,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     ariaLabelForSelectionColumn={t(
                         'advancedSearch.toggleSelection'
                     )}
-                    checkButtonAriaLabel={t('selectRow')}
+                    checkButtonAriaLabel={t('advancedSearch.selectRow')}
                     onRenderItemColumn={renderItemColumn}
                     selectionMode={SelectionMode.single}
                 />
