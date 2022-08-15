@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Son yenilenen {{timeWithUnits}} önce",
     "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
+  },
+  "advancedSearch": {
+    "toggleSelection": "İkiz Seç",
+    "selectRow": "Twin Seçilmiş",
+    "inspectProperty": "Özelliği İncele",
+    "results": "Sonuçlar ({{twinCount}})"
   }
 }

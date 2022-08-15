@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Ostatnio odświeżony {{timeWithUnits}} temu",
     "refreshRate": "Odświeżanie co {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Przełącz na Wybierz Twin",
+    "selectRow": "Twin Selected",
+    "inspectProperty": "Sprawdź nieruchomość",
+    "results": "Wyniki ({{twinCount}})"
   }
 }
