@@ -1121,7 +1121,6 @@
     "year": "ano",
     "years": "Anos"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Configuração da cena",
     "calloutTitle": "Configuração da cena",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Última atualização {{timeWithUnits}} atrás",
     "refreshRate": "Refrescando cada {{timeWithUnits}}"
-=======
-  "advancedSearch": {
-    "toggleSelection": "Alternar para Selecionar gêmeos",
-    "selectRow": "Gêmeos Selecionados",
-    "inspectProperty": "Inspecionar propriedade",
-    "results": "Resultados ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

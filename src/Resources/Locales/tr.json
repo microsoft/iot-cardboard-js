@@ -1121,7 +1121,6 @@
     "year": "yıl",
     "years": "Yıl"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Sahne yapılandırması",
     "calloutTitle": "Sahne yapılandırması",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Son yenilenen {{timeWithUnits}} önce",
     "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
-=======
-  "advancedSearch": {
-    "toggleSelection": "İkiz Seç",
-    "selectRow": "Twin Seçilmiş",
-    "inspectProperty": "Özelliği İncele",
-    "results": "Sonuçlar ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

@@ -1121,7 +1121,6 @@
     "year": "año",
     "years": "años"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Configuración de escenas",
     "calloutTitle": "Configuración de escenas",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Última actualización {{timeWithUnits}} hace mucho tiempo",
     "refreshRate": "Actualización cada {{timeWithUnits}}"
-=======
-  "advancedSearch": {
-    "toggleSelection": "Cambiar a Seleccionar gemelo",
-    "selectRow": "Gemelo seleccionado",
-    "inspectProperty": "Inspeccionar propiedad",
-    "results": "Resultados ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

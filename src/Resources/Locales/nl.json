@@ -1121,7 +1121,6 @@
     "year": "jaar",
     "years": "jaren"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Scène configuratie",
     "calloutTitle": "Scène configuratie",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Laatst vernieuwd {{timeWithUnits}} geleden",
     "refreshRate": "Elke {{timeWithUnits}} vernieuwen"
-=======
-  "advancedSearch": {
-    "toggleSelection": "Schakel in om Twin te selecteren",
-    "selectRow": "Twin geselecteerd",
-    "inspectProperty": "Inspecteer onroerend goed",
-    "results": "Resultaten ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

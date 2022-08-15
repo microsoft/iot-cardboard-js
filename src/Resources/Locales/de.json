@@ -1121,7 +1121,6 @@
     "year": "Jahr",
     "years": "Jahre"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Szenenkonfiguration",
     "calloutTitle": "Szenenkonfiguration",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Zuletzt aktualisiert {{timeWithUnits}} vor",
     "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
-=======
-  "advancedSearch": {
-    "toggleSelection": "Zum Auswählen von Twin umschalten",
-    "selectRow": "Twin Selected",
-    "inspectProperty": "Inspect-Eigenschaft",
-    "results": "Ergebnisse ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }

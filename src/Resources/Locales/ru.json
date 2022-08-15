@@ -1121,7 +1121,6 @@
     "year": "год",
     "years": "годы"
   },
-<<<<<<< HEAD
   "sceneRefreshConfigurator": {
     "headerButtonTitle": "Конфигурация сцены",
     "calloutTitle": "Конфигурация сцены",
@@ -1132,12 +1131,5 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Последнее обновление {{timeWithUnits}} назад",
     "refreshRate": "Обновление каждого {{timeWithUnits}}"
-=======
-  "advancedSearch": {
-    "toggleSelection": "Переключение на выбор Twin",
-    "selectRow": "Выбран близнец",
-    "inspectProperty": "Инспекция имущества",
-    "results": "Результаты ({{twinCount}})"
->>>>>>> 76c76294d4c786360f335e5bd62d18faeb9bef8d
   }
 }
