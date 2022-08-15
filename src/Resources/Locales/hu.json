@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
     "refreshRate": "Frissítés minden {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Váltás az iker kiválasztásához",
+    "selectRow": "Iker kiválasztva",
+    "inspectProperty": "Ingatlan ellenőrzése",
+    "results": "Eredmények ({{twinCount}})"
   }
 }

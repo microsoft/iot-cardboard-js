@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Senast uppdaterad {{timeWithUnits}} sedan",
     "refreshRate": "Uppdatera varje {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Växla till Välj tvilling",
+    "selectRow": "Tvilling vald",
+    "inspectProperty": "Inspektera egendom",
+    "results": "Resultat ({{twinCount}})"
   }
 }

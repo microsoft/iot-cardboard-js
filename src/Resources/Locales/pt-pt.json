@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Última refrescada {{timeWithUnits}}",
     "refreshRate": "Refrescante cada {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Alternar para Selecionar Twin",
+    "selectRow": "Twin Selecionado",
+    "inspectProperty": "Inspecionar Propriedade",
+    "results": "Resultados ({{twinCount}}"
   }
 }

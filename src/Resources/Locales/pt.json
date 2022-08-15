@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Última atualização {{timeWithUnits}} atrás",
     "refreshRate": "Refrescando cada {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Alternar para Selecionar gêmeos",
+    "selectRow": "Gêmeos Selecionados",
+    "inspectProperty": "Inspecionar propriedade",
+    "results": "Resultados ({{twinCount}})"
   }
 }

@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "上次刷新 {{timeWithUnits}} 前",
     "refreshRate": "刷新每个 {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "切换为选择双胞胎",
+    "selectRow": "选择双床间",
+    "inspectProperty": "检查属性",
+    "results": "Results （{{twinCount}}）"
   }
 }

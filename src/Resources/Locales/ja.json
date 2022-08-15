@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "最後に更新された {{timeWithUnits}} 前",
     "refreshRate": "{{timeWithUnits}} のたびに更新する"
+  },
+  "advancedSearch": {
+    "toggleSelection": "ツインの選択に切り替えます",
+    "selectRow": "選択されたツイン",
+    "inspectProperty": "プロパティの検査",
+    "results": "結果 ({{twinCount}})"
   }
 }

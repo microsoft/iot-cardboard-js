@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Последнее обновление {{timeWithUnits}} назад",
     "refreshRate": "Обновление каждого {{timeWithUnits}}"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Переключение на выбор Twin",
+    "selectRow": "Выбран близнец",
+    "inspectProperty": "Инспекция имущества",
+    "results": "Результаты ({{twinCount}})"
   }
 }

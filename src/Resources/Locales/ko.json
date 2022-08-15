@@ -1131,5 +1131,11 @@
   "sceneRefreshButton": {
     "lastRefreshed": "마지막으로 새로 고친 {{timeWithUnits}} 전",
     "refreshRate": "{{timeWithUnits}} 마다 새로 고침"
+  },
+  "advancedSearch": {
+    "toggleSelection": "트윈 선택으로 전환",
+    "selectRow": "트윈 선택",
+    "inspectProperty": "속성 검사",
+    "results": "결과 ({{twinCount}})"
   }
 }
