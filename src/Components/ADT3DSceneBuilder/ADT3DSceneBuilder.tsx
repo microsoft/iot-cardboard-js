@@ -77,7 +77,8 @@ import {
 } from '../../Models/Services/Utils';
 import {
     DatasourceType,
-    defaultBehavior
+    defaultBehavior,
+    getDefaultElement
 } from '../../Models/Classes/3DVConfig';
 import { IADTObjectColor } from '../../Models/Constants';
 import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
@@ -197,6 +198,12 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             },
                             onClick: () => {
                                 elementContextualMenuItems.current[1].sectionProps.items = [];
+                                dispatch({
+                                    type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                                    payload: getDefaultElement({
+                                        id: createGUID()
+                                    })
+                                });
                                 dispatch({
                                     type: SET_ADT_SCENE_BUILDER_MODE,
                                     payload: ADT3DSceneBuilderMode.CreateElement
