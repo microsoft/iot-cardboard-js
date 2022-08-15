@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Attiva/disattiva selezione",
     "selectRow": "Seleziona riga",
-    "inspectProperty": "ispezionare la proprietà"
+    "inspectProperty": "ispezionare la proprietà",
+    "results": "Risultati ({{twinCount}})"
   }
 }

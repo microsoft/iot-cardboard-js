@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Přepnout výběr",
     "selectRow": "Vybrat řádek",
-    "inspectProperty": "zkontrolovat nemovitost"
+    "inspectProperty": "zkontrolovat nemovitost",
+    "results": "Výsledky ({{twinCount}})"
   }
 }

@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Selectie in-/uitschakelen",
     "selectRow": "Rij selecteren",
-    "inspectProperty": "onroerend goed inspecteren"
+    "inspectProperty": "onroerend goed inspecteren",
+    "results": "Resultaten ({{twinCount}})"
   }
 }

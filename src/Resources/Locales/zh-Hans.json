@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "切换选择",
     "selectRow": "选择行",
-    "inspectProperty": "检查财产"
+    "inspectProperty": "检查财产",
+    "results": "Results （{{twinCount}}）"
   }
 }

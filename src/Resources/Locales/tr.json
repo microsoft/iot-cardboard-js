@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Seçimi değiştir",
     "selectRow": "Satır seç",
-    "inspectProperty": "mülkü denetleme"
+    "inspectProperty": "mülkü denetleme",
+    "results": "Sonuçlar ({{twinCount}})"
   }
 }

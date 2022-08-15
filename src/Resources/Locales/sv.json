@@ -956,6 +956,7 @@
   "advancedSearch": {
     "toggleSelection": "Växla markering",
     "selectRow": "Markera rad",
-    "inspectProperty": "inspektera egendom"
+    "inspectProperty": "inspektera egendom",
+    "results": "Resultat ({{twinCount}})"
   }
 }
