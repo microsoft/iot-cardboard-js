@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
     }
   },
-  "fieldRequired": "Dieses Feld ist ein Pflichtfeld"
+  "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
+  "advancedSearch": {
+    "toggleSelection": "Auswahl ein-/ausblenden",
+    "selectRow": "Zeile auswählen",
+    "inspectProperty": "Eigenschaft \"Inspect\""
+  }
 }

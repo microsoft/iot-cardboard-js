@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
     }
   },
-  "fieldRequired": "A mező kitöltése kötelező"
+  "fieldRequired": "A mező kitöltése kötelező",
+  "advancedSearch": {
+    "toggleSelection": "Kijelölés váltása",
+    "selectRow": "Sor kijelölése",
+    "inspectProperty": "ellenőrizze az ingatlant"
+  }
 }

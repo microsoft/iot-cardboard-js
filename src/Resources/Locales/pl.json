@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     }
   },
-  "fieldRequired": "To pole jest wymagane"
+  "fieldRequired": "To pole jest wymagane",
+  "advancedSearch": {
+    "toggleSelection": "Przełączanie zaznaczenia",
+    "selectRow": "Wybierz wiersz",
+    "inspectProperty": "sprawdź nieruchomość"
+  }
 }

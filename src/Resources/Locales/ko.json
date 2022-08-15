@@ -952,5 +952,10 @@
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     }
   },
-  "fieldRequired": "이 필드는 필수입니다."
+  "fieldRequired": "이 필드는 필수입니다.",
+  "advancedSearch": {
+    "toggleSelection": "선택 토글",
+    "selectRow": "행 선택",
+    "inspectProperty": "속성 검사"
+  }
 }
