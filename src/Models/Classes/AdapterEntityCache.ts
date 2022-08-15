@@ -18,6 +18,11 @@ class AdapterEntityCache<T extends IAdapterData> {
         this.maxAgeMs = maxAgeMs;
     }
 
+    setMaxAgeMs(maxAge: number): void {
+        this.maxAgeMs = maxAge;
+        this.cachedEntities = new Map();
+    }
+
     /**
      * Retrieves an entity from the cache.  If the entity is stale, getEntityData will be executed to resolve the entity
      * @param key The key for the desired entity
@@ -71,7 +76,7 @@ class CachedEntity<T extends IAdapterData> {
     }
 
     public isStale(maxAgeMs: number) {
-        return this.createdTimeMs + maxAgeMs < new Date().valueOf();
+        return this.createdTimeMs + maxAgeMs < Date.now();
     }
 
     private async getAdapterResult(

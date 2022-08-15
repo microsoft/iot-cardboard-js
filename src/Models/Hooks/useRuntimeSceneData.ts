@@ -58,6 +58,12 @@ export const useRuntimeSceneData = (
         pollingIntervalMillis: pollingInterval
     });
 
+    // notify the adapter of the updating polling interval so the cache length can be adjusted
+    useEffect(() => {
+        // use a value slightly lower than the interval so that there is not a race between the polling and the cache expiring
+        adapter.setTwinCacheLength(pollingInterval - 0.2 * pollingInterval);
+    }, [pollingInterval]);
+
     /**
      * After getting ADT3DViewerData (including scene visuals along with 3d model URL) from adapter, parse it to
      * update the colored meshes ids based on run expressions in behaviors against the returned ADT twin property data

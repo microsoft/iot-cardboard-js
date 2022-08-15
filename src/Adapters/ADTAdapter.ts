@@ -139,6 +139,10 @@ export default class ADTAdapter implements IADTAdapter {
         this.adtHostUrl = hostName;
     }
 
+    setTwinCacheLength(maxAge: number) {
+        this.adtTwinCache.setMaxAgeMs(maxAge);
+    }
+
     getRelationships(id: string) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 

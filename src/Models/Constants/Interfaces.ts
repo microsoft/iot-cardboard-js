@@ -427,6 +427,12 @@ export interface IADT3DViewerAdapter {
         visibleLayerIds?: string[],
         bustCache?: boolean
     ): AdapterReturnType<ADT3DViewerData>;
+
+    /**
+     * Updates the cache lifetime for twin data and busts the current cache
+     * @param maxAge The duration in milliseconds that the cache should be valid
+     */
+    setTwinCacheLength(maxAge: number): void;
 }
 
 export interface IADTAdapter
@@ -439,6 +445,20 @@ export interface IADTAdapter
     getADTTwinsByModelId(
         params: AdapterMethodParamsForGetADTTwinsByModelId
     ): AdapterReturnType<ADTAdapterTwinsData>;
+
+    getSceneData(
+        sceneId: string,
+        config: I3DScenesConfig,
+        visibleLayerIds?: string[],
+        bustCache?: boolean
+    ): AdapterReturnType<ADT3DViewerData>;
+
+    /**
+     * Updates the cache lifetime for twin data and busts the current cache
+     * @param maxAge The duration in milliseconds that the cache should be valid
+     */
+    setTwinCacheLength(maxAge: number): void;
+
     searchADTTwins(
         params: AdapterMethodParamsForSearchADTTwins
     ): AdapterReturnType<ADTAdapterTwinsData>;
