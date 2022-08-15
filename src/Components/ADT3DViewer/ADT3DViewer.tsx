@@ -644,16 +644,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         left: number,
         top: number
     ) => {
-        if (!isAlertPopoverVisible) {
-            setAlertPanelItems({
-                element: badgeGroup.element,
-                behaviors: badgeGroup.behaviors,
-                twins: badgeGroup.twins
-            });
-            // Adding offsets to ensure the popover covers the alerts badges as per the designs
-            setAlertPopoverPosition({ left: left - 50, top: top - 30 });
-            setIsAlertPopoverVisible(true);
-        }
+        setAlertPanelItems({
+            element: badgeGroup.element,
+            behaviors: badgeGroup.behaviors,
+            twins: badgeGroup.twins
+        });
+        // Adding offsets to ensure the popover covers the alerts badges as per the designs
+        setAlertPopoverPosition({ left: left - 50, top: top - 30 });
+        setIsAlertPopoverVisible(true);
     };
 
     // header callbacks
