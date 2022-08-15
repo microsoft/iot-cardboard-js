@@ -23,13 +23,11 @@ const Template: BehaviorsModalStory = (args) => {
     const scenesConfig = mockData as I3DScenesConfig;
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
-    const pollingInterval = 5000;
 
     const { sceneVisuals } = useRuntimeSceneData(
         adapter,
         sceneId,
-        scenesConfig,
-        pollingInterval
+        scenesConfig
     );
 
     if (sceneVisuals.length === 0) return null;

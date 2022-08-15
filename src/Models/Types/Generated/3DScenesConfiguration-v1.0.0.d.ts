@@ -6,6 +6,10 @@
  */
 
 export type IElement = ITwinToObjectMapping | ICustomProperty;
+/**
+ * The strategy to use for polling data. Realtime fetches as often as possible given the number of visible twins. Limited will refresh at a rate equal to the ceiling of the `Realtime` value and the `MinimumPollingFrequency`
+ */
+export type IPollingStrategy = 'Realtime' | 'Limited';
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
 export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
@@ -49,14 +53,29 @@ export interface I3DScenesConfig {
  * A scene is a single view that can be rendered from 3D assets
  */
 export interface IScene {
+    assets: IAsset[];
+    behaviorIDs: string[];
+    elements: IElement[];
     id: string;
-    displayName: string;
     description?: string;
+    displayName: string;
     latitude?: number;
     longitude?: number;
-    elements: IElement[];
-    behaviorIDs: string[];
-    assets: IAsset[];
+    pollingConfiguration?: IPollingConfiguration;
+}
+/**
+ * A 3D asset used to create the scene
+ */
+export interface IAsset {
+    type: string;
+    url: string;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Optional bag of non-schematized extension properties
+ */
+export interface IExtensionProperties {
+    [k: string]: unknown;
 }
 /**
  * An elements maps twins to objects in the scene
@@ -82,12 +101,6 @@ export interface ITwinToObjectMapping {
     extensionProperties?: IExtensionProperties;
 }
 /**
- * Optional bag of non-schematized extension properties
- */
-export interface IExtensionProperties {
-    [k: string]: unknown;
-}
-/**
  * Free form property
  */
 export interface ICustomProperty {
@@ -95,12 +108,14 @@ export interface ICustomProperty {
     [k: string]: unknown;
 }
 /**
- * A 3D asset used to create the scene
+ * Configures the strategy and parameters for the polling of twin data from the twin graph. NOTE: `MinimumPollingFrequency` is required when polling strategy is `Limited`
  */
-export interface IAsset {
-    type: string;
-    url: string;
-    extensionProperties?: IExtensionProperties;
+export interface IPollingConfiguration {
+    pollingStrategy: IPollingStrategy;
+    /**
+     * The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency.
+     */
+    minimumPollingFrequency?: number;
 }
 /**
  * A behavior applies visual or interactive representations of twin state to objects in the scene
