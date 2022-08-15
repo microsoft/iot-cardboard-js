@@ -1107,10 +1107,6 @@
     "stackHeader": "Pile",
     "tryAgain": "Réessayez"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Dernière actualisation : {{value}} {{units}} ago",
-    "refreshRate": "Taux de rafraîchissement : {{valeur}} {{unités}}"
-  },
   "duration": {
     "millisecond": "milliseconde",
     "milliseconds": "Millisecondes",
@@ -1124,5 +1120,16 @@
     "days": "Jours",
     "year": "année",
     "years": "années"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Configuration de la scène",
+    "calloutTitle": "Configuration de la scène",
+    "calloutDescription": "Configurer les paramètres de cette scène",
+    "rateDropdownLabel": "Taux de rafraîchissement minimum",
+    "rateTooltip": "Vous pouvez limiter la fréquence d’actualisation des données pour réduire le volume de demandes. Remarque : l’intervalle d’actualisation peut être ajusté dynamiquement pour les scènes plus complexes."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Dernière actualisation de {{timeWithUnits}}",
+    "refreshRate": "Actualisation de chaque {{timeWithUnits}}"
   }
 }

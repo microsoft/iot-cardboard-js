@@ -1107,10 +1107,6 @@
     "stackHeader": "Stapel",
     "tryAgain": "Wiederholen"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Letzte Aktualisierung: {{Wert}} {{Einheiten}} vor",
-    "refreshRate": "Bildwiederholfrequenz: {{Wert}} {{Einheiten}}"
-  },
   "duration": {
     "millisecond": "Millisekunde",
     "milliseconds": "Millisekunden",
@@ -1124,5 +1120,16 @@
     "days": "Tage",
     "year": "Jahr",
     "years": "Jahre"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Szenenkonfiguration",
+    "calloutTitle": "Szenenkonfiguration",
+    "calloutDescription": "Konfigurieren von Einstellungen für diese Szene",
+    "rateDropdownLabel": "Minimale Bildwiederholfrequenz",
+    "rateTooltip": "Sie können die Häufigkeit der Aktualisierung von Daten einschränken, um das Anforderungsvolumen zu reduzieren. Hinweis: Das Aktualisierungsintervall kann für komplexere Szenen dynamisch angepasst werden."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Zuletzt aktualisiert {{timeWithUnits}} vor",
+    "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
   }
 }

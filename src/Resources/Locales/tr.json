@@ -1107,10 +1107,6 @@
     "stackHeader": "Yığın",
     "tryAgain": "Yeniden Deneyin"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Son yenilenen: {{değer}} {{birimler}} önce",
-    "refreshRate": "Yenileme hızı: {{değer}} {{birimler}}"
-  },
   "duration": {
     "millisecond": "milisaniye",
     "milliseconds": "Milisaniye",
@@ -1124,5 +1120,16 @@
     "days": "Gün",
     "year": "yıl",
     "years": "Yıl"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Sahne yapılandırması",
+    "calloutTitle": "Sahne yapılandırması",
+    "calloutDescription": "Bu sahne için ayarları yapılandırma",
+    "rateDropdownLabel": "Minimum yenileme hızı",
+    "rateTooltip": "İstek hacmini azaltmak için verilerin yenilenme sıklığını sınırlayabilirsiniz. Not: Yenileme aralığı daha karmaşık sahneler için dinamik olarak ayarlanabilir."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Son yenilenen {{timeWithUnits}} önce",
+    "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
   }
 }

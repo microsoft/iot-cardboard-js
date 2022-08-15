@@ -1107,10 +1107,6 @@
     "stackHeader": "Stapel",
     "tryAgain": "Probeer het opnieuw"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Laatst vernieuwd: {{value}} {{units}} geleden",
-    "refreshRate": "Vernieuwingsfrequentie: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "milliseconde",
     "milliseconds": "Milliseconden",
@@ -1124,5 +1120,16 @@
     "days": "Dagen",
     "year": "jaar",
     "years": "jaren"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Scène configuratie",
+    "calloutTitle": "Scène configuratie",
+    "calloutDescription": "Instellingen voor deze scène configureren",
+    "rateDropdownLabel": "Minimale verversingssnelheid",
+    "rateTooltip": "U kunt beperken hoe vaak gegevens worden vernieuwd om het aanvraagvolume te verminderen. Opmerking: het vernieuwingsinterval kan dynamisch worden aangepast voor complexere scènes."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Laatst vernieuwd {{timeWithUnits}} geleden",
+    "refreshRate": "Elke {{timeWithUnits}} vernieuwen"
   }
 }

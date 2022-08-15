@@ -1107,10 +1107,6 @@
     "stackHeader": "Boglya",
     "tryAgain": "Próbáld újra"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Utolsó frissítés: {{value}} {{units}} ezelőtt",
-    "refreshRate": "Frissítési gyakoriság: {{érték}} {{egységek}}"
-  },
   "duration": {
     "millisecond": "Ezredmásodperc",
     "milliseconds": "Ezredmásodperc",
@@ -1124,5 +1120,16 @@
     "days": "Napok",
     "year": "év",
     "years": "Év"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Jelenet konfigurációja",
+    "calloutTitle": "Jelenet konfigurációja",
+    "calloutDescription": "A jelenet beállításainak konfigurálása",
+    "rateDropdownLabel": "Minimális frissítési gyakoriság",
+    "rateTooltip": "A kérelmek mennyiségének csökkentése érdekében korlátozhatja az adatok frissítésének gyakoriságát. Megjegyzés: a frissítési időköz dinamikusan beállítható összetettebb jelenetek esetén."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
+    "refreshRate": "Frissítés minden {{timeWithUnits}}"
   }
 }
