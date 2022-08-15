@@ -1124,5 +1124,11 @@
     "days": "일",
     "year": "년",
     "years": "년"
+  },
+  "advancedSearch": {
+    "toggleSelection": "트윈 선택으로 전환",
+    "selectRow": "트윈 선택",
+    "inspectProperty": "속성 검사",
+    "results": "결과 ({{twinCount}})"
   }
 }

@@ -1124,5 +1124,11 @@
     "days": "日",
     "year": "年",
     "years": "月日"
+  },
+  "advancedSearch": {
+    "toggleSelection": "ツインの選択に切り替えます",
+    "selectRow": "選択されたツイン",
+    "inspectProperty": "プロパティの検査",
+    "results": "結果 ({{twinCount}})"
   }
 }
