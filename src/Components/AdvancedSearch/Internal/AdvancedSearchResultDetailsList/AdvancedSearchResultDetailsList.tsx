@@ -31,6 +31,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     adapter
 }) => {
     const { t } = useTranslation();
+    const twinCount = twins.length;
 
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -89,8 +90,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     return (
         <section className={classNames.root}>
-            <h3>{'Results (' + twins.length + ')'}</h3>
-            <h3>{t('advancedSearch.results', {twins.length})}</h3>
+            <h3>{t('advancedSearch.results', { twinCount })}</h3>
             <div>
                 <DetailsList
                     items={twins}

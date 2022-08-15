@@ -957,6 +957,6 @@
         "toggleSelection": "Toggle selection",
         "selectRow": "Select row",
         "inspectProperty": "Inspect Property",
-        "results": "Results ({{twins.length}})"
+        "results": "Results ({{twinCount}})"
     }
 }
