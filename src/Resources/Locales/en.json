@@ -1131,5 +1131,11 @@
         "days": "{{value}} days",
         "year": "{{value}} year",
         "years": "{{value}} years"
+    },
+    "advancedSearch": {
+        "toggleSelection": "Toggle to Select Twin",
+        "selectRow": "Twin Selected",
+        "inspectProperty": "Inspect Property",
+        "results": "Results ({{twinCount}})"
     }
 }
