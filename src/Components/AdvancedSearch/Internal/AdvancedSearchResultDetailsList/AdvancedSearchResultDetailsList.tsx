@@ -36,10 +36,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
-    const propertyKey = `properties + ${Math.random()}`;
     const columns: IColumn[] = [
         {
-            key: `twin-id + ${Math.random()}`,
+            key: 'twin-id',
             name: t('twinId'),
             fieldName: '$dtId',
             minWidth: 50,
@@ -47,7 +46,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         },
         {
-            key: `${propertyKey}`,
+            key: 'properties',
             name: t('properties'),
             minWidth: 50,
             maxWidth: 200,
@@ -57,7 +56,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     const additionalColumns: IColumn[] = searchedProperties.map((name) => {
         return {
-            key: name + Math.random(),
+            key: name,
             name: name,
             fieldName: name,
             minWidth: 50,
@@ -72,7 +71,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     ) => {
         const fieldContent = String(item[column.fieldName]);
         switch (column.key) {
-            case `${propertyKey}`:
+            case 'properties':
                 return (
                     <IconButton
                         iconProps={{ iconName: 'EntryView' }}
