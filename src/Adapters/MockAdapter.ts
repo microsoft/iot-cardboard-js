@@ -130,6 +130,9 @@ export default class MockAdapter
         this.mockModels = (mockModelData as any) as DtdlInterface[];
         this.initializeMockTwinProperties();
     }
+    setTwinCacheLength(_maxAge: number): void {
+        // NO-OP on mock adapter since we don't have a cache
+    }
 
     async mockNetwork() {
         // If mocking network latency, wait for networkTimeoutMillis
