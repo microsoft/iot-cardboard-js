@@ -91,24 +91,22 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     return (
         <section className={classNames.root}>
             <h3>{t('advancedSearch.results', { twinCount })}</h3>
-            <div>
-                <DetailsList
-                    items={twins}
-                    columns={
-                        additionalColumns.length > 0
-                            ? columns.concat(additionalColumns)
-                            : columns
-                    }
-                    layoutMode={DetailsListLayoutMode.fixedColumns}
-                    selectionPreservedOnEmptyClick={false}
-                    ariaLabelForSelectionColumn={t(
-                        'advancedSearch.toggleSelection'
-                    )}
-                    checkButtonAriaLabel={t('advancedSearch.selectRow')}
-                    onRenderItemColumn={renderItemColumn}
-                    selectionMode={SelectionMode.single}
-                />
-            </div>
+            <DetailsList
+                items={twins}
+                columns={
+                    additionalColumns.length > 0
+                        ? columns.concat(additionalColumns)
+                        : columns
+                }
+                layoutMode={DetailsListLayoutMode.fixedColumns}
+                selectionPreservedOnEmptyClick={false}
+                ariaLabelForSelectionColumn={t(
+                    'advancedSearch.toggleSelection'
+                )}
+                checkButtonAriaLabel={t('advancedSearch.selectRow')}
+                onRenderItemColumn={renderItemColumn}
+                selectionMode={SelectionMode.single}
+            />
         </section>
     );
 };
