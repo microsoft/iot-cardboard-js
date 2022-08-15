@@ -1124,5 +1124,11 @@
     "days": "日",
     "year": "年",
     "years": "年"
+  },
+  "advancedSearch": {
+    "toggleSelection": "切换为选择双胞胎",
+    "selectRow": "选择双床间",
+    "inspectProperty": "检查属性",
+    "results": "Results （{{twinCount}}）"
   }
 }

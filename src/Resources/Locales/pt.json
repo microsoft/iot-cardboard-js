@@ -1124,5 +1124,11 @@
     "days": "Dias",
     "year": "ano",
     "years": "Anos"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Alternar para Selecionar gêmeos",
+    "selectRow": "Gêmeos Selecionados",
+    "inspectProperty": "Inspecionar propriedade",
+    "results": "Resultados ({{twinCount}})"
   }
 }

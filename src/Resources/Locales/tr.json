@@ -1124,5 +1124,11 @@
     "days": "Gün",
     "year": "yıl",
     "years": "Yıl"
+  },
+  "advancedSearch": {
+    "toggleSelection": "İkiz Seç",
+    "selectRow": "Twin Seçilmiş",
+    "inspectProperty": "Özelliği İncele",
+    "results": "Sonuçlar ({{twinCount}})"
   }
 }

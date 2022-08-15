@@ -1124,5 +1124,11 @@
     "days": "Dni",
     "year": "rok",
     "years": "lata"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Przełącz na Wybierz Twin",
+    "selectRow": "Twin Selected",
+    "inspectProperty": "Sprawdź nieruchomość",
+    "results": "Wyniki ({{twinCount}})"
   }
 }
