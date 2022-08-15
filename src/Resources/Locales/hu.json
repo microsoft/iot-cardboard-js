@@ -1124,5 +1124,11 @@
     "days": "Napok",
     "year": "év",
     "years": "Év"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Váltás az iker kiválasztásához",
+    "selectRow": "Iker kiválasztva",
+    "inspectProperty": "Ingatlan ellenőrzése",
+    "results": "Eredmények ({{twinCount}})"
   }
 }
