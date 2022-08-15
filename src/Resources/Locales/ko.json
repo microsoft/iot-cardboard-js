@@ -1107,10 +1107,6 @@
     "stackHeader": "스택",
     "tryAgain": "다시 한 번 시도해 보세요"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Last refreshed: {{value}} {{units}} ago",
-    "refreshRate": "새로 고침 빈도: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "밀리초",
     "milliseconds": "밀리초",
@@ -1124,5 +1120,16 @@
     "days": "일",
     "year": "년",
     "years": "년"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "장면 구성",
+    "calloutTitle": "장면 구성",
+    "calloutDescription": "이 장면에 대한 설정 구성",
+    "rateDropdownLabel": "최소 새로 고침 빈도",
+    "rateTooltip": "요청 볼륨을 줄이기 위해 데이터를 새로 고치는 빈도를 제한할 수 있습니다. 참고: 새로 고침 간격은 더 복잡한 장면에 대해 동적으로 조정될 수 있습니다."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "마지막으로 새로 고친 {{timeWithUnits}} 전",
+    "refreshRate": "{{timeWithUnits}} 마다 새로 고침"
   }
 }

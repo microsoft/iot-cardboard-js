@@ -1,6 +1,6 @@
 import {
     IAdapterData,
-    MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS
 } from '../Constants';
 import AdapterResult from './AdapterResult';
 
@@ -14,7 +14,7 @@ class AdapterEntityCache<T extends IAdapterData> {
     /**
      * @param maxAgeMs The maximum age that a cached entity is allowed to be.  Any older and the cache is busted
      */
-    constructor(maxAgeMs = MINIMUM_REFRESH_RATE_IN_MILLISECONDS) {
+    constructor(maxAgeMs = DEFAULT_REFRESH_RATE_IN_MILLISECONDS) {
         this.maxAgeMs = maxAgeMs;
     }
 

@@ -1107,10 +1107,6 @@
     "stackHeader": "Stack",
     "tryAgain": "Försök igen"
   },
-  "sceneRefreshButton": {
-    "lastRefreshed": "Senast uppdaterad: {{value}} {{units}} ago",
-    "refreshRate": "Uppdateringsfrekvens: {{value}} {{units}}"
-  },
   "duration": {
     "millisecond": "millisekund",
     "milliseconds": "Millisekunder",
@@ -1124,5 +1120,16 @@
     "days": "Dagar",
     "year": "år",
     "years": "år"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Scen konfiguration",
+    "calloutTitle": "Scen konfiguration",
+    "calloutDescription": "Konfigurera inställningar för den här scenen",
+    "rateDropdownLabel": "Minsta uppdateringsfrekvens",
+    "rateTooltip": "Du kan begränsa hur ofta data uppdateras för att minska begärandevolymen. Uppdateringsintervallet kan justeras dynamiskt för mer komplexa scener."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Senast uppdaterad {{timeWithUnits}} sedan",
+    "refreshRate": "Uppdatera varje {{timeWithUnits}}"
   }
 }

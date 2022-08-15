@@ -77,7 +77,8 @@ import {
 } from '../../Models/Services/Utils';
 import {
     DatasourceType,
-    defaultBehavior
+    defaultBehavior,
+    getDefaultElement
 } from '../../Models/Classes/3DVConfig';
 import { IADTObjectColor } from '../../Models/Constants';
 import { getLeftPanelStyles } from './Internal/Shared/LeftPanel.styles';
@@ -97,6 +98,7 @@ import {
 } from '../../Models/Context/SceneViewContext/SceneViewContext';
 import { SceneViewContextActionType } from '../../Models/Context/SceneViewContext/SceneViewContext.types';
 import SceneThemePicker from '../ModelViewerModePicker/SceneThemePicker';
+import SceneRefreshConfigurator from '../SceneRefreshConfigurator/SceneRefreshConfigurator';
 
 const contextMenuStyles = mergeStyleSets({
     header: {
@@ -196,6 +198,12 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                             },
                             onClick: () => {
                                 elementContextualMenuItems.current[1].sectionProps.items = [];
+                                dispatch({
+                                    type: SET_ADT_SCENE_BUILDER_SELECTED_ELEMENT,
+                                    payload: getDefaultElement({
+                                        id: createGUID()
+                                    })
+                                });
                                 dispatch({
                                     type: SET_ADT_SCENE_BUILDER_MODE,
                                     payload: ADT3DSceneBuilderMode.CreateElement
@@ -928,6 +936,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         styles={classNames.subComponentStyles.headerStack}
                         tokens={{ childrenGap: 8 }}
                     >
+                        <SceneRefreshConfigurator
+                            adapter={adapter}
+                            config={state.config}
+                            sceneId={sceneId}
+                        />
                         <SceneThemePicker />
                         <SceneLayers />
                         {showModeToggle && (

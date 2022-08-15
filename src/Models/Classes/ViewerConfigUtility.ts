@@ -1,6 +1,6 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
 import {
-    MINIMUM_REFRESH_RATE_IN_MILLISECONDS,
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
     PRIMARY_TWIN_NAME
 } from '../Constants';
 import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
@@ -82,18 +82,71 @@ abstract class ViewerConfigUtility {
         config: I3DScenesConfig,
         sceneId: string
     ): IPollingConfiguration {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
         const defaultConfig: IPollingConfiguration = {
-            pollingStrategy: 'Realtime',
-            minimumPollingFrequency: MINIMUM_REFRESH_RATE_IN_MILLISECONDS
+            minimumPollingFrequency: DEFAULT_REFRESH_RATE_IN_MILLISECONDS
         };
         if (config && sceneId) {
             const scene = this.getSceneById(config, sceneId);
             if (scene && scene.pollingConfiguration) {
-                return scene.pollingConfiguration;
+                const configToUse: IPollingConfiguration = {
+                    ...defaultConfig,
+                    ...scene.pollingConfiguration
+                };
+                logDebugConsole(
+                    'debug',
+                    'Found polling configuration in config',
+                    configToUse
+                );
+                return configToUse;
             }
         }
 
+        logDebugConsole(
+            'debug',
+            `No polling configuration found in config (sceneId: ${sceneId}), using default. {defaultPollingConfig, config}`,
+            defaultConfig,
+            config
+        );
         return defaultConfig;
+    }
+
+    /**
+     * sets the polling refresh rate in the config
+     * @param config current configuration file
+     * @param sceneId current scene id
+     * @param rateInMilliseconds the rate to set in milliseconds
+     * @returns boolean indicating success
+     */
+    static setPollingRate(
+        config: I3DScenesConfig,
+        sceneId: string,
+        rateInMilliseconds: number
+    ): boolean {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        if (config && sceneId) {
+            const scene = this.getSceneById(config, sceneId);
+            if (scene) {
+                logDebugConsole(
+                    'debug',
+                    `Updating polling rate from ${scene.pollingConfiguration?.minimumPollingFrequency} to ${rateInMilliseconds}`
+                );
+                scene.pollingConfiguration = {
+                    ...scene.pollingConfiguration,
+                    minimumPollingFrequency: rateInMilliseconds
+                };
+                return true;
+            } else {
+                console.error(
+                    `Unable to find the scene (id: ${sceneId}) to update the polling configuration`
+                );
+            }
+        } else {
+            console.error(
+                'Invalid arguments. Unable to update the polling configuration.'
+            );
+        }
+        return false;
     }
 
     /** Create new layer */
