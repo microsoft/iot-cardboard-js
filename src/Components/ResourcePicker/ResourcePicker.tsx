@@ -245,8 +245,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         (resources: IAzureResource[]) => {
             const newOptions: Array<IComboBoxOption> = [];
             let lastHeader = '';
-            // after fetching resources, first start the dropdown with that
-            resources?.forEach((r) => {
+            // after fetching resources, first start creating dropdown options with resources which have display values
+            resources?.filter(getDisplayFieldValue).forEach((r) => {
                 if (r.subscriptionName && lastHeader !== r.subscriptionName) {
                     newOptions.push({
                         key: r.subscriptionName,
@@ -255,13 +255,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     });
                     newOptions.push({
                         key: r.id,
-                        text:
-                            getDisplayFieldValue(r) ||
-                            t('resourcesPicker.displayFieldNotFound', {
-                                displayField:
-                                    AzureResourceDisplayFields[displayField],
-                                id: r.id
-                            }),
+                        text: getDisplayFieldValue(r),
                         data: r,
                         styles: comboBoxOptionStyles
                     } as IComboBoxOption);

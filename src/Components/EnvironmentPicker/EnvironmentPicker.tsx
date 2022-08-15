@@ -700,6 +700,10 @@ const EnvironmentPicker = ({
                     >
                         {t('learnMore')}
                     </Link>
+                    <DefaultButton
+                        onClick={handleOnDismiss}
+                        text={t('cancel')}
+                    />
                     <PrimaryButton
                         onClick={handleOnSave}
                         text={t('save')}
@@ -712,10 +716,6 @@ const EnvironmentPicker = ({
                                   )
                                 : !state.environmentItems.environmentToEdit
                         }
-                    />
-                    <DefaultButton
-                        onClick={handleOnDismiss}
-                        text={t('cancel')}
                     />
                 </DialogFooter>
             </Dialog>
