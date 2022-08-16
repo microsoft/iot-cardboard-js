@@ -35,9 +35,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     adapter
 }) => {
     const { t } = useTranslation();
-    const twinCount = twins.length;
     const [currentTwin, setTwin] = useState<any>(null);
     const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
+    const twinCount = twins.length;
+
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
@@ -78,12 +79,15 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         switch (column.key) {
             case 'properties':
                 return (
-                    <PropertyInspectorCalloutButton
-                        twinId={currentTwin}
-                        adapter={adapter}
+                    <IconButton
                         iconProps={{ iconName: 'EntryView' }}
                         title={t('advancedSearch.inspectProperty')}
                         ariaLabel={t('advancedSearch.inspectProperty')}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            setIsVisible();
+                        }}
+                        className={'cb-scenes-action-button'}
                     />
                 );
             default:
@@ -99,8 +103,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             //OnTwinSelection(currentTwin);
         }
     });
-    console.log(currentTwin);
-    console.log(isVisible);
 
     return (
         <section className={classNames.root}>

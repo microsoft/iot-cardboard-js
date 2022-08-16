@@ -5,6 +5,7 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
+import { IPropertyInspectorAdapter } from '../../Models/Constants';
 
 /** Advanced search modal */
 export interface IAdvancedSearchProps {
@@ -84,6 +85,14 @@ export interface IAdvancedSearchResultsStyles {
      * SubComponent styles.
      */
     subComponentStyles?: IAdvancedSearchResultsSubComponentStyles;
+}
+
+export interface IPropertyInspectorCalloutProps {
+    twinId: string;
+    adapter: IPropertyInspectorAdapter;
+    iconProps: { iconName: string };
+    title: string;
+    ariaLabel: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
