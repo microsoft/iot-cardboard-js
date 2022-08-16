@@ -86,9 +86,6 @@
   "info": "Informação",
   "ADTInstances": "Casos de Gêmeos Digitais Azure",
   "ADTInstancesInfo": "Lista de casos de ADT para as quais o usuário tem permissão do Azure Digital Twins Data Owner ou Azure Digital Twins Data Reader",
-  "loadingInstances": "Casos de carregamento...",
-  "selectInstance": "Selecione uma instância",
-  "enterInstanceUrl": "Digite uma URL de instância",
   "selectOption": "Selecione uma opção",
   "globe": "Globo",
   "list": "Lista",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "URL de exemplo de gêmeos digitais do Azure",
-    "containerUrl": "URL do contêiner de armazenamento azure",
-    "enterEnvironmentUrl": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "por exemplo, https://example.blob.core.windows.net/example",
     "editEnvironment": "Configure o ambiente de cenas 3D",
     "descriptionForEnvironment": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
     "descriptionForEnvAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
@@ -774,10 +768,10 @@
     "noEnvironment": "Nenhum ambiente adicionado",
     "noContainer": "Nenhum contêiner adicionado",
     "removeFromList": "Remover da lista",
-    "errors": {
-      "invalidEnvironmentUrl": "Esta não é uma URL válida (por exemplo, https://<irseadtInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    "storageAccountName": "Nome da conta do Azure Storage",
+    "storageAccountUrl": "URL da conta de armazenamento do Azure",
+    "storageContainerName": "Nome do contêiner de armazenamento azure",
+    "storageContainerUrl": "URL do contêiner de armazenamento azure"
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",
@@ -1131,5 +1125,23 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Última atualização {{timeWithUnits}} atrás",
     "refreshRate": "Refrescando cada {{timeWithUnits}}"
+  },
+  "resourcesPicker": {
+    "select": "Selecione um recurso",
+    "noOption": "Nenhum recurso encontrado",
+    "loadingResources": "Recursos de carregamento",
+    "loadingInstances": "Casos de carregamento...",
+    "loadingContainers": "Carregando contêineres...",
+    "loadingStorageAccounts": "Carregando contas de armazenamento...",
+    "enterEnvironmentUrl": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "por exemplo, https://example.blob.core.windows.net/",
+    "enterContainerUrl": "por exemplo, https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' propriedade não encontrada no recurso com o id '{{id}}'!",
+    "removeFromList": "Remover da lista",
+    "errors": {
+      "invalidEnvironmentUrl": "Esta não é uma URL válida (por exemplo, https://<irseadtInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

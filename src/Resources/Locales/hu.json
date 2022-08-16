@@ -86,9 +86,6 @@
   "info": "Infó",
   "ADTInstances": "Azure Digital Twins-példányok",
   "ADTInstancesInfo": "Azon ADT-példányok listája, amelyekhez a felhasználó Azure Digital Twins Data Owner vagy Azure Digital Twins Data Reader engedéllyel rendelkezik",
-  "loadingInstances": "Példányok betöltése...",
-  "selectInstance": "Példány kijelölése",
-  "enterInstanceUrl": "Példány URL-címének megadása",
   "selectOption": "Válasszon egy beállítást",
   "globe": "Földgömb",
   "list": "Lista",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins példány URL-címe",
-    "containerUrl": "Azure Storage container URL-címe",
-    "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
     "editEnvironment": "3D jelenetek környezetének konfigurálása",
     "descriptionForEnvironment": "Kapcsolja össze az Azure Digital Twins-példányt a 3D-s jelenetek létrehozásának megkezdéséhez.",
     "descriptionForEnvAndCont": "Kapcsolja össze az Azure Digital Twins-példányt és a tárolótárolót a 3D-s jelenetek létrehozásának megkezdéséhez.",
@@ -774,10 +768,10 @@
     "noEnvironment": "Nincs hozzáadott környezet",
     "noContainer": "Nincs hozzáadott tároló",
     "removeFromList": "Eltávolítás a listából",
-    "errors": {
-      "invalidEnvironmentUrl": "Ez nem érvényes URL (pl. https://<adTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Ez nem érvényes URL (pl. https://<yourStorageAccountName>.blob.core.windows.net/<ourContainerName>)"
-    }
+    "storageAccountName": "Azure Storage-fiók neve",
+    "storageAccountUrl": "Azure Storage-fiók URL-címe",
+    "storageContainerName": "Azure Storage-tároló neve",
+    "storageContainerUrl": "Azure Storage-tároló URL-címe"
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
@@ -1131,5 +1125,23 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Utoljára frissítve {{timeWithUnits}} ezelőtt",
     "refreshRate": "Frissítés minden {{timeWithUnits}}"
+  },
+  "resourcesPicker": {
+    "select": "Erőforrás kiválasztása",
+    "noOption": "Nem található forrás",
+    "loadingResources": "Erőforrások betöltése",
+    "loadingInstances": "Példányok betöltése...",
+    "loadingContainers": "Konténerek betöltése...",
+    "loadingStorageAccounts": "Tárfiókok betöltése...",
+    "enterEnvironmentUrl": "pl. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "pl. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "pl. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' tulajdonság nem található meg az erőforrásban a '{{id}}' azonosítóval!",
+    "removeFromList": "Eltávolítás a listából",
+    "errors": {
+      "invalidEnvironmentUrl": "Ez nem érvényes URL-cím (pl. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Ez nem érvényes URL-cím (pl. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

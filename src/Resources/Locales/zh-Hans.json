@@ -86,9 +86,6 @@
   "info": "信息",
   "ADTInstances": "Azure Digital Twins 实例",
   "ADTInstancesInfo": "用户具有 Azure 数字孪生数据所有者或 Azure 数字孪生数据读取器权限的 ADT 实例的列表",
-  "loadingInstances": "正在加载实例...",
-  "selectInstance": "选择实例",
-  "enterInstanceUrl": "输入实例网址",
   "selectOption": "选择一个选项",
   "globe": "球",
   "list": "列表",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instance URL",
-    "containerUrl": "Azure Storage container URL",
-    "enterEnvironmentUrl": "例如 https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "例如 https://example.blob.core.windows.net/example",
     "editEnvironment": "配置 3D 场景环境",
     "descriptionForEnvironment": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
     "descriptionForEnvAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
@@ -774,10 +768,10 @@
     "noEnvironment": "未添加环境",
     "noContainer": "未添加容器",
     "removeFromList": "从列表中删除",
-    "errors": {
-      "invalidEnvironmentUrl": "这不是一个有效的URL（例如 https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net）",
-      "invalidContainerUrl": "这不是一个有效的URL（例如 https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>）"
-    }
+    "storageAccountName": "Azure 存储帐户名称",
+    "storageAccountUrl": "Azure 存储帐户 URL",
+    "storageContainerName": "Azure Storage Container Name",
+    "storageContainerUrl": "Azure Storage container URL"
   },
   "behaviorsModal": {
     "closeModal": "闭合模态",
@@ -1131,5 +1125,23 @@
   "sceneRefreshButton": {
     "lastRefreshed": "上次刷新 {{timeWithUnits}} 前",
     "refreshRate": "刷新每个 {{timeWithUnits}}"
+  },
+  "resourcesPicker": {
+    "select": "选择资源",
+    "noOption": "未找到资源",
+    "loadingResources": "加载资源",
+    "loadingInstances": "正在加载实例...",
+    "loadingContainers": "装载集装箱...",
+    "loadingStorageAccounts": "正在加载存储帐户...",
+    "enterEnvironmentUrl": "例如 https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "例如 https://example.blob.core.windows.net/",
+    "enterContainerUrl": "例如 https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "在 id 为 '{{id}}' 的资源中找不到 '{{displayField}}' 属性！",
+    "removeFromList": "从列表中删除",
+    "errors": {
+      "invalidEnvironmentUrl": "这不是一个有效的URL（例如 https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net）",
+      "invalidContainerUrl": "这不是一个有效的URL（例如 https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>）",
+      "invalidStorageAccountUrl": "这不是一个有效的URL（例如 https://<你的存储帐户名称>.blob.core.windows.net）"
+    }
   }
 }

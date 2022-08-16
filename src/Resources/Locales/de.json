@@ -86,9 +86,6 @@
   "info": "Info",
   "ADTInstances": "Azure Digital Twins-Instanzen",
   "ADTInstancesInfo": "Liste der ADT-Instanzen, für die der Benutzer über die Berechtigung Azure Digital Twins Data Owner oder Azure Digital Twins Data Reader verfügt",
-  "loadingInstances": "Instanzen werden geladen...",
-  "selectInstance": "Wählen Sie eine Instanz aus",
-  "enterInstanceUrl": "Eingeben einer Instanz-URL",
   "selectOption": "Wählen Sie eine Option aus",
   "globe": "Kugel",
   "list": "Liste",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins-Instanz-URL",
-    "containerUrl": "URL des Azure-Speichercontainers",
-    "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurieren der 3D-Szenenumgebung",
     "descriptionForEnvironment": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz, um mit der Erstellung von 3D-Szenen zu beginnen.",
     "descriptionForEnvAndCont": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz mit Ihrem Speichercontainer, um mit der Erstellung von 3D-Szenen zu beginnen.",
@@ -774,10 +768,10 @@
     "noEnvironment": "Keine Umgebung hinzugefügt",
     "noContainer": "Kein Container hinzugefügt",
     "removeFromList": "Aus Liste entfernen",
-    "errors": {
-      "invalidEnvironmentUrl": "Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    "storageAccountName": "Name des Azure Storage-Kontos",
+    "storageAccountUrl": "URL des Azure-Speicherkontos",
+    "storageContainerName": "Name des Azure-Speichercontainers",
+    "storageContainerUrl": "URL des Azure-Speichercontainers"
   },
   "behaviorsModal": {
     "closeModal": "Modal schließen",
@@ -1131,5 +1125,23 @@
   "sceneRefreshButton": {
     "lastRefreshed": "Zuletzt aktualisiert {{timeWithUnits}} vor",
     "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
+  },
+  "resourcesPicker": {
+    "select": "Wählen Sie eine Ressource aus",
+    "noOption": "Keine Ressourcen gefunden",
+    "loadingResources": "Laden von Ressourcen",
+    "loadingInstances": "Instanzen werden geladen...",
+    "loadingContainers": "Container beladen...",
+    "loadingStorageAccounts": "Speicherkonten werden geladen...",
+    "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "z.B. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}'-Eigenschaft in der Ressource mit der ID '{{id}}' nicht gefunden!",
+    "removeFromList": "Aus Liste entfernen",
+    "errors": {
+      "invalidEnvironmentUrl": "Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

@@ -28,7 +28,7 @@ import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 
 export default class BlobAdapter implements IBlobAdapter {
-    protected accountName: string;
+    protected storageAccountName: string;
     protected storageAccountHostName: string;
     protected containerName: string;
     protected containerResourceId: string; // resource scope
@@ -43,7 +43,7 @@ export default class BlobAdapter implements IBlobAdapter {
         if (blobContainerUrl) {
             const containerURL = new URL(blobContainerUrl);
             this.storageAccountHostName = containerURL.hostname;
-            this.accountName = containerURL.hostname.split('.')[0];
+            this.storageAccountName = containerURL.hostname.split('.')[0];
             this.containerName = containerURL.pathname.split('/')[1];
         }
         this.blobAuthService = authService;
@@ -99,7 +99,7 @@ export default class BlobAdapter implements IBlobAdapter {
                 const url = new URL(blobContainerURL);
                 if (url.hostname.endsWith('blob.core.windows.net')) {
                     this.storageAccountHostName = url.hostname;
-                    this.accountName = url.hostname.split('.')[0];
+                    this.storageAccountName = url.hostname.split('.')[0];
                     this.containerName = url.pathname.split('/')[1];
                 }
             } catch (error) {

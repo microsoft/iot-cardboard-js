@@ -1,29 +1,14 @@
 import {
     IAdapterData,
     IAzureResource,
-    IAzureResourceGroup,
-    IAzureRoleAssignment,
-    IAzureUserRoleAssignments,
-    IAzureUserSubscriptions
+    IAzureSubscription
 } from '../../Constants/Interfaces';
 import { MissingAzureRoleDefinitionAssignments } from '../../Constants/Types';
 
-export class AzureUserAssignmentsData implements IAdapterData {
-    data: IAzureUserRoleAssignments;
-
-    constructor(data: IAzureUserRoleAssignments) {
-        this.data = data;
-    }
-
-    hasNoData() {
-        return this.data === null || this.data === undefined;
-    }
-}
-
 export class AzureSubscriptionData implements IAdapterData {
-    data: IAzureUserSubscriptions;
+    data: Array<IAzureSubscription>;
 
-    constructor(data: IAzureUserSubscriptions) {
+    constructor(data: Array<IAzureSubscription>) {
         this.data = data;
     }
 
@@ -41,30 +26,6 @@ export class AzureResourcesData implements IAdapterData {
 
     hasNoData() {
         return !this.data;
-    }
-}
-
-export class AzureRoleAssignmentsData implements IAdapterData {
-    data: Array<IAzureRoleAssignment>;
-
-    constructor(data: Array<IAzureRoleAssignment>) {
-        this.data = data;
-    }
-
-    hasNoData() {
-        return this.data === null || this.data === undefined;
-    }
-}
-
-export class AzureResourceGroupsData implements IAdapterData {
-    data: Array<IAzureResourceGroup>;
-
-    constructor(data: Array<IAzureResourceGroup>) {
-        this.data = data;
-    }
-
-    hasNoData() {
-        return this.data === null || this.data === undefined;
     }
 }
 
