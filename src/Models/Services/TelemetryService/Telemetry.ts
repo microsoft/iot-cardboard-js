@@ -2,11 +2,19 @@ import {
     CustomProperties,
     IBaseTelemetryParams,
     IExceptionTelemetryParams,
+    IMetricTelemetryParams,
     IRequestTelemetryParams,
     ITraceTelemetryParams,
     SeverityLevel,
     TelemetryType
 } from './TelemetryService.types';
+
+export type ITelemetryEvent =
+    | EventTelemetry
+    | ExceptionTelemetry
+    | MetricTelemetry
+    | RequestTelemetry
+    | TraceTelemetry;
 
 export abstract class Telemetry {
     name: string;
@@ -29,6 +37,7 @@ export abstract class Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-request-telemetry
  */
 export class RequestTelemetry extends Telemetry {
+    type: TelemetryType.request;
     name: string;
     url: string;
     success: boolean;
@@ -59,6 +68,7 @@ export class RequestTelemetry extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-exception-telemetry
  */
 export class ExceptionTelemetry extends Telemetry {
+    type: TelemetryType.exception;
     exceptionId: string;
     severityLevel: SeverityLevel;
     message: string;
@@ -84,6 +94,7 @@ export class ExceptionTelemetry extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-trace-telemetry
  */
 export class TraceTelemetry extends Telemetry {
+    type: TelemetryType.trace;
     message: string;
     severityLevel: SeverityLevel;
 
@@ -103,7 +114,33 @@ export class TraceTelemetry extends Telemetry {
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-event-telemetry
  */
 export class EventTelemetry extends Telemetry {
+    type: TelemetryType.event;
     constructor({ name, customProperties }: IBaseTelemetryParams) {
-        super(name, TelemetryType.trace, customProperties);
+        super(name, TelemetryType.event, customProperties);
+    }
+}
+
+/** Telemetry for application measurements (Typically it is a state of the app like queue length, or duration something took to complete)
+ * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-metric-telemetry
+ */
+export class MetricTelemetry extends Telemetry {
+    type: TelemetryType.metric;
+    average: number;
+    min?: number;
+    max?: number;
+    sampleSize?: number;
+    constructor({
+        name,
+        average,
+        min,
+        max,
+        sampleSize,
+        customProperties
+    }: IMetricTelemetryParams) {
+        super(name, TelemetryType.event, customProperties);
+        this.average = average;
+        this.min = min;
+        this.max = max;
+        this.sampleSize = sampleSize || 1;
     }
 }

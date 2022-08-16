@@ -1,6 +1,7 @@
 import {
     EventTelemetry,
     ExceptionTelemetry,
+    MetricTelemetry,
     RequestTelemetry,
     TraceTelemetry
 } from '../Services/TelemetryService/Telemetry';
@@ -8,6 +9,7 @@ import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import {
     IBaseTelemetryParams,
     IExceptionTelemetryParams,
+    IMetricTelemetryParams,
     IRequestTelemetryParams,
     ITraceTelemetryParams
 } from '../Services/TelemetryService/TelemetryService.types';
@@ -15,26 +17,20 @@ import {
 const useTelemetry = () => {
     return {
         sendTelemetry: TelemetryService.sendTelemetry,
-        sendRequestTelemetry: (
-            requestTelemetryParams: IRequestTelemetryParams
-        ) =>
+        sendRequestTelemetry: (telemetryParams: IRequestTelemetryParams) =>
             TelemetryService.sendTelemetry(
-                new RequestTelemetry(requestTelemetryParams)
+                new RequestTelemetry(telemetryParams)
             ),
-        sendExceptionTelemetry: (
-            exceptionTelemetryParams: IExceptionTelemetryParams
-        ) =>
+        sendExceptionTelemetry: (telemetryParams: IExceptionTelemetryParams) =>
             TelemetryService.sendTelemetry(
-                new ExceptionTelemetry(exceptionTelemetryParams)
+                new ExceptionTelemetry(telemetryParams)
             ),
-        sendTraceTelemetry: (traceTelemetryParams: ITraceTelemetryParams) =>
-            TelemetryService.sendTelemetry(
-                new TraceTelemetry(traceTelemetryParams)
-            ),
-        sendEventTelemetry: (eventTelemetryParams: IBaseTelemetryParams) =>
-            TelemetryService.sendTelemetry(
-                new EventTelemetry(eventTelemetryParams)
-            )
+        sendTraceTelemetry: (telemetryParams: ITraceTelemetryParams) =>
+            TelemetryService.sendTelemetry(new TraceTelemetry(telemetryParams)),
+        sendEventTelemetry: (telemetryParams: IBaseTelemetryParams) =>
+            TelemetryService.sendTelemetry(new EventTelemetry(telemetryParams)),
+        sendMetricTelemetry: (telemetryParams: IMetricTelemetryParams) =>
+            TelemetryService.sendTelemetry(new MetricTelemetry(telemetryParams))
     };
 };
 

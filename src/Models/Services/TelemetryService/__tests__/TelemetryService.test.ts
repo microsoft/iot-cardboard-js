@@ -1,6 +1,7 @@
 import {
     EventTelemetry,
     ExceptionTelemetry,
+    MetricTelemetry,
     RequestTelemetry,
     Telemetry,
     TraceTelemetry
@@ -9,6 +10,7 @@ import TelemetryService from '../../../../Models/Services/TelemetryService/Telem
 import {
     IBaseTelemetryParams,
     IExceptionTelemetryParams,
+    IMetricTelemetryParams,
     IRequestTelemetryParams,
     ITraceTelemetryParams
 } from '../TelemetryService.types';
@@ -40,7 +42,12 @@ const testEvent: IBaseTelemetryParams = {
     name: 'test event'
 };
 
-let mockCallback;
+const testMetric: IMetricTelemetryParams = {
+    name: 'test event',
+    average: 12
+};
+
+let mockCallback: jest.Mock;
 
 describe('Telemetry service tests', () => {
     beforeEach(() => {
@@ -92,6 +99,17 @@ describe('Telemetry service tests', () => {
             const message: EventTelemetry = mockCallback.mock.calls[0][0];
             expect(message).toBeInstanceOf(EventTelemetry);
             expect(message.name).toBe(testEvent.name);
+        });
+    });
+
+    describe('Metric telemetry', () => {
+        test('Metric telemetry is sent successfully', () => {
+            TelemetryService.sendTelemetry(new MetricTelemetry(testMetric));
+            expect(mockCallback.mock.calls.length).toBe(1);
+            const message: MetricTelemetry = mockCallback.mock.calls[0][0];
+            expect(message).toBeInstanceOf(MetricTelemetry);
+            expect(message.name).toBe(testEvent.name);
+            expect(message.average).toBe(testMetric.average);
         });
     });
 });
