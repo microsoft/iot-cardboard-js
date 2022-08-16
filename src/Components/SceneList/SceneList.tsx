@@ -331,6 +331,9 @@ const SceneList: React.FC<SceneListProps> = ({
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
+                                useTelemetry().sendEventTelemetry({
+                                    name: 'Create scene - open'
+                                });
                                 setIsSceneDialogOpen(true);
                             }}
                             disabled={
@@ -442,7 +445,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     sceneToEdit={selectedScene}
                     onEditScene={(updatedScene) => {
                         useTelemetry().sendEventTelemetry({
-                            name: 'Edit scene confirm'
+                            name: 'Edit scene - confirm'
                         });
                         editScene.callAdapter({
                             config: config,
@@ -452,7 +455,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     }}
                     onAddScene={(newScene) => {
                         useTelemetry().sendEventTelemetry({
-                            name: 'Create scene confirm'
+                            name: 'Create scene - confirm'
                         });
                         let newId = createGUID();
                         const existingIds = sceneList.map((s) => s.id);
