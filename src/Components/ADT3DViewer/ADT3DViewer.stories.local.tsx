@@ -59,7 +59,6 @@ export const ADT3DViewerCard = (_args, { globals: { theme, locale } }) => {
                 sceneId={'03b0a95fe77907a3a618c3fd8b5bdfc6'}
                 scenesConfig={scenesConfig}
                 adapter={adapter}
-                pollingInterval={10000}
             />
         </div>
     );

@@ -30,20 +30,20 @@ const getClassNames = classNamesFunction<
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     twins,
     searchedProperties,
-    OnTwinSelection,
+    onTwinSelection,
     styles,
     adapter
 }) => {
     const { t } = useTranslation();
+    const twinCount = twins.length;
     const [currentTwin, setTwin] = useState<any>(null);
     const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
-
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
     const columns: IColumn[] = [
         {
-            key: `twin-id + ${Math.random()}`,
+            key: 'twin-id',
             name: t('twinId'),
             fieldName: '$dtId',
             minWidth: 50,
@@ -61,7 +61,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     const additionalColumns: IColumn[] = searchedProperties.map((name) => {
         return {
-            key: name + Math.random(),
+            key: name,
             name: name,
             fieldName: name,
             minWidth: 50,
@@ -104,34 +104,32 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     return (
         <section className={classNames.root}>
-            <h3>{'Results (' + twins.length + ')'}</h3>
-            <div>
-                <DetailsList
-                    items={twins}
-                    columns={
-                        additionalColumns.length > 0
-                            ? columns.concat(additionalColumns)
-                            : columns
-                    }
-                    layoutMode={DetailsListLayoutMode.fixedColumns}
-                    selectionPreservedOnEmptyClick={false}
-                    ariaLabelForSelectionColumn={t(
-                        'advancedSearch.toggleSelection'
-                    )}
-                    checkButtonAriaLabel={t('advancedSearch.selectRow')}
-                    onRenderItemColumn={renderItemColumn}
-                    selectionMode={SelectionMode.single}
-                    selection={selection}
-                />
-                {isVisible && (
-                    <Callout target={'#resultButton'} onDismiss={setIsVisible}>
-                        <PropertyInspector
-                            adapter={adapter}
-                            twinId={currentTwin.$dtId}
-                        />
-                    </Callout>
+            <h3>{t('advancedSearch.results', { twinCount })}</h3>
+            <DetailsList
+                items={twins}
+                columns={
+                    additionalColumns.length > 0
+                        ? columns.concat(additionalColumns)
+                        : columns
+                }
+                layoutMode={DetailsListLayoutMode.fixedColumns}
+                selectionPreservedOnEmptyClick={false}
+                ariaLabelForSelectionColumn={t(
+                    'advancedSearch.toggleSelection'
                 )}
-            </div>
+                checkButtonAriaLabel={t('advancedSearch.selectRow')}
+                onRenderItemColumn={renderItemColumn}
+                selectionMode={SelectionMode.single}
+                selection={selection}
+            />
+            {isVisible && (
+                <Callout target={'#resultButton'} onDismiss={setIsVisible}>
+                    <PropertyInspector
+                        adapter={adapter}
+                        twinId={currentTwin.$dtId}
+                    />
+                </Callout>
+            )}
         </section>
     );
 };

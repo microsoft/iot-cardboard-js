@@ -1,4 +1,7 @@
-import { IAdapterData } from '../Constants';
+import {
+    IAdapterData,
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS
+} from '../Constants';
 import AdapterResult from './AdapterResult';
 
 /**
@@ -11,7 +14,7 @@ class AdapterEntityCache<T extends IAdapterData> {
     /**
      * @param maxAgeMs The maximum age that a cached entity is allowed to be.  Any older and the cache is busted
      */
-    constructor(maxAgeMs = 10000) {
+    constructor(maxAgeMs = DEFAULT_REFRESH_RATE_IN_MILLISECONDS) {
         this.maxAgeMs = maxAgeMs;
     }
 
@@ -23,10 +26,15 @@ class AdapterEntityCache<T extends IAdapterData> {
      */
     getEntity(
         key: string,
-        getEntityData: () => Promise<AdapterResult<T>>
+        getEntityData: () => Promise<AdapterResult<T>>,
+        forceRefresh = false
     ): Promise<AdapterResult<T>> {
         const existingEntity = this.cachedEntities[key];
-        if (!existingEntity || existingEntity.isStale(this.maxAgeMs)) {
+        if (
+            !existingEntity ||
+            existingEntity.isStale(this.maxAgeMs) ||
+            forceRefresh
+        ) {
             const newCachedEntity = new CachedEntity(getEntityData);
             this.cachedEntities[key] = newCachedEntity;
             return newCachedEntity.entityAdapterResultPromise;
@@ -38,6 +46,14 @@ class AdapterEntityCache<T extends IAdapterData> {
             });
         }
     }
+
+    setEntity(
+        key: string,
+        getEntityData: () => Promise<AdapterResult<T>>
+    ): void {
+        const newCachedEntity = new CachedEntity(getEntityData);
+        this.cachedEntities[key] = newCachedEntity;
+    }
 }
 
 /**
@@ -45,23 +61,23 @@ class AdapterEntityCache<T extends IAdapterData> {
  */
 class CachedEntity<T extends IAdapterData> {
     public key: string;
-    public getEntityData: () => Promise<AdapterResult<T>>;
     public entityAdapterResultPromise: Promise<AdapterResult<T>>;
     public entityAdapterResult: AdapterResult<T>;
     public isGettingAdapterResult = true;
     private createdTimeMs: number;
 
     constructor(getEntityData: () => Promise<AdapterResult<T>>) {
-        this.getEntityData = getEntityData;
-        this.getAdapterResult();
+        this.getAdapterResult(getEntityData);
     }
 
     public isStale(maxAgeMs: number) {
         return this.createdTimeMs + maxAgeMs < new Date().valueOf();
     }
 
-    private async getAdapterResult() {
-        this.entityAdapterResultPromise = this.getEntityData();
+    private async getAdapterResult(
+        getEntityData: () => Promise<AdapterResult<T>>
+    ) {
+        this.entityAdapterResultPromise = getEntityData();
         const entityAdapterResult = await this.entityAdapterResultPromise;
         this.isGettingAdapterResult = false;
         this.entityAdapterResult = entityAdapterResult;

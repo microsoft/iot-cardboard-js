@@ -1,5 +1,8 @@
 import { DEFAULT_LAYER_ID } from '../../Components/LayerDropdown/LayerDropdown';
-import { PRIMARY_TWIN_NAME } from '../Constants';
+import {
+    DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
+    PRIMARY_TWIN_NAME
+} from '../Constants';
 import { DTwin, IAliasedTwinProperty } from '../Constants/Interfaces';
 import { deepCopy, getDebugLogger } from '../Services/Utils';
 import {
@@ -11,6 +14,7 @@ import {
     IElementTwinToObjectMappingDataSource,
     IExpressionRangeVisual,
     ILayer,
+    IPollingConfiguration,
     IPopoverVisual,
     IScene,
     ITwinToObjectMapping,
@@ -71,6 +75,78 @@ abstract class ViewerConfigUtility {
         const updatedConfig = deepCopy(config);
         updatedConfig.configuration.scenes.splice(sceneIndex, 1);
         return updatedConfig;
+    }
+
+    /** Scene polling configuration */
+    static getPollingConfig(
+        config: I3DScenesConfig,
+        sceneId: string
+    ): IPollingConfiguration {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        const defaultConfig: IPollingConfiguration = {
+            minimumPollingFrequency: DEFAULT_REFRESH_RATE_IN_MILLISECONDS
+        };
+        if (config && sceneId) {
+            const scene = this.getSceneById(config, sceneId);
+            if (scene && scene.pollingConfiguration) {
+                const configToUse: IPollingConfiguration = {
+                    ...defaultConfig,
+                    ...scene.pollingConfiguration
+                };
+                logDebugConsole(
+                    'debug',
+                    'Found polling configuration in config',
+                    configToUse
+                );
+                return configToUse;
+            }
+        }
+
+        logDebugConsole(
+            'debug',
+            `No polling configuration found in config (sceneId: ${sceneId}), using default. {defaultPollingConfig, config}`,
+            defaultConfig,
+            config
+        );
+        return defaultConfig;
+    }
+
+    /**
+     * sets the polling refresh rate in the config
+     * @param config current configuration file
+     * @param sceneId current scene id
+     * @param rateInMilliseconds the rate to set in milliseconds
+     * @returns boolean indicating success
+     */
+    static setPollingRate(
+        config: I3DScenesConfig,
+        sceneId: string,
+        rateInMilliseconds: number
+    ): boolean {
+        const logDebugConsole = getDebugLogger(DEBUG_CONTEXT, debugLogging);
+        if (config && sceneId) {
+            const scene = this.getSceneById(config, sceneId);
+            if (scene) {
+                logDebugConsole(
+                    'debug',
+                    `Updating polling rate from ${scene.pollingConfiguration?.minimumPollingFrequency} to ${rateInMilliseconds}`
+                );
+                scene.pollingConfiguration = {
+                    ...scene.pollingConfiguration,
+                    minimumPollingFrequency: rateInMilliseconds
+                };
+                return true;
+            } else {
+                console.error(
+                    `Unable to find the scene (id: ${sceneId}) to update the polling configuration`
+                );
+            }
+        } else {
+            console.error(
+                'Invalid arguments. Unable to update the polling configuration.'
+            );
+        }
+        return false;
     }
 
     /** Create new layer */
@@ -621,7 +697,7 @@ abstract class ViewerConfigUtility {
         });
 
         // Find behavior Ids in the scene with no associated layer
-        const unlayeredBehaviorIdMap = new Set();
+        const unlayeredBehaviorIdMap = new Set<string>();
         behaviorIdsInScene.forEach((behaviorId) => {
             if (!layeredBehaviorIds.has(behaviorId)) {
                 unlayeredBehaviorIdMap.add(behaviorId);
@@ -637,17 +713,18 @@ abstract class ViewerConfigUtility {
         sceneId: string
     ) {
         if (!config) return [];
-        const uniqueBehaviorIds = new Map();
+        const localSelectedLayerIds = deepCopy(selectedLayerIds);
+        const uniqueBehaviorIds = new Set<string>();
 
         // Check if unlayered behavior mode selected
-        const isUnlayeredBehaviorActive = selectedLayerIds.includes(
+        const isUnlayeredBehaviorActive = localSelectedLayerIds.includes(
             DEFAULT_LAYER_ID
         );
 
         if (isUnlayeredBehaviorActive) {
             // Remove unlayered behavior key from id array
-            selectedLayerIds.splice(
-                selectedLayerIds.indexOf(DEFAULT_LAYER_ID),
+            localSelectedLayerIds.splice(
+                localSelectedLayerIds.indexOf(DEFAULT_LAYER_ID),
                 1
             );
 
@@ -657,15 +734,15 @@ abstract class ViewerConfigUtility {
                 sceneId
             );
             unlayeredBehaviorIdsInScene.forEach((id) =>
-                uniqueBehaviorIds.set(id, '')
+                uniqueBehaviorIds.add(id)
             );
         }
 
         // Add behavior Ids from selected scene layers to Id dict
         config?.configuration.layers.forEach((layer) => {
-            if (selectedLayerIds.includes(layer.id)) {
+            if (localSelectedLayerIds.includes(layer.id)) {
                 layer.behaviorIDs.forEach((behaviorId) => {
-                    uniqueBehaviorIds.set(behaviorId, '');
+                    uniqueBehaviorIds.add(behaviorId);
                 });
             }
         });

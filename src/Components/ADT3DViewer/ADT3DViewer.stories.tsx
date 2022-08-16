@@ -3,7 +3,11 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADT3DViewer from './ADT3DViewer';
 import MockAdapter from '../../Adapters/MockAdapter';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
-import { ADT3DAddInEventData, IADT3DAddInProps } from '../../Models/Constants';
+import {
+    ADT3DAddInEventData,
+    ADT3DAddInEventTypes,
+    IADT3DAddInProps
+} from '../../Models/Constants';
 import {
     I3DScenesConfig,
     ITwinToObjectMapping
@@ -31,7 +35,6 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -54,7 +57,6 @@ export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
                 showMeshesOnHover={true}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -196,7 +198,6 @@ export const ZoomAndColor = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={selectedScene.id}
                 connectionLineColor="#000"
                 coloredMeshItems={coloredMeshes}
@@ -247,10 +248,12 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
     };
 
     const onSceneLoaded = (data: ADT3DAddInEventData) => {
+        data.eventType = ADT3DAddInEventTypes.SceneLoaded;
         return processEvent(data);
     };
 
     const onMeshHover = (data: ADT3DAddInEventData) => {
+        data.eventType = ADT3DAddInEventTypes.MarkerHover;
         if (!data.mesh) {
             setData(null);
             return false;
@@ -260,6 +263,7 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
     };
 
     const onMeshClick = (data: ADT3DAddInEventData) => {
+        data.eventType = ADT3DAddInEventTypes.MarkerClick;
         return processEvent(data);
     };
 
@@ -272,29 +276,41 @@ export const AddIn = (_args, { globals: { theme, locale } }) => {
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: '100%', height: '600px', position: 'relative' }}>
-            <ADT3DViewer
-                title="3D Viewer"
-                theme={theme}
-                locale={locale}
-                adapter={new MockAdapter()}
-                scenesConfig={scenesConfig}
-                pollingInterval={10000}
-                sceneId={mockSceneId}
-                connectionLineColor="#000"
-                addInProps={addInProps}
-            />
-            {data && (
-                <div style={addInDivStyle}>
-                    <div>Event type: {data.eventType}</div>
-                    <div>Twins:</div>
-                    {twinIds.map((id, index) => (
-                        <div key={index}>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{id}
-                        </div>
-                    ))}
-                </div>
-            )}
+        <div style={{ display: 'flex' }}>
+            <div
+                style={{ width: '75%', height: '600px', position: 'relative' }}
+            >
+                <ADT3DViewer
+                    title="3D Viewer"
+                    theme={theme}
+                    locale={locale}
+                    adapter={new MockAdapter()}
+                    scenesConfig={scenesConfig}
+                    sceneId={mockSceneId}
+                    connectionLineColor="#000"
+                    addInProps={addInProps}
+                />
+            </div>
+            <div
+                style={{
+                    width: '25%',
+                    height: '600px',
+                    position: 'relative',
+                    background: '#FFFFFF'
+                }}
+            >
+                {data && (
+                    <div style={addInDivStyle}>
+                        <div>Event type: {data.eventType}</div>
+                        <div>Twins:</div>
+                        {twinIds.map((id, index) => (
+                            <div key={index}>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{id}
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
@@ -310,7 +326,6 @@ export const Mock = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 connectionLineColor="#000"
             />
@@ -329,7 +344,6 @@ export const MockWithHover = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 showMeshesOnHover={true}
                 connectionLineColor="#000"
@@ -349,7 +363,6 @@ export const MockWithSelection = (_args, { globals: { theme, locale } }) => {
                 locale={locale}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={mockSceneId}
                 enableMeshSelection={true}
                 showHoverOnSelected={true}
@@ -428,7 +441,6 @@ export const LayerSelect = (_args, { globals: { theme, locale } }) => {
                 selectedLayerIds={selectedLayerIds}
                 adapter={new MockAdapter()}
                 scenesConfig={scenesConfig}
-                pollingInterval={10000}
                 sceneId={sceneId}
                 connectionLineColor="#000"
             />

@@ -1,6 +1,6 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import { AbstractMesh } from '@babylonjs/core/Legacy/legacy';
-import { Marker } from '../../Models/Classes/SceneView.types';
+import { Marker, TransformInfo } from '../../Models/Classes/SceneView.types';
 import {
     GroupLabelWidth,
     Scene_Marker
@@ -231,4 +231,39 @@ export const getCameraPosition = (camera: BABYLON.ArcRotateCamera) => {
         target: camera.target,
         radius: camera.radius
     };
+};
+
+export const transformMeshFromTransformInfo = (
+    mesh: BABYLON.Mesh | BABYLON.AbstractMesh,
+    transform: TransformInfo
+) => {
+    mesh.position.x = transform.position.x;
+    mesh.position.y = transform.position.y;
+    mesh.position.z = transform.position.z;
+
+    mesh.rotationQuaternion = null; // need to do this to change mesh.rotation directly
+
+    mesh.rotation.x = transform.rotation.x;
+    mesh.rotation.y = transform.rotation.y;
+    mesh.rotation.z = transform.rotation.z;
+};
+
+export const transformInfoFromMesh = (
+    mesh: BABYLON.Mesh | BABYLON.AbstractMesh
+) => {
+    mesh.rotationQuaternion = null;
+    const transform = {
+        position: {
+            x: mesh.position.x,
+            y: mesh.position.y,
+            z: mesh.position.z
+        },
+        rotation: {
+            x: mesh.rotation.x,
+            y: mesh.rotation.y,
+            z: mesh.rotation.z
+        }
+    };
+
+    return transform;
 };

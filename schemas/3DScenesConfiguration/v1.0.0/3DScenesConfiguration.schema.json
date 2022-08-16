@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "$id": "https://raw.githubusercontent.com/microsoft/iot-cardboard-js/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
     "title": "I3DScenesConfig",
     "description": "A vocabulary to annotate and validate the JSON representation of 3D scene configuration data",
     "type": "object",
@@ -43,25 +43,10 @@
             "description": "A scene is a single view that can be rendered from 3D assets",
             "additionalProperties": false,
             "properties": {
-                "id": {
-                    "type": "string"
-                },
-                "displayName": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "latitude": {
-                    "type": "number"
-                },
-                "longitude": {
-                    "type": "number"
-                },
-                "elements": {
+                "assets": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/IElement"
+                        "$ref": "#/$defs/IAsset"
                     }
                 },
                 "behaviorIDs": {
@@ -72,11 +57,29 @@
                         "description": "A reference to a behavior present in this scene"
                     }
                 },
-                "assets": {
+                "elements": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/IAsset"
+                        "$ref": "#/$defs/IElement"
                     }
+                },
+                "id": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "pollingConfiguration": {
+                    "$ref": "#/$defs/IPollingConfiguration"
                 }
             },
             "required": [
@@ -192,6 +195,18 @@
                 }
             },
             "required": ["id", "displayName", "behaviorIDs"]
+        },
+        "IPollingConfiguration": {
+            "type": "object",
+            "description": "Configures the parameters for the polling of twin data from the twin graph.",
+            "additionalProperties": false,
+            "properties": {
+                "minimumPollingFrequency": {
+                    "type": "number",
+                    "description": "The minimum time in milliseconds that data should be refreshed. NOTE: it may take longer than this to fetch the data so this is a floor value intended to limit the frequency when the consumer knows the data is not updated more often than a particular frequency."
+                }
+            },
+            "required": ["minimumPollingFrequency"]
         },
         "IExtensionProperties": {
             "type": "object",

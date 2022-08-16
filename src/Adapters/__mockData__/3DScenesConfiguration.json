@@ -1,5 +1,5 @@
 {
-    "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+    "$schema": "https://raw.githubusercontent.com/microsoft/iot-cardboard-js/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
     "configuration": {
         "scenes": [
             {
@@ -82,7 +82,10 @@
                     "421cc93046fa4b589bc2ec1dd1009c90",
                     "d6a2d68bc4007f3fa624eab19105e44b",
                     "1e0aa8384c4546c7ae1ca6e6d244922e"
-                ]
+                ],
+                "pollingConfiguration": {
+                    "minimumPollingFrequency": 10000
+                }
             },
             {
                 "id": "D258513E-44D8-4041-9551-F5FEDE1BBCC9",
@@ -187,9 +190,7 @@
                         "id": "1c785d0e26634341b1f39104e1b35180",
                         "displayName": "Power Plant",
                         "primaryTwinID": "BoxA",
-                        "objectIDs": [
-                            "TRANSFORMERSTATION"
-                        ]
+                        "objectIDs": ["TRANSFORMERSTATION"]
                     }
                 ],
                 "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
@@ -199,7 +200,10 @@
                         "url": "https://cardboardresources.blob.core.windows.net/cardboard-mock-files/refinery_scene_textured_1m_2.glb",
                         "extensionProperties": {}
                     }
-                ]
+                ],
+                "pollingConfiguration": {
+                    "minimumPollingFrequency": 30000
+                }
             },
             {
                 "id": "f7053e7537048e03be4d1e6f8f900000",
@@ -211,7 +215,10 @@
                     }
                 ],
                 "elements": [],
-                "behaviorIDs": []
+                "behaviorIDs": [],
+                "pollingConfiguration": {
+                    "minimumPollingFrequency": 60000
+                }
             }
         ],
         "behaviors": [

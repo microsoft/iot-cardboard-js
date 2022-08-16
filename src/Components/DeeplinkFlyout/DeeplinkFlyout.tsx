@@ -134,8 +134,10 @@ const DeeplinkFlyout: React.FC<IDeeplinkFlyoutProps> = (props) => {
     );
 };
 
-export default styled<
-    IDeeplinkFlyoutProps,
-    IDeeplinkFlyoutStyleProps,
-    IDeeplinkFlyoutStyles
->(DeeplinkFlyout, getStyles);
+export default React.memo(
+    styled<
+        IDeeplinkFlyoutProps,
+        IDeeplinkFlyoutStyleProps,
+        IDeeplinkFlyoutStyles
+    >(DeeplinkFlyout, getStyles)
+);
