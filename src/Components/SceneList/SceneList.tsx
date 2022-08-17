@@ -55,6 +55,7 @@ const SceneList: React.FC<SceneListProps> = ({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
     });
+    const { sendEventTelemetry } = useTelemetry();
 
     const addScene = useAdapter({
         adapterMethod: (params: { config: I3DScenesConfig; scene: IScene }) =>
@@ -208,7 +209,7 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
-                                useTelemetry().sendEventTelemetry({
+                                sendEventTelemetry({
                                     name: 'Edit scene - open'
                                 });
                             }}
@@ -222,7 +223,7 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);
-                                useTelemetry().sendEventTelemetry({
+                                sendEventTelemetry({
                                     name: 'Delete scene - open'
                                 });
                             }}
@@ -331,7 +332,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
-                                useTelemetry().sendEventTelemetry({
+                                sendEventTelemetry({
                                     name: 'Create scene - open'
                                 });
                                 setIsSceneDialogOpen(true);
@@ -385,7 +386,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DialogFooter>
                             <DefaultButton
                                 onClick={() => {
-                                    useTelemetry().sendEventTelemetry({
+                                    sendEventTelemetry({
                                         name: 'Delete scene - cancel'
                                     });
                                     setIsConfirmDeleteDialogOpen(false);
@@ -394,7 +395,7 @@ const SceneList: React.FC<SceneListProps> = ({
                             />
                             <PrimaryButton
                                 onClick={() => {
-                                    useTelemetry().sendEventTelemetry({
+                                    sendEventTelemetry({
                                         name: 'Delete scene - confirm'
                                     });
                                     deleteScene.callAdapter({
@@ -444,7 +445,7 @@ const SceneList: React.FC<SceneListProps> = ({
                     }}
                     sceneToEdit={selectedScene}
                     onEditScene={(updatedScene) => {
-                        useTelemetry().sendEventTelemetry({
+                        sendEventTelemetry({
                             name: 'Edit scene - confirm'
                         });
                         editScene.callAdapter({
@@ -454,7 +455,7 @@ const SceneList: React.FC<SceneListProps> = ({
                         });
                     }}
                     onAddScene={(newScene) => {
-                        useTelemetry().sendEventTelemetry({
+                        sendEventTelemetry({
                             name: 'Create scene - confirm'
                         });
                         let newId = createGUID();

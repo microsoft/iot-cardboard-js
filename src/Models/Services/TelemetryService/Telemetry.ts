@@ -9,7 +9,7 @@ import {
     TelemetryType
 } from './TelemetryService.types';
 
-export type ITelemetryEvent =
+export type ITelemetryItem =
     | EventTelemetry
     | ExceptionTelemetry
     | MetricTelemetry
