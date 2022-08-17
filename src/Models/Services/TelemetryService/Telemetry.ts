@@ -9,12 +9,12 @@ import {
     TelemetryType
 } from './TelemetryService.types';
 
-export type ITelemetryItem =
-    | EventTelemetry
-    | ExceptionTelemetry
-    | MetricTelemetry
-    | RequestTelemetry
-    | TraceTelemetry;
+export type TelemetryItem =
+    | TelemetryEvent
+    | TelemetryException
+    | TelemetryMetric
+    | TelemetryRequest
+    | TelemetryTrace;
 
 export abstract class Telemetry {
     name: string;
@@ -36,7 +36,7 @@ export abstract class Telemetry {
 /** Telemetry for network requests
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-request-telemetry
  */
-export class RequestTelemetry extends Telemetry {
+export class TelemetryRequest extends Telemetry {
     type: TelemetryType.request;
     name: string;
     url: string;
@@ -67,7 +67,7 @@ export class RequestTelemetry extends Telemetry {
 /** Telemetry for exceptions
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-exception-telemetry
  */
-export class ExceptionTelemetry extends Telemetry {
+export class TelemetryException extends Telemetry {
     type: TelemetryType.exception;
     exceptionId: string;
     severityLevel: SeverityLevel;
@@ -93,7 +93,7 @@ export class ExceptionTelemetry extends Telemetry {
 /** Telemetry for trace statements (similar to log entries)
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-trace-telemetry
  */
-export class TraceTelemetry extends Telemetry {
+export class TelemetryTrace extends Telemetry {
     type: TelemetryType.trace;
     message: string;
     severityLevel: SeverityLevel;
@@ -113,7 +113,7 @@ export class TraceTelemetry extends Telemetry {
 /** Telemetry for application events (Typically it is a user interaction such as button click)
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-event-telemetry
  */
-export class EventTelemetry extends Telemetry {
+export class TelemetryEvent extends Telemetry {
     type: TelemetryType.event;
     constructor({ name, customProperties }: IBaseTelemetryParams) {
         super(name, TelemetryType.event, customProperties);
@@ -123,7 +123,7 @@ export class EventTelemetry extends Telemetry {
 /** Telemetry for application measurements (Typically it is a state of the app like queue length, or duration something took to complete)
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model-metric-telemetry
  */
-export class MetricTelemetry extends Telemetry {
+export class TelemetryMetric extends Telemetry {
     type: TelemetryType.metric;
     average: number;
     min?: number;

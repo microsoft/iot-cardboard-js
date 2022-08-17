@@ -1,9 +1,9 @@
 import {
-    EventTelemetry,
-    ExceptionTelemetry,
-    MetricTelemetry,
-    RequestTelemetry,
-    TraceTelemetry
+    TelemetryEvent,
+    TelemetryException,
+    TelemetryMetric,
+    TelemetryRequest,
+    TelemetryTrace
 } from '../Services/TelemetryService/Telemetry';
 import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import {
@@ -19,18 +19,18 @@ const useTelemetry = () => {
         sendTelemetry: TelemetryService.sendTelemetry,
         sendRequestTelemetry: (telemetryParams: IRequestTelemetryParams) =>
             TelemetryService.sendTelemetry(
-                new RequestTelemetry(telemetryParams)
+                new TelemetryRequest(telemetryParams)
             ),
         sendExceptionTelemetry: (telemetryParams: IExceptionTelemetryParams) =>
             TelemetryService.sendTelemetry(
-                new ExceptionTelemetry(telemetryParams)
+                new TelemetryException(telemetryParams)
             ),
         sendTraceTelemetry: (telemetryParams: ITraceTelemetryParams) =>
-            TelemetryService.sendTelemetry(new TraceTelemetry(telemetryParams)),
+            TelemetryService.sendTelemetry(new TelemetryTrace(telemetryParams)),
         sendEventTelemetry: (telemetryParams: IBaseTelemetryParams) =>
-            TelemetryService.sendTelemetry(new EventTelemetry(telemetryParams)),
+            TelemetryService.sendTelemetry(new TelemetryEvent(telemetryParams)),
         sendMetricTelemetry: (telemetryParams: IMetricTelemetryParams) =>
-            TelemetryService.sendTelemetry(new MetricTelemetry(telemetryParams))
+            TelemetryService.sendTelemetry(new TelemetryMetric(telemetryParams))
     };
 };
 

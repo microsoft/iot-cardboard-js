@@ -1,21 +1,21 @@
 import { getDebugLogger } from '../Utils';
-import { ITelemetryItem } from './Telemetry';
+import { TelemetryItem } from './Telemetry';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
 
 class TelemetryService {
-    static telemetryCallback: (telemetry: ITelemetryItem) => void;
+    static telemetryCallback: (telemetry: TelemetryItem) => void;
 
     // Attach telemetry processing callback from consuming application
     static registerTelemetryCallback(
-        telemetryCallback: (telemetry: ITelemetryItem) => void
+        telemetryCallback: (telemetry: TelemetryItem) => void
     ) {
         TelemetryService.telemetryCallback = telemetryCallback;
     }
 
     // Report telemetry to telemetry processing callback (if present)
-    static sendTelemetry(telemetry: ITelemetryItem) {
+    static sendTelemetry(telemetry: TelemetryItem) {
         logDebugConsole(
             'debug',
             `[Telemetry] [${telemetry.type}] ${telemetry.name}`,
