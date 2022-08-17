@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -13,15 +13,12 @@ import {
     DetailsListLayoutMode,
     IColumn,
     IDetailsListProps,
-    IconButton,
     SelectionMode,
-    Selection,
-    Callout
+    Selection
 } from '@fluentui/react';
-import { useBoolean } from '@fluentui/react-hooks';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import PropertyInspector from '../../../PropertyInspector/PropertyInspector';
+import PropertyInspectorCalloutButton from '../../../PropertyInspector/PropertyInspectorCallout';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -36,7 +33,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 }) => {
     const { t } = useTranslation();
     const [currentTwin, setTwin] = useState<any>(null);
-    const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
     const twinCount = twins.length;
 
     const classNames = getClassNames(styles, {
@@ -79,15 +75,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         switch (column.key) {
             case 'properties':
                 return (
-                    <IconButton
-                        iconProps={{ iconName: 'EntryView' }}
-                        title={t('advancedSearch.inspectProperty')}
-                        ariaLabel={t('advancedSearch.inspectProperty')}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                            setIsVisible();
-                        }}
-                        className={'cb-scenes-action-button'}
+                    <PropertyInspectorCalloutButton
+                        twinId={`${currentTwin?.$dtId}`}
+                        adapter={adapter}
                     />
                 );
             default:
@@ -100,7 +90,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         },
         onSelectionChanged: () => {
             setTwin(selection.getSelection());
-            //OnTwinSelection(currentTwin);
+            onTwinSelection(currentTwin);
         }
     });
 
@@ -124,14 +114,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 selectionMode={SelectionMode.single}
                 selection={selection}
             />
-            {isVisible && (
-                <Callout target={'#resultButton'} onDismiss={setIsVisible}>
-                    <PropertyInspector
-                        adapter={adapter}
-                        twinId={currentTwin.$dtId}
-                    />
-                </Callout>
-            )}
         </section>
     );
 };

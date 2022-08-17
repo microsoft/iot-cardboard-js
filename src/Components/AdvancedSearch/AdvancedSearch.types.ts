@@ -87,13 +87,5 @@ export interface IAdvancedSearchResultsStyles {
     subComponentStyles?: IAdvancedSearchResultsSubComponentStyles;
 }
 
-export interface IPropertyInspectorCalloutProps {
-    twinId: string;
-    adapter: IPropertyInspectorAdapter;
-    iconProps: { iconName: string };
-    title: string;
-    ariaLabel: string;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IAdvancedSearchResultsSubComponentStyles {}

@@ -1,9 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { Callout, IconButton } from '@fluentui/react';
-import { IPropertyInspectorCalloutProps } from '../AdvancedSearch.types';
 import { useTranslation } from 'react-i18next';
 import { useBoolean } from '@fluentui/react-hooks';
-import PropertyInspector from '../../PropertyInspector/PropertyInspector';
+import PropertyInspector from './PropertyInspector';
+import { IPropertyInspectorAdapter } from '../../Models/Constants';
+
+export interface IPropertyInspectorCalloutProps {
+    twinId: string;
+    adapter?: IPropertyInspectorAdapter;
+}
 
 const PropertyInspectorCalloutButton: React.FC<IPropertyInspectorCalloutProps> = ({
     twinId,
@@ -24,7 +29,11 @@ const PropertyInspectorCalloutButton: React.FC<IPropertyInspectorCalloutProps> =
                 className={'cb-scenes-action-button'}
             />
             {isVisible && (
-                <Callout target={'#resultButton'} onDismiss={setIsVisible}>
+                <Callout
+                    target={'#resultButton'}
+                    onDismiss={setIsVisible}
+                    className="cb-property-inspector-callout"
+                >
                     <PropertyInspector adapter={adapter} twinId={twinId} />
                 </Callout>
             )}
