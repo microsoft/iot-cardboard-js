@@ -43,15 +43,22 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: 'twin-id',
             name: t('twinId'),
             fieldName: '$dtId',
-            minWidth: 50,
-            maxWidth: 200,
-            isResizable: true
+            isResizable: true,
+            minWidth: 210,
+            maxWidth: 350,
+            isRowHeader: true,
+            isSorted: true,
+            isSortedDescending: false,
+            sortAscendingAriaLabel: 'Sorted A to Z',
+            sortDescendingAriaLabel: 'Sorted Z to A',
+            data: 'string',
+            isPadded: true
         },
         {
             key: 'properties',
             name: t('properties'),
-            minWidth: 50,
-            maxWidth: 200,
+            minWidth: 70,
+            maxWidth: 90,
             isResizable: true
         }
     ];
@@ -61,8 +68,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: name,
             name: name,
             fieldName: name,
-            minWidth: 50,
-            maxWidth: 200,
+            minWidth: 70,
+            maxWidth: 90,
             isResizable: true
         };
     });
@@ -104,7 +111,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                         ? columns.concat(additionalColumns)
                         : columns
                 }
-                layoutMode={DetailsListLayoutMode.fixedColumns}
+                layoutMode={DetailsListLayoutMode.justified}
                 selectionPreservedOnEmptyClick={false}
                 ariaLabelForSelectionColumn={t(
                     'advancedSearch.toggleSelection'

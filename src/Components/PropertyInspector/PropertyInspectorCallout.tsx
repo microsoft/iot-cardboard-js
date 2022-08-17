@@ -27,12 +27,15 @@ const PropertyInspectorCalloutButton: React.FC<IPropertyInspectorCalloutProps> =
                     setIsVisible();
                 }}
                 className={'cb-scenes-action-button'}
+                id={'#resultButton'}
             />
             {isVisible && (
                 <Callout
                     target={'#resultButton'}
                     onDismiss={setIsVisible}
                     className="cb-property-inspector-callout"
+                    directionalHint={5}
+                    gapSpace={0}
                 >
                     <PropertyInspector adapter={adapter} twinId={twinId} />
                 </Callout>
