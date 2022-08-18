@@ -229,20 +229,12 @@ export enum MultiLanguageSelectionType {
     description = 'description'
 }
 
-/** we can extend this list as needed */
-export enum AzureResourceProviderEndpoints {
-    ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
-    Storage = 'Microsoft.Storage/storageAccounts'
-}
-
-/** we can extend this list as needed */
+/** expand as necessary, it is also used as provider endpoint based on the values: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types and https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers */
 export enum AzureResourceTypes {
-    ADT = 'Microsoft.DigitalTwins/digitalTwinsInstances',
-    Container = 'Microsoft.Storage/storageAccounts/blobServices/containers',
-    ResourceGroups = 'Microsoft.Resources/resourceGroups',
-    RoleAssignments = 'Microsoft.Authorization/roleAssignments',
-    StorageAccounts = 'Microsoft.Storage/storageAccounts',
-    BlobServices = 'Microsoft.Storage/storageAccounts/blobServices'
+    DigitalTwinInstance = 'Microsoft.DigitalTwins/digitalTwinsInstances',
+    StorageAccount = 'Microsoft.Storage/storageAccounts',
+    StorageBlobContainer = 'Microsoft.Storage/storageAccounts/blobServices/containers',
+    RoleAssignment = 'Microsoft.Authorization/roleAssignments'
 }
 
 /** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */
@@ -255,4 +247,20 @@ export enum AzureAccessPermissionRoles {
     'Contributor' = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
     'Owner' = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
     'Reader' = 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // required to access blob data with credentials
+}
+
+/** keyed based on resource types, expand as necessary, based on the resource type docs here https://docs.microsoft.com/en-us/rest/api */
+export enum AzureResourcesAPIVersions {
+    'Microsoft.DigitalTwins/digitalTwinsInstances' = '2022-05-31',
+    'Microsoft.Storage/storageAccounts' = '2021-09-01',
+    'Microsoft.Storage/storageAccounts/blobServices/containers' = '2021-09-01',
+    'Microsoft.Authorization/roleAssignments' = '2015-07-01',
+    'Microsoft.Subscription' = '2020-01-01'
+}
+
+/** list of Azure Resource properties to be used as display in combobox list UI */
+export enum AzureResourceDisplayFields {
+    'id',
+    'name',
+    'url'
 }

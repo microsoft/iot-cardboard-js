@@ -38,7 +38,8 @@ import {
     AdapterMethodParams,
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
-    AdapterMethodParamsForSearchADTTwins
+    AdapterMethodParamsForSearchADTTwins,
+    AdapterMethodParamsForGetAzureResources
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -46,15 +47,11 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
-    AzureRoleAssignmentsData,
-    AzureResourcesData
+    AzureResourcesData,
+    AzureSubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
-import {
-    AzureUserAssignmentsData,
-    AzureSubscriptionData
-} from '../Classes/AdapterDataClasses/AzureManagementData';
 import { AssetProperty } from '../Classes/Simulations/Asset';
 import {
     CustomMeshItem,
@@ -258,28 +255,49 @@ export interface IHierarchyNode {
     isNewlyAdded?: boolean;
 }
 
+// START of Azure Management plane interfaces
+export interface IAzureResources {
+    value: IAzureResource[];
+    nextLink?: string;
+}
+
 export interface IAzureResource {
     id: string;
     name: string;
     type: AzureResourceTypes;
     [additionalProperty: string]: any;
     properties: Record<string, any>;
+    subscriptionName?: string; // additional property we add to keep track of the subscription name in resource information to show in the ResourcePicker dropdown
+}
+export interface IAzureSubscription
+    extends Omit<IAzureResource, 'type' | 'name' | 'properties'> {
+    subscriptionId: string;
+    tenantId: string;
+    displayName: string;
 }
 
-export interface IADTInstance {
-    // derived from IAzureResource
-    id: string;
-    name: string; // e.g. cardboard
-    hostName: string; // e.g. cardboard.api.wcus.digitaltwins.azure.net
-    location: string; // e.g. westcentralus
+export interface IAzureRoleAssignment extends IAzureResource {
+    type: AzureResourceTypes.RoleAssignment;
+    properties: IAzureRoleAssignmentPropertyData;
 }
 
-export interface IStorageContainer {
-    // derived from IAzureResource
-    id: string;
-    name: string;
-    url?: string;
+export interface IADTInstance extends IAzureResource {
+    type: AzureResourceTypes.DigitalTwinInstance;
 }
+
+export interface IAzureStorageAccount extends IAzureResource {
+    type: AzureResourceTypes.StorageAccount;
+}
+
+export interface IAzureStorageBlobContainer extends IAzureResource {
+    type: AzureResourceTypes.StorageBlobContainer;
+}
+
+export interface IAzureRoleAssignmentPropertyData {
+    roleDefinitionId: string;
+    [additionalProperty: string]: any;
+}
+// END of Azure Management plane interfaces
 
 export interface IADTInstanceConnection {
     kustoClusterUrl: string;
@@ -482,24 +500,30 @@ export interface IAzureManagementAdapter {
     getRoleAssignments: (
         resourceId: string,
         uniqueObjectId: string
-    ) => AdapterReturnType<AzureUserAssignmentsData>;
+    ) => AdapterReturnType<AzureResourcesData>;
     hasRoleDefinitions: (
         resourceId: string,
         uniqueObjectId: string,
-        enforcedRoleIds: Array<AzureAccessPermissionRoles>, // roles that have to exist
-        alternatedRoleIds: Array<AzureAccessPermissionRoles> // roles that one or the other has to exist
+        accessRolesToCheck: {
+            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
+            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+        }
     ) => Promise<boolean>;
     getResources: (
-        resourceType: AzureResourceTypes,
-        providerEndpoint: string,
-        tenantId?: string,
-        uniqueObjectId?: string
+        params: AdapterMethodParamsForGetAzureResources
     ) => AdapterReturnType<AzureResourcesData>;
+    getResourcesByPermissions: (params: {
+        getResourcesParams: AdapterMethodParamsForGetAzureResources;
+        requiredAccessRoles: {
+            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
+            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+        };
+    }) => AdapterReturnType<AzureResourcesData>;
     assignRole: (
         roleId: AzureAccessPermissionRoles,
         resourceId: string, // scope
         uniqueObjectId: string
-    ) => AdapterReturnType<AzureRoleAssignmentsData>;
+    ) => AdapterReturnType<AzureResourcesData>;
 }
 
 export interface IBlobAdapter {
@@ -798,34 +822,6 @@ export interface IStorageBlob {
     Name: string;
     Path: string;
     Properties: Record<string, any>;
-}
-
-export interface IAzureUserRoleAssignments {
-    value: IAzureRoleAssignment[];
-}
-
-export interface IAzureRoleAssignment extends IAzureResource {
-    type: AzureResourceTypes.RoleAssignments;
-    properties: IAzureRoleAssignmentPropertyData;
-}
-
-export interface IAzureRoleAssignmentPropertyData {
-    roleDefinitionId: string;
-    [additionalProperty: string]: any;
-}
-
-export interface IAzureUserSubscriptions {
-    value: IAzureSubscriptions[];
-}
-
-export interface IAzureSubscriptions {
-    subscriptionId: string;
-    tenantId: string;
-    displayName: string;
-}
-
-export interface IAzureResourceGroup extends IAzureResource {
-    type: AzureResourceTypes.ResourceGroups;
 }
 
 export interface IOATGraphCustomNodeProps extends IOATNodeElement {

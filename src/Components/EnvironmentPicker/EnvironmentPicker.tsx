@@ -1,20 +1,16 @@
 import {
-    ComboBox,
     DefaultButton,
     Dialog,
     DialogFooter,
     DialogType,
     FontIcon,
     FontSizes,
-    IComboBoxOption,
-    IComboBoxStyles,
-    Icon,
     IconButton,
     IDialogContentProps,
+    IModalProps,
+    IModalStyles,
     Link,
-    PrimaryButton,
-    Spinner,
-    SpinnerSize
+    PrimaryButton
 } from '@fluentui/react';
 import { useBoolean, usePrevious } from '@fluentui/react-hooks';
 import React, {
@@ -22,93 +18,124 @@ import React, {
     useCallback,
     useEffect,
     useMemo,
-    useRef,
-    useState
+    useReducer,
+    useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import useAdapter from '../../Models/Hooks/useAdapter';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import {
-    ADTEnvironmentInLocalStorage,
-    ADTSelectedEnvironmentInLocalStorage,
-    EnvironmentPickerProps
+    EnvironmentPickerProps,
+    HANDLE_CONTAINER_CHANGE,
+    HANDLE_ENVIRONMENT_CHANGE,
+    HANDLE_STORAGE_ACCOUNT_CHANGE,
+    HANDLE_STORAGE_ACCOUNT_LOADED,
+    RESET_ITEMS_ON_DISMISS,
+    SET_CONTAINER_ITEMS,
+    SET_ENVIRONMENT_ITEMS,
+    SET_FIRST_TIME_VISIBLE,
+    SET_SELECTED_ITEMS_ON_SAVE,
+    SET_STORAGE_ACCOUNT_ITEMS,
+    StorageAccountsInLocalStorage,
+    StorageAccountToContainersMapping
 } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
+import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
+import ResourcePicker from '../ResourcePicker/ResourcePicker';
 import {
-    ContainersLocalStorageKey,
-    EnvironmentsLocalStorageKey,
-    DOCUMENTATION_LINKS,
-    SelectedContainerLocalStorageKey,
-    SelectedEnvironmentLocalStorageKey,
-    ValidAdtHostSuffixes,
-    ValidContainerHostSuffixes
-} from '../../Models/Constants/Constants';
-import { IADTInstance } from '../../Models/Constants/Interfaces';
-import { addHttpsPrefix } from '../../Models/Services/Utils';
+    AzureAccessPermissionRoles,
+    AzureResourceDisplayFields,
+    AzureResourceTypes,
+    IAzureResource
+} from '../../Models/Constants';
+import {
+    areResourceUrlsEqual,
+    getContainerDisplayText,
+    getContainerName,
+    getContainerNameFromUrl,
+    getContainerUrlsFromLocalStorage,
+    getEnvironmentDisplayText,
+    getEnvironmentUrlsFromLocalStorage,
+    getResourceUrl,
+    getResourceUrls,
+    getStorageAccountId,
+    getStorageAccountOptionsFromLocalStorage,
+    getStorageAccountUrlFromContainerUrl,
+    getStorageAndContainerFromContainerUrl,
+    updateContainerOptionsInLocalStorage,
+    updateEnvironmentsInLocalStorage,
+    updateStorageAccountsInLocalStorage
+} from './EnvironmentPickerManager';
+import {
+    defaultEnvironmentPickerState,
+    EnvironmentPickerReducer
+} from './EnvironmentPicker.state';
 
-const EnvironmentPicker = (props: EnvironmentPickerProps) => {
+const dialogStyles: Partial<IModalStyles> = {
+    main: {
+        width: '640px !important',
+        maxWidth: 'unset !important',
+        minHeight: 'fit-content'
+    }
+};
+const modalProps: IModalProps = {
+    isBlocking: false,
+    styles: dialogStyles
+};
+
+const EnvironmentPicker = ({
+    adapter,
+    locale,
+    localeStrings,
+    theme,
+    isDialogHidden: isDialogHiddenProp,
+    onDismiss,
+    isLocalStorageEnabled,
+    localStorageKey,
+    selectedItemLocalStorageKey,
+    environmentUrl,
+    onEnvironmentUrlChange,
+    storage
+}: EnvironmentPickerProps) => {
     const { t } = useTranslation();
-    const [environments, setEnvironments] = useState<
-        Array<string | IADTInstance>
-    >([]);
-    const [selectedEnvironment, setSelectedEnvironment] = useState<
-        string | IADTInstance
-    >('');
-    const [containers, setContainers] = useState<Array<string>>([]);
-    const [selectedContainerUrl, setSelectedContainerUrl] = useState('');
-    const [environmentToEdit, setEnvironmentToEdit] = useState<
-        string | IADTInstance
-    >('');
-    const [containerUrlToEdit, setContainerUrlToEdit] = useState('');
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
-        Boolean(props.isDialogHidden)
+
+    const [state, dispatch] = useReducer(
+        EnvironmentPickerReducer,
+        defaultEnvironmentPickerState
     );
+
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
+        Boolean(isDialogHiddenProp)
+    );
+
+    const defaultStorageAccountToContainersMappingRef = useRef<
+        Array<StorageAccountToContainersMapping>
+    >([]); // list of storage account and container pairs
     const dialogResettingValuesTimeoutRef = useRef(null);
-    const hasPulledEnvironmentsFromSubscription = useRef(false);
-
-    const dialogContentProps: IDialogContentProps = {
-        type: DialogType.normal,
-        title: t('environmentPicker.editEnvironment'),
-        closeButtonAriaLabel: t('close'),
-        subText: props.isLocalStorageEnabled
-            ? (props.storage
-                  ? t('environmentPicker.descriptionForEnvAndCont')
-                  : t('environmentPicker.descriptionForEnvironment')) +
-              ' ' +
-              t('environmentPicker.descriptionForLocalStorage')
-            : props.storage
-            ? t('environmentPicker.descriptionForEnvAndCont')
-            : t('environmentPicker.descriptionForEnvironment')
-    };
-    const dialogStyles = {
-        main: {
-            width: '640px !important',
-            maxWidth: 'unset !important',
-            minHeight: 'fit-content'
-        }
-    };
-    const modalProps = {
-        isBlocking: false,
-        styles: dialogStyles
-    };
-    const comboBoxStyles: Partial<IComboBoxStyles> = {
-        container: { paddingBottom: 16 },
-        root: { width: '100%' },
-        optionsContainerWrapper: { minWidth: 592 },
-        optionsContainer: {
-            selectors: {
-                span: { width: '100%' }
-            }
-        }
-    };
-
-    const environmentsState = useAdapter({
-        adapterMethod: () => props.adapter.getADTInstances(),
-        refetchDependencies: [],
-        isAdapterCalledOnMount: false
+    const hasFetchedResources = useRef({
+        adtInstances: false,
+        storageAccounts: false,
+        storageBlobContainers: false
     });
 
-    const previousIsDialogHidden = usePrevious(props.isDialogHidden);
+    const dialogContentProps: IDialogContentProps = useMemo(
+        () => ({
+            type: DialogType.normal,
+            title: t('environmentPicker.editEnvironment'),
+            closeButtonAriaLabel: t('close'),
+            subText: isLocalStorageEnabled
+                ? (storage
+                      ? t('environmentPicker.descriptionForEnvAndCont')
+                      : t('environmentPicker.descriptionForEnvironment')) +
+                  ' ' +
+                  t('environmentPicker.descriptionForLocalStorage')
+                : storage
+                ? t('environmentPicker.descriptionForEnvAndCont')
+                : t('environmentPicker.descriptionForEnvironment')
+        }),
+        [t, isLocalStorageEnabled, storage]
+    );
+
+    const previousIsDialogHidden = usePrevious(isDialogHidden);
     // Figure out if dialog needs to be open from props
     useEffect(() => {
         // Have undefined checked onMount to avoid an extra render
@@ -116,470 +143,376 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
         if (
             previousIsDialogHidden !== undefined &&
             previousIsDialogHidden === true &&
-            previousIsDialogHidden !== props.isDialogHidden
+            previousIsDialogHidden !== isDialogHiddenProp
         ) {
             toggleIsDialogHidden();
         }
-    }, [props.isDialogHidden]);
+    }, [isDialogHiddenProp, previousIsDialogHidden, toggleIsDialogHidden]);
 
-    // Load data for Dialog on first open only
     useEffect(() => {
-        if (
-            props.shouldPullFromSubscription &&
-            !hasPulledEnvironmentsFromSubscription.current &&
-            !environmentsState.isLoading &&
-            !isDialogHidden
-        ) {
-            environmentsState.callAdapter();
+        if (!isDialogHidden) {
+            dispatch({
+                type: SET_FIRST_TIME_VISIBLE,
+                payload: true
+            });
         }
-    }, [environmentsState, props.shouldPullFromSubscription, isDialogHidden]);
+    }, [isDialogHidden]);
 
     // set initial values based on props and local storage
     useEffect(() => {
-        if (props.isLocalStorageEnabled) {
-            let environmentsInLocalStorage: Array<ADTEnvironmentInLocalStorage> = null;
-            try {
-                environmentsInLocalStorage = JSON.parse(
-                    localStorage.getItem(
-                        props.localStorageKey ?? EnvironmentsLocalStorageKey
-                    )
-                );
-            } catch (error) {
-                environmentsInLocalStorage = null;
-            }
-
-            const environments: Array<string> = environmentsInLocalStorage
-                ? environmentsInLocalStorage
-                      .filter((e) => e.config?.appAdtUrl)
-                      .map(
-                          (e: ADTEnvironmentInLocalStorage) =>
-                              e.config.appAdtUrl
-                      )
-                : [];
-
-            let selectedEnvironmentUrl = '';
-            try {
-                selectedEnvironmentUrl =
-                    props.environmentUrl ??
-                    (JSON.parse(
-                        localStorage.getItem(
-                            props.selectedItemLocalStorageKey ??
-                                SelectedEnvironmentLocalStorageKey
-                        )
-                    ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
-            } catch (error) {
-                selectedEnvironmentUrl = '';
-            }
-
-            if (
-                selectedEnvironmentUrl &&
-                !environments.includes(selectedEnvironmentUrl)
-            ) {
-                environments.push(selectedEnvironmentUrl);
-            }
-            setSelectedEnvironment(selectedEnvironmentUrl);
-            setEnvironments(environments);
-        } else {
-            setSelectedEnvironment(props.environmentUrl ?? '');
-            setEnvironments(props.environmentUrl ? [props.environmentUrl] : []);
+        let environmentUrls = [];
+        if (environmentUrl) {
+            // passed environmentUrl has precedence over the selected environment in localstorage, if enabled
+            environmentUrls = [environmentUrl];
         }
-
-        if (props.storage?.containerUrl) {
-            setSelectedContainerUrl(props.storage?.containerUrl ?? '');
-            setContainers(
-                props.storage?.containerUrl ? [props.storage.containerUrl] : []
+        if (isLocalStorageEnabled) {
+            const environmentUrlsInLocalStorage: Array<string> = getEnvironmentUrlsFromLocalStorage(
+                localStorageKey
             );
-        } else if (props.storage?.isLocalStorageEnabled) {
-            let containerUrlsInLocalStorage: Array<string> = [];
-            try {
-                containerUrlsInLocalStorage =
-                    JSON.parse(
-                        localStorage.getItem(
-                            props.storage.localStorageKey ??
-                                ContainersLocalStorageKey
-                        )
-                    ) ?? [];
-            } catch (error) {
-                containerUrlsInLocalStorage = [];
+
+            if (
+                environmentUrl &&
+                !environmentUrlsInLocalStorage.includes(environmentUrl)
+            ) {
+                environmentUrlsInLocalStorage.push(environmentUrl);
             }
 
-            // passed containerUrl prop overrides the one stored in local storage, change this logic as appropriate
-            const selectedContainerUrl =
-                props.storage.containerUrl ??
-                (localStorage.getItem(
-                    props.storage.selectedItemLocalStorageKey ??
-                        SelectedContainerLocalStorageKey
-                ) ||
-                    '');
-            if (
-                selectedContainerUrl !== '' &&
-                !containerUrlsInLocalStorage.includes(selectedContainerUrl)
-            ) {
-                containerUrlsInLocalStorage.push(selectedContainerUrl);
-            }
-            setSelectedContainerUrl(selectedContainerUrl);
-            setContainers(containerUrlsInLocalStorage);
+            environmentUrls = environmentUrls.concat(
+                environmentUrlsInLocalStorage.filter(
+                    (item) => environmentUrls.indexOf(item) < 0
+                )
+            );
         }
+        dispatch({
+            type: SET_ENVIRONMENT_ITEMS,
+            payload: {
+                environments: environmentUrls,
+                selectedEnvironment: environmentUrl,
+                environmentToEdit: environmentUrl
+            }
+        });
+
+        let containerUrls = [],
+            storageAccounts: Array<StorageAccountsInLocalStorage> = []; // list of storage accounts in local storage
+        if (storage?.containerUrl) {
+            containerUrls = [storage.containerUrl];
+        }
+        if (storage?.isLocalStorageEnabled) {
+            const containerUrlsInLocalStorage: Array<string> =
+                getContainerUrlsFromLocalStorage(storage.localStorageKey) || [];
+
+            storageAccounts = getStorageAccountOptionsFromLocalStorage();
+            if (
+                storage.containerUrl &&
+                !containerUrlsInLocalStorage.includes(storage.containerUrl)
+            ) {
+                containerUrlsInLocalStorage.push(storage.containerUrl);
+            }
+            containerUrls = containerUrls.concat(
+                containerUrlsInLocalStorage.filter(
+                    (item) => containerUrls.indexOf(item) < 0
+                )
+            );
+
+            const storageAccountAndContainerList = containerUrls.map(
+                getStorageAndContainerFromContainerUrl
+            );
+            const storageAccountToContainersMapping = [];
+            storageAccountAndContainerList.forEach((pair, idx) => {
+                const isPairAdded = storageAccountToContainersMapping.find(
+                    (mapping) =>
+                        mapping.storageAccountUrl === pair.storageAccountUrl
+                );
+                if (!isPairAdded) {
+                    const newPair: StorageAccountToContainersMapping = {
+                        storageAccountId: storageAccounts?.find((item) =>
+                            areResourceUrlsEqual(
+                                item.url,
+                                pair.storageAccountUrl
+                            )
+                        )?.id,
+                        storageAccountUrl: pair.storageAccountUrl,
+                        containerNames: [pair.containerName]
+                    };
+
+                    // loop the rest of the list to collect container names for that storage account url
+                    for (
+                        let i = idx + 1;
+                        i < storageAccountAndContainerList.length;
+                        i++
+                    ) {
+                        if (
+                            storageAccountAndContainerList[i]
+                                .storageAccountUrl === pair.storageAccountUrl
+                        ) {
+                            newPair.containerNames.push(
+                                storageAccountAndContainerList[i].containerName
+                            );
+                        }
+                    }
+                    storageAccountToContainersMapping.push(newPair);
+                }
+            });
+            defaultStorageAccountToContainersMappingRef.current = storageAccountToContainersMapping;
+        } else if (storage?.containerUrl) {
+            const storageAccountAndContainer = getStorageAndContainerFromContainerUrl(
+                storage?.containerUrl
+            );
+            defaultStorageAccountToContainersMappingRef.current = [
+                {
+                    storageAccountId: undefined,
+                    storageAccountUrl:
+                        storageAccountAndContainer.storageAccountUrl,
+                    containerNames: [storageAccountAndContainer.containerName]
+                } as StorageAccountToContainersMapping
+            ];
+        }
+        adapter.setBlobContainerPath(storage.containerUrl);
+
+        const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
+            storage.containerUrl
+        );
+        const storageAccountUrls = defaultStorageAccountToContainersMappingRef.current?.map(
+            (pair) => pair.storageAccountUrl
+        );
+        dispatch({
+            type: SET_STORAGE_ACCOUNT_ITEMS,
+            payload: {
+                storageAccounts: storageAccountUrls,
+                selectedStorageAccount: selectedStorageAccountUrl,
+                storageAccountToEdit: selectedStorageAccountUrl
+            }
+        });
+        dispatch({
+            type: SET_CONTAINER_ITEMS,
+            payload: {
+                containers:
+                    defaultStorageAccountToContainersMappingRef.current?.find(
+                        (mapping) =>
+                            mapping.storageAccountUrl ===
+                            selectedStorageAccountUrl
+                    )?.containerNames || [],
+                selectedContainer: getContainerNameFromUrl(
+                    storage.containerUrl
+                ),
+                containerToEdit: getContainerNameFromUrl(storage.containerUrl)
+            }
+        });
+
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
     }, []);
 
-    useEffect(() => {
-        setEnvironmentToEdit(selectedEnvironment);
-    }, [selectedEnvironment]);
-
-    useEffect(() => {
-        setContainerUrlToEdit(selectedContainerUrl);
-    }, [selectedContainerUrl]);
-
-    useEffect(() => {
-        if (!environmentsState.adapterResult.hasNoData()) {
-            const subscriptionEnvironments: Array<IADTInstance> =
-                environmentsState.adapterResult.result?.data;
-            setEnvironments(
-                //merge localstorage environments and environments from subscription in case both are enabled
-                environments.concat(
-                    subscriptionEnvironments.filter(
-                        (env) =>
-                            isValidUrlStr(
-                                'https://' + env.hostName,
-                                'environment'
-                            ) &&
-                            environments.findIndex((e: string | IADTInstance) =>
-                                typeof e === 'string'
-                                    ? e === 'https://' + env.hostName
-                                    : e.hostName === env.hostName
-                            ) === -1
-                    )
-                )
-            );
-            hasPulledEnvironmentsFromSubscription.current = true;
-        }
-    }, [environmentsState.adapterResult.result]);
-
-    const environmentOptions: Array<IComboBoxOption> = useMemo(
-        () =>
-            environments.map((e: string | IADTInstance, idx) => {
-                if (!e) return;
-                return typeof e === 'string'
-                    ? ({
-                          key: `adt-environment-${idx}`,
-                          text: e
-                      } as IComboBoxOption)
-                    : ({
-                          key: `adt-environment-${idx}`,
-                          text: 'https://' + e.hostName,
-                          data: e
-                      } as IComboBoxOption);
-            }),
-        [environments]
-    );
-
-    const containerOptions: Array<IComboBoxOption> = useMemo(
-        () =>
-            containers.map(
-                (c) =>
-                    ({
-                        key: c,
-                        text: c
-                    } as IComboBoxOption)
-            ),
-        [containers]
-    );
-
-    const isValidUrlStr = useCallback(
-        (urlStr: string, type: 'environment' | 'container') => {
-            if (type === 'environment') {
-                try {
-                    return (
-                        urlStr &&
-                        urlStr.startsWith('https://') &&
-                        ValidAdtHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
-                        )
-                    );
-                } catch (error) {
-                    return false;
-                }
-            } else {
-                try {
-                    return (
-                        urlStr &&
-                        urlStr.startsWith('https://') &&
-                        ValidContainerHostSuffixes.some((suffix) =>
-                            new URL(urlStr).hostname.endsWith(suffix)
-                        ) &&
-                        new URL(urlStr).pathname !== '/'
-                    );
-                } catch (error) {
-                    return false;
-                }
-            }
-        },
-        []
-    );
-
-    const environmentInputError = useMemo(
-        () =>
-            environmentToEdit &&
-            !isValidUrlStr(getUrl(environmentToEdit), 'environment')
-                ? t('environmentPicker.errors.invalidEnvironmentUrl')
-                : undefined,
-        [environmentToEdit, isValidUrlStr, t]
-    );
-
-    const containerInputError = useMemo(
-        () =>
-            containerUrlToEdit &&
-            !isValidUrlStr(containerUrlToEdit, 'container')
-                ? t('environmentPicker.errors.invalidContainerUrl')
-                : undefined,
-        [containerUrlToEdit, isValidUrlStr, t]
-    );
-
-    const onRenderOption = (
-        option: IComboBoxOption,
-        type: 'environment' | 'container'
-    ) => {
-        return (
-            <div className={'cb-environment-picker-dropdown-option'}>
-                <span>{option.text}</span>
-                {!environmentsState.isLoading &&
-                    environmentsState.adapterResult?.result?.data?.findIndex(
-                        (e) => e.hostName === new URL(option.text).hostname
-                    ) === -1 && (
-                        <Icon
-                            iconName="Delete"
-                            aria-hidden="true"
-                            title={t('environmentPicker.removeFromList')}
-                            style={{ paddingLeft: 20 }}
-                            onClick={(event) => {
-                                event.stopPropagation();
-                                if (type === 'environment') {
-                                    const restOfOptions = environments.filter(
-                                        (e: string | IADTInstance) =>
-                                            typeof e === 'string'
-                                                ? e !== option.text
-                                                : 'https://' + e.hostName !==
-                                                  option.text
-                                    );
-                                    setEnvironments(restOfOptions);
-                                    if (
-                                        option.text ===
-                                        getUrl(environmentToEdit)
-                                    ) {
-                                        setEnvironmentToEdit('');
-                                    }
-                                } else {
-                                    const restOfOptions = containers.filter(
-                                        (o: string) => o !== option.text
-                                    );
-                                    setContainers(restOfOptions);
-                                    if (option.text === containerUrlToEdit) {
-                                        setContainerUrlToEdit('');
-                                    }
-                                }
-                            }}
-                        />
-                    )}
-            </div>
-        );
-    };
-
     const handleOnEditClick = useCallback(() => {
         toggleIsDialogHidden();
-    }, []);
-
-    const handleOnEnvironmentUrlChange = useCallback(
-        (option, value) => {
-            if (option) {
-                setEnvironmentToEdit(option.data ?? option.text);
-            } else {
-                let newVal = value;
-                if (
-                    // let user enter hostname and gracefully append https protocol
-                    !newVal.startsWith('https://') &&
-                    ValidAdtHostSuffixes.some(
-                        (suffix) =>
-                            newVal.endsWith(suffix) ||
-                            newVal.endsWith(suffix + '/')
-                    )
-                ) {
-                    newVal = 'https://' + newVal;
-                }
-                setEnvironmentToEdit(newVal);
-                if (
-                    isValidUrlStr(newVal, 'environment') &&
-                    environments.findIndex((e: string | IADTInstance) =>
-                        typeof e === 'string'
-                            ? new URL(e).hostname === new URL(newVal).hostname
-                            : 'https://' + e.hostName ===
-                              new URL(newVal).hostname
-                    ) === -1
-                ) {
-                    setEnvironments(environments.concat(newVal));
-                }
-            }
-        },
-        [environments, isValidUrlStr]
-    );
-
-    const handleOnContainerUrlChange = useCallback(
-        (option, value) => {
-            let newVal = option ? option.text : value;
-            if (!newVal.startsWith('https://')) {
-                // let user enter hostname and gracefully append https protocol
-                try {
-                    const urlObj = new URL('https://' + newVal);
-                    if (
-                        ValidContainerHostSuffixes.some((suffix) =>
-                            urlObj.hostname.endsWith(suffix)
-                        ) &&
-                        urlObj.pathname !== '/'
-                    ) {
-                        newVal = 'https://' + newVal;
-                    }
-                } catch (error) {
-                    console.error('Not a valid URL string!');
-                }
-            }
-            setContainerUrlToEdit(newVal);
-            if (
-                isValidUrlStr(newVal, 'container') &&
-                containers.findIndex((e) => e === newVal) === -1
-            ) {
-                setContainers(containers.concat(newVal));
-            }
-        },
-        [containers, isValidUrlStr]
-    );
+    }, [toggleIsDialogHidden]);
 
     const handleOnSave = useCallback(() => {
-        if (props.onDismiss) {
-            props.onDismiss();
-        }
-        setSelectedEnvironment(environmentToEdit);
-        setSelectedContainerUrl(containerUrlToEdit);
+        dispatch({
+            type: SET_SELECTED_ITEMS_ON_SAVE
+        });
 
-        if (props.onEnvironmentUrlChange) {
-            props.onEnvironmentUrlChange(environmentToEdit, environments);
-        }
-        if (props.storage?.onContainerUrlChange) {
-            props.storage?.onContainerUrlChange(containerUrlToEdit, containers);
-        }
-
-        if (props.isLocalStorageEnabled) {
-            localStorage.setItem(
-                props.localStorageKey ?? EnvironmentsLocalStorageKey,
-                JSON.stringify(
-                    environments.map((e: string | IADTInstance) => {
-                        if (!e) return;
-                        return {
-                            config: {
-                                appAdtUrl: getUrl(e)
-                            },
-                            name: typeof e === 'string' ? e : e.name
-                        };
-                    })
+        if (onEnvironmentUrlChange) {
+            onEnvironmentUrlChange(
+                getResourceUrl(
+                    state.environmentItems.environmentToEdit,
+                    AzureResourceTypes.DigitalTwinInstance
+                ),
+                getResourceUrls(
+                    state.environmentItems.environments,
+                    AzureResourceTypes.DigitalTwinInstance
                 )
             );
-            localStorage.setItem(
-                props.selectedItemLocalStorageKey ??
-                    SelectedEnvironmentLocalStorageKey,
-                JSON.stringify({
-                    appAdtUrl: getUrl(environmentToEdit)
-                })
+        }
+        if (storage?.onContainerUrlChange) {
+            storage.onContainerUrlChange(
+                getResourceUrl(
+                    state.containerItems.containerToEdit,
+                    AzureResourceTypes.StorageBlobContainer,
+                    state.storageAccountItems.storageAccountToEdit
+                ),
+                getResourceUrls(
+                    state.containerItems.containers,
+                    AzureResourceTypes.StorageBlobContainer,
+                    state.storageAccountItems.storageAccountToEdit
+                )
             );
         }
-        if (props.storage?.isLocalStorageEnabled) {
-            localStorage.setItem(
-                props.storage.localStorageKey ?? ContainersLocalStorageKey,
-                JSON.stringify(containers)
-            );
-            localStorage.setItem(
-                props.storage.selectedItemLocalStorageKey ??
-                    SelectedContainerLocalStorageKey,
-                containerUrlToEdit
+
+        if (isLocalStorageEnabled) {
+            updateEnvironmentsInLocalStorage(
+                state.environmentItems.environments,
+                localStorageKey
             );
         }
+        if (storage?.isLocalStorageEnabled) {
+            updateContainerOptionsInLocalStorage(
+                state.containerItems.containers,
+                state.storageAccountItems.storageAccountToEdit,
+                storage.localStorageKey
+            );
+            updateStorageAccountsInLocalStorage(
+                state.storageAccountItems.storageAccounts
+            );
+        }
+
         toggleIsDialogHidden();
+
+        if (onDismiss) {
+            onDismiss();
+        }
     }, [
-        environmentToEdit,
-        containerUrlToEdit,
-        props,
+        storage,
+        onDismiss,
         toggleIsDialogHidden,
-        environments,
-        containers
+        onEnvironmentUrlChange,
+        isLocalStorageEnabled,
+        localStorageKey,
+        selectedItemLocalStorageKey,
+        state.environmentItems,
+        state.storageAccountItems,
+        state.containerItems
     ]);
 
     const handleOnDismiss = useCallback(() => {
-        if (props.onDismiss) {
-            props.onDismiss();
-        }
         toggleIsDialogHidden();
+
+        // wait for dialog dismiss fade-out animation to reset the values
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
-            // wait for dialog dismiss fade-out animation to reset the values
-            if (selectedEnvironment) {
-                const selectedEnvironmentIndex = environments.findIndex(
-                    (e: string | IADTInstance) =>
-                        getUrl(e) === getUrl(selectedEnvironment)
-                );
-                if (selectedEnvironmentIndex === -1) {
-                    setEnvironments(environments.concat(selectedEnvironment));
+            dispatch({
+                type: RESET_ITEMS_ON_DISMISS,
+                payload: {
+                    storageAccountToContainersMapping:
+                        defaultStorageAccountToContainersMappingRef.current,
+                    resetContainersCallback: () => {
+                        hasFetchedResources.current.storageBlobContainers = false;
+                    }
                 }
-            }
-            setEnvironmentToEdit(selectedEnvironment);
-
-            if (
-                selectedContainerUrl &&
-                containers.findIndex((e) => e === selectedContainerUrl) === -1
-            ) {
-                setContainers(containers.concat(selectedContainerUrl));
-            }
-            setContainerUrlToEdit(selectedContainerUrl);
+            });
         }, 500);
-    }, [
-        toggleIsDialogHidden,
-        environments,
-        selectedEnvironment,
-        selectedContainerUrl,
-        containers
-    ]);
 
-    const displayNameForEnvironment = useCallback(
-        (env: string | IADTInstance) => {
-            if (env) {
-                return typeof env === 'string'
-                    ? new URL(env).hostname.split('.')[0]
-                    : env.name;
-            } else {
-                return t('environmentPicker.noEnvironment');
-            }
+        if (onDismiss) {
+            onDismiss();
+        }
+    }, [toggleIsDialogHidden, onDismiss]);
+
+    const getEnvironmentText = useCallback(
+        (env: string | IAzureResource) => {
+            const displayText = getEnvironmentDisplayText(env);
+            return displayText || t('environmentPicker.noEnvironment');
         },
         [t]
     );
 
-    const displayNameForContainer = useCallback(
-        (containerUrl: string) => {
-            if (containerUrl) {
-                const urlObj = new URL(containerUrl);
-                return urlObj.hostname.split('.')[0] + urlObj.pathname; // i.e. AzureStorageAccountName/ContainerName
-            } else {
-                return t('environmentPicker.noContainer');
-            }
+    const getContainerText = useCallback(
+        (container: string | IAzureResource) => {
+            const displayText = getContainerDisplayText(
+                container,
+                state.storageAccountItems.selectedStorageAccount
+            );
+            return displayText || t('environmentPicker.noContainer');
         },
-        [t]
+        [t, state.storageAccountItems.selectedStorageAccount]
     );
+
+    const handleOnEnvironmentResourceChange = (
+        resource: IAzureResource | string,
+        resources: Array<IAzureResource | string>
+    ) => {
+        dispatch({
+            type: HANDLE_ENVIRONMENT_CHANGE,
+            payload: {
+                environment: resource,
+                environments: resources
+            }
+        });
+    };
+
+    const handleOnStorageAccountResourceChange = (
+        resource: IAzureResource | string,
+        resources: Array<IAzureResource | string>
+    ) => {
+        dispatch({
+            type: HANDLE_STORAGE_ACCOUNT_CHANGE,
+            payload: {
+                storageAccount: resource,
+                storageAccounts: resources
+            }
+        });
+
+        // when changing the storage account, update the containers from default mappings until containers are fetched
+        dispatch({
+            type: HANDLE_CONTAINER_CHANGE,
+            payload: {
+                container: null,
+                containers:
+                    defaultStorageAccountToContainersMappingRef.current?.find(
+                        (mapping) =>
+                            areResourceUrlsEqual(
+                                mapping.storageAccountUrl,
+                                getResourceUrl(
+                                    resource,
+                                    AzureResourceTypes.StorageAccount
+                                )
+                            )
+                    )?.containerNames || []
+            }
+        });
+        hasFetchedResources.current.storageBlobContainers = false; // reset this flag as we click on different storage account since it fetches containers again with different storage account id
+    };
+
+    const handleOnStorageAccountResourcesLoaded = (
+        resources: Array<IAzureResource>
+    ) => {
+        hasFetchedResources.current.storageAccounts = true;
+        hasFetchedResources.current.storageBlobContainers = false;
+        dispatch({
+            type: HANDLE_STORAGE_ACCOUNT_LOADED,
+            payload: resources
+        });
+    };
+
+    const handleOnStorageContainerResourceChange = (
+        resource: IAzureResource | string,
+        resources: Array<IAzureResource | string>
+    ) => {
+        dispatch({
+            type: HANDLE_CONTAINER_CHANGE,
+            payload: {
+                container: resource,
+                containers: resources
+            }
+        });
+
+        // update mappings in case change is based on addition or removal of a resource
+        const defaultStorageAccountMapping = defaultStorageAccountToContainersMappingRef.current?.find(
+            (mapping) =>
+                areResourceUrlsEqual(
+                    getResourceUrl(
+                        state.storageAccountItems.storageAccountToEdit,
+                        AzureResourceTypes.StorageAccount
+                    ),
+                    mapping.storageAccountUrl
+                )
+        );
+        if (defaultStorageAccountMapping) {
+            defaultStorageAccountMapping.containerNames = resources.map(
+                getContainerName
+            );
+        }
+    };
 
     return (
         <BaseComponent
-            locale={props.locale}
-            localeStrings={props.localeStrings}
-            theme={props.theme}
+            locale={locale}
+            localeStrings={localeStrings}
+            theme={theme}
             containerClassName="cb-environment-picker"
         >
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {displayNameForEnvironment(selectedEnvironment)}
+                    {getEnvironmentText(
+                        state.environmentItems.selectedEnvironment
+                    )}
                 </span>
                 <IconButton
                     iconProps={{ iconName: 'Edit' }}
@@ -589,78 +522,171 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     className={'cb-environment-picker-edit-button'}
                 />
             </div>
-            {props.storage && (
+            {storage && (
                 <div className="cb-environment-picker-container">
                     <FontIcon iconName={'Database'} />
                     <span className="cb-environment-picker-container-title">
-                        {displayNameForContainer(selectedContainerUrl)}
+                        {getContainerText(
+                            state.containerItems.selectedContainer
+                        )}
                     </span>
                 </div>
             )}
 
             <Dialog
-                hidden={isDialogHidden}
+                hidden={false}
+                styles={{
+                    root: { display: !isDialogHidden ? 'flex' : 'none' }
+                }}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
                 modalProps={modalProps}
             >
-                <div className="cb-environment-picker-dialog-form">
-                    <ComboBox
-                        placeholder={t('environmentPicker.enterEnvironmentUrl')}
-                        label={t('environmentPicker.environmentUrl')}
-                        allowFreeform={true}
-                        autoComplete={'on'}
-                        options={environmentOptions}
-                        styles={comboBoxStyles}
-                        required
-                        text={getUrl(environmentToEdit)}
-                        onChange={(_e, option, _idx, value) =>
-                            handleOnEnvironmentUrlChange(option, value)
-                        }
-                        errorMessage={environmentInputError}
-                        onRenderOption={(option) =>
-                            onRenderOption(option, 'environment')
-                        }
-                        onRenderLabel={(p) => (
-                            <div className="cb-environment-picker-environment-url-label">
-                                <span className="cb-environment-picker-environment-url-label-text">
-                                    {p.props.label}
-                                </span>
-                                {environmentsState.isLoading && (
-                                    <Spinner
-                                        size={SpinnerSize.xSmall}
-                                        label={t('loadingInstances')}
-                                        ariaLive="assertive"
-                                        labelPosition="right"
-                                    />
-                                )}
-                            </div>
-                        )}
-                        selectedKey={getUrl(environmentToEdit)}
-                    />
-                    {props.storage && (
-                        <ComboBox
-                            placeholder={t(
-                                'environmentPicker.enterContainerUrl'
+                {state.firstTimeVisible && (
+                    <div className="cb-environment-picker-dialog-form">
+                        <ResourcePicker
+                            styles={comboBoxSubComponentStyles}
+                            adapter={adapter}
+                            resourceType={
+                                AzureResourceTypes.DigitalTwinInstance
+                            }
+                            requiredAccessRoles={{
+                                enforcedRoleIds: [],
+                                interchangeableRoleIds: [
+                                    AzureAccessPermissionRoles[
+                                        'Azure Digital Twins Data Owner'
+                                    ],
+                                    AzureAccessPermissionRoles[
+                                        'Azure Digital Twins Data Reader'
+                                    ]
+                                ]
+                            }}
+                            shouldFetchResourcesOnMount={
+                                !hasFetchedResources.current.adtInstances
+                            }
+                            label={t('environmentPicker.environmentUrl')}
+                            displayField={AzureResourceDisplayFields.url}
+                            additionalOptions={getResourceUrls(
+                                state.environmentItems.environments,
+                                AzureResourceTypes.DigitalTwinInstance
                             )}
-                            label={t('environmentPicker.containerUrl')}
-                            allowFreeform={true}
-                            autoComplete={'on'}
-                            options={containerOptions}
-                            styles={comboBoxStyles}
-                            required
-                            text={containerUrlToEdit}
-                            onChange={(_e, option, _idx, value) =>
-                                handleOnContainerUrlChange(option, value)
-                            }
-                            errorMessage={containerInputError}
-                            onRenderOption={(option) =>
-                                onRenderOption(option, 'container')
-                            }
-                            selectedKey={containerUrlToEdit}
+                            selectedOption={getResourceUrl(
+                                state.environmentItems.environmentToEdit,
+                                AzureResourceTypes.DigitalTwinInstance
+                            )}
+                            onChange={handleOnEnvironmentResourceChange}
+                            onLoaded={(_resources) => {
+                                hasFetchedResources.current.adtInstances = true;
+                            }}
+                            allowFreeform
                         />
-                    )}
-                </div>
+                        {storage && (
+                            <>
+                                <ResourcePicker
+                                    styles={comboBoxSubComponentStyles}
+                                    adapter={adapter}
+                                    resourceType={
+                                        AzureResourceTypes.StorageAccount
+                                    }
+                                    requiredAccessRoles={{
+                                        enforcedRoleIds: [],
+                                        interchangeableRoleIds: [
+                                            AzureAccessPermissionRoles[
+                                                'Contributor'
+                                            ],
+                                            AzureAccessPermissionRoles['Owner']
+                                        ]
+                                    }}
+                                    shouldFetchResourcesOnMount={
+                                        !hasFetchedResources.current
+                                            .storageAccounts
+                                    }
+                                    label={t(
+                                        'environmentPicker.storageAccountUrl'
+                                    )}
+                                    displayField={
+                                        AzureResourceDisplayFields.url
+                                    }
+                                    selectedOption={getResourceUrl(
+                                        state.storageAccountItems
+                                            .storageAccountToEdit,
+                                        AzureResourceTypes.StorageAccount
+                                    )}
+                                    additionalOptions={getResourceUrls(
+                                        state.storageAccountItems
+                                            .storageAccounts,
+                                        AzureResourceTypes.StorageAccount
+                                    )}
+                                    onChange={
+                                        handleOnStorageAccountResourceChange
+                                    }
+                                    onLoaded={
+                                        handleOnStorageAccountResourcesLoaded
+                                    }
+                                    allowFreeform
+                                />
+
+                                <ResourcePicker
+                                    key={getResourceUrl(
+                                        state.storageAccountItems
+                                            .storageAccountToEdit,
+                                        AzureResourceTypes.StorageAccount
+                                    )}
+                                    styles={comboBoxSubComponentStyles}
+                                    adapter={adapter}
+                                    resourceType={
+                                        AzureResourceTypes.StorageBlobContainer
+                                    }
+                                    requiredAccessRoles={{
+                                        enforcedRoleIds: [
+                                            AzureAccessPermissionRoles['Reader']
+                                        ],
+                                        interchangeableRoleIds: [
+                                            AzureAccessPermissionRoles[
+                                                'Storage Blob Data Owner'
+                                            ],
+                                            AzureAccessPermissionRoles[
+                                                'Storage Blob Data Contributor'
+                                            ]
+                                        ]
+                                    }}
+                                    searchParams={{
+                                        additionalParams: {
+                                            storageAccountId: getStorageAccountId(
+                                                state.storageAccountItems
+                                                    .storageAccountToEdit,
+                                                defaultStorageAccountToContainersMappingRef.current
+                                            )
+                                        }
+                                    }}
+                                    shouldFetchResourcesOnMount={
+                                        !hasFetchedResources.current
+                                            .storageBlobContainers
+                                    }
+                                    label={t(
+                                        'environmentPicker.storageContainerName'
+                                    )}
+                                    displayField={
+                                        AzureResourceDisplayFields.name
+                                    }
+                                    additionalOptions={state.containerItems.containers?.map(
+                                        getContainerName
+                                    )}
+                                    selectedOption={getContainerName(
+                                        state.containerItems.containerToEdit
+                                    )}
+                                    onChange={
+                                        handleOnStorageContainerResourceChange
+                                    }
+                                    onLoaded={(_resources) => {
+                                        hasFetchedResources.current.storageBlobContainers = true;
+                                    }}
+                                    allowFreeform
+                                />
+                            </>
+                        )}
+                    </div>
+                )}
                 <DialogFooter>
                     <Link
                         styles={{
@@ -674,30 +700,22 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
                     >
                         {t('learnMore')}
                     </Link>
+                    <DefaultButton
+                        onClick={handleOnDismiss}
+                        text={t('cancel')}
+                    />
                     <PrimaryButton
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            props.storage
+                            storage
                                 ? !(
-                                      isValidUrlStr(
-                                          getUrl(environmentToEdit),
-                                          'environment'
-                                      ) &&
-                                      isValidUrlStr(
-                                          containerUrlToEdit,
-                                          'container'
-                                      )
+                                      state.environmentItems
+                                          .environmentToEdit &&
+                                      state.containerItems.containerToEdit
                                   )
-                                : !isValidUrlStr(
-                                      getUrl(environmentToEdit),
-                                      'environment'
-                                  )
+                                : !state.environmentItems.environmentToEdit
                         }
-                    />
-                    <DefaultButton
-                        onClick={handleOnDismiss}
-                        text={t('cancel')}
                     />
                 </DialogFooter>
             </Dialog>
@@ -705,12 +723,9 @@ const EnvironmentPicker = (props: EnvironmentPickerProps) => {
     );
 };
 
-const getUrl = (environment: string | IADTInstance) => {
-    if (!environment) return '';
-    if (typeof environment === 'string') {
-        return environment;
-    } else {
-        return addHttpsPrefix(environment.hostName);
+const comboBoxSubComponentStyles = {
+    subComponentStyles: {
+        comboBox: { callout: { width: 592 } }
     }
 };
 

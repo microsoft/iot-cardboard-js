@@ -2,10 +2,11 @@
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model
  */
 export enum TelemetryType {
-    request = 'request',
+    event = 'event',
     exception = 'exception',
-    trace = 'trace',
-    event = 'event'
+    metric = 'metric',
+    request = 'request',
+    trace = 'trace'
 }
 
 export interface ITelemetry {
@@ -49,4 +50,11 @@ export interface ITraceTelemetryParams extends IBaseTelemetryParams {
     message: string;
     /** Trace severity level */
     severityLevel?: SeverityLevel;
+}
+
+export interface IMetricTelemetryParams extends IBaseTelemetryParams {
+    average: number;
+    min?: number;
+    max?: number;
+    sampleSize?: number;
 }

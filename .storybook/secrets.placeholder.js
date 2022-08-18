@@ -41,6 +41,7 @@ export const AuthenticationParameters = {
     },
     storage: {
         blobContainerUrl: 'AZURE_STORAGE_BLOB_CONTAINER_URL',
+        accountId: 'AZURE_STORAGE_ACCOUNT_ID',
         aadParameters: {
             authority: 'AUTHORITY_PLACEHOLDER',
             clientId: 'CLIENTID_PLACEHOLDER',

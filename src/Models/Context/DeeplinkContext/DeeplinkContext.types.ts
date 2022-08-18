@@ -30,7 +30,7 @@ export interface IDeeplinkContextState {
     sceneId: string;
     selectedElementId: string;
     selectedLayerIds: string[];
-    storageUrl: string;
+    storageContainerUrl: string;
 }
 
 /** The object serialized to create the deeplink URL */
@@ -40,7 +40,7 @@ export interface IPublicDeeplink {
     sceneId: string;
     selectedElementIds: string;
     selectedLayerIds: string;
-    storageUrl: string;
+    storageContainerUrl: string;
 }
 
 /**
@@ -52,7 +52,7 @@ export enum DeeplinkContextActionType {
     SET_LAYER_IDS = 'SET_LAYER_IDS',
     SET_MODE = 'SET_MODE',
     SET_SCENE_ID = 'SET_SCENE_ID',
-    SET_STORAGE_URL = 'SET_STORAGE_URL'
+    SET_STORAGE_CONTAINER_URL = 'SET_STORAGE_CONTAINER_URL'
 }
 
 /** The actions to update the state */
@@ -78,7 +78,7 @@ export type DeeplinkContextAction =
           payload: { sceneId: string };
       }
     | {
-          type: DeeplinkContextActionType.SET_STORAGE_URL;
+          type: DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL;
           payload: { url: string };
       };
 
