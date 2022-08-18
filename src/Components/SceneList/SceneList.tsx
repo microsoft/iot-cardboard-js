@@ -41,6 +41,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import NoResults from '../../Resources/Static/noResults.svg';
+import useTelemetry from '../../Models/Hooks/useTelemetry';
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -54,6 +55,7 @@ const SceneList: React.FC<SceneListProps> = ({
         adapterMethod: () => adapter.getScenesConfig(),
         refetchDependencies: [adapter]
     });
+    const { sendEventTelemetry } = useTelemetry();
 
     const addScene = useAdapter({
         adapterMethod: (params: { config: I3DScenesConfig; scene: IScene }) =>
@@ -207,6 +209,9 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
+                                sendEventTelemetry({
+                                    name: 'Edit scene - open'
+                                });
                             }}
                             className={'cb-scenes-action-button'}
                         />
@@ -218,6 +223,9 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);
+                                sendEventTelemetry({
+                                    name: 'Delete scene - open'
+                                });
                             }}
                             className={'cb-scenes-action-button'}
                         />
@@ -324,6 +332,9 @@ const SceneList: React.FC<SceneListProps> = ({
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
+                                sendEventTelemetry({
+                                    name: 'Create scene - open'
+                                });
                                 setIsSceneDialogOpen(true);
                             }}
                             disabled={
@@ -374,13 +385,19 @@ const SceneList: React.FC<SceneListProps> = ({
                     >
                         <DialogFooter>
                             <DefaultButton
-                                onClick={() =>
-                                    setIsConfirmDeleteDialogOpen(false)
-                                }
+                                onClick={() => {
+                                    sendEventTelemetry({
+                                        name: 'Delete scene - cancel'
+                                    });
+                                    setIsConfirmDeleteDialogOpen(false);
+                                }}
                                 text={t('cancel')}
                             />
                             <PrimaryButton
                                 onClick={() => {
+                                    sendEventTelemetry({
+                                        name: 'Delete scene - confirm'
+                                    });
                                     deleteScene.callAdapter({
                                         config: config,
                                         sceneId: selectedScene.id
@@ -428,6 +445,9 @@ const SceneList: React.FC<SceneListProps> = ({
                     }}
                     sceneToEdit={selectedScene}
                     onEditScene={(updatedScene) => {
+                        sendEventTelemetry({
+                            name: 'Edit scene - confirm'
+                        });
                         editScene.callAdapter({
                             config: config,
                             sceneId: updatedScene.id,
@@ -435,6 +455,9 @@ const SceneList: React.FC<SceneListProps> = ({
                         });
                     }}
                     onAddScene={(newScene) => {
+                        sendEventTelemetry({
+                            name: 'Create scene - confirm'
+                        });
                         let newId = createGUID();
                         const existingIds = sceneList.map((s) => s.id);
                         while (existingIds.includes(newId)) {
