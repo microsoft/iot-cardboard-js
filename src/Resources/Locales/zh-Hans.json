@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "这不是一个有效的URL（例如 https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>）",
       "invalidStorageAccountUrl": "这不是一个有效的URL（例如 https://<你的存储帐户名称>.blob.core.windows.net）"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "切换为选择双胞胎",
+    "selectRow": "选择双床间",
+    "inspectProperty": "检查属性",
+    "results": "Results （{{twinCount}}）"
   }
 }

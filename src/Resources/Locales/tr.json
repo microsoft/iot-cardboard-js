@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)",
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "İkiz Seç",
+    "selectRow": "Twin Seçilmiş",
+    "inspectProperty": "Özelliği İncele",
+    "results": "Sonuçlar ({{twinCount}})"
   }
 }

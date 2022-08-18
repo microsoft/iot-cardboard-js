@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net/<suContainerName>)",
       "invalidStorageAccountUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "Cambiar a Seleccionar gemelo",
+    "selectRow": "Gemelo seleccionado",
+    "inspectProperty": "Inspeccionar propiedad",
+    "results": "Resultados ({{twinCount}})"
   }
 }

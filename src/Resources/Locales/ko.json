@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙니다.",
       "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "트윈 선택으로 전환",
+    "selectRow": "트윈 선택",
+    "inspectProperty": "속성 검사",
+    "results": "결과 ({{twinCount}})"
   }
 }
