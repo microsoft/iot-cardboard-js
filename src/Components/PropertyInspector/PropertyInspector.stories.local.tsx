@@ -5,6 +5,8 @@ import MsalAuthService from '../../Models/Services/MsalAuthService';
 import { mockRelationship, mockTwin } from './__mockdata__/mockData';
 import PropertyInspector from './PropertyInspector';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import PropertyInspectorCalloutButton from './PropertyInspectorCallout';
+import { MockAdapter } from '../../Adapters';
 
 const propertyInspectorStoryStyles = {
     maxWidth: '428px',
@@ -149,3 +151,13 @@ ModeToggleWithResolvedData.argTypes = {
         defaultValue: '4690c125-aac8-4456-9203-298c93f5fcf0'
     }
 };
+
+export const PropertyInspectorCallout = (
+    _args,
+    { globals: { theme, locale } }
+) => (
+    <PropertyInspectorCalloutButton
+        twinId={mockTwin.$dtId}
+        adapter={new MockAdapter({ mockData: mockTwin })}
+    />
+);

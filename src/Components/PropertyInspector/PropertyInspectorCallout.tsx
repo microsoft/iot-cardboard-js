@@ -1,21 +1,22 @@
 import React from 'react';
 import { Callout, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useBoolean, useId } from '@fluentui/react-hooks';
 import PropertyInspector from './PropertyInspector';
 import { IPropertyInspectorAdapter } from '../../Models/Constants';
+import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 
 export interface IPropertyInspectorCalloutProps {
     twinId: string;
     adapter?: IPropertyInspectorAdapter;
 }
-
 const PropertyInspectorCalloutButton: React.FC<IPropertyInspectorCalloutProps> = ({
     twinId,
     adapter
 }) => {
     const { t } = useTranslation();
     const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
+    const buttonId = useId('cb-callout-button');
     return (
         <div>
             <IconButton
@@ -26,22 +27,26 @@ const PropertyInspectorCalloutButton: React.FC<IPropertyInspectorCalloutProps> =
                     event.stopPropagation();
                     setIsVisible();
                 }}
-                className={'cb-scenes-action-button'}
-                id={'#resultButton'}
+                className={'cb-property-inspector-button'}
+                id={buttonId}
             />
             {isVisible && (
                 <Callout
-                    target={'#resultButton'}
+                    calloutMinWidth={200}
+                    calloutMaxWidth={380}
                     onDismiss={setIsVisible}
-                    className="cb-property-inspector-callout"
-                    directionalHint={5}
-                    gapSpace={0}
+                    directionalHint={11}
+                    gapSpace={8}
+                    target={`#${buttonId}`}
+                    isBeakVisible={false}
+                    setInitialFocus
                 >
-                    <PropertyInspector adapter={adapter} twinId={twinId} />
+                    <div className="cb-callout-content">
+                        <PropertyInspector adapter={adapter} twinId={twinId} />
+                    </div>
                 </Callout>
             )}
         </div>
     );
 };
-
-export default PropertyInspectorCalloutButton;
+export default withErrorBoundary(PropertyInspectorCalloutButton);

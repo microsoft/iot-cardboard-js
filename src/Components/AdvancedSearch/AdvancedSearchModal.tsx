@@ -17,6 +17,7 @@ import QueryBuilder from './Internal/QueryBuilder';
 import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
 import { IADTTwin } from '../../Models/Constants';
 import twinData from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
+import { MockAdapter } from '../../Adapters';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -25,7 +26,7 @@ const getClassNames = classNamesFunction<
 
 const filteredTwins: IADTTwin[] = twinData;
 
-const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
+const cols = ['FailedPickupsLastHr', 'HydraulicPressure', 'WindSpeed'];
 const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const { isOpen, onDismiss, styles } = props;
     const classNames = getClassNames(styles, {
@@ -59,6 +60,7 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                 <AdvancedSearchResultDetailsList
                     twins={filteredTwins}
                     searchedProperties={cols}
+                    adapter={new MockAdapter()}
                 />
             </div>
         </Modal>

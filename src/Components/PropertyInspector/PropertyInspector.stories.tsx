@@ -7,7 +7,6 @@ import {
 import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
 import { DtdlInterface } from '../..';
-import PropertyInspectorCalloutButton from './PropertyInspectorCallout';
 
 export default {
     title: 'Components/Property Inspector/Standalone',
@@ -130,14 +129,5 @@ export const PropertyInspectorErrorBoundary = (
                 console.log('in onErrorBoundary callback.', error, errorInfo);
             }}
         />
-    </div>
-);
-
-export const PropertyInspectorCallout = (
-    _args,
-    { globals: { theme, locale } }
-) => (
-    <div style={propertyInspectorStoryStyles}>
-        <PropertyInspectorCalloutButton twinId={mockTwin.$dtId} />
     </div>
 );

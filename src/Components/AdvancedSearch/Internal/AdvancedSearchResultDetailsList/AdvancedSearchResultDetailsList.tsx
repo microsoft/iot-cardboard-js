@@ -44,13 +44,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             name: t('twinId'),
             fieldName: '$dtId',
             isResizable: true,
-            minWidth: 210,
-            maxWidth: 350,
-            isRowHeader: true,
-            isSorted: true,
-            isSortedDescending: false,
-            sortAscendingAriaLabel: 'Sorted A to Z',
-            sortDescendingAriaLabel: 'Sorted Z to A',
+            minWidth: 100,
+            maxWidth: 260,
             data: 'string',
             isPadded: true
         },
@@ -68,8 +63,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: name,
             name: name,
             fieldName: name,
-            minWidth: 70,
-            maxWidth: 90,
+            minWidth: 100,
+            maxWidth: 150,
             isResizable: true
         };
     });
@@ -103,7 +98,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     return (
         <section className={classNames.root}>
-            <h3>{t('advancedSearch.results', { twinCount })}</h3>
+            <h3 className={classNames.headerCorrection}>
+                {t('advancedSearch.results', { twinCount })}
+            </h3>
             <DetailsList
                 items={twins}
                 columns={

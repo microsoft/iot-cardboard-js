@@ -24,7 +24,7 @@ export interface IAdvancedSearchResultDetailsListStyleProps {
 }
 export interface IAdvancedSearchResultDetailsListStyles {
     root: IStyle;
-    propertyIcon: IStyle;
+    headerCorrection: IStyle;
 
     /**
      * SubComponent styles.

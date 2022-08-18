@@ -7,17 +7,17 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 export const classPrefix = `${CardboardClassNamePrefix}-advancedsearchresultdetailslist`;
 const classNames = {
     root: `${classPrefix}-root`,
-    propertyIcon: `${classPrefix}- propertyIcon`
+    headerCorrection: `${classPrefix}-headerCorrection`
 };
 export const getStyles = (
     _props: IAdvancedSearchResultDetailsListStyleProps
 ): IAdvancedSearchResultDetailsListStyles => {
     return {
         root: [classNames.root],
-        propertyIcon: [
-            classNames.propertyIcon,
+        headerCorrection: [
+            classNames.headerCorrection,
             {
-                textAlign: 'center'
+                margin: 0
             }
         ]
     };

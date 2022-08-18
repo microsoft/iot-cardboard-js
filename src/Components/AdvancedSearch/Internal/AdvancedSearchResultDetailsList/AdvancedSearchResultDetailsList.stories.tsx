@@ -9,7 +9,7 @@ import useAuthParams from '../../../../../.storybook/useAuthParams';
 import MockAdapter from '../../../../Adapters/MockAdapter';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 const filteredTwins: IADTTwin[] = twinData;
-const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
+const cols = ['FailedPickupsLastHr', 'HydraulicPressure', 'WindSpeed'];
 export default {
     title: 'Components/AdvancedSearch/SearchResults',
     component: AdvancedSearchResultDetailsList,
