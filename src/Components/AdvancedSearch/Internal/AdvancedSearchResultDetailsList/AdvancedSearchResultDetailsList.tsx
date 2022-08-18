@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -26,9 +26,7 @@ const getClassNames = classNamesFunction<
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     twins,
     searchedProperties,
-    onTwinSelection,
-    styles,
-    adapter
+    styles
 }) => {
     const { t } = useTranslation();
     const twinCount = twins.length;
