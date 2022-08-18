@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "Schakel in om Twin te selecteren",
+    "selectRow": "Twin geselecteerd",
+    "inspectProperty": "Inspecteer onroerend goed",
+    "results": "Resultaten ({{twinCount}})"
   }
 }

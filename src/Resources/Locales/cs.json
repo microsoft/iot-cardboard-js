@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "Přepnout na Vybrat dvojče",
+    "selectRow": "Vybrané dvojče",
+    "inspectProperty": "Zkontrolovat nemovitost",
+    "results": "Výsledky ({{twinCount}})"
   }
 }

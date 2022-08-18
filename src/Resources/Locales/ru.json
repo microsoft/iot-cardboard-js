@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "Переключение на выбор Twin",
+    "selectRow": "Выбран близнец",
+    "inspectProperty": "Инспекция имущества",
+    "results": "Результаты ({{twinCount}})"
   }
 }

@@ -1143,5 +1143,11 @@
       "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net)"
     }
+  },
+  "advancedSearch": {
+    "toggleSelection": "Przełącz na Wybierz Twin",
+    "selectRow": "Twin Selected",
+    "inspectProperty": "Sprawdź nieruchomość",
+    "results": "Wyniki ({{twinCount}})"
   }
 }
