@@ -45,7 +45,6 @@ export const ADTEnvironmentPicker = (_args, { globals: { theme, locale } }) => {
                         process.env
                             .STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY
                 }}
-                shouldPullFromSubscription={true}
             />
         </div>
     );

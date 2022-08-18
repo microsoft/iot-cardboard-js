@@ -625,18 +625,6 @@ export const deleteModel = (id, data, models) => {
 
     return modelsCopy;
 };
-export function addHttpsPrefix(url: string) {
-    if (url?.startsWith('https://')) {
-        // if it's got the prefix, don't add anything
-        return url;
-    } else if (url) {
-        // if we have a value, add the prefix
-        return 'https://' + url;
-    } else {
-        // if we didn't get anything, then just give back whatever value we got ('', undefined, null)
-        return url;
-    }
-}
 
 /**
  * Sort function to order items alphabetically. Case insensitive sort

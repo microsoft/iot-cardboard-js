@@ -36,16 +36,16 @@ import {
     IPropertyInspectorAdapter,
     IAzureResource,
     PRIMARY_TWIN_NAME,
-    IADTInstance,
-    IAzureUserSubscriptions,
     AzureResourceTypes,
-    AzureResourceProviderEndpoints,
     AzureAccessPermissionRoles,
     MissingAzureRoleDefinitionAssignments,
     IAzureRoleAssignment,
     BlobStorageServiceCorsAllowedOrigins,
     BlobStorageServiceCorsAllowedMethods,
-    BlobStorageServiceCorsAllowedHeaders
+    BlobStorageServiceCorsAllowedHeaders,
+    IAzureSubscription,
+    AzureResourceDisplayFields,
+    AdapterMethodParamsForGetAzureResources
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -62,8 +62,7 @@ import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesC
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import {
     AzureMissingRoleDefinitionsData,
-    AzureResourcesData,
-    AzureRoleAssignmentsData
+    AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     getModelContentType,
@@ -85,9 +84,9 @@ import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedA
 import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 
+const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
@@ -694,13 +693,13 @@ export default class MockAdapter
     }
 
     setAdtHostUrl(hostName: string) {
+        if (hostName.startsWith('https://'))
+            hostName = hostName.replace('https://', '');
         this.mockEnvironmentHostName = hostName;
     }
 
     async getSubscriptions() {
-        const mockSubscriptions: IAzureUserSubscriptions = {
-            value: mockSubscriptionData
-        };
+        const mockSubscriptions: Array<IAzureSubscription> = mockSubscriptionData;
         try {
             await this.mockNetwork();
 
@@ -716,18 +715,30 @@ export default class MockAdapter
         }
     }
 
-    async getResources(
-        resourceType: AzureResourceTypes,
-        _providerEndpoint: string
-    ) {
-        const mockContainerResources: Array<IAzureResource> = [
+    async getResources({
+        resourceType
+    }: AdapterMethodParamsForGetAzureResources) {
+        const mockStorageContainerResources: Array<IAzureResource> = [
             {
                 name: 'container123',
                 id:
                     '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container123',
-                type: AzureResourceTypes.Container,
+                type: AzureResourceTypes.StorageBlobContainer,
                 properties: {
                     publicAccess: 'Container'
+                }
+            }
+        ];
+        const mockStorageAccountResources: Array<IAzureResource> = [
+            {
+                name: 'storageAccount123',
+                id:
+                    '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123',
+                type: AzureResourceTypes.StorageAccount,
+                properties: {
+                    primaryEndpoints: {
+                        blob: 'https://storageAccount123.blob.core.windows.net/'
+                    }
                 }
             }
         ];
@@ -736,51 +747,71 @@ export default class MockAdapter
                 name: 'adtInstance123',
                 id:
                     '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
-                type: AzureResourceTypes.ADT,
+                type: AzureResourceTypes.DigitalTwinInstance,
                 location: 'westus2',
                 properties: {
                     hostName:
-                        'https://adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
+                        'adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
                 }
             }
         ];
-        if (resourceType === AzureResourceTypes.ADT) {
+        if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
             return new AdapterResult({
                 result: new AzureResourcesData(mockADTInstanceResources),
                 errorInfo: null
             });
-        } else if (resourceType === AzureResourceTypes.Container) {
+        } else if (resourceType === AzureResourceTypes.StorageBlobContainer) {
             return new AdapterResult({
-                result: new AzureResourcesData(mockContainerResources),
+                result: new AzureResourcesData(mockStorageContainerResources),
+                errorInfo: null
+            });
+        } else if (resourceType === AzureResourceTypes.StorageAccount) {
+            return new AdapterResult({
+                result: new AzureResourcesData(mockStorageAccountResources),
                 errorInfo: null
             });
         } else {
             return new AdapterResult({
-                result: null,
+                result: new AzureResourcesData([]),
                 errorInfo: null
             });
         }
     }
 
-    async getADTInstances() {
+    async getResourcesByPermissions(params: {
+        getResourcesParams: AdapterMethodParamsForGetAzureResources;
+        requiredAccessRoles: {
+            enforcedRoleIds: AzureAccessPermissionRoles[];
+            interchangeableRoleIds: AzureAccessPermissionRoles[];
+        };
+    }) {
         try {
-            const adtInstanceResourcesResult = await this.getResources(
-                AzureResourceTypes.ADT,
-                AzureResourceProviderEndpoints.ADT
+            const getResourcesResult = await this.getResources(
+                params.getResourcesParams
             );
-            const adtInstanceResources: Array<IAzureResource> = adtInstanceResourcesResult.getData();
-            const digitalTwinsInstances: Array<IADTInstance> = adtInstanceResources.map(
-                (adtInstanceResource) =>
-                    ({
-                        id: adtInstanceResource.id,
-                        name: adtInstanceResource.name,
-                        hostName: adtInstanceResource.properties['hostName'],
-                        location: adtInstanceResource.location
-                    } as IADTInstance)
-            );
+            let resources: Array<IAzureResource> = getResourcesResult.getData();
+
+            if (resources?.length) {
+                // apply searchParams to the list of resources returned
+                if (params.getResourcesParams.searchParams?.filter) {
+                    resources = resources.filter((resource) =>
+                        Object.keys(AzureResourceDisplayFields).some(
+                            (displayField) =>
+                                !!resource[displayField]?.includes(displayField)
+                        )
+                    );
+                }
+                resources = resources.slice(
+                    0,
+                    params.getResourcesParams.searchParams?.take ||
+                        MAX_RESOURCE_TAKE_LIMIT
+                ); // take the first n number of resources to make sure the browser won't crash with making thousands of requests
+
+                // no need to emulate hasRoleDefinitions
+            }
 
             return new AdapterResult({
-                result: new ADTInstancesData(digitalTwinsInstances),
+                result: new AzureResourcesData(resources),
                 errorInfo: null
             });
         } catch (err) {
@@ -820,7 +851,7 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new AzureRoleAssignmentsData([
+                result: new AzureResourcesData([
                     {
                         properties: {
                             roleDefinitionId:
@@ -835,7 +866,7 @@ export default class MockAdapter
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<AzureRoleAssignmentsData>({
+            return new AdapterResult<AzureResourcesData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
