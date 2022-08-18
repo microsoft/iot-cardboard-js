@@ -86,9 +86,6 @@
   "info": "Informace",
   "ADTInstances": "Instance Digitálních vláken Azure",
   "ADTInstancesInfo": "Seznam instancí ADT, pro které má uživatel oprávnění Vlastník dat Azure Digital Twins nebo Čtečka dat Azure Digital Twins",
-  "loadingInstances": "Načítání instancí...",
-  "selectInstance": "Výběr instance",
-  "enterInstanceUrl": "Zadejte adresu URL instance",
   "selectOption": "Vyberte možnost",
   "globe": "Glóbus",
   "list": "Seznam",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instance URL",
-    "containerUrl": "Adresa URL kontejneru Azure Storage",
-    "enterEnvironmentUrl": "např. https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "např. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurace prostředí 3D scén",
     "descriptionForEnvironment": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
     "descriptionForEnvAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
@@ -774,10 +768,10 @@
     "noEnvironment": "Nebylo přidáno žádné prostředí",
     "noContainer": "Nebyl přidán žádný kontejner",
     "removeFromList": "Odebrat ze seznamu",
-    "errors": {
-      "invalidEnvironmentUrl": "Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    "storageAccountName": "Název účtu Azure Storage",
+    "storageAccountUrl": "Adresa URL účtu Azure Storage",
+    "storageContainerName": "Název kontejneru Azure Storage",
+    "storageContainerUrl": "Adresa URL kontejneru Azure Storage"
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",
@@ -1132,10 +1126,22 @@
     "lastRefreshed": "Naposledy aktualizováno {{timeWithUnits}} před",
     "refreshRate": "Aktualizace každého {{timeWithUnits}}"
   },
-  "advancedSearch": {
-    "toggleSelection": "Přepnout na Vybrat dvojče",
-    "selectRow": "Vybrané dvojče",
-    "inspectProperty": "Zkontrolovat nemovitost",
-    "results": "Výsledky ({{twinCount}})"
+  "resourcesPicker": {
+    "select": "Výběr zdroje",
+    "noOption": "Nebyly nalezeny žádné zdroje",
+    "loadingResources": "Načítání zdrojů",
+    "loadingInstances": "Načítání instancí...",
+    "loadingContainers": "Nakládka kontejnerů...",
+    "loadingStorageAccounts": "Načítání účtů úložiště...",
+    "enterEnvironmentUrl": "např. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "např. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "např. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Vlastnost '{{displayField}}' nebyla nalezena v prostředku s id '{{id}}'!",
+    "removeFromList": "Odebrat ze seznamu",
+    "errors": {
+      "invalidEnvironmentUrl": "Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

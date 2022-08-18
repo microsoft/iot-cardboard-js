@@ -86,9 +86,6 @@
   "info": "Informacji",
   "ADTInstances": "Wystąpienia usługi Azure Digital Twins",
   "ADTInstancesInfo": "Lista wystąpień narzędzia ADT, dla których użytkownik ma uprawnienie Właściciel danych usługi Azure Digital Twins lub Czytnik danych usługi Azure Digital Twins",
-  "loadingInstances": "Ładowanie instancji...",
-  "selectInstance": "Zaznaczanie wystąpienia",
-  "enterInstanceUrl": "Wprowadź adres URL wystąpienia",
   "selectOption": "Wybierz opcję",
   "globe": "Globus",
   "list": "Lista",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
-    "containerUrl": "Adres URL kontenera usługi Azure Storage",
-    "enterEnvironmentUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "np. https://example.blob.core.windows.net/example",
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
     "descriptionForEnvironment": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
     "descriptionForEnvAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
@@ -774,10 +768,10 @@
     "noEnvironment": "Nie dodano środowiska",
     "noContainer": "Nie dodano kontenera",
     "removeFromList": "Usuń z listy",
-    "errors": {
-      "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    "storageAccountName": "Nazwa konta usługi Azure Storage",
+    "storageAccountUrl": "Adres URL konta usługi Azure Storage",
+    "storageContainerName": "Nazwa kontenera usługi Azure Storage",
+    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage"
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",
@@ -1132,10 +1126,22 @@
     "lastRefreshed": "Ostatnio odświeżony {{timeWithUnits}} temu",
     "refreshRate": "Odświeżanie co {{timeWithUnits}}"
   },
-  "advancedSearch": {
-    "toggleSelection": "Przełącz na Wybierz Twin",
-    "selectRow": "Twin Selected",
-    "inspectProperty": "Sprawdź nieruchomość",
-    "results": "Wyniki ({{twinCount}})"
+  "resourcesPicker": {
+    "select": "Wybieranie zasobu",
+    "noOption": "Nie znaleziono zasobów",
+    "loadingResources": "Ładowanie zasobów",
+    "loadingInstances": "Ładowanie instancji...",
+    "loadingContainers": "Załadunek kontenerów...",
+    "loadingStorageAccounts": "Ładowanie kont magazynu...",
+    "enterEnvironmentUrl": "np. https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "np. https://example.blob.core.windows.net/",
+    "enterContainerUrl": "np. https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!",
+    "removeFromList": "Usuń z listy",
+    "errors": {
+      "invalidEnvironmentUrl": "To nie jest prawidłowy adres URL (np. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net)"
+    }
   }
 }

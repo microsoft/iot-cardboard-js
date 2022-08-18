@@ -86,9 +86,6 @@
   "info": "정보",
   "ADTInstances": "Azure Digital Twins instances",
   "ADTInstancesInfo": "사용자에게 Azure 디지털 트윈 데이터 소유자 또는 Azure 디지털 트윈 데이터 판독기 권한이 있는 ADT 인스턴스 목록",
-  "loadingInstances": "인스턴스 로드 중...",
-  "selectInstance": "인스턴스 선택",
-  "enterInstanceUrl": "인스턴스 URL 입력",
   "selectOption": "옵션 선택",
   "globe": "지구",
   "list": "목록",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instance URL",
-    "containerUrl": "Azure Storage container URL",
-    "enterEnvironmentUrl": "예: https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "예: https://example.blob.core.windows.net/example",
     "editEnvironment": "3D 장면 환경 구성",
     "descriptionForEnvironment": "Azure 디지털 트윈 인스턴스를 연결하여 3D 장면 빌드를 시작합니다.",
     "descriptionForEnvAndCont": "Azure 디지털 트윈 인스턴스와 저장소 컨테이너를 연결하여 3D 장면 빌드를 시작합니다.",
@@ -774,10 +768,10 @@
     "noEnvironment": "환경이 추가되지 않음",
     "noContainer": "컨테이너가 추가되지 않았습니다.",
     "removeFromList": "목록에서 제거",
-    "errors": {
-      "invalidEnvironmentUrl": "유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙니다.",
-      "invalidContainerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙니다."
-    }
+    "storageAccountName": "Azure Storage 계정 이름",
+    "storageAccountUrl": "Azure Storage 계정 URL",
+    "storageContainerName": "Azure Storage container name",
+    "storageContainerUrl": "Azure Storage container URL"
   },
   "behaviorsModal": {
     "closeModal": "모달 닫기",
@@ -1132,10 +1126,22 @@
     "lastRefreshed": "마지막으로 새로 고친 {{timeWithUnits}} 전",
     "refreshRate": "{{timeWithUnits}} 마다 새로 고침"
   },
-  "advancedSearch": {
-    "toggleSelection": "트윈 선택으로 전환",
-    "selectRow": "트윈 선택",
-    "inspectProperty": "속성 검사",
-    "results": "결과 ({{twinCount}})"
+  "resourcesPicker": {
+    "select": "자원 선택",
+    "noOption": "리소스를 찾을 수 없음",
+    "loadingResources": "리소스 로드",
+    "loadingInstances": "인스턴스 로드 중...",
+    "loadingContainers": "컨테이너 적재 중...",
+    "loadingStorageAccounts": "저장소 계정 로드 중...",
+    "enterEnvironmentUrl": "예: https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "예: https://example.blob.core.windows.net/",
+    "enterContainerUrl": "예: https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' 속성이 ID가 '{{id}}'인 리소스에서 찾을 수 없습니다!",
+    "removeFromList": "목록에서 제거",
+    "errors": {
+      "invalidEnvironmentUrl": "유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙니다.",
+      "invalidContainerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙니다.",
+      "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
+    }
   }
 }

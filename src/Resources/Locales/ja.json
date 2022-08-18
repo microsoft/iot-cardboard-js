@@ -86,9 +86,6 @@
   "info": "情報",
   "ADTInstances": "Azure Digital Twins インスタンス",
   "ADTInstancesInfo": "ユーザーが Azure Digital Twins Data Owner または Azure Digital Twins Data Reader アクセス許可を持っている ADT インスタンスの一覧",
-  "loadingInstances": "インスタンスを読み込んでいます...",
-  "selectInstance": "インスタンスの選択",
-  "enterInstanceUrl": "インスタンス URL を入力する",
   "selectOption": "オプションの選択",
   "globe": "球",
   "list": "リスト",
@@ -763,9 +760,6 @@
   },
   "environmentPicker": {
     "environmentUrl": "Azure Digital Twins instance URL",
-    "containerUrl": "Azure Storage container URL",
-    "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
-    "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
     "editEnvironment": "3D シーン環境の構成",
     "descriptionForEnvironment": "Azure デジタル ツインズ インスタンスをリンクして、3D シーンの構築を開始します。",
     "descriptionForEnvAndCont": "Azure デジタル ツインズ インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
@@ -774,10 +768,10 @@
     "noEnvironment": "環境は追加されていません",
     "noContainer": "コンテナが追加されていません",
     "removeFromList": "リストから削除",
-    "errors": {
-      "invalidEnvironmentUrl": "これは有効な URL ではありません (例: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
-      "invalidContainerUrl": "これは有効な URL ではありません (例: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)"
-    }
+    "storageAccountName": "Azure ストレージ アカウント名",
+    "storageAccountUrl": "Azure ストレージ アカウントの URL",
+    "storageContainerName": "Azure Storage コンテナー名",
+    "storageContainerUrl": "Azure Storage container URL"
   },
   "behaviorsModal": {
     "closeModal": "モーダルを閉じる",
@@ -1132,10 +1126,22 @@
     "lastRefreshed": "最後に更新された {{timeWithUnits}} 前",
     "refreshRate": "{{timeWithUnits}} のたびに更新する"
   },
-  "advancedSearch": {
-    "toggleSelection": "ツインの選択に切り替えます",
-    "selectRow": "選択されたツイン",
-    "inspectProperty": "プロパティの検査",
-    "results": "結果 ({{twinCount}})"
+  "resourcesPicker": {
+    "select": "リソースの選択",
+    "noOption": "リソースが見つかりません",
+    "loadingResources": "リソースのロード",
+    "loadingInstances": "インスタンスを読み込んでいます...",
+    "loadingContainers": "コンテナをロードしています...",
+    "loadingStorageAccounts": "ストレージ アカウントを読み込んでいます...",
+    "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
+    "enterStorageAccountUrl": "例:https://example.blob.core.windows.net/",
+    "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
+    "displayFieldNotFound": "'{{displayField}}' プロパティが '{{id}}' のリソースに見つかりません!",
+    "removeFromList": "リストから削除",
+    "errors": {
+      "invalidEnvironmentUrl": "これは有効な URL ではありません (例: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "これは有効な URL ではありません (例: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "これは有効な URL ではありません (例: https://<あなたのストレージアカウント名>.blob.core.windows.net)"
+    }
   }
 }
