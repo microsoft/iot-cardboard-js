@@ -11,31 +11,28 @@ import {
     SET_CONTAINER_ITEMS,
     SET_ENVIRONMENT_ITEMS,
     SET_FIRST_TIME_VISIBLE,
-    SET_SELECTED_ITEMS_ON_SAVE,
     SET_STORAGE_ACCOUNT_ITEMS
 } from './EnvironmentPicker.types';
 import {
     areResourceUrlsEqual,
     findStorageAccountFromResources,
     getContainerName,
+    getContainerNameFromUrl,
     getResourceUrl,
-    getStorageAccountId
+    getStorageAccountUrlFromContainerUrl
 } from './EnvironmentPickerManager';
 
 export const defaultEnvironmentPickerState: EnvironmentPickerState = {
     environmentItems: {
         environments: [],
-        selectedEnvironment: null,
         environmentToEdit: null
     },
     storageAccountItems: {
         storageAccounts: [],
-        selectedStorageAccount: null,
         storageAccountToEdit: null
     },
     containerItems: {
         containers: [],
-        selectedContainer: null,
         containerToEdit: null
     },
     firstTimeVisible: false
@@ -47,7 +44,6 @@ export const EnvironmentPickerReducer: (
 ) => EnvironmentPickerState = produce(
     (draft: EnvironmentPickerState, action: IAction) => {
         const payload = action.payload;
-
         switch (action.type) {
             case SET_ENVIRONMENT_ITEMS:
                 draft.environmentItems = payload;
@@ -61,122 +57,118 @@ export const EnvironmentPickerReducer: (
             case SET_FIRST_TIME_VISIBLE:
                 draft.firstTimeVisible = payload;
                 break;
-            case SET_SELECTED_ITEMS_ON_SAVE:
-                draft.environmentItems.selectedEnvironment =
-                    draft.environmentItems.environmentToEdit;
-                draft.storageAccountItems.selectedStorageAccount =
-                    draft.storageAccountItems.storageAccountToEdit;
-                draft.containerItems.selectedContainer =
-                    draft.containerItems.containerToEdit;
-                break;
-            case RESET_ITEMS_ON_DISMISS: // restore selected items if it is removed from dropdown and reset the ...toEdit variables back to the selected items
+            case RESET_ITEMS_ON_DISMISS: {
+                // restore selected items if it is removed from dropdown and reset the ...toEdit variables back to the selected items
                 // reset values for environments
-                if (draft.environmentItems.selectedEnvironment) {
-                    const selectedEnvironmentIndex = draft.environmentItems.environments?.findIndex(
+                if (payload.selectedEnvironmentUrl) {
+                    const selectedEnvironment = draft.environmentItems.environments?.find(
                         (e: string | IAzureResource) =>
-                            getResourceUrl(
-                                e,
-                                AzureResourceTypes.DigitalTwinInstance
-                            ) ===
-                            getResourceUrl(
-                                draft.environmentItems.selectedEnvironment,
-                                AzureResourceTypes.DigitalTwinInstance
+                            areResourceUrlsEqual(
+                                getResourceUrl(
+                                    e,
+                                    AzureResourceTypes.DigitalTwinInstance
+                                ),
+                                getResourceUrl(
+                                    payload.selectedEnvironmentUrl,
+                                    AzureResourceTypes.DigitalTwinInstance
+                                )
                             )
                     );
-                    if (selectedEnvironmentIndex === -1) {
+                    if (!selectedEnvironment) {
                         draft.environmentItems.environments.push(
-                            draft.environmentItems.selectedEnvironment
+                            payload.selectedEnvironmentUrl
                         );
                     }
+                    draft.environmentItems.environmentToEdit = selectedEnvironment;
+                } else {
+                    draft.environmentItems.environmentToEdit = null;
                 }
-                draft.environmentItems.environmentToEdit =
-                    draft.environmentItems.selectedEnvironment;
 
-                //reset values for storage accounts
-                if (draft.storageAccountItems.selectedStorageAccount) {
-                    // restore selected item if it is removed from dropdown
-                    const selectedStorageAccountIndex = draft.storageAccountItems.storageAccounts?.findIndex(
+                if (payload.selectedContainerUrl) {
+                    //reset values for storage accounts
+                    const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
+                        payload.selectedContainerUrl
+                    );
+                    const selectedStorageAccount = draft.storageAccountItems.storageAccounts?.find(
                         (s: string | IAzureResource) =>
-                            getResourceUrl(
-                                s,
-                                AzureResourceTypes.StorageAccount
-                            ) ===
-                            getResourceUrl(
-                                draft.storageAccountItems
-                                    .selectedStorageAccount,
-                                AzureResourceTypes.StorageAccount
+                            areResourceUrlsEqual(
+                                getResourceUrl(
+                                    s,
+                                    AzureResourceTypes.StorageAccount
+                                ),
+                                selectedStorageAccountUrl
                             )
                     );
-                    if (selectedStorageAccountIndex === -1) {
+                    if (!selectedStorageAccount) {
+                        // restore selected storage account if it is removed from dropdown
                         draft.storageAccountItems.storageAccounts.push(
-                            draft.storageAccountItems.selectedStorageAccount
+                            selectedStorageAccountUrl
                         );
                     }
-                }
-                draft.storageAccountItems.storageAccountToEdit =
-                    draft.storageAccountItems.selectedStorageAccount;
+                    draft.storageAccountItems.storageAccountToEdit = selectedStorageAccount;
 
-                //reset values for containers
-                if (draft.containerItems.selectedContainer) {
+                    //reset values for containers
+                    const selectedContainerName = getContainerNameFromUrl(
+                        payload.selectedContainerUrl
+                    );
                     if (
-                        getStorageAccountId(
-                            draft.storageAccountItems.storageAccountToEdit,
-                            payload.storageAccountToContainersMapping
-                        ) ===
-                        getStorageAccountId(
-                            draft.storageAccountItems.selectedStorageAccount,
-                            payload.storageAccountToContainersMapping
+                        areResourceUrlsEqual(
+                            getResourceUrl(
+                                draft.storageAccountItems.storageAccountToEdit,
+                                AzureResourceTypes.StorageAccount
+                            ),
+                            selectedStorageAccountUrl
                         )
                     ) {
-                        // restore selected item if it is removed from dropdown
-                        const selectedContainerIndex = draft.containerItems.containers?.findIndex(
+                        const selectedContainer = draft.containerItems.containers?.find(
                             (c: string | IAzureResource) =>
-                                getContainerName(c) ===
-                                getContainerName(
-                                    draft.containerItems.selectedContainer
-                                )
+                                getContainerName(c) === selectedContainerName
                         );
 
-                        if (selectedContainerIndex === -1) {
+                        if (!selectedContainer) {
+                            // restore selected container if it is removed from dropdown
                             draft.containerItems.containers.push(
-                                draft.containerItems.selectedContainer
+                                selectedContainerName
                             );
 
                             payload.storageAccountToContainersMapping
                                 ?.find((mapping) =>
                                     areResourceUrlsEqual(
                                         mapping.storageAccountUrl,
-                                        getResourceUrl(
-                                            draft.storageAccountItems
-                                                .selectedStorageAccount,
-                                            AzureResourceTypes.StorageAccount
-                                        )
+                                        selectedStorageAccountUrl
                                     )
                                 )
-                                ?.containerNames.push(
-                                    getContainerName(
-                                        draft.containerItems.selectedContainer
-                                    )
-                                );
+                                ?.containerNames.push(selectedContainerName);
                         }
+                        draft.containerItems.containerToEdit = selectedContainer
+                            ? selectedContainer
+                            : selectedContainerName;
                     } else {
-                        payload.resetContainersCallback(); // to trigger fetch on mount for container picker with storage account id change
+                        draft.containerItems.containers = [
+                            selectedContainerName
+                        ];
+                        draft.containerItems.containerToEdit = selectedContainerName;
+                        payload.resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                     }
+                } else {
+                    draft.storageAccountItems.storageAccountToEdit = null;
+                    draft.containerItems.containers = [];
+                    draft.containerItems.containerToEdit = null;
                 }
-                draft.containerItems.containerToEdit =
-                    draft.containerItems.selectedContainer;
-
                 break;
-            case HANDLE_ENVIRONMENT_CHANGE:
+            }
+            case HANDLE_ENVIRONMENT_CHANGE: {
                 draft.environmentItems.environmentToEdit = payload.environment;
                 draft.environmentItems.environments = payload.environments;
                 break;
-            case HANDLE_STORAGE_ACCOUNT_CHANGE:
+            }
+            case HANDLE_STORAGE_ACCOUNT_CHANGE: {
                 draft.storageAccountItems.storageAccountToEdit =
                     payload.storageAccount;
                 draft.storageAccountItems.storageAccounts =
                     payload.storageAccounts;
                 break;
+            }
             case HANDLE_STORAGE_ACCOUNT_LOADED: {
                 // to update the state variables with actual fetched data
                 const fetchedResourceToEdit = findStorageAccountFromResources(
@@ -185,14 +177,6 @@ export const EnvironmentPickerReducer: (
                 );
                 if (fetchedResourceToEdit) {
                     draft.storageAccountItems.storageAccountToEdit = fetchedResourceToEdit;
-                }
-
-                const fetchedSelectedResource = findStorageAccountFromResources(
-                    draft.storageAccountItems.selectedStorageAccount,
-                    payload
-                );
-                if (fetchedSelectedResource) {
-                    draft.storageAccountItems.selectedStorageAccount = fetchedSelectedResource;
                 }
 
                 draft.storageAccountItems.storageAccounts.forEach(
@@ -210,10 +194,11 @@ export const EnvironmentPickerReducer: (
                 );
                 break;
             }
-            case HANDLE_CONTAINER_CHANGE:
+            case HANDLE_CONTAINER_CHANGE: {
                 draft.containerItems.containerToEdit = payload.container;
                 draft.containerItems.containers = payload.containers;
                 break;
+            }
             default:
                 break;
         }

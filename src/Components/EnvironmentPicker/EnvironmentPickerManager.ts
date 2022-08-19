@@ -44,7 +44,7 @@ export const getResourceUrl = (
     resource: IAzureResource | string,
     resourceType: AzureResourceTypes, // always pass this in case the resource is string type
     parentResource?: IAzureResource | string
-) => {
+): string | null => {
     if (resource) {
         if (typeof resource === 'string') {
             // it means the option is manually entered using freeform
@@ -198,8 +198,8 @@ export const getStorageAccountId = (
     storageAccountToContainersMapping: Array<StorageAccountToContainersMapping>
 ) => {
     return typeof storageAccount === 'string'
-        ? storageAccountToContainersMapping?.find(
-              (mapping) => mapping.storageAccountUrl === storageAccount
+        ? storageAccountToContainersMapping?.find((mapping) =>
+              areResourceUrlsEqual(mapping.storageAccountUrl, storageAccount)
           )?.storageAccountId
         : storageAccount?.id;
 };

@@ -33,7 +33,6 @@ import {
     SET_CONTAINER_ITEMS,
     SET_ENVIRONMENT_ITEMS,
     SET_FIRST_TIME_VISIBLE,
-    SET_SELECTED_ITEMS_ON_SAVE,
     SET_STORAGE_ACCOUNT_ITEMS,
     StorageAccountsInLocalStorage,
     StorageAccountToContainersMapping
@@ -307,10 +306,6 @@ const EnvironmentPicker = ({
     }, [toggleIsDialogHidden]);
 
     const handleOnSave = useCallback(() => {
-        dispatch({
-            type: SET_SELECTED_ITEMS_ON_SAVE
-        });
-
         if (onEnvironmentUrlChange) {
             onEnvironmentUrlChange(
                 getResourceUrl(
@@ -381,6 +376,8 @@ const EnvironmentPicker = ({
             dispatch({
                 type: RESET_ITEMS_ON_DISMISS,
                 payload: {
+                    selectedEnvironmentUrl: environmentUrl,
+                    selectedContainerUrl: storage.containerUrl,
                     storageAccountToContainersMapping:
                         defaultStorageAccountToContainersMappingRef.current,
                     resetContainersCallback: () => {
@@ -393,26 +390,20 @@ const EnvironmentPicker = ({
         if (onDismiss) {
             onDismiss();
         }
-    }, [toggleIsDialogHidden, onDismiss]);
+    }, [toggleIsDialogHidden, onDismiss, environmentUrl, storage.containerUrl]);
 
-    const getEnvironmentText = useCallback(
-        (env: string | IAzureResource) => {
-            const displayText = getEnvironmentDisplayText(env);
-            return displayText || t('environmentPicker.noEnvironment');
-        },
-        [t]
-    );
+    const environmentDisplayText = useMemo(() => {
+        const displayText = getEnvironmentDisplayText(environmentUrl);
+        return displayText || t('environmentPicker.noEnvironment');
+    }, [t, environmentUrl]);
 
-    const getContainerText = useCallback(
-        (container: string | IAzureResource) => {
-            const displayText = getContainerDisplayText(
-                container,
-                state.storageAccountItems.selectedStorageAccount
-            );
-            return displayText || t('environmentPicker.noContainer');
-        },
-        [t, state.storageAccountItems.selectedStorageAccount]
-    );
+    const containerDisplayText = useMemo(() => {
+        const displayText = getContainerDisplayText(
+            getContainerNameFromUrl(storage.containerUrl),
+            getStorageAccountUrlFromContainerUrl(storage.containerUrl)
+        );
+        return displayText || t('environmentPicker.noContainer');
+    }, [t, storage.containerUrl]);
 
     const handleOnEnvironmentResourceChange = (
         resource: IAzureResource | string,
@@ -510,9 +501,7 @@ const EnvironmentPicker = ({
         >
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {getEnvironmentText(
-                        state.environmentItems.selectedEnvironment
-                    )}
+                    {environmentDisplayText}
                 </span>
                 <IconButton
                     iconProps={{ iconName: 'Edit' }}
@@ -526,9 +515,7 @@ const EnvironmentPicker = ({
                 <div className="cb-environment-picker-container">
                     <FontIcon iconName={'Database'} />
                     <span className="cb-environment-picker-container-title">
-                        {getContainerText(
-                            state.containerItems.selectedContainer
-                        )}
+                        {containerDisplayText}
                     </span>
                 </div>
             )}

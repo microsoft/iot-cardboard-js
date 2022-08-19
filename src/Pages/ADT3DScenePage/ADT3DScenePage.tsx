@@ -644,7 +644,7 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     return (
         <DeeplinkContextProvider
             initialState={{
-                adtUrl: `https://${adtHostUrl}`,
+                adtUrl: adtHostUrl ? `https://${adtHostUrl}` : '',
                 storageContainerUrl: adapter.getBlobContainerURL()
             }}
         >
