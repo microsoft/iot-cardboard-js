@@ -1,17 +1,10 @@
 import produce from 'immer';
 import { AzureResourceTypes } from '../..';
-import { IAction, IAzureResource } from '../../Models/Constants/Interfaces';
+import { IAzureResource } from '../../Models/Constants/Interfaces';
 import {
-    EnvironmentPickerState,
-    HANDLE_CONTAINER_CHANGE,
-    HANDLE_ENVIRONMENT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_LOADED,
-    RESET_ITEMS_ON_DISMISS,
-    SET_CONTAINER_ITEMS,
-    SET_ENVIRONMENT_ITEMS,
-    SET_FIRST_TIME_VISIBLE,
-    SET_STORAGE_ACCOUNT_ITEMS
+    EnvironmentPickerAction,
+    EnvironmentPickerActionType,
+    EnvironmentPickerState
 } from './EnvironmentPicker.types';
 import {
     areResourceUrlsEqual,
@@ -40,27 +33,32 @@ export const defaultEnvironmentPickerState: EnvironmentPickerState = {
 
 export const EnvironmentPickerReducer: (
     draft: EnvironmentPickerState,
-    action: IAction
+    action: EnvironmentPickerAction
 ) => EnvironmentPickerState = produce(
-    (draft: EnvironmentPickerState, action: IAction) => {
-        const payload = action.payload;
+    (draft: EnvironmentPickerState, action: EnvironmentPickerAction) => {
         switch (action.type) {
-            case SET_ENVIRONMENT_ITEMS:
-                draft.environmentItems = payload;
+            case EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS:
+                draft.environmentItems = action.payload.environmentItems;
                 break;
-            case SET_STORAGE_ACCOUNT_ITEMS:
-                draft.storageAccountItems = payload;
+            case EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS:
+                draft.storageAccountItems = action.payload.storageAccountItems;
                 break;
-            case SET_CONTAINER_ITEMS:
-                draft.containerItems = payload;
+            case EnvironmentPickerActionType.SET_CONTAINER_ITEMS:
+                draft.containerItems = action.payload.containerItems;
                 break;
-            case SET_FIRST_TIME_VISIBLE:
-                draft.firstTimeVisible = payload;
+            case EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE:
+                draft.firstTimeVisible = action.payload;
                 break;
-            case RESET_ITEMS_ON_DISMISS: {
+            case EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS: {
+                const {
+                    selectedEnvironmentUrl,
+                    selectedContainerUrl,
+                    storageAccountToContainersMappings,
+                    resetContainersCallback
+                } = action.payload;
                 // restore selected items if it is removed from dropdown and reset the ...toEdit variables back to the selected items
                 // reset values for environments
-                if (payload.selectedEnvironmentUrl) {
+                if (selectedEnvironmentUrl) {
                     const selectedEnvironment = draft.environmentItems.environments?.find(
                         (e: string | IAzureResource) =>
                             areResourceUrlsEqual(
@@ -69,14 +67,14 @@ export const EnvironmentPickerReducer: (
                                     AzureResourceTypes.DigitalTwinInstance
                                 ),
                                 getResourceUrl(
-                                    payload.selectedEnvironmentUrl,
+                                    selectedEnvironmentUrl,
                                     AzureResourceTypes.DigitalTwinInstance
                                 )
                             )
                     );
                     if (!selectedEnvironment) {
                         draft.environmentItems.environments.push(
-                            payload.selectedEnvironmentUrl
+                            selectedEnvironmentUrl
                         );
                     }
                     draft.environmentItems.environmentToEdit = selectedEnvironment;
@@ -84,10 +82,10 @@ export const EnvironmentPickerReducer: (
                     draft.environmentItems.environmentToEdit = null;
                 }
 
-                if (payload.selectedContainerUrl) {
+                if (selectedContainerUrl) {
                     //reset values for storage accounts
                     const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
-                        payload.selectedContainerUrl
+                        selectedContainerUrl
                     );
                     const selectedStorageAccount = draft.storageAccountItems.storageAccounts?.find(
                         (s: string | IAzureResource) =>
@@ -109,7 +107,7 @@ export const EnvironmentPickerReducer: (
 
                     //reset values for containers
                     const selectedContainerName = getContainerNameFromUrl(
-                        payload.selectedContainerUrl
+                        selectedContainerUrl
                     );
                     if (
                         areResourceUrlsEqual(
@@ -131,7 +129,7 @@ export const EnvironmentPickerReducer: (
                                 selectedContainerName
                             );
 
-                            payload.storageAccountToContainersMapping
+                            storageAccountToContainersMappings
                                 ?.find((mapping) =>
                                     areResourceUrlsEqual(
                                         mapping.storageAccountUrl,
@@ -148,7 +146,7 @@ export const EnvironmentPickerReducer: (
                             selectedContainerName
                         ];
                         draft.containerItems.containerToEdit = selectedContainerName;
-                        payload.resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
+                        resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                     }
                 } else {
                     draft.storageAccountItems.storageAccountToEdit = null;
@@ -157,23 +155,30 @@ export const EnvironmentPickerReducer: (
                 }
                 break;
             }
-            case HANDLE_ENVIRONMENT_CHANGE: {
-                draft.environmentItems.environmentToEdit = payload.environment;
-                draft.environmentItems.environments = payload.environments;
+            case EnvironmentPickerActionType.HANDLE_ENVIRONMENT_CHANGE: {
+                const {
+                    environmentToEdit,
+                    environments
+                } = action.payload.environmentItems;
+                draft.environmentItems.environmentToEdit = environmentToEdit;
+                draft.environmentItems.environments = environments;
                 break;
             }
-            case HANDLE_STORAGE_ACCOUNT_CHANGE: {
-                draft.storageAccountItems.storageAccountToEdit =
-                    payload.storageAccount;
-                draft.storageAccountItems.storageAccounts =
-                    payload.storageAccounts;
+            case EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_CHANGE: {
+                const {
+                    storageAccountToEdit,
+                    storageAccounts
+                } = action.payload.storageAccountItems;
+                draft.storageAccountItems.storageAccountToEdit = storageAccountToEdit;
+                draft.storageAccountItems.storageAccounts = storageAccounts;
                 break;
             }
-            case HANDLE_STORAGE_ACCOUNT_LOADED: {
+            case EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_LOADED: {
+                const fetchedStorageAccountResources = action.payload.resources;
                 // to update the state variables with actual fetched data
                 const fetchedResourceToEdit = findStorageAccountFromResources(
                     draft.storageAccountItems.storageAccountToEdit,
-                    payload
+                    fetchedStorageAccountResources
                 );
                 if (fetchedResourceToEdit) {
                     draft.storageAccountItems.storageAccountToEdit = fetchedResourceToEdit;
@@ -183,7 +188,7 @@ export const EnvironmentPickerReducer: (
                     (currentResource, idx) => {
                         const fetchedResource = findStorageAccountFromResources(
                             currentResource,
-                            payload
+                            fetchedStorageAccountResources
                         );
                         if (fetchedResource) {
                             draft.storageAccountItems.storageAccounts[
@@ -194,9 +199,13 @@ export const EnvironmentPickerReducer: (
                 );
                 break;
             }
-            case HANDLE_CONTAINER_CHANGE: {
-                draft.containerItems.containerToEdit = payload.container;
-                draft.containerItems.containers = payload.containers;
+            case EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE: {
+                const {
+                    containerToEdit,
+                    containers
+                } = action.payload.containerItems;
+                draft.containerItems.containerToEdit = containerToEdit;
+                draft.containerItems.containers = containers;
                 break;
             }
             default:

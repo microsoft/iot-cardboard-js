@@ -24,16 +24,8 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import {
+    EnvironmentPickerActionType,
     EnvironmentPickerProps,
-    HANDLE_CONTAINER_CHANGE,
-    HANDLE_ENVIRONMENT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_LOADED,
-    RESET_ITEMS_ON_DISMISS,
-    SET_CONTAINER_ITEMS,
-    SET_ENVIRONMENT_ITEMS,
-    SET_FIRST_TIME_VISIBLE,
-    SET_STORAGE_ACCOUNT_ITEMS,
     StorageAccountsInLocalStorage,
     StorageAccountToContainersMapping
 } from './EnvironmentPicker.types';
@@ -106,7 +98,7 @@ const EnvironmentPicker = ({
         Boolean(isDialogHiddenProp)
     );
 
-    const defaultStorageAccountToContainersMappingRef = useRef<
+    const defaultStorageAccountToContainersMappingsRef = useRef<
         Array<StorageAccountToContainersMapping>
     >([]); // list of storage account and container pairs
     const dialogResettingValuesTimeoutRef = useRef(null);
@@ -151,7 +143,7 @@ const EnvironmentPicker = ({
     useEffect(() => {
         if (!isDialogHidden) {
             dispatch({
-                type: SET_FIRST_TIME_VISIBLE,
+                type: EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE,
                 payload: true
             });
         }
@@ -183,11 +175,12 @@ const EnvironmentPicker = ({
             );
         }
         dispatch({
-            type: SET_ENVIRONMENT_ITEMS,
+            type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS,
             payload: {
-                environments: environmentUrls,
-                selectedEnvironment: environmentUrl,
-                environmentToEdit: environmentUrl
+                environmentItems: {
+                    environments: environmentUrls,
+                    environmentToEdit: environmentUrl
+                }
             }
         });
 
@@ -252,12 +245,12 @@ const EnvironmentPicker = ({
                     storageAccountToContainersMapping.push(newPair);
                 }
             });
-            defaultStorageAccountToContainersMappingRef.current = storageAccountToContainersMapping;
+            defaultStorageAccountToContainersMappingsRef.current = storageAccountToContainersMapping;
         } else if (storage?.containerUrl) {
             const storageAccountAndContainer = getStorageAndContainerFromContainerUrl(
                 storage?.containerUrl
             );
-            defaultStorageAccountToContainersMappingRef.current = [
+            defaultStorageAccountToContainersMappingsRef.current = [
                 {
                     storageAccountId: undefined,
                     storageAccountUrl:
@@ -271,30 +264,32 @@ const EnvironmentPicker = ({
         const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
             storage.containerUrl
         );
-        const storageAccountUrls = defaultStorageAccountToContainersMappingRef.current?.map(
+        const storageAccountUrls = defaultStorageAccountToContainersMappingsRef.current?.map(
             (pair) => pair.storageAccountUrl
         );
         dispatch({
-            type: SET_STORAGE_ACCOUNT_ITEMS,
+            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
             payload: {
-                storageAccounts: storageAccountUrls,
-                selectedStorageAccount: selectedStorageAccountUrl,
-                storageAccountToEdit: selectedStorageAccountUrl
+                storageAccountItems: {
+                    storageAccounts: storageAccountUrls,
+                    storageAccountToEdit: selectedStorageAccountUrl
+                }
             }
         });
         dispatch({
-            type: SET_CONTAINER_ITEMS,
+            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
             payload: {
-                containers:
-                    defaultStorageAccountToContainersMappingRef.current?.find(
-                        (mapping) =>
-                            mapping.storageAccountUrl ===
-                            selectedStorageAccountUrl
-                    )?.containerNames || [],
-                selectedContainer: getContainerNameFromUrl(
-                    storage.containerUrl
-                ),
-                containerToEdit: getContainerNameFromUrl(storage.containerUrl)
+                containerItems: {
+                    containers:
+                        defaultStorageAccountToContainersMappingsRef.current?.find(
+                            (mapping) =>
+                                mapping.storageAccountUrl ===
+                                selectedStorageAccountUrl
+                        )?.containerNames || [],
+                    containerToEdit: getContainerNameFromUrl(
+                        storage.containerUrl
+                    )
+                }
             }
         });
 
@@ -374,12 +369,12 @@ const EnvironmentPicker = ({
         // wait for dialog dismiss fade-out animation to reset the values
         dialogResettingValuesTimeoutRef.current = setTimeout(() => {
             dispatch({
-                type: RESET_ITEMS_ON_DISMISS,
+                type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS,
                 payload: {
                     selectedEnvironmentUrl: environmentUrl,
                     selectedContainerUrl: storage.containerUrl,
-                    storageAccountToContainersMapping:
-                        defaultStorageAccountToContainersMappingRef.current,
+                    storageAccountToContainersMappings:
+                        defaultStorageAccountToContainersMappingsRef.current,
                     resetContainersCallback: () => {
                         hasFetchedResources.current.storageBlobContainers = false;
                     }
@@ -410,10 +405,12 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: HANDLE_ENVIRONMENT_CHANGE,
+            type: EnvironmentPickerActionType.HANDLE_ENVIRONMENT_CHANGE,
             payload: {
-                environment: resource,
-                environments: resources
+                environmentItems: {
+                    environmentToEdit: resource,
+                    environments: resources
+                }
             }
         });
     };
@@ -423,29 +420,33 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: HANDLE_STORAGE_ACCOUNT_CHANGE,
+            type: EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_CHANGE,
             payload: {
-                storageAccount: resource,
-                storageAccounts: resources
+                storageAccountItems: {
+                    storageAccountToEdit: resource,
+                    storageAccounts: resources
+                }
             }
         });
 
         // when changing the storage account, update the containers from default mappings until containers are fetched
         dispatch({
-            type: HANDLE_CONTAINER_CHANGE,
+            type: EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE,
             payload: {
-                container: null,
-                containers:
-                    defaultStorageAccountToContainersMappingRef.current?.find(
-                        (mapping) =>
-                            areResourceUrlsEqual(
-                                mapping.storageAccountUrl,
-                                getResourceUrl(
-                                    resource,
-                                    AzureResourceTypes.StorageAccount
+                containerItems: {
+                    containerToEdit: null,
+                    containers:
+                        defaultStorageAccountToContainersMappingsRef.current?.find(
+                            (mapping) =>
+                                areResourceUrlsEqual(
+                                    mapping.storageAccountUrl,
+                                    getResourceUrl(
+                                        resource,
+                                        AzureResourceTypes.StorageAccount
+                                    )
                                 )
-                            )
-                    )?.containerNames || []
+                        )?.containerNames || []
+                }
             }
         });
         hasFetchedResources.current.storageBlobContainers = false; // reset this flag as we click on different storage account since it fetches containers again with different storage account id
@@ -457,8 +458,8 @@ const EnvironmentPicker = ({
         hasFetchedResources.current.storageAccounts = true;
         hasFetchedResources.current.storageBlobContainers = false;
         dispatch({
-            type: HANDLE_STORAGE_ACCOUNT_LOADED,
-            payload: resources
+            type: EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_LOADED,
+            payload: { resources }
         });
     };
 
@@ -467,15 +468,17 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: HANDLE_CONTAINER_CHANGE,
+            type: EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE,
             payload: {
-                container: resource,
-                containers: resources
+                containerItems: {
+                    containerToEdit: resource,
+                    containers: resources
+                }
             }
         });
 
         // update mappings in case change is based on addition or removal of a resource
-        const defaultStorageAccountMapping = defaultStorageAccountToContainersMappingRef.current?.find(
+        const defaultStorageAccountMapping = defaultStorageAccountToContainersMappingsRef.current?.find(
             (mapping) =>
                 areResourceUrlsEqual(
                     getResourceUrl(
@@ -642,7 +645,7 @@ const EnvironmentPicker = ({
                                             storageAccountId: getStorageAccountId(
                                                 state.storageAccountItems
                                                     .storageAccountToEdit,
-                                                defaultStorageAccountToContainersMappingRef.current
+                                                defaultStorageAccountToContainersMappingsRef.current
                                             )
                                         }
                                     }}
