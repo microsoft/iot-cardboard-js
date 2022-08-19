@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -14,11 +14,12 @@ import {
     IColumn,
     IDetailsListProps,
     SelectionMode,
-    Selection
+    Selection,
+    IObjectWithKey
 } from '@fluentui/react';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import PropertyInspectorCalloutButton from '../../../PropertyInspector/PropertyInspectorCallout';
+import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -32,7 +33,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     adapter
 }) => {
     const { t } = useTranslation();
-    const [currentTwin, setTwin] = useState<any>(null);
     const twinCount = twins.length;
 
     const classNames = getClassNames(styles, {
@@ -45,7 +45,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             fieldName: '$dtId',
             isResizable: true,
             minWidth: 100,
-            maxWidth: 260,
+            maxWidth: 230,
             data: 'string',
             isPadded: true
         },
@@ -73,26 +73,25 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         _itemIndex: number,
         column: IColumn
     ) => {
-        const fieldContent = String(item[column.fieldName]);
         switch (column.key) {
             case 'properties':
                 return (
-                    <PropertyInspectorCalloutButton
-                        twinId={`${currentTwin?.$dtId}`}
+                    <PropertyInspectorCallout
+                        twinId={`${item.$dtId}`}
                         adapter={adapter}
+                        styles={classNames.subComponentStyles.propertyInspector}
                     />
                 );
             default:
-                return <span>{fieldContent}</span>;
+                return <span>{String(item[column.fieldName])}</span>;
         }
     };
     const selection = new Selection({
-        getKey(item, index?) {
-            return item + index;
+        getKey(item: IObjectWithKey, _index?: number) {
+            return item['$dtId'];
         },
         onSelectionChanged: () => {
-            setTwin(selection.getSelection());
-            onTwinSelection(currentTwin);
+            onTwinSelection?.(selection.getSelection());
         }
     });
 
@@ -117,6 +116,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 onRenderItemColumn={renderItemColumn}
                 selectionMode={SelectionMode.single}
                 selection={selection}
+                styles={classNames.subComponentStyles.detailsList}
             />
         </section>
     );

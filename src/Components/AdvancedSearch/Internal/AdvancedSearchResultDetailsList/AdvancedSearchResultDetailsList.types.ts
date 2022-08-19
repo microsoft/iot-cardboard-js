@@ -1,8 +1,14 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    IDetailsListStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import {
     IADTTwin,
     IPropertyInspectorAdapter
 } from '../../../../Models/Constants';
+import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
 
 export interface IAdvancedSearchResultDetailsListProps {
     twins: IADTTwin[];
@@ -32,5 +38,7 @@ export interface IAdvancedSearchResultDetailsListStyles {
     subComponentStyles?: IAdvancedSearchResultDetailsListSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IAdvancedSearchResultDetailsListSubComponentStyles {}
+export interface IAdvancedSearchResultDetailsListSubComponentStyles {
+    propertyInspector?: IPropertyInspectorCalloutStyles;
+    detailsList?: IDetailsListStyles;
+}

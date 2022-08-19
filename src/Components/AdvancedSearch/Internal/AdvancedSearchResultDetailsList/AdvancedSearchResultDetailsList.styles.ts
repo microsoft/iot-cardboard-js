@@ -19,6 +19,14 @@ export const getStyles = (
             {
                 margin: 0
             }
-        ]
+        ],
+        subComponentStyles: {
+            propertyInspector: {
+                root: {
+                    marginTop: -6,
+                    marginBottom: -8
+                }
+            }
+        }
     };
 };
