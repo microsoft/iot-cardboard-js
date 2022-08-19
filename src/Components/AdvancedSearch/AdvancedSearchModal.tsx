@@ -14,13 +14,18 @@ import {
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder';
-import AdvancedSearchResults from './Internal/AdvancedSearchResults';
+import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
+import { IADTTwin } from '../../Models/Constants';
+import twinData from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
     IAdvancedSearchStyles
 >();
 
+const filteredTwins: IADTTwin[] = twinData;
+
+const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
 const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const { isOpen, onDismiss, styles } = props;
     const classNames = getClassNames(styles, {
@@ -50,9 +55,11 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                 <div className={classNames.queryContainer}>
                     <QueryBuilder />
                 </div>
-                <div className={classNames.resultsContainer}>
-                    <AdvancedSearchResults />
-                </div>
+                <div className={classNames.resultsContainer}></div>
+                <AdvancedSearchResultDetailsList
+                    twins={filteredTwins}
+                    searchedProperties={cols}
+                />
             </div>
         </Modal>
     );

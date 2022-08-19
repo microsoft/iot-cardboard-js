@@ -1143,5 +1143,11 @@
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
             "invalidStorageAccountUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net)"
         }
+    },
+    "advancedSearch": {
+        "toggleSelection": "Toggle to Select Twin",
+        "selectRow": "Twin Selected",
+        "inspectProperty": "Inspect Property",
+        "results": "Results ({{twinCount}})"
     }
 }
