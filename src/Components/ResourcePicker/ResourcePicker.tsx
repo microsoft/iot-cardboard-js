@@ -32,6 +32,7 @@ import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
     IAzureResource,
+    IComponentError,
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants';
@@ -77,8 +78,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         theme: useTheme()
     });
 
-    const [options, setOptions] = useState([]);
-    const [selectedOption, setSelectedOption] = useState<IComboBoxOption>(
+    const [options, setOptions] = useState<Array<IComboBoxOption>>([]);
+    const [
+        selectedOption,
+        setSelectedOption
+    ] = useState<IComboBoxOption | null>(
         selectedOptionProp
             ? {
                   key: selectedOptionProp,
@@ -90,8 +94,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const [additionalOptions, setAdditionalOptions] = useState<
         Array<IComboBoxOption>
     >([]);
-    const [selectedKey, setSelectedKey] = useState<string>(null); // resource id or the option text if manually entered option
-    const [error, setError] = useState(null);
+    const [selectedKey, setSelectedKey] = useState<string | number | null>(
+        null
+    ); // resource id or the option text if manually entered option
+    const [error, setError] = useState<IComponentError | null>(null);
     const resourcesRef = useRef<Array<IAzureResource>>([]);
 
     const resourcesState = useAdapter({
