@@ -286,7 +286,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [getDisplayFieldValue, displayField, t]
     );
 
-    const getResourcesFromOptions = (options: Array<IComboBoxOption>) => {
+    const getResourcesFromOptions = (
+        options: Array<IComboBoxOption>
+    ): Array<IAzureResource | string> => {
         return options
             ?.filter(
                 (option) =>
@@ -430,6 +432,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const handleOnChange = useCallback(
         (option, value) => {
+            let resourceForOnChangeCallback: IAzureResource | string;
+            let resourcesForOnChangeCallback: Array<IAzureResource | string>;
+
             /**
              * when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
              * 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
@@ -438,12 +443,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (option) {
                 setSelectedOption(option);
                 setSelectedKey(option.data?.id ?? option.text);
-                if (onChange) {
-                    onChange(
-                        option.data || option.text,
-                        getResourcesFromOptions(options) || []
-                    );
-                }
+                resourceForOnChangeCallback = option.data || option.text;
+                resourcesForOnChangeCallback =
+                    getResourcesFromOptions(options) || [];
             } else {
                 const newParsedOptionValue = sanitizeOptionText(
                     value,
@@ -480,21 +482,25 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         setSelectedOption(newOption);
                         setSelectedKey(newParsedOptionValue);
 
-                        if (onChange)
-                            onChange(
-                                newParsedOptionValue,
-                                getResourcesFromOptions(newOptions) || []
-                            );
+                        resourceForOnChangeCallback = newParsedOptionValue;
+                        resourcesForOnChangeCallback =
+                            getResourcesFromOptions(newOptions) || [];
                     } else {
                         setSelectedOption(existingOption);
                         setSelectedKey(existingOption.key);
-                        if (onChange)
-                            onChange(
-                                existingOption.data || existingOption.text,
-                                getResourcesFromOptions(options) || []
-                            );
+                        resourceForOnChangeCallback =
+                            existingOption.data || existingOption.text;
+                        resourcesForOnChangeCallback =
+                            getResourcesFromOptions(options) || [];
                     }
                 }
+            }
+
+            if (onChange) {
+                onChange(
+                    resourceForOnChangeCallback,
+                    resourcesForOnChangeCallback
+                );
             }
         },
         [options, areValuesEqual, displayField, onChange, resourceType]
