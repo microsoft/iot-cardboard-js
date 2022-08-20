@@ -355,7 +355,7 @@ const choiceGroupOptions = [
     }
 ];
 
-const getDropdownOptions = (
+export const getDropdownOptions = (
     flattenedProperties: IFlattenedModelledPropertiesFormat,
     enableNoneDropdownOption: boolean
 ) => {

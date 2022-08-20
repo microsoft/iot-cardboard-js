@@ -8,6 +8,8 @@ const classNames = {
     content: `${classPrefix}-content`,
     header: `${classPrefix}-header`,
     headerText: `${classPrefix}-headerText`,
+    mainHeader: `${classPrefix}-mainHeader`,
+    subtitle: `${classPrefix}-subtitle`,
     queryContainer: `${classPrefix}-queryContainer`,
     resultsContainer: `${classPrefix}-resultsContainer`
 };
@@ -16,33 +18,34 @@ export const getStyles = (
     _props: IAdvancedSearchStyleProps
 ): IAdvancedSearchStyles => {
     return {
-        content: [classNames.content],
-        header: [
-            classNames.header,
+        content: [
+            classNames.content,
             {
                 display: 'flex',
-                // TODO: Remove this margin when modal contents are done
-                marginBottom: 150
+                flexDirection: 'column',
+                height: 550
             }
         ],
+        header: [classNames.header],
         headerText: [
             classNames.headerText,
             {
-                margin: 0
+                margin: 0,
+                fontSize: '24px'
             }
         ],
-        queryContainer: [
-            classNames.queryContainer,
+        mainHeader: [
+            classNames.mainHeader,
             {
-                // TODO: Remove this height when modal contents are done
-                height: 200
+                display: 'flex'
             }
         ],
+        subtitle: [classNames.subtitle],
+        queryContainer: [classNames.queryContainer],
         resultsContainer: [
             classNames.resultsContainer,
             {
-                // TODO: Remove this height when modal contents are done
-                height: 200
+                overflow: 'auto'
             }
         ],
         subComponentStyles: {
