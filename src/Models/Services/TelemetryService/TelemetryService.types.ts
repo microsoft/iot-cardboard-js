@@ -1,3 +1,9 @@
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryTrigger
+} from '../../Constants/TelemetryConstants';
+
 /** Loosely based on the Application insights telemetry data model
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model
  */
@@ -22,8 +28,8 @@ export type SeverityLevel =
     | 'Critical';
 
 export interface IBaseTelemetryParams {
-    name: string;
     customProperties?: CustomProperties;
+    name: string;
 }
 
 export interface IRequestTelemetryParams extends IBaseTelemetryParams {
@@ -50,6 +56,12 @@ export interface ITraceTelemetryParams extends IBaseTelemetryParams {
     message: string;
     /** Trace severity level */
     severityLevel?: SeverityLevel;
+}
+
+export interface IEventTelemetryParams extends IBaseTelemetryParams {
+    componentName: ComponentName;
+    triggerType: TelemetryTrigger;
+    appRegion: AppRegion;
 }
 
 export interface IMetricTelemetryParams extends IBaseTelemetryParams {

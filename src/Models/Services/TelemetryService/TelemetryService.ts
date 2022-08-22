@@ -1,7 +1,7 @@
 import { getDebugLogger } from '../Utils';
 import { TelemetryItem } from './Telemetry';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
 
 class TelemetryService {

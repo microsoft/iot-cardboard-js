@@ -7,7 +7,7 @@ import {
 } from '../Services/TelemetryService/Telemetry';
 import TelemetryService from '../Services/TelemetryService/TelemetryService';
 import {
-    IBaseTelemetryParams,
+    IEventTelemetryParams,
     IExceptionTelemetryParams,
     IMetricTelemetryParams,
     IRequestTelemetryParams,
@@ -27,7 +27,7 @@ const useTelemetry = () => {
             ),
         sendTraceTelemetry: (telemetryParams: ITraceTelemetryParams) =>
             TelemetryService.sendTelemetry(new TelemetryTrace(telemetryParams)),
-        sendEventTelemetry: (telemetryParams: IBaseTelemetryParams) =>
+        sendEventTelemetry: (telemetryParams: IEventTelemetryParams) =>
             TelemetryService.sendTelemetry(new TelemetryEvent(telemetryParams)),
         sendMetricTelemetry: (telemetryParams: IMetricTelemetryParams) =>
             TelemetryService.sendTelemetry(new TelemetryMetric(telemetryParams))

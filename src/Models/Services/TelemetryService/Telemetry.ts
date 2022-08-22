@@ -1,6 +1,6 @@
 import {
     CustomProperties,
-    IBaseTelemetryParams,
+    IEventTelemetryParams,
     IExceptionTelemetryParams,
     IMetricTelemetryParams,
     IRequestTelemetryParams,
@@ -9,6 +9,11 @@ import {
     TelemetryType
 } from './TelemetryService.types';
 
+const CUSTOM_PROPERTY_NAMES = {
+    AppRegion: 'AppRegion',
+    ComponentName: 'ComponentName',
+    TriggerType: 'TriggerType'
+};
 export type TelemetryItem =
     | TelemetryEvent
     | TelemetryException
@@ -115,8 +120,20 @@ export class TelemetryTrace extends Telemetry {
  */
 export class TelemetryEvent extends Telemetry {
     type: TelemetryType.event;
-    constructor({ name, customProperties }: IBaseTelemetryParams) {
+    constructor({
+        appRegion,
+        name,
+        componentName,
+        customProperties,
+        triggerType
+    }: IEventTelemetryParams) {
         super(name, TelemetryType.event, customProperties);
+        this.customProperties = {
+            ...this.customProperties,
+            [CUSTOM_PROPERTY_NAMES.AppRegion]: appRegion,
+            [CUSTOM_PROPERTY_NAMES.ComponentName]: componentName,
+            [CUSTOM_PROPERTY_NAMES.TriggerType]: triggerType
+        };
     }
 }
 
