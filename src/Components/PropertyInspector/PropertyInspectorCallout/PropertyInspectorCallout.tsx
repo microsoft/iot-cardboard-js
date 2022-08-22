@@ -50,7 +50,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                     setIsVisible();
                 }}
                 id={buttonId}
-                styles={classNames.subComponentStyles.button()}
+                styles={classNames.subComponentStyles.button?.()}
             />
             {isVisible && (
                 <Callout
@@ -62,7 +62,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                     target={`#${buttonId}`}
                     isBeakVisible={false}
                     setInitialFocus
-                    styles={classNames.subComponentStyles.callout()}
+                    styles={classNames.subComponentStyles.callout?.()}
                 >
                     <PropertyInspector adapter={adapter} twinId={twinId} />
                 </Callout>
