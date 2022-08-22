@@ -189,6 +189,15 @@ const SceneList: React.FC<SceneListProps> = ({
         <div
             onClick={() => {
                 if (typeof onSceneClick === 'function') {
+                    const telemetryEvent =
+                        TelemetryEvents.Builder.SceneList.UserAction
+                            .SelectScene;
+                    sendEventTelemetry({
+                        name: telemetryEvent.eventName,
+                        appRegion: AppRegion.SceneLobby,
+                        componentName: ComponentName.SceneList,
+                        triggerType: TelemetryTrigger.UserAction
+                    });
                     onSceneClick(props.item);
                 }
             }}

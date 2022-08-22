@@ -89,6 +89,10 @@ export const TelemetryEvents = {
                             itemIndex: 'itemIndex'
                         }
                     }
+                },
+                /** Select a scene from the list */
+                SelectScene: {
+                    eventName: 'SceneList.SelectScene'
                 }
             }
         }
