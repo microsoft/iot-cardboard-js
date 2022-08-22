@@ -30,7 +30,7 @@ export enum ComponentName {
 /**
  * The events the app can emit
  * Structure is like this:
- *  - App section (Builder/Viewer)
+ *  - App region (Builder/Viewer)
  *    - High level component (SceneList, ElementForm, etc)
  *      - User action/System action
  *        - Event/action
