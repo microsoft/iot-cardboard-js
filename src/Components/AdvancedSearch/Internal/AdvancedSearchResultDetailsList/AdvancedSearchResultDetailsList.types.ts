@@ -11,18 +11,17 @@ import {
 import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
 
 export interface IAdvancedSearchResultDetailsListProps {
-    twins: IADTTwin[];
-    searchedProperties: string[]; //string of fieldnames, for specific properties that were used in the search
-    // callback function from parent on what to do once the user selects or deselects a twin
-    onTwinSelection?: (IADTTwin) => void; //not meant to be optional, just did that for now so the stories work
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
+    adapter?: IPropertyInspectorAdapter;
+    /* Callback function from parent on what to do once the user selects or deselects a twin. */
+    onTwinSelection?: (IADTTwin) => void;
+    /* String of fieldnames, for specific properties that were used in the search. */
+    searchedProperties: string[];
+    /* Call to provide customized styling that will layer on top of the variant rules. */
     styles?: IStyleFunctionOrObject<
         IAdvancedSearchResultDetailsListStyleProps,
         IAdvancedSearchResultDetailsListStyles
     >;
-    adapter?: IPropertyInspectorAdapter;
+    twins: IADTTwin[];
 }
 
 export interface IAdvancedSearchResultDetailsListStyleProps {
@@ -30,7 +29,7 @@ export interface IAdvancedSearchResultDetailsListStyleProps {
 }
 export interface IAdvancedSearchResultDetailsListStyles {
     root: IStyle;
-    headerCorrection: IStyle;
+    listHeaderCorrection: IStyle;
 
     /**
      * SubComponent styles.

@@ -64,7 +64,11 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                     setInitialFocus
                     styles={classNames.subComponentStyles.callout?.()}
                 >
-                    <PropertyInspector adapter={adapter} twinId={twinId} />
+                    <PropertyInspector
+                        adapter={adapter}
+                        twinId={twinId}
+                        readonly={true}
+                    />
                 </Callout>
             )}
         </div>

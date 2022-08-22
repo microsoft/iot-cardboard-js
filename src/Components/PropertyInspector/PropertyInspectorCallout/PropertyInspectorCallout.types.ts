@@ -8,8 +8,8 @@ import {
 import { IPropertyInspectorAdapter } from '../../../Models/Constants';
 
 export interface IPropertyInspectorCalloutProps {
-    twinId: string;
     adapter: IPropertyInspectorAdapter;
+    twinId: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

@@ -26,11 +26,11 @@ const getClassNames = classNamesFunction<
 >();
 
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
-    twins,
-    searchedProperties,
+    adapter,
     onTwinSelection,
+    searchedProperties,
     styles,
-    adapter
+    twins
 }) => {
     const { t } = useTranslation();
     const twinCount = twins.length;
@@ -97,7 +97,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     return (
         <section className={classNames.root}>
-            <h3 className={classNames.headerCorrection}>
+            <h3 className={classNames.listHeaderCorrection}>
                 {t('advancedSearch.results', { twinCount })}
             </h3>
             <DetailsList

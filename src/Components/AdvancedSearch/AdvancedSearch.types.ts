@@ -5,7 +5,6 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IPropertyInspectorAdapter } from '../../Models/Constants';
 
 /** Advanced search modal */
 export interface IAdvancedSearchProps {

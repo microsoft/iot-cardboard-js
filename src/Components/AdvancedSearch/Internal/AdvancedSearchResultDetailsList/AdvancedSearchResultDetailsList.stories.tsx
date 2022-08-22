@@ -4,12 +4,12 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 import AdvancedSearchResultDetailsList from './AdvancedSearchResultDetailsList';
 import { IAdvancedSearchResultDetailsListProps } from './AdvancedSearchResultDetailsList.types';
 import { IADTTwin } from '../../../../Models/Constants';
-import twinData from '../../../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
+import twinData from '../../../../Adapters/__mockData__/MockAdapterData/MockTwinData.json';
+import { MockAdapter } from '../../../../Adapters';
 import useAuthParams from '../../../../../.storybook/useAuthParams';
-import MockAdapter from '../../../../Adapters/MockAdapter';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 const filteredTwins: IADTTwin[] = twinData;
-const cols = ['FailedPickupsLastHr', 'HydraulicPressure', 'WindSpeed'];
+const cols = ['InFlow', 'OutFlow', 'Temperature'];
 export default {
     title: 'Components/AdvancedSearch/SearchResults',
     component: AdvancedSearchResultDetailsList,
