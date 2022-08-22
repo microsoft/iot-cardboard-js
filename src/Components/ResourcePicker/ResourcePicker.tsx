@@ -247,12 +247,30 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [areValuesEqual, getDisplayFieldValue]
     );
 
+    const sortResources = (r1, r2) => {
+        // first sort by subscription name then by displayFieldValue within the same subscription
+        return r1.subscriptionName?.toLowerCase() >
+            r2.subscriptionName?.toLowerCase()
+            ? 1
+            : r1.subscriptionName?.toLowerCase() <
+              r2.subscriptionName?.toLowerCase()
+            ? -1
+            : getDisplayFieldValue(r1)?.toLowerCase() >
+              getDisplayFieldValue(r2)?.toLowerCase()
+            ? 1
+            : -1;
+    };
+
     const getOptionsFromResources = useCallback(
         (resources: IAzureResource[]) => {
-            const newOptions: Array<IComboBoxOption> = [];
-            let lastHeader = '';
+            const filteredAndSortedResources = resources
+                ?.filter(getDisplayFieldValue) // get only resources which have valid display field property
+                .sort(sortResources);
+
             // after fetching resources, first start creating dropdown options with resources which have display values
-            resources?.filter(getDisplayFieldValue).forEach((r) => {
+            const newOptions: Array<IComboBoxOption> = [];
+            let lastHeader;
+            filteredAndSortedResources?.forEach((r) => {
                 if (r.subscriptionName && lastHeader !== r.subscriptionName) {
                     newOptions.push({
                         key: r.subscriptionName,
