@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     IQueryBuilderProps,
     IQueryBuilderStyleProps,
@@ -11,14 +11,10 @@ import {
     styled,
     Stack,
     ActionButton,
-    PrimaryButton,
-    IButtonStyles
+    PrimaryButton
 } from '@fluentui/react';
 import QueryBuilderRow from './QueryBuilderRow';
-import { buildQuery } from './QueryBuilderUtils';
-import { SceneBuilderContext } from '../../../ADT3DSceneBuilder/ADT3DSceneBuilder';
-import { useElementFormContext } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
-import { PropertyExpression } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { buildQuery, QueryRowType } from './QueryBuilderUtils';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderStyleProps,
@@ -31,15 +27,13 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         allowedPropertyValueTypes,
         executeQuery,
         styles,
-        twinIdParams,
         updateColumns
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
     // This could be a single map???
-    const querySnippets = useRef(new Map<string, string>());
-    const propertyExpressions = useRef(new Map<string, PropertyExpression>());
+    const querySnippets = useRef(new Map<string, QueryRowType>());
     const validityMap = useRef(new Map<string, boolean>());
     //
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
@@ -48,9 +42,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
             rowId: String(Math.random())
         }
     ]);
-
-    // const { adapter } = useContext(SceneBuilderContext);
-    // const { elementFormState } = useElementFormContext();
 
     const checkIsValidQuery = () => {
         if (validityMap.current.size === 0) {
@@ -98,20 +89,14 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         // updateColumns(new Set(propertyNames.current.keys()));
     };
 
-    // Split this into more onChange methods?
-    // const onChange = (
-    //     querySnippet: string,
-    //     propertyName: string,
-    //     rowId: string,
-    //     isValid: boolean
-    // ) => {
-    //     querySnippets.current.set(rowId, querySnippet);
-    //     propertyNames.current.set(rowId, propertyName);
-    //     validityMap.current.set(rowId, isValid);
-    //     setIsSearchDisabled(!checkIsValidQuery());
-    // };
-    const onChangeValue = () => {
-        return;
+    const onChangeValue = (rowId: string, rowValue: QueryRowType) => {
+        if (rowValue.value.length) {
+            validityMap.current.set(rowId, true);
+        } else {
+            validityMap.current.set(rowId, false);
+        }
+        querySnippets.current.set(rowId, rowValue);
+        setIsSearchDisabled(!checkIsValidQuery());
     };
 
     const onChangeProperty = () => {
@@ -119,12 +104,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         return;
     };
 
-    // const onChangeOperator = () => {
-    //     return;
-    // }
-
     const onSearch = () => {
-        const query = buildQuery(querySnippets.current);
+        const query = buildQuery(Array.from(querySnippets.current.values()));
         executeQuery(query);
     };
 
@@ -139,22 +120,8 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
             <Stack style={{ maxHeight: 150, overflow: 'auto' }}>
                 {rows.map((row, index) => (
                     <QueryBuilderRow
-                        // adapter={adapter}
-                        // allowedPropertyValueTypes={[
-                        //     'boolean',
-                        //     'double',
-                        //     'float',
-                        //     'integer',
-                        //     'string'
-                        // ]}
-                        // twinIdParams={{
-                        //     primaryTwinIds: [
-                        //         elementFormState.elementToEdit.primaryTwinID
-                        //     ]
-                        // }}
                         adapter={adapter}
                         allowedPropertyValueTypes={allowedPropertyValueTypes}
-                        twinIdParams={twinIdParams}
                         key={row.rowId}
                         position={index}
                         removeRow={removeRow}

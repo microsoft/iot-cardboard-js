@@ -12,6 +12,7 @@ import {
     PropertyExpression,
     PropertyValueType
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { QueryRowType } from './QueryBuilderUtils';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
@@ -54,7 +55,7 @@ export interface IQueryBuilderRowProps {
     key: string;
     isRemoveDisabled: boolean;
     onChangeProperty: (propertyExpression: PropertyExpression) => void;
-    onChangeValue: () => void;
+    onChangeValue: (rowId: string, rowValue: QueryRowType) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
     /**

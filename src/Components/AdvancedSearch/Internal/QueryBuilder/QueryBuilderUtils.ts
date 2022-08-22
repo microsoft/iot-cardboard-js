@@ -42,23 +42,46 @@ export enum RESERVED_WORDS {
     IS_OF_MODEL
 }
 
+export type OperatorData = OperatorSimple | OperatorFunction;
+interface OperatorSimple {
+    operatorType: 'Simple';
+    operatorSymbol: string;
+}
+
+interface OperatorFunction {
+    operatorType: 'Function';
+    operatorFunction: (property: string, value: string) => string;
+}
+
+export interface QueryRowType {
+    property: string;
+    operatorData: OperatorData;
+    value: string;
+    combinator: string;
+}
+
 export const getOperators = (
-    propertyType: PropertyValueType
-): IDropdownOption[] => {
+    propertyType?: PropertyValueType
+): IDropdownOption<OperatorData>[] => {
+    if (!propertyType) {
+        return [];
+    }
+
     const operators: IDropdownOption[] = [
         {
             key: '1',
             text: 'Equals',
             data: {
-                operatorType: 'Operator',
+                operatorType: 'Simple',
                 operatorSymbol: '='
-            }
+            },
+            selected: true
         },
         {
             key: '2',
             text: 'Not equals',
             data: {
-                operatorType: 'Operator',
+                operatorType: 'Simple',
                 operatorSymbol: '!='
             }
         }
@@ -70,7 +93,9 @@ export const getOperators = (
                 text: 'Contains',
                 data: {
                     operatorType: 'Function',
-                    operatorSymbol: 'CONTAINS('
+                    operatorFunction: (property: string, value: string) => {
+                        return `CONTAINS(T.${property}, ${value})`;
+                    }
                 }
             });
             operators.push({
@@ -78,7 +103,9 @@ export const getOperators = (
                 text: 'Not contains',
                 data: {
                     operatorType: 'Function',
-                    operatorSymbol: 'NOT CONTAINS('
+                    operatorFunction: (property: string, value: string) => {
+                        return `NOT CONTAINS(T.${property}, ${value})`;
+                    }
                 }
             });
             break;
@@ -90,7 +117,7 @@ export const getOperators = (
                 key: '3',
                 text: 'Greater than',
                 data: {
-                    operatorType: 'Operator',
+                    operatorType: 'Simple',
                     operatorSymbol: '>'
                 }
             });
@@ -98,7 +125,7 @@ export const getOperators = (
                 key: '4',
                 text: 'Less than',
                 data: {
-                    operatorType: 'Operator',
+                    operatorType: 'Simple',
                     operatorSymbol: '<'
                 }
             });
@@ -106,7 +133,7 @@ export const getOperators = (
                 key: '5',
                 text: 'Greater or equal',
                 data: {
-                    operatorType: 'Operator',
+                    operatorType: 'Simple',
                     operatorSymbol: '>='
                 }
             });
@@ -114,7 +141,7 @@ export const getOperators = (
                 key: '6',
                 text: 'Less or equal',
                 data: {
-                    operatorType: 'Operator',
+                    operatorType: 'Simple',
                     operatorSymbol: '<='
                 }
             });
@@ -124,7 +151,27 @@ export const getOperators = (
     return operators;
 };
 
-export const buildQuery = (_querySnippets: Map<string, string>) => {
-    // TODO: CREATE QUERY LOGIC HERE
-    return 'Query';
+export const buildQuery = (querySnippets: QueryRowType[]) => {
+    let fullQuery = `SELECT *\nFROM DIGITALTWINS T\n`;
+    querySnippets.forEach((snippet, index) => {
+        if (snippet.operatorData.operatorType === 'Function') {
+            if (index !== 0) {
+                fullQuery = fullQuery.concat(snippet.combinator);
+            }
+            fullQuery = fullQuery.concat(
+                `WHERE ${snippet.operatorData.operatorFunction(
+                    snippet.property,
+                    snippet.value
+                )}\n`
+            );
+        } else {
+            if (index !== 0) {
+                fullQuery = fullQuery.concat(snippet.combinator);
+            }
+            fullQuery = fullQuery.concat(
+                `WHERE ${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
+            );
+        }
+    });
+    return fullQuery;
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
@@ -17,13 +17,10 @@ import {
     IButtonStyles,
     ComboBox,
     IComboBoxOption,
-    IComboBox
+    IComboBox,
+    SpinButton
 } from '@fluentui/react';
-// import {
-//     PropertyExpression,
-//     PropertyValueType
-// } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { getOperators } from './QueryBuilderUtils';
+import { getOperators, OperatorData } from './QueryBuilderUtils';
 import { useFlattenedProperties } from './useFlattenedProperties';
 
 const getClassNames = classNamesFunction<
@@ -47,16 +44,17 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         theme: useTheme()
     });
 
-    // const [
-    //     propertyExpression,
-    //     setPropertyExpression
-    // ] = useState<PropertyExpression>({
-    //     expression: ''
-    // });
     const [comboBoxOptions, setComboBoxOptions] = useState<IComboBoxOption[]>(
         []
     );
-    const [selectedOperator, setSelectedOperator] = useState<IDropdownOption>();
+    const [selectedOperator, setSelectedOperator] = useState<
+        IDropdownOption<OperatorData>
+    >();
+    const [operatorOptions, setOperatorOptions] = useState<
+        IDropdownOption<OperatorData>[]
+    >();
+    const [selectedProperty, setSelectedProperty] = useState<IDropdownOption>();
+    const [selectedCombinator, setSelectedCombinator] = useState<string>();
 
     const { isLoading, flattenedProperties } = useFlattenedProperties({
         adapter,
@@ -80,19 +78,103 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         }
     }, [isLoading, flattenedProperties]);
 
+    useEffect(() => {
+        const operatorOptions = getOperators(selectedProperty?.data.type);
+        setOperatorOptions(operatorOptions);
+        if (operatorOptions.length) {
+            setSelectedOperator(operatorOptions[0]);
+        }
+    }, [selectedProperty]);
+
     const onChangeOperator = (
         _event: React.FormEvent<HTMLDivElement>,
-        option?: IDropdownOption<any>,
+        option?: IDropdownOption<OperatorData>,
         _index?: number
     ) => {
         setSelectedOperator(option);
+    };
+
+    const onChangeCombinator = (
+        _event: React.FormEvent<HTMLDivElement>,
+        option?: IDropdownOption,
+        _index?: number
+    ) => {
+        setSelectedCombinator(option.text);
     };
 
     const onChangeCombobox = (
         _event: React.FormEvent<IComboBox>,
         option?: IComboBoxOption
     ) => {
+        setSelectedProperty(option);
         onChangeProperty(option.data);
+    };
+
+    const onChangeValueField = (
+        _event: React.SyntheticEvent<HTMLElement, Event>,
+        newValue?: string
+    ) => {
+        onChangeValue(key, {
+            combinator: selectedCombinator,
+            operatorData: selectedOperator.data,
+            property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
+            value: newValue
+        });
+    };
+
+    const onChangeDropdownValue = (
+        _event: React.FormEvent<HTMLDivElement>,
+        option?: IDropdownOption<any>,
+        _index?: number
+    ) => {
+        onChangeValue(key, {
+            combinator: selectedCombinator,
+            operatorData: selectedOperator.data,
+            property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
+            value: option.text
+        });
+    };
+
+    const renderValueField = () => {
+        if (!selectedProperty) {
+            return (
+                <TextField
+                    styles={classNames.subComponentStyles.textfield}
+                    disabled={true}
+                />
+            );
+        } else if (selectedProperty.data.type === 'string') {
+            return (
+                <TextField
+                    styles={classNames.subComponentStyles.textfield}
+                    onChange={onChangeValueField}
+                />
+            );
+        } else if (selectedProperty.data.type === 'boolean') {
+            return (
+                <Dropdown
+                    options={[
+                        {
+                            key: 'True',
+                            text: 'True',
+                            selected: true
+                        },
+                        {
+                            key: 'False',
+                            text: 'False'
+                        }
+                    ]}
+                    onChange={onChangeDropdownValue}
+                />
+            );
+        } else {
+            return (
+                <SpinButton
+                    styles={classNames.subComponentStyles.textfield}
+                    onChange={onChangeValueField}
+                />
+            );
+        }
     };
 
     return (
@@ -112,19 +194,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                                     text: 'Or'
                                 }
                             ]}
+                            onChange={onChangeCombinator}
                             styles={classNames.subComponentStyles.andDropdown}
                         />
                     )}
                 </div>
                 {/* Property */}
                 <div className={classNames.propertyContainer}>
-                    {/* <ModelledPropertyDropdown
-                        dropdownOptions={dropdownOptions}
-                        onChange={onChangeDropdownSelection}
-                        selectedKey={propertyExpression.expression}
-                        dropdownTestId={DROPDOWN_TEST_ID}
-                        isLoading={isLoading}
-                    /> */}
                     <ComboBox
                         options={comboBoxOptions}
                         onChange={onChangeCombobox}
@@ -132,17 +208,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                 </div>
                 {/* Operator */}
                 <Dropdown
-                    options={getOperators('string')}
+                    options={operatorOptions}
                     selectedKey={selectedOperator ? selectedOperator.key : null}
                     onChange={onChangeOperator}
                     styles={classNames.subComponentStyles.operatorDropdown}
                 />
                 {/* Value */}
-                <TextField
-                    styles={classNames.subComponentStyles.textfield}
-                    onChange={onChangeValue}
-                />
-
+                {renderValueField()}
                 <IconButton
                     iconProps={{
                         iconName: 'trash'
