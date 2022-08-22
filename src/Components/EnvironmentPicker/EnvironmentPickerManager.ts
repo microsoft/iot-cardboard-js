@@ -13,10 +13,15 @@ import {
 export const getEnvironmentDisplayText = (env: string | IAzureResource) => {
     try {
         if (env) {
-            const urlObj = new URL(
-                getResourceUrl(env, AzureResourceTypes.DigitalTwinInstance)
-            );
-            return urlObj.hostname.split('.')[0];
+            if (typeof env === 'string') {
+                if (new URL(env)) {
+                    return env.split('.')[0].split('://')[1]; // to respect casing in the name of the instance
+                } else {
+                    return null;
+                }
+            } else {
+                return env.name;
+            }
         } else {
             return null;
         }
@@ -41,7 +46,7 @@ export const getContainerDisplayText = (
 };
 
 export const getResourceUrl = (
-    resource: IAzureResource | string,
+    resource: IAzureResource | string, // can either be the url string or azure resource
     resourceType: AzureResourceTypes, // always pass this in case the resource is string type
     parentResource?: IAzureResource | string
 ): string | null => {
@@ -141,6 +146,7 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
 };
 
 export const getContainerName = (container: string | IAzureResource) => {
+    // container can either be the name string of the container directly or the azure resource object
     return typeof container === 'string' ? container : container?.name;
 };
 
