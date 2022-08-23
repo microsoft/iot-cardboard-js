@@ -46,9 +46,7 @@ export const DeeplinkContextReducer: (
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
-                if (action.payload.url) {
-                    updateSelectedEnvironmentInLocalStorage(action.payload.url);
-                }
+                updateSelectedEnvironmentInLocalStorage(action.payload.url);
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
@@ -71,9 +69,7 @@ export const DeeplinkContextReducer: (
             }
             case DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL: {
                 draft.storageContainerUrl = action.payload.url || '';
-                if (action.payload.url) {
-                    updateSelectedContainerInLocalStorage(action.payload.url);
-                }
+                updateSelectedContainerInLocalStorage(action.payload.url);
                 break;
             }
         }
@@ -247,15 +243,29 @@ const getSelectedContainerUrlFromLocalStorage = () => {
 const updateSelectedEnvironmentInLocalStorage = (
     selectedEnvironmentUrl: string
 ) => {
-    localStorage.setItem(
-        SelectedEnvironmentLocalStorageKey,
-        JSON.stringify({
-            appAdtUrl: selectedEnvironmentUrl
-        })
-    );
+    if (selectedEnvironmentUrl) {
+        localStorage.setItem(
+            SelectedEnvironmentLocalStorageKey,
+            JSON.stringify({
+                appAdtUrl: selectedEnvironmentUrl
+            })
+        );
+    } else {
+        localStorage.removeItem(SelectedEnvironmentLocalStorageKey);
+    }
 };
 
+/**
+ * update the selected container url in local storage along with the update in the state of DeeplinkContext
+ */
 const updateSelectedContainerInLocalStorage = (selectedContainer: string) => {
-    localStorage.setItem(SelectedContainerLocalStorageKey, selectedContainer);
+    if (selectedContainer) {
+        localStorage.setItem(
+            SelectedContainerLocalStorageKey,
+            selectedContainer
+        );
+    } else {
+        localStorage.removeItem(SelectedContainerLocalStorageKey);
+    }
 };
 // END of local storage handling
