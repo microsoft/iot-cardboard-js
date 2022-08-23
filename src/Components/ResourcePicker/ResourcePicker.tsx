@@ -247,7 +247,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [areValuesEqual, getDisplayFieldValue]
     );
 
-    const sortResources = (r1, r2) => {
+    const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
         // first sort by subscription name then by displayFieldValue within the same subscription
         return r1.subscriptionName?.toLowerCase() >
             r2.subscriptionName?.toLowerCase()
