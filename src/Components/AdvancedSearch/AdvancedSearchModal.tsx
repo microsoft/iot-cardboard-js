@@ -16,7 +16,8 @@ import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder';
 import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
 import { IADTTwin } from '../../Models/Constants';
-import twinData from '../../Adapters/__mockData__/MockAdapterData/DemoEnvsTwinData.json';
+import twinData from '../../Adapters/__mockData__/MockAdapterData/MockTwinData.json';
+import { MockAdapter } from '../../Adapters';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -25,7 +26,7 @@ const getClassNames = classNamesFunction<
 
 const filteredTwins: IADTTwin[] = twinData;
 
-const cols = ['FailedPickupsLastHr', 'HydraulicPressure'];
+const cols = ['InFlow', 'OutFlow', 'Temperature'];
 const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const { isOpen, onDismiss, styles } = props;
     const classNames = getClassNames(styles, {
@@ -59,6 +60,8 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                 <AdvancedSearchResultDetailsList
                     twins={filteredTwins}
                     searchedProperties={cols}
+                    adapter={new MockAdapter()}
+                    onTwinSelection={null}
                 />
             </div>
         </Modal>
