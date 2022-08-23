@@ -405,7 +405,7 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: EnvironmentPickerActionType.HANDLE_ENVIRONMENT_CHANGE,
+            type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS,
             payload: {
                 environmentItems: {
                     environmentToEdit: resource,
@@ -420,7 +420,7 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_CHANGE,
+            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
             payload: {
                 storageAccountItems: {
                     storageAccountToEdit: resource,
@@ -431,7 +431,7 @@ const EnvironmentPicker = ({
 
         // when changing the storage account, update the containers from default mappings until containers are fetched
         dispatch({
-            type: EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE,
+            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
             payload: {
                 containerItems: {
                     containerToEdit: null,
@@ -468,7 +468,7 @@ const EnvironmentPicker = ({
         resources: Array<IAzureResource | string>
     ) => {
         dispatch({
-            type: EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE,
+            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
             payload: {
                 containerItems: {
                     containerToEdit: resource,

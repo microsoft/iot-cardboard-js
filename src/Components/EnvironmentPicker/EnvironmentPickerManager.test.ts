@@ -1,6 +1,14 @@
 import { cleanup } from '@testing-library/react-hooks';
 import { AzureResourceTypes } from '../../Models/Constants/Enums';
-import { IAzureResource } from '../../Models/Constants/Interfaces';
+import {
+    MOCK_ENVIRONMENT,
+    MOCK_ENVIRONMENT_URL,
+    MOCK_STORAGE_ACCOUNT,
+    MOCK_STORAGE_ACCOUNT_URL,
+    MOCK_STORAGE_CONTAINER,
+    MOCK_STORAGE_CONTAINER_NAME,
+    MOCK_STORAGE_CONTAINER_URL
+} from './EnvironmentPicker.mock';
 import {
     areResourceUrlsEqual,
     getContainerDisplayText,
@@ -14,51 +22,10 @@ import {
 
 afterEach(cleanup);
 
-// START of test data
-const testEnvironment: IAzureResource = {
-    id:
-        '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.DigitalTwins/digitalTwinsInstances/testADTInstance',
-    name: 'testADTInstance',
-    properties: {
-        hostName: 'testADTInstance.api.wcus.digitaltwins.azure.net'
-    },
-    type: AzureResourceTypes.DigitalTwinInstance,
-    subscriptionName: 'testSubscription'
-};
-const testEnvironmentUrl =
-    'https://testADTInstance.api.wcus.digitaltwins.azure.net';
-
-const testStorageAccount: IAzureResource = {
-    id:
-        '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorageaccount',
-    name: 'teststorageaccount',
-    properties: {
-        primaryEndpoints: {
-            blob: 'https://teststorageaccount.blob.core.windows.net/'
-        }
-    },
-    type: AzureResourceTypes.StorageAccount
-};
-const testStorageAccountUrl =
-    'https://teststorageaccount.blob.core.windows.net/';
-
-const testContainer: IAzureResource = {
-    id:
-        '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/testStorageAccountName/blobServices/default/containers/teststoragecontainer',
-    name: 'teststoragecontainer',
-    properties: {},
-    type: AzureResourceTypes.StorageBlobContainer,
-    subscriptionName: 'testSubscription'
-};
-const testContainerName = 'teststoragecontainer';
-const testContainerUrl =
-    'https://teststorageaccount.blob.core.windows.net/teststoragecontainer';
-// END of test data
-
 describe('EnvironmentPickerManager', () => {
     test('ADT instance/environment name is displayed properly', () => {
-        const displayText1 = getEnvironmentDisplayText(testEnvironment);
-        const displayText2 = getEnvironmentDisplayText(testEnvironmentUrl);
+        const displayText1 = getEnvironmentDisplayText(MOCK_ENVIRONMENT);
+        const displayText2 = getEnvironmentDisplayText(MOCK_ENVIRONMENT_URL);
 
         expect(displayText1).toBe('testADTInstance');
         expect(displayText2).toBe('testADTInstance');
@@ -66,12 +33,12 @@ describe('EnvironmentPickerManager', () => {
 
     test('Storage container name is displayed properly', () => {
         const displayText1 = getContainerDisplayText(
-            testContainer,
-            testStorageAccount
+            MOCK_STORAGE_CONTAINER,
+            MOCK_STORAGE_ACCOUNT
         );
         const displayText2 = getContainerDisplayText(
-            testContainerName,
-            testStorageAccountUrl
+            MOCK_STORAGE_CONTAINER_NAME,
+            MOCK_STORAGE_ACCOUNT_URL
         );
 
         expect(displayText1).toBe('teststorageaccount/teststoragecontainer');
@@ -80,30 +47,30 @@ describe('EnvironmentPickerManager', () => {
 
     test('Getting resource url properly', () => {
         const resourceUrl1 = getResourceUrl(
-            testEnvironment,
+            MOCK_ENVIRONMENT,
             AzureResourceTypes.DigitalTwinInstance
         );
         const resourceUrl2 = getResourceUrl(
-            testEnvironmentUrl,
+            MOCK_ENVIRONMENT_URL,
             AzureResourceTypes.DigitalTwinInstance
         );
         const resourceUrl3 = getResourceUrl(
-            testStorageAccount,
+            MOCK_STORAGE_ACCOUNT,
             AzureResourceTypes.StorageAccount
         );
         const resourceUrl4 = getResourceUrl(
-            testStorageAccountUrl,
+            MOCK_STORAGE_ACCOUNT_URL,
             AzureResourceTypes.StorageAccount
         );
         const resourceUrl5 = getResourceUrl(
-            testContainer,
+            MOCK_STORAGE_CONTAINER,
             AzureResourceTypes.StorageBlobContainer,
-            testStorageAccount
+            MOCK_STORAGE_ACCOUNT
         );
         const resourceUrl6 = getResourceUrl(
-            testContainerName,
+            MOCK_STORAGE_CONTAINER_NAME,
             AzureResourceTypes.StorageBlobContainer,
-            testStorageAccount
+            MOCK_STORAGE_ACCOUNT
         );
 
         expect(resourceUrl1).toBe(
@@ -128,11 +95,11 @@ describe('EnvironmentPickerManager', () => {
 
     test('Resource url equality check is successful', () => {
         const resourceUrl1 = getResourceUrl(
-            testEnvironment,
+            MOCK_ENVIRONMENT,
             AzureResourceTypes.DigitalTwinInstance
         );
         const resourceUrl2 = getResourceUrl(
-            testEnvironmentUrl,
+            MOCK_ENVIRONMENT_URL,
             AzureResourceTypes.DigitalTwinInstance
         );
 
@@ -157,24 +124,26 @@ describe('EnvironmentPickerManager', () => {
     });
 
     test('Getting container name from container url successfully', () => {
-        expect(getContainerNameFromUrl(testContainerUrl)).toBe(
+        expect(getContainerNameFromUrl(MOCK_STORAGE_CONTAINER_URL)).toBe(
             'teststoragecontainer'
         );
     });
 
     test('Getting container name from container successfully', () => {
-        expect(getContainerName(testContainer)).toBe('teststoragecontainer');
+        expect(getContainerName(MOCK_STORAGE_CONTAINER)).toBe(
+            'teststoragecontainer'
+        );
     });
 
     test('Getting storage account url from container url successfully', () => {
-        expect(getStorageAccountUrlFromContainerUrl(testContainerUrl)).toBe(
-            'https://teststorageaccount.blob.core.windows.net'
-        );
+        expect(
+            getStorageAccountUrlFromContainerUrl(MOCK_STORAGE_CONTAINER_URL)
+        ).toBe('https://teststorageaccount.blob.core.windows.net');
     });
 
     test('Getting storage account url and container name tuple from container url successfully', () => {
         expect(
-            getStorageAndContainerFromContainerUrl(testContainerUrl)
+            getStorageAndContainerFromContainerUrl(MOCK_STORAGE_CONTAINER_URL)
         ).toMatchObject({
             storageAccountUrl:
                 'https://teststorageaccount.blob.core.windows.net',

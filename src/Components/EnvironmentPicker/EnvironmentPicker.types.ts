@@ -83,29 +83,20 @@ export enum EnvironmentPickerActionType {
     SET_CONTAINER_ITEMS,
     SET_FIRST_TIME_VISIBLE,
     RESET_ITEMS_ON_DISMISS,
-    HANDLE_ENVIRONMENT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_CHANGE,
-    HANDLE_STORAGE_ACCOUNT_LOADED,
-    HANDLE_CONTAINER_CHANGE
+    HANDLE_STORAGE_ACCOUNT_LOADED
 }
 
 export type EnvironmentPickerAction =
     | {
-          type:
-              | EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS
-              | EnvironmentPickerActionType.HANDLE_ENVIRONMENT_CHANGE;
+          type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS;
           payload: { environmentItems: EnvironmentItems };
       }
     | {
-          type:
-              | EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS
-              | EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_CHANGE;
+          type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS;
           payload: { storageAccountItems: StorageAccountItems };
       }
     | {
-          type:
-              | EnvironmentPickerActionType.SET_CONTAINER_ITEMS
-              | EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE;
+          type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS;
           payload: { containerItems: ContainerItems };
       }
     | {

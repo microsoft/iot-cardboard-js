@@ -155,27 +155,9 @@ export const EnvironmentPickerReducer: (
                 }
                 break;
             }
-            case EnvironmentPickerActionType.HANDLE_ENVIRONMENT_CHANGE: {
-                const {
-                    environmentToEdit,
-                    environments
-                } = action.payload.environmentItems;
-                draft.environmentItems.environmentToEdit = environmentToEdit;
-                draft.environmentItems.environments = environments;
-                break;
-            }
-            case EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_CHANGE: {
-                const {
-                    storageAccountToEdit,
-                    storageAccounts
-                } = action.payload.storageAccountItems;
-                draft.storageAccountItems.storageAccountToEdit = storageAccountToEdit;
-                draft.storageAccountItems.storageAccounts = storageAccounts;
-                break;
-            }
             case EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_LOADED: {
                 const fetchedStorageAccountResources = action.payload.resources;
-                // to update the state variables with actual fetched data
+                // to update the state variables with actual fetched data to use its id to fetch containers
                 const fetchedResourceToEdit = findStorageAccountFromResources(
                     draft.storageAccountItems.storageAccountToEdit,
                     fetchedStorageAccountResources
@@ -197,15 +179,6 @@ export const EnvironmentPickerReducer: (
                         }
                     }
                 );
-                break;
-            }
-            case EnvironmentPickerActionType.HANDLE_CONTAINER_CHANGE: {
-                const {
-                    containerToEdit,
-                    containers
-                } = action.payload.containerItems;
-                draft.containerItems.containerToEdit = containerToEdit;
-                draft.containerItems.containers = containers;
                 break;
             }
             default:
