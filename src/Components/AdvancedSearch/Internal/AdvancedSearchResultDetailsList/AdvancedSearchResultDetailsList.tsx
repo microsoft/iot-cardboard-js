@@ -97,7 +97,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     return (
         <section className={classNames.root}>
-            <h3 className={classNames.listHeaderCorrection}>
+            <h3 className={classNames.listHeader}>
                 {t('advancedSearch.results', { twinCount })}
             </h3>
             <DetailsList

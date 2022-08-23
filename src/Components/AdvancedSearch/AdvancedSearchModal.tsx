@@ -61,6 +61,7 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                     twins={filteredTwins}
                     searchedProperties={cols}
                     adapter={new MockAdapter()}
+                    onTwinSelection={null}
                 />
             </div>
         </Modal>

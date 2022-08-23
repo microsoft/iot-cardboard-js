@@ -11,9 +11,9 @@ import {
 import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
 
 export interface IAdvancedSearchResultDetailsListProps {
-    adapter?: IPropertyInspectorAdapter;
+    adapter: IPropertyInspectorAdapter;
     /* Callback function from parent on what to do once the user selects or deselects a twin. */
-    onTwinSelection?: (IADTTwin) => void;
+    onTwinSelection: (IADTTwin) => void;
     /* String of fieldnames, for specific properties that were used in the search. */
     searchedProperties: string[];
     /* Call to provide customized styling that will layer on top of the variant rules. */
@@ -29,7 +29,7 @@ export interface IAdvancedSearchResultDetailsListStyleProps {
 }
 export interface IAdvancedSearchResultDetailsListStyles {
     root: IStyle;
-    listHeaderCorrection: IStyle;
+    listHeader: IStyle;
 
     /**
      * SubComponent styles.
