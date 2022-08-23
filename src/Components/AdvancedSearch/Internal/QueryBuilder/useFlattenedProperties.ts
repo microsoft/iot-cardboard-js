@@ -1,17 +1,12 @@
-import { EntityKinds } from 'azure-iot-dtdl-parser/dist/parser/entityKinds';
 import { InterfaceInfo } from 'azure-iot-dtdl-parser/dist/parser/interfaceInfo';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
-import { ObjectInfo } from 'azure-iot-dtdl-parser/dist/parser/objectInfo';
 import { useEffect, useState } from 'react';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
 import {
     addInterface,
     flattenModelledProperties
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.model';
-import {
-    defaultAllowedPropertyValueTypes,
-    PropertyValueType
-} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 interface IUseFlattenedPropertiesParams {
     /** Network interface with cached DTDL models & ability to resolve twins by Id */
@@ -22,17 +17,33 @@ interface IUseFlattenedPropertiesParams {
 }
 
 const getPropertyModel = (propertyId: string) => {
-    return '';
+    const afterColonSubstring = propertyId.substring(
+        propertyId.lastIndexOf(':') + 1
+    );
+    const modelName = afterColonSubstring.split(';')[0];
+    return modelName;
+};
+
+const groupFlattenedProperties = (flattenedProperties) => {
+    const groupedProperties = {};
+    Object.keys(flattenedProperties).map((key: string) => {
+        flattenedProperties[key].map((property) => {
+            const modelName = getPropertyModel(property.key);
+            if (!groupedProperties[modelName]) {
+                groupedProperties[modelName] = [];
+            }
+            groupedProperties[modelName].push(property);
+        });
+    });
+    return groupedProperties;
 };
 
 const filterModelledProperties = (
     modelDict: ModelDict,
     allowedPropertyValueTypes: Array<PropertyValueType>
-): any[] => {
-    const flattenedPropertiesArray = [];
-    let flattenedPropertiesObject = {};
+) => {
     const modelledProperties = {};
-    const filteredModels = {};
+    const filteredModels: ModelDict = {};
 
     for (const key in modelDict) {
         if (modelDict[key].entityKind === 'interface') {
@@ -49,26 +60,21 @@ const filterModelledProperties = (
         );
     }
 
-    flattenedPropertiesObject = flattenModelledProperties(
+    const flattenedPropertiesObject = flattenModelledProperties(
         modelledProperties['properties']
     );
 
-    Object.keys(flattenedPropertiesObject).map((key: string) => {
-        flattenedPropertiesObject[key].map((property) => {
-            flattenedPropertiesArray.push({
-                key: property.key,
-                name: property.name,
-                propertyType: property.propertyType,
-                localPath: property.localPath,
-                model: getPropertyModel(property.id)
-            });
-        });
-    });
+    const groupedFlattenedProperties = groupFlattenedProperties(
+        flattenedPropertiesObject
+    );
 
-    return flattenedPropertiesArray;
+    return groupedFlattenedProperties;
 };
 
-const buildFlattenedProperties = async (adapter, allowedPropertyValueTypes) => {
+const buildFlattenedProperties = async (
+    adapter: IModelledPropertyBuilderAdapter,
+    allowedPropertyValueTypes: PropertyValueType[]
+) => {
     const modelDict = (await adapter.getAllAdtModels()).getData().parsedModels;
     const filteredProperties = filterModelledProperties(
         modelDict,
@@ -82,7 +88,7 @@ export const useFlattenedProperties = ({
     allowedPropertyValueTypes
 }: IUseFlattenedPropertiesParams) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [flattenedProperties, setFlattenedProperties] = useState<any[]>(null);
+    const [flattenedProperties, setFlattenedProperties] = useState(null);
 
     useEffect(() => {
         let isMounted = true;

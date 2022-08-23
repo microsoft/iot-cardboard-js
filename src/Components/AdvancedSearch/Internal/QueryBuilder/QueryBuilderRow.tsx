@@ -18,7 +18,8 @@ import {
     ComboBox,
     IComboBoxOption,
     IComboBox,
-    SpinButton
+    SpinButton,
+    SelectableOptionMenuItemType
 } from '@fluentui/react';
 import { getOperators, OperatorData } from './QueryBuilderUtils';
 import { useFlattenedProperties } from './useFlattenedProperties';
@@ -33,7 +34,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         adapter,
         allowedPropertyValueTypes,
         isRemoveDisabled,
-        key,
+        rowId,
         onChangeProperty,
         onChangeValue,
         position,
@@ -62,18 +63,25 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     });
 
     useEffect(() => {
+        const comboBoxOptions: IComboBoxOption[] = [];
         if (flattenedProperties) {
-            const comboBoxOptions: IComboBoxOption[] = flattenedProperties.map(
-                (property) => {
-                    return {
+            Object.keys(flattenedProperties).forEach((modelName: string) => {
+                comboBoxOptions.push({
+                    key: modelName,
+                    text: modelName,
+                    itemType: SelectableOptionMenuItemType.Header
+                });
+                flattenedProperties[modelName].forEach((property) => {
+                    comboBoxOptions.push({
                         key: property.key,
-                        text: property.name,
+                        text: property.localPath,
                         data: {
+                            name: property.name,
                             type: property.propertyType
                         }
-                    };
-                }
-            );
+                    });
+                });
+            });
             setComboBoxOptions(comboBoxOptions);
         }
     }, [isLoading, flattenedProperties]);
@@ -102,19 +110,19 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         setSelectedCombinator(option.text);
     };
 
-    const onChangeCombobox = (
+    const onChangePropertyCombobox = (
         _event: React.FormEvent<IComboBox>,
         option?: IComboBoxOption
     ) => {
         setSelectedProperty(option);
-        onChangeProperty(option.data);
+        onChangeProperty(rowId, option.data?.name, option.data?.type);
     };
 
     const onChangeValueField = (
         _event: React.SyntheticEvent<HTMLElement, Event>,
         newValue?: string
     ) => {
-        onChangeValue(key, {
+        onChangeValue(rowId, {
             combinator: selectedCombinator,
             operatorData: selectedOperator.data,
             property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
@@ -127,7 +135,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         option?: IDropdownOption<any>,
         _index?: number
     ) => {
-        onChangeValue(key, {
+        onChangeValue(rowId, {
             combinator: selectedCombinator,
             operatorData: selectedOperator.data,
             property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
@@ -165,6 +173,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         }
                     ]}
                     onChange={onChangeDropdownValue}
+                    styles={classNames.subComponentStyles.textfield}
                 />
             );
         } else {
@@ -203,7 +212,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                 <div className={classNames.propertyContainer}>
                     <ComboBox
                         options={comboBoxOptions}
-                        onChange={onChangeCombobox}
+                        onChange={onChangePropertyCombobox}
                     />
                 </div>
                 {/* Operator */}
@@ -219,7 +228,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     iconProps={{
                         iconName: 'trash'
                     }}
-                    onClick={() => removeRow(position, key)}
+                    onClick={() => removeRow(position, rowId)}
                     disabled={isRemoveDisabled}
                     styles={
                         classNames.subComponentStyles

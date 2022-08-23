@@ -15,6 +15,7 @@ import {
 } from '@fluentui/react';
 import QueryBuilderRow from './QueryBuilderRow';
 import { buildQuery, QueryRowType } from './QueryBuilderUtils';
+import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderStyleProps,
@@ -35,6 +36,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
     // This could be a single map???
     const querySnippets = useRef(new Map<string, QueryRowType>());
     const validityMap = useRef(new Map<string, boolean>());
+    const propertyNames = useRef(new Map<string, string>());
     //
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [rows, updateRows] = useState<any[]>([
@@ -48,11 +50,11 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
             return true;
         }
         let isValid = true;
-        for (const validity in validityMap.current) {
+        validityMap.current.forEach((validity: boolean) => {
             if (!validity) {
                 isValid = false;
             }
-        }
+        });
         return isValid;
     };
 
@@ -68,8 +70,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         updateRows(newRows);
         // Set validity to false since row is just initialized
         validityMap.current.set(rowId, false);
-        // Update columns for external consumption
-        // updateColumns(new Set(propertyNames.current.keys()));
+        setIsSearchDisabled(!checkIsValidQuery());
     };
 
     const removeRow = (index: number, rowId: string) => {
@@ -83,10 +84,9 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         updateRows(newRows);
         // Remove row values in query and property
         querySnippets.current.delete(rowId);
-        // propertyNames.current.delete(rowId);
+        propertyNames.current.delete(rowId);
         validityMap.current.delete(rowId);
-        // Update columns for external consumption
-        // updateColumns(new Set(propertyNames.current.keys()));
+        setIsSearchDisabled(!checkIsValidQuery());
     };
 
     const onChangeValue = (rowId: string, rowValue: QueryRowType) => {
@@ -99,9 +99,23 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         setIsSearchDisabled(!checkIsValidQuery());
     };
 
-    const onChangeProperty = () => {
-        updateColumns(new Set<string>()); // Change this to actually read property names
-        return;
+    const onChangeProperty = (
+        rowId: string,
+        propertyName: string,
+        propertyType: PropertyValueType
+    ) => {
+        // Either create new property entry or modify existing one
+        propertyNames.current.set(rowId, propertyName);
+        const propertyNameArray = propertyNames.current.values();
+        // Then send to parent component
+        updateColumns(new Set<string>(propertyNameArray));
+        // Reset validity, string is the only field with no default value and blank is not a valid input
+        if (propertyType !== 'string') {
+            validityMap.current.set(rowId, true);
+        } else {
+            validityMap.current.set(rowId, false);
+        }
+        setIsSearchDisabled(!checkIsValidQuery());
     };
 
     const onSearch = () => {
@@ -125,6 +139,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                         key={row.rowId}
                         position={index}
                         removeRow={removeRow}
+                        rowId={row.rowId}
                         onChangeValue={onChangeValue}
                         onChangeProperty={onChangeProperty}
                         isRemoveDisabled={rows.length === 1}

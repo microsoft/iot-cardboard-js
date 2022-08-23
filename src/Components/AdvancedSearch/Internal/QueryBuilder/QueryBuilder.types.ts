@@ -8,10 +8,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
-import {
-    PropertyExpression,
-    PropertyValueType
-} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { QueryRowType } from './QueryBuilderUtils';
 
 /** Query builder types */
@@ -52,9 +49,13 @@ export interface IQueryBuilderSubComponentStyles {
 export interface IQueryBuilderRowProps {
     adapter: IModelledPropertyBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
-    key: string;
+    rowId: string;
     isRemoveDisabled: boolean;
-    onChangeProperty: (propertyExpression: PropertyExpression) => void;
+    onChangeProperty: (
+        rowId: string,
+        propertyName: string,
+        propertyType: PropertyValueType
+    ) => void;
     onChangeValue: (rowId: string, rowValue: QueryRowType) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;

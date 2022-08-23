@@ -4,7 +4,6 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import AdvancedSearchModal from './AdvancedSearchModal';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { defaultAllowedPropertyValueTypes } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
@@ -27,12 +26,12 @@ Base.args = {
         return;
     },
     adapter: new MockAdapter(),
-    allowedPropertyValueTypes: defaultAllowedPropertyValueTypes,
-    twinIdParams: {
-        primaryTwinIds: [
-            'dtmi:assetGen:PasteurizationMachine;1',
-            'dtmi:com:cocrowle:teslamodely;1'
-        ],
-        aliasedTwinMap: {}
-    }
+    allowedPropertyValueTypes: [
+        'string',
+        'boolean',
+        'float',
+        'integer',
+        'double',
+        'long'
+    ]
 } as IAdvancedSearchProps;
