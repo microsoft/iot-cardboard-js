@@ -75,9 +75,6 @@ const modalProps: IModalProps = {
 
 const EnvironmentPicker = ({
     adapter,
-    locale,
-    localeStrings,
-    theme,
     isDialogHidden: isDialogHiddenProp,
     onDismiss,
     isLocalStorageEnabled,

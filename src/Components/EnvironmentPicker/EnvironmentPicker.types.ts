@@ -1,5 +1,4 @@
 import { ADT3DSceneAdapter, IAzureResource, MockAdapter } from '../..';
-import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 type WithLocalStorage = {
     isLocalStorageEnabled: true;
@@ -21,7 +20,7 @@ type StorageContainer = {
     ) => void;
 } & (WithLocalStorage | WithoutLocalStorage);
 
-export type EnvironmentPickerProps = BaseComponentProps & {
+export type EnvironmentPickerProps = {
     adapter: ADT3DSceneAdapter | MockAdapter;
     isDialogHidden?: boolean;
     onDismiss?: () => void;
