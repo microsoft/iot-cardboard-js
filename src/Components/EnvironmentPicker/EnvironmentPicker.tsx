@@ -22,7 +22,6 @@ import React, {
     useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import {
     EnvironmentPickerActionType,
     EnvironmentPickerProps,
@@ -493,12 +492,7 @@ const EnvironmentPicker = ({
     };
 
     return (
-        <BaseComponent
-            locale={locale}
-            localeStrings={localeStrings}
-            theme={theme}
-            containerClassName="cb-environment-picker"
-        >
+        <div className="cb-environment-picker">
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
                     {environmentDisplayText}
@@ -706,7 +700,7 @@ const EnvironmentPicker = ({
                     />
                 </DialogFooter>
             </Dialog>
-        </BaseComponent>
+        </div>
     );
 };
 

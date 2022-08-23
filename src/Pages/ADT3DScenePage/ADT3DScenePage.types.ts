@@ -20,7 +20,6 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
     environmentPickerOptions?: {
         environment?: {
-            shouldPullFromSubscription?: boolean; // to have this worked with the set value 'true' make sure you pass tenantId and uniqueObjectId to your adapter
             isLocalStorageEnabled?: boolean;
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
