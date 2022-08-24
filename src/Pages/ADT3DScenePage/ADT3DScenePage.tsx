@@ -3,8 +3,7 @@ import React, {
     useCallback,
     useEffect,
     useReducer,
-    useRef,
-    useState
+    useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -82,7 +81,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 }) => {
     const { t } = useTranslation();
     const errorCallbackSetRef = useRef<boolean>(false);
-    const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
 
     const [state, dispatch] = useReducer(
@@ -229,10 +227,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
-    const onDismissDialog = useCallback(() => {
-        setIsDialogHidden(true);
-    }, []);
-
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -373,7 +367,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             'scenePageErrorHandling.configureEnvironment'
                         ),
                         buttonAction: () => {
-                            setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
                         }
                     }
@@ -392,7 +385,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             'scenePageErrorHandling.configureEnvironment'
                         ),
                         buttonAction: () => {
-                            setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
                         }
                     }
@@ -539,8 +531,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                         ?.selectedItemLocalStorageKey
                                             })
                                         }}
-                                        isDialogHidden={isDialogHidden}
-                                        onDismiss={onDismissDialog}
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>

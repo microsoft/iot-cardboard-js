@@ -12,7 +12,7 @@ import {
     Link,
     PrimaryButton
 } from '@fluentui/react';
-import { useBoolean, usePrevious } from '@fluentui/react-hooks';
+import { useBoolean } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -74,7 +74,6 @@ const modalProps: IModalProps = {
 
 const EnvironmentPicker = ({
     adapter,
-    isDialogHidden: isDialogHiddenProp,
     onDismiss,
     isLocalStorageEnabled,
     localStorageKey,
@@ -90,9 +89,7 @@ const EnvironmentPicker = ({
         defaultEnvironmentPickerState
     );
 
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(
-        Boolean(isDialogHiddenProp)
-    );
+    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
 
     const defaultStorageAccountToContainersMappingsRef = useRef<
         Array<StorageAccountToContainersMapping>
@@ -121,20 +118,6 @@ const EnvironmentPicker = ({
         }),
         [t, isLocalStorageEnabled, storage]
     );
-
-    const previousIsDialogHidden = usePrevious(isDialogHidden);
-    // Figure out if dialog needs to be open from props
-    useEffect(() => {
-        // Have undefined checked onMount to avoid an extra render
-        // Have is previous check from true to false, to just change dialogHidden on open
-        if (
-            previousIsDialogHidden !== undefined &&
-            previousIsDialogHidden === true &&
-            previousIsDialogHidden !== isDialogHiddenProp
-        ) {
-            toggleIsDialogHidden();
-        }
-    }, [isDialogHiddenProp, previousIsDialogHidden, toggleIsDialogHidden]);
 
     useEffect(() => {
         if (!isDialogHidden) {

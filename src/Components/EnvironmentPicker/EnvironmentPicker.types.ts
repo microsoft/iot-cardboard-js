@@ -22,7 +22,6 @@ type StorageContainer = {
 
 export type EnvironmentPickerProps = {
     adapter: ADT3DSceneAdapter | MockAdapter;
-    isDialogHidden?: boolean;
     onDismiss?: () => void;
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
