@@ -86,9 +86,7 @@ const ProviderContentRenderer: React.FC<ProviderContentRendererProps> = (
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Storage URL: </Label>
-                    <Text styles={valueStyle}>
-                        {deeplinkState?.storageContainerUrl}
-                    </Text>
+                    <Text styles={valueStyle}>{deeplinkState?.storageUrl}</Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Mode: </Label>
@@ -128,10 +126,9 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
 
     const { deeplinkState, deeplinkDispatch } = useDeeplinkContext();
     const [adtUrlIncrementor, setAdtUrlIncrementor] = useState<number>(0);
-    const [
-        storageContainerUrlIncrementor,
-        setStorageContainerUrlIncrementor
-    ] = useState<number>(0);
+    const [storageUrlIncrementor, setStorageUrlIncrementor] = useState<number>(
+        0
+    );
     const [sceneIdIncrementor, setSceneIdIncrementor] = useState<number>(0);
     const [elementIdIncrementor, setElementIdIncrementor] = useState<number>(0);
     const [layerIdIncrementor, setLayerIdIncrementor] = useState<number>(0);
@@ -163,22 +160,21 @@ const ProviderUpdater: React.FC<ProviderUpdaterProps> = (props) => {
                     }}
                 />
                 <DefaultButton
-                    data-testid={'DeeplinkContext-ChangeStorageContainerUrl'}
+                    data-testid={'DeeplinkContext-ChangeStorageUrl'}
                     iconProps={{ iconName: 'Add' }}
-                    text="Increment storage container url"
+                    text="Increment storage url"
                     onClick={() => {
-                        const newValue = storageContainerUrlIncrementor + 1;
+                        const newValue = storageUrlIncrementor + 1;
                         deeplinkDispatch({
-                            type:
-                                DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL,
+                            type: DeeplinkContextActionType.SET_STORAGE_URL,
                             payload: {
-                                url: deeplinkState.storageContainerUrl.replace(
-                                    storageContainerUrlIncrementor.toString(),
+                                url: deeplinkState.storageUrl.replace(
+                                    storageUrlIncrementor.toString(),
                                     newValue.toString()
                                 )
                             }
                         });
-                        setStorageContainerUrlIncrementor(newValue);
+                        setStorageUrlIncrementor(newValue);
                     }}
                 />
                 <DefaultButton
@@ -359,16 +355,16 @@ UpdateAdtUrl.play = async ({ canvasElement }) => {
     await userEvent.click(behaviorsTabButton);
 };
 
-export const UpdateStorageContainerUrl = Template.bind({});
-UpdateStorageContainerUrl.args = {
+export const UpdateStorageUrl = Template.bind({});
+UpdateStorageUrl.args = {
     defaultState: GET_MOCK_DEEPLINK_STATE(),
     deeplinkProps: defaultDeeplinkOptions
 } as StoryProps;
-UpdateStorageContainerUrl.play = async ({ canvasElement }) => {
+UpdateStorageUrl.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
     const behaviorsTabButton = await canvas.findByTestId(
-        'DeeplinkContext-ChangeStorageContainerUrl'
+        'DeeplinkContext-ChangeStorageUrl'
     );
     await userEvent.click(behaviorsTabButton);
 };
