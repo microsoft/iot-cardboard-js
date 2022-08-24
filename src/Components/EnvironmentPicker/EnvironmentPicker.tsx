@@ -180,16 +180,16 @@ const EnvironmentPicker = ({
             }
         });
 
-        let containerUrls = [],
-            storageAccounts: Array<StorageAccountsInLocalStorage> = []; // list of storage accounts in local storage
+        let containerUrls: Array<string>;
         if (storage?.containerUrl) {
             containerUrls = [storage.containerUrl];
         }
         if (storage?.isLocalStorageEnabled) {
             const containerUrlsInLocalStorage: Array<string> =
                 getContainerUrlsFromLocalStorage(storage.localStorageKey) || [];
+            const storageAccountsInLocalStorage: Array<StorageAccountsInLocalStorage> =
+                getStorageAccountOptionsFromLocalStorage() || [];
 
-            storageAccounts = getStorageAccountOptionsFromLocalStorage();
             if (
                 storage.containerUrl &&
                 !containerUrlsInLocalStorage.includes(storage.containerUrl)
@@ -213,12 +213,13 @@ const EnvironmentPicker = ({
                 );
                 if (!isPairAdded) {
                     const newPair: StorageAccountToContainersMapping = {
-                        storageAccountId: storageAccounts?.find((item) =>
-                            areResourceValuesEqual(
-                                item.url,
-                                pair.storageAccountUrl,
-                                AzureResourceDisplayFields.url
-                            )
+                        storageAccountId: storageAccountsInLocalStorage.find(
+                            (item) =>
+                                areResourceValuesEqual(
+                                    item.url,
+                                    pair.storageAccountUrl,
+                                    AzureResourceDisplayFields.url
+                                )
                         )?.id,
                         storageAccountUrl: pair.storageAccountUrl,
                         containerNames: [pair.containerName]
@@ -261,9 +262,10 @@ const EnvironmentPicker = ({
         const selectedStorageAccountUrl = getStorageAccountUrlFromContainerUrl(
             storage.containerUrl
         );
-        const storageAccountUrls = defaultStorageAccountToContainersMappingsRef.current?.map(
-            (pair) => pair.storageAccountUrl
-        );
+        const storageAccountUrls =
+            defaultStorageAccountToContainersMappingsRef.current?.map(
+                (pair) => pair.storageAccountUrl
+            ) || [];
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
             payload: {

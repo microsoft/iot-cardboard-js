@@ -124,11 +124,11 @@ export const getResourceUrl = (
 };
 
 export const getResourceUrls = (
-    resources: Array<IAzureResource | string>,
+    resources: Array<IAzureResource | string> = [],
     resourceType: AzureResourceTypes, // always pass this in case the resource is string type
     parentResource?: IAzureResource | string
 ) => {
-    return resources?.map((resource) =>
+    return resources.map((resource) =>
         getResourceUrl(resource, resourceType, parentResource)
     );
 };
@@ -200,10 +200,10 @@ export const getStorageAndContainerFromContainerUrl = (
 
 export const getStorageAccountId = (
     storageAccount: string | IAzureResource,
-    storageAccountToContainersMapping: Array<StorageAccountToContainersMapping>
+    storageAccountToContainersMapping: Array<StorageAccountToContainersMapping> = []
 ) => {
     return typeof storageAccount === 'string'
-        ? storageAccountToContainersMapping?.find((mapping) =>
+        ? storageAccountToContainersMapping.find((mapping) =>
               areResourceValuesEqual(
                   mapping.storageAccountUrl,
                   storageAccount,
@@ -235,7 +235,7 @@ export const getEnvironmentUrlsFromLocalStorage = (
 };
 
 export const updateEnvironmentsInLocalStorage = (
-    environments: Array<string | IAzureResource>,
+    environments: Array<string | IAzureResource> = [],
     localStorageKey: string = EnvironmentsLocalStorageKey
 ) => {
     const environmentUrls = getResourceUrls(
@@ -246,7 +246,7 @@ export const updateEnvironmentsInLocalStorage = (
         localStorageKey,
         JSON.stringify(
             environmentUrls
-                ?.filter((e) => e) // filter out nulls or empty strings
+                .filter((e) => e) // filter out nulls or empty strings
                 .map((e: string) => ({
                     config: {
                         appAdtUrl: e
@@ -257,17 +257,17 @@ export const updateEnvironmentsInLocalStorage = (
     );
 };
 
-export const getStorageAccountOptionsFromLocalStorage = (): Array<StorageAccountsInLocalStorage> | null => {
+export const getStorageAccountOptionsFromLocalStorage = (): Array<StorageAccountsInLocalStorage> => {
     try {
         return JSON.parse(localStorage.getItem(StorageAccountsLocalStorageKey));
     } catch (error) {
         console.error(error.message);
-        return null;
+        return [];
     }
 };
 
 export const updateStorageAccountsInLocalStorage = (
-    storageAccounts: Array<IAzureResource | string>
+    storageAccounts: Array<IAzureResource | string> = []
 ) => {
     localStorage.setItem(
         StorageAccountsLocalStorageKey,
@@ -303,7 +303,7 @@ export const getContainerUrlsFromLocalStorage = (
 };
 
 export const updateContainerOptionsInLocalStorage = (
-    containers: Array<IAzureResource | string>,
+    containers: Array<IAzureResource | string> = [],
     parentStorageAccount: IAzureResource | string,
     localStorageKey: string = ContainersLocalStorageKey
 ) => {
