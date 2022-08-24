@@ -1,13 +1,14 @@
 import produce from 'immer';
 import { AzureResourceTypes } from '../..';
+import { AzureResourceDisplayFields } from '../../Models/Constants';
 import { IAzureResource } from '../../Models/Constants/Interfaces';
+import { areResourceValuesEqual } from '../../Models/Services/Utils';
 import {
     EnvironmentPickerAction,
     EnvironmentPickerActionType,
     EnvironmentPickerState
 } from './EnvironmentPicker.types';
 import {
-    areResourceUrlsEqual,
     findStorageAccountFromResources,
     getContainerName,
     getContainerNameFromUrl,
@@ -61,7 +62,7 @@ export const EnvironmentPickerReducer: (
                 if (selectedEnvironmentUrl) {
                     const selectedEnvironment = draft.environmentItems.environments?.find(
                         (e: string | IAzureResource) =>
-                            areResourceUrlsEqual(
+                            areResourceValuesEqual(
                                 getResourceUrl(
                                     e,
                                     AzureResourceTypes.DigitalTwinInstance
@@ -69,7 +70,8 @@ export const EnvironmentPickerReducer: (
                                 getResourceUrl(
                                     selectedEnvironmentUrl,
                                     AzureResourceTypes.DigitalTwinInstance
-                                )
+                                ),
+                                AzureResourceDisplayFields.url
                             )
                     );
                     if (!selectedEnvironment) {
@@ -89,12 +91,13 @@ export const EnvironmentPickerReducer: (
                     );
                     const selectedStorageAccount = draft.storageAccountItems.storageAccounts?.find(
                         (s: string | IAzureResource) =>
-                            areResourceUrlsEqual(
+                            areResourceValuesEqual(
                                 getResourceUrl(
                                     s,
                                     AzureResourceTypes.StorageAccount
                                 ),
-                                selectedStorageAccountUrl
+                                selectedStorageAccountUrl,
+                                AzureResourceDisplayFields.url
                             )
                     );
                     if (!selectedStorageAccount) {
@@ -110,12 +113,13 @@ export const EnvironmentPickerReducer: (
                         selectedContainerUrl
                     );
                     if (
-                        areResourceUrlsEqual(
+                        areResourceValuesEqual(
                             getResourceUrl(
                                 draft.storageAccountItems.storageAccountToEdit,
                                 AzureResourceTypes.StorageAccount
                             ),
-                            selectedStorageAccountUrl
+                            selectedStorageAccountUrl,
+                            AzureResourceDisplayFields.url
                         )
                     ) {
                         const selectedContainer = draft.containerItems.containers?.find(
@@ -131,9 +135,10 @@ export const EnvironmentPickerReducer: (
 
                             storageAccountToContainersMappings
                                 ?.find((mapping) =>
-                                    areResourceUrlsEqual(
+                                    areResourceValuesEqual(
                                         mapping.storageAccountUrl,
-                                        selectedStorageAccountUrl
+                                        selectedStorageAccountUrl,
+                                        AzureResourceDisplayFields.url
                                     )
                                 )
                                 ?.containerNames.push(selectedContainerName);

@@ -38,7 +38,6 @@ import {
     IAzureResource
 } from '../../Models/Constants';
 import {
-    areResourceUrlsEqual,
     getContainerDisplayText,
     getContainerName,
     getContainerNameFromUrl,
@@ -59,6 +58,7 @@ import {
     defaultEnvironmentPickerState,
     EnvironmentPickerReducer
 } from './EnvironmentPicker.state';
+import { areResourceValuesEqual } from '../../Models/Services/Utils';
 
 const dialogStyles: Partial<IModalStyles> = {
     main: {
@@ -214,9 +214,10 @@ const EnvironmentPicker = ({
                 if (!isPairAdded) {
                     const newPair: StorageAccountToContainersMapping = {
                         storageAccountId: storageAccounts?.find((item) =>
-                            areResourceUrlsEqual(
+                            areResourceValuesEqual(
                                 item.url,
-                                pair.storageAccountUrl
+                                pair.storageAccountUrl,
+                                AzureResourceDisplayFields.url
                             )
                         )?.id,
                         storageAccountUrl: pair.storageAccountUrl,
@@ -436,12 +437,13 @@ const EnvironmentPicker = ({
                     containers:
                         defaultStorageAccountToContainersMappingsRef.current?.find(
                             (mapping) =>
-                                areResourceUrlsEqual(
+                                areResourceValuesEqual(
                                     mapping.storageAccountUrl,
                                     getResourceUrl(
                                         resource,
                                         AzureResourceTypes.StorageAccount
-                                    )
+                                    ),
+                                    AzureResourceDisplayFields.url
                                 )
                         )?.containerNames || []
                 }
@@ -478,13 +480,14 @@ const EnvironmentPicker = ({
         // update mappings in case change is based on addition or removal of a resource
         const defaultStorageAccountMapping = defaultStorageAccountToContainersMappingsRef.current?.find(
             (mapping) =>
-                areResourceUrlsEqual(
+                areResourceValuesEqual(
                     getResourceUrl(
                         environmentPickerState.storageAccountItems
                             .storageAccountToEdit,
                         AzureResourceTypes.StorageAccount
                     ),
-                    mapping.storageAccountUrl
+                    mapping.storageAccountUrl,
+                    AzureResourceDisplayFields.url
                 )
         );
         if (defaultStorageAccountMapping) {

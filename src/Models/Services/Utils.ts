@@ -9,7 +9,8 @@ import {
     ComponentErrorType,
     DTwin,
     IConsoleLogFunction,
-    DurationUnits
+    DurationUnits,
+    AzureResourceDisplayFields
 } from '../Constants';
 import {
     DtdlInterface,
@@ -667,4 +668,23 @@ export function getDebugLogger(
                 break;
         }
     };
+}
+
+export function areResourceValuesEqual(
+    value1: string,
+    value2: string,
+    displayField: AzureResourceDisplayFields
+): boolean {
+    if (!value1 || !value2) return false;
+    if (displayField === AzureResourceDisplayFields.url) {
+        if (value1.endsWith('/')) {
+            value1 = value1.slice(0, -1);
+        }
+        if (value2.endsWith('/')) {
+            value2 = value2.slice(0, -1);
+        }
+        return value1.toLowerCase() === value2.toLowerCase();
+    } else {
+        return value1 === value2;
+    }
 }

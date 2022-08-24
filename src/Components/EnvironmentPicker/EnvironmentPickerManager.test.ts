@@ -1,5 +1,9 @@
 import { cleanup } from '@testing-library/react-hooks';
-import { AzureResourceTypes } from '../../Models/Constants/Enums';
+import {
+    AzureResourceDisplayFields,
+    AzureResourceTypes
+} from '../../Models/Constants/Enums';
+import { areResourceValuesEqual } from '../../Models/Services/Utils';
 import {
     MOCK_ENVIRONMENT,
     MOCK_ENVIRONMENT_URL,
@@ -10,7 +14,6 @@ import {
     MOCK_STORAGE_CONTAINER_URL
 } from './EnvironmentPicker.mock';
 import {
-    areResourceUrlsEqual,
     getContainerDisplayText,
     getContainerName,
     getContainerNameFromUrl,
@@ -104,21 +107,24 @@ describe('EnvironmentPickerManager', () => {
         );
 
         expect(
-            areResourceUrlsEqual(
+            areResourceValuesEqual(
                 resourceUrl1,
-                'https://testADTInstance.api.wcus.digitaltwins.azure.net'
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net',
+                AzureResourceDisplayFields.url
             )
         ).toBeTruthy();
         expect(
-            areResourceUrlsEqual(
+            areResourceValuesEqual(
                 resourceUrl2,
-                'https://testADTInstance.api.wcus.digitaltwins.azure.net/'
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net/',
+                AzureResourceDisplayFields.url
             )
         ).toBeTruthy();
         expect(
-            areResourceUrlsEqual(
+            areResourceValuesEqual(
                 resourceUrl2,
-                'https://testADTInstance2.api.wcus.digitaltwins.azure.net/'
+                'https://testADTInstance2.api.wcus.digitaltwins.azure.net/',
+                AzureResourceDisplayFields.url
             )
         ).toBeFalsy();
     });

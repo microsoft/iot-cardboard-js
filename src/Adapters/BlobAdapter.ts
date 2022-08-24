@@ -41,10 +41,14 @@ export default class BlobAdapter implements IBlobAdapter {
         blobProxyServerPath = '/proxy/blob'
     ) {
         if (blobContainerUrl) {
-            const containerURL = new URL(blobContainerUrl);
-            this.storageAccountHostName = containerURL.hostname;
-            this.storageAccountName = containerURL.hostname.split('.')[0];
-            this.containerName = containerURL.pathname.split('/')[1];
+            try {
+                const containerURL = new URL(blobContainerUrl);
+                this.storageAccountHostName = containerURL.hostname;
+                this.storageAccountName = containerURL.hostname.split('.')[0];
+                this.containerName = containerURL.pathname.split('/')[1];
+            } catch (error) {
+                console.error(error.message);
+            }
         }
         this.blobAuthService = authService;
         this.blobAuthService.login();

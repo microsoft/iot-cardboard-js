@@ -1,9 +1,14 @@
-import { AzureResourceTypes, IAzureResource } from '../../Models/Constants';
+import {
+    AzureResourceDisplayFields,
+    AzureResourceTypes,
+    IAzureResource
+} from '../../Models/Constants';
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
     StorageAccountsLocalStorageKey
 } from '../../Models/Constants/Constants';
+import { areResourceValuesEqual } from '../../Models/Services/Utils';
 import {
     ADTEnvironmentInLocalStorage,
     StorageAccountsInLocalStorage,
@@ -35,14 +40,21 @@ export const getContainerDisplayText = (
     container: string | IAzureResource,
     storageAccount: string | IAzureResource
 ) => {
-    if (container && storageAccount) {
-        const containerName = getContainerName(container);
-        const urlObj = new URL(
-            getResourceUrl(storageAccount, AzureResourceTypes.StorageAccount)
-        );
-        return `${urlObj.hostname.split('.')[0]}/${containerName}`;
+    try {
+        if (container && storageAccount) {
+            const containerName = getContainerName(container);
+            const urlObj = new URL(
+                getResourceUrl(
+                    storageAccount,
+                    AzureResourceTypes.StorageAccount
+                )
+            );
+            return `${urlObj.hostname.split('.')[0]}/${containerName}`;
+        }
+    } catch (error) {
+        console.error(error.message);
+        return null;
     }
-    return null;
 };
 
 export const getResourceUrl = (
@@ -121,20 +133,6 @@ export const getResourceUrls = (
     );
 };
 
-export const areResourceUrlsEqual = (
-    resourceUrlStr1: string,
-    resourceUrlStr2: string
-) => {
-    if (!resourceUrlStr1 || !resourceUrlStr2) return false;
-    if (resourceUrlStr1.endsWith('/')) {
-        resourceUrlStr1 = resourceUrlStr1.slice(0, -1);
-    }
-    if (resourceUrlStr2.endsWith('/')) {
-        resourceUrlStr2 = resourceUrlStr2.slice(0, -1);
-    }
-    return resourceUrlStr1.toLowerCase() === resourceUrlStr2.toLowerCase();
-};
-
 export const getContainerNameFromUrl = (containerUrl: string) => {
     try {
         const containerUrlObj = new URL(containerUrl);
@@ -156,9 +154,10 @@ export const findStorageAccountFromResources = (
 ) => {
     if (typeof storageAccount === 'string') {
         return resources.find((resource) =>
-            areResourceUrlsEqual(
+            areResourceValuesEqual(
                 getResourceUrl(resource, AzureResourceTypes.StorageAccount),
-                storageAccount
+                storageAccount,
+                AzureResourceDisplayFields.url
             )
         );
     } else {
@@ -205,7 +204,11 @@ export const getStorageAccountId = (
 ) => {
     return typeof storageAccount === 'string'
         ? storageAccountToContainersMapping?.find((mapping) =>
-              areResourceUrlsEqual(mapping.storageAccountUrl, storageAccount)
+              areResourceValuesEqual(
+                  mapping.storageAccountUrl,
+                  storageAccount,
+                  AzureResourceDisplayFields.url
+              )
           )?.storageAccountId
         : storageAccount?.id;
 };

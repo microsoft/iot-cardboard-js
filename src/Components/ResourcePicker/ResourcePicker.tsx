@@ -37,7 +37,7 @@ import {
     ValidContainerHostSuffixes
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import { deepCopy } from '../../Models/Services/Utils';
+import { areResourceValuesEqual, deepCopy } from '../../Models/Services/Utils';
 
 const comboBoxOptionStyles = {
     root: {
@@ -147,24 +147,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         }
     }, [resourceType, t]);
 
-    const areValuesEqual = useCallback(
-        (value1: string, value2: string) => {
-            if (!value1 || !value2) return false;
-            if (displayField === AzureResourceDisplayFields.url) {
-                if (value1.endsWith('/')) {
-                    value1 = value1.slice(0, -1);
-                }
-                if (value2.endsWith('/')) {
-                    value2 = value2.slice(0, -1);
-                }
-                return value1.toLowerCase() === value2.toLowerCase();
-            } else {
-                return value1 === value2;
-            }
-        },
-        [displayField]
-    );
-
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
             if (displayField === AzureResourceDisplayFields.url) {
@@ -205,9 +187,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     (additionalOption) =>
                         additionalOption.text &&
                         existingOptionTexts.findIndex((existingOptionText) =>
-                            areValuesEqual(
+                            areResourceValuesEqual(
                                 existingOptionText,
-                                additionalOption.text
+                                additionalOption.text,
+                                displayField
                             )
                         ) === -1
                 );
@@ -222,7 +205,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             if (selectedOption?.text) {
                 const selectedOptionInNewOptions = options.find((option) =>
-                    areValuesEqual(option.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        option.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 );
                 if (!selectedOptionInNewOptions) {
                     const freeFromOptionsHeaderExist = options?.find(
@@ -244,7 +231,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             return options;
         },
-        [areValuesEqual, getDisplayFieldValue]
+        [displayField, getDisplayFieldValue]
     );
 
     const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
@@ -325,7 +312,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (
                 selectedOption &&
                 !additionalOptions?.find((o) =>
-                    areValuesEqual(o.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        o.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
@@ -353,7 +344,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (
                 selectedOption &&
                 !additionalOptions?.find((o) =>
-                    areValuesEqual(o.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        o.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
@@ -373,7 +368,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     useEffect(() => {
         if (selectedOptionProp) {
             const existingOption = options?.find((o) =>
-                areValuesEqual(o.text, selectedOptionProp)
+                areResourceValuesEqual(o.text, selectedOptionProp, displayField)
             );
             if (existingOption) {
                 setSelectedOption(existingOption);
@@ -477,7 +472,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         isValidUrlStr(newParsedOptionValue, resourceType))
                 ) {
                     const existingOption = options.find((option) =>
-                        areValuesEqual(option.text, newParsedOptionValue)
+                        areResourceValuesEqual(
+                            option.text,
+                            newParsedOptionValue,
+                            displayField
+                        )
                     );
                     if (!existingOption) {
                         const newOption = {
@@ -521,7 +520,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 );
             }
         },
-        [options, areValuesEqual, displayField, onChange, resourceType]
+        [options, displayField, onChange, resourceType]
     );
 
     const handleOnRemove = useCallback(
