@@ -139,8 +139,7 @@ const EnvironmentPicker = ({
     useEffect(() => {
         if (!isDialogHidden) {
             environmentPickerDispatch({
-                type: EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE,
-                payload: true
+                type: EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN
             });
         }
     }, [isDialogHidden]);

@@ -47,8 +47,8 @@ export const EnvironmentPickerReducer: (
             case EnvironmentPickerActionType.SET_CONTAINER_ITEMS:
                 draft.containerItems = action.payload.containerItems;
                 break;
-            case EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE:
-                draft.firstTimeVisible = action.payload;
+            case EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN:
+                draft.firstTimeVisible = true;
                 break;
             case EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS: {
                 const {

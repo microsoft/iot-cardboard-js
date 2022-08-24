@@ -109,14 +109,13 @@ describe('EnvironmentPicker', () => {
             );
         });
 
-        test('[SET_FIRST_TIME_VISIBLE] - setting the first time visibility of dialog in the state', () => {
+        test('[MARK_DIALOG_AS_SHOWN] - setting the first time visibility of dialog in the state', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
             initialState.firstTimeVisible = false;
 
             const action: EnvironmentPickerAction = {
-                type: EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE,
-                payload: true
+                type: EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN
             };
 
             // ACT

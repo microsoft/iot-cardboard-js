@@ -80,7 +80,7 @@ export enum EnvironmentPickerActionType {
     SET_ENVIRONMENT_ITEMS,
     SET_STORAGE_ACCOUNT_ITEMS,
     SET_CONTAINER_ITEMS,
-    SET_FIRST_TIME_VISIBLE,
+    MARK_DIALOG_AS_SHOWN,
     RESET_ITEMS_ON_DISMISS,
     HANDLE_STORAGE_ACCOUNT_LOADED
 }
@@ -99,8 +99,7 @@ export type EnvironmentPickerAction =
           payload: { containerItems: ContainerItems };
       }
     | {
-          type: EnvironmentPickerActionType.SET_FIRST_TIME_VISIBLE;
-          payload: boolean;
+          type: EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN;
       }
     | {
           type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS;
