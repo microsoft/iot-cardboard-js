@@ -219,11 +219,16 @@ const parseArrayParam = (value: string): string[] => {
 /**
  * read the selected environment url from local storage if exists to set the initial value of 'adtUrl' in the initial default state of DeeplinkContext
  */
-const getSelectedEnvironmentUrlFromLocalStorage = () => {
+const getSelectedEnvironmentUrlFromLocalStorage = (): string | null => {
     try {
-        return (JSON.parse(
-            localStorage.getItem(SelectedEnvironmentLocalStorageKey)
-        ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
+        const selectedEnvironmentInLocalStorage = localStorage.getItem(
+            SelectedEnvironmentLocalStorageKey
+        );
+        return selectedEnvironmentInLocalStorage
+            ? (JSON.parse(
+                  selectedEnvironmentInLocalStorage
+              ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl
+            : null;
     } catch (error) {
         console.error(error.message);
         return null;
@@ -233,7 +238,7 @@ const getSelectedEnvironmentUrlFromLocalStorage = () => {
 /**
  * read the selected container url from local storage if exists to set the initial value of 'storageContainerUrl' in the initial default state of DeeplinkContext
  */
-const getSelectedContainerUrlFromLocalStorage = () => {
+const getSelectedContainerUrlFromLocalStorage = (): string | null => {
     return localStorage.getItem(SelectedContainerLocalStorageKey);
 };
 
