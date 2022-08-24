@@ -117,17 +117,19 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (displayField === AzureResourceDisplayFields.url) {
             switch (resourceType) {
                 case AzureResourceTypes.DigitalTwinInstance:
-                    return t('resourcesPicker.enterEnvironmentUrl');
+                    return t('resourcesPicker.environmentDropdownPlaceholder');
                 case AzureResourceTypes.StorageAccount:
-                    return t('resourcesPicker.enterStorageAccountUrl');
+                    return t(
+                        'resourcesPicker.storageAccountDropdownPlaceholder'
+                    );
                 case AzureResourceTypes.StorageBlobContainer:
-                    return t('resourcesPicker.enterContainerUrl');
+                    return t('resourcesPicker.containerDropdownPlaceholder');
                 default:
-                    return 'resourcesPicker.select';
+                    return 'resourcesPicker.selectResourcePlaceholder';
             }
         } else {
             if (options.length) {
-                return t('resourcesPicker.select');
+                return t('resourcesPicker.selectResourcePlaceholder');
             } else {
                 return t('resourcesPicker.noOption');
             }
