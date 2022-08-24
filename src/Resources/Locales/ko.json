@@ -1127,22 +1127,22 @@
     "refreshRate": "{{timeWithUnits}} 마다 새로 고침"
   },
   "resourcesPicker": {
-    "select": "자원 선택",
     "noOption": "리소스를 찾을 수 없음",
     "loadingResources": "리소스 로드",
     "loadingInstances": "인스턴스 로드 중...",
     "loadingContainers": "컨테이너 적재 중...",
     "loadingStorageAccounts": "저장소 계정 로드 중...",
-    "enterEnvironmentUrl": "예: https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "예: https://example.blob.core.windows.net/",
-    "enterContainerUrl": "예: https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' 속성이 ID가 '{{id}}'인 리소스에서 찾을 수 없습니다!",
     "removeFromList": "목록에서 제거",
     "errors": {
       "invalidEnvironmentUrl": "유효한 URL(예: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)이 아닙니다.",
       "invalidContainerUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)이 아닙니다.",
       "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
-    }
+    },
+    "selectResourcePlaceholder": "자원 선택",
+    "environmentDropdownPlaceholder": "예: https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "예: https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "예: https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",

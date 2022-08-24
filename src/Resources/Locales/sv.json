@@ -1127,22 +1127,22 @@
     "refreshRate": "Uppdatera varje {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Välj en resurs",
     "noOption": "Inga resurser hittades",
     "loadingResources": "Läsa in resurser",
     "loadingInstances": "Laddar instanser...",
     "loadingContainers": "Lastning av containrar...",
     "loadingStorageAccounts": "Läser in lagringskonton...",
-    "enterEnvironmentUrl": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "t.ex. https://example.blob.core.windows.net/",
-    "enterContainerUrl": "t.ex. https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id '{{id}}'!",
     "removeFromList": "Ta bort från listan",
     "errors": {
       "invalidEnvironmentUrl": "Detta är inte en giltig URL (t.ex. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Detta är inte en giltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Detta är inte en giltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Välj en resurs",
+    "environmentDropdownPlaceholder": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",

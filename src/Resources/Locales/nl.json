@@ -1127,22 +1127,22 @@
     "refreshRate": "Elke {{timeWithUnits}} vernieuwen"
   },
   "resourcesPicker": {
-    "select": "Selecteer een resource",
     "noOption": "Geen bronnen gevonden",
     "loadingResources": "Bronnen laden",
     "loadingInstances": "Instanties laden...",
     "loadingContainers": "Containers laden...",
     "loadingStorageAccounts": "Opslagaccounts laden...",
-    "enterEnvironmentUrl": "bijv. https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "bijv. https://example.blob.core.windows.net/",
-    "enterContainerUrl": "bijv. https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' eigenschap niet gevonden in de resource met de id '{{id}}'!",
     "removeFromList": "Verwijderen uit lijst",
     "errors": {
       "invalidEnvironmentUrl": "Dit is geen geldige URL (bijv. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Selecteer een resource",
+    "environmentDropdownPlaceholder": "bijv. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",

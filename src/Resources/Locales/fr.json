@@ -1127,22 +1127,22 @@
     "refreshRate": "Actualisation de chaque {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Sélectionner une ressource",
     "noOption": "Aucune ressource trouvée",
     "loadingResources": "Chargement des ressources",
     "loadingInstances": "Chargement d’instances...",
     "loadingContainers": "Chargement des conteneurs...",
     "loadingStorageAccounts": "Chargement des comptes de stockage...",
-    "enterEnvironmentUrl": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "p. ex. https://example.blob.core.windows.net/",
-    "enterContainerUrl": "p. ex. https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "Propriété '{{displayField}}' introuvable dans la ressource avec l'id '{{id}}'!",
     "removeFromList": "Supprimer de la liste",
     "errors": {
       "invalidEnvironmentUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Sélectionner une ressource",
+    "environmentDropdownPlaceholder": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "p. ex. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "p. ex. https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Basculer pour sélectionner Twin",

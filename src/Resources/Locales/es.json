@@ -1127,22 +1127,22 @@
     "refreshRate": "Actualización cada {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Seleccione un recurso",
     "noOption": "No se han encontrado recursos",
     "loadingResources": "Carga de recursos",
     "loadingInstances": "Cargando instancias...",
     "loadingContainers": "Cargando contenedores...",
     "loadingStorageAccounts": "Cargando cuentas de almacenamiento...",
-    "enterEnvironmentUrl": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "por ejemplo, https://example.blob.core.windows.net/",
-    "enterContainerUrl": "por ejemplo, https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!",
     "removeFromList": "Eliminar de la lista",
     "errors": {
       "invalidEnvironmentUrl": "Esta no es una URL válida (por ejemplo, https://<suADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net/<suContainerName>)",
       "invalidStorageAccountUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Seleccione un recurso",
+    "environmentDropdownPlaceholder": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Cambiar a Seleccionar gemelo",

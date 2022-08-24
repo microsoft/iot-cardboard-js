@@ -1127,22 +1127,22 @@
     "refreshRate": "Обновление каждого {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Выберите ресурс",
     "noOption": "Ресурсы не найдены",
     "loadingResources": "Загрузка ресурсов",
     "loadingInstances": "Загрузка экземпляров...",
     "loadingContainers": "Погрузка контейнеров...",
     "loadingStorageAccounts": "Загрузка учетных записей хранения...",
-    "enterEnvironmentUrl": "например, https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "например, https://example.blob.core.windows.net/",
-    "enterContainerUrl": "например, https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "Свойство '{{displayField}}' не найдено в ресурсе с идентификатором '{{id}}'!",
     "removeFromList": "Удалить из списка",
     "errors": {
       "invalidEnvironmentUrl": "Это недопустимый URL-адрес (например, https://<ваш ADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Выберите ресурс",
+    "environmentDropdownPlaceholder": "например, https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "например, https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "например, https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",

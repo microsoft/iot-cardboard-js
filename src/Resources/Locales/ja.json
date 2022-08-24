@@ -1127,22 +1127,22 @@
     "refreshRate": "{{timeWithUnits}} のたびに更新する"
   },
   "resourcesPicker": {
-    "select": "リソースの選択",
     "noOption": "リソースが見つかりません",
     "loadingResources": "リソースのロード",
     "loadingInstances": "インスタンスを読み込んでいます...",
     "loadingContainers": "コンテナをロードしています...",
     "loadingStorageAccounts": "ストレージ アカウントを読み込んでいます...",
-    "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "例:https://example.blob.core.windows.net/",
-    "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' プロパティが '{{id}}' のリソースに見つかりません!",
     "removeFromList": "リストから削除",
     "errors": {
       "invalidEnvironmentUrl": "これは有効な URL ではありません (例: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "これは有効な URL ではありません (例: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "これは有効な URL ではありません (例: https://<あなたのストレージアカウント名>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "リソースの選択",
+    "environmentDropdownPlaceholder": "例:https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "例:https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "例:https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",

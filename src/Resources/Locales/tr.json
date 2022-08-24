@@ -1127,22 +1127,22 @@
     "refreshRate": "Her {{timeWithUnits}} öğesinin yenilenmesi"
   },
   "resourcesPicker": {
-    "select": "Kaynak seçme",
     "noOption": "Kaynak bulunamadı",
     "loadingResources": "Kaynakları yükleme",
     "loadingInstances": "Bulut sunucuları yükleniyor...",
     "loadingContainers": "Konteynerler yükleniyor...",
     "loadingStorageAccounts": "Depolama hesapları yükleniyor...",
-    "enterEnvironmentUrl": "örneğin https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "örneğin https://example.blob.core.windows.net/",
-    "enterContainerUrl": "örneğin https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!",
     "removeFromList": "Listeden kaldır",
     "errors": {
       "invalidEnvironmentUrl": "Bu geçerli bir URL değil (ör. https://<adınız>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabınız>.blob.core.windows.net/<ContainerAdınız>)",
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Kaynak seçme",
+    "environmentDropdownPlaceholder": "örneğin https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",
