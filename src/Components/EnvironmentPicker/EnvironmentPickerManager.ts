@@ -254,7 +254,7 @@ export const updateEnvironmentsInLocalStorage = (
     );
 };
 
-export const getStorageAccountOptionsFromLocalStorage = () => {
+export const getStorageAccountOptionsFromLocalStorage = (): Array<StorageAccountsInLocalStorage> | null => {
     try {
         return JSON.parse(localStorage.getItem(StorageAccountsLocalStorageKey));
     } catch (error) {
@@ -286,14 +286,16 @@ export const updateStorageAccountsInLocalStorage = (
     );
 };
 
-export const getContainerUrlsFromLocalStorage = (localStorageKey: string) => {
+export const getContainerUrlsFromLocalStorage = (
+    localStorageKey: string
+): Array<string> | null => {
     try {
         return JSON.parse(
             localStorage.getItem(localStorageKey ?? ContainersLocalStorageKey)
         );
     } catch (error) {
         console.error(error.message);
-        return [];
+        return null;
     }
 };
 
