@@ -1,3 +1,4 @@
+import { LOCAL_STORAGE_KEYS } from '../../Constants/Constants';
 import { getDebugLogger } from '../Utils';
 import {
     TelemetryEvent,
@@ -8,7 +9,10 @@ import {
     TelemetryTrace
 } from './Telemetry';
 
-const debugLogging = false;
+const debugLogging =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.Telemetry.debugLogging
+    ) === 'true' || false;
 const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
 
 class TelemetryService {
@@ -25,7 +29,7 @@ class TelemetryService {
     static sendTelemetry(telemetry: TelemetryItem) {
         logDebugConsole(
             'debug',
-            `[Telemetry] [${telemetry.telemetryType}] ${telemetry.name}`,
+            `[Telemetry] [${telemetry.type}] ${telemetry.name}`,
             telemetry
         );
         if (TelemetryService.telemetryCallback)

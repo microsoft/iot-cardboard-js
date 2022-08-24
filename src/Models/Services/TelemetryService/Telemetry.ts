@@ -20,16 +20,10 @@ export type TelemetryItem =
 export abstract class Telemetry {
     name: string;
     type: TelemetryType;
-    telemetryType: TelemetryType;
     customProperties: CustomProperties;
     timestamp: string;
-    constructor(
-        name: string,
-        type: TelemetryType,
-        customProperties: CustomProperties
-    ) {
+    constructor(name: string, customProperties: CustomProperties) {
         this.name = name;
-        this.telemetryType = type;
         this.customProperties = customProperties || {};
         this.timestamp = new Date().toUTCString();
     }
@@ -56,8 +50,8 @@ export class TelemetryRequest extends Telemetry {
         success,
         customProperties
     }: IRequestTelemetryParams) {
-        super(name, TelemetryType.request, customProperties);
-        this.telemetryType = TelemetryType.request;
+        super(name, customProperties);
+        this.type = TelemetryType.request;
         this.url = url;
         this.success = success;
         this.responseCode = responseCode;
@@ -85,7 +79,8 @@ export class TelemetryException extends Telemetry {
         customProperties,
         severityLevel
     }: IExceptionTelemetryParams) {
-        super(name, TelemetryType.exception, customProperties);
+        super(name, customProperties);
+        this.type = TelemetryType.exception;
         this.exceptionId = exceptionId;
         this.severityLevel = severityLevel;
         this.message = message;
@@ -107,7 +102,8 @@ export class TelemetryTrace extends Telemetry {
         severityLevel,
         customProperties
     }: ITraceTelemetryParams) {
-        super(name, TelemetryType.trace, customProperties);
+        super(name, customProperties);
+        this.type = TelemetryType.trace;
         this.message = message;
         this.severityLevel = severityLevel;
     }
@@ -125,7 +121,8 @@ export class TelemetryEvent extends Telemetry {
         name,
         triggerType
     }: IEventTelemetryParams) {
-        super(name, TelemetryType.event, customProperties);
+        super(name, customProperties);
+        this.type = TelemetryType.event;
         this.customProperties = {
             ...this.customProperties,
             [CUSTOM_PROPERTY_NAMES.AppRegion]: appRegion || 'Unset',
@@ -152,7 +149,8 @@ export class TelemetryMetric extends Telemetry {
         sampleSize,
         customProperties
     }: IMetricTelemetryParams) {
-        super(name, TelemetryType.metric, customProperties);
+        super(name, customProperties);
+        this.type = TelemetryType.metric;
         this.average = average;
         this.min = min;
         this.max = max;
