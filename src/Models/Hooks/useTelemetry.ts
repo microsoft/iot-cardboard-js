@@ -18,19 +18,17 @@ const useTelemetry = () => {
     return {
         sendTelemetry: TelemetryService.sendTelemetry,
         sendRequestTelemetry: (telemetryParams: IRequestTelemetryParams) =>
-            TelemetryService.sendTelemetry(
-                new TelemetryRequest(telemetryParams)
-            ),
+            TelemetryService.sendRequest(new TelemetryRequest(telemetryParams)),
         sendExceptionTelemetry: (telemetryParams: IExceptionTelemetryParams) =>
-            TelemetryService.sendTelemetry(
+            TelemetryService.sendException(
                 new TelemetryException(telemetryParams)
             ),
         sendTraceTelemetry: (telemetryParams: ITraceTelemetryParams) =>
-            TelemetryService.sendTelemetry(new TelemetryTrace(telemetryParams)),
+            TelemetryService.sendTrace(new TelemetryTrace(telemetryParams)),
         sendEventTelemetry: (telemetryParams: IEventTelemetryParams) =>
-            TelemetryService.sendTelemetry(new TelemetryEvent(telemetryParams)),
+            TelemetryService.sendEvent(new TelemetryEvent(telemetryParams)),
         sendMetricTelemetry: (telemetryParams: IMetricTelemetryParams) =>
-            TelemetryService.sendTelemetry(new TelemetryMetric(telemetryParams))
+            TelemetryService.sendMetric(new TelemetryMetric(telemetryParams))
     };
 };
 

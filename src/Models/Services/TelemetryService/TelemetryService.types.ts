@@ -58,11 +58,29 @@ export interface ITraceTelemetryParams extends IBaseTelemetryParams {
     severityLevel?: SeverityLevel;
 }
 
-export interface IEventTelemetryParams extends IBaseTelemetryParams {
-    componentName: ComponentName;
+export type IEventTelemetryParams =
+    | IEventTelemetryForComponentAction
+    | IEventTelemetryForComponentView
+    | IEventTelemetryForService;
+
+interface IEventTelemetryParamsBase extends IBaseTelemetryParams {
     triggerType: TelemetryTrigger;
-    appRegion: AppRegion;
 }
+type IEventTelemetryForComponentAction = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.UserAction;
+    componentName: ComponentName;
+    appRegion: AppRegion;
+};
+type IEventTelemetryForComponentView = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.UserView;
+    componentName: ComponentName;
+    appRegion: AppRegion;
+};
+type IEventTelemetryForService = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.SystemAction;
+    componentName?: ComponentName;
+    appRegion?: AppRegion;
+};
 
 export interface IMetricTelemetryParams extends IBaseTelemetryParams {
     average: number;

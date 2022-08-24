@@ -1,5 +1,12 @@
 import { getDebugLogger } from '../Utils';
-import { TelemetryItem } from './Telemetry';
+import {
+    TelemetryEvent,
+    TelemetryException,
+    TelemetryItem,
+    TelemetryMetric,
+    TelemetryRequest,
+    TelemetryTrace
+} from './Telemetry';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
@@ -23,6 +30,26 @@ class TelemetryService {
         );
         if (TelemetryService.telemetryCallback)
             TelemetryService.telemetryCallback(telemetry);
+    }
+
+    static sendEvent(telemetry: TelemetryEvent) {
+        this.sendTelemetry(telemetry);
+    }
+
+    static sendMetric(telemetry: TelemetryMetric) {
+        this.sendTelemetry(telemetry);
+    }
+
+    static sendException(telemetry: TelemetryException) {
+        this.sendTelemetry(telemetry);
+    }
+
+    static sendTrace(telemetry: TelemetryTrace) {
+        this.sendTelemetry(telemetry);
+    }
+
+    static sendRequest(telemetry: TelemetryRequest) {
+        this.sendTelemetry(telemetry);
     }
 }
 

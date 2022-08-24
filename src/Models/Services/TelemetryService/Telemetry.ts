@@ -1,3 +1,4 @@
+import { CUSTOM_PROPERTY_NAMES } from '../../Constants/TelemetryConstants';
 import {
     CustomProperties,
     IEventTelemetryParams,
@@ -9,11 +10,6 @@ import {
     TelemetryType
 } from './TelemetryService.types';
 
-const CUSTOM_PROPERTY_NAMES = {
-    AppRegion: 'AppRegion',
-    ComponentName: 'ComponentName',
-    TriggerType: 'TriggerType'
-};
 export type TelemetryItem =
     | TelemetryEvent
     | TelemetryException
@@ -33,7 +29,7 @@ export abstract class Telemetry {
     ) {
         this.name = name;
         this.type = type;
-        this.customProperties = customProperties;
+        this.customProperties = customProperties || {};
         this.timestamp = new Date().toUTCString();
     }
 }
@@ -122,17 +118,17 @@ export class TelemetryEvent extends Telemetry {
     type: TelemetryType.event;
     constructor({
         appRegion,
-        name,
         componentName,
         customProperties,
+        name,
         triggerType
     }: IEventTelemetryParams) {
         super(name, TelemetryType.event, customProperties);
         this.customProperties = {
             ...this.customProperties,
-            [CUSTOM_PROPERTY_NAMES.AppRegion]: appRegion,
-            [CUSTOM_PROPERTY_NAMES.ComponentName]: componentName,
-            [CUSTOM_PROPERTY_NAMES.TriggerType]: triggerType
+            [CUSTOM_PROPERTY_NAMES.AppRegion]: appRegion || 'Unset',
+            [CUSTOM_PROPERTY_NAMES.ComponentName]: componentName || 'Unset',
+            [CUSTOM_PROPERTY_NAMES.TriggerType]: triggerType || 'Unset'
         };
     }
 }
