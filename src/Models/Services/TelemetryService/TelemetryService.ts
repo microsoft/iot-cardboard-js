@@ -8,15 +8,15 @@ import {
     TelemetryTrace
 } from './Telemetry';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
 
 class TelemetryService {
-    static telemetryCallback: (telemetry: TelemetryItem) => void;
+    static telemetryCallback: (telemetry: TelemetryItem) => Promise<void>;
 
     // Attach telemetry processing callback from consuming application
     static registerTelemetryCallback(
-        telemetryCallback: (telemetry: TelemetryItem) => void
+        telemetryCallback: (telemetry: TelemetryItem) => Promise<void>
     ) {
         TelemetryService.telemetryCallback = telemetryCallback;
     }
@@ -25,7 +25,7 @@ class TelemetryService {
     static sendTelemetry(telemetry: TelemetryItem) {
         logDebugConsole(
             'debug',
-            `[Telemetry] [${telemetry.type}] ${telemetry.name}`,
+            `[Telemetry] [${telemetry.telemetryType}] ${telemetry.name}`,
             telemetry
         );
         if (TelemetryService.telemetryCallback)

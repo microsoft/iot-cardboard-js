@@ -20,6 +20,7 @@ export type TelemetryItem =
 export abstract class Telemetry {
     name: string;
     type: TelemetryType;
+    telemetryType: TelemetryType;
     customProperties: CustomProperties;
     timestamp: string;
     constructor(
@@ -28,7 +29,7 @@ export abstract class Telemetry {
         customProperties: CustomProperties
     ) {
         this.name = name;
-        this.type = type;
+        this.telemetryType = type;
         this.customProperties = customProperties || {};
         this.timestamp = new Date().toUTCString();
     }
@@ -56,6 +57,7 @@ export class TelemetryRequest extends Telemetry {
         customProperties
     }: IRequestTelemetryParams) {
         super(name, TelemetryType.request, customProperties);
+        this.telemetryType = TelemetryType.request;
         this.url = url;
         this.success = success;
         this.responseCode = responseCode;
@@ -150,7 +152,7 @@ export class TelemetryMetric extends Telemetry {
         sampleSize,
         customProperties
     }: IMetricTelemetryParams) {
-        super(name, TelemetryType.event, customProperties);
+        super(name, TelemetryType.metric, customProperties);
         this.average = average;
         this.min = min;
         this.max = max;

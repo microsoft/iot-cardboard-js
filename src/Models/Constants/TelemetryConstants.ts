@@ -65,6 +65,7 @@ export const TelemetryEvents = {
                 ParseConfiguration: {
                     eventName: 'ParseConfig.ConfigKpis',
                     properties: {
+                        countBehaviors: 'countBehaviors',
                         countScenes: 'countScenes',
                         countLayers: 'countLayers'
                     }
@@ -72,36 +73,38 @@ export const TelemetryEvents = {
                 ParseScene: {
                     eventName: 'ParseConfig.SceneKpis',
                     properties: {
-                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash,
                         countBehaviors: 'countBehaviors',
                         countElements: 'countElements',
                         countAssets: 'countAssets',
                         hasCoordinates: 'hasCoordinates',
                         hasDescription: 'hasDescription',
-                        pollingDelay: 'pollingDelay'
+                        pollingDelay: 'pollingDelay',
+                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash
                     }
                 },
                 ParseElement: {
                     eventName: 'ParseConfig.ElementKpis',
                     properties: {
-                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash,
+                        type: 'type',
                         countMeshes: 'countMeshes',
-                        countAliases: 'countAliases'
+                        countAliases: 'countAliases',
+                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash
                     }
                 },
                 ParseBehavior: {
                     eventName: 'ParseConfig.BehaviorKpis',
                     properties: {
-                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash,
+                        countAliases: 'countAliases',
                         countElements: 'countElements',
                         countDataSources: 'countDataSources',
                         countWidgets: 'countWidgets',
                         countWidgetGaugeType: 'countWidgetGaugeType',
                         countWidgetLinkType: 'countWidgetLinkType',
-                        countWidgetPropertyType: '',
+                        countWidgetPropertyType: 'countWidgetPropertyType',
                         countVisuals: 'countVisuals',
                         countVisualBadgeType: 'countVisualBadgeType',
-                        countVisualColorType: 'countVisualColorType'
+                        countVisualColorType: 'countVisualColorType',
+                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash
                     }
                 }
             }
