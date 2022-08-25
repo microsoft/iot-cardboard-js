@@ -506,7 +506,7 @@ export interface IAzureManagementAdapter {
         uniqueObjectId: string,
         accessRolesToCheck: {
             enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>; // roles that one or the other has to exist within each group
         }
     ) => Promise<boolean>;
     getResources: (
@@ -516,7 +516,7 @@ export interface IAzureManagementAdapter {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: {
             enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>; // roles that one or the other has to exist within each group
         };
     }) => AdapterReturnType<AzureResourcesData>;
     assignRole: (

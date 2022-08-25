@@ -140,7 +140,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         uniqueObjectId: string,
         accessRolesToCheck: {
             enforcedRoleIds: Array<AzureAccessPermissionRoles>; // means required (and)
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // means any of them would be enough (either/or)
+            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>; // means any of them would be enough (either/or)
         }
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
@@ -148,20 +148,24 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             uniqueObjectId
         );
         const resultRoleAssignments = userRoleAssignments?.result?.data;
-        const assignedRoleIds = resultRoleAssignments?.map((roleAssignment) => {
-            return roleAssignment.properties?.roleDefinitionId.split('/').pop();
-        });
+        const assignedRoleIds: Array<AzureAccessPermissionRoles> = resultRoleAssignments?.map(
+            (roleAssignment) => {
+                return roleAssignment.properties?.roleDefinitionId
+                    .split('/')
+                    .pop();
+            }
+        );
         if (assignedRoleIds) {
             return (
-                assignedRoleIds.some((assignedRoleId) =>
-                    accessRolesToCheck.interchangeableRoleIds.includes(
-                        assignedRoleId as AzureAccessPermissionRoles
-                    )
+                accessRolesToCheck.interchangeableRoleIds.every(
+                    // for each interchangeable permission group, at least one of the assignedRoleId needs to exist
+                    (interchangeableRoleIdGroup) =>
+                        assignedRoleIds.some((assignedRoleId) =>
+                            interchangeableRoleIdGroup.includes(assignedRoleId)
+                        )
                 ) &&
                 assignedRoleIds.filter((assignedRoleId) =>
-                    accessRolesToCheck.enforcedRoleIds.includes(
-                        assignedRoleId as AzureAccessPermissionRoles
-                    )
+                    accessRolesToCheck.enforcedRoleIds.includes(assignedRoleId)
                 ).length === accessRolesToCheck.enforcedRoleIds.length
             );
         } else {
@@ -450,8 +454,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     async getResourcesByPermissions(params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: {
-            enforcedRoleIds: AzureAccessPermissionRoles[];
-            interchangeableRoleIds: AzureAccessPermissionRoles[];
+            enforcedRoleIds: Array<AzureAccessPermissionRoles>;
+            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>;
         };
     }) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);

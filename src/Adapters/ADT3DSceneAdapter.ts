@@ -109,7 +109,7 @@ export default class ADT3DSceneAdapter {
                 },
                 requiredAccessRoles: {
                     enforcedRoleIds: EnforcedADTAccessRoleIds,
-                    interchangeableRoleIds: InterchangeableADTAccessRoleIds
+                    interchangeableRoleIds: [InterchangeableADTAccessRoleIds]
                 }
             });
             const result = digitalTwinInstances.result.data;

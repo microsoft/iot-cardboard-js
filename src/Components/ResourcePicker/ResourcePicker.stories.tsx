@@ -30,7 +30,7 @@ ADTInstances.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Azure Digital Twins Data Owner']
+            [AzureAccessPermissionRoles['Azure Digital Twins Data Owner']]
         ]
     },
     label: 'ADT instances',
@@ -48,8 +48,10 @@ StorageAccounts.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Contributor'],
-            AzureAccessPermissionRoles['Owner']
+            [
+                AzureAccessPermissionRoles['Contributor'],
+                AzureAccessPermissionRoles['Owner']
+            ]
         ]
     },
     label: 'Storage accounts',
@@ -62,8 +64,10 @@ StorageContainers.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [AzureAccessPermissionRoles['Reader']],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Storage Blob Data Owner'],
-            AzureAccessPermissionRoles['Storage Blob Data Contributor']
+            [
+                AzureAccessPermissionRoles['Storage Blob Data Owner'],
+                AzureAccessPermissionRoles['Storage Blob Data Contributor']
+            ]
         ]
     },
     label: 'Storage blob containers',

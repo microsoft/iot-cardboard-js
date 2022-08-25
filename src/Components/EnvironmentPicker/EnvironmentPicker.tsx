@@ -524,11 +524,13 @@ const EnvironmentPicker = ({
                             requiredAccessRoles={{
                                 enforcedRoleIds: [],
                                 interchangeableRoleIds: [
-                                    AzureAccessPermissionRoles[
-                                        'Azure Digital Twins Data Owner'
-                                    ],
-                                    AzureAccessPermissionRoles[
-                                        'Azure Digital Twins Data Reader'
+                                    [
+                                        AzureAccessPermissionRoles[
+                                            'Azure Digital Twins Data Owner'
+                                        ],
+                                        AzureAccessPermissionRoles[
+                                            'Azure Digital Twins Data Reader'
+                                        ]
                                     ]
                                 ]
                             }}
@@ -564,10 +566,14 @@ const EnvironmentPicker = ({
                                     requiredAccessRoles={{
                                         enforcedRoleIds: [],
                                         interchangeableRoleIds: [
-                                            AzureAccessPermissionRoles[
-                                                'Contributor'
-                                            ],
-                                            AzureAccessPermissionRoles['Owner']
+                                            [
+                                                AzureAccessPermissionRoles[
+                                                    'Contributor'
+                                                ],
+                                                AzureAccessPermissionRoles[
+                                                    'Owner'
+                                                ]
+                                            ]
                                         ]
                                     }}
                                     shouldFetchResourcesOnMount={
@@ -614,15 +620,26 @@ const EnvironmentPicker = ({
                                         AzureResourceTypes.StorageBlobContainer
                                     }
                                     requiredAccessRoles={{
-                                        enforcedRoleIds: [
-                                            AzureAccessPermissionRoles['Reader']
-                                        ],
+                                        enforcedRoleIds: [],
                                         interchangeableRoleIds: [
-                                            AzureAccessPermissionRoles[
-                                                'Storage Blob Data Owner'
+                                            [
+                                                AzureAccessPermissionRoles[
+                                                    'Storage Blob Data Owner'
+                                                ],
+                                                AzureAccessPermissionRoles[
+                                                    'Storage Blob Data Contributor'
+                                                ]
                                             ],
-                                            AzureAccessPermissionRoles[
-                                                'Storage Blob Data Contributor'
+                                            [
+                                                AzureAccessPermissionRoles[
+                                                    'Reader'
+                                                ],
+                                                AzureAccessPermissionRoles[
+                                                    'Contributor'
+                                                ],
+                                                AzureAccessPermissionRoles[
+                                                    'Owner'
+                                                ]
                                             ]
                                         ]
                                     }}

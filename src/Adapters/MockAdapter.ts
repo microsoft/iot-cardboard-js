@@ -781,8 +781,8 @@ export default class MockAdapter
     async getResourcesByPermissions(params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: {
-            enforcedRoleIds: AzureAccessPermissionRoles[];
-            interchangeableRoleIds: AzureAccessPermissionRoles[];
+            enforcedRoleIds: Array<AzureAccessPermissionRoles>;
+            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>;
         };
     }) {
         try {

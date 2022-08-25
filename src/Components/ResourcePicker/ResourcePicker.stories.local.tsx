@@ -82,8 +82,10 @@ StorageAccounts.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Contributor'],
-            AzureAccessPermissionRoles['Owner']
+            [
+                AzureAccessPermissionRoles['Contributor'],
+                AzureAccessPermissionRoles['Owner']
+            ]
         ]
     },
     label: 'Storage accounts',

@@ -33,7 +33,7 @@ export interface IResourcePickerProps {
     resourceType: AzureResourceTypes;
     requiredAccessRoles: {
         enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-        interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
+        interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>; // roles that one or the other has to exist within each group
     };
     searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
