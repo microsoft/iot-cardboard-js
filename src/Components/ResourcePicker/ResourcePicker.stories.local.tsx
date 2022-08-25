@@ -58,8 +58,10 @@ ADTInstances.args = {
     requiredAccessRoles: {
         enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
-            AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
+            [
+                AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
+                AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
+            ]
         ]
     },
     label: 'ADT instances',
@@ -96,10 +98,13 @@ export const StorageContainers = Template.bind({}) as ResourcePickerStory;
 StorageContainers.args = {
     resourceType: AzureResourceTypes.StorageBlobContainer,
     requiredAccessRoles: {
-        enforcedRoleIds: [AzureAccessPermissionRoles['Reader']],
+        enforcedRoleIds: [],
         interchangeableRoleIds: [
-            AzureAccessPermissionRoles['Storage Blob Data Owner'],
-            AzureAccessPermissionRoles['Storage Blob Data Contributor']
+            [AzureAccessPermissionRoles['Reader']],
+            [
+                AzureAccessPermissionRoles['Storage Blob Data Owner'],
+                AzureAccessPermissionRoles['Storage Blob Data Contributor']
+            ]
         ]
     },
     label: 'Storage blob containers',
