@@ -13,20 +13,24 @@ import {
     DetailsListLayoutMode,
     IColumn,
     IDetailsListProps,
-    IconButton,
-    SelectionMode
+    SelectionMode,
+    Selection,
+    IObjectWithKey
 } from '@fluentui/react';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
 >();
 
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
-    twins,
+    adapter,
+    onTwinSelection,
     searchedProperties,
-    styles
+    styles,
+    twins
 }) => {
     const { t } = useTranslation();
     const twinCount = twins.length;
@@ -39,15 +43,17 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: 'twin-id',
             name: t('twinId'),
             fieldName: '$dtId',
-            minWidth: 50,
-            maxWidth: 200,
-            isResizable: true
+            isResizable: true,
+            minWidth: 100,
+            maxWidth: 230,
+            data: 'string',
+            isPadded: true
         },
         {
             key: 'properties',
             name: t('properties'),
-            minWidth: 50,
-            maxWidth: 200,
+            minWidth: 70,
+            maxWidth: 90,
             isResizable: true
         }
     ];
@@ -57,8 +63,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             key: name,
             name: name,
             fieldName: name,
-            minWidth: 50,
-            maxWidth: 200,
+            minWidth: 100,
+            maxWidth: 150,
             isResizable: true
         };
     });
@@ -67,28 +73,33 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         _itemIndex: number,
         column: IColumn
     ) => {
-        const fieldContent = String(item[column.fieldName]);
         switch (column.key) {
             case 'properties':
                 return (
-                    <IconButton
-                        iconProps={{ iconName: 'EntryView' }}
-                        title={t('advancedSearch.inspectProperty')}
-                        ariaLabel={t('advancedSearch.inspectProperty')}
-                        onClick={(event) => {
-                            event.stopPropagation();
-                        }}
-                        className={'cb-scenes-action-button'}
+                    <PropertyInspectorCallout
+                        twinId={`${item.$dtId}`}
+                        adapter={adapter}
+                        styles={classNames.subComponentStyles.propertyInspector}
                     />
                 );
             default:
-                return <span>{fieldContent}</span>;
+                return <span>{String(item[column.fieldName])}</span>;
         }
     };
+    const selection = new Selection({
+        getKey(item: IObjectWithKey, _index?: number) {
+            return item['$dtId'];
+        },
+        onSelectionChanged: () => {
+            onTwinSelection?.(selection.getSelection());
+        }
+    });
 
     return (
         <section className={classNames.root}>
-            <h3>{t('advancedSearch.results', { twinCount })}</h3>
+            <h3 className={classNames.listHeader}>
+                {t('advancedSearch.results', { twinCount })}
+            </h3>
             <DetailsList
                 items={twins}
                 columns={
@@ -96,7 +107,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                         ? columns.concat(additionalColumns)
                         : columns
                 }
-                layoutMode={DetailsListLayoutMode.fixedColumns}
+                layoutMode={DetailsListLayoutMode.justified}
                 selectionPreservedOnEmptyClick={false}
                 ariaLabelForSelectionColumn={t(
                     'advancedSearch.toggleSelection'
@@ -104,6 +115,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 checkButtonAriaLabel={t('advancedSearch.selectRow')}
                 onRenderItemColumn={renderItemColumn}
                 selectionMode={SelectionMode.single}
+                selection={selection}
+                styles={classNames.subComponentStyles.detailsList}
             />
         </section>
     );
