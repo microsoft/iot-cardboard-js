@@ -515,7 +515,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 }
             }
 
-            if (onChange) {
+            if (onChange && (option || value)) {
                 onChange(
                     resourceForOnChangeCallback,
                     resourcesForOnChangeCallback

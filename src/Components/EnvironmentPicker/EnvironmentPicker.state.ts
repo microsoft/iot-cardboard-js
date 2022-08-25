@@ -112,45 +112,55 @@ export const EnvironmentPickerReducer: (
                     const selectedContainerName = getContainerNameFromUrl(
                         selectedContainerUrl
                     );
-                    if (
-                        areResourceValuesEqual(
-                            getResourceUrl(
-                                draft.storageAccountItems.storageAccountToEdit,
-                                AzureResourceTypes.StorageAccount
-                            ),
-                            selectedStorageAccountUrl,
-                            AzureResourceDisplayFields.url
-                        )
-                    ) {
-                        const selectedContainer = draft.containerItems.containers?.find(
-                            (c: string | IAzureResource) =>
-                                getContainerName(c) === selectedContainerName
-                        );
-
-                        if (!selectedContainer) {
-                            // restore selected container if it is removed from dropdown
-                            draft.containerItems.containers.push(
-                                selectedContainerName
+                    if (selectedContainerName) {
+                        if (
+                            areResourceValuesEqual(
+                                getResourceUrl(
+                                    draft.storageAccountItems
+                                        .storageAccountToEdit,
+                                    AzureResourceTypes.StorageAccount
+                                ),
+                                selectedStorageAccountUrl,
+                                AzureResourceDisplayFields.url
+                            )
+                        ) {
+                            const selectedContainer = draft.containerItems.containers?.find(
+                                (c: string | IAzureResource) =>
+                                    getContainerName(c) ===
+                                    selectedContainerName
                             );
 
-                            storageAccountToContainersMappings
-                                ?.find((mapping) =>
-                                    areResourceValuesEqual(
-                                        mapping.storageAccountUrl,
-                                        selectedStorageAccountUrl,
-                                        AzureResourceDisplayFields.url
+                            if (!selectedContainer) {
+                                // restore selected container if it is removed from dropdown
+                                draft.containerItems.containers.push(
+                                    selectedContainerName
+                                );
+
+                                storageAccountToContainersMappings
+                                    ?.find((mapping) =>
+                                        areResourceValuesEqual(
+                                            mapping.storageAccountUrl,
+                                            selectedStorageAccountUrl,
+                                            AzureResourceDisplayFields.url
+                                        )
                                     )
-                                )
-                                ?.containerNames.push(selectedContainerName);
+                                    ?.containerNames.push(
+                                        selectedContainerName
+                                    );
+                            }
+                            draft.containerItems.containerToEdit = selectedContainer
+                                ? selectedContainer
+                                : selectedContainerName;
+                        } else {
+                            draft.containerItems.containers = [
+                                selectedContainerName
+                            ];
+                            draft.containerItems.containerToEdit = selectedContainerName;
+                            resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                         }
-                        draft.containerItems.containerToEdit = selectedContainer
-                            ? selectedContainer
-                            : selectedContainerName;
                     } else {
-                        draft.containerItems.containers = [
-                            selectedContainerName
-                        ];
-                        draft.containerItems.containerToEdit = selectedContainerName;
+                        draft.containerItems.containers = [];
+                        draft.containerItems.containerToEdit = null;
                         resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                     }
                 } else {
