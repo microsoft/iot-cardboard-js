@@ -76,7 +76,7 @@ export const ONE_HOUR = 60 * ONE_MINUTE;
 export const LOCAL_STORAGE_KEYS = {
     FeatureFlags: {
         Telemetry: {
-            debugLogging: 'adt.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
+            debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         }
     }
 };
