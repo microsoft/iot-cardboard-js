@@ -188,9 +188,9 @@ export type IConsoleLogFunction = (
     ...args: unknown[]
 ) => void;
 
-export type MissingAzureRoleDefinitionAssignments = {
-    enforced?: Array<AzureAccessPermissionRoles>;
-    alternated?: Array<AzureAccessPermissionRoles>;
+export type AzureAccessPermissionRoleGroups = {
+    enforced: Array<AzureAccessPermissionRoles>; // roles must exist/required (and)
+    interchangeables: Array<Array<AzureAccessPermissionRoles>>; // within each group one or the other role has to exist (either/or)
 };
 
 /** AdapterMethodParamsForGetAzureResources is used for setting the paramter for the getResources method in AzureManagementAdapter

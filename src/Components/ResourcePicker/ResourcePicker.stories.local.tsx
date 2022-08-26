@@ -7,9 +7,14 @@ import { AzureManagementAdapter } from '../../Adapters';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import {
-    AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
-    AzureResourceTypes
+    AzureResourceTypes,
+    EnforcedADTAccessRoleIds,
+    EnforcedStorageAccountAccessRoleIds,
+    EnforcedStorageContainerAccessRoleIds,
+    InterchangeableADTAccessRoleIds,
+    InterchangeableStorageAccountAccessRoleIds,
+    InterchangeableStorageContainerAccessRoleIds
 } from '../../Models/Constants';
 
 const wrapperStyle = { width: '400px', padding: 8 };
@@ -56,13 +61,8 @@ export const ADTInstances = Template.bind({}) as ResourcePickerStory;
 ADTInstances.args = {
     resourceType: AzureResourceTypes.DigitalTwinInstance,
     requiredAccessRoles: {
-        enforcedRoleIds: [],
-        interchangeableRoleIds: [
-            [
-                AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
-                AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
-            ]
-        ]
+        enforcedRoleIds: EnforcedADTAccessRoleIds,
+        interchangeableRoleIds: InterchangeableADTAccessRoleIds
     },
     label: 'ADT instances',
     displayField: AzureResourceDisplayFields.url,
@@ -82,13 +82,8 @@ export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
 StorageAccounts.args = {
     resourceType: AzureResourceTypes.StorageAccount,
     requiredAccessRoles: {
-        enforcedRoleIds: [],
-        interchangeableRoleIds: [
-            [
-                AzureAccessPermissionRoles['Contributor'],
-                AzureAccessPermissionRoles['Owner']
-            ]
-        ]
+        enforcedRoleIds: EnforcedStorageAccountAccessRoleIds,
+        interchangeableRoleIds: InterchangeableStorageAccountAccessRoleIds
     },
     label: 'Storage accounts',
     displayField: AzureResourceDisplayFields.url
@@ -98,14 +93,8 @@ export const StorageContainers = Template.bind({}) as ResourcePickerStory;
 StorageContainers.args = {
     resourceType: AzureResourceTypes.StorageBlobContainer,
     requiredAccessRoles: {
-        enforcedRoleIds: [],
-        interchangeableRoleIds: [
-            [AzureAccessPermissionRoles['Reader']],
-            [
-                AzureAccessPermissionRoles['Storage Blob Data Owner'],
-                AzureAccessPermissionRoles['Storage Blob Data Contributor']
-            ]
-        ]
+        enforcedRoleIds: EnforcedStorageContainerAccessRoleIds,
+        interchangeableRoleIds: InterchangeableStorageContainerAccessRoleIds
     },
     label: 'Storage blob containers',
     displayField: AzureResourceDisplayFields.name

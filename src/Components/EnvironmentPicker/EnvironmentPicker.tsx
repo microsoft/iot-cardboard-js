@@ -29,10 +29,17 @@ import {
     StorageAccountToContainersMapping
 } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
-import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
+import {
+    DOCUMENTATION_LINKS,
+    EnforcedADTAccessRoleIds,
+    EnforcedStorageAccountAccessRoleIds,
+    EnforcedStorageContainerAccessRoleIds,
+    InterchangeableADTAccessRoleIds,
+    InterchangeableStorageAccountAccessRoleIds,
+    InterchangeableStorageContainerAccessRoleIds
+} from '../../Models/Constants/Constants';
 import ResourcePicker from '../ResourcePicker/ResourcePicker';
 import {
-    AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
     AzureResourceTypes,
     IAzureResource
@@ -522,17 +529,8 @@ const EnvironmentPicker = ({
                                 AzureResourceTypes.DigitalTwinInstance
                             }
                             requiredAccessRoles={{
-                                enforcedRoleIds: [],
-                                interchangeableRoleIds: [
-                                    [
-                                        AzureAccessPermissionRoles[
-                                            'Azure Digital Twins Data Owner'
-                                        ],
-                                        AzureAccessPermissionRoles[
-                                            'Azure Digital Twins Data Reader'
-                                        ]
-                                    ]
-                                ]
+                                enforcedRoleIds: EnforcedADTAccessRoleIds,
+                                interchangeableRoleIds: InterchangeableADTAccessRoleIds
                             }}
                             shouldFetchResourcesOnMount={
                                 !hasFetchedResources.current.adtInstances
@@ -564,17 +562,8 @@ const EnvironmentPicker = ({
                                         AzureResourceTypes.StorageAccount
                                     }
                                     requiredAccessRoles={{
-                                        enforcedRoleIds: [],
-                                        interchangeableRoleIds: [
-                                            [
-                                                AzureAccessPermissionRoles[
-                                                    'Contributor'
-                                                ],
-                                                AzureAccessPermissionRoles[
-                                                    'Owner'
-                                                ]
-                                            ]
-                                        ]
+                                        enforcedRoleIds: EnforcedStorageAccountAccessRoleIds,
+                                        interchangeableRoleIds: InterchangeableStorageAccountAccessRoleIds
                                     }}
                                     shouldFetchResourcesOnMount={
                                         !hasFetchedResources.current
@@ -620,28 +609,8 @@ const EnvironmentPicker = ({
                                         AzureResourceTypes.StorageBlobContainer
                                     }
                                     requiredAccessRoles={{
-                                        enforcedRoleIds: [],
-                                        interchangeableRoleIds: [
-                                            [
-                                                AzureAccessPermissionRoles[
-                                                    'Storage Blob Data Owner'
-                                                ],
-                                                AzureAccessPermissionRoles[
-                                                    'Storage Blob Data Contributor'
-                                                ]
-                                            ],
-                                            [
-                                                AzureAccessPermissionRoles[
-                                                    'Reader'
-                                                ],
-                                                AzureAccessPermissionRoles[
-                                                    'Contributor'
-                                                ],
-                                                AzureAccessPermissionRoles[
-                                                    'Owner'
-                                                ]
-                                            ]
-                                        ]
+                                        enforcedRoleIds: EnforcedStorageContainerAccessRoleIds,
+                                        interchangeableRoleIds: InterchangeableStorageContainerAccessRoleIds
                                     }}
                                     searchParams={{
                                         additionalParams: {

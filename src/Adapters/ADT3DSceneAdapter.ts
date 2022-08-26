@@ -23,29 +23,17 @@ import {
 import {
     IAzureRoleAssignment,
     instancesRefreshMaxAge,
-    MissingAzureRoleDefinitionAssignments,
-    modelRefreshMaxAge
+    AzureAccessPermissionRoleGroups,
+    modelRefreshMaxAge,
+    EnforcedADTAccessRoleIds,
+    InterchangeableADTAccessRoleIds,
+    EnforcedStorageContainerAccessRoleIds,
+    InterchangeableStorageContainerAccessRoleIds
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
-
-export const EnforcedStorageContainerAccessRoleIds = [
-    AzureAccessPermissionRoles.Reader
-];
-
-export const InterchangeableStorageContainerAccessRoleIds = [
-    AzureAccessPermissionRoles['Storage Blob Data Owner'],
-    AzureAccessPermissionRoles['Storage Blob Data Contributor']
-];
-
-export const EnforcedADTAccessRoleIds = [];
-
-export const InterchangeableADTAccessRoleIds = [
-    AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
-    AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
-];
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -108,8 +96,8 @@ export default class ADT3DSceneAdapter {
                     resourceType: AzureResourceTypes.DigitalTwinInstance
                 },
                 requiredAccessRoles: {
-                    enforcedRoleIds: EnforcedADTAccessRoleIds,
-                    interchangeableRoleIds: [InterchangeableADTAccessRoleIds]
+                    enforced: EnforcedADTAccessRoleIds,
+                    interchangeables: InterchangeableADTAccessRoleIds
                 }
             });
             const result = digitalTwinInstances.result.data;
@@ -196,29 +184,17 @@ export default class ADT3DSceneAdapter {
                         storageResource.id,
                         this.uniqueObjectId,
                         {
-                            enforcedRoleIds: EnforcedStorageContainerAccessRoleIds,
-                            interchangeableRoleIds: InterchangeableStorageContainerAccessRoleIds
+                            enforced: EnforcedStorageContainerAccessRoleIds,
+                            interchangeables: InterchangeableStorageContainerAccessRoleIds
                         }
                     );
 
-                    const missingEnforcedRoles = missingRoles?.filter((role) =>
-                        EnforcedStorageContainerAccessRoleIds.includes(role)
-                    );
-                    const missingAlternatedRoles = missingRoles?.filter(
-                        (role) =>
-                            InterchangeableStorageContainerAccessRoleIds.includes(
-                                role
-                            )
-                    );
-                    return new AzureMissingRoleDefinitionsData({
-                        enforced: missingEnforcedRoles,
-                        alternated: missingAlternatedRoles
-                    });
+                    return new AzureMissingRoleDefinitionsData(missingRoles);
                 } else {
                     // return null as the container is not even in user's subscription
                     return new AzureMissingRoleDefinitionsData({
-                        enforced: null,
-                        alternated: null
+                        enforced: [],
+                        interchangeables: []
                     });
                 }
             } catch (error) {
@@ -236,7 +212,7 @@ export default class ADT3DSceneAdapter {
      * containerResourceId is already set in the previous getMissingStorageContainerAccessRoles method and present for assigning roles for.
      */
     addMissingRolesToStorageContainer = async (
-        missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+        missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
         return await adapterMethodSandbox.safelyFetchData(async () => {
@@ -251,24 +227,39 @@ export default class ADT3DSceneAdapter {
                     )
                 );
 
-                let alternatedRoleAssignmentResult;
-                if (
-                    missingRoleDefinitionIds.alternated?.length &&
-                    missingRoleDefinitionIds.alternated.includes(
-                        AzureAccessPermissionRoles[
-                            'Storage Blob Data Contributor'
-                        ]
+                const interChangeableRoleAssignmentResults = await Promise.all(
+                    missingRoleDefinitionIds.interchangeables.map(
+                        (interchangeableGroup) => {
+                            if (
+                                interchangeableGroup.includes(
+                                    AzureAccessPermissionRoles[
+                                        'Storage Blob Data Contributor'
+                                    ]
+                                )
+                            ) {
+                                // add 'Storage Blob Data Contributor' by default if it is in the interchangeable group to let user 'build' scenes
+                                return this.assignRole(
+                                    AzureAccessPermissionRoles[
+                                        'Storage Blob Data Contributor'
+                                    ],
+                                    this.containerResourceId,
+                                    this.uniqueObjectId
+                                );
+                            } else if (
+                                interchangeableGroup.includes(
+                                    AzureAccessPermissionRoles['Reader']
+                                )
+                            ) {
+                                // add 'Reader' at least by default if it is in the interchangeable group
+                                return this.assignRole(
+                                    AzureAccessPermissionRoles['Reader'],
+                                    this.containerResourceId,
+                                    this.uniqueObjectId
+                                );
+                            }
+                        }
                     )
-                ) {
-                    // if alternated role assignment is missing, just add 'Storage Blob Data Contributor' by default
-                    alternatedRoleAssignmentResult = await this.assignRole(
-                        AzureAccessPermissionRoles[
-                            'Storage Blob Data Contributor'
-                        ],
-                        this.containerResourceId,
-                        this.uniqueObjectId
-                    );
-                }
+                );
 
                 const newRoleAssignments: Array<IAzureRoleAssignment> = [];
 
@@ -278,11 +269,11 @@ export default class ADT3DSceneAdapter {
                     }
                 });
 
-                if (!alternatedRoleAssignmentResult?.hasNoData()) {
-                    newRoleAssignments.push(
-                        alternatedRoleAssignmentResult.getData()
-                    );
-                }
+                interChangeableRoleAssignmentResults?.forEach((result) => {
+                    if (!result?.hasNoData()) {
+                        newRoleAssignments.push(result.getData());
+                    }
+                });
 
                 return new AzureResourcesData(newRoleAssignments);
             } catch (error) {
@@ -309,7 +300,7 @@ export default interface ADT3DSceneAdapter
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;
     addMissingRolesToStorageContainer: (
-        missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+        missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) => Promise<AdapterResult<AzureResourcesData>>;
 }
 applyMixins(ADT3DSceneAdapter, [

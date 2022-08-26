@@ -10,7 +10,10 @@ import {
     DTwin,
     IConsoleLogFunction,
     DurationUnits,
-    AzureResourceDisplayFields
+    AzureResourceDisplayFields,
+    IAzureResource,
+    AzureAccessPermissionRoles,
+    AzureAccessPermissionRoleGroups
 } from '../Constants';
 import {
     DtdlInterface,
@@ -687,4 +690,45 @@ export function areResourceValuesEqual(
     } else {
         return value1 === value2;
     }
+}
+
+export function getRoleIdsFromRoleAssignments(
+    roleAssignments: Array<IAzureResource> = []
+): Array<AzureAccessPermissionRoles> {
+    return roleAssignments.map((roleAssignment) =>
+        roleAssignment.properties?.roleDefinitionId?.split('/').pop()
+    );
+}
+
+export function getMissingRoleIdsFromRequired(
+    assignedRoleIds: Array<AzureAccessPermissionRoles>,
+    requiredAccessRoles: AzureAccessPermissionRoleGroups
+): AzureAccessPermissionRoleGroups {
+    const missingRoleIds: AzureAccessPermissionRoleGroups = {
+        enforced: [],
+        interchangeables: []
+    };
+
+    requiredAccessRoles.enforced.forEach((enforcedRoleId) => {
+        if (!assignedRoleIds.includes(enforcedRoleId)) {
+            missingRoleIds.enforced.push(enforcedRoleId);
+        }
+    });
+
+    requiredAccessRoles.interchangeables.forEach(
+        // for each interchangeable permission group, at least one of the assignedRoleId needs to exist
+        (interchangeableRoleIdGroup) => {
+            if (
+                !assignedRoleIds.some((assignedRoleId) =>
+                    interchangeableRoleIdGroup.includes(assignedRoleId)
+                )
+            ) {
+                missingRoleIds.interchangeables.push(
+                    interchangeableRoleIdGroup
+                );
+            }
+        }
+    );
+
+    return missingRoleIds;
 }

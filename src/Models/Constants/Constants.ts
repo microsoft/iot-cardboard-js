@@ -1,4 +1,8 @@
-import { IADTBackgroundColor, IADTObjectColor } from '../Constants';
+import {
+    AzureAccessPermissionRoles,
+    IADTBackgroundColor,
+    IADTObjectColor
+} from '../Constants';
 import {
     defaultGaugeWidget,
     defaultLinkWidget,
@@ -438,4 +442,42 @@ export const BlobStorageServiceCorsAllowedHeaders = [
     'Authorization',
     'x-ms-version',
     'x-ms-blob-type'
+];
+
+export const EnforcedStorageAccountAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
+
+export const InterchangeableStorageAccountAccessRoleIds: Array<
+    Array<AzureAccessPermissionRoles>
+> = [
+    [
+        AzureAccessPermissionRoles['Owner'],
+        AzureAccessPermissionRoles['Contributor']
+    ]
+];
+
+export const EnforcedStorageContainerAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
+
+export const InterchangeableStorageContainerAccessRoleIds: Array<
+    Array<AzureAccessPermissionRoles>
+> = [
+    [
+        AzureAccessPermissionRoles['Storage Blob Data Owner'],
+        AzureAccessPermissionRoles['Storage Blob Data Contributor']
+    ],
+    [
+        AzureAccessPermissionRoles.Reader,
+        AzureAccessPermissionRoles.Contributor,
+        AzureAccessPermissionRoles.Owner
+    ]
+];
+
+export const EnforcedADTAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
+
+export const InterchangeableADTAccessRoleIds: Array<
+    Array<AzureAccessPermissionRoles>
+> = [
+    [
+        AzureAccessPermissionRoles['Azure Digital Twins Data Owner'],
+        AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
+    ]
 ];

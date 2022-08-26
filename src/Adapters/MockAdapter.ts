@@ -38,14 +38,16 @@ import {
     PRIMARY_TWIN_NAME,
     AzureResourceTypes,
     AzureAccessPermissionRoles,
-    MissingAzureRoleDefinitionAssignments,
+    AzureAccessPermissionRoleGroups,
     IAzureRoleAssignment,
     BlobStorageServiceCorsAllowedOrigins,
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
     IAzureSubscription,
     AzureResourceDisplayFields,
-    AdapterMethodParamsForGetAzureResources
+    AdapterMethodParamsForGetAzureResources,
+    InterchangeableStorageContainerAccessRoleIds,
+    EnforcedStorageContainerAccessRoleIds
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -828,11 +830,8 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new AzureMissingRoleDefinitionsData({
-                    alternated: [
-                        AzureAccessPermissionRoles[
-                            'Storage Blob Data Contributor'
-                        ]
-                    ]
+                    enforced: EnforcedStorageContainerAccessRoleIds,
+                    interchangeables: InterchangeableStorageContainerAccessRoleIds
                 }),
                 errorInfo: null
             });
@@ -845,7 +844,7 @@ export default class MockAdapter
     }
 
     async addMissingRolesToStorageContainer(
-        _missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+        _missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) {
         try {
             await this.mockNetwork();
