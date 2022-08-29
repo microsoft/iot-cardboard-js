@@ -185,26 +185,46 @@ const SceneList: React.FC<SceneListProps> = ({
         []
     );
 
-    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
-        <div
-            onClick={() => {
-                if (typeof onSceneClick === 'function') {
-                    const telemetryEvent =
-                        TelemetryEvents.Builder.SceneList.UserAction
-                            .SelectScene;
-                    sendEventTelemetry({
-                        name: telemetryEvent.eventName,
-                        appRegion: AppRegion.SceneLobby,
-                        componentName: ComponentName.SceneList,
-                        triggerType: TelemetryTrigger.UserAction
-                    });
-                    onSceneClick(props.item);
-                }
-            }}
-        >
-            <DetailsRow className={'cb-scene-list-row'} {...props} />
-        </div>
-    );
+    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => {
+        const clickHandler = () => {
+            if (typeof onSceneClick === 'function') {
+                const telemetryEvent =
+                    TelemetryEvents.Builder.SceneList.UserAction.SelectScene;
+                sendEventTelemetry({
+                    name: telemetryEvent.eventName,
+                    appRegion: AppRegion.SceneLobby,
+                    componentName: ComponentName.SceneList,
+                    triggerType: TelemetryTrigger.UserAction
+                });
+                onSceneClick(props.item);
+            }
+        };
+        return (
+            <DefaultButton
+                onClick={clickHandler}
+                onKeyPress={(event) => {
+                    console.log('clicked row', event);
+                    if (event.code === 'Enter' || event.code === 'Space') {
+                        clickHandler();
+                    }
+                }}
+                styles={{
+                    root: {
+                        alignItems: 'start',
+                        border: 0,
+                        height: 'auto',
+                        padding: 0,
+                        width: '100%'
+                    },
+                    flexContainer: {
+                        justifyContent: 'start'
+                    }
+                }}
+            >
+                <DetailsRow className={'cb-scene-list-row'} {...props} />
+            </DefaultButton>
+        );
+    };
 
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: any,
