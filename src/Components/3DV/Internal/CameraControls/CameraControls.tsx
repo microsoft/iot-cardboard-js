@@ -21,13 +21,15 @@ export interface CameraControlProps {
     onCameraInteractionChanged?: (CameraInteraction) => void;
     onCameraZoom?: (boolean) => void;
     onResetCamera?: () => void;
+    onEnterVrMode?: () => void;
 }
 
 export const CameraControls: React.FC<CameraControlProps> = ({
     cameraInteraction,
     onCameraInteractionChanged,
     onCameraZoom,
-    onResetCamera
+    onResetCamera,
+    onEnterVrMode
 }) => {
     const [cameraInteractionType, setCameraInteractionType] = useState(null);
     const [showPanCallout, setShowPanCallout] = useState(false);
@@ -130,6 +132,12 @@ export const CameraControls: React.FC<CameraControlProps> = ({
                             isActive={false}
                             onClick={onResetCamera}
                             title={t('cameraControls.reset')}
+                        />
+                        <HeaderControlButton
+                            iconProps={{ iconName: 'Remove' }}
+                            isActive={false}
+                            onClick={() => onEnterVrMode()}
+                            title={t('VR MODE')}
                         />
                     </HeaderControlGroup>
                 </Stack>

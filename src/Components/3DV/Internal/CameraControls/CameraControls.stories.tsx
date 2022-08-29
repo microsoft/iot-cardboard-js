@@ -23,5 +23,8 @@ export const Base = Template.bind({}) as CameraControlsStory;
 Base.args = {
     cameraInteraction: CameraInteraction.Pan,
     onCameraInteractionChanged: () => undefined,
-    onCameraZoom: () => undefined
+    onCameraZoom: () => undefined,
+    onEnterVrMode: () => {
+        alert('vr mode');
+    }
 } as CameraControlProps;
