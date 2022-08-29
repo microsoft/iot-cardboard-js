@@ -961,7 +961,6 @@
     "checkingPermissions": "A verificar permissões...",
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolver problemas...",
-    "missingPermissionsMessage": "Tem permissões que faltam. Você precisará de acesso como Leitor e ou Proprietário de Dados Blob de Armazenamento ou Colaborador de Dados blob de armazenamento.",
     "noMissingRoleDesc": "Sem permissões em falta detetadas, estamos a tentar verificar se as permissões atribuídas estão em vigor.",
     "finishedWithFailureDesc": "Tentativa falhada, por favor contacte o proprietário do recurso.",
     "verifyingPermissionsMessage": "Verificação de permissões...\nIsto pode levar alguns minutos.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Isto pode ser um problema DE CORS, url de blob inválido ou um erro de rede. Entre em contato com o proprietário do recipiente onde este ficheiro de ativos está armazenado ou tente novamente mais tarde.",
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar o cache e tente novamente ou verifique o seu acesso a esse ficheiro.",
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, verifique se não existem malhas erróneas."
-    }
+    },
+    "missingPermissionsMessag": "Tem permissões que faltam. Necessitará de acesso como Leitor (no mínimo) e proprietário de dados de armazenamento blob ou colaborador de dados de blob de armazenamento."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {

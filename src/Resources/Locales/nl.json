@@ -961,7 +961,6 @@
     "checkingPermissions": "Machtigingen controleren...",
     "resolveIssues": "Problemen oplossen",
     "resolvingIssues": "Problemen oplossen...",
-    "missingPermissionsMessage": "Er ontbreken machtigingen. U hebt toegang nodig als reader en eigenaar van opslagblobdesktgegevens of opslag blobgegevensbijdrager.",
     "noMissingRoleDesc": "Er worden geen ontbrekende machtigingen gedetecteerd, we proberen te controleren of toegewezen machtigingen van kracht zijn.",
     "finishedWithFailureDesc": "Poging mislukt, neem contact op met de eigenaar van de bron.",
     "verifyingPermissionsMessage": "Machtigingen verifiëren...\nDit kan enkele minuten duren.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Dit kan een CORS-probleem, ongeldige blob-url of een netwerkfout zijn. Neem contact op met de eigenaar van de container waar dit activabestand is opgeslagen of probeer het later opnieuw.",
       "3dAssetLoadingGenericErrorMessage": "Fout bij het laden van model. Probeer de cache te wissen en probeer het opnieuw of controleer uw toegang voor dat bestand.",
       "3dAssetDimensionError": "Er kan een probleem zijn met de afmetingen van uw model, controleer of er geen foutieve mazen zijn."
-    }
+    },
+    "missingPermissionsMessag": "U hebt ontbrekende machtigingen. U hebt toegang nodig als lezer (minimaal) en opslag-blobgegevenseigenaar of opslag-blobgegevensbijdrager."
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {

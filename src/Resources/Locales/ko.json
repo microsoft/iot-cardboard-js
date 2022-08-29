@@ -961,7 +961,6 @@
     "checkingPermissions": "사용 권한 확인 중...",
     "resolveIssues": "문제 해결",
     "resolvingIssues": "문제 해결...",
-    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 판독기 및 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다.",
     "noMissingRoleDesc": "누락된 권한이 감지되지 않았으므로 할당된 사용 권한이 적용되는지 확인하려고 합니다.",
     "finishedWithFailureDesc": "시도가 실패했습니다. 리소스 소유자에게 문의하십시오.",
     "verifyingPermissionsMessage": "사용 권한 확인 중...\n이 작업은 몇 분 정도 걸릴 수 있습니다.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "CORS 문제, 잘못된 Blob URL 또는 네트워크 오류일 수 있습니다. 이 자산 파일이 저장된 컨테이너의 소유자에게 문의하거나 나중에 다시 시도하십시오.",
       "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
-    }
+    },
+    "missingPermissionsMessag": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {

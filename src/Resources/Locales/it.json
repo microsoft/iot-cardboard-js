@@ -961,7 +961,6 @@
     "checkingPermissions": "Controllo delle autorizzazioni...",
     "resolveIssues": "Risolvere i problemi",
     "resolvingIssues": "Risoluzione dei problemi...",
-    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione.",
     "noMissingRoleDesc": "Nessuna autorizzazione mancante rilevata, stiamo tentando di verificare se le autorizzazioni assegnate sono in vigore.",
     "finishedWithFailureDesc": "Tentativo non riuscito, contattare il proprietario della risorsa.",
     "verifyingPermissionsMessage": "Verifica delle autorizzazioni...\nQuesta operazione potrebbe richiedere alcuni minuti.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Potrebbe trattarsi di un problema CORS, di un URL BLOB non valido o di un errore di rete. Contattare il proprietario del contenitore in cui è archiviato il file di risorse o riprovare più tardi.",
       "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file.",
       "3dAssetDimensionError": "Potrebbe esserci un problema con le dimensioni del modello, si prega di verificare che non ci siano maglie errate."
-    }
+    },
+    "missingPermissionsMessag": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {

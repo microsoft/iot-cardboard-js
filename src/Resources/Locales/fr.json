@@ -961,7 +961,6 @@
     "checkingPermissions": "Vérification des autorisations...",
     "resolveIssues": "Résoudre les problèmes",
     "resolvingIssues": "Résolution des problèmes...",
-    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur et propriétaire des données d’objets blob de stockage ou contributeur de données d’objets blob de stockage.",
     "noMissingRoleDesc": "Aucune autorisation manquante détectée, nous essayons de vérifier si les autorisations attribuées sont en vigueur.",
     "finishedWithFailureDesc": "Échec de la tentative, veuillez contacter le propriétaire de la ressource.",
     "verifyingPermissionsMessage": "Vérification des autorisations...\nCela peut prendre plusieurs minutes.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Il peut s’agir d’un problème CORS, d’une URL d’objet blob non valide ou d’une erreur réseau. Veuillez contacter le propriétaire du conteneur dans lequel ce fichier de ressources est stocké ou réessayer ultérieurement.",
       "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier.",
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
-    }
+    },
+    "missingPermissionsMessag": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage."
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {

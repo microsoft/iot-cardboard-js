@@ -961,7 +961,6 @@
     "checkingPermissions": "Sprawdzanie uprawnień...",
     "resolveIssues": "Rozwiązywanie problemów",
     "resolvingIssues": "Rozwiązywanie problemów...",
-    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu.",
     "noMissingRoleDesc": "Nie wykryto brakujących uprawnień, próbujemy sprawdzić, czy przypisane uprawnienia obowiązują.",
     "finishedWithFailureDesc": "Próba nie powiodła się, skontaktuj się z właścicielem zasobu.",
     "verifyingPermissionsMessage": "Weryfikowanie uprawnień...\nMoże to potrwać kilka minut.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Może to być problem CORS, nieprawidłowy adres URL obiektu blob lub błąd sieciowy. Skontaktuj się z właścicielem kontenera, w którym jest przechowywany ten plik zasobu, lub spróbuj ponownie później.",
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
-    }
+    },
+    "missingPermissionsMessag": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {

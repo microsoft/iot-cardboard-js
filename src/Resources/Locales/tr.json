@@ -961,7 +961,6 @@
     "checkingPermissions": "İzinler kontrol ediliyor...",
     "resolveIssues": "Sorunları çözme",
     "resolvingIssues": "Sorunları çözmek...",
-    "missingPermissionsMessage": "Eksik izinleriniz var. Okuyucu ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır.",
     "noMissingRoleDesc": "Eksik izin algılanmadı, atanan izinlerin geçerli olup olmadığını doğrulamaya çalışıyoruz.",
     "finishedWithFailureDesc": "Deneme başarısız oldu, lütfen kaynak sahibine başvurun.",
     "verifyingPermissionsMessage": "İzinler doğrulanıyor...\nBu işlem birkaç dakika sürebilir.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Bu bir CORS sorunu, geçersiz blob URL'si veya bir ağ hatası olabilir. Lütfen bu öğe dosyasının depolandığı kapsayıcının sahibiyle iletişime geçin veya daha sonra yeniden deneyin.",
       "3dAssetLoadingGenericErrorMessage": "Model yüklenirken hata oluştu. Önbelleğinizi temizlemeyi deneyin ve yeniden deneyin veya bu dosya için erişiminizi denetleyin.",
       "3dAssetDimensionError": "Model boyutlarınızla ilgili bir sorun olabilir, lütfen hatalı kafes olmadığından emin olun."
-    }
+    },
+    "missingPermissionsMessag": "Eksik izinleriniz var. Okuyucu (en azından) ve Depolama Blobu Veri Sahibi veya Depolama Blobu Veri Katılımcısı olarak erişime ihtiyacınız olacaktır."
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {

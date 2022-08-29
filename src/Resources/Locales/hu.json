@@ -961,7 +961,6 @@
     "checkingPermissions": "Engedélyek ellenőrzése...",
     "resolveIssues": "Problémák megoldása",
     "resolvingIssues": "Problémák megoldása...",
-    "missingPermissionsMessage": "Hiányoznak az engedélyei. Hozzá kell férnie olvasóként és tárolóblob adattulajdonosként vagy tárolóblob adatszolgáltatóként.",
     "noMissingRoleDesc": "Nem észleltek hiányzó engedélyeket, megpróbáljuk ellenőrizni, hogy a hozzárendelt engedélyek érvényben vannak-e.",
     "finishedWithFailureDesc": "A kísérlet sikertelen volt, lépjen kapcsolatba az erőforrás tulajdonosával.",
     "verifyingPermissionsMessage": "Engedélyek ellenőrzése...\nEz eltarthat néhány percig.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Ez lehet CORS-probléma, érvénytelen blob URL-cím vagy hálózati hiba. Lépjen kapcsolatba annak a tárolónak a tulajdonosával, ahol az eszközfájlt tárolják, vagy próbálkozzon újra később.",
       "3dAssetLoadingGenericErrorMessage": "Hiba történt a modell betöltésekor. Próbálja meg törölni a gyorsítótárat, és próbálkozzon újra, vagy ellenőrizze a fájlhoz való hozzáférést.",
       "3dAssetDimensionError": "Probléma lehet a modell méreteivel, kérjük, ellenőrizze, hogy nincsenek-e hibás hálók."
-    }
+    },
+    "missingPermissionsMessag": "Hiányzó engedélyekkel rendelkezik. Olvasóként (legalább) és Storage Blob Data Contributorként kell hozzáférnie, és Storage Blob Data Contributorként kell hozzáférnie."
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {

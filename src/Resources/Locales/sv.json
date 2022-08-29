@@ -961,7 +961,6 @@
     "checkingPermissions": "Kontrollera behörigheter...",
     "resolveIssues": "Lösa problem",
     "resolvingIssues": "Lösa problem ...",
-    "missingPermissionsMessage": "Du saknar behörigheter. Du behöver åtkomst som läsare och antingen Storage Blob Data Owner eller Storage Blob Data Contributor.",
     "noMissingRoleDesc": "Inga saknade behörigheter har upptäckts, vi försöker verifiera om tilldelade behörigheter gäller.",
     "finishedWithFailureDesc": "Försöket misslyckades, kontakta resursägaren.",
     "verifyingPermissionsMessage": "Verifiera behörigheter...\nDet kan ta flera minuter.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Det kan vara ett CORS-problem, ogiltig blob-URL eller ett nätverksfel. Kontakta ägaren till containern där tillgångsfilen lagras eller försök igen senare.",
       "3dAssetLoadingGenericErrorMessage": "Fel vid laddning av modell. Försök att rensa cacheminnet och försök igen eller kontrollera din åtkomst för den filen.",
       "3dAssetDimensionError": "Det kan finnas ett problem med dina modelldimensioner, kontrollera att det inte finns några felaktiga maskor."
-    }
+    },
+    "missingPermissionsMessag": "Du saknar behörigheter. Du behöver åtkomst som läsare (minst) och antingen Storage Blob Data-ägare eller Storage Blob Data-deltagare."
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
