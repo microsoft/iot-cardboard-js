@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "Błąd ładowania modelu. Spróbuj wyczyścić pamięć podręczną i spróbuj ponownie lub sprawdź dostęp do tego pliku.",
       "3dAssetDimensionError": "Może wystąpić problem z wymiarami modelu, sprawdź, czy nie ma błędnych siatek."
     },
-    "missingPermissionsMessag": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
+    "missingPermissionsMessage": "Brakuje Ci uprawnień. Będziesz potrzebować dostępu jako czytelnik (co najmniej) i właściciel danych obiektów blob magazynu lub współtwórca danych obiektów blob magazynu."
   },
   "fieldRequired": "To pole jest wymagane",
   "OATGraphViewer": {

@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar o cache e tente novamente ou verifique o seu acesso a esse ficheiro.",
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, verifique se não existem malhas erróneas."
     },
-    "missingPermissionsMessag": "Tem permissões que faltam. Necessitará de acesso como Leitor (no mínimo) e proprietário de dados de armazenamento blob ou colaborador de dados de blob de armazenamento."
+    "missingPermissionsMessage": "Tem permissões que faltam. Necessitará de acesso como Leitor (no mínimo) e proprietário de dados de armazenamento blob ou colaborador de dados de blob de armazenamento."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {

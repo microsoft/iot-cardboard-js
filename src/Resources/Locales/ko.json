@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "모델을 로드하는 중 오류가 발생했습니다. 캐시를 지우고 다시 시도하거나 해당 파일에 대한 액세스 권한을 확인하십시오.",
       "3dAssetDimensionError": "모델 치수에 문제가있을 수 있으므로 잘못된 메쉬가 없는지 확인하십시오."
     },
-    "missingPermissionsMessag": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
+    "missingPermissionsMessage": "사용 권한이 누락되었습니다. 최소한 읽기 권한자로, 저장소 Blob 데이터 소유자 또는 저장소 Blob 데이터 기여자로 액세스해야 합니다."
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {

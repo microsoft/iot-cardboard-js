@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "モデルの読み込み中にエラーが発生しました。キャッシュをクリアしてもう一度やり直すか、そのファイルへのアクセスを確認してください。",
       "3dAssetDimensionError": "モデル寸法に問題がある可能性があります。誤ったメッシュがないことを確認してください。"
     },
-    "missingPermissionsMessag": "アクセス許可がありません。読者として (少なくとも) アクセスし、ストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。"
+    "missingPermissionsMessage": "アクセス許可がありません。読者として (少なくとも) アクセスし、ストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。"
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {
