@@ -194,9 +194,10 @@ function sendSceneTelemetry(scene: IScene, sceneHash: string) {
     const behaviorsCount = scene.behaviorIDs?.length || 0;
     const elementCount = scene.elements?.length || 0;
     const hasCoordinates =
-        isDefined(scene.latitude) || isDefined(scene.longitude);
-    const hasDescription = false;
-    const scenePollingDelay = 0;
+        isDefined(scene.latitude) || isDefined(scene.longitude) || false;
+    const hasDescription = scene.description?.trim()?.length > 0;
+    const scenePollingDelay =
+        scene.pollingConfiguration?.minimumPollingFrequency;
 
     // capture the Scene level metrics
     const sceneEvent =
