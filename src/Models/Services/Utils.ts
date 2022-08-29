@@ -695,9 +695,16 @@ export function areResourceValuesEqual(
 export function getRoleIdsFromRoleAssignments(
     roleAssignments: Array<IAzureResource> = []
 ): Array<AzureAccessPermissionRoles> {
-    return roleAssignments.map((roleAssignment) =>
-        roleAssignment.properties?.roleDefinitionId?.split('/').pop()
-    );
+    const assignedRoleIds = new Set<AzureAccessPermissionRoles>();
+    roleAssignments.forEach((roleAssignment) => {
+        const roleId = roleAssignment.properties?.roleDefinitionId
+            ?.split('/')
+            .pop();
+        if (roleId) {
+            assignedRoleIds.add(roleId);
+        }
+    });
+    return Array.from(assignedRoleIds);
 }
 
 export function getMissingRoleIdsFromRequired(

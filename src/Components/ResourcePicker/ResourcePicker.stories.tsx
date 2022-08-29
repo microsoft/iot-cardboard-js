@@ -33,8 +33,8 @@ export const ADTInstances = Template.bind({}) as ResourcePickerStory;
 ADTInstances.args = {
     resourceType: AzureResourceTypes.DigitalTwinInstance,
     requiredAccessRoles: {
-        enforcedRoleIds: EnforcedADTAccessRoleIds,
-        interchangeableRoleIds: InterchangeableADTAccessRoleIds
+        enforced: EnforcedADTAccessRoleIds,
+        interchangeables: InterchangeableADTAccessRoleIds
     },
     label: 'ADT instances',
     displayField: AzureResourceDisplayFields.url,
@@ -49,8 +49,8 @@ export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
 StorageAccounts.args = {
     resourceType: AzureResourceTypes.StorageAccount,
     requiredAccessRoles: {
-        enforcedRoleIds: EnforcedStorageAccountAccessRoleIds,
-        interchangeableRoleIds: InterchangeableStorageAccountAccessRoleIds
+        enforced: EnforcedStorageAccountAccessRoleIds,
+        interchangeables: InterchangeableStorageAccountAccessRoleIds
     },
     label: 'Storage accounts',
     displayField: AzureResourceDisplayFields.url
@@ -60,8 +60,8 @@ export const StorageContainers = Template.bind({}) as ResourcePickerStory;
 StorageContainers.args = {
     resourceType: AzureResourceTypes.StorageBlobContainer,
     requiredAccessRoles: {
-        enforcedRoleIds: EnforcedStorageContainerAccessRoleIds,
-        interchangeableRoleIds: InterchangeableStorageContainerAccessRoleIds
+        enforced: EnforcedStorageContainerAccessRoleIds,
+        interchangeables: InterchangeableStorageContainerAccessRoleIds
     },
     label: 'Storage blob containers',
     displayField: AzureResourceDisplayFields.name

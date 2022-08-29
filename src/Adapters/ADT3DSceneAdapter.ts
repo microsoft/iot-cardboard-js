@@ -176,7 +176,10 @@ export default class ADT3DSceneAdapter {
 
                 const storageResources: Array<IAzureResource> = storageResourcesInUsersSubscriptionsResult?.getData();
                 const storageResource = storageResources?.find(
-                    (sR) => sR.name === containerName
+                    (sR) =>
+                        storageAccountName ===
+                            sR.id.split('/storageAccounts/')[1].split('/')[0] &&
+                        sR.name === containerName
                 );
                 if (storageResource) {
                     this.containerResourceId = storageResource.id;
@@ -193,8 +196,8 @@ export default class ADT3DSceneAdapter {
                 } else {
                     // return null as the container is not even in user's subscription
                     return new AzureMissingRoleDefinitionsData({
-                        enforced: [],
-                        interchangeables: []
+                        enforced: null,
+                        interchangeables: null
                     });
                 }
             } catch (error) {
@@ -237,7 +240,7 @@ export default class ADT3DSceneAdapter {
                                     ]
                                 )
                             ) {
-                                // add 'Storage Blob Data Contributor' by default if it is in the interchangeable group to let user 'build' scenes
+                                // add 'Storage Blob Data Contributor' by default if it is in the interchangeable group as minimum
                                 return this.assignRole(
                                     AzureAccessPermissionRoles[
                                         'Storage Blob Data Contributor'
@@ -250,9 +253,16 @@ export default class ADT3DSceneAdapter {
                                     AzureAccessPermissionRoles['Reader']
                                 )
                             ) {
-                                // add 'Reader' at least by default if it is in the interchangeable group
+                                // add 'Reader' by default if it is in the interchangeable group as minimum
                                 return this.assignRole(
                                     AzureAccessPermissionRoles['Reader'],
+                                    this.containerResourceId,
+                                    this.uniqueObjectId
+                                );
+                            } else if (interchangeableGroup.length) {
+                                // otherwise add the first item from each interchangeable group
+                                return this.assignRole(
+                                    interchangeableGroup[0],
                                     this.containerResourceId,
                                     this.uniqueObjectId
                                 );

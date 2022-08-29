@@ -37,7 +37,6 @@ import {
     IAzureResource,
     PRIMARY_TWIN_NAME,
     AzureResourceTypes,
-    AzureAccessPermissionRoles,
     AzureAccessPermissionRoleGroups,
     IAzureRoleAssignment,
     BlobStorageServiceCorsAllowedOrigins,
@@ -782,10 +781,7 @@ export default class MockAdapter
 
     async getResourcesByPermissions(params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
-        requiredAccessRoles: {
-            enforcedRoleIds: Array<AzureAccessPermissionRoles>;
-            interchangeableRoleIds: Array<Array<AzureAccessPermissionRoles>>;
-        };
+        requiredAccessRoles: AzureAccessPermissionRoleGroups;
     }) {
         try {
             const getResourcesResult = await this.getResources(

@@ -529,8 +529,8 @@ const EnvironmentPicker = ({
                                 AzureResourceTypes.DigitalTwinInstance
                             }
                             requiredAccessRoles={{
-                                enforcedRoleIds: EnforcedADTAccessRoleIds,
-                                interchangeableRoleIds: InterchangeableADTAccessRoleIds
+                                enforced: EnforcedADTAccessRoleIds,
+                                interchangeables: InterchangeableADTAccessRoleIds
                             }}
                             shouldFetchResourcesOnMount={
                                 !hasFetchedResources.current.adtInstances
@@ -562,8 +562,8 @@ const EnvironmentPicker = ({
                                         AzureResourceTypes.StorageAccount
                                     }
                                     requiredAccessRoles={{
-                                        enforcedRoleIds: EnforcedStorageAccountAccessRoleIds,
-                                        interchangeableRoleIds: InterchangeableStorageAccountAccessRoleIds
+                                        enforced: EnforcedStorageAccountAccessRoleIds,
+                                        interchangeables: InterchangeableStorageAccountAccessRoleIds
                                     }}
                                     shouldFetchResourcesOnMount={
                                         !hasFetchedResources.current
@@ -609,8 +609,8 @@ const EnvironmentPicker = ({
                                         AzureResourceTypes.StorageBlobContainer
                                     }
                                     requiredAccessRoles={{
-                                        enforcedRoleIds: EnforcedStorageContainerAccessRoleIds,
-                                        interchangeableRoleIds: InterchangeableStorageContainerAccessRoleIds
+                                        enforced: EnforcedStorageContainerAccessRoleIds,
+                                        interchangeables: InterchangeableStorageContainerAccessRoleIds
                                     }}
                                     searchParams={{
                                         additionalParams: {
