@@ -1082,7 +1082,7 @@
         "checkingPermissions": "Checking permissions...",
         "resolveIssues": "Resolve issues",
         "resolvingIssues": "Resolving issues...",
-        "missingPermissionsMessag": "You have missing permissions. You will need access as a Reader (at a minimum) and either Storage Blob Data Owner or Storage Blob Data Contributor.",
+        "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader (at a minimum) and either Storage Blob Data Owner or Storage Blob Data Contributor.",
         "assignRoleSuccessDesc": "Missing permissions have been assigned. Please wait while we are attempting to verify if the changes are in effect.",
         "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
         "finishedWithFailureDesc": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
