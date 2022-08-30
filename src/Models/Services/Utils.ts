@@ -673,6 +673,13 @@ export function getDebugLogger(
     };
 }
 
+/**
+ * Check if two string type resource display property values are equal
+ * @param value1 resource property value
+ * @param value2 resource property value
+ * @example areResourceValuesEqual('https://exampleurl-1.com', 'https://exampleurl-2', AzureResourceDisplayFields.url)
+ * @returns true if they are equal, false if not or values are empty
+ */
 export function areResourceValuesEqual(
     value1: string,
     value2: string,
@@ -692,6 +699,11 @@ export function areResourceValuesEqual(
     }
 }
 
+/**
+ * Retrieving the access permission role ids from role assignments resources
+ * @param roleAssingments list of role assignments to retrieve the role ids from
+ * @returns the list of role ids as AzureAccessPermissionRoles from the role assignment properties
+ */
 export function getRoleIdsFromRoleAssignments(
     roleAssignments: Array<IAzureResource> = []
 ): Array<AzureAccessPermissionRoles> {
@@ -707,6 +719,12 @@ export function getRoleIdsFromRoleAssignments(
     return Array.from(assignedRoleIds);
 }
 
+/**
+ * Returns the list of missing role ids based on the passed assigned role ids and required role ids to check against
+ * @param assignedRoleIds list of roles already assigned to the user
+ * @param requiredAccessRoles list of required roles as enforced or interchangeables to check against if the user is already assigned
+ * @returns the list of missing role group including missing enforced role ids and missing interchangeable role ids
+ */
 export function getMissingRoleIdsFromRequired(
     assignedRoleIds: Array<AzureAccessPermissionRoles>,
     requiredAccessRoles: AzureAccessPermissionRoleGroups
