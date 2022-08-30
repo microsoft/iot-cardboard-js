@@ -1148,6 +1148,14 @@
     "toggleSelection": "Attiva/disattiva selezione twin",
     "selectRow": "Doppia Selezionata",
     "inspectProperty": "Ispeziona proprietà",
-    "results": "Risultati ({{twinCount}})"
+    "results": "Risultati ({{twinCount}})",
+    "addNewRow": "Aggiungi nuova riga",
+    "andOr": "O",
+    "property": "Proprietà",
+    "operator": "Operatore",
+    "value": "Valore",
+    "modalTitle": "Ricerca avanzata di immobili",
+    "modalSubtitle": "Collega la proprietà giusta restringendo la ricerca",
+    "noPropertiesFound": "Nessuna struttura trovata"
   }
 }

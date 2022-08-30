@@ -1148,6 +1148,14 @@
     "toggleSelection": "Alternar para Selecionar Twin",
     "selectRow": "Twin Selecionado",
     "inspectProperty": "Inspecionar Propriedade",
-    "results": "Resultados ({{twinCount}}"
+    "results": "Resultados ({{twinCount}}",
+    "addNewRow": "Adicionar nova linha",
+    "andOr": "E/Ou",
+    "property": "Propriedade",
+    "operator": "Operador",
+    "value": "Valor",
+    "modalTitle": "Pesquisa avançada de propriedade",
+    "modalSubtitle": "Ligue a propriedade certa reduzindo a sua pesquisa",
+    "noPropertiesFound": "Nenhuma propriedade encontrada"
   }
 }

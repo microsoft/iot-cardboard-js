@@ -1148,6 +1148,14 @@
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
     "inspectProperty": "Инспекция имущества",
-    "results": "Результаты ({{twinCount}})"
+    "results": "Результаты ({{twinCount}})",
+    "addNewRow": "Добавить новую строку",
+    "andOr": "И/или",
+    "property": "Свойство",
+    "operator": "Оператор",
+    "value": "Ценность",
+    "modalTitle": "Расширенный поиск недвижимости",
+    "modalSubtitle": "Свяжите нужный объект, сузив область поиска",
+    "noPropertiesFound": "Недвижимость не найдена"
   }
 }

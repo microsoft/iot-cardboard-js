@@ -1148,6 +1148,14 @@
     "toggleSelection": "切换为选择双胞胎",
     "selectRow": "选择双床间",
     "inspectProperty": "检查属性",
-    "results": "Results （{{twinCount}}）"
+    "results": "Results （{{twinCount}}）",
+    "addNewRow": "添加新行",
+    "andOr": "和/或",
+    "property": "财产",
+    "operator": "算子",
+    "value": "价值",
+    "modalTitle": "高级房产搜索",
+    "modalSubtitle": "通过缩小搜索范围来链接正确的媒体资源",
+    "noPropertiesFound": "未找到任何属性"
   }
 }
