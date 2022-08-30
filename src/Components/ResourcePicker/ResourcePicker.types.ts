@@ -6,9 +6,11 @@ import {
     ITheme
 } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
-import { AzureResourceSearchParams } from '../../Models/Constants';
 import {
-    AzureAccessPermissionRoles,
+    AzureAccessPermissionRoleGroups,
+    AzureResourceSearchParams
+} from '../../Models/Constants';
+import {
     AzureResourceDisplayFields,
     AzureResourceTypes
 } from '../../Models/Constants/Enums';
@@ -31,10 +33,7 @@ export interface IResourcePickerProps {
     ) => void; // callback function to expose the selected resource and optionally list of resources in dropdown when it is changed in the combobox
     onLoaded?: (resources: Array<IAzureResource>) => void; // callback function to expose resources when they are fetched with useAdapter method on mount
     resourceType: AzureResourceTypes;
-    requiredAccessRoles: {
-        enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-        interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-    };
+    requiredAccessRoles: AzureAccessPermissionRoleGroups;
     searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
     shouldFetchResourcesOnMount?: boolean;

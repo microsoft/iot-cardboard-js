@@ -1,6 +1,18 @@
 import { cleanup } from '@testing-library/react-hooks';
-import { DurationUnits } from '../Constants';
-import { formatTimeInRelevantUnits } from './Utils';
+import {
+    AzureAccessPermissionRoleGroups,
+    AzureAccessPermissionRoles,
+    AzureResourceDisplayFields,
+    AzureResourceTypes,
+    DurationUnits,
+    IAzureResource
+} from '../Constants';
+import {
+    areResourceValuesEqual,
+    formatTimeInRelevantUnits,
+    getMissingRoleIdsFromRequired,
+    getRoleIdsFromRoleAssignments
+} from './Utils';
 
 afterEach(cleanup);
 
@@ -241,6 +253,165 @@ describe('Utils', () => {
             expect(result).toBeDefined();
             expect(result.value).toEqual(1);
             expect(result.displayStringKey).toEqual('duration.year');
+        });
+    });
+    describe('areResourceValuesEqual', () => {
+        test('return true if two resource url property values are equal', () => {
+            // ARRANGE
+            const value1 = 'https://exampleurl-1/';
+            const value2 = 'https://exampleurl-1';
+
+            // ACT
+            const result = areResourceValuesEqual(
+                value1,
+                value2,
+                AzureResourceDisplayFields.url
+            );
+
+            // ASSERT
+            expect(result).toBeTruthy();
+        });
+        test('return false if two resource url property values are not equal', () => {
+            // ARRANGE
+            const value1 = 'https://exampleurl-1';
+            const value2 = 'https://exampleurl-2';
+
+            // ACT
+            const result = areResourceValuesEqual(
+                value1,
+                value2,
+                AzureResourceDisplayFields.url
+            );
+
+            // ASSERT
+            expect(result).toBeFalsy();
+        });
+        test('return true if two resource name property values are equal', () => {
+            // ARRANGE
+            const value1 = 'example1';
+            const value2 = 'example1';
+
+            // ACT
+            const result = areResourceValuesEqual(
+                value1,
+                value2,
+                AzureResourceDisplayFields.name
+            );
+
+            // ASSERT
+            expect(result).toBeTruthy();
+        });
+        test('return false if two resource name property values are not equal', () => {
+            // ARRANGE
+            const value1 = 'example1';
+            const value2 = 'example2';
+
+            // ACT
+            const result = areResourceValuesEqual(
+                value1,
+                value2,
+                AzureResourceDisplayFields.name
+            );
+
+            // ASSERT
+            expect(result).toBeFalsy();
+        });
+    });
+    describe('getRoleIdsFromRoleAssignments', () => {
+        test('return list of role ids from role assignments', () => {
+            // ARRANGE
+            const roleDefinitionId1 = '11111111-1111-1111-1111-111111111111';
+            const roleDefinitionId2 = '22222222-2222-2222-2222-222222222222';
+            const roleAssignments: Array<IAzureResource> = [
+                {
+                    id:
+                        '/subscriptions/<subscription-id>/providers/Microsoft.Authorization/roleAssignments/<role-assignment-id>',
+                    name: '<role-assignment-id>',
+                    properties: {
+                        createdBy: '<created-by-id>',
+                        createdOn: '<created-on-date>',
+                        principalId: '<principle-id>',
+                        roleDefinitionId:
+                            '/subscriptions/<subscription-id>/providers/Microsoft.Authorization/roleDefinitions/' +
+                            roleDefinitionId1,
+                        scope: '/subscriptions/<subscription-id>',
+                        updatedBy: '<updated-by-id>',
+                        updatedOn: '<updated-on-date>'
+                    },
+                    type: AzureResourceTypes.RoleAssignment
+                },
+                {
+                    id:
+                        '/subscriptions/<subscription-id>/providers/Microsoft.Authorization/roleAssignments/<role-assignment-id2>',
+                    name: '<role-assignment-id2>',
+                    properties: {
+                        createdBy: '<created-by-id>',
+                        createdOn: '<created-on-date>',
+                        principalId: '<principle-id>',
+                        roleDefinitionId:
+                            '/subscriptions/<subscription-id>/providers/Microsoft.Authorization/roleDefinitions/' +
+                            roleDefinitionId2,
+                        scope: '/subscriptions/<subscription-id>',
+                        updatedBy: '<updated-by-id>',
+                        updatedOn: '<updated-on-date>'
+                    },
+                    type: AzureResourceTypes.RoleAssignment
+                }
+            ];
+
+            // ACT
+            const result = getRoleIdsFromRoleAssignments(roleAssignments);
+
+            // ASSERT
+            expect(result).toEqual([roleDefinitionId1, roleDefinitionId2]);
+        });
+    });
+    describe('getMissingRoleIdsFromRequired', () => {
+        test('return the group of missing roles', () => {
+            // ARRANGE
+            const assignedAccessPermissionRoles: Array<AzureAccessPermissionRoles> = [
+                AzureAccessPermissionRoles.Contributor,
+                AzureAccessPermissionRoles.Owner,
+                AzureAccessPermissionRoles['Azure Digital Twins Data Owner']
+            ];
+            const requiredAccessPermissionRoles: AzureAccessPermissionRoleGroups = {
+                enforced: [AzureAccessPermissionRoles.Contributor],
+                interchangeables: [
+                    [
+                        AzureAccessPermissionRoles[
+                            'Azure Digital Twins Data Reader'
+                        ],
+                        AzureAccessPermissionRoles[
+                            'Azure Digital Twins Data Owner'
+                        ]
+                    ],
+                    [
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ],
+                        AzureAccessPermissionRoles['Storage Blob Data Owner']
+                    ]
+                ]
+            };
+
+            // ACT
+            const result = getMissingRoleIdsFromRequired(
+                assignedAccessPermissionRoles,
+                requiredAccessPermissionRoles
+            );
+
+            // ASSERT
+            expect(result).toMatchObject({
+                enforced: [],
+                interchangeables: [
+                    [
+                        AzureAccessPermissionRoles[
+                            'Storage Blob Data Contributor'
+                        ],
+                        AzureAccessPermissionRoles['Storage Blob Data Owner']
+                    ]
+                ]
+            } as AzureAccessPermissionRoleGroups);
         });
     });
 });

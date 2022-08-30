@@ -1,5 +1,4 @@
 import { ADT3DSceneAdapter, IAzureResource, MockAdapter } from '../..';
-import { BaseComponentProps } from '../BaseComponent/BaseComponent.types';
 
 type WithLocalStorage = {
     isLocalStorageEnabled: true;
@@ -21,9 +20,8 @@ type StorageContainer = {
     ) => void;
 } & (WithLocalStorage | WithoutLocalStorage);
 
-export type EnvironmentPickerProps = BaseComponentProps & {
+export type EnvironmentPickerProps = {
     adapter: ADT3DSceneAdapter | MockAdapter;
-    isDialogHidden?: boolean;
     onDismiss?: () => void;
     environmentUrl?: string;
     onEnvironmentUrlChange?: (
@@ -55,34 +53,63 @@ export type StorageAccountToContainersMapping = {
     containerNames: Array<string>;
 };
 
-// START of Actions
-export const SET_ENVIRONMENT_ITEMS = 'SET_ENVIRONMENT_ITEMS';
-export const SET_STORAGE_ACCOUNT_ITEMS = 'SET_STORAGE_ACCOUNT_ITEMS';
-export const SET_CONTAINER_ITEMS = 'SET_CONTAINER_ITEMS';
-export const SET_FIRST_TIME_VISIBLE = 'SET_FIRST_TIME_VISIBLE';
-export const SET_SELECTED_ITEMS_ON_SAVE = 'SET_SELECTED_ITEMS_ON_SAVE';
-export const RESET_ITEMS_ON_DISMISS = 'RESET_ITEMS_ON_DISMISS';
-export const HANDLE_ENVIRONMENT_CHANGE = 'HANDLE_ENVIRONMENT_CHANGE';
-export const HANDLE_STORAGE_ACCOUNT_CHANGE = 'HANDLE_STORAGE_ACCOUNT_CHANGE';
-export const HANDLE_STORAGE_ACCOUNT_LOADED = 'HANDLE_STORAGE_ACCOUNT_LOADED';
-export const HANDLE_CONTAINER_CHANGE = 'HANDLE_CONTAINER_CHANGE';
-// END of Actions
+export type EnvironmentItems = {
+    environments: Array<IAzureResource | string>; // list of name of environment resources or manually entered environment urls
+    environmentToEdit: IAzureResource | string; // either resource itself or manually entered environment url
+};
+
+export type StorageAccountItems = {
+    storageAccounts: Array<IAzureResource | string>; // list of name of storage account resources or manually entered storage account urls
+    storageAccountToEdit: IAzureResource | string; // either resource itself or manually entered account url
+};
+
+export type ContainerItems = {
+    containers: Array<IAzureResource | string>; // list of name of container resources or manually entered container names
+    containerToEdit: IAzureResource | string; // either resource itself or manually entered container name
+};
 
 export interface EnvironmentPickerState {
-    environmentItems: {
-        environments: Array<IAzureResource | string>; // list of name of environment resources or manually entered environment urls
-        selectedEnvironment: IAzureResource | string; // either resource itself or manually entered environment url
-        environmentToEdit: IAzureResource | string; // either resource itself or manually entered environment url
-    };
-    storageAccountItems: {
-        storageAccounts: Array<IAzureResource | string>; // list of name of storage account resources or manually entered storage account urls
-        selectedStorageAccount: IAzureResource | string; // either resource itself or manually entered account url
-        storageAccountToEdit: IAzureResource | string; // either resource itself or manually entered account url
-    };
-    containerItems: {
-        containers: Array<IAzureResource | string>; // list of name of container resources or manually entered container names
-        selectedContainer: IAzureResource | string; // either resource itself or manually entered container name
-        containerToEdit: IAzureResource | string; // either resource itself or manually entered container name
-    };
+    environmentItems: EnvironmentItems;
+    storageAccountItems: StorageAccountItems;
+    containerItems: ContainerItems;
     firstTimeVisible: boolean; // not to render resource picker components in the dialog content with data fetch requests if the dialog has not opened yet for the first time
 }
+
+export enum EnvironmentPickerActionType {
+    SET_ENVIRONMENT_ITEMS,
+    SET_STORAGE_ACCOUNT_ITEMS,
+    SET_CONTAINER_ITEMS,
+    MARK_DIALOG_AS_SHOWN,
+    RESET_ITEMS_ON_DISMISS,
+    HANDLE_STORAGE_ACCOUNT_LOADED
+}
+
+export type EnvironmentPickerAction =
+    | {
+          type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS;
+          payload: { environmentItems: EnvironmentItems };
+      }
+    | {
+          type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS;
+          payload: { storageAccountItems: StorageAccountItems };
+      }
+    | {
+          type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS;
+          payload: { containerItems: ContainerItems };
+      }
+    | {
+          type: EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN;
+      }
+    | {
+          type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS;
+          payload: {
+              selectedEnvironmentUrl: string;
+              selectedContainerUrl: string;
+              storageAccountToContainersMappings: Array<StorageAccountToContainersMapping>;
+              resetContainersCallback: () => void;
+          };
+      }
+    | {
+          type: EnvironmentPickerActionType.HANDLE_STORAGE_ACCOUNT_LOADED;
+          payload: { resources: IAzureResource[] };
+      };

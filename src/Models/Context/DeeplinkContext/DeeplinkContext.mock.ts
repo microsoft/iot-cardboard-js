@@ -9,5 +9,5 @@ export const GET_MOCK_DEEPLINK_STATE = (): IDeeplinkContextState => ({
     sceneId: 'scene id-0',
     selectedElementId: 'some element-0',
     selectedLayerIds: ['someLayerId-0'],
-    storageContainerUrl: 'https://storageContainerUrl-0'
+    storageUrl: 'https://storageUrl-0'
 });

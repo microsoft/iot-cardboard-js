@@ -961,7 +961,6 @@
     "checkingPermissions": "A verificar permissões...",
     "resolveIssues": "Resolver problemas",
     "resolvingIssues": "Resolver problemas...",
-    "missingPermissionsMessage": "Tem permissões que faltam. Você precisará de acesso como Leitor e ou Proprietário de Dados Blob de Armazenamento ou Colaborador de Dados blob de armazenamento.",
     "noMissingRoleDesc": "Sem permissões em falta detetadas, estamos a tentar verificar se as permissões atribuídas estão em vigor.",
     "finishedWithFailureDesc": "Tentativa falhada, por favor contacte o proprietário do recurso.",
     "verifyingPermissionsMessage": "Verificação de permissões...\nIsto pode levar alguns minutos.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Isto pode ser um problema DE CORS, url de blob inválido ou um erro de rede. Entre em contato com o proprietário do recipiente onde este ficheiro de ativos está armazenado ou tente novamente mais tarde.",
       "3dAssetLoadingGenericErrorMessage": "Modelo de carregamento de erros. Tente limpar o cache e tente novamente ou verifique o seu acesso a esse ficheiro.",
       "3dAssetDimensionError": "Pode haver um problema com as dimensões do seu modelo, verifique se não existem malhas erróneas."
-    }
+    },
+    "missingPermissionsMessage": "Tem permissões que faltam. Necessitará de acesso como Leitor (no mínimo) e proprietário de dados de armazenamento blob ou colaborador de dados de blob de armazenamento."
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {
@@ -1127,22 +1127,22 @@
     "refreshRate": "Refrescante cada {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Selecione um recurso",
     "noOption": "Nenhum recursos encontrado",
     "loadingResources": "Recursos de carregamento",
     "loadingInstances": "A carregar casos...",
     "loadingContainers": "Contentores de carga...",
     "loadingStorageAccounts": "A carregar contas de armazenamento...",
-    "enterEnvironmentUrl": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "por exemplo, https://example.blob.core.windows.net/",
-    "enterContainerUrl": "por exemplo, https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "Propriedade '{{displayField}} não encontrada no recurso com o id '{{id}}}'!",
     "removeFromList": "Remover da lista",
     "errors": {
       "invalidEnvironmentUrl": "Este não é um URL válido (por exemplo, https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Este não é um URL válido (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Este não é um URL válido (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Selecione um recurso",
+    "environmentDropdownPlaceholder": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar Twin",

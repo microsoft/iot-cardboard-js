@@ -9,7 +9,11 @@ import {
     ComponentErrorType,
     DTwin,
     IConsoleLogFunction,
-    DurationUnits
+    DurationUnits,
+    AzureResourceDisplayFields,
+    IAzureResource,
+    AzureAccessPermissionRoles,
+    AzureAccessPermissionRoleGroups
 } from '../Constants';
 import {
     DtdlInterface,
@@ -667,4 +671,89 @@ export function getDebugLogger(
                 break;
         }
     };
+}
+
+/**
+ * Check if two string type resource display property values are equal
+ * @param value1 resource property value
+ * @param value2 resource property value
+ * @example areResourceValuesEqual('https://exampleurl-1.com', 'https://exampleurl-2', AzureResourceDisplayFields.url)
+ * @returns true if they are equal, false if not or values are empty
+ */
+export function areResourceValuesEqual(
+    value1: string,
+    value2: string,
+    displayField: AzureResourceDisplayFields
+): boolean {
+    if (!value1 || !value2) return false;
+    if (displayField === AzureResourceDisplayFields.url) {
+        if (value1.endsWith('/')) {
+            value1 = value1.slice(0, -1);
+        }
+        if (value2.endsWith('/')) {
+            value2 = value2.slice(0, -1);
+        }
+        return value1.toLowerCase() === value2.toLowerCase();
+    } else {
+        return value1 === value2;
+    }
+}
+
+/**
+ * Retrieving the access permission role ids from role assignments resources
+ * @param roleAssingments list of role assignments to retrieve the role ids from
+ * @returns the list of role ids as AzureAccessPermissionRoles from the role assignment properties
+ */
+export function getRoleIdsFromRoleAssignments(
+    roleAssignments: Array<IAzureResource> = []
+): Array<AzureAccessPermissionRoles> {
+    const assignedRoleIds = new Set<AzureAccessPermissionRoles>();
+    roleAssignments.forEach((roleAssignment) => {
+        const roleId = roleAssignment.properties?.roleDefinitionId
+            ?.split('/')
+            .pop();
+        if (roleId) {
+            assignedRoleIds.add(roleId);
+        }
+    });
+    return Array.from(assignedRoleIds);
+}
+
+/**
+ * Returns the list of missing role ids based on the passed assigned role ids and required role ids to check against
+ * @param assignedRoleIds list of roles already assigned to the user
+ * @param requiredAccessRoles list of required roles as enforced or interchangeables to check against if the user is already assigned
+ * @returns the list of missing role group including missing enforced role ids and missing interchangeable role ids
+ */
+export function getMissingRoleIdsFromRequired(
+    assignedRoleIds: Array<AzureAccessPermissionRoles>,
+    requiredAccessRoles: AzureAccessPermissionRoleGroups
+): AzureAccessPermissionRoleGroups {
+    const missingRoleIds: AzureAccessPermissionRoleGroups = {
+        enforced: [],
+        interchangeables: []
+    };
+
+    requiredAccessRoles.enforced.forEach((enforcedRoleId) => {
+        if (!assignedRoleIds.includes(enforcedRoleId)) {
+            missingRoleIds.enforced.push(enforcedRoleId);
+        }
+    });
+
+    requiredAccessRoles.interchangeables.forEach(
+        // for each interchangeable permission group, at least one of the assignedRoleId needs to exist
+        (interchangeableRoleIdGroup) => {
+            if (
+                !assignedRoleIds.some((assignedRoleId) =>
+                    interchangeableRoleIdGroup.includes(assignedRoleId)
+                )
+            ) {
+                missingRoleIds.interchangeables.push(
+                    interchangeableRoleIdGroup
+                );
+            }
+        }
+    );
+
+    return missingRoleIds;
 }

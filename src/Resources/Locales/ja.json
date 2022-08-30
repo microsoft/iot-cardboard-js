@@ -961,7 +961,6 @@
     "checkingPermissions": "権限を確認しています...",
     "resolveIssues": "問題を解決する",
     "resolvingIssues": "問題を解決しています...",
-    "missingPermissionsMessage": "アクセス許可がありません。閲覧者として、またストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。",
     "noMissingRoleDesc": "不足しているアクセス許可は検出されませんでした。割り当てられたアクセス許可が有効かどうかを確認しようとしています。",
     "finishedWithFailureDesc": "試行に失敗しました。リソース所有者に連絡してください。",
     "verifyingPermissionsMessage": "アクセス許可を確認しています...\nこれには数分かかる場合があります。",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "これは、CORS の問題、無効な BLOB URL、またはネットワーク エラーである可能性があります。このアセットファイルが保存されているコンテナの所有者に連絡するか、後でもう一度やり直してください。",
       "3dAssetLoadingGenericErrorMessage": "モデルの読み込み中にエラーが発生しました。キャッシュをクリアしてもう一度やり直すか、そのファイルへのアクセスを確認してください。",
       "3dAssetDimensionError": "モデル寸法に問題がある可能性があります。誤ったメッシュがないことを確認してください。"
-    }
+    },
+    "missingPermissionsMessage": "アクセス許可がありません。読者として (少なくとも) アクセスし、ストレージ BLOB データ所有者またはストレージ BLOB データ共同作成者としてアクセスする必要があります。"
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {
@@ -1127,22 +1127,22 @@
     "refreshRate": "{{timeWithUnits}} のたびに更新する"
   },
   "resourcesPicker": {
-    "select": "リソースの選択",
     "noOption": "リソースが見つかりません",
     "loadingResources": "リソースのロード",
     "loadingInstances": "インスタンスを読み込んでいます...",
     "loadingContainers": "コンテナをロードしています...",
     "loadingStorageAccounts": "ストレージ アカウントを読み込んでいます...",
-    "enterEnvironmentUrl": "例:https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "例:https://example.blob.core.windows.net/",
-    "enterContainerUrl": "例:https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}' プロパティが '{{id}}' のリソースに見つかりません!",
     "removeFromList": "リストから削除",
     "errors": {
       "invalidEnvironmentUrl": "これは有効な URL ではありません (例: https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "これは有効な URL ではありません (例: https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "これは有効な URL ではありません (例: https://<あなたのストレージアカウント名>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "リソースの選択",
+    "environmentDropdownPlaceholder": "例:https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "例:https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "例:https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",

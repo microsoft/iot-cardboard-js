@@ -3,7 +3,7 @@ import {
     IAzureResource,
     IAzureSubscription
 } from '../../Constants/Interfaces';
-import { MissingAzureRoleDefinitionAssignments } from '../../Constants/Types';
+import { AzureAccessPermissionRoleGroups } from '../../Constants/Types';
 
 export class AzureSubscriptionData implements IAdapterData {
     data: Array<IAzureSubscription>;
@@ -30,9 +30,9 @@ export class AzureResourcesData implements IAdapterData {
 }
 
 export class AzureMissingRoleDefinitionsData implements IAdapterData {
-    data: MissingAzureRoleDefinitionAssignments;
+    data: AzureAccessPermissionRoleGroups;
 
-    constructor(data: MissingAzureRoleDefinitionAssignments) {
+    constructor(data: AzureAccessPermissionRoleGroups) {
         this.data = data;
     }
 

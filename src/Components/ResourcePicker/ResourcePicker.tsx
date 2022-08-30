@@ -32,11 +32,12 @@ import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
     IAzureResource,
+    IComponentError,
     ValidAdtHostSuffixes,
     ValidContainerHostSuffixes
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import { deepCopy } from '../../Models/Services/Utils';
+import { areResourceValuesEqual, deepCopy } from '../../Models/Services/Utils';
 
 const comboBoxOptionStyles = {
     root: {
@@ -77,8 +78,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         theme: useTheme()
     });
 
-    const [options, setOptions] = useState([]);
-    const [selectedOption, setSelectedOption] = useState<IComboBoxOption>(
+    const [options, setOptions] = useState<Array<IComboBoxOption>>([]);
+    const [
+        selectedOption,
+        setSelectedOption
+    ] = useState<IComboBoxOption | null>(
         selectedOptionProp
             ? {
                   key: selectedOptionProp,
@@ -90,8 +94,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const [additionalOptions, setAdditionalOptions] = useState<
         Array<IComboBoxOption>
     >([]);
-    const [selectedKey, setSelectedKey] = useState<string>(null); // resource id or the option text if manually entered option
-    const [error, setError] = useState(null);
+    const [selectedKey, setSelectedKey] = useState<string | number | null>(
+        null
+    ); // resource id or the option text if manually entered option
+    const [error, setError] = useState<IComponentError | null>(null);
     const resourcesRef = useRef<Array<IAzureResource>>([]);
 
     const resourcesState = useAdapter({
@@ -111,17 +117,19 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (displayField === AzureResourceDisplayFields.url) {
             switch (resourceType) {
                 case AzureResourceTypes.DigitalTwinInstance:
-                    return t('resourcesPicker.enterEnvironmentUrl');
+                    return t('resourcesPicker.environmentDropdownPlaceholder');
                 case AzureResourceTypes.StorageAccount:
-                    return t('resourcesPicker.enterStorageAccountUrl');
+                    return t(
+                        'resourcesPicker.storageAccountDropdownPlaceholder'
+                    );
                 case AzureResourceTypes.StorageBlobContainer:
-                    return t('resourcesPicker.enterContainerUrl');
+                    return t('resourcesPicker.containerDropdownPlaceholder');
                 default:
-                    return 'resourcesPicker.select';
+                    return 'resourcesPicker.selectResourcePlaceholder';
             }
         } else {
             if (options.length) {
-                return t('resourcesPicker.select');
+                return t('resourcesPicker.selectResourcePlaceholder');
             } else {
                 return t('resourcesPicker.noOption');
             }
@@ -140,24 +148,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 return t('resourcesPicker.loadingResources');
         }
     }, [resourceType, t]);
-
-    const areValuesEqual = useCallback(
-        (value1: string, value2: string) => {
-            if (!value1 || !value2) return false;
-            if (displayField === AzureResourceDisplayFields.url) {
-                if (value1.endsWith('/')) {
-                    value1 = value1.slice(0, -1);
-                }
-                if (value2.endsWith('/')) {
-                    value2 = value2.slice(0, -1);
-                }
-                return value1.toLowerCase() === value2.toLowerCase();
-            } else {
-                return value1 === value2;
-            }
-        },
-        [displayField]
-    );
 
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
@@ -199,9 +189,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     (additionalOption) =>
                         additionalOption.text &&
                         existingOptionTexts.findIndex((existingOptionText) =>
-                            areValuesEqual(
+                            areResourceValuesEqual(
                                 existingOptionText,
-                                additionalOption.text
+                                additionalOption.text,
+                                displayField
                             )
                         ) === -1
                 );
@@ -216,7 +207,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             if (selectedOption?.text) {
                 const selectedOptionInNewOptions = options.find((option) =>
-                    areValuesEqual(option.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        option.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 );
                 if (!selectedOptionInNewOptions) {
                     const freeFromOptionsHeaderExist = options?.find(
@@ -238,15 +233,33 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             }
             return options;
         },
-        [areValuesEqual, getDisplayFieldValue]
+        [displayField, getDisplayFieldValue]
     );
+
+    const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
+        // first sort by subscription name then by displayFieldValue within the same subscription
+        return r1.subscriptionName?.toLowerCase() >
+            r2.subscriptionName?.toLowerCase()
+            ? 1
+            : r1.subscriptionName?.toLowerCase() <
+              r2.subscriptionName?.toLowerCase()
+            ? -1
+            : getDisplayFieldValue(r1)?.toLowerCase() >
+              getDisplayFieldValue(r2)?.toLowerCase()
+            ? 1
+            : -1;
+    };
 
     const getOptionsFromResources = useCallback(
         (resources: IAzureResource[]) => {
-            const newOptions: Array<IComboBoxOption> = [];
-            let lastHeader = '';
+            const filteredAndSortedResources = resources
+                ?.filter(getDisplayFieldValue) // get only resources which have valid display field property
+                .sort(sortResources);
+
             // after fetching resources, first start creating dropdown options with resources which have display values
-            resources?.filter(getDisplayFieldValue).forEach((r) => {
+            const newOptions: Array<IComboBoxOption> = [];
+            let lastHeader;
+            filteredAndSortedResources?.forEach((r) => {
                 if (r.subscriptionName && lastHeader !== r.subscriptionName) {
                     newOptions.push({
                         key: r.subscriptionName,
@@ -280,7 +293,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [getDisplayFieldValue, displayField, t]
     );
 
-    const getResourcesFromOptions = (options: Array<IComboBoxOption>) => {
+    const getResourcesFromOptions = (
+        options: Array<IComboBoxOption>
+    ): Array<IAzureResource | string> => {
         return options
             ?.filter(
                 (option) =>
@@ -299,7 +314,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (
                 selectedOption &&
                 !additionalOptions?.find((o) =>
-                    areValuesEqual(o.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        o.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
@@ -327,7 +346,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (
                 selectedOption &&
                 !additionalOptions?.find((o) =>
-                    areValuesEqual(o.text, selectedOption.text)
+                    areResourceValuesEqual(
+                        o.text,
+                        selectedOption.text,
+                        displayField
+                    )
                 )
             ) {
                 newOptions = newOptions.concat([selectedOption]);
@@ -347,7 +370,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     useEffect(() => {
         if (selectedOptionProp) {
             const existingOption = options?.find((o) =>
-                areValuesEqual(o.text, selectedOptionProp)
+                areResourceValuesEqual(o.text, selectedOptionProp, displayField)
             );
             if (existingOption) {
                 setSelectedOption(existingOption);
@@ -424,6 +447,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const handleOnChange = useCallback(
         (option, value) => {
+            let resourceForOnChangeCallback: IAzureResource | string;
+            let resourcesForOnChangeCallback: Array<IAzureResource | string>;
+
             /**
              * when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
              * 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
@@ -432,12 +458,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             if (option) {
                 setSelectedOption(option);
                 setSelectedKey(option.data?.id ?? option.text);
-                if (onChange) {
-                    onChange(
-                        option.data || option.text,
-                        getResourcesFromOptions(options) || []
-                    );
-                }
+                resourceForOnChangeCallback = option.data || option.text;
+                resourcesForOnChangeCallback =
+                    getResourcesFromOptions(options) || [];
             } else {
                 const newParsedOptionValue = sanitizeOptionText(
                     value,
@@ -451,7 +474,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         isValidUrlStr(newParsedOptionValue, resourceType))
                 ) {
                     const existingOption = options.find((option) =>
-                        areValuesEqual(option.text, newParsedOptionValue)
+                        areResourceValuesEqual(
+                            option.text,
+                            newParsedOptionValue,
+                            displayField
+                        )
                     );
                     if (!existingOption) {
                         const newOption = {
@@ -474,24 +501,28 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         setSelectedOption(newOption);
                         setSelectedKey(newParsedOptionValue);
 
-                        if (onChange)
-                            onChange(
-                                newParsedOptionValue,
-                                getResourcesFromOptions(newOptions) || []
-                            );
+                        resourceForOnChangeCallback = newParsedOptionValue;
+                        resourcesForOnChangeCallback =
+                            getResourcesFromOptions(newOptions) || [];
                     } else {
                         setSelectedOption(existingOption);
                         setSelectedKey(existingOption.key);
-                        if (onChange)
-                            onChange(
-                                existingOption.data || existingOption.text,
-                                getResourcesFromOptions(options) || []
-                            );
+                        resourceForOnChangeCallback =
+                            existingOption.data || existingOption.text;
+                        resourcesForOnChangeCallback =
+                            getResourcesFromOptions(options) || [];
                     }
                 }
             }
+
+            if (onChange && (option || value)) {
+                onChange(
+                    resourceForOnChangeCallback,
+                    resourcesForOnChangeCallback
+                );
+            }
         },
-        [options, areValuesEqual, displayField, onChange, resourceType]
+        [options, displayField, onChange, resourceType]
     );
 
     const handleOnRemove = useCallback(
