@@ -109,7 +109,6 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     useEffect(() => {
         if (selectedProperty) {
             const operatorOptions = getOperators(selectedProperty.data.type);
-            console.log('options', operatorOptions);
             setOperatorOptions(operatorOptions);
             if (operatorOptions.length) {
                 setSelectedOperator(operatorOptions[0]);

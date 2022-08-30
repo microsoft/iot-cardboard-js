@@ -101,11 +101,8 @@ export const useFlattenedModelProperties = ({
                 allowedPropertyValueTypes
             );
             if (isMounted) {
-                console.log('IS MOUNTED');
                 setFlattenedModelProperties(newFlattenedModelProperties);
-                console.log('IS LOADING WILL BE CHANGED', isLoading);
                 setIsLoading(false);
-                console.log('IS LOADING HAS BEEN CHANGED', isLoading);
             }
         };
         updateModelProperties();
