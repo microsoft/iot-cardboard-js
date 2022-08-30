@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -20,6 +20,7 @@ import {
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
+import { sortAlphabetically } from '../../../../Models/Services/Utils';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -34,11 +35,16 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 }) => {
     const { t } = useTranslation();
     const twinCount = twins.length;
-
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
-    const columns: IColumn[] = [
+    const sortKey = '$dtId';
+    const [isSortedDescending, setSortDescending] = useState<boolean>(false);
+    const listItems = twins.sort(
+        sortAlphabetically(sortKey, isSortedDescending)
+    );
+
+    const staticColumns: IColumn[] = [
         {
             key: 'twin-id',
             name: t('twinId'),
@@ -47,7 +53,12 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             minWidth: 100,
             maxWidth: 230,
             data: 'string',
-            isPadded: true
+            isPadded: true,
+            onColumnClick: () => {
+                setSortDescending(
+                    isSortedDescending ? !isSortedDescending : true
+                );
+            }
         },
         {
             key: 'properties',
@@ -68,6 +79,17 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         };
     });
+
+    const columns: IColumn[] =
+        additionalColumns.length > 0
+            ? staticColumns.concat(additionalColumns)
+            : staticColumns;
+    // mark each column based on whether it's currently the one sorted
+    columns.forEach((x) => {
+        x.isSorted = sortKey === x.fieldName;
+        x.isSortedDescending = isSortedDescending;
+    });
+
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: IADTTwin,
         _itemIndex: number,
@@ -101,12 +123,8 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 {t('advancedSearch.results', { twinCount })}
             </h3>
             <DetailsList
-                items={twins}
-                columns={
-                    additionalColumns.length > 0
-                        ? columns.concat(additionalColumns)
-                        : columns
-                }
+                items={listItems}
+                columns={columns}
                 layoutMode={DetailsListLayoutMode.justified}
                 selectionPreservedOnEmptyClick={false}
                 ariaLabelForSelectionColumn={t(
