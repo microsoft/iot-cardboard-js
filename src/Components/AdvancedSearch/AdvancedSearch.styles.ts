@@ -31,17 +31,24 @@ export const getStyles = (
             classNames.headerText,
             {
                 margin: 0,
-                fontSize: '24px'
+                fontSize: '24px',
+                fontWeight: 600
             }
         ],
         mainHeader: [
             classNames.mainHeader,
             {
-                display: 'flex'
+                display: 'flex',
+                paddingBottom: 8
             }
         ],
         subtitle: [classNames.subtitle],
-        queryContainer: [classNames.queryContainer],
+        queryContainer: [
+            classNames.queryContainer,
+            {
+                marginBottom: 32
+            }
+        ],
         resultsContainer: [
             classNames.resultsContainer,
             {
@@ -58,8 +65,10 @@ export const getStyles = (
             },
             icon: {
                 root: {
+                    textAlign: 'center',
                     alignSelf: 'center',
                     paddingRight: 12,
+                    paddingTop: 8,
                     fontSize: 20
                 }
             }

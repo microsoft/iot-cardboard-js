@@ -1,6 +1,9 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+import {
+    getDefaultStoryDecorator,
+    IStoryContext
+} from '../../Models/Services/StoryUtilities';
 import AdvancedSearchModal from './AdvancedSearchModal';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
@@ -15,8 +18,11 @@ export default {
 
 type AdvancedSearchStory = ComponentStory<any>;
 
-const Template: AdvancedSearchStory = (args: IAdvancedSearchProps) => {
-    return <AdvancedSearchModal {...args} />;
+const Template: AdvancedSearchStory = (
+    args: IAdvancedSearchProps,
+    context: IStoryContext<IAdvancedSearchProps>
+) => {
+    return <AdvancedSearchModal {...args} theme={context.theme} />;
 };
 
 export const Base = Template.bind({}) as AdvancedSearchStory;
@@ -33,5 +39,6 @@ Base.args = {
         'integer',
         'double',
         'long'
-    ]
+    ],
+    theme: null
 } as IAdvancedSearchProps;

@@ -2,27 +2,34 @@ import React, { useEffect, useState } from 'react';
 import {
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
-    IQueryBuilderRowStyles
+    IQueryBuilderRowStyles,
+    OperatorData,
+    PropertyOption
 } from './QueryBuilder.types';
-import { getRowStyles } from './QueryBuilder.styles';
+import { getRowStyles, reactSelectStyles } from './QueryBuilder.styles';
 import {
     classNamesFunction,
     useTheme,
     styled,
-    Stack,
     Dropdown,
     IconButton,
     IDropdownOption,
     TextField,
-    IButtonStyles,
-    ComboBox,
-    IComboBoxOption,
-    IComboBox,
     SpinButton,
-    SelectableOptionMenuItemType
+    Callout
 } from '@fluentui/react';
-import { getOperators, OperatorData } from './QueryBuilderUtils';
-import { useFlattenedProperties } from './useFlattenedProperties';
+import { useId } from '@fluentui/react-hooks';
+import {
+    getDefaultCombinator,
+    getDefaultOperator,
+    getDefaultPropertyValues,
+    getOperators
+} from './QueryBuilderUtils';
+import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
+import Select, { components, SelectOptionActionMeta } from 'react-select';
+import { useTranslation } from 'react-i18next';
+import BaseComponent from '../../../BaseComponent/BaseComponent';
+import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -39,60 +46,94 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue,
         position,
         removeRow,
-        styles
+        styles,
+        theme,
+        updateSnippet
     } = props;
+    const propertySelectorId = useId('cb-advanced-search-property-select');
     const classNames = getClassNames(styles, {
-        theme: useTheme()
+        theme: useTheme(),
+        isOnlyFirstRow: isRemoveDisabled
     });
+    const { t } = useTranslation();
 
-    const [comboBoxOptions, setComboBoxOptions] = useState<IComboBoxOption[]>(
-        []
+    /** React select values */
+    const { isLoading, flattenedModelProperties } = useFlattenedModelProperties(
+        {
+            adapter,
+            allowedPropertyValueTypes
+        }
     );
+
+    const [propertyOptions, setPropertyOptions] = useState([]);
+
+    // Other
     const [selectedOperator, setSelectedOperator] = useState<
         IDropdownOption<OperatorData>
     >();
     const [operatorOptions, setOperatorOptions] = useState<
         IDropdownOption<OperatorData>[]
     >();
-    const [selectedProperty, setSelectedProperty] = useState<IDropdownOption>();
+    const [selectedProperty, setSelectedProperty] = useState<PropertyOption>();
     const [selectedCombinator, setSelectedCombinator] = useState<string>();
+    const [selectedValue, setSelectedValue] = useState<string>();
 
-    const { isLoading, flattenedProperties } = useFlattenedProperties({
-        adapter,
-        allowedPropertyValueTypes
-    });
-
+    // Effects
+    // Creating react-select options
     useEffect(() => {
-        const comboBoxOptions: IComboBoxOption[] = [];
-        if (flattenedProperties) {
-            Object.keys(flattenedProperties).forEach((modelName: string) => {
-                comboBoxOptions.push({
-                    key: modelName,
-                    text: modelName,
-                    itemType: SelectableOptionMenuItemType.Header
-                });
-                flattenedProperties[modelName].forEach((property) => {
-                    comboBoxOptions.push({
-                        key: property.key,
-                        text: property.localPath,
-                        data: {
-                            name: property.name,
-                            type: property.propertyType
-                        }
+        const propertyComboboxOptions = [];
+        if (flattenedModelProperties) {
+            Object.keys(flattenedModelProperties).forEach(
+                (modelName: string, index: number) => {
+                    propertyComboboxOptions.push({
+                        label: modelName,
+                        options: []
                     });
-                });
-            });
-            setComboBoxOptions(comboBoxOptions);
+                    flattenedModelProperties[modelName].forEach((property) => {
+                        propertyComboboxOptions[index].options.push({
+                            value: property.key,
+                            label: property.localPath,
+                            data: {
+                                name: property.name,
+                                type: property.propertyType
+                            }
+                        });
+                    });
+                }
+            );
+            setPropertyOptions(propertyComboboxOptions);
         }
-    }, [isLoading, flattenedProperties]);
+    }, [isLoading, flattenedModelProperties]);
 
+    // Update operator options
     useEffect(() => {
-        const operatorOptions = getOperators(selectedProperty?.data.type);
-        setOperatorOptions(operatorOptions);
-        if (operatorOptions.length) {
-            setSelectedOperator(operatorOptions[0]);
+        if (selectedProperty) {
+            const operatorOptions = getOperators(selectedProperty.data.type);
+            console.log('options', operatorOptions);
+            setOperatorOptions(operatorOptions);
+            if (operatorOptions.length) {
+                setSelectedOperator(operatorOptions[0]);
+            }
         }
     }, [selectedProperty]);
+
+    // Update snippet on any input change
+    useEffect(() => {
+        if (selectedProperty) {
+            updateSnippet(rowId, {
+                combinator: selectedCombinator
+                    ? selectedCombinator
+                    : getDefaultCombinator(),
+                operatorData: selectedOperator
+                    ? selectedOperator.data
+                    : getDefaultOperator(),
+                property: selectedProperty.data.name,
+                value: selectedValue
+                    ? selectedValue
+                    : getDefaultPropertyValues(selectedProperty.data.type)
+            });
+        }
+    }, [selectedCombinator, selectedOperator, selectedProperty, selectedValue]);
 
     const onChangeOperator = (
         _event: React.FormEvent<HTMLDivElement>,
@@ -110,24 +151,20 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         setSelectedCombinator(option.text);
     };
 
-    const onChangePropertyCombobox = (
-        _event: React.FormEvent<IComboBox>,
-        option?: IComboBoxOption
+    const onChangePropertySelected = (
+        newValue: PropertyOption,
+        _actionMeta: SelectOptionActionMeta<PropertyOption>
     ) => {
-        setSelectedProperty(option);
-        onChangeProperty(rowId, option.data?.name, option.data?.type);
+        setSelectedProperty(newValue);
+        onChangeProperty(rowId, newValue.data?.name, newValue.data?.type);
     };
 
     const onChangeValueField = (
         _event: React.SyntheticEvent<HTMLElement, Event>,
         newValue?: string
     ) => {
-        onChangeValue(rowId, {
-            combinator: selectedCombinator,
-            operatorData: selectedOperator.data,
-            property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
-            value: newValue
-        });
+        setSelectedValue(newValue);
+        onChangeValue(rowId, newValue);
     };
 
     const onChangeDropdownValue = (
@@ -135,26 +172,45 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         option?: IDropdownOption<any>,
         _index?: number
     ) => {
-        onChangeValue(rowId, {
-            combinator: selectedCombinator,
-            operatorData: selectedOperator.data,
-            property: selectedProperty.text, // MAYBE CHANGE TO DATA VALUE?
-            value: option.text
-        });
+        setSelectedValue(option.text);
+        onChangeValue(rowId, option.text);
     };
+
+    const propertySelectorStyles = reactSelectStyles(isRemoveDisabled);
+
+    const Group = (props) => (
+        <div>
+            <components.Group {...props} />
+        </div>
+    );
+
+    const Menu = (props) => (
+        <Callout
+            target={`#${propertySelectorId}`}
+            styles={classNames.subComponentStyles.propertyCallout}
+            isBeakVisible={false}
+        >
+            <BaseComponent theme={theme}>
+                <components.MenuList
+                    {...props}
+                    styles={propertySelectorStyles.menuList}
+                />
+            </BaseComponent>
+        </Callout>
+    );
 
     const renderValueField = () => {
         if (!selectedProperty) {
             return (
                 <TextField
-                    styles={classNames.subComponentStyles.textfield}
+                    styles={classNames.subComponentStyles.valueField}
                     disabled={true}
                 />
             );
         } else if (selectedProperty.data.type === 'string') {
             return (
                 <TextField
-                    styles={classNames.subComponentStyles.textfield}
+                    styles={classNames.subComponentStyles.valueField}
                     onChange={onChangeValueField}
                 />
             );
@@ -173,13 +229,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         }
                     ]}
                     onChange={onChangeDropdownValue}
-                    styles={classNames.subComponentStyles.textfield}
+                    styles={classNames.subComponentStyles.valueField}
                 />
             );
         } else {
             return (
                 <SpinButton
-                    styles={classNames.subComponentStyles.textfield}
+                    styles={classNames.subComponentStyles.valueField}
                     onChange={onChangeValueField}
                 />
             );
@@ -188,8 +244,8 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <Stack horizontal={true} style={{ alignItems: 'end' }}>
-                <div className={classNames.lastColumn}>
+            {!isRemoveDisabled && (
+                <div className={classNames.firstColumn}>
                     {position !== 0 && (
                         <Dropdown
                             options={[
@@ -204,38 +260,46 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                                 }
                             ]}
                             onChange={onChangeCombinator}
-                            styles={classNames.subComponentStyles.andDropdown}
                         />
                     )}
                 </div>
+            )}
+            <div className={classNames.inputColumn}>
                 {/* Property */}
-                <div className={classNames.propertyContainer}>
-                    <ComboBox
-                        options={comboBoxOptions}
-                        onChange={onChangePropertyCombobox}
-                    />
-                </div>
+                <Select<PropertyOption>
+                    id={propertySelectorId}
+                    options={propertyOptions}
+                    noOptionsMessage={() =>
+                        t('advancedSearch.noPropertiesFound')
+                    }
+                    isSearchable={true}
+                    components={{ Group: Group, Menu: Menu }}
+                    onChange={onChangePropertySelected}
+                    styles={propertySelectorStyles}
+                />
+            </div>
+            <div className={classNames.inputColumn}>
                 {/* Operator */}
                 <Dropdown
                     options={operatorOptions}
                     selectedKey={selectedOperator ? selectedOperator.key : null}
                     onChange={onChangeOperator}
-                    styles={classNames.subComponentStyles.operatorDropdown}
                 />
+            </div>
+            <div className={classNames.inputColumn}>
                 {/* Value */}
                 {renderValueField()}
+            </div>
+            <div className={classNames.buttonColumn}>
                 <IconButton
                     iconProps={{
                         iconName: 'trash'
                     }}
                     onClick={() => removeRow(position, rowId)}
                     disabled={isRemoveDisabled}
-                    styles={
-                        classNames.subComponentStyles
-                            .iconButton as Partial<IButtonStyles>
-                    }
+                    styles={classNames.subComponentStyles.deleteButton()}
                 />
-            </Stack>
+            </div>
         </div>
     );
 };

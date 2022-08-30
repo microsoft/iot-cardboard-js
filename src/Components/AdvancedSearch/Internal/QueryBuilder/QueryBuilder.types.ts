@@ -1,20 +1,20 @@
 import {
     IButtonStyles,
-    IDropdownStyles,
-    IStackStyles,
+    ICalloutContentStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
+import { Theme } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { QueryRowType } from './QueryBuilderUtils';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
     adapter: IModelledPropertyBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
+    theme: Theme;
     executeQuery: (query: string) => void;
     updateColumns: (propertyNames: Set<string>) => void;
     /**
@@ -28,11 +28,13 @@ export interface IQueryBuilderProps {
 
 export interface IQueryBuilderStyleProps {
     theme: ITheme;
+    rowCount: number;
 }
 export interface IQueryBuilderStyles {
     root: IStyle;
-    firstColumnHeader: IStyle;
-    columnHeader: IStyle;
+    headerGrid: IStyle;
+    headerText: IStyle;
+    rowContainer: IStyle;
     /**
      * SubComponent styles.
      */
@@ -45,7 +47,7 @@ export interface IQueryBuilderSubComponentStyles {
     searchButton?: Partial<IButtonStyles>;
 }
 
-/** Query builder types */
+/** Query row types */
 export interface IQueryBuilderRowProps {
     adapter: IModelledPropertyBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
@@ -56,9 +58,11 @@ export interface IQueryBuilderRowProps {
         propertyName: string,
         propertyType: PropertyValueType
     ) => void;
-    onChangeValue: (rowId: string, rowValue: QueryRowType) => void;
+    onChangeValue: (rowId: string, newValue: string) => void;
+    updateSnippet: (rowId: string, rowValue: QueryRowType) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
+    theme: Theme;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -68,13 +72,42 @@ export interface IQueryBuilderRowProps {
     >;
 }
 
+export type OperatorData = OperatorSimple | OperatorFunction;
+interface OperatorSimple {
+    operatorType: 'Simple';
+    operatorSymbol: string;
+}
+
+interface OperatorFunction {
+    operatorType: 'Function';
+    operatorFunction: (property: string, value: string) => string;
+}
+
+export interface QueryRowType {
+    property: string;
+    operatorData: OperatorData;
+    value: string;
+    combinator: string;
+}
+
+export interface PropertyOption {
+    value: string;
+    label: string;
+    data: {
+        name: string;
+        type: PropertyValueType;
+    };
+}
+
 export interface IQueryBuilderRowStyleProps {
     theme: ITheme;
+    isOnlyFirstRow: boolean;
 }
 export interface IQueryBuilderRowStyles {
     root: IStyle;
-    lastColumn: IStyle;
-    propertyContainer: IStyle;
+    firstColumn: IStyle;
+    inputColumn: IStyle;
+    buttonColumn: IStyle;
     /**
      * SubComponent styles.
      */
@@ -82,9 +115,7 @@ export interface IQueryBuilderRowStyles {
 }
 
 export interface IQueryBuilderRowSubComponentStyles {
-    iconButton?: Partial<IButtonStyles>;
-    operatorDropdown?: Partial<IDropdownStyles>;
-    andDropdown?: Partial<IDropdownStyles>;
-    stack?: Partial<IStackStyles>;
-    textfield?: Partial<ITextFieldStyles>;
+    propertyCallout?: Partial<ICalloutContentStyles>;
+    valueField?: Partial<ITextFieldStyles>;
+    deleteButton?: Partial<IButtonStyles>;
 }

@@ -56,8 +56,6 @@ export const buildModelledProperties = async ({
 
     try {
         // Get ADT Models
-        // TODO: CHECK IF THIS HAS WHAT I NEED TO FLATTEN THE PROPERTIES
-        // PARSE THIS!!
         const modelDict = (await adapter.getAllAdtModels()).getData()
             .parsedModels;
         console.log('modelDict', modelDict);
@@ -80,7 +78,6 @@ export const buildModelledProperties = async ({
         console.log('nestedFormat', modelledProperties.nestedFormat);
 
         // Flatten properties into list representation
-        // TODO: GET FLATTENED FORMAT IN A NEW HOOK
         modelledProperties.flattenedFormat = flattenModelledProperties(
             modelledProperties.nestedFormat
         );

@@ -1,14 +1,14 @@
 import { InterfaceInfo } from 'azure-iot-dtdl-parser/dist/parser/interfaceInfo';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import { useEffect, useState } from 'react';
-import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
+import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
 import {
     addInterface,
     flattenModelledProperties
-} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.model';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+} from '../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.model';
+import { PropertyValueType } from '../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
-interface IUseFlattenedPropertiesParams {
+interface IUseFlattenedModelPropertiesParams {
     /** Network interface with cached DTDL models & ability to resolve twins by Id */
     adapter: IModelledPropertyBuilderAdapter;
 
@@ -24,10 +24,10 @@ const getPropertyModel = (propertyId: string) => {
     return modelName;
 };
 
-const groupFlattenedProperties = (flattenedProperties) => {
+const groupFlattenedModelProperties = (flattenedModelProperties) => {
     const groupedProperties = {};
-    Object.keys(flattenedProperties).map((key: string) => {
-        flattenedProperties[key].map((property) => {
+    Object.keys(flattenedModelProperties).map((key: string) => {
+        flattenedModelProperties[key].map((property) => {
             const modelName = getPropertyModel(property.key);
             if (!groupedProperties[modelName]) {
                 groupedProperties[modelName] = [];
@@ -60,18 +60,18 @@ const filterModelledProperties = (
         );
     }
 
-    const flattenedPropertiesObject = flattenModelledProperties(
+    const flattenedModelPropertiesObject = flattenModelledProperties(
         modelledProperties['properties']
     );
 
-    const groupedFlattenedProperties = groupFlattenedProperties(
-        flattenedPropertiesObject
+    const groupedFlattenedModelProperties = groupFlattenedModelProperties(
+        flattenedModelPropertiesObject
     );
 
-    return groupedFlattenedProperties;
+    return groupedFlattenedModelProperties;
 };
 
-const buildFlattenedProperties = async (
+const buildFlattenedModelProperties = async (
     adapter: IModelledPropertyBuilderAdapter,
     allowedPropertyValueTypes: PropertyValueType[]
 ) => {
@@ -83,25 +83,29 @@ const buildFlattenedProperties = async (
     return filteredProperties;
 };
 
-export const useFlattenedProperties = ({
+export const useFlattenedModelProperties = ({
     adapter,
     allowedPropertyValueTypes
-}: IUseFlattenedPropertiesParams) => {
+}: IUseFlattenedModelPropertiesParams) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [flattenedProperties, setFlattenedProperties] = useState(null);
+    const [flattenedModelProperties, setFlattenedModelProperties] = useState(
+        null
+    );
 
     useEffect(() => {
         let isMounted = true;
 
         const updateModelProperties = async () => {
-            setIsLoading(true);
-            const newFlattenedProperties = await buildFlattenedProperties(
+            const newFlattenedModelProperties = await buildFlattenedModelProperties(
                 adapter,
                 allowedPropertyValueTypes
             );
             if (isMounted) {
-                setFlattenedProperties(newFlattenedProperties);
+                console.log('IS MOUNTED');
+                setFlattenedModelProperties(newFlattenedModelProperties);
+                console.log('IS LOADING WILL BE CHANGED', isLoading);
                 setIsLoading(false);
+                console.log('IS LOADING HAS BEEN CHANGED', isLoading);
             }
         };
         updateModelProperties();
@@ -112,5 +116,5 @@ export const useFlattenedProperties = ({
         };
     }, []);
 
-    return { isLoading, flattenedProperties };
+    return { isLoading, flattenedModelProperties };
 };

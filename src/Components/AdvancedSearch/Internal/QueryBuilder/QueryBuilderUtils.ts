@@ -1,5 +1,6 @@
 import { IDropdownOption } from '@fluentui/react';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { OperatorData, QueryRowType } from './QueryBuilder.types';
 
 // Used to substitute reserved words for valid query inputs in case property name matches a reserved word
 export enum RESERVED_WORDS {
@@ -42,23 +43,24 @@ export enum RESERVED_WORDS {
     IS_OF_MODEL
 }
 
-export type OperatorData = OperatorSimple | OperatorFunction;
-interface OperatorSimple {
-    operatorType: 'Simple';
-    operatorSymbol: string;
-}
+export const getDefaultPropertyValues = (type: PropertyValueType) => {
+    if (type === 'boolean') {
+        return 'True';
+    } else {
+        return '0';
+    }
+};
 
-interface OperatorFunction {
-    operatorType: 'Function';
-    operatorFunction: (property: string, value: string) => string;
-}
+export const getDefaultOperator = (): OperatorData => {
+    return {
+        operatorType: 'Simple',
+        operatorSymbol: '='
+    };
+};
 
-export interface QueryRowType {
-    property: string;
-    operatorData: OperatorData;
-    value: string;
-    combinator: string;
-}
+export const getDefaultCombinator = (): string => {
+    return 'And';
+};
 
 export const getOperators = (
     propertyType?: PropertyValueType
@@ -74,8 +76,7 @@ export const getOperators = (
             data: {
                 operatorType: 'Simple',
                 operatorSymbol: '='
-            },
-            selected: true
+            }
         },
         {
             key: '2',
@@ -166,7 +167,7 @@ export const buildQuery = (querySnippets: QueryRowType[]) => {
             );
         } else {
             if (index !== 0) {
-                fullQuery = fullQuery.concat(snippet.combinator);
+                fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
                 `WHERE ${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`

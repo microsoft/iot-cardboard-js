@@ -18,6 +18,8 @@ import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDeta
 import { IADTTwin } from '../../Models/Constants';
 import twinData from '../../Adapters/__mockData__/MockAdapterData/MockTwinData.json';
 import { MockAdapter } from '../../Adapters';
+import { useTranslation } from 'react-i18next';
+import BaseComponent from '../BaseComponent/BaseComponent';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -33,13 +35,16 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
         allowedPropertyValueTypes,
         isOpen,
         onDismiss,
-        styles
+        styles,
+        theme
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+    const { t } = useTranslation();
     const titleId = useId('advanced-search-modal-title');
     const additionalProperties = useRef(new Set<string>());
+    // TODO: Make this actually call query
     const executeQuery = (query: string) => {
         alert(query);
     };
@@ -55,38 +60,43 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
         >
-            <div className={classNames.header}>
-                <div className={classNames.mainHeader}>
-                    <Icon
-                        iconName={'search'}
-                        styles={classNames.subComponentStyles.icon}
-                    />
-                    {/* TODO: Add translations for this */}
-                    <h3 id={'titleId'} className={classNames.headerText}>
-                        Advanced property search
-                    </h3>
+            <BaseComponent theme={theme}>
+                <div className={classNames.header}>
+                    <div className={classNames.mainHeader}>
+                        <Icon
+                            iconName={'search'}
+                            styles={classNames.subComponentStyles.icon}
+                        />
+                        <h3 id={'titleId'} className={classNames.headerText}>
+                            {t('advancedSearch.modalTitle')}
+                        </h3>
+                    </div>
+                    <p className={classNames.subtitle}>
+                        {t('advancedSearch.modalSubtitle')}
+                    </p>
                 </div>
-                <p className={classNames.subtitle}>
-                    Link the right property by narrowing down your search
-                </p>
-            </div>
-            <div className={classNames.content}>
-                <div className={classNames.queryContainer}>
-                    <QueryBuilder
-                        adapter={adapter}
-                        allowedPropertyValueTypes={allowedPropertyValueTypes}
-                        executeQuery={executeQuery}
-                        updateColumns={updateColumns}
-                    />
+                <div className={classNames.content}>
+                    <div className={classNames.queryContainer}>
+                        <QueryBuilder
+                            adapter={adapter}
+                            allowedPropertyValueTypes={
+                                allowedPropertyValueTypes
+                            }
+                            executeQuery={executeQuery}
+                            updateColumns={updateColumns}
+                            theme={theme}
+                        />
+                    </div>
+                    <div className={classNames.resultsContainer}>
+                        <AdvancedSearchResultDetailsList
+                            twins={filteredTwins}
+                            searchedProperties={cols}
+                            adapter={new MockAdapter()}
+                            onTwinSelection={null}
+                        />
+                    </div>
                 </div>
-                <div className={classNames.resultsContainer}></div>
-                <AdvancedSearchResultDetailsList
-                    twins={filteredTwins}
-                    searchedProperties={cols}
-                    adapter={new MockAdapter()}
-                    onTwinSelection={null}
-                />
-            </div>
+            </BaseComponent>
         </Modal>
     );
 };
