@@ -45,8 +45,7 @@ import {
     IAzureSubscription,
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
-    InterchangeableStorageContainerAccessRoleIds,
-    EnforcedStorageContainerAccessRoleIds
+    RequiredAccessRoleGroupForStorageContainer
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -825,10 +824,9 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new AzureMissingRoleDefinitionsData({
-                    enforced: EnforcedStorageContainerAccessRoleIds,
-                    interchangeables: InterchangeableStorageContainerAccessRoleIds
-                }),
+                result: new AzureMissingRoleDefinitionsData(
+                    RequiredAccessRoleGroupForStorageContainer
+                ),
                 errorInfo: null
             });
         } catch (err) {

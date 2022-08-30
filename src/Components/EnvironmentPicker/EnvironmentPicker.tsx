@@ -31,12 +31,9 @@ import {
 import './EnvironmentPicker.scss';
 import {
     DOCUMENTATION_LINKS,
-    EnforcedADTAccessRoleIds,
-    EnforcedStorageAccountAccessRoleIds,
-    EnforcedStorageContainerAccessRoleIds,
-    InterchangeableADTAccessRoleIds,
-    InterchangeableStorageAccountAccessRoleIds,
-    InterchangeableStorageContainerAccessRoleIds
+    RequiredAccessRoleGroupForADTInstance,
+    RequiredAccessRoleGroupForStorageAccount,
+    RequiredAccessRoleGroupForStorageContainer
 } from '../../Models/Constants/Constants';
 import ResourcePicker from '../ResourcePicker/ResourcePicker';
 import {
@@ -528,10 +525,9 @@ const EnvironmentPicker = ({
                             resourceType={
                                 AzureResourceTypes.DigitalTwinInstance
                             }
-                            requiredAccessRoles={{
-                                enforced: EnforcedADTAccessRoleIds,
-                                interchangeables: InterchangeableADTAccessRoleIds
-                            }}
+                            requiredAccessRoles={
+                                RequiredAccessRoleGroupForADTInstance
+                            }
                             shouldFetchResourcesOnMount={
                                 !hasFetchedResources.current.adtInstances
                             }
@@ -561,10 +557,9 @@ const EnvironmentPicker = ({
                                     resourceType={
                                         AzureResourceTypes.StorageAccount
                                     }
-                                    requiredAccessRoles={{
-                                        enforced: EnforcedStorageAccountAccessRoleIds,
-                                        interchangeables: InterchangeableStorageAccountAccessRoleIds
-                                    }}
+                                    requiredAccessRoles={
+                                        RequiredAccessRoleGroupForStorageAccount
+                                    }
                                     shouldFetchResourcesOnMount={
                                         !hasFetchedResources.current
                                             .storageAccounts
@@ -608,10 +603,9 @@ const EnvironmentPicker = ({
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
                                     }
-                                    requiredAccessRoles={{
-                                        enforced: EnforcedStorageContainerAccessRoleIds,
-                                        interchangeables: InterchangeableStorageContainerAccessRoleIds
-                                    }}
+                                    requiredAccessRoles={
+                                        RequiredAccessRoleGroupForStorageContainer
+                                    }
                                     searchParams={{
                                         additionalParams: {
                                             storageAccountId: getStorageAccountId(

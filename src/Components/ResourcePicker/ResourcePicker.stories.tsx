@@ -7,12 +7,9 @@ import { MockAdapter } from '../../Adapters';
 import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
-    EnforcedADTAccessRoleIds,
-    EnforcedStorageAccountAccessRoleIds,
-    EnforcedStorageContainerAccessRoleIds,
-    InterchangeableADTAccessRoleIds,
-    InterchangeableStorageAccountAccessRoleIds,
-    InterchangeableStorageContainerAccessRoleIds
+    RequiredAccessRoleGroupForADTInstance,
+    RequiredAccessRoleGroupForStorageAccount,
+    RequiredAccessRoleGroupForStorageContainer
 } from '../../Models/Constants';
 
 const wrapperStyle = { width: '400px', padding: 8 };
@@ -32,10 +29,7 @@ const Template: ResourcePickerStory = (args) => {
 export const ADTInstances = Template.bind({}) as ResourcePickerStory;
 ADTInstances.args = {
     resourceType: AzureResourceTypes.DigitalTwinInstance,
-    requiredAccessRoles: {
-        enforced: EnforcedADTAccessRoleIds,
-        interchangeables: InterchangeableADTAccessRoleIds
-    },
+    requiredAccessRoles: RequiredAccessRoleGroupForADTInstance,
     label: 'ADT instances',
     displayField: AzureResourceDisplayFields.url,
     additionalOptions: [
@@ -48,10 +42,7 @@ ADTInstances.args = {
 export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
 StorageAccounts.args = {
     resourceType: AzureResourceTypes.StorageAccount,
-    requiredAccessRoles: {
-        enforced: EnforcedStorageAccountAccessRoleIds,
-        interchangeables: InterchangeableStorageAccountAccessRoleIds
-    },
+    requiredAccessRoles: RequiredAccessRoleGroupForStorageAccount,
     label: 'Storage accounts',
     displayField: AzureResourceDisplayFields.url
 };
@@ -59,10 +50,7 @@ StorageAccounts.args = {
 export const StorageContainers = Template.bind({}) as ResourcePickerStory;
 StorageContainers.args = {
     resourceType: AzureResourceTypes.StorageBlobContainer,
-    requiredAccessRoles: {
-        enforced: EnforcedStorageContainerAccessRoleIds,
-        interchangeables: InterchangeableStorageContainerAccessRoleIds
-    },
+    requiredAccessRoles: RequiredAccessRoleGroupForStorageContainer,
     label: 'Storage blob containers',
     displayField: AzureResourceDisplayFields.name
 };

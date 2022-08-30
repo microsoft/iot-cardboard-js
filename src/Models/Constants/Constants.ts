@@ -1,4 +1,5 @@
 import {
+    AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
     IADTObjectColor
@@ -445,15 +446,17 @@ export const BlobStorageServiceCorsAllowedHeaders = [
 ];
 
 export const EnforcedStorageAccountAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
-
 export const InterchangeableStorageAccountAccessRoleIds: Array<
     Array<AzureAccessPermissionRoles>
 > = [
     [AzureAccessPermissionRoles.Owner, AzureAccessPermissionRoles.Contributor]
 ];
+export const RequiredAccessRoleGroupForStorageAccount: AzureAccessPermissionRoleGroups = {
+    enforced: EnforcedStorageAccountAccessRoleIds,
+    interchangeables: InterchangeableStorageAccountAccessRoleIds
+};
 
 export const EnforcedStorageContainerAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
-
 export const InterchangeableStorageContainerAccessRoleIds: Array<
     Array<AzureAccessPermissionRoles>
 > = [
@@ -467,10 +470,13 @@ export const InterchangeableStorageContainerAccessRoleIds: Array<
         AzureAccessPermissionRoles.Owner
     ]
 ];
+export const RequiredAccessRoleGroupForStorageContainer: AzureAccessPermissionRoleGroups = {
+    enforced: EnforcedStorageContainerAccessRoleIds,
+    interchangeables: InterchangeableStorageContainerAccessRoleIds
+};
 
-export const EnforcedADTAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
-
-export const InterchangeableADTAccessRoleIds: Array<
+export const EnforcedADTInstanceAccessRoleIds: Array<AzureAccessPermissionRoles> = [];
+export const InterchangeableADTInstanceAccessRoleIds: Array<
     Array<AzureAccessPermissionRoles>
 > = [
     [
@@ -478,3 +484,7 @@ export const InterchangeableADTAccessRoleIds: Array<
         AzureAccessPermissionRoles['Azure Digital Twins Data Reader']
     ]
 ];
+export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGroups = {
+    enforced: EnforcedADTInstanceAccessRoleIds,
+    interchangeables: InterchangeableADTInstanceAccessRoleIds
+};

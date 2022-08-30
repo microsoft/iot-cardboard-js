@@ -25,10 +25,8 @@ import {
     instancesRefreshMaxAge,
     AzureAccessPermissionRoleGroups,
     modelRefreshMaxAge,
-    EnforcedADTAccessRoleIds,
-    InterchangeableADTAccessRoleIds,
-    EnforcedStorageContainerAccessRoleIds,
-    InterchangeableStorageContainerAccessRoleIds
+    RequiredAccessRoleGroupForStorageContainer,
+    RequiredAccessRoleGroupForADTInstance
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
@@ -95,10 +93,7 @@ export default class ADT3DSceneAdapter {
                 getResourcesParams: {
                     resourceType: AzureResourceTypes.DigitalTwinInstance
                 },
-                requiredAccessRoles: {
-                    enforced: EnforcedADTAccessRoleIds,
-                    interchangeables: InterchangeableADTAccessRoleIds
-                }
+                requiredAccessRoles: RequiredAccessRoleGroupForADTInstance
             });
             const result = digitalTwinInstances.result.data;
             const instance = result.find(
@@ -186,10 +181,7 @@ export default class ADT3DSceneAdapter {
                     const missingRoles = await this.getMissingRoleDefinitions(
                         storageResource.id,
                         this.uniqueObjectId,
-                        {
-                            enforced: EnforcedStorageContainerAccessRoleIds,
-                            interchangeables: InterchangeableStorageContainerAccessRoleIds
-                        }
+                        RequiredAccessRoleGroupForStorageContainer
                     );
 
                     return new AzureMissingRoleDefinitionsData(missingRoles);
