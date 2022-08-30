@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "Errore durante il caricamento del modello. Prova a svuotare la cache e riprova o controlla l'accesso per quel file.",
       "3dAssetDimensionError": "Potrebbe esserci un problema con le dimensioni del modello, si prega di verificare che non ci siano maglie errate."
     },
-    "missingPermissionsMessag": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione."
+    "missingPermissionsMessage": "Mancano le autorizzazioni. Sarà necessario accedere come lettore (come minimo) e proprietario dei dati BLOB di archiviazione o collaboratore dei dati BLOB di archiviazione."
   },
   "fieldRequired": "Questo campo è obbligatorio",
   "OATGraphViewer": {

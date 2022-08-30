@@ -978,7 +978,7 @@
       "3dAssetLoadingGenericErrorMessage": "Erreur de chargement du modèle. Essayez d’effacer votre cache et réessayez ou vérifiez votre accès pour ce fichier.",
       "3dAssetDimensionError": "Il peut y avoir un problème avec les dimensions de votre modèle, veuillez vérifier qu’il n’y a pas de maillages erronés."
     },
-    "missingPermissionsMessag": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage."
+    "missingPermissionsMessage": "Vous avez des autorisations manquantes. Vous aurez besoin d’un accès en tant que lecteur (au minimum) et soit propriétaire des données d’objet blob de stockage, soit contributeur de données d’objets blob de stockage."
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {
