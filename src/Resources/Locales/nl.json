@@ -1148,6 +1148,14 @@
     "toggleSelection": "Schakel in om Twin te selecteren",
     "selectRow": "Twin geselecteerd",
     "inspectProperty": "Inspecteer onroerend goed",
-    "results": "Resultaten ({{twinCount}})"
+    "results": "Resultaten ({{twinCount}})",
+    "addNewRow": "Nieuwe rij toevoegen",
+    "andOr": "Of",
+    "property": "Eigenschap",
+    "operator": "Bediener",
+    "value": "Waarde",
+    "modalTitle": "Geavanceerd zoeken naar onroerend goed",
+    "modalSubtitle": "Koppel de juiste woning door uw zoekopdracht te verfijnen",
+    "noPropertiesFound": "Geen accommodaties gevonden"
   }
 }

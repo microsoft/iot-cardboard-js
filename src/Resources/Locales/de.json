@@ -1148,6 +1148,14 @@
     "toggleSelection": "Zum Auswählen von Twin umschalten",
     "selectRow": "Twin Selected",
     "inspectProperty": "Inspect-Eigenschaft",
-    "results": "Ergebnisse ({{twinCount}})"
+    "results": "Ergebnisse ({{twinCount}})",
+    "addNewRow": "Neue Zeile hinzufügen",
+    "andOr": "und/oder",
+    "property": "Eigentum",
+    "operator": "Operator",
+    "value": "Wert",
+    "modalTitle": "Erweiterte Immobiliensuche",
+    "modalSubtitle": "Verknüpfen Sie die richtige Eigenschaft, indem Sie Ihre Suche eingrenzen",
+    "noPropertiesFound": "Keine Eigenschaften gefunden"
   }
 }

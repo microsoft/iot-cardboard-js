@@ -1148,6 +1148,14 @@
     "toggleSelection": "Alternar para Selecionar gêmeos",
     "selectRow": "Gêmeos Selecionados",
     "inspectProperty": "Inspecionar propriedade",
-    "results": "Resultados ({{twinCount}})"
+    "results": "Resultados ({{twinCount}})",
+    "addNewRow": "Adicionar nova linha",
+    "andOr": "E/Ou",
+    "property": "Propriedade",
+    "operator": "Operador",
+    "value": "Valor",
+    "modalTitle": "Pesquisa avançada de propriedade",
+    "modalSubtitle": "Vincule a propriedade certa, reduzindo sua pesquisa",
+    "noPropertiesFound": "Nenhuma propriedade encontrada"
   }
 }
