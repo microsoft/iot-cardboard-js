@@ -6,11 +6,11 @@ import React, {
     useState
 } from 'react';
 import {
+    AzureAccessPermissionRoleGroups,
     DOCUMENTATION_LINKS,
     IAdapterData,
     IComponentError,
-    IUseAdapter,
-    MissingAzureRoleDefinitionAssignments
+    IUseAdapter
 } from '../../../Models/Constants';
 import { PrimaryButton, Spinner, SpinnerSize } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -44,7 +44,7 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
     const [
         missingPermissions,
         setMissingPermissions
-    ] = useState<MissingAzureRoleDefinitionAssignments>(null);
+    ] = useState<AzureAccessPermissionRoleGroups>(null);
     const [internalPrimaryButtonText, setInternalPrimaryButtonText] = useState(
         ''
     );
@@ -58,7 +58,7 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
 
     const addMissingRolesToContainerAdapterData = useAdapter({
         adapterMethod: (params: {
-            permissionsToAdd: MissingAzureRoleDefinitionAssignments;
+            permissionsToAdd: AzureAccessPermissionRoleGroups;
         }) =>
             adapter.addMissingRolesToStorageContainer(params.permissionsToAdd),
         refetchDependencies: [adapter, errors],
@@ -66,24 +66,18 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
     });
 
     const onInternalPrimaryActionButtonClick = useCallback(async () => {
-        {
-            if (mode === ScenePageErrorHandlingMode.Idle) {
-                setMode(ScenePageErrorHandlingMode.CheckingIssues);
-                checkAccessOnContainerAdapterData.callAdapter();
-            } else if (mode === ScenePageErrorHandlingMode.DiagnosedIssues) {
-                setMode(ScenePageErrorHandlingMode.ResolvingIssues);
-                addMissingRolesToContainerAdapterData.callAdapter({
-                    permissionsToAdd: missingPermissions
-                });
-            } else if (
-                mode === ScenePageErrorHandlingMode.FinishedWithSuccess
-            ) {
-                verifyCallbackAdapterData.callAdapter();
-            } else if (
-                mode === ScenePageErrorHandlingMode.FinishedWithFailure
-            ) {
-                window.open(DOCUMENTATION_LINKS.overviewDocSetupSection);
-            }
+        if (mode === ScenePageErrorHandlingMode.Idle) {
+            setMode(ScenePageErrorHandlingMode.CheckingIssues);
+            checkAccessOnContainerAdapterData.callAdapter();
+        } else if (mode === ScenePageErrorHandlingMode.DiagnosedIssues) {
+            setMode(ScenePageErrorHandlingMode.ResolvingIssues);
+            addMissingRolesToContainerAdapterData.callAdapter({
+                permissionsToAdd: missingPermissions
+            });
+        } else if (mode === ScenePageErrorHandlingMode.FinishedWithSuccess) {
+            verifyCallbackAdapterData.callAdapter();
+        } else if (mode === ScenePageErrorHandlingMode.FinishedWithFailure) {
+            window.open(DOCUMENTATION_LINKS.overviewDocSetupSection);
         }
     }, [mode, missingPermissions]);
 
@@ -110,17 +104,17 @@ const UnauthorizedAccessHandling: React.FC<UnauthorizedAccessHandlingProps> = ({
     }, [mode, verifyCallbackAdapterData?.isLoading]);
 
     useEffect(() => {
-        const missingPermissionData = checkAccessOnContainerAdapterData.adapterResult.getData();
+        const missingPermissionData: AzureAccessPermissionRoleGroups = checkAccessOnContainerAdapterData.adapterResult.getData();
         if (missingPermissionData) {
             if (
                 missingPermissionData.enforced === null &&
-                missingPermissionData.alternated === null
+                missingPermissionData.interchangeables === null
             ) {
                 setMissingPermissions(null);
                 setMode(ScenePageErrorHandlingMode.FinishedWithFailure);
             } else if (
                 missingPermissionData.enforced.length === 0 &&
-                missingPermissionData.alternated.length === 0
+                missingPermissionData.interchangeables.length === 0
             ) {
                 setMissingPermissions(null);
                 setMode(ScenePageErrorHandlingMode.FinishedWithSuccess);

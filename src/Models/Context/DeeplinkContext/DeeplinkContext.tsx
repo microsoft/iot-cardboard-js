@@ -28,7 +28,7 @@ import {
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
 
-// &mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageContainerUrl=https://mockstorage.blob.core.windows.net/mockContainerName&adtUrl=https://mockadt.api.wcus.digitaltwins.azure.net
+// &mode=Viewer&sceneId=f7053e7537048e03be4d1e6f8f93aa8a&selectedElementIds=45131a84754280b924477f1df54ca547&selectedLayerIds=8904b620aa83c649888dadc7c8fdf492,9624b620aa83c649888dadc7c8fdf541&storageUrl=https://mockstorage.blob.core.windows.net/mockContainerName&adtUrl=https://mockadt.api.wcus.digitaltwins.azure.net
 
 export const DeeplinkContext = React.createContext<IDeeplinkContext>(null);
 export const useDeeplinkContext = () => useContext(DeeplinkContext);
@@ -46,9 +46,7 @@ export const DeeplinkContextReducer: (
         switch (action.type) {
             case DeeplinkContextActionType.SET_ADT_URL: {
                 draft.adtUrl = action.payload.url || '';
-                if (action.payload.url) {
-                    updateSelectedEnvironmentInLocalStorage(action.payload.url);
-                }
+                updateSelectedEnvironmentInLocalStorage(action.payload.url);
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
@@ -69,11 +67,9 @@ export const DeeplinkContextReducer: (
                 draft.sceneId = action.payload.sceneId || '';
                 break;
             }
-            case DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL: {
-                draft.storageContainerUrl = action.payload.url || '';
-                if (action.payload.url) {
-                    updateSelectedContainerInLocalStorage(action.payload.url);
-                }
+            case DeeplinkContextActionType.SET_STORAGE_URL: {
+                draft.storageUrl = action.payload.url || '';
+                updateSelectedContainerInLocalStorage(action.payload.url);
                 break;
             }
         }
@@ -117,9 +113,9 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             parseArrayParam(parsed.selectedLayerIds) ||
             initialState.selectedLayerIds ||
             [],
-        storageContainerUrl:
-            parsed.storageContainerUrl ||
-            initialState.storageContainerUrl ||
+        storageUrl:
+            parsed.storageUrl ||
+            initialState.storageUrl ||
             getSelectedContainerUrlFromLocalStorage() ||
             ''
     };
@@ -181,7 +177,7 @@ const buildDeeplink = (
             : undefined,
         mode: currentState.mode,
         adtUrl: currentState.adtUrl,
-        storageContainerUrl: currentState.storageContainerUrl
+        storageUrl: currentState.storageUrl
     };
 
     // if we only want the stringified object
@@ -223,11 +219,16 @@ const parseArrayParam = (value: string): string[] => {
 /**
  * read the selected environment url from local storage if exists to set the initial value of 'adtUrl' in the initial default state of DeeplinkContext
  */
-const getSelectedEnvironmentUrlFromLocalStorage = () => {
+const getSelectedEnvironmentUrlFromLocalStorage = (): string | null => {
     try {
-        return (JSON.parse(
-            localStorage.getItem(SelectedEnvironmentLocalStorageKey)
-        ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl;
+        const selectedEnvironmentInLocalStorage = localStorage.getItem(
+            SelectedEnvironmentLocalStorageKey
+        );
+        return selectedEnvironmentInLocalStorage
+            ? (JSON.parse(
+                  selectedEnvironmentInLocalStorage
+              ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl
+            : null;
     } catch (error) {
         console.error(error.message);
         return null;
@@ -235,9 +236,9 @@ const getSelectedEnvironmentUrlFromLocalStorage = () => {
 };
 
 /**
- * read the selected container url from local storage if exists to set the initial value of 'storageContainerUrl' in the initial default state of DeeplinkContext
+ * read the selected container url from local storage if exists to set the initial value of 'storageUrl' in the initial default state of DeeplinkContext
  */
-const getSelectedContainerUrlFromLocalStorage = () => {
+const getSelectedContainerUrlFromLocalStorage = (): string | null => {
     return localStorage.getItem(SelectedContainerLocalStorageKey);
 };
 
@@ -247,15 +248,29 @@ const getSelectedContainerUrlFromLocalStorage = () => {
 const updateSelectedEnvironmentInLocalStorage = (
     selectedEnvironmentUrl: string
 ) => {
-    localStorage.setItem(
-        SelectedEnvironmentLocalStorageKey,
-        JSON.stringify({
-            appAdtUrl: selectedEnvironmentUrl
-        })
-    );
+    if (selectedEnvironmentUrl) {
+        localStorage.setItem(
+            SelectedEnvironmentLocalStorageKey,
+            JSON.stringify({
+                appAdtUrl: selectedEnvironmentUrl
+            })
+        );
+    } else {
+        localStorage.removeItem(SelectedEnvironmentLocalStorageKey);
+    }
 };
 
+/**
+ * update the selected container url in local storage along with the update in the state of DeeplinkContext
+ */
 const updateSelectedContainerInLocalStorage = (selectedContainer: string) => {
-    localStorage.setItem(SelectedContainerLocalStorageKey, selectedContainer);
+    if (selectedContainer) {
+        localStorage.setItem(
+            SelectedContainerLocalStorageKey,
+            selectedContainer
+        );
+    } else {
+        localStorage.removeItem(SelectedContainerLocalStorageKey);
+    }
 };
 // END of local storage handling

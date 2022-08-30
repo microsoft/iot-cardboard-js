@@ -37,15 +37,15 @@ import {
     IAzureResource,
     PRIMARY_TWIN_NAME,
     AzureResourceTypes,
-    AzureAccessPermissionRoles,
-    MissingAzureRoleDefinitionAssignments,
+    AzureAccessPermissionRoleGroups,
     IAzureRoleAssignment,
     BlobStorageServiceCorsAllowedOrigins,
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
     IAzureSubscription,
     AzureResourceDisplayFields,
-    AdapterMethodParamsForGetAzureResources
+    AdapterMethodParamsForGetAzureResources,
+    RequiredAccessRoleGroupForStorageContainer
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -780,10 +780,7 @@ export default class MockAdapter
 
     async getResourcesByPermissions(params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
-        requiredAccessRoles: {
-            enforcedRoleIds: AzureAccessPermissionRoles[];
-            interchangeableRoleIds: AzureAccessPermissionRoles[];
-        };
+        requiredAccessRoles: AzureAccessPermissionRoleGroups;
     }) {
         try {
             const getResourcesResult = await this.getResources(
@@ -827,13 +824,9 @@ export default class MockAdapter
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new AzureMissingRoleDefinitionsData({
-                    alternated: [
-                        AzureAccessPermissionRoles[
-                            'Storage Blob Data Contributor'
-                        ]
-                    ]
-                }),
+                result: new AzureMissingRoleDefinitionsData(
+                    RequiredAccessRoleGroupForStorageContainer
+                ),
                 errorInfo: null
             });
         } catch (err) {
@@ -845,7 +838,7 @@ export default class MockAdapter
     }
 
     async addMissingRolesToStorageContainer(
-        _missingRoleDefinitionIds: MissingAzureRoleDefinitionAssignments
+        _missingRoleDefinitionIds: AzureAccessPermissionRoleGroups
     ) {
         try {
             await this.mockNetwork();

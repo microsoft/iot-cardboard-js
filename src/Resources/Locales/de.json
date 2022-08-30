@@ -961,7 +961,6 @@
     "checkingPermissions": "Berechtigungen werden überprüft...",
     "resolveIssues": "Beheben von Problemen",
     "resolvingIssues": "Probleme lösen...",
-    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader und entweder Storage Blob Data Owner oder Storage Blob Data Contributor.",
     "noMissingRoleDesc": "Keine fehlenden Berechtigungen erkannt, versuchen wir zu überprüfen, ob zugewiesene Berechtigungen wirksam sind.",
     "finishedWithFailureDesc": "Der Versuch ist fehlgeschlagen, wenden Sie sich an den Ressourcenbesitzer.",
     "verifyingPermissionsMessage": "Berechtigungen überprüfen...\nDies kann einige Minuten dauern.",
@@ -978,7 +977,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Dies kann ein CORS-Problem, eine ungültige Blob-URL oder ein Netzwerkfehler sein. Bitte wenden Sie sich an den Eigentümer des Containers, in dem diese Asset-Datei gespeichert ist, oder versuchen Sie es später erneut.",
       "3dAssetLoadingGenericErrorMessage": "Fehler beim Laden des Modells. Versuchen Sie, den Cache zu leeren, und versuchen Sie es erneut, oder überprüfen Sie Ihren Zugriff auf diese Datei.",
       "3dAssetDimensionError": "Möglicherweise liegt ein Problem mit den Abmessungen Ihres Modells vor, bitte überprüfen Sie, ob keine fehlerhaften Netze vorhanden sind."
-    }
+    },
+    "missingPermissionsMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als Reader (mindestens) und entweder als Storage Blob Data Owner oder Storage Blob Data Contributor."
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
@@ -1127,22 +1127,22 @@
     "refreshRate": "Aktualisieren aller {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Wählen Sie eine Ressource aus",
     "noOption": "Keine Ressourcen gefunden",
     "loadingResources": "Laden von Ressourcen",
     "loadingInstances": "Instanzen werden geladen...",
     "loadingContainers": "Container beladen...",
     "loadingStorageAccounts": "Speicherkonten werden geladen...",
-    "enterEnvironmentUrl": "z.B. https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "z.B. https://example.blob.core.windows.net/",
-    "enterContainerUrl": "z.B. https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "'{{displayField}}'-Eigenschaft in der Ressource mit der ID '{{id}}' nicht gefunden!",
     "removeFromList": "Aus Liste entfernen",
     "errors": {
       "invalidEnvironmentUrl": "Dies ist keine gültige URL (z. B. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Wählen Sie eine Ressource aus",
+    "environmentDropdownPlaceholder": "z.B. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Zum Auswählen von Twin umschalten",

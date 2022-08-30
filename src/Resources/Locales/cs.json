@@ -1081,7 +1081,6 @@
     "checkingPermissions": "Kontrola oprávnění...",
     "resolveIssues": "Řešení problémů",
     "resolvingIssues": "Řešení problémů...",
-    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště.",
     "noMissingRoleDesc": "Nebyla zjištěna žádná chybějící oprávnění, pokoušíme se ověřit, zda jsou přiřazená oprávnění v platnosti.",
     "finishedWithFailureDesc": "Pokus se nezdařil, obraťte se na vlastníka prostředku.",
     "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
@@ -1098,7 +1097,8 @@
       "3dAssetLoadingNetworkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL objektu BLOB nebo chybu sítě. Obraťte se na vlastníka kontejneru, ve kterém je tento soubor datového zdroje uložený, nebo to zkuste znovu později.",
       "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
       "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
-    }
+    },
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště."
   },
   "fieldRequired": "Toto pole je povinné",
   "duration": {
@@ -1127,22 +1127,22 @@
     "refreshRate": "Aktualizace každého {{timeWithUnits}}"
   },
   "resourcesPicker": {
-    "select": "Výběr zdroje",
     "noOption": "Nebyly nalezeny žádné zdroje",
     "loadingResources": "Načítání zdrojů",
     "loadingInstances": "Načítání instancí...",
     "loadingContainers": "Nakládka kontejnerů...",
     "loadingStorageAccounts": "Načítání účtů úložiště...",
-    "enterEnvironmentUrl": "např. https://example.api.wus2.digitaltwins.azure.net",
-    "enterStorageAccountUrl": "např. https://example.blob.core.windows.net/",
-    "enterContainerUrl": "např. https://example.blob.core.windows.net/example",
     "displayFieldNotFound": "Vlastnost '{{displayField}}' nebyla nalezena v prostředku s id '{{id}}'!",
     "removeFromList": "Odebrat ze seznamu",
     "errors": {
       "invalidEnvironmentUrl": "Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
       "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
       "invalidStorageAccountUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net)"
-    }
+    },
+    "selectResourcePlaceholder": "Výběr zdroje",
+    "environmentDropdownPlaceholder": "např. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "např. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "např. https://example.blob.core.windows.net/example"
   },
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",
