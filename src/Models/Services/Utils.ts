@@ -671,5 +671,5 @@ export function getDebugLogger(
 
 /** checks if a value is null or undefined and returns true if it's not one of those values */
 export function isDefined(value: unknown) {
-    return value != null || value != undefined;
+    return value != null && value != undefined;
 }
