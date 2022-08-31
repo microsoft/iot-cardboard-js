@@ -150,13 +150,14 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
     );
 
-    // notify telemetry service of changes to the environment
+    // notify telemetry service of changes to the adt instance
     useEffect(() => {
-        TelemetryService.setEnvironment(
-            deeplinkState.adtUrl,
-            deeplinkState.storageContainerUrl
-        );
-    }, [deeplinkState.adtUrl, deeplinkState.storageContainerUrl]);
+        TelemetryService.setAdtInstance(deeplinkState.adtUrl);
+    }, [deeplinkState.adtUrl]);
+    // notify telemetry service of changes to the blob storage
+    useEffect(() => {
+        TelemetryService.setStorageContainerUrl(deeplinkState.storageUrl);
+    }, [deeplinkState.storageUrl]);
     // notify telemetry service of changes to the scene id
     useEffect(() => {
         TelemetryService.setSceneId(deeplinkState.sceneId);

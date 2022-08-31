@@ -1,17 +1,19 @@
 /** The property names for custom properties in the payload */
 export const CUSTOM_PROPERTY_NAMES = {
+    /** hashed value for the adt instance */
+    AdtInstanceHash: 'AdtInstanceHash',
     /** region of the app (builder/viewer/etc.) */
     AppRegion: 'AppRegion',
     /** name of the emitting component */
     ComponentName: 'ComponentName',
-    /** hashed value for the environment */
-    EnvironmentHash: 'EnvironmentHash',
-    /** type of action (user, system, etc.) */
-    TriggerType: 'TriggerType',
+    /** hashed id of the parent scene */
+    ParentSceneHash: 'ParentSceneHash',
     /** hashed id of the scene */
     SceneHash: 'SceneHash',
-    /** hashed id of the parent scene */
-    ParentSceneHash: 'ParentSceneHash'
+    /** hashed value for the adt instance */
+    StorageContainerHash: 'StorageContainerHash',
+    /** type of action (user, system, etc.) */
+    TriggerType: 'TriggerType'
 };
 
 /** Highest level sections of the app */

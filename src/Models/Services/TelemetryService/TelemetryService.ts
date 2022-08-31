@@ -19,7 +19,8 @@ const logDebugConsole = getDebugLogger('TelemetryService', debugLogging);
 
 class TelemetryService {
     static telemetryCallback: (telemetry: TelemetryItem) => Promise<void>;
-    private static environmentHash: string; // the hashed value of the environment
+    private static adtInstanceHash: string; // the hashed value of the adt instance URL
+    private static storageContainerHash: string; // the hashed value of the storage container url
     private static sceneHash: string; // the hash of the scene id
 
     // Attach telemetry processing callback from consuming application
@@ -55,17 +56,29 @@ class TelemetryService {
 
     // #region public setters
 
-    /** store the current environment parameters */
-    static setEnvironment(
-        adtInstanceUrl: string,
-        storageBlobUrl: string
-    ): void {
-        this.environmentHash = Md5.hashStr(adtInstanceUrl + storageBlobUrl);
+    /**
+     * store the current adt instance
+     * @param adtInstanceUrl
+     */
+    static setAdtInstance(adtInstanceUrl: string): void {
+        this.adtInstanceHash = Md5.hashStr(adtInstanceUrl);
         logDebugConsole(
             'debug',
-            `Updating environment hash to ${this.environmentHash}. {storageUrl, adtInstance}`,
-            storageBlobUrl,
+            `Updating adt instance hash to ${this.adtInstanceHash}. {adtInstance}`,
             adtInstanceUrl
+        );
+    }
+
+    /**
+     * store the current blob storage container url
+     * @param blobStorageContainerUrl the url for the storage container
+     */
+    static setStorageContainerUrl(blobStorageContainerUrl: string): void {
+        this.storageContainerHash = Md5.hashStr(blobStorageContainerUrl);
+        logDebugConsole(
+            'debug',
+            `Updating storage URL to ${this.storageContainerHash}. {storageUrl}`,
+            blobStorageContainerUrl
         );
     }
 
@@ -107,11 +120,17 @@ class TelemetryService {
                 CUSTOM_PROPERTY_NAMES.SceneHash
             ] = this.sceneHash;
         }
-        // add the Environment hash
-        if (this.environmentHash) {
+        // add the adt instance hash
+        if (this.adtInstanceHash) {
             telemetry.customProperties[
-                CUSTOM_PROPERTY_NAMES.EnvironmentHash
-            ] = this.environmentHash;
+                CUSTOM_PROPERTY_NAMES.AdtInstanceHash
+            ] = this.adtInstanceHash;
+        }
+        // add the storage container hash
+        if (this.storageContainerHash) {
+            telemetry.customProperties[
+                CUSTOM_PROPERTY_NAMES.StorageContainerHash
+            ] = this.storageContainerHash;
         }
     }
 
