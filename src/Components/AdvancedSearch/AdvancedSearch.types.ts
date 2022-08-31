@@ -29,12 +29,10 @@ export interface IAdvancedSearchStyleProps {
 }
 export interface IAdvancedSearchStyles {
     content: IStyle;
-    header: IStyle;
+    headerContainer: IStyle;
     headerText: IStyle;
-    mainHeader: IStyle;
+    titleContainer: IStyle;
     subtitle: IStyle;
-    queryContainer: IStyle;
-    resultsContainer: IStyle;
     /**
      * SubComponent styles.
      */

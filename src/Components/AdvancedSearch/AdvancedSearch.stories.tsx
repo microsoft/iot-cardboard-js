@@ -4,7 +4,7 @@ import {
     getDefaultStoryDecorator,
     IStoryContext
 } from '../../Models/Services/StoryUtilities';
-import AdvancedSearchModal from './AdvancedSearchModal';
+import AdvancedSearch from './AdvancedSearch';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 
@@ -12,7 +12,7 @@ const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
 export default {
     title: 'Components/AdvancedSearch',
-    component: AdvancedSearchModal,
+    component: AdvancedSearch,
     decorators: [getDefaultStoryDecorator<IAdvancedSearchProps>(wrapperStyle)]
 };
 
@@ -22,7 +22,7 @@ const Template: AdvancedSearchStory = (
     args: IAdvancedSearchProps,
     context: IStoryContext<IAdvancedSearchProps>
 ) => {
-    return <AdvancedSearchModal {...args} theme={context.theme} />;
+    return <AdvancedSearch {...args} theme={args.theme || context.theme} />;
 };
 
 export const Base = Template.bind({}) as AdvancedSearchStory;

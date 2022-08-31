@@ -10,7 +10,9 @@ import {
     useTheme,
     styled,
     Modal,
-    Icon
+    Icon,
+    Stack,
+    IStackTokens
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
@@ -29,7 +31,7 @@ const getClassNames = classNamesFunction<
 const filteredTwins: IADTTwin[] = twinData;
 
 const cols = ['InFlow', 'OutFlow', 'Temperature'];
-const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
+const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const {
         adapter,
         allowedPropertyValueTypes,
@@ -51,6 +53,10 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const updateColumns = (properties: Set<string>) => {
         additionalProperties.current = properties;
     };
+    const stackTokens: IStackTokens = {
+        childrenGap: '20px',
+        maxHeight: 550
+    };
 
     return (
         <Modal
@@ -60,9 +66,9 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
         >
-            <BaseComponent theme={theme}>
-                <div className={classNames.header}>
-                    <div className={classNames.mainHeader}>
+            <BaseComponent theme={theme} disableDefaultStyles={true}>
+                <div className={classNames.headerContainer}>
+                    <div className={classNames.titleContainer}>
                         <Icon
                             iconName={'search'}
                             styles={classNames.subComponentStyles.icon}
@@ -76,7 +82,7 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                     </p>
                 </div>
                 <div className={classNames.content}>
-                    <div className={classNames.queryContainer}>
+                    <Stack tokens={stackTokens}>
                         <QueryBuilder
                             adapter={adapter}
                             allowedPropertyValueTypes={
@@ -86,15 +92,19 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                             updateColumns={updateColumns}
                             theme={theme}
                         />
-                    </div>
-                    <div className={classNames.resultsContainer}>
                         <AdvancedSearchResultDetailsList
                             twins={filteredTwins}
                             searchedProperties={cols}
                             adapter={new MockAdapter()}
                             onTwinSelection={null}
+                            styles={{
+                                root: {
+                                    maxHeight: 380,
+                                    overflow: 'auto'
+                                }
+                            }}
                         />
-                    </div>
+                    </Stack>
                 </div>
             </BaseComponent>
         </Modal>
@@ -105,4 +115,4 @@ export default styled<
     IAdvancedSearchProps,
     IAdvancedSearchStyleProps,
     IAdvancedSearchStyles
->(AdvancedSearchModal, getStyles);
+>(AdvancedSearch, getStyles);

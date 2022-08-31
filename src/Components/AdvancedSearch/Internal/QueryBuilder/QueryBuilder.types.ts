@@ -59,7 +59,7 @@ export interface IQueryBuilderRowProps {
         propertyType: PropertyValueType
     ) => void;
     onChangeValue: (rowId: string, newValue: string) => void;
-    updateSnippet: (rowId: string, rowValue: QueryRowType) => void;
+    onUpdateSnippet: (rowId: string, rowValue: QueryRowType) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
     theme: Theme;

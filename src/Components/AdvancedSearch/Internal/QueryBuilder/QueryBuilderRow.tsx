@@ -20,8 +20,8 @@ import {
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
-    getDefaultCombinator,
-    getDefaultOperator,
+    DEFAULT_COMBINATOR,
+    DEFAULT_OPERATOR,
     getDefaultPropertyValues,
     getOperators
 } from './QueryBuilderUtils';
@@ -29,7 +29,6 @@ import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlatten
 import Select, { components, SelectOptionActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../../../BaseComponent/BaseComponent';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -48,7 +47,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         removeRow,
         styles,
         theme,
-        updateSnippet
+        onUpdateSnippet
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
     const classNames = getClassNames(styles, {
@@ -94,7 +93,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                             value: property.key,
                             label: property.localPath,
                             data: {
-                                name: property.name,
+                                name: property.localPath,
                                 type: property.propertyType
                             }
                         });
@@ -119,13 +118,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Update snippet on any input change
     useEffect(() => {
         if (selectedProperty) {
-            updateSnippet(rowId, {
+            onUpdateSnippet(rowId, {
                 combinator: selectedCombinator
                     ? selectedCombinator
-                    : getDefaultCombinator(),
+                    : DEFAULT_COMBINATOR,
                 operatorData: selectedOperator
                     ? selectedOperator.data
-                    : getDefaultOperator(),
+                    : DEFAULT_OPERATOR,
                 property: selectedProperty.data.name,
                 value: selectedValue
                     ? selectedValue
@@ -177,11 +176,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
 
     const propertySelectorStyles = reactSelectStyles(isRemoveDisabled);
 
-    const Group = (props) => (
-        <div>
-            <components.Group {...props} />
-        </div>
-    );
+    const Group = (props) => <components.Group {...props} />;
 
     const Menu = (props) => (
         <Callout
@@ -189,7 +184,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             styles={classNames.subComponentStyles.propertyCallout}
             isBeakVisible={false}
         >
-            <BaseComponent theme={theme}>
+            <BaseComponent theme={theme} disableDefaultStyles={true}>
                 <components.MenuList
                     {...props}
                     styles={propertySelectorStyles.menuList}

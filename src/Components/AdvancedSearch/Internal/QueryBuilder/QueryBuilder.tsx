@@ -11,7 +11,8 @@ import {
     useTheme,
     styled,
     ActionButton,
-    PrimaryButton
+    PrimaryButton,
+    Stack
 } from '@fluentui/react';
 import QueryBuilderRow from './QueryBuilderRow';
 import { buildQuery } from './QueryBuilderUtils';
@@ -146,40 +147,46 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.headerGrid}>
-                {!(rows.length === 1) && (
+            <Stack tokens={{ childrenGap: 10 }}>
+                <div className={classNames.headerGrid}>
+                    {!(rows.length === 1) && (
+                        <p className={classNames.headerText}>
+                            {t('advancedSearch.andOr')}
+                        </p>
+                    )}
                     <p className={classNames.headerText}>
-                        {t('advancedSearch.andOr')}
+                        {t('advancedSearch.property')}
                     </p>
-                )}
-                <p className={classNames.headerText}>
-                    {t('advancedSearch.property')}
-                </p>
-                <p className={classNames.headerText}>
-                    {t('advancedSearch.operator')}
-                </p>
-                <p className={classNames.headerText}>
-                    {t('advancedSearch.value')}
-                </p>
-            </div>
-            <div className={classNames.rowContainer}>
-                {rows.map((row, index) => (
-                    <QueryBuilderRow
-                        adapter={adapter}
-                        allowedPropertyValueTypes={allowedPropertyValueTypes}
-                        key={row.rowId}
-                        position={index}
-                        removeRow={removeRow}
-                        rowId={row.rowId}
-                        onChangeValue={onChangeValue}
-                        onChangeProperty={onChangeProperty}
-                        updateSnippet={updateQuerySnippet}
-                        isRemoveDisabled={rows.length === 1}
-                        styles={classNames.subComponentStyles.row}
-                        theme={theme}
-                    />
-                ))}
-            </div>
+                    <p className={classNames.headerText}>
+                        {t('advancedSearch.operator')}
+                    </p>
+                    <p className={classNames.headerText}>
+                        {t('advancedSearch.value')}
+                    </p>
+                </div>
+                <div className={classNames.rowContainer}>
+                    <Stack tokens={{ childrenGap: 10 }}>
+                        {rows.map((row, index) => (
+                            <QueryBuilderRow
+                                adapter={adapter}
+                                allowedPropertyValueTypes={
+                                    allowedPropertyValueTypes
+                                }
+                                key={row.rowId}
+                                position={index}
+                                removeRow={removeRow}
+                                rowId={row.rowId}
+                                onChangeValue={onChangeValue}
+                                onChangeProperty={onChangeProperty}
+                                onUpdateSnippet={updateQuerySnippet}
+                                isRemoveDisabled={rows.length === 1}
+                                styles={classNames.subComponentStyles.row}
+                                theme={theme}
+                            />
+                        ))}
+                    </Stack>
+                </div>
+            </Stack>
             <ActionButton
                 onClick={appendRow}
                 text={t('advancedSearch.addNewRow')}

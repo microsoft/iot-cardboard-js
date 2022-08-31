@@ -51,16 +51,12 @@ export const getDefaultPropertyValues = (type: PropertyValueType) => {
     }
 };
 
-export const getDefaultOperator = (): OperatorData => {
-    return {
-        operatorType: 'Simple',
-        operatorSymbol: '='
-    };
+export const DEFAULT_OPERATOR: OperatorData = {
+    operatorType: 'Simple',
+    operatorSymbol: '='
 };
 
-export const getDefaultCombinator = (): string => {
-    return 'And';
-};
+export const DEFAULT_COMBINATOR = 'And';
 
 export const getOperators = (
     propertyType?: PropertyValueType
