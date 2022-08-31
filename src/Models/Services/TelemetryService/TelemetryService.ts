@@ -36,19 +36,19 @@ class TelemetryService {
         this.sendTelemetry(telemetry);
     }
 
-    static sendMetric(telemetry: TelemetryMetric) {
-        this.sendTelemetry(telemetry);
-    }
-
     static sendException(telemetry: TelemetryException) {
         this.sendTelemetry(telemetry);
     }
 
-    static sendTrace(telemetry: TelemetryTrace) {
+    static sendMetric(telemetry: TelemetryMetric) {
         this.sendTelemetry(telemetry);
     }
 
     static sendRequest(telemetry: TelemetryRequest) {
+        this.sendTelemetry(telemetry);
+    }
+
+    static sendTrace(telemetry: TelemetryTrace) {
         this.sendTelemetry(telemetry);
     }
 

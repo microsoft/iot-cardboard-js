@@ -8,12 +8,18 @@ import {
 } from '../Telemetry';
 import TelemetryService from '../../../../Models/Services/TelemetryService/TelemetryService';
 import {
-    IBaseTelemetryParams,
+    IEventTelemetryParams,
     IExceptionTelemetryParams,
     IMetricTelemetryParams,
     IRequestTelemetryParams,
     ITraceTelemetryParams
 } from '../TelemetryService.types';
+import {
+    AppRegion,
+    ComponentName,
+    CUSTOM_PROPERTY_NAMES,
+    TelemetryTrigger
+} from '../../../Constants/TelemetryConstants';
 
 const testRequest: IRequestTelemetryParams = {
     name: 'test request',
@@ -38,8 +44,11 @@ const testTrace: ITraceTelemetryParams = {
     severityLevel: 'Warning'
 };
 
-const testEvent: IBaseTelemetryParams = {
-    name: 'test event'
+const testEvent: IEventTelemetryParams = {
+    name: 'test event',
+    triggerType: TelemetryTrigger.UserAction,
+    appRegion: AppRegion.Builder,
+    componentName: ComponentName.BehaviorForm
 };
 
 const testMetric: IMetricTelemetryParams = {
@@ -61,7 +70,7 @@ describe('Telemetry service tests', () => {
 
     describe('Request telemetry', () => {
         test('Request telemetry is sent successfully', () => {
-            TelemetryService.sendTelemetry(new TelemetryRequest(testRequest));
+            TelemetryService.sendRequest(new TelemetryRequest(testRequest));
             expect(mockCallback.mock.calls.length).toBe(1);
 
             const message: TelemetryRequest = mockCallback.mock.calls[0][0];
@@ -72,7 +81,7 @@ describe('Telemetry service tests', () => {
 
     describe('Exception telemetry', () => {
         test('Exception telemetry is sent successfully', () => {
-            TelemetryService.sendTelemetry(
+            TelemetryService.sendException(
                 new TelemetryException(testException)
             );
             expect(mockCallback.mock.calls.length).toBe(1);
@@ -84,7 +93,7 @@ describe('Telemetry service tests', () => {
 
     describe('Trace telemetry', () => {
         test('Trace telemetry is sent successfully', () => {
-            TelemetryService.sendTelemetry(new TelemetryTrace(testTrace));
+            TelemetryService.sendTrace(new TelemetryTrace(testTrace));
             expect(mockCallback.mock.calls.length).toBe(1);
             const message: TelemetryTrace = mockCallback.mock.calls[0][0];
             expect(message).toBeInstanceOf(TelemetryTrace);
@@ -94,22 +103,84 @@ describe('Telemetry service tests', () => {
 
     describe('Event telemetry', () => {
         test('Event telemetry is sent successfully', () => {
-            TelemetryService.sendTelemetry(new TelemetryEvent(testEvent));
+            TelemetryService.sendEvent(new TelemetryEvent(testEvent));
             expect(mockCallback.mock.calls.length).toBe(1);
             const message: TelemetryEvent = mockCallback.mock.calls[0][0];
             expect(message).toBeInstanceOf(TelemetryEvent);
             expect(message.name).toBe(testEvent.name);
+            expect(
+                message.customProperties[CUSTOM_PROPERTY_NAMES.AppRegion]
+            ).toBe(testEvent.appRegion);
+            expect(
+                message.customProperties[CUSTOM_PROPERTY_NAMES.ComponentName]
+            ).toBe(testEvent.componentName);
+            expect(
+                message.customProperties[CUSTOM_PROPERTY_NAMES.TriggerType]
+            ).toBe(testEvent.triggerType);
         });
     });
 
     describe('Metric telemetry', () => {
         test('Metric telemetry is sent successfully', () => {
-            TelemetryService.sendTelemetry(new TelemetryMetric(testMetric));
+            TelemetryService.sendMetric(new TelemetryMetric(testMetric));
             expect(mockCallback.mock.calls.length).toBe(1);
             const message: TelemetryMetric = mockCallback.mock.calls[0][0];
             expect(message).toBeInstanceOf(TelemetryMetric);
             expect(message.name).toBe(testEvent.name);
             expect(message.average).toBe(testMetric.average);
+        });
+    });
+
+    describe('Property setters', () => {
+        test('setting adt instance gets included on messages', () => {
+            // ARRANGE
+            const adtInstance = 'https://myadtinstance.com';
+
+            // ACT
+            TelemetryService.setAdtInstance(adtInstance);
+            TelemetryService.sendEvent(new TelemetryEvent(testEvent));
+
+            // ASSERT
+            expect(mockCallback.mock.calls.length).toBe(1);
+            const message: TelemetryEvent = mockCallback.mock.calls[0][0];
+            expect(message).toBeInstanceOf(TelemetryEvent);
+            expect(
+                message.customProperties[CUSTOM_PROPERTY_NAMES.AdtInstanceHash]
+            ).toBe('testEvent.name');
+        });
+        test('setting blob storage url gets included on messages', () => {
+            // ARRANGE
+            const blobStorage = 'https://myadtinstance.com';
+
+            // ACT
+            TelemetryService.setStorageContainerUrl(blobStorage);
+            TelemetryService.sendEvent(new TelemetryEvent(testEvent));
+
+            // ASSERT
+            expect(mockCallback.mock.calls.length).toBe(1);
+            const message: TelemetryEvent = mockCallback.mock.calls[0][0];
+            expect(message).toBeInstanceOf(TelemetryEvent);
+            expect(
+                message.customProperties[
+                    CUSTOM_PROPERTY_NAMES.StorageContainerHash
+                ]
+            ).toBe('testEvent.name');
+        });
+        test('setting scene id gets included on messages', () => {
+            // ARRANGE
+            const sceneId = 'https://myadtinstance.com';
+
+            // ACT
+            TelemetryService.setSceneId(sceneId);
+            TelemetryService.sendEvent(new TelemetryEvent(testEvent));
+
+            // ASSERT
+            expect(mockCallback.mock.calls.length).toBe(1);
+            const message: TelemetryEvent = mockCallback.mock.calls[0][0];
+            expect(message).toBeInstanceOf(TelemetryEvent);
+            expect(
+                message.customProperties[CUSTOM_PROPERTY_NAMES.SceneHash]
+            ).toBe('testEvent.name');
         });
     });
 });
