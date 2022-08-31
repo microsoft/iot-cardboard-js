@@ -1,16 +1,27 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import { IADTTwin } from '../../../../Models/Constants';
+import {
+    IDetailsListStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
+import {
+    IADTTwin,
+    IPropertyInspectorAdapter
+} from '../../../../Models/Constants';
+import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
 
 export interface IAdvancedSearchResultDetailsListProps {
-    twins: IADTTwin[];
-    searchedProperties: string[]; //string of fieldnames, for specific properties that were used in the search
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
+    adapter: IPropertyInspectorAdapter;
+    /* Callback function from parent on what to do once the user selects or deselects a twin. */
+    onTwinSelection: (IADTTwin) => void;
+    /* String of fieldnames, for specific properties that were used in the search. */
+    searchedProperties: string[];
+    /* Call to provide customized styling that will layer on top of the variant rules. */
     styles?: IStyleFunctionOrObject<
         IAdvancedSearchResultDetailsListStyleProps,
         IAdvancedSearchResultDetailsListStyles
     >;
+    twins: IADTTwin[];
 }
 
 export interface IAdvancedSearchResultDetailsListStyleProps {
@@ -18,6 +29,7 @@ export interface IAdvancedSearchResultDetailsListStyleProps {
 }
 export interface IAdvancedSearchResultDetailsListStyles {
     root: IStyle;
+    listHeader: IStyle;
 
     /**
      * SubComponent styles.
@@ -25,5 +37,7 @@ export interface IAdvancedSearchResultDetailsListStyles {
     subComponentStyles?: IAdvancedSearchResultDetailsListSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IAdvancedSearchResultDetailsListSubComponentStyles {}
+export interface IAdvancedSearchResultDetailsListSubComponentStyles {
+    propertyInspector?: IPropertyInspectorCalloutStyles;
+    detailsList?: IDetailsListStyles;
+}

@@ -1,25 +1,19 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import EnvironmentPicker from './EnvironmentPicker';
 import { EnvironmentPickerProps } from './EnvironmentPicker.types';
 
+const wrapperStyle = { width: '336px' };
+
 export default {
     title: 'Components/EnvironmentPicker',
-    component: EnvironmentPicker
+    component: EnvironmentPicker,
+    decorators: [getDefaultStoryDecorator<EnvironmentPickerProps>(wrapperStyle)]
 };
 
-const Template = (
-    args: EnvironmentPickerProps,
-    { globals: { theme, locale } }
-) => (
-    <div style={{ width: 336 }}>
-        <EnvironmentPicker
-            {...args}
-            adapter={new MockAdapter()}
-            theme={theme}
-            locale={locale}
-        />
-    </div>
+const Template = (args: EnvironmentPickerProps) => (
+    <EnvironmentPicker {...args} adapter={new MockAdapter()} />
 );
 
 export const MockEnvironmentPickerWithLocalStorage = Template.bind({});
@@ -43,12 +37,4 @@ MockEnvironmentPickerWithoutLocalStorage.args = {
     storage: {
         isLocalStorageEnabled: false
     }
-} as EnvironmentPickerProps;
-
-export const MockEnvironmentPickerWithEnvironmentsFromSubscription = Template.bind(
-    {}
-);
-MockEnvironmentPickerWithEnvironmentsFromSubscription.args = {
-    ...MockEnvironmentPickerWithoutLocalStorage.args,
-    shouldPullFromSubscription: true
 } as EnvironmentPickerProps;

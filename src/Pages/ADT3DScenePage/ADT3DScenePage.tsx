@@ -3,8 +3,7 @@ import React, {
     useCallback,
     useEffect,
     useReducer,
-    useRef,
-    useState
+    useRef
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -82,7 +81,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 }) => {
     const { t } = useTranslation();
     const errorCallbackSetRef = useRef<boolean>(false);
-    const [isDialogHidden, setIsDialogHidden] = useState<boolean>(true);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
 
     const [state, dispatch] = useReducer(
@@ -97,13 +95,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     const getCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.getBlobServiceCorsProperties(),
-        refetchDependencies: [adapter, deeplinkState.storageContainerUrl]
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
     });
 
     const setCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.setBlobServiceCorsProperties(),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter, deeplinkState.storageContainerUrl]
+        refetchDependencies: [adapter, deeplinkState.storageUrl]
     });
 
     const scenesConfig = useAdapter({
@@ -111,7 +109,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
         refetchDependencies: [
             adapter,
-            deeplinkState.storageContainerUrl,
+            deeplinkState.storageUrl,
             state.selectedScene
         ]
     });
@@ -156,7 +154,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         (url: string) => {
             // store container url to context
             deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL,
+                type: DeeplinkContextActionType.SET_STORAGE_URL,
                 payload: { url }
             });
             adapter.setBlobContainerPath(url);
@@ -229,10 +227,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.environment]
     );
 
-    const onDismissDialog = useCallback(() => {
-        setIsDialogHidden(true);
-    }, []);
-
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -240,8 +234,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // update the adapter if the Storage instance changes
     useEffect(() => {
-        adapter.setBlobContainerPath(deeplinkState.storageContainerUrl);
-    }, [adapter, deeplinkState.storageContainerUrl]);
+        adapter.setBlobContainerPath(deeplinkState.storageUrl);
+    }, [adapter, deeplinkState.storageUrl]);
 
     // when a scene is selected show it
     useEffect(() => {
@@ -268,8 +262,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // store the scene config when the fetch resolves
     useEffect(() => {
         const storageContainerNotSet =
-            !deeplinkState.storageContainerUrl ||
-            deeplinkState.storageContainerUrl === '';
+            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
         const adtUrlNotSet =
             !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
         if (
@@ -316,7 +309,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         }
     }, [
         deeplinkState.adtUrl,
-        deeplinkState.storageContainerUrl,
+        deeplinkState.storageUrl,
         scenesConfig.adapterResult
     ]);
 
@@ -373,7 +366,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             'scenePageErrorHandling.configureEnvironment'
                         ),
                         buttonAction: () => {
-                            setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
                         }
                     }
@@ -392,7 +384,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             'scenePageErrorHandling.configureEnvironment'
                         ),
                         buttonAction: () => {
-                            setIsDialogHidden(false);
                             errorCallbackSetRef.current = false;
                         }
                     }
@@ -427,10 +418,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            if (
-                !deeplinkState.storageContainerUrl ||
-                deeplinkState.storageContainerUrl === ''
-            ) {
+            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullContainerError
@@ -465,10 +453,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [
-        deeplinkState.storageContainerUrl,
-        getCorsPropertiesAdapterData?.adapterResult
-    ]);
+    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -523,7 +508,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                         })}
                                         storage={{
                                             containerUrl:
-                                                deeplinkState.storageContainerUrl,
+                                                deeplinkState.storageUrl,
                                             onContainerUrlChange: handleContainerUrlChange,
                                             ...(environmentPickerOptions
                                                 ?.storage
@@ -539,8 +524,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                         ?.selectedItemLocalStorageKey
                                             })
                                         }}
-                                        isDialogHidden={isDialogHidden}
-                                        onDismiss={onDismissDialog}
                                     />
                                 </div>
                                 <Stack horizontal tokens={{ childrenGap: 8 }}>
@@ -582,11 +565,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 {state.currentStep ===
                                     ADT3DScenePageSteps.SceneList && (
                                     <div className="cb-scene-page-scene-list-container">
-                                        {deeplinkState.storageContainerUrl && (
+                                        {deeplinkState.storageUrl && (
                                             <SceneList
-                                                key={
-                                                    deeplinkState.storageContainerUrl
-                                                }
+                                                key={deeplinkState.storageUrl}
                                                 title={'All scenes'}
                                                 theme={theme}
                                                 locale={locale}
@@ -644,8 +625,8 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     return (
         <DeeplinkContextProvider
             initialState={{
-                adtUrl: `https://${adtHostUrl}`,
-                storageContainerUrl: adapter.getBlobContainerURL()
+                adtUrl: adtHostUrl ? `https://${adtHostUrl}` : '',
+                storageUrl: adapter.getBlobContainerURL()
             }}
         >
             <SceneThemeContextProvider>

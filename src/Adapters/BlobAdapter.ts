@@ -93,11 +93,9 @@ export default class BlobAdapter implements IBlobAdapter {
         if (blobContainerURL) {
             try {
                 const url = new URL(blobContainerURL);
-                if (url.hostname.endsWith('blob.core.windows.net')) {
-                    this.storageAccountHostName = url.hostname;
-                    this.storageAccountName = url.hostname.split('.')[0];
-                    this.containerName = url.pathname.split('/')[1];
-                }
+                this.storageAccountHostName = url.hostname;
+                this.storageAccountName = url.hostname.split('.')[0];
+                this.containerName = url.pathname.split('/')[1];
             } catch (error) {
                 console.error('Unable to parse container URL!');
             }

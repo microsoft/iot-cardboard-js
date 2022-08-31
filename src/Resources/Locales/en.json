@@ -1082,7 +1082,7 @@
         "checkingPermissions": "Checking permissions...",
         "resolveIssues": "Resolve issues",
         "resolvingIssues": "Resolving issues...",
-        "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader and either Storage Blob Data Owner or Storage Blob Data Contributor.",
+        "missingPermissionsMessage": "You have missing permissions. You will need access as a Reader (at a minimum) and either Storage Blob Data Owner or Storage Blob Data Contributor.",
         "assignRoleSuccessDesc": "Missing permissions have been assigned. Please wait while we are attempting to verify if the changes are in effect.",
         "noMissingRoleDesc": "The missing permissions have been assigned, verifying the changes.",
         "finishedWithFailureDesc": "Attempt failed, unable to assign the necessary permissions to this resource, or this resource does not exist. Please contact the resource owner to assign you the required permissions.",
@@ -1127,15 +1127,15 @@
         "years": "{{value}} years"
     },
     "resourcesPicker": {
-        "select": "Select a resource",
+        "selectResourcePlaceholder": "Select a resource",
         "noOption": "No resources found",
         "loadingResources": "Loading resources",
         "loadingInstances": "Loading instances...",
         "loadingContainers": "Loading containers...",
         "loadingStorageAccounts": "Loading storage accounts...",
-        "enterEnvironmentUrl": "e.g. https://example.api.wus2.digitaltwins.azure.net",
-        "enterStorageAccountUrl": "e.g. https://example.blob.core.windows.net/",
-        "enterContainerUrl": "e.g. https://example.blob.core.windows.net/example",
+        "environmentDropdownPlaceholder": "e.g. https://example.api.wus2.digitaltwins.azure.net",
+        "storageAccountDropdownPlaceholder": "e.g. https://example.blob.core.windows.net/",
+        "containerDropdownPlaceholder": "e.g. https://example.blob.core.windows.net/example",
         "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!",
         "removeFromList": "Remove from list",
         "errors": {

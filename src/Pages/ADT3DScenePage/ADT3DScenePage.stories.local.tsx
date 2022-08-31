@@ -46,7 +46,6 @@ export const ADT3DScenePageCard = (_args, { globals: { theme, locale } }) => {
                 }
                 environmentPickerOptions={{
                     environment: {
-                        shouldPullFromSubscription: true,
                         isLocalStorageEnabled: true,
                         onEnvironmentChange
                     },

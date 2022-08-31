@@ -39,7 +39,8 @@ import {
     AdapterMethodParamsForGetADTModels,
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
-    AdapterMethodParamsForGetAzureResources
+    AdapterMethodParamsForGetAzureResources,
+    AzureAccessPermissionRoleGroups
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -504,20 +505,14 @@ export interface IAzureManagementAdapter {
     hasRoleDefinitions: (
         resourceId: string,
         uniqueObjectId: string,
-        accessRolesToCheck: {
-            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-        }
+        accessRolesToCheck: AzureAccessPermissionRoleGroups
     ) => Promise<boolean>;
     getResources: (
         params: AdapterMethodParamsForGetAzureResources
     ) => AdapterReturnType<AzureResourcesData>;
     getResourcesByPermissions: (params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
-        requiredAccessRoles: {
-            enforcedRoleIds: Array<AzureAccessPermissionRoles>; // roles that have to exist
-            interchangeableRoleIds: Array<AzureAccessPermissionRoles>; // roles that one or the other has to exist
-        };
+        requiredAccessRoles: AzureAccessPermissionRoleGroups;
     }) => AdapterReturnType<AzureResourcesData>;
     assignRole: (
         roleId: AzureAccessPermissionRoles,
