@@ -137,7 +137,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
             try {
                 const configBlob = await getConfigBlob();
-                LogConfigFileTelemetry(configBlob.data);
+                LogConfigFileTelemetry(configBlob.data); // fire and forget the telemetry logging
                 return configBlob;
             } catch (err) {
                 if (
