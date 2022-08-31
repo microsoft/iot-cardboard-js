@@ -146,11 +146,11 @@ describe('Telemetry service tests', () => {
             expect(message).toBeInstanceOf(TelemetryEvent);
             expect(
                 message.customProperties[CUSTOM_PROPERTY_NAMES.AdtInstanceHash]
-            ).toBe('testEvent.name');
+            ).toBe('eb9328444a41243802d59d4b64b9d4be');
         });
         test('setting blob storage url gets included on messages', () => {
             // ARRANGE
-            const blobStorage = 'https://myadtinstance.com';
+            const blobStorage = 'https://mystorage.blob.com';
 
             // ACT
             TelemetryService.setStorageContainerUrl(blobStorage);
@@ -164,11 +164,11 @@ describe('Telemetry service tests', () => {
                 message.customProperties[
                     CUSTOM_PROPERTY_NAMES.StorageContainerHash
                 ]
-            ).toBe('testEvent.name');
+            ).toBe('0d3974c1e930cadab16cfbe833587bef');
         });
         test('setting scene id gets included on messages', () => {
             // ARRANGE
-            const sceneId = 'https://myadtinstance.com';
+            const sceneId = '125-23523-23523-23523';
 
             // ACT
             TelemetryService.setSceneId(sceneId);
@@ -180,7 +180,7 @@ describe('Telemetry service tests', () => {
             expect(message).toBeInstanceOf(TelemetryEvent);
             expect(
                 message.customProperties[CUSTOM_PROPERTY_NAMES.SceneHash]
-            ).toBe('testEvent.name');
+            ).toBe('9c2507e0369cc2b90fc38a27e02746d4');
         });
     });
 });
