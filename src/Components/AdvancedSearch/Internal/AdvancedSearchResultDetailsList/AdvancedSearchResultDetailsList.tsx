@@ -20,7 +20,7 @@ import {
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
-import { ascendOrDescendSort } from '../../../../Models/Services/Utils';
+import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -41,7 +41,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const [sortKey, setSortKey] = useState<keyof IADTTwin>('$dtId');
     const [isSortedDescending, setSortDescending] = useState<boolean>(false);
     const listItems = twins.sort(
-        ascendOrDescendSort(sortKey, isSortedDescending)
+        sortAscendingOrDescending(sortKey, isSortedDescending)
     );
 
     const staticColumns: IColumn[] = [

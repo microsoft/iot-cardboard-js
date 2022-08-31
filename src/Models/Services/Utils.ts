@@ -627,34 +627,13 @@ export const deleteModel = (id, data, models) => {
 };
 
 /**
- * Sort function to order items from ascending or descending order. Case insensitive sort
- * NOTE: only works when property is one layer down
- * @param propertyName name of the property to sort on
- * @example listItems.sort(sortAlphabetically('textPrimary'))
- * @returns Sort function to pass to `.sort()`
- */
-export function sortAlphabetically<T>(
-    propertyName: keyof T,
-    descending?: boolean
-) {
-    return (a: T, b: T) => {
-        const aVal = (a[propertyName] as unknown) as string;
-        const bVal = (b[propertyName] as unknown) as string;
-        if (!descending) {
-            return aVal?.toLowerCase() > bVal?.toLowerCase() ? 1 : -1;
-        } else {
-            return aVal?.toLowerCase() < bVal?.toLowerCase() ? 1 : -1;
-        }
-    };
-}
-
-/**
  * Sort function to order items from ascending or descending order, for boolean, numbers and strings. Case insensitive sort
  * NOTE: only works when property is one layer down
  * @param propertyName name of the property to sort on
+ *  @example listItems.sort(sortAscendingOrDescending('textPrimary'))
  * @returns Sort function to pass to `.sort()`
  */
-export function ascendOrDescendSort<T>(
+export function sortAscendingOrDescending<T>(
     propertyName: keyof T,
     descending?: boolean
 ) {
