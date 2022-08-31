@@ -129,29 +129,25 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
     });
 
     // capture the Behavior level metrics
-    const sceneEvent =
-        TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseBehavior;
+    const event = TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseBehavior;
     TelemetryService.sendEvent(
         new TelemetryEvent({
-            name: sceneEvent.eventName,
+            name: event.eventName,
             customProperties: {
-                [sceneEvent.properties.countAliases]: aliasCount,
-                [sceneEvent.properties.countDataSources]: dataSourceCount,
-                [sceneEvent.properties.countElements]: elementCount,
-                [sceneEvent.properties.countVisualBadgeType]:
-                    visualStats.badgeCount,
-                [sceneEvent.properties.countVisualColorType]:
-                    visualStats.colorCount,
-                [sceneEvent.properties.countVisuals]: visualStats.totalCount,
-                [sceneEvent.properties.countWidgetGaugeType]:
+                [event.properties.countAliases]: aliasCount,
+                [event.properties.countDataSources]: dataSourceCount,
+                [event.properties.countElements]: elementCount,
+                [event.properties.countVisualBadgeType]: visualStats.badgeCount,
+                [event.properties.countVisualColorType]: visualStats.colorCount,
+                [event.properties.countVisuals]: visualStats.totalCount,
+                [event.properties.countWidgetGaugeType]:
                     visualStats.widgets.gaugeCount,
-                [sceneEvent.properties.countWidgetLinkType]:
+                [event.properties.countWidgetLinkType]:
                     visualStats.widgets.linkCount,
-                [sceneEvent.properties.countWidgetPropertyType]:
+                [event.properties.countWidgetPropertyType]:
                     visualStats.widgets.propertyCount,
-                [sceneEvent.properties.countWidgets]:
-                    visualStats.widgets.totalCount,
-                [sceneEvent.properties.sceneHash]: sceneHash
+                [event.properties.countWidgets]: visualStats.widgets.totalCount,
+                [event.properties.parentSceneHash]: sceneHash
             },
             triggerType: TelemetryTrigger.SystemAction
         })
@@ -161,8 +157,8 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
 /** send the KPI telemetry related to individual Elements */
 function sendElementTelemetry(element: IElement, sceneHash: string) {
     const type = element.type;
-    let meshCount = -1;
-    let aliasCount = -1;
+    let meshCount = 0;
+    let aliasCount = 0;
     // only capture the count when it's actually an 'element'
     if (ViewerConfigUtility.isTwinToObjectMappingElement(element)) {
         meshCount = element.objectIDs?.length;
@@ -172,16 +168,15 @@ function sendElementTelemetry(element: IElement, sceneHash: string) {
     }
 
     // capture the Element level metrics
-    const sceneEvent =
-        TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseElement;
+    const event = TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseElement;
     TelemetryService.sendEvent(
         new TelemetryEvent({
-            name: sceneEvent.eventName,
+            name: event.eventName,
             customProperties: {
-                [sceneEvent.properties.countAliases]: aliasCount,
-                [sceneEvent.properties.countMeshes]: meshCount,
-                [sceneEvent.properties.sceneHash]: sceneHash,
-                [sceneEvent.properties.type]: type
+                [event.properties.countAliases]: aliasCount,
+                [event.properties.countMeshes]: meshCount,
+                [event.properties.parentSceneHash]: sceneHash,
+                [event.properties.elementType]: type
             },
             triggerType: TelemetryTrigger.SystemAction
         })
@@ -200,19 +195,18 @@ function sendSceneTelemetry(scene: IScene, sceneHash: string) {
         scene.pollingConfiguration?.minimumPollingFrequency;
 
     // capture the Scene level metrics
-    const sceneEvent =
-        TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseScene;
+    const event = TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseScene;
     TelemetryService.sendEvent(
         new TelemetryEvent({
-            name: sceneEvent.eventName,
+            name: event.eventName,
             customProperties: {
-                [sceneEvent.properties.countAssets]: assetCount,
-                [sceneEvent.properties.countBehaviors]: behaviorsCount,
-                [sceneEvent.properties.countElements]: elementCount,
-                [sceneEvent.properties.hasCoordinates]: hasCoordinates,
-                [sceneEvent.properties.hasDescription]: hasDescription,
-                [sceneEvent.properties.pollingDelay]: scenePollingDelay,
-                [sceneEvent.properties.sceneHash]: sceneHash
+                [event.properties.countAssets]: assetCount,
+                [event.properties.countBehaviors]: behaviorsCount,
+                [event.properties.countElements]: elementCount,
+                [event.properties.hasCoordinates]: hasCoordinates,
+                [event.properties.hasDescription]: hasDescription,
+                [event.properties.pollingDelay]: scenePollingDelay,
+                [event.properties.sceneHash]: sceneHash
             },
             triggerType: TelemetryTrigger.SystemAction
         })
@@ -221,18 +215,18 @@ function sendSceneTelemetry(scene: IScene, sceneHash: string) {
 
 /** send the KPI telemetry related to the Config file as a whole */
 function sendConfigTelemetry(data: I3DScenesConfig) {
-    const configEvent =
+    const event =
         TelemetryEvents.Adapter.SceneLoad.SystemAction.ParseConfiguration;
     TelemetryService.sendEvent(
         new TelemetryEvent({
-            name: configEvent.eventName,
+            name: event.eventName,
             triggerType: TelemetryTrigger.SystemAction,
             customProperties: {
-                [configEvent.properties.countBehaviors]:
+                [event.properties.countBehaviors]:
                     data.configuration.behaviors?.length || 0,
-                [configEvent.properties.countLayers]:
+                [event.properties.countLayers]:
                     data.configuration.layers?.length || 0,
-                [configEvent.properties.countScenes]:
+                [event.properties.countScenes]:
                     data.configuration.scenes?.length || 0
             }
         })

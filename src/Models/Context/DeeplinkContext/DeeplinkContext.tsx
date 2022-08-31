@@ -3,7 +3,7 @@
  */
 import produce from 'immer';
 import queryString from 'query-string';
-import React, { useCallback, useContext, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ADTSelectedEnvironmentInLocalStorage } from '../../../Components/EnvironmentPicker/EnvironmentPicker.types';
 import {
     ADT3DScenePageModes,
@@ -24,6 +24,7 @@ import {
     IDeeplinkContextProviderProps,
     IPublicDeeplink
 } from '..';
+import TelemetryService from '../../Services/TelemetryService/TelemetryService';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
@@ -67,6 +68,7 @@ export const DeeplinkContextReducer: (
             }
             case DeeplinkContextActionType.SET_SCENE_ID: {
                 draft.sceneId = action.payload.sceneId || '';
+                TelemetryService.setSceneId(draft.sceneId);
                 break;
             }
             case DeeplinkContextActionType.SET_STORAGE_CONTAINER_URL: {
@@ -151,6 +153,19 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         },
         [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
     );
+
+    // notify telemetry service of changes to the environment
+    useEffect(() => {
+        TelemetryService.setEnvironment(
+            deeplinkState.adtUrl,
+            deeplinkState.storageContainerUrl
+        );
+    }, [deeplinkState.adtUrl, deeplinkState.storageContainerUrl]);
+    // notify telemetry service of changes to the scene id
+    useEffect(() => {
+        TelemetryService.setSceneId(deeplinkState.sceneId);
+    }, [deeplinkState.sceneId]);
+
     return (
         <DeeplinkContext.Provider
             value={{

@@ -4,10 +4,14 @@ export const CUSTOM_PROPERTY_NAMES = {
     AppRegion: 'AppRegion',
     /** name of the emitting component */
     ComponentName: 'ComponentName',
+    /** hashed value for the environment */
+    EnvironmentHash: 'EnvironmentHash',
     /** type of action (user, system, etc.) */
     TriggerType: 'TriggerType',
     /** hashed id of the scene */
-    SceneHash: 'SceneHash'
+    SceneHash: 'SceneHash',
+    /** hashed id of the parent scene */
+    ParentSceneHash: 'ParentSceneHash'
 };
 
 /** Highest level sections of the app */
@@ -85,10 +89,10 @@ export const TelemetryEvents = {
                 ParseElement: {
                     eventName: 'ParseConfig.ElementKpis',
                     properties: {
-                        type: 'type',
+                        elementType: 'elementType',
                         countMeshes: 'countMeshes',
                         countAliases: 'countAliases',
-                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash
+                        parentSceneHash: CUSTOM_PROPERTY_NAMES.ParentSceneHash
                     }
                 },
                 ParseBehavior: {
@@ -104,7 +108,7 @@ export const TelemetryEvents = {
                         countVisuals: 'countVisuals',
                         countVisualBadgeType: 'countVisualBadgeType',
                         countVisualColorType: 'countVisualColorType',
-                        sceneHash: CUSTOM_PROPERTY_NAMES.SceneHash
+                        parentSceneHash: CUSTOM_PROPERTY_NAMES.ParentSceneHash
                     }
                 }
             }

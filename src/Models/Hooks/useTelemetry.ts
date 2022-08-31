@@ -16,7 +16,6 @@ import {
 
 const useTelemetry = () => {
     return {
-        sendTelemetry: TelemetryService.sendTelemetry,
         sendRequestTelemetry: (telemetryParams: IRequestTelemetryParams) =>
             TelemetryService.sendRequest(new TelemetryRequest(telemetryParams)),
         sendExceptionTelemetry: (telemetryParams: IExceptionTelemetryParams) =>
