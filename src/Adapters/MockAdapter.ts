@@ -45,7 +45,8 @@ import {
     IAzureSubscription,
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
-    RequiredAccessRoleGroupForStorageContainer
+    RequiredAccessRoleGroupForStorageContainer,
+    AdapterMethodParamsForAdvancedSearchADTwins
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -669,6 +670,27 @@ export default class MockAdapter
                     value: this.mockTwins.filter((t) =>
                         t.$dtId.includes(params.searchTerm)
                     )
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async advancedSearchADTTwins(
+        _params: AdapterMethodParamsForAdvancedSearchADTwins
+    ) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTAdapterTwinsData({
+                    // TODO: filter out based on properties from params
+                    value: this.mockTwins
                 }),
                 errorInfo: null
             });

@@ -59,7 +59,7 @@ export const getDefaultOperator = (): OperatorData => {
 };
 
 export const getDefaultCombinator = (): string => {
-    return 'And';
+    return 'AND';
 };
 
 export const getOperators = (
@@ -153,14 +153,14 @@ export const getOperators = (
 };
 
 export const buildQuery = (querySnippets: QueryRowType[]) => {
-    let fullQuery = `SELECT *\nFROM DIGITALTWINS T\n`;
+    let fullQuery = `SELECT *\nFROM DIGITALTWINS T\nWHERE `;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === 'Function') {
             if (index !== 0) {
                 fullQuery = fullQuery.concat(snippet.combinator);
             }
             fullQuery = fullQuery.concat(
-                `WHERE ${snippet.operatorData.operatorFunction(
+                `${snippet.operatorData.operatorFunction(
                     snippet.property,
                     snippet.value
                 )}\n`
@@ -170,7 +170,7 @@ export const buildQuery = (querySnippets: QueryRowType[]) => {
                 fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
-                `WHERE ${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
+                `${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
             );
         }
     });

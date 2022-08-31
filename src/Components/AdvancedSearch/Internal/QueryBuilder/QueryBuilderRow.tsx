@@ -249,13 +249,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         <Dropdown
                             options={[
                                 {
-                                    key: 'And',
-                                    text: 'And',
+                                    key: 'AND',
+                                    text: 'AND',
                                     selected: true
                                 },
                                 {
-                                    key: 'Or',
-                                    text: 'Or'
+                                    key: 'OR',
+                                    text: 'OR'
                                 }
                             ]}
                             onChange={onChangeCombinator}

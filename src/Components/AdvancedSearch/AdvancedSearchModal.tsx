@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     IAdvancedSearchProps,
     IAdvancedSearchStyleProps,
@@ -15,20 +15,19 @@ import {
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
 import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
-import { IADTTwin } from '../../Models/Constants';
-import twinData from '../../Adapters/__mockData__/MockAdapterData/MockTwinData.json';
-import { MockAdapter } from '../../Adapters';
+import {
+    AdapterMethodParamsForAdvancedSearchADTwins,
+    IADTTwin
+} from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import { useAdapter } from '../../Models/Hooks';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
     IAdvancedSearchStyles
 >();
 
-const filteredTwins: IADTTwin[] = twinData;
-
-const cols = ['InFlow', 'OutFlow', 'Temperature'];
 const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     const {
         adapter,
@@ -43,11 +42,35 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
     });
     const { t } = useTranslation();
     const titleId = useId('advanced-search-modal-title');
+    const filteredTwins = useRef<IADTTwin[]>([]);
     const additionalProperties = useRef(new Set<string>());
-    // TODO: Make this actually call query
+    const searchForTwinAdapterData = useAdapter({
+        adapterMethod: (params: AdapterMethodParamsForAdvancedSearchADTwins) =>
+            adapter.advancedSearchADTTwins(params),
+        refetchDependencies: [],
+        isAdapterCalledOnMount: false
+    });
+
     const executeQuery = (query: string) => {
-        alert(query);
+        searchForTwinAdapterData.callAdapter({
+            query: query,
+            // TODO: Define onScroll method on list to change continuation token
+            continuationToken: null
+        });
     };
+
+    useEffect(() => {
+        const selectedTwins: IADTTwin[] = [];
+        if (searchForTwinAdapterData.adapterResult?.result?.data) {
+            searchForTwinAdapterData.adapterResult.result.data.value.map(
+                (twinData: IADTTwin) => {
+                    selectedTwins.push(twinData);
+                }
+            );
+        }
+        filteredTwins.current = selectedTwins;
+    }, [searchForTwinAdapterData.adapterResult]);
+
     const updateColumns = (properties: Set<string>) => {
         additionalProperties.current = properties;
     };
@@ -89,9 +112,11 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
                     </div>
                     <div className={classNames.resultsContainer}>
                         <AdvancedSearchResultDetailsList
-                            twins={filteredTwins}
-                            searchedProperties={cols}
-                            adapter={new MockAdapter()}
+                            twins={filteredTwins.current}
+                            searchedProperties={Array.from(
+                                additionalProperties.current
+                            )}
+                            adapter={adapter}
                             onTwinSelection={null}
                         />
                     </div>
