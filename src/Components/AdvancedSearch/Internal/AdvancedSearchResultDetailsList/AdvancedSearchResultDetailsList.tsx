@@ -20,7 +20,7 @@ import {
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
-import { sortAlphabetically } from '../../../../Models/Services/Utils';
+import { ascendOrDescendSort } from '../../../../Models/Services/Utils';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -38,10 +38,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
-    const sortKey = '$dtId';
+    const [sortKey, setSortKey] = useState<keyof IADTTwin>('$dtId');
     const [isSortedDescending, setSortDescending] = useState<boolean>(false);
     const listItems = twins.sort(
-        sortAlphabetically(sortKey, isSortedDescending)
+        ascendOrDescendSort(sortKey, isSortedDescending)
     );
 
     const staticColumns: IColumn[] = [
@@ -56,8 +56,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isPadded: true,
             onColumnClick: () => {
                 setSortDescending(
-                    isSortedDescending ? !isSortedDescending : true
+                    sortKey === '$dtId' ? !isSortedDescending : false
                 );
+                setSortKey('$dtId');
             }
         },
         {
@@ -76,7 +77,13 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             fieldName: name,
             minWidth: 100,
             maxWidth: 150,
-            isResizable: true
+            isResizable: true,
+            onColumnClick: () => {
+                setSortDescending(
+                    sortKey === name ? !isSortedDescending : false
+                );
+                setSortKey(name);
+            }
         };
     });
 
@@ -87,7 +94,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     // mark each column based on whether it's currently the one sorted
     columns.forEach((x) => {
         x.isSorted = sortKey === x.fieldName;
-        x.isSortedDescending = isSortedDescending;
+        x.isSortedDescending = x.isSorted ? isSortedDescending : false;
     });
 
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (

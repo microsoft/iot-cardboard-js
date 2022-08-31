@@ -648,6 +648,35 @@ export function sortAlphabetically<T>(
     };
 }
 
+/**
+ * Sort function to order items from ascending or descending order, for boolean, numbers and strings. Case insensitive sort
+ * NOTE: only works when property is one layer down
+ * @param propertyName name of the property to sort on
+ * @returns Sort function to pass to `.sort()`
+ */
+export function ascendOrDescendSort<T>(
+    propertyName: keyof T,
+    descending?: boolean
+) {
+    return (a: T, b: T) => {
+        let aVal = (a[String(propertyName)] as unknown) as string;
+        // handle the case where the property is not a string, if no value, fall back to empty string so we can sort undefined values consistently
+        aVal =
+            aVal && typeof aVal === 'string' ? aVal.toLowerCase() : aVal || '';
+        let bVal = (b[String(propertyName)] as unknown) as string;
+        // handle the case where the property is not a string, if no value, fall back to empty string so we can sort undefined values consistently
+        bVal =
+            bVal && typeof bVal === 'string' ? bVal.toLowerCase() : bVal || '';
+        let order = -1;
+        if (!descending) {
+            order = aVal > bVal ? 1 : -1;
+        } else {
+            order = aVal < bVal ? 1 : -1;
+        }
+        return order;
+    };
+}
+
 export function getDebugLogger(
     context: string,
     enabled: boolean
