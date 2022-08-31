@@ -18,7 +18,8 @@ import {
     IDetailsListProps,
     DetailsRow,
     IButtonProps,
-    IModalStyles
+    IModalStyles,
+    IButtonStyles
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
@@ -48,6 +49,19 @@ import {
     TelemetryEvents,
     TelemetryTrigger
 } from '../../Models/Constants/TelemetryConstants';
+
+const ROW_BUTTON_STYLES: IButtonStyles = {
+    root: {
+        alignItems: 'start',
+        border: 0,
+        height: 'auto',
+        padding: 0,
+        width: '100%'
+    },
+    flexContainer: {
+        justifyContent: 'start'
+    }
+};
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -203,23 +217,11 @@ const SceneList: React.FC<SceneListProps> = ({
             <DefaultButton
                 onClick={clickHandler}
                 onKeyPress={(event) => {
-                    console.log('clicked row', event);
                     if (event.code === 'Enter' || event.code === 'Space') {
                         clickHandler();
                     }
                 }}
-                styles={{
-                    root: {
-                        alignItems: 'start',
-                        border: 0,
-                        height: 'auto',
-                        padding: 0,
-                        width: '100%'
-                    },
-                    flexContainer: {
-                        justifyContent: 'start'
-                    }
-                }}
+                styles={ROW_BUTTON_STYLES}
             >
                 <DetailsRow className={'cb-scene-list-row'} {...props} />
             </DefaultButton>
