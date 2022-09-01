@@ -1,4 +1,4 @@
-import { FontSizes } from '@fluentui/react';
+import { FontSizes, ITheme } from '@fluentui/react';
 import { StylesConfig } from 'react-select';
 import {
     IQueryBuilderStyleProps,
@@ -115,7 +115,10 @@ export const getRowStyles = (
 // 260 or 220 minus 2px due to borders
 const menuListLargeMaxWidth = 258;
 const menuListCompactMaxWidth = 218;
-export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
+export const reactSelectStyles = (
+    theme: ITheme,
+    isOnlyFirstRow: boolean
+): StylesConfig => {
     return {
         container: (provided) => ({
             ...provided,
@@ -124,7 +127,7 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         }),
         control: (provided, state) => ({
             ...provided,
-            backgroundColor: 'var(--cb-color-bg-canvas)',
+            backgroundColor: theme.semanticColors.inputBackground,
             border: 0,
             borderRadius: '2px',
             fontSize: FontSizes.size14,
@@ -132,8 +135,8 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
             minHeight: '32px',
             outline: '1px solid',
             outlineColor: state.isFocused
-                ? 'var(--cb-color-theme-primary)'
-                : 'var(--cb-color-input-border)'
+                ? theme.semanticColors.inputBackgroundCheckedHovered
+                : theme.semanticColors.inputBorder
         }),
         indicatorSeparator: () => ({
             display: 'none'
@@ -144,12 +147,12 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         }),
         input: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-text-secondary)',
+            color: theme.semanticColors.inputText,
             fontSize: FontSizes.size14
         }),
         menuList: (provided) => ({
             ...provided,
-            backgroundColor: 'var(--cb-color-bg-canvas)',
+            backgroundColor: theme.semanticColors.inputBackground,
             maxHeight: '300px',
             maxWidth: isOnlyFirstRow
                 ? menuListLargeMaxWidth
@@ -161,12 +164,12 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         option: (provided, state) => ({
             ...provided,
             backgroundColor: state.isFocused
-                ? 'var(--cb-color-natural-light)'
+                ? theme.semanticColors.listItemBackgroundHovered
                 : state.isSelected
-                ? 'var(--cb-color-natural-light)'
+                ? theme.semanticColors.listItemBackgroundHovered
                 : 'inherit',
-            borderBottom: '1px solid var(--cb-color-natural-light)',
-            color: 'var(--cb-color-text-primary)',
+            borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
+            color: theme.semanticColors.inputText,
             cursor: 'default',
             fontWeight: 400, // Font weight enum gives a type error here
             height: '32px',
@@ -176,12 +179,12 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         }),
         placeholder: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-input-border)',
+            color: theme.semanticColors.inputPlaceholderText,
             fontSize: FontSizes.size14
         }),
         singleValue: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-text-primary)'
+            color: theme.semanticColors.inputText
         })
     };
 };

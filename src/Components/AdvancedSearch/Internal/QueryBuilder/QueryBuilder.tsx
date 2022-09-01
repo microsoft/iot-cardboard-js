@@ -3,7 +3,7 @@ import {
     IQueryBuilderProps,
     IQueryBuilderStyleProps,
     IQueryBuilderStyles,
-    QueryRowType
+    QueryRowData
 } from './QueryBuilder.types';
 import { getStyles } from './QueryBuilder.styles';
 import {
@@ -24,6 +24,7 @@ const getClassNames = classNamesFunction<
     IQueryBuilderStyles
 >();
 
+const MAX_ROW_LENGTH = 10;
 const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
     const {
         adapter,
@@ -35,7 +36,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
     } = props;
 
     // State
-    const querySnippets = useRef(new Map<string, QueryRowType>());
+    const querySnippets = useRef(new Map<string, QueryRowData>());
     const validityMap = useRef(new Map<string, boolean>());
     const propertyNames = useRef(new Map<string, string>());
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
@@ -85,7 +86,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         setIsSearchDisabled(!checkIsValidQuery());
     }, []);
 
-    const updateQuerySnippet = (rowId: string, rowValue: QueryRowType) => {
+    const updateQuerySnippet = (rowId: string, rowValue: QueryRowData) => {
         querySnippets.current.set(rowId, rowValue);
     };
 
@@ -191,7 +192,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                 onClick={appendRow}
                 text={t('advancedSearch.addNewRow')}
                 styles={classNames.subComponentStyles.addButton()}
-                disabled={rows.length === 10}
+                disabled={rows.length === MAX_ROW_LENGTH}
             />
             <PrimaryButton
                 text={t('search')}

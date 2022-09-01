@@ -1,6 +1,6 @@
 import { IDropdownOption } from '@fluentui/react';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { OperatorData, QueryRowType } from './QueryBuilder.types';
+import { OperatorData, QueryRowData } from './QueryBuilder.types';
 
 // Used to substitute reserved words for valid query inputs in case property name matches a reserved word
 export enum RESERVED_WORDS {
@@ -148,7 +148,7 @@ export const getOperators = (
     return operators;
 };
 
-export const buildQuery = (querySnippets: QueryRowType[]) => {
+export const buildQuery = (querySnippets: QueryRowData[]) => {
     let fullQuery = `SELECT *\nFROM DIGITALTWINS T\n`;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === 'Function') {

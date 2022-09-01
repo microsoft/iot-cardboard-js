@@ -50,8 +50,10 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onUpdateSnippet
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
+    // Naming this as its type since theme is a prop as well
+    const iTheme = useTheme();
     const classNames = getClassNames(styles, {
-        theme: useTheme(),
+        theme: iTheme,
         isOnlyFirstRow: isRemoveDisabled
     });
     const { t } = useTranslation();
@@ -81,7 +83,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Creating react-select options
     useEffect(() => {
         const propertyComboboxOptions = [];
-        if (flattenedModelProperties) {
+        if (!isLoading && flattenedModelProperties) {
             Object.keys(flattenedModelProperties).forEach(
                 (modelName: string, index: number) => {
                     propertyComboboxOptions.push({
@@ -174,7 +176,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, option.text);
     };
 
-    const propertySelectorStyles = reactSelectStyles(isRemoveDisabled);
+    const propertySelectorStyles = reactSelectStyles(iTheme, isRemoveDisabled);
 
     const Group = (props) => <components.Group {...props} />;
 

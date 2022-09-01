@@ -59,7 +59,7 @@ export interface IQueryBuilderRowProps {
         propertyType: PropertyValueType
     ) => void;
     onChangeValue: (rowId: string, newValue: string) => void;
-    onUpdateSnippet: (rowId: string, rowValue: QueryRowType) => void;
+    onUpdateSnippet: (rowId: string, rowValue: QueryRowData) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
     theme: Theme;
@@ -83,7 +83,7 @@ interface OperatorFunction {
     operatorFunction: (property: string, value: string) => string;
 }
 
-export interface QueryRowType {
+export interface QueryRowData {
     property: string;
     operatorData: OperatorData;
     value: string;

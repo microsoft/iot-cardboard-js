@@ -30,7 +30,7 @@ export interface IAdvancedSearchStyleProps {
 export interface IAdvancedSearchStyles {
     content: IStyle;
     headerContainer: IStyle;
-    headerText: IStyle;
+    title: IStyle;
     titleContainer: IStyle;
     subtitle: IStyle;
     /**

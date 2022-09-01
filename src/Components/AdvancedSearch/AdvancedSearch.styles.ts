@@ -8,8 +8,8 @@ export const classPrefix = 'cb-advancedsearch';
 const classNames = {
     content: `${classPrefix}-content`,
     headerContainer: `${classPrefix}-headerContainer`,
-    headerText: `${classPrefix}-headerText`,
     subtitle: `${classPrefix}-subtitle`,
+    title: `${classPrefix}-title`,
     titleContainer: `${classPrefix}-titleContainer`
 };
 
@@ -19,8 +19,8 @@ export const getStyles = (
     return {
         content: [classNames.content],
         headerContainer: [classNames.headerContainer],
-        headerText: [
-            classNames.headerText,
+        title: [
+            classNames.title,
             {
                 margin: 0,
                 fontSize: FontSizes.size24,

@@ -73,7 +73,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                             iconName={'search'}
                             styles={classNames.subComponentStyles.icon}
                         />
-                        <h3 id={'titleId'} className={classNames.headerText}>
+                        <h3 id={titleId} className={classNames.title}>
                             {t('advancedSearch.modalTitle')}
                         </h3>
                     </div>
