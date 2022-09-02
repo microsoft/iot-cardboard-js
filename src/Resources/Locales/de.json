@@ -1149,13 +1149,14 @@
     "selectRow": "Twin Selected",
     "inspectProperty": "Inspect-Eigenschaft",
     "results": "Ergebnisse ({{twinCount}})",
-    "addNewRow": "Neue Zeile hinzufügen",
-    "andOr": "und/oder",
-    "property": "Eigentum",
-    "operator": "Operator",
-    "value": "Wert",
     "modalTitle": "Erweiterte Immobiliensuche",
     "modalSubtitle": "Verknüpfen Sie die richtige Eigenschaft, indem Sie Ihre Suche eingrenzen",
-    "noPropertiesFound": "Keine Eigenschaften gefunden"
+    "noPropertiesFound": "Keine Eigenschaften gefunden",
+    "addNewButton": "Neues hinzufügen",
+    "andOrColumnHeader": "und/oder",
+    "propertyColumnHeader": "Eigentum",
+    "operatorColumnHeader": "Operator",
+    "valueColumnHeader": "Wert",
+    "propertyFieldPlaceholder": "Keine Eigenschaft ausgewählt"
   }
 }

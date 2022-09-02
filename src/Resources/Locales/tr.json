@@ -1149,13 +1149,14 @@
     "selectRow": "Twin Seçilmiş",
     "inspectProperty": "Özelliği İncele",
     "results": "Sonuçlar ({{twinCount}})",
-    "addNewRow": "Yeni satır ekle",
-    "andOr": "Ve/veya",
-    "property": "Mülk",
-    "operator": "Operatör",
-    "value": "Değer",
     "modalTitle": "Gelişmiş mülk arama",
     "modalSubtitle": "Aramanızı daraltarak doğru mülkü bağlayın",
-    "noPropertiesFound": "Tesis bulunamadı"
+    "noPropertiesFound": "Tesis bulunamadı",
+    "addNewButton": "Yeni ekle",
+    "andOrColumnHeader": "Ve/veya",
+    "propertyColumnHeader": "Mülk",
+    "operatorColumnHeader": "Operatör",
+    "valueColumnHeader": "Değer",
+    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi"
   }
 }

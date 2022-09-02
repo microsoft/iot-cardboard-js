@@ -6,7 +6,6 @@ import {
     ITheme
 } from '@fluentui/react';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
-import { Theme } from '../../Models/Constants';
 import { PropertyValueType } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Advanced search modal */
@@ -22,7 +21,6 @@ export interface IAdvancedSearchProps {
         IAdvancedSearchStyleProps,
         IAdvancedSearchStyles
     >;
-    theme: Theme;
 }
 
 export interface IAdvancedSearchStyleProps {
@@ -30,12 +28,10 @@ export interface IAdvancedSearchStyleProps {
 }
 export interface IAdvancedSearchStyles {
     content: IStyle;
-    header: IStyle;
-    headerText: IStyle;
-    mainHeader: IStyle;
+    headerContainer: IStyle;
+    title: IStyle;
+    titleContainer: IStyle;
     subtitle: IStyle;
-    queryContainer: IStyle;
-    resultsContainer: IStyle;
     /**
      * SubComponent styles.
      */

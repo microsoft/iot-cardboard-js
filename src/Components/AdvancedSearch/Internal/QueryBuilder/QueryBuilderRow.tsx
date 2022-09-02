@@ -4,7 +4,8 @@ import {
     IQueryBuilderRowStyleProps,
     IQueryBuilderRowStyles,
     OperatorData,
-    PropertyOption
+    PropertyOption,
+    PropertyOptionGroup
 } from './QueryBuilder.types';
 import { getRowStyles, reactSelectStyles } from './QueryBuilder.styles';
 import {
@@ -20,16 +21,14 @@ import {
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
-    getDefaultCombinator,
-    getDefaultOperator,
+    DEFAULT_COMBINATOR,
+    DEFAULT_OPERATOR,
     getDefaultPropertyValues,
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
 import Select, { components, SelectOptionActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../../../BaseComponent/BaseComponent';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -47,12 +46,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         position,
         removeRow,
         styles,
-        theme,
-        updateSnippet
+        onUpdateSnippet
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
+    // Naming this as its type since theme is a prop as well
+    const iTheme = useTheme();
     const classNames = getClassNames(styles, {
-        theme: useTheme(),
+        theme: iTheme,
         isOnlyFirstRow: isRemoveDisabled
     });
     const { t } = useTranslation();
@@ -65,7 +65,9 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         }
     );
 
-    const [propertyOptions, setPropertyOptions] = useState([]);
+    const [propertyOptions, setPropertyOptions] = useState<
+        PropertyOptionGroup[]
+    >([]);
 
     // Other
     const [selectedOperator, setSelectedOperator] = useState<
@@ -81,8 +83,8 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Effects
     // Creating react-select options
     useEffect(() => {
-        const propertyComboboxOptions = [];
-        if (flattenedModelProperties) {
+        const propertyComboboxOptions: PropertyOptionGroup[] = [];
+        if (!isLoading && flattenedModelProperties) {
             Object.keys(flattenedModelProperties).forEach(
                 (modelName: string, index: number) => {
                     propertyComboboxOptions.push({
@@ -94,7 +96,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                             value: property.key,
                             label: property.localPath,
                             data: {
-                                name: property.name,
+                                name: property.localPath,
                                 type: property.propertyType
                             }
                         });
@@ -119,20 +121,27 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Update snippet on any input change
     useEffect(() => {
         if (selectedProperty) {
-            updateSnippet(rowId, {
+            onUpdateSnippet(rowId, {
                 combinator: selectedCombinator
                     ? selectedCombinator
-                    : getDefaultCombinator(),
+                    : DEFAULT_COMBINATOR,
                 operatorData: selectedOperator
                     ? selectedOperator.data
-                    : getDefaultOperator(),
+                    : DEFAULT_OPERATOR,
                 property: selectedProperty.data.name,
                 value: selectedValue
                     ? selectedValue
                     : getDefaultPropertyValues(selectedProperty.data.type)
             });
         }
-    }, [selectedCombinator, selectedOperator, selectedProperty, selectedValue]);
+    }, [
+        onUpdateSnippet,
+        rowId,
+        selectedCombinator,
+        selectedOperator,
+        selectedProperty,
+        selectedValue
+    ]);
 
     const onChangeOperator = (
         _event: React.FormEvent<HTMLDivElement>,
@@ -166,7 +175,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, newValue);
     };
 
-    const onChangeDropdownValue = (
+    const onChangeValueDropdown = (
         _event: React.FormEvent<HTMLDivElement>,
         option?: IDropdownOption<any>,
         _index?: number
@@ -175,13 +184,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, option.text);
     };
 
-    const propertySelectorStyles = reactSelectStyles(isRemoveDisabled);
+    const propertySelectorStyles = reactSelectStyles(iTheme, isRemoveDisabled);
 
-    const Group = (props) => (
-        <div>
-            <components.Group {...props} />
-        </div>
-    );
+    const Group = (props) => <components.Group {...props} />;
+
+    const Placeholder = (props) => {
+        return <components.Placeholder {...props} />;
+    };
 
     const Menu = (props) => (
         <Callout
@@ -189,12 +198,10 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             styles={classNames.subComponentStyles.propertyCallout}
             isBeakVisible={false}
         >
-            <BaseComponent theme={theme}>
-                <components.MenuList
-                    {...props}
-                    styles={propertySelectorStyles.menuList}
-                />
-            </BaseComponent>
+            <components.MenuList
+                {...props}
+                styles={propertySelectorStyles.menuList}
+            />
         </Callout>
     );
 
@@ -227,7 +234,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                             text: 'False'
                         }
                     ]}
-                    onChange={onChangeDropdownValue}
+                    onChange={onChangeValueDropdown}
                     styles={classNames.subComponentStyles.valueField}
                 />
             );
@@ -266,15 +273,22 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             <div className={classNames.inputColumn}>
                 {/* Property */}
                 <Select<PropertyOption>
+                    className={'AdvancedSearch-propertySelectInput'}
+                    classNamePrefix={'AdvancedSearch-propertySelectInput'}
                     id={propertySelectorId}
                     options={propertyOptions}
                     noOptionsMessage={() =>
                         t('advancedSearch.noPropertiesFound')
                     }
                     isSearchable={true}
-                    components={{ Group: Group, Menu: Menu }}
+                    components={{
+                        Group: Group,
+                        Menu: Menu,
+                        Placeholder: Placeholder
+                    }}
                     onChange={onChangePropertySelected}
                     styles={propertySelectorStyles}
+                    placeholder={t('advancedSearch.propertyFieldPlaceholder')}
                 />
             </div>
             <div className={classNames.inputColumn}>
@@ -283,6 +297,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     options={operatorOptions}
                     selectedKey={selectedOperator ? selectedOperator.key : null}
                     onChange={onChangeOperator}
+                    disabled={!selectedProperty}
                 />
             </div>
             <div className={classNames.inputColumn}>

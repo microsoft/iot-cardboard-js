@@ -6,15 +6,16 @@ import {
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
-import { Theme } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    IModelledProperty,
+    PropertyValueType
+} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
     adapter: IModelledPropertyBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
-    theme: Theme;
     executeQuery: (query: string) => void;
     updateColumns: (propertyNames: Set<string>) => void;
     /**
@@ -59,10 +60,9 @@ export interface IQueryBuilderRowProps {
         propertyType: PropertyValueType
     ) => void;
     onChangeValue: (rowId: string, newValue: string) => void;
-    updateSnippet: (rowId: string, rowValue: QueryRowType) => void;
+    onUpdateSnippet: (rowId: string, rowValue: QueryRowData) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
-    theme: Theme;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -72,18 +72,34 @@ export interface IQueryBuilderRowProps {
     >;
 }
 
+export enum OperatorType {
+    Simple,
+    Function
+}
+
+export enum OperatorText {
+    Equals = 'Equals',
+    NotEquals = 'Not Equals',
+    Contains = 'Contains',
+    NotContains = 'Not Contains',
+    GreaterThan = 'Greater than',
+    LessThan = 'Less than',
+    GreaterOrEqual = 'Greater or equal',
+    LessOrEqual = 'Less or equal'
+}
+
 export type OperatorData = OperatorSimple | OperatorFunction;
 interface OperatorSimple {
-    operatorType: 'Simple';
+    operatorType: OperatorType.Simple;
     operatorSymbol: string;
 }
 
 interface OperatorFunction {
-    operatorType: 'Function';
+    operatorType: OperatorType.Function;
     operatorFunction: (property: string, value: string) => string;
 }
 
-export interface QueryRowType {
+export interface QueryRowData {
     property: string;
     operatorData: OperatorData;
     value: string;
@@ -97,6 +113,15 @@ export interface PropertyOption {
         name: string;
         type: PropertyValueType;
     };
+}
+
+export interface PropertyOptionGroup {
+    label: string;
+    options: PropertyOption[];
+}
+
+export interface IGroupedModelledPropertiesFormat {
+    [modelName: string]: IModelledProperty[];
 }
 
 export interface IQueryBuilderRowStyleProps {

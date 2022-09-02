@@ -1,3 +1,4 @@
+import { FontSizes, ITheme } from '@fluentui/react';
 import { StylesConfig } from 'react-select';
 import {
     IQueryBuilderStyleProps,
@@ -11,9 +12,9 @@ import {
  */
 export const classPrefix = 'cb-querybuilder';
 const classNames = {
-    root: `${classPrefix}-root`,
     headerGrid: `${classPrefix}-headerGrid`,
     headerText: `${classPrefix}-headerText`,
+    root: `${classPrefix}-root`,
     rowContainer: `${classPrefix}-rowContainer`
 };
 
@@ -40,7 +41,7 @@ export const getStyles = (
         headerText: [
             classNames.headerText,
             {
-                fontSize: '16px',
+                fontSize: FontSizes.size14,
                 margin: 0
             }
         ],
@@ -54,13 +55,19 @@ export const getStyles = (
         subComponentStyles: {
             searchButton: {
                 root: {
-                    display: 'block'
+                    display: 'block',
+                    width: 100
                 }
             },
             addButton: {
                 root: {
                     display: 'block',
-                    color: props.theme.palette.themePrimary
+                    color: props.theme.palette.themePrimary,
+                    padding: 0,
+                    marginLeft: 0
+                },
+                label: {
+                    margin: 0
                 }
             }
         }
@@ -72,10 +79,10 @@ export const getStyles = (
  */
 export const rowClassPrefix = 'cb-querybuilderrow';
 const rowClassNames = {
-    root: `${classPrefix}-root`,
+    buttonColumn: `${classPrefix}-buttonColumn`,
     firstColumn: `${classPrefix}-firstColumn`,
     inputColumn: `${classPrefix}-inputColumn`,
-    buttonColumn: `${classPrefix}-buttonColumn`
+    root: `${classPrefix}-root`
 };
 
 export const getRowStyles = (
@@ -88,8 +95,7 @@ export const getRowStyles = (
                 display: 'grid',
                 width: '100%',
                 gridTemplateRows: 'auto',
-                columnGap: '20px',
-                marginTop: 10
+                columnGap: '20px'
             },
             props.isOnlyFirstRow
                 ? {
@@ -112,25 +118,31 @@ export const getRowStyles = (
     };
 };
 
-export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
+// 260 or 220 minus 2px due to borders
+const menuListLargeMaxWidth = 258;
+const menuListCompactMaxWidth = 218;
+export const reactSelectStyles = (
+    theme: ITheme,
+    isOnlyFirstRow: boolean
+): StylesConfig => {
     return {
         container: (provided) => ({
             ...provided,
-            fontSize: '14px',
+            fontSize: FontSizes.size14,
             padding: '1px'
         }),
         control: (provided, state) => ({
             ...provided,
-            backgroundColor: 'var(--cb-color-bg-canvas)',
+            backgroundColor: theme.semanticColors.inputBackground,
             border: 0,
             borderRadius: '2px',
-            fontSize: '14px',
-            fontWeight: 400,
+            fontSize: FontSizes.size14,
+            fontWeight: 400, // Font weight enum gives a type error here
             minHeight: '32px',
             outline: '1px solid',
             outlineColor: state.isFocused
-                ? 'var(--cb-color-theme-primary)'
-                : 'var(--cb-color-input-border)'
+                ? theme.semanticColors.inputBackgroundCheckedHovered
+                : theme.semanticColors.inputBorder
         }),
         indicatorSeparator: () => ({
             display: 'none'
@@ -141,14 +153,16 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         }),
         input: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-text-secondary)',
-            fontSize: '14px'
+            color: theme.semanticColors.inputText,
+            fontSize: FontSizes.size14
         }),
         menuList: (provided) => ({
             ...provided,
-            backgroundColor: 'var(--cb-color-bg-canvas)',
+            backgroundColor: theme.semanticColors.inputBackground,
             maxHeight: '300px',
-            maxWidth: isOnlyFirstRow ? 258 : 218,
+            maxWidth: isOnlyFirstRow
+                ? menuListLargeMaxWidth
+                : menuListCompactMaxWidth,
             overflowY: 'auto',
             padding: 0,
             position: 'relative'
@@ -156,14 +170,14 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         option: (provided, state) => ({
             ...provided,
             backgroundColor: state.isFocused
-                ? 'var(--cb-color-natural-light)'
+                ? theme.semanticColors.listItemBackgroundHovered
                 : state.isSelected
-                ? 'var(--cb-color-natural-light)'
+                ? theme.semanticColors.listItemBackgroundHovered
                 : 'inherit',
-            borderBottom: '1px solid var(--cb-color-natural-light)',
-            color: 'var(--cb-color-text-primary)',
+            borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
+            color: theme.semanticColors.inputText,
             cursor: 'default',
-            fontWeight: 600,
+            fontWeight: 400, // Font weight enum gives a type error here
             height: '32px',
             overflow: 'hidden',
             padding: '6px 12px',
@@ -171,12 +185,12 @@ export const reactSelectStyles = (isOnlyFirstRow: boolean): StylesConfig => {
         }),
         placeholder: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-input-border)',
-            fontSize: '14px'
+            color: theme.semanticColors.inputPlaceholderText,
+            fontSize: FontSizes.size14
         }),
         singleValue: (provided) => ({
             ...provided,
-            color: 'var(--cb-color-text-primary)'
+            color: theme.semanticColors.inputText
         })
     };
 };

@@ -1,3 +1,4 @@
+import { FontSizes, FontWeights } from '@fluentui/react';
 import {
     IAdvancedSearchStyleProps,
     IAdvancedSearchStyles
@@ -6,55 +7,34 @@ import {
 export const classPrefix = 'cb-advancedsearch';
 const classNames = {
     content: `${classPrefix}-content`,
-    header: `${classPrefix}-header`,
-    headerText: `${classPrefix}-headerText`,
-    mainHeader: `${classPrefix}-mainHeader`,
+    headerContainer: `${classPrefix}-headerContainer`,
     subtitle: `${classPrefix}-subtitle`,
-    queryContainer: `${classPrefix}-queryContainer`,
-    resultsContainer: `${classPrefix}-resultsContainer`
+    title: `${classPrefix}-title`,
+    titleContainer: `${classPrefix}-titleContainer`
 };
 
 export const getStyles = (
     _props: IAdvancedSearchStyleProps
 ): IAdvancedSearchStyles => {
     return {
-        content: [
-            classNames.content,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                height: 550
-            }
-        ],
-        header: [classNames.header],
-        headerText: [
-            classNames.headerText,
+        content: [classNames.content],
+        headerContainer: [classNames.headerContainer],
+        title: [
+            classNames.title,
             {
                 margin: 0,
-                fontSize: '24px',
-                fontWeight: 600
+                fontSize: FontSizes.size24,
+                fontWeight: FontWeights.semibold
             }
         ],
-        mainHeader: [
-            classNames.mainHeader,
+        titleContainer: [
+            classNames.titleContainer,
             {
                 display: 'flex',
                 paddingBottom: 8
             }
         ],
         subtitle: [classNames.subtitle],
-        queryContainer: [
-            classNames.queryContainer,
-            {
-                marginBottom: 32
-            }
-        ],
-        resultsContainer: [
-            classNames.resultsContainer,
-            {
-                overflow: 'auto'
-            }
-        ],
         subComponentStyles: {
             modal: {
                 main: {
@@ -69,7 +49,7 @@ export const getStyles = (
                     alignSelf: 'center',
                     paddingRight: 12,
                     paddingTop: 8,
-                    fontSize: 20
+                    fontSize: FontSizes.size20
                 }
             }
         }

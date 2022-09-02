@@ -1149,13 +1149,14 @@
         "selectRow": "Twin Selected",
         "inspectProperty": "Inspect Property",
         "results": "Results ({{twinCount}})",
-        "addNewRow": "Add new row",
-        "andOr": "And/Or",
-        "property": "Property",
-        "operator": "Operator",
-        "value": "Value",
+        "addNewButton": "Add new",
+        "andOrColumnHeader": "And/Or",
+        "propertyColumnHeader": "Property",
+        "operatorColumnHeader": "Operator",
+        "valueColumnHeader": "Value",
         "modalTitle": "Advanced property search",
         "modalSubtitle": "Link the right property by narrowing down your search",
-        "noPropertiesFound": "No properties found"
+        "noPropertiesFound": "No properties found",
+        "propertyFieldPlaceholder": "No property selected"
     }
 }

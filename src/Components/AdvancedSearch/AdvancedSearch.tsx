@@ -10,7 +10,9 @@ import {
     useTheme,
     styled,
     Modal,
-    Icon
+    Icon,
+    Stack,
+    IStackTokens
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
@@ -20,7 +22,6 @@ import {
     IADTTwin
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { useAdapter } from '../../Models/Hooks';
 
 const getClassNames = classNamesFunction<
@@ -28,14 +29,18 @@ const getClassNames = classNamesFunction<
     IAdvancedSearchStyles
 >();
 
-const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
+const stackTokens: IStackTokens = {
+    childrenGap: 20,
+    maxHeight: 550
+};
+
+const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const {
         adapter,
         allowedPropertyValueTypes,
         isOpen,
         onDismiss,
-        styles,
-        theme
+        styles
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -83,45 +88,44 @@ const AdvancedSearchModal: React.FC<IAdvancedSearchProps> = (props) => {
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
         >
-            <BaseComponent theme={theme}>
-                <div className={classNames.header}>
-                    <div className={classNames.mainHeader}>
-                        <Icon
-                            iconName={'search'}
-                            styles={classNames.subComponentStyles.icon}
-                        />
-                        <h3 id={'titleId'} className={classNames.headerText}>
-                            {t('advancedSearch.modalTitle')}
-                        </h3>
-                    </div>
-                    <p className={classNames.subtitle}>
-                        {t('advancedSearch.modalSubtitle')}
-                    </p>
+            <div className={classNames.headerContainer}>
+                <div className={classNames.titleContainer}>
+                    <Icon
+                        iconName={'search'}
+                        styles={classNames.subComponentStyles.icon}
+                    />
+                    <h3 id={titleId} className={classNames.title}>
+                        {t('advancedSearch.modalTitle')}
+                    </h3>
                 </div>
-                <div className={classNames.content}>
-                    <div className={classNames.queryContainer}>
-                        <QueryBuilder
-                            adapter={adapter}
-                            allowedPropertyValueTypes={
-                                allowedPropertyValueTypes
+                <p className={classNames.subtitle}>
+                    {t('advancedSearch.modalSubtitle')}
+                </p>
+            </div>
+            <div className={classNames.content}>
+                <Stack tokens={stackTokens}>
+                    <QueryBuilder
+                        adapter={adapter}
+                        allowedPropertyValueTypes={allowedPropertyValueTypes}
+                        executeQuery={executeQuery}
+                        updateColumns={updateColumns}
+                    />
+                    <AdvancedSearchResultDetailsList
+                        twins={filteredTwins.current}
+                        searchedProperties={Array.from(
+                            additionalProperties.current
+                        )}
+                        adapter={adapter}
+                        onTwinSelection={null}
+                        styles={{
+                            root: {
+                                maxHeight: 380,
+                                overflow: 'auto'
                             }
-                            executeQuery={executeQuery}
-                            updateColumns={updateColumns}
-                            theme={theme}
-                        />
-                    </div>
-                    <div className={classNames.resultsContainer}>
-                        <AdvancedSearchResultDetailsList
-                            twins={filteredTwins.current}
-                            searchedProperties={Array.from(
-                                additionalProperties.current
-                            )}
-                            adapter={adapter}
-                            onTwinSelection={null}
-                        />
-                    </div>
-                </div>
-            </BaseComponent>
+                        }}
+                    />
+                </Stack>
+            </div>
         </Modal>
     );
 };
@@ -130,4 +134,4 @@ export default styled<
     IAdvancedSearchProps,
     IAdvancedSearchStyleProps,
     IAdvancedSearchStyles
->(AdvancedSearchModal, getStyles);
+>(AdvancedSearch, getStyles);
