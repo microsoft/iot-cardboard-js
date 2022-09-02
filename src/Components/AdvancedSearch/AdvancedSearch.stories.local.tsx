@@ -1,7 +1,7 @@
 import React from 'react';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import useAuthParams from '../../../.storybook/useAuthParams';
-import AdvancedSearchModal from './AdvancedSearchModal';
+import AdvancedSearch from './AdvancedSearch';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import { ComponentStory } from '@storybook/react';
@@ -11,19 +11,19 @@ const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
 export default {
     title: 'Components/AdvancedSearch',
-    component: AdvancedSearchModal,
+    component: AdvancedSearch,
     decorators: [getDefaultStoryDecorator<IAdvancedSearchProps>(wrapperStyle)]
 };
 
-type AdvancedSearchModalStory = ComponentStory<typeof AdvancedSearchModal>;
+type AdvancedSearchStory = ComponentStory<typeof AdvancedSearch>;
 
-const Template: AdvancedSearchModalStory = (_args) => {
+const Template: AdvancedSearchStory = (_args) => {
     const authenticationParameters = useAuthParams();
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <AdvancedSearchModal
+        <AdvancedSearch
             adapter={
                 new ADTAdapter(
                     authenticationParameters.adt.hostUrl,
@@ -43,7 +43,6 @@ const Template: AdvancedSearchModalStory = (_args) => {
             ]}
             isOpen={true}
             onDismiss={() => ({})}
-            theme={null}
         />
     );
 };
