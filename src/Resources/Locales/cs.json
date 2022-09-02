@@ -1148,6 +1148,15 @@
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
     "inspectProperty": "Zkontrolovat nemovitost",
-    "results": "Výsledky ({{twinCount}})"
+    "results": "Výsledky ({{twinCount}})",
+    "modalTitle": "Rozšířené vyhledávání vlastností",
+    "modalSubtitle": "Propojte správnou službu zúžením vyhledávání",
+    "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
+    "addNewButton": "Přidat nové",
+    "andOrColumnHeader": "Nebo",
+    "propertyColumnHeader": "Vlastnost",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Hodnota",
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost"
   }
 }

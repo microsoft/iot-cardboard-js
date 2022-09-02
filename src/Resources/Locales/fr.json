@@ -1148,6 +1148,15 @@
     "toggleSelection": "Basculer pour sélectionner Twin",
     "selectRow": "Twin Sélectionné",
     "inspectProperty": "Inspecter la propriété",
-    "results": "Résultats ({{twinCount}})"
+    "results": "Résultats ({{twinCount}})",
+    "modalTitle": "Recherche avancée de propriétés",
+    "modalSubtitle": "Liez la bonne propriété en réduisant votre recherche",
+    "noPropertiesFound": "Aucune propriété trouvée",
+    "addNewButton": "Ajouter un nouveau",
+    "andOrColumnHeader": "Et/ou",
+    "propertyColumnHeader": "Propriété",
+    "operatorColumnHeader": "Opérateur",
+    "valueColumnHeader": "Valeur",
+    "propertyFieldPlaceholder": "Aucune propriété sélectionnée"
   }
 }

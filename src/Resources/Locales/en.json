@@ -1148,6 +1148,15 @@
         "toggleSelection": "Toggle to Select Twin",
         "selectRow": "Twin Selected",
         "inspectProperty": "Inspect Property",
-        "results": "Results ({{twinCount}})"
+        "results": "Results ({{twinCount}})",
+        "addNewButton": "Add new",
+        "andOrColumnHeader": "And/Or",
+        "propertyColumnHeader": "Property",
+        "operatorColumnHeader": "Operator",
+        "valueColumnHeader": "Value",
+        "modalTitle": "Advanced property search",
+        "modalSubtitle": "Link the right property by narrowing down your search",
+        "noPropertiesFound": "No properties found",
+        "propertyFieldPlaceholder": "No property selected"
     }
 }

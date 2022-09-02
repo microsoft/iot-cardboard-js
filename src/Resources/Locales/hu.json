@@ -1148,6 +1148,15 @@
     "toggleSelection": "Váltás az iker kiválasztásához",
     "selectRow": "Iker kiválasztva",
     "inspectProperty": "Ingatlan ellenőrzése",
-    "results": "Eredmények ({{twinCount}})"
+    "results": "Eredmények ({{twinCount}})",
+    "modalTitle": "Speciális szálláskeresés",
+    "modalSubtitle": "A megfelelő tulajdon összekapcsolása a keresés szűkítésével",
+    "noPropertiesFound": "Nem található tulajdonság",
+    "addNewButton": "Új hozzáadása",
+    "andOrColumnHeader": "Illetve",
+    "propertyColumnHeader": "Ingatlan",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Érték",
+    "propertyFieldPlaceholder": "Nincs kijelölt tulajdon"
   }
 }

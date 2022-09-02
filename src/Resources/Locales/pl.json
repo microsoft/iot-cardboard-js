@@ -1148,6 +1148,15 @@
     "toggleSelection": "Przełącz na Wybierz Twin",
     "selectRow": "Twin Selected",
     "inspectProperty": "Sprawdź nieruchomość",
-    "results": "Wyniki ({{twinCount}})"
+    "results": "Wyniki ({{twinCount}})",
+    "modalTitle": "Zaawansowane wyszukiwanie nieruchomości",
+    "modalSubtitle": "Połącz właściwą właściwość, zawężając wyszukiwanie",
+    "noPropertiesFound": "Nie znaleziono obiektów",
+    "addNewButton": "Dodaj nowy",
+    "andOrColumnHeader": "Lub",
+    "propertyColumnHeader": "Własność",
+    "operatorColumnHeader": "Operator",
+    "valueColumnHeader": "Wartość",
+    "propertyFieldPlaceholder": "Nie wybrano właściwości"
   }
 }

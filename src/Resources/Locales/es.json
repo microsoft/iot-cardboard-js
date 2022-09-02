@@ -1148,6 +1148,15 @@
     "toggleSelection": "Cambiar a Seleccionar gemelo",
     "selectRow": "Gemelo seleccionado",
     "inspectProperty": "Inspeccionar propiedad",
-    "results": "Resultados ({{twinCount}})"
+    "results": "Resultados ({{twinCount}})",
+    "modalTitle": "Búsqueda avanzada de propiedades",
+    "modalSubtitle": "Vincule la propiedad correcta reduciendo su búsqueda",
+    "noPropertiesFound": "No se han encontrado propiedades",
+    "addNewButton": "Añadir nuevo",
+    "andOrColumnHeader": "Y/O",
+    "propertyColumnHeader": "Propiedad",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "No hay ninguna propiedad seleccionada"
   }
 }

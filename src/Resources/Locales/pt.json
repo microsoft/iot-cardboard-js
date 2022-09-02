@@ -1148,6 +1148,15 @@
     "toggleSelection": "Alternar para Selecionar gêmeos",
     "selectRow": "Gêmeos Selecionados",
     "inspectProperty": "Inspecionar propriedade",
-    "results": "Resultados ({{twinCount}})"
+    "results": "Resultados ({{twinCount}})",
+    "modalTitle": "Pesquisa avançada de propriedade",
+    "modalSubtitle": "Vincule a propriedade certa, reduzindo sua pesquisa",
+    "noPropertiesFound": "Nenhuma propriedade encontrada",
+    "addNewButton": "Adicionar novo",
+    "andOrColumnHeader": "E/Ou",
+    "propertyColumnHeader": "Propriedade",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "Nenhuma propriedade selecionada"
   }
 }

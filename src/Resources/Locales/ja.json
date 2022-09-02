@@ -1148,6 +1148,15 @@
     "toggleSelection": "ツインの選択に切り替えます",
     "selectRow": "選択されたツイン",
     "inspectProperty": "プロパティの検査",
-    "results": "結果 ({{twinCount}})"
+    "results": "結果 ({{twinCount}})",
+    "modalTitle": "高度な物件検索",
+    "modalSubtitle": "検索を絞り込むことで適切なプロパティをリンクする",
+    "noPropertiesFound": "プロパティが見つかりません",
+    "addNewButton": "新規追加",
+    "andOrColumnHeader": "や",
+    "propertyColumnHeader": "財産",
+    "operatorColumnHeader": "演算子",
+    "valueColumnHeader": "価値",
+    "propertyFieldPlaceholder": "プロパティが選択されていません"
   }
 }
