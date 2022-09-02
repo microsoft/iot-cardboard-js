@@ -1149,13 +1149,14 @@
     "selectRow": "트윈 선택",
     "inspectProperty": "속성 검사",
     "results": "결과 ({{twinCount}})",
-    "addNewRow": "새 행 추가",
-    "andOr": "및/또는",
-    "property": "재산",
-    "operator": "연산자",
-    "value": "값",
     "modalTitle": "고급 속성 검색",
     "modalSubtitle": "검색 범위를 좁혀 올바른 속성 연결",
-    "noPropertiesFound": "속성을 찾을 수 없음"
+    "noPropertiesFound": "속성을 찾을 수 없음",
+    "addNewButton": "새로 추가",
+    "andOrColumnHeader": "및/또는",
+    "propertyColumnHeader": "재산",
+    "operatorColumnHeader": "연산자",
+    "valueColumnHeader": "값",
+    "propertyFieldPlaceholder": "선택한 속성이 없습니다."
   }
 }

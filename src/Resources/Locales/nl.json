@@ -1149,13 +1149,14 @@
     "selectRow": "Twin geselecteerd",
     "inspectProperty": "Inspecteer onroerend goed",
     "results": "Resultaten ({{twinCount}})",
-    "addNewRow": "Nieuwe rij toevoegen",
-    "andOr": "Of",
-    "property": "Eigenschap",
-    "operator": "Bediener",
-    "value": "Waarde",
     "modalTitle": "Geavanceerd zoeken naar onroerend goed",
     "modalSubtitle": "Koppel de juiste woning door uw zoekopdracht te verfijnen",
-    "noPropertiesFound": "Geen accommodaties gevonden"
+    "noPropertiesFound": "Geen accommodaties gevonden",
+    "addNewButton": "Nieuwe toevoegen",
+    "andOrColumnHeader": "Of",
+    "propertyColumnHeader": "Eigenschap",
+    "operatorColumnHeader": "Bediener",
+    "valueColumnHeader": "Waarde",
+    "propertyFieldPlaceholder": "Geen woning geselecteerd"
   }
 }

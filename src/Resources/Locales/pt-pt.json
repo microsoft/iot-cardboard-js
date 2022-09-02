@@ -1149,13 +1149,14 @@
     "selectRow": "Twin Selecionado",
     "inspectProperty": "Inspecionar Propriedade",
     "results": "Resultados ({{twinCount}}",
-    "addNewRow": "Adicionar nova linha",
-    "andOr": "E/Ou",
-    "property": "Propriedade",
-    "operator": "Operador",
-    "value": "Valor",
     "modalTitle": "Pesquisa avançada de propriedade",
     "modalSubtitle": "Ligue a propriedade certa reduzindo a sua pesquisa",
-    "noPropertiesFound": "Nenhuma propriedade encontrada"
+    "noPropertiesFound": "Nenhuma propriedade encontrada",
+    "addNewButton": "Adicionar novo",
+    "andOrColumnHeader": "E/Ou",
+    "propertyColumnHeader": "Propriedade",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "Nenhum imóvel selecionado"
   }
 }

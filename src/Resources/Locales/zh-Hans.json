@@ -1149,13 +1149,14 @@
     "selectRow": "选择双床间",
     "inspectProperty": "检查属性",
     "results": "Results （{{twinCount}}）",
-    "addNewRow": "添加新行",
-    "andOr": "和/或",
-    "property": "财产",
-    "operator": "算子",
-    "value": "价值",
     "modalTitle": "高级房产搜索",
     "modalSubtitle": "通过缩小搜索范围来链接正确的媒体资源",
-    "noPropertiesFound": "未找到任何属性"
+    "noPropertiesFound": "未找到任何属性",
+    "addNewButton": "添加新的",
+    "andOrColumnHeader": "和/或",
+    "propertyColumnHeader": "财产",
+    "operatorColumnHeader": "算子",
+    "valueColumnHeader": "价值",
+    "propertyFieldPlaceholder": "未选择任何属性"
   }
 }

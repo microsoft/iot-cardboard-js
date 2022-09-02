@@ -1149,13 +1149,14 @@
     "selectRow": "Doppia Selezionata",
     "inspectProperty": "Ispeziona proprietà",
     "results": "Risultati ({{twinCount}})",
-    "addNewRow": "Aggiungi nuova riga",
-    "andOr": "O",
-    "property": "Proprietà",
-    "operator": "Operatore",
-    "value": "Valore",
     "modalTitle": "Ricerca avanzata di immobili",
     "modalSubtitle": "Collega la proprietà giusta restringendo la ricerca",
-    "noPropertiesFound": "Nessuna struttura trovata"
+    "noPropertiesFound": "Nessuna struttura trovata",
+    "addNewButton": "Aggiungi nuovo",
+    "andOrColumnHeader": "O",
+    "propertyColumnHeader": "Proprietà",
+    "operatorColumnHeader": "Operatore",
+    "valueColumnHeader": "Valore",
+    "propertyFieldPlaceholder": "Nessuna proprietà selezionata"
   }
 }
