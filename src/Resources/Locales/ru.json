@@ -1149,13 +1149,14 @@
     "selectRow": "Выбран близнец",
     "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
-    "addNewRow": "Добавить новую строку",
-    "andOr": "И/или",
-    "property": "Свойство",
-    "operator": "Оператор",
-    "value": "Ценность",
     "modalTitle": "Расширенный поиск недвижимости",
     "modalSubtitle": "Свяжите нужный объект, сузив область поиска",
-    "noPropertiesFound": "Недвижимость не найдена"
+    "noPropertiesFound": "Недвижимость не найдена",
+    "addNewButton": "Добавить новый",
+    "andOrColumnHeader": "И/или",
+    "propertyColumnHeader": "Свойство",
+    "operatorColumnHeader": "Оператор",
+    "valueColumnHeader": "Ценность",
+    "propertyFieldPlaceholder": "Недвижимость не выбрана"
   }
 }
