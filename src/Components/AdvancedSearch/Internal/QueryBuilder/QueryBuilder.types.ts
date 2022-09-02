@@ -8,7 +8,10 @@ import {
 } from '@fluentui/react';
 import { Theme } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import {
+    IModelledProperty,
+    PropertyValueType
+} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
@@ -97,6 +100,15 @@ export interface PropertyOption {
         name: string;
         type: PropertyValueType;
     };
+}
+
+export interface PropertyOptionGroup {
+    label: string;
+    options: PropertyOption[];
+}
+
+export interface IGroupedModelledPropertiesFormat {
+    [modelName: string]: IModelledProperty[];
 }
 
 export interface IQueryBuilderRowStyleProps {

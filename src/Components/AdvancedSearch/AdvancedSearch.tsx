@@ -28,6 +28,11 @@ const getClassNames = classNamesFunction<
     IAdvancedSearchStyles
 >();
 
+const stackTokens: IStackTokens = {
+    childrenGap: 20,
+    maxHeight: 550
+};
+
 const filteredTwins: IADTTwin[] = twinData;
 
 const cols = ['InFlow', 'OutFlow', 'Temperature'];
@@ -52,10 +57,6 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     };
     const updateColumns = (properties: Set<string>) => {
         additionalProperties.current = properties;
-    };
-    const stackTokens: IStackTokens = {
-        childrenGap: '20px',
-        maxHeight: 550
     };
 
     return (

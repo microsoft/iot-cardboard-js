@@ -55,13 +55,19 @@ export const getStyles = (
         subComponentStyles: {
             searchButton: {
                 root: {
-                    display: 'block'
+                    display: 'block',
+                    width: 100
                 }
             },
             addButton: {
                 root: {
                     display: 'block',
-                    color: props.theme.palette.themePrimary
+                    color: props.theme.palette.themePrimary,
+                    padding: 0,
+                    marginLeft: 0
+                },
+                label: {
+                    margin: 0
                 }
             }
         }

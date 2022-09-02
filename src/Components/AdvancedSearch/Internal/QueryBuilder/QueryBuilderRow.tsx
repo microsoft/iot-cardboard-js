@@ -4,7 +4,8 @@ import {
     IQueryBuilderRowStyleProps,
     IQueryBuilderRowStyles,
     OperatorData,
-    PropertyOption
+    PropertyOption,
+    PropertyOptionGroup
 } from './QueryBuilder.types';
 import { getRowStyles, reactSelectStyles } from './QueryBuilder.styles';
 import {
@@ -66,7 +67,9 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         }
     );
 
-    const [propertyOptions, setPropertyOptions] = useState([]);
+    const [propertyOptions, setPropertyOptions] = useState<
+        PropertyOptionGroup[]
+    >([]);
 
     // Other
     const [selectedOperator, setSelectedOperator] = useState<
@@ -82,7 +85,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Effects
     // Creating react-select options
     useEffect(() => {
-        const propertyComboboxOptions = [];
+        const propertyComboboxOptions: PropertyOptionGroup[] = [];
         if (!isLoading && flattenedModelProperties) {
             Object.keys(flattenedModelProperties).forEach(
                 (modelName: string, index: number) => {
@@ -133,7 +136,14 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     : getDefaultPropertyValues(selectedProperty.data.type)
             });
         }
-    }, [selectedCombinator, selectedOperator, selectedProperty, selectedValue]);
+    }, [
+        onUpdateSnippet,
+        rowId,
+        selectedCombinator,
+        selectedOperator,
+        selectedProperty,
+        selectedValue
+    ]);
 
     const onChangeOperator = (
         _event: React.FormEvent<HTMLDivElement>,
@@ -167,7 +177,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, newValue);
     };
 
-    const onChangeDropdownValue = (
+    const onChangeValueDropdown = (
         _event: React.FormEvent<HTMLDivElement>,
         option?: IDropdownOption<any>,
         _index?: number
@@ -179,6 +189,10 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     const propertySelectorStyles = reactSelectStyles(iTheme, isRemoveDisabled);
 
     const Group = (props) => <components.Group {...props} />;
+
+    const Placeholder = (props) => {
+        return <components.Placeholder {...props} />;
+    };
 
     const Menu = (props) => (
         <Callout
@@ -224,7 +238,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                             text: 'False'
                         }
                     ]}
-                    onChange={onChangeDropdownValue}
+                    onChange={onChangeValueDropdown}
                     styles={classNames.subComponentStyles.valueField}
                 />
             );
@@ -263,15 +277,22 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             <div className={classNames.inputColumn}>
                 {/* Property */}
                 <Select<PropertyOption>
+                    className={'AdvancedSearch-propertySelectInput'}
+                    classNamePrefix={'AdvancedSearch-propertySelectInput'}
                     id={propertySelectorId}
                     options={propertyOptions}
                     noOptionsMessage={() =>
                         t('advancedSearch.noPropertiesFound')
                     }
                     isSearchable={true}
-                    components={{ Group: Group, Menu: Menu }}
+                    components={{
+                        Group: Group,
+                        Menu: Menu,
+                        Placeholder: Placeholder
+                    }}
                     onChange={onChangePropertySelected}
                     styles={propertySelectorStyles}
+                    placeholder={t('advancedSearch.propertyFieldPlaceholder')}
                 />
             </div>
             <div className={classNames.inputColumn}>
@@ -280,6 +301,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     options={operatorOptions}
                     selectedKey={selectedOperator ? selectedOperator.key : null}
                     onChange={onChangeOperator}
+                    disabled={!selectedProperty}
                 />
             </div>
             <div className={classNames.inputColumn}>

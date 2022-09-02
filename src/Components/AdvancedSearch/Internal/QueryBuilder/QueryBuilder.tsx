@@ -12,12 +12,14 @@ import {
     styled,
     ActionButton,
     PrimaryButton,
-    Stack
+    Stack,
+    Separator
 } from '@fluentui/react';
 import QueryBuilderRow from './QueryBuilderRow';
 import { buildQuery } from './QueryBuilderUtils';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { useTranslation } from 'react-i18next';
+import { createGUID } from '../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderStyleProps,
@@ -42,7 +44,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
     const [isSearchDisabled, setIsSearchDisabled] = useState(true);
     const [rows, updateRows] = useState<any[]>([
         {
-            rowId: String(Math.random())
+            rowId: String(createGUID())
         }
     ]);
 
@@ -114,7 +116,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     const appendRow = useCallback(() => {
         // Add row component
-        const rowId = String(Math.random());
+        const rowId = String(createGUID());
         const newRows = [
             ...rows,
             {
@@ -150,19 +152,19 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 10 }}>
                 <div className={classNames.headerGrid}>
-                    {!(rows.length === 1) && (
+                    {rows.length !== 1 && (
                         <p className={classNames.headerText}>
-                            {t('advancedSearch.andOr')}
+                            {t('advancedSearch.andOrColumnHeader')}
                         </p>
                     )}
                     <p className={classNames.headerText}>
-                        {t('advancedSearch.property')}
+                        {t('advancedSearch.propertyColumnHeader')}
                     </p>
                     <p className={classNames.headerText}>
-                        {t('advancedSearch.operator')}
+                        {t('advancedSearch.operatorColumnHeader')}
                     </p>
                     <p className={classNames.headerText}>
-                        {t('advancedSearch.value')}
+                        {t('advancedSearch.valueColumnHeader')}
                     </p>
                 </div>
                 <div className={classNames.rowContainer}>
@@ -173,14 +175,14 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                                 allowedPropertyValueTypes={
                                     allowedPropertyValueTypes
                                 }
+                                isRemoveDisabled={rows.length === 1}
                                 key={row.rowId}
+                                onChangeProperty={onChangeProperty}
+                                onChangeValue={onChangeValue}
+                                onUpdateSnippet={updateQuerySnippet}
                                 position={index}
                                 removeRow={removeRow}
                                 rowId={row.rowId}
-                                onChangeValue={onChangeValue}
-                                onChangeProperty={onChangeProperty}
-                                onUpdateSnippet={updateQuerySnippet}
-                                isRemoveDisabled={rows.length === 1}
                                 styles={classNames.subComponentStyles.row}
                                 theme={theme}
                             />
@@ -190,9 +192,10 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
             </Stack>
             <ActionButton
                 onClick={appendRow}
-                text={t('advancedSearch.addNewRow')}
+                text={t('advancedSearch.addNewButton')}
                 styles={classNames.subComponentStyles.addButton()}
                 disabled={rows.length === MAX_ROW_LENGTH}
+                data-testid={'AdvancedSearch-addNewRow'}
             />
             <PrimaryButton
                 text={t('search')}
@@ -200,6 +203,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                 disabled={isSearchDisabled}
                 styles={classNames.subComponentStyles.searchButton()}
             />
+            <Separator />
         </div>
     );
 };
