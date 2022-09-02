@@ -5,7 +5,7 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IModelledPropertyBuilderAdapter, Theme } from '../../Models/Constants';
+import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
 import { PropertyValueType } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Advanced search modal */
@@ -21,7 +21,6 @@ export interface IAdvancedSearchProps {
         IAdvancedSearchStyleProps,
         IAdvancedSearchStyles
     >;
-    theme: Theme;
 }
 
 export interface IAdvancedSearchStyleProps {

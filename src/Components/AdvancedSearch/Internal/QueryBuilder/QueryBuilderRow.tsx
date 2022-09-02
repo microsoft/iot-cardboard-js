@@ -29,7 +29,6 @@ import {
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
 import Select, { components, SelectOptionActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../../../BaseComponent/BaseComponent';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -47,7 +46,6 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         position,
         removeRow,
         styles,
-        theme,
         onUpdateSnippet
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
@@ -200,12 +198,10 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             styles={classNames.subComponentStyles.propertyCallout}
             isBeakVisible={false}
         >
-            <BaseComponent theme={theme} disableDefaultStyles={true}>
-                <components.MenuList
-                    {...props}
-                    styles={propertySelectorStyles.menuList}
-                />
-            </BaseComponent>
+            <components.MenuList
+                {...props}
+                styles={propertySelectorStyles.menuList}
+            />
         </Callout>
     );
 

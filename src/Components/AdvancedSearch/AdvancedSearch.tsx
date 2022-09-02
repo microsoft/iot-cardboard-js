@@ -21,7 +21,6 @@ import { IADTTwin } from '../../Models/Constants';
 import twinData from '../../Adapters/__mockData__/MockAdapterData/MockTwinData.json';
 import { MockAdapter } from '../../Adapters';
 import { useTranslation } from 'react-i18next';
-import BaseComponent from '../BaseComponent/BaseComponent';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -42,8 +41,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         allowedPropertyValueTypes,
         isOpen,
         onDismiss,
-        styles,
-        theme
+        styles
     } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
@@ -67,47 +65,42 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
         >
-            <BaseComponent theme={theme} disableDefaultStyles={true}>
-                <div className={classNames.headerContainer}>
-                    <div className={classNames.titleContainer}>
-                        <Icon
-                            iconName={'search'}
-                            styles={classNames.subComponentStyles.icon}
-                        />
-                        <h3 id={titleId} className={classNames.title}>
-                            {t('advancedSearch.modalTitle')}
-                        </h3>
-                    </div>
-                    <p className={classNames.subtitle}>
-                        {t('advancedSearch.modalSubtitle')}
-                    </p>
+            <div className={classNames.headerContainer}>
+                <div className={classNames.titleContainer}>
+                    <Icon
+                        iconName={'search'}
+                        styles={classNames.subComponentStyles.icon}
+                    />
+                    <h3 id={titleId} className={classNames.title}>
+                        {t('advancedSearch.modalTitle')}
+                    </h3>
                 </div>
-                <div className={classNames.content}>
-                    <Stack tokens={stackTokens}>
-                        <QueryBuilder
-                            adapter={adapter}
-                            allowedPropertyValueTypes={
-                                allowedPropertyValueTypes
+                <p className={classNames.subtitle}>
+                    {t('advancedSearch.modalSubtitle')}
+                </p>
+            </div>
+            <div className={classNames.content}>
+                <Stack tokens={stackTokens}>
+                    <QueryBuilder
+                        adapter={adapter}
+                        allowedPropertyValueTypes={allowedPropertyValueTypes}
+                        executeQuery={executeQuery}
+                        updateColumns={updateColumns}
+                    />
+                    <AdvancedSearchResultDetailsList
+                        twins={filteredTwins}
+                        searchedProperties={cols}
+                        adapter={new MockAdapter()}
+                        onTwinSelection={null}
+                        styles={{
+                            root: {
+                                maxHeight: 380,
+                                overflow: 'auto'
                             }
-                            executeQuery={executeQuery}
-                            updateColumns={updateColumns}
-                            theme={theme}
-                        />
-                        <AdvancedSearchResultDetailsList
-                            twins={filteredTwins}
-                            searchedProperties={cols}
-                            adapter={new MockAdapter()}
-                            onTwinSelection={null}
-                            styles={{
-                                root: {
-                                    maxHeight: 380,
-                                    overflow: 'auto'
-                                }
-                            }}
-                        />
-                    </Stack>
-                </div>
-            </BaseComponent>
+                        }}
+                    />
+                </Stack>
+            </div>
         </Modal>
     );
 };

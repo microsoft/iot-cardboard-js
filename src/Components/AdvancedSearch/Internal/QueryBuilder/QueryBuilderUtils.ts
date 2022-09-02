@@ -1,6 +1,11 @@
 import { IDropdownOption } from '@fluentui/react';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
-import { OperatorData, QueryRowData } from './QueryBuilder.types';
+import {
+    OperatorData,
+    OperatorText,
+    OperatorType,
+    QueryRowData
+} from './QueryBuilder.types';
 
 // Used to substitute reserved words for valid query inputs in case property name matches a reserved word
 export enum RESERVED_WORDS {
@@ -52,7 +57,7 @@ export const getDefaultPropertyValues = (type: PropertyValueType) => {
 };
 
 export const DEFAULT_OPERATOR: OperatorData = {
-    operatorType: 'Simple',
+    operatorType: OperatorType.Simple,
     operatorSymbol: '='
 };
 
@@ -68,17 +73,17 @@ export const getOperators = (
     const operators: IDropdownOption[] = [
         {
             key: '1',
-            text: 'Equals',
+            text: OperatorText.Equals,
             data: {
-                operatorType: 'Simple',
+                operatorType: OperatorType.Simple,
                 operatorSymbol: '='
             }
         },
         {
             key: '2',
-            text: 'Not equals',
+            text: OperatorText.NotEquals,
             data: {
-                operatorType: 'Simple',
+                operatorType: OperatorType.Simple,
                 operatorSymbol: '!='
             }
         }
@@ -87,9 +92,9 @@ export const getOperators = (
         case 'string':
             operators.push({
                 key: '3',
-                text: 'Contains',
+                text: OperatorText.Contains,
                 data: {
-                    operatorType: 'Function',
+                    operatorType: OperatorType.Function,
                     operatorFunction: (property: string, value: string) => {
                         return `CONTAINS(T.${property}, ${value})`;
                     }
@@ -97,9 +102,9 @@ export const getOperators = (
             });
             operators.push({
                 key: '4',
-                text: 'Not contains',
+                text: OperatorText.NotContains,
                 data: {
-                    operatorType: 'Function',
+                    operatorType: OperatorType.Function,
                     operatorFunction: (property: string, value: string) => {
                         return `NOT CONTAINS(T.${property}, ${value})`;
                     }
@@ -112,33 +117,33 @@ export const getOperators = (
         case 'long':
             operators.push({
                 key: '3',
-                text: 'Greater than',
+                text: OperatorText.GreaterThan,
                 data: {
-                    operatorType: 'Simple',
+                    operatorType: OperatorType.Simple,
                     operatorSymbol: '>'
                 }
             });
             operators.push({
                 key: '4',
-                text: 'Less than',
+                text: OperatorText.LessThan,
                 data: {
-                    operatorType: 'Simple',
+                    operatorType: OperatorType.Simple,
                     operatorSymbol: '<'
                 }
             });
             operators.push({
                 key: '5',
-                text: 'Greater or equal',
+                text: OperatorText.GreaterOrEqual,
                 data: {
-                    operatorType: 'Simple',
+                    operatorType: OperatorType.Simple,
                     operatorSymbol: '>='
                 }
             });
             operators.push({
                 key: '6',
-                text: 'Less or equal',
+                text: OperatorText.LessOrEqual,
                 data: {
-                    operatorType: 'Simple',
+                    operatorType: OperatorType.Simple,
                     operatorSymbol: '<='
                 }
             });
@@ -151,7 +156,7 @@ export const getOperators = (
 export const buildQuery = (querySnippets: QueryRowData[]) => {
     let fullQuery = `SELECT *\nFROM DIGITALTWINS T\n`;
     querySnippets.forEach((snippet, index) => {
-        if (snippet.operatorData.operatorType === 'Function') {
+        if (snippet.operatorData.operatorType === OperatorType.Function) {
             if (index !== 0) {
                 fullQuery = fullQuery.concat(snippet.combinator);
             }

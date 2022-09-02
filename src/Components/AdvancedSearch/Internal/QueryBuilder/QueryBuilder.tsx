@@ -33,7 +33,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
         allowedPropertyValueTypes,
         executeQuery,
         styles,
-        theme,
         updateColumns
     } = props;
 
@@ -184,7 +183,6 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                                 removeRow={removeRow}
                                 rowId={row.rowId}
                                 styles={classNames.subComponentStyles.row}
-                                theme={theme}
                             />
                         ))}
                     </Stack>

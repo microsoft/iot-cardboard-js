@@ -6,7 +6,6 @@ import {
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
-import { Theme } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
 import {
     IModelledProperty,
@@ -17,7 +16,6 @@ import {
 export interface IQueryBuilderProps {
     adapter: IModelledPropertyBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
-    theme: Theme;
     executeQuery: (query: string) => void;
     updateColumns: (propertyNames: Set<string>) => void;
     /**
@@ -65,7 +63,6 @@ export interface IQueryBuilderRowProps {
     onUpdateSnippet: (rowId: string, rowValue: QueryRowData) => void;
     position: number;
     removeRow: (index: number, rowId: string) => void;
-    theme: Theme;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -75,14 +72,30 @@ export interface IQueryBuilderRowProps {
     >;
 }
 
+export enum OperatorType {
+    Simple,
+    Function
+}
+
+export enum OperatorText {
+    Equals = 'Equals',
+    NotEquals = 'Not Equals',
+    Contains = 'Contains',
+    NotContains = 'Not Contains',
+    GreaterThan = 'Greater than',
+    LessThan = 'Less than',
+    GreaterOrEqual = 'Greater or equal',
+    LessOrEqual = 'Less or equal'
+}
+
 export type OperatorData = OperatorSimple | OperatorFunction;
 interface OperatorSimple {
-    operatorType: 'Simple';
+    operatorType: OperatorType.Simple;
     operatorSymbol: string;
 }
 
 interface OperatorFunction {
-    operatorType: 'Function';
+    operatorType: OperatorType.Function;
     operatorFunction: (property: string, value: string) => string;
 }
 

@@ -58,7 +58,6 @@ export const buildModelledProperties = async ({
         // Get ADT Models
         const modelDict = (await adapter.getAllAdtModels()).getData()
             .parsedModels;
-        console.log('modelDict', modelDict);
 
         // Merge primary & aliased tags (if enabled) and map twin Ids to model Ids for each twin
         // Update model Id mapping if primary or aliased twins Ids change
@@ -67,7 +66,6 @@ export const buildModelledProperties = async ({
             primaryTwinIds,
             aliasedTwinMap
         );
-        console.log('tagModelMap', tagModelMap);
 
         // Expand each model ID into DTDL property array
         modelledProperties.nestedFormat = expandModelIds(
@@ -75,13 +73,11 @@ export const buildModelledProperties = async ({
             tagModelMap,
             allowedPropertyValueTypes
         );
-        console.log('nestedFormat', modelledProperties.nestedFormat);
 
         // Flatten properties into list representation
         modelledProperties.flattenedFormat = flattenModelledProperties(
             modelledProperties.nestedFormat
         );
-        console.log('flattenedFormat', modelledProperties.flattenedFormat);
 
         // Create intellisense skeleton of property nesting
         modelledProperties.intellisenseFormat = generatePropertySkeleton(
@@ -191,7 +187,6 @@ const expandModelIds = (
                     // Add alias tag to root object
                     modelledProperties[alias] = {};
                 }
-                console.log('alias modelled props', modelledProperties[alias]);
                 addInterface(
                     modelledProperties[alias],
                     modelDict[modelId] as InterfaceInfo,
