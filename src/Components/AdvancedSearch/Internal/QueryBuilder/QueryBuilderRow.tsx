@@ -7,7 +7,11 @@ import {
     PropertyOption,
     PropertyOptionGroup
 } from './QueryBuilder.types';
-import { getRowStyles, reactSelectStyles } from './QueryBuilder.styles';
+import {
+    getRowStyles,
+    MENU_LIST_COMPACT_MAX_WIDTH,
+    MENU_LIST_LARGE_MAX_WIDTH
+} from './QueryBuilder.styles';
 import {
     classNamesFunction,
     useTheme,
@@ -31,6 +35,7 @@ import Select, { components, SelectOptionActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
 import TwinSearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
 import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
+import { getReactSelectStyles } from '../../../Shared/ReactSelect.styles';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -51,10 +56,9 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onUpdateSnippet
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
-    // Naming this as its type since theme is a prop as well
-    const iTheme = useTheme();
+    const theme = useTheme();
     const classNames = getClassNames(styles, {
-        theme: iTheme,
+        theme: theme,
         isOnlyFirstRow: isRemoveDisabled
     });
     const { t } = useTranslation();
@@ -186,7 +190,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, option.text);
     };
 
-    const propertySelectorStyles = reactSelectStyles(iTheme, isRemoveDisabled);
+    const propertySelectorStyles = getReactSelectStyles(theme, {
+        menuList: {
+            isOnlyFirstRow: isRemoveDisabled,
+            listMaxWidthLarge: MENU_LIST_LARGE_MAX_WIDTH,
+            listMaxWidthCompact: MENU_LIST_COMPACT_MAX_WIDTH
+        }
+    });
 
     const Group = (props) => <components.Group {...props} />;
 
@@ -238,6 +248,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     onChange={(value: string) =>
                         onChangeValueField(undefined, value)
                     }
+                    inputStyles={propertySelectorStyles}
                 />
                 // <TextField
                 //     styles={classNames.subComponentStyles.valueField}

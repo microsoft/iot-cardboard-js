@@ -1,36 +1,42 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, Label, Stack, Text } from '@fluentui/react';
-import { components, MenuListProps } from 'react-select';
+import {
+    Callout,
+    classNamesFunction,
+    Icon,
+    Label,
+    Stack,
+    styled,
+    Text,
+    useTheme
+} from '@fluentui/react';
+import { components, MenuProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import './TwinSearchDropdown.scss';
-import { ADTAdapter, MockAdapter } from '../../Adapters';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
-import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 import { IADTTwin } from '../../Models/Constants';
-interface IADTTwinSearchProps {
-    adapter: ADTAdapter | MockAdapter;
-    searchPropertyName: string;
-    label?: string;
-    labelIconName?: string;
-    labelTooltip?: ITooltipCalloutContent;
-    isLabelHidden?: boolean;
-    descriptionText?: string;
-    placeholderText?: string;
-    selectedValue?: string;
-    onChange?: (selectedValue: string) => void;
-    styles?: CSSProperties;
-}
+import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
+import { getStyles } from './TwinSearchDropdown.styles';
+import {
+    ITwinSearchDropdownProps,
+    ITwinSearchDropdownStyleProps,
+    ITwinSearchDropdownStyles
+} from './TwinSearchDropdown.types';
+const getClassNames = classNamesFunction<
+    ITwinSearchDropdownStyleProps,
+    ITwinSearchDropdownStyles
+>();
 
 const SuggestionListScrollThresholdFactor = 40;
-const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
+const TwinSearchDropdown: React.FC<ITwinSearchDropdownProps> = ({
     adapter,
     label,
     labelIconName,
     labelTooltip,
+    inputStyles,
     isLabelHidden = false,
     descriptionText,
     placeholderText,
@@ -61,6 +67,18 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                   label: selectedValue
               }
             : null
+    );
+
+    const theme = useTheme();
+    const dropdownWidth = document.getElementById('myid')?.offsetWidth || 200;
+    // Classname after state to track row #
+    const classNames = getClassNames(styles, {
+        theme: theme,
+        menuWidth: dropdownWidth
+    });
+    const selectStyles = useMemo(
+        () => inputStyles || getReactSelectStyles(theme),
+        [theme, inputStyles]
     );
 
     const shouldAppendTwinSuggestions = useRef(false);
@@ -145,7 +163,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
         );
     };
 
-    const CustomMenuList = (props: MenuListProps) => {
+    const Menu = (props: MenuProps) => {
         const twinSuggestionListWrapperRef = useRef<HTMLDivElement>(null);
 
         // register onscroll event to the original menuList component
@@ -157,18 +175,29 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 twinSuggestionListRef.current.onscroll = handleOnScroll;
             }
         }, [twinSuggestionListWrapperRef]);
-
         return (
-            <div ref={twinSuggestionListWrapperRef} onScroll={handleOnScroll}>
-                <components.MenuList {...props}>
-                    {props.children}
-                </components.MenuList>
-            </div>
+            <Callout
+                target={`#myid`}
+                styles={classNames.subComponentStyles.callout}
+                isBeakVisible={false}
+            >
+                <div
+                    ref={twinSuggestionListWrapperRef}
+                    onScroll={handleOnScroll}
+                >
+                    <components.MenuList
+                        {...(props as any)}
+                        styles={selectStyles.menuList}
+                    >
+                        {props.children}
+                    </components.MenuList>
+                </div>
+            </Callout>
         );
     };
 
     return (
-        <div style={styles}>
+        <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 4 }}>
                 {!isLabelHidden && (
                     <Stack horizontal>
@@ -192,6 +221,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 )}
 
                 <CreatableSelect
+                    id={'myid'}
                     aria-labelledby="twin-search-dropdown-label"
                     classNamePrefix="cb-search-autocomplete"
                     className="cb-search-autocomplete-container"
@@ -204,7 +234,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                     inputValue={twinIdSearchTerm}
                     components={{
                         Option: CustomOption,
-                        MenuList: CustomMenuList
+                        Menu: Menu
                     }}
                     onInputChange={(inputValue, actionMeta) => {
                         if (actionMeta.action === 'input-change') {
@@ -252,6 +282,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             } as AdapterMethodParamsForSearchADTTwins);
                         }
                     }}
+                    menuIsOpen={true}
                     placeholder={
                         placeholderText || t('3dSceneBuilder.searchTwinId')
                     }
@@ -264,6 +295,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                     }
                     isSearchable
                     isClearable
+                    styles={selectStyles}
                 />
                 {descriptionText && (
                     <Text
@@ -278,4 +310,8 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     );
 };
 
-export default TwinSearchDropdown;
+export default styled<
+    ITwinSearchDropdownProps,
+    ITwinSearchDropdownStyleProps,
+    ITwinSearchDropdownStyles
+>(TwinSearchDropdown, getStyles);

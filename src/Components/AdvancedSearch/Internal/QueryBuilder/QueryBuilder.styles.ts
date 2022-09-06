@@ -1,5 +1,4 @@
 import { FontSizes, ITheme } from '@fluentui/react';
-import { StylesConfig } from 'react-select';
 import {
     IQueryBuilderStyleProps,
     IQueryBuilderStyles,
@@ -119,78 +118,5 @@ export const getRowStyles = (
 };
 
 // 260 or 220 minus 2px due to borders
-const menuListLargeMaxWidth = 258;
-const menuListCompactMaxWidth = 218;
-export const reactSelectStyles = (
-    theme: ITheme,
-    isOnlyFirstRow: boolean
-): StylesConfig => {
-    return {
-        container: (provided) => ({
-            ...provided,
-            fontSize: FontSizes.size14,
-            padding: '1px'
-        }),
-        control: (provided, state) => ({
-            ...provided,
-            backgroundColor: theme.semanticColors.inputBackground,
-            border: 0,
-            borderRadius: '2px',
-            fontSize: FontSizes.size14,
-            fontWeight: 400, // Font weight enum gives a type error here
-            minHeight: '32px',
-            outline: '1px solid',
-            outlineColor: state.isFocused
-                ? theme.semanticColors.inputBackgroundCheckedHovered
-                : theme.semanticColors.inputBorder
-        }),
-        indicatorSeparator: () => ({
-            display: 'none'
-        }),
-        dropdownIndicator: (provided) => ({
-            ...provided,
-            padding: '0px 4px'
-        }),
-        input: (provided) => ({
-            ...provided,
-            color: theme.semanticColors.inputText,
-            fontSize: FontSizes.size14
-        }),
-        menuList: (provided) => ({
-            ...provided,
-            backgroundColor: theme.semanticColors.inputBackground,
-            maxHeight: '300px',
-            maxWidth: isOnlyFirstRow
-                ? menuListLargeMaxWidth
-                : menuListCompactMaxWidth,
-            overflowY: 'auto',
-            padding: 0,
-            position: 'relative'
-        }),
-        option: (provided, state) => ({
-            ...provided,
-            backgroundColor: state.isFocused
-                ? theme.semanticColors.listItemBackgroundHovered
-                : state.isSelected
-                ? theme.semanticColors.listItemBackgroundHovered
-                : 'inherit',
-            borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
-            color: theme.semanticColors.inputText,
-            cursor: 'default',
-            fontWeight: 400, // Font weight enum gives a type error here
-            height: '32px',
-            overflow: 'hidden',
-            padding: '6px 12px',
-            textOverflow: 'ellipsis'
-        }),
-        placeholder: (provided) => ({
-            ...provided,
-            color: theme.semanticColors.inputPlaceholderText,
-            fontSize: FontSizes.size14
-        }),
-        singleValue: (provided) => ({
-            ...provided,
-            color: theme.semanticColors.inputText
-        })
-    };
-};
+export const MENU_LIST_LARGE_MAX_WIDTH = 258;
+export const MENU_LIST_COMPACT_MAX_WIDTH = 218;

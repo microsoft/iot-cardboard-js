@@ -271,7 +271,6 @@ const BehaviorTwinAliasForm: React.FC<{
                                 selectedElements?.map((element, idx) => (
                                     <TwinSearchDropdown
                                         key={`aliased-twin-${idx}`}
-                                        styles={{ paddingBottom: 16 }}
                                         adapter={adapter}
                                         label={element.displayName}
                                         labelIconName="Shapes"
@@ -281,6 +280,7 @@ const BehaviorTwinAliasForm: React.FC<{
                                             ]
                                         }
                                         searchPropertyName={DTID_PROPERTY_NAME}
+                                        styles={{ root: { paddingBottom: 16 } }}
                                         onChange={(selectedTwinId: string) => {
                                             handleTwinSelect(
                                                 element.id,
