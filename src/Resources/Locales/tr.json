@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Mülk",
     "operatorColumnHeader": "Operatör",
     "valueColumnHeader": "Değer",
-    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi"
+    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi",
+    "valueFieldPlaceholder": "Bir değer girin"
   }
 }

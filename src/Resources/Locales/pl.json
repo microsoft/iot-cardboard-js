@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Własność",
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wartość",
-    "propertyFieldPlaceholder": "Nie wybrano właściwości"
+    "propertyFieldPlaceholder": "Nie wybrano właściwości",
+    "valueFieldPlaceholder": "Wprowadzanie wartości"
   }
 }

@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Egenskap",
     "operatorColumnHeader": "Operatör",
     "valueColumnHeader": "Värde",
-    "propertyFieldPlaceholder": "Ingen egenskap markerad"
+    "propertyFieldPlaceholder": "Ingen egenskap markerad",
+    "valueFieldPlaceholder": "Ange ett värde"
   }
 }

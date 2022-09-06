@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Свойство",
     "operatorColumnHeader": "Оператор",
     "valueColumnHeader": "Ценность",
-    "propertyFieldPlaceholder": "Недвижимость не выбрана"
+    "propertyFieldPlaceholder": "Недвижимость не выбрана",
+    "valueFieldPlaceholder": "Введите значение"
   }
 }

@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "财产",
     "operatorColumnHeader": "算子",
     "valueColumnHeader": "价值",
-    "propertyFieldPlaceholder": "未选择任何属性"
+    "propertyFieldPlaceholder": "未选择任何属性",
+    "valueFieldPlaceholder": "输入值"
   }
 }

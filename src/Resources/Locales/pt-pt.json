@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Propriedade",
     "operatorColumnHeader": "Operador",
     "valueColumnHeader": "Valor",
-    "propertyFieldPlaceholder": "Nenhum imóvel selecionado"
+    "propertyFieldPlaceholder": "Nenhum imóvel selecionado",
+    "valueFieldPlaceholder": "Insira um valor"
   }
 }

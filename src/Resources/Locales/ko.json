@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "재산",
     "operatorColumnHeader": "연산자",
     "valueColumnHeader": "값",
-    "propertyFieldPlaceholder": "선택한 속성이 없습니다."
+    "propertyFieldPlaceholder": "선택한 속성이 없습니다.",
+    "valueFieldPlaceholder": "값 입력"
   }
 }
