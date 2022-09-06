@@ -231,18 +231,6 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     adapter={adapter}
                     placeholderText={'Enter a value'}
                     isLabelHidden={true}
-                    // descriptionText={t(
-                    //     '3dSceneBuilder.elementForm.twinNameDescription'
-                    // )}
-                    // label={t('3dSceneBuilder.primaryTwin')}
-                    // labelTooltip={{
-                    //     buttonAriaLabel: t(
-                    //         '3dSceneBuilder.elementForm.twinNameTooltip'
-                    //     ),
-                    //     calloutContent: t(
-                    //         '3dSceneBuilder.elementForm.twinNameTooltip'
-                    //     )
-                    // }}
                     selectedValue={'something here'}
                     searchPropertyName={DTID_PROPERTY_NAME}
                     onChange={(value: string) =>
@@ -250,10 +238,6 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     }
                     inputStyles={propertySelectorStyles}
                 />
-                // <TextField
-                //     styles={classNames.subComponentStyles.valueField}
-                //     onChange={onChangeValueField}
-                // />
             );
         } else if (selectedProperty.data.type === 'boolean') {
             return (

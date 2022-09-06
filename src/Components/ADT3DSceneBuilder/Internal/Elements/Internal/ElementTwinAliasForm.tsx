@@ -137,12 +137,12 @@ const ElementTwinAliasForm: React.FC = () => {
                     adapter={adapter}
                     label={t('twinId')}
                     labelIconName="Shapes"
-                    selectedValue={formData.twinId}
-                    searchPropertyName={DTID_PROPERTY_NAME}
-                    styles={{ root: { paddingTop: 16 } }}
                     onChange={(selectedTwinId: string) => {
                         handleTwinSelect(selectedTwinId);
                     }}
+                    selectedValue={formData.twinId}
+                    searchPropertyName={DTID_PROPERTY_NAME}
+                    styles={{ root: { paddingTop: 16 } }}
                 />
             </div>
             <PanelFooter>
