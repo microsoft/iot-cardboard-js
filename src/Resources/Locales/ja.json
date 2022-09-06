@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "財産",
     "operatorColumnHeader": "演算子",
     "valueColumnHeader": "価値",
-    "propertyFieldPlaceholder": "プロパティが選択されていません"
+    "propertyFieldPlaceholder": "プロパティが選択されていません",
+    "valueFieldPlaceholder": "値を入力する"
   }
 }

@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Vlastnost",
     "operatorColumnHeader": "Operátor",
     "valueColumnHeader": "Hodnota",
-    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost"
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
+    "valueFieldPlaceholder": "Zadejte hodnotu"
   }
 }

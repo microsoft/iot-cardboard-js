@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Ingatlan",
     "operatorColumnHeader": "Operátor",
     "valueColumnHeader": "Érték",
-    "propertyFieldPlaceholder": "Nincs kijelölt tulajdon"
+    "propertyFieldPlaceholder": "Nincs kijelölt tulajdon",
+    "valueFieldPlaceholder": "Adjon meg egy értéket"
   }
 }

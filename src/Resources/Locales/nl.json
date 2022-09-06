@@ -1157,6 +1157,7 @@
     "propertyColumnHeader": "Eigenschap",
     "operatorColumnHeader": "Bediener",
     "valueColumnHeader": "Waarde",
-    "propertyFieldPlaceholder": "Geen woning geselecteerd"
+    "propertyFieldPlaceholder": "Geen woning geselecteerd",
+    "valueFieldPlaceholder": "Voer een waarde in"
   }
 }
