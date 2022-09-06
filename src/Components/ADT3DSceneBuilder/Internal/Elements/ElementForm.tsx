@@ -45,6 +45,7 @@ import {
 } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
+import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
@@ -311,11 +312,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             '3dSceneBuilder.elementForm.twinNameTooltip'
                                         )
                                     }}
-                                    selectedTwinId={
+                                    selectedValue={
                                         elementFormState.elementToEdit
                                             ?.primaryTwinID
                                     }
-                                    onTwinIdSelect={handleSelectTwinId}
+                                    searchPropertyName={DTID_PROPERTY_NAME}
+                                    onChange={handleSelectTwinId}
                                 />
                                 <TextField
                                     label={t('name')}

@@ -23,7 +23,10 @@ import {
     IBehaviorTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import { TwinAliasFormMode } from '../../../../../Models/Constants';
+import {
+    DTID_PROPERTY_NAME,
+    TwinAliasFormMode
+} from '../../../../../Models/Constants';
 import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import { deepCopy } from '../../../../../Models/Services/Utils';
@@ -272,14 +275,13 @@ const BehaviorTwinAliasForm: React.FC<{
                                         adapter={adapter}
                                         label={element.displayName}
                                         labelIconName="Shapes"
-                                        selectedTwinId={
+                                        selectedValue={
                                             element.twinAliases?.[
                                                 formData.alias
                                             ]
                                         }
-                                        onTwinIdSelect={(
-                                            selectedTwinId: string
-                                        ) => {
+                                        searchPropertyName={DTID_PROPERTY_NAME}
+                                        onChange={(selectedTwinId: string) => {
                                             handleTwinSelect(
                                                 element.id,
                                                 selectedTwinId

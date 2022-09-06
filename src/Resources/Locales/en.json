@@ -1157,6 +1157,7 @@
         "modalTitle": "Advanced property search",
         "modalSubtitle": "Link the right property by narrowing down your search",
         "noPropertiesFound": "No properties found",
-        "propertyFieldPlaceholder": "No property selected"
+        "propertyFieldPlaceholder": "No property selected",
+        "valueFieldPlaceholder": "Enter a value"
     }
 }

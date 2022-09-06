@@ -1,5 +1,6 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
 import TwinSearchDropdown from './TwinSearchDropdown';
 
 export default {
@@ -17,7 +18,8 @@ export const MockTwinSearchDropdown = () => {
             <TwinSearchDropdown
                 adapter={new MockAdapter()}
                 isLabelHidden={true}
-                onTwinIdSelect={handleSelectTwinId}
+                onChange={handleSelectTwinId}
+                searchPropertyName={DTID_PROPERTY_NAME}
             />
         </div>
     );

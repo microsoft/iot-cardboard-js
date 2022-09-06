@@ -1,6 +1,7 @@
 import React from 'react';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
+import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import TwinSearchDropdown from './TwinSearchDropdown';
 
@@ -30,7 +31,8 @@ export const ADTTwinSearchDropdown = () => {
                     )
                 }
                 label="Twin ID"
-                onTwinIdSelect={handleSelectTwinId}
+                onChange={handleSelectTwinId}
+                searchPropertyName={DTID_PROPERTY_NAME}
             />
         </div>
     );

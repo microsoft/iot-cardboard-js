@@ -88,6 +88,7 @@ import {
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
+import ADTAdapter from '../../Adapters/ADTAdapter';
 
 export interface IAction {
     type: string;
@@ -439,6 +440,8 @@ export interface IModelledPropertyBuilderAdapter {
         twinId: string
     ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
+
+export type IQueryBuilderAdapter = ADTAdapter | MockAdapter;
 
 export interface IADT3DViewerAdapter {
     getSceneData(

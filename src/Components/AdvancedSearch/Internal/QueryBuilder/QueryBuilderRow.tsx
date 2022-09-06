@@ -29,6 +29,8 @@ import {
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
 import Select, { components, SelectOptionActionMeta } from 'react-select';
 import { useTranslation } from 'react-i18next';
+import TwinSearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
+import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -215,10 +217,32 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             );
         } else if (selectedProperty.data.type === 'string') {
             return (
-                <TextField
-                    styles={classNames.subComponentStyles.valueField}
-                    onChange={onChangeValueField}
+                <TwinSearchDropdown
+                    adapter={adapter}
+                    placeholderText={'Enter a value'}
+                    isLabelHidden={true}
+                    // descriptionText={t(
+                    //     '3dSceneBuilder.elementForm.twinNameDescription'
+                    // )}
+                    // label={t('3dSceneBuilder.primaryTwin')}
+                    // labelTooltip={{
+                    //     buttonAriaLabel: t(
+                    //         '3dSceneBuilder.elementForm.twinNameTooltip'
+                    //     ),
+                    //     calloutContent: t(
+                    //         '3dSceneBuilder.elementForm.twinNameTooltip'
+                    //     )
+                    // }}
+                    selectedValue={'something here'}
+                    searchPropertyName={DTID_PROPERTY_NAME}
+                    onChange={(value: string) =>
+                        onChangeValueField(undefined, value)
+                    }
                 />
+                // <TextField
+                //     styles={classNames.subComponentStyles.valueField}
+                //     onChange={onChangeValueField}
+                // />
             );
         } else if (selectedProperty.data.type === 'boolean') {
             return (

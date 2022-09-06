@@ -10,15 +10,18 @@ import './TwinSearchDropdown.scss';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
+import { IADTTwin } from '../../Models/Constants';
 interface IADTTwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
+    searchPropertyName: string;
     label?: string;
     labelIconName?: string;
     labelTooltip?: ITooltipCalloutContent;
     isLabelHidden?: boolean;
     descriptionText?: string;
-    selectedTwinId?: string;
-    onTwinIdSelect?: (selectedTwinId: string) => void;
+    placeholderText?: string;
+    selectedValue?: string;
+    onChange?: (selectedValue: string) => void;
     styles?: CSSProperties;
 }
 
@@ -30,30 +33,32 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
     labelTooltip,
     isLabelHidden = false,
     descriptionText,
-    selectedTwinId,
-    onTwinIdSelect,
+    placeholderText,
+    selectedValue,
+    searchPropertyName,
+    onChange,
     styles
 }) => {
     const { t } = useTranslation();
     const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
-        selectedTwinId ?? ''
+        selectedValue ?? ''
     );
     const [twinSuggestions, setTwinSuggestions] = useState(
-        selectedTwinId
+        selectedValue
             ? [
                   {
-                      value: selectedTwinId,
-                      label: selectedTwinId
+                      value: selectedValue,
+                      label: selectedValue
                   }
               ]
             : []
     );
 
     const [selectedOption, setSelectedOption] = useState(
-        selectedTwinId
+        selectedValue
             ? {
-                  value: selectedTwinId,
-                  label: selectedTwinId
+                  value: selectedValue,
+                  label: selectedValue
               }
             : null
     );
@@ -76,9 +81,9 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 setTwinSuggestions(
                     twinSuggestions.concat(
                         searchTwinAdapterData.adapterResult.result.data.value.map(
-                            (t) => ({
-                                value: t.$dtId,
-                                label: t.$dtId
+                            (t: IADTTwin) => ({
+                                value: t[searchPropertyName],
+                                label: t[searchPropertyName]
                             })
                         )
                     )
@@ -86,9 +91,9 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
             } else {
                 setTwinSuggestions(
                     searchTwinAdapterData.adapterResult.result.data.value.map(
-                        (t) => ({
-                            value: t.$dtId,
-                            label: t.$dtId
+                        (t: IADTTwin) => ({
+                            value: t[searchPropertyName],
+                            label: t[searchPropertyName]
                         })
                     )
                 );
@@ -117,6 +122,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                 lastScrollTopRef.current = divElement.scrollTop;
                 shouldAppendTwinSuggestions.current = true;
                 searchTwinAdapterData.callAdapter({
+                    searchProperty: searchPropertyName,
                     searchTerm: twinIdSearchTerm,
                     shouldSearchByModel: false,
                     continuationToken: twinSearchContinuationToken.current
@@ -193,7 +199,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                         searchTwinAdapterData.isLoading ? [] : twinSuggestions
                     }
                     defaultValue={twinSuggestions[0] ?? undefined}
-                    defaultInputValue={selectedTwinId ?? ''}
+                    defaultInputValue={selectedValue ?? ''}
                     value={selectedOption}
                     inputValue={twinIdSearchTerm}
                     components={{
@@ -207,6 +213,7 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.cancelAdapter();
                             searchTwinAdapterData.callAdapter({
+                                searchProperty: searchPropertyName,
                                 searchTerm: inputValue,
                                 shouldSearchByModel: false,
                                 continuationToken:
@@ -231,20 +238,23 @@ const TwinSearchDropdown: React.FC<IADTTwinSearchProps> = ({
                         }
                         setTwinIdSearchTerm(option?.value ?? '');
                         setSelectedOption(option);
-                        onTwinIdSelect(option?.value ?? undefined);
+                        onChange(option?.value ?? undefined);
                     }}
                     onMenuOpen={() => {
                         if (twinSuggestions.length === 0) {
                             shouldAppendTwinSuggestions.current = false;
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.callAdapter({
+                                searchProperty: searchPropertyName,
                                 searchTerm: twinIdSearchTerm,
                                 shouldSearchByModel: false,
                                 continuationToken: null
                             } as AdapterMethodParamsForSearchADTTwins);
                         }
                     }}
-                    placeholder={t('3dSceneBuilder.searchTwinId')}
+                    placeholder={
+                        placeholderText || t('3dSceneBuilder.searchTwinId')
+                    }
                     noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
                     isLoading={searchTwinAdapterData.isLoading}
                     formatCreateLabel={(inputValue: string) =>

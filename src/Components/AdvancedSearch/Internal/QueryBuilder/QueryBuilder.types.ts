@@ -6,7 +6,7 @@ import {
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
-import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
+import { IQueryBuilderAdapter } from '../../../../Models/Constants/Interfaces';
 import {
     IModelledProperty,
     PropertyValueType
@@ -14,7 +14,7 @@ import {
 
 /** Query builder types */
 export interface IQueryBuilderProps {
-    adapter: IModelledPropertyBuilderAdapter;
+    adapter: IQueryBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     executeQuery: (query: string) => void;
     updateColumns: (propertyNames: Set<string>) => void;
@@ -50,7 +50,7 @@ export interface IQueryBuilderSubComponentStyles {
 
 /** Query row types */
 export interface IQueryBuilderRowProps {
-    adapter: IModelledPropertyBuilderAdapter;
+    adapter: IQueryBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     rowId: string;
     isRemoveDisabled: boolean;

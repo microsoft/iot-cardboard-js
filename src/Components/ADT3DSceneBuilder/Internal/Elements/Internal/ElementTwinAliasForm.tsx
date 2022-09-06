@@ -13,7 +13,10 @@ import {
     defaultElementTwinAlias,
     IElementTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
-import { TwinAliasFormMode } from '../../../../../Models/Constants';
+import {
+    DTID_PROPERTY_NAME,
+    TwinAliasFormMode
+} from '../../../../../Models/Constants';
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
@@ -135,8 +138,9 @@ const ElementTwinAliasForm: React.FC = () => {
                     adapter={adapter}
                     label={t('twinId')}
                     labelIconName="Shapes"
-                    selectedTwinId={formData.twinId}
-                    onTwinIdSelect={(selectedTwinId: string) => {
+                    selectedValue={formData.twinId}
+                    searchPropertyName={DTID_PROPERTY_NAME}
+                    onChange={(selectedTwinId: string) => {
                         handleTwinSelect(selectedTwinId);
                     }}
                 />
