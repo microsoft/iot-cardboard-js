@@ -3,14 +3,14 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import TwinSearchDropdown from './TwinSearchDropdown';
+import TwinPropertySearchDropdown from './TwinPropertySearchDropdown';
 
 export default {
-    title: 'Components/TwinSearchDropdown',
-    component: TwinSearchDropdown
+    title: 'Components/TwinPropertySearchDropdown',
+    component: TwinPropertySearchDropdown
 };
 
-export const ADTTwinSearchDropdown = () => {
+export const ADTTwinPropertySearchDropdown = () => {
     const authenticationParameters = useAuthParams();
 
     const handleSelectTwinId = (twinId) => {
@@ -21,7 +21,7 @@ export const ADTTwinSearchDropdown = () => {
         <div></div>
     ) : (
         <div style={{ width: '400px' }}>
-            <TwinSearchDropdown
+            <TwinPropertySearchDropdown
                 adapter={
                     new ADTAdapter(
                         authenticationParameters.adt.hostUrl,

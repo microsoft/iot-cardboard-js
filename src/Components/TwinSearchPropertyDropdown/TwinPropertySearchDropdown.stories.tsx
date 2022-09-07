@@ -1,21 +1,21 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
-import TwinSearchDropdown from './TwinSearchDropdown';
+import TwinPropertySearchDropdown from './TwinPropertySearchDropdown';
 
 export default {
-    title: 'Components/TwinSearchDropdown',
-    component: TwinSearchDropdown
+    title: 'Components/TwinPropertySearchDropdown',
+    component: TwinPropertySearchDropdown
 };
 
-export const MockTwinSearchDropdown = () => {
+export const MockBase = () => {
     const handleSelectTwinId = (twinId) => {
         console.log('Selected: ' + twinId);
     };
 
     return (
         <div style={{ width: '400px' }}>
-            <TwinSearchDropdown
+            <TwinPropertySearchDropdown
                 adapter={new MockAdapter()}
                 isLabelHidden={true}
                 onChange={handleSelectTwinId}

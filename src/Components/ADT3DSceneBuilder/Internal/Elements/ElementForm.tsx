@@ -27,7 +27,7 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
 } from '../LeftPanelBuilderHeader';
-import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../TwinSearchPropertyDropdown/TwinPropertySearchDropdown';
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
@@ -298,7 +298,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
                             <Stack tokens={{ childrenGap: 8 }}>
-                                <TwinSearchDropdown
+                                <TwinPropertySearchDropdown
                                     adapter={adapter}
                                     descriptionText={t(
                                         '3dSceneBuilder.elementForm.twinNameDescription'

@@ -1,7 +1,7 @@
 import {
-    ITwinSearchDropdownStyleProps,
-    ITwinSearchDropdownStyles
-} from './TwinSearchDropdown.types';
+    ITwinPropertySearchDropdownStyleProps,
+    ITwinPropertySearchDropdownStyles
+} from './TwinPropertySearchDropdown.types';
 
 /**
  * Twin search dropdown styles
@@ -15,8 +15,8 @@ const classNames = {
 };
 
 export const getStyles = (
-    props: ITwinSearchDropdownStyleProps
-): ITwinSearchDropdownStyles => {
+    props: ITwinPropertySearchDropdownStyleProps
+): ITwinPropertySearchDropdownStyles => {
     return {
         root: [classNames.root],
         description: [

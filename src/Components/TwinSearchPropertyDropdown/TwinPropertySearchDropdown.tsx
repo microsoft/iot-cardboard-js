@@ -15,23 +15,29 @@ import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
-import './TwinSearchDropdown.scss';
+import './TwinPropertySearchDropdown.scss';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
 import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
-import { getStyles } from './TwinSearchDropdown.styles';
+import { getStyles } from './TwinPropertySearchDropdown.styles';
 import {
-    ITwinSearchDropdownProps,
-    ITwinSearchDropdownStyleProps,
-    ITwinSearchDropdownStyles
-} from './TwinSearchDropdown.types';
+    ITwinPropertySearchDropdownProps,
+    ITwinPropertySearchDropdownStyleProps,
+    ITwinPropertySearchDropdownStyles
+} from './TwinPropertySearchDropdown.types';
 const getClassNames = classNamesFunction<
-    ITwinSearchDropdownStyleProps,
-    ITwinSearchDropdownStyles
+    ITwinPropertySearchDropdownStyleProps,
+    ITwinPropertySearchDropdownStyles
 >();
 
 const SuggestionListScrollThresholdFactor = 40;
-const TwinSearchDropdown: React.FC<ITwinSearchDropdownProps> = ({
+/**
+ * Component to search the twins graph and show all possible values for a particular property name across all twins in the graph.
+ * Whatever property name is provided will be searched on the graph and return the distinct list of values for that property
+ * @param param0 props
+ * @returns a component
+ */
+const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = ({
     adapter,
     label,
     labelIconName,
@@ -282,7 +288,6 @@ const TwinSearchDropdown: React.FC<ITwinSearchDropdownProps> = ({
                             } as AdapterMethodParamsForSearchADTTwins);
                         }
                     }}
-                    menuIsOpen={true}
                     placeholder={
                         placeholderText || t('3dSceneBuilder.searchTwinId')
                     }
@@ -311,7 +316,7 @@ const TwinSearchDropdown: React.FC<ITwinSearchDropdownProps> = ({
 };
 
 export default styled<
-    ITwinSearchDropdownProps,
-    ITwinSearchDropdownStyleProps,
-    ITwinSearchDropdownStyles
->(TwinSearchDropdown, getStyles);
+    ITwinPropertySearchDropdownProps,
+    ITwinPropertySearchDropdownStyleProps,
+    ITwinPropertySearchDropdownStyles
+>(TwinPropertySearchDropdown, getStyles);

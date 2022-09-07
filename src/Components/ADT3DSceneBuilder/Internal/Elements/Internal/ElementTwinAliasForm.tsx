@@ -20,7 +20,7 @@ import {
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../../TwinSearchPropertyDropdown/TwinPropertySearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
@@ -132,7 +132,7 @@ const ElementTwinAliasForm: React.FC = () => {
                         }
                     }}
                 />
-                <TwinSearchDropdown
+                <TwinPropertySearchDropdown
                     key={'aliased-twin'}
                     adapter={adapter}
                     label={t('twinId')}

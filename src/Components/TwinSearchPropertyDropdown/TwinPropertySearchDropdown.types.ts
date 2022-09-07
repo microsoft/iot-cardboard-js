@@ -9,7 +9,7 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
-export interface ITwinSearchDropdownProps {
+export interface ITwinPropertySearchDropdownProps {
     adapter: ADTAdapter | MockAdapter;
     searchPropertyName: string;
     label?: string;
@@ -25,16 +25,16 @@ export interface ITwinSearchDropdownProps {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        ITwinSearchDropdownStyleProps,
-        ITwinSearchDropdownStyles
+        ITwinPropertySearchDropdownStyleProps,
+        ITwinPropertySearchDropdownStyles
     >;
 }
 
-export interface ITwinSearchDropdownStyleProps {
+export interface ITwinPropertySearchDropdownStyleProps {
     theme: ITheme;
     menuWidth: number;
 }
-export interface ITwinSearchDropdownStyles {
+export interface ITwinPropertySearchDropdownStyles {
     root: IStyle;
     description: IStyle;
     label: IStyle;
@@ -42,9 +42,9 @@ export interface ITwinSearchDropdownStyles {
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: ITwinSearchDropdownSubComponentStyles;
+    subComponentStyles?: ITwinPropertySearchDropdownSubComponentStyles;
 }
 
-export interface ITwinSearchDropdownSubComponentStyles {
+export interface ITwinPropertySearchDropdownSubComponentStyles {
     callout?: Partial<ICalloutContentStyles>;
 }

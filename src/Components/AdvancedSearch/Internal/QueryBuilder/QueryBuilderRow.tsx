@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Select, { components, SelectOptionActionMeta } from 'react-select';
 import {
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
@@ -31,11 +33,9 @@ import {
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
-import Select, { components, SelectOptionActionMeta } from 'react-select';
-import { useTranslation } from 'react-i18next';
-import TwinSearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
 import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
 import { getReactSelectStyles } from '../../../Shared/ReactSelect.styles';
+import TwinPropertySearchDropdown from '../../../TwinSearchPropertyDropdown/TwinPropertySearchDropdown';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -227,7 +227,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             );
         } else if (selectedProperty.data.type === 'string') {
             return (
-                <TwinSearchDropdown
+                <TwinPropertySearchDropdown
                     adapter={adapter}
                     placeholderText={'Enter a value'}
                     isLabelHidden={true}

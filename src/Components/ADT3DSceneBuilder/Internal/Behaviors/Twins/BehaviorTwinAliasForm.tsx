@@ -32,7 +32,7 @@ import { BehaviorFormContextActionType } from '../../../../../Models/Context/Beh
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../../TwinSearchPropertyDropdown/TwinPropertySearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';
@@ -269,7 +269,7 @@ const BehaviorTwinAliasForm: React.FC<{
                                 </Text>
                             ) : (
                                 selectedElements?.map((element, idx) => (
-                                    <TwinSearchDropdown
+                                    <TwinPropertySearchDropdown
                                         key={`aliased-twin-${idx}`}
                                         adapter={adapter}
                                         label={element.displayName}
