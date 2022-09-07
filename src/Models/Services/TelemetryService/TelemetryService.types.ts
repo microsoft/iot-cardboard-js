@@ -1,3 +1,9 @@
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryTrigger
+} from '../../Constants/TelemetryConstants';
+
 /** Loosely based on the Application insights telemetry data model
  * https://docs.microsoft.com/en-us/azure/azure-monitor/app/data-model
  */
@@ -22,8 +28,8 @@ export type SeverityLevel =
     | 'Critical';
 
 export interface IBaseTelemetryParams {
-    name: string;
     customProperties?: CustomProperties;
+    name: string;
 }
 
 export interface IRequestTelemetryParams extends IBaseTelemetryParams {
@@ -51,6 +57,30 @@ export interface ITraceTelemetryParams extends IBaseTelemetryParams {
     /** Trace severity level */
     severityLevel?: SeverityLevel;
 }
+
+export type IEventTelemetryParams =
+    | IEventTelemetryForComponentAction
+    | IEventTelemetryForComponentView
+    | IEventTelemetryForService;
+
+interface IEventTelemetryParamsBase extends IBaseTelemetryParams {
+    triggerType: TelemetryTrigger;
+}
+type IEventTelemetryForComponentAction = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.UserAction;
+    componentName: ComponentName;
+    appRegion: AppRegion;
+};
+type IEventTelemetryForComponentView = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.UserView;
+    componentName: ComponentName;
+    appRegion: AppRegion;
+};
+type IEventTelemetryForService = IEventTelemetryParamsBase & {
+    triggerType: TelemetryTrigger.SystemAction;
+    componentName?: ComponentName;
+    appRegion?: AppRegion;
+};
 
 export interface IMetricTelemetryParams extends IBaseTelemetryParams {
     average: number;

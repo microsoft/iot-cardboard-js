@@ -18,7 +18,8 @@ import {
     IDetailsListProps,
     DetailsRow,
     IButtonProps,
-    IModalStyles
+    IModalStyles,
+    IButtonStyles
 } from '@fluentui/react';
 import { withErrorBoundary } from '../../Models/Context/ErrorBoundary';
 import { createGUID } from '../../Models/Services/Utils';
@@ -42,6 +43,25 @@ import {
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import NoResults from '../../Resources/Static/noResults.svg';
 import useTelemetry from '../../Models/Hooks/useTelemetry';
+import {
+    AppRegion,
+    ComponentName,
+    TelemetryEvents,
+    TelemetryTrigger
+} from '../../Models/Constants/TelemetryConstants';
+
+const ROW_BUTTON_STYLES: IButtonStyles = {
+    root: {
+        alignItems: 'start',
+        border: 0,
+        height: 'auto',
+        padding: 0,
+        width: '100%'
+    },
+    flexContainer: {
+        justifyContent: 'start'
+    }
+};
 
 const SceneList: React.FC<SceneListProps> = ({
     adapter,
@@ -179,21 +199,38 @@ const SceneList: React.FC<SceneListProps> = ({
         []
     );
 
-    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => (
-        <div
-            onClick={() => {
-                if (typeof onSceneClick === 'function') {
-                    onSceneClick(props.item);
-                }
-            }}
-        >
-            <DetailsRow className={'cb-scene-list-row'} {...props} />
-        </div>
-    );
+    const renderListRow: IDetailsListProps['onRenderRow'] = (props) => {
+        const clickHandler = () => {
+            if (typeof onSceneClick === 'function') {
+                const telemetryEvent =
+                    TelemetryEvents.Builder.SceneList.UserAction.SelectScene;
+                sendEventTelemetry({
+                    name: telemetryEvent.eventName,
+                    appRegion: AppRegion.SceneLobby,
+                    componentName: ComponentName.SceneList,
+                    triggerType: TelemetryTrigger.UserAction
+                });
+                onSceneClick(props.item);
+            }
+        };
+        return (
+            <DefaultButton
+                onClick={clickHandler}
+                onKeyPress={(event) => {
+                    if (event.code === 'Enter' || event.code === 'Space') {
+                        clickHandler();
+                    }
+                }}
+                styles={ROW_BUTTON_STYLES}
+            >
+                <DetailsRow className={'cb-scene-list-row'} {...props} />
+            </DefaultButton>
+        );
+    };
 
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: any,
-        _itemIndex: number,
+        itemIndex: number,
         column: IColumn
     ) => {
         const fieldContent = item[column.fieldName] as string;
@@ -209,8 +246,18 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsSceneDialogOpen(true);
+                                const telemetryEvent =
+                                    TelemetryEvents.Builder.SceneList.UserAction
+                                        .EditScene.Initiate;
                                 sendEventTelemetry({
-                                    name: 'Edit scene - open'
+                                    name: telemetryEvent.eventName,
+                                    customProperties: {
+                                        [telemetryEvent.properties
+                                            .itemIndex]: itemIndex
+                                    },
+                                    appRegion: AppRegion.SceneLobby,
+                                    componentName: ComponentName.SceneList,
+                                    triggerType: TelemetryTrigger.UserAction
                                 });
                             }}
                             className={'cb-scenes-action-button'}
@@ -223,8 +270,18 @@ const SceneList: React.FC<SceneListProps> = ({
                                 event.stopPropagation();
                                 setSelectedScene(item);
                                 setIsConfirmDeleteDialogOpen(true);
+                                const telemetryEvent =
+                                    TelemetryEvents.Builder.SceneList.UserAction
+                                        .DeleteScene.Initiate;
                                 sendEventTelemetry({
-                                    name: 'Delete scene - open'
+                                    name: telemetryEvent.eventName,
+                                    customProperties: {
+                                        [telemetryEvent.properties
+                                            .itemIndex]: itemIndex
+                                    },
+                                    appRegion: AppRegion.SceneLobby,
+                                    componentName: ComponentName.SceneList,
+                                    triggerType: TelemetryTrigger.UserAction
                                 });
                             }}
                             className={'cb-scenes-action-button'}
@@ -332,8 +389,14 @@ const SceneList: React.FC<SceneListProps> = ({
                         <ActionButton
                             iconProps={{ iconName: 'Add' }}
                             onClick={() => {
+                                const telemetryEvent =
+                                    TelemetryEvents.Builder.SceneList.UserAction
+                                        .CreateScene.Initiate;
                                 sendEventTelemetry({
-                                    name: 'Create scene - open'
+                                    name: telemetryEvent.eventName,
+                                    appRegion: AppRegion.SceneLobby,
+                                    componentName: ComponentName.SceneList,
+                                    triggerType: TelemetryTrigger.UserAction
                                 });
                                 setIsSceneDialogOpen(true);
                             }}
@@ -386,8 +449,14 @@ const SceneList: React.FC<SceneListProps> = ({
                         <DialogFooter>
                             <DefaultButton
                                 onClick={() => {
+                                    const telemetryEvent =
+                                        TelemetryEvents.Builder.SceneList
+                                            .UserAction.DeleteScene.Cancel;
                                     sendEventTelemetry({
-                                        name: 'Delete scene - cancel'
+                                        name: telemetryEvent.eventName,
+                                        appRegion: AppRegion.SceneLobby,
+                                        componentName: ComponentName.SceneList,
+                                        triggerType: TelemetryTrigger.UserAction
                                     });
                                     setIsConfirmDeleteDialogOpen(false);
                                 }}
@@ -395,8 +464,14 @@ const SceneList: React.FC<SceneListProps> = ({
                             />
                             <PrimaryButton
                                 onClick={() => {
+                                    const telemetryEvent =
+                                        TelemetryEvents.Builder.SceneList
+                                            .UserAction.DeleteScene.Confirm;
                                     sendEventTelemetry({
-                                        name: 'Delete scene - confirm'
+                                        name: telemetryEvent.eventName,
+                                        appRegion: AppRegion.SceneLobby,
+                                        componentName: ComponentName.SceneList,
+                                        triggerType: TelemetryTrigger.UserAction
                                     });
                                     deleteScene.callAdapter({
                                         config: config,
@@ -445,8 +520,14 @@ const SceneList: React.FC<SceneListProps> = ({
                     }}
                     sceneToEdit={selectedScene}
                     onEditScene={(updatedScene) => {
+                        const telemetryEvent =
+                            TelemetryEvents.Builder.SceneList.UserAction
+                                .EditScene.Confirm;
                         sendEventTelemetry({
-                            name: 'Edit scene - confirm'
+                            name: telemetryEvent.eventName,
+                            appRegion: AppRegion.SceneLobby,
+                            componentName: ComponentName.SceneList,
+                            triggerType: TelemetryTrigger.UserAction
                         });
                         editScene.callAdapter({
                             config: config,
@@ -455,8 +536,14 @@ const SceneList: React.FC<SceneListProps> = ({
                         });
                     }}
                     onAddScene={(newScene) => {
+                        const telemetryEvent =
+                            TelemetryEvents.Builder.SceneList.UserAction
+                                .CreateScene.Confirm;
                         sendEventTelemetry({
-                            name: 'Create scene - confirm'
+                            name: telemetryEvent.eventName,
+                            appRegion: AppRegion.SceneLobby,
+                            componentName: ComponentName.SceneList,
+                            triggerType: TelemetryTrigger.UserAction
                         });
                         let newId = createGUID();
                         const existingIds = sceneList.map((s) => s.id);

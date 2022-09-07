@@ -78,6 +78,14 @@ export const ONE_SECOND = 1000;
 export const ONE_MINUTE = 60 * ONE_SECOND;
 export const ONE_HOUR = 60 * ONE_MINUTE;
 
+export const LOCAL_STORAGE_KEYS = {
+    FeatureFlags: {
+        Telemetry: {
+            debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
+        }
+    }
+};
+
 export const dtdlPrimitiveTypesList = [
     'boolean',
     'date',

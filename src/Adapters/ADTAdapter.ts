@@ -98,9 +98,7 @@ export default class ADTAdapter implements IADTAdapter {
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt'
     ) {
-        this.adtHostUrl = adtHostUrl.startsWith('https://') // this should be the host name of the instace
-            ? adtHostUrl.replace('https://', '')
-            : adtHostUrl;
+        this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.tenantId = tenantId;
@@ -140,8 +138,9 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     setAdtHostUrl(hostName: string) {
-        if (hostName.startsWith('https://'))
+        if (hostName.startsWith('https://')) {
             hostName = hostName.replace('https://', '');
+        }
         this.adtHostUrl = hostName;
     }
 

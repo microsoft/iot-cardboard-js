@@ -673,6 +673,11 @@ export function getDebugLogger(
     };
 }
 
+/** checks if a value is null or undefined and returns true if it's not one of those values */
+export function isDefined(value: unknown) {
+    return value != null && value != undefined;
+}
+
 /**
  * Check if two string type resource display property values are equal
  * @param value1 resource property value

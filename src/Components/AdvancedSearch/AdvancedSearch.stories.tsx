@@ -47,14 +47,14 @@ const sharedArgs = {
 export const NumericalDropdown = Template.bind({});
 NumericalDropdown.args = sharedArgs;
 NumericalDropdown.play = async () => {
-    // CLick on a numerical option
+    // Click on a numerical option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 0);
 };
 
 export const BooleanDropdown = Template.bind({});
 BooleanDropdown.args = sharedArgs;
 BooleanDropdown.play = async () => {
-    // CLick on a boolean typed option
+    // Click on a boolean typed option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 4);
 };
 
