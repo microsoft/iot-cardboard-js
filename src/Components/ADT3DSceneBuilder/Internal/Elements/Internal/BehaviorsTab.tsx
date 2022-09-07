@@ -15,7 +15,7 @@ import { ICardboardListItem } from '../../../../CardboardList/CardboardList.type
 import { IBehavior } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     getDebugLogger,
-    sortAlphabetically
+    sortAscendingOrDescending
 } from '../../../../../Models/Services/Utils';
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
@@ -60,7 +60,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                 .filter((behavior) =>
                     elementFormState.linkedBehaviorIds.includes(behavior.id)
                 )
-                .sort(sortAlphabetically('displayName')) || [],
+                .sort(sortAscendingOrDescending('displayName')) || [],
         [config?.configuration?.behaviors, elementFormState.linkedBehaviorIds]
     );
 
@@ -72,7 +72,7 @@ const BehaviorsTab: React.FC<IADT3DSceneBuilderElementBehaviorProps> = ({
                         (x) => x.id === behavior.id
                     );
                 })
-                .sort(sortAlphabetically('displayName')) || [],
+                .sort(sortAscendingOrDescending('displayName')) || [],
         [behaviorsOnElement, config?.configuration?.behaviors]
     );
 
