@@ -13,7 +13,12 @@ export const getStyles = (
     _props: IAdvancedSearchResultDetailsListStyleProps
 ): IAdvancedSearchResultDetailsListStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                marginTop: 0
+            }
+        ],
         listHeader: [
             classNames.listHeader,
             {

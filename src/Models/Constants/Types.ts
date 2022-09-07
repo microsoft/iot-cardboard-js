@@ -125,9 +125,8 @@ export type AdapterMethodParamsForSearchADTTwins = {
     continuationToken?: string;
 };
 
-export type AdapterMethodParamsForAdvancedSearchADTwins = {
+export type AdapterMethodParamsForSearchTwinsByQuery = {
     query: string;
-    continuationToken?: string;
 };
 
 export type AdapterMethodParamsForGetScenes = {

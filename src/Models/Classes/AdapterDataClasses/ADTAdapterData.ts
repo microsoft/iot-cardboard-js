@@ -34,7 +34,7 @@ export class ADTAdapterTwinsData implements IAdapterData {
     }
 }
 
-export class ADTAdapterAdvancedSearchData implements IAdapterData {
+export class ADTAdapterSearchByQueryData implements IAdapterData {
     data: ADTTwinsApiData;
 
     constructor(data: ADTTwinsApiData) {

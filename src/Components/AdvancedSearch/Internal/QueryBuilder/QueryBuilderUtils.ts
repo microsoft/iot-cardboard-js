@@ -154,7 +154,7 @@ export const getOperators = (
 };
 
 export const buildQuery = (querySnippets: QueryRowData[]) => {
-    let fullQuery = `SELECT *\nFROM DIGITALTWINS T\nWHERE `;
+    let fullQuery = `SELECT TOP(1000)\nFROM DIGITALTWINS T\nWHERE `;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === OperatorType.Function) {
             if (index !== 0) {
@@ -171,7 +171,7 @@ export const buildQuery = (querySnippets: QueryRowData[]) => {
                 fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
-                `${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
+                `T.${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
             );
         }
     });

@@ -7,6 +7,7 @@ import {
 import AdvancedSearch from './AdvancedSearch';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { queryAllowedPropertyValueTypes } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
@@ -29,14 +30,7 @@ Base.args = {
         return;
     },
     adapter: new MockAdapter(),
-    allowedPropertyValueTypes: [
-        'string',
-        'boolean',
-        'float',
-        'integer',
-        'double',
-        'long'
-    ],
+    allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
 } as IAdvancedSearchProps;
 
@@ -46,14 +40,7 @@ const sharedArgs = {
         return;
     },
     adapter: new MockAdapter(),
-    allowedPropertyValueTypes: [
-        'string',
-        'boolean',
-        'float',
-        'integer',
-        'double',
-        'long'
-    ],
+    allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
 } as IAdvancedSearchProps;
 

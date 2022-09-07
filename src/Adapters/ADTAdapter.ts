@@ -34,7 +34,7 @@ import {
     modelRefreshMaxAge,
     twinRefreshMaxAge,
     instancesRefreshMaxAge,
-    AdapterMethodParamsForAdvancedSearchADTwins
+    AdapterMethodParamsForSearchTwinsByQuery
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -42,7 +42,7 @@ import ADTModelData, {
     ADTTwinToModelMappingData
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
-    ADTAdapterAdvancedSearchData,
+    ADTAdapterSearchByQueryData,
     ADTAdapterModelsData,
     ADTAdapterPatchData,
     ADTAdapterTwinsData
@@ -475,13 +475,10 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    advancedSearchADTTwins(
-        params: AdapterMethodParamsForAdvancedSearchADTwins
-    ) {
+    searchTwinsByQuery(params: AdapterMethodParamsForSearchTwinsByQuery) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        console.log(params);
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTAdapterAdvancedSearchData,
+            ADTAdapterSearchByQueryData,
             {
                 method: 'post',
                 url: `${this.adtProxyServerPath}/query`,
@@ -492,8 +489,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'api-version': ADT_ApiVersion
                 },
                 data: {
-                    query: params.query,
-                    continuationToken: params.continuationToken
+                    query: params.query
                 }
             }
         );
