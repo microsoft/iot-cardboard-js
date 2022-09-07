@@ -179,11 +179,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             return (
                 <DetailsList
                     items={listItems}
-                    columns={
-                        additionalColumns.length > 0
-                            ? columns.concat(additionalColumns)
-                            : columns
-                    }
+                    columns={columns}
                     layoutMode={DetailsListLayoutMode.justified}
                     selectionPreservedOnEmptyClick={false}
                     ariaLabelForSelectionColumn={t(
