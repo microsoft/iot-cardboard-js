@@ -81,6 +81,7 @@ const rowClassNames = {
     buttonColumn: `${classPrefix}-buttonColumn`,
     firstColumn: `${classPrefix}-firstColumn`,
     inputColumn: `${classPrefix}-inputColumn`,
+    optionContainer: `${classPrefix}-optionContainer`,
     root: `${classPrefix}-root`
 };
 
@@ -107,10 +108,26 @@ export const getRowStyles = (
         firstColumn: [rowClassNames.firstColumn],
         inputColumn: [rowClassNames.inputColumn],
         buttonColumn: [rowClassNames.buttonColumn],
+        optionContainer: [
+            rowClassNames.optionContainer,
+            {
+                flex: '1 1 auto',
+                minWidth: 0,
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
+            }
+        ],
         subComponentStyles: {
             deleteButton: {
                 rootDisabled: {
                     background: 'transparent'
+                }
+            },
+            propertyIcon: {
+                root: {
+                    paddingRight: 4,
+                    flex: '0 0 auto'
                 }
             }
         }

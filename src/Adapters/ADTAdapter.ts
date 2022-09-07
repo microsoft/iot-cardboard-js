@@ -34,7 +34,7 @@ import {
     modelRefreshMaxAge,
     twinRefreshMaxAge,
     instancesRefreshMaxAge,
-    AdapterMethodParamsForAdvancedSearchADTwins
+    AdapterMethodParamsForSearchTwinsByQuery
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -42,7 +42,7 @@ import ADTModelData, {
     ADTTwinToModelMappingData
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
-    ADTAdapterAdvancedSearchData,
+    ADTAdapterSearchByQueryData,
     ADTAdapterModelsData,
     ADTAdapterPatchData,
     ADTAdapterTwinsData
@@ -98,9 +98,7 @@ export default class ADTAdapter implements IADTAdapter {
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt'
     ) {
-        this.adtHostUrl = adtHostUrl.startsWith('https://') // this should be the host name of the instace
-            ? adtHostUrl.replace('https://', '')
-            : adtHostUrl;
+        this.setAdtHostUrl(adtHostUrl); // this should be the host name of the instace
         this.adtProxyServerPath = adtProxyServerPath;
         this.authService = authService;
         this.tenantId = tenantId;
@@ -140,8 +138,9 @@ export default class ADTAdapter implements IADTAdapter {
     }
 
     setAdtHostUrl(hostName: string) {
-        if (hostName.startsWith('https://'))
+        if (hostName.startsWith('https://')) {
             hostName = hostName.replace('https://', '');
+        }
         this.adtHostUrl = hostName;
     }
 
@@ -477,13 +476,10 @@ export default class ADTAdapter implements IADTAdapter {
         );
     }
 
-    advancedSearchADTTwins(
-        params: AdapterMethodParamsForAdvancedSearchADTwins
-    ) {
+    searchTwinsByQuery(params: AdapterMethodParamsForSearchTwinsByQuery) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        console.log(params);
         return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
-            ADTAdapterAdvancedSearchData,
+            ADTAdapterSearchByQueryData,
             {
                 method: 'post',
                 url: `${this.adtProxyServerPath}/query`,
@@ -494,8 +490,7 @@ export default class ADTAdapter implements IADTAdapter {
                     'api-version': ADT_ApiVersion
                 },
                 data: {
-                    query: params.query,
-                    continuationToken: params.continuationToken
+                    query: params.query
                 }
             }
         );

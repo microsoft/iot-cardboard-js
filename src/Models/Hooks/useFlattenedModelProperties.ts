@@ -127,7 +127,10 @@ const fetchFlattenedModelProperties = async (
 export const useFlattenedModelProperties = ({
     adapter,
     allowedPropertyValueTypes
-}: IUseFlattenedModelPropertiesParams) => {
+}: IUseFlattenedModelPropertiesParams): {
+    isLoading: boolean;
+    flattenedModelProperties: IGroupedModelledPropertiesFormat;
+} => {
     const [isLoading, setIsLoading] = useState(true);
     const [flattenedModelProperties, setFlattenedModelProperties] = useState(
         null

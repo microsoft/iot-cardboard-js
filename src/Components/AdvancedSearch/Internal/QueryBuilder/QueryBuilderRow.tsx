@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import Select, { components, SelectOptionActionMeta } from 'react-select';
+import Select, {
+    components,
+    MenuProps,
+    OptionProps,
+    SelectOptionActionMeta
+} from 'react-select';
 import {
+    CombinatorText,
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
     IQueryBuilderRowStyles,
@@ -23,7 +29,8 @@ import {
     IDropdownOption,
     TextField,
     SpinButton,
-    Callout
+    Callout,
+    Icon
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
@@ -33,7 +40,10 @@ import {
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
-import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
+import {
+    DTDLPropertyIconographyMap,
+    DTID_PROPERTY_NAME
+} from '../../../../Models/Constants/Constants';
 import { getReactSelectStyles } from '../../../Shared/ReactSelect.styles';
 import TwinPropertySearchDropdown from '../../../TwinSearchPropertyDropdown/TwinPropertySearchDropdown';
 
@@ -98,12 +108,16 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         options: []
                     });
                     flattenedModelProperties[modelName].forEach((property) => {
+                        const propertyIcon =
+                            DTDLPropertyIconographyMap[property.propertyType];
                         propertyComboboxOptions[index].options.push({
                             value: property.key,
                             label: property.localPath,
                             data: {
                                 name: property.localPath,
-                                type: property.propertyType
+                                type: property.propertyType,
+                                icon: propertyIcon.icon,
+                                iconTitle: propertyIcon.text
                             }
                         });
                     });
@@ -204,17 +218,29 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         return <components.Placeholder {...props} />;
     };
 
-    const Menu = (props) => (
+    const Menu = (props: MenuProps<PropertyOption>) => (
         <Callout
             target={`#${propertySelectorId}`}
             styles={classNames.subComponentStyles.propertyCallout}
             isBeakVisible={false}
         >
             <components.MenuList
-                {...props}
+                {...(props as any)}
                 styles={propertySelectorStyles.menuList}
             />
         </Callout>
+    );
+
+    const Option = (props: OptionProps<PropertyOption>) => (
+        <components.Option {...props}>
+            <Icon
+                iconName={props.data.data.icon}
+                aria-hidden="true"
+                title={props.data.data.iconTitle}
+                styles={classNames.subComponentStyles.propertyIcon}
+            />
+            <div className={classNames.optionContainer}>{props.children}</div>
+        </components.Option>
     );
 
     const renderValueField = () => {
@@ -275,13 +301,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         <Dropdown
                             options={[
                                 {
-                                    key: 'AND',
-                                    text: 'AND',
+                                    key: `${rowId}.CombinatorText.And`,
+                                    text: CombinatorText.And,
                                     selected: true
                                 },
                                 {
-                                    key: 'OR',
-                                    text: 'OR'
+                                    key: `${rowId}.CombinatorText.Or`,
+                                    text: CombinatorText.Or
                                 }
                             ]}
                             onChange={onChangeCombinator}
@@ -303,7 +329,8 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     components={{
                         Group: Group,
                         Menu: Menu,
-                        Placeholder: Placeholder
+                        Placeholder: Placeholder,
+                        Option: Option
                     }}
                     onChange={onChangePropertySelected}
                     styles={propertySelectorStyles}

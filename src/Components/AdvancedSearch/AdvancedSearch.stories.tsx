@@ -7,6 +7,7 @@ import {
 import AdvancedSearch from './AdvancedSearch';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { queryAllowedPropertyValueTypes } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
@@ -29,14 +30,7 @@ Base.args = {
         return;
     },
     adapter: new MockAdapter(),
-    allowedPropertyValueTypes: [
-        'string',
-        'boolean',
-        'float',
-        'integer',
-        'double',
-        'long'
-    ],
+    allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
 } as IAdvancedSearchProps;
 Base.storyName = 'Mock Base';
@@ -47,21 +41,14 @@ const sharedArgs = {
         return;
     },
     adapter: new MockAdapter(),
-    allowedPropertyValueTypes: [
-        'string',
-        'boolean',
-        'float',
-        'integer',
-        'double',
-        'long'
-    ],
+    allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
 } as IAdvancedSearchProps;
 
 export const NumericalDropdown = Template.bind({});
 NumericalDropdown.args = sharedArgs;
 NumericalDropdown.play = async () => {
-    // CLick on a numerical option
+    // Click on a numerical option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 0);
 };
 NumericalDropdown.storyName = 'Mock Numerical dropdown';
@@ -69,7 +56,7 @@ NumericalDropdown.storyName = 'Mock Numerical dropdown';
 export const BooleanDropdown = Template.bind({});
 BooleanDropdown.args = sharedArgs;
 BooleanDropdown.play = async () => {
-    // CLick on a boolean typed option
+    // Click on a boolean typed option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 4);
 };
 BooleanDropdown.storyName = 'Mock Boolean dropdown';

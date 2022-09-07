@@ -46,7 +46,7 @@ import {
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
-    AdapterMethodParamsForAdvancedSearchADTwins
+    AdapterMethodParamsForSearchTwinsByQuery
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -681,16 +681,47 @@ export default class MockAdapter
         }
     }
 
-    async advancedSearchADTTwins(
-        _params: AdapterMethodParamsForAdvancedSearchADTwins
-    ) {
+    getFirstPropertyFromQuery = (query: string) => {
+        // Initial position index is the index after WHERE in the query
+        // used here to search for first property after the WHERE clause
+        const initialPositionIndex = 43;
+        return query
+            .substring(
+                initialPositionIndex,
+                query.indexOf(' ', initialPositionIndex)
+            )
+            .split('T.')[1];
+    };
+
+    getFirstValueFromQuery = (query: string) => {
+        // Find value after equals operator to match to
+        // Return null in case equals operator is not found to return all twins
+        const equalsPosition = query.indexOf('= ');
+        if (equalsPosition !== -1) {
+            return query.substring(
+                equalsPosition + 2,
+                query.indexOf('\n', equalsPosition + 2)
+            );
+        } else {
+            return null;
+        }
+    };
+
+    async searchTwinsByQuery(params: AdapterMethodParamsForSearchTwinsByQuery) {
         try {
             await this.mockNetwork();
+            const firstProperty = this.getFirstPropertyFromQuery(params.query);
+            const firstValue = this.getFirstValueFromQuery(params.query);
+
+            const filteredTwins = this.mockTwins.filter((twin) => {
+                return twin[`${firstProperty}`] === firstValue;
+            });
 
             return new AdapterResult({
+                // Return filtered results only in the case that user is searching for equals
+                // else return all twins
                 result: new ADTAdapterTwinsData({
-                    // TODO: filter out based on properties from params
-                    value: this.mockTwins
+                    value: firstValue ? filteredTwins : this.mockTwins
                 }),
                 errorInfo: null
             });

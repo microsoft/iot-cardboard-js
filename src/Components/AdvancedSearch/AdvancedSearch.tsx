@@ -18,7 +18,7 @@ import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
 import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
 import {
-    AdapterMethodParamsForAdvancedSearchADTwins,
+    AdapterMethodParamsForSearchTwinsByQuery,
     IADTTwin
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
@@ -50,17 +50,15 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const filteredTwins = useRef<IADTTwin[]>([]);
     const additionalProperties = useRef(new Set<string>());
     const searchForTwinAdapterData = useAdapter({
-        adapterMethod: (params: AdapterMethodParamsForAdvancedSearchADTwins) =>
-            adapter.advancedSearchADTTwins(params),
+        adapterMethod: (params: AdapterMethodParamsForSearchTwinsByQuery) =>
+            adapter.searchTwinsByQuery(params),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
 
     const executeQuery = (query: string) => {
         searchForTwinAdapterData.callAdapter({
-            query: query,
-            // TODO: Define onScroll method on list to change continuation token
-            continuationToken: null
+            query: query
         });
     };
 
@@ -111,12 +109,13 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                         updateColumns={updateColumns}
                     />
                     <AdvancedSearchResultDetailsList
-                        twins={filteredTwins.current}
+                        adapter={adapter}
+                        isLoading={searchForTwinAdapterData.isLoading}
+                        onTwinSelection={null}
                         searchedProperties={Array.from(
                             additionalProperties.current
                         )}
-                        adapter={adapter}
-                        onTwinSelection={null}
+                        twins={filteredTwins.current}
                         styles={{
                             root: {
                                 maxHeight: 380,

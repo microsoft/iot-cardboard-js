@@ -169,6 +169,15 @@ export const numericPropertyValueTypes: PropertyValueType[] = [
     'long'
 ];
 
+export const queryAllowedPropertyValueTypes: PropertyValueType[] = [
+    'double',
+    'float',
+    'integer',
+    'long',
+    'boolean',
+    'string'
+];
+
 export const isResolvedTwinIdMode = (
     twinIdParams: BehaviorTwinIdParams | ResolvedTwinIdParams
 ): twinIdParams is ResolvedTwinIdParams => {

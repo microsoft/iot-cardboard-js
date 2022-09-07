@@ -11,7 +11,8 @@ import {
     areResourceValuesEqual,
     formatTimeInRelevantUnits,
     getMissingRoleIdsFromRequired,
-    getRoleIdsFromRoleAssignments
+    getRoleIdsFromRoleAssignments,
+    isDefined
 } from './Utils';
 
 afterEach(cleanup);
@@ -255,6 +256,25 @@ describe('Utils', () => {
             expect(result.displayStringKey).toEqual('duration.year');
         });
     });
+
+    describe('isDefined', () => {
+        test('null returns false', () => {
+            expect(isDefined(null)).toBeFalsy();
+        });
+        test('undefined returns false', () => {
+            expect(isDefined(undefined)).toBeFalsy();
+        });
+        test('0 returns true', () => {
+            expect(isDefined(0)).toBeTruthy();
+        });
+        test('empty string returns true', () => {
+            expect(isDefined('')).toBeTruthy();
+        });
+        test('a string returns true', () => {
+            expect(isDefined('test')).toBeTruthy();
+        });
+    });
+
     describe('areResourceValuesEqual', () => {
         test('return true if two resource url property values are equal', () => {
             // ARRANGE
