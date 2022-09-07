@@ -140,7 +140,7 @@ const ElementTwinAliasForm: React.FC = () => {
                     onChange={(selectedTwinId: string) => {
                         handleTwinSelect(selectedTwinId);
                     }}
-                    selectedValue={formData.twinId}
+                    initialSelectedValue={formData.twinId}
                     searchPropertyName={DTID_PROPERTY_NAME}
                     styles={{ root: { paddingTop: 16 } }}
                 />

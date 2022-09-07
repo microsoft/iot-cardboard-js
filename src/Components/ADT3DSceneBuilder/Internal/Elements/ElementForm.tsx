@@ -312,7 +312,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             '3dSceneBuilder.elementForm.twinNameTooltip'
                                         )
                                     }}
-                                    selectedValue={
+                                    initialSelectedValue={
                                         elementFormState.elementToEdit
                                             ?.primaryTwinID
                                     }

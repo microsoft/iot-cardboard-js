@@ -274,7 +274,7 @@ const BehaviorTwinAliasForm: React.FC<{
                                         adapter={adapter}
                                         label={element.displayName}
                                         labelIconName="Shapes"
-                                        selectedValue={
+                                        initialSelectedValue={
                                             element.twinAliases?.[
                                                 formData.alias
                                             ]

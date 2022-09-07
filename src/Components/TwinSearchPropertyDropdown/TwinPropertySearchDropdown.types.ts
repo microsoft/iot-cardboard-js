@@ -18,7 +18,7 @@ export interface ITwinPropertySearchDropdownProps {
     isLabelHidden?: boolean;
     descriptionText?: string;
     placeholderText?: string;
-    selectedValue?: string;
+    initialSelectedValue?: string;
     onChange?: (selectedValue: string) => void;
     inputStyles?: StylesConfig;
     /**

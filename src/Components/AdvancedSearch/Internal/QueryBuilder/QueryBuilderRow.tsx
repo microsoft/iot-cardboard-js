@@ -231,7 +231,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     adapter={adapter}
                     placeholderText={'Enter a value'}
                     isLabelHidden={true}
-                    selectedValue={'something here'}
+                    initialSelectedValue={'Past'}
                     searchPropertyName={DTID_PROPERTY_NAME}
                     onChange={(value: string) =>
                         onChangeValueField(undefined, value)

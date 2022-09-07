@@ -17,6 +17,7 @@ const classNames = {
 export const getStyles = (
     props: ITwinPropertySearchDropdownStyleProps
 ): ITwinPropertySearchDropdownStyles => {
+    const { theme } = props;
     return {
         root: [classNames.root],
         description: [
@@ -40,6 +41,8 @@ export const getStyles = (
         subComponentStyles: {
             callout: {
                 root: {
+                    backgroundColor: theme.semanticColors.inputBackground,
+                    boxShadow: theme.effects.elevation16,
                     width: props.menuWidth
                 }
             }

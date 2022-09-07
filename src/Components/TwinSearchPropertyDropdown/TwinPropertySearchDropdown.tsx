@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
     Callout,
     classNamesFunction,
+    DirectionalHint,
     Icon,
     Label,
     Stack,
@@ -10,12 +11,12 @@ import {
     Text,
     useTheme
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import { components, MenuProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
 import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
-import './TwinPropertySearchDropdown.scss';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
 import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
@@ -42,41 +43,41 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
     label,
     labelIconName,
     labelTooltip,
+    initialSelectedValue,
     inputStyles,
     isLabelHidden = false,
     descriptionText,
     placeholderText,
-    selectedValue,
     searchPropertyName,
     onChange,
     styles
 }) => {
     const { t } = useTranslation();
-    const [twinIdSearchTerm, setTwinIdSearchTerm] = useState(
-        selectedValue ?? ''
-    );
+    const selectId = useId('twin-property-search-dropdown');
+    const [searchValue, setSearchValue] = useState(initialSelectedValue ?? '');
     const [twinSuggestions, setTwinSuggestions] = useState(
-        selectedValue
+        initialSelectedValue
             ? [
                   {
-                      value: selectedValue,
-                      label: selectedValue
+                      value: initialSelectedValue,
+                      label: initialSelectedValue
                   }
               ]
             : []
     );
 
     const [selectedOption, setSelectedOption] = useState(
-        selectedValue
+        initialSelectedValue
             ? {
-                  value: selectedValue,
-                  label: selectedValue
+                  value: initialSelectedValue,
+                  label: initialSelectedValue
               }
             : null
     );
 
     const theme = useTheme();
-    const dropdownWidth = document.getElementById('myid')?.offsetWidth || 200;
+    const selectDropdownElement = document.getElementById(selectId);
+    const dropdownWidth = (selectDropdownElement?.offsetWidth || 102) - 2; // account for borders
     // Classname after state to track row #
     const classNames = getClassNames(styles, {
         theme: theme,
@@ -147,7 +148,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 shouldAppendTwinSuggestions.current = true;
                 searchTwinAdapterData.callAdapter({
                     searchProperty: searchPropertyName,
-                    searchTerm: twinIdSearchTerm,
+                    searchTerm: searchValue,
                     shouldSearchByModel: false,
                     continuationToken: twinSearchContinuationToken.current
                 } as AdapterMethodParamsForSearchADTTwins);
@@ -160,11 +161,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
             <components.Option {...props}></components.Option>
         ) : (
             <components.Option {...props}>
-                {getMarkedHtmlBySearch(
-                    props.data.label,
-                    twinIdSearchTerm,
-                    true
-                )}
+                {getMarkedHtmlBySearch(props.data.label, searchValue, true)}
             </components.Option>
         );
     };
@@ -183,20 +180,18 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
         }, [twinSuggestionListWrapperRef]);
         return (
             <Callout
-                target={`#myid`}
-                styles={classNames.subComponentStyles.callout}
+                gapSpace={-1}
                 isBeakVisible={false}
+                styles={classNames.subComponentStyles.callout}
+                target={`#${selectId}`}
+                directionalHintFixed
+                directionalHint={DirectionalHint.bottomCenter}
             >
                 <div
                     ref={twinSuggestionListWrapperRef}
                     onScroll={handleOnScroll}
                 >
-                    <components.MenuList
-                        {...(props as any)}
-                        styles={selectStyles.menuList}
-                    >
-                        {props.children}
-                    </components.MenuList>
+                    <components.MenuList {...(props as any)} />
                 </div>
             </Callout>
         );
@@ -227,7 +222,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 )}
 
                 <CreatableSelect
-                    id={'myid'}
+                    id={selectId}
                     aria-labelledby="twin-search-dropdown-label"
                     classNamePrefix="cb-search-autocomplete"
                     className="cb-search-autocomplete-container"
@@ -235,16 +230,16 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         searchTwinAdapterData.isLoading ? [] : twinSuggestions
                     }
                     defaultValue={twinSuggestions[0] ?? undefined}
-                    defaultInputValue={selectedValue ?? ''}
+                    defaultInputValue={initialSelectedValue ?? ''}
                     value={selectedOption}
-                    inputValue={twinIdSearchTerm}
+                    inputValue={searchValue}
                     components={{
                         Option: CustomOption,
                         Menu: Menu
                     }}
                     onInputChange={(inputValue, actionMeta) => {
                         if (actionMeta.action === 'input-change') {
-                            setTwinIdSearchTerm(inputValue);
+                            setSearchValue(inputValue);
                             shouldAppendTwinSuggestions.current = false;
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.cancelAdapter();
@@ -257,22 +252,28 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                             } as AdapterMethodParamsForSearchADTTwins);
 
                             if (!inputValue && actionMeta.prevInputValue) {
+                                console.log('clearing input');
                                 setSelectedOption(null);
                             }
                         } else if (actionMeta.action === 'menu-close') {
                             setTwinSuggestions(
                                 selectedOption ? [selectedOption] : []
                             );
-                            setTwinIdSearchTerm(selectedOption?.value ?? '');
+                            console.log(
+                                'menu closed, setting to ' +
+                                    selectedOption?.value
+                            );
+                            setSearchValue(selectedOption?.value ?? '');
                         }
                     }}
-                    onChange={(option: any) => {
+                    onChange={(option: { value: string; label: string }) => {
                         if (!option) {
                             setTwinSuggestions([]);
                         } else {
                             setTwinSuggestions([option]);
                         }
-                        setTwinIdSearchTerm(option?.value ?? '');
+                        console.log('onchange ' + option?.value);
+                        setSearchValue(option?.value ?? '');
                         setSelectedOption(option);
                         onChange(option?.value ?? undefined);
                     }}
@@ -282,7 +283,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.callAdapter({
                                 searchProperty: searchPropertyName,
-                                searchTerm: twinIdSearchTerm,
+                                searchTerm: searchValue,
                                 shouldSearchByModel: false,
                                 continuationToken: null
                             } as AdapterMethodParamsForSearchADTTwins);
@@ -298,6 +299,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                             '3dSceneBuilder.useNonExistingTwinId'
                         )} "${inputValue}"`
                     }
+                    // menuIsOpen
                     isSearchable
                     isClearable
                     styles={selectStyles}
