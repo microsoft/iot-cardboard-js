@@ -68,6 +68,7 @@ export const getReactSelectStyles = (
         }),
         option: (provided, state) => ({
             ...provided,
+            alignItems: 'center',
             backgroundColor: state.isFocused
                 ? theme.semanticColors.listItemBackgroundHovered
                 : state.isSelected
@@ -76,6 +77,7 @@ export const getReactSelectStyles = (
             borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
             color: theme.semanticColors.inputText,
             cursor: 'pointer',
+            display: 'flex',
             height: '32px',
             overflow: 'hidden',
             padding: '6px 12px',
