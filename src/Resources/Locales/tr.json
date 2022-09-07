@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Mülk",
     "operatorColumnHeader": "Operatör",
     "valueColumnHeader": "Değer",
-    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi"
+    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi",
+    "resultsExceededLabel": "1000'den fazla sonuç vardı, sonuçları hassaslaştırmak için daha fazla filtre ekleyin.",
+    "noDataBeforeSearchHeader": "Başlamak için arama ölçütleri ekleme",
+    "noDataAfterSearchHeader": "İkiz bulunamadı",
+    "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin"
   }
 }

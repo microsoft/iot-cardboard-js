@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "재산",
     "operatorColumnHeader": "연산자",
     "valueColumnHeader": "값",
-    "propertyFieldPlaceholder": "선택한 속성이 없습니다."
+    "propertyFieldPlaceholder": "선택한 속성이 없습니다.",
+    "resultsExceededLabel": "1000 개 이상의 결과가 있었고 결과를 구체화하기 위해 더 많은 필터를 추가했습니다.",
+    "noDataBeforeSearchHeader": "시작하기 위한 검색 조건 추가",
+    "noDataAfterSearchHeader": "쌍둥이를 찾을 수 없음",
+    "noDataAfterSearchDescription": "검색을 구체화하고 다시 시도하십시오."
   }
 }

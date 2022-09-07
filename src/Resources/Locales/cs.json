@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Vlastnost",
     "operatorColumnHeader": "Operátor",
     "valueColumnHeader": "Hodnota",
-    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost"
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
+    "resultsExceededLabel": "Bylo více než 1000 výsledků, přidejte další filtry pro upřesnění výsledků.",
+    "noDataBeforeSearchHeader": "Přidání kritérií vyhledávání, abyste mohli začít",
+    "noDataAfterSearchHeader": "Nebyla nalezena žádná dvojčata",
+    "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu"
   }
 }

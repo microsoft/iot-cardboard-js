@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "財産",
     "operatorColumnHeader": "演算子",
     "valueColumnHeader": "価値",
-    "propertyFieldPlaceholder": "プロパティが選択されていません"
+    "propertyFieldPlaceholder": "プロパティが選択されていません",
+    "resultsExceededLabel": "1000以上の結果があり、結果を絞り込むためにさらにフィルタを追加してください。",
+    "noDataBeforeSearchHeader": "検索条件を追加して開始する",
+    "noDataAfterSearchHeader": "双子は見つかりませんでした",
+    "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください"
   }
 }

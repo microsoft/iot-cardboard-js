@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Свойство",
     "operatorColumnHeader": "Оператор",
     "valueColumnHeader": "Ценность",
-    "propertyFieldPlaceholder": "Недвижимость не выбрана"
+    "propertyFieldPlaceholder": "Недвижимость не выбрана",
+    "resultsExceededLabel": "Было более 1000 результатов, добавьте больше фильтров для уточнения результатов.",
+    "noDataBeforeSearchHeader": "Добавление критериев поиска для начала работы",
+    "noDataAfterSearchHeader": "Близнецы не найдены",
+    "noDataAfterSearchDescription": "Уточните поиск и повторите попытку"
   }
 }

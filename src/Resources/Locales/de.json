@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Eigentum",
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wert",
-    "propertyFieldPlaceholder": "Keine Eigenschaft ausgewählt"
+    "propertyFieldPlaceholder": "Keine Eigenschaft ausgewählt",
+    "resultsExceededLabel": "Es gab mehr als 1000 Ergebnisse, fügen Sie weitere Filter hinzu, um die Ergebnisse zu verfeinern.",
+    "noDataBeforeSearchHeader": "Hinzufügen von Suchkriterien für die ersten Schritte",
+    "noDataAfterSearchHeader": "Keine Zwillinge gefunden",
+    "noDataAfterSearchDescription": "Verfeinern Sie Ihre Suche und versuchen Sie es erneut"
   }
 }

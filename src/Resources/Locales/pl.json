@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Własność",
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wartość",
-    "propertyFieldPlaceholder": "Nie wybrano właściwości"
+    "propertyFieldPlaceholder": "Nie wybrano właściwości",
+    "resultsExceededLabel": "Było ponad 1000 wyników, dodaj więcej filtrów, aby udoskonalić wyniki.",
+    "noDataBeforeSearchHeader": "Dodawanie kryteriów wyszukiwania, aby rozpocząć",
+    "noDataAfterSearchHeader": "Nie znaleziono bliźniąt",
+    "noDataAfterSearchDescription": "Zawęź wyszukiwanie i spróbuj ponownie"
   }
 }

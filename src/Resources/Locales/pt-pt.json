@@ -1157,6 +1157,10 @@
     "propertyColumnHeader": "Propriedade",
     "operatorColumnHeader": "Operador",
     "valueColumnHeader": "Valor",
-    "propertyFieldPlaceholder": "Nenhum imóvel selecionado"
+    "propertyFieldPlaceholder": "Nenhum imóvel selecionado",
+    "resultsExceededLabel": "Houve mais de 1000 resultados, adicione mais filtros para refinar os resultados.",
+    "noDataBeforeSearchHeader": "Adicionar critérios de pesquisa para começar",
+    "noDataAfterSearchHeader": "Não foram encontrados gémeos.",
+    "noDataAfterSearchDescription": "Refine a sua pesquisa e tente novamente"
   }
 }
