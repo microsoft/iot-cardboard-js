@@ -1,6 +1,7 @@
 import {
     IButtonStyles,
     ICalloutContentStyles,
+    IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITextFieldStyles,
@@ -88,6 +89,11 @@ export enum OperatorText {
     LessOrEqual = 'Less or equal'
 }
 
+export enum CombinatorText {
+    Or = 'OR',
+    And = 'AND'
+}
+
 export type OperatorData = OperatorSimple | OperatorFunction;
 interface OperatorSimple {
     operatorType: OperatorType.Simple;
@@ -112,6 +118,8 @@ export interface PropertyOption {
     data: {
         name: string;
         type: PropertyValueType;
+        icon: string;
+        iconTitle: string;
     };
 }
 
@@ -133,6 +141,7 @@ export interface IQueryBuilderRowStyles {
     firstColumn: IStyle;
     inputColumn: IStyle;
     buttonColumn: IStyle;
+    optionContainer: IStyle;
     /**
      * SubComponent styles.
      */
@@ -140,6 +149,7 @@ export interface IQueryBuilderRowStyles {
 }
 
 export interface IQueryBuilderRowSubComponentStyles {
+    propertyIcon?: Partial<IIconStyles>;
     propertyCallout?: Partial<ICalloutContentStyles>;
     valueField?: Partial<ITextFieldStyles>;
     deleteButton?: Partial<IButtonStyles>;

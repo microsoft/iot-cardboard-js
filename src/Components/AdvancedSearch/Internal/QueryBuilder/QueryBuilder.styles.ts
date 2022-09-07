@@ -82,6 +82,7 @@ const rowClassNames = {
     buttonColumn: `${classPrefix}-buttonColumn`,
     firstColumn: `${classPrefix}-firstColumn`,
     inputColumn: `${classPrefix}-inputColumn`,
+    optionContainer: `${classPrefix}-optionContainer`,
     root: `${classPrefix}-root`
 };
 
@@ -108,10 +109,26 @@ export const getRowStyles = (
         firstColumn: [rowClassNames.firstColumn],
         inputColumn: [rowClassNames.inputColumn],
         buttonColumn: [rowClassNames.buttonColumn],
+        optionContainer: [
+            rowClassNames.optionContainer,
+            {
+                flex: '1 1 auto',
+                minWidth: 0,
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden'
+            }
+        ],
         subComponentStyles: {
             deleteButton: {
                 rootDisabled: {
                     background: 'transparent'
+                }
+            },
+            propertyIcon: {
+                root: {
+                    paddingRight: 4,
+                    flex: '0 0 auto'
                 }
             }
         }
@@ -169,6 +186,7 @@ export const reactSelectStyles = (
         }),
         option: (provided, state) => ({
             ...provided,
+            alignItems: 'center',
             backgroundColor: state.isFocused
                 ? theme.semanticColors.listItemBackgroundHovered
                 : state.isSelected
@@ -177,6 +195,7 @@ export const reactSelectStyles = (
             borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
             color: theme.semanticColors.inputText,
             cursor: 'default',
+            display: 'flex',
             fontWeight: 400, // Font weight enum gives a type error here
             height: '32px',
             overflow: 'hidden',
