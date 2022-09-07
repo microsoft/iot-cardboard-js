@@ -109,12 +109,13 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                         updateColumns={updateColumns}
                     />
                     <AdvancedSearchResultDetailsList
-                        twins={filteredTwins.current}
+                        adapter={adapter}
+                        isLoading={searchForTwinAdapterData.isLoading}
+                        onTwinSelection={null}
                         searchedProperties={Array.from(
                             additionalProperties.current
                         )}
-                        adapter={adapter}
-                        onTwinSelection={null}
+                        twins={filteredTwins.current}
                         styles={{
                             root: {
                                 maxHeight: 380,

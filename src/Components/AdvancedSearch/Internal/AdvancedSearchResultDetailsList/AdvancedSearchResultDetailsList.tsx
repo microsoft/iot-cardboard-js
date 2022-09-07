@@ -15,7 +15,9 @@ import {
     IDetailsListProps,
     SelectionMode,
     Selection,
-    IObjectWithKey
+    IObjectWithKey,
+    Spinner,
+    SpinnerSize
 } from '@fluentui/react';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +33,7 @@ const getClassNames = classNamesFunction<
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     adapter,
     onTwinSelection,
+    isLoading,
     searchedProperties,
     styles,
     twins
@@ -100,15 +103,15 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     const getNoDataHeaderText = useCallback(() => {
         if (additionalColumns.length) {
-            return 'No twins found';
+            return t('advancedSearch.noDataAfterSearchHeader');
         } else {
-            return 'Add search criteria to get started';
+            return t('advancedSearch.noDataBeforeSearchHeader');
         }
     }, [additionalColumns.length]);
 
     const getNoDataDescriptionText = useCallback(() => {
         if (additionalColumns.length) {
-            return 'Refine your search and try again';
+            return t('advancedSearch.noDataAfterSearchDescription');
         } else {
             return undefined;
         }
@@ -125,18 +128,16 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     }, [additionalColumns.length]);
 
-    return (
-        <section className={classNames.root}>
-            <h3 className={classNames.listHeader}>
-                {t('advancedSearch.results', { twinCount })}
-            </h3>
-            {twinCount === 1000 && (
-                <span>
-                    There were more than 1000 results, add more filters to
-                    refine the results.
-                </span>
-            )}
-            {twinCount === 0 ? (
+    const renderContent = () => {
+        if (isLoading) {
+            return (
+                <Spinner
+                    size={SpinnerSize.large}
+                    styles={classNames.subComponentStyles.spinner}
+                />
+            );
+        } else if (twinCount === 0) {
+            return (
                 <IllustrationMessage
                     headerText={getNoDataHeaderText()}
                     descriptionText={getNoDataDescriptionText()}
@@ -144,7 +145,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     width={'wide'}
                     imageProps={getNoDataImage()}
                 />
-            ) : (
+            );
+        } else {
+            return (
                 <DetailsList
                     items={twins}
                     columns={
@@ -163,7 +166,19 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     selection={selection}
                     styles={classNames.subComponentStyles.detailsList}
                 />
+            );
+        }
+    };
+
+    return (
+        <section className={classNames.root}>
+            <h3 className={classNames.listHeader}>
+                {t('advancedSearch.results', { twinCount })}
+            </h3>
+            {twinCount === 1000 && (
+                <span>{t('advancedSearch.resultsExceededLabel')}</span>
             )}
+            {renderContent()}
         </section>
     );
 };
