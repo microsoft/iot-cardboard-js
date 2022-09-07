@@ -2,6 +2,7 @@ import {
     ICalloutContentStyles,
     IStyle,
     IStyleFunctionOrObject,
+    ITextStyles,
     ITheme
 } from '@fluentui/react';
 import { StylesConfig } from 'react-select';
@@ -36,7 +37,6 @@ export interface ITwinPropertySearchDropdownStyleProps {
 }
 export interface ITwinPropertySearchDropdownStyles {
     root: IStyle;
-    description: IStyle;
     label: IStyle;
     requiredIcon: IStyle;
     /**
@@ -47,4 +47,5 @@ export interface ITwinPropertySearchDropdownStyles {
 
 export interface ITwinPropertySearchDropdownSubComponentStyles {
     callout?: Partial<ICalloutContentStyles>;
+    description?: Partial<ITextStyles>;
 }

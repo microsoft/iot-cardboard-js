@@ -306,7 +306,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 />
                 {descriptionText && (
                     <Text
-                        className="cb-search-autocomplete-desc"
+                        styles={classNames.subComponentStyles.description}
                         variant={'small'}
                     >
                         {descriptionText}

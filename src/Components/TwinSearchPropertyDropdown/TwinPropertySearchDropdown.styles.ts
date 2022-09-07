@@ -9,7 +9,6 @@ import {
 export const classPrefix = 'cb-twin-search-dropdown';
 const classNames = {
     root: `${classPrefix}-root`,
-    description: `${classPrefix}-description`,
     label: `${classPrefix}-label`,
     requiredIcon: `${classPrefix}-requiredIcon`
 };
@@ -20,13 +19,6 @@ export const getStyles = (
     const { theme } = props;
     return {
         root: [classNames.root],
-        description: [
-            classNames.description,
-            {
-                display: 'block',
-                paddingTop: 4
-            }
-        ],
         label: [classNames.label, { alignItems: 'center', display: 'flex' }],
         requiredIcon: [
             classNames.requiredIcon,
