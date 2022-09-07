@@ -89,9 +89,14 @@ export enum OperatorText {
     LessOrEqual = 'Less or equal'
 }
 
-export enum CombinatorText {
+export enum CombinatorValue {
     Or = 'OR',
     And = 'AND'
+}
+
+export enum CombinatorText {
+    Or = 'Or',
+    And = 'And'
 }
 
 export type OperatorData = OperatorSimple | OperatorFunction;
@@ -118,7 +123,7 @@ export interface PropertyOption {
     data: {
         name: string;
         type: PropertyValueType;
-        icon: string;
+        iconName: string;
         iconTitle: string;
     };
 }

@@ -8,6 +8,8 @@ import {
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import { PropertyValueType } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
+export const QUERY_RESULT_LIMIT = 1000;
+
 /** Advanced search modal */
 export interface IAdvancedSearchProps {
     adapter: ADTAdapter | MockAdapter;

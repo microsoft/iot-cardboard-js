@@ -25,6 +25,7 @@ import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspect
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import NoResult from '../../../../Resources/Static/noResults.svg';
 import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
+import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
@@ -200,8 +201,12 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             <h3 className={classNames.listHeader}>
                 {t('advancedSearch.results', { twinCount })}
             </h3>
-            {twinCount === 1000 && (
-                <span>{t('advancedSearch.resultsExceededLabel')}</span>
+            {twinCount === QUERY_RESULT_LIMIT && (
+                <span>
+                    {t('advancedSearch.resultsExceededLabel', {
+                        QUERY_RESULT_LIMIT
+                    })}
+                </span>
             )}
             {renderContent()}
         </section>

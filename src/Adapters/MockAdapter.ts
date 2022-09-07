@@ -684,7 +684,7 @@ export default class MockAdapter
     getFirstPropertyFromQuery = (query: string) => {
         // Initial position index is the index after WHERE in the query
         // used here to search for first property after the WHERE clause
-        const initialPositionIndex = 43;
+        const initialPositionIndex = query.indexOf('WHERE ') + 6;
         return query
             .substring(
                 initialPositionIndex,
@@ -696,12 +696,14 @@ export default class MockAdapter
     getFirstValueFromQuery = (query: string) => {
         // Find value after equals operator to match to
         // Return null in case equals operator is not found to return all twins
-        const equalsPosition = query.indexOf('= ');
+        const equalsPosition = query.indexOf(' = ');
         if (equalsPosition !== -1) {
-            return query.substring(
-                equalsPosition + 2,
-                query.indexOf('\n', equalsPosition + 2)
-            );
+            return query
+                .substring(
+                    equalsPosition + 2,
+                    query.indexOf('\n', equalsPosition + 2)
+                )
+                .trim();
         } else {
             return null;
         }
@@ -714,7 +716,7 @@ export default class MockAdapter
             const firstValue = this.getFirstValueFromQuery(params.query);
 
             const filteredTwins = this.mockTwins.filter((twin) => {
-                return twin[`${firstProperty}`] === firstValue;
+                return String(twin[`${firstProperty}`]) === firstValue;
             });
 
             return new AdapterResult({
