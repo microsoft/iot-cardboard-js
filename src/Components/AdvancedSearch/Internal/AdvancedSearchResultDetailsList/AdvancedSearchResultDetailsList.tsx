@@ -24,10 +24,8 @@ import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import NoResult from '../../../../Resources/Static/noResults.svg';
-
-=========
 import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
->>>>>>>>> Temporary merge branch 2
+
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
