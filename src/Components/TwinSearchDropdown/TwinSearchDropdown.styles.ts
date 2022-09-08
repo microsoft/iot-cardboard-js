@@ -1,7 +1,7 @@
 import {
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
-} from './TwinPropertySearchDropdown.types';
+} from './TwinSearchDropdown.types';
 
 /**
  * Twin search dropdown styles

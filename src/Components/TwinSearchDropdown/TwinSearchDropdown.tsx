@@ -222,7 +222,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                     id={selectId}
                     aria-labelledby="twin-search-dropdown-label"
                     classNamePrefix="cb-search-autocomplete"
-                    className="cb-search-autocomplete-container"
+                    className={classNames.dropdown}
                     options={
                         searchTwinAdapterData.isLoading ? [] : dropdownOptions
                     }

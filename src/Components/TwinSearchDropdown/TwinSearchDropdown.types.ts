@@ -39,6 +39,7 @@ export interface ITwinPropertySearchDropdownStyleProps {
 }
 export interface ITwinPropertySearchDropdownStyles {
     root: IStyle;
+    dropdown: IStyle;
     label: IStyle;
     requiredIcon: IStyle;
     /**
