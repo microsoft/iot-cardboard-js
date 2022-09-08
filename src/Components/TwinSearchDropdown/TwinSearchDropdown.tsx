@@ -171,12 +171,12 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
         }, [twinSuggestionListWrapperRef]);
         return (
             <Callout
+                directionalHintFixed
+                directionalHint={DirectionalHint.bottomCenter}
                 gapSpace={-1}
                 isBeakVisible={false}
                 styles={classNames.subComponentStyles.callout}
                 target={`#${selectId}`}
-                directionalHintFixed
-                directionalHint={DirectionalHint.bottomCenter}
             >
                 <div
                     ref={twinSuggestionListWrapperRef}
