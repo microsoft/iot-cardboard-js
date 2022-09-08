@@ -7,7 +7,7 @@ import {
 import AdvancedSearch from './AdvancedSearch';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import { queryAllowedPropertyValueTypes } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { queryAllowedPropertyValueTypes } from './Internal/QueryBuilder/QueryBuilder.types';
 
 const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
