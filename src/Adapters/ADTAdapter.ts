@@ -33,7 +33,9 @@ import {
     IADTModel,
     modelRefreshMaxAge,
     twinRefreshMaxAge,
-    instancesRefreshMaxAge
+    instancesRefreshMaxAge,
+    AdapterMethodParamsForSearchTwinsByQuery,
+    AdapterMethodParamsForGetTwinsByQuery
 } from '../Models/Constants';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import ADTModelData, {
@@ -41,6 +43,7 @@ import ADTModelData, {
     ADTTwinToModelMappingData
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
+    ADTAdapterSearchByQueryData,
     ADTAdapterModelsData,
     ADTAdapterPatchData,
     ADTAdapterTwinsData
@@ -470,6 +473,77 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             }
         );
+    }
+
+    async getTwinsByQuery(
+        params: AdapterMethodParamsForGetTwinsByQuery = null
+    ) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return adapterMethodSandbox.safelyFetchDataCancellableAxiosPromise(
+            ADTAdapterSearchByQueryData,
+            {
+                method: 'post',
+                url: `${this.adtProxyServerPath}/query`,
+                headers: {
+                    'x-adt-host': this.adtHostUrl
+                },
+                params: {
+                    'api-version': ADT_ApiVersion
+                },
+                data: {
+                    query: params.query,
+                    continuationToken: params.continuationToken
+                }
+            }
+        );
+    }
+
+    async searchTwinsByQuery(params: AdapterMethodParamsForSearchTwinsByQuery) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async () => {
+                try {
+                    let twins: IADTTwin[] = [];
+                    const appendTwins = async (continuationToken?: string) => {
+                        // Get next chunk of twins
+                        const adtTwinsApiData = await this.getTwinsByQuery({
+                            query: params.query,
+                            continuationToken: continuationToken
+                        });
+
+                        // Add twins to list
+                        twins = twins.concat(adtTwinsApiData.result.data.value);
+
+                        // If next link present, fetch next chunk
+                        if (adtTwinsApiData.result.data.continuationToken) {
+                            try {
+                                await appendTwins(
+                                    adtTwinsApiData.result.data
+                                        .continuationToken
+                                );
+                            } catch (e) {
+                                console.error(
+                                    'Continuation token for twins call not valid',
+                                    e
+                                );
+                            }
+                        }
+                    };
+
+                    await appendTwins();
+
+                    return new ADTAdapterSearchByQueryData({
+                        value: twins
+                    });
+                } catch (err) {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.TwinsRetrievalFailed,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                }
+            });
+        return await getDataMethod();
     }
 
     async createModels(models: DTModel[]) {

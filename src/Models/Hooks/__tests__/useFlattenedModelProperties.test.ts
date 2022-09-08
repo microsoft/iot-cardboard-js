@@ -1,11 +1,9 @@
 import { renderHook, act, cleanup } from '@testing-library/react-hooks';
 import { MockAdapter } from '../../../Adapters';
-import {
-    defaultAllowedPropertyValueTypes,
-    PropertyValueType
-} from '../../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { defaultAllowedPropertyValueTypes } from '../../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { useFlattenedModelProperties } from '../useFlattenedModelProperties';
 import { IModelledPropertyBuilderAdapter } from '../../Constants/Interfaces';
+import { PropertyValueType } from '../../Constants';
 
 jest.mock('../../../i18n.ts', () => ({ t: () => 'testTranslation' }));
 

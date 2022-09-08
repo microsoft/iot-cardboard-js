@@ -1,16 +1,15 @@
 import {
     IButtonStyles,
     ICalloutContentStyles,
+    IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
+import { PropertyValueType } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
-import {
-    IModelledProperty,
-    PropertyValueType
-} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { IModelledProperty } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
@@ -72,6 +71,15 @@ export interface IQueryBuilderRowProps {
     >;
 }
 
+export const queryAllowedPropertyValueTypes: PropertyValueType[] = [
+    'double',
+    'float',
+    'integer',
+    'long',
+    'boolean',
+    'string'
+];
+
 export enum OperatorType {
     Simple,
     Function
@@ -86,6 +94,16 @@ export enum OperatorText {
     LessThan = 'Less than',
     GreaterOrEqual = 'Greater or equal',
     LessOrEqual = 'Less or equal'
+}
+
+export enum CombinatorValue {
+    Or = 'OR',
+    And = 'AND'
+}
+
+export enum CombinatorText {
+    Or = 'Or',
+    And = 'And'
 }
 
 export type OperatorData = OperatorSimple | OperatorFunction;
@@ -112,6 +130,8 @@ export interface PropertyOption {
     data: {
         name: string;
         type: PropertyValueType;
+        iconName: string;
+        iconTitle: string;
     };
 }
 
@@ -133,6 +153,7 @@ export interface IQueryBuilderRowStyles {
     firstColumn: IStyle;
     inputColumn: IStyle;
     buttonColumn: IStyle;
+    optionContainer: IStyle;
     /**
      * SubComponent styles.
      */
@@ -140,6 +161,7 @@ export interface IQueryBuilderRowStyles {
 }
 
 export interface IQueryBuilderRowSubComponentStyles {
+    propertyIcon?: Partial<IIconStyles>;
     propertyCallout?: Partial<ICalloutContentStyles>;
     valueField?: Partial<ITextFieldStyles>;
     deleteButton?: Partial<IButtonStyles>;

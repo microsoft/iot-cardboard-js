@@ -1157,6 +1157,12 @@
     "propertyColumnHeader": "财产",
     "operatorColumnHeader": "算子",
     "valueColumnHeader": "价值",
-    "propertyFieldPlaceholder": "未选择任何属性"
+    "propertyFieldPlaceholder": "未选择任何属性",
+    "resultsExceededLabel": "有1000多个结果，添加更多过滤器来优化结果。",
+    "noDataBeforeSearchHeader": "添加搜索条件以开始使用",
+    "noDataAfterSearchHeader": "未找到双胞胎",
+    "noDataAfterSearchDescription": "缩小搜索范围，然后重试",
+    "errorMessageHeader": "搜索失败",
+    "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。"
   }
 }

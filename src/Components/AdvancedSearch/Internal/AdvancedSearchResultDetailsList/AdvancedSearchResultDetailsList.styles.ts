@@ -26,6 +26,11 @@ export const getStyles = (
                     marginTop: -6,
                     marginBottom: -8
                 }
+            },
+            spinner: {
+                root: {
+                    height: 40
+                }
             }
         }
     };

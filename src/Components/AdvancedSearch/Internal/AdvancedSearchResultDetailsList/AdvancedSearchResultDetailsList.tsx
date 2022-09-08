@@ -15,12 +15,19 @@ import {
     IDetailsListProps,
     SelectionMode,
     Selection,
-    IObjectWithKey
+    IObjectWithKey,
+    Spinner,
+    SpinnerSize
 } from '@fluentui/react';
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
+import NoResultImg from '../../../../Resources/Static/noResults.svg';
+import NetworkErrorImg from '../../../../Resources/Static/corsError.svg';
 import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
+import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
+
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -28,7 +35,9 @@ const getClassNames = classNamesFunction<
 
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     adapter,
+    containsError,
     onTwinSelection,
+    isLoading,
     searchedProperties,
     styles,
     twins
@@ -124,25 +133,85 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     });
 
+    const noDataHeaderText = additionalColumns.length
+        ? t('advancedSearch.noDataAfterSearchHeader')
+        : t('advancedSearch.noDataBeforeSearchHeader');
+    const noDataDescriptionText = additionalColumns.length
+        ? t('advancedSearch.noDataAfterSearchDescription')
+        : undefined;
+    const noDataImage = additionalColumns.length
+        ? {
+              height: 100,
+              src: NoResultImg
+          }
+        : undefined;
+
+    const renderContent = () => {
+        if (containsError) {
+            return (
+                <IllustrationMessage
+                    headerText={t('advancedSearch.errorMessageHeader')}
+                    descriptionText={t(
+                        'advancedSearch.errorMessageDescription'
+                    )}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        height: 100,
+                        src: NetworkErrorImg
+                    }}
+                />
+            );
+        } else if (isLoading) {
+            return (
+                <Spinner
+                    size={SpinnerSize.large}
+                    styles={classNames.subComponentStyles.spinner}
+                />
+            );
+        } else if (twinCount === 0) {
+            return (
+                <IllustrationMessage
+                    headerText={noDataHeaderText}
+                    descriptionText={noDataDescriptionText}
+                    type={'info'}
+                    width={'wide'}
+                    imageProps={noDataImage}
+                />
+            );
+        } else {
+            return (
+                <DetailsList
+                    items={listItems}
+                    columns={columns}
+                    layoutMode={DetailsListLayoutMode.justified}
+                    selectionPreservedOnEmptyClick={false}
+                    ariaLabelForSelectionColumn={t(
+                        'advancedSearch.toggleSelection'
+                    )}
+                    checkButtonAriaLabel={t('advancedSearch.selectRow')}
+                    onRenderItemColumn={renderItemColumn}
+                    selectionMode={SelectionMode.single}
+                    selection={selection}
+                    styles={classNames.subComponentStyles.detailsList}
+                />
+            );
+        }
+    };
+
     return (
         <section className={classNames.root}>
             <h3 className={classNames.listHeader}>
                 {t('advancedSearch.results', { twinCount })}
             </h3>
-            <DetailsList
-                items={listItems}
-                columns={columns}
-                layoutMode={DetailsListLayoutMode.justified}
-                selectionPreservedOnEmptyClick={false}
-                ariaLabelForSelectionColumn={t(
-                    'advancedSearch.toggleSelection'
-                )}
-                checkButtonAriaLabel={t('advancedSearch.selectRow')}
-                onRenderItemColumn={renderItemColumn}
-                selectionMode={SelectionMode.single}
-                selection={selection}
-                styles={classNames.subComponentStyles.detailsList}
-            />
+            {twinCount === QUERY_RESULT_LIMIT && (
+                <span>
+                    {t('advancedSearch.resultsExceededLabel', {
+                        QUERY_RESULT_LIMIT
+                    })}
+                </span>
+            )}
+            {renderContent()}
         </section>
     );
 };

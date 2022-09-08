@@ -40,7 +40,8 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
-    AzureAccessPermissionRoleGroups
+    AzureAccessPermissionRoleGroups,
+    AdapterMethodParamsForSearchTwinsByQuery
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -460,6 +461,9 @@ export interface IADTAdapter
     ): AdapterReturnType<ADTAdapterTwinsData>;
     searchADTTwins(
         params: AdapterMethodParamsForSearchADTTwins
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    searchTwinsByQuery(
+        params: AdapterMethodParamsForSearchTwinsByQuery
     ): AdapterReturnType<ADTAdapterTwinsData>;
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;

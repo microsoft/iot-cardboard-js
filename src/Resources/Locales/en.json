@@ -1157,6 +1157,12 @@
         "modalTitle": "Advanced property search",
         "modalSubtitle": "Link the right property by narrowing down your search",
         "noPropertiesFound": "No properties found",
-        "propertyFieldPlaceholder": "No property selected"
+        "propertyFieldPlaceholder": "No property selected",
+        "resultsExceededLabel": "There were more than {{QUERY_RESULT_LIMIT}} results, add more filters to refine the results.",
+        "noDataBeforeSearchHeader": "Add search criteria to get started",
+        "noDataAfterSearchHeader": "No twins found",
+        "noDataAfterSearchDescription": "Refine your search and try again",
+        "errorMessageHeader": "Search failed",
+        "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again."
     }
 }

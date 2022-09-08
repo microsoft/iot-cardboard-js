@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
+    CombinatorText,
+    CombinatorValue,
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
     IQueryBuilderRowStyles,
@@ -17,7 +19,8 @@ import {
     IDropdownOption,
     TextField,
     SpinButton,
-    Callout
+    Callout,
+    Icon
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
@@ -27,8 +30,14 @@ import {
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
-import Select, { components, SelectOptionActionMeta } from 'react-select';
+import Select, {
+    components,
+    MenuProps,
+    OptionProps,
+    SelectOptionActionMeta
+} from 'react-select';
 import { useTranslation } from 'react-i18next';
+import { DTDLPropertyIconographyMap } from '../../../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,
@@ -92,12 +101,16 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         options: []
                     });
                     flattenedModelProperties[modelName].forEach((property) => {
+                        const propertyIcon =
+                            DTDLPropertyIconographyMap[property.propertyType];
                         propertyComboboxOptions[index].options.push({
                             value: property.key,
                             label: property.localPath,
                             data: {
                                 name: property.localPath,
-                                type: property.propertyType
+                                type: property.propertyType,
+                                iconName: propertyIcon.icon,
+                                iconTitle: propertyIcon.text
                             }
                         });
                     });
@@ -156,7 +169,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         option?: IDropdownOption,
         _index?: number
     ) => {
-        setSelectedCombinator(option.text);
+        setSelectedCombinator(option.data.value);
     };
 
     const onChangePropertySelected = (
@@ -192,17 +205,29 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         return <components.Placeholder {...props} />;
     };
 
-    const Menu = (props) => (
+    const Menu = (props: MenuProps<PropertyOption>) => (
         <Callout
             target={`#${propertySelectorId}`}
             styles={classNames.subComponentStyles.propertyCallout}
             isBeakVisible={false}
         >
             <components.MenuList
-                {...props}
+                {...(props as any)}
                 styles={propertySelectorStyles.menuList}
             />
         </Callout>
+    );
+
+    const Option = (props: OptionProps<PropertyOption>) => (
+        <components.Option {...props}>
+            <Icon
+                iconName={props.data.data.iconName}
+                aria-hidden="true"
+                title={props.data.data.iconTitle}
+                styles={classNames.subComponentStyles.propertyIcon}
+            />
+            <div className={classNames.optionContainer}>{props.children}</div>
+        </components.Option>
     );
 
     const renderValueField = () => {
@@ -256,13 +281,19 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                         <Dropdown
                             options={[
                                 {
-                                    key: 'And',
-                                    text: 'And',
+                                    key: `${rowId}.CombinatorText.And`,
+                                    text: CombinatorText.And,
+                                    data: {
+                                        value: CombinatorValue.And
+                                    },
                                     selected: true
                                 },
                                 {
-                                    key: 'Or',
-                                    text: 'Or'
+                                    key: `${rowId}.CombinatorText.Or`,
+                                    text: CombinatorText.Or,
+                                    data: {
+                                        value: CombinatorValue.Or
+                                    }
                                 }
                             ]}
                             onChange={onChangeCombinator}
@@ -284,7 +315,8 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     components={{
                         Group: Group,
                         Menu: Menu,
-                        Placeholder: Placeholder
+                        Placeholder: Placeholder,
+                        Option: Option
                     }}
                     onChange={onChangePropertySelected}
                     styles={propertySelectorStyles}

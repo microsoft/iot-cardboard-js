@@ -5,12 +5,14 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
-import { PropertyValueType } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { ADTAdapter, MockAdapter } from '../../Adapters';
+import { PropertyValueType } from '../../Models/Constants';
+
+export const QUERY_RESULT_LIMIT = 1000;
 
 /** Advanced search modal */
 export interface IAdvancedSearchProps {
-    adapter: IModelledPropertyBuilderAdapter;
+    adapter: ADTAdapter | MockAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     isOpen: boolean;
     onDismiss: () => void;

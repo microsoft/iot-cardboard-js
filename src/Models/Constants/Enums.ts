@@ -53,6 +53,7 @@ export enum ComponentErrorType {
     UnauthorizedAccess = 'UnauthorizedAccess',
     JsonSchemaError = 'JsonSchemaError',
     ModelsRetrievalFailed = 'ModelsRetrievalFailed',
+    TwinsRetrievalFailed = 'TwinsRetrievalFailed',
     InternalServerError = 'InternalServerError',
     CORSError = 'CORSError',
     NoContainerUrl = 'NoContainerUrl',

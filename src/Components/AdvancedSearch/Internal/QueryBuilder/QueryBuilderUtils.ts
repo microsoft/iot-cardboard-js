@@ -1,6 +1,8 @@
 import { IDropdownOption } from '@fluentui/react';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { PropertyValueType } from '../../../../Models/Constants';
+import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 import {
+    CombinatorValue,
     OperatorData,
     OperatorText,
     OperatorType,
@@ -61,7 +63,7 @@ export const DEFAULT_OPERATOR: OperatorData = {
     operatorSymbol: '='
 };
 
-export const DEFAULT_COMBINATOR = 'And';
+export const DEFAULT_COMBINATOR = CombinatorValue.And;
 
 export const getOperators = (
     propertyType?: PropertyValueType
@@ -154,14 +156,14 @@ export const getOperators = (
 };
 
 export const buildQuery = (querySnippets: QueryRowData[]) => {
-    let fullQuery = `SELECT *\nFROM DIGITALTWINS T\n`;
+    let fullQuery = `SELECT TOP(${QUERY_RESULT_LIMIT})\nFROM DIGITALTWINS T\nWHERE `;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === OperatorType.Function) {
             if (index !== 0) {
                 fullQuery = fullQuery.concat(snippet.combinator);
             }
             fullQuery = fullQuery.concat(
-                `WHERE ${snippet.operatorData.operatorFunction(
+                `${snippet.operatorData.operatorFunction(
                     snippet.property,
                     snippet.value
                 )}\n`
@@ -171,7 +173,7 @@ export const buildQuery = (querySnippets: QueryRowData[]) => {
                 fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
-                `WHERE ${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
+                `T.${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
             );
         }
     });

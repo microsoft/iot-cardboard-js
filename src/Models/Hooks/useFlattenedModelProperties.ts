@@ -1,15 +1,15 @@
 import { InterfaceInfo } from 'azure-iot-dtdl-parser/dist/parser/interfaceInfo';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import { useEffect, useState } from 'react';
-import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
+import {
+    IModelledPropertyBuilderAdapter,
+    PropertyValueType
+} from '../../Models/Constants';
 import {
     addInterface,
     flattenModelledProperties
 } from '../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.model';
-import {
-    IFlattenedModelledPropertiesFormat,
-    PropertyValueType
-} from '../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { IFlattenedModelledPropertiesFormat } from '../../Components/ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { IGroupedModelledPropertiesFormat } from '../../Components/AdvancedSearch/Internal/QueryBuilder/QueryBuilder.types';
 
 interface IUseFlattenedModelPropertiesParams {
@@ -127,7 +127,10 @@ const fetchFlattenedModelProperties = async (
 export const useFlattenedModelProperties = ({
     adapter,
     allowedPropertyValueTypes
-}: IUseFlattenedModelPropertiesParams) => {
+}: IUseFlattenedModelPropertiesParams): {
+    isLoading: boolean;
+    flattenedModelProperties: IGroupedModelledPropertiesFormat;
+} => {
     const [isLoading, setIsLoading] = useState(true);
     const [flattenedModelProperties, setFlattenedModelProperties] = useState(
         null
