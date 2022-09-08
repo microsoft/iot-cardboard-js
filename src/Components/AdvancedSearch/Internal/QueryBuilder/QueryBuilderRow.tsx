@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select, {
     components,
@@ -68,9 +68,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     } = props;
     const propertySelectorId = useId('cb-advanced-search-property-select');
     const theme = useTheme();
+
+    const selectDropdownElement = document.getElementById(propertySelectorId);
+    const dropdownWidth = (selectDropdownElement?.offsetWidth || 102) - 2; // account for borders
     const classNames = getClassNames(styles, {
-        theme: theme,
-        isOnlyFirstRow: isRemoveDisabled
+        dropdownWidth: dropdownWidth,
+        isOnlyFirstRow: isRemoveDisabled,
+        theme: theme
     });
     const { t } = useTranslation();
 
@@ -205,13 +209,17 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         onChangeValue(rowId, option.text);
     };
 
-    const propertySelectorStyles = getReactSelectStyles(theme, {
-        menuList: {
-            isOnlyFirstRow: isRemoveDisabled,
-            listMaxWidthLarge: MENU_LIST_LARGE_MAX_WIDTH,
-            listMaxWidthCompact: MENU_LIST_COMPACT_MAX_WIDTH
-        }
-    });
+    const propertySelectorStyles = useMemo(
+        () =>
+            getReactSelectStyles(theme, {
+                menuList: {
+                    isOnlyFirstRow: isRemoveDisabled,
+                    listMaxWidthLarge: MENU_LIST_LARGE_MAX_WIDTH,
+                    listMaxWidthCompact: MENU_LIST_COMPACT_MAX_WIDTH
+                }
+            }),
+        [isRemoveDisabled, theme]
+    );
 
     const Group = (props) => <components.Group {...props} />;
 
@@ -326,18 +334,19 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                 {/* Property */}
                 <Select<PropertyOption>
                     className={'AdvancedSearch-propertySelectInput'}
-                    classNamePrefix={'AdvancedSearch-propertySelectInput'}
                     id={propertySelectorId}
-                    options={propertyOptions}
+                    options={isLoading ? [] : propertyOptions}
                     noOptionsMessage={() =>
                         t('advancedSearch.noPropertiesFound')
                     }
+                    isLoading={isLoading}
+                    loadingMessage={() => t('loading')}
                     isSearchable={true}
                     components={{
                         Group: Group,
                         Menu: Menu,
-                        Placeholder: Placeholder,
-                        Option: Option
+                        Option: Option,
+                        Placeholder: Placeholder
                     }}
                     onChange={onChangePropertySelected}
                     styles={propertySelectorStyles}

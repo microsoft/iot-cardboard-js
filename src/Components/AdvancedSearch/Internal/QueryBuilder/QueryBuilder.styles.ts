@@ -81,6 +81,7 @@ const rowClassNames = {
 export const getRowStyles = (
     props: IQueryBuilderRowStyleProps
 ): IQueryBuilderRowStyles => {
+    const { dropdownWidth } = props;
     return {
         root: [
             rowClassNames.root,
@@ -112,6 +113,11 @@ export const getRowStyles = (
             }
         ],
         subComponentStyles: {
+            propertyCallout: {
+                root: {
+                    width: dropdownWidth
+                }
+            },
             deleteButton: {
                 rootDisabled: {
                     background: 'transparent'

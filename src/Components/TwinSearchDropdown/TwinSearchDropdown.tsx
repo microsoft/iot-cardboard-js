@@ -228,7 +228,6 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
 
                 <CreatableSelect
                     aria-labelledby="twin-search-dropdown-label"
-                    classNamePrefix="cb-search-autocomplete"
                     className={classNames.dropdown}
                     options={
                         searchTwinAdapterData.isLoading ? [] : dropdownOptions

@@ -145,8 +145,9 @@ export interface IGroupedModelledPropertiesFormat {
 }
 
 export interface IQueryBuilderRowStyleProps {
-    theme: ITheme;
+    dropdownWidth: number;
     isOnlyFirstRow: boolean;
+    theme: ITheme;
 }
 export interface IQueryBuilderRowStyles {
     root: IStyle;

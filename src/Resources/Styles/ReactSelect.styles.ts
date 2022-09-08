@@ -48,7 +48,7 @@ export const getReactSelectStyles = (
         }),
         dropdownIndicator: (provided) => ({
             ...provided,
-            color: `${theme.semanticColors.inputText} !important`,
+            color: `${theme.semanticColors.inputBorder} !important`,
             padding: '0px 4px'
         }),
         input: (provided) => ({
@@ -59,6 +59,7 @@ export const getReactSelectStyles = (
         menuList: (provided) => ({
             ...provided,
             backgroundColor: theme.semanticColors.inputBackground,
+            color: theme.semanticColors.inputPlaceholderText,
             maxHeight: '300px',
             maxWidth: menuList
                 ? menuList.isOnlyFirstRow
@@ -67,7 +68,11 @@ export const getReactSelectStyles = (
                 : provided.maxWidth,
             overflowY: 'auto',
             padding: 0,
-            position: 'relative'
+            position: 'relative',
+            div: {
+                // fix loading message that uses dynamic class name and is not exposed on the types here
+                color: `${theme.semanticColors.inputPlaceholderText} !important`
+            }
         }),
         option: (provided, state) => ({
             ...provided,
@@ -78,7 +83,7 @@ export const getReactSelectStyles = (
                 ? theme.semanticColors.listItemBackgroundHovered
                 : 'inherit',
             borderBottom: `1px solid ${theme.semanticColors.listItemBackgroundHovered}`,
-            color: theme.semanticColors.inputText,
+            color: `${theme.semanticColors.inputText} !important`,
             cursor: 'pointer',
             display: 'flex',
             height: '32px',
