@@ -10,6 +10,11 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
+export interface IReactSelectOption {
+    value: string;
+    label: string;
+}
+
 export interface ITwinPropertySearchDropdownProps {
     adapter: ADTAdapter | MockAdapter;
     searchPropertyName: string;

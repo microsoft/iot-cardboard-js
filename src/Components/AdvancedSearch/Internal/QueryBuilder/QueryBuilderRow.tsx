@@ -45,7 +45,7 @@ import {
     DTDLPropertyIconographyMap,
     DTID_PROPERTY_NAME
 } from '../../../../Models/Constants/Constants';
-import { getReactSelectStyles } from '../../../Shared/ReactSelect.styles';
+import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import TwinPropertySearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
 
 const getClassNames = classNamesFunction<

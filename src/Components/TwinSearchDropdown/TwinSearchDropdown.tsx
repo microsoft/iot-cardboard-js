@@ -22,9 +22,10 @@ import {
 } from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
-import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
+import { getReactSelectStyles } from '../../Resources/Styles/ReactSelect.styles';
 import { getStyles } from './TwinSearchDropdown.styles';
 import {
+    IReactSelectOption,
     ITwinPropertySearchDropdownProps,
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
@@ -65,7 +66,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
     const selectId = useId('twin-property-search-dropdown');
     const [searchValue, setSearchValue] = useState(initialSelectedValue ?? '');
     const [dropdownOptions, setDropdownOptions] = useState<
-        { value: string; label: string }[]
+        IReactSelectOption[]
     >(initialSelectedValue ? [createOption(initialSelectedValue)] : []);
 
     const [selectedOption, setSelectedOption] = useState(
@@ -99,26 +100,33 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
 
     useEffect(() => {
         if (searchTwinAdapterData.adapterResult?.result?.data) {
+            let options: IReactSelectOption[] = [];
             if (shouldAppendOptions.current) {
-                setDropdownOptions(
-                    dropdownOptions.concat(
-                        searchTwinAdapterData.adapterResult.result.data.value.map(
-                            (t: IADTTwin) => createOption(t[searchPropertyName])
-                        )
-                    )
-                );
-            } else {
-                setDropdownOptions(
+                options = dropdownOptions.concat(
                     searchTwinAdapterData.adapterResult.result.data.value.map(
                         (t: IADTTwin) => createOption(t[searchPropertyName])
                     )
                 );
+            } else {
+                options = searchTwinAdapterData.adapterResult.result.data.value.map(
+                    (t: IADTTwin) => createOption(t[searchPropertyName])
+                );
             }
+
+            // add in the currently selected option if it's freeform
+            if (
+                options &&
+                selectedOption &&
+                !options?.some((x) => x.value === selectedOption?.value)
+            ) {
+                options.unshift(selectedOption);
+            }
+            setDropdownOptions(options || []);
 
             twinSearchContinuationToken.current =
                 searchTwinAdapterData.adapterResult.result.data.continuationToken;
         }
-    }, [searchTwinAdapterData.adapterResult]);
+    }, [searchTwinAdapterData.adapterResult, selectedOption]);
 
     useEffect(() => {
         if (lastScrollTopRef.current && !searchTwinAdapterData.isLoading) {
@@ -219,7 +227,6 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 )}
 
                 <CreatableSelect
-                    id={selectId}
                     aria-labelledby="twin-search-dropdown-label"
                     classNamePrefix="cb-search-autocomplete"
                     className={classNames.dropdown}
@@ -228,8 +235,9 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                     }
                     defaultValue={dropdownOptions[0] ?? undefined}
                     defaultInputValue={searchValue ?? ''}
-                    value={selectedOption}
+                    id={selectId}
                     inputValue={searchValue}
+                    value={selectedOption}
                     components={{
                         Option: CustomOption,
                         Menu: Menu
@@ -237,7 +245,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                     onInputChange={(inputValue, actionMeta) => {
                         logDebugConsole(
                             'debug',
-                            `onInputChange. {value, metadata}`,
+                            'onInputChange. {value, metadata}',
                             inputValue,
                             actionMeta
                         );
@@ -266,7 +274,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                                 } else {
                                     logDebugConsole(
                                         'debug',
-                                        `lost focus, setting selection to current text:`,
+                                        'lost focus, setting selection to current text:',
                                         searchValue
                                     );
                                     onChange(searchValue);
@@ -280,11 +288,6 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         }
                     }}
                     onChange={(option: { value: string; label: string }) => {
-                        if (!option) {
-                            setDropdownOptions([]);
-                        } else {
-                            setDropdownOptions([option]);
-                        }
                         logDebugConsole('debug', 'onChange', option);
                         setSearchValue(option?.value ?? '');
                         setSelectedOption(option);
@@ -320,7 +323,6 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                             '3dSceneBuilder.useNonExistingTwinId'
                         )} "${inputValue}"`
                     }
-                    // menuIsOpen
                     isSearchable
                     isClearable
                     styles={selectStyles}
