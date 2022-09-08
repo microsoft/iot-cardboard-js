@@ -51,13 +51,13 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const searchForTwinAdapterData = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchTwinsByQuery) =>
             adapter.searchTwinsByQuery(params),
-        refetchDependencies: [],
+        refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
 
     const executeQuery = (query: string) => {
         searchForTwinAdapterData.callAdapter({
-            query: query
+            query
         });
     };
 
@@ -110,6 +110,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                     <AdvancedSearchResultDetailsList
                         adapter={adapter}
                         isLoading={searchForTwinAdapterData.isLoading}
+                        containsError={searchForTwinAdapterData.adapterResult.hasError()}
                         onTwinSelection={null}
                         searchedProperties={Array.from(
                             additionalProperties.current

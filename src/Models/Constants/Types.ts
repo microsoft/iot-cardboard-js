@@ -129,6 +129,11 @@ export type AdapterMethodParamsForSearchTwinsByQuery = {
     query: string;
 };
 
+export type AdapterMethodParamsForGetTwinsByQuery = {
+    query: string;
+    continuationToken?: string;
+};
+
 export type AdapterMethodParamsForGetScenes = {
     Id: string;
     continuationToken?: string;

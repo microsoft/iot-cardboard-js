@@ -1,4 +1,4 @@
-import { PRIMARY_TWIN_NAME } from '../../Models/Constants';
+import { PRIMARY_TWIN_NAME, PropertyValueType } from '../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -135,19 +135,6 @@ export type PropertyExpression = {
     property?: IModelledProperty;
 };
 
-export type PropertyValueType =
-    | 'boolean'
-    | 'date'
-    | 'dateTime'
-    | 'double'
-    | 'duration'
-    | 'float'
-    | 'integer'
-    | 'long'
-    | 'string'
-    | 'time'
-    | 'enum';
-
 export const defaultAllowedPropertyValueTypes: PropertyValueType[] = [
     'boolean',
     'date',
@@ -167,15 +154,6 @@ export const numericPropertyValueTypes: PropertyValueType[] = [
     'float',
     'integer',
     'long'
-];
-
-export const queryAllowedPropertyValueTypes: PropertyValueType[] = [
-    'double',
-    'float',
-    'integer',
-    'long',
-    'boolean',
-    'string'
 ];
 
 export const isResolvedTwinIdMode = (

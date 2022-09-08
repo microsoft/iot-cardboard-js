@@ -55,8 +55,7 @@ export const getStyles = (
         subComponentStyles: {
             searchButton: {
                 root: {
-                    display: 'block',
-                    width: 100
+                    display: 'block'
                 }
             },
             addButton: {

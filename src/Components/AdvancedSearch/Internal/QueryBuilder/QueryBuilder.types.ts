@@ -7,11 +7,9 @@ import {
     ITextFieldStyles,
     ITheme
 } from '@fluentui/react';
+import { PropertyValueType } from '../../../../Models/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
-import {
-    IModelledProperty,
-    PropertyValueType
-} from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { IModelledProperty } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
@@ -72,6 +70,15 @@ export interface IQueryBuilderRowProps {
         IQueryBuilderRowStyles
     >;
 }
+
+export const queryAllowedPropertyValueTypes: PropertyValueType[] = [
+    'double',
+    'float',
+    'integer',
+    'long',
+    'boolean',
+    'string'
+];
 
 export enum OperatorType {
     Simple,

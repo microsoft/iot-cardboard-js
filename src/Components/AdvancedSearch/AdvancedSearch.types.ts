@@ -6,7 +6,7 @@ import {
     ITheme
 } from '@fluentui/react';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
-import { PropertyValueType } from '../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { PropertyValueType } from '../../Models/Constants';
 
 export const QUERY_RESULT_LIMIT = 1000;
 

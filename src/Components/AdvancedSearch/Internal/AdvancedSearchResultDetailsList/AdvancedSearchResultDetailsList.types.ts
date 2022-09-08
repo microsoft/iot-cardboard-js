@@ -13,6 +13,7 @@ import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/Prop
 
 export interface IAdvancedSearchResultDetailsListProps {
     adapter: IPropertyInspectorAdapter;
+    containsError: boolean;
     isLoading: boolean;
     /* Callback function from parent on what to do once the user selects or deselects a twin. */
     onTwinSelection: (IADTTwin) => void;

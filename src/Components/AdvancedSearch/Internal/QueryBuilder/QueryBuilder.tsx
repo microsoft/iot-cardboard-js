@@ -17,9 +17,9 @@ import {
 } from '@fluentui/react';
 import QueryBuilderRow from './QueryBuilderRow';
 import { buildQuery } from './QueryBuilderUtils';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { useTranslation } from 'react-i18next';
 import { createGUID } from '../../../../Models/Services/Utils';
+import { PropertyValueType } from '../../../../Models/Constants';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderStyleProps,
