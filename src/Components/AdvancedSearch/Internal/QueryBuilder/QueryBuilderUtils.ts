@@ -1,7 +1,8 @@
 import { IDropdownOption } from '@fluentui/react';
-import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { PropertyValueType } from '../../../../Models/Constants';
 import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 import {
+    CombinatorValue,
     OperatorData,
     OperatorText,
     OperatorType,
@@ -62,7 +63,7 @@ export const DEFAULT_OPERATOR: OperatorData = {
     operatorSymbol: '='
 };
 
-export const DEFAULT_COMBINATOR = 'AND';
+export const DEFAULT_COMBINATOR = CombinatorValue.And;
 
 export const getOperators = (
     propertyType?: PropertyValueType

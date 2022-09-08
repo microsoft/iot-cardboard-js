@@ -6,6 +6,7 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import { IAdvancedSearchProps } from './AdvancedSearch.types';
 import { ComponentStory } from '@storybook/react';
 import { ADTAdapter } from '../../Adapters';
+import { queryAllowedPropertyValueTypes } from './Internal/QueryBuilder/QueryBuilder.types';
 
 const wrapperStyle = { width: '100%', height: '100vh', padding: 8 };
 
@@ -33,14 +34,7 @@ const Template: AdvancedSearchStory = (_args) => {
                     authenticationParameters.storage.blobContainerUrl
                 )
             }
-            allowedPropertyValueTypes={[
-                'string',
-                'boolean',
-                'float',
-                'integer',
-                'double',
-                'long'
-            ]}
+            allowedPropertyValueTypes={queryAllowedPropertyValueTypes}
             isOpen={true}
             onDismiss={() => ({})}
         />

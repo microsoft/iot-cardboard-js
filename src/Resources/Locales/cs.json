@@ -1164,4 +1164,111 @@
         "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
         "valueFieldPlaceholder": "Zadejte hodnotu"
     }
+<<<<<<< HEAD
 }
+=======
+  },
+  "diagnose": "Diagnostikovat",
+  "resolve": "Vyřešit",
+  "verify": "Ověřit",
+  "success": "Úspěch!",
+  "scenePageErrorHandling": {
+    "resetConfigFile": "Obnovit konfigurační soubor",
+    "unauthorizedAccessErrorTitle": "Přístup omezen",
+    "unauthorizedAccessErrorMessage": "K tomuto kontejneru úložiště nemáte přístup. Diagnostikujte přístup nebo vyzkoušejte jiný kontejner.",
+    "blobNotFoundErrorTitle": "Objekt blob nebyl nalezen",
+    "blobNotFoundErrorMessage": "Objekt blob neexistuje.",
+    "unknownErrorTitle": "Neznámá chyba",
+    "corsErrorTitle": "Chyba CORS",
+    "corsErrorMessage": "Služba blob vašeho účtu úložiště by měla mít některé určité vlastnosti, aby CORS mohl ve vašich scénách používat 3D prostředky.",
+    "internalServerErrorMessage": "Vnitřní chyba serveru, zkontrolujte protokoly serveru.",
+    "diagnoseAccessPermissions": "Diagnostika přístupových oprávnění",
+    "checkingPermissions": "Kontrola oprávnění...",
+    "resolveIssues": "Řešení problémů",
+    "resolvingIssues": "Řešení problémů...",
+    "noMissingRoleDesc": "Nebyla zjištěna žádná chybějící oprávnění, pokoušíme se ověřit, zda jsou přiřazená oprávnění v platnosti.",
+    "finishedWithFailureDesc": "Pokus se nezdařil, obraťte se na vlastníka prostředku.",
+    "verifyingPermissionsMessage": "Ověření oprávnění...\nTo může trvat několik minut.",
+    "assignRoleSuccessDesc": "Byla přiřazena chybějící oprávnění. Počkejte prosím, než se budeme pokoušet ověřit, zda se změny projeví.",
+    "refreshPage": "Aktualizovat stránku",
+    "refreshing": "Osvěžující",
+    "noContainerUrlErrorTitle": "Kontejner není nastaven",
+    "noContainerUrlErrorMessage": "Adresa URL kontejneru není nastavená. Klikněte níže pro nastavení.",
+    "noADTInstanceUrlTitle": "Instance nástroje ADT není nastavena",
+    "noADTInstanceUrlMessage": "Adresa URL instance nástroje ADT není nastavena. Klikněte níže pro nastavení.",
+    "configureEnvironment": "Konfigurace prostředí",
+    "sceneView": {
+      "3dAssetLoadingErrorTitle": "Model při načítání chyb",
+      "3dAssetLoadingNetworkErrorMessage": "Může se jednat o problém CORS, neplatnou adresu URL objektu BLOB nebo chybu sítě. Obraťte se na vlastníka kontejneru, ve kterém je tento soubor datového zdroje uložený, nebo to zkuste znovu později.",
+      "3dAssetLoadingGenericErrorMessage": "Chyba při načítání modelu. Zkuste vymazat mezipaměť a zkuste to znovu nebo zkontrolujte přístup k tomuto souboru.",
+      "3dAssetDimensionError": "Může se jednat o problém s rozměry modelu, zkontrolujte, zda nejsou žádné chybné sítě."
+    },
+    "missingPermissionsMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů BLOB úložiště, nebo přispěvatel dat objektů BLOB úložiště."
+  },
+  "fieldRequired": "Toto pole je povinné",
+  "duration": {
+    "millisecond": "milisekunda",
+    "milliseconds": "milisekundy",
+    "second": "vteřina",
+    "seconds": "sekundy",
+    "minute": "minuta",
+    "minutes": "minuty",
+    "hour": "hodina",
+    "hours": "hodiny",
+    "day": "den",
+    "days": "Dny",
+    "year": "rok",
+    "years": "roky"
+  },
+  "sceneRefreshConfigurator": {
+    "headerButtonTitle": "Konfigurace scény",
+    "calloutTitle": "Konfigurace scény",
+    "calloutDescription": "Konfigurace nastavení pro tuto scénu",
+    "rateDropdownLabel": "Minimální obnovovací frekvence",
+    "rateTooltip": "Můžete omezit, jak často se data aktualizují, abyste snížili objem požadavků. Poznámka: Interval obnovení lze dynamicky upravit pro složitější scény."
+  },
+  "sceneRefreshButton": {
+    "lastRefreshed": "Naposledy aktualizováno {{timeWithUnits}} před",
+    "refreshRate": "Aktualizace každého {{timeWithUnits}}"
+  },
+  "resourcesPicker": {
+    "noOption": "Nebyly nalezeny žádné zdroje",
+    "loadingResources": "Načítání zdrojů",
+    "loadingInstances": "Načítání instancí...",
+    "loadingContainers": "Nakládka kontejnerů...",
+    "loadingStorageAccounts": "Načítání účtů úložiště...",
+    "displayFieldNotFound": "Vlastnost '{{displayField}}' nebyla nalezena v prostředku s id '{{id}}'!",
+    "removeFromList": "Odebrat ze seznamu",
+    "errors": {
+      "invalidEnvironmentUrl": "Toto není platná adresa URL (např. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
+      "invalidContainerUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
+      "invalidStorageAccountUrl": "Toto není platná adresa URL (např. https://<yourStorageAccountName>.blob.core.windows.net)"
+    },
+    "selectResourcePlaceholder": "Výběr zdroje",
+    "environmentDropdownPlaceholder": "např. https://example.api.wus2.digitaltwins.azure.net",
+    "storageAccountDropdownPlaceholder": "např. https://example.blob.core.windows.net/",
+    "containerDropdownPlaceholder": "např. https://example.blob.core.windows.net/example"
+  },
+  "advancedSearch": {
+    "toggleSelection": "Přepnout na Vybrat dvojče",
+    "selectRow": "Vybrané dvojče",
+    "inspectProperty": "Zkontrolovat nemovitost",
+    "results": "Výsledky ({{twinCount}})",
+    "modalTitle": "Rozšířené vyhledávání vlastností",
+    "modalSubtitle": "Propojte správnou službu zúžením vyhledávání",
+    "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
+    "addNewButton": "Přidat nové",
+    "andOrColumnHeader": "Nebo",
+    "propertyColumnHeader": "Vlastnost",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Hodnota",
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
+    "resultsExceededLabel": "Bylo více než 1000 výsledků, přidejte další filtry pro upřesnění výsledků.",
+    "noDataBeforeSearchHeader": "Přidání kritérií vyhledávání, abyste mohli začít",
+    "noDataAfterSearchHeader": "Nebyla nalezena žádná dvojčata",
+    "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
+    "errorMessageHeader": "Hledání se nezdařilo",
+    "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu."
+  }
+}
+>>>>>>> origin/pasanch-querying

@@ -1162,6 +1162,8 @@
         "noDataBeforeSearchHeader": "Add search criteria to get started",
         "noDataAfterSearchHeader": "No twins found",
         "noDataAfterSearchDescription": "Refine your search and try again",
+        "errorMessageHeader": "Search failed",
+        "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "valueFieldPlaceholder": "Enter a value"
     }
 }

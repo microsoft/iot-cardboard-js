@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
-import { IModelledPropertyBuilderAdapter } from '../../Models/Constants';
+import {
+    IModelledPropertyBuilderAdapter,
+    PropertyValueType
+} from '../../Models/Constants';
 import { buildModelledProperties } from './ModelledPropertyBuilder.model';
 import useDeepCompareEffect from 'use-deep-compare-effect';
 import {
     BehaviorTwinIdParams,
     IModelledProperties,
     isResolvedTwinIdMode,
-    PropertyValueType,
     ResolvedTwinIdParams
 } from './ModelledPropertyBuilder.types';
 

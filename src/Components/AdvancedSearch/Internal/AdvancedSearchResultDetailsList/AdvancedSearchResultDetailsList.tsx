@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -23,7 +23,8 @@ import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
-import NoResult from '../../../../Resources/Static/noResults.svg';
+import NoResultImg from '../../../../Resources/Static/noResults.svg';
+import NetworkErrorImg from '../../../../Resources/Static/corsError.svg';
 import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
 import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 
@@ -34,6 +35,7 @@ const getClassNames = classNamesFunction<
 
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     adapter,
+    containsError,
     onTwinSelection,
     isLoading,
     searchedProperties,
@@ -131,35 +133,36 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     });
 
-    const getNoDataHeaderText = useCallback(() => {
-        if (additionalColumns.length) {
-            return t('advancedSearch.noDataAfterSearchHeader');
-        } else {
-            return t('advancedSearch.noDataBeforeSearchHeader');
-        }
-    }, [additionalColumns.length]);
-
-    const getNoDataDescriptionText = useCallback(() => {
-        if (additionalColumns.length) {
-            return t('advancedSearch.noDataAfterSearchDescription');
-        } else {
-            return undefined;
-        }
-    }, [additionalColumns.length]);
-
-    const getNoDataImage = useCallback(() => {
-        if (additionalColumns.length) {
-            return {
-                height: 100,
-                src: NoResult
-            };
-        } else {
-            return undefined;
-        }
-    }, [additionalColumns.length]);
+    const noDataHeaderText = additionalColumns.length
+        ? t('advancedSearch.noDataAfterSearchHeader')
+        : t('advancedSearch.noDataBeforeSearchHeader');
+    const noDataDescriptionText = additionalColumns.length
+        ? t('advancedSearch.noDataAfterSearchDescription')
+        : undefined;
+    const noDataImage = additionalColumns.length
+        ? {
+              height: 100,
+              src: NoResultImg
+          }
+        : undefined;
 
     const renderContent = () => {
-        if (isLoading) {
+        if (containsError) {
+            return (
+                <IllustrationMessage
+                    headerText={t('advancedSearch.errorMessageHeader')}
+                    descriptionText={t(
+                        'advancedSearch.errorMessageDescription'
+                    )}
+                    type={'error'}
+                    width={'wide'}
+                    imageProps={{
+                        height: 100,
+                        src: NetworkErrorImg
+                    }}
+                />
+            );
+        } else if (isLoading) {
             return (
                 <Spinner
                     size={SpinnerSize.large}
@@ -169,11 +172,11 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         } else if (twinCount === 0) {
             return (
                 <IllustrationMessage
-                    headerText={getNoDataHeaderText()}
-                    descriptionText={getNoDataDescriptionText()}
+                    headerText={noDataHeaderText}
+                    descriptionText={noDataDescriptionText}
                     type={'info'}
                     width={'wide'}
-                    imageProps={getNoDataImage()}
+                    imageProps={noDataImage}
                 />
             );
         } else {
