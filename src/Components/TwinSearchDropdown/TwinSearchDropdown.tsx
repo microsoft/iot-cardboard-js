@@ -16,7 +16,10 @@ import { components, MenuProps } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
-import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    getMarkedHtmlBySearch
+} from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
 import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
@@ -25,7 +28,10 @@ import {
     ITwinPropertySearchDropdownProps,
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
-} from './TwinPropertySearchDropdown.types';
+} from './TwinSearchDropdown.types';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('TwinSearchDropdown', debugLogging);
 
 const getClassNames = classNamesFunction<
     ITwinPropertySearchDropdownStyleProps,
@@ -182,6 +188,12 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
         );
     };
 
+    logDebugConsole(
+        'debug',
+        'Render {searchValue, selectedOption}',
+        searchValue,
+        selectedOption
+    );
     return (
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 4 }}>
@@ -223,6 +235,12 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         Menu: Menu
                     }}
                     onInputChange={(inputValue, actionMeta) => {
+                        logDebugConsole(
+                            'debug',
+                            `onInputChange. {value, metadata}`,
+                            inputValue,
+                            actionMeta
+                        );
                         switch (actionMeta.action) {
                             case 'input-change':
                                 setSearchValue(inputValue);
@@ -241,7 +259,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                                     setSelectedOption(null);
                                 }
                                 break;
-                            case 'menu-close':
+                            case 'input-blur':
                                 setDropdownOptions(
                                     selectedOption ? [selectedOption] : []
                                 );
@@ -249,9 +267,16 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                                 if (resetInputOnBlur) {
                                     setSearchValue(selectedOption?.value ?? '');
                                 } else {
+                                    logDebugConsole(
+                                        'debug',
+                                        `lost focus, setting selection to current text:`,
+                                        searchValue
+                                    );
                                     onChange(searchValue);
                                     setSelectedOption(
-                                        createOption(searchValue)
+                                        searchValue
+                                            ? createOption(searchValue)
+                                            : null
                                     );
                                 }
                                 break;
@@ -263,7 +288,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         } else {
                             setDropdownOptions([option]);
                         }
-                        console.log('onchange ' + option?.value);
+                        logDebugConsole('debug', 'onChange', option);
                         setSearchValue(option?.value ?? '');
                         setSelectedOption(option);
                         onChange(option?.value ?? undefined);
@@ -274,6 +299,10 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                             dropdownOptions.length === 0 ||
                             dropdownOptions.length === 1
                         ) {
+                            logDebugConsole(
+                                'debug',
+                                `Menu opened, fetching data for search term: ${searchValue}`
+                            );
                             shouldAppendOptions.current = false;
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.callAdapter({
