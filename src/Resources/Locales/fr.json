@@ -1163,6 +1163,7 @@
     "noDataAfterSearchHeader": "Aucun jumeau trouvé",
     "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
     "errorMessageHeader": "Échec de la recherche",
-    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer."
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
+    "valueFieldPlaceholder": "Entrez une valeur"
   }
 }
