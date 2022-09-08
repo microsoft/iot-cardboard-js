@@ -20,7 +20,7 @@ import { getMarkedHtmlBySearch } from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
 import { getReactSelectStyles } from '../Shared/ReactSelect.styles';
-import { getStyles } from './TwinPropertySearchDropdown.styles';
+import { getStyles } from './TwinSearchDropdown.styles';
 import {
     ITwinPropertySearchDropdownProps,
     ITwinPropertySearchDropdownStyleProps,

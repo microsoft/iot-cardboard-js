@@ -1,7 +1,7 @@
 import React from 'react';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
-import TwinPropertySearchDropdown from './TwinPropertySearchDropdown';
+import TwinPropertySearchDropdown from './TwinSearchDropdown';
 
 export default {
     title: 'Components/TwinPropertySearchDropdown',
