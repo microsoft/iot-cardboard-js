@@ -16,7 +16,10 @@ export const getReactSelectStyles = (
         container: (provided) => ({
             ...provided,
             fontSize: FontSizes.size14,
-            padding: '1px'
+            padding: '1px',
+            input: {
+                opacity: `1 !important`
+            }
         }),
         control: (provided, state) => ({
             ...provided,

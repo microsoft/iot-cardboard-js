@@ -190,7 +190,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                         </Stack>
                     </div>
                 </Stack>
-                <div>
+                <Stack.Item>
                     <ActionButton
                         onClick={appendRow}
                         text={t('advancedSearch.addNewButton')}
@@ -198,15 +198,15 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
                         disabled={rows.length === MAX_ROW_LENGTH}
                         data-testid={'AdvancedSearch-addNewRow'}
                     />
-                </div>
-                <div>
+                </Stack.Item>
+                <Stack.Item>
                     <PrimaryButton
                         text={t('search')}
                         onClick={onSearch}
                         disabled={isSearchDisabled}
                         styles={classNames.subComponentStyles.searchButton()}
                     />
-                </div>
+                </Stack.Item>
                 <Separator />
             </Stack>
         </div>
