@@ -1163,6 +1163,7 @@
     "noDataAfterSearchHeader": "未找到双胞胎",
     "noDataAfterSearchDescription": "缩小搜索范围，然后重试",
     "errorMessageHeader": "搜索失败",
-    "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。"
+    "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。",
+    "valueFieldPlaceholder": "输入值"
   }
 }

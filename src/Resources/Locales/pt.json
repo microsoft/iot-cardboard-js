@@ -1163,6 +1163,7 @@
     "noDataAfterSearchHeader": "Nenhum gêmeo foi encontrado.",
     "noDataAfterSearchDescription": "Refine sua pesquisa e tente novamente",
     "errorMessageHeader": "Falha na pesquisa",
-    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente."
+    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente.",
+    "valueFieldPlaceholder": "Digite um valor"
   }
 }
