@@ -30,7 +30,6 @@ const getClassNames = classNamesFunction<
 >();
 
 const stackTokens: IStackTokens = {
-    childrenGap: 20,
     maxHeight: 550
 };
 

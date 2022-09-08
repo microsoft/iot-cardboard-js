@@ -1158,7 +1158,7 @@
         "modalSubtitle": "Link the right property by narrowing down your search",
         "noPropertiesFound": "No properties found",
         "propertyFieldPlaceholder": "No property selected",
-        "resultsExceededLabel": "There were more than 1000 results, add more filters to refine the results.",
+        "resultsExceededLabel": "There were more than {{QUERY_RESULT_LIMIT}} results, add more filters to refine the results.",
         "noDataBeforeSearchHeader": "Add search criteria to get started",
         "noDataAfterSearchHeader": "No twins found",
         "noDataAfterSearchDescription": "Refine your search and try again",

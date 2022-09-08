@@ -1,5 +1,6 @@
 import { IDropdownOption } from '@fluentui/react';
 import { PropertyValueType } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 import {
     OperatorData,
     OperatorText,
@@ -154,7 +155,7 @@ export const getOperators = (
 };
 
 export const buildQuery = (querySnippets: QueryRowData[]) => {
-    let fullQuery = `SELECT TOP(1000)\nFROM DIGITALTWINS T\nWHERE `;
+    let fullQuery = `SELECT TOP(${QUERY_RESULT_LIMIT})\nFROM DIGITALTWINS T\nWHERE `;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === OperatorType.Function) {
             if (index !== 0) {

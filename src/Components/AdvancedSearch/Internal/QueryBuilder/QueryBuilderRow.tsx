@@ -8,6 +8,7 @@ import Select, {
 } from 'react-select';
 import {
     CombinatorText,
+    CombinatorValue,
     IQueryBuilderRowProps,
     IQueryBuilderRowStyleProps,
     IQueryBuilderRowStyles,
@@ -116,7 +117,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                             data: {
                                 name: property.localPath,
                                 type: property.propertyType,
-                                icon: propertyIcon.icon,
+                                iconName: propertyIcon.icon,
                                 iconTitle: propertyIcon.text
                             }
                         });
@@ -176,7 +177,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         option?: IDropdownOption,
         _index?: number
     ) => {
-        setSelectedCombinator(option.text);
+        setSelectedCombinator(option.data.value);
     };
 
     const onChangePropertySelected = (
@@ -234,7 +235,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     const Option = (props: OptionProps<PropertyOption>) => (
         <components.Option {...props}>
             <Icon
-                iconName={props.data.data.icon}
+                iconName={props.data.data.iconName}
                 aria-hidden="true"
                 title={props.data.data.iconTitle}
                 styles={classNames.subComponentStyles.propertyIcon}
@@ -303,11 +304,17 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                                 {
                                     key: `${rowId}.CombinatorText.And`,
                                     text: CombinatorText.And,
+                                    data: {
+                                        value: CombinatorValue.And
+                                    },
                                     selected: true
                                 },
                                 {
                                     key: `${rowId}.CombinatorText.Or`,
-                                    text: CombinatorText.Or
+                                    text: CombinatorText.Or,
+                                    data: {
+                                        value: CombinatorValue.Or
+                                    }
                                 }
                             ]}
                             onChange={onChangeCombinator}
