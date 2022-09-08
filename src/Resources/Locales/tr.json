@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "1000'den fazla sonuç vardı, sonuçları hassaslaştırmak için daha fazla filtre ekleyin.",
     "noDataBeforeSearchHeader": "Başlamak için arama ölçütleri ekleme",
     "noDataAfterSearchHeader": "İkiz bulunamadı",
-    "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin"
+    "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin",
+    "errorMessageHeader": "Arama başarısız oldu",
+    "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin."
   }
 }

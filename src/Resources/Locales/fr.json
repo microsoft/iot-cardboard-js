@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Il y a eu plus de 1000 résultats, ajoutez plus de filtres pour affiner les résultats.",
     "noDataBeforeSearchHeader": "Ajouter des critères de recherche pour commencer",
     "noDataAfterSearchHeader": "Aucun jumeau trouvé",
-    "noDataAfterSearchDescription": "Affinez votre recherche et réessayez"
+    "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
+    "errorMessageHeader": "Échec de la recherche",
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer."
   }
 }

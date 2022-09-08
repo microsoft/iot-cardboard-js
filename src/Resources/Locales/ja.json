@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "1000以上の結果があり、結果を絞り込むためにさらにフィルタを追加してください。",
     "noDataBeforeSearchHeader": "検索条件を追加して開始する",
     "noDataAfterSearchHeader": "双子は見つかりませんでした",
-    "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください"
+    "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください",
+    "errorMessageHeader": "検索に失敗しました",
+    "errorMessageDescription": "予期しないエラーが発生しました。ページを更新するか、検索条件を変更して、もう一度やり直してください。"
   }
 }

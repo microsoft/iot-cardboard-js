@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Foram mais de 1000 resultados, adicionar mais filtros para refinar os resultados.",
     "noDataBeforeSearchHeader": "Adicione critérios de pesquisa para começar",
     "noDataAfterSearchHeader": "Nenhum gêmeo foi encontrado.",
-    "noDataAfterSearchDescription": "Refine sua pesquisa e tente novamente"
+    "noDataAfterSearchDescription": "Refine sua pesquisa e tente novamente",
+    "errorMessageHeader": "Falha na pesquisa",
+    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente."
   }
 }

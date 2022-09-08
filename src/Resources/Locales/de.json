@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Es gab mehr als 1000 Ergebnisse, fügen Sie weitere Filter hinzu, um die Ergebnisse zu verfeinern.",
     "noDataBeforeSearchHeader": "Hinzufügen von Suchkriterien für die ersten Schritte",
     "noDataAfterSearchHeader": "Keine Zwillinge gefunden",
-    "noDataAfterSearchDescription": "Verfeinern Sie Ihre Suche und versuchen Sie es erneut"
+    "noDataAfterSearchDescription": "Verfeinern Sie Ihre Suche und versuchen Sie es erneut",
+    "errorMessageHeader": "Suche fehlgeschlagen",
+    "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut."
   }
 }

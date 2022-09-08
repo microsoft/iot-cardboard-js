@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Det fanns mer än 1000 resultat, lägg till fler filter för att förfina resultaten.",
     "noDataBeforeSearchHeader": "Lägga till sökvillkor för att komma igång",
     "noDataAfterSearchHeader": "Inga tvillingar hittades",
-    "noDataAfterSearchDescription": "Förfina sökningen och försök igen"
+    "noDataAfterSearchDescription": "Förfina sökningen och försök igen",
+    "errorMessageHeader": "Sökningen misslyckades",
+    "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen."
   }
 }

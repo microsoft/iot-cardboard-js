@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Ci sono stati più di 1000 risultati, aggiungi più filtri per perfezionare i risultati.",
     "noDataBeforeSearchHeader": "Aggiungere criteri di ricerca per iniziare",
     "noDataAfterSearchHeader": "Nessun gemello trovato",
-    "noDataAfterSearchDescription": "Perfezionare la ricerca e riprovare"
+    "noDataAfterSearchDescription": "Perfezionare la ricerca e riprovare",
+    "errorMessageHeader": "Ricerca non riuscita",
+    "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova."
   }
 }

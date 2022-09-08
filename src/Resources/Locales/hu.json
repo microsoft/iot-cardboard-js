@@ -1161,6 +1161,8 @@
     "resultsExceededLabel": "Több mint 1000 eredmény született, adjon hozzá több szűrőt az eredmények finomításához.",
     "noDataBeforeSearchHeader": "Keresési feltételek hozzáadása a kezdéshez",
     "noDataAfterSearchHeader": "Nem találtak ikreket",
-    "noDataAfterSearchDescription": "A keresés finomítása és újrapróbálkozás"
+    "noDataAfterSearchDescription": "A keresés finomítása és újrapróbálkozás",
+    "errorMessageHeader": "A keresés nem sikerült",
+    "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra."
   }
 }
