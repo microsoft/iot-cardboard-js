@@ -260,9 +260,6 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                                 }
                                 break;
                             case 'input-blur':
-                                setDropdownOptions(
-                                    selectedOption ? [selectedOption] : []
-                                );
                                 // revert the text value back to the previously selected value instead of keeping the typed value
                                 if (resetInputOnBlur) {
                                     setSearchValue(selectedOption?.value ?? '');
