@@ -22,6 +22,8 @@ export interface ITwinPropertySearchDropdownProps {
     initialSelectedValue?: string;
     onChange?: (selectedValue: string) => void;
     inputStyles?: StylesConfig;
+    /** when focus is lost on the control, if the user did not select a value, reset the value back to the previously selected option instead of keeping the search text */
+    resetInputOnBlur?: boolean;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

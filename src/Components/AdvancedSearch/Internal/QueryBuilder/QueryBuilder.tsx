@@ -130,6 +130,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     const onSearch = useCallback(() => {
         const query = buildQuery(Array.from(querySnippets.current.values()));
+        console.log('query: ', query);
         executeQuery(query);
     }, [executeQuery]);
 
@@ -149,59 +150,65 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     return (
         <div className={classNames.root}>
-            <Stack tokens={{ childrenGap: 10 }}>
-                <div className={classNames.headerGrid}>
-                    {rows.length !== 1 && (
+            <Stack tokens={{ childrenGap: 8 }}>
+                <Stack tokens={{ childrenGap: 8 }}>
+                    <div className={classNames.headerGrid}>
+                        {rows.length !== 1 && (
+                            <p className={classNames.headerText}>
+                                {t('advancedSearch.andOrColumnHeader')}
+                            </p>
+                        )}
                         <p className={classNames.headerText}>
-                            {t('advancedSearch.andOrColumnHeader')}
+                            {t('advancedSearch.propertyColumnHeader')}
                         </p>
-                    )}
-                    <p className={classNames.headerText}>
-                        {t('advancedSearch.propertyColumnHeader')}
-                    </p>
-                    <p className={classNames.headerText}>
-                        {t('advancedSearch.operatorColumnHeader')}
-                    </p>
-                    <p className={classNames.headerText}>
-                        {t('advancedSearch.valueColumnHeader')}
-                    </p>
+                        <p className={classNames.headerText}>
+                            {t('advancedSearch.operatorColumnHeader')}
+                        </p>
+                        <p className={classNames.headerText}>
+                            {t('advancedSearch.valueColumnHeader')}
+                        </p>
+                    </div>
+                    <div className={classNames.rowContainer}>
+                        <Stack tokens={{ childrenGap: 8 }}>
+                            {rows.map((row, index) => (
+                                <QueryBuilderRow
+                                    adapter={adapter}
+                                    allowedPropertyValueTypes={
+                                        allowedPropertyValueTypes
+                                    }
+                                    isRemoveDisabled={rows.length === 1}
+                                    key={row.rowId}
+                                    onChangeProperty={onChangeProperty}
+                                    onChangeValue={onChangeValue}
+                                    onUpdateSnippet={updateQuerySnippet}
+                                    position={index}
+                                    removeRow={removeRow}
+                                    rowId={row.rowId}
+                                    styles={classNames.subComponentStyles.row}
+                                />
+                            ))}
+                        </Stack>
+                    </div>
+                </Stack>
+                <div>
+                    <ActionButton
+                        onClick={appendRow}
+                        text={t('advancedSearch.addNewButton')}
+                        styles={classNames.subComponentStyles.addButton()}
+                        disabled={rows.length === MAX_ROW_LENGTH}
+                        data-testid={'AdvancedSearch-addNewRow'}
+                    />
                 </div>
-                <div className={classNames.rowContainer}>
-                    <Stack tokens={{ childrenGap: 10 }}>
-                        {rows.map((row, index) => (
-                            <QueryBuilderRow
-                                adapter={adapter}
-                                allowedPropertyValueTypes={
-                                    allowedPropertyValueTypes
-                                }
-                                isRemoveDisabled={rows.length === 1}
-                                key={row.rowId}
-                                onChangeProperty={onChangeProperty}
-                                onChangeValue={onChangeValue}
-                                onUpdateSnippet={updateQuerySnippet}
-                                position={index}
-                                removeRow={removeRow}
-                                rowId={row.rowId}
-                                styles={classNames.subComponentStyles.row}
-                            />
-                        ))}
-                    </Stack>
+                <div>
+                    <PrimaryButton
+                        text={t('search')}
+                        onClick={onSearch}
+                        disabled={isSearchDisabled}
+                        styles={classNames.subComponentStyles.searchButton()}
+                    />
                 </div>
+                <Separator />
             </Stack>
-            <ActionButton
-                onClick={appendRow}
-                text={t('advancedSearch.addNewButton')}
-                styles={classNames.subComponentStyles.addButton()}
-                disabled={rows.length === MAX_ROW_LENGTH}
-                data-testid={'AdvancedSearch-addNewRow'}
-            />
-            <PrimaryButton
-                text={t('search')}
-                onClick={onSearch}
-                disabled={isSearchDisabled}
-                styles={classNames.subComponentStyles.searchButton()}
-            />
-            <Separator />
         </div>
     );
 };

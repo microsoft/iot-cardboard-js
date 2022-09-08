@@ -26,10 +26,12 @@ import {
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
 } from './TwinPropertySearchDropdown.types';
+
 const getClassNames = classNamesFunction<
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
 >();
+const createOption = (value: string) => ({ value: value, label: value });
 
 const SuggestionListScrollThresholdFactor = 40;
 /**
@@ -48,6 +50,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
     isLabelHidden = false,
     descriptionText,
     placeholderText,
+    resetInputOnBlur = true,
     searchPropertyName,
     onChange,
     styles
@@ -55,24 +58,12 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
     const { t } = useTranslation();
     const selectId = useId('twin-property-search-dropdown');
     const [searchValue, setSearchValue] = useState(initialSelectedValue ?? '');
-    const [twinSuggestions, setTwinSuggestions] = useState(
-        initialSelectedValue
-            ? [
-                  {
-                      value: initialSelectedValue,
-                      label: initialSelectedValue
-                  }
-              ]
-            : []
-    );
+    const [dropdownOptions, setDropdownOptions] = useState<
+        { value: string; label: string }[]
+    >(initialSelectedValue ? [createOption(initialSelectedValue)] : []);
 
     const [selectedOption, setSelectedOption] = useState(
-        initialSelectedValue
-            ? {
-                  value: initialSelectedValue,
-                  label: initialSelectedValue
-              }
-            : null
+        initialSelectedValue ? createOption(initialSelectedValue) : null
     );
 
     const theme = useTheme();
@@ -88,7 +79,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
         [theme, inputStyles]
     );
 
-    const shouldAppendTwinSuggestions = useRef(false);
+    const shouldAppendOptions = useRef(false);
     const twinSearchContinuationToken = useRef(null);
     const lastScrollTopRef = useRef(0);
     const twinSuggestionListRef = useRef<HTMLDivElement>();
@@ -102,24 +93,18 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
 
     useEffect(() => {
         if (searchTwinAdapterData.adapterResult?.result?.data) {
-            if (shouldAppendTwinSuggestions.current) {
-                setTwinSuggestions(
-                    twinSuggestions.concat(
+            if (shouldAppendOptions.current) {
+                setDropdownOptions(
+                    dropdownOptions.concat(
                         searchTwinAdapterData.adapterResult.result.data.value.map(
-                            (t: IADTTwin) => ({
-                                value: t[searchPropertyName],
-                                label: t[searchPropertyName]
-                            })
+                            (t: IADTTwin) => createOption(t[searchPropertyName])
                         )
                     )
                 );
             } else {
-                setTwinSuggestions(
+                setDropdownOptions(
                     searchTwinAdapterData.adapterResult.result.data.value.map(
-                        (t: IADTTwin) => ({
-                            value: t[searchPropertyName],
-                            label: t[searchPropertyName]
-                        })
+                        (t: IADTTwin) => createOption(t[searchPropertyName])
                     )
                 );
             }
@@ -145,7 +130,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
         ) {
             if (twinSearchContinuationToken.current) {
                 lastScrollTopRef.current = divElement.scrollTop;
-                shouldAppendTwinSuggestions.current = true;
+                shouldAppendOptions.current = true;
                 searchTwinAdapterData.callAdapter({
                     searchProperty: searchPropertyName,
                     searchTerm: searchValue,
@@ -227,10 +212,10 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                     classNamePrefix="cb-search-autocomplete"
                     className="cb-search-autocomplete-container"
                     options={
-                        searchTwinAdapterData.isLoading ? [] : twinSuggestions
+                        searchTwinAdapterData.isLoading ? [] : dropdownOptions
                     }
-                    defaultValue={twinSuggestions[0] ?? undefined}
-                    defaultInputValue={initialSelectedValue ?? ''}
+                    defaultValue={dropdownOptions[0] ?? undefined}
+                    defaultInputValue={searchValue ?? ''}
                     value={selectedOption}
                     inputValue={searchValue}
                     components={{
@@ -238,39 +223,45 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         Menu: Menu
                     }}
                     onInputChange={(inputValue, actionMeta) => {
-                        if (actionMeta.action === 'input-change') {
-                            setSearchValue(inputValue);
-                            shouldAppendTwinSuggestions.current = false;
-                            twinSearchContinuationToken.current = null;
-                            searchTwinAdapterData.cancelAdapter();
-                            searchTwinAdapterData.callAdapter({
-                                searchProperty: searchPropertyName,
-                                searchTerm: inputValue,
-                                shouldSearchByModel: false,
-                                continuationToken:
-                                    twinSearchContinuationToken.current
-                            } as AdapterMethodParamsForSearchADTTwins);
+                        switch (actionMeta.action) {
+                            case 'input-change':
+                                setSearchValue(inputValue);
+                                shouldAppendOptions.current = false;
+                                twinSearchContinuationToken.current = null;
+                                searchTwinAdapterData.cancelAdapter();
+                                searchTwinAdapterData.callAdapter({
+                                    searchProperty: searchPropertyName,
+                                    searchTerm: inputValue,
+                                    shouldSearchByModel: false,
+                                    continuationToken:
+                                        twinSearchContinuationToken.current
+                                } as AdapterMethodParamsForSearchADTTwins);
 
-                            if (!inputValue && actionMeta.prevInputValue) {
-                                console.log('clearing input');
-                                setSelectedOption(null);
-                            }
-                        } else if (actionMeta.action === 'menu-close') {
-                            setTwinSuggestions(
-                                selectedOption ? [selectedOption] : []
-                            );
-                            console.log(
-                                'menu closed, setting to ' +
-                                    selectedOption?.value
-                            );
-                            setSearchValue(selectedOption?.value ?? '');
+                                if (!inputValue && actionMeta.prevInputValue) {
+                                    setSelectedOption(null);
+                                }
+                                break;
+                            case 'menu-close':
+                                setDropdownOptions(
+                                    selectedOption ? [selectedOption] : []
+                                );
+                                // revert the text value back to the previously selected value instead of keeping the typed value
+                                if (resetInputOnBlur) {
+                                    setSearchValue(selectedOption?.value ?? '');
+                                } else {
+                                    onChange(searchValue);
+                                    setSelectedOption(
+                                        createOption(searchValue)
+                                    );
+                                }
+                                break;
                         }
                     }}
                     onChange={(option: { value: string; label: string }) => {
                         if (!option) {
-                            setTwinSuggestions([]);
+                            setDropdownOptions([]);
                         } else {
-                            setTwinSuggestions([option]);
+                            setDropdownOptions([option]);
                         }
                         console.log('onchange ' + option?.value);
                         setSearchValue(option?.value ?? '');
@@ -278,8 +269,12 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                         onChange(option?.value ?? undefined);
                     }}
                     onMenuOpen={() => {
-                        if (twinSuggestions.length === 0) {
-                            shouldAppendTwinSuggestions.current = false;
+                        // if no data or only the default entry
+                        if (
+                            dropdownOptions.length === 0 ||
+                            dropdownOptions.length === 1
+                        ) {
+                            shouldAppendOptions.current = false;
                             twinSearchContinuationToken.current = null;
                             searchTwinAdapterData.callAdapter({
                                 searchProperty: searchPropertyName,
