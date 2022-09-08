@@ -1157,6 +1157,13 @@
     "propertyColumnHeader": "Własność",
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wartość",
-    "propertyFieldPlaceholder": "Nie wybrano właściwości"
+    "propertyFieldPlaceholder": "Nie wybrano właściwości",
+    "resultsExceededLabel": "Było więcej niż {{QUERY_RESULT_LIMIT}} wyników, dodaj więcej filtrów, aby zawęzić wyniki.",
+    "noDataBeforeSearchHeader": "Dodawanie kryteriów wyszukiwania, aby rozpocząć",
+    "noDataAfterSearchHeader": "Nie znaleziono bliźniąt",
+    "noDataAfterSearchDescription": "Zawęź wyszukiwanie i spróbuj ponownie",
+    "errorMessageHeader": "Wyszukiwanie nie powiodło się",
+    "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
+    "valueFieldPlaceholder": "Wprowadzanie wartości"
   }
 }

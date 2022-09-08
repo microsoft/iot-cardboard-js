@@ -1157,6 +1157,13 @@
     "propertyColumnHeader": "Eigenschap",
     "operatorColumnHeader": "Bediener",
     "valueColumnHeader": "Waarde",
-    "propertyFieldPlaceholder": "Geen woning geselecteerd"
+    "propertyFieldPlaceholder": "Geen woning geselecteerd",
+    "resultsExceededLabel": "Er waren meer dan {{QUERY_RESULT_LIMIT}} resultaten, voeg meer filters toe om de resultaten te verfijnen.",
+    "noDataBeforeSearchHeader": "Zoekcriteria toevoegen om aan de slag te gaan",
+    "noDataAfterSearchHeader": "Geen tweeling gevonden",
+    "noDataAfterSearchDescription": "Verfijn uw zoekopdracht en probeer het opnieuw",
+    "errorMessageHeader": "Zoekopdracht mislukt",
+    "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
+    "valueFieldPlaceholder": "Voer een waarde in"
   }
 }

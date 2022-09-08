@@ -1157,6 +1157,13 @@
     "propertyColumnHeader": "Propriété",
     "operatorColumnHeader": "Opérateur",
     "valueColumnHeader": "Valeur",
-    "propertyFieldPlaceholder": "Aucune propriété sélectionnée"
+    "propertyFieldPlaceholder": "Aucune propriété sélectionnée",
+    "resultsExceededLabel": "Il y avait plus que des résultats {{QUERY_RESULT_LIMIT}}, ajoutez plus de filtres pour affiner les résultats.",
+    "noDataBeforeSearchHeader": "Ajouter des critères de recherche pour commencer",
+    "noDataAfterSearchHeader": "Aucun jumeau trouvé",
+    "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
+    "errorMessageHeader": "Échec de la recherche",
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
+    "valueFieldPlaceholder": "Entrez une valeur"
   }
 }
