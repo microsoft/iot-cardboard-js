@@ -45,7 +45,7 @@ import {
     DTID_PROPERTY_NAME
 } from '../../../../Models/Constants/Constants';
 import { getReactSelectStyles } from '../../../Shared/ReactSelect.styles';
-import TwinPropertySearchDropdown from '../../../TwinSearchPropertyDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
 
 const getClassNames = classNamesFunction<
     IQueryBuilderRowStyleProps,

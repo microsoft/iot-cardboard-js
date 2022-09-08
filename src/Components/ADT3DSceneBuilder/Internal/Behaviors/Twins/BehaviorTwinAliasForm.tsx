@@ -32,7 +32,7 @@ import { BehaviorFormContextActionType } from '../../../../../Models/Context/Beh
 import { deepCopy } from '../../../../../Models/Services/Utils';
 import { ITwinToObjectMapping } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinPropertySearchDropdown from '../../../../TwinSearchPropertyDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import { getLeftPanelStyles } from '../../Shared/LeftPanel.styles';
 import PanelFooter from '../../Shared/PanelFooter';

@@ -27,7 +27,7 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
 } from '../LeftPanelBuilderHeader';
-import TwinPropertySearchDropdown from '../../../TwinSearchPropertyDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../TwinSearchDropdown/TwinSearchDropdown';
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
