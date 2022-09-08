@@ -30,7 +30,7 @@ import {
     ITwinPropertySearchDropdownStyles
 } from './TwinSearchDropdown.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('TwinSearchDropdown', debugLogging);
 
 const getClassNames = classNamesFunction<
