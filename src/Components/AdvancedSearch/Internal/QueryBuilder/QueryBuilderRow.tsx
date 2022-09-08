@@ -264,7 +264,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             return (
                 <TwinPropertySearchDropdown
                     adapter={adapter}
-                    placeholderText={'Enter a value'}
+                    placeholderText={t('advancedSearch.valueFieldPlaceholder')}
                     isLabelHidden={true}
                     resetInputOnBlur={false}
                     searchPropertyName={DTID_PROPERTY_NAME}
