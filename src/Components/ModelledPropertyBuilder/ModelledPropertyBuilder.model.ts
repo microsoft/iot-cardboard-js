@@ -4,11 +4,13 @@ import {
     EntityKinds,
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
-import { PRIMARY_TWIN_NAME } from '../../Models/Constants/Constants';
+import {
+    PRIMARY_TWIN_NAME,
+    PropertyValueType
+} from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
-    PropertyValueType,
     ITagModelMap,
     IModelledProperties
 } from './ModelledPropertyBuilder.types';
