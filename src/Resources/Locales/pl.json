@@ -1158,12 +1158,20 @@
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wartość",
     "propertyFieldPlaceholder": "Nie wybrano właściwości",
+<<<<<<< HEAD
     "resultsExceededLabel": "Było więcej niż {{QUERY_RESULT_LIMIT}} wyników, dodaj więcej filtrów, aby zawęzić wyniki.",
+=======
+    "resultsExceededLabel": "Było ponad 1000 wyników, dodaj więcej filtrów, aby udoskonalić wyniki.",
+>>>>>>> origin/main
     "noDataBeforeSearchHeader": "Dodawanie kryteriów wyszukiwania, aby rozpocząć",
     "noDataAfterSearchHeader": "Nie znaleziono bliźniąt",
     "noDataAfterSearchDescription": "Zawęź wyszukiwanie i spróbuj ponownie",
     "errorMessageHeader": "Wyszukiwanie nie powiodło się",
+<<<<<<< HEAD
     "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
     "valueFieldPlaceholder": "Wprowadzanie wartości"
+=======
+    "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie."
+>>>>>>> origin/main
   }
 }

@@ -1158,12 +1158,20 @@
     "operatorColumnHeader": "Operator",
     "valueColumnHeader": "Wert",
     "propertyFieldPlaceholder": "Keine Eigenschaft ausgewählt",
+<<<<<<< HEAD
     "resultsExceededLabel": "Es gab mehr als {{QUERY_RESULT_LIMIT}}-Ergebnisse, fügen Sie weitere Filter hinzu, um die Ergebnisse zu verfeinern.",
+=======
+    "resultsExceededLabel": "Es gab mehr als 1000 Ergebnisse, fügen Sie weitere Filter hinzu, um die Ergebnisse zu verfeinern.",
+>>>>>>> origin/main
     "noDataBeforeSearchHeader": "Hinzufügen von Suchkriterien für die ersten Schritte",
     "noDataAfterSearchHeader": "Keine Zwillinge gefunden",
     "noDataAfterSearchDescription": "Verfeinern Sie Ihre Suche und versuchen Sie es erneut",
     "errorMessageHeader": "Suche fehlgeschlagen",
+<<<<<<< HEAD
     "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut.",
     "valueFieldPlaceholder": "Geben Sie einen Wert ein"
+=======
+    "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut."
+>>>>>>> origin/main
   }
 }

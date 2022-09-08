@@ -1158,12 +1158,20 @@
     "operatorColumnHeader": "Opérateur",
     "valueColumnHeader": "Valeur",
     "propertyFieldPlaceholder": "Aucune propriété sélectionnée",
+<<<<<<< HEAD
     "resultsExceededLabel": "Il y avait plus que des résultats {{QUERY_RESULT_LIMIT}}, ajoutez plus de filtres pour affiner les résultats.",
+=======
+    "resultsExceededLabel": "Il y a eu plus de 1000 résultats, ajoutez plus de filtres pour affiner les résultats.",
+>>>>>>> origin/main
     "noDataBeforeSearchHeader": "Ajouter des critères de recherche pour commencer",
     "noDataAfterSearchHeader": "Aucun jumeau trouvé",
     "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
     "errorMessageHeader": "Échec de la recherche",
+<<<<<<< HEAD
     "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
     "valueFieldPlaceholder": "Entrez une valeur"
+=======
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer."
+>>>>>>> origin/main
   }
 }

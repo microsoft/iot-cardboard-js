@@ -1158,12 +1158,20 @@
     "operatorColumnHeader": "Operátor",
     "valueColumnHeader": "Érték",
     "propertyFieldPlaceholder": "Nincs kijelölt tulajdon",
+<<<<<<< HEAD
     "resultsExceededLabel": "{{QUERY_RESULT_LIMIT}} eredményeknél több is volt, adjon hozzá több szűrőt az eredmények finomításához.",
+=======
+    "resultsExceededLabel": "Több mint 1000 eredmény született, adjon hozzá több szűrőt az eredmények finomításához.",
+>>>>>>> origin/main
     "noDataBeforeSearchHeader": "Keresési feltételek hozzáadása a kezdéshez",
     "noDataAfterSearchHeader": "Nem találtak ikreket",
     "noDataAfterSearchDescription": "A keresés finomítása és újrapróbálkozás",
     "errorMessageHeader": "A keresés nem sikerült",
+<<<<<<< HEAD
     "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
     "valueFieldPlaceholder": "Adjon meg egy értéket"
+=======
+    "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra."
+>>>>>>> origin/main
   }
 }

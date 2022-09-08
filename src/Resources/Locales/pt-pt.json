@@ -1158,12 +1158,20 @@
     "operatorColumnHeader": "Operador",
     "valueColumnHeader": "Valor",
     "propertyFieldPlaceholder": "Nenhum imóvel selecionado",
+<<<<<<< HEAD
     "resultsExceededLabel": "Houve mais do que resultados {{QUERY_RESULT_LIMIT}}, adicionar mais filtros para refinar os resultados.",
+=======
+    "resultsExceededLabel": "Houve mais de 1000 resultados, adicione mais filtros para refinar os resultados.",
+>>>>>>> origin/main
     "noDataBeforeSearchHeader": "Adicionar critérios de pesquisa para começar",
     "noDataAfterSearchHeader": "Não foram encontrados gémeos.",
     "noDataAfterSearchDescription": "Refine a sua pesquisa e tente novamente",
     "errorMessageHeader": "A procura falhou",
+<<<<<<< HEAD
     "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, refresque a página ou modifique os seus critérios de pesquisa e tente novamente.",
     "valueFieldPlaceholder": "Insira um valor"
+=======
+    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, refresque a página ou modifique os seus critérios de pesquisa e tente novamente."
+>>>>>>> origin/main
   }
 }
