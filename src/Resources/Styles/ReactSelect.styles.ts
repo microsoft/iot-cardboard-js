@@ -71,7 +71,7 @@ export const getReactSelectStyles = (
             position: 'relative',
             div: {
                 // fix loading message that uses dynamic class name and is not exposed on the types here
-                color: `${theme.semanticColors.inputPlaceholderText} !important`
+                color: theme.semanticColors.inputPlaceholderText
             }
         }),
         option: (provided, state) => ({
@@ -90,6 +90,10 @@ export const getReactSelectStyles = (
             overflow: 'hidden',
             padding: '6px 12px',
             textOverflow: 'ellipsis',
+            div: {
+                // counter the menulist selector added to fix the loading message
+                color: theme.semanticColors.inputText
+            },
             ':active': {
                 backgroundColor: theme.semanticColors.listItemBackgroundHovered // emulate fluent behavior and keep the hover state when clicked
             }
