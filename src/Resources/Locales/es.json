@@ -1158,20 +1158,11 @@
     "operatorColumnHeader": "Operador",
     "valueColumnHeader": "Valor",
     "propertyFieldPlaceholder": "No hay ninguna propiedad seleccionada",
-<<<<<<< HEAD
-    "resultsExceededLabel": "Hubo más de {{QUERY_RESULT_LIMIT}} resultados, agregue más filtros para refinar los resultados.",
-=======
     "resultsExceededLabel": "Hubo más de 1000 resultados, agregue más filtros para refinar los resultados.",
->>>>>>> origin/main
     "noDataBeforeSearchHeader": "Agregar criterios de búsqueda para empezar",
     "noDataAfterSearchHeader": "No se han encontrado gemelos",
     "noDataAfterSearchDescription": "Refina tu búsqueda e inténtalo de nuevo",
     "errorMessageHeader": "Error de búsqueda",
-<<<<<<< HEAD
-    "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo.",
-    "valueFieldPlaceholder": "Introduzca un valor"
-=======
     "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo."
->>>>>>> origin/main
   }
 }

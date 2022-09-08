@@ -1158,20 +1158,11 @@
     "operatorColumnHeader": "Operatör",
     "valueColumnHeader": "Değer",
     "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi",
-<<<<<<< HEAD
-    "resultsExceededLabel": "{{QUERY_RESULT_LIMIT}} sonuçlarından daha fazlası vardı, sonuçları hassaslaştırmak için daha fazla filtre ekleyin.",
-=======
     "resultsExceededLabel": "1000'den fazla sonuç vardı, sonuçları hassaslaştırmak için daha fazla filtre ekleyin.",
->>>>>>> origin/main
     "noDataBeforeSearchHeader": "Başlamak için arama ölçütleri ekleme",
     "noDataAfterSearchHeader": "İkiz bulunamadı",
     "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin",
     "errorMessageHeader": "Arama başarısız oldu",
-<<<<<<< HEAD
-    "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
-    "valueFieldPlaceholder": "Bir değer girin"
-=======
     "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin."
->>>>>>> origin/main
   }
 }

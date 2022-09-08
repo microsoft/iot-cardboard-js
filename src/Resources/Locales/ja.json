@@ -1158,20 +1158,11 @@
     "operatorColumnHeader": "演算子",
     "valueColumnHeader": "価値",
     "propertyFieldPlaceholder": "プロパティが選択されていません",
-<<<<<<< HEAD
-    "resultsExceededLabel": "{{QUERY_RESULT_LIMIT}}以上の結果がありましたが、結果を絞り込むためにフィルタを追加します。",
-=======
     "resultsExceededLabel": "1000以上の結果があり、結果を絞り込むためにさらにフィルタを追加してください。",
->>>>>>> origin/main
     "noDataBeforeSearchHeader": "検索条件を追加して開始する",
     "noDataAfterSearchHeader": "双子は見つかりませんでした",
     "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください",
     "errorMessageHeader": "検索に失敗しました",
-<<<<<<< HEAD
-    "errorMessageDescription": "予期しないエラーが発生しました。ページを更新するか、検索条件を変更して、もう一度やり直してください。",
-    "valueFieldPlaceholder": "値を入力する"
-=======
     "errorMessageDescription": "予期しないエラーが発生しました。ページを更新するか、検索条件を変更して、もう一度やり直してください。"
->>>>>>> origin/main
   }
 }

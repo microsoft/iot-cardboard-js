@@ -1158,20 +1158,11 @@
     "operatorColumnHeader": "Operátor",
     "valueColumnHeader": "Hodnota",
     "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
-<<<<<<< HEAD
-    "resultsExceededLabel": "Bylo více než {{QUERY_RESULT_LIMIT}} výsledků, přidejte další filtry pro upřesnění výsledků.",
-=======
     "resultsExceededLabel": "Bylo více než 1000 výsledků, přidejte další filtry pro upřesnění výsledků.",
->>>>>>> origin/main
     "noDataBeforeSearchHeader": "Přidání kritérií vyhledávání, abyste mohli začít",
     "noDataAfterSearchHeader": "Nebyla nalezena žádná dvojčata",
     "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
     "errorMessageHeader": "Hledání se nezdařilo",
-<<<<<<< HEAD
-    "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
-    "valueFieldPlaceholder": "Zadejte hodnotu"
-=======
     "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu."
->>>>>>> origin/main
   }
 }
