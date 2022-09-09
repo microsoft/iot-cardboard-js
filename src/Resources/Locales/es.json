@@ -1165,6 +1165,7 @@
     "errorMessageHeader": "Error de búsqueda",
     "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo.",
     "valueFieldPlaceholder": "Introduzca un valor",
-    "noOptionsFoundMessage": "No se han encontrado valores"
+    "noOptionsFoundMessage": "No se han encontrado valores",
+    "columnPicker": "Selector de columnas"
   }
 }

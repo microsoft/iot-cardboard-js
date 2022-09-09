@@ -1165,6 +1165,7 @@
     "errorMessageHeader": "搜索失败",
     "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。",
     "valueFieldPlaceholder": "输入值",
-    "noOptionsFoundMessage": "未找到任何值"
+    "noOptionsFoundMessage": "未找到任何值",
+    "columnPicker": "列选取器"
   }
 }
