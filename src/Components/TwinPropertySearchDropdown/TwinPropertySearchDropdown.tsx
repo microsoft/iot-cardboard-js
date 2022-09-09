@@ -23,13 +23,13 @@ import {
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
 import { getReactSelectStyles } from '../../Resources/Styles/ReactSelect.styles';
-import { getStyles } from './TwinSearchDropdown.styles';
+import { getStyles } from './TwinPropertySearchDropdown.styles';
 import {
     IReactSelectOption,
     ITwinPropertySearchDropdownProps,
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
-} from './TwinSearchDropdown.types';
+} from './TwinPropertySearchDropdown.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('TwinSearchDropdown', debugLogging);
@@ -230,7 +230,9 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 <CreatableSelect
                     aria-labelledby="twin-search-dropdown-label"
                     className={classNames.dropdown}
-                    options={[]}
+                    options={
+                        searchTwinAdapterData.isLoading ? [] : dropdownOptions
+                    }
                     defaultValue={dropdownOptions[0] ?? undefined}
                     defaultInputValue={searchValue ?? ''}
                     id={selectId}

@@ -3,7 +3,7 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import { DTID_PROPERTY_NAME } from '../../Models/Constants/Constants';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
-import TwinPropertySearchDropdown from './TwinSearchDropdown';
+import TwinPropertySearchDropdown from './TwinPropertySearchDropdown';
 
 export default {
     title: 'Components/TwinPropertySearchDropdown',

@@ -20,7 +20,7 @@ import {
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinPropertySearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
