@@ -76,6 +76,17 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         isOnlyFirstRow: isRemoveDisabled,
         theme: theme
     });
+    const propertySelectorStyles = useMemo(
+        () =>
+            getReactSelectStyles(theme, {
+                menuList: {
+                    isOnlyFirstRow: isRemoveDisabled,
+                    listMaxWidthLarge: MENU_LIST_LARGE_MAX_WIDTH,
+                    listMaxWidthCompact: MENU_LIST_COMPACT_MAX_WIDTH
+                }
+            }),
+        [isRemoveDisabled, theme]
+    );
     const { t } = useTranslation();
 
     /** React select values */
@@ -208,18 +219,6 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
         setSelectedValue(option.text);
         onChangeValue(rowId, option.text);
     };
-
-    const propertySelectorStyles = useMemo(
-        () =>
-            getReactSelectStyles(theme, {
-                menuList: {
-                    isOnlyFirstRow: isRemoveDisabled,
-                    listMaxWidthLarge: MENU_LIST_LARGE_MAX_WIDTH,
-                    listMaxWidthCompact: MENU_LIST_COMPACT_MAX_WIDTH
-                }
-            }),
-        [isRemoveDisabled, theme]
-    );
 
     const Group = (props) => <components.Group {...props} />;
 
