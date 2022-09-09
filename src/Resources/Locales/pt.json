@@ -1164,6 +1164,7 @@
     "noDataAfterSearchDescription": "Refine sua pesquisa e tente novamente",
     "errorMessageHeader": "Falha na pesquisa",
     "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente.",
-    "valueFieldPlaceholder": "Digite um valor"
+    "valueFieldPlaceholder": "Digite um valor",
+    "noOptionsFoundMessage": "Nenhum valor encontrado"
   }
 }

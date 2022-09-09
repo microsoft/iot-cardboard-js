@@ -1164,6 +1164,7 @@
     "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください",
     "errorMessageHeader": "検索に失敗しました",
     "errorMessageDescription": "予期しないエラーが発生しました。ページを更新するか、検索条件を変更して、もう一度やり直してください。",
-    "valueFieldPlaceholder": "値を入力する"
+    "valueFieldPlaceholder": "値を入力する",
+    "noOptionsFoundMessage": "値が見つかりません"
   }
 }
