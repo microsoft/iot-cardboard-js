@@ -1163,6 +1163,8 @@
     "noDataAfterSearchHeader": "Близнецы не найдены",
     "noDataAfterSearchDescription": "Уточните поиск и повторите попытку",
     "errorMessageHeader": "Поиск не удался",
-    "errorMessageDescription": "Произошла непредвиденная ошибка. Обновите страницу или измените критерии поиска и повторите попытку."
+    "errorMessageDescription": "Произошла непредвиденная ошибка. Обновите страницу или измените критерии поиска и повторите попытку.",
+    "valueFieldPlaceholder": "Введите значение",
+    "noOptionsFoundMessage": "Значения не найдены"
   }
 }

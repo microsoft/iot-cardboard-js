@@ -13,11 +13,14 @@ import {
     defaultElementTwinAlias,
     IElementTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
-import { TwinAliasFormMode } from '../../../../../Models/Constants';
+import {
+    DTID_PROPERTY_NAME,
+    TwinAliasFormMode
+} from '../../../../../Models/Constants';
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinSearchDropdown from '../../../../TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
@@ -129,16 +132,17 @@ const ElementTwinAliasForm: React.FC = () => {
                         }
                     }}
                 />
-                <TwinSearchDropdown
+                <TwinPropertySearchDropdown
                     key={'aliased-twin'}
-                    styles={{ paddingTop: 16 }}
                     adapter={adapter}
                     label={t('twinId')}
                     labelIconName="Shapes"
-                    selectedTwinId={formData.twinId}
-                    onTwinIdSelect={(selectedTwinId: string) => {
+                    onChange={(selectedTwinId: string) => {
                         handleTwinSelect(selectedTwinId);
                     }}
+                    initialSelectedValue={formData.twinId}
+                    searchPropertyName={DTID_PROPERTY_NAME}
+                    styles={{ root: { paddingTop: 16 } }}
                 />
             </div>
             <PanelFooter>

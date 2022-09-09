@@ -1163,6 +1163,8 @@
     "noDataAfterSearchHeader": "Inga tvillingar hittades",
     "noDataAfterSearchDescription": "Förfina sökningen och försök igen",
     "errorMessageHeader": "Sökningen misslyckades",
-    "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen."
+    "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen.",
+    "valueFieldPlaceholder": "Ange ett värde",
+    "noOptionsFoundMessage": "Inga värden hittades"
   }
 }

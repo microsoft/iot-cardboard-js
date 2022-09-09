@@ -33,6 +33,7 @@ Base.args = {
     allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
 } as IAdvancedSearchProps;
+Base.storyName = 'Mock Base';
 
 const sharedArgs = {
     isOpen: true,
@@ -50,6 +51,7 @@ NumericalDropdown.play = async () => {
     // Click on a numerical option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 0);
 };
+NumericalDropdown.storyName = 'Mock Numerical dropdown';
 
 export const BooleanDropdown = Template.bind({});
 BooleanDropdown.args = sharedArgs;
@@ -57,6 +59,7 @@ BooleanDropdown.play = async () => {
     // Click on a boolean typed option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 4);
 };
+BooleanDropdown.storyName = 'Mock Boolean dropdown';
 
 export const StringDropdown = Template.bind({});
 StringDropdown.args = sharedArgs;
@@ -64,3 +67,4 @@ StringDropdown.play = async () => {
     // Click on a string typed option
     selectReactSelectOption('AdvancedSearch-propertySelectInput', 9);
 };
+StringDropdown.storyName = 'Mock String dropdown';

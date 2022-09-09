@@ -163,6 +163,8 @@ export const modelRefreshMaxAge = 3600000;
 export const instancesRefreshMaxAge = 3600000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
+export const DTID_PROPERTY_NAME = '$dtId';
+
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',

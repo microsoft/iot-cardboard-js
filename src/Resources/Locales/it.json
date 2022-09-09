@@ -1163,6 +1163,8 @@
     "noDataAfterSearchHeader": "Nessun gemello trovato",
     "noDataAfterSearchDescription": "Perfezionare la ricerca e riprovare",
     "errorMessageHeader": "Ricerca non riuscita",
-    "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova."
+    "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova.",
+    "valueFieldPlaceholder": "Inserisci un valore",
+    "noOptionsFoundMessage": "Nessun valore trovato"
   }
 }

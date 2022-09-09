@@ -8,12 +8,12 @@ import {
     ITheme
 } from '@fluentui/react';
 import { PropertyValueType } from '../../../../Models/Constants';
-import { IModelledPropertyBuilderAdapter } from '../../../../Models/Constants/Interfaces';
+import { IQueryBuilderAdapter } from '../../../../Models/Constants/Interfaces';
 import { IModelledProperty } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
 /** Query builder types */
 export interface IQueryBuilderProps {
-    adapter: IModelledPropertyBuilderAdapter;
+    adapter: IQueryBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     executeQuery: (query: string) => void;
     updateColumns: (propertyNames: Set<string>) => void;
@@ -49,7 +49,7 @@ export interface IQueryBuilderSubComponentStyles {
 
 /** Query row types */
 export interface IQueryBuilderRowProps {
-    adapter: IModelledPropertyBuilderAdapter;
+    adapter: IQueryBuilderAdapter;
     allowedPropertyValueTypes: PropertyValueType[];
     rowId: string;
     isRemoveDisabled: boolean;
@@ -145,8 +145,9 @@ export interface IGroupedModelledPropertiesFormat {
 }
 
 export interface IQueryBuilderRowStyleProps {
-    theme: ITheme;
+    dropdownWidth: number;
     isOnlyFirstRow: boolean;
+    theme: ITheme;
 }
 export interface IQueryBuilderRowStyles {
     root: IStyle;

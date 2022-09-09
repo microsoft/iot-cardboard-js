@@ -1163,6 +1163,8 @@
     "noDataAfterSearchHeader": "Geen tweeling gevonden",
     "noDataAfterSearchDescription": "Verfijn uw zoekopdracht en probeer het opnieuw",
     "errorMessageHeader": "Zoekopdracht mislukt",
-    "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw."
+    "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
+    "valueFieldPlaceholder": "Voer een waarde in",
+    "noOptionsFoundMessage": "Geen waarden gevonden"
   }
 }

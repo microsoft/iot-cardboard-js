@@ -1,7 +1,10 @@
 {
     "root": true,
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint", "react-hooks"],
+    "plugins": [
+        "@typescript-eslint",
+        "react-hooks"
+    ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
@@ -9,10 +12,12 @@
         "prettier/@typescript-eslint"
     ],
     "rules": {
-        "no-debugger": "error",
+        "no-debugger": "warn",
         "no-multiple-empty-lines": "error",
         "react-hooks/exhaustive-deps": "off",
-        "@typescript-eslint/explicit-module-boundary-types": ["off"],
+        "@typescript-eslint/explicit-module-boundary-types": [
+            "off"
+        ],
         "@typescript-eslint/no-var-requires": 0,
         "@typescript-eslint/no-explicit-any": 0,
         "@typescript-eslint/no-unused-vars": [
