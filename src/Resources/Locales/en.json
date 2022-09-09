@@ -1164,6 +1164,7 @@
         "noDataAfterSearchDescription": "Refine your search and try again",
         "errorMessageHeader": "Search failed",
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
+        "noOptionsFoundMessage": "No values found",
         "valueFieldPlaceholder": "Enter a value"
     }
 }

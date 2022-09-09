@@ -49,17 +49,18 @@ const SuggestionListScrollThresholdFactor = 40;
  */
 const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = ({
     adapter,
-    label,
-    labelIconName,
-    labelTooltip,
+    descriptionText,
     initialSelectedValue,
     inputStyles,
     isLabelHidden = false,
-    descriptionText,
+    label,
+    labelIconName,
+    labelTooltip,
+    onChange,
+    noOptionsText,
     placeholderText,
     resetInputOnBlur = true,
     searchPropertyName,
-    onChange,
     styles
 }) => {
     const { t } = useTranslation();
@@ -229,9 +230,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                 <CreatableSelect
                     aria-labelledby="twin-search-dropdown-label"
                     className={classNames.dropdown}
-                    options={
-                        searchTwinAdapterData.isLoading ? [] : dropdownOptions
-                    }
+                    options={[]}
                     defaultValue={dropdownOptions[0] ?? undefined}
                     defaultInputValue={searchValue ?? ''}
                     id={selectId}
@@ -315,7 +314,9 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
                     placeholder={
                         placeholderText || t('3dSceneBuilder.searchTwinId')
                     }
-                    noOptionsMessage={() => t('3dSceneBuilder.noTwinsFound')}
+                    noOptionsMessage={() =>
+                        noOptionsText || t('3dSceneBuilder.noTwinsFound')
+                    }
                     isLoading={searchTwinAdapterData.isLoading}
                     formatCreateLabel={(inputValue: string) =>
                         `${t(

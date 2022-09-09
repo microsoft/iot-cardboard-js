@@ -264,14 +264,15 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             return (
                 <TwinPropertySearchDropdown
                     adapter={adapter}
-                    placeholderText={t('advancedSearch.valueFieldPlaceholder')}
+                    inputStyles={propertySelectorStyles}
                     isLabelHidden={true}
-                    resetInputOnBlur={false}
-                    searchPropertyName={DTID_PROPERTY_NAME}
                     onChange={(value: string) =>
                         onChangeValueField(undefined, value)
                     }
-                    inputStyles={propertySelectorStyles}
+                    noOptionsText={t('advancedSearch.noOptionsFoundMessage')}
+                    placeholderText={t('advancedSearch.valueFieldPlaceholder')}
+                    resetInputOnBlur={false}
+                    searchPropertyName={DTID_PROPERTY_NAME}
                 />
             );
         } else if (selectedProperty.data.type === 'boolean') {
