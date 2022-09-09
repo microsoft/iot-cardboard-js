@@ -1164,6 +1164,7 @@
     "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin",
     "errorMessageHeader": "Arama başarısız oldu",
     "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
-    "valueFieldPlaceholder": "Bir değer girin"
+    "valueFieldPlaceholder": "Bir değer girin",
+    "noOptionsFoundMessage": "Değer bulunamadı"
   }
 }

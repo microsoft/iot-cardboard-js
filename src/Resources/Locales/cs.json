@@ -1164,6 +1164,7 @@
     "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
     "errorMessageHeader": "Hledání se nezdařilo",
     "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
-    "valueFieldPlaceholder": "Zadejte hodnotu"
+    "valueFieldPlaceholder": "Zadejte hodnotu",
+    "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty"
   }
 }
