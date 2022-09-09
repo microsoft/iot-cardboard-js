@@ -34,6 +34,22 @@ export class ADTAdapterTwinsData implements IAdapterData {
     }
 }
 
+export class ADTAdapterSearchByQueryData implements IAdapterData {
+    data: ADTTwinsApiData;
+
+    constructor(data: ADTTwinsApiData) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return (
+            this.data === undefined ||
+            this.data === null ||
+            this.data.value.length === 0
+        );
+    }
+}
+
 interface IADTAdapterExpandedModelData {
     rootModel: DtdlInterface;
     expandedModels: DtdlInterface[];

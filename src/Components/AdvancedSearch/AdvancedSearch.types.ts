@@ -5,9 +5,15 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
+import { ADTAdapter, MockAdapter } from '../../Adapters';
+import { PropertyValueType } from '../../Models/Constants';
+
+export const QUERY_RESULT_LIMIT = 1000;
 
 /** Advanced search modal */
 export interface IAdvancedSearchProps {
+    adapter: ADTAdapter | MockAdapter;
+    allowedPropertyValueTypes: PropertyValueType[];
     isOpen: boolean;
     onDismiss: () => void;
     /**
@@ -24,10 +30,10 @@ export interface IAdvancedSearchStyleProps {
 }
 export interface IAdvancedSearchStyles {
     content: IStyle;
-    header: IStyle;
-    headerText: IStyle;
-    queryContainer: IStyle;
-    resultsContainer: IStyle;
+    headerContainer: IStyle;
+    title: IStyle;
+    titleContainer: IStyle;
+    subtitle: IStyle;
     /**
      * SubComponent styles.
      */
@@ -38,31 +44,6 @@ export interface IAdvancedSearchSubComponentStyles {
     modal?: Partial<IModalStyles>;
     icon?: IIconStyles;
 }
-
-/** Query builder types */
-export interface IQueryBuilderProps {
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
-    styles?: IStyleFunctionOrObject<
-        IQueryBuilderStyleProps,
-        IQueryBuilderStyles
-    >;
-}
-
-export interface IQueryBuilderStyleProps {
-    theme: ITheme;
-}
-export interface IQueryBuilderStyles {
-    root: IStyle;
-    /**
-     * SubComponent styles.
-     */
-    subComponentStyles?: IQueryBuilderSubComponentStyles;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IQueryBuilderSubComponentStyles {}
 
 /** Search results types */
 export interface IAdvancedSearchResultsProps {

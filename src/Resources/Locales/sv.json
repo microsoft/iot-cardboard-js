@@ -1148,6 +1148,23 @@
     "toggleSelection": "Växla till Välj tvilling",
     "selectRow": "Tvilling vald",
     "inspectProperty": "Inspektera egendom",
-    "results": "Resultat ({{twinCount}})"
+    "results": "Resultat ({{twinCount}})",
+    "modalTitle": "Avancerad fastighetssökning",
+    "modalSubtitle": "Länka rätt egendom genom att begränsa din sökning",
+    "noPropertiesFound": "Inga fastigheter hittades",
+    "addNewButton": "Lägg till ny",
+    "andOrColumnHeader": "Eller",
+    "propertyColumnHeader": "Egenskap",
+    "operatorColumnHeader": "Operatör",
+    "valueColumnHeader": "Värde",
+    "propertyFieldPlaceholder": "Ingen egenskap markerad",
+    "resultsExceededLabel": "Det fanns mer än 1000 resultat, lägg till fler filter för att förfina resultaten.",
+    "noDataBeforeSearchHeader": "Lägga till sökvillkor för att komma igång",
+    "noDataAfterSearchHeader": "Inga tvillingar hittades",
+    "noDataAfterSearchDescription": "Förfina sökningen och försök igen",
+    "errorMessageHeader": "Sökningen misslyckades",
+    "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen.",
+    "valueFieldPlaceholder": "Ange ett värde",
+    "noOptionsFoundMessage": "Inga värden hittades"
   }
 }

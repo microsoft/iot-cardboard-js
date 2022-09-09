@@ -631,17 +631,32 @@ export const deleteModel = (id, data, models) => {
 };
 
 /**
- * Sort function to order items alphabetically. Case insensitive sort
+ * Sort function to order items from ascending or descending order, for boolean, numbers and strings. Case insensitive sort
  * NOTE: only works when property is one layer down
  * @param propertyName name of the property to sort on
- * @example listItems.sort(sortAlphabetically('textPrimary'))
+ *  @example listItems.sort(sortAscendingOrDescending('textPrimary'))
  * @returns Sort function to pass to `.sort()`
  */
-export function sortAlphabetically<T>(propertyName: keyof T) {
+export function sortAscendingOrDescending<T>(
+    propertyName: keyof T,
+    descending?: boolean
+) {
     return (a: T, b: T) => {
-        const aVal = (a[propertyName] as unknown) as string;
-        const bVal = (b[propertyName] as unknown) as string;
-        return aVal?.toLowerCase() > bVal?.toLowerCase() ? 1 : -1;
+        let aVal = (a[String(propertyName)] as unknown) as string;
+        // handle the case where the property is not a string, if no value, fall back to empty string so we can sort undefined values consistently
+        aVal =
+            aVal && typeof aVal === 'string' ? aVal.toLowerCase() : aVal || '';
+        let bVal = (b[String(propertyName)] as unknown) as string;
+        // handle the case where the property is not a string, if no value, fall back to empty string so we can sort undefined values consistently
+        bVal =
+            bVal && typeof bVal === 'string' ? bVal.toLowerCase() : bVal || '';
+        let order = -1;
+        if (!descending) {
+            order = aVal > bVal ? 1 : -1;
+        } else {
+            order = aVal < bVal ? 1 : -1;
+        }
+        return order;
     };
 }
 
@@ -671,6 +686,11 @@ export function getDebugLogger(
                 break;
         }
     };
+}
+
+/** checks if a value is null or undefined and returns true if it's not one of those values */
+export function isDefined(value: unknown) {
+    return value != null && value != undefined;
 }
 
 /**

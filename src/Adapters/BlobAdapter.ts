@@ -26,6 +26,7 @@ import {
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
+import { LogConfigFileTelemetry } from './BlobAdapterUtility';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
@@ -40,16 +41,7 @@ export default class BlobAdapter implements IBlobAdapter {
         authService: IAuthService,
         blobProxyServerPath = '/proxy/blob'
     ) {
-        if (blobContainerUrl) {
-            try {
-                const containerURL = new URL(blobContainerUrl);
-                this.storageAccountHostName = containerURL.hostname;
-                this.storageAccountName = containerURL.hostname.split('.')[0];
-                this.containerName = containerURL.pathname.split('/')[1];
-            } catch (error) {
-                console.error(error.message);
-            }
-        }
+        this.setBlobContainerPath(blobContainerUrl);
         this.blobAuthService = authService;
         this.blobAuthService.login();
         this.blobProxyServerPath = blobProxyServerPath;
@@ -101,11 +93,9 @@ export default class BlobAdapter implements IBlobAdapter {
         if (blobContainerURL) {
             try {
                 const url = new URL(blobContainerURL);
-                if (url.hostname.endsWith('blob.core.windows.net')) {
-                    this.storageAccountHostName = url.hostname;
-                    this.storageAccountName = url.hostname.split('.')[0];
-                    this.containerName = url.pathname.split('/')[1];
-                }
+                this.storageAccountHostName = url.hostname;
+                this.storageAccountName = url.hostname.split('.')[0];
+                this.containerName = url.pathname.split('/')[1];
             } catch (error) {
                 console.error('Unable to parse container URL!');
             }
@@ -145,6 +135,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
             try {
                 const configBlob = await getConfigBlob();
+                LogConfigFileTelemetry(configBlob.data); // fire and forget the telemetry logging
                 return configBlob;
             } catch (err) {
                 if (

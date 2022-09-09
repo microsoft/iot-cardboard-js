@@ -120,8 +120,18 @@ export type AdapterMethodParamsForGetADTTwinsByModelId = {
 };
 
 export type AdapterMethodParamsForSearchADTTwins = {
+    searchProperty: string;
     searchTerm: string;
     shouldSearchByModel: boolean;
+    continuationToken?: string;
+};
+
+export type AdapterMethodParamsForSearchTwinsByQuery = {
+    query: string;
+};
+
+export type AdapterMethodParamsForGetTwinsByQuery = {
+    query: string;
     continuationToken?: string;
 };
 

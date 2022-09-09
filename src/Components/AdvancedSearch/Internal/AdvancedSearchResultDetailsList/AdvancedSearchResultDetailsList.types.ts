@@ -1,5 +1,6 @@
 import {
     IDetailsListStyles,
+    ISpinnerStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
@@ -12,6 +13,8 @@ import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/Prop
 
 export interface IAdvancedSearchResultDetailsListProps {
     adapter: IPropertyInspectorAdapter;
+    containsError: boolean;
+    isLoading: boolean;
     /* Callback function from parent on what to do once the user selects or deselects a twin. */
     onTwinSelection: (IADTTwin) => void;
     /* String of fieldnames, for specific properties that were used in the search. */
@@ -39,6 +42,7 @@ export interface IAdvancedSearchResultDetailsListStyles {
 }
 
 export interface IAdvancedSearchResultDetailsListSubComponentStyles {
-    propertyInspector?: IPropertyInspectorCalloutStyles;
     detailsList?: IDetailsListStyles;
+    propertyInspector?: IPropertyInspectorCalloutStyles;
+    spinner?: Partial<ISpinnerStyles>;
 }

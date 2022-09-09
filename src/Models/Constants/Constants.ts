@@ -78,6 +78,14 @@ export const ONE_SECOND = 1000;
 export const ONE_MINUTE = 60 * ONE_SECOND;
 export const ONE_HOUR = 60 * ONE_MINUTE;
 
+export const LOCAL_STORAGE_KEYS = {
+    FeatureFlags: {
+        Telemetry: {
+            debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
+        }
+    }
+};
+
 export const dtdlPrimitiveTypesList = [
     'boolean',
     'date',
@@ -107,6 +115,19 @@ export enum dtdlPropertyTypesEnum {
     Map = 'Map',
     Object = 'Object'
 }
+
+export type PropertyValueType =
+    | 'boolean'
+    | 'date'
+    | 'dateTime'
+    | 'double'
+    | 'duration'
+    | 'float'
+    | 'integer'
+    | 'long'
+    | 'string'
+    | 'time'
+    | 'enum';
 
 export const dtdlComplexTypesList = ['Array', 'Enum', 'Map', 'Object'];
 export const ADTSceneTwinModelId = 'dtmi:com:visualontology:scene;1';
@@ -142,6 +163,8 @@ export const modelRefreshMaxAge = 3600000;
 export const instancesRefreshMaxAge = 3600000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
+export const DTID_PROPERTY_NAME = '$dtId';
+
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
@@ -275,47 +298,47 @@ export const globeUrl =
     'https://cardboardresources.blob.core.windows.net/public/Globe.glb';
 
 export const DTDLPropertyIconographyMap = {
-    Boolean: {
+    boolean: {
         text: 'boolean',
         icon: 'ToggleRight'
     },
-    Date: {
+    date: {
         text: 'date',
         icon: 'Calendar'
     },
-    DateTime: {
+    dateTime: {
         text: 'dateTime',
         icon: 'DateTime'
     },
-    Double: {
+    double: {
         text: 'double',
         icon: 'NumberSymbol'
     },
-    Duration: {
+    duration: {
         text: 'duration',
         icon: 'BufferTimeBefore'
     },
-    Enum: {
+    enum: {
         text: 'enum',
         icon: 'BulletedList2'
     },
-    Float: {
+    float: {
         text: 'float',
         icon: 'NumberSymbol'
     },
-    Integer: {
+    integer: {
         text: 'integer',
         icon: 'NumberSymbol'
     },
-    Long: {
+    long: {
         text: 'long',
         icon: 'NumberSymbol'
     },
-    String: {
+    string: {
         text: 'string',
         icon: 'TextField'
     },
-    Time: {
+    time: {
         text: 'time',
         icon: 'Clock'
     }

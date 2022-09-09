@@ -1148,6 +1148,23 @@
     "toggleSelection": "Váltás az iker kiválasztásához",
     "selectRow": "Iker kiválasztva",
     "inspectProperty": "Ingatlan ellenőrzése",
-    "results": "Eredmények ({{twinCount}})"
+    "results": "Eredmények ({{twinCount}})",
+    "modalTitle": "Speciális szálláskeresés",
+    "modalSubtitle": "A megfelelő tulajdon összekapcsolása a keresés szűkítésével",
+    "noPropertiesFound": "Nem található tulajdonság",
+    "addNewButton": "Új hozzáadása",
+    "andOrColumnHeader": "Illetve",
+    "propertyColumnHeader": "Ingatlan",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Érték",
+    "propertyFieldPlaceholder": "Nincs kijelölt tulajdon",
+    "resultsExceededLabel": "Több mint 1000 eredmény született, adjon hozzá több szűrőt az eredmények finomításához.",
+    "noDataBeforeSearchHeader": "Keresési feltételek hozzáadása a kezdéshez",
+    "noDataAfterSearchHeader": "Nem találtak ikreket",
+    "noDataAfterSearchDescription": "A keresés finomítása és újrapróbálkozás",
+    "errorMessageHeader": "A keresés nem sikerült",
+    "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
+    "valueFieldPlaceholder": "Adjon meg egy értéket",
+    "noOptionsFoundMessage": "Nem található érték"
   }
 }

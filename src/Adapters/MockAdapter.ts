@@ -45,7 +45,8 @@ import {
     IAzureSubscription,
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
-    RequiredAccessRoleGroupForStorageContainer
+    RequiredAccessRoleGroupForStorageContainer,
+    AdapterMethodParamsForSearchTwinsByQuery
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -667,8 +668,62 @@ export default class MockAdapter
             return new AdapterResult({
                 result: new ADTAdapterTwinsData({
                     value: this.mockTwins.filter((t) =>
-                        t.$dtId.includes(params.searchTerm)
+                        t[params.searchProperty].includes(params.searchTerm)
                     )
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTAdapterTwinsData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    getFirstPropertyFromQuery = (query: string) => {
+        // Initial position index is the index after WHERE in the query
+        // used here to search for first property after the WHERE clause
+        const initialPositionIndex = query.indexOf('WHERE ') + 6;
+        return query
+            .substring(
+                initialPositionIndex,
+                query.indexOf(' ', initialPositionIndex)
+            )
+            .split('T.')[1];
+    };
+
+    getFirstValueFromQuery = (query: string) => {
+        // Find value after equals operator to match to
+        // Return null in case equals operator is not found to return all twins
+        const equalsPosition = query.indexOf(' = ');
+        if (equalsPosition !== -1) {
+            return query
+                .substring(
+                    equalsPosition + 2,
+                    query.indexOf('\n', equalsPosition + 2)
+                )
+                .trim();
+        } else {
+            return null;
+        }
+    };
+
+    async searchTwinsByQuery(params: AdapterMethodParamsForSearchTwinsByQuery) {
+        try {
+            await this.mockNetwork();
+            const firstProperty = this.getFirstPropertyFromQuery(params.query);
+            const firstValue = this.getFirstValueFromQuery(params.query);
+
+            const filteredTwins = this.mockTwins.filter((twin) => {
+                return String(twin[`${firstProperty}`]) === firstValue;
+            });
+
+            return new AdapterResult({
+                // Return filtered results only in the case that user is searching for equals
+                // else return all twins
+                result: new ADTAdapterTwinsData({
+                    value: firstValue ? filteredTwins : this.mockTwins
                 }),
                 errorInfo: null
             });

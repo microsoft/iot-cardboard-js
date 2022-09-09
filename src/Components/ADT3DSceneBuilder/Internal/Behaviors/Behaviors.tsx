@@ -16,7 +16,7 @@ import { TFunction, useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
 import {
     deepCopy,
-    sortAlphabetically
+    sortAscendingOrDescending
 } from '../../../../Models/Services/Utils';
 
 import {
@@ -454,7 +454,7 @@ function getListItems(
         return viewModel;
     });
 
-    return listItems.sort(sortAlphabetically('textPrimary'));
+    return listItems.sort(sortAscendingOrDescending('textPrimary'));
 }
 
 export default SceneBehaviors;

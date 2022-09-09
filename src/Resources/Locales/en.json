@@ -1145,10 +1145,27 @@
         }
     },
     "advancedSearch": {
-        "toggleSelection": "Toggle to select twin",
-        "selectRow": "Twin selected",
-        "inspectProperty": "Inspect property",
+        "toggleSelection": "Toggle to Select Twin",
+        "selectRow": "Twin Selected",
+        "inspectProperty": "Inspect Property",
         "results": "Results ({{twinCount}})",
+        "addNewButton": "Add new",
+        "andOrColumnHeader": "And/Or",
+        "propertyColumnHeader": "Property",
+        "operatorColumnHeader": "Operator",
+        "valueColumnHeader": "Value",
+        "modalTitle": "Advanced property search",
+        "modalSubtitle": "Link the right property by narrowing down your search",
+        "noPropertiesFound": "No properties found",
+        "propertyFieldPlaceholder": "Select a property",
+        "resultsExceededLabel": "There were more than {{QUERY_RESULT_LIMIT}} results, add more filters to refine the results.",
+        "noDataBeforeSearchHeader": "Add search criteria to get started",
+        "noDataAfterSearchHeader": "No twins found",
+        "noDataAfterSearchDescription": "Refine your search and try again",
+        "errorMessageHeader": "Search failed",
+        "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
+        "noOptionsFoundMessage": "No values found",
+        "valueFieldPlaceholder": "Enter a value",
         "columnPicker": "Column picker"
     }
 }

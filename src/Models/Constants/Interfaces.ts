@@ -40,7 +40,8 @@ import {
     AdapterMethodParamsForGetADTTwinsByModelId,
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
-    AzureAccessPermissionRoleGroups
+    AzureAccessPermissionRoleGroups,
+    AdapterMethodParamsForSearchTwinsByQuery
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -87,6 +88,7 @@ import {
     IADT3DViewerStyles
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
+import ADTAdapter from '../../Adapters/ADTAdapter';
 
 export interface IAction {
     type: string;
@@ -439,6 +441,8 @@ export interface IModelledPropertyBuilderAdapter {
     ): Promise<AdapterResult<ADTTwinToModelMappingData>>;
 }
 
+export type IQueryBuilderAdapter = ADTAdapter | MockAdapter;
+
 export interface IADT3DViewerAdapter {
     getSceneData(
         sceneId: string,
@@ -460,6 +464,9 @@ export interface IADTAdapter
     ): AdapterReturnType<ADTAdapterTwinsData>;
     searchADTTwins(
         params: AdapterMethodParamsForSearchADTTwins
+    ): AdapterReturnType<ADTAdapterTwinsData>;
+    searchTwinsByQuery(
+        params: AdapterMethodParamsForSearchTwinsByQuery
     ): AdapterReturnType<ADTAdapterTwinsData>;
     getRelationships(id: string): Promise<AdapterResult<ADTRelationshipsData>>;
     getADTTwin(twinId: string): Promise<AdapterResult<ADTTwinData>>;

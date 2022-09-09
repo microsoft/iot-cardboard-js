@@ -1148,6 +1148,23 @@
     "toggleSelection": "Alternar para Selecionar gêmeos",
     "selectRow": "Gêmeos Selecionados",
     "inspectProperty": "Inspecionar propriedade",
-    "results": "Resultados ({{twinCount}})"
+    "results": "Resultados ({{twinCount}})",
+    "modalTitle": "Pesquisa avançada de propriedade",
+    "modalSubtitle": "Vincule a propriedade certa, reduzindo sua pesquisa",
+    "noPropertiesFound": "Nenhuma propriedade encontrada",
+    "addNewButton": "Adicionar novo",
+    "andOrColumnHeader": "E/Ou",
+    "propertyColumnHeader": "Propriedade",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "Nenhuma propriedade selecionada",
+    "resultsExceededLabel": "Foram mais de 1000 resultados, adicionar mais filtros para refinar os resultados.",
+    "noDataBeforeSearchHeader": "Adicione critérios de pesquisa para começar",
+    "noDataAfterSearchHeader": "Nenhum gêmeo foi encontrado.",
+    "noDataAfterSearchDescription": "Refine sua pesquisa e tente novamente",
+    "errorMessageHeader": "Falha na pesquisa",
+    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente.",
+    "valueFieldPlaceholder": "Digite um valor",
+    "noOptionsFoundMessage": "Nenhum valor encontrado"
   }
 }

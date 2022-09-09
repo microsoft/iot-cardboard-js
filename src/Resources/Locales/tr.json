@@ -1148,6 +1148,23 @@
     "toggleSelection": "İkiz Seç",
     "selectRow": "Twin Seçilmiş",
     "inspectProperty": "Özelliği İncele",
-    "results": "Sonuçlar ({{twinCount}})"
+    "results": "Sonuçlar ({{twinCount}})",
+    "modalTitle": "Gelişmiş mülk arama",
+    "modalSubtitle": "Aramanızı daraltarak doğru mülkü bağlayın",
+    "noPropertiesFound": "Tesis bulunamadı",
+    "addNewButton": "Yeni ekle",
+    "andOrColumnHeader": "Ve/veya",
+    "propertyColumnHeader": "Mülk",
+    "operatorColumnHeader": "Operatör",
+    "valueColumnHeader": "Değer",
+    "propertyFieldPlaceholder": "Hiçbir mülk seçilmedi",
+    "resultsExceededLabel": "1000'den fazla sonuç vardı, sonuçları hassaslaştırmak için daha fazla filtre ekleyin.",
+    "noDataBeforeSearchHeader": "Başlamak için arama ölçütleri ekleme",
+    "noDataAfterSearchHeader": "İkiz bulunamadı",
+    "noDataAfterSearchDescription": "Aramanızı hassaslaştırın ve yeniden deneyin",
+    "errorMessageHeader": "Arama başarısız oldu",
+    "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
+    "valueFieldPlaceholder": "Bir değer girin",
+    "noOptionsFoundMessage": "Değer bulunamadı"
   }
 }

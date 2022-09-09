@@ -1148,6 +1148,23 @@
     "toggleSelection": "Basculer pour sélectionner Twin",
     "selectRow": "Twin Sélectionné",
     "inspectProperty": "Inspecter la propriété",
-    "results": "Résultats ({{twinCount}})"
+    "results": "Résultats ({{twinCount}})",
+    "modalTitle": "Recherche avancée de propriétés",
+    "modalSubtitle": "Liez la bonne propriété en réduisant votre recherche",
+    "noPropertiesFound": "Aucune propriété trouvée",
+    "addNewButton": "Ajouter un nouveau",
+    "andOrColumnHeader": "Et/ou",
+    "propertyColumnHeader": "Propriété",
+    "operatorColumnHeader": "Opérateur",
+    "valueColumnHeader": "Valeur",
+    "propertyFieldPlaceholder": "Aucune propriété sélectionnée",
+    "resultsExceededLabel": "Il y a eu plus de 1000 résultats, ajoutez plus de filtres pour affiner les résultats.",
+    "noDataBeforeSearchHeader": "Ajouter des critères de recherche pour commencer",
+    "noDataAfterSearchHeader": "Aucun jumeau trouvé",
+    "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
+    "errorMessageHeader": "Échec de la recherche",
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
+    "valueFieldPlaceholder": "Entrez une valeur",
+    "noOptionsFoundMessage": "Aucune valeur trouvée"
   }
 }

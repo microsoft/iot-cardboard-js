@@ -1148,6 +1148,23 @@
     "toggleSelection": "Cambiar a Seleccionar gemelo",
     "selectRow": "Gemelo seleccionado",
     "inspectProperty": "Inspeccionar propiedad",
-    "results": "Resultados ({{twinCount}})"
+    "results": "Resultados ({{twinCount}})",
+    "modalTitle": "Búsqueda avanzada de propiedades",
+    "modalSubtitle": "Vincule la propiedad correcta reduciendo su búsqueda",
+    "noPropertiesFound": "No se han encontrado propiedades",
+    "addNewButton": "Añadir nuevo",
+    "andOrColumnHeader": "Y/O",
+    "propertyColumnHeader": "Propiedad",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "No hay ninguna propiedad seleccionada",
+    "resultsExceededLabel": "Hubo más de 1000 resultados, agregue más filtros para refinar los resultados.",
+    "noDataBeforeSearchHeader": "Agregar criterios de búsqueda para empezar",
+    "noDataAfterSearchHeader": "No se han encontrado gemelos",
+    "noDataAfterSearchDescription": "Refina tu búsqueda e inténtalo de nuevo",
+    "errorMessageHeader": "Error de búsqueda",
+    "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo.",
+    "valueFieldPlaceholder": "Introduzca un valor",
+    "noOptionsFoundMessage": "No se han encontrado valores"
   }
 }

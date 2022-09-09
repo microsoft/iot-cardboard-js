@@ -1148,6 +1148,23 @@
     "toggleSelection": "切换为选择双胞胎",
     "selectRow": "选择双床间",
     "inspectProperty": "检查属性",
-    "results": "Results （{{twinCount}}）"
+    "results": "Results （{{twinCount}}）",
+    "modalTitle": "高级房产搜索",
+    "modalSubtitle": "通过缩小搜索范围来链接正确的媒体资源",
+    "noPropertiesFound": "未找到任何属性",
+    "addNewButton": "添加新的",
+    "andOrColumnHeader": "和/或",
+    "propertyColumnHeader": "财产",
+    "operatorColumnHeader": "算子",
+    "valueColumnHeader": "价值",
+    "propertyFieldPlaceholder": "未选择任何属性",
+    "resultsExceededLabel": "有1000多个结果，添加更多过滤器来优化结果。",
+    "noDataBeforeSearchHeader": "添加搜索条件以开始使用",
+    "noDataAfterSearchHeader": "未找到双胞胎",
+    "noDataAfterSearchDescription": "缩小搜索范围，然后重试",
+    "errorMessageHeader": "搜索失败",
+    "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。",
+    "valueFieldPlaceholder": "输入值",
+    "noOptionsFoundMessage": "未找到任何值"
   }
 }

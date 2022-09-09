@@ -1148,6 +1148,23 @@
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
     "inspectProperty": "Zkontrolovat nemovitost",
-    "results": "Výsledky ({{twinCount}})"
+    "results": "Výsledky ({{twinCount}})",
+    "modalTitle": "Rozšířené vyhledávání vlastností",
+    "modalSubtitle": "Propojte správnou službu zúžením vyhledávání",
+    "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
+    "addNewButton": "Přidat nové",
+    "andOrColumnHeader": "Nebo",
+    "propertyColumnHeader": "Vlastnost",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Hodnota",
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
+    "resultsExceededLabel": "Bylo více než 1000 výsledků, přidejte další filtry pro upřesnění výsledků.",
+    "noDataBeforeSearchHeader": "Přidání kritérií vyhledávání, abyste mohli začít",
+    "noDataAfterSearchHeader": "Nebyla nalezena žádná dvojčata",
+    "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
+    "errorMessageHeader": "Hledání se nezdařilo",
+    "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
+    "valueFieldPlaceholder": "Zadejte hodnotu",
+    "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty"
   }
 }

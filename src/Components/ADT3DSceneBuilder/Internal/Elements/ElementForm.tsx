@@ -27,7 +27,7 @@ import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility'
 import LeftPanelBuilderHeader, {
     getLeftPanelBuilderHeaderParamsForElements
 } from '../LeftPanelBuilderHeader';
-import TwinSearchDropdown from '../../../../Components/TwinSearchDropdown/TwinSearchDropdown';
+import TwinPropertySearchDropdown from '../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
 import MeshTab from './Internal/MeshTab';
 import BehaviorsTab from './Internal/BehaviorsTab';
 import AliasedTwinsTab from './Internal/AliasedTwinsTab';
@@ -45,6 +45,7 @@ import {
 } from '../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
+import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
@@ -297,7 +298,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
                             <Stack tokens={{ childrenGap: 8 }}>
-                                <TwinSearchDropdown
+                                <TwinPropertySearchDropdown
                                     adapter={adapter}
                                     descriptionText={t(
                                         '3dSceneBuilder.elementForm.twinNameDescription'
@@ -311,11 +312,12 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             '3dSceneBuilder.elementForm.twinNameTooltip'
                                         )
                                     }}
-                                    selectedTwinId={
+                                    initialSelectedValue={
                                         elementFormState.elementToEdit
                                             ?.primaryTwinID
                                     }
-                                    onTwinIdSelect={handleSelectTwinId}
+                                    searchPropertyName={DTID_PROPERTY_NAME}
+                                    onChange={handleSelectTwinId}
                                 />
                                 <TextField
                                     label={t('name')}
