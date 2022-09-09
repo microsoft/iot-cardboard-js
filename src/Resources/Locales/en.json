@@ -1145,9 +1145,10 @@
         }
     },
     "advancedSearch": {
-        "toggleSelection": "Toggle to Select Twin",
-        "selectRow": "Twin Selected",
-        "inspectProperty": "Inspect Property",
-        "results": "Results ({{twinCount}})"
+        "toggleSelection": "Toggle to select twin",
+        "selectRow": "Twin selected",
+        "inspectProperty": "Inspect property",
+        "results": "Results ({{twinCount}})",
+        "columnPicker": "Column picker"
     }
 }

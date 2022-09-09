@@ -20,6 +20,7 @@ import {
 import { IADTTwin } from '../../../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
+import ColumnPicker from '../../Internal/ColumnPicker/ColumnPicker';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -95,11 +96,25 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     });
 
+    const getAvailableProperties = () => {
+        let properties: string[] = [];
+        twins.forEach((twin) => {
+            properties = Object.keys(twin).concat(properties);
+        });
+        return new Set(properties);
+    };
+
     return (
         <section className={classNames.root}>
-            <h3 className={classNames.listHeader}>
-                {t('advancedSearch.results', { twinCount })}
-            </h3>
+            <div className={classNames.listHeaderAndIcon}>
+                <h3 className={classNames.listHeader}>
+                    {t('advancedSearch.results', { twinCount })}
+                </h3>
+                <ColumnPicker
+                    searchedProperties={searchedProperties}
+                    allAvailableProperties={getAvailableProperties()}
+                />
+            </div>
             <DetailsList
                 items={twins}
                 columns={

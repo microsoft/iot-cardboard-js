@@ -7,7 +7,8 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 export const classPrefix = `${CardboardClassNamePrefix}-advancedsearchresultdetailslist`;
 const classNames = {
     root: `${classPrefix}-root`,
-    listHeader: `${classPrefix}-headerCorrection`
+    listHeader: `${classPrefix}-headerCorrection`,
+    listHeaderAndIcon: `${classPrefix}-listHeaderAndIcon`
 };
 export const getStyles = (
     _props: IAdvancedSearchResultDetailsListStyleProps
@@ -17,7 +18,16 @@ export const getStyles = (
         listHeader: [
             classNames.listHeader,
             {
-                margin: 0
+                margin: 0,
+                paddingLeft: 16
+            }
+        ],
+        listHeaderAndIcon: [
+            classNames.listHeaderAndIcon,
+            {
+                display: 'flex',
+                displayDirection: 'row',
+                justifyContent: 'space-between'
             }
         ],
         subComponentStyles: {
