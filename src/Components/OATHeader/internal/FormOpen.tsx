@@ -5,7 +5,8 @@ import {
     FontIcon,
     PrimaryButton,
     Stack,
-    Dropdown
+    Dropdown,
+    IDropdownOption
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IAction } from '../../../Models/Constants/Interfaces';
@@ -16,6 +17,7 @@ import {
     convertDtdlInterfacesToModels,
     loadOatFiles
 } from '../../../Models/Services/OatUtils';
+import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -25,16 +27,16 @@ interface IModal {
 export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     const { t } = useTranslation();
     const headerStyles = getHeaderStyles();
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState<IOATFile>(null);
 
     const onOpen = () => {
         const projectToOpen = new ProjectData(
-            selectedFile.key.modelPositions,
-            convertDtdlInterfacesToModels(selectedFile.key.models),
-            selectedFile.key.projectName,
-            selectedFile.key.templates,
-            selectedFile.key.namespace,
-            selectedFile.key.modelsMetadata
+            selectedFile.data.modelPositions,
+            convertDtdlInterfacesToModels(selectedFile.data.models),
+            selectedFile.data.projectName,
+            selectedFile.data.templates,
+            selectedFile.data.namespace,
+            selectedFile.data.modelsMetadata
         );
         dispatch({
             type: SET_OAT_PROJECT,
@@ -48,24 +50,22 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     const getFormatFilesToDropDownOptions = () => {
         const storedFiles = loadOatFiles();
         if (storedFiles.length > 0) {
-            const formattedFiles = storedFiles.map((file) => {
-                return {
-                    key: file.data,
-                    text: file.name
-                };
-            });
+            const formattedFiles: IDropdownOption<IOATFile>[] = storedFiles.map(
+                (file) => {
+                    return {
+                        key: file.name,
+                        text: file.name,
+                        data: file
+                    };
+                }
+            );
 
             return formattedFiles;
         }
+        return [];
     };
 
     const formattedFiles = useMemo(() => getFormatFilesToDropDownOptions(), []);
-
-    useEffect(() => {
-        if (formattedFiles.length > 0) {
-            setSelectedFile(formattedFiles[0]);
-        }
-    }, [formattedFiles]);
 
     return (
         <Stack>
@@ -76,12 +76,13 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
             </div>
 
             <div className={headerStyles.modalRow}>
-                <Text>{`${t('OATHeader.selectFile')}:`}</Text>
+                <Text>{`${t('OATHeader.fileOpenModal.dropdownLabel')}:`}</Text>
                 <Dropdown
-                    placeholder={t('OATHeader.files')}
+                    placeholder={t(
+                        'OATHeader.fileOpenModal.dropdownPlaceholder'
+                    )}
                     options={formattedFiles}
-                    onChange={(_ev, option) => setSelectedFile(option)}
-                    defaultSelectedKey={formattedFiles[0].key}
+                    onChange={(_ev, option) => setSelectedFile(option.data)}
                 />
             </div>
 

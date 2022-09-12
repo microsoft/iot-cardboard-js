@@ -1,4 +1,5 @@
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
+import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../Classes/DTDL';
 import {
@@ -157,11 +158,11 @@ export const convertDtdlInterfaceToModel = (
 };
 
 // Load files from local storage
-export const loadOatFiles = (): ProjectData[] =>
+export const loadOatFiles = (): IOATFile[] =>
     JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
 
 // Save files from local storage
-export const saveOatFiles = (files: ProjectData[]) => {
+export const saveOatFiles = (files: IOATFile[]) => {
     localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
 };
 
