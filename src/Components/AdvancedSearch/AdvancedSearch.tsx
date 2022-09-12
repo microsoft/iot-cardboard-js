@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     IAdvancedSearchProps,
     IAdvancedSearchStyleProps,
@@ -12,7 +12,9 @@ import {
     Modal,
     Icon,
     Stack,
-    IStackTokens
+    IStackTokens,
+    PrimaryButton,
+    DefaultButton
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
@@ -39,6 +41,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         allowedPropertyValueTypes,
         isOpen,
         onDismiss,
+        onTwinIdSelect,
         styles
     } = props;
     const classNames = getClassNames(styles, {
@@ -54,6 +57,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
+    const [selectedTwinId, updateSelectedTwinId] = useState<string>('');
 
     const executeQuery = (query: string) => {
         searchForTwinAdapterData.callAdapter({
@@ -76,6 +80,11 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const updateColumns = (properties: Set<string>) => {
         additionalProperties.current = properties;
     };
+
+    const onConfirmSelection = useCallback(() => {
+        onTwinIdSelect(selectedTwinId);
+        onDismiss();
+    }, [selectedTwinId]);
 
     return (
         <Modal
@@ -111,7 +120,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                         adapter={adapter}
                         isLoading={searchForTwinAdapterData.isLoading}
                         containsError={searchForTwinAdapterData.adapterResult.hasError()}
-                        onTwinSelection={null}
+                        onTwinIdSelect={updateSelectedTwinId}
                         searchedProperties={Array.from(
                             additionalProperties.current
                         )}
@@ -123,6 +132,23 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                             }
                         }}
                     />
+                    <div>
+                        <Stack
+                            tokens={{ childrenGap: 8 }}
+                            horizontal={true}
+                            horizontalAlign={'end'}
+                        >
+                            <PrimaryButton
+                                text={t('select')}
+                                disabled={!selectedTwinId.length}
+                                onClick={onConfirmSelection}
+                            />
+                            <DefaultButton
+                                text={t('cancel')}
+                                onClick={onDismiss}
+                            />
+                        </Stack>
+                    </div>
                 </Stack>
             </div>
         </Modal>

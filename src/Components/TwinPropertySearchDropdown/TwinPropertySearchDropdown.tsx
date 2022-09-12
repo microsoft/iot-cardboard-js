@@ -1,4 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+    forwardRef,
+    Ref,
+    useEffect,
+    useImperativeHandle,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     Callout,
@@ -28,7 +36,8 @@ import {
     IReactSelectOption,
     ITwinPropertySearchDropdownProps,
     ITwinPropertySearchDropdownStyleProps,
-    ITwinPropertySearchDropdownStyles
+    ITwinPropertySearchDropdownStyles,
+    PropertyValueHandle
 } from './TwinPropertySearchDropdown.types';
 
 const debugLogging = false;
@@ -47,22 +56,25 @@ const SuggestionListScrollThresholdFactor = 40;
  * @param param0 props
  * @returns a component
  */
-const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = ({
-    adapter,
-    descriptionText,
-    initialSelectedValue,
-    inputStyles,
-    isLabelHidden = false,
-    label,
-    labelIconName,
-    labelTooltip,
-    onChange,
-    noOptionsText,
-    placeholderText,
-    resetInputOnBlur = true,
-    searchPropertyName,
-    styles
-}) => {
+const TwinPropertySearchDropdown = (
+    {
+        adapter,
+        descriptionText,
+        initialSelectedValue,
+        inputStyles,
+        isLabelHidden = false,
+        label,
+        labelIconName,
+        labelTooltip,
+        onChange,
+        noOptionsText,
+        placeholderText,
+        resetInputOnBlur = true,
+        searchPropertyName,
+        styles
+    },
+    ref: Ref<PropertyValueHandle>
+) => {
     const { t } = useTranslation();
     const selectId = useId('twin-property-search-dropdown');
     const [searchValue, setSearchValue] = useState(initialSelectedValue ?? '');
@@ -196,6 +208,13 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
             </Callout>
         );
     };
+
+    // imperative handle to expose modifying the state
+    useImperativeHandle(ref, () => ({
+        updateValue: (newValue: string) => {
+            setSearchValue(newValue);
+        }
+    }));
 
     logDebugConsole(
         'debug',
@@ -343,7 +362,7 @@ const TwinPropertySearchDropdown: React.FC<ITwinPropertySearchDropdownProps> = (
 };
 
 export default styled<
-    ITwinPropertySearchDropdownProps,
+    ITwinPropertySearchDropdownProps & React.RefAttributes<PropertyValueHandle>,
     ITwinPropertySearchDropdownStyleProps,
     ITwinPropertySearchDropdownStyles
->(TwinPropertySearchDropdown, getStyles);
+>(forwardRef(TwinPropertySearchDropdown), getStyles);

@@ -16,6 +16,7 @@ export interface IAdvancedSearchProps {
     allowedPropertyValueTypes: PropertyValueType[];
     isOpen: boolean;
     onDismiss: () => void;
+    onTwinIdSelect: (selectedTwin: string) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
