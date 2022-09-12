@@ -34,11 +34,11 @@ import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
+import { deepCopy } from '../../../Models/Services/Utils';
 import {
-    deepCopy,
     deleteOatModel,
     updateModelId
-} from '../../../Models/Services/Utils';
+} from '../../../Models/Services/OatUtils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     id,
