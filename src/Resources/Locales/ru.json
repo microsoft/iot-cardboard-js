@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
     "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON",
     "deleteProjectMessage": "Вы уверены, что хотите удалить {{имя_проекта}}?",
-    "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?"
+    "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?",
+    "fileOpenModal": {
+      "dropdownLabel": "Онтология",
+      "dropdownPlaceholder": "Выберите онтологию"
+    }
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

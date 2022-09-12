@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
     "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
     "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
-    "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?"
+    "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologie",
+      "dropdownPlaceholder": "Výběr ontologie"
+    }
   },
   "OATGraphViewer": {
     "newModel": "Nový model",

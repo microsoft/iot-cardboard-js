@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: ya existe un modelo con el mismo @id",
     "errorFileInvalidJSON": "Problema con {{fileName}}: JSON no válido",
     "deleteProjectMessage": "¿Está seguro de que desea eliminar {{projectName}}?",
-    "errorSameName": "El proyecto con el mismo nombre ya existe. ¿Te gustaría sobrescribirlo?"
+    "errorSameName": "El proyecto con el mismo nombre ya existe. ¿Te gustaría sobrescribirlo?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontología",
+      "dropdownPlaceholder": "Seleccione una ontología"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

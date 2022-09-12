@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
     "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
     "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
-    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?"
+    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?",
+    "fileOpenModal": {
+      "dropdownLabel": "オントロジー",
+      "dropdownPlaceholder": "オントロジーの選択"
+    }
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
