@@ -29,6 +29,9 @@ Base.args = {
     onDismiss: () => {
         return;
     },
+    onTwinIdSelect: (selectedTwin: string) => {
+        alert(`Selected twin: ${selectedTwin}`);
+    },
     adapter: new MockAdapter(),
     allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
     theme: null
@@ -39,6 +42,9 @@ const sharedArgs = {
     isOpen: true,
     onDismiss: () => {
         return;
+    },
+    onTwinIdSelect: (selectedTwin: string) => {
+        alert(`Selected twin: ${selectedTwin}`);
     },
     adapter: new MockAdapter(),
     allowedPropertyValueTypes: queryAllowedPropertyValueTypes,
