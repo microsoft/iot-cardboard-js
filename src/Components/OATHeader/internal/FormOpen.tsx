@@ -12,7 +12,10 @@ import { IAction } from '../../../Models/Constants/Interfaces';
 import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
-import { loadFiles } from '../../../Models/Services/Utils';
+import {
+    convertDtdlInterfacesToModels,
+    loadOatFiles
+} from '../../../Models/Services/OatUtils';
 interface IModal {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -27,7 +30,7 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     const onOpen = () => {
         const projectToOpen = new ProjectData(
             selectedFile.key.modelPositions,
-            selectedFile.key.models,
+            convertDtdlInterfacesToModels(selectedFile.key.models),
             selectedFile.key.projectName,
             selectedFile.key.templates,
             selectedFile.key.namespace,
@@ -43,7 +46,7 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     };
 
     const getFormatFilesToDropDownOptions = () => {
-        const storedFiles = loadFiles();
+        const storedFiles = loadOatFiles();
         if (storedFiles.length > 0) {
             const formattedFiles = storedFiles.map((file) => {
                 return {

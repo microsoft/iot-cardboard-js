@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useMemo } from 'react';
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
@@ -16,14 +16,20 @@ import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext'
 import useCommandHistory from './Internal/Hooks/useCommandHistory';
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import {
+    convertDtdlInterfacesToModels,
     getStoredEditorData,
-    loadFiles,
-    saveFiles,
+    loadOatFiles,
+    saveOatFiles,
     storeEditorData
-} from '../../Models/Services/Utils';
+} from '../../Models/Services/OatUtils';
+import { ProjectData } from './Internal/Classes/ProjectData';
+import { getDebugLogger } from '../../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
 const OATEditorPage = ({ theme }) => {
-    const [state, dispatch] = useReducer(
+    const [oatState, oatDispatch] = useReducer(
         OATEditorPageReducer,
         defaultOATEditorState
     );
@@ -34,24 +40,36 @@ const OATEditorPage = ({ theme }) => {
         modelPositions,
         namespace,
         modelsMetadata
-    } = state;
+    } = oatState;
 
     const providerValue = useCommandHistory([]);
 
-    const languages = Object.keys(i18n.options.resources).map((language) => {
-        return {
-            key: i18n.options.resources[language].translation.languageCode,
-            text: i18n.options.resources[language].translation.languageName
-        };
-    });
+    const languages = useMemo(() => {
+        const languages = Object.keys(i18n.options.resources).map(
+            (language) => {
+                return {
+                    key: (i18n.options.resources[language].translation as any)
+                        .languageCode,
+                    text: (i18n.options.resources[language].translation as any)
+                        .languageName
+                };
+            }
+        );
+        logDebugConsole(
+            'debug',
+            `Generating language keys. Found ${languages.length} languages. {languages}`,
+            languages
+        );
+        return languages;
+    }, []);
 
     const editorPageStyles = getEditorPageStyles();
 
     useEffect(() => {
-        //  Set the OATFilesStorageKey to the localStorage
-        const files = loadFiles();
-        if (!files) {
-            saveFiles([]);
+        //  Set the OATFilesStorageKey to the localStorage if key doesn't exist
+        const files = loadOatFiles();
+        if (!files?.length) {
+            saveOatFiles([]);
         }
     }, []);
 
@@ -59,9 +77,9 @@ const OATEditorPage = ({ theme }) => {
     useEffect(() => {
         // Update oat-data storage
         const editorData = getStoredEditorData();
-        const oatEditorData = {
+        const oatEditorData: ProjectData = {
             ...editorData,
-            models,
+            models: convertDtdlInterfacesToModels(models),
             modelsData: {
                 modelPositions,
                 modelsMetadata
@@ -85,26 +103,35 @@ const OATEditorPage = ({ theme }) => {
         <CommandHistoryContext.Provider value={providerValue}>
             <ErrorBoundary FallbackComponent={OATErrorPage}>
                 <div className={editorPageStyles.container}>
-                    <OATHeader dispatch={dispatch} state={state} />
+                    <OATHeader dispatch={oatDispatch} state={oatState} />
                     <div
                         className={
-                            state.templatesActive
+                            oatState.templatesActive
                                 ? editorPageStyles.componentTemplate
                                 : editorPageStyles.component
                         }
                     >
-                        <OATModelList dispatch={dispatch} state={state} />
-                        <OATGraphViewer state={state} dispatch={dispatch} />
+                        <OATModelList dispatch={oatDispatch} state={oatState} />
+                        <OATGraphViewer
+                            state={oatState}
+                            dispatch={oatDispatch}
+                        />
                         <OATPropertyEditor
                             theme={theme}
-                            state={state}
-                            dispatch={dispatch}
+                            state={oatState}
+                            dispatch={oatDispatch}
                             languages={languages}
                         />
                     </div>
                 </div>
-                <OATErrorHandlingModal state={state} dispatch={dispatch} />
-                <OATConfirmDeleteModal state={state} dispatch={dispatch} />
+                <OATErrorHandlingModal
+                    state={oatState}
+                    dispatch={oatDispatch}
+                />
+                <OATConfirmDeleteModal
+                    state={oatState}
+                    dispatch={oatDispatch}
+                />
             </ErrorBoundary>
         </CommandHistoryContext.Provider>
     );

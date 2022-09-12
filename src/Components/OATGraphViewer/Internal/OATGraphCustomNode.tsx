@@ -36,7 +36,7 @@ import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
 import {
     deepCopy,
-    deleteModel,
+    deleteOatModel,
     updateModelId
 } from '../../../Models/Services/Utils';
 
@@ -84,7 +84,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const modelsCopy = deleteModel(id, data, models);
+                const modelsCopy = deleteOatModel(id, data, models);
                 dispatch({
                     type: SET_OAT_MODELS,
                     payload: modelsCopy

@@ -15,18 +15,8 @@ import {
     AzureAccessPermissionRoles,
     AzureAccessPermissionRoleGroups
 } from '../Constants';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship
-} from '../Constants/dtdlInterfaces';
-import {
-    CharacterWidths,
-    OATDataStorageKey,
-    OATFilesStorageKey,
-    OATUntargetedRelationshipName
-} from '../Constants/Constants';
+import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
+import { CharacterWidths } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -38,8 +28,6 @@ import {
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { IDropdownOption } from '@fluentui/react';
 import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
-import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
-import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { isConstant, toConstant } from 'constantinople';
 import { v4 } from 'uuid';
 import TreeMap from 'ts-treemap';
@@ -464,171 +452,6 @@ export async function parseModels(models: DtdlInterface[]) {
         return err.message;
     }
 }
-
-// Store OAT-data
-export const storeEditorData = (oatEditorData: ProjectData) => {
-    localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
-};
-
-// Get stored OAT-data
-export const getStoredEditorData = (): ProjectData => {
-    return JSON.parse(localStorage.getItem(OATDataStorageKey));
-};
-
-// Get stored template OAT-data
-export const getStoredEditorTemplateData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.templates ? oatData.templates : [];
-};
-
-// Get stored models OAT-data
-export const getStoredEditorModelsData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.models ? oatData.models : [];
-};
-
-// Get stored models' positions OAT-data
-export const getStoredEditorModelPositionsData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData && oatData.modelsData.modelPositions
-        ? oatData.modelsData.modelPositions
-        : [];
-};
-
-export const getStoredEditorModelMetadata = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData && oatData.modelsData.modelsMetadata
-        ? oatData.modelsData.modelsMetadata
-        : [];
-};
-
-// Get stored models' namespace OAT-data
-export const getStoredEditorNamespaceData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.namespace ? oatData.namespace : null;
-};
-
-export const updateModelId = (
-    oldId: string,
-    newId: string,
-    models: DtdlInterface[],
-    modelPositions: IOATModelPosition[]
-) => {
-    // Update the modelPositions
-    const modelsPositionsCopy = deepCopy(modelPositions);
-
-    // Find the model position with the same id
-    const modelPosition = modelsPositionsCopy.find((x) => x['@id'] === oldId);
-    if (modelPosition) {
-        modelPosition['@id'] = newId;
-    }
-
-    // Update models
-    const modelsCopy = deepCopy(models);
-    const modelCopy = modelsCopy.find((x) => x['@id'] === oldId);
-    if (modelCopy) {
-        modelCopy['@id'] = newId;
-    }
-
-    // Update contents
-    modelsCopy.forEach((m) =>
-        m.contents.forEach((c) => {
-            const r = c as DtdlRelationship;
-            if (r && r.target === oldId) {
-                r.target = newId;
-            }
-            if (r && r['@id'] === oldId) {
-                r['@id'] = newId;
-            }
-
-            const p = c as DtdlInterfaceContent;
-            if (p && p.schema === oldId) {
-                p.schema = newId;
-            }
-
-            if (m.extends) {
-                const e = m.extends as string[];
-                const i = e.indexOf(oldId);
-                if (i >= 0) {
-                    e[i] = newId;
-                }
-            }
-        })
-    );
-
-    return [modelsCopy, modelsPositionsCopy];
-};
-
-// Get fileName from DTMI
-export const getFileNameFromDTMI = (dtmi: string) => {
-    // Get id path - Get section between last ":" and ";"
-    const initialPosition = dtmi.lastIndexOf(':') + 1;
-    const finalPosition = dtmi.lastIndexOf(';');
-
-    if (initialPosition !== 0 && finalPosition !== -1) {
-        const idPath = dtmi.substring(initialPosition, finalPosition);
-        const idVersion = dtmi.substring(
-            dtmi.lastIndexOf(';') + 1,
-            dtmi.length
-        );
-        return `${idPath}-${idVersion}`;
-    }
-};
-
-// Get directoryPath from DTMI
-export const getDirectoryPathFromDTMI = (dtmi: string) => {
-    const initialPosition = dtmi.indexOf(':') + 1;
-    const finalPosition = dtmi.lastIndexOf(':');
-
-    if (initialPosition !== 0 && finalPosition !== -1) {
-        const directoryPath = dtmi.substring(initialPosition, finalPosition);
-        // Scheme - replace ":" with "\"
-        return directoryPath.replace(':', '\\');
-    }
-};
-
-// Load files from local storage
-export const loadFiles = (): ProjectData[] =>
-    JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
-
-// Save files from local storage
-export const saveFiles = (files: ProjectData[]) => {
-    localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
-};
-
-// Delete model
-export const deleteModel = (id, data, models) => {
-    const modelsCopy = deepCopy(models);
-    if (data['@type'] === OATUntargetedRelationshipName) {
-        const match = modelsCopy.find(
-            (element) => element['@id'] === data['@id']
-        );
-        if (match) {
-            match.contents = match.contents.filter(
-                (content) => content['@id'] !== id
-            );
-        }
-    } else {
-        const index = modelsCopy.findIndex((m) => m['@id'] === data['@id']);
-        if (index >= 0) {
-            modelsCopy.splice(index, 1);
-            modelsCopy.forEach((m) => {
-                m.contents = m.contents.filter(
-                    (content) =>
-                        content.target !== data['@id'] &&
-                        content.schema !== data['@id']
-                );
-                if (m.extends) {
-                    m.extends = (m.extends as string[]).filter(
-                        (ex) => ex !== data['@id']
-                    );
-                }
-            });
-        }
-    }
-
-    return modelsCopy;
-};
 
 /**
  * Sort function to order items from ascending or descending order, for boolean, numbers and strings. Case insensitive sort

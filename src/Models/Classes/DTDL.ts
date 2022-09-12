@@ -393,13 +393,13 @@ export enum DTDLSchemaType {
 
 export class DTDLModel {
     //TODO: add validations
+    '@id': string;
     readonly ['@type']: string;
     readonly ['@context']: string;
-    ['@id']: string;
-    displayName?: string;
-    description?: string;
     comment?: string;
     contents?: any[];
+    description?: string;
+    displayName?: string;
 
     constructor(
         id: string,
