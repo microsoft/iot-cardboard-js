@@ -5,7 +5,8 @@ import {
     useStoreState,
     getBezierPath,
     Position as FlowPosition,
-    Node
+    Node,
+    Edge
 } from 'react-flow-renderer';
 import {
     getGraphViewerStyles,
@@ -41,6 +42,28 @@ const separation = 10;
 
 const getPolygon = (vertexes: IOATNodePosition[]): string =>
     vertexes.map((v) => `${v.x},${v.y}`).join(' ');
+
+interface IPolygonElement {
+    element: Edge<any>;
+}
+interface IPolygonSource {
+    componentPolygon: string;
+    polygonSourceX: number;
+    polygonSourceY: number;
+    edgePathSourceX: number;
+    edgePathSourceY: number;
+    orientation: boolean;
+}
+interface IPolygonTarget {
+    inheritancePolygon: string;
+    relationshipPolygon: string;
+    polygonTargetX: number;
+    polygonTargetY: number;
+    edgePathTargetX: number;
+    edgePathTargetY: number;
+}
+
+type IPolygon = IPolygonElement & IPolygonSource & IPolygonTarget;
 
 const getComponentPolygon = (
     polygonSourceX: number,
@@ -227,7 +250,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         heightVector: number,
         adjustmentSourceX: number,
         adjustmentSourceY: number
-    ) => {
+    ): IPolygonSource => {
         // Using triangulated connection position to create componentPolygon and angles to define orientation
         let newHeight = 0;
         let newBase = 0;
@@ -303,7 +326,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         heightVector: number,
         adjustmentTargetX: number,
         adjustmentTargetY: number
-    ) => {
+    ): IPolygonTarget => {
         let newHeight = 0;
         let newBase = 0;
         let polygonTargetX = 0;
@@ -397,9 +420,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
         let adjustmentTargetX = 0;
         let adjustmentTargetY = 0;
 
-        let polygons = {};
+        let polygons: IPolygon = {} as IPolygon;
         if (edge) {
-            polygons = { element: edge };
+            const polygonElement: IPolygonElement = {
+                element: edge
+            };
             // If a valid element we get size based in positioning
             const sourceNodeSizeX = source.__rf.width;
             const sourceNodeSizeY = source.__rf.height;
@@ -437,7 +462,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
             const sourceBetaAngle = Math.asin(sourceBase / sourceHypotenuse);
             const alphaAngle = Math.asin(triangleHeight / triangleHypotenuse);
             const betaAngle = rightAngleValue - alphaAngle;
-            const sourceComponents = getSourceComponents(
+            const polygonSource = getSourceComponents(
                 betaAngle,
                 sourceBase,
                 sourceBetaAngle,
@@ -450,7 +475,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 adjustmentSourceX,
                 adjustmentSourceY
             );
-            polygons = { ...polygons, ...sourceComponents };
             // Getting vectors to adjust angle from target to source
             heightVector = targetY < sourceY ? 1 : -1;
             baseVector = targetX < sourceX ? 1 : -1;
@@ -471,7 +495,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 targetHeight * targetHeight + targetBase * targetBase
             );
             const targetBetaAngle = Math.asin(targetBase / targetHypotenuse);
-            const targetComponents = getTargetComponents(
+            const polygonTarget = getTargetComponents(
                 betaAngle,
                 targetBase,
                 targetBetaAngle,
@@ -484,7 +508,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = ({
                 adjustmentTargetX,
                 adjustmentTargetY
             );
-            polygons = { ...polygons, ...targetComponents };
+            polygons = {
+                ...polygonElement,
+                ...polygonSource,
+                ...polygonTarget
+            };
         }
         return polygons;
     }, [id, source, sourceX, sourceY, targetX, targetY]);

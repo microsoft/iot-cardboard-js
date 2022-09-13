@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
     "errorFileInvalidJSON": "{{fileName}} 문제 : 잘못된 JSON",
     "deleteProjectMessage": "{{프로젝트 이름}}을(를) 삭제하시겠습니까?",
-    "errorSameName": "이름이 같은 프로젝트가 이미 있습니다. 덮어쓰시겠습니까?"
+    "errorSameName": "이름이 같은 프로젝트가 이미 있습니다. 덮어쓰시겠습니까?",
+    "fileOpenModal": {
+      "dropdownLabel": "존재론",
+      "dropdownPlaceholder": "온톨로지 선택"
+    }
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

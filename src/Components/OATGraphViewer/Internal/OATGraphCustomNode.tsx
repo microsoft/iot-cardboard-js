@@ -34,11 +34,11 @@ import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
+import { deepCopy } from '../../../Models/Services/Utils';
 import {
-    deepCopy,
-    deleteModel,
+    deleteOatModel,
     updateModelId
-} from '../../../Models/Services/Utils';
+} from '../../../Models/Services/OatUtils';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
     id,
@@ -84,7 +84,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const modelsCopy = deleteModel(id, data, models);
+                const modelsCopy = deleteOatModel(id, data, models);
                 dispatch({
                     type: SET_OAT_MODELS,
                     payload: modelsCopy

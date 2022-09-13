@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
     "errorFileInvalidJSON": "Problem med {{fileName}}: Ogiltig JSON",
     "deleteProjectMessage": "Är du säker på att du vill ta bort {{projectName}}?",
-    "errorSameName": "Projekt med samma namn finns redan. Vill du skriva över det?"
+    "errorSameName": "Projekt med samma namn finns redan. Vill du skriva över det?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologi",
+      "dropdownPlaceholder": "Välj en ontologi"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

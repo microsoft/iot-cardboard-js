@@ -14,11 +14,8 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import {
-    deepCopy,
-    deleteModel,
-    updateModelId
-} from '../../Models/Services/Utils';
+import { deleteOatModel, updateModelId } from '../../Models/Services/OatUtils';
+import { deepCopy } from '../../Models/Services/Utils';
 import {
     getModelPropertyListItemName,
     isDisplayNameDefined
@@ -115,7 +112,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deleteModel(item['@id'], item, models);
+                const newModels = deleteOatModel(item['@id'], item, models);
                 dispatch({
                     type: SET_OAT_MODELS,
                     payload: newModels

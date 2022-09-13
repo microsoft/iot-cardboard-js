@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
     "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON",
     "deleteProjectMessage": "Biztosan törölni szeretnéd a {{projectName}} sablont?",
-    "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?"
+    "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontológia",
+      "dropdownPlaceholder": "Válasszon ki egy ontológiát"
+    }
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

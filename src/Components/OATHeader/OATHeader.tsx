@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, {
+    useEffect,
+    useState,
+    useContext,
+    useRef,
+    useCallback
+} from 'react';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
@@ -17,14 +23,14 @@ import { OATNamespaceDefaultValue } from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import {
-    deepCopy,
-    getDirectoryPathFromDTMI,
-    getFileNameFromDTMI,
-    parseModels
-} from '../../Models/Services/Utils';
+import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import ImportSubMenu from './internal/ImportSubMenu';
 import { OATHeaderProps } from './OATHeader.types';
+import {
+    convertDtdlInterfacesToModels,
+    getDirectoryPathFromDTMI,
+    getFileNameFromDTMI
+} from '../../Models/Services/OatUtils';
 
 const ID_FILE = 'file';
 const ID_IMPORT = 'import';
@@ -158,7 +164,7 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         const undoDeletion = () => {
             const project = new ProjectData(
                 modelPositions,
-                models,
+                convertDtdlInterfacesToModels(models),
                 projectName,
                 templates,
                 namespace,
@@ -219,99 +225,6 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     ];
 
-    const onFilesUpload = async (files: Array<File>) => {
-        const newFiles = [];
-        const newFilesErrors = [];
-
-        for (const file of files) {
-            if (file.type === 'application/json') {
-                newFiles.push(file);
-            } else {
-                newFilesErrors.push(
-                    t('OATHeader.errorFileFormatNotSupported', {
-                        fileName: file.name
-                    })
-                );
-            }
-        }
-
-        if (newFilesErrors.length > 0) {
-            let accumulatedError = '';
-            for (const error of newFilesErrors) {
-                accumulatedError += `${error} \n `;
-            }
-
-            dispatch({
-                type: SET_OAT_ERROR,
-                payload: {
-                    title: t('OATHeader.errorFormatNoSupported'),
-                    message: accumulatedError
-                }
-            });
-        }
-        handleFileListChanged(newFiles);
-        // Reset value of input element so that it can be reused with the same file
-        uploadInputRef.current.value = null;
-        inputRef.current.value = null;
-    };
-
-    // Populates fileNames and filePaths
-    const populateMetadata = (
-        file: File,
-        fileContent: string,
-        metaDataCopy: any
-    ) => {
-        // Get model metadata
-        // Get file name from file
-        let fileName = file.name;
-        // Get file name without extension
-        fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-        // Get directory path from file
-        let directoryPath = file.webkitRelativePath;
-        // Get directory content within first and last "\"
-        directoryPath = directoryPath.substring(
-            directoryPath.indexOf('/') + 1,
-            directoryPath.lastIndexOf('/')
-        );
-
-        if (!metaDataCopy) {
-            metaDataCopy = deepCopy(modelsMetadata);
-        }
-
-        // Get JSON from content
-        const json = JSON.parse(fileContent);
-        // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-        const modelMetadata = metaDataCopy.find(
-            (model) => model['@id'] === json['@id']
-        );
-        if (modelMetadata) {
-            // Update model metadata
-            modelMetadata.fileName = fileName;
-            modelMetadata.directoryPath = directoryPath;
-        } else {
-            // Add model metadata
-            metaDataCopy.push({
-                '@id': json['@id'],
-                fileName: fileName,
-                directoryPath: directoryPath
-            });
-        }
-
-        return metaDataCopy;
-    };
-
-    const onFilesChange = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const files = [];
-            for (const file of uploadInputRef.current.files) {
-                files.push(file);
-            }
-            onFilesUpload(files);
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    };
-
     const safeJsonParse = (value: string) => {
         try {
             const parsedJson = JSON.parse(value);
@@ -321,89 +234,190 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     };
 
-    const handleFileListChanged = async (files: Array<File>) => {
-        const newModels = [];
-        if (files.length > 0) {
-            const filesErrors = [];
-            let modelsMetadataReference = null;
-            for (const current of files) {
-                const content = await current.text();
-                const validJson = safeJsonParse(content);
-                if (validJson) {
-                    newModels.push(validJson);
+    // Populates fileNames and filePaths
+    const populateMetadata = useCallback(
+        (file: File, fileContent: string, metaDataCopy: any) => {
+            // Get model metadata
+            // Get file name from file
+            let fileName = file.name;
+            // Get file name without extension
+            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+            // Get directory path from file
+            let directoryPath = file.webkitRelativePath;
+            // Get directory content within first and last "\"
+            directoryPath = directoryPath.substring(
+                directoryPath.indexOf('/') + 1,
+                directoryPath.lastIndexOf('/')
+            );
+
+            if (!metaDataCopy) {
+                metaDataCopy = deepCopy(modelsMetadata);
+            }
+
+            // Get JSON from content
+            const json = JSON.parse(fileContent);
+            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+            const modelMetadata = metaDataCopy.find(
+                (model) => model['@id'] === json['@id']
+            );
+            if (modelMetadata) {
+                // Update model metadata
+                modelMetadata.fileName = fileName;
+                modelMetadata.directoryPath = directoryPath;
+            } else {
+                // Add model metadata
+                metaDataCopy.push({
+                    '@id': json['@id'],
+                    fileName: fileName,
+                    directoryPath: directoryPath
+                });
+            }
+
+            return metaDataCopy;
+        },
+        [modelsMetadata]
+    );
+
+    const handleFileListChanged = useCallback(
+        async (files: Array<File>) => {
+            const newModels = [];
+            if (files.length > 0) {
+                const filesErrors = [];
+                let modelsMetadataReference = null;
+                for (const current of files) {
+                    const content = await current.text();
+                    const validJson = safeJsonParse(content);
+                    if (validJson) {
+                        newModels.push(validJson);
+                    } else {
+                        filesErrors.push(
+                            t('OATHeader.errorFileInvalidJSON', {
+                                fileName: current.name
+                            })
+                        );
+                        break;
+                    }
+                }
+
+                const combinedModels = [...models, ...newModels];
+                const error = await parseModels(combinedModels);
+
+                const modelsCopy = deepCopy(models);
+                for (const model of newModels) {
+                    // Check if model already exists
+                    const modelExists = modelsCopy.find(
+                        (m) => m['@id'] === model['@id']
+                    );
+                    if (!modelExists) {
+                        modelsCopy.push(model);
+                    } else {
+                        filesErrors.push(
+                            t('OATHeader.errorImportedModelAlreadyExists', {
+                                modelId: model['@id']
+                            })
+                        );
+                        break;
+                    }
+                }
+
+                if (!error) {
+                    for (let i = 0; i < files.length; i++) {
+                        modelsMetadataReference = populateMetadata(
+                            files[i],
+                            JSON.stringify(newModels[i]),
+                            modelsMetadataReference
+                        );
+                    }
                 } else {
                     filesErrors.push(
-                        t('OATHeader.errorFileInvalidJSON', {
-                            fileName: current.name
+                        t('OATHeader.errorIssueWithFile', {
+                            fileName: t('OATHeader.file'),
+                            error
                         })
                     );
-                    break;
                 }
-            }
 
-            const combinedModels = [...models, ...newModels];
-            const error = await parseModels(combinedModels);
-
-            const modelsCopy = deepCopy(models);
-            for (const model of newModels) {
-                // Check if model already exists
-                const modelExists = modelsCopy.find(
-                    (m) => m['@id'] === model['@id']
-                );
-                if (!modelExists) {
-                    modelsCopy.push(model);
+                if (filesErrors.length === 0) {
+                    dispatch({
+                        type: SET_OAT_IMPORT_MODELS,
+                        payload: modelsCopy
+                    });
+                    dispatch({
+                        type: SET_OAT_MODELS_METADATA,
+                        payload: modelsMetadataReference
+                    });
                 } else {
-                    filesErrors.push(
-                        t('OATHeader.errorImportedModelAlreadyExists', {
-                            modelId: model['@id']
+                    let accumulatedError = '';
+                    for (const error of filesErrors) {
+                        accumulatedError += `${error}\n`;
+                    }
+
+                    dispatch({
+                        type: SET_OAT_ERROR,
+                        payload: {
+                            title: t('OATHeader.errorInvalidJSON'),
+                            message: accumulatedError
+                        }
+                    });
+                }
+            }
+        },
+        [dispatch, models, populateMetadata, t]
+    );
+
+    const onFilesUpload = useCallback(
+        async (files: Array<File>) => {
+            const newFiles = [];
+            const newFilesErrors = [];
+
+            for (const file of files) {
+                if (file.type === 'application/json') {
+                    newFiles.push(file);
+                } else {
+                    newFilesErrors.push(
+                        t('OATHeader.errorFileFormatNotSupported', {
+                            fileName: file.name
                         })
                     );
-                    break;
                 }
             }
 
-            if (!error) {
-                for (let i = 0; i < files.length; i++) {
-                    modelsMetadataReference = populateMetadata(
-                        files[i],
-                        JSON.stringify(newModels[i]),
-                        modelsMetadataReference
-                    );
-                }
-            } else {
-                filesErrors.push(
-                    t('OATHeader.errorIssueWithFile', {
-                        fileName: t('OATHeader.file'),
-                        error
-                    })
-                );
-            }
-
-            if (filesErrors.length === 0) {
-                dispatch({
-                    type: SET_OAT_IMPORT_MODELS,
-                    payload: modelsCopy
-                });
-                dispatch({
-                    type: SET_OAT_MODELS_METADATA,
-                    payload: modelsMetadataReference
-                });
-            } else {
+            if (newFilesErrors.length > 0) {
                 let accumulatedError = '';
-                for (const error of filesErrors) {
-                    accumulatedError += `${error}\n`;
+                for (const error of newFilesErrors) {
+                    accumulatedError += `${error} \n `;
                 }
 
                 dispatch({
                     type: SET_OAT_ERROR,
                     payload: {
-                        title: t('OATHeader.errorInvalidJSON'),
+                        title: t('OATHeader.errorFormatNoSupported'),
                         message: accumulatedError
                     }
                 });
             }
-        }
-    };
+            handleFileListChanged(newFiles);
+            // Reset value of input element so that it can be reused with the same file
+            uploadInputRef.current.value = null;
+            inputRef.current.value = null;
+        },
+        [dispatch, handleFileListChanged, inputRef, t]
+    );
+
+    const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+        (e) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const files = [];
+                for (const file of uploadInputRef.current.files) {
+                    files.push(file);
+                }
+                onFilesUpload(files);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        },
+        [onFilesUpload]
+    );
 
     const onFileSubMenuClose = () => {
         setFileSubMenuActive(false);
@@ -411,9 +425,9 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
 
     useEffect(() => {
         onFilesUpload(acceptedFiles);
-    }, [acceptedFiles]);
+    }, [acceptedFiles, onFilesUpload]);
 
-    const onKeyDown = (e) => {
+    const onKeyDown = useCallback((e) => {
         //Prevent event automatically repeating due to key being held down
         if (e.repeat) {
             return;
@@ -430,7 +444,7 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
             redoButtonRef.current['_onClick']();
         }
-    };
+    }, []);
 
     useEffect(() => {
         // Set listener to undo/redo buttons on key press
@@ -449,6 +463,8 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
                         type="file"
                         ref={uploadInputRef}
                         className={headerStyles.uploadDirectoryInput}
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        /** @ts-ignore */
                         webkitdirectory={''}
                         mozdirectory={''}
                         onChange={onFilesChange}

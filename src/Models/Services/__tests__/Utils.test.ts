@@ -6,14 +6,14 @@ import {
     AzureResourceTypes,
     DurationUnits,
     IAzureResource
-} from '../Constants';
+} from '../../Constants';
 import {
     areResourceValuesEqual,
     formatTimeInRelevantUnits,
     getMissingRoleIdsFromRequired,
     getRoleIdsFromRoleAssignments,
     isDefined
-} from './Utils';
+} from '../Utils';
 
 afterEach(cleanup);
 

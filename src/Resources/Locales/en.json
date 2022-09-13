@@ -864,7 +864,11 @@
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",
-        "fileUpload": "File upload"
+        "fileUpload": "File upload",
+        "fileOpenModal": {
+            "dropdownLabel": "Ontology",
+            "dropdownPlaceholder": "Select an ontology"
+        }
     },
     "OATGraphViewer": {
         "newModel": "New Model",
