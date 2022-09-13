@@ -11,7 +11,7 @@ import MockAdapter from '../../Adapters/MockAdapter';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
 export type PropertyValueHandle = {
-    updateValue: (newValue: string) => void;
+    setValue: (newValue: string) => void;
 };
 
 export interface IReactSelectOption {

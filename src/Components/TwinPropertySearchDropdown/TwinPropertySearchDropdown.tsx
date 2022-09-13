@@ -57,7 +57,10 @@ const SuggestionListScrollThresholdFactor = 40;
  * @returns a component
  */
 const TwinPropertySearchDropdown = (
-    {
+    props: ITwinPropertySearchDropdownProps,
+    ref: Ref<PropertyValueHandle>
+) => {
+    const {
         adapter,
         descriptionText,
         initialSelectedValue,
@@ -72,9 +75,7 @@ const TwinPropertySearchDropdown = (
         resetInputOnBlur = true,
         searchPropertyName,
         styles
-    },
-    ref: Ref<PropertyValueHandle>
-) => {
+    } = props;
     const { t } = useTranslation();
     const selectId = useId('twin-property-search-dropdown');
     const [searchValue, setSearchValue] = useState(initialSelectedValue ?? '');
@@ -211,8 +212,9 @@ const TwinPropertySearchDropdown = (
 
     // imperative handle to expose modifying the state
     useImperativeHandle(ref, () => ({
-        updateValue: (newValue: string) => {
+        setValue: (newValue: string) => {
             setSearchValue(newValue);
+            setSelectedOption(createOption(newValue));
         }
     }));
 

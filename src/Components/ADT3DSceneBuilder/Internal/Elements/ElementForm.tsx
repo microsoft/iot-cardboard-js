@@ -239,7 +239,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
 
     const handleSearchSelectTwinId = (selectedTwinId: string) => {
         if (propertyDropdownRef.current && selectedTwinId.length) {
-            propertyDropdownRef.current.updateValue(selectedTwinId);
+            propertyDropdownRef.current.setValue(selectedTwinId);
             handleSelectTwinId(selectedTwinId);
         }
     };
@@ -302,6 +302,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 170);
+    const iconButtonStyles = {
+        root: {
+            marginTop: '34px', // Needed to align button to dropdown
+            color: theme.semanticColors.buttonText,
+            border: `1px solid ${theme.semanticColors.inputBorder}`
+        }
+    };
     return (
         <div className={commonFormStyles.root}>
             <LeftPanelBuilderHeader
@@ -356,15 +363,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         }
                                         styles={{
                                             subComponentStyles: {
-                                                button: {
-                                                    root: {
-                                                        marginTop: '34px', // Needed to align button to dropdown
-                                                        color:
-                                                            theme.semanticColors
-                                                                .buttonText,
-                                                        border: `1px solid ${theme.semanticColors.buttonBorder}`
-                                                    }
-                                                }
+                                                button: iconButtonStyles
                                             }
                                         }}
                                     />
@@ -373,15 +372,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                             iconName: 'QueryList'
                                         }}
                                         onClick={ToggleAdvancedSearchOpen}
-                                        styles={{
-                                            root: {
-                                                marginTop: '34px', // Needed to align button to dropdown
-                                                color:
-                                                    theme.semanticColors
-                                                        .buttonText,
-                                                border: `1px solid ${theme.semanticColors.buttonBorder}`
-                                            }
-                                        }}
+                                        styles={iconButtonStyles}
                                     />
                                 </Stack>
                                 <TextField

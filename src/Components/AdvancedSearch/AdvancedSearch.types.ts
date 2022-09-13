@@ -7,6 +7,7 @@ import {
 } from '@fluentui/react';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import { PropertyValueType } from '../../Models/Constants';
+import { IAdvancedSearchResultDetailsListStyles } from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList.types';
 
 export const QUERY_RESULT_LIMIT = 1000;
 
@@ -31,6 +32,7 @@ export interface IAdvancedSearchStyleProps {
 }
 export interface IAdvancedSearchStyles {
     content: IStyle;
+    footer: IStyle;
     headerContainer: IStyle;
     title: IStyle;
     titleContainer: IStyle;
@@ -44,29 +46,5 @@ export interface IAdvancedSearchStyles {
 export interface IAdvancedSearchSubComponentStyles {
     modal?: Partial<IModalStyles>;
     icon?: IIconStyles;
+    advancedSearchDetailsList?: Partial<IAdvancedSearchResultDetailsListStyles>;
 }
-
-/** Search results types */
-export interface IAdvancedSearchResultsProps {
-    /**
-     * Call to provide customized styling that will layer on top of the variant rules.
-     */
-    styles?: IStyleFunctionOrObject<
-        IAdvancedSearchResultsStyleProps,
-        IAdvancedSearchResultsStyles
-    >;
-}
-
-export interface IAdvancedSearchResultsStyleProps {
-    theme: ITheme;
-}
-export interface IAdvancedSearchResultsStyles {
-    root: IStyle;
-    /**
-     * SubComponent styles.
-     */
-    subComponentStyles?: IAdvancedSearchResultsSubComponentStyles;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IAdvancedSearchResultsSubComponentStyles {}

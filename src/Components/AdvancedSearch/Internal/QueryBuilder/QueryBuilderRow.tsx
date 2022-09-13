@@ -332,7 +332,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             )}
             <div className={classNames.inputColumn}>
                 {/* Property */}
-                <Select<PropertyOption>
+                <Select
                     className={'AdvancedSearch-propertySelectInput'}
                     id={propertySelectorId}
                     options={isLoading ? [] : propertyOptions}
