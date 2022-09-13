@@ -133,7 +133,7 @@ const EnvironmentPicker = ({
 
     // set initial values based on props and local storage
     useEffect(() => {
-        let environmentUrls = [];
+        let environmentUrls: string[] = [];
         if (environmentUrl) {
             // passed environmentUrl has precedence over the selected environment in localstorage, if enabled
             environmentUrls = [environmentUrl];
@@ -166,7 +166,7 @@ const EnvironmentPicker = ({
             }
         });
 
-        let containerUrls: Array<string>;
+        let containerUrls: Array<string> = [];
         if (storage?.containerUrl) {
             containerUrls = [storage.containerUrl];
         }
