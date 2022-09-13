@@ -1165,6 +1165,7 @@
     "errorMessageHeader": "Wyszukiwanie nie powiodło się",
     "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
     "valueFieldPlaceholder": "Wprowadzanie wartości",
-    "noOptionsFoundMessage": "Nie znaleziono wartości"
+    "noOptionsFoundMessage": "Nie znaleziono wartości",
+    "columnPicker": "Selektor kolumn"
   }
 }

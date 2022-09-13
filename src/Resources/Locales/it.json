@@ -1165,6 +1165,7 @@
     "errorMessageHeader": "Ricerca non riuscita",
     "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova.",
     "valueFieldPlaceholder": "Inserisci un valore",
-    "noOptionsFoundMessage": "Nessun valore trovato"
+    "noOptionsFoundMessage": "Nessun valore trovato",
+    "columnPicker": "Selezione colonne"
   }
 }

@@ -1165,6 +1165,7 @@
     "errorMessageHeader": "Поиск не удался",
     "errorMessageDescription": "Произошла непредвиденная ошибка. Обновите страницу или измените критерии поиска и повторите попытку.",
     "valueFieldPlaceholder": "Введите значение",
-    "noOptionsFoundMessage": "Значения не найдены"
+    "noOptionsFoundMessage": "Значения не найдены",
+    "columnPicker": "Средство выбора столбцов"
   }
 }
