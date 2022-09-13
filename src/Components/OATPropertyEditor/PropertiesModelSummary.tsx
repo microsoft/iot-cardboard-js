@@ -11,7 +11,8 @@ import { FormBody } from './Constants';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy, updateModelId } from '../../Models/Services/Utils';
+import { deepCopy } from '../../Models/Services/Utils';
+
 import {
     SET_OAT_MODELS,
     SET_OAT_MODELS_POSITIONS,
@@ -23,6 +24,7 @@ import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Contex
 import { getModelPropertyListItemName, getTargetFromSelection } from './Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
 import { OATInterfaceType } from '../../Models/Constants/Constants';
+import { updateModelId } from '../../Models/Services/OatUtils';
 
 export const PropertiesModelSummary = ({
     dispatch,
