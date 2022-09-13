@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { FromBody } from './Enums';
-import { loadOatFiles, saveOatFiles } from '../../../Models/Services/Utils';
+import { loadOatFiles, saveOatFiles } from '../../../Models/Services/OatUtils';
 import { ModalDeleteProps } from './ModalDelete.types';
 
 export const ModalDelete = ({
