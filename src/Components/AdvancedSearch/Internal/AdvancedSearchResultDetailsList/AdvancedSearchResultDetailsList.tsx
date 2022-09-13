@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -80,32 +80,32 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     ];
 
-    const additionalColumns: IColumn[] = searchedProperties.map((name) => {
-        return {
-            key: name,
-            name: name,
-            fieldName: name,
-            minWidth: 100,
-            maxWidth: 150,
-            isResizable: true,
-            onColumnClick: () => {
-                setSortDescending(
-                    sortKey === name ? !isSortedDescending : false
-                );
-                setSortKey(name);
-            }
-        };
-    });
-
-    const columns: IColumn[] =
-        additionalColumns.length > 0
-            ? staticColumns.concat(additionalColumns)
-            : staticColumns;
-    // mark each column based on whether it's currently the one sorted
-    columns.forEach((x) => {
-        x.isSorted = sortKey === x.fieldName;
-        x.isSortedDescending = x.isSorted ? isSortedDescending : false;
-    });
+    const [cols, setColumn] = useState<IColumn[]>(staticColumns);
+    useEffect(() => {
+        const additionalCols = searchedProperties.map((name) => {
+            return {
+                key: name,
+                name: name,
+                fieldName: name,
+                minWidth: 100,
+                maxWidth: 150,
+                isResizable: true,
+                onColumnClick: () => {
+                    setSortDescending(
+                        sortKey === name ? !isSortedDescending : false
+                    );
+                    setSortKey(name);
+                }
+            };
+        });
+        const column = staticColumns.concat(additionalCols);
+        // mark each column based on whether it's currently the one sorted
+        column.forEach((x) => {
+            x.isSorted = sortKey === x.fieldName;
+            x.isSortedDescending = x.isSorted ? isSortedDescending : false;
+        });
+        setColumn(column);
+    }, [searchedProperties]);
 
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: IADTTwin,
@@ -134,13 +134,13 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     });
 
-    const noDataHeaderText = additionalColumns.length
+    const noDataHeaderText = searchedProperties.length
         ? t('advancedSearch.noDataAfterSearchHeader')
         : t('advancedSearch.noDataBeforeSearchHeader');
-    const noDataDescriptionText = additionalColumns.length
+    const noDataDescriptionText = searchedProperties.length
         ? t('advancedSearch.noDataAfterSearchDescription')
         : undefined;
-    const noDataImage = additionalColumns.length
+    const noDataImage = searchedProperties.length
         ? {
               height: 100,
               src: NoResultImg
@@ -184,7 +184,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             return (
                 <DetailsList
                     items={listItems}
-                    columns={columns}
+                    columns={cols}
                     layoutMode={DetailsListLayoutMode.justified}
                     selectionPreservedOnEmptyClick={false}
                     ariaLabelForSelectionColumn={t(
@@ -207,7 +207,12 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         });
         return new Set(properties);
     };
-
+    const updateColumns = (column: IColumn) => {
+        setColumn(cols.concat(column));
+    };
+    const deleteColumn = (columnToRemoveKey: string) => {
+        setColumn(cols.filter((col) => col.key !== columnToRemoveKey));
+    };
     return (
         <section className={classNames.root}>
             <div className={classNames.listHeaderAndIcon}>
@@ -217,6 +222,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 <ColumnPicker
                     searchedProperties={searchedProperties}
                     allAvailableProperties={getAvailableProperties()}
+                    listOfColumns={cols}
+                    addColumn={updateColumns}
+                    deleteColumn={deleteColumn}
                 />
             </div>
             {twinCount === QUERY_RESULT_LIMIT && (

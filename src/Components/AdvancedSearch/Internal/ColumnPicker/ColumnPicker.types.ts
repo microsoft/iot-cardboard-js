@@ -1,4 +1,5 @@
 import {
+    IColumn,
     IDropdownStyles,
     IIconStyles,
     IStyle,
@@ -9,8 +10,9 @@ import {
 export interface IColumnPickerProps {
     searchedProperties: string[];
     allAvailableProperties: Set<string>;
-    // allAvailableProperties: string[];
-
+    listOfColumns: IColumn[];
+    addColumn: (column: IColumn) => void;
+    deleteColumn: (columnName: string) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

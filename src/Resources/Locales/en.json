@@ -1166,6 +1166,7 @@
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "noOptionsFoundMessage": "No values found",
         "valueFieldPlaceholder": "Enter a value",
-        "columnPicker": "Column picker"
+        "columnPicker": "Column picker",
+        "propertyCount": "{{selectedPropsCount}} properties selected"
     }
 }

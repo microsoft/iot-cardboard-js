@@ -9,11 +9,12 @@ import {
     classNamesFunction,
     useTheme,
     styled,
-    IDropdownProps,
     Icon,
     Dropdown,
-    IDropdownOption
+    IDropdownOption,
+    IColumn
 } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     IColumnPickerStyleProps,
@@ -23,39 +24,72 @@ const getClassNames = classNamesFunction<
 const ColumnPicker: React.FC<IColumnPickerProps> = ({
     searchedProperties,
     allAvailableProperties,
+    listOfColumns,
+    addColumn,
+    deleteColumn,
     styles
 }) => {
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+    const { t } = useTranslation();
     const [selectedKeys, setSelectedKeys] = React.useState<string[]>([]);
+    const [selectedPropsCount, setSelectedPropsCount] = React.useState(
+        searchedProperties.length
+    );
 
     const onChange = (
         event: React.FormEvent<HTMLDivElement>,
         item: IDropdownOption
     ): void => {
         if (item) {
-            setSelectedKeys(
-                item.selected
-                    ? [...selectedKeys, item.key as string]
-                    : selectedKeys.filter((key) => key !== item.key)
-            );
+            if (item.selected) {
+                setSelectedKeys([...selectedKeys, item.key as string]);
+                setSelectedPropsCount(selectedPropsCount + 1);
+                const col: IColumn = {
+                    key: item.text,
+                    name: item.text,
+                    fieldName: item.text,
+                    minWidth: 100,
+                    maxWidth: 150,
+                    isResizable: true
+                };
+                addColumn(col);
+            } else {
+                setSelectedKeys(selectedKeys.filter((key) => key !== item.key));
+                setSelectedPropsCount(selectedPropsCount - 1);
+                deleteColumn(item.key as string);
+            }
         }
     };
-    const onRenderPlaceholder = (props: IDropdownProps) => {
+
+    const onRenderTitle = (): JSX.Element => {
+        const placeholder = [
+            {
+                key: 'Icon',
+                text: `${t('advancedSearch.propertyCount', {
+                    selectedPropsCount
+                })}`,
+                data: { icon: 'ColumnOptions' }
+            }
+        ];
         return (
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Icon
-                    iconName={'ColumnOptions'}
-                    aria-hidden="true"
-                    styles={classNames.subComponentStyles.icon}
-                />
-                <span>{props.placeholder}</span>
+            <div>
+                {placeholder[0].data && placeholder[0].data.icon && (
+                    <Icon
+                        styles={classNames.subComponentStyles.icon}
+                        iconName={placeholder[0].data.icon}
+                        aria-hidden="true"
+                        title={placeholder[0].data.icon}
+                    />
+                )}
+                <span>{placeholder[0].text}</span>
             </div>
         );
     };
     const setDropdownOptions = () => {
         const options: IDropdownOption<string>[] = [];
+
         allAvailableProperties.forEach((property) => {
             if (
                 property.localeCompare('$dtId') != 0 &&
@@ -77,10 +111,8 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
     };
     return (
         <Dropdown
-            placeholder={searchedProperties.length + ' properties selected'}
-            // defaultSelectedKeys = {searchedProperties}
             ariaLabel="Custom dropdown example"
-            onRenderPlaceholder={onRenderPlaceholder}
+            onRenderTitle={onRenderTitle}
             options={setDropdownOptions()}
             onChange={onChange}
             multiSelect={true}
