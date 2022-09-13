@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -53,6 +53,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const listItems = twins.sort(
         sortAscendingOrDescending(sortKey, isSortedDescending)
     );
+    const [selectedColumnNames, setSelectedColumnNames] = useState<string[]>(
+        searchedProperties
+    );
 
     const staticColumns: IColumn[] = [
         {
@@ -79,33 +82,28 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         }
     ];
-
-    const [cols, setColumn] = useState<IColumn[]>(staticColumns);
-    useEffect(() => {
-        const additionalCols = searchedProperties.map((name) => {
-            return {
-                key: name,
-                name: name,
-                fieldName: name,
-                minWidth: 100,
-                maxWidth: 150,
-                isResizable: true,
-                onColumnClick: () => {
-                    setSortDescending(
-                        sortKey === name ? !isSortedDescending : false
-                    );
-                    setSortKey(name);
-                }
-            };
-        });
-        const column = staticColumns.concat(additionalCols);
-        // mark each column based on whether it's currently the one sorted
-        column.forEach((x) => {
-            x.isSorted = sortKey === x.fieldName;
-            x.isSortedDescending = x.isSorted ? isSortedDescending : false;
-        });
-        setColumn(column);
-    }, [searchedProperties]);
+    const additionalCols = selectedColumnNames.map((name) => {
+        return {
+            key: name,
+            name: name,
+            fieldName: name,
+            minWidth: 100,
+            maxWidth: 150,
+            isResizable: true,
+            onColumnClick: () => {
+                setSortDescending(
+                    sortKey === name ? !isSortedDescending : false
+                );
+                setSortKey(name);
+            }
+        };
+    });
+    const tableColumns = staticColumns.concat(additionalCols);
+    // mark each column based on whether it's currently the one sorted
+    tableColumns.forEach((x) => {
+        x.isSorted = sortKey === x.fieldName;
+        x.isSortedDescending = x.isSorted ? isSortedDescending : false;
+    });
 
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: IADTTwin,
@@ -184,7 +182,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             return (
                 <DetailsList
                     items={listItems}
-                    columns={cols}
+                    columns={tableColumns}
                     layoutMode={DetailsListLayoutMode.justified}
                     selectionPreservedOnEmptyClick={false}
                     ariaLabelForSelectionColumn={t(
@@ -205,13 +203,18 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         twins.forEach((twin) => {
             properties = Object.keys(twin).concat(properties);
         });
+        properties.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
         return new Set(properties);
     };
-    const updateColumns = (column: IColumn) => {
-        setColumn(cols.concat(column));
+    const updateColumns = (columnToAdd: string) => {
+        setSelectedColumnNames((currentValue) => {
+            return currentValue.concat(columnToAdd);
+        });
     };
     const deleteColumn = (columnToRemoveKey: string) => {
-        setColumn(cols.filter((col) => col.key !== columnToRemoveKey));
+        setSelectedColumnNames((currentValue) =>
+            currentValue.filter((col) => col !== columnToRemoveKey)
+        );
     };
     return (
         <section className={classNames.root}>
@@ -222,7 +225,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 <ColumnPicker
                     searchedProperties={searchedProperties}
                     allAvailableProperties={getAvailableProperties()}
-                    listOfColumns={cols}
                     addColumn={updateColumns}
                     deleteColumn={deleteColumn}
                 />

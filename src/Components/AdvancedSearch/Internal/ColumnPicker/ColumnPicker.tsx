@@ -11,8 +11,7 @@ import {
     styled,
     Icon,
     Dropdown,
-    IDropdownOption,
-    IColumn
+    IDropdownOption
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,7 +23,6 @@ const getClassNames = classNamesFunction<
 const ColumnPicker: React.FC<IColumnPickerProps> = ({
     searchedProperties,
     allAvailableProperties,
-    listOfColumns,
     addColumn,
     deleteColumn,
     styles
@@ -46,15 +44,7 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
             if (item.selected) {
                 setSelectedKeys([...selectedKeys, item.key as string]);
                 setSelectedPropsCount(selectedPropsCount + 1);
-                const col: IColumn = {
-                    key: item.text,
-                    name: item.text,
-                    fieldName: item.text,
-                    minWidth: 100,
-                    maxWidth: 150,
-                    isResizable: true
-                };
-                addColumn(col);
+                addColumn(item.key as string);
             } else {
                 setSelectedKeys(selectedKeys.filter((key) => key !== item.key));
                 setSelectedPropsCount(selectedPropsCount - 1);
@@ -74,7 +64,7 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
             }
         ];
         return (
-            <div>
+            <div className={classNames.dropdownTitle}>
                 {placeholder[0].data && placeholder[0].data.icon && (
                     <Icon
                         styles={classNames.subComponentStyles.icon}
@@ -116,6 +106,11 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
             options={setDropdownOptions()}
             onChange={onChange}
             multiSelect={true}
+            styles={{
+                root: { paddingRight: 28, width: 200 },
+                title: { alignItems: 'center' },
+                dropdownItems: { width: 200 }
+            }}
         />
     );
 };
