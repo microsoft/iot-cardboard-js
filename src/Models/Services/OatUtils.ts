@@ -14,12 +14,16 @@ import { deepCopy } from './Utils';
 
 // Store OAT-data
 export const storeEditorData = (oatEditorData: ProjectData) => {
-    localStorage.setItem(OATDataStorageKey, JSON.stringify(oatEditorData));
+    localStorage.setItem(
+        OATDataStorageKey,
+        oatEditorData ? JSON.stringify(oatEditorData) : undefined
+    );
 };
 
 // Get stored OAT-data
 export const getStoredEditorData = (): ProjectData => {
-    return JSON.parse(localStorage.getItem(OATDataStorageKey));
+    const data = localStorage.getItem(OATDataStorageKey);
+    return data ? JSON.parse(data) : {};
 };
 
 // Get stored template OAT-data
@@ -37,16 +41,12 @@ export const getStoredEditorModelsData = () => {
 // Get stored models' positions OAT-data
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData && oatData.modelsData.modelPositions
-        ? oatData.modelsData.modelPositions
-        : [];
+    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
 };
 
 export const getStoredEditorModelMetadata = () => {
     const oatData = getStoredEditorData();
-    return oatData && oatData.modelsData && oatData.modelsData.modelsMetadata
-        ? oatData.modelsData.modelsMetadata
-        : [];
+    return oatData && oatData.modelsMetadata ? oatData.modelsMetadata : [];
 };
 
 // Get stored models' namespace OAT-data

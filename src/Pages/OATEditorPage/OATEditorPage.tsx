@@ -80,10 +80,8 @@ const OATEditorPage = ({ theme }) => {
         const oatEditorData: ProjectData = {
             ...editorData,
             models: convertDtdlInterfacesToModels(models),
-            modelsData: {
-                modelPositions,
-                modelsMetadata
-            },
+            modelPositions,
+            modelsMetadata,
             projectName,
             projectDescription: '',
             templates,

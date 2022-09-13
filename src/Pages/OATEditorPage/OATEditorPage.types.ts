@@ -26,11 +26,6 @@ export interface IOATModelsMetadata {
     directoryPath?: string;
 }
 
-export interface IOATModelData {
-    modelPositions?: IOATModelPosition[];
-    modelsMetadata?: IOATModelsMetadata[];
-}
-
 export interface IOATSelection {
     modelId: string;
     contentId?: string;

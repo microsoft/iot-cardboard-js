@@ -1,6 +1,5 @@
 import { DTDLModel } from '../../../../Models/Classes/DTDL';
 import {
-    IOATModelData,
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../OATEditorPage.types';
@@ -8,7 +7,6 @@ import {
 export class ProjectData {
     modelPositions?: IOATModelPosition[];
     models?: DTDLModel[];
-    modelsData?: IOATModelData;
     modelsMetadata?: IOATModelsMetadata[];
     namespace?: string;
     projectDescription?: string;

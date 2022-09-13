@@ -128,7 +128,7 @@ describe('OatUtils', () => {
             expect(result).toEqual({});
         });
 
-        describe('fetching parts of data', () => {
+        describe('helpers for parts of editor data', () => {
             let mockData: ProjectData;
             const storeMockData = (mockData: ProjectData) => {
                 mockLocalStorage.getItem.mockReturnValue(
@@ -207,7 +207,7 @@ describe('OatUtils', () => {
 
                 // ASSERT
                 expect(result).toBeDefined();
-                expect(result).toEqual({});
+                expect(result.length).toEqual(0);
             });
 
             test('getStoredEditorModelsData - returns stored data', () => {
