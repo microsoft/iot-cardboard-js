@@ -1166,6 +1166,7 @@
     "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
-    "columnPicker": "Výběr sloupců"
+    "columnPicker": "Výběr sloupců",
+    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané"
   }
 }

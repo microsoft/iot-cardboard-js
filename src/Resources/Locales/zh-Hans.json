@@ -1166,6 +1166,7 @@
     "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。",
     "valueFieldPlaceholder": "输入值",
     "noOptionsFoundMessage": "未找到任何值",
-    "columnPicker": "列选取器"
+    "columnPicker": "列选取器",
+    "propertyCount": "{{选定的属性计数}} 属性已选择"
   }
 }
