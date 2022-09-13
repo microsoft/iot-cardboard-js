@@ -333,7 +333,9 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
             <div className={classNames.inputColumn}>
                 {/* Property */}
                 <Select
+                    // Both className and prefix are required for testing
                     className={'AdvancedSearch-propertySelectInput'}
+                    classNamePrefix={'AdvancedSearch-propertySelectInput'}
                     id={propertySelectorId}
                     options={isLoading ? [] : propertyOptions}
                     noOptionsMessage={() =>

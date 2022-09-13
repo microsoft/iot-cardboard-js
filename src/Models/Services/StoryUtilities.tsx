@@ -132,7 +132,14 @@ export const selectReactSelectOption = (
     fireEvent.mouseDown(
         document.getElementsByClassName(`${className}__control`)[0]
     );
-    fireEvent.click(
-        document.getElementsByClassName(`${className}__option`)[optionIndex]
+    // Wait for callout to pop-up
+    setTimeout(
+        () =>
+            fireEvent.click(
+                document.getElementsByClassName(`${className}__option`)[
+                    optionIndex
+                ]
+            ),
+        1000
     );
 };
