@@ -1166,6 +1166,7 @@
     "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
-    "columnPicker": "Oszlopválasztó"
+    "columnPicker": "Oszlopválasztó",
+    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva"
   }
 }

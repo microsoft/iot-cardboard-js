@@ -1166,6 +1166,7 @@
     "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
     "valueFieldPlaceholder": "Bir değer girin",
     "noOptionsFoundMessage": "Değer bulunamadı",
-    "columnPicker": "Sütun seçici"
+    "columnPicker": "Sütun seçici",
+    "propertyCount": "{{selectedPropsCount}} özellikleri seçildi"
   }
 }
