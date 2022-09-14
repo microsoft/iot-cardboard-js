@@ -1,15 +1,10 @@
-import {
-    IStyle,
-    mergeStyleSets,
-    useTheme,
-    FontSizes,
-    IButtonStyles
-} from '@fluentui/react';
+import { IStyle, useTheme, FontSizes, IButtonStyles } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { IOATHeaderStyleProps, IOATHeaderStyles } from './OATHeader.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
-    container: `${classPrefix}-container`,
+    root: `${classPrefix}-root`,
     searchComponent: `${classPrefix}-search-component`,
     logo: `${classPrefix}-logo`,
     search: `${classPrefix}-search`,
@@ -24,11 +19,11 @@ const classNames = {
     uploadDirectoryInput: `${classPrefix}-upload-directory-input`
 };
 
-export const getHeaderStyles = () => {
-    const theme = useTheme();
-    return mergeStyleSets({
-        container: [
-            classNames.container,
+export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
+    const { theme } = props;
+    return {
+        root: [
+            classNames.root,
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
@@ -84,15 +79,6 @@ export const getHeaderStyles = () => {
                 color: theme.semanticColors.actionLink
             } as IStyle
         ],
-        modal: [
-            classNames.modal,
-            {
-                border: `1px solid ${theme.semanticColors.variantBorder}`,
-                borderRadius: '2px',
-                padding: '15px 25px',
-                minWidth: '600px'
-            } as IStyle
-        ],
         modalRow: [
             classNames.modalRow,
             {
@@ -137,51 +123,13 @@ export const getHeaderStyles = () => {
             {
                 display: 'none'
             } as IStyle
-        ]
-    });
-};
-
-export const getSubMenuItemStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            minWidth: 'max-content',
-            width: '100%',
-            padding: '8px',
-            ':hover': {
-                backgroundColor: theme.semanticColors.primaryButtonTextDisabled
+        ],
+        subComponentStyles: {
+            commandBar: {
+                root: {
+                    padding: '0px'
+                }
             }
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getSubMenuStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            position: 'absolute',
-            backgroundColor: theme.semanticColors.listBackground,
-            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.2)',
-            zIndex: 1,
-            right: '0px',
-            top: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '4px',
-            width: '400px'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getSubMenuHiddenStyles = () => {
-    return {
-        root: {
-            pointerEvents: 'none',
-            opacity: 0,
-            visibility: 'hidden'
         }
     };
 };
@@ -190,14 +138,6 @@ export const getPromptTextStyles = () => {
     return {
         root: {
             fontSize: '16px'
-        }
-    };
-};
-
-export const getCommandBarStyles = () => {
-    return {
-        root: {
-            padding: '0px'
         }
     };
 };

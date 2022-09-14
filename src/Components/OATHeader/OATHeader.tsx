@@ -1,13 +1,13 @@
-import React, {
-    useEffect,
-    useState,
-    useContext,
-    useRef,
-    useCallback
-} from 'react';
-import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import React, { useEffect, useContext, useRef, useCallback } from 'react';
+import { useBoolean } from '@fluentui/react-hooks';
+import {
+    classNamesFunction,
+    CommandBar,
+    ICommandBarItemProps,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
 
 import FileSubMenu from './internal/FileSubMenu';
@@ -25,31 +25,47 @@ import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import ImportSubMenu from './internal/ImportSubMenu';
-import { OATHeaderProps } from './OATHeader.types';
+import {
+    IOATHeaderProps,
+    IOATHeaderStyleProps,
+    IOATHeaderStyles
+} from './OATHeader.types';
 import {
     convertDtdlInterfacesToModels,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI
 } from '../../Models/Services/OatUtils';
+import { getStyles } from './OATHeader.styles';
+
+const getClassNames = classNamesFunction<
+    IOATHeaderStyleProps,
+    IOATHeaderStyles
+>();
 
 const ID_FILE = 'file';
 const ID_IMPORT = 'import';
 
-const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
+const OATHeader: React.FC<IOATHeaderProps> = (props) => {
+    const { dispatch, state, styles } = props;
+
     const { t } = useTranslation();
     const { execute, undo, redo, canUndo, canRedo } = useContext(
         CommandHistoryContext
     );
-    const headerStyles = getHeaderStyles();
-    const commandBarStyles = getCommandBarStyles();
+    const classNames = getClassNames(styles, { theme: useTheme() });
     const {
         acceptedFiles,
         getRootProps,
         getInputProps,
         inputRef
     } = useDropzone();
-    const [fileSubMenuActive, setFileSubMenuActive] = useState(false);
-    const [importSubMenuActive, setImportSubMenuActive] = useState(false);
+    const [
+        fileSubMenuActive,
+        { toggle: toggleFileSubMenu, setFalse: hideFileSubMenu }
+    ] = useBoolean(false);
+    const [importSubMenuActive, { toggle: toggleImportSubMenu }] = useBoolean(
+        false
+    );
     const {
         modelsMetadata,
         projectName,
@@ -185,14 +201,14 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             key: 'Save',
             text: t('OATHeader.file'),
             iconProps: { iconName: 'Save' },
-            onClick: () => setFileSubMenuActive(!fileSubMenuActive),
+            onClick: toggleFileSubMenu,
             id: ID_FILE
         },
         {
             key: 'Import',
             text: t('OATHeader.import'),
             iconProps: { iconName: 'Import' },
-            onClick: () => setImportSubMenuActive(!importSubMenuActive),
+            onClick: toggleImportSubMenu,
             id: ID_IMPORT
         },
         {
@@ -419,15 +435,11 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         [onFilesUpload]
     );
 
-    const onFileSubMenuClose = () => {
-        setFileSubMenuActive(false);
-    };
-
     useEffect(() => {
         onFilesUpload(acceptedFiles);
     }, [acceptedFiles, onFilesUpload]);
 
-    const onKeyDown = useCallback((e) => {
+    const onKeyDown = useCallback((e: KeyboardEvent) => {
         //Prevent event automatically repeating due to key being held down
         if (e.repeat) {
             return;
@@ -446,8 +458,8 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         }
     }, []);
 
+    // Set listener to undo/redo buttons on key press
     useEffect(() => {
-        // Set listener to undo/redo buttons on key press
         document.addEventListener('keydown', onKeyDown);
         return () => {
             document.removeEventListener('keydown', onKeyDown);
@@ -455,14 +467,17 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
     }, [onKeyDown]);
 
     return (
-        <div className={headerStyles.container}>
-            <div className={headerStyles.menuComponent}>
-                <CommandBar items={items} styles={commandBarStyles} />
-                <div className="cb-oat-header-menu">
+        <div className={classNames.root}>
+            <div className={classNames.menuComponent}>
+                <CommandBar
+                    items={items}
+                    styles={classNames.subComponentStyles.commandBar}
+                />
+                <div>
                     <input
                         type="file"
                         ref={uploadInputRef}
-                        className={headerStyles.uploadDirectoryInput}
+                        className={classNames.uploadDirectoryInput}
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         /** @ts-ignore */
                         webkitdirectory={''}
@@ -472,7 +487,7 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
                     <FileSubMenu
                         isActive={fileSubMenuActive}
                         targetId={ID_FILE}
-                        onFileSubMenuClose={onFileSubMenuClose}
+                        onFileSubMenuClose={hideFileSubMenu}
                         dispatch={dispatch}
                         state={state}
                     />
@@ -481,13 +496,12 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
                         <ImportSubMenu
                             subMenuActive={importSubMenuActive}
                             targetId={ID_IMPORT}
-                            setSubMenuActive={setImportSubMenuActive}
+                            setSubMenuActive={toggleImportSubMenu}
                             uploadFolder={onUploadFolderClick}
                             uploadFile={onUploadFileClick}
                         />
                     )}
                 </div>
-                <div className="cb-oat-header-model"></div>
             </div>
             <div {...getRootProps()}>
                 <input {...getInputProps()} />
@@ -496,8 +510,7 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
     );
 };
 
-OATHeader.defaultProps = {
-    onImportClick: () => null
-};
-
-export default OATHeader;
+export default styled<IOATHeaderProps, IOATHeaderStyleProps, IOATHeaderStyles>(
+    OATHeader,
+    getStyles
+);

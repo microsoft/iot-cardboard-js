@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ActionButton, Text, Callout } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
 import {
-    getSubMenuItemStyles,
-    getSubMenuStyles,
-    getSubMenuHiddenStyles,
-    getHeaderStyles
-} from '../OATHeader.styles';
+    ActionButton,
+    Text,
+    Callout,
+    classNamesFunction,
+    styled,
+    useTheme
+} from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 import { OATNamespaceDefaultValue } from '../../../Models/Constants';
 import {
     SET_OAT_PROJECT,
@@ -26,20 +27,33 @@ import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 import FormSettings from './FormSettings';
 import FromOpen from './FormOpen';
 import OATModal from '../../../Pages/OATEditorPage/Internal/Components/OATModal';
-import { FileSubMenuProps } from './FileSubMenu.types';
+import {
+    IFileSubMenuProps,
+    IFileSubMenuStyleProps,
+    IFileSubMenuStyles
+} from './FileSubMenu.types';
+import { getStyles } from './FileSubMenu.styles';
 
-export const FileSubMenu = ({
-    dispatch,
-    onFileSubMenuClose,
-    isActive,
-    state,
-    targetId
-}: FileSubMenuProps) => {
+const getClassNames = classNamesFunction<
+    IFileSubMenuStyleProps,
+    IFileSubMenuStyles
+>();
+
+export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
+    const {
+        dispatch,
+        onFileSubMenuClose,
+        isActive,
+        state,
+        styles,
+        targetId
+    } = props;
+
     const { t } = useTranslation();
-    const subMenuItemStyles = getSubMenuItemStyles();
-    const subMenuStyles = getSubMenuStyles();
-    const headerStyles = getHeaderStyles();
-    const subMenuHiddenStyles = getSubMenuHiddenStyles();
+    const classNames = getClassNames(styles, {
+        isMenuOpen: isActive,
+        theme: useTheme()
+    });
     const [files, setFiles] = useState(loadOatFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
@@ -110,7 +124,7 @@ export const FileSubMenu = ({
         ) {
             dispatch({
                 type: SET_OAT_PROJECT_NAME,
-                payload: t('OATHeader.untitledProject')
+                payload: t('FileSubMenu.untitledProject')
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
@@ -121,7 +135,7 @@ export const FileSubMenu = ({
         const clearProject = new ProjectData(
             [],
             [],
-            t('OATHeader.untitledProject'),
+            t('FileSubMenu.untitledProject'),
             [],
             OATNamespaceDefaultValue,
             []
@@ -223,7 +237,7 @@ export const FileSubMenu = ({
     return (
         <>
             <Callout
-                styles={isActive ? subMenuStyles : subMenuHiddenStyles}
+                styles={classNames.subComponentStyles.subMenuCallout}
                 role="dialog"
                 gapSpace={0}
                 target={`#${targetId}`}
@@ -231,70 +245,74 @@ export const FileSubMenu = ({
                 setInitialFocus
                 onDismiss={onFileSubMenuClose}
             >
-                <ActionButton styles={subMenuItemStyles} onClick={onNew}>
-                    <Text>{t('OATHeader.new')}</Text>
+                <ActionButton
+                    styles={classNames.subComponentStyles.menuItemButton()}
+                    onClick={onNew}
+                >
+                    <Text>{t('FileSubMenu.new')}</Text>
                 </ActionButton>
 
                 {files.length > 0 && (
                     <ActionButton
-                        styles={subMenuItemStyles}
+                        styles={classNames.subComponentStyles.menuItemButton()}
                         onClick={() => {
                             onFileSubMenuClose();
                             setModalBody(FromBody.open);
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('OATHeader.open')}</Text>
+                        <Text>{t('FileSubMenu.open')}</Text>
                     </ActionButton>
                 )}
 
                 <ActionButton
-                    styles={subMenuItemStyles}
+                    styles={classNames.subComponentStyles.menuItemButton()}
                     onClick={() => {
                         onFileSubMenuClose();
                         setModalBody(FromBody.save);
                         setModalOpen(true);
                     }}
                 >
-                    <Text>{t('OATHeader.saveAs')}</Text>
+                    <Text>{t('FileSubMenu.saveAs')}</Text>
                 </ActionButton>
 
-                <ActionButton styles={subMenuItemStyles} onClick={onSave}>
-                    <Text>{t('OATHeader.save')}</Text>
+                <ActionButton
+                    styles={classNames.subComponentStyles.menuItemButton()}
+                    onClick={onSave}
+                >
+                    <Text>{t('FileSubMenu.save')}</Text>
                 </ActionButton>
 
                 {isFileStored && (
                     <ActionButton
-                        styles={subMenuItemStyles}
+                        styles={classNames.subComponentStyles.menuItemButton()}
                         onClick={() => {
                             onFileSubMenuClose();
                             setModalBody(FromBody.delete);
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('OATHeader.delete')}</Text>
+                        <Text>{t('FileSubMenu.delete')}</Text>
                     </ActionButton>
                 )}
 
                 <ActionButton
-                    styles={subMenuItemStyles}
+                    styles={classNames.subComponentStyles.menuItemButton()}
                     onClick={onSettingsClick}
                 >
-                    <Text>{t('OATHeader.settings')}</Text>
+                    <Text>{t('FileSubMenu.settings')}</Text>
                 </ActionButton>
             </Callout>
 
-            <OATModal isOpen={modalOpen} className={headerStyles.modal}>
+            <OATModal isOpen={modalOpen} className={classNames.modal}>
                 {getModalBody()}
             </OATModal>
         </>
     );
 };
 
-export default FileSubMenu;
-
-FileSubMenu.defaultProps = {
-    removeItem: true,
-    duplicateItem: true,
-    addItemToTemplates: true
-};
+export default styled<
+    IFileSubMenuProps,
+    IFileSubMenuStyleProps,
+    IFileSubMenuStyles
+>(FileSubMenu, getStyles);
