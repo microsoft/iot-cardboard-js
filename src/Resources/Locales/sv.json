@@ -412,7 +412,6 @@
     "Done": "Färdig",
     "edit": "Redigera {{elementDisplayName}}",
     "editBehavior": "Redigera beteende",
-    "searchTwinId": "Sök efter tvilling-ID ($dtId)...",
     "noTwinsFound": "Inga tvillingar hittades (sökningen är skiftlägeskänslig)",
     "useNonExistingTwinId": "Ingen exakt matchning, använd",
     "addBehaviorToScene": "Lägg till beteende i scenen",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Position",
       "rotation": "Rotation"
-    }
+    },
+    "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)"
   },
   "widgets": {
     "trend": {

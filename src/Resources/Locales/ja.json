@@ -412,7 +412,6 @@
     "Done": "完成です",
     "edit": "{{elementDisplayName}} を編集",
     "editBehavior": "動作の編集",
-    "searchTwinId": "検索ツイン ID ($dtId)...",
     "noTwinsFound": "双子が見つかりません (検索では大文字と小文字が区別されます)",
     "useNonExistingTwinId": "完全に一致しない、使用",
     "addBehaviorToScene": "シーンにビヘイビアを追加する",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "立場",
       "rotation": "自転"
-    }
+    },
+    "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)"
   },
   "widgets": {
     "trend": {

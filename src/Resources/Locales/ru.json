@@ -412,7 +412,6 @@
     "Done": "Договорились",
     "edit": "Редактировать {{elementDisplayName}}",
     "editBehavior": "Редактирование поведения",
-    "searchTwinId": "Поиск Twin ID ($dtId)...",
     "noTwinsFound": "Близнецы не найдены (поиск чувствителен к регистру)",
     "useNonExistingTwinId": "Нет точного соответствия, используйте",
     "addBehaviorToScene": "Добавление поведения в сцену",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Позиция",
       "rotation": "Вращение"
-    }
+    },
+    "searchTwinIdPlaceholder": "Поиск Твин ID ($dtId)"
   },
   "widgets": {
     "trend": {

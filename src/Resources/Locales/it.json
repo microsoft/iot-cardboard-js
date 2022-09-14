@@ -412,7 +412,6 @@
     "Done": "Fatto",
     "edit": "Modifica {{elementDisplayName}}",
     "editBehavior": "Modificare il comportamento",
-    "searchTwinId": "Cerca Twin ID ($dtId)...",
     "noTwinsFound": "Nessun gemello trovato (la ricerca fa distinzione tra maiuscole e minuscole)",
     "useNonExistingTwinId": "Nessuna corrispondenza esatta, uso",
     "addBehaviorToScene": "Aggiungere un comportamento alla scena",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Posizione",
       "rotation": "Rotazione"
-    }
+    },
+    "searchTwinIdPlaceholder": "Cerca Twin ID ($dtId)"
   },
   "widgets": {
     "trend": {

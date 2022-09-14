@@ -412,7 +412,6 @@
     "Done": "Yapılmış",
     "edit": "Düzenle {{elementDisplayName}}",
     "editBehavior": "Düzenleme davranışı",
-    "searchTwinId": "Arama İkiz Kimlik ($dtId)...",
     "noTwinsFound": "İkiz bulunamadı (arama büyük/küçük harfe duyarlıdır)",
     "useNonExistingTwinId": "Tam eşleşme yok, kullanın",
     "addBehaviorToScene": "Sahneye davranış ekleme",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Konum",
       "rotation": "Rotasyon"
-    }
+    },
+    "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)"
   },
   "widgets": {
     "trend": {
