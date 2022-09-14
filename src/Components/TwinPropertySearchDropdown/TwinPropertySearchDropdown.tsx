@@ -335,7 +335,8 @@ const TwinPropertySearchDropdown = (
                         }
                     }}
                     placeholder={
-                        placeholderText || t('3dSceneBuilder.searchTwinId')
+                        placeholderText ||
+                        t('3dSceneBuilder.searchTwinIdPlaceholder')
                     }
                     noOptionsMessage={() =>
                         noOptionsText || t('3dSceneBuilder.noTwinsFound')
