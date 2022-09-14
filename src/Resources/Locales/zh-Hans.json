@@ -412,7 +412,6 @@
     "Done": "做",
     "edit": "Edit {{elementDisplayName}}",
     "editBehavior": "编辑行为",
-    "searchTwinId": "正在搜索孪生 ID （$dtId）...",
     "noTwinsFound": "未找到双胞胎（搜索区分大小写）",
     "useNonExistingTwinId": "不完全匹配，使用",
     "addBehaviorToScene": "向场景添加行为",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "位置",
       "rotation": "旋转"
-    }
+    },
+    "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）"
   },
   "widgets": {
     "trend": {

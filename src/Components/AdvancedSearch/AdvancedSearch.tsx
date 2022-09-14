@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     IAdvancedSearchProps,
     IAdvancedSearchStyleProps,
@@ -12,7 +12,9 @@ import {
     Modal,
     Icon,
     Stack,
-    IStackTokens
+    IStackTokens,
+    PrimaryButton,
+    DefaultButton
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
@@ -29,9 +31,12 @@ const getClassNames = classNamesFunction<
     IAdvancedSearchStyles
 >();
 
-const stackTokens: IStackTokens = {
-    maxHeight: 550
+const CONTENT_MAX_HEIGHT = 515;
+const containerStackTokens: IStackTokens = { childrenGap: 8 };
+const contentStackTokens: IStackTokens = {
+    maxHeight: CONTENT_MAX_HEIGHT
 };
+const footerStackTokens: IStackTokens = { childrenGap: 8 };
 
 const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const {
@@ -39,6 +44,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         allowedPropertyValueTypes,
         isOpen,
         onDismiss,
+        onTwinIdSelect,
         styles
     } = props;
     const classNames = getClassNames(styles, {
@@ -54,6 +60,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         refetchDependencies: [adapter],
         isAdapterCalledOnMount: false
     });
+    const [selectedTwinId, updateSelectedTwinId] = useState<string>('');
 
     const executeQuery = (query: string) => {
         searchForTwinAdapterData.callAdapter({
@@ -77,6 +84,11 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         additionalProperties.current = properties;
     };
 
+    const onConfirmSelection = useCallback(() => {
+        onTwinIdSelect(selectedTwinId);
+        onDismiss();
+    }, [selectedTwinId]);
+
     return (
         <Modal
             isOpen={isOpen}
@@ -85,46 +97,62 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
             styles={classNames.subComponentStyles.modal}
             layerProps={{ eventBubblingEnabled: true }}
         >
-            <div className={classNames.headerContainer}>
-                <div className={classNames.titleContainer}>
-                    <Icon
-                        iconName={'search'}
-                        styles={classNames.subComponentStyles.icon}
-                    />
-                    <h3 id={titleId} className={classNames.title}>
-                        {t('advancedSearch.modalTitle')}
-                    </h3>
+            <Stack tokens={containerStackTokens} style={{ height: '100%' }}>
+                <div className={classNames.headerContainer}>
+                    <div className={classNames.titleContainer}>
+                        <Icon
+                            iconName={'search'}
+                            styles={classNames.subComponentStyles.icon}
+                        />
+                        <h3 id={titleId} className={classNames.title}>
+                            {t('advancedSearch.modalTitle')}
+                        </h3>
+                    </div>
+                    <p className={classNames.subtitle}>
+                        {t('advancedSearch.modalSubtitle')}
+                    </p>
                 </div>
-                <p className={classNames.subtitle}>
-                    {t('advancedSearch.modalSubtitle')}
-                </p>
-            </div>
-            <div className={classNames.content}>
-                <Stack tokens={stackTokens}>
-                    <QueryBuilder
-                        adapter={adapter}
-                        allowedPropertyValueTypes={allowedPropertyValueTypes}
-                        executeQuery={executeQuery}
-                        updateColumns={updateColumns}
-                    />
-                    <AdvancedSearchResultDetailsList
-                        adapter={adapter}
-                        isLoading={searchForTwinAdapterData.isLoading}
-                        containsError={searchForTwinAdapterData.adapterResult.hasError()}
-                        onTwinSelection={null}
-                        searchedProperties={Array.from(
-                            additionalProperties.current
-                        )}
-                        twins={filteredTwins.current}
-                        styles={{
-                            root: {
-                                maxHeight: 380,
-                                overflow: 'auto'
+                <div className={classNames.content}>
+                    <Stack tokens={contentStackTokens}>
+                        <QueryBuilder
+                            adapter={adapter}
+                            allowedPropertyValueTypes={
+                                allowedPropertyValueTypes
                             }
-                        }}
-                    />
-                </Stack>
-            </div>
+                            executeQuery={executeQuery}
+                            updateColumns={updateColumns}
+                        />
+                        <AdvancedSearchResultDetailsList
+                            adapter={adapter}
+                            isLoading={searchForTwinAdapterData.isLoading}
+                            containsError={searchForTwinAdapterData.adapterResult.hasError()}
+                            onTwinIdSelect={updateSelectedTwinId}
+                            searchedProperties={Array.from(
+                                additionalProperties.current
+                            )}
+                            twins={filteredTwins.current}
+                            styles={
+                                classNames.subComponentStyles
+                                    .advancedSearchDetailsList
+                            }
+                        />
+                    </Stack>
+                </div>
+                <div className={classNames.footer}>
+                    <Stack
+                        tokens={footerStackTokens}
+                        horizontal={true}
+                        horizontalAlign={'end'}
+                    >
+                        <PrimaryButton
+                            text={t('select')}
+                            disabled={!selectedTwinId.length}
+                            onClick={onConfirmSelection}
+                        />
+                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
+                    </Stack>
+                </div>
+            </Stack>
         </Modal>
     );
 };

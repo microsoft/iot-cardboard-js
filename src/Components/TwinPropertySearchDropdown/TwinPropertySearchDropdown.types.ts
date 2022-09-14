@@ -10,6 +10,10 @@ import ADTAdapter from '../../Adapters/ADTAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { ITooltipCalloutContent } from '../TooltipCallout/TooltipCallout.types';
 
+export type PropertyValueHandle = {
+    setValue: (newValue: string) => void;
+};
+
 export interface IReactSelectOption {
     value: string;
     label: string;

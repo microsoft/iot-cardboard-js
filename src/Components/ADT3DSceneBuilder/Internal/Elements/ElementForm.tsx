@@ -8,6 +8,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import {
     DefaultButton,
+    IconButton,
     Pivot,
     PivotItem,
     PrimaryButton,
@@ -16,6 +17,7 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import {
     IADT3DSceneBuilderElementFormProps,
     SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY
@@ -46,6 +48,10 @@ import {
 import { ElementFormContextActionType } from '../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import { setPivotToRequired } from '../../../../Theming/FluentComponentStyles/Pivot.styles';
 import { DTID_PROPERTY_NAME } from '../../../../Models/Constants/Constants';
+import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout';
+import AdvancedSearch from '../../../AdvancedSearch/AdvancedSearch';
+import { queryAllowedPropertyValueTypes } from '../../../AdvancedSearch/Internal/QueryBuilder/QueryBuilder.types';
+import { PropertyValueHandle } from '../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ElementsForm', debugLogging);
@@ -75,12 +81,17 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const { elementFormDispatch, elementFormState } = useElementFormContext();
 
     // state
+    const [
+        isAdvancedSearchOpen,
+        { toggle: ToggleAdvancedSearchOpen }
+    ] = useBoolean(false);
     const existingElementsRef = useRef(
         ViewerConfigUtility.getSceneById(config, sceneId)?.elements?.filter(
             ViewerConfigUtility.isTwinToObjectMappingElement
         ) || []
     );
     const newElementsRef = useRef(null);
+    const propertyDropdownRef = useRef<PropertyValueHandle>(null);
 
     const isCreateElementDisabled = !(
         elementFormState.elementToEdit?.displayName &&
@@ -226,6 +237,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
         });
     };
 
+    const handleSearchSelectTwinId = (selectedTwinId: string) => {
+        if (propertyDropdownRef.current && selectedTwinId.length) {
+            propertyDropdownRef.current.setValue(selectedTwinId);
+            handleSelectTwinId(selectedTwinId);
+        }
+    };
+
     // effects
 
     // mirror the form state up to the scene context (for navigation confirmation)
@@ -284,6 +302,13 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const commonFormStyles = getPanelFormStyles(theme, 170);
+    const iconButtonStyles = {
+        root: {
+            marginTop: '34px', // Needed to align button to dropdown
+            color: theme.semanticColors.buttonText,
+            border: `1px solid ${theme.semanticColors.inputBorder}`
+        }
+    };
     return (
         <div className={commonFormStyles.root}>
             <LeftPanelBuilderHeader
@@ -298,27 +323,58 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
                             <Stack tokens={{ childrenGap: 8 }}>
-                                <TwinPropertySearchDropdown
-                                    adapter={adapter}
-                                    descriptionText={t(
-                                        '3dSceneBuilder.elementForm.twinNameDescription'
-                                    )}
-                                    label={t('3dSceneBuilder.primaryTwin')}
-                                    labelTooltip={{
-                                        buttonAriaLabel: t(
-                                            '3dSceneBuilder.elementForm.twinNameTooltip'
-                                        ),
-                                        calloutContent: t(
-                                            '3dSceneBuilder.elementForm.twinNameTooltip'
-                                        )
-                                    }}
-                                    initialSelectedValue={
-                                        elementFormState.elementToEdit
-                                            ?.primaryTwinID
-                                    }
-                                    searchPropertyName={DTID_PROPERTY_NAME}
-                                    onChange={handleSelectTwinId}
-                                />
+                                <Stack
+                                    horizontal={true}
+                                    tokens={{ childrenGap: 4 }}
+                                >
+                                    <TwinPropertySearchDropdown
+                                        ref={propertyDropdownRef}
+                                        adapter={adapter}
+                                        descriptionText={t(
+                                            '3dSceneBuilder.elementForm.twinNameDescription'
+                                        )}
+                                        label={t('3dSceneBuilder.primaryTwin')}
+                                        labelTooltip={{
+                                            buttonAriaLabel: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            ),
+                                            calloutContent: t(
+                                                '3dSceneBuilder.elementForm.twinNameTooltip'
+                                            )
+                                        }}
+                                        initialSelectedValue={
+                                            elementFormState.elementToEdit
+                                                ?.primaryTwinID
+                                        }
+                                        searchPropertyName={DTID_PROPERTY_NAME}
+                                        onChange={handleSelectTwinId}
+                                    />
+                                    <PropertyInspectorCallout
+                                        adapter={adapter}
+                                        twinId={
+                                            elementFormState.elementToEdit
+                                                ?.primaryTwinID
+                                        }
+                                        disabled={
+                                            !(
+                                                elementFormState.elementToEdit
+                                                    ?.primaryTwinID?.length > 0
+                                            )
+                                        }
+                                        styles={{
+                                            subComponentStyles: {
+                                                button: iconButtonStyles
+                                            }
+                                        }}
+                                    />
+                                    <IconButton
+                                        iconProps={{
+                                            iconName: 'QueryList'
+                                        }}
+                                        onClick={ToggleAdvancedSearchOpen}
+                                        styles={iconButtonStyles}
+                                    />
+                                </Stack>
                                 <TextField
                                     label={t('name')}
                                     value={
@@ -417,6 +473,18 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             onClick={onCancelClick}
                         />
                     </PanelFooter>
+                    {/* Modal */}
+                    {isAdvancedSearchOpen && (
+                        <AdvancedSearch
+                            adapter={adapter}
+                            allowedPropertyValueTypes={
+                                queryAllowedPropertyValueTypes
+                            }
+                            isOpen={isAdvancedSearchOpen}
+                            onDismiss={ToggleAdvancedSearchOpen}
+                            onTwinIdSelect={handleSearchSelectTwinId}
+                        />
+                    )}
                 </>
             )}
         </div>

@@ -412,7 +412,6 @@
     "Done": "Kész",
     "edit": "{{elementDisplayName}} szerkesztése",
     "editBehavior": "Viselkedés szerkesztése",
-    "searchTwinId": "Keresés Twin ID ($dtId)...",
     "noTwinsFound": "Nem található ikerpár (a keresés megkülönbözteti a kis- és nagybetűket)",
     "useNonExistingTwinId": "Nincs pontos egyezés, használat",
     "addBehaviorToScene": "Viselkedés hozzáadása a jelenethez",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Pozíció",
       "rotation": "Forgás"
-    }
+    },
+    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)"
   },
   "widgets": {
     "trend": {

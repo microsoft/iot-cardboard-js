@@ -412,7 +412,6 @@
     "Done": "수행",
     "edit": "편집 {{elementDisplayName}}",
     "editBehavior": "동작 편집",
-    "searchTwinId": "트윈 ID ($dtId)를 검색 ...",
     "noTwinsFound": "쌍둥이를 찾을 수 없음(검색은 대/소문자를 구분함)",
     "useNonExistingTwinId": "정확한 일치가 없으므로 사용하십시오.",
     "addBehaviorToScene": "장면에 동작 추가",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "위치",
       "rotation": "회전"
-    }
+    },
+    "searchTwinIdPlaceholder": "트윈 ID ($dtId) 검색"
   },
   "widgets": {
     "trend": {

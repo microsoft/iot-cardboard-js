@@ -412,7 +412,6 @@
     "Done": "Terminado",
     "edit": "Editar {{elementDisplayName}}",
     "editBehavior": "Editar comportamento",
-    "searchTwinId": "Pesquisar twin id ($dtId)...",
     "noTwinsFound": "Nenhum gêmeo encontrado (a busca é sensível ao caso)",
     "useNonExistingTwinId": "Sem correspondência exata, use",
     "addBehaviorToScene": "Adicionar comportamento à cena",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Posição",
       "rotation": "Rotação"
-    }
+    },
+    "searchTwinIdPlaceholder": "Pesquisar iD duplo ($dtId)"
   },
   "widgets": {
     "trend": {

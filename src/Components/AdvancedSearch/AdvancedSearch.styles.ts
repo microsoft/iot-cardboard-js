@@ -7,6 +7,7 @@ import {
 export const classPrefix = 'cb-advancedsearch';
 const classNames = {
     content: `${classPrefix}-content`,
+    footer: `${classPrefix}-footer`,
     headerContainer: `${classPrefix}-headerContainer`,
     subtitle: `${classPrefix}-subtitle`,
     title: `${classPrefix}-title`,
@@ -17,7 +18,13 @@ export const getStyles = (
     _props: IAdvancedSearchStyleProps
 ): IAdvancedSearchStyles => {
     return {
-        content: [classNames.content],
+        content: [
+            classNames.content,
+            {
+                height: '100%'
+            }
+        ],
+        footer: [classNames.footer],
         headerContainer: [classNames.headerContainer],
         title: [
             classNames.title,
@@ -41,6 +48,9 @@ export const getStyles = (
                     height: 690,
                     width: 940,
                     padding: 20
+                },
+                scrollableContent: {
+                    height: '100%'
                 }
             },
             icon: {
@@ -50,6 +60,11 @@ export const getStyles = (
                     paddingRight: 12,
                     paddingTop: 8,
                     fontSize: FontSizes.size20
+                }
+            },
+            advancedSearchDetailsList: {
+                root: {
+                    overflow: 'auto'
                 }
             }
         }

@@ -34,6 +34,9 @@ const Template: AdvancedSearchStory = (_args) => {
                     authenticationParameters.storage.blobContainerUrl
                 )
             }
+            onTwinIdSelect={(selectedTwin: string) => {
+                alert(`Selected twin: ${selectedTwin}`);
+            }}
             allowedPropertyValueTypes={queryAllowedPropertyValueTypes}
             isOpen={true}
             onDismiss={() => ({})}

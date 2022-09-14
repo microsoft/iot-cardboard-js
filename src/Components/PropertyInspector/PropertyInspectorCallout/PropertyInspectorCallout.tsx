@@ -25,7 +25,7 @@ const getClassNames = classNamesFunction<
 const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
     props
 ) => {
-    const { adapter, twinId, styles } = props;
+    const { adapter, disabled = false, twinId, styles } = props;
 
     // state
     const [isVisible, { toggle: setIsVisible }] = useBoolean(false);
@@ -51,6 +51,7 @@ const PropertyInspectorCallout: React.FC<IPropertyInspectorCalloutProps> = (
                 }}
                 id={buttonId}
                 styles={classNames.subComponentStyles.button?.()}
+                disabled={disabled}
             />
             {isVisible && (
                 <Callout
