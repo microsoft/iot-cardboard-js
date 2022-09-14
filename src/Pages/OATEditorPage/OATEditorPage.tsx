@@ -12,8 +12,7 @@ import {
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
 import i18n from '../../i18n';
 import OATErrorPage from './Internal/OATErrorPage';
-import { CommandHistoryContext } from './Internal/Context/CommandHistoryContext';
-import useCommandHistory from './Internal/Hooks/useCommandHistory';
+import { CommandHistoryContextProvider } from './Internal/Context/CommandHistoryContext';
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import {
     convertDtdlInterfacesToModels,
@@ -41,8 +40,6 @@ const OATEditorPage = ({ theme }) => {
         namespace,
         modelsMetadata
     } = oatState;
-
-    const providerValue = useCommandHistory([]);
 
     const languages = useMemo(() => {
         const languages = Object.keys(i18n.options.resources).map(
@@ -98,7 +95,7 @@ const OATEditorPage = ({ theme }) => {
     ]);
 
     return (
-        <CommandHistoryContext.Provider value={providerValue}>
+        <CommandHistoryContextProvider>
             <ErrorBoundary FallbackComponent={OATErrorPage}>
                 <div className={editorPageStyles.container}>
                     <OATHeader dispatch={oatDispatch} state={oatState} />
@@ -131,7 +128,7 @@ const OATEditorPage = ({ theme }) => {
                     dispatch={oatDispatch}
                 />
             </ErrorBoundary>
-        </CommandHistoryContext.Provider>
+        </CommandHistoryContextProvider>
     );
 };
 

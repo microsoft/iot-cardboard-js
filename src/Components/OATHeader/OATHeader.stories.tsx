@@ -4,9 +4,8 @@ import {
     defaultOATEditorState
 } from '../../Pages/OATEditorPage/OATEditorPage.state';
 import OATHeader from './OATHeader';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
 import BaseComponent from '../BaseComponent/BaseComponent';
+import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 export default {
     title: 'Components/OATHeader',
@@ -19,13 +18,11 @@ export const Default = (args, { globals: { theme, locale } }) => {
         defaultOATEditorState
     );
 
-    const providerValue = useCommandHistory([]);
-
     return (
         <BaseComponent locale={locale} theme={theme}>
-            <CommandHistoryContext.Provider value={providerValue}>
+            <CommandHistoryContextProvider>
                 <OATHeader dispatch={dispatch} state={state} />
-            </CommandHistoryContext.Provider>
+            </CommandHistoryContextProvider>
         </BaseComponent>
     );
 };

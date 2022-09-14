@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
+import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
 import { OATEditorPageReducer } from '../../Pages/OATEditorPage/OATEditorPage.state';
@@ -17,13 +16,11 @@ export const Default = (_args, { globals: { theme, locale } }) => {
         defaultOATEditorState
     );
 
-    const providerValue = useCommandHistory([]);
-
     return (
         <BaseComponent locale={locale} theme={theme}>
-            <CommandHistoryContext.Provider value={providerValue}>
+            <CommandHistoryContextProvider>
                 <OATGraphViewer state={state} dispatch={dispatch} />
-            </CommandHistoryContext.Provider>
+            </CommandHistoryContextProvider>
         </BaseComponent>
     );
 };

@@ -1,8 +1,7 @@
 import React, { useReducer } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import useCommandHistory from '../../Pages/OATEditorPage/Internal/Hooks/useCommandHistory';
+import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     defaultOATEditorState,
     OATEditorPageReducer
@@ -27,18 +26,16 @@ export const Default = (_args, { globals: { theme, locale } }) => {
         };
     });
 
-    const providerValue = useCommandHistory([]);
-
     return (
         <BaseComponent locale={locale} theme={theme}>
-            <CommandHistoryContext.Provider value={providerValue}>
+            <CommandHistoryContextProvider>
                 <OATPropertyEditor
                     theme={theme}
                     state={state}
                     dispatch={dispatch}
                     languages={languages}
                 />
-            </CommandHistoryContext.Provider>
+            </CommandHistoryContextProvider>
         </BaseComponent>
     );
 };

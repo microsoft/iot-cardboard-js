@@ -4,22 +4,18 @@ import {
     classNamesFunction,
     CommandBar,
     ICommandBarItemProps,
+    IContextualMenuItem,
     styled,
     useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 
-import FileSubMenu from './internal/FileSubMenu';
 import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
     SET_OAT_ERROR,
-    SET_OAT_MODELS_METADATA,
-    SET_OAT_PROJECT
+    SET_OAT_MODELS_METADATA
 } from '../../Models/Constants/ActionTypes';
-import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 
-import { OATNamespaceDefaultValue } from '../../Models/Constants';
 import { useDropzone } from 'react-dropzone';
 import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
@@ -31,7 +27,6 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
-    convertDtdlInterfacesToModels,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI
 } from '../../Models/Services/OatUtils';
@@ -42,16 +37,13 @@ const getClassNames = classNamesFunction<
     IOATHeaderStyles
 >();
 
-const ID_FILE = 'file';
 const ID_IMPORT = 'import';
 
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { dispatch, state, styles } = props;
 
     const { t } = useTranslation();
-    const { execute, undo, redo, canUndo, canRedo } = useContext(
-        CommandHistoryContext
-    );
+    const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
     const classNames = getClassNames(styles, { theme: useTheme() });
     const {
         acceptedFiles,
@@ -59,10 +51,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         getInputProps,
         inputRef
     } = useDropzone();
-    const [
-        fileSubMenuActive,
-        { toggle: toggleFileSubMenu, setFalse: hideFileSubMenu }
-    ] = useBoolean(false);
     const [importSubMenuActive, { toggle: toggleImportSubMenu }] = useBoolean(
         false
     );
@@ -153,63 +141,24 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         inputRef.current.click();
     };
 
-    const onDeleteAll = () => {
-        const deletion = () => {
-            const dispatchDelete = () => {
-                const newProject = new ProjectData(
-                    [],
-                    [],
-                    projectName,
-                    [],
-                    OATNamespaceDefaultValue,
-                    []
-                );
-
-                dispatch({
-                    type: SET_OAT_PROJECT,
-                    payload: newProject
-                });
-            };
-
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
-                payload: { open: true, callback: dispatchDelete }
-            });
-        };
-
-        const undoDeletion = () => {
-            const project = new ProjectData(
-                modelPositions,
-                convertDtdlInterfacesToModels(models),
-                projectName,
-                templates,
-                namespace,
-                modelsMetadata
-            );
-
-            dispatch({
-                type: SET_OAT_PROJECT,
-                payload: project
-            });
-        };
-
-        execute(deletion, undoDeletion);
-    };
-
-    const items: ICommandBarItemProps[] = [
+    const fileMenuItems: IContextualMenuItem[] = [
         {
-            key: 'Save',
-            text: t('OATHeader.file'),
-            iconProps: { iconName: 'Save' },
-            onClick: toggleFileSubMenu,
-            id: ID_FILE
+            key: 'new',
+            text: 'New file',
+            iconProps: { iconName: 'Add' },
+            onClick: () => alert('Create file')
         },
         {
             key: 'Import',
-            text: t('OATHeader.import'),
+            text: t('OATHeader.importFile'),
             iconProps: { iconName: 'Import' },
-            onClick: toggleImportSubMenu,
-            id: ID_IMPORT
+            onClick: () => alert('Import file')
+        },
+        {
+            key: 'Import',
+            text: t('OATHeader.importFolder'),
+            iconProps: { iconName: 'Import' },
+            onClick: () => alert('Import folder')
         },
         {
             key: 'Export',
@@ -218,26 +167,73 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             onClick: onExportClick
         },
         {
-            key: 'Undo',
-            text: t('OATHeader.undo'),
+            key: 'settings',
+            text: 'Settings',
+            iconProps: { iconName: 'Settings' },
+            onClick: () => alert('Open settings')
+        }
+    ];
+    const saveMenuItems: IContextualMenuItem[] = [
+        {
+            key: 'save',
+            text: 'Save',
+            iconProps: { iconName: 'Save' }
+        },
+        {
+            key: 'saveAs',
+            text: 'Save as',
+            iconProps: { iconName: 'Save' }
+        }
+    ];
+    const undoMenuItems: IContextualMenuItem[] = [
+        {
+            key: 'under',
+            text: 'Undo',
             iconProps: { iconName: 'Undo' },
             onClick: undo,
             disabled: !canUndo,
             componentRef: undoButtonRef
         },
         {
-            key: 'Redo',
-            text: t('OATHeader.redo'),
+            key: 'redo',
+            text: 'Redo',
             iconProps: { iconName: 'Redo' },
             onClick: redo,
             disabled: !canRedo,
             componentRef: redoButtonRef
+        }
+    ];
+    const commandBarItems: ICommandBarItemProps[] = [
+        {
+            key: 'file',
+            text: t('OATHeader.file'),
+            iconProps: { iconName: 'Save' },
+            subMenuProps: {
+                items: fileMenuItems
+            }
         },
         {
-            key: 'DeleteAll',
-            text: t('OATHeader.deleteAll'),
-            iconProps: { iconName: 'Delete' },
-            onClick: onDeleteAll
+            key: 'save',
+            text: 'Save',
+            iconProps: { iconName: 'Save' },
+            subMenuProps: {
+                items: saveMenuItems
+            }
+        },
+        {
+            key: 'Undo',
+            text: t('OATHeader.undo'),
+            iconProps: { iconName: 'Undo' },
+            disabled: !(canRedo || canUndo),
+            subMenuProps: {
+                items: undoMenuItems
+            }
+        },
+        {
+            key: 'newModel',
+            text: 'New model',
+            iconProps: { iconName: 'Add' },
+            onClick: () => alert('create model')
         }
     ];
 
@@ -470,7 +466,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         <div className={classNames.root}>
             <div className={classNames.menuComponent}>
                 <CommandBar
-                    items={items}
+                    items={commandBarItems}
                     styles={classNames.subComponentStyles.commandBar}
                 />
                 <div>
@@ -484,13 +480,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         mozdirectory={''}
                         onChange={onFilesChange}
                     />
-                    <FileSubMenu
+                    {/* <FileSubMenu
                         isActive={fileSubMenuActive}
                         targetId={ID_FILE}
                         onFileSubMenuClose={hideFileSubMenu}
                         dispatch={dispatch}
                         state={state}
-                    />
+                    /> */}
 
                     {importSubMenuActive && (
                         <ImportSubMenu
