@@ -13,7 +13,7 @@ export type IOATHeaderProps = {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
-    styles?: IStyleFunctionOrObject<undefined, IOATHeaderStyles>;
+    styles?: IStyleFunctionOrObject<IOATHeaderStyleProps, IOATHeaderStyles>;
 };
 
 export interface IOATHeaderStyleProps {
@@ -28,9 +28,6 @@ export interface IOATHeaderStyles {
     options: IStyle;
     menuComponent: IStyle;
     optionIcon: IStyle;
-    modalRow: IStyle;
-    modalRowFlexEnd: IStyle;
-    modalRowCenterItem: IStyle;
     uploadDirectoryInput: IStyle;
 
     /**

@@ -3,7 +3,8 @@ import {
     IStyle,
     IStyleFunctionOrObject,
     ICalloutContentStyles,
-    IButtonStyles
+    IButtonStyles,
+    IModalStyles
 } from '@fluentui/react';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
@@ -37,4 +38,5 @@ export interface IFileSubMenuStyles {
 export interface IFileSubMenuSubComponentStyles {
     subMenuCallout: Partial<ICalloutContentStyles>;
     menuItemButton: IButtonStyles;
+    modal: Partial<IModalStyles>;
 }

@@ -1,8 +1,12 @@
-import { IOATNodePosition } from '../../Models/Constants';
+import { IOATNodePosition, Theme } from '../../Models/Constants';
 import {
     DtdlInterface,
     DtdlProperty
 } from '../../Models/Constants/dtdlInterfaces';
+
+export interface IOATEditorPageProps {
+    selectedTheme: Theme;
+}
 
 export interface IOATError {
     callback?: () => void;

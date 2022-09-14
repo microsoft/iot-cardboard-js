@@ -23,11 +23,12 @@ import {
 } from '../../Models/Services/OatUtils';
 import { ProjectData } from './Internal/Classes/ProjectData';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import { IOATEditorPageProps } from './OATEditorPage.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
-const OATEditorPage = ({ theme }) => {
+const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
     const [oatState, oatDispatch] = useReducer(
         OATEditorPageReducer,
         defaultOATEditorState
@@ -112,7 +113,7 @@ const OATEditorPage = ({ theme }) => {
                             dispatch={oatDispatch}
                         />
                         <OATPropertyEditor
-                            theme={theme}
+                            theme={selectedTheme}
                             state={oatState}
                             dispatch={oatDispatch}
                             languages={languages}

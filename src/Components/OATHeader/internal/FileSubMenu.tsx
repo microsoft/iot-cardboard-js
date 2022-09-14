@@ -5,7 +5,8 @@ import {
     Callout,
     classNamesFunction,
     styled,
-    useTheme
+    useTheme,
+    Modal
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { OATNamespaceDefaultValue } from '../../../Models/Constants';
@@ -26,13 +27,12 @@ import FormSaveAs from './FormSaveAs';
 import ModalSaveCurrentProjectAndClear from './ModalSaveCurrentProjectAndClear';
 import FormSettings from './FormSettings';
 import FromOpen from './FormOpen';
-import OATModal from '../../../Pages/OATEditorPage/Internal/Components/OATModal';
 import {
     IFileSubMenuProps,
     IFileSubMenuStyleProps,
     IFileSubMenuStyles
-} from './OATHeader.types';
-import { getStyles } from './OATHeader.styles';
+} from './FileSubMenu.types';
+import { getStyles } from './FileSubMenu.styles';
 
 const getClassNames = classNamesFunction<
     IFileSubMenuStyleProps,
@@ -304,9 +304,12 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                 </ActionButton>
             </Callout>
 
-            <OATModal isOpen={modalOpen} className={classNames.modal}>
+            <Modal
+                isOpen={modalOpen}
+                styles={classNames.subComponentStyles.modal}
+            >
                 {getModalBody()}
-            </OATModal>
+            </Modal>
         </>
     );
 };

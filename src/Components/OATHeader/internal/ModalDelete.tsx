@@ -4,24 +4,36 @@ import {
     ActionButton,
     FontIcon,
     PrimaryButton,
-    Stack
+    Stack,
+    classNamesFunction,
+    styled,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
+import { getPromptTextStyles } from '../OATHeader.styles';
 import { FromBody } from './Enums';
 import { loadOatFiles, saveOatFiles } from '../../../Models/Services/OatUtils';
-import { ModalDeleteProps } from './ModalDelete.types';
+import {
+    IModalDeleteProps,
+    IModalDeleteStyleProps,
+    IModalDeleteStyles
+} from './ModalDelete.types';
+import { getStyles } from './ModalDelete.styles';
 
-export const ModalDelete = ({
-    resetProject,
-    onClose,
-    setModalBody,
+const getClassNames = classNamesFunction<
+    IModalDeleteStyleProps,
+    IModalDeleteStyles
+>();
 
-    state
-}: ModalDeleteProps) => {
+export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
+    const { resetProject, onClose, setModalBody, state, styles } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const headerStyles = getHeaderStyles();
+
+    // styles
     const promptTextStyles = getPromptTextStyles();
+    const classNames = getClassNames(styles, { theme: useTheme() });
     const { projectName } = state;
 
     const onDelete = () => {
@@ -40,13 +52,13 @@ export const ModalDelete = ({
 
     return (
         <Stack>
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
 
-            <div className={headerStyles.modalRowCenterItem}>
+            <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.deleteProjectMessage', {
                         projectName: projectName
@@ -54,7 +66,7 @@ export const ModalDelete = ({
                 </Text>
             </div>
 
-            <div className={headerStyles.modalRowCenterItem}>
+            <div className={classNames.modalRowCenterItem}>
                 <PrimaryButton
                     text={t('OATHeader.delete')}
                     onClick={onDelete}
@@ -66,4 +78,8 @@ export const ModalDelete = ({
     );
 };
 
-export default ModalDelete;
+export default styled<
+    IModalDeleteProps,
+    IModalDeleteStyleProps,
+    IModalDeleteStyles
+>(ModalDelete, getStyles);

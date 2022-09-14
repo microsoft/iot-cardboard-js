@@ -4,27 +4,42 @@ import {
     ActionButton,
     FontIcon,
     PrimaryButton,
-    Stack
+    Stack,
+    classNamesFunction,
+    styled,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
+import { getPromptTextStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
-import { ModalSaveCurrentProjectAndClearProps } from './ModalSaveCurrentProjectAndClear.types';
 import {
     convertDtdlInterfacesToModels,
     loadOatFiles,
     saveOatFiles
 } from '../../../Models/Services/OatUtils';
+import {
+    IModalSaveCurrentProjectAndClearProps,
+    IModalSaveCurrentProjectAndClearStyleProps,
+    IModalSaveCurrentProjectAndClearStyles
+} from './ModalSaveCurrentProjectAndClear.types';
+import { getStyles } from './ModalSaveCurrentProjectAndClear.styles';
 
-export const ModalSaveCurrentProjectAndClear = ({
-    resetProject,
-    setModalBody,
-    state,
-    onClose
-}: ModalSaveCurrentProjectAndClearProps) => {
+const getClassNames = classNamesFunction<
+    IModalSaveCurrentProjectAndClearStyleProps,
+    IModalSaveCurrentProjectAndClearStyles
+>();
+
+export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectAndClearProps> = (
+    props
+) => {
+    const { resetProject, setModalBody, state, styles, onClose } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const headerStyles = getHeaderStyles();
+
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
     const promptTextStyles = getPromptTextStyles();
     const {
         projectName,
@@ -65,13 +80,13 @@ export const ModalSaveCurrentProjectAndClear = ({
 
     return (
         <Stack>
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
 
-            <div className={headerStyles.modalRowCenterItem}>
+            <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.doYouWantToSaveChangesYouMadeTo', {
                         projectName: projectName
@@ -79,7 +94,7 @@ export const ModalSaveCurrentProjectAndClear = ({
                 </Text>
             </div>
 
-            <div className={headerStyles.modalRowCenterItem}>
+            <div className={classNames.modalRowCenterItem}>
                 <PrimaryButton text={t('OATHeader.save')} onClick={onSave} />
 
                 <PrimaryButton
@@ -93,4 +108,8 @@ export const ModalSaveCurrentProjectAndClear = ({
     );
 };
 
-export default ModalSaveCurrentProjectAndClear;
+export default styled<
+    IModalSaveCurrentProjectAndClearProps,
+    IModalSaveCurrentProjectAndClearStyleProps,
+    IModalSaveCurrentProjectAndClearStyles
+>(ModalSaveCurrentProjectAndClear, getStyles);

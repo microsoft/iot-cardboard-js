@@ -238,6 +238,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     ];
 
     const safeJsonParse = (value: string) => {
+        if (!value) {
+            return value;
+        }
         try {
             const parsedJson = JSON.parse(value);
             return parsedJson;

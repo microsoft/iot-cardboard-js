@@ -1,4 +1,4 @@
-import { IStyle, FontSizes } from '@fluentui/react';
+import { IStyle } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../Models/Constants';
 import {
     IFileSubMenuStyleProps,
@@ -7,19 +7,7 @@ import {
 
 const classPrefix = `${CardboardClassNamePrefix}-file-sub-menu`;
 const classNames = {
-    root: `${classPrefix}-root`,
-    searchComponent: `${classPrefix}-search-component`,
-    logo: `${classPrefix}-logo`,
-    search: `${classPrefix}-search`,
-    options: `${classPrefix}-options`,
-    menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`,
-    listSubMenu: `${classPrefix}-list-sub-menu`,
-    listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
-    modal: `${classPrefix}-modal`,
-    modalRow: `${classPrefix}-modal-row`,
-    modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
-    uploadDirectoryInput: `${classPrefix}-upload-directory-input`
+    modal: `${classPrefix}-modal`
 };
 export const getStyles = (
     props: IFileSubMenuStyleProps
@@ -48,6 +36,11 @@ export const getStyles = (
                         backgroundColor:
                             theme.semanticColors.primaryButtonTextDisabled
                     }
+                }
+            },
+            modal: {
+                root: {
+                    padding: '0px'
                 }
             },
             subMenuCallout: {

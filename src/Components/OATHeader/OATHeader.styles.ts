@@ -79,45 +79,6 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 color: theme.semanticColors.actionLink
             } as IStyle
         ],
-        modalRow: [
-            classNames.modalRow,
-            {
-                display: 'grid',
-                width: '100%',
-                gridTemplateColumns: '35% 65%',
-                alignItems: 'center',
-                marginBottom: '15px',
-                '& div:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
-            } as IStyle
-        ],
-        modalRowFlexEnd: [
-            classNames.modalRowFlexEnd,
-            {
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginBottom: '15px',
-                width: '100%',
-                '& button:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
-            } as IStyle
-        ],
-        modalRowCenterItem: [
-            classNames.modalRowFlexEnd,
-            {
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '25px',
-                width: '100%',
-                '& button:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
-            } as IStyle
-        ],
         uploadDirectoryInput: [
             classNames.uploadDirectoryInput,
             {

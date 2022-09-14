@@ -10,10 +10,10 @@ export default {
     }
 };
 
-export const OATModelEditorPage = (args, { globals: { theme, locale } }) => {
+export const OATModelEditorPage = (_args, { globals: { theme, locale } }) => {
     return (
         <BaseComponent locale={locale} theme={theme}>
-            <OATEditorPage theme={theme} />
+            <OATEditorPage selectedTheme={theme} />
         </BaseComponent>
     );
 };
