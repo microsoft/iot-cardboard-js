@@ -31,8 +31,8 @@ import {
     IFileSubMenuProps,
     IFileSubMenuStyleProps,
     IFileSubMenuStyles
-} from './FileSubMenu.types';
-import { getStyles } from './FileSubMenu.styles';
+} from './OATHeader.types';
+import { getStyles } from './OATHeader.styles';
 
 const getClassNames = classNamesFunction<
     IFileSubMenuStyleProps,
@@ -124,7 +124,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         ) {
             dispatch({
                 type: SET_OAT_PROJECT_NAME,
-                payload: t('FileSubMenu.untitledProject')
+                payload: t('OATHeader.untitledProject')
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
@@ -135,7 +135,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         const clearProject = new ProjectData(
             [],
             [],
-            t('FileSubMenu.untitledProject'),
+            t('OATHeader.untitledProject'),
             [],
             OATNamespaceDefaultValue,
             []
@@ -249,7 +249,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                     styles={classNames.subComponentStyles.menuItemButton()}
                     onClick={onNew}
                 >
-                    <Text>{t('FileSubMenu.new')}</Text>
+                    <Text>{t('OATHeader.new')}</Text>
                 </ActionButton>
 
                 {files.length > 0 && (
@@ -261,7 +261,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('FileSubMenu.open')}</Text>
+                        <Text>{t('OATHeader.open')}</Text>
                     </ActionButton>
                 )}
 
@@ -273,14 +273,14 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                         setModalOpen(true);
                     }}
                 >
-                    <Text>{t('FileSubMenu.saveAs')}</Text>
+                    <Text>{t('OATHeader.saveAs')}</Text>
                 </ActionButton>
 
                 <ActionButton
                     styles={classNames.subComponentStyles.menuItemButton()}
                     onClick={onSave}
                 >
-                    <Text>{t('FileSubMenu.save')}</Text>
+                    <Text>{t('OATHeader.save')}</Text>
                 </ActionButton>
 
                 {isFileStored && (
@@ -292,7 +292,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('FileSubMenu.delete')}</Text>
+                        <Text>{t('OATHeader.delete')}</Text>
                     </ActionButton>
                 )}
 
@@ -300,7 +300,7 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                     styles={classNames.subComponentStyles.menuItemButton()}
                     onClick={onSettingsClick}
                 >
-                    <Text>{t('FileSubMenu.settings')}</Text>
+                    <Text>{t('OATHeader.settings')}</Text>
                 </ActionButton>
             </Callout>
 
