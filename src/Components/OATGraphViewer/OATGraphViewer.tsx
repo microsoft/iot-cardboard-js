@@ -109,6 +109,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
         // Format models
         const modelsCopy = deepCopy(models);
+        // TODO: define a type here that actually works so it's not an any
         return modelsCopy.reduce((elements, input) => {
             if (input.contents) {
                 // Get the relationships
@@ -188,7 +189,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const { t } = useTranslation();
     const theme = useTheme();
-    const reactFlowWrapperRef = useRef(null);
+    const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
     const [elements, setElements] = useState(
         getGraphViewerElementsFromModels(models, modelPositions)
     );
@@ -198,9 +199,9 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
     const graphForceLayoutStyles = getGraphForceLayoutStyles();
-    const currentNodeIdRef = useRef(null);
-    const currentHandleIdRef = useRef(null);
-    const [currentHovered, setCurrentHovered] = useState(null);
+    const currentNodeIdRef = useRef<string>(null);
+    const currentHandleIdRef = useRef<string>(null);
+    const [currentHovered, setCurrentHovered] = useState<IOATNodeElement>(null);
     const [showRelationships, setShowRelationships] = useState(true);
     const [showInheritances, setShowInheritances] = useState(true);
     const [showComponents, setShowComponents] = useState(true);
@@ -318,7 +319,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 importModels,
                 modelPositions
             );
-            applyLayoutToElements([...potentialElements]);
+            applyLayoutToElements(deepCopy(potentialElements));
         }
     }, [importModels]);
 
@@ -383,7 +384,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                 y: startPositionCoordinates.y
             });
 
-            const elementsCopy = [...elements];
+            const elementsCopy = deepCopy(elements);
             addNewModel(
                 newModelId,
                 idClassBase,
@@ -610,7 +611,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             type: SET_OAT_MODELS,
             payload: translatedOutput
         });
-    }, [translatedOutput]);
+    }, [dispatch, translatedOutput]);
 
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,

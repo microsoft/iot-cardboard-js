@@ -29,7 +29,7 @@ export const FormSaveAs = ({
 }: FromSaveAsProps) => {
     const { t } = useTranslation();
     const [projectName, setProjectName] = useState('');
-    const [error, setError] = useState(false);
+    const [hasSameNameError, setHasSameNameError] = useState(false);
     const headerStyles = getHeaderStyles();
     const {
         modelPositions,
@@ -41,7 +41,8 @@ export const FormSaveAs = ({
 
     const onSave = () => {
         const files = loadOatFiles();
-        if (error) {
+        // UI changes to a "confirm" scenario if the name exists, so look up the existing item and update it in that case
+        if (hasSameNameError) {
             //  Overwrite existing file
             const foundIndex = files.findIndex(
                 (file) => file.name === projectName
@@ -103,7 +104,7 @@ export const FormSaveAs = ({
             return file.name === value;
         });
 
-        setError(fileAlreadyExists);
+        setHasSameNameError(fileAlreadyExists);
     };
 
     return (
@@ -120,14 +121,18 @@ export const FormSaveAs = ({
                     placeholder={t('OATHeader.enterAName')}
                     value={projectName}
                     onChange={(e, v) => onProjectNameChange(v)}
-                    errorMessage={error ? t('OATHeader.errorSameName') : null}
+                    errorMessage={
+                        hasSameNameError ? t('OATHeader.errorSameName') : null
+                    }
                 />
             </div>
 
             <div className={headerStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={
-                        error ? t('OATHeader.overwrite') : t('OATHeader.save')
+                        hasSameNameError
+                            ? t('OATHeader.overwrite')
+                            : t('OATHeader.save')
                     }
                     onClick={onSave}
                     disabled={!projectName}
