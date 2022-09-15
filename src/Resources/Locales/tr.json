@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
     "valueFieldPlaceholder": "Bir değer girin",
     "noOptionsFoundMessage": "Değer bulunamadı",
-    "modalTitleX": "Gelişmiş ikiz arama",
-    "modalSubtitleX": "Aramanızı daraltarak sağ ikizi bağlayın"
+    "modalTitle": "Gelişmiş ikiz arama",
+    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
   }
 }

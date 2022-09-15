@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, atualize a página ou modifique seus critérios de pesquisa e tente novamente.",
     "valueFieldPlaceholder": "Digite um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
-    "modalTitleX": "Pesquisa dupla avançada",
-    "modalSubtitleX": "Vincule o gêmeo certo, reduzindo sua pesquisa"
+    "modalTitle": "Pesquisa dupla avançada",
+    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa"
   }
 }

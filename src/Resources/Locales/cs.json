@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
-    "modalTitleX": "Rozšířené vyhledávání dvojčat",
-    "modalSubtitleX": "Propojte správné dvojče zúžením vyhledávání"
+    "modalTitle": "Rozšířené vyhledávání dvojčat",
+    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
   }
 }

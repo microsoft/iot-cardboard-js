@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen.",
     "valueFieldPlaceholder": "Ange ett värde",
     "noOptionsFoundMessage": "Inga värden hittades",
-    "modalTitleX": "Avancerad tvillingsökning",
-    "modalSubtitleX": "Länka rätt tvilling genom att begränsa din sökning"
+    "modalTitle": "Avancerad tvillingsökning",
+    "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
   }
 }

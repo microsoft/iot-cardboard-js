@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
     "valueFieldPlaceholder": "Wprowadzanie wartości",
     "noOptionsFoundMessage": "Nie znaleziono wartości",
-    "modalTitleX": "Zaawansowane wyszukiwanie bliźniacze",
-    "modalSubtitleX": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
+    "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
+    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
   }
 }

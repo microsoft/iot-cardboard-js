@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo.",
     "valueFieldPlaceholder": "Introduzca un valor",
     "noOptionsFoundMessage": "No se han encontrado valores",
-    "modalTitleX": "Búsqueda avanzada de gemelos",
-    "modalSubtitleX": "Vincula el gemelo correcto reduciendo tu búsqueda"
+    "modalTitle": "Búsqueda avanzada de gemelos",
+    "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda"
   }
 }

@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova.",
     "valueFieldPlaceholder": "Inserisci un valore",
     "noOptionsFoundMessage": "Nessun valore trovato",
-    "modalTitleX": "Ricerca avanzata dei gemelli",
-    "modalSubtitleX": "Collega il gemello giusto restringendo la ricerca"
+    "modalTitle": "Ricerca avanzata dei gemelli",
+    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
   }
 }

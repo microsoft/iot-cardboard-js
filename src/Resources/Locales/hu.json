@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
-    "modalTitleX": "Speciális ikerkeresés",
-    "modalSubtitleX": "A megfelelő iker összekapcsolása a keresés szűkítésével"
+    "modalTitle": "Speciális ikerkeresés",
+    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
   }
 }

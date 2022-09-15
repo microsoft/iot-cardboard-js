@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
     "valueFieldPlaceholder": "Voer een waarde in",
     "noOptionsFoundMessage": "Geen waarden gevonden",
-    "modalTitleX": "Geavanceerd zoeken met twee tweelingen",
-    "modalSubtitleX": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
+    "modalTitle": "Geavanceerd zoeken met twee tweelingen",
+    "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
   }
 }

@@ -1168,7 +1168,7 @@
     "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
-    "modalTitleX": "Recherche avancée de jumeaux",
-    "modalSubtitleX": "Liez le bon jumeau en réduisant votre recherche"
+    "modalTitle": "Recherche avancée de jumeaux",
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
   }
 }
