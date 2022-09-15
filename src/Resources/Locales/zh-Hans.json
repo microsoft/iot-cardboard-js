@@ -1153,8 +1153,6 @@
     "selectRow": "选择双床间",
     "inspectProperty": "检查属性",
     "results": "Results （{{twinCount}}）",
-    "modalTitle": "高级房产搜索",
-    "modalSubtitle": "通过缩小搜索范围来链接正确的媒体资源",
     "noPropertiesFound": "未找到任何属性",
     "addNewButton": "添加新的",
     "andOrColumnHeader": "和/或",
@@ -1169,6 +1167,8 @@
     "errorMessageHeader": "搜索失败",
     "errorMessageDescription": "发生意外错误。请刷新页面或修改搜索条件，然后重试。",
     "valueFieldPlaceholder": "输入值",
-    "noOptionsFoundMessage": "未找到任何值"
+    "noOptionsFoundMessage": "未找到任何值",
+    "modalTitleX": "高级双胞胎搜索",
+    "modalSubtitleX": "通过缩小搜索范围来链接正确的孪生"
   }
 }

@@ -1153,8 +1153,6 @@
     "selectRow": "Twin Selecionado",
     "inspectProperty": "Inspecionar Propriedade",
     "results": "Resultados ({{twinCount}}",
-    "modalTitle": "Pesquisa avançada de propriedade",
-    "modalSubtitle": "Ligue a propriedade certa reduzindo a sua pesquisa",
     "noPropertiesFound": "Nenhuma propriedade encontrada",
     "addNewButton": "Adicionar novo",
     "andOrColumnHeader": "E/Ou",
@@ -1169,6 +1167,8 @@
     "errorMessageHeader": "A procura falhou",
     "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, refresque a página ou modifique os seus critérios de pesquisa e tente novamente.",
     "valueFieldPlaceholder": "Insira um valor",
-    "noOptionsFoundMessage": "Nenhum valor encontrado"
+    "noOptionsFoundMessage": "Nenhum valor encontrado",
+    "modalTitleX": "Pesquisa avançada de gémeos",
+    "modalSubtitleX": "Ligue o gémeo direito reduzindo a sua pesquisa"
   }
 }
