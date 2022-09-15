@@ -82,6 +82,9 @@ export const LOCAL_STORAGE_KEYS = {
     FeatureFlags: {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
+        },
+        VisualRules: {
+            showVisualRulesPivot: 'cardboard.show.visualRulesPivot' // shows visual rules pivot
         }
     }
 };
