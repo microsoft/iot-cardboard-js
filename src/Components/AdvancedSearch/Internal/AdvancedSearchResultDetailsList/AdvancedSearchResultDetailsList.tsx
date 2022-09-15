@@ -56,7 +56,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const [selectedColumnNames, setSelectedColumnNames] = useState<string[]>(
         searchedProperties
     );
-
     const staticColumns: IColumn[] = [
         {
             key: 'twin-id',
