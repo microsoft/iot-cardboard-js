@@ -545,7 +545,8 @@
       "position": "Position",
       "rotation": "Rotation"
     },
-    "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)"
+    "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)",
+    "visualRulesTab": "Visuella regler"
   },
   "widgets": {
     "trend": {

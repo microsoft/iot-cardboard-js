@@ -545,7 +545,8 @@
       "position": "Postavení",
       "rotation": "Rotace"
     },
-    "searchTwinIdPlaceholder": "Hledat ID dvojčete ($dtId)"
+    "searchTwinIdPlaceholder": "Hledat ID dvojčete ($dtId)",
+    "visualRulesTab": "Vizuální pravidla"
   },
   "widgets": {
     "trend": {
