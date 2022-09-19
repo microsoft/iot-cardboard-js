@@ -5,19 +5,19 @@ import {
     EnvironmentPickerActionType
 } from './EnvironmentPicker.types';
 import {
-    MOCK_ENVIRONMENT,
-    MOCK_ENVIRONMENT_URL,
     MOCK_ENVIRONMENT_STATE,
     MOCK_STORAGE_ACCOUNT,
     MOCK_STORAGE_ACCOUNT_URL,
     MOCK_STORAGE_CONTAINER,
-    MOCK_ENVIRONMENT2,
     MOCK_STORAGE_CONTAINER_NAME,
     MOCK_STORAGE_ACCOUNT2,
     MOCK_STORAGE_CONTAINER2,
     MOCK_STORAGE_CONTAINER_URL,
     MOCK_STORAGE_ACCOUNT_URL2,
-    MOCK_STORAGE_CONTAINER_NAME2
+    MOCK_STORAGE_CONTAINER_NAME2,
+    MOCK_ADT_INSTANCE,
+    MOCK_ADT_INSTANCE2,
+    MOCK_ADT_INSTANCE_URL
 } from './EnvironmentPicker.mock';
 
 describe('EnvironmentPicker', () => {
@@ -26,17 +26,17 @@ describe('EnvironmentPicker', () => {
         test('[SET_ENVIRONMENT_ITEMS] - setting the environment related items in the state', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.environmentItems = {
-                environments: [],
-                environmentToEdit: null
+            initialState.adtInstanceItems = {
+                adtInstances: [],
+                adtInstanceToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
-                type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS,
+                type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
                 payload: {
-                    environmentItems: {
-                        environments: [MOCK_ENVIRONMENT],
-                        environmentToEdit: MOCK_ENVIRONMENT
+                    adtInstanceItems: {
+                        adtInstances: [MOCK_ADT_INSTANCE],
+                        adtInstanceToEdit: MOCK_ADT_INSTANCE
                     }
                 }
             };
@@ -45,9 +45,9 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.environmentItems.environments.length).toEqual(1);
-            expect(result.environmentItems.environmentToEdit).toMatchObject(
-                MOCK_ENVIRONMENT
+            expect(result.adtInstanceItems.adtInstances.length).toEqual(1);
+            expect(result.adtInstanceItems.adtInstanceToEdit).toMatchObject(
+                MOCK_ADT_INSTANCE
             );
         });
 
@@ -56,7 +56,7 @@ describe('EnvironmentPicker', () => {
             const initialState = MOCK_ENVIRONMENT_STATE;
             initialState.storageAccountItems = {
                 storageAccounts: [],
-                storageAccountToEdit: null
+                storageAccountToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
@@ -86,7 +86,7 @@ describe('EnvironmentPicker', () => {
             const initialState = MOCK_ENVIRONMENT_STATE;
             initialState.containerItems = {
                 containers: [],
-                containerToEdit: null
+                containerToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
@@ -128,9 +128,9 @@ describe('EnvironmentPicker', () => {
         test('[RESET_ITEMS_ON_DISMISS] - resetting all the items of the state back to selected values after dismissing the modal', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.environmentItems = {
-                environments: [MOCK_ENVIRONMENT, MOCK_ENVIRONMENT2],
-                environmentToEdit: MOCK_ENVIRONMENT2
+            initialState.adtInstanceItems = {
+                adtInstances: [MOCK_ADT_INSTANCE, MOCK_ADT_INSTANCE2],
+                adtInstanceToEdit: MOCK_ADT_INSTANCE2
             };
             initialState.storageAccountItems = {
                 storageAccounts: [MOCK_STORAGE_ACCOUNT, MOCK_STORAGE_ACCOUNT2],
@@ -144,7 +144,7 @@ describe('EnvironmentPicker', () => {
             const action: EnvironmentPickerAction = {
                 type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS,
                 payload: {
-                    selectedEnvironmentUrl: MOCK_ENVIRONMENT_URL,
+                    selectedEnvironmentUrl: MOCK_ADT_INSTANCE_URL,
                     selectedContainerUrl: MOCK_STORAGE_CONTAINER_URL,
                     storageAccountToContainersMappings: [
                         {
@@ -168,8 +168,8 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.environmentItems.environmentToEdit).toMatchObject(
-                MOCK_ENVIRONMENT
+            expect(result.adtInstanceItems.adtInstanceToEdit).toMatchObject(
+                MOCK_ADT_INSTANCE
             );
             expect(
                 result.storageAccountItems.storageAccountToEdit

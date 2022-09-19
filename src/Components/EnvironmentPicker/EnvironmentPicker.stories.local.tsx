@@ -32,20 +32,8 @@ export const ADTEnvironmentPicker = (_args) => {
                 )
             }
             isLocalStorageEnabled={true}
-            localStorageKey={
-                process.env.STORYBOOK_MOCK_ENVIRONMENTS_LOCAL_STORAGE_KEY
-            }
-            selectedItemLocalStorageKey={
-                process.env
-                    .STORYBOOK_MOCK_SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY
-            }
             storage={{
-                isLocalStorageEnabled: true,
-                localStorageKey:
-                    process.env.STORYBOOK_MOCK_CONTAINERS_LOCAL_STORAGE_KEY,
-                selectedItemLocalStorageKey:
-                    process.env
-                        .STORYBOOK_MOCK_SELECTED_CONTAINER_LOCAL_STORAGE_KEY
+                isLocalStorageEnabled: true
             }}
         />
     );

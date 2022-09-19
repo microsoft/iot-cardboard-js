@@ -300,7 +300,7 @@ export interface IAzureRoleAssignmentPropertyData {
 }
 // END of Azure Management plane interfaces
 
-export interface IADTInstanceConnection {
+export interface IADXConnection {
     kustoClusterUrl: string;
     kustoDatabaseName: string;
     kustoTableName: string;

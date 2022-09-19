@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps,
+    AzureResourceTypes,
     ComponentErrorType
 } from '../../Models/Constants/Enums';
 import SceneList from '../../Components/SceneList/SceneList';
@@ -28,6 +29,9 @@ import {
     SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
 import {
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
@@ -53,6 +57,17 @@ import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
+import {
+    EnvironmentContextProvider,
+    useEnvironmentContext
+} from '../../Models/Context/EnvironmentContext/EnvironmentContext';
+import { EnvironmentContextActionType } from '../../Models/Context/EnvironmentContext/EnvironmentContext.types';
+import { getEnvironmentConfigurationItemFromResource } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
+import {
+    getContainerNameFromUrl,
+    getResourceUrl
+} from '../../Models/Services/Utils';
+import { getStorageAccountUrlFromContainerUrl } from '../../Components/EnvironmentPicker/EnvironmentPickerManager';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -82,6 +97,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const { t } = useTranslation();
     const errorCallbackSetRef = useRef<boolean>(false);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
+    const { environmentDispatch, environmentState } = useEnvironmentContext();
 
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
@@ -95,13 +111,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     const getCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.getBlobServiceCorsProperties(),
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        refetchDependencies: [adapter, environmentState.storageContainer.url]
     });
 
     const setCorsPropertiesAdapterData = useAdapter({
         adapterMethod: () => adapter.setBlobServiceCorsProperties(),
         isAdapterCalledOnMount: false,
-        refetchDependencies: [adapter, deeplinkState.storageUrl]
+        refetchDependencies: [adapter, environmentState.storageContainer.url]
     });
 
     const scenesConfig = useAdapter({
@@ -109,7 +125,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         isAdapterCalledOnMount: false, // don't fetch scenes config until making sure cors is all good with getCorsPropertiesAdapterData call
         refetchDependencies: [
             adapter,
-            deeplinkState.storageUrl,
+            environmentState.storageContainer.url,
             state.selectedScene
         ]
     });
@@ -150,17 +166,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         },
         [deeplinkDispatch]
     );
-    const setBlobContainerUrl = useCallback(
-        (url: string) => {
-            // store container url to context
-            deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_STORAGE_URL,
-                payload: { url }
-            });
-            adapter.setBlobContainerPath(url);
-        },
-        [adapter, deeplinkDispatch]
-    );
 
     const handleOnHomeClick = useCallback(() => {
         setSelectedSceneId(null);
@@ -191,51 +196,127 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [setSelectedSceneId]
     );
 
-    const handleContainerUrlChange = useCallback(
-        (containerUrl: string, containerUrls: Array<string>) => {
-            setBlobContainerUrl(containerUrl);
-            if (environmentPickerOptions?.storage?.onContainerChange) {
-                environmentPickerOptions.storage.onContainerChange(
-                    containerUrl,
-                    containerUrls
-                );
-            }
+    const handleContainerChange = useCallback(
+        (
+            storageAccount: string | IAzureStorageAccount,
+            container: string | IAzureStorageBlobContainer,
+            containers: Array<string | IAzureStorageBlobContainer>
+        ) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_STORAGE_URL,
+                payload: {
+                    url: getResourceUrl(
+                        container,
+                        AzureResourceTypes.StorageBlobContainer,
+                        storageAccount
+                    )
+                }
+            });
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_STORAGE_ACCOUNT,
+                payload: { account: storageAccount }
+            });
+
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_STORAGE_CONTAINER,
+                payload: { container, storageAccount }
+            });
+
             dispatch({
                 type: SET_ERRORS,
                 payload: []
             });
             errorCallbackSetRef.current = false;
-        },
-        [environmentPickerOptions?.storage, setBlobContainerUrl]
-    );
 
-    const handleEnvironmentUrlChange = useCallback(
-        (envUrl: string, envUrls: Array<string>) => {
-            deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_ADT_URL,
-                payload: {
-                    url: envUrl
-                }
-            });
-            if (environmentPickerOptions?.environment?.onEnvironmentChange) {
-                environmentPickerOptions.environment.onEnvironmentChange(
-                    envUrl,
-                    envUrls
+            if (environmentPickerOptions?.storage?.onContainerChange) {
+                environmentPickerOptions.storage.onContainerChange(
+                    container,
+                    containers
                 );
             }
         },
-        [deeplinkDispatch, environmentPickerOptions?.environment]
+        [environmentPickerOptions?.storage, environmentDispatch, adapter]
     );
 
-    // update the adapter if the ADT instance changes
-    useEffect(() => {
-        adapter.setAdtHostUrl(deeplinkState.adtUrl);
-    }, [adapter, deeplinkState.adtUrl]);
+    const handleAdtInstanceChange = useCallback(
+        (
+            adtInstance: string | IADTInstance,
+            adtInstances: Array<string | IADTInstance>
+        ) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_ADT_URL,
+                payload: {
+                    url:
+                        getResourceUrl(
+                            adtInstance,
+                            AzureResourceTypes.DigitalTwinInstance
+                        ) || ''
+                }
+            });
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_ADT_INSTANCE,
+                payload: { adtInstance }
+            });
+            if (environmentPickerOptions?.adt?.onAdtInstanceChange) {
+                environmentPickerOptions.adt.onAdtInstanceChange(
+                    adtInstance,
+                    adtInstances
+                );
+            }
+        },
+        [environmentDispatch, environmentPickerOptions?.adt]
+    );
 
-    // update the adapter if the Storage instance changes
+    // update adapter when selected adt instance changes in environment context
     useEffect(() => {
-        adapter.setBlobContainerPath(deeplinkState.storageUrl);
-    }, [adapter, deeplinkState.storageUrl]);
+        adapter.setAdtHostUrl(environmentState.adtInstance?.url);
+    }, [adapter, environmentState.adtInstance?.url]);
+
+    // update adapter when selected container changes in environment context
+    useEffect(() => {
+        adapter.setBlobContainerPath(environmentState.storageContainer?.url);
+    }, [adapter, environmentState.storageContainer?.url]);
+
+    // update environment context for selected ADT instance only if it is not same the one in the deeplink context (e.g. parsed deeplink)
+    useEffect(() => {
+        if (deeplinkState.adtUrl !== environmentState.adtInstance?.url) {
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_ADT_INSTANCE,
+                payload: { adtInstance: deeplinkState.adtUrl }
+            });
+        }
+    }, [adapter, deeplinkState.adtUrl, environmentState.adtInstance?.url]);
+
+    // update environment context for selected Storage account and container only if it is not same the one in the deeplink context (e.g. parsed deeplink)
+    useEffect(() => {
+        if (
+            deeplinkState.storageUrl !== environmentState.storageContainer?.url
+        ) {
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_STORAGE_ACCOUNT,
+                payload: {
+                    account: getStorageAccountUrlFromContainerUrl(
+                        deeplinkState.storageUrl
+                    )
+                }
+            });
+            environmentDispatch({
+                type: EnvironmentContextActionType.SET_STORAGE_CONTAINER,
+                payload: {
+                    container: getContainerNameFromUrl(
+                        deeplinkState.storageUrl
+                    ),
+                    storageAccount: getStorageAccountUrlFromContainerUrl(
+                        deeplinkState.storageUrl
+                    )
+                }
+            });
+        }
+    }, [
+        adapter,
+        deeplinkState.storageUrl,
+        environmentState.storageContainer?.url
+    ]);
 
     // when a scene is selected show it
     useEffect(() => {
@@ -261,10 +342,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // store the scene config when the fetch resolves
     useEffect(() => {
-        const storageContainerNotSet =
-            !deeplinkState.storageUrl || deeplinkState.storageUrl === '';
-        const adtUrlNotSet =
-            !deeplinkState.adtUrl || deeplinkState.adtUrl === '';
+        const storageContainerNotSet = !environmentState.storageContainer.url;
+        const adtUrlNotSet = !environmentState.adtInstance.url;
+
         if (
             scenesConfig.adapterResult &&
             (storageContainerNotSet || adtUrlNotSet)
@@ -308,8 +388,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             }
         }
     }, [
-        deeplinkState.adtUrl,
-        deeplinkState.storageUrl,
+        environmentState.adtInstance.url,
+        environmentState.storageContainer.url,
         scenesConfig.adapterResult
     ]);
 
@@ -418,7 +498,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // otherwise if there is no issues, clear the errors and with CORS fetch scenes config
     useEffect(() => {
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
-            if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
+            if (!environmentState.storageContainer.url) {
                 dispatch({
                     type: SET_ERRORS,
                     payload: nullContainerError
@@ -453,7 +533,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
         }
-    }, [deeplinkState.storageUrl, getCorsPropertiesAdapterData?.adapterResult]);
+    }, [
+        environmentState.storageContainer.url,
+        getCorsPropertiesAdapterData?.adapterResult
+    ]);
 
     // if setting CORS rules is successful fetch scenes config
     useEffect(() => {
@@ -490,38 +573,25 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 <div className="cb-scene-page-scene-environment-picker">
                                     <EnvironmentPicker
                                         adapter={adapter}
-                                        environmentUrl={deeplinkState.adtUrl}
-                                        onEnvironmentUrlChange={
-                                            handleEnvironmentUrlChange
+                                        adtInstanceUrl={
+                                            environmentState.adtInstance.url
                                         }
-                                        {...(environmentPickerOptions
-                                            ?.environment
+                                        onAdtInstanceChange={
+                                            handleAdtInstanceChange
+                                        }
+                                        {...(environmentPickerOptions?.adt
                                             ?.isLocalStorageEnabled && {
-                                            isLocalStorageEnabled: true,
-                                            localStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage?.localStorageKey,
-                                            selectedItemLocalStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage
-                                                    ?.selectedItemLocalStorageKey
+                                            isLocalStorageEnabled: true
                                         })}
                                         storage={{
                                             containerUrl:
-                                                deeplinkState.storageUrl,
-                                            onContainerUrlChange: handleContainerUrlChange,
+                                                environmentState
+                                                    .storageContainer.url,
+                                            onContainerChange: handleContainerChange,
                                             ...(environmentPickerOptions
                                                 ?.storage
                                                 ?.isLocalStorageEnabled && {
-                                                isLocalStorageEnabled: true,
-                                                localStorageKey:
-                                                    environmentPickerOptions
-                                                        ?.storage
-                                                        ?.localStorageKey,
-                                                selectedItemLocalStorageKey:
-                                                    environmentPickerOptions
-                                                        ?.storage
-                                                        ?.selectedItemLocalStorageKey
+                                                isLocalStorageEnabled: true
                                             })
                                         }}
                                     />
@@ -565,9 +635,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 {state.currentStep ===
                                     ADT3DScenePageSteps.SceneList && (
                                     <div className="cb-scene-page-scene-list-container">
-                                        {deeplinkState.storageUrl && (
+                                        {environmentState.storageContainer
+                                            .url && (
                                             <SceneList
-                                                key={deeplinkState.storageUrl}
+                                                key={
+                                                    environmentState
+                                                        .storageContainer.url
+                                                }
                                                 title={'All scenes'}
                                                 theme={theme}
                                                 locale={locale}
@@ -622,17 +696,42 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
     const { adapter } = props;
     const adtHostUrl = adapter.getAdtHostUrl();
+    const storageUrl = adapter.getBlobContainerURL();
     return (
-        <DeeplinkContextProvider
+        <EnvironmentContextProvider
             initialState={{
-                adtUrl: adtHostUrl ? `https://${adtHostUrl}` : '',
-                storageUrl: adapter.getBlobContainerURL()
+                adtInstance: adtHostUrl
+                    ? getEnvironmentConfigurationItemFromResource(
+                          `https://${adtHostUrl}`,
+                          AzureResourceTypes.DigitalTwinInstance
+                      )
+                    : null,
+                storageContainer: storageUrl
+                    ? getEnvironmentConfigurationItemFromResource(
+                          getContainerNameFromUrl(storageUrl),
+                          AzureResourceTypes.StorageBlobContainer,
+                          getStorageAccountUrlFromContainerUrl(storageUrl)
+                      )
+                    : null,
+                storageAccount: storageUrl
+                    ? getEnvironmentConfigurationItemFromResource(
+                          getStorageAccountUrlFromContainerUrl(storageUrl),
+                          AzureResourceTypes.StorageAccount
+                      )
+                    : null
             }}
         >
-            <SceneThemeContextProvider>
-                <ADT3DScenePageBase {...props} />
-            </SceneThemeContextProvider>
-        </DeeplinkContextProvider>
+            <DeeplinkContextProvider
+                initialState={{
+                    adtUrl: adtHostUrl ? `https://${adtHostUrl}` : '',
+                    storageUrl
+                }}
+            >
+                <SceneThemeContextProvider>
+                    <ADT3DScenePageBase {...props} />
+                </SceneThemeContextProvider>
+            </DeeplinkContextProvider>
+        </EnvironmentContextProvider>
     );
 };
 

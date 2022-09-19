@@ -25,7 +25,6 @@ import { useTranslation } from 'react-i18next';
 import {
     EnvironmentPickerActionType,
     EnvironmentPickerProps,
-    StorageAccountsInLocalStorage,
     StorageAccountToContainersMapping
 } from './EnvironmentPicker.types';
 import './EnvironmentPicker.scss';
@@ -39,30 +38,38 @@ import ResourcePicker from '../ResourcePicker/ResourcePicker';
 import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
-    IAzureResource
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer
 } from '../../Models/Constants';
 import {
     getContainerDisplayText,
-    getContainerName,
-    getContainerNameFromUrl,
-    getContainerUrlsFromLocalStorage,
-    getEnvironmentDisplayText,
-    getEnvironmentUrlsFromLocalStorage,
-    getResourceUrl,
-    getResourceUrls,
     getStorageAccountId,
-    getStorageAccountOptionsFromLocalStorage,
     getStorageAccountUrlFromContainerUrl,
-    getStorageAndContainerFromContainerUrl,
-    updateContainerOptionsInLocalStorage,
-    updateEnvironmentsInLocalStorage,
-    updateStorageAccountsInLocalStorage
+    getStorageAndContainerFromContainerUrl
 } from './EnvironmentPickerManager';
 import {
     defaultEnvironmentPickerState,
     EnvironmentPickerReducer
 } from './EnvironmentPicker.state';
-import { areResourceValuesEqual } from '../../Models/Services/Utils';
+import {
+    areResourceValuesEqual,
+    getContainerNameFromUrl,
+    getNameOfResource,
+    getResourceUrl,
+    getResourceUrls
+} from '../../Models/Services/Utils';
+import {
+    getAdtInstancesFromLocalStorage,
+    getStorageAccountsFromLocalStorage,
+    getStorageContainersFromLocalStorage,
+    setAdtInstancesInLocalStorage,
+    setSelectedAdtInstanceInLocalStorage,
+    setSelectedStorageAccountInLocalStorage,
+    setSelectedStorageContainerInLocalStorage,
+    setStorageAccountsInLocalStorage,
+    setStorageContainersInLocalStorage
+} from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 
 const dialogStyles: Partial<IModalStyles> = {
     main: {
@@ -80,10 +87,8 @@ const EnvironmentPicker = ({
     adapter,
     onDismiss,
     isLocalStorageEnabled,
-    localStorageKey,
-    selectedItemLocalStorageKey,
-    environmentUrl,
-    onEnvironmentUrlChange,
+    adtInstanceUrl,
+    onAdtInstanceChange,
     storage
 }: EnvironmentPickerProps) => {
     const { t } = useTranslation();
@@ -112,13 +117,13 @@ const EnvironmentPicker = ({
             closeButtonAriaLabel: t('close'),
             subText: isLocalStorageEnabled
                 ? (storage
-                      ? t('environmentPicker.descriptionForEnvAndCont')
-                      : t('environmentPicker.descriptionForEnvironment')) +
+                      ? t('environmentPicker.descriptionForAdtInstanceAndCont')
+                      : t('environmentPicker.descriptionForAdtInstance')) +
                   ' ' +
                   t('environmentPicker.descriptionForLocalStorage')
                 : storage
-                ? t('environmentPicker.descriptionForEnvAndCont')
-                : t('environmentPicker.descriptionForEnvironment')
+                ? t('environmentPicker.descriptionForAdtInstanceAndCont')
+                : t('environmentPicker.descriptionForAdtInstance')
         }),
         [t, isLocalStorageEnabled, storage]
     );
@@ -133,35 +138,35 @@ const EnvironmentPicker = ({
 
     // set initial values based on props and local storage
     useEffect(() => {
-        let environmentUrls = [];
-        if (environmentUrl) {
-            // passed environmentUrl has precedence over the selected environment in localstorage, if enabled
-            environmentUrls = [environmentUrl];
+        let adtInstanceUrls = [];
+        if (adtInstanceUrl) {
+            // passed adtInstanceUrl has precedence over the selected adt url in localstorage, if enabled
+            adtInstanceUrls = [adtInstanceUrl];
         }
         if (isLocalStorageEnabled) {
-            const environmentUrlsInLocalStorage: Array<string> = getEnvironmentUrlsFromLocalStorage(
-                localStorageKey
-            );
+            const adtInstancesInLocalStorage = getAdtInstancesFromLocalStorage();
+            const adtInstanceUrlsInLocalStorage: Array<string> =
+                adtInstancesInLocalStorage?.map((a) => a.url) || [];
 
             if (
-                environmentUrl &&
-                !environmentUrlsInLocalStorage.includes(environmentUrl)
+                adtInstanceUrl &&
+                !adtInstanceUrlsInLocalStorage.includes(adtInstanceUrl)
             ) {
-                environmentUrlsInLocalStorage.push(environmentUrl);
+                adtInstanceUrlsInLocalStorage.push(adtInstanceUrl);
             }
 
-            environmentUrls = environmentUrls.concat(
-                environmentUrlsInLocalStorage.filter(
-                    (item) => environmentUrls.indexOf(item) < 0
+            adtInstanceUrls = adtInstanceUrls.concat(
+                adtInstanceUrlsInLocalStorage.filter(
+                    (item) => adtInstanceUrls.indexOf(item) < 0
                 )
             );
         }
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS,
+            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
             payload: {
-                environmentItems: {
-                    environments: environmentUrls,
-                    environmentToEdit: environmentUrl
+                adtInstanceItems: {
+                    adtInstances: adtInstanceUrls,
+                    adtInstanceToEdit: adtInstanceUrl
                 }
             }
         });
@@ -171,10 +176,12 @@ const EnvironmentPicker = ({
             containerUrls = [storage.containerUrl];
         }
         if (storage?.isLocalStorageEnabled) {
+            const containersInLocalStorage = getStorageContainersFromLocalStorage();
             const containerUrlsInLocalStorage: Array<string> =
-                getContainerUrlsFromLocalStorage(storage.localStorageKey) || [];
-            const storageAccountsInLocalStorage: Array<StorageAccountsInLocalStorage> =
-                getStorageAccountOptionsFromLocalStorage() || [];
+                containersInLocalStorage?.map((c) => c.url) || [];
+
+            const storageAccountsInLocalStorage =
+                getStorageAccountsFromLocalStorage() || [];
 
             if (
                 storage.containerUrl &&
@@ -279,56 +286,50 @@ const EnvironmentPicker = ({
         });
 
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
-    }, []);
+    }, [adtInstanceUrl, storage]);
 
     const handleOnEditClick = useCallback(() => {
         toggleIsDialogHidden();
     }, [toggleIsDialogHidden]);
 
     const handleOnSave = useCallback(() => {
-        if (onEnvironmentUrlChange) {
-            onEnvironmentUrlChange(
-                getResourceUrl(
-                    environmentPickerState.environmentItems.environmentToEdit,
-                    AzureResourceTypes.DigitalTwinInstance
-                ),
-                getResourceUrls(
-                    environmentPickerState.environmentItems.environments,
-                    AzureResourceTypes.DigitalTwinInstance
-                )
+        if (onAdtInstanceChange) {
+            onAdtInstanceChange(
+                environmentPickerState.adtInstanceItems.adtInstanceToEdit,
+                environmentPickerState.adtInstanceItems.adtInstances
             );
         }
-        if (storage?.onContainerUrlChange) {
-            storage.onContainerUrlChange(
-                getResourceUrl(
-                    environmentPickerState.containerItems.containerToEdit,
-                    AzureResourceTypes.StorageBlobContainer,
-                    environmentPickerState.storageAccountItems
-                        .storageAccountToEdit
-                ),
-                getResourceUrls(
-                    environmentPickerState.containerItems.containers,
-                    AzureResourceTypes.StorageBlobContainer,
-                    environmentPickerState.storageAccountItems
-                        .storageAccountToEdit
-                )
+        if (storage?.onContainerChange) {
+            storage.onContainerChange(
+                environmentPickerState.storageAccountItems.storageAccountToEdit,
+                environmentPickerState.containerItems.containerToEdit,
+                environmentPickerState.containerItems.containers
             );
         }
 
         if (isLocalStorageEnabled) {
-            updateEnvironmentsInLocalStorage(
-                environmentPickerState.environmentItems.environments,
-                localStorageKey
+            setAdtInstancesInLocalStorage(
+                environmentPickerState.adtInstanceItems.adtInstances
+            );
+            setSelectedAdtInstanceInLocalStorage(
+                environmentPickerState.adtInstanceItems.adtInstanceToEdit
             );
         }
         if (storage?.isLocalStorageEnabled) {
-            updateContainerOptionsInLocalStorage(
+            setStorageContainersInLocalStorage(
                 environmentPickerState.containerItems.containers,
-                environmentPickerState.storageAccountItems.storageAccountToEdit,
-                storage.localStorageKey
+                environmentPickerState.storageAccountItems.storageAccountToEdit
             );
-            updateStorageAccountsInLocalStorage(
+            setStorageAccountsInLocalStorage(
                 environmentPickerState.storageAccountItems.storageAccounts
+            );
+
+            setSelectedStorageAccountInLocalStorage(
+                environmentPickerState.storageAccountItems.storageAccountToEdit
+            );
+            setSelectedStorageContainerInLocalStorage(
+                environmentPickerState.containerItems.containerToEdit,
+                environmentPickerState.storageAccountItems.storageAccountToEdit
             );
         }
 
@@ -341,11 +342,9 @@ const EnvironmentPicker = ({
         storage,
         onDismiss,
         toggleIsDialogHidden,
-        onEnvironmentUrlChange,
+        onAdtInstanceChange,
         isLocalStorageEnabled,
-        localStorageKey,
-        selectedItemLocalStorageKey,
-        environmentPickerState.environmentItems,
+        environmentPickerState.adtInstanceItems,
         environmentPickerState.storageAccountItems,
         environmentPickerState.containerItems
     ]);
@@ -358,7 +357,7 @@ const EnvironmentPicker = ({
             environmentPickerDispatch({
                 type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS,
                 payload: {
-                    selectedEnvironmentUrl: environmentUrl,
+                    selectedEnvironmentUrl: adtInstanceUrl,
                     selectedContainerUrl: storage.containerUrl,
                     storageAccountToContainersMappings:
                         defaultStorageAccountToContainersMappingsRef.current,
@@ -372,12 +371,15 @@ const EnvironmentPicker = ({
         if (onDismiss) {
             onDismiss();
         }
-    }, [toggleIsDialogHidden, onDismiss, environmentUrl, storage.containerUrl]);
+    }, [toggleIsDialogHidden, onDismiss, adtInstanceUrl, storage.containerUrl]);
 
-    const environmentDisplayText = useMemo(() => {
-        const displayText = getEnvironmentDisplayText(environmentUrl);
-        return displayText || t('environmentPicker.noEnvironment');
-    }, [t, environmentUrl]);
+    const adtInstanceDisplayText = useMemo(() => {
+        const displayText = getNameOfResource(
+            adtInstanceUrl,
+            AzureResourceTypes.DigitalTwinInstance
+        );
+        return displayText || t('environmentPicker.noAdtInstance');
+    }, [t, adtInstanceUrl]);
 
     const containerDisplayText = useMemo(() => {
         const displayText = getContainerDisplayText(
@@ -387,24 +389,24 @@ const EnvironmentPicker = ({
         return displayText || t('environmentPicker.noContainer');
     }, [t, storage.containerUrl]);
 
-    const handleOnEnvironmentResourceChange = (
-        resource: IAzureResource | string,
-        resources: Array<IAzureResource | string>
+    const handleOnAdtInstanceResourceChange = (
+        resource: IADTInstance | string,
+        resources: Array<IADTInstance | string>
     ) => {
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS,
+            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
             payload: {
-                environmentItems: {
-                    environmentToEdit: resource,
-                    environments: resources
+                adtInstanceItems: {
+                    adtInstanceToEdit: resource,
+                    adtInstances: resources
                 }
             }
         });
     };
 
     const handleOnStorageAccountResourceChange = (
-        resource: IAzureResource | string,
-        resources: Array<IAzureResource | string>
+        resource: IAzureStorageAccount | string,
+        resources: Array<IAzureStorageAccount | string>
     ) => {
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
@@ -441,7 +443,7 @@ const EnvironmentPicker = ({
     };
 
     const handleOnStorageAccountResourcesLoaded = (
-        resources: Array<IAzureResource>
+        resources: Array<IAzureStorageAccount>
     ) => {
         hasFetchedResources.current.storageAccounts = true;
         hasFetchedResources.current.storageBlobContainers = false;
@@ -452,8 +454,8 @@ const EnvironmentPicker = ({
     };
 
     const handleOnStorageContainerResourceChange = (
-        resource: IAzureResource | string,
-        resources: Array<IAzureResource | string>
+        resource: IAzureStorageBlobContainer | string,
+        resources: Array<IAzureStorageBlobContainer | string>
     ) => {
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
@@ -480,7 +482,11 @@ const EnvironmentPicker = ({
         );
         if (defaultStorageAccountMapping) {
             defaultStorageAccountMapping.containerNames = resources.map(
-                getContainerName
+                (container) =>
+                    getNameOfResource(
+                        container,
+                        AzureResourceTypes.StorageBlobContainer
+                    )
             );
         }
     };
@@ -489,7 +495,7 @@ const EnvironmentPicker = ({
         <div className="cb-environment-picker">
             <div className="cb-environment-picker-environment">
                 <span className="cb-environment-picker-environment-title">
-                    {environmentDisplayText}
+                    {adtInstanceDisplayText}
                 </span>
                 <IconButton
                     iconProps={{ iconName: 'Edit' }}
@@ -531,19 +537,19 @@ const EnvironmentPicker = ({
                             shouldFetchResourcesOnMount={
                                 !hasFetchedResources.current.adtInstances
                             }
-                            label={t('environmentPicker.environmentUrl')}
+                            label={t('environmentPicker.adtInstanceUrl')}
                             displayField={AzureResourceDisplayFields.url}
                             additionalOptions={getResourceUrls(
-                                environmentPickerState.environmentItems
-                                    .environments,
+                                environmentPickerState.adtInstanceItems
+                                    .adtInstances,
                                 AzureResourceTypes.DigitalTwinInstance
                             )}
                             selectedOption={getResourceUrl(
-                                environmentPickerState.environmentItems
-                                    .environmentToEdit,
+                                environmentPickerState.adtInstanceItems
+                                    .adtInstanceToEdit,
                                 AzureResourceTypes.DigitalTwinInstance
                             )}
-                            onChange={handleOnEnvironmentResourceChange}
+                            onChange={handleOnAdtInstanceResourceChange}
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
@@ -627,11 +633,16 @@ const EnvironmentPicker = ({
                                         AzureResourceDisplayFields.name
                                     }
                                     additionalOptions={environmentPickerState.containerItems.containers?.map(
-                                        getContainerName
+                                        (container) =>
+                                            getNameOfResource(
+                                                container,
+                                                AzureResourceTypes.StorageBlobContainer
+                                            )
                                     )}
-                                    selectedOption={getContainerName(
+                                    selectedOption={getNameOfResource(
                                         environmentPickerState.containerItems
-                                            .containerToEdit
+                                            .containerToEdit,
+                                        AzureResourceTypes.StorageBlobContainer
                                     )}
                                     onChange={
                                         handleOnStorageContainerResourceChange
@@ -668,13 +679,13 @@ const EnvironmentPicker = ({
                         disabled={
                             storage
                                 ? !(
-                                      environmentPickerState.environmentItems
-                                          .environmentToEdit &&
+                                      environmentPickerState.adtInstanceItems
+                                          .adtInstanceToEdit &&
                                       environmentPickerState.containerItems
                                           .containerToEdit
                                   )
-                                : !environmentPickerState.environmentItems
-                                      .environmentToEdit
+                                : !environmentPickerState.adtInstanceItems
+                                      .adtInstanceToEdit
                         }
                     />
                 </DialogFooter>

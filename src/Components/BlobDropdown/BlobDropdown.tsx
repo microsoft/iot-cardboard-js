@@ -198,6 +198,9 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
         try {
             let urlStringToTest = urlStr;
             if (!urlStr?.startsWith('https://')) {
+                if (urlStr?.startsWith('http://')) {
+                    urlStringToTest = urlStringToTest.slice(7);
+                }
                 urlStringToTest = 'https://' + urlStringToTest;
             }
             return (
@@ -218,6 +221,9 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             let newVal = value ?? option?.text;
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
+                    if (newVal.startsWith('http://')) {
+                        newVal = newVal.slice(7);
+                    }
                     newVal = 'https://' + newVal;
                 }
                 const existingFile = files.find((f) => f.Path === newVal);

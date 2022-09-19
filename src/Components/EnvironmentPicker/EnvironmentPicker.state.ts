@@ -1,8 +1,17 @@
 import produce from 'immer';
 import { AzureResourceTypes } from '../..';
-import { AzureResourceDisplayFields } from '../../Models/Constants';
-import { IAzureResource } from '../../Models/Constants/Interfaces';
-import { areResourceValuesEqual } from '../../Models/Services/Utils';
+import {
+    AzureResourceDisplayFields,
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer
+} from '../../Models/Constants';
+import {
+    areResourceValuesEqual,
+    getContainerNameFromUrl,
+    getNameOfResource,
+    getResourceUrl
+} from '../../Models/Services/Utils';
 import {
     EnvironmentPickerAction,
     EnvironmentPickerActionType,
@@ -10,16 +19,13 @@ import {
 } from './EnvironmentPicker.types';
 import {
     findStorageAccountFromResources,
-    getContainerName,
-    getContainerNameFromUrl,
-    getResourceUrl,
     getStorageAccountUrlFromContainerUrl
 } from './EnvironmentPickerManager';
 
 export const defaultEnvironmentPickerState: EnvironmentPickerState = {
-    environmentItems: {
-        environments: [],
-        environmentToEdit: null
+    adtInstanceItems: {
+        adtInstances: [],
+        adtInstanceToEdit: null
     },
     storageAccountItems: {
         storageAccounts: [],
@@ -38,8 +44,8 @@ export const EnvironmentPickerReducer: (
 ) => EnvironmentPickerState = produce(
     (draft: EnvironmentPickerState, action: EnvironmentPickerAction) => {
         switch (action.type) {
-            case EnvironmentPickerActionType.SET_ENVIRONMENT_ITEMS:
-                draft.environmentItems = action.payload.environmentItems;
+            case EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS:
+                draft.adtInstanceItems = action.payload.adtInstanceItems;
                 break;
             case EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS:
                 draft.storageAccountItems = action.payload.storageAccountItems;
@@ -60,8 +66,8 @@ export const EnvironmentPickerReducer: (
                 // restore selected items if it is removed from dropdown and reset the ...toEdit variables back to the selected items
                 // reset values for environments
                 if (selectedEnvironmentUrl) {
-                    const selectedEnvironment = draft.environmentItems.environments?.find(
-                        (e: string | IAzureResource) =>
+                    const selectedEnvironment = draft.adtInstanceItems.adtInstances?.find(
+                        (e: string | IADTInstance) =>
                             areResourceValuesEqual(
                                 getResourceUrl(
                                     e,
@@ -75,13 +81,13 @@ export const EnvironmentPickerReducer: (
                             )
                     );
                     if (!selectedEnvironment) {
-                        draft.environmentItems.environments.push(
+                        draft.adtInstanceItems.adtInstances.push(
                             selectedEnvironmentUrl
                         );
                     }
-                    draft.environmentItems.environmentToEdit = selectedEnvironment;
+                    draft.adtInstanceItems.adtInstanceToEdit = selectedEnvironment;
                 } else {
-                    draft.environmentItems.environmentToEdit = null;
+                    draft.adtInstanceItems.adtInstanceToEdit = null;
                 }
 
                 if (selectedContainerUrl) {
@@ -90,7 +96,7 @@ export const EnvironmentPickerReducer: (
                         selectedContainerUrl
                     );
                     const selectedStorageAccount = draft.storageAccountItems.storageAccounts?.find(
-                        (s: string | IAzureResource) =>
+                        (s: string | IAzureStorageAccount) =>
                             areResourceValuesEqual(
                                 getResourceUrl(
                                     s,
@@ -125,9 +131,11 @@ export const EnvironmentPickerReducer: (
                             )
                         ) {
                             const selectedContainer = draft.containerItems.containers?.find(
-                                (c: string | IAzureResource) =>
-                                    getContainerName(c) ===
-                                    selectedContainerName
+                                (c: string | IAzureStorageBlobContainer) =>
+                                    getNameOfResource(
+                                        c,
+                                        AzureResourceTypes.StorageBlobContainer
+                                    ) === selectedContainerName
                             );
 
                             if (!selectedContainer) {

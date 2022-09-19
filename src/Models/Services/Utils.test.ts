@@ -1,5 +1,14 @@
 import { cleanup } from '@testing-library/react-hooks';
 import {
+    MOCK_ADT_INSTANCE,
+    MOCK_ADT_INSTANCE_URL,
+    MOCK_STORAGE_ACCOUNT,
+    MOCK_STORAGE_ACCOUNT_URL,
+    MOCK_STORAGE_CONTAINER,
+    MOCK_STORAGE_CONTAINER_NAME,
+    MOCK_STORAGE_CONTAINER_URL
+} from '../../Components/EnvironmentPicker/EnvironmentPicker.mock';
+import {
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
@@ -10,7 +19,10 @@ import {
 import {
     areResourceValuesEqual,
     formatTimeInRelevantUnits,
+    getContainerNameFromUrl,
     getMissingRoleIdsFromRequired,
+    getNameOfResource,
+    getResourceUrl,
     getRoleIdsFromRoleAssignments
 } from './Utils';
 
@@ -412,6 +424,77 @@ describe('Utils', () => {
                     ]
                 ]
             } as AzureAccessPermissionRoleGroups);
+        });
+    });
+    describe('getResourceUrl', () => {
+        test('Getting resource url properly', () => {
+            const resourceUrl1 = getResourceUrl(
+                MOCK_ADT_INSTANCE,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+            const resourceUrl2 = getResourceUrl(
+                MOCK_ADT_INSTANCE_URL,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+            const resourceUrl3 = getResourceUrl(
+                MOCK_STORAGE_ACCOUNT,
+                AzureResourceTypes.StorageAccount
+            );
+            const resourceUrl4 = getResourceUrl(
+                MOCK_STORAGE_ACCOUNT_URL,
+                AzureResourceTypes.StorageAccount
+            );
+            const resourceUrl5 = getResourceUrl(
+                MOCK_STORAGE_CONTAINER,
+                AzureResourceTypes.StorageBlobContainer,
+                MOCK_STORAGE_ACCOUNT
+            );
+            const resourceUrl6 = getResourceUrl(
+                MOCK_STORAGE_CONTAINER_NAME,
+                AzureResourceTypes.StorageBlobContainer,
+                MOCK_STORAGE_ACCOUNT
+            );
+
+            expect(resourceUrl1).toBe(
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net'
+            );
+            expect(resourceUrl2).toBe(
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net'
+            );
+            expect(resourceUrl3).toBe(
+                'https://teststorageaccount.blob.core.windows.net/'
+            );
+            expect(resourceUrl4).toBe(
+                'https://teststorageaccount.blob.core.windows.net/'
+            );
+            expect(resourceUrl5).toBe(
+                'https://teststorageaccount.blob.core.windows.net/teststoragecontainer'
+            );
+            expect(resourceUrl6).toBe(
+                'https://teststorageaccount.blob.core.windows.net/teststoragecontainer'
+            );
+        });
+    });
+    describe('getNameOfResource', () => {
+        test('ADT instance/environment name is displayed properly', () => {
+            const displayText1 = getNameOfResource(
+                MOCK_ADT_INSTANCE,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+            const displayText2 = getNameOfResource(
+                MOCK_ADT_INSTANCE_URL,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+
+            expect(displayText1).toBe('testADTInstance');
+            expect(displayText2).toBe('testADTInstance');
+        });
+    });
+    describe('getContainerNameFromUrl', () => {
+        test('Getting container name from container url successfully', () => {
+            expect(getContainerNameFromUrl(MOCK_STORAGE_CONTAINER_URL)).toBe(
+                'teststoragecontainer'
+            );
         });
     });
 });

@@ -1,8 +1,12 @@
 import { AzureResourceTypes } from '../../Models/Constants/Enums';
-import { IAzureResource } from '../../Models/Constants/Interfaces';
+import {
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer
+} from '../../Models/Constants/Interfaces';
 import { EnvironmentPickerState } from './EnvironmentPicker.types';
 
-export const MOCK_ENVIRONMENT: IAzureResource = {
+export const MOCK_ADT_INSTANCE: IADTInstance = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.DigitalTwins/digitalTwinsInstances/testADTInstance',
     name: 'testADTInstance',
@@ -12,7 +16,7 @@ export const MOCK_ENVIRONMENT: IAzureResource = {
     type: AzureResourceTypes.DigitalTwinInstance,
     subscriptionName: 'testSubscription'
 };
-export const MOCK_ENVIRONMENT2: IAzureResource = {
+export const MOCK_ADT_INSTANCE2: IADTInstance = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.DigitalTwins/digitalTwinsInstances/testADTInstance2',
     name: 'testADTInstance2',
@@ -22,10 +26,10 @@ export const MOCK_ENVIRONMENT2: IAzureResource = {
     type: AzureResourceTypes.DigitalTwinInstance,
     subscriptionName: 'testSubscription'
 };
-export const MOCK_ENVIRONMENT_URL =
+export const MOCK_ADT_INSTANCE_URL =
     'https://testADTInstance.api.wcus.digitaltwins.azure.net';
 
-export const MOCK_STORAGE_ACCOUNT: IAzureResource = {
+export const MOCK_STORAGE_ACCOUNT: IAzureStorageAccount = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorageaccount',
     name: 'teststorageaccount',
@@ -36,7 +40,7 @@ export const MOCK_STORAGE_ACCOUNT: IAzureResource = {
     },
     type: AzureResourceTypes.StorageAccount
 };
-export const MOCK_STORAGE_ACCOUNT2: IAzureResource = {
+export const MOCK_STORAGE_ACCOUNT2: IAzureStorageAccount = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorageaccount2',
     name: 'teststorageaccount2',
@@ -52,7 +56,7 @@ export const MOCK_STORAGE_ACCOUNT_URL =
 export const MOCK_STORAGE_ACCOUNT_URL2 =
     'https://teststorageaccount2.blob.core.windows.net/';
 
-export const MOCK_STORAGE_CONTAINER: IAzureResource = {
+export const MOCK_STORAGE_CONTAINER: IAzureStorageBlobContainer = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorageaccount/blobServices/default/containers/teststoragecontainer',
     name: 'teststoragecontainer',
@@ -60,7 +64,7 @@ export const MOCK_STORAGE_CONTAINER: IAzureResource = {
     type: AzureResourceTypes.StorageBlobContainer,
     subscriptionName: 'testSubscription'
 };
-export const MOCK_STORAGE_CONTAINER2: IAzureResource = {
+export const MOCK_STORAGE_CONTAINER2: IAzureStorageBlobContainer = {
     id:
         '/subscriptions/testSubscriptionId/resourceGroups/testResourceGroup/providers/Microsoft.Storage/storageAccounts/teststorageaccount2/blobServices/default/containers/teststoragecontainer2',
     name: 'teststoragecontainer2',
@@ -76,9 +80,9 @@ export const MOCK_STORAGE_CONTAINER_URL2 =
     'https://teststorageaccount2.blob.core.windows.net/teststoragecontainer2';
 
 export const MOCK_ENVIRONMENT_STATE: EnvironmentPickerState = {
-    environmentItems: {
-        environments: [MOCK_ENVIRONMENT],
-        environmentToEdit: MOCK_ENVIRONMENT
+    adtInstanceItems: {
+        adtInstances: [MOCK_ADT_INSTANCE],
+        adtInstanceToEdit: MOCK_ADT_INSTANCE
     },
     storageAccountItems: {
         storageAccounts: [MOCK_STORAGE_ACCOUNT],
