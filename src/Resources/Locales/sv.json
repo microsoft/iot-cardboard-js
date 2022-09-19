@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instans-URL",
     "editEnvironment": "Konfigurera 3D-scenmiljö",
-    "descriptionForEnvironment": "Länka din Azure Digital Twins instans för att börja skapa 3D-scener.",
-    "descriptionForEnvAndCont": "Länka din Azure Digital Twins instans och din lagringscontainer för att börja skapa 3D-scener.",
     "descriptionForLocalStorage": "Konfigurationsdata sparas i lokal lagring.",
     "selectContainerUrl": "Välj URL för lagringscontainer",
-    "noEnvironment": "Ingen miljö har lagts till",
     "noContainer": "Ingen behållare har lagts till",
     "removeFromList": "Ta bort från listan",
     "storageAccountName": "Azure Storage kontonamn",
     "storageAccountUrl": "URL för Azure Storage-konto",
     "storageContainerName": "Azure Storage containernamn",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Url för Azure Digital Twins-instansen",
+    "descriptionForAdtInstance": "Länka din Azure Digital Twins instans för att börja skapa 3D-scener.",
+    "descriptionForAdtInstanceAndCont": "Länka din Azure Digital Twins instans och din lagringscontainer för att börja skapa 3D-scener.",
+    "noAdtInstance": "Ingen ADT-instans har lagts till"
   },
   "behaviorsModal": {
     "closeModal": "Stäng modal",

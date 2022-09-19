@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
-    "descriptionForEnvironment": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
-    "descriptionForEnvAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
     "descriptionForLocalStorage": "Dane konfiguracyjne są zapisywane w magazynie lokalnym.",
     "selectContainerUrl": "Wybieranie adresu URL kontenera magazynu",
-    "noEnvironment": "Nie dodano środowiska",
     "noContainer": "Nie dodano kontenera",
     "removeFromList": "Usuń z listy",
     "storageAccountName": "Nazwa konta usługi Azure Storage",
     "storageAccountUrl": "Adres URL konta usługi Azure Storage",
     "storageContainerName": "Nazwa kontenera usługi Azure Storage",
-    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage"
+    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage",
+    "adtInstanceUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
+    "descriptionForAdtInstance": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
+    "descriptionForAdtInstanceAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
+    "noAdtInstance": "Nie dodano wystąpienia narzędzia ADT"
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",

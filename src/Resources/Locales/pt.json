@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL de exemplo de gêmeos digitais do Azure",
     "editEnvironment": "Configure o ambiente de cenas 3D",
-    "descriptionForEnvironment": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
-    "descriptionForEnvAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
     "descriptionForLocalStorage": "Os dados de configuração são salvos no armazenamento local.",
     "selectContainerUrl": "Selecione URL do contêiner de armazenamento",
-    "noEnvironment": "Nenhum ambiente adicionado",
     "noContainer": "Nenhum contêiner adicionado",
     "removeFromList": "Remover da lista",
     "storageAccountName": "Nome da conta do Azure Storage",
     "storageAccountUrl": "URL da conta de armazenamento do Azure",
     "storageContainerName": "Nome do contêiner de armazenamento azure",
-    "storageContainerUrl": "URL do contêiner de armazenamento azure"
+    "storageContainerUrl": "URL do contêiner de armazenamento azure",
+    "adtInstanceUrl": "URL de exemplo de gêmeos digitais do Azure",
+    "descriptionForAdtInstance": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
+    "descriptionForAdtInstanceAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
+    "noAdtInstance": "Nenhuma instância do ADT adicionada"
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",
