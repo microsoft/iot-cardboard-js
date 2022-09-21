@@ -12,7 +12,7 @@ import {
     Link,
     PrimaryButton
 } from '@fluentui/react';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useBoolean, usePrevious } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -103,6 +103,9 @@ const EnvironmentPicker = ({
     const defaultStorageAccountToContainersMappingsRef = useRef<
         Array<StorageAccountToContainersMapping>
     >([]); // list of storage account and container pairs
+    const prevStorageAccountToEdit = usePrevious(
+        environmentPickerState.storageAccountItems.storageAccountToEdit
+    );
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasFetchedResources = useRef({
         adtInstances: false,
@@ -157,7 +160,7 @@ const EnvironmentPicker = ({
 
             adtInstanceUrls = adtInstanceUrls.concat(
                 adtInstanceUrlsInLocalStorage.filter(
-                    (item) => adtInstanceUrls.indexOf(item) < 0
+                    (item) => adtInstanceUrls.indexOf(item) === -1
                 )
             );
         }
@@ -418,28 +421,39 @@ const EnvironmentPicker = ({
             }
         });
 
-        // when changing the storage account, update the containers from default mappings until containers are fetched
-        environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
-            payload: {
-                containerItems: {
-                    containerToEdit: null,
-                    containers:
-                        defaultStorageAccountToContainersMappingsRef.current?.find(
-                            (mapping) =>
-                                areResourceValuesEqual(
-                                    mapping.storageAccountUrl,
-                                    getResourceUrl(
-                                        resource,
-                                        AzureResourceTypes.StorageAccount
-                                    ),
-                                    AzureResourceDisplayFields.url
-                                )
-                        )?.containerNames || []
+        if (
+            !areResourceValuesEqual(
+                getResourceUrl(
+                    prevStorageAccountToEdit,
+                    AzureResourceTypes.StorageAccount
+                ),
+                getResourceUrl(resource, AzureResourceTypes.StorageAccount),
+                AzureResourceDisplayFields.url
+            )
+        ) {
+            // when changing the storage account, update the containers from default mappings until containers are fetched
+            environmentPickerDispatch({
+                type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
+                payload: {
+                    containerItems: {
+                        containerToEdit: null,
+                        containers:
+                            defaultStorageAccountToContainersMappingsRef.current?.find(
+                                (mapping) =>
+                                    areResourceValuesEqual(
+                                        mapping.storageAccountUrl,
+                                        getResourceUrl(
+                                            resource,
+                                            AzureResourceTypes.StorageAccount
+                                        ),
+                                        AzureResourceDisplayFields.url
+                                    )
+                            )?.containerNames || []
+                    }
                 }
-            }
-        });
-        hasFetchedResources.current.storageBlobContainers = false; // reset this flag as we click on different storage account since it fetches containers again with different storage account id
+            });
+            hasFetchedResources.current.storageBlobContainers = false; // reset this flag as we click on different storage account since it fetches containers again with different storage account id
+        }
     };
 
     const handleOnStorageAccountResourcesLoaded = (
