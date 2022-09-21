@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "Konfigurace prostředí 3D scén",
-    "descriptionForEnvironment": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
-    "descriptionForEnvAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
     "descriptionForLocalStorage": "Konfigurační data se ukládají do místního úložiště.",
     "selectContainerUrl": "Vyberte adresu URL kontejneru úložiště",
-    "noEnvironment": "Nebylo přidáno žádné prostředí",
     "noContainer": "Nebyl přidán žádný kontejner",
     "removeFromList": "Odebrat ze seznamu",
     "storageAccountName": "Název účtu Azure Storage",
     "storageAccountUrl": "Adresa URL účtu Azure Storage",
     "storageContainerName": "Název kontejneru Azure Storage",
-    "storageContainerUrl": "Adresa URL kontejneru Azure Storage"
+    "storageContainerUrl": "Adresa URL kontejneru Azure Storage",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
+    "descriptionForAdtInstanceAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
+    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT"
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",

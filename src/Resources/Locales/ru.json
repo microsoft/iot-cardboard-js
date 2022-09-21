@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL-адрес экземпляра Azure Digital Twins",
     "editEnvironment": "Настройка среды 3D-сцен",
-    "descriptionForEnvironment": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
-    "descriptionForEnvAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
     "descriptionForLocalStorage": "Данные конфигурации сохраняются в локальном хранилище.",
     "selectContainerUrl": "Выбор URL-адреса контейнера хранилища",
-    "noEnvironment": "Среда не добавлена",
     "noContainer": "Контейнер не добавлен",
     "removeFromList": "Удалить из списка",
     "storageAccountName": "Имя учетной записи хранения Azure",
     "storageAccountUrl": "URL-адрес учетной записи хранения Azure",
     "storageContainerName": "Имя контейнера службы хранилища Azure",
-    "storageContainerUrl": "URL-адрес контейнера службы хранилища Azure"
+    "storageContainerUrl": "URL-адрес контейнера службы хранилища Azure",
+    "adtInstanceUrl": "URL-адрес экземпляра Azure Digital Twins",
+    "descriptionForAdtInstance": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
+    "descriptionForAdtInstanceAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
+    "noAdtInstance": "Экземпляр ADT не добавлен"
   },
   "behaviorsModal": {
     "closeModal": "Закрыть модальный",

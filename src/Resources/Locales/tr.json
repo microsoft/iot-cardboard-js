@@ -759,19 +759,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins örneği URL'si",
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
-    "descriptionForEnvironment": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
-    "descriptionForEnvAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
     "descriptionForLocalStorage": "Yapılandırma verileri yerel depolama alanına kaydedilir.",
     "selectContainerUrl": "Depolama kapsayıcısı URL'sini seçin",
-    "noEnvironment": "Ortam eklenmedi",
     "noContainer": "Konteyner eklenmedi",
     "removeFromList": "Listeden kaldır",
     "storageAccountName": "Azure Depolama hesabı adı",
     "storageAccountUrl": "Azure Depolama hesabı URL'si",
     "storageContainerName": "Azure Depolama kapsayıcı adı",
-    "storageContainerUrl": "Azure Depolama kapsayıcı URL'si"
+    "storageContainerUrl": "Azure Depolama kapsayıcı URL'si",
+    "adtInstanceUrl": "Azure Digital Twins örneği URL'si",
+    "descriptionForAdtInstance": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
+    "descriptionForAdtInstanceAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
+    "noAdtInstance": "ADT örneği eklenmedi"
   },
   "behaviorsModal": {
     "closeModal": "Modal'ı kapat",
