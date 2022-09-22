@@ -408,6 +408,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     setPivotToRequired(
                                         coloredMeshItems.length > 0,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
