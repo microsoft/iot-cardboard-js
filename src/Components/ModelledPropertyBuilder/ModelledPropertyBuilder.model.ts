@@ -4,11 +4,13 @@ import {
     EntityKinds,
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
-import { PRIMARY_TWIN_NAME } from '../../Models/Constants/Constants';
+import {
+    PRIMARY_TWIN_NAME,
+    PropertyValueType
+} from '../../Models/Constants/Constants';
 import { IModelledPropertyBuilderAdapter } from '../../Models/Constants/Interfaces';
 import { deepCopy } from '../../Models/Services/Utils';
 import {
-    PropertyValueType,
     ITagModelMap,
     IModelledProperties
 } from './ModelledPropertyBuilder.types';
@@ -145,7 +147,7 @@ const generatePropertySkeleton = (
 };
 
 /** Flattens modelled properties into '.' separated path keys to be used in dropdown representations */
-const flattenModelledProperties = (
+export const flattenModelledProperties = (
     nestedModelledProperties: Record<string, any>
 ) => {
     const flattenedProperties = {};
@@ -219,7 +221,7 @@ const expandModelIds = (
  * @param path Base path which represents the nesting level of the root object.  This is used in recursion as keys for each property value.
  * @param allowedPropertyValueTypes Set of property types to include as property value leaves
  * */
-const addInterface = (
+export const addInterface = (
     root: Record<string, any>,
     parsedInterface: InterfaceInfo,
     path: string,

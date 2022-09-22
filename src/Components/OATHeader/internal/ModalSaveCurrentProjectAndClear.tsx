@@ -10,8 +10,12 @@ import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
-import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
 import { ModalSaveCurrentProjectAndClearProps } from './ModalSaveCurrentProjectAndClear.types';
+import {
+    convertDtdlInterfacesToModels,
+    loadOatFiles,
+    saveOatFiles
+} from '../../../Models/Services/OatUtils';
 
 export const ModalSaveCurrentProjectAndClear = ({
     resetProject,
@@ -32,14 +36,14 @@ export const ModalSaveCurrentProjectAndClear = ({
     } = state;
 
     const onSave = () => {
-        const files = loadFiles();
+        const files = loadOatFiles();
 
         //  Overwrite existing file
         const foundIndex = files.findIndex((file) => file.name === projectName);
         if (foundIndex > -1) {
             const project = new ProjectData(
                 modelPositions,
-                models,
+                convertDtdlInterfacesToModels(models),
                 projectName,
                 templates,
                 namespace,
@@ -47,7 +51,7 @@ export const ModalSaveCurrentProjectAndClear = ({
             );
 
             files[foundIndex].data = project;
-            saveFiles(files);
+            saveOatFiles(files);
             resetProject();
             setModalBody(FromBody.settings);
         }

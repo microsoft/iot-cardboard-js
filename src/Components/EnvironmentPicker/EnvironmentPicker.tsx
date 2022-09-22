@@ -174,7 +174,7 @@ const EnvironmentPicker = ({
             }
         });
 
-        let containerUrls: Array<string>;
+        let containerUrls: Array<string> = [];
         if (storage?.containerUrl) {
             containerUrls = [storage.containerUrl];
         }

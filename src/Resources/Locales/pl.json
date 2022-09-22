@@ -412,7 +412,6 @@
     "Done": "Gotowy",
     "edit": "Edytuj {{elementDisplayName}}",
     "editBehavior": "Edytuj zachowanie",
-    "searchTwinId": "Szukaj Twin ID ($dtId)...",
     "noTwinsFound": "Nie znaleziono bliźniąt (w wyszukiwaniu rozróżniana jest wielkość liter)",
     "useNonExistingTwinId": "Brak dokładnego dopasowania, użyj",
     "addBehaviorToScene": "Dodawanie zachowania do sceny",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Pozycja",
       "rotation": "Obrót"
-    }
+    },
+    "searchTwinIdPlaceholder": "Szukaj Twin ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje",
     "errorFileInvalidJSON": "Problem z {{fileName}}: Nieprawidłowy kod JSON",
     "deleteProjectMessage": "Czy na pewno chcesz usunąć {{projectName}}?",
-    "errorSameName": "Projekt o tej samej nazwie już istnieje. Chcesz go nadpisać?"
+    "errorSameName": "Projekt o tej samej nazwie już istnieje. Chcesz go nadpisać?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologia",
+      "dropdownPlaceholder": "Wybierz ontologię"
+    }
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Przełącz na Wybierz Twin",
     "selectRow": "Twin Selected",
     "inspectProperty": "Sprawdź nieruchomość",
-    "results": "Wyniki ({{twinCount}})"
+    "results": "Wyniki ({{twinCount}})",
+    "modalTitle": "Zaawansowane wyszukiwanie nieruchomości",
+    "modalSubtitle": "Połącz właściwą właściwość, zawężając wyszukiwanie",
+    "noPropertiesFound": "Nie znaleziono obiektów",
+    "addNewButton": "Dodaj nowy",
+    "andOrColumnHeader": "Lub",
+    "propertyColumnHeader": "Własność",
+    "operatorColumnHeader": "Operator",
+    "valueColumnHeader": "Wartość",
+    "propertyFieldPlaceholder": "Nie wybrano właściwości",
+    "resultsExceededLabel": "Było ponad 1000 wyników, dodaj więcej filtrów, aby udoskonalić wyniki.",
+    "noDataBeforeSearchHeader": "Dodawanie kryteriów wyszukiwania, aby rozpocząć",
+    "noDataAfterSearchHeader": "Nie znaleziono bliźniąt",
+    "noDataAfterSearchDescription": "Zawęź wyszukiwanie i spróbuj ponownie",
+    "errorMessageHeader": "Wyszukiwanie nie powiodło się",
+    "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
+    "valueFieldPlaceholder": "Wprowadzanie wartości",
+    "noOptionsFoundMessage": "Nie znaleziono wartości"
   }
 }

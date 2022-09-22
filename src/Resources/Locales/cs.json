@@ -412,7 +412,6 @@
     "Done": "Hotový",
     "edit": "Upravit {{elementDisplayName}}",
     "editBehavior": "Chování úprav",
-    "searchTwinId": "Hledat ID dvojčete ($dtId)...",
     "noTwinsFound": "Nebyla nalezena žádná dvojčata (při hledání se rozlišují malá a velká písmena)",
     "useNonExistingTwinId": "Žádná přesná shoda, použijte",
     "addBehaviorToScene": "Přidání chování do scény",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Postavení",
       "rotation": "Rotace"
-    }
+    },
+    "searchTwinIdPlaceholder": "Hledat ID dvojčete ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
     "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
     "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
-    "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?"
+    "errorSameName": "Projekt se stejným názvem již existuje. Chcete ji přepsat?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologie",
+      "dropdownPlaceholder": "Výběr ontologie"
+    }
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Přepnout na Vybrat dvojče",
     "selectRow": "Vybrané dvojče",
     "inspectProperty": "Zkontrolovat nemovitost",
-    "results": "Výsledky ({{twinCount}})"
+    "results": "Výsledky ({{twinCount}})",
+    "modalTitle": "Rozšířené vyhledávání vlastností",
+    "modalSubtitle": "Propojte správnou službu zúžením vyhledávání",
+    "noPropertiesFound": "Nebyly nalezeny žádné možnosti ubytování",
+    "addNewButton": "Přidat nové",
+    "andOrColumnHeader": "Nebo",
+    "propertyColumnHeader": "Vlastnost",
+    "operatorColumnHeader": "Operátor",
+    "valueColumnHeader": "Hodnota",
+    "propertyFieldPlaceholder": "Nebyla vybrána žádná vlastnost",
+    "resultsExceededLabel": "Bylo více než 1000 výsledků, přidejte další filtry pro upřesnění výsledků.",
+    "noDataBeforeSearchHeader": "Přidání kritérií vyhledávání, abyste mohli začít",
+    "noDataAfterSearchHeader": "Nebyla nalezena žádná dvojčata",
+    "noDataAfterSearchDescription": "Upřesněte vyhledávání a zkuste to znovu",
+    "errorMessageHeader": "Hledání se nezdařilo",
+    "errorMessageDescription": "Došlo k neočekávané chybě. Aktualizujte stránku nebo upravte kritéria vyhledávání a zkuste to znovu.",
+    "valueFieldPlaceholder": "Zadejte hodnotu",
+    "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty"
   }
 }

@@ -417,7 +417,7 @@
         "Done": "Done",
         "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
-        "searchTwinId": "Search Twin ID ($dtId)...",
+        "searchTwinIdPlaceholder": "Search Twin ID ($dtId)",
         "noTwinsFound": "No twins found (search is case sensitive)",
         "useNonExistingTwinId": "No exact match, use",
         "addBehaviorToScene": "Add behavior to scene",
@@ -864,7 +864,11 @@
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",
-        "fileUpload": "File upload"
+        "fileUpload": "File upload",
+        "fileOpenModal": {
+            "dropdownLabel": "Ontology",
+            "dropdownPlaceholder": "Select an ontology"
+        }
     },
     "OATGraphViewer": {
         "newModel": "New Model",
@@ -1148,6 +1152,23 @@
         "toggleSelection": "Toggle to Select Twin",
         "selectRow": "Twin Selected",
         "inspectProperty": "Inspect Property",
-        "results": "Results ({{twinCount}})"
+        "results": "Results ({{twinCount}})",
+        "addNewButton": "Add new",
+        "andOrColumnHeader": "And/Or",
+        "propertyColumnHeader": "Property",
+        "operatorColumnHeader": "Operator",
+        "valueColumnHeader": "Value",
+        "modalTitle": "Advanced property search",
+        "modalSubtitle": "Link the right property by narrowing down your search",
+        "noPropertiesFound": "No properties found",
+        "propertyFieldPlaceholder": "Select a property",
+        "resultsExceededLabel": "There were more than {{QUERY_RESULT_LIMIT}} results, add more filters to refine the results.",
+        "noDataBeforeSearchHeader": "Add search criteria to get started",
+        "noDataAfterSearchHeader": "No twins found",
+        "noDataAfterSearchDescription": "Refine your search and try again",
+        "errorMessageHeader": "Search failed",
+        "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
+        "noOptionsFoundMessage": "No values found",
+        "valueFieldPlaceholder": "Enter a value"
     }
 }

@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getHeaderStyles, getPromptTextStyles } from '../OATHeader.styles';
 import { FromBody } from './Enums';
-import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
+import { loadOatFiles, saveOatFiles } from '../../../Models/Services/OatUtils';
 import { ModalDeleteProps } from './ModalDelete.types';
 
 export const ModalDelete = ({
@@ -25,14 +25,14 @@ export const ModalDelete = ({
     const { projectName } = state;
 
     const onDelete = () => {
-        const files = loadFiles();
+        const files = loadOatFiles();
 
         //  Overwrite existing file
         const foundIndex = files.findIndex((file) => file.name === projectName);
         if (foundIndex > -1) {
             // Remove file
             files.splice(foundIndex, 1);
-            saveFiles(files);
+            saveOatFiles(files);
             resetProject();
             setModalBody(FromBody.settings);
         }

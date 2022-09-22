@@ -3,7 +3,7 @@
  */
 import produce from 'immer';
 import queryString from 'query-string';
-import React, { useCallback, useContext, useReducer } from 'react';
+import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ADT3DScenePageModes } from '../../Constants';
 import { getDebugLogger } from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
@@ -23,6 +23,7 @@ import {
     getSelectedAdtInstanceFromLocalStorage,
     getSelectedStorageContainerFromLocalStorage
 } from '../../Services/LocalStorageManager/LocalStorageManager';
+import TelemetryService from '../../Services/TelemetryService/TelemetryService';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
@@ -63,6 +64,7 @@ export const DeeplinkContextReducer: (
             }
             case DeeplinkContextActionType.SET_SCENE_ID: {
                 draft.sceneId = action.payload.sceneId || '';
+                TelemetryService.setSceneId(draft.sceneId);
                 break;
             }
             case DeeplinkContextActionType.SET_STORAGE_URL: {
@@ -144,6 +146,20 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         },
         [deeplinkState, consumerDeeplinkContext?.onGenerateDeeplink]
     );
+
+    // notify telemetry service of changes to the adt instance
+    useEffect(() => {
+        TelemetryService.setAdtInstance(deeplinkState.adtUrl);
+    }, [deeplinkState.adtUrl]);
+    // notify telemetry service of changes to the blob storage
+    useEffect(() => {
+        TelemetryService.setStorageContainerUrl(deeplinkState.storageUrl);
+    }, [deeplinkState.storageUrl]);
+    // notify telemetry service of changes to the scene id
+    useEffect(() => {
+        TelemetryService.setSceneId(deeplinkState.sceneId);
+    }, [deeplinkState.sceneId]);
+
     return (
         <DeeplinkContext.Provider
             value={{

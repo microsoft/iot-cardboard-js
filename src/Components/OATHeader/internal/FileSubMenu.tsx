@@ -13,7 +13,12 @@ import {
     SET_OAT_PROJECT_NAME
 } from '../../../Models/Constants/ActionTypes';
 import { FromBody } from './Enums';
-import { deepCopy, loadFiles, saveFiles } from '../../../Models/Services/Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
+import {
+    convertDtdlInterfacesToModels,
+    loadOatFiles,
+    saveOatFiles
+} from '../../../Models/Services/OatUtils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import ModalDelete from './ModalDelete';
 import FormSaveAs from './FormSaveAs';
@@ -35,7 +40,7 @@ export const FileSubMenu = ({
     const subMenuStyles = getSubMenuStyles();
     const headerStyles = getHeaderStyles();
     const subMenuHiddenStyles = getSubMenuHiddenStyles();
-    const [files, setFiles] = useState(loadFiles());
+    const [files, setFiles] = useState(loadOatFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
     const [modalOpen, setModalOpen] = useState(false);
@@ -58,7 +63,7 @@ export const FileSubMenu = ({
 
             const project = new ProjectData(
                 modelPositions,
-                models,
+                convertDtdlInterfacesToModels(models),
                 projectName,
                 templates,
                 namespace,
@@ -67,7 +72,7 @@ export const FileSubMenu = ({
 
             filesCopy[fileIndex].data = project;
             setFiles(filesCopy);
-            saveFiles(filesCopy);
+            saveOatFiles(filesCopy);
         } else {
             // Create new file
             setModalBody(FromBody.save);
@@ -196,7 +201,7 @@ export const FileSubMenu = ({
     };
 
     const onProjectChange = () => {
-        const currentFiles = loadFiles();
+        const currentFiles = loadOatFiles();
         setFiles(currentFiles);
         // Check if current file is stored
         let foundIndex = -1;

@@ -412,7 +412,6 @@
     "Done": "수행",
     "edit": "편집 {{elementDisplayName}}",
     "editBehavior": "동작 편집",
-    "searchTwinId": "트윈 ID ($dtId)를 검색 ...",
     "noTwinsFound": "쌍둥이를 찾을 수 없음(검색은 대/소문자를 구분함)",
     "useNonExistingTwinId": "정확한 일치가 없으므로 사용하십시오.",
     "addBehaviorToScene": "장면에 동작 추가",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "위치",
       "rotation": "회전"
-    }
+    },
+    "searchTwinIdPlaceholder": "트윈 ID ($dtId) 검색"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
     "errorFileInvalidJSON": "{{fileName}} 문제 : 잘못된 JSON",
     "deleteProjectMessage": "{{프로젝트 이름}}을(를) 삭제하시겠습니까?",
-    "errorSameName": "이름이 같은 프로젝트가 이미 있습니다. 덮어쓰시겠습니까?"
+    "errorSameName": "이름이 같은 프로젝트가 이미 있습니다. 덮어쓰시겠습니까?",
+    "fileOpenModal": {
+      "dropdownLabel": "존재론",
+      "dropdownPlaceholder": "온톨로지 선택"
+    }
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "트윈 선택으로 전환",
     "selectRow": "트윈 선택",
     "inspectProperty": "속성 검사",
-    "results": "결과 ({{twinCount}})"
+    "results": "결과 ({{twinCount}})",
+    "modalTitle": "고급 속성 검색",
+    "modalSubtitle": "검색 범위를 좁혀 올바른 속성 연결",
+    "noPropertiesFound": "속성을 찾을 수 없음",
+    "addNewButton": "새로 추가",
+    "andOrColumnHeader": "및/또는",
+    "propertyColumnHeader": "재산",
+    "operatorColumnHeader": "연산자",
+    "valueColumnHeader": "값",
+    "propertyFieldPlaceholder": "선택한 속성이 없습니다.",
+    "resultsExceededLabel": "1000 개 이상의 결과가 있었고 결과를 구체화하기 위해 더 많은 필터를 추가했습니다.",
+    "noDataBeforeSearchHeader": "시작하기 위한 검색 조건 추가",
+    "noDataAfterSearchHeader": "쌍둥이를 찾을 수 없음",
+    "noDataAfterSearchDescription": "검색을 구체화하고 다시 시도하십시오.",
+    "errorMessageHeader": "검색 실패",
+    "errorMessageDescription": "예기치 않은 오류가 발생했습니다. 페이지를 새로 고치거나 검색 기준을 수정한 후 다시 시도하십시오.",
+    "valueFieldPlaceholder": "값 입력",
+    "noOptionsFoundMessage": "값을 찾을 수 없음"
   }
 }

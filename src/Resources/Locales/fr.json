@@ -412,7 +412,6 @@
     "Done": "Fait",
     "edit": "Modifier {{elementDisplayName}}",
     "editBehavior": "Modifier le comportement",
-    "searchTwinId": "Rechercher Twin ID ($dtId)...",
     "noTwinsFound": "Aucun jumeau trouvé (la recherche est sensible à la casse)",
     "useNonExistingTwinId": "Pas de correspondance exacte, utilisez",
     "addBehaviorToScene": "Ajouter un comportement à la scène",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Position",
       "rotation": "Rotation"
-    }
+    },
+    "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problème avec {{modelId}} : Modèle avec le même @id existe déjà",
     "errorFileInvalidJSON": "Problème avec {{fileName}} : JSON non valide",
     "deleteProjectMessage": "Voulez-vous vraiment supprimer {{projectName}} ?",
-    "errorSameName": "Le projet portant le même nom existe déjà. Voulez-vous l’écraser?"
+    "errorSameName": "Le projet portant le même nom existe déjà. Voulez-vous l’écraser?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologie",
+      "dropdownPlaceholder": "Sélectionner une ontologie"
+    }
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Basculer pour sélectionner Twin",
     "selectRow": "Twin Sélectionné",
     "inspectProperty": "Inspecter la propriété",
-    "results": "Résultats ({{twinCount}})"
+    "results": "Résultats ({{twinCount}})",
+    "modalTitle": "Recherche avancée de propriétés",
+    "modalSubtitle": "Liez la bonne propriété en réduisant votre recherche",
+    "noPropertiesFound": "Aucune propriété trouvée",
+    "addNewButton": "Ajouter un nouveau",
+    "andOrColumnHeader": "Et/ou",
+    "propertyColumnHeader": "Propriété",
+    "operatorColumnHeader": "Opérateur",
+    "valueColumnHeader": "Valeur",
+    "propertyFieldPlaceholder": "Aucune propriété sélectionnée",
+    "resultsExceededLabel": "Il y a eu plus de 1000 résultats, ajoutez plus de filtres pour affiner les résultats.",
+    "noDataBeforeSearchHeader": "Ajouter des critères de recherche pour commencer",
+    "noDataAfterSearchHeader": "Aucun jumeau trouvé",
+    "noDataAfterSearchDescription": "Affinez votre recherche et réessayez",
+    "errorMessageHeader": "Échec de la recherche",
+    "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
+    "valueFieldPlaceholder": "Entrez une valeur",
+    "noOptionsFoundMessage": "Aucune valeur trouvée"
   }
 }

@@ -412,7 +412,6 @@
     "Done": "Договорились",
     "edit": "Редактировать {{elementDisplayName}}",
     "editBehavior": "Редактирование поведения",
-    "searchTwinId": "Поиск Twin ID ($dtId)...",
     "noTwinsFound": "Близнецы не найдены (поиск чувствителен к регистру)",
     "useNonExistingTwinId": "Нет точного соответствия, используйте",
     "addBehaviorToScene": "Добавление поведения в сцену",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Позиция",
       "rotation": "Вращение"
-    }
+    },
+    "searchTwinIdPlaceholder": "Поиск Твин ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
     "errorFileInvalidJSON": "Проблема с {{имя_файла}}: Недопустимый JSON",
     "deleteProjectMessage": "Вы уверены, что хотите удалить {{имя_проекта}}?",
-    "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?"
+    "errorSameName": "Проект с таким же названием уже существует. Вы хотите перезаписать его?",
+    "fileOpenModal": {
+      "dropdownLabel": "Онтология",
+      "dropdownPlaceholder": "Выберите онтологию"
+    }
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Переключение на выбор Twin",
     "selectRow": "Выбран близнец",
     "inspectProperty": "Инспекция имущества",
-    "results": "Результаты ({{twinCount}})"
+    "results": "Результаты ({{twinCount}})",
+    "modalTitle": "Расширенный поиск недвижимости",
+    "modalSubtitle": "Свяжите нужный объект, сузив область поиска",
+    "noPropertiesFound": "Недвижимость не найдена",
+    "addNewButton": "Добавить новый",
+    "andOrColumnHeader": "И/или",
+    "propertyColumnHeader": "Свойство",
+    "operatorColumnHeader": "Оператор",
+    "valueColumnHeader": "Ценность",
+    "propertyFieldPlaceholder": "Недвижимость не выбрана",
+    "resultsExceededLabel": "Было более 1000 результатов, добавьте больше фильтров для уточнения результатов.",
+    "noDataBeforeSearchHeader": "Добавление критериев поиска для начала работы",
+    "noDataAfterSearchHeader": "Близнецы не найдены",
+    "noDataAfterSearchDescription": "Уточните поиск и повторите попытку",
+    "errorMessageHeader": "Поиск не удался",
+    "errorMessageDescription": "Произошла непредвиденная ошибка. Обновите страницу или измените критерии поиска и повторите попытку.",
+    "valueFieldPlaceholder": "Введите значение",
+    "noOptionsFoundMessage": "Значения не найдены"
   }
 }

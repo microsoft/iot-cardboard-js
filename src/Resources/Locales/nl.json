@@ -412,7 +412,6 @@
     "Done": "Klaar",
     "edit": "Bewerken {{elementDisplayName}}",
     "editBehavior": "Gedrag bewerken",
-    "searchTwinId": "Zoek Twin ID ($dtId)...",
     "noTwinsFound": "Geen tweeling gevonden (zoeken is hoofdlettergevoelig)",
     "useNonExistingTwinId": "Geen exacte overeenkomst, gebruik",
     "addBehaviorToScene": "Gedrag toevoegen aan scène",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Positie",
       "rotation": "Rotatie"
-    }
+    },
+    "searchTwinIdPlaceholder": "Twin ID zoeken ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
     "errorFileInvalidJSON": "Probleem met {{bestandsnaam}}: ongeldige JSON",
     "deleteProjectMessage": "Weet u zeker dat u {{projectName}} wilt verwijderen?",
-    "errorSameName": "Project met dezelfde naam bestaat al. Wil je het overschrijven?"
+    "errorSameName": "Project met dezelfde naam bestaat al. Wil je het overschrijven?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologie",
+      "dropdownPlaceholder": "Selecteer een ontologie"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Schakel in om Twin te selecteren",
     "selectRow": "Twin geselecteerd",
     "inspectProperty": "Inspecteer onroerend goed",
-    "results": "Resultaten ({{twinCount}})"
+    "results": "Resultaten ({{twinCount}})",
+    "modalTitle": "Geavanceerd zoeken naar onroerend goed",
+    "modalSubtitle": "Koppel de juiste woning door uw zoekopdracht te verfijnen",
+    "noPropertiesFound": "Geen accommodaties gevonden",
+    "addNewButton": "Nieuwe toevoegen",
+    "andOrColumnHeader": "Of",
+    "propertyColumnHeader": "Eigenschap",
+    "operatorColumnHeader": "Bediener",
+    "valueColumnHeader": "Waarde",
+    "propertyFieldPlaceholder": "Geen woning geselecteerd",
+    "resultsExceededLabel": "Er waren meer dan 1000 resultaten, voeg meer filters toe om de resultaten te verfijnen.",
+    "noDataBeforeSearchHeader": "Zoekcriteria toevoegen om aan de slag te gaan",
+    "noDataAfterSearchHeader": "Geen tweeling gevonden",
+    "noDataAfterSearchDescription": "Verfijn uw zoekopdracht en probeer het opnieuw",
+    "errorMessageHeader": "Zoekopdracht mislukt",
+    "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
+    "valueFieldPlaceholder": "Voer een waarde in",
+    "noOptionsFoundMessage": "Geen waarden gevonden"
   }
 }

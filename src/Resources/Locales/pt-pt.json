@@ -412,7 +412,6 @@
     "Done": "Feito",
     "edit": "Editar {{elementDisplayName}}",
     "editBehavior": "Editar comportamento",
-    "searchTwinId": "Pesquisar Twin ID ($dtId)...",
     "noTwinsFound": "Não foram encontrados gémeos (a procura é sensível ao caso)",
     "useNonExistingTwinId": "Sem correspondência exata, use",
     "addBehaviorToScene": "Adicionar comportamento à cena",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Posição",
       "rotation": "Rotação"
-    }
+    },
+    "searchTwinIdPlaceholder": "Pesquisar Twin ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
     "errorFileInvalidJSON": "Emissão com {{fileName}}: Invalid JSON",
     "deleteProjectMessage": "Tem a certeza de que pretende eliminar {{projectName}}",
-    "errorSameName": "Projeto com o mesmo nome já existe. Gostaria de exagerar?"
+    "errorSameName": "Projeto com o mesmo nome já existe. Gostaria de exagerar?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologia",
+      "dropdownPlaceholder": "Selecione uma ontologia"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Alternar para Selecionar Twin",
     "selectRow": "Twin Selecionado",
     "inspectProperty": "Inspecionar Propriedade",
-    "results": "Resultados ({{twinCount}}"
+    "results": "Resultados ({{twinCount}}",
+    "modalTitle": "Pesquisa avançada de propriedade",
+    "modalSubtitle": "Ligue a propriedade certa reduzindo a sua pesquisa",
+    "noPropertiesFound": "Nenhuma propriedade encontrada",
+    "addNewButton": "Adicionar novo",
+    "andOrColumnHeader": "E/Ou",
+    "propertyColumnHeader": "Propriedade",
+    "operatorColumnHeader": "Operador",
+    "valueColumnHeader": "Valor",
+    "propertyFieldPlaceholder": "Nenhum imóvel selecionado",
+    "resultsExceededLabel": "Houve mais de 1000 resultados, adicione mais filtros para refinar os resultados.",
+    "noDataBeforeSearchHeader": "Adicionar critérios de pesquisa para começar",
+    "noDataAfterSearchHeader": "Não foram encontrados gémeos.",
+    "noDataAfterSearchDescription": "Refine a sua pesquisa e tente novamente",
+    "errorMessageHeader": "A procura falhou",
+    "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, refresque a página ou modifique os seus critérios de pesquisa e tente novamente.",
+    "valueFieldPlaceholder": "Insira um valor",
+    "noOptionsFoundMessage": "Nenhum valor encontrado"
   }
 }

@@ -3,7 +3,7 @@
  */
 
 import React, { CSSProperties } from 'react';
-import { screen } from '@storybook/testing-library';
+import { fireEvent, screen } from '@storybook/testing-library';
 import { ReactFramework, StoryContext } from '@storybook/react';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
@@ -114,4 +114,27 @@ export const clickOverFlowMenuItem = async (element: HTMLElement) => {
     // not using storybook helper to work around issue where pointer events are not allowed
     element.click();
     await sleep(1);
+};
+
+/** React-select utilities */
+/**
+ * Helper function to select an option from a react select dropdown. Classname and classname prefix
+ * need to match the ones set in props for your component.
+ * @param className Classname prop from react-select dropdown we want to interact with
+ * @param optionIndex index of the option we are selecting.
+ * @returns
+ */
+export const selectReactSelectOption = async (
+    className: string,
+    optionIndex: number
+) => {
+    fireEvent.focus(document.getElementsByClassName(`${className}__input`)[0]);
+    fireEvent.mouseDown(
+        document.getElementsByClassName(`${className}__control`)[0]
+    );
+    // Wait for callout to pop-up
+    await sleep(1);
+    fireEvent.click(
+        document.getElementsByClassName(`${className}__option`)[optionIndex]
+    );
 };

@@ -412,7 +412,6 @@
     "Done": "完成です",
     "edit": "{{elementDisplayName}} を編集",
     "editBehavior": "動作の編集",
-    "searchTwinId": "検索ツイン ID ($dtId)...",
     "noTwinsFound": "双子が見つかりません (検索では大文字と小文字が区別されます)",
     "useNonExistingTwinId": "完全に一致しない、使用",
     "addBehaviorToScene": "シーンにビヘイビアを追加する",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "立場",
       "rotation": "自転"
-    }
+    },
+    "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
     "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
     "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
-    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?"
+    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?",
+    "fileOpenModal": {
+      "dropdownLabel": "オントロジー",
+      "dropdownPlaceholder": "オントロジーの選択"
+    }
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "ツインの選択に切り替えます",
     "selectRow": "選択されたツイン",
     "inspectProperty": "プロパティの検査",
-    "results": "結果 ({{twinCount}})"
+    "results": "結果 ({{twinCount}})",
+    "modalTitle": "高度な物件検索",
+    "modalSubtitle": "検索を絞り込むことで適切なプロパティをリンクする",
+    "noPropertiesFound": "プロパティが見つかりません",
+    "addNewButton": "新規追加",
+    "andOrColumnHeader": "や",
+    "propertyColumnHeader": "財産",
+    "operatorColumnHeader": "演算子",
+    "valueColumnHeader": "価値",
+    "propertyFieldPlaceholder": "プロパティが選択されていません",
+    "resultsExceededLabel": "1000以上の結果があり、結果を絞り込むためにさらにフィルタを追加してください。",
+    "noDataBeforeSearchHeader": "検索条件を追加して開始する",
+    "noDataAfterSearchHeader": "双子は見つかりませんでした",
+    "noDataAfterSearchDescription": "検索を絞り込んで、もう一度やり直してください",
+    "errorMessageHeader": "検索に失敗しました",
+    "errorMessageDescription": "予期しないエラーが発生しました。ページを更新するか、検索条件を変更して、もう一度やり直してください。",
+    "valueFieldPlaceholder": "値を入力する",
+    "noOptionsFoundMessage": "値が見つかりません"
   }
 }

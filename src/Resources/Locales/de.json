@@ -412,7 +412,6 @@
     "Done": "Fertig",
     "edit": "{{elementDisplayName}} bearbeiten",
     "editBehavior": "Verhalten bearbeiten",
-    "searchTwinId": "Twin ID ($dtId) suchen...",
     "noTwinsFound": "Keine Zwillinge gefunden (bei der Suche wird zwischen Groß- und Kleinschreibung unterschieden)",
     "useNonExistingTwinId": "Keine exakte Übereinstimmung, Verwendung",
     "addBehaviorToScene": "Verhalten zur Szene hinzufügen",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Position",
       "rotation": "Drehung"
-    }
+    },
+    "searchTwinIdPlaceholder": "Twin ID ($dtId) suchen"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
     "errorFileInvalidJSON": "Problem mit {{fileName}}: Ungültiges JSON",
     "deleteProjectMessage": "Möchten Sie {{projectName}} wirklich löschen?",
-    "errorSameName": "Das gleichnamige Projekt existiert bereits. Möchten Sie es überschreiben?"
+    "errorSameName": "Das gleichnamige Projekt existiert bereits. Möchten Sie es überschreiben?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologie",
+      "dropdownPlaceholder": "Wählen Sie eine Ontologie"
+    }
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -1148,6 +1152,23 @@
     "toggleSelection": "Zum Auswählen von Twin umschalten",
     "selectRow": "Twin Selected",
     "inspectProperty": "Inspect-Eigenschaft",
-    "results": "Ergebnisse ({{twinCount}})"
+    "results": "Ergebnisse ({{twinCount}})",
+    "modalTitle": "Erweiterte Immobiliensuche",
+    "modalSubtitle": "Verknüpfen Sie die richtige Eigenschaft, indem Sie Ihre Suche eingrenzen",
+    "noPropertiesFound": "Keine Eigenschaften gefunden",
+    "addNewButton": "Neues hinzufügen",
+    "andOrColumnHeader": "und/oder",
+    "propertyColumnHeader": "Eigentum",
+    "operatorColumnHeader": "Operator",
+    "valueColumnHeader": "Wert",
+    "propertyFieldPlaceholder": "Keine Eigenschaft ausgewählt",
+    "resultsExceededLabel": "Es gab mehr als 1000 Ergebnisse, fügen Sie weitere Filter hinzu, um die Ergebnisse zu verfeinern.",
+    "noDataBeforeSearchHeader": "Hinzufügen von Suchkriterien für die ersten Schritte",
+    "noDataAfterSearchHeader": "Keine Zwillinge gefunden",
+    "noDataAfterSearchDescription": "Verfeinern Sie Ihre Suche und versuchen Sie es erneut",
+    "errorMessageHeader": "Suche fehlgeschlagen",
+    "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut.",
+    "valueFieldPlaceholder": "Geben Sie einen Wert ein",
+    "noOptionsFoundMessage": "Keine Werte gefunden"
   }
 }
