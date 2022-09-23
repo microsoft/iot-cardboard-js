@@ -1,4 +1,4 @@
-import { IStyle, useTheme, FontSizes, IButtonStyles } from '@fluentui/react';
+import { IStyle, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import { IOATHeaderStyleProps, IOATHeaderStyles } from './OATHeader.types';
 
