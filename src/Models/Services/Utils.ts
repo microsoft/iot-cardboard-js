@@ -678,6 +678,19 @@ export const getResourceUrls = (
     );
 };
 
+export const getResourceId = (
+    resource: IAzureResource | string // can either be the url string or azure resource
+): string | null => {
+    if (resource) {
+        if (typeof resource === 'string') {
+            return null;
+        } else {
+            return resource.id;
+        }
+    }
+    return null;
+};
+
 export const getNameOfResource = (
     resource: string | IAzureResource, // for container type resources string type refers to the name of the container, otherwise it is the url string of the resource
     resourceType: AzureResourceTypes

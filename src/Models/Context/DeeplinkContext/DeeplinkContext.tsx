@@ -48,6 +48,10 @@ export const DeeplinkContextReducer: (
                 draft.adtUrl = action.payload.url || '';
                 break;
             }
+            case DeeplinkContextActionType.SET_ADT_RESOURCE_ID: {
+                draft.adtResourceId = action.payload.resourceId || '';
+                break;
+            }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
                 draft.selectedElementId = action.payload.id || '';
                 break;
@@ -101,6 +105,11 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             parsed.adtUrl ||
             initialState.adtUrl ||
             getSelectedAdtInstanceFromLocalStorage()?.url ||
+            '',
+        adtResourceId:
+            parsed.adtResourceId ||
+            initialState.adtResourceId ||
+            getSelectedAdtInstanceFromLocalStorage()?.id ||
             '',
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
@@ -190,6 +199,7 @@ const buildDeeplink = (
             : undefined,
         mode: currentState.mode,
         adtUrl: currentState.adtUrl,
+        adtResourceId: currentState.adtResourceId,
         storageUrl: currentState.storageUrl
     };
 

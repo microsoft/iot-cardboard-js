@@ -26,6 +26,7 @@ export interface IDeeplinkContext {
  */
 export interface IDeeplinkContextState {
     adtUrl: string;
+    adtResourceId: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementId: string;
@@ -36,6 +37,7 @@ export interface IDeeplinkContextState {
 /** The object serialized to create the deeplink URL */
 export interface IPublicDeeplink {
     adtUrl: string;
+    adtResourceId: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementIds: string;
@@ -48,6 +50,7 @@ export interface IPublicDeeplink {
  */
 export enum DeeplinkContextActionType {
     SET_ADT_URL = 'SET_ADT_URL',
+    SET_ADT_RESOURCE_ID = 'SET_ADT_RESOURCE_ID',
     SET_ELEMENT_ID = 'SET_ELEMENT_ID',
     SET_LAYER_IDS = 'SET_LAYER_IDS',
     SET_MODE = 'SET_MODE',
@@ -60,6 +63,10 @@ export type DeeplinkContextAction =
     | {
           type: DeeplinkContextActionType.SET_ADT_URL;
           payload: { url: string };
+      }
+    | {
+          type: DeeplinkContextActionType.SET_ADT_RESOURCE_ID;
+          payload: { resourceId: string };
       }
     | {
           type: DeeplinkContextActionType.SET_ELEMENT_ID;

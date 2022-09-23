@@ -286,10 +286,12 @@ export interface IAzureRoleAssignment extends IAzureResource {
 
 export interface IADTInstance extends IAzureResource {
     type: AzureResourceTypes.DigitalTwinInstance;
+    properties: IADTInstancePropertyData;
 }
 
 export interface IAzureStorageAccount extends IAzureResource {
     type: AzureResourceTypes.StorageAccount;
+    properties: IAzureStorageAccountPropertyData;
 }
 
 export interface IAzureStorageBlobContainer extends IAzureResource {
@@ -298,6 +300,16 @@ export interface IAzureStorageBlobContainer extends IAzureResource {
 
 export interface IAzureRoleAssignmentPropertyData {
     roleDefinitionId: string;
+    [additionalProperty: string]: any;
+}
+
+export interface IADTInstancePropertyData {
+    hostName: string;
+    [additionalProperty: string]: any;
+}
+
+export interface IAzureStorageAccountPropertyData {
+    primaryEndpoints: { blob: string; [additionalProperty: string]: any };
     [additionalProperty: string]: any;
 }
 // END of Azure Management plane interfaces

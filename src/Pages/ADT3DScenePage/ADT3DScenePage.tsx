@@ -65,6 +65,8 @@ import { EnvironmentContextActionType } from '../../Models/Context/EnvironmentCo
 import { getEnvironmentConfigurationItemFromResource } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 import {
     getContainerNameFromUrl,
+    getNameOfResource,
+    getResourceId,
     getResourceUrl
 } from '../../Models/Services/Utils';
 import { getStorageAccountUrlFromContainerUrl } from '../../Components/EnvironmentPicker/EnvironmentPickerManager';
@@ -253,6 +255,12 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                         ) || ''
                 }
             });
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_ADT_RESOURCE_ID,
+                payload: {
+                    resourceId: getResourceId(adtInstance) || ''
+                }
+            });
             environmentDispatch({
                 type: EnvironmentContextActionType.SET_ADT_INSTANCE,
                 payload: { adtInstance }
@@ -277,15 +285,41 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         adapter.setBlobContainerPath(environmentState.storageContainer?.url);
     }, [adapter, environmentState.storageContainer?.url]);
 
-    // update environment context for selected ADT instance only if it is not same the one in the deeplink context (e.g. parsed deeplink)
+    // update environment context for selected ADT instance only if it is not same the one in the deeplink context,
+    // in other conditions they are being updated concurrently in the same callback methods (e.g. parsed deeplink)
     useEffect(() => {
-        if (deeplinkState.adtUrl !== environmentState.adtInstance?.url) {
+        if (
+            deeplinkState.adtUrl !== environmentState.adtInstance?.url ||
+            deeplinkState.adtResourceId !== environmentState.adtInstance?.id
+        ) {
+            const adtInstanceResource: IADTInstance = {
+                // construct a Azure resource based on the deeplink values
+                id: deeplinkState.adtResourceId
+                    ? deeplinkState.adtResourceId
+                    : null,
+                name: getNameOfResource(
+                    deeplinkState.adtUrl,
+                    AzureResourceTypes.DigitalTwinInstance
+                ),
+                properties: {
+                    hostName: deeplinkState.adtUrl.replace('https://', '')
+                },
+                type: AzureResourceTypes.DigitalTwinInstance
+            };
             environmentDispatch({
                 type: EnvironmentContextActionType.SET_ADT_INSTANCE,
-                payload: { adtInstance: deeplinkState.adtUrl }
+                payload: {
+                    adtInstance: adtInstanceResource
+                }
             });
         }
-    }, [adapter, deeplinkState.adtUrl, environmentState.adtInstance?.url]);
+    }, [
+        adapter,
+        deeplinkState.adtUrl,
+        environmentState.adtInstance?.url,
+        deeplinkState.adtResourceId,
+        environmentState.adtInstance?.id
+    ]);
 
     // update environment context for selected Storage account and container only if it is not same the one in the deeplink context (e.g. parsed deeplink)
     useEffect(() => {
