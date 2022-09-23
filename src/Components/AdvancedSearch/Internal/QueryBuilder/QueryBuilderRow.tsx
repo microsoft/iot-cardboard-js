@@ -271,7 +271,7 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     noOptionsText={t('advancedSearch.noOptionsFoundMessage')}
                     placeholderText={t('advancedSearch.valueFieldPlaceholder')}
                     resetInputOnBlur={false}
-                    searchPropertyName={DTID_PROPERTY_NAME}
+                    searchPropertyName={selectedProperty?.value || ''}
                 />
             );
         } else if (selectedProperty.data.type === 'boolean') {
