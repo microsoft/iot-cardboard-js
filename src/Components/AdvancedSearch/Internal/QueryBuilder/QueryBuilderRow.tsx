@@ -41,10 +41,7 @@ import {
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
-import {
-    DTDLPropertyIconographyMap,
-    DTID_PROPERTY_NAME
-} from '../../../../Models/Constants/Constants';
+import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import TwinPropertySearchDropdown from '../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
 
