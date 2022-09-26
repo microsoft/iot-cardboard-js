@@ -830,6 +830,8 @@
         "publish": "Publish",
         "sync": "sync",
         "import": "Import",
+        "importFolder": "Import folder",
+        "importFile": "Import file",
         "export": "Export",
         "file": "File",
         "files": "Files",
@@ -863,8 +865,6 @@
         "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
-        "folderUpload": "Folder upload",
-        "fileUpload": "File upload",
         "fileOpenModal": {
             "dropdownLabel": "Ontology",
             "dropdownPlaceholder": "Select an ontology"

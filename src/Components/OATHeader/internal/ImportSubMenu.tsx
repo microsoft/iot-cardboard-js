@@ -41,14 +41,14 @@ export const ImportSubMenu = ({
                         styles={subMenuItemStyles}
                         onClick={onUploadFile}
                     >
-                        <Text>{t('OATHeader.fileUpload')}</Text>
+                        <Text>{t('OATHeader.importFile')}</Text>
                     </ActionButton>
 
                     <ActionButton
                         styles={subMenuItemStyles}
                         onClick={onUploadFolder}
                     >
-                        <Text>{t('OATHeader.folderUpload')}</Text>
+                        <Text>{t('OATHeader.importFolder')}</Text>
                     </ActionButton>
                 </Callout>
             )}

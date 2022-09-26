@@ -56,11 +56,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     );
     const {
         modelsMetadata,
-        projectName,
-        modelPositions,
-        models,
-        templates,
-        namespace
+        // projectName,
+        // modelPositions,
+        models
+        // templates,
+        // namespace
     } = state;
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
