@@ -467,6 +467,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         behaviorState.validityMap?.get(
                                             'Elements'
                                         )?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -492,6 +493,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     setPivotToRequired(
                                         behaviorState.validityMap?.get('Twins')
                                             ?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -511,6 +513,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     setPivotToRequired(
                                         behaviorState.validityMap?.get('Status')
                                             ?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -528,6 +531,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     setPivotToRequired(
                                         behaviorState.validityMap?.get('Alerts')
                                             ?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -544,6 +548,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         behaviorState.validityMap?.get(
                                             'Widgets'
                                         )?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
