@@ -8,6 +8,8 @@ import axios from 'axios';
 import { SearchSpan, TsiClientAdapterData } from '../Models/Classes';
 import TsqExpression from 'tsiclient/TsqExpression';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
+import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { ADXTimeSeries } from '../Models/Constants/Types';
 
 export default class ADXAdapter implements ITsiClientChartDataAdapter {
     protected adxAuthService: IAuthService;
@@ -27,6 +29,73 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
         this.adxAuthService = adxAuthService;
         this.adxAuthService.login();
     }
+
+    async getTimeSeriesData(query: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(
+            this.adxAuthService
+        );
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const getDataHistoryFromADX = () => {
+                return axios({
+                    method: 'post',
+                    url: `${this.clusterUrl}/v2/rest/query`,
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    data: {
+                        db: this.databaseName,
+                        csl: `${this.tableName} | ${query}))` /** example query: 
+                        | where TimeStamp between (datetime(2020-09-07) .. datetime(2022-09-07))
+                        | where Id contains "Car"
+                        | where Key == "Speed"
+                        | project Id, TimeStamp, Key, Value */
+                    }
+                });
+            };
+
+            try {
+                // fetch data history of the properties using ADX api
+                const adxDataHistoryResults = await getDataHistoryFromADX();
+                adxDataHistoryResults.data?.map((result) => {
+                    const primaryResultFrames = result.data.filter(
+                        (frame) => frame.TableKind === 'PrimaryResult'
+                    );
+                    if (primaryResultFrames.length) {
+                        const timeStampColumnIndex = primaryResultFrames[0].Columns.findIndex(
+                            (c) => c.ColumnName === 'TimeStamp'
+                        );
+                        const valueColumnIndex = primaryResultFrames[0].Columns.findIndex(
+                            (c) => c.ColumnName === 'Value'
+                        );
+                        const mergedTimeStampAndValuePairs: Array<ADXTimeSeries> = [];
+                        primaryResultFrames.forEach((rF) =>
+                            rF.Rows.forEach((r) =>
+                                mergedTimeStampAndValuePairs.push({
+                                    timestamp: r[timeStampColumnIndex],
+                                    value: r[valueColumnIndex]
+                                })
+                            )
+                        );
+                        return new ADXTimeSeriesData(
+                            mergedTimeStampAndValuePairs
+                        );
+                    }
+                });
+            } catch (err) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: err
+                });
+
+                return new ADXTimeSeriesData(null);
+            }
+        }, 'adx');
+    }
+
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,

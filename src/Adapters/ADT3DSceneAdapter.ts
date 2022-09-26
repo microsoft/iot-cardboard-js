@@ -26,7 +26,8 @@ import {
     AzureAccessPermissionRoleGroups,
     modelRefreshMaxAge,
     RequiredAccessRoleGroupForStorageContainer,
-    RequiredAccessRoleGroupForADTInstance
+    RequiredAccessRoleGroupForADTInstance,
+    IADXConnection
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
@@ -75,13 +76,16 @@ export default class ADT3DSceneAdapter {
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
     }
-    getConnectionInformation = async () => {
-        if (this.clusterUrl && this.databaseName && this.tableName) {
+    getConnectionInformation = async (
+        adtConnectionInformation?: IADXConnection
+    ) => {
+        if (adtConnectionInformation) {
             return new AdapterResult<ADTInstanceConnectionData>({
                 result: new ADTInstanceConnectionData({
-                    kustoClusterUrl: this.clusterUrl,
-                    kustoDatabaseName: this.databaseName,
-                    kustoTableName: this.tableName
+                    kustoClusterUrl: adtConnectionInformation.kustoClusterUrl,
+                    kustoDatabaseName:
+                        adtConnectionInformation.kustoDatabaseName,
+                    kustoTableName: adtConnectionInformation.kustoTableName
                 }),
                 errorInfo: null
             });

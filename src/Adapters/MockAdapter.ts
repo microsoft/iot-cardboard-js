@@ -86,6 +86,7 @@ import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
+import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -1000,6 +1001,26 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getConnectionInformation() {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTInstanceConnectionData({
+                    kustoClusterUrl: '',
+                    kustoDatabaseName: '',
+                    kustoTableName: ''
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTInstanceConnectionData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

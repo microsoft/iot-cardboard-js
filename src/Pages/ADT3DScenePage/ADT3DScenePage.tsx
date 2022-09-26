@@ -30,6 +30,7 @@ import {
 } from '../../Models/Constants/ActionTypes';
 import {
     IADTInstance,
+    IADXConnection,
     IAzureStorageAccount,
     IAzureStorageBlobContainer,
     IBlobAdapter,
@@ -70,6 +71,8 @@ import {
     getResourceUrl
 } from '../../Models/Services/Utils';
 import { getStorageAccountUrlFromContainerUrl } from '../../Components/EnvironmentPicker/EnvironmentPickerManager';
+import AdapterResult from '../../Models/Classes/AdapterResult';
+import ADTInstanceConnectionData from '../../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -135,6 +138,12 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         adapterMethod: () => adapter.resetSceneConfig(),
         isAdapterCalledOnMount: false,
         refetchDependencies: []
+    });
+
+    const connectionState = useAdapter({
+        adapterMethod: () => adapter.getConnectionInformation(),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
     });
 
     const setSelectedSceneId = useCallback(
@@ -274,6 +283,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         },
         [environmentDispatch, environmentPickerOptions?.adt]
     );
+
+    // if the adx connection information is not in the environment context. fetch it and update the context
+    useEffect(() => {
+        if (!environmentState.adxConnectionInformation) {
+            connectionState.callAdapter();
+        }
+    }, [environmentState.adxConnectionInformation]);
 
     // update adapter when selected adt instance changes in environment context
     useEffect(() => {
@@ -581,6 +597,19 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             scenesConfig.callAdapter();
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);
+
+    // update the adx information of environment context with the fetched data
+    useEffect(() => {
+        if (!connectionState?.adapterResult.hasNoData()) {
+            environmentDispatch({
+                type:
+                    EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION,
+                payload: {
+                    connectionInformation: connectionState?.adapterResult.getData()
+                }
+            });
+        }
+    }, [connectionState?.adapterResult]);
 
     return (
         <ADT3DScenePageContext.Provider

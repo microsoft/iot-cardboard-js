@@ -1,5 +1,6 @@
 import {
     IADTInstance,
+    IADXConnection,
     IAzureStorageAccount,
     IAzureStorageBlobContainer
 } from '../../Constants/Interfaces';
@@ -25,7 +26,7 @@ export interface IEnvironmentContextState {
     adtInstance: EnvironmentConfigurationItem | null;
     storageAccount: EnvironmentConfigurationItem | null;
     storageContainer: EnvironmentConfigurationItem | null;
-    //adxInformation: IADXConnection
+    adxConnectionInformation: IADXConnection;
 }
 
 /**
@@ -34,8 +35,8 @@ export interface IEnvironmentContextState {
 export enum EnvironmentContextActionType {
     SET_ADT_INSTANCE = 'SET_ADT_INSTANCE',
     SET_STORAGE_ACCOUNT = 'SET_STORAGE_ACCOUNT',
-    SET_STORAGE_CONTAINER = 'SET_STORAGE_CONTAINER'
-    //SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION'
+    SET_STORAGE_CONTAINER = 'SET_STORAGE_CONTAINER',
+    SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION'
 }
 
 /** The actions to update the state */
@@ -54,10 +55,10 @@ export type EnvironmentContextAction =
               container: string | IAzureStorageBlobContainer;
               storageAccount: string | IAzureStorageAccount;
           };
+      }
+    | {
+          type: EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION;
+          payload: {
+              connectionInformation: IADXConnection;
+          };
       };
-// | {
-//       type: EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION;
-//       payload: {
-//           connectionInformation: IADXConnection;
-//       };
-//   };

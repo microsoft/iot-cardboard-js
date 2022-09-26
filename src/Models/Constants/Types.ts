@@ -70,6 +70,11 @@ export type ADTRelationship = {
 
 export type TsiClientData = any[];
 
+export type ADXTimeSeries = {
+    timestamp: string;
+    value: string | number;
+};
+
 export type HierarchyData = Record<string, IHierarchyNode>;
 
 export type ADTModelsApiData = {
