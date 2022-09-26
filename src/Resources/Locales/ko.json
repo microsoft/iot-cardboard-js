@@ -851,8 +851,6 @@
     "undo": "취소",
     "redo": "다시",
     "deleteAll": "모두 삭제",
-    "folderUpload": "폴더 업로드",
-    "fileUpload": "파일 업로드",
     "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "존재론",
       "dropdownPlaceholder": "온톨로지 선택"
-    }
+    },
+    "importFolder": "폴더 가져오기",
+    "importFile": "파일 가져오기"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

@@ -851,8 +851,6 @@
     "undo": "Défaire",
     "redo": "Refaire",
     "deleteAll": "Supprimer tout",
-    "folderUpload": "Téléchargement de dossiers",
-    "fileUpload": "Téléchargement de fichiers",
     "files": "Fichiers",
     "selectFile": "Sélectionner un fichier",
     "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Sélectionner une ontologie"
-    }
+    },
+    "importFolder": "Importer un dossier",
+    "importFile": "Importer un fichier"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

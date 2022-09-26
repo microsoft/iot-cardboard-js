@@ -851,8 +851,6 @@
     "undo": "Отменить",
     "redo": "Повторить",
     "deleteAll": "Удалить все",
-    "folderUpload": "Загрузка папки",
-    "fileUpload": "Загрузка файла",
     "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
-    }
+    },
+    "importFolder": "Папка импорта",
+    "importFile": "Импорт файла"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

@@ -851,8 +851,6 @@
     "undo": "Aufmachen",
     "redo": "Noch einmal machen",
     "deleteAll": "Alle löschen",
-    "folderUpload": "Ordner-Upload",
-    "fileUpload": "Datei-Upload",
     "files": "Dateien",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Wählen Sie eine Ontologie"
-    }
+    },
+    "importFolder": "Ordner importieren",
+    "importFile": "Datei importieren"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

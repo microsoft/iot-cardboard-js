@@ -851,8 +851,6 @@
     "undo": "外す",
     "redo": "やり直す",
     "deleteAll": "すべて削除",
-    "folderUpload": "フォルダのアップロード",
-    "fileUpload": "ファイルのアップロード",
     "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
-    }
+    },
+    "importFolder": "フォルダのインポート",
+    "importFile": "ファイルのインポート"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

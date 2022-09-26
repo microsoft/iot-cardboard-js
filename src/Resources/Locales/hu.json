@@ -851,8 +851,6 @@
     "undo": "Kigombol",
     "redo": "Újra kifest",
     "deleteAll": "Összes törlése",
-    "folderUpload": "Mappa feltöltése",
-    "fileUpload": "Fájlfeltöltés",
     "files": "Fájlokat",
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontológia",
       "dropdownPlaceholder": "Válasszon ki egy ontológiát"
-    }
+    },
+    "importFolder": "Mappa importálása",
+    "importFile": "Fájl importálása"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

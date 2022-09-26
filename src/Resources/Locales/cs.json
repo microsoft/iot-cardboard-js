@@ -854,8 +854,6 @@
     "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
     "undo": "Odčinit",
     "redo": "Předělat",
-    "folderUpload": "Nahrání složky",
-    "fileUpload": "Nahrání souboru",
     "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
     "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
     "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Výběr ontologie"
-    }
+    },
+    "importFolder": "Složka importu",
+    "importFile": "Import souboru"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",

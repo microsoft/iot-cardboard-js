@@ -851,8 +851,6 @@
     "undo": "撤消",
     "redo": "重做",
     "deleteAll": "全部删除",
-    "folderUpload": "文件夹上传",
-    "fileUpload": "文件上传",
     "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    }
+    },
+    "importFolder": "导入文件夹",
+    "importFile": "导入文件"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

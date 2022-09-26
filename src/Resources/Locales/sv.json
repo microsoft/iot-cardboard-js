@@ -851,8 +851,6 @@
     "undo": "Ångra",
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
-    "folderUpload": "Uppladdning av mapp",
-    "fileUpload": "Filuppladdning",
     "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
-    }
+    },
+    "importFolder": "Importera mapp",
+    "importFile": "Importera fil"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

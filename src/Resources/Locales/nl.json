@@ -851,8 +851,6 @@
     "undo": "Ongedaan maken",
     "redo": "Opnieuw",
     "deleteAll": "Alles verwijderen",
-    "folderUpload": "Map uploaden",
-    "fileUpload": "Bestand uploaden",
     "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
-    }
+    },
+    "importFolder": "Map importeren",
+    "importFile": "Bestand importeren"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

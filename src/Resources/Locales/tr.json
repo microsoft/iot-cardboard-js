@@ -851,8 +851,6 @@
     "undo": "Geri almak",
     "redo": "Yinele",
     "deleteAll": "Tümünü Sil",
-    "folderUpload": "Klasör yükleme",
-    "fileUpload": "Dosya yükleme",
     "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    }
+    },
+    "importFolder": "Klasörü içe aktar",
+    "importFile": "Dosyayı içe aktar"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

@@ -851,8 +851,6 @@
     "undo": "Cofnąć",
     "redo": "Ponowić",
     "deleteAll": "Usuń wszystko",
-    "folderUpload": "Przesyłanie folderu",
-    "fileUpload": "Przesyłanie plików",
     "files": "Pliki",
     "selectFile": "Wybierz plik",
     "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Wybierz ontologię"
-    }
+    },
+    "importFolder": "Folder importu",
+    "importFile": "Importuj plik"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

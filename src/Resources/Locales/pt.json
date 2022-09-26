@@ -851,8 +851,6 @@
     "undo": "Desfazer",
     "redo": "Refazer",
     "deleteAll": "Excluir tudo",
-    "folderUpload": "Upload de pasta",
-    "fileUpload": "Upload de arquivo",
     "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
@@ -863,7 +861,9 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    }
+    },
+    "importFolder": "Pasta de importação",
+    "importFile": "Arquivo de importação"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
