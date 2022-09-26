@@ -12,8 +12,12 @@ import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
 import { getHeaderStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
-import { loadFiles, saveFiles } from '../../../Models/Services/Utils';
 import { FromSaveAsProps } from './FormSaveAs.types';
+import {
+    convertDtdlInterfacesToModels,
+    loadOatFiles,
+    saveOatFiles
+} from '../../../Models/Services/OatUtils';
 
 export const FormSaveAs = ({
     dispatch,
@@ -36,7 +40,7 @@ export const FormSaveAs = ({
     } = state;
 
     const onSave = () => {
-        const files = loadFiles();
+        const files = loadOatFiles();
         if (error) {
             //  Overwrite existing file
             const foundIndex = files.findIndex(
@@ -45,14 +49,14 @@ export const FormSaveAs = ({
             if (foundIndex > -1) {
                 files[foundIndex].data = new ProjectData(
                     modelPositions,
-                    models,
+                    convertDtdlInterfacesToModels(models),
                     projectName,
                     templates,
                     namespace,
                     modelsMetadata
                 );
 
-                saveFiles(files);
+                saveOatFiles(files);
             }
             if (resetProjectOnSave) {
                 resetProject();
@@ -64,7 +68,7 @@ export const FormSaveAs = ({
         // Create new file
         const newProject = new ProjectData(
             modelPositions,
-            models,
+            convertDtdlInterfacesToModels(models),
             projectName,
             templates,
             namespace,
@@ -79,7 +83,7 @@ export const FormSaveAs = ({
             name: projectName,
             data: newProject
         });
-        saveFiles(files);
+        saveOatFiles(files);
 
         onClose();
         setModalBody(null);
@@ -91,7 +95,7 @@ export const FormSaveAs = ({
     };
 
     const onProjectNameChange = (value: string) => {
-        const files = loadFiles();
+        const files = loadOatFiles();
         setProjectName(value);
 
         // Find if project name already exists

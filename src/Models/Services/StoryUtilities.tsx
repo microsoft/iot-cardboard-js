@@ -124,7 +124,7 @@ export const clickOverFlowMenuItem = async (element: HTMLElement) => {
  * @param optionIndex index of the option we are selecting.
  * @returns
  */
-export const selectReactSelectOption = (
+export const selectReactSelectOption = async (
     className: string,
     optionIndex: number
 ) => {
@@ -132,6 +132,8 @@ export const selectReactSelectOption = (
     fireEvent.mouseDown(
         document.getElementsByClassName(`${className}__control`)[0]
     );
+    // Wait for callout to pop-up
+    await sleep(1);
     fireEvent.click(
         document.getElementsByClassName(`${className}__option`)[optionIndex]
     );

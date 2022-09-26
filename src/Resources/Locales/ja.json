@@ -412,7 +412,6 @@
     "Done": "完成です",
     "edit": "{{elementDisplayName}} を編集",
     "editBehavior": "動作の編集",
-    "searchTwinId": "検索ツイン ID ($dtId)...",
     "noTwinsFound": "双子が見つかりません (検索では大文字と小文字が区別されます)",
     "useNonExistingTwinId": "完全に一致しない、使用",
     "addBehaviorToScene": "シーンにビヘイビアを追加する",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "立場",
       "rotation": "自転"
-    }
+    },
+    "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
     "errorFileInvalidJSON": "{{ファイル名}}の問題: 無効な JSON",
     "deleteProjectMessage": "{{プロジェクト名}} を削除してもよろしいですか?",
-    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?"
+    "errorSameName": "同じ名前のプロジェクトはすでに存在します。上書きしますか?",
+    "fileOpenModal": {
+      "dropdownLabel": "オントロジー",
+      "dropdownPlaceholder": "オントロジーの選択"
+    }
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

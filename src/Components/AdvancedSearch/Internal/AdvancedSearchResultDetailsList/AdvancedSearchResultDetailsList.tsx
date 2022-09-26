@@ -37,7 +37,7 @@ const getClassNames = classNamesFunction<
 const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsListProps> = ({
     adapter,
     containsError,
-    onTwinSelection,
+    onTwinIdSelect,
     isLoading,
     searchedProperties,
     styles,
@@ -127,7 +127,9 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             return item['$dtId'];
         },
         onSelectionChanged: () => {
-            onTwinSelection?.(selection.getSelection());
+            // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
+            const selectionValue = selection.getSelection()[0];
+            onTwinIdSelect(selectionValue ? selectionValue['$dtId'] : '');
         }
     });
 

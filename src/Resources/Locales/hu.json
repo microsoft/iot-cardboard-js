@@ -412,7 +412,6 @@
     "Done": "Kész",
     "edit": "{{elementDisplayName}} szerkesztése",
     "editBehavior": "Viselkedés szerkesztése",
-    "searchTwinId": "Keresés Twin ID ($dtId)...",
     "noTwinsFound": "Nem található ikerpár (a keresés megkülönbözteti a kis- és nagybetűket)",
     "useNonExistingTwinId": "Nincs pontos egyezés, használat",
     "addBehaviorToScene": "Viselkedés hozzáadása a jelenethez",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Pozíció",
       "rotation": "Forgás"
-    }
+    },
+    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
     "errorFileInvalidJSON": "Probléma a következővel: {{fileName}}: Érvénytelen JSON",
     "deleteProjectMessage": "Biztosan törölni szeretnéd a {{projectName}} sablont?",
-    "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?"
+    "errorSameName": "Az azonos nevű projekt már létezik. Szeretnéd felülírni?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontológia",
+      "dropdownPlaceholder": "Válasszon ki egy ontológiát"
+    }
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

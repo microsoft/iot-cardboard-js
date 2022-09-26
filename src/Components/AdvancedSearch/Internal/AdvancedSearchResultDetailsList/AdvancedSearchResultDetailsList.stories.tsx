@@ -42,5 +42,5 @@ export const Base = Template.bind({}) as AdvancedSearchResultDetailsListStory;
 Base.args = {
     twins: filteredTwins,
     searchedProperties: cols,
-    onTwinSelection: null
+    onTwinIdSelect: null
 } as IAdvancedSearchResultDetailsListProps;

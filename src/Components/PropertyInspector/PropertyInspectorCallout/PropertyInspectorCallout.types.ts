@@ -10,6 +10,7 @@ import { IPropertyInspectorAdapter } from '../../../Models/Constants';
 export interface IPropertyInspectorCalloutProps {
     adapter: IPropertyInspectorAdapter;
     twinId: string;
+    disabled?: boolean;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

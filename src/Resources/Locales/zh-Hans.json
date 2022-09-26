@@ -412,7 +412,6 @@
     "Done": "做",
     "edit": "Edit {{elementDisplayName}}",
     "editBehavior": "编辑行为",
-    "searchTwinId": "正在搜索孪生 ID （$dtId）...",
     "noTwinsFound": "未找到双胞胎（搜索区分大小写）",
     "useNonExistingTwinId": "不完全匹配，使用",
     "addBehaviorToScene": "向场景添加行为",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "位置",
       "rotation": "旋转"
-    }
+    },
+    "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
     "errorFileInvalidJSON": "{{文件名}} 的问题：无效的 JSON",
     "deleteProjectMessage": "是否确实要删除 {{项目名称}}？",
-    "errorSameName": "具有相同名称的项目已存在。是否要覆盖它？"
+    "errorSameName": "具有相同名称的项目已存在。是否要覆盖它？",
+    "fileOpenModal": {
+      "dropdownLabel": "本体",
+      "dropdownPlaceholder": "选择本体"
+    }
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

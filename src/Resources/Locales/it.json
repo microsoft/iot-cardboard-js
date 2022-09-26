@@ -412,7 +412,6 @@
     "Done": "Fatto",
     "edit": "Modifica {{elementDisplayName}}",
     "editBehavior": "Modificare il comportamento",
-    "searchTwinId": "Cerca Twin ID ($dtId)...",
     "noTwinsFound": "Nessun gemello trovato (la ricerca fa distinzione tra maiuscole e minuscole)",
     "useNonExistingTwinId": "Nessuna corrispondenza esatta, uso",
     "addBehaviorToScene": "Aggiungere un comportamento alla scena",
@@ -545,7 +544,8 @@
     "transform": {
       "position": "Posizione",
       "rotation": "Rotazione"
-    }
+    },
+    "searchTwinIdPlaceholder": "Cerca Twin ID ($dtId)"
   },
   "widgets": {
     "trend": {
@@ -859,7 +859,11 @@
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
     "errorFileInvalidJSON": "Problema con {{nomefile}}: JSON non valido",
     "deleteProjectMessage": "Sei sicuro di voler eliminare {{nomeprogetto}}?",
-    "errorSameName": "Il progetto con lo stesso nome esiste già. Vuoi sovrascriverlo?"
+    "errorSameName": "Il progetto con lo stesso nome esiste già. Vuoi sovrascriverlo?",
+    "fileOpenModal": {
+      "dropdownLabel": "Ontologia",
+      "dropdownPlaceholder": "Seleziona un'ontologia"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",

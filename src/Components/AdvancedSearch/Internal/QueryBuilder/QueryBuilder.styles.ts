@@ -1,4 +1,4 @@
-import { FontSizes, ITheme } from '@fluentui/react';
+import { FontSizes } from '@fluentui/react';
 import {
     IQueryBuilderStyleProps,
     IQueryBuilderStyles,

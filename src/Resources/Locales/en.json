@@ -417,7 +417,7 @@
         "Done": "Done",
         "edit": "Edit {{elementDisplayName}}",
         "editBehavior": "Edit behavior",
-        "searchTwinId": "Search Twin ID ($dtId)...",
+        "searchTwinIdPlaceholder": "Search Twin ID ($dtId)",
         "noTwinsFound": "No twins found (search is case sensitive)",
         "useNonExistingTwinId": "No exact match, use",
         "addBehaviorToScene": "Add behavior to scene",
@@ -864,7 +864,11 @@
         "undo": "Undo",
         "redo": "Redo",
         "folderUpload": "Folder upload",
-        "fileUpload": "File upload"
+        "fileUpload": "File upload",
+        "fileOpenModal": {
+            "dropdownLabel": "Ontology",
+            "dropdownPlaceholder": "Select an ontology"
+        }
     },
     "OATGraphViewer": {
         "newModel": "New Model",
