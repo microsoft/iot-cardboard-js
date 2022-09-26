@@ -236,100 +236,6 @@
                 "time"
             ]
         },
-        "IDataHistoryBasicTimeSeries": {
-            "type": "object",
-            "description": "A basic time series to be rendered in the chart of the data history widget",
-            "additionalProperties": false,
-            "properties": {
-                "twinID": {
-                    "type": "string"
-                },
-                "twinProperty": {
-                    "type": "string"
-                },
-                "unit": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                }
-            },
-            "required": ["twinID", "twinProperty", "unit"]
-        },
-        "IDataHistoryCustomTimeSeries": {
-            "type": "object",
-            "description": "A custom time series to be rendered in the chart of the data history widget",
-            "additionalProperties": false,
-            "properties": {
-                "query": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                }
-            },
-            "required": ["query"]
-        },
-        "IDataHistoryTimeSeries": {
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
-                },
-                {
-                    "$ref": "#/$defs/IDataHistoryCustomTimeSeries"
-                }
-            ]
-        },
-        "IDataHistoryConnectionString": {
-            "type": "string",
-            "description": "Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget"
-        },
-        "IDataHistoryChartYAxisType": {
-            "type": "string",
-            "enum": ["Shared", "Independent"]
-        },
-        "IDataHistoryQuickTimeSpan": {
-            "type": "string",
-            "enum": [
-                "Last 15 mins",
-                "Last 30 mins",
-                "Last Hour",
-                "Last 3 Hours",
-                "Last 6 Hours",
-                "Last 12 Hours",
-                "Last 24 Hours",
-                "Last 7 Days",
-                "Last 30 Days",
-                "Last 60 Days",
-                "Last 90 Days",
-                "Last 180 Days",
-                "Last Year"
-            ]
-        },
-        "IDataHistoryAggregationType": {
-            "type": "string",
-            "enum": ["min", "max", "avg"]
-        },
-        "IDataHistoryChartOptions": {
-            "type": "object",
-            "description": "Options to be used while rendering chart for data history widget",
-            "additionalProperties": false,
-            "properties": {
-                "yAxisType": {
-                    "$ref": "#/$defs/IDataHistoryChartYAxisType"
-                },
-                "defaultQuickTimeSpan": {
-                    "$ref": "#/$defs/IDataHistoryQuickTimeSpan"
-                },
-                "aggregationType": {
-                    "$ref": "#/$defs/IDataHistoryAggregationType"
-                },
-                "extensionProperties": {
-                    "$ref": "#/$defs/IExtensionProperties"
-                }
-            },
-            "required": ["yAxisType", "defaultQuickTimeSpan", "aggregationType"]
-        },
         "IObjectIDs": {
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
@@ -487,35 +393,6 @@
             },
             "required": ["displayName", "valueExpression", "type"]
         },
-        "IDataHistoryWidgetConfiguration": {
-            "type": "object",
-            "additionalProperties": false,
-            "description": "Widget configuration specifies widget specific properties that are used for rendering this data history",
-            "properties": {
-                "connectionString": {
-                    "$ref": "#/$defs/IDataHistoryConnectionString"
-                },
-                "displayName": {
-                    "type": "string"
-                },
-                "series": {
-                    "type": "array",
-                    "description": "A list of query information about the series to render in the chart",
-                    "items": {
-                        "$ref": "#/$defs/IDataHistoryTimeSeries"
-                    }
-                },
-                "chartOptions": {
-                    "$ref": "#/$defs/IDataHistoryChartOptions"
-                }
-            },
-            "required": [
-                "connectionString",
-                "displayName",
-                "series",
-                "chartOptions"
-            ]
-        },
         "IGaugeWidget": {
             "type": "object",
             "description": "A gauge widget",
@@ -588,29 +465,6 @@
             },
             "required": ["type", "id", "widgetConfiguration"]
         },
-        "IDataHistoryWidget": {
-            "type": "object",
-            "description": "A data history widget which uses twin properties to show timeseries data",
-            "additionalProperties": false,
-            "properties": {
-                "type": {
-                    "const": "DataHistory"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "groupID": {
-                    "$ref": "#/$defs/IGroupID"
-                },
-                "widgetConfiguration": {
-                    "$ref": "#/$defs/IDataHistoryWidgetConfiguration"
-                },
-                "extensionProperties": {
-                    "$ref": "#/$defs/IExtensionProperties"
-                }
-            },
-            "required": ["type", "id", "widgetConfiguration"]
-        },
         "IWidget": {
             "anyOf": [
                 {
@@ -621,9 +475,6 @@
                 },
                 {
                     "$ref": "#/$defs/IValueWidget"
-                },
-                {
-                    "$ref": "#/$defs/IDataHistoryWidget"
                 }
             ]
         },
