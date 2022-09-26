@@ -39,7 +39,7 @@ const getClassNames = classNamesFunction<
     IFileSubMenuStyles
 >();
 
-export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
+const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
     const {
         dispatch,
         onFileSubMenuClose,
@@ -236,73 +236,75 @@ export const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
 
     return (
         <>
-            <Callout
-                styles={classNames.subComponentStyles.subMenuCallout}
-                role="dialog"
-                gapSpace={0}
-                target={`#${targetId}`}
-                isBeakVisible={false}
-                setInitialFocus
-                onDismiss={onFileSubMenuClose}
-            >
-                <ActionButton
-                    styles={classNames.subComponentStyles.menuItemButton()}
-                    onClick={onNew}
+            {isActive && (
+                <Callout
+                    styles={classNames.subComponentStyles.subMenuCallout}
+                    role="dialog"
+                    gapSpace={0}
+                    target={`#${targetId}`}
+                    isBeakVisible={false}
+                    setInitialFocus
+                    onDismiss={onFileSubMenuClose}
                 >
-                    <Text>{t('OATHeader.new')}</Text>
-                </ActionButton>
+                    <ActionButton
+                        styles={classNames.subComponentStyles.menuItemButton()}
+                        onClick={onNew}
+                    >
+                        <Text>{t('OATHeader.new')}</Text>
+                    </ActionButton>
 
-                {files.length > 0 && (
+                    {files.length > 0 && (
+                        <ActionButton
+                            styles={classNames.subComponentStyles.menuItemButton()}
+                            onClick={() => {
+                                onFileSubMenuClose();
+                                setModalBody(FromBody.open);
+                                setModalOpen(true);
+                            }}
+                        >
+                            <Text>{t('OATHeader.open')}</Text>
+                        </ActionButton>
+                    )}
+
                     <ActionButton
                         styles={classNames.subComponentStyles.menuItemButton()}
                         onClick={() => {
                             onFileSubMenuClose();
-                            setModalBody(FromBody.open);
+                            setModalBody(FromBody.save);
                             setModalOpen(true);
                         }}
                     >
-                        <Text>{t('OATHeader.open')}</Text>
+                        <Text>{t('OATHeader.saveAs')}</Text>
                     </ActionButton>
-                )}
 
-                <ActionButton
-                    styles={classNames.subComponentStyles.menuItemButton()}
-                    onClick={() => {
-                        onFileSubMenuClose();
-                        setModalBody(FromBody.save);
-                        setModalOpen(true);
-                    }}
-                >
-                    <Text>{t('OATHeader.saveAs')}</Text>
-                </ActionButton>
-
-                <ActionButton
-                    styles={classNames.subComponentStyles.menuItemButton()}
-                    onClick={onSave}
-                >
-                    <Text>{t('OATHeader.save')}</Text>
-                </ActionButton>
-
-                {isFileStored && (
                     <ActionButton
                         styles={classNames.subComponentStyles.menuItemButton()}
-                        onClick={() => {
-                            onFileSubMenuClose();
-                            setModalBody(FromBody.delete);
-                            setModalOpen(true);
-                        }}
+                        onClick={onSave}
                     >
-                        <Text>{t('OATHeader.delete')}</Text>
+                        <Text>{t('OATHeader.save')}</Text>
                     </ActionButton>
-                )}
 
-                <ActionButton
-                    styles={classNames.subComponentStyles.menuItemButton()}
-                    onClick={onSettingsClick}
-                >
-                    <Text>{t('OATHeader.settings')}</Text>
-                </ActionButton>
-            </Callout>
+                    {isFileStored && (
+                        <ActionButton
+                            styles={classNames.subComponentStyles.menuItemButton()}
+                            onClick={() => {
+                                onFileSubMenuClose();
+                                setModalBody(FromBody.delete);
+                                setModalOpen(true);
+                            }}
+                        >
+                            <Text>{t('OATHeader.delete')}</Text>
+                        </ActionButton>
+                    )}
+
+                    <ActionButton
+                        styles={classNames.subComponentStyles.menuItemButton()}
+                        onClick={onSettingsClick}
+                    >
+                        <Text>{t('OATHeader.settings')}</Text>
+                    </ActionButton>
+                </Callout>
+            )}
 
             <Modal
                 isOpen={modalOpen}
