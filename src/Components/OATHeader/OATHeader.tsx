@@ -27,7 +27,8 @@ import {
 } from './OATHeader.types';
 import {
     getDirectoryPathFromDTMI,
-    getFileNameFromDTMI
+    getFileNameFromDTMI,
+    safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
 
@@ -40,7 +41,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { dispatch, state, styles } = props;
 
     const { t } = useTranslation();
-    const { undo, redo, canUndo, canRedo } = useContext(CommandHistoryContext);
+    const { onUndo, onRedo, canUndo, canRedo } = useContext(
+        CommandHistoryContext
+    );
     const classNames = getClassNames(styles, { theme: useTheme() });
 
     // state
@@ -63,18 +66,226 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
 
-    const downloadModelExportBlob = (blob: Blob) => {
-        const blobURL = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.setAttribute('href', blobURL);
-        link.setAttribute('download', 'modelExport.zip');
-        link.innerHTML = '';
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode.removeChild(link);
-    };
+    const onFilesUpload = useCallback(
+        async (files: Array<File>) => {
+            // Populates fileNames and filePaths
+            const populateMetadata = (
+                file: File,
+                fileContent: string,
+                metaDataCopy: any
+            ) => {
+                // Get model metadata
+                // Get file name from file
+                let fileName = file.name;
+                // Get file name without extension
+                fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+                // Get directory path from file
+                let directoryPath = file.webkitRelativePath;
+                // Get directory content within first and last "\"
+                directoryPath = directoryPath.substring(
+                    directoryPath.indexOf('/') + 1,
+                    directoryPath.lastIndexOf('/')
+                );
 
-    const onExportClick = () => {
+                if (!metaDataCopy) {
+                    metaDataCopy = deepCopy(modelsMetadata);
+                }
+
+                // Get JSON from content
+                const json = JSON.parse(fileContent);
+                // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+                const modelMetadata = metaDataCopy.find(
+                    (model) => model['@id'] === json['@id']
+                );
+                if (modelMetadata) {
+                    // Update model metadata
+                    modelMetadata.fileName = fileName;
+                    modelMetadata.directoryPath = directoryPath;
+                } else {
+                    // Add model metadata
+                    metaDataCopy.push({
+                        '@id': json['@id'],
+                        fileName: fileName,
+                        directoryPath: directoryPath
+                    });
+                }
+
+                return metaDataCopy;
+            };
+            const handleFileListChanged = async (files: Array<File>) => {
+                const newModels = [];
+                if (files.length > 0) {
+                    const filesErrors = [];
+                    let modelsMetadataReference = null;
+                    for (const current of files) {
+                        const content = await current.text();
+                        const validJson = safeJsonParse(content);
+                        if (validJson) {
+                            newModels.push(validJson);
+                        } else {
+                            filesErrors.push(
+                                t('OATHeader.errorFileInvalidJSON', {
+                                    fileName: current.name
+                                })
+                            );
+                            break;
+                        }
+                    }
+
+                    const combinedModels = [...models, ...newModels];
+                    const error = await parseModels(combinedModels);
+
+                    const modelsCopy = deepCopy(models);
+                    for (const model of newModels) {
+                        // Check if model already exists
+                        const modelExists = modelsCopy.find(
+                            (m) => m['@id'] === model['@id']
+                        );
+                        if (!modelExists) {
+                            modelsCopy.push(model);
+                        } else {
+                            filesErrors.push(
+                                t('OATHeader.errorImportedModelAlreadyExists', {
+                                    modelId: model['@id']
+                                })
+                            );
+                            break;
+                        }
+                    }
+
+                    if (!error) {
+                        for (let i = 0; i < files.length; i++) {
+                            modelsMetadataReference = populateMetadata(
+                                files[i],
+                                JSON.stringify(newModels[i]),
+                                modelsMetadataReference
+                            );
+                        }
+                    } else {
+                        filesErrors.push(
+                            t('OATHeader.errorIssueWithFile', {
+                                fileName: t('OATHeader.file'),
+                                error
+                            })
+                        );
+                    }
+
+                    if (filesErrors.length === 0) {
+                        dispatch({
+                            type: SET_OAT_IMPORT_MODELS,
+                            payload: modelsCopy
+                        });
+                        dispatch({
+                            type: SET_OAT_MODELS_METADATA,
+                            payload: modelsMetadataReference
+                        });
+                    } else {
+                        let accumulatedError = '';
+                        for (const error of filesErrors) {
+                            accumulatedError += `${error}\n`;
+                        }
+
+                        dispatch({
+                            type: SET_OAT_ERROR,
+                            payload: {
+                                title: t('OATHeader.errorInvalidJSON'),
+                                message: accumulatedError
+                            }
+                        });
+                    }
+                }
+            };
+
+            const newFiles = [];
+            const newFilesErrors = [];
+
+            for (const file of files) {
+                if (file.type === 'application/json') {
+                    newFiles.push(file);
+                } else {
+                    newFilesErrors.push(
+                        t('OATHeader.errorFileFormatNotSupported', {
+                            fileName: file.name
+                        })
+                    );
+                }
+            }
+
+            if (newFilesErrors.length > 0) {
+                let accumulatedError = '';
+                for (const error of newFilesErrors) {
+                    accumulatedError += `${error} \n `;
+                }
+
+                dispatch({
+                    type: SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATHeader.errorFormatNoSupported'),
+                        message: accumulatedError
+                    }
+                });
+            }
+            handleFileListChanged(newFiles);
+            // Reset value of input element so that it can be reused with the same file
+            uploadInputRef.current.value = null;
+            inputRef.current.value = null;
+        },
+        [dispatch, inputRef, models, modelsMetadata, t]
+    );
+
+    const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
+        (e) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                const files = [];
+                for (const file of uploadInputRef.current.files) {
+                    files.push(file);
+                }
+                onFilesUpload(files);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        },
+        [onFilesUpload]
+    );
+
+    const onNewFile = useCallback(() => {
+        alert('on new file');
+        // TODO: check if pending changes
+        const pendingChanges = false;
+        if (pendingChanges) {
+            // TODO: prompt
+            // TODO: set action for confirmation to clear
+        } else {
+            // TODO: call dispatch to create new project
+        }
+    }, []);
+
+    const onRenameFile = useCallback(() => {
+        alert('on rename file');
+        // TODO: check if pending changes
+        const pendingChanges = false;
+        if (pendingChanges) {
+            // TODO: prompt
+            // TODO: set action for confirmation to clear
+        } else {
+            // TODO: call dispatch to create new project
+        }
+    }, []);
+
+    const onSaveFileAs = useCallback(() => {
+        // TODO: the stuff
+        alert('on save as');
+    }, []);
+
+    const onUploadFolder = useCallback(() => {
+        uploadInputRef.current.click();
+    }, []);
+
+    const onUploadFile = useCallback(() => {
+        inputRef.current.click();
+    }, [inputRef]);
+
+    const onExportClick = useCallback(() => {
         const zip = new JSZip();
         for (const element of models) {
             const id = element['@id'];
@@ -125,29 +336,82 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             }
         }
 
+        const downloadModelExportBlob = (blob: Blob) => {
+            const blobURL = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', blobURL);
+            link.setAttribute('download', 'modelExport.zip');
+            link.innerHTML = '';
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        };
+
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
-    };
+    }, [models, modelsMetadata]);
 
+    const onDeleteFile = useCallback(() => {
+        // TODO: the stuff
+        alert('on delete');
+    }, []);
+
+    const onAddModel = useCallback(() => {
+        // TODO: the stuff
+        alert('on add model');
+    }, []);
+
+    // Effects
+    useEffect(() => {
+        onFilesUpload(acceptedFiles);
+    }, [acceptedFiles, onFilesUpload]);
+
+    // Set listener to undo/redo buttons on key press
+    useEffect(() => {
+        const onKeyDown = (e: KeyboardEvent) => {
+            //Prevent event automatically repeating due to key being held down
+            if (e.repeat) {
+                return;
+            }
+
+            if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
+                if (e.shiftKey) {
+                    redoButtonRef.current['_onClick']();
+                } else {
+                    undoButtonRef.current['_onClick']();
+                }
+            }
+
+            if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
+                redoButtonRef.current['_onClick']();
+            }
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, []);
+
+    // Data
     const fileMenuItems: IContextualMenuItem[] = [
         {
             key: 'new',
             text: 'New file',
             iconProps: { iconName: 'Add' },
-            onClick: () => alert('Create file')
+            onClick: onNewFile
         },
         {
             key: 'rename',
             text: 'Rename',
             iconProps: { iconName: 'Edit' },
-            onClick: () => alert('Rename')
+            onClick: onRenameFile
         },
         {
             key: 'saveAs',
             text: 'Save as',
             iconProps: { iconName: 'Save' },
-            onClick: () => alert('Save as')
+            onClick: onSaveFileAs
         },
         {
             key: 'dividerImport',
@@ -157,13 +421,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'Import',
             text: t('OATHeader.importFile'),
             iconProps: { iconName: 'Import' },
-            onClick: () => alert('Import file')
+            onClick: onUploadFile
         },
         {
             key: 'Import',
             text: t('OATHeader.importFolder'),
             iconProps: { iconName: 'Import' },
-            onClick: () => alert('Import folder')
+            onClick: onUploadFolder
         },
         {
             key: 'Export',
@@ -179,7 +443,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'delete',
             text: 'Delete',
             iconProps: { iconName: 'Delete' },
-            onClick: () => alert('Open settings')
+            onClick: onDeleteFile
         }
     ];
     const undoMenuItems: IContextualMenuItem[] = [
@@ -188,14 +452,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             disabled: !canUndo,
             iconProps: { iconName: 'Undo' },
             key: 'under',
-            onClick: undo,
+            onClick: onUndo,
             text: 'Undo'
         },
         {
             key: 'redo',
             text: 'Redo',
             iconProps: { iconName: 'Redo' },
-            onClick: redo,
+            onClick: onRedo,
             disabled: !canRedo,
             componentRef: redoButtonRef
         }
@@ -223,237 +487,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'newModel',
             iconProps: { iconName: 'Add' },
             text: 'New model',
-            onClick: () => alert('create model')
+            onClick: onAddModel
         }
     ];
-
-    const safeJsonParse = (value: string) => {
-        if (!value) {
-            return value;
-        }
-        try {
-            const parsedJson = JSON.parse(value);
-            return parsedJson;
-        } catch (e) {
-            return null;
-        }
-    };
-
-    // Populates fileNames and filePaths
-    const populateMetadata = useCallback(
-        (file: File, fileContent: string, metaDataCopy: any) => {
-            // Get model metadata
-            // Get file name from file
-            let fileName = file.name;
-            // Get file name without extension
-            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-            // Get directory path from file
-            let directoryPath = file.webkitRelativePath;
-            // Get directory content within first and last "\"
-            directoryPath = directoryPath.substring(
-                directoryPath.indexOf('/') + 1,
-                directoryPath.lastIndexOf('/')
-            );
-
-            if (!metaDataCopy) {
-                metaDataCopy = deepCopy(modelsMetadata);
-            }
-
-            // Get JSON from content
-            const json = JSON.parse(fileContent);
-            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-            const modelMetadata = metaDataCopy.find(
-                (model) => model['@id'] === json['@id']
-            );
-            if (modelMetadata) {
-                // Update model metadata
-                modelMetadata.fileName = fileName;
-                modelMetadata.directoryPath = directoryPath;
-            } else {
-                // Add model metadata
-                metaDataCopy.push({
-                    '@id': json['@id'],
-                    fileName: fileName,
-                    directoryPath: directoryPath
-                });
-            }
-
-            return metaDataCopy;
-        },
-        [modelsMetadata]
-    );
-
-    const handleFileListChanged = useCallback(
-        async (files: Array<File>) => {
-            const newModels = [];
-            if (files.length > 0) {
-                const filesErrors = [];
-                let modelsMetadataReference = null;
-                for (const current of files) {
-                    const content = await current.text();
-                    const validJson = safeJsonParse(content);
-                    if (validJson) {
-                        newModels.push(validJson);
-                    } else {
-                        filesErrors.push(
-                            t('OATHeader.errorFileInvalidJSON', {
-                                fileName: current.name
-                            })
-                        );
-                        break;
-                    }
-                }
-
-                const combinedModels = [...models, ...newModels];
-                const error = await parseModels(combinedModels);
-
-                const modelsCopy = deepCopy(models);
-                for (const model of newModels) {
-                    // Check if model already exists
-                    const modelExists = modelsCopy.find(
-                        (m) => m['@id'] === model['@id']
-                    );
-                    if (!modelExists) {
-                        modelsCopy.push(model);
-                    } else {
-                        filesErrors.push(
-                            t('OATHeader.errorImportedModelAlreadyExists', {
-                                modelId: model['@id']
-                            })
-                        );
-                        break;
-                    }
-                }
-
-                if (!error) {
-                    for (let i = 0; i < files.length; i++) {
-                        modelsMetadataReference = populateMetadata(
-                            files[i],
-                            JSON.stringify(newModels[i]),
-                            modelsMetadataReference
-                        );
-                    }
-                } else {
-                    filesErrors.push(
-                        t('OATHeader.errorIssueWithFile', {
-                            fileName: t('OATHeader.file'),
-                            error
-                        })
-                    );
-                }
-
-                if (filesErrors.length === 0) {
-                    dispatch({
-                        type: SET_OAT_IMPORT_MODELS,
-                        payload: modelsCopy
-                    });
-                    dispatch({
-                        type: SET_OAT_MODELS_METADATA,
-                        payload: modelsMetadataReference
-                    });
-                } else {
-                    let accumulatedError = '';
-                    for (const error of filesErrors) {
-                        accumulatedError += `${error}\n`;
-                    }
-
-                    dispatch({
-                        type: SET_OAT_ERROR,
-                        payload: {
-                            title: t('OATHeader.errorInvalidJSON'),
-                            message: accumulatedError
-                        }
-                    });
-                }
-            }
-        },
-        [dispatch, models, populateMetadata, t]
-    );
-
-    const onFilesUpload = useCallback(
-        async (files: Array<File>) => {
-            const newFiles = [];
-            const newFilesErrors = [];
-
-            for (const file of files) {
-                if (file.type === 'application/json') {
-                    newFiles.push(file);
-                } else {
-                    newFilesErrors.push(
-                        t('OATHeader.errorFileFormatNotSupported', {
-                            fileName: file.name
-                        })
-                    );
-                }
-            }
-
-            if (newFilesErrors.length > 0) {
-                let accumulatedError = '';
-                for (const error of newFilesErrors) {
-                    accumulatedError += `${error} \n `;
-                }
-
-                dispatch({
-                    type: SET_OAT_ERROR,
-                    payload: {
-                        title: t('OATHeader.errorFormatNoSupported'),
-                        message: accumulatedError
-                    }
-                });
-            }
-            handleFileListChanged(newFiles);
-            // Reset value of input element so that it can be reused with the same file
-            uploadInputRef.current.value = null;
-            inputRef.current.value = null;
-        },
-        [dispatch, handleFileListChanged, inputRef, t]
-    );
-
-    const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-        (e) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const files = [];
-                for (const file of uploadInputRef.current.files) {
-                    files.push(file);
-                }
-                onFilesUpload(files);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        },
-        [onFilesUpload]
-    );
-
-    useEffect(() => {
-        onFilesUpload(acceptedFiles);
-    }, [acceptedFiles, onFilesUpload]);
-
-    const onKeyDown = useCallback((e: KeyboardEvent) => {
-        //Prevent event automatically repeating due to key being held down
-        if (e.repeat) {
-            return;
-        }
-
-        if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
-            if (e.shiftKey) {
-                redoButtonRef.current['_onClick']();
-            } else {
-                undoButtonRef.current['_onClick']();
-            }
-        }
-
-        if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
-            redoButtonRef.current['_onClick']();
-        }
-    }, []);
-
-    // Set listener to undo/redo buttons on key press
-    useEffect(() => {
-        document.addEventListener('keydown', onKeyDown);
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    }, [onKeyDown]);
 
     return (
         <div className={classNames.root}>

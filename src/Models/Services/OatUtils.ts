@@ -10,7 +10,7 @@ import {
     OATFilesStorageKey,
     OATUntargetedRelationshipName
 } from '../Constants';
-import { deepCopy } from './Utils';
+import { deepCopy, isDefined } from './Utils';
 
 // Store OAT-data
 export const storeEditorData = (oatEditorData: ProjectData) => {
@@ -198,4 +198,21 @@ export const deleteOatModel = (id, data, models) => {
     }
 
     return modelsCopy;
+};
+
+/**
+ * Tries to parse a string to an object of type `T`. Returns null and eats any exception thrown in case of an error.
+ * @param value string value to parse
+ * @returns an object
+ */
+export const safeJsonParse = <T>(value: string): T | null => {
+    if (!isDefined(value)) {
+        return null;
+    }
+    try {
+        const parsedJson = JSON.parse(value);
+        return parsedJson;
+    } catch (e) {
+        return null;
+    }
 };
