@@ -35,7 +35,7 @@ export interface IAdvancedSearchResultDetailsListStyles {
     listHeader: IStyle;
     listHeaderAndIcon: IStyle;
 
-    /**s
+    /**
      * SubComponent styles.
      */
     subComponentStyles?: IAdvancedSearchResultDetailsListSubComponentStyles;

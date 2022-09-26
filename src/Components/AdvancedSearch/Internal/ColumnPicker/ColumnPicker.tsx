@@ -56,7 +56,6 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
     const onRenderTitle = (): JSX.Element => {
         const placeholder = [
             {
-                key: 'Icon',
                 text: `${t('advancedSearch.propertyCount', {
                     selectedPropsCount
                 })}`,
@@ -65,14 +64,13 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
         ];
         return (
             <div className={classNames.dropdownTitle}>
-                {placeholder[0].data && placeholder[0].data.icon && (
-                    <Icon
-                        styles={classNames.subComponentStyles.icon}
-                        iconName={placeholder[0].data.icon}
-                        aria-hidden="true"
-                        title={placeholder[0].data.icon}
-                    />
-                )}
+                <Icon
+                    styles={classNames.subComponentStyles.icon}
+                    iconName={placeholder[0].data.icon}
+                    aria-hidden="true"
+                    title={placeholder[0].data.icon}
+                />
+
                 <span>{placeholder[0].text}</span>
             </div>
         );
@@ -101,7 +99,7 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
     };
     return (
         <Dropdown
-            ariaLabel="Custom dropdown example"
+            ariaLabel={t('availableProperties')}
             onRenderTitle={onRenderTitle}
             options={setDropdownOptions()}
             onChange={onChange}
