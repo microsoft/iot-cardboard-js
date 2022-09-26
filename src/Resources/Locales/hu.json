@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
     "columnPicker": "Oszlopválasztó",
-    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva"
+    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
+    "availableProperties": "Az elérhető szállások legördülő menüje"
   }
 }

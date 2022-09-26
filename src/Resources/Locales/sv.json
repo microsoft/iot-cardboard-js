@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Ange ett värde",
     "noOptionsFoundMessage": "Inga värden hittades",
     "columnPicker": "Kolumnväljare",
-    "propertyCount": "{{selectedPropsCount}} egenskaper valda"
+    "propertyCount": "{{selectedPropsCount}} egenskaper valda",
+    "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper"
   }
 }

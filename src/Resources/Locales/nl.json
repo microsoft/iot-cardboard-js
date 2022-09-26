@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Voer een waarde in",
     "noOptionsFoundMessage": "Geen waarden gevonden",
     "columnPicker": "Kolomkiezer",
-    "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd"
+    "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
+    "availableProperties": "Dropdown van beschikbare eigenschappen"
   }
 }

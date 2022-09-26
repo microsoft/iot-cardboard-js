@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
     "columnPicker": "Sélecteur de colonnes",
-    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées"
+    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
+    "availableProperties": "Liste déroulante des propriétés disponibles"
   }
 }

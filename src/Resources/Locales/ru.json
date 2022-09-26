@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Введите значение",
     "noOptionsFoundMessage": "Значения не найдены",
     "columnPicker": "Средство выбора столбцов",
-    "propertyCount": "Выбрано свойство {{selectedPropsCount}}"
+    "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
+    "availableProperties": "Раскрывающийся список доступных свойств"
   }
 }

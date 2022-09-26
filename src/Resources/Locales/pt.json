@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Digite um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "columnPicker": "Catador de colunas",
-    "propertyCount": "{{selectedPropsCount}} propriedades selecionadas"
+    "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
+    "availableProperties": "Desistência de imóveis disponíveis"
   }
 }

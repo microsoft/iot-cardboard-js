@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Geben Sie einen Wert ein",
     "noOptionsFoundMessage": "Keine Werte gefunden",
     "columnPicker": "Spaltenauswahl",
-    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt"
+    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
+    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften"
   }
 }

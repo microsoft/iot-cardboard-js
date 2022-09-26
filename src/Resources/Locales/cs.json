@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "columnPicker": "Výběr sloupců",
-    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané"
+    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
+    "availableProperties": "Rozbalovací nabídka dostupných ubytování"
   }
 }

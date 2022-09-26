@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Bir değer girin",
     "noOptionsFoundMessage": "Değer bulunamadı",
     "columnPicker": "Sütun seçici",
-    "propertyCount": "{{selectedPropsCount}} özellikleri seçildi"
+    "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
+    "availableProperties": "Mevcut tesislerin açılır menüsü"
   }
 }

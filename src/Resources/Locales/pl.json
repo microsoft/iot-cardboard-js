@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "Wprowadzanie wartości",
     "noOptionsFoundMessage": "Nie znaleziono wartości",
     "columnPicker": "Selektor kolumn",
-    "propertyCount": "Wybrano właściwości {{selectedPropsCount}}"
+    "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
+    "availableProperties": "Lista rozwijana dostępnych właściwości"
   }
 }

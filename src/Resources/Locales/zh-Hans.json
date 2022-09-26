@@ -1171,6 +1171,7 @@
     "valueFieldPlaceholder": "输入值",
     "noOptionsFoundMessage": "未找到任何值",
     "columnPicker": "列选取器",
-    "propertyCount": "{{选定的属性计数}} 属性已选择"
+    "propertyCount": "{{选定的属性计数}} 属性已选择",
+    "availableProperties": "可用属性的下拉列表"
   }
 }
