@@ -2,12 +2,11 @@ import {
     ITheme,
     IStyle,
     IStyleFunctionOrObject,
-    ICalloutContentStyles,
-    IButtonStyles,
     IModalStyles
 } from '@fluentui/react';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { ISubMenuStyleProps, ISubMenuStyles } from './Shared.types';
 
 export type IFileSubMenuProps = {
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
@@ -21,7 +20,7 @@ export type IFileSubMenuProps = {
     targetId?: string;
 };
 
-export interface IFileSubMenuStyleProps {
+export interface IFileSubMenuStyleProps extends ISubMenuStyleProps {
     theme: ITheme;
     isMenuOpen: boolean;
 }
@@ -35,8 +34,6 @@ export interface IFileSubMenuStyles {
     subComponentStyles?: IFileSubMenuSubComponentStyles;
 }
 
-export interface IFileSubMenuSubComponentStyles {
-    subMenuCallout: Partial<ICalloutContentStyles>;
-    menuItemButton: IButtonStyles;
+export interface IFileSubMenuSubComponentStyles extends ISubMenuStyles {
     modal: Partial<IModalStyles>;
 }

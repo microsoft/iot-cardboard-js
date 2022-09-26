@@ -493,7 +493,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
                     {importSubMenuActive && (
                         <ImportSubMenu
-                            subMenuActive={importSubMenuActive}
+                            isActive={importSubMenuActive}
                             targetId={ID_IMPORT}
                             setSubMenuActive={toggleImportSubMenu}
                             uploadFolder={onUploadFolderClick}

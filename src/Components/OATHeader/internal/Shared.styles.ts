@@ -1,5 +1,6 @@
 import { IStyle } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../Models/Constants/Constants';
+import { ISubMenuStyleProps, ISubMenuStyles } from './Shared.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-file-sub-menu`;
 const classNames = {
@@ -48,3 +49,45 @@ export const getCommonModalStyles = () => ({
         } as IStyle
     ]
 });
+
+export const getSubMenuStyles = (props: ISubMenuStyleProps): ISubMenuStyles => {
+    const { isMenuOpen, theme } = props;
+    return {
+        menuItemButton: {
+            root: {
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                minWidth: 'max-content',
+                width: '100%',
+                padding: '8px',
+                ':hover': {
+                    backgroundColor:
+                        theme.semanticColors.primaryButtonTextDisabled
+                }
+            }
+        },
+        subMenuCallout: {
+            root: isMenuOpen
+                ? {
+                      position: 'absolute',
+                      backgroundColor: theme.semanticColors.listBackground,
+                      boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.2)',
+                      zIndex: 1,
+                      right: '0px',
+                      top: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      borderRadius: '4px',
+                      width: '400px'
+                  }
+                : {
+                      root: {
+                          pointerEvents: 'none',
+                          opacity: 0,
+                          visibility: 'hidden'
+                      }
+                  }
+        }
+    };
+};

@@ -2,7 +2,7 @@ import {
     IModalDeleteStyleProps,
     IModalDeleteStyles
 } from './ModalDelete.types';
-import { getCommonModalStyles } from './Shared';
+import { getCommonModalStyles } from './Shared.styles';
 
 // const classPrefix = `${CardboardClassNamePrefix}-modal-delete`;
 // const classNames = {};
