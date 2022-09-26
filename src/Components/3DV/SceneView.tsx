@@ -76,6 +76,7 @@ import { Markers } from './Internal/Markers';
 import axios from 'axios';
 import { LoadingErrorMessage } from './Internal/LoadingErrorMessage';
 import { useTranslation } from 'react-i18next';
+import { MeshGroupItems } from '../ADT3DRapidFireBuilder/ADT3DRapidFireBuilder';
 
 export const showFpsCounter = false;
 const debugBabylon = false;
@@ -870,6 +871,25 @@ function SceneView(props: ISceneViewProps, ref) {
                     setIsLoading(false);
                 }
             );
+
+            const groupedMeshes: MeshGroupItems = {};
+            const meshes = [];
+            for (const mesh of sc.meshes) {
+                if (mesh.id.includes('primitive')) {
+                    meshes.push(mesh);
+                    const meshCommonId = mesh.id.split('_primitive')[0];
+                    if (groupedMeshes[`${meshCommonId}`]) {
+                        groupedMeshes[`${meshCommonId}`].push(mesh.id);
+                    } else {
+                        groupedMeshes[`${meshCommonId}`] = [];
+                        groupedMeshes[`${meshCommonId}`].push(mesh.id);
+                    }
+                }
+            }
+
+            if (props.getGroupedMeshes) {
+                props.getGroupedMeshes(groupedMeshes);
+            }
 
             // TODO: Wrap above promise in an AbortController to cancel in case of changing scenes before the promise resolves
             // Checking if url used in loadPromise method above matches url for model being shown in the screen avoids an error

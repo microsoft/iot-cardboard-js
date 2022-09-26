@@ -9,6 +9,7 @@ import {
 } from '../ADT3DScenePage.types';
 import { ISceneViewProps } from '../../../Models/Classes/SceneView.types';
 import { useDeeplinkContext } from '../../../Models/Context/DeeplinkContext/DeeplinkContext';
+import { ADT3DRapidFireBuilder } from '../../../Components/ADT3DRapidFireBuilder/ADT3DRapidFireBuilder';
 
 export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     scenesConfig,
@@ -55,7 +56,8 @@ export const ADT3DSceneBuilderContainer: React.FC<IADT3DSceneBuilderProps> = ({
     );
 };
 const SceneContents: React.FC<ISceneContentsProps> = (props) => {
-    const { adapter, mode, refetchConfig, scenesConfig, sceneId } = props;
+    const { adapter, refetchConfig, scenesConfig, sceneId } = props;
+    let { mode } = props;
 
     const cameraPositionRef = useRef(null);
     const svp: ISceneViewProps = {
@@ -65,7 +67,22 @@ const SceneContents: React.FC<ISceneContentsProps> = (props) => {
         }
     };
 
+    if (localStorage.getItem('hackathon2022') === 'true') {
+        mode = ADT3DScenePageModes.RapidFireBuilder;
+    }
+
     switch (mode) {
+        // HACKATHON 2022
+        case ADT3DScenePageModes.RapidFireBuilder:
+            return (
+                <div>
+                    <ADT3DRapidFireBuilder
+                        adapter={adapter}
+                        sceneId={sceneId}
+                        sceneViewProps={svp}
+                    />
+                </div>
+            );
         case ADT3DScenePageModes.BuildScene:
             return (
                 <div className="cb-scene-page-scene-builder-wrapper">

@@ -181,6 +181,8 @@ export enum ADT3DSceneTwinBindingsMode {
 }
 
 export enum ADT3DScenePageModes {
+    // HACK
+    RapidFireBuilder = 'RFBuilder',
     BuildScene = 'Builder',
     ViewScene = 'Viewer'
 }

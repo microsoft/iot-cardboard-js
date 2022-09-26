@@ -89,6 +89,7 @@ import {
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 import ADTAdapter from '../../Adapters/ADTAdapter';
+import { MeshGroupItems } from '../../Components/ADT3DRapidFireBuilder/ADT3DRapidFireBuilder';
 
 export interface IAction {
     type: string;
@@ -752,6 +753,7 @@ export interface ISceneViewWrapperProps {
     addInProps?: IADT3DAddInProps;
     selectedVisual?: Partial<SceneVisual>;
     objectColorUpdated?: (objectColor: IADTObjectColor) => void;
+    getGroupedMeshes?: (meshes: MeshGroupItems) => void;
     wrapperMode: WrapperMode;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

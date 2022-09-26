@@ -51,7 +51,8 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
         sceneVisuals,
         selectedVisual,
         styles,
-        wrapperMode
+        wrapperMode,
+        getGroupedMeshes
     } = props;
     const { onMeshHover, onMeshClick, onSceneLoaded, ...svp } = sceneViewProps;
 
@@ -190,6 +191,7 @@ const SceneViewWrapper: React.FC<ISceneViewWrapperProps> = (props) => {
                 onMeshClick={meshClick}
                 onMeshHover={meshHover}
                 onSceneLoaded={sceneLoaded}
+                getGroupedMeshes={getGroupedMeshes}
             />
             {showFpsCounter && (
                 <label id="FPS" style={FPSCounterStyle}>

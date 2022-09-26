@@ -16,6 +16,7 @@ import {
     IADTObjectColor
 } from '../../Models/Constants/Interfaces';
 import { CameraInteraction, ViewerObjectStyle } from '../Constants';
+import { MeshGroupItems } from '../../Components/ADT3DRapidFireBuilder/ADT3DRapidFireBuilder';
 
 export class SceneVisual {
     element: ITwinToObjectMapping;
@@ -150,4 +151,5 @@ export interface ISceneViewProps {
     unzoomedMeshOpacity?: number;
     zoomToMeshIds?: string[];
     allowModelDimensionErrorMessage?: boolean;
+    getGroupedMeshes?: (meshes: MeshGroupItems) => void;
 }
