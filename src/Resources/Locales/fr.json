@@ -1153,8 +1153,6 @@
     "selectRow": "Twin Sélectionné",
     "inspectProperty": "Inspecter la propriété",
     "results": "Résultats ({{twinCount}})",
-    "modalTitle": "Recherche avancée de propriétés",
-    "modalSubtitle": "Liez la bonne propriété en réduisant votre recherche",
     "noPropertiesFound": "Aucune propriété trouvée",
     "addNewButton": "Ajouter un nouveau",
     "andOrColumnHeader": "Et/ou",
@@ -1170,8 +1168,7 @@
     "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
-    "columnPicker": "Sélecteur de colonnes",
-    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
-    "availableProperties": "Liste déroulante des propriétés disponibles"
+    "modalTitle": "Recherche avancée de jumeaux",
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
   }
 }

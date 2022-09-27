@@ -1153,8 +1153,6 @@
     "selectRow": "Iker kiválasztva",
     "inspectProperty": "Ingatlan ellenőrzése",
     "results": "Eredmények ({{twinCount}})",
-    "modalTitle": "Speciális szálláskeresés",
-    "modalSubtitle": "A megfelelő tulajdon összekapcsolása a keresés szűkítésével",
     "noPropertiesFound": "Nem található tulajdonság",
     "addNewButton": "Új hozzáadása",
     "andOrColumnHeader": "Illetve",
@@ -1170,8 +1168,7 @@
     "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
-    "columnPicker": "Oszlopválasztó",
-    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
-    "availableProperties": "Az elérhető szállások legördülő menüje"
+    "modalTitle": "Speciális ikerkeresés",
+    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
   }
 }

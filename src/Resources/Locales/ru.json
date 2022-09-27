@@ -1153,8 +1153,6 @@
     "selectRow": "Выбран близнец",
     "inspectProperty": "Инспекция имущества",
     "results": "Результаты ({{twinCount}})",
-    "modalTitle": "Расширенный поиск недвижимости",
-    "modalSubtitle": "Свяжите нужный объект, сузив область поиска",
     "noPropertiesFound": "Недвижимость не найдена",
     "addNewButton": "Добавить новый",
     "andOrColumnHeader": "И/или",
@@ -1170,8 +1168,7 @@
     "errorMessageDescription": "Произошла непредвиденная ошибка. Обновите страницу или измените критерии поиска и повторите попытку.",
     "valueFieldPlaceholder": "Введите значение",
     "noOptionsFoundMessage": "Значения не найдены",
-    "columnPicker": "Средство выбора столбцов",
-    "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
-    "availableProperties": "Раскрывающийся список доступных свойств"
+    "modalTitle": "Расширенный двойной поиск",
+    "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска"
   }
 }

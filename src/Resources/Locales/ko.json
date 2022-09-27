@@ -1153,8 +1153,6 @@
     "selectRow": "트윈 선택",
     "inspectProperty": "속성 검사",
     "results": "결과 ({{twinCount}})",
-    "modalTitle": "고급 속성 검색",
-    "modalSubtitle": "검색 범위를 좁혀 올바른 속성 연결",
     "noPropertiesFound": "속성을 찾을 수 없음",
     "addNewButton": "새로 추가",
     "andOrColumnHeader": "및/또는",
@@ -1170,8 +1168,7 @@
     "errorMessageDescription": "예기치 않은 오류가 발생했습니다. 페이지를 새로 고치거나 검색 기준을 수정한 후 다시 시도하십시오.",
     "valueFieldPlaceholder": "값 입력",
     "noOptionsFoundMessage": "값을 찾을 수 없음",
-    "columnPicker": "열 선택기",
-    "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
-    "availableProperties": "사용 가능한 속성의 드롭다운"
+    "modalTitle": "고급 트윈 검색",
+    "modalSubtitle": "검색 범위를 좁혀 오른쪽 트윈 연결"
   }
 }

@@ -1153,8 +1153,6 @@
     "selectRow": "Twin Selected",
     "inspectProperty": "Inspect-Eigenschaft",
     "results": "Ergebnisse ({{twinCount}})",
-    "modalTitle": "Erweiterte Immobiliensuche",
-    "modalSubtitle": "Verknüpfen Sie die richtige Eigenschaft, indem Sie Ihre Suche eingrenzen",
     "noPropertiesFound": "Keine Eigenschaften gefunden",
     "addNewButton": "Neues hinzufügen",
     "andOrColumnHeader": "und/oder",
@@ -1170,8 +1168,7 @@
     "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut.",
     "valueFieldPlaceholder": "Geben Sie einen Wert ein",
     "noOptionsFoundMessage": "Keine Werte gefunden",
-    "columnPicker": "Spaltenauswahl",
-    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
-    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften"
+    "modalTitle": "Erweiterte Zwillingssuche",
+    "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen"
   }
 }
