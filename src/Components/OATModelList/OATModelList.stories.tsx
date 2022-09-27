@@ -1,11 +1,8 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import OATModelList from './OATModelList';
-import {
-    OATEditorPageReducer,
-    defaultOATEditorState
-} from '../../Pages/OATEditorPage/OATEditorPage.state';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 
 export default {
     title: 'Components/OATModelList',
@@ -13,16 +10,13 @@ export default {
 };
 
 export const Default = (_args, { globals: { theme, locale } }) => {
-    const [state, dispatch] = useReducer(
-        OATEditorPageReducer,
-        defaultOATEditorState
-    );
-
     return (
         <BaseComponent theme={theme} locale={locale}>
-            <CommandHistoryContextProvider>
-                <OATModelList state={state} dispatch={dispatch} />
-            </CommandHistoryContextProvider>
+            <OatPageContextProvider>
+                <CommandHistoryContextProvider>
+                    <OATModelList />
+                </CommandHistoryContextProvider>
+            </OatPageContextProvider>
         </BaseComponent>
     );
 };

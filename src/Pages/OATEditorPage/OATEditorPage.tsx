@@ -24,6 +24,7 @@ import {
 import { ProjectData } from './Internal/Classes/ProjectData';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
+import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
@@ -98,36 +99,27 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
     return (
         <CommandHistoryContextProvider>
             <ErrorBoundary FallbackComponent={OATErrorPage}>
-                <div className={editorPageStyles.container}>
-                    <OATHeader dispatch={oatDispatch} state={oatState} />
-                    <div
-                        className={
-                            oatState.templatesActive
-                                ? editorPageStyles.componentTemplate
-                                : editorPageStyles.component
-                        }
-                    >
-                        <OATModelList dispatch={oatDispatch} state={oatState} />
-                        <OATGraphViewer
-                            state={oatState}
-                            dispatch={oatDispatch}
-                        />
-                        <OATPropertyEditor
-                            theme={selectedTheme}
-                            state={oatState}
-                            dispatch={oatDispatch}
-                            languages={languages}
-                        />
+                <OatPageContextProvider>
+                    <div className={editorPageStyles.container}>
+                        <OATHeader />
+                        <div
+                            className={
+                                oatState.templatesActive
+                                    ? editorPageStyles.componentTemplate
+                                    : editorPageStyles.component
+                            }
+                        >
+                            <OATModelList />
+                            <OATGraphViewer />
+                            <OATPropertyEditor
+                                theme={selectedTheme}
+                                languages={languages}
+                            />
+                        </div>
                     </div>
-                </div>
-                <OATErrorHandlingModal
-                    state={oatState}
-                    dispatch={oatDispatch}
-                />
-                <OATConfirmDeleteModal
-                    state={oatState}
-                    dispatch={oatDispatch}
-                />
+                    <OATErrorHandlingModal />
+                    <OATConfirmDeleteModal />
+                </OatPageContextProvider>
             </ErrorBoundary>
         </CommandHistoryContextProvider>
     );

@@ -1,28 +1,22 @@
-import React, { useReducer } from 'react';
-import {
-    OATEditorPageReducer,
-    defaultOATEditorState
-} from '../../Pages/OATEditorPage/OATEditorPage.state';
+import React from 'react';
 import OATHeader from './OATHeader';
 import BaseComponent from '../BaseComponent/BaseComponent';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 
 export default {
     title: 'Components/OATHeader',
     component: OATHeader
 };
 
-export const Default = (args, { globals: { theme, locale } }) => {
-    const [state, dispatch] = useReducer(
-        OATEditorPageReducer,
-        defaultOATEditorState
-    );
-
+export const Default = (_args, { globals: { theme, locale } }) => {
     return (
         <BaseComponent locale={locale} theme={theme}>
-            <CommandHistoryContextProvider>
-                <OATHeader dispatch={dispatch} state={state} />
-            </CommandHistoryContextProvider>
+            <OatPageContextProvider>
+                <CommandHistoryContextProvider>
+                    <OATHeader />
+                </CommandHistoryContextProvider>
+            </OatPageContextProvider>
         </BaseComponent>
     );
 };

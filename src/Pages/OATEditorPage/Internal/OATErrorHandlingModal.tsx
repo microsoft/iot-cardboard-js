@@ -3,21 +3,16 @@ import { PrimaryButton, Modal } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { SET_OAT_ERROR } from '../../../Models/Constants/ActionTypes';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
-import { IOATEditorState } from '../OATEditorPage.types';
-import { IAction } from '../../../Models/Constants/Interfaces';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
-interface IOATErrorHandlingModalProps {
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    state: IOATEditorState;
-}
-
-const OATErrorHandlingModal = ({
-    state,
-    dispatch
-}: IOATErrorHandlingModalProps) => {
+const OATErrorHandlingModal = () => {
+    // hooks
     const { t } = useTranslation();
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
+    const { error } = oatPageState;
+
+    // styles
     const editorPageStyles = getEditorPageStyles();
-    const { error } = state;
 
     const getComponentContent = () => {
         switch (error?.type ? error.type : '') {
@@ -49,7 +44,7 @@ const OATErrorHandlingModal = ({
                                     error?.callback();
                                     return;
                                 }
-                                dispatch({
+                                oatPageDispatch({
                                     type: SET_OAT_ERROR,
                                     payload: null
                                 });

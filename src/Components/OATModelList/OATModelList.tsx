@@ -21,15 +21,16 @@ import {
     isDisplayNameDefined
 } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { OATModelListProps } from './OATModelList.types';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 
-const OATModelList = ({ dispatch, state }: OATModelListProps) => {
-    const theme = useTheme();
+const OATModelList = () => {
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const { t } = useTranslation();
-    const { selection, models, modified, modelPositions } = state;
-    const modelsStyles = getModelsStyles();
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
+    const { selection, models, modified, modelPositions } = oatPageState;
+
+    // state
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState('');
     const [items, setItems] = useState([]);
@@ -38,6 +39,13 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     const [filter, setFilter] = useState('');
     const [elementCount, setElementCount] = useState(models.length);
     const containerRef = useRef(null);
+
+    // hooks
+    const theme = useTheme();
+    const { t } = useTranslation();
+
+    // styles
+    const modelsStyles = getModelsStyles();
     const iconStyles = getModelsIconStyles();
     const actionButtonStyles = getModelsActionButtonStyles();
 
@@ -74,14 +82,14 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
 
     const onSelectedClick = (id: string) => {
         const select = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: { modelId: id }
             });
         };
 
         const unSelect = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: selection
             });
@@ -113,28 +121,28 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
             const dispatchDelete = () => {
                 // Remove the model from the list
                 const newModels = deleteOatModel(item['@id'], item, models);
-                dispatch({
+                oatPageDispatch({
                     type: SET_OAT_MODELS,
                     payload: newModels
                 });
                 // Dispatch selected model to null
-                dispatch({
+                oatPageDispatch({
                     type: SET_OAT_SELECTED_MODEL,
                     payload: null
                 });
             };
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS,
                 payload: models
             });
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: selection
             });
@@ -154,15 +162,15 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                 modelPositions
             );
 
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS_POSITIONS,
                 payload: modelPositionsCopy
             });
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS,
                 payload: modelsCopy
             });
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: { modelId: value }
             });
@@ -173,15 +181,15 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         };
 
         const undoCommit = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS_POSITIONS,
                 payload: modelPositions
             });
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS,
                 payload: models
             });
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: selection
             });
@@ -200,7 +208,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
             );
             if (modelCopy) {
                 modelCopy.displayName = value;
-                dispatch({
+                oatPageDispatch({
                     type: SET_OAT_MODELS,
                     payload: modelsCopy
                 });
@@ -212,7 +220,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         };
 
         const undoCommit = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_MODELS,
                 payload: models
             });

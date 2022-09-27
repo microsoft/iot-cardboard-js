@@ -31,6 +31,7 @@ import {
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -38,7 +39,10 @@ const getClassNames = classNamesFunction<
 >();
 
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
-    const { dispatch, state, styles } = props;
+    const { styles } = props;
+
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     const { t } = useTranslation();
     const { onUndo, onRedo, canUndo, canRedo } = useContext(
@@ -61,7 +65,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         models
         // templates,
         // namespace
-    } = state;
+    } = oatPageState;
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
@@ -171,11 +175,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     }
 
                     if (filesErrors.length === 0) {
-                        dispatch({
+                        oatPageDispatch({
                             type: SET_OAT_IMPORT_MODELS,
                             payload: modelsCopy
                         });
-                        dispatch({
+                        oatPageDispatch({
                             type: SET_OAT_MODELS_METADATA,
                             payload: modelsMetadataReference
                         });
@@ -185,7 +189,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                             accumulatedError += `${error}\n`;
                         }
 
-                        dispatch({
+                        oatPageDispatch({
                             type: SET_OAT_ERROR,
                             payload: {
                                 title: t('OATHeader.errorInvalidJSON'),
@@ -217,7 +221,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     accumulatedError += `${error} \n `;
                 }
 
-                dispatch({
+                oatPageDispatch({
                     type: SET_OAT_ERROR,
                     payload: {
                         title: t('OATHeader.errorFormatNoSupported'),
@@ -230,7 +234,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             uploadInputRef.current.value = null;
             inputRef.current.value = null;
         },
-        [dispatch, inputRef, models, modelsMetadata, t]
+        [oatPageDispatch, inputRef, models, modelsMetadata, t]
     );
 
     const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -256,7 +260,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             // TODO: prompt
             // TODO: set action for confirmation to clear
         } else {
-            // TODO: call dispatch to create new project
+            // TODO: call oatPageDispatch to create new project
         }
     }, []);
 
@@ -268,7 +272,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             // TODO: prompt
             // TODO: set action for confirmation to clear
         } else {
-            // TODO: call dispatch to create new project
+            // TODO: call oatPageDispatch to create new project
         }
     }, []);
 

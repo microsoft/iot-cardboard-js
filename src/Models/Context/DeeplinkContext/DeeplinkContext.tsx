@@ -17,13 +17,11 @@ import {
     IDeeplinkContextState,
     DeeplinkContextAction,
     DeeplinkContextActionType,
-    IDeeplinkOptions
-} from './DeeplinkContext.types';
-import {
+    IDeeplinkOptions,
     DEEPLINK_SERIALIZATION_OPTIONS,
-    IDeeplinkContextProviderProps,
-    IPublicDeeplink
-} from '..';
+    IDeeplinkContextProviderProps
+} from './DeeplinkContext.types';
+import { IPublicDeeplink } from '..';
 import TelemetryService from '../../Services/TelemetryService/TelemetryService';
 
 const debugLogging = false;

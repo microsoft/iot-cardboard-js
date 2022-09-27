@@ -64,7 +64,6 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { OATGraphProps } from './OATGraphViewer.types';
 import { DtdlInterface } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
@@ -77,6 +76,7 @@ import {
     getSelectionFromNode,
     versionClassBase
 } from './Internal/Utils';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 
 const nodeWidth = 300;
 const nodeHeight = 100;
@@ -84,15 +84,17 @@ const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
 
-const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
+const OATGraphViewer = () => {
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
     const {
         selection,
         models,
         importModels,
         modelPositions,
         namespace
-    } = state;
+    } = oatPageState;
 
     const idClassBase = `dtmi:${
         namespace ? namespace : OATNamespaceDefaultValue
@@ -325,20 +327,20 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const providerVal = useMemo(
         () => ({
-            dispatch,
+            oatPageDispatch,
             currentHovered,
             showRelationships,
             showInheritances,
             showComponents,
-            state
+            oatPageState
         }),
         [
-            dispatch,
+            oatPageDispatch,
             currentHovered,
             showRelationships,
             showInheritances,
             showComponents,
-            state
+            oatPageState
         ]
     );
 
@@ -398,7 +400,7 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             setElements(elements);
         };
 
-        if (!state.modified) {
+        if (!oatPageState.modified) {
             execute(onNewNode, undoOnNewNode);
         }
     };
@@ -513,14 +515,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
             return collection;
         }, []);
 
-        dispatch({
+        oatPageDispatch({
             type: SET_OAT_MODELS_POSITIONS,
             payload: nodePositions
         });
     };
 
     const triggerInheritanceLimitError = () => {
-        dispatch({
+        oatPageDispatch({
             type: SET_OAT_ERROR,
             payload: {
                 title: t('OATGraphViewer.errorReachedInheritanceLimit'),
@@ -607,17 +609,17 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
     }, [elements]);
 
     useEffect(() => {
-        dispatch({
+        oatPageDispatch({
             type: SET_OAT_MODELS,
             payload: translatedOutput
         });
-    }, [dispatch, translatedOutput]);
+    }, [oatPageDispatch, translatedOutput]);
 
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: Node<any> | Edge<any>
     ) => {
-        if (!state.modified) {
+        if (!oatPageState.modified) {
             // Checks if a node is selected to display it in the property editor
             if (
                 translatedOutput &&
@@ -630,14 +632,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
                             node.data.name !== selection.contentId))) // Prevent re-execute the same node
             ) {
                 const onClick = () => {
-                    dispatch({
+                    oatPageDispatch({
                         type: SET_OAT_SELECTED_MODEL,
                         payload: getSelectionFromNode(node)
                     });
                 };
 
                 const undoOnClick = () => {
-                    dispatch({
+                    oatPageDispatch({
                         type: SET_OAT_SELECTED_MODEL,
                         payload: selection
                     });
@@ -672,14 +674,14 @@ const OATGraphViewer = ({ state, dispatch }: OATGraphProps) => {
 
     const onBackgroundClick = () => {
         const clearModel = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: null
             });
         };
 
         const undoClearModel = () => {
-            dispatch({
+            oatPageDispatch({
                 type: SET_OAT_SELECTED_MODEL,
                 payload: selection
             });
