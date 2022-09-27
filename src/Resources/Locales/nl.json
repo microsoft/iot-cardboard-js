@@ -1169,13 +1169,6 @@
     "valueFieldPlaceholder": "Voer een waarde in",
     "noOptionsFoundMessage": "Geen waarden gevonden",
     "modalTitle": "Geavanceerd zoeken met twee tweelingen",
-<<<<<<< HEAD
-    "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen",
-    "columnPicker": "Kolomkiezer",
-    "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
-    "availableProperties": "Dropdown van beschikbare eigenschappen"
-=======
     "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
->>>>>>> origin/main
   }
 }

@@ -1169,13 +1169,6 @@
     "valueFieldPlaceholder": "Wprowadzanie wartości",
     "noOptionsFoundMessage": "Nie znaleziono wartości",
     "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
-<<<<<<< HEAD
-    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie",
-    "columnPicker": "Selektor kolumn",
-    "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
-    "availableProperties": "Lista rozwijana dostępnych właściwości"
-=======
     "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
->>>>>>> origin/main
   }
 }

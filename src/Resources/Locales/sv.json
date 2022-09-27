@@ -1169,13 +1169,6 @@
     "valueFieldPlaceholder": "Ange ett värde",
     "noOptionsFoundMessage": "Inga värden hittades",
     "modalTitle": "Avancerad tvillingsökning",
-<<<<<<< HEAD
-    "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning",
-    "columnPicker": "Kolumnväljare",
-    "propertyCount": "{{selectedPropsCount}} egenskaper valda",
-    "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper"
-=======
     "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
->>>>>>> origin/main
   }
 }

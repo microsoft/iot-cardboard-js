@@ -1169,13 +1169,6 @@
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
     "modalTitle": "Speciális ikerkeresés",
-<<<<<<< HEAD
-    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével",
-    "columnPicker": "Oszlopválasztó",
-    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
-    "availableProperties": "Az elérhető szállások legördülő menüje"
-=======
     "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
->>>>>>> origin/main
   }
 }
