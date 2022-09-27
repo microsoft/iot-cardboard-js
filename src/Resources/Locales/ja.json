@@ -1169,6 +1169,9 @@
     "valueFieldPlaceholder": "値を入力する",
     "noOptionsFoundMessage": "値が見つかりません",
     "modalTitle": "高度な双子検索",
-    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする"
+    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする",
+    "columnPicker": "列ピッカー",
+    "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
+    "availableProperties": "利用可能なプロパティのドロップダウン"
   }
 }

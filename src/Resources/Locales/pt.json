@@ -1169,6 +1169,9 @@
     "valueFieldPlaceholder": "Digite um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa dupla avançada",
-    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa"
+    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa",
+    "columnPicker": "Catador de colunas",
+    "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
+    "availableProperties": "Desistência de imóveis disponíveis"
   }
 }
