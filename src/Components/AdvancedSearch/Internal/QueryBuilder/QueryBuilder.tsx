@@ -132,10 +132,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
     }, [rows]);
 
     const onSearch = useCallback(() => {
-        const query = buildQuery(
-            Array.from(querySnippets.current.values()),
-            false
-        );
+        const query = buildQuery(Array.from(querySnippets.current.values()));
         logDebugConsole('info', 'Executing query', query);
         executeQuery(query);
     }, [executeQuery]);
