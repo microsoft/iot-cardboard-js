@@ -1169,6 +1169,9 @@
     "errorMessageHeader": "Échec de la recherche",
     "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
     "valueFieldPlaceholder": "Entrez une valeur",
-    "noOptionsFoundMessage": "Aucune valeur trouvée"
+    "noOptionsFoundMessage": "Aucune valeur trouvée",
+    "columnPicker": "Sélecteur de colonnes",
+    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
+    "availableProperties": "Liste déroulante des propriétés disponibles"
   }
 }
