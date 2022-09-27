@@ -155,7 +155,10 @@ export const getOperators = (
     return operators;
 };
 
-export const buildQuery = (querySnippets: QueryRowData[]) => {
+export const buildQuery = (
+    querySnippets: QueryRowData[],
+    prettyPrint: boolean
+) => {
     let fullQuery = `SELECT TOP(${QUERY_RESULT_LIMIT})\nFROM DIGITALTWINS T\nWHERE `;
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === OperatorType.Function) {
@@ -173,9 +176,14 @@ export const buildQuery = (querySnippets: QueryRowData[]) => {
                 fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
-                `T.${snippet.property} ${snippet.operatorData.operatorSymbol} ${snippet.value}\n`
+                `T.${snippet.property} ${snippet.operatorData.operatorSymbol} '${snippet.value}'\n`
             );
         }
     });
+
+    // optionally remove any pretty print new lines as they will fail the query execution
+    if (!prettyPrint) {
+        fullQuery = fullQuery.replace(/\n/g, ' ').trimEnd();
+    }
     return fullQuery;
 };
