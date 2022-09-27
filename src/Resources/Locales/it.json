@@ -1153,8 +1153,6 @@
     "selectRow": "Doppia Selezionata",
     "inspectProperty": "Ispeziona proprietà",
     "results": "Risultati ({{twinCount}})",
-    "modalTitle": "Ricerca avanzata di immobili",
-    "modalSubtitle": "Collega la proprietà giusta restringendo la ricerca",
     "noPropertiesFound": "Nessuna struttura trovata",
     "addNewButton": "Aggiungi nuovo",
     "andOrColumnHeader": "O",
@@ -1169,6 +1167,8 @@
     "errorMessageHeader": "Ricerca non riuscita",
     "errorMessageDescription": "Si è verificato un errore imprevisto. Aggiorna la pagina o modifica i criteri di ricerca e riprova.",
     "valueFieldPlaceholder": "Inserisci un valore",
-    "noOptionsFoundMessage": "Nessun valore trovato"
+    "noOptionsFoundMessage": "Nessun valore trovato",
+    "modalTitle": "Ricerca avanzata dei gemelli",
+    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
   }
 }
