@@ -41,10 +41,7 @@ import {
     getOperators
 } from './QueryBuilderUtils';
 import { useFlattenedModelProperties } from '../../../../Models/Hooks/useFlattenedModelProperties';
-import {
-    DTDLPropertyIconographyMap,
-    DTID_PROPERTY_NAME
-} from '../../../../Models/Constants/Constants';
+import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { getReactSelectStyles } from '../../../../Resources/Styles/ReactSelect.styles';
 import TwinPropertySearchDropdown from '../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
 
@@ -146,11 +143,16 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
     // Update operator options
     useEffect(() => {
         if (selectedProperty) {
+            // reset the operators when the property changes
             const operatorOptions = getOperators(selectedProperty.data.type);
             setOperatorOptions(operatorOptions);
             if (operatorOptions.length) {
                 setSelectedOperator(operatorOptions[0]);
             }
+            // reset the value when the property changes
+            setSelectedValue(
+                getDefaultPropertyValues(selectedProperty.data.type)
+            );
         }
     }, [selectedProperty]);
 
@@ -266,12 +268,13 @@ const QueryBuilderRow: React.FC<IQueryBuilderRowProps> = (props) => {
                     inputStyles={propertySelectorStyles}
                     isLabelHidden={true}
                     onChange={(value: string) =>
-                        onChangeValueField(undefined, value)
+                        // add quotes since this is always a string and we want it to be wrapped
+                        onChangeValueField(undefined, `'${value}'`)
                     }
                     noOptionsText={t('advancedSearch.noOptionsFoundMessage')}
                     placeholderText={t('advancedSearch.valueFieldPlaceholder')}
                     resetInputOnBlur={false}
-                    searchPropertyName={DTID_PROPERTY_NAME}
+                    searchPropertyName={selectedProperty?.data.name || ''} // should never actually happen in reality
                 />
             );
         } else if (selectedProperty.data.type === 'boolean') {
