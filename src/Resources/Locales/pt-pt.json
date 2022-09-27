@@ -1169,8 +1169,6 @@
     "errorMessageHeader": "A procura falhou",
     "errorMessageDescription": "Ocorreu um erro inesperado. Por favor, refresque a página ou modifique os seus critérios de pesquisa e tente novamente.",
     "valueFieldPlaceholder": "Insira um valor",
-    "noOptionsFoundMessage": "Nenhum valor encontrado",
-    "columnPicker": "Selecionador de colunas",
-    "propertyCount": "{{selecionadosPropsCount}} propriedades selecionadas"
+    "noOptionsFoundMessage": "Nenhum valor encontrado"
   }
 }

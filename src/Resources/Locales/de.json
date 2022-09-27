@@ -1169,8 +1169,6 @@
     "errorMessageHeader": "Suche fehlgeschlagen",
     "errorMessageDescription": "Ein unerwarteter Fehler ist aufgetreten. Bitte aktualisieren Sie die Seite oder ändern Sie Ihre Suchkriterien und versuchen Sie es erneut.",
     "valueFieldPlaceholder": "Geben Sie einen Wert ein",
-    "noOptionsFoundMessage": "Keine Werte gefunden",
-    "columnPicker": "Spaltenauswahl",
-    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt"
+    "noOptionsFoundMessage": "Keine Werte gefunden"
   }
 }

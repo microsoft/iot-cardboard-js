@@ -1169,8 +1169,6 @@
     "errorMessageHeader": "Zoekopdracht mislukt",
     "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
     "valueFieldPlaceholder": "Voer een waarde in",
-    "noOptionsFoundMessage": "Geen waarden gevonden",
-    "columnPicker": "Kolomkiezer",
-    "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd"
+    "noOptionsFoundMessage": "Geen waarden gevonden"
   }
 }
