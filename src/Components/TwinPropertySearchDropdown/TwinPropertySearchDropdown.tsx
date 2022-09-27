@@ -108,7 +108,7 @@ const TwinPropertySearchDropdown = (
     const searchTwinAdapterData = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
-        refetchDependencies: [],
+        refetchDependencies: [searchPropertyName],
         isAdapterCalledOnMount: false
     });
 
