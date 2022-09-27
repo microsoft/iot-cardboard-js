@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps,
+    ADXConnectionInformationLoadingState,
     AzureResourceTypes,
     ComponentErrorType
 } from '../../Models/Constants/Enums';
@@ -138,7 +139,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     });
 
     const connectionState = useAdapter({
-        adapterMethod: () => adapter.getTimeSeriesConnectionInformation(),
+        adapterMethod: (params: { adtInstance: IADTInstance | string }) =>
+            adapter.getTimeSeriesConnectionInformation(params.adtInstance),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
     });
@@ -283,10 +285,26 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // if the adx connection information is not in the environment context. fetch it and update the context
     useEffect(() => {
-        if (!environmentState.adxConnectionInformation) {
-            connectionState.callAdapter();
+        if (
+            !environmentState.adxConnectionInformation &&
+            environmentState.adtInstance
+        ) {
+            connectionState.callAdapter({
+                adtInstance: environmentState.adtInstance.url
+            });
+            environmentDispatch({
+                type:
+                    EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
+                payload: {
+                    connectionInformationState:
+                        ADXConnectionInformationLoadingState.LOADING
+                }
+            });
         }
-    }, [environmentState.adxConnectionInformation]);
+    }, [
+        environmentState.adxConnectionInformation,
+        environmentState.adtInstance
+    ]);
 
     // update adapter when selected adt instance changes in environment context
     useEffect(() => {
@@ -609,8 +627,25 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     connectionInformation: connectionData
                 }
             });
+            environmentDispatch({
+                type:
+                    EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
+                payload: {
+                    connectionInformationState:
+                        ADXConnectionInformationLoadingState.EXISTED
+                }
+            });
+        } else {
+            environmentDispatch({
+                type:
+                    EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
+                payload: {
+                    connectionInformationState:
+                        ADXConnectionInformationLoadingState.NOT_EXISTED
+                }
+            });
         }
-    }, [connectionState?.adapterResult]);
+    }, [connectionState?.adapterResult.result]);
 
     return (
         <ADT3DScenePageContext.Provider
@@ -624,6 +659,12 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             }}
         >
             <div className="cb-scene-page-wrapper">
+                {
+                    ADXConnectionInformationLoadingState[
+                        environmentState.adxConnectionInformationLoadingState
+                    ]
+                }
+                {environmentState.adxConnectionInformation}
                 <BaseComponent
                     theme={theme}
                     locale={locale}

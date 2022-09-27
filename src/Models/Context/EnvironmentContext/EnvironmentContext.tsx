@@ -3,7 +3,10 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
-import { AzureResourceTypes } from '../../Constants';
+import {
+    ADXConnectionInformationLoadingState,
+    AzureResourceTypes
+} from '../../Constants';
 import {
     getEnvironmentConfigurationItemFromResource,
     getSelectedAdtInstanceFromLocalStorage,
@@ -71,6 +74,11 @@ export const EnvironmentContextReducer: (
                 ); // set the selected values in local storage here again in case it is updated by changes in deep link parsed value
                 break;
             }
+            case EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE: {
+                draft.adxConnectionInformationLoadingState =
+                    action.payload.connectionInformationState;
+                break;
+            }
         }
     }
 );
@@ -119,7 +127,10 @@ export const EnvironmentContextProvider: React.FC<IEnvironmentContextProviderPro
             initialState.storageAccount ||
             getSelectedStorageAccountFromLocalStorage() ||
             null,
-        adxConnectionInformation: initialState.adxConnectionInformation || null
+        adxConnectionInformation: initialState.adxConnectionInformation || null,
+        adxConnectionInformationLoadingState:
+            initialState.adxConnectionInformationLoadingState ||
+            ADXConnectionInformationLoadingState.IDLE
     };
 
     const [environmentState, environmentDispatch] = useReducer(

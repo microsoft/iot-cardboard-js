@@ -554,9 +554,9 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
-    getTimeSeriesConnectionInformation: () => Promise<
-        AdapterResult<ADTInstanceTimeSeriesConnectionData>
-    >;
+    getTimeSeriesConnectionInformation: (
+        adtInstance: IADTInstance | string
+    ) => Promise<AdapterResult<ADTInstanceTimeSeriesConnectionData>>;
 }
 
 export interface IBlobAdapter {

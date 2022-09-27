@@ -1,3 +1,4 @@
+import { ADXConnectionInformationLoadingState } from '../../Constants/Enums';
 import {
     IADTInstance,
     IADXConnection,
@@ -12,7 +13,8 @@ export interface IEnvironmentContextProviderProps {
 
 /**
  * A context used for keeping the track of the environment configuration state like
- * selected adt instance, storage account, container and adx connection information.
+ * selected adt instance, storage account, container and adx connection,
+ * and necessary loading state information.
  */
 export interface IEnvironmentContext {
     environmentState: IEnvironmentContextState;
@@ -26,7 +28,8 @@ export interface IEnvironmentContextState {
     adtInstance: EnvironmentConfigurationItem | null;
     storageAccount: EnvironmentConfigurationItem | null;
     storageContainer: EnvironmentConfigurationItem | null;
-    adxConnectionInformation: IADXConnection;
+    adxConnectionInformation: IADXConnection | null;
+    adxConnectionInformationLoadingState: ADXConnectionInformationLoadingState;
 }
 
 /**
@@ -36,7 +39,8 @@ export enum EnvironmentContextActionType {
     SET_ADT_INSTANCE = 'SET_ADT_INSTANCE',
     SET_STORAGE_ACCOUNT = 'SET_STORAGE_ACCOUNT',
     SET_STORAGE_CONTAINER = 'SET_STORAGE_CONTAINER',
-    SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION'
+    SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION',
+    SET_ADX_CONNECTION_INFORMATION_LOADING_STATE = 'SET_ADX_CONNECTION_INFORMATION_LOADING_STATE'
 }
 
 /** The actions to update the state */
@@ -60,5 +64,11 @@ export type EnvironmentContextAction =
           type: EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION;
           payload: {
               connectionInformation: IADXConnection;
+          };
+      }
+    | {
+          type: EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE;
+          payload: {
+              connectionInformationState: ADXConnectionInformationLoadingState;
           };
       };

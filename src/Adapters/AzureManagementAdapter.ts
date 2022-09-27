@@ -28,6 +28,7 @@ import {
     createGUID,
     getDebugLogger,
     getMissingRoleIdsFromRequired,
+    getResourceUrl,
     getRoleIdsFromRoleAssignments
 } from '../Models/Services/Utils';
 
@@ -572,17 +573,19 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    getTimeSeriesConnectionInformation = async (
-        adtInstanceIdentifier?: IADTInstance | string
-    ) => {
-        // either the resource object or hostname of the ADT instance
+    async getTimeSeriesConnectionInformation(
+        adtInstanceIdentifier: IADTInstance | string
+    ) {
+        // either the resource object or host url of the ADT instance
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let adtInstance: IAzureResource;
+            // eslint-disable-next-line no-debugger
+            debugger;
             if (
                 typeof adtInstanceIdentifier === 'string' ||
-                !(adtInstance.id && adtInstance.location) // even if adtInstance, additional safe check for variables which we need to fetch connection information
+                !(adtInstanceIdentifier.id && adtInstanceIdentifier.location) // even if adtInstance, additional safe check for variables which we need to fetch connection information
             ) {
                 const digitalTwinInstances = await this.getResourcesByPermissions(
                     {
@@ -593,9 +596,19 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     }
                 );
                 const result = digitalTwinInstances.result.data;
-                adtInstance = result.find(
-                    (d) => d.properties.hostName === adtInstanceIdentifier
-                );
+                try {
+                    const hostUrl = getResourceUrl(
+                        adtInstanceIdentifier,
+                        AzureResourceTypes.DigitalTwinInstance
+                    );
+                    adtInstance = result.find(
+                        (d) =>
+                            d.properties.hostName === new URL(hostUrl).hostname
+                    );
+                } catch (error) {
+                    console.error(error);
+                    adtInstance = null;
+                }
             } else {
                 adtInstance = adtInstanceIdentifier;
             }
@@ -635,5 +648,27 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 });
             }
         }, 'azureManagement');
-    };
+    }
+
+    // async getResourceById(resourceId: string) {
+    //     const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+    //     return await adapterMethodSandbox.safelyFetchData(async (token) => {
+    //         const result = await axios({
+    //             method: 'get',
+    //             url: `https://management.azure.com${resourceId}`,
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 authorization: 'Bearer ' + token
+    //             },
+    //             params: { 'api-version': '2021-09-01' }
+    //         }).catch((err) => {
+    //             adapterMethodSandbox.pushError({
+    //                 type: ComponentErrorType.DataFetchFailed,
+    //                 isCatastrophic: false,
+    //                 rawError: err
+    //             });
+    //             return null;
+    //         });
+    //     }, 'azureManagement');
+    // }
 }
