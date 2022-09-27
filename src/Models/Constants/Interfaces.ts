@@ -89,6 +89,8 @@ import {
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 import ADTAdapter from '../../Adapters/ADTAdapter';
+import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
+import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 
 export interface IAction {
     type: string;
@@ -287,6 +289,7 @@ export interface IAzureRoleAssignment extends IAzureResource {
 export interface IADTInstance extends IAzureResource {
     type: AzureResourceTypes.DigitalTwinInstance;
     properties: IADTInstancePropertyData;
+    location: string;
 }
 
 export interface IAzureStorageAccount extends IAzureResource {
@@ -296,6 +299,11 @@ export interface IAzureStorageAccount extends IAzureResource {
 
 export interface IAzureStorageBlobContainer extends IAzureResource {
     type: AzureResourceTypes.StorageBlobContainer;
+}
+
+export interface IAzureTimeSeriesDatabaseConnection extends IAzureResource {
+    type: AzureResourceTypes.TimeSeriesConnection;
+    properties: IAzureTimeSeriesDatabaseConnectionPropertyData;
 }
 
 export interface IAzureRoleAssignmentPropertyData {
@@ -310,6 +318,14 @@ export interface IADTInstancePropertyData {
 
 export interface IAzureStorageAccountPropertyData {
     primaryEndpoints: { blob: string; [additionalProperty: string]: any };
+    [additionalProperty: string]: any;
+}
+
+export interface IAzureTimeSeriesDatabaseConnectionPropertyData {
+    connectionType: 'AzureDataExplorer' | string;
+    adxEndpointUri: string; // cluster url
+    adxDatabaseName: string;
+    adxTableName: string;
     [additionalProperty: string]: any;
 }
 // END of Azure Management plane interfaces
@@ -538,6 +554,9 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
+    getTimeSeriesConnectionInformation: () => Promise<
+        AdapterResult<ADTInstanceTimeSeriesConnectionData>
+    >;
 }
 
 export interface IBlobAdapter {
@@ -552,6 +571,11 @@ export interface IBlobAdapter {
     ) => AdapterReturnType<StorageBlobsData>;
     putBlob: (file: File) => AdapterReturnType<StorageBlobsData>;
     resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
+}
+
+export interface IADXAdapter {
+    setConnectionInformation: (connectionInformation: IADXConnection) => void;
+    getTimeSeriesData: (query: string) => AdapterReturnType<ADXTimeSeriesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {

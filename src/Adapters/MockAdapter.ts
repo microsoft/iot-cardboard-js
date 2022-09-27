@@ -46,7 +46,8 @@ import {
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    IADXConnection
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -86,7 +87,7 @@ import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
-import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
+import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -109,6 +110,7 @@ export default class MockAdapter
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
+    private mockConnectionInformation: IADXConnection;
     private seededRng = seedRandom('cardboard seed');
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
@@ -754,6 +756,10 @@ export default class MockAdapter
         this.mockEnvironmentHostName = hostName;
     }
 
+    setConnectionInformation = (connectionInformation: IADXConnection) => {
+        this.mockConnectionInformation = connectionInformation;
+    };
+
     async getSubscriptions() {
         const mockSubscriptions: Array<IAzureSubscription> = mockSubscriptionData;
         try {
@@ -1007,12 +1013,12 @@ export default class MockAdapter
         }
     }
 
-    async getConnectionInformation() {
+    async getTimeSeriesConnectionInformation() {
         try {
             await this.mockNetwork();
 
             return new AdapterResult({
-                result: new ADTInstanceConnectionData({
+                result: new ADTInstanceTimeSeriesConnectionData({
                     kustoClusterUrl: '',
                     kustoDatabaseName: '',
                     kustoTableName: ''
@@ -1020,7 +1026,7 @@ export default class MockAdapter
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ADTInstanceConnectionData>({
+            return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

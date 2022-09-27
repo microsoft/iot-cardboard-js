@@ -118,7 +118,8 @@ export const EnvironmentContextProvider: React.FC<IEnvironmentContextProviderPro
         storageAccount:
             initialState.storageAccount ||
             getSelectedStorageAccountFromLocalStorage() ||
-            null
+            null,
+        adxConnectionInformation: initialState.adxConnectionInformation || null
     };
 
     const [environmentState, environmentDispatch] = useReducer(

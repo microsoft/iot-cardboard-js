@@ -1,4 +1,6 @@
 import {
+    IADXAdapter,
+    IADXConnection,
     IAuthService,
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
@@ -11,21 +13,16 @@ import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
 import { ADXTimeSeries } from '../Models/Constants/Types';
 
-export default class ADXAdapter implements ITsiClientChartDataAdapter {
+export default class ADXAdapter
+    implements ITsiClientChartDataAdapter, IADXAdapter {
     protected adxAuthService: IAuthService;
-    protected clusterUrl: string;
-    protected databaseName: string;
-    protected tableName: string;
+    protected connectionInformation: IADXConnection;
 
     constructor(
-        clusterUrl: string,
-        databaseName: string,
-        tableName: string,
-        adxAuthService: IAuthService
+        adxAuthService: IAuthService,
+        connectionInformation: IADXConnection
     ) {
-        this.clusterUrl = clusterUrl;
-        this.databaseName = databaseName;
-        this.tableName = tableName;
+        this.connectionInformation = connectionInformation;
         this.adxAuthService = adxAuthService;
         this.adxAuthService.login();
     }
@@ -39,15 +36,15 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
             const getDataHistoryFromADX = () => {
                 return axios({
                     method: 'post',
-                    url: `${this.clusterUrl}/v2/rest/query`,
+                    url: `${this.connectionInformation.kustoClusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.databaseName,
-                        csl: `${this.tableName} | ${query}))` /** example query: 
+                        db: this.connectionInformation.kustoDatabaseName,
+                        csl: `${this.connectionInformation.kustoTableName} | ${query}))` /** example query: 
                         | where TimeStamp between (datetime(2020-09-07) .. datetime(2022-09-07))
                         | where Id contains "Car"
                         | where Key == "Speed"
@@ -90,7 +87,6 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                     isCatastrophic: true,
                     rawError: err
                 });
-
                 return new ADXTimeSeriesData(null);
             }
         }, 'adx');
@@ -128,16 +124,16 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
             const getDataHistoryOfProperty = (prop: string) => {
                 return axios({
                     method: 'post',
-                    url: `${this.clusterUrl}/v2/rest/query`,
+                    url: `${this.connectionInformation.kustoClusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.databaseName,
+                        db: this.connectionInformation.kustoDatabaseName,
                         csl: `${
-                            this.tableName
+                            this.connectionInformation.kustoTableName
                         } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
                     }
                 });
@@ -207,5 +203,9 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 });
             }
         }, 'adx');
+    }
+
+    setConnectionInformation(connectionInformation: IADXConnection) {
+        this.connectionInformation = connectionInformation;
     }
 }

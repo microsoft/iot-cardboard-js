@@ -1,7 +1,5 @@
-import axios from 'axios';
 import { ADTTwinData } from '../Models/Classes';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
-import ADTInstanceConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceConnectionData';
 import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import AdapterResult from '../Models/Classes/AdapterResult';
@@ -25,9 +23,7 @@ import {
     instancesRefreshMaxAge,
     AzureAccessPermissionRoleGroups,
     modelRefreshMaxAge,
-    RequiredAccessRoleGroupForStorageContainer,
-    RequiredAccessRoleGroupForADTInstance,
-    IADXConnection
+    RequiredAccessRoleGroupForStorageContainer
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
@@ -76,69 +72,6 @@ export default class ADT3DSceneAdapter {
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
     }
-    getConnectionInformation = async (
-        adtConnectionInformation?: IADXConnection
-    ) => {
-        if (adtConnectionInformation) {
-            return new AdapterResult<ADTInstanceConnectionData>({
-                result: new ADTInstanceConnectionData({
-                    kustoClusterUrl: adtConnectionInformation.kustoClusterUrl,
-                    kustoDatabaseName:
-                        adtConnectionInformation.kustoDatabaseName,
-                    kustoTableName: adtConnectionInformation.kustoTableName
-                }),
-                errorInfo: null
-            });
-        }
-
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const digitalTwinInstances = await this.getResourcesByPermissions({
-                getResourcesParams: {
-                    resourceType: AzureResourceTypes.DigitalTwinInstance
-                },
-                requiredAccessRoles: RequiredAccessRoleGroupForADTInstance
-            });
-            const result = digitalTwinInstances.result.data;
-            const instance = result.find(
-                (d) => d.properties.hostName === this.adtHostUrl
-            );
-
-            try {
-                // use the below azure management call to get adt-adx connection information including Kusto cluster url, database name and table name to retrieve the data history from
-                const connectionsData = await axios({
-                    method: 'get',
-                    url: `https://management.azure.com${instance.id}/timeSeriesDatabaseConnections`,
-                    headers: {
-                        Authorization: 'Bearer ' + token,
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    params: {
-                        'api-version': '2021-06-30-preview'
-                    }
-                });
-                this.clusterUrl =
-                    connectionsData.data.value[0].properties.adxEndpointUri;
-                this.databaseName =
-                    connectionsData.data.value[0].properties.adxDatabaseName;
-                this.tableName = `adt_dh_${connectionsData.data.value[0].properties.adxDatabaseName.replaceAll(
-                    '-',
-                    '_'
-                )}_${instance?.location}`;
-            } catch (error) {
-                adapterMethodSandbox.pushError({
-                    isCatastrophic: false,
-                    rawError: error
-                });
-            }
-            return new ADTInstanceConnectionData({
-                kustoClusterUrl: this.clusterUrl,
-                kustoDatabaseName: this.databaseName,
-                kustoTableName: this.tableName
-            });
-        }, 'azureManagement');
-    };
 
     /** Checking missing role assignments for the container, for this we need the resouce id of the container and we need to make
      * series of Azure Management calls for be able to find that container - if exist in user's subscription.
@@ -299,9 +232,6 @@ export default interface ADT3DSceneAdapter
         BlobAdapter,
         AzureManagementAdapter,
         ADXAdapter {
-    getConnectionInformation: () => Promise<
-        AdapterResult<ADTInstanceConnectionData>
-    >;
     getMissingStorageContainerAccessRoles: (
         containerURLString?: string
     ) => Promise<AdapterResult<AzureMissingRoleDefinitionsData>>;

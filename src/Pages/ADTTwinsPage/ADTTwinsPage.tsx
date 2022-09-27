@@ -44,7 +44,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     const lookupTwinIdRef = useRef(lookupTwinId);
 
     const connectionState = useAdapter({
-        adapterMethod: () => adapter.getConnectionInformation(),
+        adapterMethod: () => adapter.getTimeSeriesConnectionInformation(),
         refetchDependencies: [adapter]
     });
 
