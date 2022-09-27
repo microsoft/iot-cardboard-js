@@ -1169,6 +1169,9 @@
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
     "modalTitle": "Recherche avancée de jumeaux",
-    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche",
+    "columnPicker": "Sélecteur de colonnes",
+    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
+    "availableProperties": "Liste déroulante des propriétés disponibles"
   }
 }

@@ -1169,6 +1169,9 @@
     "valueFieldPlaceholder": "Введите значение",
     "noOptionsFoundMessage": "Значения не найдены",
     "modalTitle": "Расширенный двойной поиск",
-    "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска"
+    "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска",
+    "columnPicker": "Средство выбора столбцов",
+    "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
+    "availableProperties": "Раскрывающийся список доступных свойств"
   }
 }
