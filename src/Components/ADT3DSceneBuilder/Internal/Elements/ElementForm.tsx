@@ -373,6 +373,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         }}
                                         onClick={ToggleAdvancedSearchOpen}
                                         styles={iconButtonStyles}
+                                        title={t('advancedSearch.modalTitle')}
                                     />
                                 </Stack>
                                 <TextField

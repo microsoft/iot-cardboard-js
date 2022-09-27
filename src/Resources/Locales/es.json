@@ -1169,9 +1169,13 @@
     "valueFieldPlaceholder": "Introduzca un valor",
     "noOptionsFoundMessage": "No se han encontrado valores",
     "modalTitle": "Búsqueda avanzada de gemelos",
+<<<<<<< HEAD
     "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda",
     "columnPicker": "Selector de columnas",
     "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
     "availableProperties": "Menú desplegable de propiedades disponibles"
+=======
+    "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda"
+>>>>>>> origin/main
   }
 }

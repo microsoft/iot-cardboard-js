@@ -18,8 +18,11 @@ import {
 import QueryBuilderRow from './QueryBuilderRow';
 import { buildQuery } from './QueryBuilderUtils';
 import { useTranslation } from 'react-i18next';
-import { createGUID } from '../../../../Models/Services/Utils';
+import { createGUID, getDebugLogger } from '../../../../Models/Services/Utils';
 import { PropertyValueType } from '../../../../Models/Constants';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('QueryBuilder', debugLogging);
 
 const getClassNames = classNamesFunction<
     IQueryBuilderStyleProps,
@@ -115,7 +118,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     const appendRow = useCallback(() => {
         // Add row component
-        const rowId = String(createGUID());
+        const rowId = createGUID();
         const newRows = [
             ...rows,
             {
@@ -130,6 +133,7 @@ const QueryBuilder: React.FC<IQueryBuilderProps> = (props) => {
 
     const onSearch = useCallback(() => {
         const query = buildQuery(Array.from(querySnippets.current.values()));
+        logDebugConsole('info', 'Executing query', query);
         executeQuery(query);
     }, [executeQuery]);
 

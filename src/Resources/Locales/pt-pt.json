@@ -1169,9 +1169,13 @@
     "valueFieldPlaceholder": "Insira um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa avançada de gémeos",
+<<<<<<< HEAD
     "modalSubtitle": "Ligue o gémeo direito reduzindo a sua pesquisa",
     "columnPicker": "Selecionador de colunas",
     "propertyCount": "{{selecionadosPropsCount}} propriedades selecionadas",
     "availableProperties": "Dropdown de imóveis disponíveis"
+=======
+    "modalSubtitle": "Ligue o gémeo direito reduzindo a sua pesquisa"
+>>>>>>> origin/main
   }
 }
