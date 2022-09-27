@@ -1,3 +1,4 @@
+import { i18n, Resource } from 'i18next';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
@@ -216,3 +217,14 @@ export const safeJsonParse = <T>(value: string): T | null => {
         return null;
     }
 };
+
+export function getAvailableLanguages(i18n: i18n) {
+    return Object.keys(i18n.options.resources).map((language) => {
+        return {
+            key: (i18n.options.resources[language].translation as any)
+                .languageCode,
+            text: (i18n.options.resources[language].translation as any)
+                .languageName
+        };
+    });
+}
