@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { createGUID, getDebugLogger } from '../../../../Models/Services/Utils';
 import { PropertyValueType } from '../../../../Models/Constants';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('QueryBuilder', debugLogging);
 
 const getClassNames = classNamesFunction<
