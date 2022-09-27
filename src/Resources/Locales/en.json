@@ -1158,8 +1158,8 @@
         "propertyColumnHeader": "Property",
         "operatorColumnHeader": "Operator",
         "valueColumnHeader": "Value",
-        "modalTitle": "Advanced twin search",
-        "modalSubtitle": "Link the right twin by narrowing down your search",
+        "modalTitle": "Advanced property search",
+        "modalSubtitle": "Link the right property by narrowing down your search",
         "noPropertiesFound": "No properties found",
         "propertyFieldPlaceholder": "Select a property",
         "resultsExceededLabel": "There were more than {{QUERY_RESULT_LIMIT}} results, add more filters to refine the results.",
@@ -1169,6 +1169,9 @@
         "errorMessageHeader": "Search failed",
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "noOptionsFoundMessage": "No values found",
-        "valueFieldPlaceholder": "Enter a value"
+        "valueFieldPlaceholder": "Enter a value",
+        "columnPicker": "Column picker",
+        "propertyCount": "{{selectedPropsCount}} properties selected",
+        "availableProperties": "Dropdown of properties available"
     }
 }
