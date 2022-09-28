@@ -84,7 +84,7 @@ const Editor: React.FC<EditorProps> = (props) => {
             );
         }
         return propertyItems;
-    }, [model]);
+    }, [model, propertiesKeyName]);
 
     const isSupportedModelType = useMemo(() => {
         return (
