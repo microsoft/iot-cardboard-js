@@ -6,7 +6,6 @@ import {
 } from './OATPropertyEditor.styles';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy } from '../../Models/Services/Utils';
 
@@ -17,27 +16,40 @@ import {
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
 import { propertySelectorData } from '../../Models/Constants';
 import { PropertySelectorProps } from './PropertySelector.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height
 
-const PropertySelector = ({
-    className,
-    setPropertySelectorVisible,
-    lastPropertyFocused,
-    dispatch,
-    onTagClickCallback,
-    state,
-    propertySelectorPosition
-}: PropertySelectorProps) => {
+const PropertySelector: React.FC<PropertySelectorProps> = (props) => {
+    const {
+        className,
+        setPropertySelectorVisible,
+        lastPropertyFocused,
+        // dispatch,
+        onTagClickCallback,
+        // state,
+        propertySelectorPosition
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const propertySelectorSeparatorStyles = getPropertySelectorSeparatorStyles();
-    const { models, selection } = state;
+
+    // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -45,8 +57,11 @@ const PropertySelector = ({
     );
 
     const addNestedProperty = (tag: string, lastPropertyFocusedCopy) => {
-        const modelsCopy = deepCopy(models);
-        const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        const modelsCopy = deepCopy(oatPageState.models);
+        const modelCopy = getTargetFromSelection(
+            modelsCopy,
+            oatPageState.selection
+        );
         const schemaCopy = deepCopy(lastPropertyFocusedCopy.item.schema);
         // We select the last property focused to add nested properties to that specific property
         const newProperty = {
@@ -63,25 +78,28 @@ const PropertySelector = ({
         modelCopy[propertiesKeyName][
             lastPropertyFocused.index
         ].schema = schemaCopy;
-        dispatch({
-            type: SET_OAT_MODELS,
-            payload: modelsCopy
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_MODELS,
+            payload: { models: modelsCopy }
         });
         setPropertySelectorVisible(false);
     };
 
     const addProperty = (tag) => {
-        const modelsCopy = deepCopy(models);
-        const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        const modelsCopy = deepCopy(oatPageState.models);
+        const modelCopy = getTargetFromSelection(
+            modelsCopy,
+            oatPageState.selection
+        );
         modelCopy[propertiesKeyName] = modelCopy[propertiesKeyName] || [];
         modelCopy[propertiesKeyName].push({
             '@type': 'Property',
             name: `New_Property_${modelCopy[propertiesKeyName].length + 1}`,
             schema: getSchema(tag)
         });
-        dispatch({
-            type: SET_OAT_MODELS,
-            payload: modelsCopy
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_MODELS,
+            payload: { models: modelsCopy }
         });
         setPropertySelectorVisible(false);
     };
@@ -101,9 +119,9 @@ const PropertySelector = ({
         };
 
         const undoOnClick = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 

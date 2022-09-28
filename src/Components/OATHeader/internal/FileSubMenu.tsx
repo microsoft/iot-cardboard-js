@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     ActionButton,
     Text,
@@ -10,10 +10,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { OAT_NAMESPACE_DEFAULT_VALUE } from '../../../Models/Constants';
-import {
-    SET_OAT_PROJECT,
-    SET_OAT_PROJECT_NAME
-} from '../../../Models/Constants/ActionTypes';
 import { FromBody } from './Enums';
 import { deepCopy } from '../../../Models/Services/Utils';
 import {
@@ -33,6 +29,8 @@ import {
     IFileSubMenuStyles
 } from './FileSubMenu.types';
 import { getStyles } from './FileSubMenu.styles';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 const getClassNames = classNamesFunction<
     IFileSubMenuStyleProps,
@@ -40,34 +38,22 @@ const getClassNames = classNamesFunction<
 >();
 
 const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
-    const {
-        dispatch,
-        onFileSubMenuClose,
-        isActive,
-        state,
-        styles,
-        targetId
-    } = props;
+    const { onFileSubMenuClose, isActive, styles, targetId } = props;
 
+    // hooks
     const { t } = useTranslation();
-    const classNames = getClassNames(styles, {
-        isMenuOpen: isActive,
-        theme: useTheme()
-    });
+
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
     const [files, setFiles] = useState(loadOatFiles());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
     const [modalOpen, setModalOpen] = useState(false);
     const [modalBody, setModalBody] = useState(null);
-    const {
-        modelPositions,
-        models,
-        projectName,
-        templates,
-        namespace,
-        modelsMetadata
-    } = state;
 
+    // callbacks
     const onSave = () => {
         onFileSubMenuClose();
 
@@ -76,12 +62,12 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             const filesCopy = deepCopy(files);
 
             const project = new ProjectData(
-                modelPositions,
-                convertDtdlInterfacesToModels(models),
-                projectName,
-                templates,
-                namespace,
-                modelsMetadata
+                oatPageState.modelPositions,
+                convertDtdlInterfacesToModels(oatPageState.models),
+                oatPageState.projectName,
+                oatPageState.templates,
+                oatPageState.namespace,
+                oatPageState.modelsMetadata
             );
 
             filesCopy[fileIndex].data = project;
@@ -105,7 +91,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         if (isFileStored) {
             // Check if current project has been modified
             if (
-                JSON.stringify(models) !==
+                JSON.stringify(oatPageState.models) !==
                 JSON.stringify(files[fileIndex].data.models)
             ) {
                 // Prompt the if user would like to save current progress
@@ -119,12 +105,12 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             setModalOpen(true);
         } else if (
             // Check if current file has any progress
-            models &&
-            models.length > 0
+            oatPageState.models &&
+            oatPageState.models.length > 0
         ) {
-            dispatch({
-                type: SET_OAT_PROJECT_NAME,
-                payload: t('OATHeader.untitledProject')
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_PROJECT_NAME,
+                payload: { name: t('OATHeader.untitledProject') }
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
             setModalOpen(true);
@@ -141,8 +127,8 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             []
         );
 
-        dispatch({
-            type: SET_OAT_PROJECT,
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_PROJECT,
             payload: clearProject
         });
     };
@@ -158,7 +144,6 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                     <ModalDelete
                         onClose={onModalClose}
                         setModalBody={setModalBody}
-                        state={state}
                         resetProject={resetProject}
                     />
                 );
@@ -214,25 +199,32 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         }
     };
 
-    const onProjectChange = () => {
+    const onProjectChange = useCallback(() => {
         const currentFiles = loadOatFiles();
         setFiles(currentFiles);
         // Check if current file is stored
         let foundIndex = -1;
-        if (currentFiles.length > 0 && projectName) {
+        if (currentFiles.length > 0 && oatPageState.projectName) {
             foundIndex = currentFiles.findIndex(
-                (file) => file.name === projectName
+                (file) => file.name === oatPageState.projectName
             );
             setFileIndex(foundIndex);
             setIsFileStored(foundIndex > -1);
         } else {
             setIsFileStored(false);
         }
-    };
+    }, [oatPageState.projectName]);
 
+    // side effects
     useEffect(() => {
         onProjectChange();
-    }, [projectName]);
+    }, [onProjectChange, oatPageState.projectName]);
+
+    // styles
+    const classNames = getClassNames(styles, {
+        isMenuOpen: isActive,
+        theme: useTheme()
+    });
 
     return (
         <>

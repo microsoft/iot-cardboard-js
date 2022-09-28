@@ -19,6 +19,7 @@ import {
     IModalDeleteStyles
 } from './ModalDelete.types';
 import { getStyles } from './ModalDelete.styles';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
 const getClassNames = classNamesFunction<
     IModalDeleteStyleProps,
@@ -26,21 +27,25 @@ const getClassNames = classNamesFunction<
 >();
 
 export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
-    const { resetProject, onClose, setModalBody, state, styles } = props;
+    const { resetProject, onClose, setModalBody, styles } = props;
 
     // hooks
     const { t } = useTranslation();
 
+    // contexts
+    const { oatPageState } = useOatPageContext();
+
     // styles
     const promptTextStyles = getPromptTextStyles();
     const classNames = getClassNames(styles, { theme: useTheme() });
-    const { projectName } = state;
 
     const onDelete = () => {
         const files = loadOatFiles();
 
         //  Overwrite existing file
-        const foundIndex = files.findIndex((file) => file.name === projectName);
+        const foundIndex = files.findIndex(
+            (file) => file.name === oatPageState.projectName
+        );
         if (foundIndex > -1) {
             // Remove file
             files.splice(foundIndex, 1);
@@ -61,7 +66,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
             <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.deleteProjectMessage', {
-                        projectName: projectName
+                        projectName: oatPageState.projectName
                     })}
                 </Text>
             </div>

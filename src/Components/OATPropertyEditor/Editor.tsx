@@ -20,8 +20,7 @@ import TemplateColumn from './TemplateColumn';
 import PropertiesModelSummary from './PropertiesModelSummary';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_TEMPLATES_ACTIVE
+    SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 import {
     getModelPropertyCollectionName,
@@ -38,6 +37,7 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const Editor: React.FC<EditorProps> = (props) => {
     const { dispatch, languages, state, theme } = props;
@@ -46,7 +46,7 @@ const Editor: React.FC<EditorProps> = (props) => {
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageState } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -95,9 +95,9 @@ const Editor: React.FC<EditorProps> = (props) => {
 
     // callbacks
     const onToggleTemplatesActive = () => {
-        dispatch({
-            type: SET_OAT_TEMPLATES_ACTIVE,
-            payload: !oatPageState.templatesActive
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
+            payload: { isActive: !oatPageState.templatesActive }
         });
     };
 

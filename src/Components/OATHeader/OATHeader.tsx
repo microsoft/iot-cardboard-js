@@ -10,14 +10,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
-
-import {
-    SET_OAT_ERROR,
-    SET_OAT_MODELS_METADATA
-} from '../../Models/Constants/ActionTypes';
-
 import { useDropzone } from 'react-dropzone';
-import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import {
@@ -32,6 +25,7 @@ import {
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -176,12 +170,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
                     if (filesErrors.length === 0) {
                         oatPageDispatch({
-                            type: SET_OAT_IMPORT_MODELS,
-                            payload: modelsCopy
+                            type:
+                                OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                            payload: { models: modelsCopy }
                         });
                         oatPageDispatch({
-                            type: SET_OAT_MODELS_METADATA,
-                            payload: modelsMetadataReference
+                            type:
+                                OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                            payload: { metadata: modelsMetadataReference }
                         });
                     } else {
                         let accumulatedError = '';
@@ -190,7 +186,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         }
 
                         oatPageDispatch({
-                            type: SET_OAT_ERROR,
+                            type: OatPageContextActionType.SET_OAT_ERROR,
                             payload: {
                                 title: t('OATHeader.errorInvalidJSON'),
                                 message: accumulatedError
@@ -222,7 +218,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 }
 
                 oatPageDispatch({
-                    type: SET_OAT_ERROR,
+                    type: OatPageContextActionType.SET_OAT_ERROR,
                     payload: {
                         title: t('OATHeader.errorFormatNoSupported'),
                         message: accumulatedError

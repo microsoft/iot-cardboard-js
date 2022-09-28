@@ -418,7 +418,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             <PropertySelector
                 setPropertySelectorVisible={setPropertySelectorVisible}
                 lastPropertyFocused={lastPropertyFocused}
-                dispatch={dispatch}
                 propertySelectorPosition={propertySelectorPosition}
                 className={
                     propertySelectorVisible

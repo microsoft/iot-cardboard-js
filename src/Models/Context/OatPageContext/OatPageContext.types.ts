@@ -7,6 +7,7 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLProperty } from '../../Classes/DTDL';
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -114,14 +115,7 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.SET_OAT_PROJECT;
-          payload: {
-              projectName: string;
-              models: DtdlInterface[];
-              modelsMetadata: IOATModelsMetadata[];
-              modelPositions: IOATModelPosition[];
-              templates: DTDLProperty[];
-              namespace: string;
-          };
+          payload: ProjectData;
       }
     | {
           type: OatPageContextActionType.SET_OAT_PROJECT_NAME;

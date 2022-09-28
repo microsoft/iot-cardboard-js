@@ -11,11 +11,9 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_TEMPLATES
+    SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 
 import {
@@ -25,53 +23,60 @@ import {
 } from './Utils';
 import { FormBody } from './Constants';
 import { PropertyListItemProps } from './PropertyListItem.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const PropertyListItem = ({
-    index,
-    deleteItem,
-    dispatch,
-    draggingProperty,
-    getItemClassName,
-    onDragEnter,
-    onDragEnterExternalItem,
-    onDragStart,
-    onPropertyDisplayNameChange,
-    onMove,
-    propertiesLength,
-    item,
-    setLastPropertyFocused,
-    state
-}: PropertyListItemProps) => {
+export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
+    const {
+        index,
+        deleteItem,
+        dispatch,
+        draggingProperty,
+        getItemClassName,
+        onDragEnter,
+        onDragEnterExternalItem,
+        onDragStart,
+        onPropertyDisplayNameChange,
+        onMove,
+        propertiesLength,
+        item,
+        setLastPropertyFocused
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const propertyInspectorStyles = getPropertyInspectorStyles();
-    const iconWrapStyles = getPropertyListItemIconWrapStyles();
-    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
-    const { models, selection, templates } = state;
-    const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
-    );
 
+    // data
+    const model = useMemo(
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
+    );
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
 
     const onTemplateAddition = () => {
         const addition = () => {
-            dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: [...templates, item]
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                payload: { templates: [...oatPageState.templates, item] }
             });
         };
 
         const undoAddition = () => {
-            dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: templates
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                payload: { templates: oatPageState.templates }
             });
         };
 
@@ -80,8 +85,11 @@ export const PropertyListItem = ({
 
     const onDuplicate = () => {
         const duplicate = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             const itemCopy = deepCopy(item);
             if (itemCopy.name) {
                 itemCopy.name = `${itemCopy.name}_${t(
@@ -98,16 +106,16 @@ export const PropertyListItem = ({
             }
 
             modelCopy[propertiesKeyName].push(itemCopy);
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoDuplicate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -136,6 +144,12 @@ export const PropertyListItem = ({
         });
         onPropertyDisplayNameChange(value, index);
     };
+
+    // styles
+    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapStyles = getPropertyListItemIconWrapStyles();
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
 
     return (
         <div

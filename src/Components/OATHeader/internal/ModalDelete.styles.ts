@@ -9,7 +9,5 @@ import { getCommonModalStyles } from './Shared.styles';
 export const getStyles = (
     _props: IModalDeleteStyleProps
 ): IModalDeleteStyles => {
-    return {
-        ...getCommonModalStyles()
-    };
+    return getCommonModalStyles();
 };

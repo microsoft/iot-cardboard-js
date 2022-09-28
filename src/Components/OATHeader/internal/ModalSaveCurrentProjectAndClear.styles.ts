@@ -7,9 +7,7 @@ import { getCommonModalStyles } from './Shared.styles';
 // const classPrefix = `${CardboardClassNamePrefix}-modal-delete`;
 // const classNames = {};
 export const getStyles = (
-    _props: IModalDeleteStyleProps
+    props: IModalDeleteStyleProps
 ): IModalDeleteStyles => {
-    return {
-        ...getCommonModalStyles()
-    };
+    return getCommonModalStyles(props);
 };

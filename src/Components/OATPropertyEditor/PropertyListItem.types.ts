@@ -1,5 +1,5 @@
-import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { IAction } from '../../Models/Constants/Interfaces';
 
 export type PropertyListItemProps = {
     index?: number;
@@ -16,5 +16,4 @@ export type PropertyListItemProps = {
     onDragStart?: (event: any, item: any) => any;
     item?: DTDLProperty;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    state?: IOATEditorState;
 };

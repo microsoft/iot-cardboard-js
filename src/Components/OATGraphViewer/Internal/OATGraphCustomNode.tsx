@@ -18,11 +18,6 @@ import {
     OAT_INTERFACE_TYPE
 } from '../../../Models/Constants/Constants';
 import {
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
-} from '../../../Models/Constants/ActionTypes';
-import {
     getDisplayName,
     isDisplayNameDefined
 } from '../../OATPropertyEditor/Utils';
@@ -39,43 +34,49 @@ import {
     updateModelId
 } from '../../../Models/Services/OatUtils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
-const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
-    id,
-    data,
-    isConnectable
-}) => {
+const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
+    const { id, data, isConnectable } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { currentHovered } = useContext(ElementsContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getDisplayName(data.displayName));
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState(data['@id']);
-    const { dispatch, state, currentHovered } = useContext(ElementsContext);
-    const graphViewerStyles = getGraphViewerStyles();
-    const iconStyles = getGraphViewerIconStyles();
-    const actionButtonStyles = getGraphViewerActionButtonStyles();
     const [handleHoverRelationship, setHandleHoverRelationship] = useState(
         false
     );
     const [handleHoverComponent, setHandleHoverComponent] = useState(false);
     const [handleHoverExtend, setHandleHoverExtend] = useState(false);
     const [handleHoverUntargeted, setHandleHoverUntargeted] = useState(false);
-    const { selection, models, modelPositions } = state;
+
+    // data
     const isSelected = useMemo(
-        () => selection && selection.modelId === id && !selection.contentId,
-        [id, selection]
+        () =>
+            oatPageState.selection &&
+            oatPageState.selection.modelId === id &&
+            !oatPageState.selection.contentId,
+        [id, oatPageState.selection]
     );
 
     const onNameClick = () => {
-        if (!state.modified) {
+        if (!oatPageState.modified) {
             setNameText(getDisplayName(data.displayName));
             setNameEditor(true);
         }
     };
 
     const onIdClick = () => {
-        if (!state.modified) {
+        if (!oatPageState.modified) {
             setIdEditor(true);
         }
     };
@@ -84,48 +85,52 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const modelsCopy = deleteOatModel(id, data, models);
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                const modelsCopy = deleteOatModel(
+                    id,
+                    data,
+                    oatPageState.models
+                );
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
                 // Dispatch selected model to null
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: null
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                    payload: { selection: null }
                 });
             };
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
-        if (!state.modified) {
+        if (!oatPageState.modified) {
             execute(deletion, undoDeletion);
         }
     };
 
     const onDisplayNameCommit = (value: string) => {
         const update = () => {
-            const modelsCopy = deepCopy(models);
+            const modelsCopy = deepCopy(oatPageState.models);
             const model = modelsCopy.find((model) => model['@id'] === id);
             if (model) {
                 model.displayName = value;
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             }
             setNameText(value);
@@ -133,9 +138,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         };
 
         const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -147,34 +152,39 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
             const {
                 models: modelsCopy,
                 positions: modelPositionsCopy
-            } = updateModelId(id, value, models, modelPositions);
+            } = updateModelId(
+                id,
+                value,
+                oatPageState.models,
+                oatPageState.modelPositions
+            );
 
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositionsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: modelPositionsCopy }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: value }
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: { modelId: value } }
             });
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: oatPageState.modelPositions }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
@@ -185,6 +195,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
         setIdText(value);
         setIdEditor(false);
     };
+
+    // styles
+    const graphViewerStyles = getGraphViewerStyles();
+    const iconStyles = getGraphViewerIconStyles();
+    const actionButtonStyles = getGraphViewerActionButtonStyles();
 
     return (
         <>
@@ -219,7 +234,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = ({
                                 <OATTextFieldId
                                     value={idText}
                                     model={data}
-                                    models={models}
+                                    models={oatPageState.models}
                                     onCommit={onIdCommit}
                                     autoFocus
                                 />

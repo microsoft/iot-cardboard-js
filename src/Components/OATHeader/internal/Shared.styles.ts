@@ -1,6 +1,11 @@
 import { IStyle } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../Models/Constants/Constants';
-import { ISubMenuStyleProps, ISubMenuStyles } from './Shared.types';
+import {
+    ISharedModalStyleProps,
+    ISharedModalStyles,
+    ISubMenuStyleProps,
+    ISubMenuStyles
+} from './Shared.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-file-sub-menu`;
 const classNames = {
@@ -8,7 +13,9 @@ const classNames = {
     modalRowFlexCenter: `${classPrefix}-modal-row-flex-center`,
     modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`
 };
-export const getCommonModalStyles = () => ({
+export const getCommonModalStyles = (
+    _props: ISharedModalStyleProps
+): ISharedModalStyles => ({
     modalRow: [
         classNames.modalRow,
         {

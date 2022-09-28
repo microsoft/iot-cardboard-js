@@ -1,26 +1,21 @@
-import { ITheme, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { ITheme, IStyleFunctionOrObject } from '@fluentui/react';
+import { ISharedModalStyleProps, ISharedModalStyles } from './Shared.types';
 
 export type IModalDeleteProps = {
     resetProject?: () => void;
     onClose?: () => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    state?: IOATEditorState;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<IModalDeleteStyleProps, IModalDeleteStyles>;
 };
 
-export interface IModalDeleteStyleProps {
+export interface IModalDeleteStyleProps extends ISharedModalStyleProps {
     theme: ITheme;
 }
 
-export interface IModalDeleteStyles {
-    modalRow: IStyle;
-    modalRowFlexEnd: IStyle;
-    modalRowCenterItem: IStyle;
-
+export interface IModalDeleteStyles extends ISharedModalStyles {
     /**
      * SubComponent styles.
      */

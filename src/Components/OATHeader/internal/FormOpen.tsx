@@ -6,29 +6,48 @@ import {
     PrimaryButton,
     Stack,
     Dropdown,
-    IDropdownOption
+    IDropdownOption,
+    classNamesFunction,
+    styled,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { IAction } from '../../../Models/Constants/Interfaces';
-import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
-import { getHeaderStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import {
     convertDtdlInterfacesToModels,
     loadOatFiles
 } from '../../../Models/Services/OatUtils';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-interface IModal {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    setModalBody?: React.Dispatch<React.SetStateAction<string>>;
-    onClose?: () => void;
-}
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import {
+    IFormOpenProps,
+    IFormOpenStyleProps,
+    IFormOpenStyles
+} from './FormOpen.types';
+import { getStyles } from './FormOpen.styles';
 
-export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
+const getClassNames = classNamesFunction<
+    IFormOpenStyleProps,
+    IFormOpenStyles
+>();
+
+export const FormOpen: React.FC<IFormOpenProps> = (props) => {
+    const { onClose, setModalBody, styles } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const headerStyles = getHeaderStyles();
+
+    // context
+    const { oatPageDispatch } = useOatPageContext();
+
+    // state
     const [selectedFile, setSelectedFile] = useState<IOATFile>(null);
 
+    // data
+    const formattedFiles = useMemo(() => getFormatFilesToDropDownOptions(), []);
+
+    // callbacks
     const onOpen = () => {
         const projectToOpen = new ProjectData(
             selectedFile.data.modelPositions,
@@ -38,8 +57,8 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
             selectedFile.data.namespace,
             selectedFile.data.modelsMetadata
         );
-        dispatch({
-            type: SET_OAT_PROJECT,
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_PROJECT,
             payload: projectToOpen
         });
 
@@ -65,17 +84,20 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
         return [];
     };
 
-    const formattedFiles = useMemo(() => getFormatFilesToDropDownOptions(), []);
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     return (
         <Stack>
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
 
-            <div className={headerStyles.modalRow}>
+            <div className={classNames.modalRow}>
                 <Text>{`${t('OATHeader.fileOpenModal.dropdownLabel')}:`}</Text>
                 <Dropdown
                     placeholder={t(
@@ -86,7 +108,7 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
                 />
             </div>
 
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATHeader.open')}
                     onClick={onOpen}
@@ -99,4 +121,7 @@ export const FormOpen = ({ dispatch, setModalBody, onClose }: IModal) => {
     );
 };
 
-export default FormOpen;
+export default styled<IFormOpenProps, IFormOpenStyleProps, IFormOpenStyles>(
+    FormOpen,
+    getStyles
+);
