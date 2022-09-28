@@ -17,10 +17,6 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles
 } from './OATPropertyEditor.styles';
-import {
-    SET_OAT_MODELS_METADATA,
-    SET_OAT_MODELS
-} from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { PrimaryButton, Modal } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_ERROR } from '../../../Models/Constants/ActionTypes';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
-const OATErrorHandlingModal = () => {
+const OATErrorHandlingModal: React.FC = () => {
     // hooks
     const { t } = useTranslation();
     const { oatPageState, oatPageDispatch } = useOatPageContext();
@@ -45,7 +45,8 @@ const OATErrorHandlingModal = () => {
                                     return;
                                 }
                                 oatPageDispatch({
-                                    type: SET_OAT_ERROR,
+                                    type:
+                                        OatPageContextActionType.SET_OAT_ERROR,
                                     payload: null
                                 });
                             }}
