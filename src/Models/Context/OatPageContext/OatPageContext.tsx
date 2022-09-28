@@ -3,6 +3,7 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
+import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import {
     getStoredEditorModelsData,
     getStoredEditorTemplateData,
@@ -36,11 +37,74 @@ export const OatPageContextReducer: (
             action.payload
         );
         switch (action.type) {
-            case OatPageContextActionType.SET_ADT_URL: {
-                draft.adtUrl = action.payload.url || '';
+            case OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN: {
+                draft.confirmDeleteOpen = action.payload;
                 break;
             }
-            case 'MyAction': {
+            case OatPageContextActionType.SET_OAT_ERROR: {
+                draft.error = action.payload;
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_IMPORT_MODELS: {
+                draft.importModels = action.payload.models || [];
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN: {
+                draft.isJsonUploaderOpen = action.payload.isOpen || false;
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_MODELS: {
+                draft.models = action.payload.models || [];
+                draft.selectedModelTarget = getTargetFromSelection(
+                    draft.models,
+                    draft.selection
+                );
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_MODELS_METADATA: {
+                draft.modelsMetadata = action.payload.metadata || [];
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_MODELS_POSITIONS: {
+                draft.modelPositions = action.payload.positions || [];
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_MODIFIED: {
+                draft.modified = action.payload.isModified || false;
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_NAMESPACE: {
+                draft.namespace = action.payload.namespace || '';
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_PROJECT: {
+                draft.modelPositions = action.payload.modelPositions;
+                draft.models = action.payload.models;
+                draft.modelsMetadata = action.payload.modelsMetadata;
+                draft.namespace = action.payload.namespace;
+                draft.projectName = action.payload.projectName || '';
+                draft.templates = action.payload.templates;
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_PROJECT_NAME: {
+                draft.projectName = action.payload.name || '';
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
+                draft.selection = action.payload.selection;
+                draft.selectedModelTarget = getTargetFromSelection(
+                    draft.models,
+                    draft.selection
+                );
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_TEMPLATES: {
+                draft.templates = action.payload.templates || [];
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE: {
+                draft.templatesActive = action.payload.isActive || false;
+                break;
             }
         }
     }
@@ -62,7 +126,6 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IOatPageContextState = {
-        adtUrl: initialState.adtUrl || '',
         selection: null,
         models: getStoredEditorModelsData(),
         templatesActive: false,
@@ -75,7 +138,8 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
         error: null,
         namespace: getStoredEditorNamespaceData(),
         confirmDeleteOpen: { open: false },
-        modelsMetadata: getStoredEditorModelMetadata()
+        modelsMetadata: getStoredEditorModelMetadata(),
+        selectedModelTarget: null
     };
 
     const [oatPageState, oatPageDispatch] = useReducer(

@@ -300,6 +300,7 @@ export const validateIdChange = (
     }
 };
 
+// TODO: move onto the context so we don't have to do this in every component
 export const getTargetFromSelection = (
     models: DtdlInterface[],
     selection: IOATSelection

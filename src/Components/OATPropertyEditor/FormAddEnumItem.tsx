@@ -18,7 +18,6 @@ import {
     getRadioGroupRowStyles,
     getModalTextFieldStyles
 } from './OATPropertyEditor.styles';
-import { SET_OAT_MODELS } from '../../Models/Constants/ActionTypes';
 import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
@@ -35,22 +34,29 @@ import {
 } from '../../Models/Constants/Constants';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { ModalFormAddEnumItemProps } from './FormAddEnumItem.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-export const FormAddEnumItem = ({
-    dispatch,
-    onClose,
-    state,
-    languages
-}: ModalFormAddEnumItemProps) => {
+export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
+    const { onClose, state, languages } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const textFieldStyles = getModalTextFieldStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
+
+    // state
     const [name, setName] = useState('');
     const [enumValue, setEnumValue] = useState('');
     const [comment, setComment] = useState('');
@@ -86,11 +92,14 @@ export const FormAddEnumItem = ({
     const [nameValidCharactersError, setNameValidCharactersError] = useState(
         false
     );
-    const { selection, models, currentPropertyIndex } = state;
+    const { currentPropertyIndex } = state;
 
+    // TODO: migrate to `selectedModelTarget`
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -130,22 +139,25 @@ export const FormAddEnumItem = ({
                 comment: comment ? comment : ''
             };
 
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             modelCopy[propertiesKeyName][
                 currentPropertyIndex
             ].schema.enumValues.push(prop);
 
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 

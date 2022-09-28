@@ -1,6 +1,7 @@
 import {
     ADT3DScenePageModes,
     DtdlInterface,
+    DtdlInterfaceContent,
     DtdlProperty
 } from '../../Constants';
 import queryString from 'query-string';
@@ -28,10 +29,9 @@ export interface IOatPageContext {
  * The state of the context
  */
 export interface IOatPageContextState {
-    adtUrl: string;
     confirmDeleteOpen?: IOATConfirmDelete;
     error?: IOATError;
-    importModels?: [];
+    importModels?: any[];
     isJsonUploaderOpen?: boolean;
     modelPositions: IOATModelPosition[];
     models?: DtdlInterface[];
@@ -40,6 +40,7 @@ export interface IOatPageContextState {
     namespace?: string;
     projectName?: string;
     selection?: IOATSelection;
+    selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
     templates?: DtdlProperty[];
     templatesActive?: boolean;
 }
@@ -95,7 +96,7 @@ export type OatPageContextAction =
     | {
           type: OatPageContextActionType.SET_OAT_MODELS_METADATA;
           payload: {
-              metadata: IOATModelsMetadata;
+              metadata: IOATModelsMetadata[];
           };
       }
     | {
@@ -121,7 +122,7 @@ export type OatPageContextAction =
           payload: {
               projectName: string;
               models: DtdlInterface[];
-              modelMetadata: IOATModelsMetadata[];
+              modelsMetadata: IOATModelsMetadata[];
               modelPositions: IOATModelPosition[];
               templates: DtdlProperty[];
               namespace: string;

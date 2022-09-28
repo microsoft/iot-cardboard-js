@@ -14,34 +14,37 @@ import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTex
 import { deepCopy } from '../../Models/Services/Utils';
 
 import {
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS,
     SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_SELECTED_MODEL
+    SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getModelPropertyListItemName, getTargetFromSelection } from './Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
 import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { updateModelId } from '../../Models/Services/OatUtils';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const PropertiesModelSummary = ({
-    dispatch,
-    state,
-    isSupportedModelType
-}: PropertiesModelSummaryProps) => {
+export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
+    props
+) => {
+    const { dispatch, isSupportedModelType } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const { selection, models, modelPositions } = state;
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
-    const propertyInspectorStyles = getPropertyInspectorStyles();
-    const iconWrapStyles = getIconWrapFitContentStyles();
-    const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
+
     const [displayName, setDisplayName] = useState(
         model && model.displayName
             ? getModelPropertyListItemName(model.displayName)
@@ -68,22 +71,30 @@ export const PropertiesModelSummary = ({
             const {
                 models: modelsCopy,
                 positions: modelPositionsCopy
-            } = updateModelId(id, value, models, modelPositions);
+            } = updateModelId(
+                id,
+                value,
+                oatPageState.models,
+                oatPageState.modelPositions
+            );
 
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositionsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: modelPositionsCopy }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload:
-                    selection && selection.contentId
-                        ? { ...selection }
-                        : { modelId: value }
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: {
+                    selection:
+                        oatPageState.selection &&
+                        oatPageState.selection.contentId
+                            ? deepCopy(oatPageState.selection)
+                            : { modelId: value }
+                }
             });
 
             setId(value);
@@ -91,17 +102,17 @@ export const PropertiesModelSummary = ({
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: oatPageState.modelPositions }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: model
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
@@ -110,13 +121,16 @@ export const PropertiesModelSummary = ({
 
     const onDisplayNameCommit = (value) => {
         const commit = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             if (modelCopy) {
                 modelCopy.displayName = value;
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             }
             setDisplayName(value);
@@ -124,9 +138,9 @@ export const PropertiesModelSummary = ({
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -135,17 +149,22 @@ export const PropertiesModelSummary = ({
 
     const onNameCommit = (value) => {
         const commit = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             if (modelCopy) {
                 modelCopy.name = value;
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: { ...selection, contentId: name }
+                const selectionCopy = deepCopy(oatPageState.selection);
+                selectionCopy.contentId = name;
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                    payload: { selection: selectionCopy }
                 });
             }
             setName(value);
@@ -153,13 +172,13 @@ export const PropertiesModelSummary = ({
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
@@ -176,6 +195,11 @@ export const PropertiesModelSummary = ({
             payload: true
         });
     };
+    // styles
+    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const iconWrapStyles = getIconWrapFitContentStyles();
+    const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
+    const textFieldStyles = getPropertyEditorTextFieldStyles();
 
     return (
         <Stack styles={generalPropertiesWrapStyles}>
@@ -214,7 +238,7 @@ export const PropertiesModelSummary = ({
                         disabled={!model}
                         value={isSupportedModelType && id}
                         model={model}
-                        models={models}
+                        models={oatPageState.models}
                         onCommit={onIdCommit}
                         borderless
                         autoFocus
@@ -242,7 +266,7 @@ export const PropertiesModelSummary = ({
                                 getModelPropertyListItemName(name)
                             }
                             model={model}
-                            models={models}
+                            models={oatPageState.models}
                             onCommit={onNameCommit}
                             borderless
                             autoFocus

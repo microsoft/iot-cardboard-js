@@ -126,7 +126,6 @@ const Editor: React.FC<EditorProps> = (props) => {
             case FormBody.enum:
                 return (
                     <FormAddEnumItem
-                        dispatch={dispatch}
                         languages={languages}
                         onClose={onModalClose}
                         state={state}
@@ -135,10 +134,8 @@ const Editor: React.FC<EditorProps> = (props) => {
             case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
-                        dispatch={dispatch}
                         onClose={onModalClose}
                         languages={languages}
-                        state={state}
                     />
                 );
             default:
@@ -161,7 +158,6 @@ const Editor: React.FC<EditorProps> = (props) => {
                             <Stack.Item>
                                 <PropertiesModelSummary
                                     dispatch={dispatch}
-                                    state={state}
                                     isSupportedModelType={isSupportedModelType}
                                 />
                             </Stack.Item>

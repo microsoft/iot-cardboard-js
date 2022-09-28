@@ -21,11 +21,7 @@ import {
     SET_OAT_MODELS_METADATA,
     SET_OAT_MODELS
 } from '../../Models/Constants/ActionTypes';
-import {
-    deepCopy,
-    getDirectoryPathFromDTMI,
-    getFileNameFromDTMI
-} from '../../Models/Services/Utils';
+import { deepCopy } from '../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
 import {
     validateCommentChange,
@@ -42,26 +38,37 @@ import {
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { ModalFormRootModelProps } from './FormRootModelDetails.types';
+import {
+    getFileNameFromDTMI,
+    getDirectoryPathFromDTMI
+} from '../../Models/Services/OatUtils';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-export const FormRootModelDetails = ({
-    dispatch,
-    onClose,
-    state,
-    languages
-}: ModalFormRootModelProps) => {
-    const { execute } = useContext(CommandHistoryContext);
-    const { selection, models, modelsMetadata } = state;
-    const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
-    );
+export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
+    props
+) => {
+    const { onClose, languages } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const propertyInspectorStyles = getPropertyInspectorStyles();
-    const columnLeftTextStyles = getModalLabelStyles();
-    const radioGroupRowStyle = getRadioGroupRowStyles();
+
+    // contexts
+    const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // data
+    const model = useMemo(
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
+    );
+
+    // state
     const [comment, setComment] = useState('');
     const [displayName, setDisplayName] = useState('');
     const [description, setDescription] = useState('');
@@ -101,6 +108,135 @@ export const FormRootModelDetails = ({
     const [fileName, setFileName] = useState('');
     const [directoryPath, setDirectoryPath] = useState('');
 
+    // callbacks
+    const onLanguageSelect = (
+        ev: React.FormEvent<HTMLInputElement>,
+        option: IChoiceGroupOption
+    ): void => {
+        setLanguageSelection(option.key);
+    };
+
+    const onLanguageSelectDescription = (
+        ev: React.FormEvent<HTMLInputElement>,
+        option: IChoiceGroupOption
+    ): void => {
+        setLanguageSelectionDescription(option.key);
+    };
+
+    const updateMetadata = () => {
+        if (oatPageState.modelsMetadata) {
+            const metadataCopy = deepCopy(oatPageState.modelsMetadata);
+            const newMetadata = {
+                '@id': model['@id'],
+                directoryPath,
+                fileName
+            };
+            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+            const modelIndex = metadataCopy.findIndex(
+                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
+            );
+            if (modelIndex !== -1) {
+                metadataCopy[modelIndex] = newMetadata;
+            } else {
+                metadataCopy.push(newMetadata);
+            }
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                payload: { metadata: metadataCopy }
+            });
+        }
+    };
+
+    const onFormSubmit = () => {
+        const update = () => {
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
+            modelCopy.comment = comment ? comment : model.comment;
+            modelCopy.displayName =
+                languageSelection === singleLanguageOptionValue
+                    ? displayName
+                        ? displayName
+                        : model.displayName
+                    : multiLanguageSelectionsDisplayName
+                    ? multiLanguageSelectionsDisplayName
+                    : model.displayName;
+            modelCopy.description =
+                languageSelectionDescription === singleLanguageOptionValue
+                    ? description
+                        ? description
+                        : model.description
+                    : multiLanguageSelectionsDescription
+                    ? multiLanguageSelectionsDescription
+                    : model.description;
+            modelCopy['@id'] = id ? id : model['@id'];
+
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
+            });
+
+            updateMetadata();
+            onClose();
+        };
+
+        const undoUpdate = () => {
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
+            });
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                payload: { metadata: oatPageState.modelsMetadata }
+            });
+        };
+
+        execute(update, undoUpdate);
+    };
+
+    const lookUpStoredMetadata = () => {
+        // Check if there is metadata for the model, if so update fileName and directoryPath
+        if (oatPageState.modelsMetadata) {
+            const modelMetadata = oatPageState.modelsMetadata.find(
+                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
+            );
+            if (modelMetadata) {
+                setFileName(modelMetadata.fileName);
+                setDirectoryPath(modelMetadata.directoryPath);
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // data
+    const options: IChoiceGroupOption[] = [
+        {
+            key: singleLanguageOptionValue,
+            text: t('OATPropertyEditor.singleLanguage'),
+            disabled: multiLanguageSelectionsDisplayNames.length > 0
+        },
+        {
+            key: multiLanguageOptionValue,
+            text: t('OATPropertyEditor.multiLanguage')
+        }
+    ];
+
+    const optionsDescription: IChoiceGroupOption[] = [
+        {
+            key: singleLanguageOptionValue,
+            text: t('OATPropertyEditor.singleLanguage'),
+            disabled: multiLanguageSelectionsDescriptions.length > 0
+        },
+        {
+            key: multiLanguageOptionValue,
+            text: t('OATPropertyEditor.multiLanguage')
+        }
+    ];
+
+    // side effects
     useEffect(() => {
         setComment(model.comment);
         setDisplayName(getModelPropertyListItemName(model.displayName));
@@ -127,114 +263,6 @@ export const FormRootModelDetails = ({
                 : {}
         );
     }, [model]);
-
-    const options: IChoiceGroupOption[] = [
-        {
-            key: singleLanguageOptionValue,
-            text: t('OATPropertyEditor.singleLanguage'),
-            disabled: multiLanguageSelectionsDisplayNames.length > 0
-        },
-        {
-            key: multiLanguageOptionValue,
-            text: t('OATPropertyEditor.multiLanguage')
-        }
-    ];
-
-    const optionsDescription: IChoiceGroupOption[] = [
-        {
-            key: singleLanguageOptionValue,
-            text: t('OATPropertyEditor.singleLanguage'),
-            disabled: multiLanguageSelectionsDescriptions.length > 0
-        },
-        {
-            key: multiLanguageOptionValue,
-            text: t('OATPropertyEditor.multiLanguage')
-        }
-    ];
-
-    const onLanguageSelect = (
-        ev: React.FormEvent<HTMLInputElement>,
-        option: IChoiceGroupOption
-    ): void => {
-        setLanguageSelection(option.key);
-    };
-
-    const onLanguageSelectDescription = (
-        ev: React.FormEvent<HTMLInputElement>,
-        option: IChoiceGroupOption
-    ): void => {
-        setLanguageSelectionDescription(option.key);
-    };
-
-    const updateMetadata = () => {
-        if (modelsMetadata) {
-            const metadataCopy = deepCopy(modelsMetadata);
-            const newMetadata = {
-                '@id': model['@id'],
-                directoryPath,
-                fileName
-            };
-            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-            const modelIndex = metadataCopy.findIndex(
-                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
-            );
-            if (modelIndex !== -1) {
-                metadataCopy[modelIndex] = newMetadata;
-            } else {
-                metadataCopy.push(newMetadata);
-            }
-            dispatch({
-                type: SET_OAT_MODELS_METADATA,
-                payload: metadataCopy
-            });
-        }
-    };
-
-    const onFormSubmit = () => {
-        const update = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
-            modelCopy.comment = comment ? comment : model.comment;
-            modelCopy.displayName =
-                languageSelection === singleLanguageOptionValue
-                    ? displayName
-                        ? displayName
-                        : model.displayName
-                    : multiLanguageSelectionsDisplayName
-                    ? multiLanguageSelectionsDisplayName
-                    : model.displayName;
-            modelCopy.description =
-                languageSelectionDescription === singleLanguageOptionValue
-                    ? description
-                        ? description
-                        : model.description
-                    : multiLanguageSelectionsDescription
-                    ? multiLanguageSelectionsDescription
-                    : model.description;
-            modelCopy['@id'] = id ? id : model['@id'];
-
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
-            });
-
-            updateMetadata();
-            onClose();
-        };
-
-        const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
-            });
-            dispatch({
-                type: SET_OAT_MODELS_METADATA,
-                payload: modelsMetadata
-            });
-        };
-
-        execute(update, undoUpdate);
-    };
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
@@ -282,21 +310,6 @@ export const FormRootModelDetails = ({
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
-    const lookUpStoredMetadata = () => {
-        // Check if there is metadata for the model, if so update fileName and directoryPath
-        if (modelsMetadata) {
-            const modelMetadata = modelsMetadata.find(
-                (modelMetadata: any) => modelMetadata['@id'] === model['@id']
-            );
-            if (modelMetadata) {
-                setFileName(modelMetadata.fileName);
-                setDirectoryPath(modelMetadata.directoryPath);
-                return true;
-            }
-        }
-        return false;
-    };
-
     useEffect(() => {
         if (id) {
             const storedData = lookUpStoredMetadata();
@@ -308,6 +321,11 @@ export const FormRootModelDetails = ({
             setDirectoryPath(getDirectoryPathFromDTMI(id));
         }
     }, [id]);
+
+    // styles
+    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const columnLeftTextStyles = getModalLabelStyles();
+    const radioGroupRowStyle = getRadioGroupRowStyles();
 
     return (
         <>
@@ -335,7 +353,7 @@ export const FormRootModelDetails = ({
                     placeholder={t('OATPropertyEditor.id')}
                     value={id}
                     model={model}
-                    models={models}
+                    models={oatPageState.models}
                     modalFormCommit
                     onCommit={setId}
                 />
