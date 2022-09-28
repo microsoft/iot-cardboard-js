@@ -5,28 +5,38 @@ import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import { TemplateListItemListProps } from './TemplateListItem.types';
 
-export const TemplateListItem = ({
-    draggingTemplate,
-    item,
-    index,
-    deleteItem,
-    getDragItemClassName,
-    onDragEnter,
-    onDragEnterExternalItem,
-    onDragStart,
-    onMove,
-    onPropertyListAddition,
-    getSchemaText,
-    templatesLength
-}: TemplateListItemListProps) => {
+export const TemplateListItem: React.FC<TemplateListItemListProps> = (
+    props
+) => {
+    const {
+        draggingTemplate,
+        item,
+        index,
+        deleteItem,
+        getDragItemClassName,
+        onDragEnter,
+        onDragEnterExternalItem,
+        onDragStart,
+        onMove,
+        onPropertyListAddition,
+        getSchemaText,
+        templatesLength
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
+
+    // state
     const [subMenuActive, setSubMenuActive] = useState(false);
 
+    // callbacks
     const addTopPropertyList = () => {
         onPropertyListAddition(item);
         setSubMenuActive(false);
     };
+
+    // styles
+    const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
 
     return (
         <div

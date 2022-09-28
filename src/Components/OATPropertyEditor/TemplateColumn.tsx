@@ -15,21 +15,29 @@ import {
     getTemplateColumnPaddingStyles
 } from './OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
-import { SET_OAT_TEMPLATES_ACTIVE } from '../../Models/Constants/ActionTypes';
 import { TemplateColumnProps } from './TemplateColumn.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const TemplateColumn = ({
-    enteredPropertyRef,
-    enteredTemplateRef,
-    dispatch,
-    state
-}: TemplateColumnProps) => {
+export const TemplateColumn: React.FC<TemplateColumnProps> = (props) => {
+    const { dispatch, enteredPropertyRef, enteredTemplateRef, state } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // context
+    const { oatPageDispatch } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
     const templateColumnStyles = getTemplateColumnStyles();
     const templateColumnPaddingStyles = getTemplateColumnPaddingStyles();
+
+    // state
     const draggedTemplateItemRef = useRef(null);
+
+    // state
     const { draggingTemplate, draggingProperty } = state;
 
     return (
@@ -39,9 +47,10 @@ export const TemplateColumn = ({
                     <Label>{t('OATPropertyEditor.templates')}</Label>
                     <ActionButton
                         onClick={() =>
-                            dispatch({
-                                type: SET_OAT_TEMPLATES_ACTIVE,
-                                payload: false
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
+                                payload: { isActive: false }
                             })
                         }
                     >
@@ -78,7 +87,6 @@ export const TemplateColumn = ({
                 draggedTemplateItemRef={draggedTemplateItemRef}
                 enteredPropertyRef={enteredPropertyRef}
                 dispatch={dispatch}
-                state={state}
                 draggingTemplate={draggingTemplate}
                 enteredTemplateRef={enteredTemplateRef}
                 draggingProperty={draggingProperty}

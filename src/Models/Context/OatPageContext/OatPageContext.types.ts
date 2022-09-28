@@ -1,10 +1,4 @@
-import {
-    ADT3DScenePageModes,
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty
-} from '../../Constants';
-import queryString from 'query-string';
+import { DtdlInterface, DtdlInterfaceContent } from '../../Constants';
 import {
     IOATSelection,
     IOATError,
@@ -12,6 +6,7 @@ import {
     IOATConfirmDelete,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLProperty } from '../../Classes/DTDL';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -41,7 +36,7 @@ export interface IOatPageContextState {
     projectName?: string;
     selection?: IOATSelection;
     selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
-    templates?: DtdlProperty[];
+    templates?: DTDLProperty[];
     templatesActive?: boolean;
 }
 
@@ -124,7 +119,7 @@ export type OatPageContextAction =
               models: DtdlInterface[];
               modelsMetadata: IOATModelsMetadata[];
               modelPositions: IOATModelPosition[];
-              templates: DtdlProperty[];
+              templates: DTDLProperty[];
               namespace: string;
           };
       }
@@ -143,7 +138,7 @@ export type OatPageContextAction =
     | {
           type: OatPageContextActionType.SET_OAT_TEMPLATES;
           payload: {
-              templates: DtdlProperty[];
+              templates: DTDLProperty[];
           };
       }
     | {
