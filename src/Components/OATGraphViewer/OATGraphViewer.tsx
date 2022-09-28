@@ -44,12 +44,6 @@ import {
     getGraphForceLayoutStyles
 } from './OATGraphViewer.styles';
 import { ElementsContext } from './Internal/OATContext';
-import {
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS,
-    SET_OAT_ERROR
-} from '../../Models/Constants/ActionTypes';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -77,6 +71,7 @@ import {
     versionClassBase
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const nodeWidth = 300;
 const nodeHeight = 100;
@@ -294,54 +289,16 @@ const OATGraphViewer = () => {
         }
 
         return nextModelId;
-    }, [elements]);
-
-    useEffect(() => {
-        storeElements();
-    }, [elements]);
-
-    // Update graph nodes and edges when the models are updated
-    useEffect(() => {
-        const potentialElements = getGraphViewerElementsFromModels(
-            models,
-            modelPositions
-        );
-
-        if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
-            setElements(potentialElements);
-        }
-    }, [models]);
-
-    useEffect(() => {
-        if (importModels && importModels.length > 0) {
-            setLoading(true);
-        }
-        if (importModels.length > 0) {
-            const potentialElements = getGraphViewerElementsFromModels(
-                importModels,
-                modelPositions
-            );
-            applyLayoutToElements(deepCopy(potentialElements));
-        }
-    }, [importModels]);
+    }, [elements, idClassBase]);
 
     const providerVal = useMemo(
         () => ({
-            oatPageDispatch,
             currentHovered,
             showRelationships,
             showInheritances,
-            showComponents,
-            oatPageState
+            showComponents
         }),
-        [
-            oatPageDispatch,
-            currentHovered,
-            showRelationships,
-            showInheritances,
-            showComponents,
-            oatPageState
-        ]
+        [currentHovered, showRelationships, showInheritances, showComponents]
     );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
@@ -506,7 +463,7 @@ const OATGraphViewer = () => {
         execute(addition, undoAddition);
     };
 
-    const storeElements = () => {
+    const storeElements = useCallback(() => {
         // Save the session data into the local storage
         const nodePositions = elements.reduce((collection, element) => {
             if (!element.source) {
@@ -519,14 +476,14 @@ const OATGraphViewer = () => {
         }, []);
 
         oatPageDispatch({
-            type: SET_OAT_MODELS_POSITIONS,
-            payload: nodePositions
+            type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+            payload: { positions: nodePositions }
         });
-    };
+    }, [elements, oatPageDispatch]);
 
     const triggerInheritanceLimitError = () => {
         oatPageDispatch({
-            type: SET_OAT_ERROR,
+            type: OatPageContextActionType.SET_OAT_ERROR,
             payload: {
                 title: t('OATGraphViewer.errorReachedInheritanceLimit'),
                 message: t('OATGraphViewer.errorInheritance')
@@ -615,8 +572,8 @@ const OATGraphViewer = () => {
 
     useEffect(() => {
         oatPageDispatch({
-            type: SET_OAT_MODELS,
-            payload: translatedOutput
+            type: OatPageContextActionType.SET_OAT_MODELS,
+            payload: { models: translatedOutput }
         });
     }, [oatPageDispatch, translatedOutput]);
 
@@ -638,15 +595,15 @@ const OATGraphViewer = () => {
             ) {
                 const onClick = () => {
                     oatPageDispatch({
-                        type: SET_OAT_SELECTED_MODEL,
-                        payload: getSelectionFromNode(node)
+                        type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                        payload: { selection: getSelectionFromNode(node) }
                     });
                 };
 
                 const undoOnClick = () => {
                     oatPageDispatch({
-                        type: SET_OAT_SELECTED_MODEL,
-                        payload: selection
+                        type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                        payload: { selection }
                     });
                 };
 
@@ -680,15 +637,15 @@ const OATGraphViewer = () => {
     const onBackgroundClick = () => {
         const clearModel = () => {
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: null
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: null }
             });
         };
 
         const undoClearModel = () => {
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection }
             });
         };
 
@@ -696,6 +653,36 @@ const OATGraphViewer = () => {
             execute(clearModel, undoClearModel);
         }
     };
+
+    // side effects
+    useEffect(() => {
+        storeElements();
+    }, [elements, storeElements]);
+
+    // Update graph nodes and edges when the models are updated
+    useEffect(() => {
+        const potentialElements = getGraphViewerElementsFromModels(
+            models,
+            modelPositions
+        );
+
+        if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
+            setElements(potentialElements);
+        }
+    }, [models]);
+
+    useEffect(() => {
+        if (importModels && importModels.length > 0) {
+            setLoading(true);
+        }
+        if (importModels.length > 0) {
+            const potentialElements = getGraphViewerElementsFromModels(
+                importModels,
+                modelPositions
+            );
+            applyLayoutToElements(deepCopy(potentialElements));
+        }
+    }, [importModels]);
 
     return (
         <ReactFlowProvider>
