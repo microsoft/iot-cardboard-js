@@ -28,12 +28,12 @@ import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
 import OATGraphCustomEdge from './Internal/OATGraphCustomEdge';
 import {
-    OATUntargetedRelationshipName,
-    OATRelationshipHandleName,
-    OATExtendHandleName,
-    OATInterfaceType,
-    OATComponentHandleName,
-    OATNamespaceDefaultValue
+    OAT_UNTARGETED_RELATIONSHIP_NAME,
+    OAT_RELATIONSHIP_HANDLE_NAME,
+    OAT_EXTEND_HANDLE_NAME,
+    OAT_INTERFACE_TYPE,
+    OAT_COMPONENT_HANDLE_NAME,
+    OAT_NAMESPACE_DEFAULT_VALUE
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -97,7 +97,7 @@ const OATGraphViewer = () => {
     } = oatPageState;
 
     const idClassBase = `dtmi:${
-        namespace ? namespace : OATNamespaceDefaultValue
+        namespace ? namespace : OAT_NAMESPACE_DEFAULT_VALUE
     }:`;
 
     //  Converts the stored models to a graph nodes
@@ -117,7 +117,7 @@ const OATGraphViewer = () => {
                 // Get the relationships
                 input.contents.forEach((content) => {
                     switch (content['@type']) {
-                        case OATComponentHandleName: {
+                        case OAT_COMPONENT_HANDLE_NAME: {
                             const foundComponentTarget = models.find(
                                 (model) => model['@id'] === content.schema
                             );
@@ -132,7 +132,7 @@ const OATGraphViewer = () => {
                             }
                             break;
                         }
-                        case OATRelationshipHandleName:
+                        case OAT_RELATIONSHIP_HANDLE_NAME:
                             if (content.target) {
                                 const foundRelationshipTarget = models.find(
                                     (model) => model['@id'] === content.target
@@ -430,7 +430,7 @@ const OATGraphViewer = () => {
         const addition = () => {
             if (
                 !target &&
-                currentHandleIdRef.current !== OATUntargetedRelationshipName
+                currentHandleIdRef.current !== OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
                 const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
                 const position = rfInstance.project({
@@ -446,16 +446,18 @@ const OATGraphViewer = () => {
                 target = targetModel.id;
             }
 
-            if (currentHandleIdRef.current === OATRelationshipHandleName) {
+            if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {
                 const relationship = {
-                    '@type': OATRelationshipHandleName,
+                    '@type': OAT_RELATIONSHIP_HANDLE_NAME,
                     name: null,
                     target
                 };
                 addTargetedRelationship(source, relationship, elementsCopy);
-            } else if (currentHandleIdRef.current === OATComponentHandleName) {
+            } else if (
+                currentHandleIdRef.current === OAT_COMPONENT_HANDLE_NAME
+            ) {
                 const component = {
-                    '@type': OATComponentHandleName,
+                    '@type': OAT_COMPONENT_HANDLE_NAME,
                     name: null,
                     schema: target
                 };
@@ -468,9 +470,10 @@ const OATGraphViewer = () => {
                         elementsCopy
                     );
                 }
-            } else if (currentHandleIdRef.current === OATExtendHandleName) {
+            } else if (currentHandleIdRef.current === OAT_EXTEND_HANDLE_NAME) {
                 const existing = elementsCopy.filter(
-                    (e) => e.type === OATExtendHandleName && e.source === source
+                    (e) =>
+                        e.type === OAT_EXTEND_HANDLE_NAME && e.source === source
                 );
                 if (existing.length > maxInheritanceQuantity) {
                     triggerInheritanceLimitError();
@@ -478,10 +481,10 @@ const OATGraphViewer = () => {
                     addExtendsRelationship(source, target, elementsCopy);
                 }
             } else if (
-                currentHandleIdRef.current === OATUntargetedRelationshipName
+                currentHandleIdRef.current === OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
                 const relationship = {
-                    '@type': OATRelationshipHandleName,
+                    '@type': OAT_RELATIONSHIP_HANDLE_NAME,
                     name: null,
                     target
                 };
@@ -534,10 +537,10 @@ const OATGraphViewer = () => {
     const translatedOutput = useMemo(() => {
         // Creates the json object in the DTDL standard based on the content of the nodes
         const nodes = elements.reduce((currentNodes, currentNode) => {
-            if (currentNode.data['@type'] === OATInterfaceType) {
+            if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
                 currentNodes.push(currentNode.data);
             } else if (
-                currentNode.data['@type'] === OATRelationshipHandleName
+                currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
             ) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -553,7 +556,7 @@ const OATGraphViewer = () => {
                         currentNode.data
                     ];
                 }
-            } else if (currentNode.data['@type'] === OATExtendHandleName) {
+            } else if (currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
@@ -563,7 +566,9 @@ const OATGraphViewer = () => {
                         sourceNode.extends.push(currentNode.target);
                     }
                 }
-            } else if (currentNode.data['@type'] === OATComponentHandleName) {
+            } else if (
+                currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
+            ) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
                 );
@@ -583,7 +588,7 @@ const OATGraphViewer = () => {
                     ];
                 }
             } else if (
-                currentNode.data['@type'] === OATUntargetedRelationshipName
+                currentNode.data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
                 const sourceNode = currentNodes.find(
                     (element) => element['@id'] === currentNode.source
@@ -598,7 +603,7 @@ const OATGraphViewer = () => {
                         ...sourceNode.contents,
                         {
                             ...currentNode.data,
-                            '@type': OATRelationshipHandleName
+                            '@type': OAT_RELATIONSHIP_HANDLE_NAME
                         }
                     ];
                 }
@@ -624,10 +629,10 @@ const OATGraphViewer = () => {
             if (
                 translatedOutput &&
                 (!selection ||
-                    (node.type === OATInterfaceType &&
+                    (node.type === OAT_INTERFACE_TYPE &&
                         (node.data['@id'] !== selection.modelId ||
                             selection.contentId)) ||
-                    (node.type !== OATInterfaceType &&
+                    (node.type !== OAT_INTERFACE_TYPE &&
                         ((node as Edge<any>).source !== selection.modelId ||
                             node.data.name !== selection.contentId))) // Prevent re-execute the same node
             ) {

@@ -6,12 +6,6 @@ import {
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
-} from '../../Models/Constants/ActionTypes';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deleteOatModel, updateModelId } from '../../Models/Services/OatUtils';
@@ -23,6 +17,7 @@ import {
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const OATModelList = () => {
     // contexts
@@ -83,15 +78,15 @@ const OATModelList = () => {
     const onSelectedClick = (id: string) => {
         const select = () => {
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: id }
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: { modelId: id } }
             });
         };
 
         const unSelect = () => {
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: selection }
             });
         };
 
@@ -122,29 +117,29 @@ const OATModelList = () => {
                 // Remove the model from the list
                 const newModels = deleteOatModel(item['@id'], item, models);
                 oatPageDispatch({
-                    type: SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_OAT_MODELS,
                     payload: newModels
                 });
                 // Dispatch selected model to null
                 oatPageDispatch({
-                    type: SET_OAT_SELECTED_MODEL,
+                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
                     payload: null
                 });
             };
             oatPageDispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models }
             });
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection }
             });
         };
 
@@ -155,24 +150,22 @@ const OATModelList = () => {
 
     const onCommitId = (value) => {
         const commit = () => {
-            const [modelsCopy, modelPositionsCopy] = updateModelId(
-                selection.modelId,
-                value,
-                models,
-                modelPositions
-            );
+            const {
+                models: modelsCopy,
+                positions: modelPositionsCopy
+            } = updateModelId(selection.modelId, value, models, modelPositions);
 
             oatPageDispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositionsCopy
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: modelPositionsCopy }
             });
             oatPageDispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy as DtdlInterface[] }
             });
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: value }
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: { modelId: value } }
             });
 
             setIdText(value);
@@ -182,16 +175,16 @@ const OATModelList = () => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                payload: { positions: modelPositions }
             });
             oatPageDispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: models }
             });
             oatPageDispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection }
             });
         };
 
@@ -209,8 +202,8 @@ const OATModelList = () => {
             if (modelCopy) {
                 modelCopy.displayName = value;
                 oatPageDispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             }
 
@@ -221,8 +214,8 @@ const OATModelList = () => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: models }
             });
         };
 

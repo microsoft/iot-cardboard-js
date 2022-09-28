@@ -15,7 +15,7 @@ import {
 import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
-import { OATRelationshipHandleName } from '../../Models/Constants';
+import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../Models/Constants';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { getTargetFromSelection, replaceTargetFromSelection } from './Utils';
 
@@ -82,7 +82,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     };
 
     const checkDuplicateId = (modelValue: DTDLModel) => {
-        if (modelValue['@type'] === OATRelationshipHandleName) {
+        if (modelValue['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
             const repeatedIdOnRelationship = models.find(
                 (queryModel) =>
                     queryModel.contents &&

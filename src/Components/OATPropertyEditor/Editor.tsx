@@ -11,8 +11,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
-    getPropertyListPivotColumnContent,
-    getPropertyListStackItem
+    getPropertyListPivotColumnContentStyles,
+    getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
 import PropertyList from './PropertyList';
 import JSONEditor from './JSONEditor';
@@ -34,26 +34,37 @@ import { FormBody } from './Constants';
 import FormRootModelDetails from './FormRootModelDetails';
 import { EditorProps } from './Editor.types';
 import {
-    OATInterfaceType,
-    OATRelationshipHandleName
+    OAT_INTERFACE_TYPE,
+    OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 
 const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
+    const { oatPageState } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const propertyListPivotColumnContent = getPropertyListPivotColumnContent();
-    const propertyListStackItem = getPropertyListStackItem();
+    const propertyListPivotColumnContent = getPropertyListPivotColumnContentStyles();
+    const propertyListStackItem = getPropertyListStackItemStyles();
+
+    // state
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { models, selection, templatesActive, modalOpen, modalBody } = state;
+    const { modalOpen, modalBody } = state;
 
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : OATInterfaceType
+        model ? model['@type'] : OAT_INTERFACE_TYPE
     );
 
     const propertyList = useMemo(() => {
@@ -74,15 +85,15 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
 
     const isSupportedModelType = useMemo(() => {
         return (
-            (model && model['@type'] === OATInterfaceType) ||
-            (model && model['@type'] === OATRelationshipHandleName)
+            (model && model['@type'] === OAT_INTERFACE_TYPE) ||
+            (model && model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
         );
     }, [model]);
 
     const onToggleTemplatesActive = () => {
         dispatch({
             type: SET_OAT_TEMPLATES_ACTIVE,
-            payload: !templatesActive
+            payload: !oatPageState.templatesActive
         });
     };
 
@@ -137,7 +148,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                 <Pivot className={propertyInspectorStyles.pivot}>
                     <PivotItem
                         headerButtonProps={{
-                            disabled: state.modified
+                            disabled: oatPageState.modified
                         }}
                         headerText={t('OATPropertyEditor.properties')}
                         className={propertyInspectorStyles.pivotItem}
@@ -215,7 +226,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                         )}
                     </PivotItem>
                 </Pivot>
-                {templatesActive && (
+                {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}
                         enteredTemplateRef={enteredTemplateRef}

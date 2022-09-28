@@ -23,7 +23,7 @@ import {
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getModelPropertyListItemName, getTargetFromSelection } from './Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
-import { OATInterfaceType } from '../../Models/Constants/Constants';
+import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { updateModelId } from '../../Models/Services/OatUtils';
 
 export const PropertiesModelSummary = ({
@@ -65,12 +65,10 @@ export const PropertiesModelSummary = ({
 
     const onIdCommit = (value) => {
         const commit = () => {
-            const [modelsCopy, modelPositionsCopy] = updateModelId(
-                id,
-                value,
-                models,
-                modelPositions
-            );
+            const {
+                models: modelsCopy,
+                positions: modelPositionsCopy
+            } = updateModelId(id, value, models, modelPositions);
 
             dispatch({
                 type: SET_OAT_MODELS_POSITIONS,
@@ -183,7 +181,7 @@ export const PropertiesModelSummary = ({
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && model['@type'] === OATInterfaceType && (
+                {model && model['@type'] === OAT_INTERFACE_TYPE && (
                     <IconButton
                         styles={iconWrapStyles}
                         iconProps={{ iconName: 'info' }}

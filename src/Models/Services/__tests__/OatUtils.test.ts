@@ -5,7 +5,7 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../../Classes/DTDL';
-import { OATDataStorageKey } from '../../Constants';
+import { OAT_DATA_STORAGE_KEY } from '../../Constants';
 import {
     getStoredEditorData,
     getStoredEditorModelMetadata,
@@ -82,7 +82,7 @@ describe('OatUtils', () => {
             // ASSERT
             expect(mockLocalStorage.setItem).toBeCalledTimes(1);
             expect(mockLocalStorage.setItem).toBeCalledWith(
-                OATDataStorageKey,
+                OAT_DATA_STORAGE_KEY,
                 JSON.stringify(data)
             );
         });
@@ -96,7 +96,7 @@ describe('OatUtils', () => {
             // ASSERT
             expect(mockLocalStorage.setItem).toBeCalledTimes(1);
             expect(mockLocalStorage.setItem).toBeCalledWith(
-                OATDataStorageKey,
+                OAT_DATA_STORAGE_KEY,
                 undefined
             );
         });

@@ -4,26 +4,26 @@ import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../Classes/DTDL';
 import {
-    OATDataStorageKey,
+    OAT_DATA_STORAGE_KEY,
     DtdlInterface,
     DtdlRelationship,
     DtdlInterfaceContent,
-    OATFilesStorageKey,
-    OATUntargetedRelationshipName
+    OAT_FILES_STORAGE_KEY,
+    OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
 // Store OAT-data
 export const storeEditorData = (oatEditorData: ProjectData) => {
     localStorage.setItem(
-        OATDataStorageKey,
+        OAT_DATA_STORAGE_KEY,
         oatEditorData ? JSON.stringify(oatEditorData) : undefined
     );
 };
 
 // Get stored OAT-data
 export const getStoredEditorData = (): ProjectData => {
-    const data = localStorage.getItem(OATDataStorageKey);
+    const data = localStorage.getItem(OAT_DATA_STORAGE_KEY);
     return data ? JSON.parse(data) : {};
 };
 
@@ -104,7 +104,7 @@ export const updateModelId = (
         })
     );
 
-    return [modelsCopy, modelsPositionsCopy];
+    return { models: modelsCopy, positions: modelsPositionsCopy };
 };
 
 // Get fileName from DTMI
@@ -160,17 +160,17 @@ export const convertDtdlInterfaceToModel = (
 
 // Load files from local storage
 export const loadOatFiles = (): IOATFile[] =>
-    JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
+    JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
 
 // Save files from local storage
 export const saveOatFiles = (files: IOATFile[]) => {
-    localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
+    localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 
 // Delete model
 export const deleteOatModel = (id, data, models) => {
     const modelsCopy = deepCopy(models);
-    if (data['@type'] === OATUntargetedRelationshipName) {
+    if (data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) {
         const match = modelsCopy.find(
             (element) => element['@id'] === data['@id']
         );

@@ -9,7 +9,7 @@ import {
     Modal
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { OATNamespaceDefaultValue } from '../../../Models/Constants';
+import { OAT_NAMESPACE_DEFAULT_VALUE } from '../../../Models/Constants';
 import {
     SET_OAT_PROJECT,
     SET_OAT_PROJECT_NAME
@@ -137,7 +137,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             [],
             t('OATHeader.untitledProject'),
             [],
-            OATNamespaceDefaultValue,
+            OAT_NAMESPACE_DEFAULT_VALUE,
             []
         );
 

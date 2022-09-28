@@ -3,6 +3,13 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
+import {
+    getStoredEditorModelsData,
+    getStoredEditorTemplateData,
+    getStoredEditorModelPositionsData,
+    getStoredEditorNamespaceData,
+    getStoredEditorModelMetadata
+} from '../../Services/OatUtils';
 import { getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
@@ -33,6 +40,8 @@ export const OatPageContextReducer: (
                 draft.adtUrl = action.payload.url || '';
                 break;
             }
+            case 'MyAction': {
+            }
         }
     }
 );
@@ -53,7 +62,20 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IOatPageContextState = {
-        adtUrl: initialState.adtUrl || ''
+        adtUrl: initialState.adtUrl || '',
+        selection: null,
+        models: getStoredEditorModelsData(),
+        templatesActive: false,
+        importModels: [],
+        isJsonUploaderOpen: false,
+        templates: getStoredEditorTemplateData(),
+        modelPositions: getStoredEditorModelPositionsData(),
+        projectName: null,
+        modified: false,
+        error: null,
+        namespace: getStoredEditorNamespaceData(),
+        confirmDeleteOpen: { open: false },
+        modelsMetadata: getStoredEditorModelMetadata()
     };
 
     const [oatPageState, oatPageDispatch] = useReducer(

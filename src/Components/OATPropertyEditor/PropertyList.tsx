@@ -9,29 +9,38 @@ import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
 import AddPropertyBar from './AddPropertyBar';
 import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_MODELS,
-    SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
-    SET_OAT_TEMPLATES
-} from '../../Models/Constants/ActionTypes';
-import {
     getModelPropertyCollectionName,
     getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
 } from './Utils';
 import { PropertyListProps } from './PropertyList.types';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const PropertyList = ({
-    enteredPropertyRef,
-    enteredTemplateRef,
-    dispatch,
-    state,
-    propertyList,
-    isSupportedModelType
-}: PropertyListProps) => {
+export const PropertyList: React.FC<PropertyListProps> = (props) => {
+    const {
+        dispatch,
+        enteredPropertyRef,
+        enteredTemplateRef,
+        isSupportedModelType,
+        propertyList,
+        state
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const {
+        selection,
+        models,
+        templates,
+        currentPropertyIndex,
+        draggingTemplate,
+        draggingProperty
+    } = state;
+
+    // state
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
@@ -50,14 +59,11 @@ export const PropertyList = ({
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
     ] = useState(null);
-    const {
-        selection,
-        models,
-        templates,
-        currentPropertyIndex,
-        draggingTemplate,
-        draggingProperty
-    } = state;
+
+    // styles
+    const propertyInspectorStyles = getPropertyInspectorStyles();
+
+    // data
     const model = useMemo(
         () => selection && getTargetFromSelection(models, selection),
         [models, selection]
@@ -73,8 +79,8 @@ export const PropertyList = ({
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
         dispatch({
-            type: SET_OAT_TEMPLATES,
-            payload: newTemplate
+            type: OatPageContextActionType.SET_OAT_TEMPLATES,
+            payload: { templates: newTemplate }
         });
     };
 
@@ -93,8 +99,8 @@ export const PropertyList = ({
             modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         dispatch({
-            type: SET_OAT_MODELS,
-            payload: modelsCopy
+            type: OatPageContextActionType.SET_OAT_MODELS,
+            payload: { models: modelsCopy }
         });
 
         dragNode.current.removeEventListener('dragend', onDragEnd);
@@ -102,7 +108,8 @@ export const PropertyList = ({
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
         dispatch({
-            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+            type:
+                OatPageContextActionType.SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
             payload: false
         });
         enteredTemplateRef.current = null;
@@ -163,15 +170,15 @@ export const PropertyList = ({
                 modelCopy[propertiesKeyName][index].name = value;
             }
             dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
             dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models }
             });
         };
 
@@ -203,20 +210,20 @@ export const PropertyList = ({
             modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             };
             dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
             dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models }
             });
         };
 
@@ -270,15 +277,15 @@ export const PropertyList = ({
             modelCopy[propertiesKeyName].splice(index, 1);
             modelCopy[propertiesKeyName].splice(index + direction, 0, item);
             dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoOnMove = () => {
             dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models }
             });
         };
 

@@ -31,7 +31,7 @@ import {
 } from './Utils';
 import {
     DTDLNameRegex,
-    OATNameLengthLimit
+    OAT_NAME_LENGTH_LIMIT
 } from '../../Models/Constants/Constants';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { ModalFormAddEnumItemProps } from './FormAddEnumItem.types';
@@ -168,7 +168,7 @@ export const FormAddEnumItem = ({
     };
 
     const onNameChange = (value: string) => {
-        if (value.length <= OATNameLengthLimit) {
+        if (value.length <= OAT_NAME_LENGTH_LIMIT) {
             setNameLengthError(null);
             // Name may only contain the characters a-z, A-Z, 0-9, and underscore.
             if (DTDLNameRegex.test(value)) {
