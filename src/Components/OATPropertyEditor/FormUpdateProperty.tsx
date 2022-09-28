@@ -42,43 +42,48 @@ import {
 } from './Utils';
 import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
 import { DTDLNameRegex } from '../../Models/Constants/Constants';
-const multiLanguageOptionValue = 'multiLanguage';
-const singleLanguageOptionValue = 'singleLanguage';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const FormUpdateProperty = ({
-    dispatch,
-    state,
-    languages,
-    onClose
-}: FormUpdatePropertyProps) => {
+const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
+const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';
+const valueSchemaOptions: IDropdownOption[] = [
+    { key: 'integer', text: 'integer' },
+    { key: 'string', text: 'string' }
+];
+
+export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
+    props
+) => {
+    const { dispatch, languages, onClose, state } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { currentPropertyIndex, currentNestedPropertyIndex } = state;
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const columnLeftTextStyles = getModalLabelStyles();
 
-    const {
-        models,
-        selection,
-        currentPropertyIndex,
-        currentNestedPropertyIndex
-    } = state;
-
+    // initial state
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
-
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
     );
-
     const nestedPropertyCollectionName = getNestedPropertyCollectionName(
         model[propertiesKeyName][currentPropertyIndex].schema['@type']
     );
-
     const activeProperty = model[propertiesKeyName][currentPropertyIndex];
-
     const activeNestedProperty =
         model[propertiesKeyName][currentPropertyIndex].schema[
             nestedPropertyCollectionName
@@ -87,6 +92,8 @@ export const FormUpdateProperty = ({
             nestedPropertyCollectionName
         ][currentNestedPropertyIndex];
     const targetProperty = activeNestedProperty || activeProperty;
+
+    // state
     const [comment, setComment] = useState('');
     const [name, setName] = useState(targetProperty.name);
     const [enumValue, setEnumValue] = useState(targetProperty.enumValue);
@@ -135,11 +142,6 @@ export const FormUpdateProperty = ({
             : 'integer'
     );
 
-    const valueSchemaOptions: IDropdownOption[] = [
-        { key: 'integer', text: 'integer' },
-        { key: 'string', text: 'string' }
-    ];
-
     useEffect(() => {
         setComment(targetProperty.comment);
         setDescription(targetProperty.description);
@@ -152,14 +154,14 @@ export const FormUpdateProperty = ({
         setLanguageSelection(
             !targetProperty.displayName ||
                 typeof targetProperty.displayName === 'string'
-                ? singleLanguageOptionValue
-                : multiLanguageOptionValue
+                ? SINGLE_LANGUAGE_OPTION_VALUE
+                : MULTI_LANGUAGE_OPTION_VALUE
         );
         setLanguageSelectionDescription(
             !targetProperty.description ||
                 typeof targetProperty.description === 'string'
-                ? singleLanguageOptionValue
-                : multiLanguageOptionValue
+                ? SINGLE_LANGUAGE_OPTION_VALUE
+                : MULTI_LANGUAGE_OPTION_VALUE
         );
         setMultiLanguageSelectionsDisplayName(
             targetProperty.displayName &&
@@ -177,24 +179,24 @@ export const FormUpdateProperty = ({
 
     const options: IChoiceGroupOption[] = [
         {
-            key: singleLanguageOptionValue,
+            key: SINGLE_LANGUAGE_OPTION_VALUE,
             text: t('OATPropertyEditor.singleLanguage'),
             disabled: multiLanguageSelectionsDisplayNames.length > 0
         },
         {
-            key: multiLanguageOptionValue,
+            key: MULTI_LANGUAGE_OPTION_VALUE,
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
 
     const optionsDescription: IChoiceGroupOption[] = [
         {
-            key: singleLanguageOptionValue,
+            key: SINGLE_LANGUAGE_OPTION_VALUE,
             text: t('OATPropertyEditor.singleLanguage'),
             disabled: multiLanguageSelectionsDescriptions.length > 0
         },
         {
-            key: multiLanguageOptionValue,
+            key: MULTI_LANGUAGE_OPTION_VALUE,
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
@@ -218,13 +220,14 @@ export const FormUpdateProperty = ({
             const prop = {
                 comment: comment ? comment : activeNestedProperty.comment,
                 description:
-                    languageSelectionDescription === singleLanguageOptionValue
+                    languageSelectionDescription ===
+                    SINGLE_LANGUAGE_OPTION_VALUE
                         ? description
                             ? description
                             : activeNestedProperty.description
                         : multiLanguageSelectionsDescription,
                 displayName:
-                    languageSelection === singleLanguageOptionValue
+                    languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
                         ? displayName
                             ? displayName
                             : activeNestedProperty.name
@@ -245,22 +248,25 @@ export const FormUpdateProperty = ({
                 prop.enumValue = enumValue;
             }
 
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             modelCopy[propertiesKeyName][currentPropertyIndex].schema[
                 nestedPropertyCollectionName
             ][currentNestedPropertyIndex] = prop;
 
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -293,7 +299,8 @@ export const FormUpdateProperty = ({
             const prop = {
                 comment: comment ? comment : activeProperty.comment,
                 description:
-                    languageSelectionDescription === singleLanguageOptionValue
+                    languageSelectionDescription ===
+                    SINGLE_LANGUAGE_OPTION_VALUE
                         ? description
                             ? description
                             : activeProperty.description
@@ -301,7 +308,7 @@ export const FormUpdateProperty = ({
                         ? multiLanguageSelectionsDescription
                         : activeProperty.description,
                 displayName:
-                    languageSelection === singleLanguageOptionValue
+                    languageSelection === SINGLE_LANGUAGE_OPTION_VALUE
                         ? displayName
                             ? displayName
                             : activeProperty.name
@@ -323,19 +330,22 @@ export const FormUpdateProperty = ({
                 prop.schema.valueSchema = valueSchema;
             }
 
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -436,7 +446,7 @@ export const FormUpdateProperty = ({
                 </div>
             )}
 
-            {languageSelection === singleLanguageOptionValue &&
+            {languageSelection === SINGLE_LANGUAGE_OPTION_VALUE &&
                 targetProperty.displayName && (
                     <div className={propertyInspectorStyles.modalRow}>
                         <div></div>
@@ -463,7 +473,7 @@ export const FormUpdateProperty = ({
                     </div>
                 )}
 
-            {languageSelection === multiLanguageOptionValue &&
+            {languageSelection === MULTI_LANGUAGE_OPTION_VALUE &&
                 multiLanguageSelectionsDisplayNames.length > 0 &&
                 multiLanguageSelectionsDisplayNames.map((language, index) => (
                     <div
@@ -529,7 +539,7 @@ export const FormUpdateProperty = ({
                     </div>
                 ))}
 
-            {languageSelection === multiLanguageOptionValue && (
+            {languageSelection === MULTI_LANGUAGE_OPTION_VALUE && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={
@@ -619,7 +629,7 @@ export const FormUpdateProperty = ({
                 />
             </div>
 
-            {languageSelectionDescription === singleLanguageOptionValue && (
+            {languageSelectionDescription === SINGLE_LANGUAGE_OPTION_VALUE && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
@@ -643,7 +653,7 @@ export const FormUpdateProperty = ({
                 </div>
             )}
 
-            {languageSelectionDescription === multiLanguageOptionValue &&
+            {languageSelectionDescription === MULTI_LANGUAGE_OPTION_VALUE &&
                 multiLanguageSelectionsDescriptions.length > 0 &&
                 multiLanguageSelectionsDescriptions.map((language, index) => (
                     <div
@@ -709,7 +719,7 @@ export const FormUpdateProperty = ({
                     </div>
                 ))}
 
-            {languageSelectionDescription === multiLanguageOptionValue && (
+            {languageSelectionDescription === MULTI_LANGUAGE_OPTION_VALUE && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         disabled={

@@ -39,7 +39,9 @@ import {
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 
-const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
+const Editor: React.FC<EditorProps> = (props) => {
+    const { dispatch, languages, state, theme } = props;
+
     // hooks
     const { t } = useTranslation();
 
@@ -56,6 +58,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
     const enteredPropertyRef = useRef(null);
     const { modalOpen, modalBody } = state;
 
+    // data
     const model = useMemo(
         () =>
             oatPageState.selection &&
@@ -90,6 +93,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
         );
     }, [model]);
 
+    // callbacks
     const onToggleTemplatesActive = () => {
         dispatch({
             type: SET_OAT_TEMPLATES_ACTIVE,
