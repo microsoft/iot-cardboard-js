@@ -1,15 +1,14 @@
-import { IAction, DTDLProperty } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IAction } from '../../Models/Constants/Interfaces';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
 
 export type PropertyListItemNestedProps = {
     collectionLength?: number;
     deleteNestedItem?: (parentIndex: number, index: number) => any;
     dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
-    getItemClassName?: (index: number) => any;
     getErrorMessage?: (value: string) => string;
+    getItemClassName?: (index: number) => any;
     index?: number;
     item?: DTDLProperty;
     onMove?: (index: number, moveUp: boolean) => void;
     parentIndex?: number;
-    state?: IOATEditorState;
 };

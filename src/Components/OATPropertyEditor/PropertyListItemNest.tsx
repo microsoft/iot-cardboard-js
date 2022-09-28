@@ -15,13 +15,10 @@ import { deepCopy } from '../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_MODELS,
     SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_TEMPLATES
+    SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 
 import {
@@ -32,39 +29,54 @@ import {
 } from './Utils';
 import { FormBody } from './Constants';
 import { PropertyListItemNestProps } from './PropertyListItemNest.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-export const PropertyListItemNest = ({
-    index,
-    deleteItem,
-    dispatch,
-    draggingProperty,
-    getItemClassName,
-    getNestedItemClassName,
-    getErrorMessage,
-    onDragEnter,
-    onDragEnterExternalItem,
-    onDragStart,
-    onPropertyDisplayNameChange,
-    item,
-    lastPropertyFocused,
-    setLastPropertyFocused,
-    state,
-    setPropertySelectorVisible,
-    definePropertySelectorPosition,
-    propertySelectorTriggerElementsBoundingBox,
-    onMove,
-    propertiesLength
-}: PropertyListItemNestProps) => {
+export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
+    props
+) => {
+    const {
+        definePropertySelectorPosition,
+        deleteItem,
+        dispatch,
+        draggingProperty,
+        getErrorMessage,
+        getItemClassName,
+        getNestedItemClassName,
+        index,
+        item,
+        lastPropertyFocused,
+        onDragEnter,
+        onDragEnterExternalItem,
+        onDragStart,
+        onMove: onMoveProp,
+        onPropertyDisplayNameChange,
+        propertiesLength,
+        propertySelectorTriggerElementsBoundingBox,
+        setLastPropertyFocused,
+        setPropertySelectorVisible
+    } = props;
+    let onMove = onMoveProp;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const iconWrapMoreStyles = getPropertyListItemIconWrapMoreStyles();
     const textFieldStyles = getPropertyEditorTextFieldStyles();
+
+    // state
     const [subMenuActive, setSubMenuActive] = useState(false);
     const [collapsed, setCollapsed] = useState(true);
     const [hover, setHover] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
-    const { models, selection, templates } = state;
+
+    // data
     const model = useMemo(
         () => selection && getTargetFromSelection(models, selection),
         [models, selection]
@@ -74,6 +86,15 @@ export const PropertyListItemNest = ({
         model ? model['@type'] : null
     );
 
+    const showObjectPropertySelector = useMemo(() => {
+        return (
+            item.schema['@type'] === DTDLSchemaType.Object &&
+            (item.schema.fields.length === 0 ||
+                (item.schema.fields.length > 0 && collapsed))
+        );
+    }, [collapsed, item.schema]);
+
+    // callbacks
     const addPropertyCallback = () => {
         dispatch({
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
@@ -104,16 +125,16 @@ export const PropertyListItemNest = ({
 
     const onTemplateAddition = () => {
         const addition = () => {
-            dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: [...templates, item]
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                payload: { templates: [...oatPageState.templates, item] }
             });
         };
 
         const undoAddition = () => {
-            dispatch({
-                type: SET_OAT_TEMPLATES,
-                payload: templates
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                payload: { templates: oatPageState.templates }
             });
         };
 
@@ -131,19 +152,22 @@ export const PropertyListItemNest = ({
                 'OATPropertyEditor.copy'
             )}`;
 
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             modelCopy[propertiesKeyName].push(itemCopy);
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoDuplicate = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -152,8 +176,11 @@ export const PropertyListItemNest = ({
 
     const deleteNestedItem = (parentIndex, index) => {
         const deletion = (parentIndex, index) => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             if (
                 modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
@@ -172,21 +199,21 @@ export const PropertyListItemNest = ({
             }
 
             const dispatchDelete = () => {
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             };
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -198,8 +225,11 @@ export const PropertyListItemNest = ({
         onMove = (nestedIndex, moveUp) => {
             const parentIndex = index;
             const direction = moveUp ? -1 : 1;
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             const collectionAttributeName =
                 modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
@@ -217,29 +247,21 @@ export const PropertyListItemNest = ({
                 collectionAttributeName
             ].splice(nestedIndex + direction, 0, temp);
 
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
         };
 
         const undoOnMove = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
         execute(() => onMove(nestedIndex, moveUp), undoOnMove);
     };
-
-    const showObjectPropertySelector = useMemo(() => {
-        return (
-            item.schema['@type'] === DTDLSchemaType.Object &&
-            (item.schema.fields.length === 0 ||
-                (item.schema.fields.length > 0 && collapsed))
-        );
-    }, [collapsed]);
 
     const onAddPropertyBarMouseOver = (e) => {
         setLastPropertyFocused({
@@ -418,7 +440,6 @@ export const PropertyListItemNest = ({
                             getItemClassName={getNestedItemClassName}
                             deleteNestedItem={deleteNestedItem}
                             dispatch={dispatch}
-                            state={state}
                             onMove={moveNestedItem}
                             collectionLength={item.schema.fields.length}
                         />
@@ -433,7 +454,6 @@ export const PropertyListItemNest = ({
                             key={i}
                             item={collectionItem}
                             dispatch={dispatch}
-                            state={state}
                             parentIndex={index}
                             index={i}
                             deleteNestedItem={deleteNestedItem}
@@ -446,7 +466,6 @@ export const PropertyListItemNest = ({
                     <PropertyListMapItemNested
                         item={item}
                         dispatch={dispatch}
-                        state={state}
                         index={index}
                     />
                 )}

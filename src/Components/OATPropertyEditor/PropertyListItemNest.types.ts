@@ -1,9 +1,6 @@
-import {
-    IAction,
-    IOATLastPropertyFocused,
-    DTDLProperty
-} from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { IAction } from '../../Models/Constants';
+import { IOATLastPropertyFocused } from '../../Models/Constants/Interfaces';
 
 type IPropertySelectorTriggerElementsBoundingBox = {
     top: number;
@@ -12,7 +9,7 @@ type IPropertySelectorTriggerElementsBoundingBox = {
 
 export type PropertyListItemNestProps = {
     deleteItem?: (index: number) => any;
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     draggingProperty?: boolean;
     getItemClassName?: (index: number) => any;
     getNestedItemClassName?: () => any;
@@ -27,7 +24,6 @@ export type PropertyListItemNestProps = {
     item?: DTDLProperty;
     lastPropertyFocused?: IOATLastPropertyFocused;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
-    state?: IOATEditorState;
     setPropertySelectorVisible?: React.Dispatch<React.SetStateAction<boolean>>;
     definePropertySelectorPosition?: (event: MouseEvent) => void;
     propertySelectorTriggerElementsBoundingBox: IPropertySelectorTriggerElementsBoundingBox;

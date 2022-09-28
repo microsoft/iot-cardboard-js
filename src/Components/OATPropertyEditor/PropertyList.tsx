@@ -15,6 +15,8 @@ import {
 } from './Utils';
 import { PropertyListProps } from './PropertyList.types';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY } from '../../Models/Constants/ActionTypes';
 
 export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const {
@@ -31,14 +33,8 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const {
-        selection,
-        models,
-        templates,
-        currentPropertyIndex,
-        draggingTemplate,
-        draggingProperty
-    } = state;
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { currentPropertyIndex, draggingTemplate, draggingProperty } = state;
 
     // state
     const draggedPropertyItemRef = useRef(null);
@@ -65,8 +61,10 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -74,11 +72,13 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     );
 
     const onPropertyItemDropOnTemplateList = () => {
-        const newTemplate = templates ? deepCopy(templates) : [];
+        const newTemplate = oatPageState.templates
+            ? deepCopy(oatPageState.templates)
+            : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
-        dispatch({
+        oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_TEMPLATES,
             payload: { templates: newTemplate }
         });
@@ -89,8 +89,11 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             onPropertyItemDropOnTemplateList();
         }
 
-        const modelsCopy = deepCopy(models);
-        const modelCopy = getTargetFromSelection(modelsCopy, selection);
+        const modelsCopy = deepCopy(oatPageState.models);
+        const modelCopy = getTargetFromSelection(
+            modelsCopy,
+            oatPageState.selection
+        );
         //  Replace entered item with dragged item
         // --> Remove dragged item from model and then place it on entered item's position
         modelCopy[propertiesKeyName].splice(
@@ -98,7 +101,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             0,
             modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
-        dispatch({
+        oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_MODELS,
             payload: { models: modelsCopy }
         });
@@ -108,8 +111,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
         dispatch({
-            type:
-                OatPageContextActionType.SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
+            type: SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY,
             payload: false
         });
         enteredTemplateRef.current = null;
@@ -162,23 +164,26 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             if (index === undefined) {
                 modelCopy[propertiesKeyName][currentPropertyIndex].name = value;
             } else {
                 modelCopy[propertiesKeyName][index].name = value;
             }
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models }
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -205,25 +210,28 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         setLastPropertyFocused(null);
 
         const deletion = (index) => {
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
-                dispatch({
+                oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_MODELS,
                     payload: { models: modelsCopy }
                 });
             };
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models }
+                payload: { models: oatPageState.models }
             });
         };
 
@@ -271,21 +279,24 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
         const onMove = (index, moveUp) => {
             const direction = moveUp ? -1 : 1;
-            const modelsCopy = deepCopy(models);
-            const modelCopy = getTargetFromSelection(modelsCopy, selection);
+            const modelsCopy = deepCopy(oatPageState.models);
+            const modelCopy = getTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection
+            );
             const item = modelCopy[propertiesKeyName][index];
             modelCopy[propertiesKeyName].splice(index, 1);
             modelCopy[propertiesKeyName].splice(index + direction, 0, item);
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoOnMove = () => {
-            dispatch({
+            oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models }
+                payload: { models: oatPageState.models }
             });
         };
 
