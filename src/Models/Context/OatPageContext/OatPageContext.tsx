@@ -55,10 +55,12 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_OAT_MODELS: {
                 draft.models = action.payload.models || [];
-                draft.selectedModelTarget = getTargetFromSelection(
-                    draft.models,
-                    draft.selection
-                );
+                if (draft.models && draft.selection) {
+                    draft.selectedModelTarget = getTargetFromSelection(
+                        draft.models,
+                        draft.selection
+                    );
+                }
                 break;
             }
             case OatPageContextActionType.SET_OAT_MODELS_METADATA: {
@@ -92,10 +94,12 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
                 draft.selection = action.payload.selection;
-                draft.selectedModelTarget = getTargetFromSelection(
-                    draft.models,
-                    draft.selection
-                );
+                if (draft.models && draft.selection) {
+                    draft.selectedModelTarget = getTargetFromSelection(
+                        draft.models,
+                        draft.selection
+                    );
+                }
                 break;
             }
             case OatPageContextActionType.SET_OAT_TEMPLATES: {
