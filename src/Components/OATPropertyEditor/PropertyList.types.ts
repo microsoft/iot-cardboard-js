@@ -1,4 +1,5 @@
-import { DtdlInterfaceContent, IAction } from '../../Models/Constants';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { IAction } from '../../Models/Constants';
 import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 
 export type PropertyListProps = {
@@ -6,7 +7,6 @@ export type PropertyListProps = {
     enteredPropertyRef: any;
     enteredTemplateRef: any;
     isSupportedModelType: boolean;
-    propertyList: DtdlInterfaceContent[];
-    setModalBody: React.Dispatch<React.SetStateAction<string>>;
+    propertyList: DTDLProperty[];
     state: IOATPropertyEditorState;
 };

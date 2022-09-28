@@ -217,13 +217,7 @@ const Editor: React.FC<EditorProps> = (props) => {
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
                     >
-                        {isSupportedModelType && (
-                            <JSONEditor
-                                theme={theme}
-                                dispatch={dispatch}
-                                state={state}
-                            />
-                        )}
+                        {isSupportedModelType && <JSONEditor theme={theme} />}
                     </PivotItem>
                 </Pivot>
                 {oatPageState.templatesActive && (

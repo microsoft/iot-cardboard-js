@@ -357,7 +357,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                                 lastPropertyFocused={lastPropertyFocused}
                                 setLastPropertyFocused={setLastPropertyFocused}
                                 dispatch={dispatch}
-                                state={state}
                                 deleteItem={deleteItem}
                                 setPropertySelectorVisible={
                                     setPropertySelectorVisible
@@ -394,7 +393,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                                 setLastPropertyFocused={setLastPropertyFocused}
                                 deleteItem={deleteItem}
                                 dispatch={dispatch}
-                                state={state}
                                 onMove={moveItemOnPropertyList}
                                 propertiesLength={
                                     model[propertiesKeyName].length
@@ -421,7 +419,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                 setPropertySelectorVisible={setPropertySelectorVisible}
                 lastPropertyFocused={lastPropertyFocused}
                 dispatch={dispatch}
-                state={state}
                 propertySelectorPosition={propertySelectorPosition}
                 className={
                     propertySelectorVisible

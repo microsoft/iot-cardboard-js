@@ -2,11 +2,6 @@ import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Editor from '@monaco-editor/react';
 import { useLibTheme } from '../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
-import {
-    SET_OAT_MODIFIED,
-    SET_OAT_ERROR,
-    SET_OAT_MODELS
-} from '../../Models/Constants/ActionTypes';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
@@ -18,27 +13,57 @@ import { JSONEditorProps } from './JSONEditor.types';
 import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../Models/Constants';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { getTargetFromSelection, replaceTargetFromSelection } from './Utils';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
+function setEditorTheme(monaco: any) {
+    monaco.editor.defineTheme('kraken', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+            {
+                token: 'comment',
+                foreground: '#5d7988',
+                fontStyle: 'italic'
+            },
+            { token: 'constant', foreground: '#e06c75' }
+        ],
+        colors: {
+            'editor.background': '#16203b'
+        }
+    });
+}
+
+const JSONEditor: React.FC<JSONEditorProps> = (props) => {
+    const { theme } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const { execute } = useContext(CommandHistoryContext);
     const libTheme = useLibTheme();
     const themeToUse = libTheme || theme;
-    const editorRef = useRef(null);
-    const { selection, models } = state;
-    const [content, setContent] = useState(null);
-    const cancelButtonStyles = getCancelButtonStyles();
-    const saveButtonStyles = getSaveButtonStyles();
 
+    // contexts
+    const { execute } = useContext(CommandHistoryContext);
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
+    const editorRef = useRef(null);
+    const [content, setContent] = useState(null);
+
+    // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
+    // side effects
     useEffect(() => {
         setContent(JSON.stringify(model, null, 2));
     }, [model]);
 
+    // callbacks
     const onHandleEditorDidMount = (editor: any) => {
         editorRef.current = editor;
     };
@@ -54,36 +79,24 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
     const onHandleEditorChange = (value: string) => {
         if (value.replaceAll('\r\n', '\n') !== JSON.stringify(model, null, 2)) {
             setContent(value);
-            dispatch({ type: SET_OAT_MODIFIED, payload: true });
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODIFIED,
+                payload: { isModified: true }
+            });
         }
     };
 
-    function setEditorThemes(monaco: any) {
-        monaco.editor.defineTheme('kraken', {
-            base: 'vs-dark',
-            inherit: true,
-            rules: [
-                {
-                    token: 'comment',
-                    foreground: '#5d7988',
-                    fontStyle: 'italic'
-                },
-                { token: 'constant', foreground: '#e06c75' }
-            ],
-            colors: {
-                'editor.background': '#16203b'
-            }
-        });
-    }
-
     const onCancelClick = () => {
         setContent(JSON.stringify(model, null, 2));
-        dispatch({ type: SET_OAT_MODIFIED, payload: false });
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_MODIFIED,
+            payload: { isModified: false }
+        });
     };
 
     const checkDuplicateId = (modelValue: DTDLModel) => {
         if (modelValue['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
-            const repeatedIdOnRelationship = models.find(
+            const repeatedIdOnRelationship = oatPageState.models.find(
                 (queryModel) =>
                     queryModel.contents &&
                     queryModel.contents.find(
@@ -95,7 +108,7 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
             return !!repeatedIdOnRelationship;
         } else {
             // Check current value is not used by another model as @id within models
-            const repeatedIdModel = models.find(
+            const repeatedIdModel = oatPageState.models.find(
                 (queryModel) =>
                     queryModel['@id'] === modelValue['@id'] &&
                     queryModel['@id'] !== model['@id']
@@ -106,30 +119,37 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
 
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
-        const validJson = await parseModels([...models, content]);
+        const validJson = await parseModels([...oatPageState.models, content]);
 
         const save = () => {
-            const modelsCopy = deepCopy(models);
-            replaceTargetFromSelection(modelsCopy, selection, newModel);
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            const modelsCopy = deepCopy(oatPageState.models);
+            replaceTargetFromSelection(
+                modelsCopy,
+                oatPageState.selection,
+                newModel
+            );
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: modelsCopy }
             });
-            dispatch({ type: SET_OAT_MODIFIED, payload: false });
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODIFIED,
+                payload: { isModified: false }
+            });
         };
 
         const undoSave = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_MODELS,
+                payload: { models: oatPageState.models }
             });
         };
 
         if (!validJson) {
             if (checkDuplicateId(newModel)) {
                 // Dispatch error if duplicate id
-                dispatch({
-                    type: SET_OAT_ERROR,
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
                     payload: {
                         title: t('OATPropertyEditor.errorInvalidJSON'),
                         message: t('OATPropertyEditor.errorRepeatedId')
@@ -139,8 +159,8 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                 execute(save, undoSave);
             }
         } else {
-            dispatch({
-                type: SET_OAT_ERROR,
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_ERROR,
                 payload: {
                     title: t('OATPropertyEditor.errorInvalidJSON'),
                     message: validJson
@@ -148,6 +168,10 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
             });
         }
     };
+
+    // styles
+    const cancelButtonStyles = getCancelButtonStyles();
+    const saveButtonStyles = getSaveButtonStyles();
 
     return (
         <>
@@ -161,10 +185,10 @@ const JSONEditor = ({ dispatch, theme, state }: JSONEditorProps) => {
                         ? 'vs-dark'
                         : themeToUse
                 }
-                beforeMount={setEditorThemes}
+                beforeMount={setEditorTheme}
                 height={'95%'}
             />
-            {state.modified && (
+            {oatPageState.modified && (
                 <>
                     <PrimaryButton
                         styles={saveButtonStyles}
