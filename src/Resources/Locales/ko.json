@@ -545,7 +545,8 @@
       "position": "위치",
       "rotation": "회전"
     },
-    "searchTwinIdPlaceholder": "트윈 ID ($dtId) 검색"
+    "searchTwinIdPlaceholder": "트윈 ID ($dtId) 검색",
+    "visualRulesTab": "시각적 규칙"
   },
   "widgets": {
     "trend": {

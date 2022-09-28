@@ -545,7 +545,8 @@
       "position": "位置",
       "rotation": "旋转"
     },
-    "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）"
+    "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）",
+    "visualRulesTab": "视觉规则"
   },
   "widgets": {
     "trend": {

@@ -545,7 +545,8 @@
       "position": "Pozíció",
       "rotation": "Forgás"
     },
-    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)"
+    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)",
+    "visualRulesTab": "Vizuális szabályok"
   },
   "widgets": {
     "trend": {
