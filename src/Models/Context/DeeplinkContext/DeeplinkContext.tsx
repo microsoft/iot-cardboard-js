@@ -4,8 +4,12 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
-import { ADT3DScenePageModes } from '../../Constants';
-import { getDebugLogger } from '../../Services/Utils';
+import { ADT3DScenePageModes, AzureResourceTypes } from '../../Constants';
+import {
+    getDebugLogger,
+    getResourceId,
+    getResourceUrl
+} from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
     IDeeplinkContext,
@@ -21,7 +25,9 @@ import {
 } from '..';
 import {
     getSelectedAdtInstanceFromLocalStorage,
-    getSelectedStorageContainerFromLocalStorage
+    getSelectedStorageContainerFromLocalStorage,
+    setSelectedAdtInstanceInLocalStorage,
+    setSelectedStorageContainerInLocalStorage
 } from '../../Services/LocalStorageManager/LocalStorageManager';
 import TelemetryService from '../../Services/TelemetryService/TelemetryService';
 
@@ -44,12 +50,16 @@ export const DeeplinkContextReducer: (
             action.payload
         );
         switch (action.type) {
-            case DeeplinkContextActionType.SET_ADT_URL: {
-                draft.adtUrl = action.payload.url || '';
-                break;
-            }
-            case DeeplinkContextActionType.SET_ADT_RESOURCE_ID: {
-                draft.adtResourceId = action.payload.resourceId || '';
+            case DeeplinkContextActionType.SET_ADT_INSTANCE: {
+                draft.adtUrl =
+                    getResourceUrl(
+                        action.payload.adtInstance,
+                        AzureResourceTypes.DigitalTwinInstance
+                    ) || '';
+                draft.adtResourceId = getResourceId(action.payload.adtInstance);
+                setSelectedAdtInstanceInLocalStorage(
+                    action.payload.adtInstance
+                );
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
@@ -71,8 +81,17 @@ export const DeeplinkContextReducer: (
                 TelemetryService.setSceneId(draft.sceneId);
                 break;
             }
-            case DeeplinkContextActionType.SET_STORAGE_URL: {
-                draft.storageUrl = action.payload.url || '';
+            case DeeplinkContextActionType.SET_STORAGE_CONTAINER: {
+                draft.storageUrl =
+                    getResourceUrl(
+                        action.payload.storageContainer,
+                        AzureResourceTypes.StorageBlobContainer,
+                        action.payload.storageAccount
+                    ) || '';
+                setSelectedStorageContainerInLocalStorage(
+                    action.payload.storageContainer,
+                    action.payload.storageAccount
+                );
                 break;
             }
         }
@@ -127,6 +146,9 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             getSelectedStorageContainerFromLocalStorage()?.url ||
             ''
     };
+
+    // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
+    setSelectedAdtInstanceInLocalStorage(defaultState.adtUrl);
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
         DeeplinkContextReducer,

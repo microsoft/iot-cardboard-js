@@ -46,7 +46,8 @@ import {
     getContainerDisplayText,
     getStorageAccountId,
     getStorageAccountUrlFromContainerUrl,
-    getStorageAndContainerFromContainerUrl
+    getStorageAndContainerFromContainerUrl,
+    getUrlOfLocalStorageItem
 } from './EnvironmentPickerManager';
 import {
     defaultEnvironmentPickerState,
@@ -60,13 +61,10 @@ import {
     getResourceUrls
 } from '../../Models/Services/Utils';
 import {
-    getAdtInstancesFromLocalStorage,
-    getStorageAccountsFromLocalStorage,
-    getStorageContainersFromLocalStorage,
+    getAdtInstanceOptionsFromLocalStorage,
+    getStorageAccountOptionsFromLocalStorage,
+    getStorageContainerOptionsFromLocalStorage,
     setAdtInstancesInLocalStorage,
-    setSelectedAdtInstanceInLocalStorage,
-    setSelectedStorageAccountInLocalStorage,
-    setSelectedStorageContainerInLocalStorage,
     setStorageAccountsInLocalStorage,
     setStorageContainersInLocalStorage
 } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
@@ -87,6 +85,7 @@ const EnvironmentPicker = ({
     adapter,
     onDismiss,
     isLocalStorageEnabled,
+    localStorageKey,
     adtInstanceUrl,
     onAdtInstanceChange,
     storage
@@ -147,9 +146,13 @@ const EnvironmentPicker = ({
             adtInstanceUrls = [adtInstanceUrl];
         }
         if (isLocalStorageEnabled) {
-            const adtInstancesInLocalStorage = getAdtInstancesFromLocalStorage();
+            const adtInstancesInLocalStorage = getAdtInstanceOptionsFromLocalStorage(
+                localStorageKey
+            );
             const adtInstanceUrlsInLocalStorage: Array<string> =
-                adtInstancesInLocalStorage?.map((a) => a.url) || [];
+                adtInstancesInLocalStorage?.map((a) =>
+                    getUrlOfLocalStorageItem(a)
+                ) || [];
 
             if (
                 adtInstanceUrl &&
@@ -179,12 +182,16 @@ const EnvironmentPicker = ({
             containerUrls = [storage.containerUrl];
         }
         if (storage?.isLocalStorageEnabled) {
-            const containersInLocalStorage = getStorageContainersFromLocalStorage();
+            const containersInLocalStorage = getStorageContainerOptionsFromLocalStorage(
+                storage.localStorageKey
+            );
             const containerUrlsInLocalStorage: Array<string> =
-                containersInLocalStorage?.map((c) => c.url) || [];
+                containersInLocalStorage?.map((c) =>
+                    getUrlOfLocalStorageItem(c)
+                ) || [];
 
             const storageAccountsInLocalStorage =
-                getStorageAccountsFromLocalStorage() || [];
+                getStorageAccountOptionsFromLocalStorage() || [];
 
             if (
                 storage.containerUrl &&
@@ -289,7 +296,7 @@ const EnvironmentPicker = ({
         });
 
         return () => clearTimeout(dialogResettingValuesTimeoutRef.current);
-    }, [adtInstanceUrl, storage]);
+    }, []);
 
     const handleOnEditClick = useCallback(() => {
         toggleIsDialogHidden();
@@ -314,9 +321,6 @@ const EnvironmentPicker = ({
             setAdtInstancesInLocalStorage(
                 environmentPickerState.adtInstanceItems.adtInstances
             );
-            setSelectedAdtInstanceInLocalStorage(
-                environmentPickerState.adtInstanceItems.adtInstanceToEdit
-            );
         }
         if (storage?.isLocalStorageEnabled) {
             setStorageContainersInLocalStorage(
@@ -325,14 +329,6 @@ const EnvironmentPicker = ({
             );
             setStorageAccountsInLocalStorage(
                 environmentPickerState.storageAccountItems.storageAccounts
-            );
-
-            setSelectedStorageAccountInLocalStorage(
-                environmentPickerState.storageAccountItems.storageAccountToEdit
-            );
-            setSelectedStorageContainerInLocalStorage(
-                environmentPickerState.containerItems.containerToEdit,
-                environmentPickerState.storageAccountItems.storageAccountToEdit
             );
         }
 

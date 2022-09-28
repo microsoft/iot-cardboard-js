@@ -1,15 +1,38 @@
-import { AzureResourceTypes } from '../../Constants/Enums';
+import {
+    ADTInstanceOptionInLocalStorage,
+    ADTSelectedInstanceInLocalStorage,
+    StorageAccountsInLocalStorage
+} from '../../../Components/EnvironmentPicker/EnvironmentPicker.types';
+import { getStorageAccountUrlFromContainerUrl } from '../../../Components/EnvironmentPicker/EnvironmentPickerManager';
+import {
+    ContainersLocalStorageKey,
+    EnvironmentsLocalStorageKey,
+    SelectedContainerLocalStorageKey,
+    SelectedEnvironmentLocalStorageKey,
+    StorageAccountsLocalStorageKey
+} from '../../Constants/Constants';
+import {
+    AzureResourceDisplayFields,
+    AzureResourceTypes
+} from '../../Constants/Enums';
 import {
     IADTInstance,
     IAzureResource,
     IAzureStorageAccount,
     IAzureStorageBlobContainer
 } from '../../Constants/Interfaces';
-import { getNameOfResource, getResourceUrl } from '../Utils';
+import {
+    areResourceValuesEqual,
+    getContainerNameFromUrl,
+    getNameOfResource,
+    getResourceUrl
+} from '../Utils';
 import {
     EnvironmentConfigurationInLocalStorage,
-    EnvironmentConfigurationItem,
-    EnvironmentConfigurationLocalStorageKey
+    EnvironmentItemInLocalStorage,
+    EnvironmentConfigurationLocalStorageKey,
+    EnvironmentOptionsInLocalStorage,
+    EnvironmentOptionsLocalStorageKey
 } from './LocalStorageManager.types';
 
 /** This is used for converting a adt, storage account or storage container resource
@@ -18,11 +41,11 @@ import {
  * @param name name of the resource
  * @param url url of the resource
  */
-export const getEnvironmentConfigurationItemFromResource = (
+export const getEnvironmentItemFromResource = (
     resource: IAzureResource | string,
     resourceType: AzureResourceTypes,
     parentResource?: IAzureResource | string // to construct the url for a container we need its parent storage account's url
-): EnvironmentConfigurationItem | null => {
+): EnvironmentItemInLocalStorage | null => {
     if (!resource) return null;
     return {
         id: typeof resource === 'string' ? null : resource.id,
@@ -32,7 +55,7 @@ export const getEnvironmentConfigurationItemFromResource = (
 };
 
 /** This is used for getting the main environment configuration local storage item which stores
- * adt, storage account and storage container related information in it
+ * selected adt, storage account and storage container related information in it
  * @returns te environment configuration local storage item or null if not exists
  */
 export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfigurationInLocalStorage | null => {
@@ -51,15 +74,20 @@ export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfig
     }
 };
 
-/** To get the list of ADT instances from local storage to be used as options in EnvironmentPicker
- * @return list of ADT instances as environment configuration item from local storage
+/** This is used for getting the main environment options local storage item which stores
+ * adt, storage account and storage container options for EnvironmentPicker component
+ * @returns te environment options local storage item or null if not exists
  */
-export const getAdtInstancesFromLocalStorage = (): Array<EnvironmentConfigurationItem> | null => {
+export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLocalStorage | null => {
     try {
-        const environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
+        const environmentOptionsInLocalStorage = localStorage.getItem(
+            EnvironmentOptionsLocalStorageKey
         );
-        return environmentConfigurationInLocalStorage?.adt?.adtInstances;
+        return environmentOptionsInLocalStorage
+            ? (JSON.parse(
+                  environmentOptionsInLocalStorage
+              ) as EnvironmentOptionsInLocalStorage)
+            : null;
     } catch (error) {
         console.error(error.message);
         return null;
@@ -67,64 +95,201 @@ export const getAdtInstancesFromLocalStorage = (): Array<EnvironmentConfiguratio
 };
 
 /** To get the list of ADT instances from local storage to be used as options in EnvironmentPicker
- * @return list of ADT instances as environment configuration item from local storage
+ * @return list of ADT instances as environment item from local storage
  */
-export const getStorageAccountsFromLocalStorage = (): Array<EnvironmentConfigurationItem> => {
+export const getAdtInstanceOptionsFromLocalStorage = (
+    localStorageKey?: string
+): Array<EnvironmentItemInLocalStorage | string> | null => {
     try {
-        const environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
-        );
-        return environmentConfigurationInLocalStorage.storageAccount
-            .storageAccounts;
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        if (!environmentOptionsInLocalStorage) {
+            // START of migration of values using old local storage key
+            const previouslyUsedKey =
+                localStorageKey || EnvironmentsLocalStorageKey;
+
+            const oldOptionsInLocalStorage = localStorage.getItem(
+                previouslyUsedKey
+            );
+            if (oldOptionsInLocalStorage) {
+                const optionUrls = oldOptionsInLocalStorage
+                    ? (JSON.parse(
+                          oldOptionsInLocalStorage
+                      ) as Array<ADTInstanceOptionInLocalStorage>)
+                          .filter((e) => e.config?.appAdtUrl)
+                          .map((e) => e.config.appAdtUrl)
+                    : null;
+                setAdtInstancesInLocalStorage(optionUrls);
+                return optionUrls;
+            }
+            // END of migration
+        }
+        return environmentOptionsInLocalStorage?.adtInstances;
     } catch (error) {
         console.error(error.message);
         return null;
     }
 };
 
-/** To update the list of storage containers in local storage to be used as options in EnvironmentPicker
- * @param storageAccounts list of storage accounts to be updated in the local storage
+/** To get the list of Storage accounts from local storage to be used as options in EnvironmentPicker
+ * @return list of Storage accounts as environment item from local storage
  */
-export const getStorageContainersFromLocalStorage = (): Array<EnvironmentConfigurationItem> | null => {
+export const getStorageAccountOptionsFromLocalStorage = (
+    localStorageKey?: string
+): Array<EnvironmentItemInLocalStorage> | null => {
     try {
-        const environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
-        );
-        return environmentConfigurationInLocalStorage.container?.containers;
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        if (!environmentOptionsInLocalStorage) {
+            // START of migration of values using old local storage key
+            const previouslyUsedKey =
+                localStorageKey || StorageAccountsLocalStorageKey;
+
+            const oldOptionsInLocalStorage = localStorage.getItem(
+                previouslyUsedKey
+            );
+            if (oldOptionsInLocalStorage) {
+                const optionUrls = oldOptionsInLocalStorage
+                    ? (JSON.parse(
+                          oldOptionsInLocalStorage
+                      ) as Array<StorageAccountsInLocalStorage>).map(
+                          (e) => e.url
+                      ) // although we have id information here, type casting would be an issue since it is not a full Azure Resource object
+                    : null;
+
+                setStorageAccountsInLocalStorage(optionUrls);
+                return optionUrls.map((o) =>
+                    getEnvironmentItemFromResource(
+                        o,
+                        AzureResourceTypes.StorageAccount
+                    )
+                );
+            }
+            // END of migration
+        }
+        return environmentOptionsInLocalStorage?.storageAccounts;
     } catch (error) {
         console.error(error.message);
         return null;
     }
 };
 
-/** To get the selected ADT instance information from earlier session from local storage
- * @returns selected ADT instance as an environment configuration item from local storage, null if not exists
+/** To update the list of Storage containers in local storage to be used as options in EnvironmentPicker
+ * @return list of Storage containers as environment item from local storage
  */
-export const getSelectedAdtInstanceFromLocalStorage = (): EnvironmentConfigurationItem | null => {
+export const getStorageContainerOptionsFromLocalStorage = (
+    localStorageKey?: string
+): Array<EnvironmentItemInLocalStorage | string> | null => {
+    try {
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        if (!environmentOptionsInLocalStorage) {
+            // Try fetching values using old local storage key
+            const previouslyUsedKey =
+                localStorageKey || ContainersLocalStorageKey;
+
+            const oldOptionsInLocalStorage = localStorage.getItem(
+                previouslyUsedKey
+            );
+            const optionUrls = oldOptionsInLocalStorage
+                ? (JSON.parse(oldOptionsInLocalStorage) as Array<string>)
+                : null;
+            // dont update the local storage with new structure since there might be different container and storage account pairs in urls
+            return optionUrls;
+        } else {
+            return environmentOptionsInLocalStorage?.storageContainers;
+        }
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
+};
+
+/** To get the selected ADT instance information from local storage
+ * @returns selected ADT instance as an environment item from local storage, null if not exists
+ */
+export const getSelectedAdtInstanceFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
-        return environmentConfigurationInLocalStorage?.adt?.selectedAdtInstance;
+        if (!environmentConfigurationInLocalStorage) {
+            // START of migration of values using old local storage key
+            const previouslyUsedKey = SelectedEnvironmentLocalStorageKey;
+            const oldInstanceInLocalStorage = localStorage.getItem(
+                previouslyUsedKey
+            );
+            if (oldInstanceInLocalStorage) {
+                const oldInstanceUrl = oldInstanceInLocalStorage
+                    ? (JSON.parse(
+                          oldInstanceInLocalStorage
+                      ) as ADTSelectedInstanceInLocalStorage).appAdtUrl
+                    : null;
+
+                setSelectedAdtInstanceInLocalStorage(oldInstanceUrl);
+                localStorage.removeItem(previouslyUsedKey);
+
+                return getEnvironmentItemFromResource(
+                    oldInstanceUrl,
+                    AzureResourceTypes.DigitalTwinInstance
+                );
+            }
+            // END of migration
+        }
+        return environmentConfigurationInLocalStorage?.selectedAdtInstance;
     } catch (error) {
         console.error(error.message);
         return null;
     }
 };
 
-/** To get the selected storage account information from earlier session from local storage
- * @returns selected storage account as an environment configuration item from local storage, null if not exists
+/** To get the selected Storage account information from local storage
+ * @returns selected Storage account as an environment item from local storage, null if not exists
  */
-export const getSelectedStorageAccountFromLocalStorage = (): EnvironmentConfigurationItem | null => {
+export const getSelectedStorageAccountFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
     const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
-    return environmentConfigurationInLocalStorage?.storageAccount
-        ?.selectedStorageAccount;
+    return environmentConfigurationInLocalStorage?.selectedStorageAccount;
 };
 
-/** To get the selected storage container information from earlier session from local storage
- * @returns selected storage container as an environment configuration item from local storage, null if not exists
+/** To get the selected Storage container information from local storage
+ * @returns selected Storage container as an environment item from local storage, null if not exists
  */
-export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentConfigurationItem | null => {
-    const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
-    return environmentConfigurationInLocalStorage?.container?.selectedContainer;
+export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
+    try {
+        const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
+        if (!environmentConfigurationInLocalStorage) {
+            // START of migration of values using old local storage key
+            const previouslyUsedKey = SelectedContainerLocalStorageKey;
+            const oldContainerUrl = localStorage.getItem(previouslyUsedKey);
+            if (oldContainerUrl) {
+                const storageAccountUrl = getStorageAccountUrlFromContainerUrl(
+                    oldContainerUrl
+                );
+
+                setSelectedStorageContainerInLocalStorage(
+                    oldContainerUrl,
+                    storageAccountUrl
+                );
+                localStorage.removeItem(previouslyUsedKey);
+
+                return getEnvironmentItemFromResource(
+                    getContainerNameFromUrl(oldContainerUrl),
+                    AzureResourceTypes.StorageBlobContainer,
+                    storageAccountUrl
+                );
+            }
+        }
+        // END of migration
+        return environmentConfigurationInLocalStorage?.selectedStorageContainer;
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
+};
+
+/** Updates arbitrary key-value pair in the local storage
+ * @param key key of the item in localstorage
+ * @param value value of the item in localstorage
+ */
+export const setLocalStorageItem = (key: string, value: string): void => {
+    if (key) {
+        localStorage.setItem(key, value);
+    }
 };
 
 /** Updates the environment configuration local storage item in the local storage
@@ -133,9 +298,21 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentConfig
 const setEnvironmentConfigurationInLocalStorage = (
     configuration: EnvironmentConfigurationInLocalStorage
 ): void => {
-    localStorage.setItem(
+    setLocalStorageItem(
         EnvironmentConfigurationLocalStorageKey,
         JSON.stringify(configuration)
+    );
+};
+
+/** Updates the environment options local storage item in the local storage
+ * @param options options object to be set in the local storage
+ */
+const setEnvironmentOptionsInLocalStorage = (
+    options: EnvironmentOptionsInLocalStorage
+): void => {
+    localStorage.setItem(
+        EnvironmentOptionsLocalStorageKey,
+        JSON.stringify(options)
     );
 };
 
@@ -145,50 +322,70 @@ const setEnvironmentConfigurationInLocalStorage = (
 export const setSelectedAdtInstanceInLocalStorage = (
     selectedAdtInstance: string | IADTInstance
 ) => {
-    const environmentConfiguration =
+    const environmentConfiguration: EnvironmentConfigurationInLocalStorage =
         getEnvironmentConfigurationFromLocalStorage() || {};
     if (selectedAdtInstance) {
-        const selectedAdtInstanceEnvironmentConfigurationItem = getEnvironmentConfigurationItemFromResource(
+        const selectedAdtInstanceEnvironmentConfigurationItem = getEnvironmentItemFromResource(
             selectedAdtInstance,
             AzureResourceTypes.DigitalTwinInstance
         );
-        environmentConfiguration.adt = {
-            ...environmentConfiguration.adt,
-            selectedAdtInstance: selectedAdtInstanceEnvironmentConfigurationItem
-        };
-    } else if (environmentConfiguration?.adt?.selectedAdtInstance) {
-        delete environmentConfiguration.adt.selectedAdtInstance;
+        if (
+            typeof selectedAdtInstance === 'string' &&
+            areResourceValuesEqual(
+                environmentConfiguration.selectedAdtInstance?.url,
+                selectedAdtInstanceEnvironmentConfigurationItem.url,
+                AzureResourceDisplayFields.url
+            )
+        ) {
+            environmentConfiguration.selectedAdtInstance = {
+                id: environmentConfiguration.selectedAdtInstance.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
+                ...selectedAdtInstanceEnvironmentConfigurationItem
+            };
+        } else {
+            environmentConfiguration.selectedAdtInstance = selectedAdtInstanceEnvironmentConfigurationItem;
+        }
+    } else if (environmentConfiguration?.selectedAdtInstance) {
+        delete environmentConfiguration.selectedAdtInstance;
     }
     setEnvironmentConfigurationInLocalStorage(environmentConfiguration);
 };
 
-/** To update the selected storage account in local storage to be used as option in EnvironmentPicker
- * @param selectedAccount the storage account to be stored in the local storage
+/** To update the selected Storage account in local storage
+ * @param selectedStorageAccount the storage account to be stored in the local storage
  */
 export const setSelectedStorageAccountInLocalStorage = (
-    selectedAccount: string | IAzureStorageAccount
+    selectedStorageAccount: string | IAzureStorageAccount
 ) => {
     const environmentConfiguration =
         getEnvironmentConfigurationFromLocalStorage() || {};
-    if (selectedAccount) {
-        const selectedStorageAccountEnvironmentConfigurationItem = getEnvironmentConfigurationItemFromResource(
-            selectedAccount,
+    if (selectedStorageAccount) {
+        const selectedStorageAccountEnvironmentConfigurationItem = getEnvironmentItemFromResource(
+            selectedStorageAccount,
             AzureResourceTypes.StorageAccount
         );
-        environmentConfiguration.storageAccount = {
-            ...environmentConfiguration.storageAccount,
-            selectedStorageAccount: selectedStorageAccountEnvironmentConfigurationItem
-        };
-    } else if (
-        environmentConfiguration?.storageAccount?.selectedStorageAccount
-    ) {
-        delete environmentConfiguration.storageAccount.selectedStorageAccount;
+        if (
+            typeof selectedStorageAccount === 'string' &&
+            areResourceValuesEqual(
+                environmentConfiguration.selectedStorageAccount?.url,
+                selectedStorageAccountEnvironmentConfigurationItem.url,
+                AzureResourceDisplayFields.url
+            )
+        ) {
+            environmentConfiguration.selectedStorageAccount = {
+                id: environmentConfiguration.selectedStorageAccount.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
+                ...selectedStorageAccountEnvironmentConfigurationItem
+            };
+        } else {
+            environmentConfiguration.selectedStorageAccount = selectedStorageAccountEnvironmentConfigurationItem;
+        }
+    } else if (environmentConfiguration?.selectedStorageAccount) {
+        delete environmentConfiguration.selectedStorageAccount;
     }
     setEnvironmentConfigurationInLocalStorage(environmentConfiguration);
 };
 
-/** To update the selected storage container in local storage to be used for the app's initial state and EnvironmentPicker
- * @param selectedContainer the storage container to be stored in the local storage
+/** To update the selected Storage container in local storage
+ * @param selectedStorageContainer the storage container to be stored in the local storage
  * @param parentStorageAccount the storage account where the container is in, this is needed to get the url of the container since a container does not store url information as an Azure resource
  */
 export const setSelectedStorageContainerInLocalStorage = (
@@ -198,17 +395,28 @@ export const setSelectedStorageContainerInLocalStorage = (
     const environmentConfiguration =
         getEnvironmentConfigurationFromLocalStorage() || {};
     if (selectedContainer) {
-        const selectedContainerEnvironmentConfigurationItem = getEnvironmentConfigurationItemFromResource(
+        const selectedContainerEnvironmentConfigurationItem = getEnvironmentItemFromResource(
             selectedContainer,
             AzureResourceTypes.StorageBlobContainer,
             parentStorageAccount
         );
-        environmentConfiguration.container = {
-            ...environmentConfiguration.container,
-            selectedContainer: selectedContainerEnvironmentConfigurationItem
-        };
-    } else if (environmentConfiguration?.container?.selectedContainer) {
-        delete environmentConfiguration.container.selectedContainer;
+        if (
+            typeof selectedContainer === 'string' &&
+            areResourceValuesEqual(
+                environmentConfiguration.selectedStorageContainer?.url,
+                selectedContainerEnvironmentConfigurationItem.url,
+                AzureResourceDisplayFields.url
+            )
+        ) {
+            environmentConfiguration.selectedStorageContainer = {
+                id: environmentConfiguration.selectedStorageContainer.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
+                ...selectedContainerEnvironmentConfigurationItem
+            };
+        } else {
+            environmentConfiguration.selectedStorageContainer = selectedContainerEnvironmentConfigurationItem;
+        }
+    } else if (environmentConfiguration?.selectedStorageContainer) {
+        delete environmentConfiguration.selectedStorageContainer;
     }
     setEnvironmentConfigurationInLocalStorage(environmentConfiguration);
 };
@@ -219,113 +427,88 @@ export const setSelectedStorageContainerInLocalStorage = (
 export const setAdtInstancesInLocalStorage = (
     adtInstances: Array<string | IADTInstance> = []
 ) => {
-    const adtInstancesConfigurationItems = adtInstances
+    const adtInstancesItems = adtInstances
         .filter((e) => e) // filter out null instances
         .map((a) =>
-            getEnvironmentConfigurationItemFromResource(
+            getEnvironmentItemFromResource(
                 a,
                 AzureResourceTypes.DigitalTwinInstance
             )
         );
-    let environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage;
+    let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        environmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
-        );
-        environmentConfigurationInLocalStorage.adt = {
-            // assign like this in case adt field is not present in the environment configuration
-            ...environmentConfigurationInLocalStorage.adt,
-            adtInstances: adtInstancesConfigurationItems
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        newEnvironmentOptions = {
+            ...environmentOptionsInLocalStorage, // keep other existing options
+            adtInstances: adtInstancesItems
         };
     } catch (error) {
         console.error(error.message);
-        environmentConfigurationInLocalStorage = {
-            adt: {
-                adtInstances: adtInstancesConfigurationItems
-            }
+        newEnvironmentOptions = {
+            adtInstances: adtInstancesItems
         };
     }
-    localStorage.setItem(
-        EnvironmentConfigurationLocalStorageKey,
-        JSON.stringify(environmentConfigurationInLocalStorage)
-    );
+    setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
 
-/** To update the list of storage accounts in local storage to be used as options in EnvironmentPicker
- * @param storageAccounts list of storage accounts to be updated in the local storage
+/** To update the list of Storage accounts in local storage to be used as options in EnvironmentPicker
+ * @param storageAccounts list of Storage accounts to be updated in the local storage
  */
 export const setStorageAccountsInLocalStorage = (
     storageAccounts: Array<IAzureResource | string> = []
 ) => {
-    const storageAccountsConfigurationItems = storageAccounts
+    const storageAccountItems = storageAccounts
         .filter((e) => e) // filter out null instances
         .map((a) =>
-            getEnvironmentConfigurationItemFromResource(
-                a,
-                AzureResourceTypes.StorageAccount
-            )
+            getEnvironmentItemFromResource(a, AzureResourceTypes.StorageAccount)
         );
-    let environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage;
+    let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        environmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
-        );
-        environmentConfigurationInLocalStorage.storageAccount = {
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        newEnvironmentOptions = {
             // assign like this in case adt field is not present in the environment configuration
-            ...environmentConfigurationInLocalStorage.storageAccount,
-            storageAccounts: storageAccountsConfigurationItems
+            ...environmentOptionsInLocalStorage,
+            storageAccounts: storageAccountItems
         };
     } catch (error) {
         console.error(error.message);
-        environmentConfigurationInLocalStorage = {
-            storageAccount: {
-                storageAccounts: storageAccountsConfigurationItems
-            }
+        newEnvironmentOptions = {
+            storageAccounts: storageAccountItems
         };
     }
-    localStorage.setItem(
-        EnvironmentConfigurationLocalStorageKey,
-        JSON.stringify(environmentConfigurationInLocalStorage)
-    );
+    setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
 
-/** To update the list of storage containers in local storage to be used as options in EnvironmentPicker
- * @param containers list of storage containers to be updated in the local storage
+/** To update the list of Storage containers in local storage to be used as options in EnvironmentPicker
+ * @param storageContainers list of storage containers to be updated in the local storage
  * @param parentStorageAccount the storage account where the container is in, this is needed to get the url of the container since a container does not store url information as an Azure resource
  */
 export const setStorageContainersInLocalStorage = (
     containers: Array<IAzureResource | string> = [],
     parentStorageAccount: IAzureResource | string
 ) => {
-    const containersConfigurationItems = containers
+    const containerItems = containers
         .filter((e) => e) // filter out null instances
         .map((a) =>
-            getEnvironmentConfigurationItemFromResource(
+            getEnvironmentItemFromResource(
                 a,
                 AzureResourceTypes.StorageBlobContainer,
                 parentStorageAccount
             )
         );
-    let environmentConfigurationInLocalStorage: EnvironmentConfigurationInLocalStorage;
+    let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        environmentConfigurationInLocalStorage = JSON.parse(
-            localStorage.getItem(EnvironmentConfigurationLocalStorageKey)
-        );
-        environmentConfigurationInLocalStorage.container = {
+        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        newEnvironmentOptions = {
             // assign like this in case adt field is not present in the environment configuration
-            ...environmentConfigurationInLocalStorage.container,
-            containers: containersConfigurationItems
+            ...environmentOptionsInLocalStorage,
+            storageContainers: containerItems
         };
     } catch (error) {
         console.error(error.message);
-        environmentConfigurationInLocalStorage = {
-            container: {
-                containers: containersConfigurationItems
-            }
+        newEnvironmentOptions = {
+            storageContainers: containerItems
         };
     }
-    localStorage.setItem(
-        EnvironmentConfigurationLocalStorageKey,
-        JSON.stringify(environmentConfigurationInLocalStorage)
-    );
+    setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
