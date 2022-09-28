@@ -167,7 +167,6 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                     <ModalSaveCurrentProjectAndClear
                         onClose={onModalClose}
                         setModalBody={setModalBody}
-                        state={state}
                         resetProject={resetProject}
                     />
                 );
@@ -175,20 +174,16 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
                 return (
                     <FormSaveAs
                         onClose={onModalClose}
-                        dispatch={dispatch}
                         setModalBody={setModalBody}
                         resetProjectOnSave
                         resetProject={resetProject}
-                        state={state}
                     />
                 );
             case FromBody.settings:
                 return (
                     <FormSettings
                         onClose={onModalClose}
-                        dispatch={dispatch}
                         setModalBody={setModalBody}
-                        state={state}
                     />
                 );
             default:

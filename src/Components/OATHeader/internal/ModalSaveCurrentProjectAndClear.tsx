@@ -24,6 +24,7 @@ import {
     IModalSaveCurrentProjectAndClearStyles
 } from './ModalSaveCurrentProjectAndClear.types';
 import { getStyles } from './ModalSaveCurrentProjectAndClear.styles';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
 const getClassNames = classNamesFunction<
     IModalSaveCurrentProjectAndClearStyleProps,
@@ -33,36 +34,33 @@ const getClassNames = classNamesFunction<
 export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectAndClearProps> = (
     props
 ) => {
-    const { resetProject, setModalBody, state, styles, onClose } = props;
+    const { resetProject, setModalBody, styles, onClose } = props;
 
     // hooks
     const { t } = useTranslation();
 
+    // contexts
+    const { oatPageState } = useOatPageContext();
+
     // styles
     const classNames = getClassNames(styles, { theme: useTheme() });
     const promptTextStyles = getPromptTextStyles();
-    const {
-        projectName,
-        models,
-        modelPositions,
-        templates,
-        namespace,
-        modelsMetadata
-    } = state;
 
     const onSave = () => {
         const files = loadOatFiles();
 
         //  Overwrite existing file
-        const foundIndex = files.findIndex((file) => file.name === projectName);
+        const foundIndex = files.findIndex(
+            (file) => file.name === oatPageState.projectName
+        );
         if (foundIndex > -1) {
             const project = new ProjectData(
-                modelPositions,
-                convertDtdlInterfacesToModels(models),
-                projectName,
-                templates,
-                namespace,
-                modelsMetadata
+                oatPageState.modelPositions,
+                convertDtdlInterfacesToModels(oatPageState.models),
+                oatPageState.projectName,
+                oatPageState.templates,
+                oatPageState.namespace,
+                oatPageState.modelsMetadata
             );
 
             files[foundIndex].data = project;
@@ -89,7 +87,7 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
             <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.doYouWantToSaveChangesYouMadeTo', {
-                        projectName: projectName
+                        projectName: oatPageState.projectName
                     })}
                 </Text>
             </div>

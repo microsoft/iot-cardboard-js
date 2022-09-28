@@ -1,11 +1,9 @@
 import { IStyleFunctionOrObject, ITheme, IStyle } from '@fluentui/react';
-import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 export type IModalSaveCurrentProjectAndClearProps = {
     resetProject?: () => void;
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
     onClose?: () => void;
-    state?: IOATEditorState;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
