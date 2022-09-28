@@ -2,22 +2,6 @@ import produce from 'immer';
 import { IAction } from '../../Models/Constants/Interfaces';
 import { IOATEditorState } from './OATEditorPage.types';
 import {
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_TEMPLATES_ACTIVE,
-    SET_OAT_IMPORT_MODELS,
-    SET_OAT_IS_JSON_UPLOADER_OPEN,
-    SET_OAT_TEMPLATES,
-    SET_OAT_MODIFIED,
-    SET_OAT_PROJECT,
-    SET_OAT_PROJECT_NAME,
-    SET_OAT_ERROR,
-    SET_OAT_MODELS_POSITIONS,
-    SET_OAT_MODELS_METADATA,
-    SET_OAT_NAMESPACE,
-    SET_OAT_CONFIRM_DELETE_OPEN
-} from '../../Models/Constants/ActionTypes';
-import {
     getStoredEditorModelMetadata,
     getStoredEditorModelPositionsData,
     getStoredEditorModelsData,

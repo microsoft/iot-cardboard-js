@@ -5,40 +5,53 @@ import {
     ActionButton,
     FontIcon,
     PrimaryButton,
-    Stack
+    Stack,
+    classNamesFunction,
+    styled,
+    useTheme
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { SET_OAT_PROJECT } from '../../../Models/Constants/ActionTypes';
-import { getHeaderStyles } from '../OATHeader.styles';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
-import { FromSaveAsProps } from './FormSaveAs.types';
+import {
+    IFormSaveAsProps,
+    IFormSaveAsStyleProps,
+    IFormSaveAsStyles
+} from './FormSaveAs.types';
 import {
     convertDtdlInterfacesToModels,
     loadOatFiles,
     saveOatFiles
 } from '../../../Models/Services/OatUtils';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { getStyles } from '../OATHeader.styles';
 
-export const FormSaveAs = ({
-    dispatch,
-    onClose,
-    setModalBody,
-    resetProject,
-    resetProjectOnSave,
-    state
-}: FromSaveAsProps) => {
+const getClassNames = classNamesFunction<
+    IFormSaveAsStyleProps,
+    IFormSaveAsStyles
+>();
+
+export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
+    const {
+        onClose,
+        setModalBody,
+        resetProject,
+        resetProjectOnSave,
+        styles
+    } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // context
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
     const [projectName, setProjectName] = useState('');
     const [hasSameNameError, setHasSameNameError] = useState(false);
-    const headerStyles = getHeaderStyles();
-    const {
-        modelPositions,
-        models,
-        templates,
-        namespace,
-        modelsMetadata
-    } = state;
 
+    // callbacks
     const onSave = () => {
         const files = loadOatFiles();
         // UI changes to a "confirm" scenario if the name exists, so look up the existing item and update it in that case
@@ -49,12 +62,12 @@ export const FormSaveAs = ({
             );
             if (foundIndex > -1) {
                 files[foundIndex].data = new ProjectData(
-                    modelPositions,
-                    convertDtdlInterfacesToModels(models),
+                    oatPageState.modelPositions,
+                    convertDtdlInterfacesToModels(oatPageState.models),
                     projectName,
-                    templates,
-                    namespace,
-                    modelsMetadata
+                    oatPageState.templates,
+                    oatPageState.namespace,
+                    oatPageState.modelsMetadata
                 );
 
                 saveOatFiles(files);
@@ -68,15 +81,15 @@ export const FormSaveAs = ({
 
         // Create new file
         const newProject = new ProjectData(
-            modelPositions,
-            convertDtdlInterfacesToModels(models),
+            oatPageState.modelPositions,
+            convertDtdlInterfacesToModels(oatPageState.models),
             projectName,
-            templates,
-            namespace,
-            modelsMetadata
+            oatPageState.templates,
+            oatPageState.namespace,
+            oatPageState.modelsMetadata
         );
-        dispatch({
-            type: SET_OAT_PROJECT,
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_PROJECT,
             payload: newProject
         });
 
@@ -107,15 +120,20 @@ export const FormSaveAs = ({
         setHasSameNameError(fileAlreadyExists);
     };
 
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
     return (
         <Stack>
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <ActionButton onClick={onClose}>
                     <FontIcon iconName={'ChromeClose'} />
                 </ActionButton>
             </div>
 
-            <div className={headerStyles.modalRow}>
+            <div className={classNames.modalRow}>
                 <Text>{t('OATHeader.saveAs')}</Text>
                 <TextField
                     placeholder={t('OATHeader.enterAName')}
@@ -127,7 +145,7 @@ export const FormSaveAs = ({
                 />
             </div>
 
-            <div className={headerStyles.modalRowFlexEnd}>
+            <div className={classNames.modalRowFlexEnd}>
                 <PrimaryButton
                     text={
                         hasSameNameError
@@ -144,4 +162,8 @@ export const FormSaveAs = ({
     );
 };
 
-export default FormSaveAs;
+export default styled<
+    IFormSaveAsProps,
+    IFormSaveAsStyleProps,
+    IFormSaveAsStyles
+>(FormSaveAs, getStyles);

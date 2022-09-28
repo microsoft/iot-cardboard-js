@@ -1,14 +1,5 @@
-import {
-    ITheme,
-    IStyle,
-    IModalStyles,
-    IStyleFunctionOrObject
-} from '@fluentui/react';
-import {
-    ISharedModalStyles,
-    ISharedModalStyleProps,
-    ISubMenuStyles
-} from './Shared.types';
+import { ITheme, IStyleFunctionOrObject } from '@fluentui/react';
+import { ISharedModalStyles, ISharedModalStyleProps } from './Shared.types';
 
 export interface IFormOpenProps {
     setModalBody?: React.Dispatch<React.SetStateAction<string>>;
@@ -30,6 +21,5 @@ export interface IFormOpenStyles extends ISharedModalStyles {
     subComponentStyles?: IFormOpenComponentStyles;
 }
 
-export interface IFormOpenComponentStyles extends ISubMenuStyles {
-    modal: Partial<IModalStyles>;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IFormOpenComponentStyles {}
