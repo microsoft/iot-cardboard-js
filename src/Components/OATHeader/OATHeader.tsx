@@ -25,7 +25,6 @@ import {
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { useDropzone } from 'react-dropzone';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -40,18 +39,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { onUndo, onRedo, canUndo, canRedo } = useContext(
         CommandHistoryContext
     );
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        inputRef: uploadFileInputRef
-    } = useDropzone();
 
     // contexts
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const uploadFolderInputRef = useRef(null);
+    const uploadFolderInputRef = useRef<HTMLInputElement>(null);
+    const uploadFileInputRef = useRef<HTMLInputElement>(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
 
@@ -233,20 +227,22 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         ]
     );
 
-    const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-        (e) => {
+    const getUploadFileHandler = (
+        inputRef: HTMLInputElement
+    ): React.ChangeEventHandler<HTMLInputElement> => {
+        return (e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log('Processing files', e.target.files);
             const reader = new FileReader();
             reader.onload = () => {
-                const files = [];
-                for (const file of uploadFolderInputRef.current.files) {
+                const files: File[] = [];
+                for (const file of (inputRef.files as unknown) as File[]) {
                     files.push(file);
                 }
                 onFilesUpload(files);
             };
             reader.readAsDataURL(e.target.files[0]);
-        },
-        [onFilesUpload]
-    );
+        };
+    };
 
     const onNewFile = useCallback(() => {
         alert('on new file');
@@ -388,10 +384,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             document.removeEventListener('keydown', onKeyDown);
         };
     }, []);
-    // process the dropped files
-    useEffect(() => {
-        onFilesUpload(acceptedFiles);
-    }, [acceptedFiles, onFilesUpload]);
 
     // Data
     const fileMenuItems: IContextualMenuItem[] = [
@@ -506,6 +498,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     aria-hidden={true}
                     style={{ display: 'none', visibility: 'hidden' }}
                 >
+                    {/* file upload */}
+                    <input
+                        type="file"
+                        ref={uploadFileInputRef}
+                        onChange={getUploadFileHandler(
+                            uploadFileInputRef.current
+                        )}
+                        multiple
+                    />
                     {/* folder upload */}
                     <input
                         type="file"
@@ -514,11 +515,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         /** @ts-ignore */
                         webkitdirectory={''}
                         mozdirectory={''}
-                        onChange={onFilesChange}
+                        onChange={getUploadFileHandler(
+                            uploadFolderInputRef.current
+                        )}
                     />
-                    <div {...getRootProps()}>
-                        <input {...getInputProps()} />
-                    </div>
                 </div>
             </div>
         </div>
