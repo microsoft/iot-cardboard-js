@@ -1,4 +1,4 @@
-import { i18n, Resource } from 'i18next';
+import { i18n } from 'i18next';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';

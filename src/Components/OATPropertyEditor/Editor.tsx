@@ -56,7 +56,6 @@ const Editor: React.FC<EditorProps> = (props) => {
     // state
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { modalOpen, modalBody } = state;
 
     // data
     const model = useMemo(
@@ -113,7 +112,7 @@ const Editor: React.FC<EditorProps> = (props) => {
     };
 
     const getModalBody = () => {
-        switch (modalBody) {
+        switch (state.modalBody) {
             case FormBody.property:
                 return (
                     <FormUpdateProperty
@@ -230,7 +229,7 @@ const Editor: React.FC<EditorProps> = (props) => {
                 )}
             </div>
             <OATModal
-                isOpen={modalOpen}
+                isOpen={state.modalOpen}
                 className={propertyInspectorStyles.modal}
             >
                 {getModalBody()}

@@ -24,7 +24,6 @@ export interface IOATHeaderStyles {
     options: IStyle;
     search: IStyle;
     searchComponent: IStyle;
-    uploadDirectoryInput: IStyle;
 
     /**
      * SubComponent styles.

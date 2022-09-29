@@ -25,6 +25,7 @@ import {
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useDropzone } from 'react-dropzone';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -34,17 +35,23 @@ const getClassNames = classNamesFunction<
 const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { styles } = props;
 
-    // contexts
-    const { oatPageDispatch, oatPageState } = useOatPageContext();
-
+    // hooks
     const { t } = useTranslation();
     const { onUndo, onRedo, canUndo, canRedo } = useContext(
         CommandHistoryContext
     );
-    const classNames = getClassNames(styles, { theme: useTheme() });
+    const {
+        acceptedFiles,
+        getRootProps,
+        getInputProps,
+        inputRef: uploadFileInputRef
+    } = useDropzone();
+
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const uploadInputRef = useRef(null);
+    const uploadFolderInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
 
@@ -214,9 +221,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             }
             handleFileListChanged(newFiles);
             // Reset value of input element so that it can be reused with the same file
-            uploadInputRef.current.value = null;
+            uploadFolderInputRef.current.value = null;
+            uploadFileInputRef.current.value = null;
         },
-        [oatPageDispatch, oatPageState.models, oatPageState.modelsMetadata, t]
+        [
+            oatPageDispatch,
+            oatPageState.models,
+            oatPageState.modelsMetadata,
+            t,
+            uploadFileInputRef
+        ]
     );
 
     const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -224,7 +238,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             const reader = new FileReader();
             reader.onload = () => {
                 const files = [];
-                for (const file of uploadInputRef.current.files) {
+                for (const file of uploadFolderInputRef.current.files) {
                     files.push(file);
                 }
                 onFilesUpload(files);
@@ -263,9 +277,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         alert('on save as');
     }, []);
 
-    const onUploadFile = useCallback(() => {
-        uploadInputRef.current.click();
+    const onUploadFolderClick = useCallback(() => {
+        uploadFolderInputRef.current.click();
     }, []);
+
+    const onUploadFileClick = useCallback(() => {
+        uploadFileInputRef.current.click();
+    }, [uploadFileInputRef]);
 
     const onExportClick = useCallback(() => {
         const zip = new JSZip();
@@ -370,6 +388,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             document.removeEventListener('keydown', onKeyDown);
         };
     }, []);
+    // process the dropped files
+    useEffect(() => {
+        onFilesUpload(acceptedFiles);
+    }, [acceptedFiles, onFilesUpload]);
 
     // Data
     const fileMenuItems: IContextualMenuItem[] = [
@@ -399,13 +421,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'Import',
             text: t('OATHeader.importFile'),
             iconProps: { iconName: 'Import' },
-            onClick: onUploadFile
+            onClick: onUploadFileClick
         },
         {
             key: 'Import',
             text: t('OATHeader.importFolder'),
             iconProps: { iconName: 'Import' },
-            onClick: onUploadFile
+            onClick: onUploadFolderClick
         },
         {
             key: 'Export',
@@ -469,6 +491,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         }
     ];
 
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
+
     return (
         <div className={classNames.root}>
             <div className={classNames.menuComponent}>
@@ -476,17 +501,24 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     items={commandBarItems}
                     styles={classNames.subComponentStyles.commandBar}
                 />
-                <div>
+                {/* Hidden inputs for file imports */}
+                <div
+                    aria-hidden={true}
+                    style={{ display: 'none', visibility: 'hidden' }}
+                >
+                    {/* folder upload */}
                     <input
                         type="file"
-                        ref={uploadInputRef}
-                        className={classNames.uploadDirectoryInput}
+                        ref={uploadFolderInputRef}
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         /** @ts-ignore */
                         webkitdirectory={''}
                         mozdirectory={''}
                         onChange={onFilesChange}
                     />
+                    <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                    </div>
                 </div>
             </div>
         </div>

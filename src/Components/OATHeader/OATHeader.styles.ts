@@ -79,12 +79,6 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 height: '100%'
             } as IStyle
         ],
-        uploadDirectoryInput: [
-            classNames.uploadDirectoryInput,
-            {
-                display: 'none'
-            } as IStyle
-        ],
         subComponentStyles: {
             commandBar: {
                 root: {

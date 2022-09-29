@@ -4,12 +4,15 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     getStoredEditorModelsData,
     getStoredEditorTemplateData,
     getStoredEditorModelPositionsData,
     getStoredEditorNamespaceData,
-    getStoredEditorModelMetadata
+    getStoredEditorModelMetadata,
+    convertDtdlInterfacesToModels,
+    storeEditorData
 } from '../../Services/OatUtils';
 import { getDebugLogger } from '../../Services/Utils';
 import {
@@ -111,6 +114,17 @@ export const OatPageContextReducer: (
                 break;
             }
         }
+
+        // persist changes to storage
+        const oatEditorData: ProjectData = new ProjectData(
+            draft.modelPositions,
+            convertDtdlInterfacesToModels(draft.models),
+            draft.projectName,
+            draft.templates,
+            draft.namespace,
+            draft.modelsMetadata
+        );
+        storeEditorData(oatEditorData);
     }
 );
 

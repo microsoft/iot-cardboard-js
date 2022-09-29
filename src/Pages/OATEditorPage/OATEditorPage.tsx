@@ -43,30 +43,6 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
         }
     }, []);
 
-    // Handle models persistence
-    // useEffect(() => {
-    //     // Update oat-data storage
-    //     const editorData = getStoredEditorData();
-    //     const oatEditorData: ProjectData = {
-    //         ...editorData,
-    //         models: convertDtdlInterfacesToModels(models),
-    //         modelPositions,
-    //         modelsMetadata,
-    //         projectName,
-    //         projectDescription: '',
-    //         templates,
-    //         namespace
-    //     };
-    //     storeEditorData(oatEditorData);
-    // }, [
-    //     models,
-    //     projectName,
-    //     templates,
-    //     modelPositions,
-    //     namespace,
-    //     modelsMetadata
-    // ]);
-
     const isTemplatesOpen = false;
     return (
         <CommandHistoryContextProvider>
