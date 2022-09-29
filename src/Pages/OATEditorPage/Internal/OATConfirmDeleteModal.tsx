@@ -2,8 +2,8 @@ import React from 'react';
 import { PrimaryButton, Modal, DefaultButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
-import { SET_OAT_CONFIRM_DELETE_OPEN } from '../../../Models/Constants/ActionTypes';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 const OATConfirmDeleteModal = () => {
     // hooks
@@ -27,7 +27,8 @@ const OATConfirmDeleteModal = () => {
                     <DefaultButton
                         onClick={() => {
                             oatPageDispatch({
-                                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                                type:
+                                    OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                                 payload: { open: false }
                             });
                         }}
@@ -39,7 +40,8 @@ const OATConfirmDeleteModal = () => {
                         onClick={() => {
                             confirmDeleteOpen.callback();
                             oatPageDispatch({
-                                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                                type:
+                                    OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                                 payload: { open: false }
                             });
                         }}

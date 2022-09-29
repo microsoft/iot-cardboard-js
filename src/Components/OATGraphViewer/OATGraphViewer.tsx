@@ -603,7 +603,7 @@ const OATGraphViewer = () => {
                 const undoOnClick = () => {
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                        payload: { selection }
+                        payload: { selection: oatPageState.selection }
                     });
                 };
 
@@ -645,7 +645,7 @@ const OATGraphViewer = () => {
         const undoClearModel = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection }
+                payload: { selection: oatPageState.selection }
             });
         };
 

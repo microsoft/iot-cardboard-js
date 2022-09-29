@@ -168,7 +168,11 @@ export const saveOatFiles = (files: IOATFile[]) => {
 };
 
 // Delete model
-export const deleteOatModel = (id, data, models) => {
+export const deleteOatModel = (
+    id: string,
+    data: DtdlInterface,
+    models: DtdlInterface[]
+) => {
     const modelsCopy = deepCopy(models);
     if (data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) {
         const match = modelsCopy.find(

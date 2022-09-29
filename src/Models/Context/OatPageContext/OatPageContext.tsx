@@ -20,7 +20,7 @@ import {
     OatPageContextActionType
 } from './OatPageContext.types';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -33,7 +33,7 @@ export const OatPageContextReducer: (
     (draft: IOatPageContextState, action: OatPageContextAction) => {
         logDebugConsole(
             'info',
-            `Updating Deeplink context ${action.type} with payload: `,
+            `Updating OAT Page context ${action.type} with payload: `,
             action.payload
         );
         switch (action.type) {
@@ -124,9 +124,6 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
     if (existingContext) {
         return <>{children}</>;
     }
-
-    const { initialState = {} } = props;
-
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IOatPageContextState = {

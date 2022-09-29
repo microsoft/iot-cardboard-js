@@ -19,11 +19,10 @@ import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-const OATModelList = () => {
+const OATModelList: React.FC = () => {
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageState, oatPageDispatch } = useOatPageContext();
-    const { selection, models, modified, modelPositions } = oatPageState;
 
     // state
     const [nameEditor, setNameEditor] = useState(false);
@@ -32,48 +31,14 @@ const OATModelList = () => {
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
     const [filter, setFilter] = useState('');
-    const [elementCount, setElementCount] = useState(models.length);
+    const [elementCount, setElementCount] = useState(
+        oatPageState.models.length
+    );
     const containerRef = useRef(null);
 
     // hooks
     const theme = useTheme();
     const { t } = useTranslation();
-
-    // styles
-    const modelsStyles = getModelsStyles();
-    const iconStyles = getModelsIconStyles();
-    const actionButtonStyles = getModelsActionButtonStyles();
-
-    useEffect(() => {
-        setItems(models);
-        if (models.length > elementCount) {
-            containerRef.current?.scrollTo({
-                top: containerRef.current?.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-        setElementCount(models.length);
-    }, [models]);
-
-    useEffect(() => {
-        setItems([...models]);
-    }, [theme]);
-
-    useEffect(() => {
-        setItems(
-            models.filter(
-                (element) =>
-                    !filter ||
-                    element['@id'].includes(filter) ||
-                    element.displayName.includes(filter)
-            )
-        );
-    }, [filter]);
-
-    useEffect(() => {
-        // Set models, so that modelList items re-render and apply style changes if necessary
-        setItems([...models]);
-    }, [selection]);
 
     const onSelectedClick = (id: string) => {
         const select = () => {
@@ -86,17 +51,20 @@ const OATModelList = () => {
         const unSelect = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: selection }
+                payload: { selection: oatPageState.selection }
             });
         };
 
-        if (!selection || (selection && id !== selection.modelId)) {
+        if (
+            !oatPageState.selection ||
+            (oatPageState.selection && id !== oatPageState.selection.modelId)
+        ) {
             execute(select, unSelect);
         }
     };
 
     const onNameClick = (name: string) => {
-        if (!modified) {
+        if (!oatPageState.modified) {
             setNameText(name);
             setNameEditor(true);
             setItems([...items]);
@@ -104,7 +72,7 @@ const OATModelList = () => {
     };
 
     const onIdClick = (id: string) => {
-        if (!modified) {
+        if (!oatPageState.modified) {
             setIdText(id);
             setIdEditor(true);
             setItems([...items]);
@@ -115,15 +83,19 @@ const OATModelList = () => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deleteOatModel(item['@id'], item, models);
+                const newModels = deleteOatModel(
+                    item['@id'],
+                    item,
+                    oatPageState.models
+                );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_MODELS,
-                    payload: newModels
+                    payload: { models: newModels }
                 });
                 // Dispatch selected model to null
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                    payload: null
+                    payload: { selection: null }
                 });
             };
             oatPageDispatch({
@@ -135,25 +107,30 @@ const OATModelList = () => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models }
+                payload: { models: oatPageState.models }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection }
+                payload: { selection: oatPageState.selection }
             });
         };
 
-        if (!modified) {
+        if (!oatPageState.modified) {
             execute(deletion, undoDeletion);
         }
     };
 
-    const onCommitId = (value) => {
+    const onCommitId = (value: string) => {
         const commit = () => {
             const {
                 models: modelsCopy,
                 positions: modelPositionsCopy
-            } = updateModelId(selection.modelId, value, models, modelPositions);
+            } = updateModelId(
+                oatPageState.selection.modelId,
+                value,
+                oatPageState.models,
+                oatPageState.modelPositions
+            );
 
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
@@ -176,15 +153,15 @@ const OATModelList = () => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
-                payload: { positions: modelPositions }
+                payload: { positions: oatPageState.modelPositions }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: models }
+                payload: { models: oatPageState.models }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection }
+                payload: { selection: oatPageState.selection }
             });
         };
 
@@ -193,11 +170,11 @@ const OATModelList = () => {
         }
     };
 
-    const onCommitDisplayName = (value) => {
+    const onCommitDisplayName = (value: string) => {
         const commit = () => {
-            const modelsCopy = deepCopy(models);
+            const modelsCopy = deepCopy(oatPageState.models);
             const modelCopy = modelsCopy.find(
-                (item) => item['@id'] === selection.modelId
+                (item) => item['@id'] === oatPageState.selection.modelId
             );
             if (modelCopy) {
                 modelCopy.displayName = value;
@@ -215,14 +192,14 @@ const OATModelList = () => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: models }
+                payload: { models: oatPageState.models }
             });
         };
 
         execute(commit, undoCommit);
     };
 
-    const getDisplayNameText = (item) => {
+    const getDisplayNameText = (item: DtdlInterface) => {
         const displayName = getModelPropertyListItemName(item.displayName);
         return displayName.length > 0
             ? displayName
@@ -231,9 +208,9 @@ const OATModelList = () => {
 
     const onRenderCell = (item: DtdlInterface) => {
         const isSelected =
-            selection &&
-            selection.modelId === item['@id'] &&
-            !selection.contentId;
+            oatPageState.selection &&
+            oatPageState.selection.modelId === item['@id'] &&
+            !oatPageState.selection.contentId;
         return (
             <div
                 className={`${modelsStyles.modelNode} ${
@@ -255,7 +232,7 @@ const OATModelList = () => {
                                 <OATTextFieldId
                                     value={idText}
                                     model={item}
-                                    models={models}
+                                    models={oatPageState.models}
                                     onChange={() => {
                                         setItems([...items]);
                                     }}
@@ -310,6 +287,43 @@ const OATModelList = () => {
             </div>
         );
     };
+
+    // side effects
+    useEffect(() => {
+        setItems(oatPageState.models);
+        if (oatPageState.models.length > elementCount) {
+            containerRef.current?.scrollTo({
+                top: containerRef.current?.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        setElementCount(oatPageState.models.length);
+    }, [oatPageState.models]);
+
+    useEffect(() => {
+        setItems([...oatPageState.models]);
+    }, [theme]);
+
+    useEffect(() => {
+        setItems(
+            oatPageState.models.filter(
+                (element) =>
+                    !filter ||
+                    element['@id'].includes(filter) ||
+                    element.displayName.includes(filter)
+            )
+        );
+    }, [filter]);
+
+    useEffect(() => {
+        // Set models, so that modelList items re-render and apply style changes if necessary
+        setItems([...oatPageState.models]);
+    }, [oatPageState.selection]);
+
+    // styles
+    const modelsStyles = getModelsStyles();
+    const iconStyles = getModelsIconStyles();
+    const actionButtonStyles = getModelsActionButtonStyles();
 
     return (
         <div>
