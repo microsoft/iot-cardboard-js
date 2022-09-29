@@ -78,8 +78,10 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
     // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(oatPageState.models, oatPageState.selection),
+        [oatPageState.models, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
