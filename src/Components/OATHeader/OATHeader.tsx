@@ -1,4 +1,10 @@
-import React, { useEffect, useContext, useRef, useCallback } from 'react';
+import React, {
+    useEffect,
+    useContext,
+    useRef,
+    useCallback,
+    useMemo
+} from 'react';
 import {
     classNamesFunction,
     CommandBar,
@@ -18,13 +24,16 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
+    convertDtdlInterfacesToModels,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
+    getOntologiesFromStorage,
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -373,6 +382,38 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     }, []);
 
     // Data
+    const ontologyMenuItems = useMemo(() => {
+        const storedFiles = getOntologiesFromStorage();
+        if (storedFiles.length > 0) {
+            const formattedFiles: IContextualMenuItem[] = storedFiles.map(
+                (file) => {
+                    const projectToOpen = new ProjectData(
+                        file.data.modelPositions,
+                        convertDtdlInterfacesToModels(file.data.models),
+                        file.data.projectName,
+                        file.data.templates,
+                        file.data.namespace,
+                        file.data.modelsMetadata
+                    );
+                    const onClick = () => {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_PROJECT,
+                            payload: projectToOpen
+                        });
+                    };
+                    return {
+                        key: file.name,
+                        text: file.name,
+                        onClick: onClick
+                    };
+                }
+            );
+
+            return formattedFiles;
+        }
+        return [];
+    }, [oatPageDispatch]);
+
     const fileMenuItems: IContextualMenuItem[] = [
         {
             key: 'new',
@@ -383,22 +424,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         {
             key: 'switch',
             text: 'Switch',
+            disabled: !ontologyMenuItems?.length,
             iconProps: { iconName: 'OpenFolderHorizontal' },
             subMenuProps: {
-                items: [
-                    {
-                        key: 'file1',
-                        text: 'File 1'
-                    },
-                    {
-                        key: 'file2',
-                        text: 'File 2'
-                    },
-                    {
-                        key: 'file3',
-                        text: 'File 3'
-                    }
-                ]
+                items: ontologyMenuItems
             }
         },
         {
