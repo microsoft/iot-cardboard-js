@@ -54,7 +54,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         sortAscendingOrDescending(sortKey, isSortedDescending)
     );
     const [selectedColumnNames, setSelectedColumnNames] = useState<string[]>(
-        searchedProperties
+        []
     );
     const staticColumns: IColumn[] = [
         {
@@ -219,16 +219,18 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     };
     return (
         <section className={classNames.root}>
-            <div className={classNames.listHeaderAndIcon}>
+            <div className={classNames.listHeaderAndDropdown}>
                 <h3 className={classNames.listHeader}>
                     {t('advancedSearch.results', { twinCount })}
                 </h3>
-                <ColumnPicker
-                    searchedProperties={searchedProperties}
-                    allAvailableProperties={getAvailableProperties()}
-                    addColumn={updateColumns}
-                    deleteColumn={deleteColumn}
-                />
+                {twinCount > 0 && (
+                    <ColumnPicker
+                        searchedProperties={searchedProperties}
+                        allAvailableProperties={getAvailableProperties()}
+                        addColumn={updateColumns}
+                        deleteColumn={deleteColumn}
+                    />
+                )}
             </div>
             {twinCount === QUERY_RESULT_LIMIT && (
                 <span>

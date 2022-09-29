@@ -8,7 +8,7 @@ export const classPrefix = `${CardboardClassNamePrefix}-advancedsearchresultdeta
 const classNames = {
     root: `${classPrefix}-root`,
     listHeader: `${classPrefix}-headerCorrection`,
-    listHeaderAndIcon: `${classPrefix}-listHeaderAndIcon`
+    listHeaderAndDropdown: `${classPrefix}-listHeaderAndDropdown`
 };
 export const getStyles = (
     _props: IAdvancedSearchResultDetailsListStyleProps
@@ -22,8 +22,8 @@ export const getStyles = (
                 paddingLeft: 16
             }
         ],
-        listHeaderAndIcon: [
-            classNames.listHeaderAndIcon,
+        listHeaderAndDropdown: [
+            classNames.listHeaderAndDropdown,
             {
                 display: 'flex',
                 displayDirection: 'row',

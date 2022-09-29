@@ -1173,6 +1173,7 @@
         "valueFieldPlaceholder": "Enter a value",
         "columnPicker": "Column picker",
         "propertyCount": "{{selectedPropsCount}} properties selected",
-        "availableProperties": "Dropdown of properties available"
+        "availableProperties": "Dropdown of properties available",
+        "selectAdditionalColumns": "Select additional columns"
     }
 }
