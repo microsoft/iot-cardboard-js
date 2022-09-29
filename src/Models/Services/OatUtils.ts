@@ -159,11 +159,11 @@ export const convertDtdlInterfaceToModel = (
 };
 
 // Load files from local storage
-export const loadOatFiles = (): IOATFile[] =>
+export const getOntologiesFromStorage = (): IOATFile[] =>
     JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
 
 // Save files from local storage
-export const saveOatFiles = (files: IOATFile[]) => {
+export const saveOntologiesToStorage = (files: IOATFile[]) => {
     localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 

@@ -12,8 +12,8 @@ import { CommandHistoryContextProvider } from './Internal/Context/CommandHistory
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import {
     getAvailableLanguages,
-    loadOatFiles,
-    saveOatFiles
+    getOntologiesFromStorage,
+    saveOntologiesToStorage
 } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
@@ -37,9 +37,9 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
 
     useEffect(() => {
         //  Set the OATFilesStorageKey to the localStorage if key doesn't exist
-        const files = loadOatFiles();
+        const files = getOntologiesFromStorage();
         if (!files?.length) {
-            saveOatFiles([]);
+            saveOntologiesToStorage([]);
         }
     }, []);
 

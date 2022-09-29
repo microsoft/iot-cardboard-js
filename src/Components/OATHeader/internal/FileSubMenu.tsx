@@ -14,8 +14,8 @@ import { FromBody } from './Enums';
 import { deepCopy } from '../../../Models/Services/Utils';
 import {
     convertDtdlInterfacesToModels,
-    loadOatFiles,
-    saveOatFiles
+    getOntologiesFromStorage,
+    saveOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import ModalDelete from './ModalDelete';
@@ -47,7 +47,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const [files, setFiles] = useState(loadOatFiles());
+    const [files, setFiles] = useState(getOntologiesFromStorage());
     const [isFileStored, setIsFileStored] = useState(false);
     const [fileIndex, setFileIndex] = useState(-1);
     const [modalOpen, setModalOpen] = useState(false);
@@ -72,7 +72,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
 
             filesCopy[fileIndex].data = project;
             setFiles(filesCopy);
-            saveOatFiles(filesCopy);
+            saveOntologiesToStorage(filesCopy);
         } else {
             // Create new file
             setModalBody(FromBody.save);
@@ -192,7 +192,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
     };
 
     const onProjectChange = useCallback(() => {
-        const currentFiles = loadOatFiles();
+        const currentFiles = getOntologiesFromStorage();
         setFiles(currentFiles);
         // Check if current file is stored
         let foundIndex = -1;

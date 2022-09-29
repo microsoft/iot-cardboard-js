@@ -15,8 +15,8 @@ import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { FromBody } from './Enums';
 import {
     convertDtdlInterfacesToModels,
-    loadOatFiles,
-    saveOatFiles
+    getOntologiesFromStorage,
+    saveOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import {
     IModalSaveCurrentProjectAndClearProps,
@@ -47,7 +47,7 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
     const promptTextStyles = getPromptTextStyles();
 
     const onSave = () => {
-        const files = loadOatFiles();
+        const files = getOntologiesFromStorage();
 
         //  Overwrite existing file
         const foundIndex = files.findIndex(
@@ -64,7 +64,7 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
             );
 
             files[foundIndex].data = project;
-            saveOatFiles(files);
+            saveOntologiesToStorage(files);
             resetProject();
             setModalBody(FromBody.settings);
         }

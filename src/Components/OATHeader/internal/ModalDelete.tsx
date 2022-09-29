@@ -12,7 +12,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { getPromptTextStyles } from '../OATHeader.styles';
 import { FromBody } from './Enums';
-import { loadOatFiles, saveOatFiles } from '../../../Models/Services/OatUtils';
+import {
+    getOntologiesFromStorage,
+    saveOntologiesToStorage
+} from '../../../Models/Services/OatUtils';
 import {
     IModalDeleteProps,
     IModalDeleteStyleProps,
@@ -40,7 +43,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
     const classNames = getClassNames(styles, { theme: useTheme() });
 
     const onDelete = () => {
-        const files = loadOatFiles();
+        const files = getOntologiesFromStorage();
 
         //  Overwrite existing file
         const foundIndex = files.findIndex(
@@ -49,7 +52,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
         if (foundIndex > -1) {
             // Remove file
             files.splice(foundIndex, 1);
-            saveOatFiles(files);
+            saveOntologiesToStorage(files);
             resetProject();
             setModalBody(FromBody.settings);
         }

@@ -20,8 +20,8 @@ import {
 } from './FormSaveAs.types';
 import {
     convertDtdlInterfacesToModels,
-    loadOatFiles,
-    saveOatFiles
+    getOntologiesFromStorage,
+    saveOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
@@ -53,7 +53,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
 
     // callbacks
     const onSave = () => {
-        const files = loadOatFiles();
+        const files = getOntologiesFromStorage();
         // UI changes to a "confirm" scenario if the name exists, so look up the existing item and update it in that case
         if (hasSameNameError) {
             //  Overwrite existing file
@@ -70,7 +70,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
                     oatPageState.modelsMetadata
                 );
 
-                saveOatFiles(files);
+                saveOntologiesToStorage(files);
             }
             if (resetProjectOnSave) {
                 resetProject();
@@ -97,7 +97,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
             name: projectName,
             data: newProject
         });
-        saveOatFiles(files);
+        saveOntologiesToStorage(files);
 
         onClose();
         setModalBody(null);
@@ -109,7 +109,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
     };
 
     const onProjectNameChange = (value: string) => {
-        const files = loadOatFiles();
+        const files = getOntologiesFromStorage();
         setProjectName(value);
 
         // Find if project name already exists

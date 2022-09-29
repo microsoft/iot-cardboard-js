@@ -340,11 +340,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         });
     }, [oatPageState.models, oatPageState.modelsMetadata]);
 
-    const onDeleteFile = useCallback(() => {
-        // TODO: the stuff
-        alert('on delete');
-    }, []);
-
     const onAddModel = useCallback(() => {
         // TODO: the stuff
         alert('on add model');

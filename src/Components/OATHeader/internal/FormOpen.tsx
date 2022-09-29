@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import {
     convertDtdlInterfacesToModels,
-    loadOatFiles
+    getOntologiesFromStorage
 } from '../../../Models/Services/OatUtils';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
@@ -67,7 +67,7 @@ export const FormOpen: React.FC<IFormOpenProps> = (props) => {
     };
 
     const getFormatFilesToDropDownOptions = () => {
-        const storedFiles = loadOatFiles();
+        const storedFiles = getOntologiesFromStorage();
         if (storedFiles.length > 0) {
             const formattedFiles: IDropdownOption<IOATFile>[] = storedFiles.map(
                 (file) => {
