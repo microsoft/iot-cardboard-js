@@ -256,8 +256,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         }
     }, []);
 
-    const onRenameFile = useCallback(() => {
-        alert('on rename file');
+    const onManageFile = useCallback(() => {
+        alert('on manage file');
         // TODO: check if pending changes
         const pendingChanges = false;
         if (pendingChanges) {
@@ -268,7 +268,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         }
     }, []);
 
-    const onSaveFileAs = useCallback(() => {
+    const onDuplicate = useCallback(() => {
         // TODO: the stuff
         alert('on save as');
     }, []);
@@ -381,21 +381,36 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const fileMenuItems: IContextualMenuItem[] = [
         {
             key: 'new',
-            text: 'New file',
+            text: 'New',
             iconProps: { iconName: 'Add' },
             onClick: onNewFile
         },
         {
-            key: 'rename',
-            text: 'Rename',
-            iconProps: { iconName: 'Edit' },
-            onClick: onRenameFile
+            key: 'switch',
+            text: 'Switch',
+            iconProps: { iconName: 'OpenFolderHorizontal' },
+            subMenuProps: {
+                items: [
+                    {
+                        key: 'file1',
+                        text: 'File 1'
+                    },
+                    {
+                        key: 'file2',
+                        text: 'File 2'
+                    },
+                    {
+                        key: 'file3',
+                        text: 'File 3'
+                    }
+                ]
+            }
         },
         {
-            key: 'saveAs',
-            text: 'Save as',
-            iconProps: { iconName: 'Save' },
-            onClick: onSaveFileAs
+            key: 'duplicate',
+            text: 'Duplicate',
+            iconProps: { iconName: 'Copy' },
+            onClick: onDuplicate
         },
         {
             key: 'dividerImport',
@@ -408,14 +423,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             onClick: onExportClick
         },
         {
-            key: 'dividerDelete',
+            key: 'dividerManage',
             itemType: ContextualMenuItemType.Divider
         },
         {
-            key: 'delete',
-            text: 'Delete',
-            iconProps: { iconName: 'Delete' },
-            onClick: onDeleteFile
+            key: 'manage',
+            text: 'Manage',
+            iconProps: { iconName: 'Edit' },
+            onClick: onManageFile
         }
     ];
     const undoMenuItems: IContextualMenuItem[] = [
@@ -460,7 +475,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         {
             key: 'file',
             iconProps: { iconName: 'FabricFolder' },
-            text: t('OATHeader.file'),
+            text: t('OATHeader.ontology'),
             subMenuProps: {
                 items: fileMenuItems
             }
