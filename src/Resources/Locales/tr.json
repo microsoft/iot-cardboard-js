@@ -826,7 +826,6 @@
     "sync": "Eşitleme",
     "import": "Ithalat",
     "export": "Ihracat",
-    "file": "Dosya",
     "new": "Yeni",
     "open": "Açık",
     "saveAs": "Farklı kaydet",
@@ -851,7 +850,6 @@
     "undo": "Geri almak",
     "redo": "Yinele",
     "deleteAll": "Tümünü Sil",
-    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Bir ontoloji seçin"
     },
     "importFolder": "Klasörü içe aktar",
-    "importFile": "Dosyayı içe aktar"
+    "importFile": "Dosyayı içe aktar",
+    "ontology": "Ontoloji"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

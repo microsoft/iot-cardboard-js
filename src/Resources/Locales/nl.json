@@ -826,7 +826,6 @@
     "sync": "Sync",
     "import": "Importeren",
     "export": "Exporteren",
-    "file": "Bestand",
     "new": "Nieuw",
     "open": "Openen",
     "saveAs": "Opslaan als",
@@ -851,7 +850,6 @@
     "undo": "Ongedaan maken",
     "redo": "Opnieuw",
     "deleteAll": "Alles verwijderen",
-    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Selecteer een ontologie"
     },
     "importFolder": "Map importeren",
-    "importFile": "Bestand importeren"
+    "importFile": "Bestand importeren",
+    "ontology": "Ontologie"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",

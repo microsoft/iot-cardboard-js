@@ -826,7 +826,6 @@
     "sync": "sincronizar",
     "import": "Importação",
     "export": "Exportação",
-    "file": "Arquivo",
     "new": "Novo",
     "open": "Abrir",
     "saveAs": "Salvar como",
@@ -851,7 +850,6 @@
     "undo": "Desfazer",
     "redo": "Refazer",
     "deleteAll": "Excluir tudo",
-    "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Selecione uma ontologia"
     },
     "importFolder": "Pasta de importação",
-    "importFile": "Arquivo de importação"
+    "importFile": "Arquivo de importação",
+    "ontology": "Ontologia"
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

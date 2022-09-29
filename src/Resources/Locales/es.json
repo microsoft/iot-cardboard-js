@@ -826,7 +826,6 @@
     "sync": "Sincronizar",
     "import": "Importación",
     "export": "Exportar",
-    "file": "Archivo",
     "new": "Nuevo",
     "open": "Abrir",
     "saveAs": "Guardar como",
@@ -851,7 +850,6 @@
     "undo": "Deshacer",
     "redo": "Rehacer",
     "deleteAll": "Eliminar todo",
-    "files": "Archivos",
     "selectFile": "Seleccionar archivo",
     "errorSingleFileHoldsRelationships": "Problema con {{fileName}}: el modelo contiene relaciones que no se están importando",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: ya existe un modelo con el mismo @id",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Seleccione una ontología"
     },
     "importFolder": "Importar carpeta",
-    "importFile": "Importar archivo"
+    "importFile": "Importar archivo",
+    "ontology": "Ontología"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

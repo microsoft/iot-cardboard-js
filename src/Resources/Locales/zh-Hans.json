@@ -826,7 +826,6 @@
     "sync": "同步",
     "import": "进口",
     "export": "出口",
-    "file": "文件",
     "new": "新增功能",
     "open": "打开",
     "saveAs": "另存为",
@@ -851,7 +850,6 @@
     "undo": "撤消",
     "redo": "重做",
     "deleteAll": "全部删除",
-    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "选择本体"
     },
     "importFolder": "导入文件夹",
-    "importFile": "导入文件"
+    "importFile": "导入文件",
+    "ontology": "本体"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
