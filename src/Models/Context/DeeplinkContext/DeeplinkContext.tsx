@@ -8,6 +8,7 @@ import { ADT3DScenePageModes, AzureResourceTypes } from '../../Constants';
 import {
     getContainerNameFromUrl,
     getDebugLogger,
+    getNameOfResource,
     getResourceId,
     getResourceUrl
 } from '../../Services/Utils';
@@ -157,7 +158,15 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     };
 
     // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
-    setSelectedAdtInstanceInLocalStorage(defaultState.adtUrl);
+    setSelectedAdtInstanceInLocalStorage({
+        id: defaultState.adtResourceId ? defaultState.adtResourceId : null,
+        name: getNameOfResource(
+            defaultState.adtUrl,
+            AzureResourceTypes.DigitalTwinInstance
+        ),
+        properties: { hostName: new URL(defaultState.adtUrl).hostname },
+        type: AzureResourceTypes.DigitalTwinInstance
+    });
     setSelectedStorageAccountInLocalStorage(
         getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
     );
