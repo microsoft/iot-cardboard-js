@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
     getIconMoreSubMenuItemStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
 import { PropertyListItemSubMenuProps } from './PropertyListItemSubMenu.types';
 
 export const PropertyListItemSubMenu = ({
