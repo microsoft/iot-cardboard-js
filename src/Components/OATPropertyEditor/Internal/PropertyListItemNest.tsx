@@ -1,17 +1,17 @@
 import React, { useState, useContext, useMemo } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { TextField, Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
     getPropertyListItemIconWrapMoreStyles,
     getPropertyEditorTextFieldStyles
-} from './OATPropertyEditor.styles';
-import { DTDLSchemaType } from '../../Models/Classes/DTDL';
+} from '../OATPropertyEditor.styles';
+import { DTDLSchemaType } from '../../../Models/Classes/DTDL';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
 import PropertyListMapItemNested from './PropertyListMapItemNested';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,18 +19,18 @@ import {
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
-} from '../../Models/Constants/ActionTypes';
+} from '../../../Models/Constants/ActionTypes';
 
 import {
     getModelPropertyCollectionName,
     getModelPropertyListItemName,
     getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
-} from './Utils';
-import { FormBody } from './Constants';
+} from '../Utils';
+import { FormBody } from '../Shared/Constants';
 import { PropertyListItemNestProps } from './PropertyListItemNest.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
     props

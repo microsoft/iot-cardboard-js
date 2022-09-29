@@ -1,9 +1,9 @@
 import React, { useRef, useState, useContext, useMemo } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { deepCopy } from '../../Models/Services/Utils';
+import { getPropertyInspectorStyles } from '../OATPropertyEditor.styles';
+import { deepCopy } from '../../../Models/Services/Utils';
 import PropertyListItem from './PropertyListItem';
 import PropertyListItemNest from './PropertyListItemNest';
 import PropertySelector from './PropertySelector';
@@ -12,11 +12,11 @@ import {
     getModelPropertyCollectionName,
     getTargetFromSelection,
     shouldClosePropertySelectorOnMouseLeave
-} from './Utils';
+} from '../Utils';
 import { PropertyListProps } from './PropertyList.types';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY } from '../../Models/Constants/ActionTypes';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY } from '../../../Models/Constants/ActionTypes';
 
 export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const {

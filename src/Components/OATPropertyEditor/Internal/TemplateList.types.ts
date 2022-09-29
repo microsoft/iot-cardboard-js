@@ -1,4 +1,4 @@
-import { IAction } from '../../Models/Constants/Interfaces';
+import { IAction } from '../../../Models/Constants/Interfaces';
 
 export type TemplateListProps = {
     draggingTemplate?: boolean;

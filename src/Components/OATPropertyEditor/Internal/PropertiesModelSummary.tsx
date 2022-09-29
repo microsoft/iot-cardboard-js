@@ -6,24 +6,24 @@ import {
     getGeneralPropertiesWrapStyles,
     getPropertyEditorTextFieldStyles,
     getIconWrapFitContentStyles
-} from './OATPropertyEditor.styles';
-import { FormBody } from './Constants';
-import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
-import OATTextFieldName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
-import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy } from '../../Models/Services/Utils';
+} from '../OATPropertyEditor.styles';
+import { FormBody } from '../Shared/Constants';
+import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
+import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
+import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
-} from '../../Models/Constants/ActionTypes';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getModelPropertyListItemName, getTargetFromSelection } from './Utils';
+} from '../../../Models/Constants/ActionTypes';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { getModelPropertyListItemName, getTargetFromSelection } from '../Utils';
 import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
-import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
-import { updateModelId } from '../../Models/Services/OatUtils';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { OAT_INTERFACE_TYPE } from '../../../Models/Constants/Constants';
+import { updateModelId } from '../../../Models/Services/OatUtils';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     props

@@ -1,5 +1,5 @@
-import { IAction } from '../../Models/Constants/Interfaces';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { IAction } from '../../../Models/Constants/Interfaces';
+import { DTDLProperty } from '../../../Models/Classes/DTDL';
 
 export type PropertyListItemNestedProps = {
     collectionLength?: number;

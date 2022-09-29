@@ -1,18 +1,18 @@
 import React, { useRef, useState, useContext, useMemo } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
-import { deepCopy } from '../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { getPropertyInspectorStyles } from '../OATPropertyEditor.styles';
+import { deepCopy } from '../../../Models/Services/Utils';
 import TemplateListItem from './TemplateListItem';
-import { SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE } from '../../Models/Constants/ActionTypes';
+import { SET_OAT_PROPERTY_EDITOR_DRAGGING_TEMPLATE } from '../../../Models/Constants/ActionTypes';
 
 import {
     getModelPropertyCollectionName,
     getTargetFromSelection
-} from './Utils';
+} from '../Utils';
 import { TemplateListProps } from './TemplateList.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { DTDLProperty } from '../../../Models/Classes/DTDL';
 
 export const TemplateList: React.FC<TemplateListProps> = (props) => {
     const {

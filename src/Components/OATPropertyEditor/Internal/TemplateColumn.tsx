@@ -13,11 +13,11 @@ import {
     getPropertyEditorTextFieldStyles,
     getTemplateColumnStyles,
     getTemplateColumnPaddingStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
 import TemplateList from './TemplateList';
 import { TemplateColumnProps } from './TemplateColumn.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 export const TemplateColumn: React.FC<TemplateColumnProps> = (props) => {
     const { dispatch, enteredPropertyRef, enteredTemplateRef, state } = props;

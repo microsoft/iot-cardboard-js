@@ -1,6 +1,6 @@
-import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { IAction } from '../../Models/Constants';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
+import { DTDLProperty } from '../../../Models/Classes/DTDL';
+import { IAction } from '../../../Models/Constants';
+import { IOATPropertyEditorState } from '../OATPropertyEditor.types';
 
 export type PropertyListProps = {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;

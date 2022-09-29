@@ -5,16 +5,16 @@ import {
     getMapItemStyles,
     getPropertyEditorTextFieldStyles,
     getListMapItemTextStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy } from '../../../Models/Services/Utils';
 import {
     getModelPropertyCollectionName,
     getTargetFromSelection
-} from './Utils';
+} from '../Utils';
 import { PropertyListMapItemNestedProps } from './PropertyListMapItemNested.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps> = (
     props

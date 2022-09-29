@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef, useContext, useMemo } from 'react';
 import Editor from '@monaco-editor/react';
-import { useLibTheme } from '../../Theming/ThemeProvider';
+import { useLibTheme } from '../../../Theming/ThemeProvider';
 import { useTranslation } from 'react-i18next';
 import { PrimaryButton, DefaultButton } from '@fluentui/react';
 import {
     getCancelButtonStyles,
     getSaveButtonStyles
-} from './OATPropertyEditor.styles';
-import { deepCopy, parseModels } from '../../Models/Services/Utils';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+} from '../OATPropertyEditor.styles';
+import { deepCopy, parseModels } from '../../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { JSONEditorProps } from './JSONEditor.types';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../Models/Constants';
-import { DTDLModel } from '../../Models/Classes/DTDL';
-import { getTargetFromSelection, replaceTargetFromSelection } from './Utils';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../Models/Constants';
+import { DTDLModel } from '../../../Models/Classes/DTDL';
+import { getTargetFromSelection, replaceTargetFromSelection } from '../Utils';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 function setEditorTheme(monaco: any) {
     monaco.editor.defineTheme('kraken', {

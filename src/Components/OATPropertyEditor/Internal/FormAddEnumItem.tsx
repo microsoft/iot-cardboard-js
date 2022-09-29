@@ -17,9 +17,9 @@ import {
     getModalLabelStyles,
     getRadioGroupRowStyles,
     getModalTextFieldStyles
-} from './OATPropertyEditor.styles';
-import { deepCopy } from '../../Models/Services/Utils';
-import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
+} from '../OATPropertyEditor.styles';
+import { deepCopy } from '../../../Models/Services/Utils';
+import { MultiLanguageSelectionType } from '../../../Models/Constants/Enums';
 import {
     getModelPropertyCollectionName,
     validateCommentChange,
@@ -27,15 +27,15 @@ import {
     setMultiLanguageSelectionRemoval,
     setMultiLanguageSelectionsDescriptionKey,
     getTargetFromSelection
-} from './Utils';
+} from '../Utils';
 import {
     DTDLNameRegex,
     OAT_NAME_LENGTH_LIMIT
-} from '../../Models/Constants/Constants';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+} from '../../../Models/Constants/Constants';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { ModalFormAddEnumItemProps } from './FormAddEnumItem.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';

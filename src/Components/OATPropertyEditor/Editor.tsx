@@ -14,10 +14,10 @@ import {
     getPropertyListPivotColumnContentStyles,
     getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
-import PropertyList from './PropertyList';
-import JSONEditor from './JSONEditor';
-import TemplateColumn from './TemplateColumn';
-import PropertiesModelSummary from './PropertiesModelSummary';
+import PropertyList from './Internal/PropertyList';
+import JSONEditor from './Internal/JSONEditor';
+import TemplateColumn from './Internal/TemplateColumn';
+import PropertiesModelSummary from './Internal/PropertiesModelSummary';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
@@ -27,10 +27,8 @@ import {
     getTargetFromSelection
 } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
-import FormUpdateProperty from './FormUpdateProperty';
-import FormAddEnumItem from './FormAddEnumItem';
-import { FormBody } from './Constants';
-import FormRootModelDetails from './FormRootModelDetails';
+import FormAddEnumItem from './Internal/FormAddEnumItem';
+import { FormBody } from './Shared/Constants';
 import { EditorProps } from './Editor.types';
 import {
     OAT_INTERFACE_TYPE,
@@ -38,6 +36,8 @@ import {
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import FormRootModelDetails from './Internal/FormRootModelDetails';
+import FormUpdateProperty from './Internal/FormUpdateProperty';
 
 const Editor: React.FC<EditorProps> = (props) => {
     const { dispatch, languages, state, theme } = props;

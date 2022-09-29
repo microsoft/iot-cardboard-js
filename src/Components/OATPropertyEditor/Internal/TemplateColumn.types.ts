@@ -1,5 +1,5 @@
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATPropertyEditorState } from './OATPropertyEditor.types';
+import { IAction } from '../../../Models/Constants/Interfaces';
+import { IOATPropertyEditorState } from '../OATPropertyEditor.types';
 
 export type TemplateColumnProps = {
     enteredPropertyRef: any;

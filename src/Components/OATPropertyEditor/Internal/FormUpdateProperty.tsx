@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     TextField,
     Text,
@@ -19,31 +19,28 @@ import {
     getPropertyInspectorStyles,
     getModalLabelStyles,
     getRadioGroupRowStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
+import { SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX } from '../../../Models/Constants/ActionTypes';
+import { deepCopy } from '../../../Models/Services/Utils';
+import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
+import { DTDLNameRegex } from '../../../Models/Constants/Constants';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { MultiLanguageSelectionType } from '../../../Models/Constants';
 import {
-    SET_OAT_MODELS,
-    SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX
-} from '../../Models/Constants/ActionTypes';
-import { deepCopy } from '../../Models/Services/Utils';
-import { MultiLanguageSelectionType } from '../../Models/Constants/Enums';
-import {
+    getTargetFromSelection,
     getModelPropertyCollectionName,
+    getNestedPropertyCollectionName,
     getModelPropertyListItemName,
-    validateCommentChange,
-    validateDescriptionChange,
     validateDisplayNameChange,
     setMultiLanguageSelectionRemoval,
-    setMultiLanguageSelectionsDescriptionKey,
-    validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue,
-    getTargetFromSelection,
-    getNestedPropertyCollectionName
-} from './Utils';
-import { FormUpdatePropertyProps } from './FormUpdateProperty.types';
-import { DTDLNameRegex } from '../../Models/Constants/Constants';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+    validateDescriptionChange,
+    setMultiLanguageSelectionsDescriptionKey,
+    validateMultiLanguageSelectionsDescriptionValueChange,
+    validateCommentChange
+} from '../Utils';
 
 const MULTI_LANGUAGE_OPTION_VALUE = 'multiLanguage';
 const SINGLE_LANGUAGE_OPTION_VALUE = 'singleLanguage';

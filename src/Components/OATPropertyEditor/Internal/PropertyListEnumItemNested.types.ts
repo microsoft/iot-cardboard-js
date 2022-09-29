@@ -1,5 +1,5 @@
-import { IAction } from '../../Models/Constants/Interfaces';
-import { IOATEditorState } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IAction } from '../../../Models/Constants/Interfaces';
+import { IOATEditorState } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 
 export type EnumItemProps = {
     collectionLength?: number;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FontIcon, ActionButton } from '@fluentui/react';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
+import { getPropertyInspectorStyles } from '../OATPropertyEditor.styles';
 import { AddPropertyBarProps } from './AddPropertyBar.types';
 
 export const AddPropertyBar = ({

@@ -3,21 +3,21 @@ import { ActionButton, Separator, Stack } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
     getPropertySelectorSeparatorStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
 import Svg from 'react-inlinesvg';
 import { useTranslation } from 'react-i18next';
-import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { deepCopy } from '../../Models/Services/Utils';
+import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { deepCopy } from '../../../Models/Services/Utils';
 
 import {
     getModelPropertyCollectionName,
     getTargetFromSelection
-} from './Utils';
-import { DTDLSchemaType } from '../../Models/Classes/DTDL';
-import { propertySelectorData } from '../../Models/Constants';
+} from '../Utils';
+import { DTDLSchemaType } from '../../../Models/Classes/DTDL';
+import { propertySelectorData } from '../../../Models/Constants';
 import { PropertySelectorProps } from './PropertySelector.types';
-import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 const leftOffset = 170; // Place selector's most used options above trigger element
 const topOffset = 60; // Selector height

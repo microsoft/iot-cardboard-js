@@ -1,4 +1,4 @@
-import { IOATLastPropertyFocused } from '../../Models/Constants/Interfaces';
+import { IOATLastPropertyFocused } from '../../../Models/Constants/Interfaces';
 
 export interface IOATPropertySelectorPosition {
     top: number;

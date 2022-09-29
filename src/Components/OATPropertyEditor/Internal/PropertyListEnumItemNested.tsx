@@ -3,18 +3,18 @@ import { Text, IconButton } from '@fluentui/react';
 import {
     getPropertyInspectorStyles,
     getPropertyListItemIconWrapMoreStyles
-} from './OATPropertyEditor.styles';
+} from '../OATPropertyEditor.styles';
 import { useTranslation } from 'react-i18next';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
-import { getModelPropertyListItemName } from './Utils';
+import { getModelPropertyListItemName } from '../Utils';
 import { EnumItemProps } from './PropertyListEnumItemNested.types';
 import {
     SET_OAT_PROPERTY_EDITOR_CURRENT_NESTED_PROPERTY_INDEX,
     SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
     SET_OAT_PROPERTY_MODAL_OPEN,
     SET_OAT_PROPERTY_MODAL_BODY
-} from '../../Models/Constants/ActionTypes';
-import { FormBody } from './Constants';
+} from '../../../Models/Constants/ActionTypes';
+import { FormBody } from '../Shared/Constants';
 
 export const PropertyListEnumItemNested = ({
     collectionLength,

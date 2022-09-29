@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, IconButton } from '@fluentui/react';
-import { getPropertyListItemIconWrapMoreStyles } from './OATPropertyEditor.styles';
+import { getPropertyListItemIconWrapMoreStyles } from '../OATPropertyEditor.styles';
 import PropertyListItemSubMenu from './PropertyListItemSubMenu';
 import { useTranslation } from 'react-i18next';
 import { TemplateListItemListProps } from './TemplateListItem.types';
