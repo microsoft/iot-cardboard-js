@@ -91,7 +91,6 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
                 options.push(dropdownoptions);
                 if (searchedProperties.includes(property)) {
                     dropdownoptions['selected'] = true;
-                    dropdownoptions['disabled'] = true;
                 }
             }
         });
@@ -104,11 +103,7 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
             options={setDropdownOptions()}
             onChange={onChange}
             multiSelect={true}
-            styles={{
-                root: { paddingRight: 28, width: 200 },
-                title: { alignItems: 'center' },
-                dropdownItems: { width: 200 }
-            }}
+            styles={classNames.subComponentStyles.dropdown}
         />
     );
 };

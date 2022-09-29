@@ -35,7 +35,7 @@ export interface IColumnPickerStyles {
 
 export interface IColumnPickerSubComponentStyles {
     icon?: IIconStyles;
-    dropDown?: IDropdownStyles;
+    dropdown?: Partial<IDropdownStyles>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface

@@ -22,6 +22,9 @@ export const getStyles = (
                 root: {
                     paddingRight: 8
                 }
+            },
+            dropdown: {
+                root: { paddingRight: 28, width: 200 }
             }
         }
     };

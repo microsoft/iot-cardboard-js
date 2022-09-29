@@ -10,6 +10,7 @@ import {
     IPropertyInspectorAdapter
 } from '../../../../Models/Constants';
 import { IPropertyInspectorCalloutStyles } from '../../../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
+import { IColumnPickerStyles } from '../ColumnPicker/ColumnPicker.types';
 
 export interface IAdvancedSearchResultDetailsListProps {
     adapter: IPropertyInspectorAdapter;
@@ -45,4 +46,5 @@ export interface IAdvancedSearchResultDetailsListSubComponentStyles {
     detailsList?: IDetailsListStyles;
     propertyInspector?: IPropertyInspectorCalloutStyles;
     spinner?: Partial<ISpinnerStyles>;
+    columnPicker?: IColumnPickerStyles;
 }
