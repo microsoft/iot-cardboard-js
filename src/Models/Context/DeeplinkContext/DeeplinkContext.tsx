@@ -158,15 +158,23 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     };
 
     // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
-    setSelectedAdtInstanceInLocalStorage({
-        id: defaultState.adtResourceId ? defaultState.adtResourceId : null,
-        name: getNameOfResource(
-            defaultState.adtUrl,
-            AzureResourceTypes.DigitalTwinInstance
-        ),
-        properties: { hostName: new URL(defaultState.adtUrl).hostname },
-        type: AzureResourceTypes.DigitalTwinInstance
-    });
+    setSelectedAdtInstanceInLocalStorage(
+        defaultState.adtResourceId
+            ? {
+                  id: defaultState.adtResourceId
+                      ? defaultState.adtResourceId
+                      : null,
+                  name: getNameOfResource(
+                      defaultState.adtUrl,
+                      AzureResourceTypes.DigitalTwinInstance
+                  ),
+                  properties: {
+                      hostName: new URL(defaultState.adtUrl).hostname
+                  },
+                  type: AzureResourceTypes.DigitalTwinInstance
+              }
+            : defaultState.adtUrl
+    );
     setSelectedStorageAccountInLocalStorage(
         getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
     );

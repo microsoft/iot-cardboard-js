@@ -444,6 +444,25 @@ export const setAdtInstanceOptionsInLocalStorage = (
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const existingOptionsInLocalStorage =
+            environmentOptionsInLocalStorage.adtInstances || [];
+
+        adtInstancesItems.forEach((item) => {
+            if (!item.id) {
+                const existingId = existingOptionsInLocalStorage.find(
+                    (option) =>
+                        areResourceValuesEqual(
+                            option.url,
+                            item.url,
+                            AzureResourceDisplayFields.url
+                        )
+                )?.id;
+                if (existingId) {
+                    item.id = existingId;
+                }
+            }
+        });
+
         newEnvironmentOptions = {
             ...environmentOptionsInLocalStorage, // keep other existing options
             adtInstances: adtInstancesItems
@@ -471,6 +490,25 @@ export const setStorageAccountOptionsInLocalStorage = (
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+
+        const existingOptionsInLocalStorage =
+            environmentOptionsInLocalStorage.storageAccounts || [];
+        storageAccountItems.forEach((item) => {
+            if (!item.id) {
+                const existingId = existingOptionsInLocalStorage.find(
+                    (option) =>
+                        areResourceValuesEqual(
+                            option.url,
+                            item.url,
+                            AzureResourceDisplayFields.url
+                        )
+                )?.id;
+                if (existingId) {
+                    item.id = existingId;
+                }
+            }
+        });
+
         newEnvironmentOptions = {
             // assign like this in case adt field is not present in the environment configuration
             ...environmentOptionsInLocalStorage,
@@ -505,6 +543,25 @@ export const setStorageContainerOptionsInLocalStorage = (
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+
+        const existingOptionsInLocalStorage =
+            environmentOptionsInLocalStorage.storageContainers || [];
+        containerItems.forEach((item) => {
+            if (!item.id) {
+                const existingId = existingOptionsInLocalStorage.find(
+                    (option) =>
+                        areResourceValuesEqual(
+                            option.url,
+                            item.url,
+                            AzureResourceDisplayFields.url
+                        )
+                )?.id;
+                if (existingId) {
+                    item.id = existingId;
+                }
+            }
+        });
+
         newEnvironmentOptions = {
             // assign like this in case adt field is not present in the environment configuration
             ...environmentOptionsInLocalStorage,
