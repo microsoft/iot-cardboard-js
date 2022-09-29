@@ -64,9 +64,9 @@ import {
     getAdtInstanceOptionsFromLocalStorage,
     getStorageAccountOptionsFromLocalStorage,
     getStorageContainerOptionsFromLocalStorage,
-    setAdtInstancesInLocalStorage,
-    setStorageAccountsInLocalStorage,
-    setStorageContainersInLocalStorage
+    setAdtInstanceOptionsInLocalStorage,
+    setStorageAccountOptionsInLocalStorage,
+    setStorageContainerOptionsInLocalStorage
 } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 
 const dialogStyles: Partial<IModalStyles> = {
@@ -318,16 +318,16 @@ const EnvironmentPicker = ({
         }
 
         if (isLocalStorageEnabled) {
-            setAdtInstancesInLocalStorage(
+            setAdtInstanceOptionsInLocalStorage(
                 environmentPickerState.adtInstanceItems.adtInstances
             );
         }
         if (storage?.isLocalStorageEnabled) {
-            setStorageContainersInLocalStorage(
+            setStorageContainerOptionsInLocalStorage(
                 environmentPickerState.containerItems.containers,
                 environmentPickerState.storageAccountItems.storageAccountToEdit
             );
-            setStorageAccountsInLocalStorage(
+            setStorageAccountOptionsInLocalStorage(
                 environmentPickerState.storageAccountItems.storageAccounts
             );
         }

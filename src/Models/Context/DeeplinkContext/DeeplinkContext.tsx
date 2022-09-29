@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ADT3DScenePageModes, AzureResourceTypes } from '../../Constants';
 import {
+    getContainerNameFromUrl,
     getDebugLogger,
     getResourceId,
     getResourceUrl
@@ -27,9 +28,11 @@ import {
     getSelectedAdtInstanceFromLocalStorage,
     getSelectedStorageContainerFromLocalStorage,
     setSelectedAdtInstanceInLocalStorage,
+    setSelectedStorageAccountInLocalStorage,
     setSelectedStorageContainerInLocalStorage
 } from '../../Services/LocalStorageManager/LocalStorageManager';
 import TelemetryService from '../../Services/TelemetryService/TelemetryService';
+import { getStorageAccountUrlFromContainerUrl } from '../../../Components/EnvironmentPicker/EnvironmentPickerManager';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
@@ -88,6 +91,9 @@ export const DeeplinkContextReducer: (
                         AzureResourceTypes.StorageBlobContainer,
                         action.payload.storageAccount
                     ) || '';
+                setSelectedStorageAccountInLocalStorage(
+                    action.payload.storageAccount
+                );
                 setSelectedStorageContainerInLocalStorage(
                     action.payload.storageContainer,
                     action.payload.storageAccount
@@ -117,18 +123,21 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         sort: false
     }) as unknown) as IPublicDeeplink;
 
+    const selectedAdtInstanceInLocalStorage = getSelectedAdtInstanceFromLocalStorage();
+    const selectedStorageContainerInLocalStorage = getSelectedStorageContainerFromLocalStorage();
+
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IDeeplinkContextState = {
         adtUrl:
             parsed.adtUrl ||
             initialState.adtUrl ||
-            getSelectedAdtInstanceFromLocalStorage()?.url ||
+            selectedAdtInstanceInLocalStorage?.url ||
             '',
         adtResourceId:
             parsed.adtResourceId ||
             initialState.adtResourceId ||
-            getSelectedAdtInstanceFromLocalStorage()?.id ||
+            selectedAdtInstanceInLocalStorage?.id ||
             '',
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
@@ -143,12 +152,19 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         storageUrl:
             parsed.storageUrl ||
             initialState.storageUrl ||
-            getSelectedStorageContainerFromLocalStorage()?.url ||
+            selectedStorageContainerInLocalStorage?.url ||
             ''
     };
 
     // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
     setSelectedAdtInstanceInLocalStorage(defaultState.adtUrl);
+    setSelectedStorageAccountInLocalStorage(
+        getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+    );
+    setSelectedStorageContainerInLocalStorage(
+        getContainerNameFromUrl(defaultState.storageUrl),
+        getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+    );
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
         DeeplinkContextReducer,

@@ -32,7 +32,7 @@ export type EnvironmentConfigurationInLocalStorage = {
  * @param storageContainers Storage container options of fetched data or manually entered input which is updated with save action in EnvironmentPicker
  */
 export type EnvironmentOptionsInLocalStorage = {
-    adtInstances?: Array<EnvironmentItemInLocalStorage | string>; // string type kept for migration from old version
+    adtInstances?: Array<EnvironmentItemInLocalStorage>; // string type kept for migration from old version
     storageAccounts?: Array<EnvironmentItemInLocalStorage>; // string type kept for migration from old version
     storageContainers?: Array<EnvironmentItemInLocalStorage>; // string type kept for migration from old version
 };

@@ -118,7 +118,7 @@ export const getAdtInstanceOptionsFromLocalStorage = (
                           .filter((e) => e.config?.appAdtUrl)
                           .map((e) => e.config.appAdtUrl)
                     : null;
-                setAdtInstancesInLocalStorage(optionUrls);
+                setAdtInstanceOptionsInLocalStorage(optionUrls);
                 return optionUrls;
             }
             // END of migration
@@ -138,7 +138,7 @@ export const getStorageAccountOptionsFromLocalStorage = (
 ): Array<EnvironmentItemInLocalStorage> | null => {
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
-        if (!environmentOptionsInLocalStorage) {
+        if (!environmentOptionsInLocalStorage?.storageAccounts) {
             // START of migration of values using old local storage key
             const previouslyUsedKey =
                 localStorageKey || StorageAccountsLocalStorageKey;
@@ -155,7 +155,8 @@ export const getStorageAccountOptionsFromLocalStorage = (
                       ) // although we have id information here, type casting would be an issue since it is not a full Azure Resource object
                     : null;
 
-                setStorageAccountsInLocalStorage(optionUrls);
+                setStorageAccountOptionsInLocalStorage(optionUrls);
+                localStorage.removeItem(previouslyUsedKey);
                 return optionUrls.map((o) =>
                     getEnvironmentItemFromResource(
                         o,
@@ -180,7 +181,7 @@ export const getStorageContainerOptionsFromLocalStorage = (
 ): Array<EnvironmentItemInLocalStorage | string> | null => {
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
-        if (!environmentOptionsInLocalStorage) {
+        if (!environmentOptionsInLocalStorage?.storageContainers) {
             // Try fetching values using old local storage key
             const previouslyUsedKey =
                 localStorageKey || ContainersLocalStorageKey;
@@ -191,7 +192,11 @@ export const getStorageContainerOptionsFromLocalStorage = (
             const optionUrls = oldOptionsInLocalStorage
                 ? (JSON.parse(oldOptionsInLocalStorage) as Array<string>)
                 : null;
-            // dont update the local storage with new structure since there might be different container and storage account pairs in urls
+            setStorageAccountOptionsInLocalStorage(
+                optionUrls.map((o) => getStorageAccountUrlFromContainerUrl(o))
+            );
+            // dont update the local storage with new structure for containers since there might be different container and storage account pairs in urls
+            localStorage.removeItem(previouslyUsedKey);
             return optionUrls;
         } else {
             return environmentOptionsInLocalStorage?.storageContainers;
@@ -208,7 +213,7 @@ export const getStorageContainerOptionsFromLocalStorage = (
 export const getSelectedAdtInstanceFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
-        if (!environmentConfigurationInLocalStorage) {
+        if (!environmentConfigurationInLocalStorage?.selectedAdtInstance) {
             // START of migration of values using old local storage key
             const previouslyUsedKey = SelectedEnvironmentLocalStorageKey;
             const oldInstanceInLocalStorage = localStorage.getItem(
@@ -252,7 +257,7 @@ export const getSelectedStorageAccountFromLocalStorage = (): EnvironmentItemInLo
 export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
-        if (!environmentConfigurationInLocalStorage) {
+        if (!environmentConfigurationInLocalStorage?.selectedStorageContainer) {
             // START of migration of values using old local storage key
             const previouslyUsedKey = SelectedContainerLocalStorageKey;
             const oldContainerUrl = localStorage.getItem(previouslyUsedKey);
@@ -262,9 +267,10 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemIn
                 );
 
                 setSelectedStorageContainerInLocalStorage(
-                    oldContainerUrl,
+                    getContainerNameFromUrl(oldContainerUrl),
                     storageAccountUrl
                 );
+                setSelectedStorageAccountInLocalStorage(storageAccountUrl);
                 localStorage.removeItem(previouslyUsedKey);
 
                 return getEnvironmentItemFromResource(
@@ -338,8 +344,8 @@ export const setSelectedAdtInstanceInLocalStorage = (
             )
         ) {
             environmentConfiguration.selectedAdtInstance = {
-                id: environmentConfiguration.selectedAdtInstance.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
-                ...selectedAdtInstanceEnvironmentConfigurationItem
+                ...selectedAdtInstanceEnvironmentConfigurationItem,
+                id: environmentConfiguration.selectedAdtInstance.id // to preserve the previously tracked id not to override it with null value only when the urls are same
             };
         } else {
             environmentConfiguration.selectedAdtInstance = selectedAdtInstanceEnvironmentConfigurationItem;
@@ -372,8 +378,8 @@ export const setSelectedStorageAccountInLocalStorage = (
             )
         ) {
             environmentConfiguration.selectedStorageAccount = {
-                id: environmentConfiguration.selectedStorageAccount.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
-                ...selectedStorageAccountEnvironmentConfigurationItem
+                ...selectedStorageAccountEnvironmentConfigurationItem,
+                id: environmentConfiguration.selectedStorageAccount.id // to preserve the previously tracked id not to override it with null value only when the urls are same
             };
         } else {
             environmentConfiguration.selectedStorageAccount = selectedStorageAccountEnvironmentConfigurationItem;
@@ -409,8 +415,8 @@ export const setSelectedStorageContainerInLocalStorage = (
             )
         ) {
             environmentConfiguration.selectedStorageContainer = {
-                id: environmentConfiguration.selectedStorageContainer.id, // to preserve the previously tracked id not to override it with null value only when the urls are same
-                ...selectedContainerEnvironmentConfigurationItem
+                ...selectedContainerEnvironmentConfigurationItem,
+                id: environmentConfiguration.selectedStorageContainer.id // to preserve the previously tracked id not to override it with null value only when the urls are same
             };
         } else {
             environmentConfiguration.selectedStorageContainer = selectedContainerEnvironmentConfigurationItem;
@@ -424,7 +430,7 @@ export const setSelectedStorageContainerInLocalStorage = (
 /** Updates the list of ADT instances in local storage to be used as options in EnvironmentPicker
  * @param adtInstances list of ADT instance resources to be stored in local storage
  */
-export const setAdtInstancesInLocalStorage = (
+export const setAdtInstanceOptionsInLocalStorage = (
     adtInstances: Array<string | IADTInstance> = []
 ) => {
     const adtInstancesItems = adtInstances
@@ -454,7 +460,7 @@ export const setAdtInstancesInLocalStorage = (
 /** To update the list of Storage accounts in local storage to be used as options in EnvironmentPicker
  * @param storageAccounts list of Storage accounts to be updated in the local storage
  */
-export const setStorageAccountsInLocalStorage = (
+export const setStorageAccountOptionsInLocalStorage = (
     storageAccounts: Array<IAzureResource | string> = []
 ) => {
     const storageAccountItems = storageAccounts
@@ -483,7 +489,7 @@ export const setStorageAccountsInLocalStorage = (
  * @param storageContainers list of storage containers to be updated in the local storage
  * @param parentStorageAccount the storage account where the container is in, this is needed to get the url of the container since a container does not store url information as an Azure resource
  */
-export const setStorageContainersInLocalStorage = (
+export const setStorageContainerOptionsInLocalStorage = (
     containers: Array<IAzureResource | string> = [],
     parentStorageAccount: IAzureResource | string
 ) => {
