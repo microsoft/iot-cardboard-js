@@ -273,14 +273,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         alert('on save as');
     }, []);
 
-    const onUploadFolderClick = useCallback(() => {
-        uploadFolderInputRef.current.click();
-    }, []);
-
-    const onUploadFileClick = useCallback(() => {
-        uploadFileInputRef.current.click();
-    }, [uploadFileInputRef]);
-
     const onExportClick = useCallback(() => {
         const zip = new JSZip();
         for (const element of oatPageState.models) {
@@ -410,18 +402,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             itemType: ContextualMenuItemType.Divider
         },
         {
-            key: 'Import',
-            text: t('OATHeader.importFile'),
-            iconProps: { iconName: 'Import' },
-            onClick: onUploadFileClick
-        },
-        {
-            key: 'Import',
-            text: t('OATHeader.importFolder'),
-            iconProps: { iconName: 'Import' },
-            onClick: onUploadFolderClick
-        },
-        {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
@@ -456,6 +436,26 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             componentRef: redoButtonRef
         }
     ];
+    const newModelMenuItems: IContextualMenuItem[] = [
+        {
+            key: 'newModel',
+            iconProps: { iconName: 'AppIconDefaultAdd' },
+            text: 'New model',
+            onClick: onAddModel
+        },
+        {
+            key: 'importFile',
+            text: t('OATHeader.importFile'),
+            iconProps: { iconName: 'Import' },
+            onClick: () => uploadFileInputRef.current.click()
+        },
+        {
+            key: 'importFolder',
+            text: t('OATHeader.importFolder'),
+            iconProps: { iconName: 'Import' },
+            onClick: () => uploadFolderInputRef.current.click()
+        }
+    ];
     const commandBarItems: ICommandBarItemProps[] = [
         {
             key: 'file',
@@ -477,7 +477,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         },
         {
             key: 'newModel',
-            iconProps: { iconName: 'Add' },
+            iconProps: { iconName: 'AppIconDefaultAdd' },
+            split: true,
+            subMenuProps: {
+                items: newModelMenuItems
+            },
             text: 'New model',
             onClick: onAddModel
         }
