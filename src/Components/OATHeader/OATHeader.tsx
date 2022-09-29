@@ -10,7 +10,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
-import { useDropzone } from 'react-dropzone';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import {
@@ -45,21 +44,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const classNames = getClassNames(styles, { theme: useTheme() });
 
     // state
-
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        inputRef
-    } = useDropzone();
-    const {
-        modelsMetadata,
-        // projectName,
-        // modelPositions,
-        models
-        // templates,
-        // namespace
-    } = oatPageState;
     const uploadInputRef = useRef(null);
     const redoButtonRef = useRef(null);
     const undoButtonRef = useRef(null);
@@ -86,7 +70,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 );
 
                 if (!metaDataCopy) {
-                    metaDataCopy = deepCopy(modelsMetadata);
+                    metaDataCopy = deepCopy(oatPageState.modelsMetadata);
                 }
 
                 // Get JSON from content
@@ -130,10 +114,13 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         }
                     }
 
-                    const combinedModels = [...models, ...newModels];
+                    const combinedModels = [
+                        ...oatPageState.models,
+                        ...newModels
+                    ];
                     const error = await parseModels(combinedModels);
 
-                    const modelsCopy = deepCopy(models);
+                    const modelsCopy = deepCopy(oatPageState.models);
                     for (const model of newModels) {
                         // Check if model already exists
                         const modelExists = modelsCopy.find(
@@ -228,9 +215,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             handleFileListChanged(newFiles);
             // Reset value of input element so that it can be reused with the same file
             uploadInputRef.current.value = null;
-            inputRef.current.value = null;
         },
-        [oatPageDispatch, inputRef, models, modelsMetadata, t]
+        [oatPageDispatch, oatPageState.models, oatPageState.modelsMetadata, t]
     );
 
     const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -277,24 +263,20 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         alert('on save as');
     }, []);
 
-    const onUploadFolder = useCallback(() => {
+    const onUploadFile = useCallback(() => {
         uploadInputRef.current.click();
     }, []);
 
-    const onUploadFile = useCallback(() => {
-        inputRef.current.click();
-    }, [inputRef]);
-
     const onExportClick = useCallback(() => {
         const zip = new JSZip();
-        for (const element of models) {
+        for (const element of oatPageState.models) {
             const id = element['@id'];
             let fileName = null;
             let directoryPath = null;
 
             // Check if current elements exists within modelsMetadata array, if so, use the metadata
             // to determine the file name and directory path
-            const modelMetadata = modelsMetadata.find(
+            const modelMetadata = oatPageState.modelsMetadata.find(
                 (model) => model['@id'] === id
             );
             if (modelMetadata) {
@@ -350,7 +332,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
-    }, [models, modelsMetadata]);
+    }, [oatPageState.models, oatPageState.modelsMetadata]);
 
     const onDeleteFile = useCallback(() => {
         // TODO: the stuff
@@ -362,11 +344,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         alert('on add model');
     }, []);
 
-    // Effects
-    useEffect(() => {
-        onFilesUpload(acceptedFiles);
-    }, [acceptedFiles, onFilesUpload]);
-
+    // Side effects
     // Set listener to undo/redo buttons on key press
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
@@ -427,7 +405,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'Import',
             text: t('OATHeader.importFolder'),
             iconProps: { iconName: 'Import' },
-            onClick: onUploadFolder
+            onClick: onUploadFile
         },
         {
             key: 'Export',
@@ -510,9 +488,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         onChange={onFilesChange}
                     />
                 </div>
-            </div>
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
             </div>
         </div>
     );

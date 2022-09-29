@@ -31,37 +31,12 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
-        searchComponent: [
-            classNames.searchComponent,
-            {
-                backgroundColor: theme.semanticColors.bodyBackground,
-                display: 'grid',
-                gridTemplateColumns: '20% 60% 20%',
-                height: '100%'
-            } as IStyle
-        ],
         logo: [
             classNames.logo,
             {
                 color: theme.semanticColors.bodyText,
                 height: '100%',
                 padding: '4%'
-            } as IStyle
-        ],
-        search: [
-            classNames.search,
-            {
-                height: '100%',
-                padding: '1%'
-            } as IStyle
-        ],
-        options: [
-            classNames.options,
-            {
-                height: '100%',
-                padding: '4%',
-                display: 'grid',
-                gridTemplateColumns: '10% 10% 10% 70%'
             } as IStyle
         ],
         menuComponent: [
@@ -77,6 +52,31 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 fontSize: FontSizes.size20,
                 paddingLeft: '50%',
                 color: theme.semanticColors.actionLink
+            } as IStyle
+        ],
+        options: [
+            classNames.options,
+            {
+                height: '100%',
+                padding: '4%',
+                display: 'grid',
+                gridTemplateColumns: '10% 10% 10% 70%'
+            } as IStyle
+        ],
+        search: [
+            classNames.search,
+            {
+                height: '100%',
+                padding: '1%'
+            } as IStyle
+        ],
+        searchComponent: [
+            classNames.searchComponent,
+            {
+                backgroundColor: theme.semanticColors.bodyBackground,
+                display: 'grid',
+                gridTemplateColumns: '20% 60% 20%',
+                height: '100%'
             } as IStyle
         ],
         uploadDirectoryInput: [

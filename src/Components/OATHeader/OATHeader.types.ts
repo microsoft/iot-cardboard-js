@@ -18,12 +18,12 @@ export interface IOATHeaderStyleProps {
 
 export interface IOATHeaderStyles {
     root: IStyle;
-    searchComponent: IStyle;
     logo: IStyle;
-    search: IStyle;
-    options: IStyle;
     menuComponent: IStyle;
     optionIcon: IStyle;
+    options: IStyle;
+    search: IStyle;
+    searchComponent: IStyle;
     uploadDirectoryInput: IStyle;
 
     /**
