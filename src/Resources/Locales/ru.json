@@ -545,7 +545,8 @@
       "position": "Позиция",
       "rotation": "Вращение"
     },
-    "searchTwinIdPlaceholder": "Поиск Твин ID ($dtId)"
+    "searchTwinIdPlaceholder": "Поиск Твин ID ($dtId)",
+    "visualRulesTab": "Визуальные правила"
   },
   "widgets": {
     "trend": {

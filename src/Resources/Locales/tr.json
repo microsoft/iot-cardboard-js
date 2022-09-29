@@ -545,7 +545,8 @@
       "position": "Konum",
       "rotation": "Rotasyon"
     },
-    "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)"
+    "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)",
+    "visualRulesTab": "Görsel kurallar"
   },
   "widgets": {
     "trend": {

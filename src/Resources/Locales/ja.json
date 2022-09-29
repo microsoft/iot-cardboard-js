@@ -545,7 +545,8 @@
       "position": "立場",
       "rotation": "自転"
     },
-    "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)"
+    "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)",
+    "visualRulesTab": "ビジュアルルール"
   },
   "widgets": {
     "trend": {

@@ -545,7 +545,8 @@
       "position": "Posizione",
       "rotation": "Rotazione"
     },
-    "searchTwinIdPlaceholder": "Cerca Twin ID ($dtId)"
+    "searchTwinIdPlaceholder": "Cerca Twin ID ($dtId)",
+    "visualRulesTab": "Regole visive"
   },
   "widgets": {
     "trend": {
