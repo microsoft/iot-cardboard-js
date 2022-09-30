@@ -119,6 +119,7 @@ export const getAdtInstanceOptionsFromLocalStorage = (
                           .map((e) => e.config.appAdtUrl)
                     : null;
                 setAdtInstanceOptionsInLocalStorage(optionUrls);
+                localStorage.removeItem(EnvironmentsLocalStorageKey); // only remove the key that is used by the cardboard, not the passed localStorageKey since consumer app might be still using it like ADT explorer app
                 return optionUrls;
             }
             // END of migration
@@ -133,31 +134,39 @@ export const getAdtInstanceOptionsFromLocalStorage = (
 /** To get the list of Storage accounts from local storage to be used as options in EnvironmentPicker
  * @return list of Storage accounts as environment item from local storage
  */
-export const getStorageAccountOptionsFromLocalStorage = (
-    localStorageKey?: string
-): Array<EnvironmentItemInLocalStorage> | null => {
+export const getStorageAccountOptionsFromLocalStorage = (): Array<EnvironmentItemInLocalStorage> | null => {
     try {
         const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
         if (!environmentOptionsInLocalStorage?.storageAccounts) {
             // START of migration of values using old local storage key
-            const previouslyUsedKey =
-                localStorageKey || StorageAccountsLocalStorageKey;
+            const previouslyUsedKey = StorageAccountsLocalStorageKey;
 
             const oldOptionsInLocalStorage = localStorage.getItem(
                 previouslyUsedKey
             );
             if (oldOptionsInLocalStorage) {
-                const optionUrls = oldOptionsInLocalStorage
+                const options = oldOptionsInLocalStorage
                     ? (JSON.parse(
                           oldOptionsInLocalStorage
                       ) as Array<StorageAccountsInLocalStorage>).map(
-                          (e) => e.url
-                      ) // although we have id information here, type casting would be an issue since it is not a full Azure Resource object
+                          (e) =>
+                              ({
+                                  id: e.id,
+                                  name: getNameOfResource(
+                                      e.url,
+                                      AzureResourceTypes.StorageAccount
+                                  ),
+                                  properties: {
+                                      primaryEndpoints: { blob: e.url }
+                                  },
+                                  type: AzureResourceTypes.StorageAccount
+                              } as IAzureStorageAccount)
+                      )
                     : null;
 
-                setStorageAccountOptionsInLocalStorage(optionUrls);
+                setStorageAccountOptionsInLocalStorage(options);
                 localStorage.removeItem(previouslyUsedKey);
-                return optionUrls.map((o) =>
+                return options.map((o) =>
                     getEnvironmentItemFromResource(
                         o,
                         AzureResourceTypes.StorageAccount
@@ -480,7 +489,7 @@ export const setAdtInstanceOptionsInLocalStorage = (
  * @param storageAccounts list of Storage accounts to be updated in the local storage
  */
 export const setStorageAccountOptionsInLocalStorage = (
-    storageAccounts: Array<IAzureResource | string> = []
+    storageAccounts: Array<IAzureStorageAccount | string> = []
 ) => {
     const storageAccountItems = storageAccounts
         .filter((e) => e) // filter out null instances
@@ -528,8 +537,8 @@ export const setStorageAccountOptionsInLocalStorage = (
  * @param parentStorageAccount the storage account where the container is in, this is needed to get the url of the container since a container does not store url information as an Azure resource
  */
 export const setStorageContainerOptionsInLocalStorage = (
-    containers: Array<IAzureResource | string> = [],
-    parentStorageAccount: IAzureResource | string
+    containers: Array<IAzureStorageBlobContainer | string> = [],
+    parentStorageAccount: IAzureStorageAccount | string
 ) => {
     const containerItems = containers
         .filter((e) => e) // filter out null instances

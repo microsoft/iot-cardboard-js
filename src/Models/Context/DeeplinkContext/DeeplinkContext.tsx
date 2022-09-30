@@ -4,7 +4,11 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
-import { ADT3DScenePageModes, AzureResourceTypes } from '../../Constants';
+import {
+    ADT3DScenePageModes,
+    AzureResourceTypes,
+    IADTInstance
+} from '../../Constants';
 import {
     getContainerNameFromUrl,
     getDebugLogger,
@@ -160,7 +164,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
     setSelectedAdtInstanceInLocalStorage(
         defaultState.adtResourceId
-            ? {
+            ? ({
                   id: defaultState.adtResourceId
                       ? defaultState.adtResourceId
                       : null,
@@ -172,7 +176,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
                       hostName: new URL(defaultState.adtUrl).hostname
                   },
                   type: AzureResourceTypes.DigitalTwinInstance
-              }
+              } as IADTInstance)
             : defaultState.adtUrl
     );
     setSelectedStorageAccountInLocalStorage(

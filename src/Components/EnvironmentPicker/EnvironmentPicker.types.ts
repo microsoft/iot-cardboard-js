@@ -32,8 +32,8 @@ export type EnvironmentPickerProps = {
     onDismiss?: () => void;
     adtInstanceUrl?: string;
     onAdtInstanceChange?: (
-        environment: IADTInstance | string,
-        environments: Array<IADTInstance | string>
+        adtInstance: IADTInstance | string,
+        adtInstances: Array<IADTInstance | string>
     ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);
