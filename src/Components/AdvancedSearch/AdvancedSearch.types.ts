@@ -1,9 +1,4 @@
-import {
-    IIconStyles,
-    IStyle,
-    IStyleFunctionOrObject,
-    ITheme
-} from '@fluentui/react';
+import { IIconStyles, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import { PropertyValueType } from '../../Models/Constants';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
@@ -31,12 +26,6 @@ export interface IAdvancedSearchStyleProps {
     theme: ITheme;
 }
 export interface IAdvancedSearchStyles {
-    content: IStyle;
-    footer: IStyle;
-    headerContainer: IStyle;
-    title: IStyle;
-    titleContainer: IStyle;
-    subtitle: IStyle;
     /**
      * SubComponent styles.
      */
