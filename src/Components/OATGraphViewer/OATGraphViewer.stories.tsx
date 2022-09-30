@@ -5,7 +5,7 @@ import BaseComponent from '../BaseComponent/BaseComponent';
 import OATGraphViewer from './OATGraphViewer';
 
 export default {
-    title: 'Components/OATGraphViewer',
+    title: 'Components - OAT/OATGraphViewer',
     component: OATGraphViewer
 };
 

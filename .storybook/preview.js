@@ -65,7 +65,7 @@ export const parameters = {
     options: {
         // Adds storybook sorting to make finding stories easier :)
         storySort: {
-            order: ['Pages', 'Components', '3DV', 'Test Stories'],
+            order: ['Pages', 'Components', 'Components - OAT', 'Contexts', '3DV', 'Test Stories'],
             method: 'Alphabetical'
         }
     },

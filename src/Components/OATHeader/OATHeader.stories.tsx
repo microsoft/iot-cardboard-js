@@ -5,7 +5,7 @@ import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Interna
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 
 export default {
-    title: 'Components/OATHeader',
+    title: 'Components - OAT/OATHeader',
     component: OATHeader
 };
 

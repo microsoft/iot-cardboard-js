@@ -7,7 +7,7 @@ import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatP
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 
 export default {
-    title: 'Components/OATPropertyEditor',
+    title: 'Components - OAT/OATPropertyEditor',
     component: OATPropertyEditor
 };
 
