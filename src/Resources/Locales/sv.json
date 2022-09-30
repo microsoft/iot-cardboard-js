@@ -545,7 +545,8 @@
       "position": "Position",
       "rotation": "Rotation"
     },
-    "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)"
+    "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)",
+    "visualRulesTab": "Visuella regler"
   },
   "widgets": {
     "trend": {
@@ -1152,8 +1153,6 @@
     "selectRow": "Tvilling vald",
     "inspectProperty": "Inspektera egendom",
     "results": "Resultat ({{twinCount}})",
-    "modalTitle": "Avancerad fastighetssökning",
-    "modalSubtitle": "Länka rätt egendom genom att begränsa din sökning",
     "noPropertiesFound": "Inga fastigheter hittades",
     "addNewButton": "Lägg till ny",
     "andOrColumnHeader": "Eller",
@@ -1168,6 +1167,8 @@
     "errorMessageHeader": "Sökningen misslyckades",
     "errorMessageDescription": "Ett oväntat fel inträffade. Uppdatera sidan eller ändra dina sökkriterier och försök igen.",
     "valueFieldPlaceholder": "Ange ett värde",
-    "noOptionsFoundMessage": "Inga värden hittades"
+    "noOptionsFoundMessage": "Inga värden hittades",
+    "modalTitle": "Avancerad tvillingsökning",
+    "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
   }
 }

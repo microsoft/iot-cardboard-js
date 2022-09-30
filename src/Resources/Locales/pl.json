@@ -545,7 +545,8 @@
       "position": "Pozycja",
       "rotation": "Obrót"
     },
-    "searchTwinIdPlaceholder": "Szukaj Twin ID ($dtId)"
+    "searchTwinIdPlaceholder": "Szukaj Twin ID ($dtId)",
+    "visualRulesTab": "Reguły wizualne"
   },
   "widgets": {
     "trend": {
@@ -1152,8 +1153,6 @@
     "selectRow": "Twin Selected",
     "inspectProperty": "Sprawdź nieruchomość",
     "results": "Wyniki ({{twinCount}})",
-    "modalTitle": "Zaawansowane wyszukiwanie nieruchomości",
-    "modalSubtitle": "Połącz właściwą właściwość, zawężając wyszukiwanie",
     "noPropertiesFound": "Nie znaleziono obiektów",
     "addNewButton": "Dodaj nowy",
     "andOrColumnHeader": "Lub",
@@ -1168,6 +1167,8 @@
     "errorMessageHeader": "Wyszukiwanie nie powiodło się",
     "errorMessageDescription": "Wystąpił nieoczekiwany błąd. Odśwież stronę lub zmodyfikuj kryteria wyszukiwania i spróbuj ponownie.",
     "valueFieldPlaceholder": "Wprowadzanie wartości",
-    "noOptionsFoundMessage": "Nie znaleziono wartości"
+    "noOptionsFoundMessage": "Nie znaleziono wartości",
+    "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
+    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
   }
 }
