@@ -84,19 +84,19 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     return (
         <>
             <CardboardModal
-                isOpen={isOpen}
                 contentStackProps={{ tokens: contentStackTokens }}
-                onDismiss={onDismiss}
-                title={t('advancedSearch.modalTitle')}
-                titleIconName={'Search'}
-                subTitle={t('advancedSearch.modalSubtitle')}
+                isOpen={isOpen}
                 modalProps={{ layerProps: { eventBubblingEnabled: true } }}
+                onDismiss={onDismiss}
                 primaryButtonProps={{
                     text: t('select'),
                     disabled: !selectedTwinId.length,
                     onClick: onConfirmSelection
                 }}
+                subTitle={t('advancedSearch.modalSubtitle')}
                 styles={classNames.subComponentStyles.modal}
+                title={t('advancedSearch.modalTitle')}
+                titleIconName={'Search'}
             >
                 <QueryBuilder
                     adapter={adapter}
