@@ -144,12 +144,12 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                         horizontal={true}
                         horizontalAlign={'end'}
                     >
+                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
                         <PrimaryButton
                             text={t('select')}
                             disabled={!selectedTwinId.length}
                             onClick={onConfirmSelection}
                         />
-                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
                     </Stack>
                 </div>
             </Stack>

@@ -39,17 +39,9 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
         titleIconName
     } = props;
 
-    // contexts
-
-    // state
-
     // hooks
     const { t } = useTranslation();
     const titleId = useId('modal-title');
-
-    // callbacks
-
-    // side effects
 
     // styles
     const classNames = getClassNames(styles, {
@@ -105,14 +97,14 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                             horizontal
                             horizontalAlign={'end'}
                         >
-                            <PrimaryButton
-                                {...primaryButtonProps}
-                                styles={classNames.subComponentStyles.primaryButton?.()}
-                            />
                             <DefaultButton
                                 text={t('cancel')}
                                 onClick={onDismiss}
                                 styles={classNames.subComponentStyles.cancelButton?.()}
+                            />
+                            <PrimaryButton
+                                {...primaryButtonProps}
+                                styles={classNames.subComponentStyles.primaryButton?.()}
                             />
                         </Stack>
                     </Stack>
