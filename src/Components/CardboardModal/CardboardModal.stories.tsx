@@ -66,7 +66,7 @@ WithIcon.args = {
 
 export const WithDestructive = Template.bind({}) as CardboardModalStory;
 WithDestructive.args = {
-    destructiveButtonProps: {
+    dangerButtonProps: {
         text: 'Destroy',
         onClick: () => {
             'destroy';

@@ -16,7 +16,7 @@ export interface ICardboardModalProps {
     /** overrides for stack props for the main content body */
     contentStackProps?: IStackProps;
     /** on click of the destructive action. If not provided, button is hidden */
-    destructiveButtonProps?: IButtonProps;
+    dangerButtonProps?: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
     /** additional props to pass to the modal for customization */

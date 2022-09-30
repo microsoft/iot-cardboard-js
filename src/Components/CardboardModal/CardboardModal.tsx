@@ -30,7 +30,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     const {
         contentStackProps,
         children,
-        destructiveButtonProps,
+        dangerButtonProps,
         isOpen,
         modalProps,
         onDismiss,
@@ -48,7 +48,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme(),
-        isDestructiveFooterActionVisible: !!destructiveButtonProps
+        isDestructiveFooterActionVisible: !!dangerButtonProps
     });
 
     return (
@@ -93,9 +93,9 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                         tokens={stackTokens}
                         styles={classNames.subComponentStyles.footerStack}
                     >
-                        {destructiveButtonProps && (
+                        {dangerButtonProps && (
                             <PrimaryButton
-                                {...destructiveButtonProps}
+                                {...dangerButtonProps}
                                 styles={classNames.subComponentStyles.destructiveButton()}
                             />
                         )}
