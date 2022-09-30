@@ -455,7 +455,8 @@ export const setAdtInstanceOptionsInLocalStorage = (
         );
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
         const existingOptionsInLocalStorage =
             environmentOptionsInLocalStorage.adtInstances || [];
 
@@ -501,7 +502,8 @@ export const setStorageAccountOptionsInLocalStorage = (
         );
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
 
         const existingOptionsInLocalStorage =
             environmentOptionsInLocalStorage.storageAccounts || [];
@@ -554,7 +556,8 @@ export const setStorageContainerOptionsInLocalStorage = (
         );
     let newEnvironmentOptions: EnvironmentOptionsInLocalStorage;
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
 
         const existingOptionsInLocalStorage =
             environmentOptionsInLocalStorage.storageContainers || [];
