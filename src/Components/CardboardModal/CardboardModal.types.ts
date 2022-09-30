@@ -1,7 +1,9 @@
 import {
     IButtonProps,
+    IButtonStyles,
     IIconStyles,
     IModalStyles,
+    IStackStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
@@ -37,6 +39,7 @@ export interface ICardboardModalProps {
 
 export interface ICardboardModalStyleProps {
     theme: ITheme;
+    isDestructiveFooterActionVisible: boolean;
 }
 export interface ICardboardModalStyles {
     content: IStyle;
@@ -53,6 +56,10 @@ export interface ICardboardModalStyles {
 }
 
 export interface ICardboardModalSubComponentStyles {
-    modal?: Partial<IModalStyles>;
+    cancelButton?: Partial<IButtonStyles>;
+    destructiveButton?: Partial<IButtonStyles>;
+    footerStack?: IStackStyles;
     icon?: IIconStyles;
+    modal?: Partial<IModalStyles>;
+    primaryButton?: Partial<IButtonStyles>;
 }

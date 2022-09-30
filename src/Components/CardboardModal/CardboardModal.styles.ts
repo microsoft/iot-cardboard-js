@@ -14,8 +14,10 @@ const classNames = {
     titleContainer: `${classPrefix}-titleContainer`
 };
 export const getStyles = (
-    _props: ICardboardModalStyleProps
+    props: ICardboardModalStyleProps
 ): ICardboardModalStyles => {
+    const { isDestructiveFooterActionVisible, theme } = props;
+    console.log('***Is destructive', isDestructiveFooterActionVisible);
     return {
         content: [
             classNames.content,
@@ -43,6 +45,35 @@ export const getStyles = (
         ],
         subtitle: [classNames.subtitle],
         subComponentStyles: {
+            destructiveButton: {
+                root: {
+                    backgroundColor: 'transparent',
+                    borderColor: 'var(--cb-color-text-danger)',
+                    color: 'var(--cb-color-text-danger)'
+                },
+                rootHovered: {
+                    backgroundColor: 'var(--cb-color-text-danger)',
+                    borderColor: theme.palette.white,
+                    color: theme.palette.white
+                },
+                rootFocused: {
+                    backgroundColor: 'var(--cb-color-text-danger)',
+                    borderColor: theme.palette.white,
+                    color: theme.palette.white
+                },
+                rootPressed: {
+                    backgroundColor: 'var(--cb-color-text-danger)',
+                    borderColor: theme.palette.white,
+                    color: theme.palette.white
+                }
+            },
+            footerStack: {
+                root: {
+                    justifyContent: isDestructiveFooterActionVisible
+                        ? 'space-between !important'
+                        : 'end'
+                }
+            },
             modal: {
                 main: {
                     height: 690,
