@@ -101,8 +101,9 @@ export const getAdtInstanceOptionsFromLocalStorage = (
     localStorageKey?: string
 ): Array<EnvironmentItemInLocalStorage | string> | null => {
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
-        if (!environmentOptionsInLocalStorage) {
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
+        if (!environmentOptionsInLocalStorage?.adtInstances) {
             // START of migration of values using old local storage key
             const previouslyUsedKey =
                 localStorageKey || EnvironmentsLocalStorageKey;
@@ -136,7 +137,8 @@ export const getAdtInstanceOptionsFromLocalStorage = (
  */
 export const getStorageAccountOptionsFromLocalStorage = (): Array<EnvironmentItemInLocalStorage> | null => {
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
         if (!environmentOptionsInLocalStorage?.storageAccounts) {
             // START of migration of values using old local storage key
             const previouslyUsedKey = StorageAccountsLocalStorageKey;
@@ -189,7 +191,8 @@ export const getStorageContainerOptionsFromLocalStorage = (
     localStorageKey?: string
 ): Array<EnvironmentItemInLocalStorage | string> | null => {
     try {
-        const environmentOptionsInLocalStorage = getEnvironmentOptionsFromLocalStorage();
+        const environmentOptionsInLocalStorage =
+            getEnvironmentOptionsFromLocalStorage() || {};
         if (!environmentOptionsInLocalStorage?.storageContainers) {
             // Try fetching values using old local storage key
             const previouslyUsedKey =
