@@ -863,7 +863,14 @@
     },
     "importFolder": "Папка импорта",
     "importFile": "Импорт файла",
-    "ontology": "Онтология"
+    "ontology": "Онтология",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Новая онтология",
+      "modalTitleEdit": "Редактирование онтологии",
+      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleLinkText": "Подробнее об онтологиях"
+    }
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

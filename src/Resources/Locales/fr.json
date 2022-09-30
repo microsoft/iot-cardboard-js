@@ -863,7 +863,14 @@
     },
     "importFolder": "Importer un dossier",
     "importFile": "Importer un fichier",
-    "ontology": "Ontologie"
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nouvelle ontologie",
+      "modalTitleEdit": "Modifier l’ontologie",
+      "modalSubTitleCreate": "Créez une nouvelle ontologie pour structurer votre jumeau numérique.",
+      "modalSubTitleEdit": "Modifiez votre ontologie pour structurer votre jumeau numérique.",
+      "modalSubTitleLinkText": "En savoir plus sur les ontologies"
+    }
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

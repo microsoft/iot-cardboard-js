@@ -863,7 +863,14 @@
     },
     "importFolder": "폴더 가져오기",
     "importFile": "파일 가져오기",
-    "ontology": "존재론"
+    "ontology": "존재론",
+    "manageOntologyModal": {
+      "modalTitleCreate": "새로운 온톨로지",
+      "modalTitleEdit": "온톨로지 편집",
+      "modalSubTitleCreate": "디지탈 트윈에 구조를 제공하기 위해 새로운 온톨로지를 만듭니다.",
+      "modalSubTitleEdit": "온톨로지를 편집하여 디지탈 트윈에 구조를 제공하십시오.",
+      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기"
+    }
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

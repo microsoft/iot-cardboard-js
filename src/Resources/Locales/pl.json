@@ -863,7 +863,14 @@
     },
     "importFolder": "Folder importu",
     "importFile": "Importuj plik",
-    "ontology": "Ontologia"
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nowa ontologia",
+      "modalTitleEdit": "Edytuj ontologię",
+      "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach"
+    }
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",

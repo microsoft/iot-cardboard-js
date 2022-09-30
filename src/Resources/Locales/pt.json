@@ -863,7 +863,14 @@
     },
     "importFolder": "Pasta de importação",
     "importFile": "Arquivo de importação",
-    "ontology": "Ontologia"
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nova ontologia",
+      "modalTitleEdit": "Editar ontologia",
+      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
+      "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
+      "modalSubTitleLinkText": "Saiba mais sobre ontologias"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",

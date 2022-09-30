@@ -863,7 +863,14 @@
     },
     "importFolder": "Složka importu",
     "importFile": "Import souboru",
-    "ontology": "Ontologie"
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nová ontologie",
+      "modalTitleEdit": "Upravit ontologii",
+      "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
+      "modalSubTitleEdit": "Upravte svou ontologii tak, aby vaše digitální dvojče dalo strukturu.",
+      "modalSubTitleLinkText": "Další informace o ontologiích"
+    }
   },
   "OATGraphViewer": {
     "newModel": "Nový model",

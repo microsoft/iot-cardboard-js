@@ -863,7 +863,14 @@
     },
     "importFolder": "导入文件夹",
     "importFile": "导入文件",
-    "ontology": "本体"
+    "ontology": "本体",
+    "manageOntologyModal": {
+      "modalTitleCreate": "新本体",
+      "modalTitleEdit": "编辑本体",
+      "modalSubTitleCreate": "创建一个新的本体，为您的数字孪生提供结构。",
+      "modalSubTitleEdit": "编辑你的本体，给你的数字孪生提供结构。",
+      "modalSubTitleLinkText": "了解有关本体的更多信息"
+    }
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",

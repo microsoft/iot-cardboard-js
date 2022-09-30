@@ -863,7 +863,14 @@
     },
     "importFolder": "Ordner importieren",
     "importFile": "Datei importieren",
-    "ontology": "Ontologie"
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Neue Ontologie",
+      "modalTitleEdit": "Ontologie bearbeiten",
+      "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling Struktur zu verleihen.",
+      "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
+      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien"
+    }
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

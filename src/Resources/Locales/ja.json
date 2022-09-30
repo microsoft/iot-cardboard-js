@@ -863,7 +863,14 @@
     },
     "importFolder": "フォルダのインポート",
     "importFile": "ファイルのインポート",
-    "ontology": "オントロジー"
+    "ontology": "オントロジー",
+    "manageOntologyModal": {
+      "modalTitleCreate": "新しいオントロジー",
+      "modalTitleEdit": "オントロジーの編集",
+      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+      "modalSubTitleEdit": "あなたのオントロジーを編集して、あなたのデジタルツインに構造を与えます。",
+      "modalSubTitleLinkText": "オントロジーについてもっと知る"
+    }
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

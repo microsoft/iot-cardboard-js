@@ -863,7 +863,14 @@
     },
     "importFolder": "Importera mapp",
     "importFile": "Importera fil",
-    "ontology": "Ontologi"
+    "ontology": "Ontologi",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Ny ontologi",
+      "modalTitleEdit": "Redigera ontologi",
+      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleLinkText": "Läs mer om ontologier"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",

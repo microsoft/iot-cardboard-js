@@ -863,7 +863,14 @@
     },
     "importFolder": "Mappa importálása",
     "importFile": "Fájl importálása",
-    "ontology": "Ontológia"
+    "ontology": "Ontológia",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Új ontológia",
+      "modalTitleEdit": "Ontológia szerkesztése",
+      "modalSubTitleCreate": "Hozzon létre egy új ontológiát, amely struktúrát ad a számjegyi ikertestvérének.",
+      "modalSubTitleEdit": "Szerkessze az ontológiát, hogy struktúrát adjon a számjegyi ikernek.",
+      "modalSubTitleLinkText": "További információ az ontológiákról"
+    }
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
