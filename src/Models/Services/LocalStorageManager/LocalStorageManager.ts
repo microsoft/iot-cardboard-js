@@ -204,11 +204,11 @@ export const getStorageContainerOptionsFromLocalStorage = (
             const optionUrls = oldOptionsInLocalStorage
                 ? (JSON.parse(oldOptionsInLocalStorage) as Array<string>)
                 : null;
-            setStorageAccountOptionsInLocalStorage(
-                optionUrls.map((o) => getStorageAccountUrlFromContainerUrl(o))
+            setStorageContainerOptionsInLocalStorage(
+                optionUrls.map((o) => getContainerNameFromUrl(o)),
+                getStorageAccountUrlFromContainerUrl(optionUrls[0]) // since all the options belongs to the same storage account, pick the first container to extract the account url
             );
-            // dont update the local storage with new structure for containers since there might be different container and storage account pairs in urls
-            localStorage.removeItem(previouslyUsedKey);
+            localStorage.removeItem(ContainersLocalStorageKey); // only remove the key that is used by the cardboard, not the passed localStorageKey since consumers might be still using it in their own app
             return optionUrls;
         } else {
             return environmentOptionsInLocalStorage?.storageContainers;
@@ -538,14 +538,14 @@ export const setStorageAccountOptionsInLocalStorage = (
 };
 
 /** To update the list of Storage containers in local storage to be used as options in EnvironmentPicker
- * @param storageContainers list of storage containers to be updated in the local storage
- * @param parentStorageAccount the storage account where the container is in, this is needed to get the url of the container since a container does not store url information as an Azure resource
+ * @param storageContainers list of storage containers (name strings) to be updated in the local storage
+ * @param parentStorageAccount the storage account where the containers are in, this is needed to get the url of the container since a container does not store url information as an Azure resource
  */
 export const setStorageContainerOptionsInLocalStorage = (
-    containers: Array<IAzureStorageBlobContainer | string> = [],
+    storageContainers: Array<IAzureStorageBlobContainer | string> = [],
     parentStorageAccount: IAzureStorageAccount | string
 ) => {
-    const containerItems = containers
+    const containerItems = storageContainers
         .filter((e) => e) // filter out null instances
         .map((a) =>
             getEnvironmentItemFromResource(
