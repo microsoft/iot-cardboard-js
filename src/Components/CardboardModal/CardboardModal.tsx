@@ -53,7 +53,8 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useTheme()
+        theme: useTheme(),
+        isDestructiveFooterActionVisible: !!destructiveButtonProps
     });
 
     return (
@@ -88,16 +89,32 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                     <Stack tokens={stackTokens}>{children}</Stack>
                 </div>
                 <div className={classNames.footer}>
-                    {destructiveButtonProps && (
-                        <PrimaryButton {...destructiveButtonProps} />
-                    )}
                     <Stack
+                        horizontal
                         tokens={stackTokens}
-                        horizontal={true}
-                        horizontalAlign={'end'}
+                        styles={classNames.subComponentStyles.footerStack}
                     >
-                        <PrimaryButton {...primaryButtonProps} />
-                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
+                        {destructiveButtonProps && (
+                            <PrimaryButton
+                                {...destructiveButtonProps}
+                                styles={classNames.subComponentStyles.destructiveButton?.()}
+                            />
+                        )}
+                        <Stack
+                            tokens={stackTokens}
+                            horizontal
+                            horizontalAlign={'end'}
+                        >
+                            <PrimaryButton
+                                {...primaryButtonProps}
+                                styles={classNames.subComponentStyles.primaryButton?.()}
+                            />
+                            <DefaultButton
+                                text={t('cancel')}
+                                onClick={onDismiss}
+                                styles={classNames.subComponentStyles.cancelButton?.()}
+                            />
+                        </Stack>
                     </Stack>
                 </div>
             </Stack>
