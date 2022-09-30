@@ -2,7 +2,9 @@ import {
     IButtonProps,
     IButtonStyles,
     IIconStyles,
+    IModalProps,
     IModalStyles,
+    IStackProps,
     IStackStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -11,10 +13,17 @@ import {
 import { CardboardIconNames } from '../../Models/Constants';
 
 export interface ICardboardModalProps {
+    /** overrides for stack props for the main content body */
+    contentStackProps?: IStackProps;
     /** on click of the destructive action. If not provided, button is hidden */
     destructiveButtonProps?: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
+    /** additional props to pass to the modal for customization */
+    modalProps?: Omit<
+        Partial<IModalProps>,
+        'isOpen' | 'titleAriaId' | 'onDismiss' | 'styles'
+    >;
     /** on dismiss of the dialog (either close or cancel) */
     onDismiss: () => void;
     /** click handle for the primary footer button */
@@ -57,7 +66,7 @@ export interface ICardboardModalStyles {
 
 export interface ICardboardModalSubComponentStyles {
     cancelButton?: Partial<IButtonStyles>;
-    destructiveButton?: Partial<IButtonStyles>;
+    destructiveButton: Partial<IButtonStyles>;
     footerStack?: IStackStyles;
     icon?: IIconStyles;
     modal?: Partial<IModalStyles>;

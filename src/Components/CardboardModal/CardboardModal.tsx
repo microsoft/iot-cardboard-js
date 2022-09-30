@@ -28,14 +28,16 @@ const getClassNames = classNamesFunction<
 
 const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     const {
-        isOpen,
-        onDismiss,
-        primaryButtonProps,
-        title,
+        contentStackProps,
         children,
         destructiveButtonProps,
+        isOpen,
+        modalProps,
+        onDismiss,
+        primaryButtonProps,
         styles,
         subTitle,
+        title,
         titleIconName
     } = props;
 
@@ -51,12 +53,17 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
 
     return (
         <Modal
+            {...modalProps}
             isOpen={isOpen}
             titleAriaId={titleId}
             onDismiss={onDismiss}
             styles={classNames.subComponentStyles.modal}
         >
-            <Stack tokens={stackTokens} style={{ height: '100%' }}>
+            <Stack
+                {...contentStackProps}
+                tokens={{ ...stackTokens, ...contentStackProps.tokens }}
+                style={{ height: '100%', ...contentStackProps.style }}
+            >
                 <div className={classNames.headerContainer}>
                     <div className={classNames.titleContainer}>
                         {titleIconName && (
@@ -89,7 +96,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                         {destructiveButtonProps && (
                             <PrimaryButton
                                 {...destructiveButtonProps}
-                                styles={classNames.subComponentStyles.destructiveButton?.()}
+                                styles={classNames.subComponentStyles.destructiveButton()}
                             />
                         )}
                         <Stack
