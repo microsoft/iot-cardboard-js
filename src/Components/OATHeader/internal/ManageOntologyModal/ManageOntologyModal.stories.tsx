@@ -21,4 +21,8 @@ const Template: ManageOntologyModalStory = (args) => {
 };
 
 export const Base = Template.bind({}) as ManageOntologyModalStory;
-Base.args = {} as IManageOntologyModalProps;
+Base.args = {
+    isOpen: true,
+    ontologyId: 'test -id',
+    onClose: () => alert('closed')
+} as IManageOntologyModalProps;

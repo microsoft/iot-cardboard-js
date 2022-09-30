@@ -868,6 +868,13 @@
         "fileOpenModal": {
             "dropdownLabel": "Ontology",
             "dropdownPlaceholder": "Select an ontology"
+        },
+        "manageOntologyModal": {
+            "modalTitleCreate": "New ontology",
+            "modalTitleEdit": "Edit ontology",
+            "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
+            "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
+            "modalSubTitleLinkText": "Learn more about ontologies"
         }
     },
     "OATGraphViewer": {
