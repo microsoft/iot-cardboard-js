@@ -17,7 +17,6 @@ export const getStyles = (
     props: ICardboardModalStyleProps
 ): ICardboardModalStyles => {
     const { isDestructiveFooterActionVisible, theme } = props;
-    console.log('***Is destructive', isDestructiveFooterActionVisible);
     return {
         content: [
             classNames.content,
