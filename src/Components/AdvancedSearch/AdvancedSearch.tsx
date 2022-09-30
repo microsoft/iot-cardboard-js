@@ -88,7 +88,7 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
                 isOpen={isOpen}
                 modalProps={{ layerProps: { eventBubblingEnabled: true } }}
                 onDismiss={onDismiss}
-                primaryButtonProps={{
+                footerPrimaryButtonProps={{
                     text: t('select'),
                     disabled: !selectedTwinId.length,
                     onClick: onConfirmSelection

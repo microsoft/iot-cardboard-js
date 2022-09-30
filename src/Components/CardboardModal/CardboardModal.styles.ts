@@ -16,7 +16,7 @@ const classNames = {
 export const getStyles = (
     props: ICardboardModalStyleProps
 ): ICardboardModalStyles => {
-    const { isDestructiveFooterActionVisible, theme } = props;
+    const { splitFooter, theme } = props;
     return {
         content: [
             classNames.content,
@@ -68,7 +68,7 @@ export const getStyles = (
             },
             footerStack: {
                 root: {
-                    justifyContent: isDestructiveFooterActionVisible
+                    justifyContent: splitFooter
                         ? 'space-between !important'
                         : 'end'
                 }

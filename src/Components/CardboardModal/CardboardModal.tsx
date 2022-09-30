@@ -8,7 +8,8 @@ import {
     Modal,
     PrimaryButton,
     Stack,
-    IStackTokens
+    IStackTokens,
+    Link
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
@@ -28,13 +29,14 @@ const getClassNames = classNamesFunction<
 
 const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     const {
-        contentStackProps,
         children,
-        dangerButtonProps,
+        contentStackProps,
+        footerDangerButtonProps,
+        footerLinkProps,
+        footerPrimaryButtonProps,
         isOpen,
         modalProps,
         onDismiss,
-        primaryButtonProps,
         styles,
         subTitle,
         title,
@@ -48,7 +50,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme(),
-        isDestructiveFooterActionVisible: !!dangerButtonProps
+        splitFooter: !!footerDangerButtonProps || !!footerLinkProps
     });
 
     return (
@@ -61,8 +63,8 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
         >
             <Stack
                 {...contentStackProps}
-                tokens={{ ...stackTokens, ...contentStackProps.tokens }}
-                style={{ height: '100%', ...contentStackProps.style }}
+                tokens={{ ...stackTokens, ...contentStackProps?.tokens }}
+                style={{ height: '100%', ...contentStackProps?.style }}
             >
                 <div className={classNames.headerContainer}>
                     <div className={classNames.titleContainer}>
@@ -93,9 +95,18 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                         tokens={stackTokens}
                         styles={classNames.subComponentStyles.footerStack}
                     >
-                        {dangerButtonProps && (
+                        {footerLinkProps && (
+                            <Link
+                                target="_blank"
+                                href={footerLinkProps.url}
+                                {...footerLinkProps.linkProps}
+                            >
+                                {footerLinkProps.text}
+                            </Link>
+                        )}
+                        {footerDangerButtonProps && (
                             <PrimaryButton
-                                {...dangerButtonProps}
+                                {...footerDangerButtonProps}
                                 styles={classNames.subComponentStyles.destructiveButton()}
                             />
                         )}
@@ -110,7 +121,7 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                                 styles={classNames.subComponentStyles.cancelButton?.()}
                             />
                             <PrimaryButton
-                                {...primaryButtonProps}
+                                {...footerPrimaryButtonProps}
                                 styles={classNames.subComponentStyles.primaryButton?.()}
                             />
                         </Stack>

@@ -2,6 +2,7 @@ import {
     IButtonProps,
     IButtonStyles,
     IIconStyles,
+    ILinkProps,
     IModalProps,
     IModalStyles,
     IStackProps,
@@ -16,7 +17,14 @@ export interface ICardboardModalProps {
     /** overrides for stack props for the main content body */
     contentStackProps?: IStackProps;
     /** props for the danger action in the footer. If not provided, button is hidden */
-    dangerButtonProps?: IButtonProps;
+    footerDangerButtonProps?: IButtonProps;
+    footerLinkProps?: {
+        text: string;
+        url: string;
+        linkProps?: ILinkProps;
+    };
+    /** click handle for the primary footer button */
+    footerPrimaryButtonProps: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
     /** additional props to pass to the modal for customization */
@@ -26,8 +34,6 @@ export interface ICardboardModalProps {
     >;
     /** on dismiss of the dialog (either close or cancel) */
     onDismiss: () => void;
-    /** click handle for the primary footer button */
-    primaryButtonProps: IButtonProps;
     /** sub title text */
     subTitle?: string | (() => React.ReactNode);
     /** title text */
@@ -48,7 +54,7 @@ export interface ICardboardModalProps {
 
 export interface ICardboardModalStyleProps {
     theme: ITheme;
-    isDestructiveFooterActionVisible: boolean;
+    splitFooter: boolean;
 }
 export interface ICardboardModalStyles {
     content: IStyle;

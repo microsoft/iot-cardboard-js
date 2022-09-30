@@ -43,7 +43,7 @@ export const Base = Template.bind({}) as CardboardModalStory;
 Base.args = {
     isOpen: true,
     onDismiss: () => alert('closed'),
-    primaryButtonProps: {
+    footerPrimaryButtonProps: {
         text: 'Submit',
         onClick: () => alert('clicked')
     },
@@ -55,7 +55,7 @@ export const WithIcon = Template.bind({}) as CardboardModalStory;
 WithIcon.args = {
     isOpen: true,
     onDismiss: () => alert('closed'),
-    primaryButtonProps: {
+    footerPrimaryButtonProps: {
         text: 'Submit',
         onClick: () => alert('clicked')
     },
@@ -66,7 +66,7 @@ WithIcon.args = {
 
 export const WithDestructive = Template.bind({}) as CardboardModalStory;
 WithDestructive.args = {
-    dangerButtonProps: {
+    footerDangerButtonProps: {
         text: 'Destroy',
         onClick: () => {
             'destroy';
@@ -74,7 +74,23 @@ WithDestructive.args = {
     },
     isOpen: true,
     onDismiss: () => alert('closed'),
-    primaryButtonProps: {
+    footerPrimaryButtonProps: {
+        text: 'Submit',
+        onClick: () => alert('clicked')
+    },
+    title: 'Header',
+    subTitle: 'Sub title'
+} as ICardboardModalProps;
+
+export const WithFooterLink = Template.bind({}) as CardboardModalStory;
+WithFooterLink.args = {
+    footerLinkProps: {
+        text: 'Documentation',
+        url: 'https://developer.microsoft.com/en-us/fluentui#/controls/web'
+    },
+    isOpen: true,
+    onDismiss: () => alert('closed'),
+    footerPrimaryButtonProps: {
         text: 'Submit',
         onClick: () => alert('clicked')
     },
@@ -86,7 +102,7 @@ export const WithCustomElements = Template.bind({}) as CardboardModalStory;
 WithCustomElements.args = {
     isOpen: true,
     onDismiss: () => alert('closed'),
-    primaryButtonProps: {
+    footerPrimaryButtonProps: {
         text: 'Submit',
         onClick: () => alert('clicked')
     },
