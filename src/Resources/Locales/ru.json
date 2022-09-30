@@ -826,7 +826,6 @@
     "sync": "синхронизировать",
     "import": "Импорт",
     "export": "Экспорт",
-    "file": "Файл",
     "new": "Новые функции",
     "open": "Открытый",
     "saveAs": "Сохранить как",
@@ -851,7 +850,6 @@
     "undo": "Отменить",
     "redo": "Повторить",
     "deleteAll": "Удалить все",
-    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Выберите онтологию"
     },
     "importFolder": "Папка импорта",
-    "importFile": "Импорт файла"
+    "importFile": "Импорт файла",
+    "ontology": "Онтология"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

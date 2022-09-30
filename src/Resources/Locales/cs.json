@@ -826,8 +826,6 @@
     "sync": "synchronizovat",
     "import": "Dovoz",
     "export": "Vývoz",
-    "file": "Soubor",
-    "files": "Soubory",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Výběr ontologie"
     },
     "importFolder": "Složka importu",
-    "importFile": "Import souboru"
+    "importFile": "Import souboru",
+    "ontology": "Ontologie"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",

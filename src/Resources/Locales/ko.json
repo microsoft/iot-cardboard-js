@@ -826,7 +826,6 @@
     "sync": "동기화",
     "import": "수입",
     "export": "수출",
-    "file": "파일",
     "new": "새로운",
     "open": "열다",
     "saveAs": "다른 이름으로 저장",
@@ -851,7 +850,6 @@
     "undo": "취소",
     "redo": "다시",
     "deleteAll": "모두 삭제",
-    "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "온톨로지 선택"
     },
     "importFolder": "폴더 가져오기",
-    "importFile": "파일 가져오기"
+    "importFile": "파일 가져오기",
+    "ontology": "존재론"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

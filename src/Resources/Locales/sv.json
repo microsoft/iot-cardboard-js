@@ -826,7 +826,6 @@
     "sync": "synkronisering",
     "import": "Import",
     "export": "Export",
-    "file": "Fil",
     "new": "Ny",
     "open": "Öppna",
     "saveAs": "Spara som",
@@ -851,7 +850,6 @@
     "undo": "Ångra",
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
-    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -863,7 +861,8 @@
       "dropdownPlaceholder": "Välj en ontologi"
     },
     "importFolder": "Importera mapp",
-    "importFile": "Importera fil"
+    "importFile": "Importera fil",
+    "ontology": "Ontologi"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
