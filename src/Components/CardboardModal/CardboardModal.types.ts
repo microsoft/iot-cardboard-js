@@ -15,7 +15,7 @@ import { CardboardIconNames } from '../../Models/Constants';
 export interface ICardboardModalProps {
     /** overrides for stack props for the main content body */
     contentStackProps?: IStackProps;
-    /** on click of the destructive action. If not provided, button is hidden */
+    /** props for the danger action in the footer. If not provided, button is hidden */
     dangerButtonProps?: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
