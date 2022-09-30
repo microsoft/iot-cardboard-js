@@ -47,7 +47,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
 
         //  Overwrite existing file
         const foundIndex = files.findIndex(
-            (file) => file.name === oatPageState.projectName
+            (file) => file.id === oatPageState.projectName
         );
         if (foundIndex > -1) {
             // Remove file

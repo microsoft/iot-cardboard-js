@@ -72,8 +72,8 @@ export const FormOpen: React.FC<IFormOpenProps> = (props) => {
             const formattedFiles: IDropdownOption<IOATFile>[] = storedFiles.map(
                 (file) => {
                     return {
-                        key: file.name,
-                        text: file.name,
+                        key: file.id,
+                        text: file.id,
                         data: file
                     };
                 }

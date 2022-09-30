@@ -72,7 +72,7 @@ export interface ICardboardModalStyles {
 
 export interface ICardboardModalSubComponentStyles {
     cancelButton?: Partial<IButtonStyles>;
-    destructiveButton: Partial<IButtonStyles>;
+    destructiveButton?: Partial<IButtonStyles>;
     footerStack?: IStackStyles;
     icon?: IIconStyles;
     modal?: Partial<IModalStyles>;

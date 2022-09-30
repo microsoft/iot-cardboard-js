@@ -1,6 +1,6 @@
 import { ProjectData } from './ProjectData';
 
 export interface IOATFile {
-    name: string;
+    id: string;
     data: ProjectData;
 }

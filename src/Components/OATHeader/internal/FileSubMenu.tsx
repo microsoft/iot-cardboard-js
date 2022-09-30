@@ -198,7 +198,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         let foundIndex = -1;
         if (currentFiles.length > 0 && oatPageState.projectName) {
             foundIndex = currentFiles.findIndex(
-                (file) => file.name === oatPageState.projectName
+                (file) => file.id === oatPageState.projectName
             );
             setFileIndex(foundIndex);
             setIsFileStored(foundIndex > -1);

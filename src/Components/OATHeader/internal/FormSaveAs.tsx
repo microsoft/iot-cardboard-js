@@ -58,7 +58,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
         if (hasSameNameError) {
             //  Overwrite existing file
             const foundIndex = files.findIndex(
-                (file) => file.name === projectName
+                (file) => file.id === projectName
             );
             if (foundIndex > -1) {
                 files[foundIndex].data = new ProjectData(
@@ -94,7 +94,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
         });
 
         files.push({
-            name: projectName,
+            id: projectName,
             data: newProject
         });
         saveOntologiesToStorage(files);
@@ -114,7 +114,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
 
         // Find if project name already exists
         const fileAlreadyExists = files.some((file) => {
-            return file.name === value;
+            return file.id === value;
         });
 
         setHasSameNameError(fileAlreadyExists);

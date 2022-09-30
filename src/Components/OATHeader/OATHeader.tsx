@@ -261,6 +261,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             // TODO: prompt
             // TODO: set action for confirmation to clear
         } else {
+            setModalOpen();
             // TODO: call oatPageDispatch to create new project
         }
     }, []);
@@ -402,8 +403,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         });
                     };
                     return {
-                        key: file.name,
-                        text: file.name,
+                        key: file.id,
+                        text: file.data.projectName,
                         onClick: onClick
                     };
                 }
@@ -530,41 +531,42 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const classNames = getClassNames(styles, { theme: useTheme() });
 
     return (
-        <div className={classNames.root}>
-            <div className={classNames.menuComponent}>
-                <CommandBar
-                    items={commandBarItems}
-                    styles={classNames.subComponentStyles.commandBar}
-                />
-                {/* Hidden inputs for file imports */}
-                <div
-                    aria-hidden={true}
-                    style={{ display: 'none', visibility: 'hidden' }}
-                >
-                    {/* file upload */}
-                    <input
-                        type="file"
-                        ref={uploadFileInputRef}
-                        onChange={getUploadFileHandler(
-                            uploadFileInputRef.current
-                        )}
-                        multiple
-                    />
-                    {/* folder upload */}
-                    <input
-                        type="file"
-                        ref={uploadFolderInputRef}
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        /** @ts-ignore */
-                        webkitdirectory={''}
-                        mozdirectory={''}
-                        onChange={getUploadFileHandler(
-                            uploadFolderInputRef.current
-                        )}
+        <>
+            <div className={classNames.root}>
+                <div className={classNames.menuComponent}>
+                    <CommandBar
+                        items={commandBarItems}
+                        styles={classNames.subComponentStyles.commandBar}
                     />
                 </div>
             </div>
-        </div>
+
+            {/* Hidden inputs for file imports */}
+            <div
+                aria-hidden={true}
+                style={{ display: 'none', visibility: 'hidden' }}
+            >
+                {/* file upload */}
+                <input
+                    type="file"
+                    ref={uploadFileInputRef}
+                    onChange={getUploadFileHandler(uploadFileInputRef.current)}
+                    multiple
+                />
+                {/* folder upload */}
+                <input
+                    type="file"
+                    ref={uploadFolderInputRef}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    /** @ts-ignore */
+                    webkitdirectory={''}
+                    mozdirectory={''}
+                    onChange={getUploadFileHandler(
+                        uploadFolderInputRef.current
+                    )}
+                />
+            </div>
+        </>
     );
 };
 
