@@ -8,7 +8,8 @@ import {
     Modal,
     PrimaryButton,
     Stack,
-    IStackTokens
+    IStackTokens,
+    Link
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
@@ -28,43 +29,43 @@ const getClassNames = classNamesFunction<
 
 const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
     const {
-        isOpen,
-        onDismiss,
-        primaryButtonProps,
-        title,
         children,
-        destructiveButtonProps,
+        contentStackProps,
+        footerDangerButtonProps,
+        footerLinkProps,
+        footerPrimaryButtonProps,
+        isOpen,
+        modalProps,
+        onDismiss,
         styles,
         subTitle,
+        title,
         titleIconName
     } = props;
-
-    // contexts
-
-    // state
 
     // hooks
     const { t } = useTranslation();
     const titleId = useId('modal-title');
 
-    // callbacks
-
-    // side effects
-
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme(),
-        isDestructiveFooterActionVisible: !!destructiveButtonProps
+        splitFooter: !!footerDangerButtonProps || !!footerLinkProps
     });
 
     return (
         <Modal
+            {...modalProps}
             isOpen={isOpen}
             titleAriaId={titleId}
             onDismiss={onDismiss}
             styles={classNames.subComponentStyles.modal}
         >
-            <Stack tokens={stackTokens} style={{ height: '100%' }}>
+            <Stack
+                {...contentStackProps}
+                tokens={{ ...stackTokens, ...contentStackProps?.tokens }}
+                style={{ height: '100%', ...contentStackProps?.style }}
+            >
                 <div className={classNames.headerContainer}>
                     <div className={classNames.titleContainer}>
                         {titleIconName && (
@@ -94,10 +95,19 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                         tokens={stackTokens}
                         styles={classNames.subComponentStyles.footerStack}
                     >
-                        {destructiveButtonProps && (
+                        {footerLinkProps && (
+                            <Link
+                                target="_blank"
+                                href={footerLinkProps.url}
+                                {...footerLinkProps.linkProps}
+                            >
+                                {footerLinkProps.text}
+                            </Link>
+                        )}
+                        {footerDangerButtonProps && (
                             <PrimaryButton
-                                {...destructiveButtonProps}
-                                styles={classNames.subComponentStyles.destructiveButton?.()}
+                                {...footerDangerButtonProps}
+                                styles={classNames.subComponentStyles.destructiveButton()}
                             />
                         )}
                         <Stack
@@ -105,14 +115,14 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                             horizontal
                             horizontalAlign={'end'}
                         >
-                            <PrimaryButton
-                                {...primaryButtonProps}
-                                styles={classNames.subComponentStyles.primaryButton?.()}
-                            />
                             <DefaultButton
                                 text={t('cancel')}
                                 onClick={onDismiss}
                                 styles={classNames.subComponentStyles.cancelButton?.()}
+                            />
+                            <PrimaryButton
+                                {...footerPrimaryButtonProps}
+                                styles={classNames.subComponentStyles.primaryButton?.()}
                             />
                         </Stack>
                     </Stack>

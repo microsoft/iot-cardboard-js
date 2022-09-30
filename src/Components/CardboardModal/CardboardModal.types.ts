@@ -2,7 +2,10 @@ import {
     IButtonProps,
     IButtonStyles,
     IIconStyles,
+    ILinkProps,
+    IModalProps,
     IModalStyles,
+    IStackProps,
     IStackStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -11,14 +14,26 @@ import {
 import { CardboardIconNames } from '../../Models/Constants';
 
 export interface ICardboardModalProps {
-    /** on click of the destructive action. If not provided, button is hidden */
-    destructiveButtonProps?: IButtonProps;
+    /** overrides for stack props for the main content body */
+    contentStackProps?: IStackProps;
+    /** props for the danger action in the footer. If not provided, button is hidden */
+    footerDangerButtonProps?: IButtonProps;
+    footerLinkProps?: {
+        text: string;
+        url: string;
+        linkProps?: ILinkProps;
+    };
+    /** click handle for the primary footer button */
+    footerPrimaryButtonProps: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
+    /** additional props to pass to the modal for customization */
+    modalProps?: Omit<
+        Partial<IModalProps>,
+        'isOpen' | 'titleAriaId' | 'onDismiss' | 'styles'
+    >;
     /** on dismiss of the dialog (either close or cancel) */
     onDismiss: () => void;
-    /** click handle for the primary footer button */
-    primaryButtonProps: IButtonProps;
     /** sub title text */
     subTitle?: string | (() => React.ReactNode);
     /** title text */
@@ -39,7 +54,7 @@ export interface ICardboardModalProps {
 
 export interface ICardboardModalStyleProps {
     theme: ITheme;
-    isDestructiveFooterActionVisible: boolean;
+    splitFooter: boolean;
 }
 export interface ICardboardModalStyles {
     content: IStyle;
@@ -57,7 +72,7 @@ export interface ICardboardModalStyles {
 
 export interface ICardboardModalSubComponentStyles {
     cancelButton?: Partial<IButtonStyles>;
-    destructiveButton?: Partial<IButtonStyles>;
+    destructiveButton: Partial<IButtonStyles>;
     footerStack?: IStackStyles;
     icon?: IIconStyles;
     modal?: Partial<IModalStyles>;
