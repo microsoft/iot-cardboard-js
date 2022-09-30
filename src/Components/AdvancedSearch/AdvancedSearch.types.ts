@@ -1,12 +1,7 @@
-import {
-    IIconStyles,
-    IModalStyles,
-    IStyle,
-    IStyleFunctionOrObject,
-    ITheme
-} from '@fluentui/react';
+import { IIconStyles, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { ADTAdapter, MockAdapter } from '../../Adapters';
 import { PropertyValueType } from '../../Models/Constants';
+import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 import { IAdvancedSearchResultDetailsListStyles } from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList.types';
 
 export const QUERY_RESULT_LIMIT = 1000;
@@ -31,12 +26,6 @@ export interface IAdvancedSearchStyleProps {
     theme: ITheme;
 }
 export interface IAdvancedSearchStyles {
-    content: IStyle;
-    footer: IStyle;
-    headerContainer: IStyle;
-    title: IStyle;
-    titleContainer: IStyle;
-    subtitle: IStyle;
     /**
      * SubComponent styles.
      */
@@ -44,7 +33,7 @@ export interface IAdvancedSearchStyles {
 }
 
 export interface IAdvancedSearchSubComponentStyles {
-    modal?: Partial<IModalStyles>;
+    modal?: ICardboardModalStyles;
     icon?: IIconStyles;
     advancedSearchDetailsList?: Partial<IAdvancedSearchResultDetailsListStyles>;
 }

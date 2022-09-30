@@ -9,14 +9,8 @@ import {
     classNamesFunction,
     useTheme,
     styled,
-    Modal,
-    Icon,
-    Stack,
-    IStackTokens,
-    PrimaryButton,
-    DefaultButton
+    IStackTokens
 } from '@fluentui/react';
-import { useId } from '@fluentui/react-hooks';
 import QueryBuilder from './Internal/QueryBuilder/QueryBuilder';
 import AdvancedSearchResultDetailsList from './Internal/AdvancedSearchResultDetailsList/AdvancedSearchResultDetailsList';
 import {
@@ -25,6 +19,7 @@ import {
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import { useAdapter } from '../../Models/Hooks';
+import CardboardModal from '../CardboardModal/CardboardModal';
 
 const getClassNames = classNamesFunction<
     IAdvancedSearchStyleProps,
@@ -32,11 +27,9 @@ const getClassNames = classNamesFunction<
 >();
 
 const CONTENT_MAX_HEIGHT = 515;
-const containerStackTokens: IStackTokens = { childrenGap: 8 };
 const contentStackTokens: IStackTokens = {
     maxHeight: CONTENT_MAX_HEIGHT
 };
-const footerStackTokens: IStackTokens = { childrenGap: 8 };
 
 const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     const {
@@ -51,7 +44,6 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
         theme: useTheme()
     });
     const { t } = useTranslation();
-    const titleId = useId('advanced-search-modal-title');
     const filteredTwins = useRef<IADTTwin[]>([]);
     const additionalProperties = useRef(new Set<string>());
     const searchForTwinAdapterData = useAdapter({
@@ -90,70 +82,43 @@ const AdvancedSearch: React.FC<IAdvancedSearchProps> = (props) => {
     }, [selectedTwinId]);
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onDismiss={onDismiss}
-            titleAriaId={titleId}
-            styles={classNames.subComponentStyles.modal}
-            layerProps={{ eventBubblingEnabled: true }}
-        >
-            <Stack tokens={containerStackTokens} style={{ height: '100%' }}>
-                <div className={classNames.headerContainer}>
-                    <div className={classNames.titleContainer}>
-                        <Icon
-                            iconName={'search'}
-                            styles={classNames.subComponentStyles.icon}
-                        />
-                        <h3 id={titleId} className={classNames.title}>
-                            {t('advancedSearch.modalTitle')}
-                        </h3>
-                    </div>
-                    <p className={classNames.subtitle}>
-                        {t('advancedSearch.modalSubtitle')}
-                    </p>
-                </div>
-                <div className={classNames.content}>
-                    <Stack tokens={contentStackTokens}>
-                        <QueryBuilder
-                            adapter={adapter}
-                            allowedPropertyValueTypes={
-                                allowedPropertyValueTypes
-                            }
-                            executeQuery={executeQuery}
-                            updateColumns={updateColumns}
-                        />
-                        <AdvancedSearchResultDetailsList
-                            adapter={adapter}
-                            isLoading={searchForTwinAdapterData.isLoading}
-                            containsError={searchForTwinAdapterData.adapterResult.hasError()}
-                            onTwinIdSelect={updateSelectedTwinId}
-                            searchedProperties={Array.from(
-                                additionalProperties.current
-                            )}
-                            twins={filteredTwins.current}
-                            styles={
-                                classNames.subComponentStyles
-                                    .advancedSearchDetailsList
-                            }
-                        />
-                    </Stack>
-                </div>
-                <div className={classNames.footer}>
-                    <Stack
-                        tokens={footerStackTokens}
-                        horizontal={true}
-                        horizontalAlign={'end'}
-                    >
-                        <PrimaryButton
-                            text={t('select')}
-                            disabled={!selectedTwinId.length}
-                            onClick={onConfirmSelection}
-                        />
-                        <DefaultButton text={t('cancel')} onClick={onDismiss} />
-                    </Stack>
-                </div>
-            </Stack>
-        </Modal>
+        <>
+            <CardboardModal
+                contentStackProps={{ tokens: contentStackTokens }}
+                isOpen={isOpen}
+                modalProps={{ layerProps: { eventBubblingEnabled: true } }}
+                onDismiss={onDismiss}
+                footerPrimaryButtonProps={{
+                    text: t('select'),
+                    disabled: !selectedTwinId.length,
+                    onClick: onConfirmSelection
+                }}
+                subTitle={t('advancedSearch.modalSubtitle')}
+                styles={classNames.subComponentStyles.modal}
+                title={t('advancedSearch.modalTitle')}
+                titleIconName={'Search'}
+            >
+                <QueryBuilder
+                    adapter={adapter}
+                    allowedPropertyValueTypes={allowedPropertyValueTypes}
+                    executeQuery={executeQuery}
+                    updateColumns={updateColumns}
+                />
+                <AdvancedSearchResultDetailsList
+                    adapter={adapter}
+                    isLoading={searchForTwinAdapterData.isLoading}
+                    containsError={searchForTwinAdapterData.adapterResult.hasError()}
+                    onTwinIdSelect={updateSelectedTwinId}
+                    searchedProperties={Array.from(
+                        additionalProperties.current
+                    )}
+                    twins={filteredTwins.current}
+                    styles={
+                        classNames.subComponentStyles.advancedSearchDetailsList
+                    }
+                />
+            </CardboardModal>
+        </>
     );
 };
 
