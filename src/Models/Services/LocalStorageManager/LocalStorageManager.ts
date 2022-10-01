@@ -99,7 +99,7 @@ export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLoc
  */
 export const getAdtInstanceOptionsFromLocalStorage = (
     localStorageKey?: string
-): Array<EnvironmentItemInLocalStorage | string> | null => {
+): Array<EnvironmentItemInLocalStorage> | null => {
     try {
         const environmentOptionsInLocalStorage =
             getEnvironmentOptionsFromLocalStorage() || {};
@@ -121,7 +121,12 @@ export const getAdtInstanceOptionsFromLocalStorage = (
                     : null;
                 setAdtInstanceOptionsInLocalStorage(optionUrls);
                 localStorage.removeItem(EnvironmentsLocalStorageKey); // only remove the key that is used by the cardboard, not the passed localStorageKey since consumer app might be still using it like ADT explorer app
-                return optionUrls;
+                return optionUrls.map((o) =>
+                    getEnvironmentItemFromResource(
+                        o,
+                        AzureResourceTypes.DigitalTwinInstance
+                    )
+                );
             }
             // END of migration
         }
@@ -189,7 +194,7 @@ export const getStorageAccountOptionsFromLocalStorage = (): Array<EnvironmentIte
  */
 export const getStorageContainerOptionsFromLocalStorage = (
     localStorageKey?: string
-): Array<EnvironmentItemInLocalStorage | string> | null => {
+): Array<EnvironmentItemInLocalStorage> | null => {
     try {
         const environmentOptionsInLocalStorage =
             getEnvironmentOptionsFromLocalStorage() || {};
@@ -209,7 +214,13 @@ export const getStorageContainerOptionsFromLocalStorage = (
                 getStorageAccountUrlFromContainerUrl(optionUrls[0]) // since all the options belongs to the same storage account, pick the first container to extract the account url
             );
             localStorage.removeItem(ContainersLocalStorageKey); // only remove the key that is used by the cardboard, not the passed localStorageKey since consumers might be still using it in their own app
-            return optionUrls;
+            return optionUrls.map((o) =>
+                getEnvironmentItemFromResource(
+                    getContainerNameFromUrl(o),
+                    AzureResourceTypes.StorageBlobContainer,
+                    getStorageAccountUrlFromContainerUrl(o)
+                )
+            );
         } else {
             return environmentOptionsInLocalStorage?.storageContainers;
         }
@@ -222,12 +233,15 @@ export const getStorageContainerOptionsFromLocalStorage = (
 /** To get the selected ADT instance information from local storage
  * @returns selected ADT instance as an environment item from local storage, null if not exists
  */
-export const getSelectedAdtInstanceFromLocalStorage = (): EnvironmentItemInLocalStorage | null => {
+export const getSelectedAdtInstanceFromLocalStorage = (
+    localStorageKey?: string
+): EnvironmentItemInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = getEnvironmentConfigurationFromLocalStorage();
         if (!environmentConfigurationInLocalStorage?.selectedAdtInstance) {
             // START of migration of values using old local storage key
-            const previouslyUsedKey = SelectedEnvironmentLocalStorageKey;
+            const previouslyUsedKey =
+                localStorageKey || SelectedEnvironmentLocalStorageKey;
             const oldInstanceInLocalStorage = localStorage.getItem(
                 previouslyUsedKey
             );
@@ -239,7 +253,7 @@ export const getSelectedAdtInstanceFromLocalStorage = (): EnvironmentItemInLocal
                     : null;
 
                 setSelectedAdtInstanceInLocalStorage(oldInstanceUrl);
-                localStorage.removeItem(previouslyUsedKey);
+                localStorage.removeItem(SelectedEnvironmentLocalStorageKey);
 
                 return getEnvironmentItemFromResource(
                     oldInstanceUrl,

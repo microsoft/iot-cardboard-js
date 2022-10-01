@@ -161,32 +161,6 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             ''
     };
 
-    // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
-    setSelectedAdtInstanceInLocalStorage(
-        defaultState.adtResourceId
-            ? ({
-                  id: defaultState.adtResourceId
-                      ? defaultState.adtResourceId
-                      : null,
-                  name: getNameOfResource(
-                      defaultState.adtUrl,
-                      AzureResourceTypes.DigitalTwinInstance
-                  ),
-                  properties: {
-                      hostName: new URL(defaultState.adtUrl).hostname
-                  },
-                  type: AzureResourceTypes.DigitalTwinInstance
-              } as IADTInstance)
-            : defaultState.adtUrl
-    );
-    setSelectedStorageAccountInLocalStorage(
-        getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
-    );
-    setSelectedStorageContainerInLocalStorage(
-        getContainerNameFromUrl(defaultState.storageUrl),
-        getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
-    );
-
     const [deeplinkState, deeplinkDispatch] = useReducer(
         DeeplinkContextReducer,
         defaultState
@@ -227,6 +201,34 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     useEffect(() => {
         TelemetryService.setSceneId(deeplinkState.sceneId);
     }, [deeplinkState.sceneId]);
+
+    useEffect(() => {
+        // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
+        setSelectedAdtInstanceInLocalStorage(
+            defaultState.adtResourceId
+                ? ({
+                      id: defaultState.adtResourceId
+                          ? defaultState.adtResourceId
+                          : null,
+                      name: getNameOfResource(
+                          defaultState.adtUrl,
+                          AzureResourceTypes.DigitalTwinInstance
+                      ),
+                      properties: {
+                          hostName: new URL(defaultState.adtUrl).hostname
+                      },
+                      type: AzureResourceTypes.DigitalTwinInstance
+                  } as IADTInstance)
+                : defaultState.adtUrl
+        );
+        setSelectedStorageAccountInLocalStorage(
+            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+        );
+        setSelectedStorageContainerInLocalStorage(
+            getContainerNameFromUrl(defaultState.storageUrl),
+            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+        );
+    }, []);
 
     return (
         <DeeplinkContext.Provider

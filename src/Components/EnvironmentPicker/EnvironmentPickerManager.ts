@@ -4,7 +4,6 @@ import {
     IAzureStorageAccount,
     IAzureStorageBlobContainer
 } from '../../Models/Constants';
-import { EnvironmentItemInLocalStorage } from '../../Models/Services/LocalStorageManager/LocalStorageManager.types';
 import {
     areResourceValuesEqual,
     getNameOfResource,
@@ -99,10 +98,4 @@ export const getStorageAccountId = (
               )
           )?.storageAccountId
         : storageAccount?.id;
-};
-
-export const getUrlOfLocalStorageItem = (
-    item: string | EnvironmentItemInLocalStorage
-) => {
-    return typeof item === 'string' ? item : item.url;
 };
