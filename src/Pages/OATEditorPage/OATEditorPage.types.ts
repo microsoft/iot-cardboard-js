@@ -16,8 +16,14 @@ export interface IOATError {
 }
 
 export interface IOATConfirmDelete {
-    open: boolean;
+    /** callback to fire onConfirm */
     callback?: () => void;
+    /** message body to show in the dialog */
+    message?: string;
+    /** whether the dialog is open */
+    open: boolean;
+    /** title for the dialog */
+    title?: string;
 }
 
 export interface IOATModelPosition {

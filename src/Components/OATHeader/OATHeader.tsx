@@ -38,6 +38,7 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
+import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -390,18 +391,22 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         if (storedFiles.length > 0) {
             const formattedFiles: IContextualMenuItem[] = storedFiles.map(
                 (file) => {
-                    const projectToOpen = new ProjectData(
-                        file.data.modelPositions,
-                        convertDtdlInterfacesToModels(file.data.models),
-                        file.data.projectName,
-                        file.data.templates,
-                        file.data.namespace,
-                        file.data.modelsMetadata
-                    );
+                    // const projectToOpen = new ProjectData(
+                    //     file.data.modelPositions,
+                    //     convertDtdlInterfacesToModels(file.data.models),
+                    //     file.data.projectName,
+                    //     file.data.templates,
+                    //     file.data.namespace,
+                    //     file.data.modelsMetadata
+                    // );
                     const onClick = () => {
+                        // oatPageDispatch({
+                        //     type: OatPageContextActionType.SET_OAT_PROJECT,
+                        //     payload: projectToOpen
+                        // });
                         oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_PROJECT,
-                            payload: projectToOpen
+                            type: OatPageContextActionType.SET_OAT_PROJECT_ID,
+                            payload: { projectId: file.id }
                         });
                     };
                     return {
@@ -553,6 +558,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     onClose={() => setOpenModal(HeaderModal.None)}
                     ontologyId={oatPageState.ontologyId}
                 />
+                {/* Confirmation dialog for deletes */}
+                <OATConfirmDialog />
             </div>
 
             {/* Hidden inputs for file imports */}

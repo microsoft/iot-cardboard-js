@@ -232,9 +232,15 @@ function saveEditorData(draft: IOatPageContextState): void {
 
 function saveOntologyFiles(draft: IOatPageContextState): void {
     const filesCopy = deepCopy(getOntologiesFromStorage());
-    filesCopy.find(
-        (x) => x.id === draft.ontologyId
-    ).data = getProjectDataFromState(draft);
+    const selectedOntology = filesCopy.find((x) => x.id === draft.ontologyId);
+    if (selectedOntology) {
+        selectedOntology.data = getProjectDataFromState(draft);
+    } else {
+        logDebugConsole(
+            'warn',
+            `Unable to persist the state data to local storage. Onotology with id: ${draft.ontologyId} wasn't found in storage.`
+        );
+    }
     storeOntologiesToStorage(filesCopy);
     logDebugConsole('debug', 'Saved files to storage. {files}', filesCopy);
 }

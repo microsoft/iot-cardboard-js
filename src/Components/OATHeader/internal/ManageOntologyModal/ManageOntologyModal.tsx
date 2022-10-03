@@ -62,13 +62,20 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     // callbacks
     const onDelete = () => {
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+            type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
             payload: {
-                name: name,
-                namespace: namespace
+                open: true,
+                callback: () => {
+                    onClose();
+                    oatPageDispatch({
+                        type: OatPageContextActionType.SET_OAT_DELETE_PROJECT,
+                        payload: {
+                            id: ontologyId
+                        }
+                    });
+                }
             }
         });
-        onClose();
     };
     const onSubmit = () => {
         if (mode === FormMode.Create) {
