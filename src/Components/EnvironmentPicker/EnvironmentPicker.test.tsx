@@ -26,15 +26,15 @@ describe('EnvironmentPicker', () => {
         test('[SET_ENVIRONMENT_ITEMS] - setting the environment related items in the state', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.adtInstanceItems = {
+            initialState.adtInstanceInfo = {
                 adtInstances: [],
                 adtInstanceToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
-                type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
+                type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO,
                 payload: {
-                    adtInstanceItems: {
+                    adtInstanceInfo: {
                         adtInstances: [MOCK_ADT_INSTANCE],
                         adtInstanceToEdit: MOCK_ADT_INSTANCE
                     }
@@ -45,24 +45,24 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.adtInstanceItems.adtInstances.length).toEqual(1);
-            expect(result.adtInstanceItems.adtInstanceToEdit).toMatchObject(
+            expect(result.adtInstanceInfo.adtInstances.length).toEqual(1);
+            expect(result.adtInstanceInfo.adtInstanceToEdit).toMatchObject(
                 MOCK_ADT_INSTANCE
             );
         });
 
-        test('[SET_STORAGE_ACCOUNT_ITEMS] - setting the storage account related items in the state', () => {
+        test('[SET_STORAGE_ACCOUNT_INFO] - setting the storage account related items in the state', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.storageAccountItems = {
+            initialState.storageAccountInfo = {
                 storageAccounts: [],
                 storageAccountToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
-                type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
+                type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_INFO,
                 payload: {
-                    storageAccountItems: {
+                    storageAccountInfo: {
                         storageAccounts: [MOCK_STORAGE_ACCOUNT],
                         storageAccountToEdit: MOCK_STORAGE_ACCOUNT
                     }
@@ -73,26 +73,24 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.storageAccountItems.storageAccounts.length).toEqual(
-                1
-            );
+            expect(result.storageAccountInfo.storageAccounts.length).toEqual(1);
             expect(
-                result.storageAccountItems.storageAccountToEdit
+                result.storageAccountInfo.storageAccountToEdit
             ).toMatchObject(MOCK_STORAGE_ACCOUNT);
         });
 
-        test('[SET_CONTAINER_ITEMS] - setting the storage container related items in the state', () => {
+        test('[SET_CONTAINER_INFO] - setting the storage container related items in the state', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.containerItems = {
+            initialState.containerInfo = {
                 containers: [],
                 containerToEdit: ''
             }; // no items
 
             const action: EnvironmentPickerAction = {
-                type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
+                type: EnvironmentPickerActionType.SET_CONTAINER_INFO,
                 payload: {
-                    containerItems: {
+                    containerInfo: {
                         containers: [MOCK_STORAGE_CONTAINER],
                         containerToEdit: MOCK_STORAGE_CONTAINER
                     }
@@ -103,8 +101,8 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.containerItems.containers.length).toEqual(1);
-            expect(result.containerItems.containerToEdit).toMatchObject(
+            expect(result.containerInfo.containers.length).toEqual(1);
+            expect(result.containerInfo.containerToEdit).toMatchObject(
                 MOCK_STORAGE_CONTAINER
             );
         });
@@ -128,15 +126,15 @@ describe('EnvironmentPicker', () => {
         test('[RESET_ITEMS_ON_DISMISS] - resetting all the items of the state back to selected values after dismissing the modal', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.adtInstanceItems = {
+            initialState.adtInstanceInfo = {
                 adtInstances: [MOCK_ADT_INSTANCE, MOCK_ADT_INSTANCE2],
                 adtInstanceToEdit: MOCK_ADT_INSTANCE2
             };
-            initialState.storageAccountItems = {
+            initialState.storageAccountInfo = {
                 storageAccounts: [MOCK_STORAGE_ACCOUNT, MOCK_STORAGE_ACCOUNT2],
                 storageAccountToEdit: MOCK_STORAGE_ACCOUNT2
             };
-            initialState.containerItems = {
+            initialState.containerInfo = {
                 containers: [MOCK_STORAGE_CONTAINER, MOCK_STORAGE_CONTAINER2],
                 containerToEdit: MOCK_STORAGE_CONTAINER2
             };
@@ -168,13 +166,13 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.adtInstanceItems.adtInstanceToEdit).toMatchObject(
+            expect(result.adtInstanceInfo.adtInstanceToEdit).toMatchObject(
                 MOCK_ADT_INSTANCE
             );
             expect(
-                result.storageAccountItems.storageAccountToEdit
+                result.storageAccountInfo.storageAccountToEdit
             ).toMatchObject(MOCK_STORAGE_ACCOUNT);
-            expect(result.containerItems.containerToEdit).toMatchObject(
+            expect(result.containerInfo.containerToEdit).toMatchObject(
                 MOCK_STORAGE_CONTAINER
             );
         });
@@ -182,7 +180,7 @@ describe('EnvironmentPicker', () => {
         test('[HANDLE_STORAGE_ACCOUNT_LOADED] - updating the storage account items in the state with the fetched data in case they are just url strings', () => {
             // ARRANGE
             const initialState = MOCK_ENVIRONMENT_STATE;
-            initialState.storageAccountItems = {
+            initialState.storageAccountInfo = {
                 storageAccounts: [
                     MOCK_STORAGE_ACCOUNT_URL,
                     MOCK_STORAGE_ACCOUNT_URL2
@@ -201,14 +199,14 @@ describe('EnvironmentPicker', () => {
             const result = EnvironmentPickerReducer(initialState, action);
 
             // ASSERT
-            expect(result.storageAccountItems.storageAccounts[0]).toMatchObject(
+            expect(result.storageAccountInfo.storageAccounts[0]).toMatchObject(
                 MOCK_STORAGE_ACCOUNT
             );
-            expect(result.storageAccountItems.storageAccounts[1]).toMatchObject(
+            expect(result.storageAccountInfo.storageAccounts[1]).toMatchObject(
                 MOCK_STORAGE_ACCOUNT2
             );
             expect(
-                result.storageAccountItems.storageAccountToEdit
+                result.storageAccountInfo.storageAccountToEdit
             ).toMatchObject(MOCK_STORAGE_ACCOUNT);
         });
     });

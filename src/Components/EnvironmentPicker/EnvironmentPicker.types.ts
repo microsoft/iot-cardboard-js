@@ -63,32 +63,32 @@ export type StorageAccountToContainersMapping = {
     containerNames: Array<string>;
 };
 
-export type AdtInstanceItems = {
+export type AdtInstanceInfo = {
     adtInstances: Array<IADTInstance | string>; // list of url of adt instance resources or manually entered adt instance urls
     adtInstanceToEdit: IADTInstance | string; // either resource itself or manually entered adt instance url
 };
 
-export type StorageAccountItems = {
+export type StorageAccountInfo = {
     storageAccounts: Array<IAzureStorageAccount | string>; // list of url of storage account resources or manually entered storage account urls
     storageAccountToEdit: IAzureStorageAccount | string; // either resource itself or manually entered account url
 };
 
-export type ContainerItems = {
+export type ContainerInfo = {
     containers: Array<IAzureStorageBlobContainer | string>; // list of name of container resources or manually entered container names
     containerToEdit: IAzureStorageBlobContainer | string; // either resource itself or manually entered container name
 };
 
 export interface EnvironmentPickerState {
-    adtInstanceItems: AdtInstanceItems;
-    storageAccountItems: StorageAccountItems;
-    containerItems: ContainerItems;
+    adtInstanceInfo: AdtInstanceInfo;
+    storageAccountInfo: StorageAccountInfo;
+    containerInfo: ContainerInfo;
     firstTimeVisible: boolean; // not to render resource picker components in the dialog content with data fetch requests if the dialog has not opened yet for the first time
 }
 
 export enum EnvironmentPickerActionType {
-    SET_ADT_INSTANCE_ITEMS,
-    SET_STORAGE_ACCOUNT_ITEMS,
-    SET_CONTAINER_ITEMS,
+    SET_ADT_INSTANCE_INFO,
+    SET_STORAGE_ACCOUNT_INFO,
+    SET_CONTAINER_INFO,
     MARK_DIALOG_AS_SHOWN,
     RESET_ITEMS_ON_DISMISS,
     HANDLE_STORAGE_ACCOUNT_LOADED
@@ -96,16 +96,16 @@ export enum EnvironmentPickerActionType {
 
 export type EnvironmentPickerAction =
     | {
-          type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS;
-          payload: { adtInstanceItems: AdtInstanceItems };
+          type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO;
+          payload: { adtInstanceInfo: AdtInstanceInfo };
       }
     | {
-          type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS;
-          payload: { storageAccountItems: StorageAccountItems };
+          type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_INFO;
+          payload: { storageAccountInfo: StorageAccountInfo };
       }
     | {
-          type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS;
-          payload: { containerItems: ContainerItems };
+          type: EnvironmentPickerActionType.SET_CONTAINER_INFO;
+          payload: { containerInfo: ContainerInfo };
       }
     | {
           type: EnvironmentPickerActionType.MARK_DIALOG_AS_SHOWN;
