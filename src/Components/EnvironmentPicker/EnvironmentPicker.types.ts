@@ -8,10 +8,14 @@ import {
 
 type WithLocalStorage = {
     isLocalStorageEnabled: true;
+    localStorageKey?: string; // TODO: This prop will deprecate soon, we will do migration to a strict key when run if provided but stop updating from now on
+    selectedItemLocalStorageKey?: string; // TODO: This prop will deprecate soon, we will do migration to a strict key when run if provided but stop updating from now on
 };
 
 type WithoutLocalStorage = {
     isLocalStorageEnabled: false;
+    localStorageKey?: never;
+    selectedItemLocalStorageKey?: never;
 };
 
 type StorageContainer = {
@@ -28,11 +32,30 @@ export type EnvironmentPickerProps = {
     onDismiss?: () => void;
     adtInstanceUrl?: string;
     onAdtInstanceChange?: (
-        environment: IADTInstance | string,
-        environments: Array<IADTInstance | string>
+        adtInstance: IADTInstance | string,
+        adtInstances: Array<IADTInstance | string>
     ) => void;
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);
+
+export type ADTInstanceOptionInLocalStorage = {
+    // TODO: will be deprecated soon with the new localStorage format, this is the structure the ADT app uses for ADT instance options
+    name: string;
+    config: {
+        appAdtUrl: string;
+    };
+};
+
+export type ADTSelectedInstanceInLocalStorage = {
+    // TODO: will be deprecated soon with the new localStorage format, the structure the ADT app uses for selected ADT instance
+    appAdtUrl: string;
+};
+
+export type StorageAccountsInLocalStorage = {
+    // TODO: will be deprecated soon with the new localStorage format
+    id: string;
+    url: string;
+};
 
 export type StorageAccountToContainersMapping = {
     storageAccountId: string;

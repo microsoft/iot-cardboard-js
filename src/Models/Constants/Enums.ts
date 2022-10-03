@@ -267,10 +267,3 @@ export enum AzureResourceDisplayFields {
     'name',
     'url'
 }
-
-export enum ADXConnectionInformationLoadingState {
-    IDLE,
-    LOADING,
-    EXISTED,
-    NOT_EXISTED
-}

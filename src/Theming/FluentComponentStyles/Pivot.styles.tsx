@@ -3,7 +3,7 @@ import { Theme } from '../../Models/Constants/Enums';
 import { IStyle, mergeStyleSets } from '@fluentui/react';
 import { IPivotItemProps } from '@fluentui/react';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { TFunction } from 'react-i18next';
 
 export const getPivotStyles = (
     _themeSetting: Theme,
@@ -49,10 +49,10 @@ export const customPivotItemStyles = mergeStyleSets({
 
 export function setPivotToRequired(
     isValid: boolean | undefined,
+    t: TFunction<string>,
     link?: IPivotItemProps,
     defaultRenderer?: (link?: IPivotItemProps) => JSX.Element | null
 ): JSX.Element | null {
-    const { t } = useTranslation();
     if (!link || !defaultRenderer) {
         return null;
     }

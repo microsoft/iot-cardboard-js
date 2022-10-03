@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     css,
     DefaultButton,
@@ -19,6 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
+import { ADT3DScenePageContext } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
+import { ADXConnectionInformationLoadingState } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 
@@ -31,6 +33,7 @@ const WidgetLibraryDialog: React.FC<{
         enabledWidgets
     );
     const { t } = useTranslation();
+    const scenePageContext = useContext(ADT3DScenePageContext);
     const styles = getWidgetLibraryDialogStyles();
 
     const dialogContentProps: IDialogContentProps = {
@@ -59,6 +62,15 @@ const WidgetLibraryDialog: React.FC<{
             onDismiss={() => setIsLibraryDialogOpen(false)}
         >
             <div className="cb-widget-library-dialog-list-container">
+                {
+                    ADXConnectionInformationLoadingState[
+                        scenePageContext.state
+                            .adxConnectionInformationLoadingState
+                    ]
+                }
+                {JSON.stringify(
+                    scenePageContext.state.adxConnectionInformation
+                )}
                 <List
                     items={filteredAvailableWidgets}
                     onRenderCell={(widget, index) => (

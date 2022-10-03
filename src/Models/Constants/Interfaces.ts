@@ -49,6 +49,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
+    AzureResourceData,
     AzureResourcesData,
     AzureSubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -554,9 +555,11 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
-    getTimeSeriesConnectionInformation: (
-        adtInstance: IADTInstance | string
-    ) => Promise<AdapterResult<ADTInstanceTimeSeriesConnectionData>>;
+    getTimeSeriesConnectionInformation: (adtInstanceIdentifier: {
+        id?: string;
+        hostName?: string;
+    }) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
+    getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 
 export interface IBlobAdapter {
@@ -574,7 +577,10 @@ export interface IBlobAdapter {
 }
 
 export interface IADXAdapter {
-    setConnectionInformation: (connectionInformation: IADXConnection) => void;
+    setADXConnectionInformation: (
+        adxConnectionInformation: IADXConnection
+    ) => void;
+    getADXConnectionInformation: () => IADXConnection | null;
     getTimeSeriesData: (query: string) => AdapterReturnType<ADXTimeSeriesData>;
 }
 

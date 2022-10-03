@@ -4,7 +4,7 @@ import { ADT3DSceneBuilderMode, WidgetFormMode } from '../../Models/Constants';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
 import {
-    ADT3DScenePageState,
+    IADT3DScenePageState,
     IADT3DScenePageContext
 } from '../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
@@ -35,7 +35,7 @@ export default {
 const mockScenePageContext: IADT3DScenePageContext = {
     state: {
         scenesConfig: trucksMockVConfig as I3DScenesConfig
-    } as ADT3DScenePageState,
+    } as IADT3DScenePageState,
     dispatch: () => {
         return;
     },

@@ -63,7 +63,7 @@ export type EnvironmentContextAction =
     | {
           type: EnvironmentContextActionType.SET_ADX_CONNECTION_INFORMATION;
           payload: {
-              connectionInformation: IADXConnection;
+              adxConnectionInformation: IADXConnection;
           };
       }
     | {

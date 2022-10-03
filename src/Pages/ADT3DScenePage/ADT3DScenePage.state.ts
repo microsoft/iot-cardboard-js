@@ -1,46 +1,52 @@
-import { IAction } from '../../Models/Constants/Interfaces';
 import produce from 'immer';
 import {
-    SET_ADT_SCENE_CONFIG,
-    SET_CURRENT_STEP,
-    SET_SELECTED_SCENE,
-    SET_ERRORS,
-    SET_ERROR_CALLBACK
-} from '../../Models/Constants/ActionTypes';
-import { ADT3DScenePageState } from './ADT3DScenePage.types';
+    ADT3DScenePageAction,
+    ADT3DScenePageActionTypes,
+    ADXConnectionInformationLoadingState,
+    IADT3DScenePageState
+} from './ADT3DScenePage.types';
 import { ADT3DScenePageSteps } from '../../Models/Constants/Enums';
 
-export const defaultADT3DScenePageState: ADT3DScenePageState = {
+export const defaultADT3DScenePageState: IADT3DScenePageState = {
     scenesConfig: null,
     selectedBlobContainerURL: null,
     selectedScene: null,
     currentStep: ADT3DScenePageSteps.SceneList,
     errors: [],
-    errorCallback: null
+    errorCallback: null,
+    adxConnectionInformationLoadingState:
+        ADXConnectionInformationLoadingState.IDLE,
+    adxConnectionInformation: null
 };
 
 export const ADT3DScenePageReducer: (
-    draft: ADT3DScenePageState,
-    action: IAction
-) => ADT3DScenePageState = produce(
-    (draft: ADT3DScenePageState, action: IAction) => {
-        const payload = action.payload;
-
+    draft: IADT3DScenePageState,
+    action: ADT3DScenePageAction
+) => IADT3DScenePageState = produce(
+    (draft: IADT3DScenePageState, action: ADT3DScenePageAction) => {
         switch (action.type) {
-            case SET_ADT_SCENE_CONFIG:
-                draft.scenesConfig = payload;
+            case ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG:
+                draft.scenesConfig = action.payload.scenesConfig;
                 break;
-            case SET_SELECTED_SCENE:
-                draft.selectedScene = payload;
+            case ADT3DScenePageActionTypes.SET_SELECTED_SCENE:
+                draft.selectedScene = action.payload.selectedScene;
                 break;
-            case SET_CURRENT_STEP:
-                draft.currentStep = payload;
+            case ADT3DScenePageActionTypes.SET_CURRENT_STEP:
+                draft.currentStep = action.payload.currentStep;
                 break;
-            case SET_ERRORS:
-                draft.errors = payload;
+            case ADT3DScenePageActionTypes.SET_ERRORS:
+                draft.errors = action.payload.errors;
                 break;
-            case SET_ERROR_CALLBACK:
-                draft.errorCallback = payload;
+            case ADT3DScenePageActionTypes.SET_ERROR_CALLBACK:
+                draft.errorCallback = action.payload.errorCallback;
+                break;
+            case ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE:
+                draft.adxConnectionInformationLoadingState =
+                    action.payload.adxConnectionInformationLoadingState;
+                break;
+            case ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION:
+                draft.adxConnectionInformation =
+                    action.payload.adxConnectionInformation;
                 break;
             default:
                 break;

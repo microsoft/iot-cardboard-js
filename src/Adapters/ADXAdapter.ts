@@ -16,13 +16,13 @@ import { ADXTimeSeries } from '../Models/Constants/Types';
 export default class ADXAdapter
     implements ITsiClientChartDataAdapter, IADXAdapter {
     protected adxAuthService: IAuthService;
-    protected connectionInformation: IADXConnection;
+    protected adxConnectionInformation: IADXConnection;
 
     constructor(
         adxAuthService: IAuthService,
-        connectionInformation: IADXConnection
+        adxConnectionInformation: IADXConnection
     ) {
-        this.connectionInformation = connectionInformation;
+        this.adxConnectionInformation = adxConnectionInformation;
         this.adxAuthService = adxAuthService;
         this.adxAuthService.login();
     }
@@ -36,15 +36,15 @@ export default class ADXAdapter
             const getDataHistoryFromADX = () => {
                 return axios({
                     method: 'post',
-                    url: `${this.connectionInformation.kustoClusterUrl}/v2/rest/query`,
+                    url: `${this.adxConnectionInformation.kustoClusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.connectionInformation.kustoDatabaseName,
-                        csl: `${this.connectionInformation.kustoTableName} | ${query}))` /** example query: 
+                        db: this.adxConnectionInformation.kustoDatabaseName,
+                        csl: `${this.adxConnectionInformation.kustoTableName} | ${query}))` /** example query: 
                         | where TimeStamp between (datetime(2020-09-07) .. datetime(2022-09-07))
                         | where Id contains "Car"
                         | where Key == "Speed"
@@ -124,16 +124,16 @@ export default class ADXAdapter
             const getDataHistoryOfProperty = (prop: string) => {
                 return axios({
                     method: 'post',
-                    url: `${this.connectionInformation.kustoClusterUrl}/v2/rest/query`,
+                    url: `${this.adxConnectionInformation.kustoClusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.connectionInformation.kustoDatabaseName,
+                        db: this.adxConnectionInformation.kustoDatabaseName,
                         csl: `${
-                            this.connectionInformation.kustoTableName
+                            this.adxConnectionInformation.kustoTableName
                         } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
                     }
                 });
@@ -205,7 +205,11 @@ export default class ADXAdapter
         }, 'adx');
     }
 
-    setConnectionInformation(connectionInformation: IADXConnection) {
-        this.connectionInformation = connectionInformation;
+    setADXConnectionInformation(adxConnectionInformation: IADXConnection) {
+        this.adxConnectionInformation = adxConnectionInformation;
+    }
+
+    getADXConnectionInformation() {
+        return this.adxConnectionInformation;
     }
 }

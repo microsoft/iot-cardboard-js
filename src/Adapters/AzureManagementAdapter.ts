@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AdapterMethodSandbox } from '../Models/Classes';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import {
+    AzureResourceData,
     AzureResourcesData,
     AzureSubscriptionData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
@@ -13,7 +14,6 @@ import {
     AzureResourcesAPIVersions,
     AzureResourceTypes,
     ComponentErrorType,
-    IADTInstance,
     IAuthService,
     IAzureManagementAdapter,
     IAzureResource,
@@ -28,7 +28,6 @@ import {
     createGUID,
     getDebugLogger,
     getMissingRoleIdsFromRequired,
-    getResourceUrl,
     getRoleIdsFromRoleAssignments
 } from '../Models/Services/Utils';
 
@@ -573,20 +572,16 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    async getTimeSeriesConnectionInformation(
-        adtInstanceIdentifier: IADTInstance | string
-    ) {
+    async getTimeSeriesConnectionInformation(adtInstanceIdentifier: {
+        id?: string;
+        hostName?: string;
+    }) {
         // either the resource object or host url of the ADT instance
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let adtInstance: IAzureResource;
-            // eslint-disable-next-line no-debugger
-            debugger;
-            if (
-                typeof adtInstanceIdentifier === 'string' ||
-                !(adtInstanceIdentifier.id && adtInstanceIdentifier.location) // even if adtInstance, additional safe check for variables which we need to fetch connection information
-            ) {
+            if (adtInstanceIdentifier.hostName) {
                 const digitalTwinInstances = await this.getResourcesByPermissions(
                     {
                         getResourcesParams: {
@@ -596,21 +591,15 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     }
                 );
                 const result = digitalTwinInstances.result.data;
-                try {
-                    const hostUrl = getResourceUrl(
-                        adtInstanceIdentifier,
-                        AzureResourceTypes.DigitalTwinInstance
-                    );
-                    adtInstance = result.find(
-                        (d) =>
-                            d.properties.hostName === new URL(hostUrl).hostname
-                    );
-                } catch (error) {
-                    console.error(error);
-                    adtInstance = null;
-                }
-            } else {
-                adtInstance = adtInstanceIdentifier;
+                adtInstance = result.find(
+                    (d) =>
+                        d.properties.hostName === adtInstanceIdentifier.hostName
+                );
+            } else if (adtInstanceIdentifier.id) {
+                const digitalTwinInstance = await this.getResourceById(
+                    adtInstanceIdentifier.id
+                );
+                adtInstance = digitalTwinInstance.result.data;
             }
 
             try {
@@ -650,25 +639,26 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    // async getResourceById(resourceId: string) {
-    //     const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-    //     return await adapterMethodSandbox.safelyFetchData(async (token) => {
-    //         const result = await axios({
-    //             method: 'get',
-    //             url: `https://management.azure.com${resourceId}`,
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 authorization: 'Bearer ' + token
-    //             },
-    //             params: { 'api-version': '2021-09-01' }
-    //         }).catch((err) => {
-    //             adapterMethodSandbox.pushError({
-    //                 type: ComponentErrorType.DataFetchFailed,
-    //                 isCatastrophic: false,
-    //                 rawError: err
-    //             });
-    //             return null;
-    //         });
-    //     }, 'azureManagement');
-    // }
+    async getResourceById(resourceId: string) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const result = await axios({
+                method: 'get',
+                url: `https://management.azure.com${resourceId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + token
+                },
+                params: { 'api-version': '2022-05-31' }
+            }).catch((err) => {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: false,
+                    rawError: err
+                });
+                return null;
+            });
+            return new AzureResourceData(result?.data);
+        }, 'azureManagement');
+    }
 }

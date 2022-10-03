@@ -47,8 +47,7 @@ import {
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
     AdapterMethodParamsForSearchTwinsByQuery,
-    IADXConnection,
-    IADTInstance
+    IADXConnection
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -111,7 +110,7 @@ export default class MockAdapter
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
-    private mockConnectionInformation: IADXConnection;
+    private mockADXConnectionInformation: IADXConnection;
     private seededRng = seedRandom('cardboard seed');
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
@@ -757,8 +756,14 @@ export default class MockAdapter
         this.mockEnvironmentHostName = hostName;
     }
 
-    setConnectionInformation = (connectionInformation: IADXConnection) => {
-        this.mockConnectionInformation = connectionInformation;
+    setADXConnectionInformation = (
+        adxConnectionInformation: IADXConnection
+    ) => {
+        this.mockADXConnectionInformation = adxConnectionInformation;
+    };
+
+    getADXConnectionInformation = () => {
+        return this.mockADXConnectionInformation;
     };
 
     async getSubscriptions() {
@@ -1014,9 +1019,10 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesConnectionInformation(
-        _adtInstance: IADTInstance | string
-    ) {
+    async getTimeSeriesConnectionInformation(_adtInstanceIdentifier: {
+        id?: string;
+        hostName?: string;
+    }) {
         try {
             await this.mockNetwork();
 
