@@ -551,6 +551,15 @@
                 "alphanumericOnly": "Twin name must only contain alphanumeric characters",
                 "noNumberPrefix": "Twin name must not start with a number"
             }
+        },
+        "visualRule": {
+            "new": "New Visual rule",
+            "edit": "Edit Visual rule",
+            "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "noDataMessageHeader": "No conditions",
+            "noDataMessageDescription": "No conditions created yet. Click below to create a condition.",
+            "noDataMessageLinkText": "Add condition",
+            "typePlaceholder": "Select the type for the value"
         }
     },
     "widgets": {

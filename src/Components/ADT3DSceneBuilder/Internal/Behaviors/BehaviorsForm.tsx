@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { DatasourceType } from '../../../../Models/Classes/3DVConfig';
 import {
     ADT3DSceneBuilderMode,
+    VisualRuleFormMode,
     WidgetFormMode
 } from '../../../../Models/Constants/Enums';
 import {
@@ -69,10 +70,11 @@ import {
 import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
 import { VisualRulesTab } from './Internal/VisualRulesTab';
+import { VisualRuleForm } from '../VisualRules/VisualRuleForm';
 
-const showVisualRulesPivot =
+const showVisualRulesFeature =
     localStorage.getItem(
-        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesPivot
+        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
     ) === 'true' || false;
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
@@ -109,6 +111,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         dispatch,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
+        setVisualRuleFormMode,
+        visualRuleFormMode,
         widgetFormInfo
     } = useContext(SceneBuilderContext);
     const {
@@ -128,6 +132,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
+    const [
+        isPropertyTypeDropdownEnabled,
+        setisPropertyTypeDropdownEnabled
+    ] = useState(false);
+    const handlePropertyTypeDropdownEnabled = useCallback(
+        (isEnabled: boolean) => {
+            setisPropertyTypeDropdownEnabled(isEnabled);
+        },
+        [setisPropertyTypeDropdownEnabled]
+    );
 
     useEffect(() => {
         const selectedElements = [];
@@ -308,6 +322,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const discardChanges = useCallback(() => {
         onBehaviorBackClick();
+        console.log('THIS GETS CALLED!');
         setSelectedElements([]);
     }, [onBehaviorBackClick, setSelectedElements]);
 
@@ -330,9 +345,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             getLeftPanelBuilderHeaderParamsForBehaviors(
                 widgetFormInfo,
                 behaviorTwinAliasFormInfo,
-                builderMode
+                builderMode,
+                visualRuleFormMode
             ),
-        [widgetFormInfo, behaviorTwinAliasFormInfo, builderMode]
+        [
+            widgetFormInfo,
+            behaviorTwinAliasFormInfo,
+            builderMode,
+            visualRuleFormMode
+        ]
     );
 
     // report out initial state
@@ -401,26 +422,46 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     ]);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
+    const isWidgetFormActive =
+        widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
+        widgetFormInfo.mode === WidgetFormMode.EditWidget;
+    const isVisualRulesFormActive = visualRuleFormMode !== null;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const commonFormStyles = getPanelFormStyles(theme, 168);
+    console.log('isPropertyDropdownEnabled: ', isPropertyTypeDropdownEnabled);
+    const formHeaderHeight = isVisualRulesFormActive
+        ? isPropertyTypeDropdownEnabled
+            ? 370
+            : 268
+        : 168;
+    console.log(formHeaderHeight);
+    console.log(isPropertyTypeDropdownEnabled);
+    const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
 
-    return (
-        <div className={commonFormStyles.root}>
-            <LeftPanelBuilderHeader
-                headerText={headerText}
-                subHeaderText={subHeaderText}
-                iconName={iconName}
-            />
-            {widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
-            widgetFormInfo.mode === WidgetFormMode.EditWidget ? (
-                <WidgetForm />
-            ) : behaviorTwinAliasFormInfo ? (
+    const renderContent = () => {
+        if (isWidgetFormActive) {
+            return <WidgetForm />;
+        } else if (behaviorTwinAliasFormInfo) {
+            return (
                 <BehaviorTwinAliasForm
                     selectedElements={selectedElements}
                     setSelectedElements={setSelectedElements}
                 />
-            ) : (
+            );
+        } else if (isVisualRulesFormActive) {
+            return (
+                <VisualRuleForm
+                    setPropertyTypeDropdownEnabled={
+                        handlePropertyTypeDropdownEnabled
+                    }
+                    isPropertyTypeDropdownEnabled={
+                        isPropertyTypeDropdownEnabled
+                    }
+                    rootHeight={formHeaderHeight}
+                />
+            );
+        } else {
+            return (
                 <>
                     <div className={commonFormStyles.content}>
                         <div className={commonFormStyles.header}>
@@ -461,7 +502,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         <Pivot
                             selectedKey={selectedBehaviorPivotKey}
                             onLinkClick={onPivotItemClick}
-                            className={commonFormStyles.pivot}
+                            className={commonFormStyles.expandedSection}
                             overflowBehavior={'menu'}
                             styles={panelFormPivotStyles}
                         >
@@ -512,7 +553,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     selectedElements={selectedElements}
                                 />
                             </PivotItem>
-                            {!showVisualRulesPivot && (
+                            {!showVisualRulesFeature && (
                                 <PivotItem
                                     className={
                                         commonPanelStyles.formTabContents
@@ -538,7 +579,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     />
                                 </PivotItem>
                             )}
-                            {!showVisualRulesPivot && (
+                            {!showVisualRulesFeature && (
                                 <PivotItem
                                     className={
                                         commonPanelStyles.formTabContents
@@ -562,7 +603,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     <AlertsTab />
                                 </PivotItem>
                             )}
-                            {showVisualRulesPivot && (
+                            {showVisualRulesFeature && (
                                 <PivotItem
                                     className={
                                         commonPanelStyles.formTabContents
@@ -613,8 +654,36 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                             onClick={onCancelClick}
                         />
                     </PanelFooter>
+                    {/* REMOVE THIS BUTTON, ONLY RENDERS WITH FLIGHTS */}
+                    {showVisualRulesFeature && (
+                        <PrimaryButton
+                            text={'Open visual rules'}
+                            onClick={() => {
+                                setVisualRuleFormMode(
+                                    VisualRuleFormMode.CreateVisualRule
+                                );
+                            }}
+                            styles={{
+                                root: {
+                                    position: 'absolute',
+                                    left: 200
+                                }
+                            }}
+                        />
+                    )}
                 </>
-            )}
+            );
+        }
+    };
+
+    return (
+        <div className={commonFormStyles.root}>
+            <LeftPanelBuilderHeader
+                headerText={headerText}
+                subHeaderText={subHeaderText}
+                iconName={iconName}
+            />
+            {renderContent()}
         </div>
     );
 };

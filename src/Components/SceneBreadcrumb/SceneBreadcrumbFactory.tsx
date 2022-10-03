@@ -7,7 +7,10 @@ import {
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
-import { WidgetFormInfo } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
+import {
+    VisualRuleFormActiveMode,
+    WidgetFormInfo
+} from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
 import {
     INavigateCallback,
     ISceneBreadcrumbFactoryProps
@@ -47,6 +50,10 @@ const isCreateOrEditElementMode = (formMode: ADT3DSceneBuilderMode) => {
     );
 };
 
+const isCreateOrEditVisualRuleMode = (formMode: VisualRuleFormActiveMode) => {
+    return formMode != null;
+};
+
 const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
     builderMode,
     onNavigate,
@@ -62,6 +69,10 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
         text: t('3dSceneBuilder.widget'),
         key: 'widgetsRoot'
     };
+    const visualRuleFormRootLabel: IBreadcrumbItem = {
+        text: 'Visual rule',
+        key: 'visualRulesRoot'
+    };
 
     const twinAliasFormRootLabel: IBreadcrumbItem = {
         text: t('3dSceneBuilder.twinAlias.title'),
@@ -76,28 +87,32 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
             widgetFormInfo,
             setWidgetFormInfo,
             behaviorTwinAliasFormInfo,
-            setBehaviorTwinAliasFormInfo
+            setBehaviorTwinAliasFormInfo,
+            setVisualRuleFormMode,
+            visualRuleFormMode
         } = useContext(SceneBuilderContext);
 
         let onBehaviorRootClick: VoidFunction | undefined;
         let onCancelForm: VoidFunction | undefined;
         let onNavigateCallback: INavigateCallback | undefined;
+        const isVisualFormMode = isCreateOrEditVisualRuleMode(
+            visualRuleFormMode
+        );
+        const isWidgetFormMode = isCreateOrEditWidgetMode(widgetFormInfo.mode);
+        const isTwinFormMode = behaviorTwinAliasFormInfo !== null;
 
         /**
          * Add extra breadcrumb item in case behavior is in form mode
          */
         if (isCreateOrEditBehaviorMode(builderMode)) {
             onNavigateCallback = onNavigate;
-            const isWidgetFormMode = isCreateOrEditWidgetMode(
-                widgetFormInfo.mode
-            );
-            const isTwinFormMode = behaviorTwinAliasFormInfo !== null;
             const isBuilderModeNotInBehaviorForm = !isCreateOrEditBehaviorMode(
                 builderMode
             );
             const isClickable =
                 isWidgetFormMode ||
                 isTwinFormMode ||
+                isVisualFormMode ||
                 isBuilderModeNotInBehaviorForm;
 
             const behaviorFormRoot: IBreadcrumbItem = {
@@ -108,6 +123,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                         const navigate = () => {
                             cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                             setBehaviorTwinAliasFormInfo(null);
+                            setVisualRuleFormMode(null);
                         };
                         onNavigateCallback('goToForm', navigate);
                     }
@@ -139,10 +155,12 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
         /**
          * If widget or twin alias forms are displayed show a 4th breadcrumb item
          */
-        if (isCreateOrEditWidgetMode(widgetFormInfo.mode)) {
+        if (isWidgetFormMode) {
             extraItems.push(widgetsFormRootLabel);
-        } else if (behaviorTwinAliasFormInfo) {
+        } else if (isTwinFormMode) {
             extraItems.push(twinAliasFormRootLabel);
+        } else if (isVisualFormMode) {
+            extraItems.push(visualRuleFormRootLabel);
         }
 
         return (

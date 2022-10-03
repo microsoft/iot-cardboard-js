@@ -170,6 +170,11 @@ export enum WidgetFormMode {
     Committed = 'Committed'
 }
 
+export enum VisualRuleFormMode {
+    CreateVisualRule = 'CreateVisualRule',
+    EditVisualRule = 'EditVisualRule'
+}
+
 export enum TwinAliasFormMode {
     CreateTwinAlias,
     EditTwinAlias
