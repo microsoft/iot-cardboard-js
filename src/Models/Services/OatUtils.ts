@@ -9,9 +9,30 @@ import {
     DtdlRelationship,
     DtdlInterfaceContent,
     OAT_FILES_STORAGE_KEY,
-    OAT_UNTARGETED_RELATIONSHIP_NAME
+    OAT_UNTARGETED_RELATIONSHIP_NAME,
+    OAT_LAST_PROJECT_STORAGE_KEY
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
+
+/**
+ * Stores the last used project to local storage
+ * @param id id for the project
+ */
+export const storeLastUsedProjectId = (id: string) => {
+    localStorage.setItem(
+        OAT_LAST_PROJECT_STORAGE_KEY,
+        id ? JSON.stringify(id) : undefined
+    );
+};
+
+/**
+ * Gets the last used project id
+ * @returns
+ */
+export const getLastUsedProjectId = (): string => {
+    const data = localStorage.getItem(OAT_LAST_PROJECT_STORAGE_KEY);
+    return data ? JSON.parse(data) : {};
+};
 
 // Store OAT-data
 export const storeEditorData = (oatEditorData: ProjectData) => {
@@ -163,7 +184,7 @@ export const getOntologiesFromStorage = (): IOATFile[] =>
     JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
 
 // Save files from local storage
-export const saveOntologiesToStorage = (files: IOATFile[]) => {
+export const storeOntologiesToStorage = (files: IOATFile[]) => {
     localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 

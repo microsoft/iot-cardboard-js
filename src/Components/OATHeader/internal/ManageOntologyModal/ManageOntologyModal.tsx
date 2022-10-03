@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
     classNamesFunction,
     useTheme,
@@ -13,13 +13,12 @@ import {
     FormMode
 } from './ManageOntologyModal.types';
 import { getStyles } from './ManageOntologyModal.styles';
-import {
-    buildModelName,
-    getOntologiesFromStorage
-} from '../../../../Models/Services/OatUtils';
+import { buildModelName } from '../../../../Models/Services/OatUtils';
 import OatModal from '../../../CardboardModal/CardboardModal';
 import { DOCUMENTATION_LINKS } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
+import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 
 const LOC_KEYS = {
     deleteButtonText: `OATHeader.manageOntologyModal.deleteButtonText`,
@@ -47,21 +46,49 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const mode = ontologyId ? FormMode.Edit : FormMode.Create;
 
     // contexts
-    // const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const [name, setName] = useState<string>('');
-    const [namespace, setNamespace] = useState<string>('');
+    const [name, setName] = useState<string>(
+        mode === FormMode.Create ? '' : oatPageState.projectName
+    );
+    const [namespace, setNamespace] = useState<string>(
+        mode === FormMode.Create ? '' : oatPageState.namespace
+    );
 
     // hooks
     const { t } = useTranslation();
 
     // callbacks
     const onDelete = () => {
-        alert('Delete');
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+            payload: {
+                name: name,
+                namespace: namespace
+            }
+        });
+        onClose();
     };
     const onSubmit = () => {
-        alert('submit');
+        if (mode === FormMode.Create) {
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+                payload: {
+                    name: name,
+                    namespace: namespace
+                }
+            });
+        } else if (mode === FormMode.Edit) {
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_EDIT_PROJECT,
+                payload: {
+                    name: name,
+                    namespace: namespace
+                }
+            });
+        }
+        onClose();
     };
 
     const onRenderSubTitle = (): React.ReactNode => {
@@ -79,12 +106,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
         );
     };
 
-    // side effects
-
     // data
-    const storedFiles = useMemo(() => getOntologiesFromStorage(), []);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const currentFile = storedFiles.find((x) => x.id === ontologyId);
     const sampleModelName = buildModelName(
         namespace || t(LOC_KEYS.sampleNamespace),
         t(LOC_KEYS.sampleModel),
@@ -95,6 +117,8 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+
+    const isFormValid = name && namespace;
 
     return (
         <OatModal
@@ -109,7 +133,8 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
             }
             footerPrimaryButtonProps={{
                 text: mode === FormMode.Create ? t('create') : t('save'),
-                onClick: onSubmit
+                onClick: onSubmit,
+                disabled: !isFormValid
             }}
             onDismiss={onClose}
             styles={classNames.subComponentStyles.modal}
@@ -133,7 +158,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                     modelName: sampleModelName
                 })}
                 value={namespace}
-                onChange={(_e, value) => setNamespace(value)}
+                onChange={(_e, value) => setNamespace(value.replace(/ /g, ''))}
             />
         </OatModal>
     );

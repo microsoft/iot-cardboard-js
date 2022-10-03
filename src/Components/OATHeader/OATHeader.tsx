@@ -3,7 +3,8 @@ import React, {
     useContext,
     useRef,
     useCallback,
-    useMemo
+    useMemo,
+    useState
 } from 'react';
 import {
     classNamesFunction,
@@ -11,6 +12,7 @@ import {
     ContextualMenuItemType,
     ICommandBarItemProps,
     IContextualMenuItem,
+    IContextualMenuRenderItem,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -19,6 +21,7 @@ import JSZip from 'jszip';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { deepCopy, parseModels } from '../../Models/Services/Utils';
 import {
+    HeaderModal,
     IOATHeaderProps,
     IOATHeaderStyleProps,
     IOATHeaderStyles
@@ -34,6 +37,7 @@ import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
@@ -53,10 +57,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
+    const [openModal, setOpenModal] = useState<HeaderModal>(HeaderModal.None);
     const uploadFolderInputRef = useRef<HTMLInputElement>(null);
     const uploadFileInputRef = useRef<HTMLInputElement>(null);
-    const redoButtonRef = useRef(null);
-    const undoButtonRef = useRef(null);
+    const redoButtonRef = useRef<IContextualMenuRenderItem>(null);
+    const undoButtonRef = useRef<IContextualMenuRenderItem>(null);
 
     const onFilesUpload = useCallback(
         async (files: Array<File>) => {
@@ -254,27 +259,24 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     };
 
     const onNewFile = useCallback(() => {
-        alert('on new file');
         // TODO: check if pending changes
         const pendingChanges = false;
         if (pendingChanges) {
             // TODO: prompt
             // TODO: set action for confirmation to clear
         } else {
-            setModalOpen();
-            // TODO: call oatPageDispatch to create new project
+            setOpenModal(HeaderModal.CreateOntology);
         }
     }, []);
 
     const onManageFile = useCallback(() => {
-        alert('on manage file');
         // TODO: check if pending changes
         const pendingChanges = false;
         if (pendingChanges) {
             // TODO: prompt
             // TODO: set action for confirmation to clear
         } else {
-            // TODO: call oatPageDispatch to create new project
+            setOpenModal(HeaderModal.EditOntology);
         }
     }, []);
 
@@ -539,6 +541,18 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         styles={classNames.subComponentStyles.commandBar}
                     />
                 </div>
+                {/* Create ontology */}
+                <ManageOntologyModal
+                    isOpen={openModal === HeaderModal.CreateOntology}
+                    onClose={() => setOpenModal(HeaderModal.None)}
+                    ontologyId={''}
+                />
+                {/* Edit ontology */}
+                <ManageOntologyModal
+                    isOpen={openModal === HeaderModal.EditOntology}
+                    onClose={() => setOpenModal(HeaderModal.None)}
+                    ontologyId={oatPageState.ontologyId}
+                />
             </div>
 
             {/* Hidden inputs for file imports */}

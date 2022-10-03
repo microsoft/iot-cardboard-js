@@ -14,7 +14,7 @@ import { getPromptTextStyles } from '../OATHeader.styles';
 import { FromBody } from './Enums';
 import {
     getOntologiesFromStorage,
-    saveOntologiesToStorage
+    storeOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import {
     IModalDeleteProps,
@@ -52,7 +52,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
         if (foundIndex > -1) {
             // Remove file
             files.splice(foundIndex, 1);
-            saveOntologiesToStorage(files);
+            storeOntologiesToStorage(files);
             resetProject();
             setModalBody(FromBody.settings);
         }

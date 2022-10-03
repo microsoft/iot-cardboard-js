@@ -34,6 +34,7 @@ export interface IOatPageContextState {
     modelsMetadata?: IOATModelsMetadata[];
     modified?: boolean;
     namespace?: string;
+    ontologyId: string;
     projectName?: string;
     selection?: IOATSelection;
     selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
@@ -46,6 +47,12 @@ export interface IOatPageContextState {
  */
 export enum OatPageContextActionType {
     SET_OAT_CONFIRM_DELETE_OPEN = 'SET_OAT_CONFIRM_DELETE_OPEN',
+    /** creates a new project, switches to that project */
+    SET_OAT_CREATE_PROJECT = 'SET_OAT_CREATE_PROJECT',
+    /** updates properties of an existing project */
+    SET_OAT_EDIT_PROJECT = 'SET_OAT_EDIT_PROJECT',
+    /** deletes an existing project from storage */
+    SET_OAT_DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
     SET_OAT_ERROR = 'SET_OAT_ERROR',
     SET_OAT_IMPORT_MODELS = 'SET_OAT_IMPORT_MODELS',
     SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN',
@@ -54,6 +61,7 @@ export enum OatPageContextActionType {
     SET_OAT_MODELS_POSITIONS = 'SET_OAT_MODELS_POSITIONS',
     SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
     SET_OAT_NAMESPACE = 'SET_OAT_NAMESPACE',
+    SET_OAT_PROJECT_ID = 'SET_OAT_PROJECT_ID',
     SET_OAT_PROJECT = 'SET_OAT_PROJECT',
     SET_OAT_PROJECT_NAME = 'SET_OAT_PROJECT_NAME',
     SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
@@ -66,6 +74,18 @@ export type OatPageContextAction =
     | {
           type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;
           payload: IOATConfirmDelete;
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_CREATE_PROJECT;
+          payload: { name: string; namespace: string };
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_EDIT_PROJECT;
+          payload: { name: string; namespace: string };
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_DELETE_PROJECT;
+          payload: { id: string };
       }
     | {
           type: OatPageContextActionType.SET_OAT_ERROR;
@@ -111,6 +131,12 @@ export type OatPageContextAction =
           type: OatPageContextActionType.SET_OAT_NAMESPACE;
           payload: {
               namespace: string;
+          };
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_PROJECT_ID;
+          payload: {
+              projectId: string;
           };
       }
     | {

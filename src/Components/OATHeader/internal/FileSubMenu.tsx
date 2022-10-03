@@ -15,7 +15,7 @@ import { deepCopy } from '../../../Models/Services/Utils';
 import {
     convertDtdlInterfacesToModels,
     getOntologiesFromStorage,
-    saveOntologiesToStorage
+    storeOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import ModalDelete from './ModalDelete';
@@ -72,7 +72,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
 
             filesCopy[fileIndex].data = project;
             setFiles(filesCopy);
-            saveOntologiesToStorage(filesCopy);
+            storeOntologiesToStorage(filesCopy);
         } else {
             // Create new file
             setModalBody(FromBody.save);

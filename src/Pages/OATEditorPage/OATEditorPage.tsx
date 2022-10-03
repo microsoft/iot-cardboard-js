@@ -13,7 +13,7 @@ import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import {
     getAvailableLanguages,
     getOntologiesFromStorage,
-    saveOntologiesToStorage
+    storeOntologiesToStorage
 } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
@@ -39,7 +39,7 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
         //  Set the OATFilesStorageKey to the localStorage if key doesn't exist
         const files = getOntologiesFromStorage();
         if (!files?.length) {
-            saveOntologiesToStorage([]);
+            storeOntologiesToStorage([]);
         }
     }, []);
 

@@ -5,6 +5,12 @@ import {
     ITheme
 } from '@fluentui/react';
 
+export enum HeaderModal {
+    None = 'None',
+    CreateOntology = 'CreateOntology',
+    EditOntology = 'EditOntology'
+}
+
 export type IOATHeaderProps = {
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

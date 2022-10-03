@@ -3,6 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import ManageOntologyModal from './ManageOntologyModal';
 import { IManageOntologyModalProps } from './ManageOntologyModal.types';
+import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -17,7 +18,16 @@ export default {
 type ManageOntologyModalStory = ComponentStory<typeof ManageOntologyModal>;
 
 const Template: ManageOntologyModalStory = (args) => {
-    return <ManageOntologyModal {...args} />;
+    return (
+        <OatPageContextProvider
+            initialState={{
+                namespace: 'testNamespace',
+                projectName: 'my test project'
+            }}
+        >
+            <ManageOntologyModal {...args} />
+        </OatPageContextProvider>
+    );
 };
 
 export const Create = Template.bind({}) as ManageOntologyModalStory;

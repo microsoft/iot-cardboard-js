@@ -21,7 +21,7 @@ import {
 import {
     convertDtdlInterfacesToModels,
     getOntologiesFromStorage,
-    saveOntologiesToStorage
+    storeOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
@@ -70,7 +70,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
                     oatPageState.modelsMetadata
                 );
 
-                saveOntologiesToStorage(files);
+                storeOntologiesToStorage(files);
             }
             if (resetProjectOnSave) {
                 resetProject();
@@ -97,7 +97,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
             id: projectName,
             data: newProject
         });
-        saveOntologiesToStorage(files);
+        storeOntologiesToStorage(files);
 
         onClose();
         setModalBody(null);

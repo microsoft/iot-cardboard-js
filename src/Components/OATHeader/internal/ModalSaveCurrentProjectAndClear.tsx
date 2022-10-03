@@ -16,7 +16,7 @@ import { FromBody } from './Enums';
 import {
     convertDtdlInterfacesToModels,
     getOntologiesFromStorage,
-    saveOntologiesToStorage
+    storeOntologiesToStorage
 } from '../../../Models/Services/OatUtils';
 import {
     IModalSaveCurrentProjectAndClearProps,
@@ -64,7 +64,7 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
             );
 
             files[foundIndex].data = project;
-            saveOntologiesToStorage(files);
+            storeOntologiesToStorage(files);
             resetProject();
             setModalBody(FromBody.settings);
         }
