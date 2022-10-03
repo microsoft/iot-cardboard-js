@@ -870,11 +870,19 @@
             "dropdownPlaceholder": "Select an ontology"
         },
         "manageOntologyModal": {
+            "deleteButtonText": "Delete ontology",
             "modalTitleCreate": "New ontology",
             "modalTitleEdit": "Edit ontology",
             "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
             "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
-            "modalSubTitleLinkText": "Learn more about ontologies"
+            "modalSubTitleLinkText": "Learn more about ontologies",
+            "nameLabel": "Name",
+            "namePlaceholder": "Enter an ontology name",
+            "namespaceLabel": "Namespace",
+            "namespaceDescription": "Example model name: {{modelName}}",
+            "namespacePlaceholder": "Enter a namespace",
+            "sampleModel": "sample Model",
+            "sampleNamespace": "sample Namespace"
         }
     },
     "OATGraphViewer": {

@@ -232,3 +232,14 @@ export function getAvailableLanguages(i18n: i18n) {
         };
     });
 }
+
+export function buildModelName(
+    namespace: string,
+    modelName: string,
+    version: number
+): string {
+    return `dtmi:${namespace?.replace(/ /g, '')}:${modelName?.replace(
+        / /g,
+        ''
+    )}:${version}`;
+}
