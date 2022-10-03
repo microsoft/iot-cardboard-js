@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning",
     "columnPicker": "Kolumnväljare",
     "propertyCount": "{{selectedPropsCount}} egenskaper valda",
-    "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper"
+    "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
+    "selectAdditionalColumns": "Välj ytterligare kolumner"
   }
 }

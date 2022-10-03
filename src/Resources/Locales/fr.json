@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche",
     "columnPicker": "Sélecteur de colonnes",
     "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
-    "availableProperties": "Liste déroulante des propriétés disponibles"
+    "availableProperties": "Liste déroulante des propriétés disponibles",
+    "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   }
 }

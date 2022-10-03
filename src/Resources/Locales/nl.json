@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen",
     "columnPicker": "Kolomkiezer",
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
-    "availableProperties": "Dropdown van beschikbare eigenschappen"
+    "availableProperties": "Dropdown van beschikbare eigenschappen",
+    "selectAdditionalColumns": "Extra kolommen selecteren"
   }
 }

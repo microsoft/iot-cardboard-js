@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie",
     "columnPicker": "Selektor kolumn",
     "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
-    "availableProperties": "Lista rozwijana dostępnych właściwości"
+    "availableProperties": "Lista rozwijana dostępnych właściwości",
+    "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
   }
 }

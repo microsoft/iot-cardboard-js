@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen",
     "columnPicker": "Spaltenauswahl",
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
-    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften"
+    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
+    "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   }
 }

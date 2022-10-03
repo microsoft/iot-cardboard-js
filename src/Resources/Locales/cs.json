@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání",
     "columnPicker": "Výběr sloupců",
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
-    "availableProperties": "Rozbalovací nabídka dostupných ubytování"
+    "availableProperties": "Rozbalovací nabídka dostupných ubytování",
+    "selectAdditionalColumns": "Výběr dalších sloupců"
   }
 }

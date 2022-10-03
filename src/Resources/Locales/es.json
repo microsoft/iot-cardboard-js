@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda",
     "columnPicker": "Selector de columnas",
     "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
-    "availableProperties": "Menú desplegable de propiedades disponibles"
+    "availableProperties": "Menú desplegable de propiedades disponibles",
+    "selectAdditionalColumns": "Seleccionar columnas adicionales"
   }
 }

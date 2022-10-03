@@ -1173,6 +1173,7 @@
     "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın",
     "columnPicker": "Sütun seçici",
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
-    "availableProperties": "Mevcut tesislerin açılır menüsü"
+    "availableProperties": "Mevcut tesislerin açılır menüsü",
+    "selectAdditionalColumns": "Ek sütunlar seçme"
   }
 }

@@ -1173,6 +1173,7 @@
     "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével",
     "columnPicker": "Oszlopválasztó",
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
-    "availableProperties": "Az elérhető szállások legördülő menüje"
+    "availableProperties": "Az elérhető szállások legördülő menüje",
+    "selectAdditionalColumns": "További oszlopok kijelölése"
   }
 }
