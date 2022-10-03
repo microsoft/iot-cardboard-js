@@ -69,7 +69,10 @@ export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfig
               ) as EnvironmentConfigurationInLocalStorage)
             : null;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get environment configuration from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -89,7 +92,10 @@ export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLoc
               ) as EnvironmentOptionsInLocalStorage)
             : null;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get environment options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -132,7 +138,10 @@ export const getAdtInstanceOptionsFromLocalStorage = (
         }
         return environmentOptionsInLocalStorage?.adtInstances;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get ADT instance options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -184,7 +193,10 @@ export const getStorageAccountOptionsFromLocalStorage = (): Array<EnvironmentIte
         }
         return environmentOptionsInLocalStorage?.storageAccounts;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get Storage account options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -225,7 +237,10 @@ export const getStorageContainerOptionsFromLocalStorage = (
             return environmentOptionsInLocalStorage?.storageContainers;
         }
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get Storage container options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -264,7 +279,10 @@ export const getSelectedAdtInstanceFromLocalStorage = (
         }
         return environmentConfigurationInLocalStorage?.selectedAdtInstance;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get selected ADT instance from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -309,7 +327,10 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemIn
         // END of migration
         return environmentConfigurationInLocalStorage?.selectedStorageContainer;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get selected Storage container from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -497,10 +518,10 @@ export const setAdtInstanceOptionsInLocalStorage = (
             adtInstances: adtInstancesItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            adtInstances: adtInstancesItems
-        };
+        console.error(
+            'Failed to set ADT instance options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
@@ -545,10 +566,10 @@ export const setStorageAccountOptionsInLocalStorage = (
             storageAccounts: storageAccountItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            storageAccounts: storageAccountItems
-        };
+        console.error(
+            'Failed to set Storage account options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
@@ -599,10 +620,10 @@ export const setStorageContainerOptionsInLocalStorage = (
             storageContainers: containerItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            storageContainers: containerItems
-        };
+        console.error(
+            'Failed to set Storage container options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
