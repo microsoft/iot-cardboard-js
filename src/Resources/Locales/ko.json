@@ -869,7 +869,15 @@
       "modalTitleEdit": "온톨로지 편집",
       "modalSubTitleCreate": "디지탈 트윈에 구조를 제공하기 위해 새로운 온톨로지를 만듭니다.",
       "modalSubTitleEdit": "온톨로지를 편집하여 디지탈 트윈에 구조를 제공하십시오.",
-      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기"
+      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
+      "deleteButtonText": "온톨로지 삭제",
+      "nameLabel": "이름",
+      "namePlaceholder": "온톨로지 이름 입력",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "예제 모델 이름: {{modelName}}",
+      "namespacePlaceholder": "네임스페이스 입력",
+      "sampleModel": "샘플 모델",
+      "sampleNamespace": "샘플 네임스페이스"
     }
   },
   "cameraControls": {

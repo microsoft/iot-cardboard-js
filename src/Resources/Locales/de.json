@@ -869,7 +869,15 @@
       "modalTitleEdit": "Ontologie bearbeiten",
       "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling Struktur zu verleihen.",
       "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
-      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien"
+      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
+      "deleteButtonText": "Ontologie löschen",
+      "nameLabel": "Name",
+      "namePlaceholder": "Geben Sie einen Ontologienamen ein",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Beispielmodellname: {{modelName}}",
+      "namespacePlaceholder": "Eingeben eines Namespaces",
+      "sampleModel": "Beispielmodell",
+      "sampleNamespace": "Beispiel-Namespace"
     }
   },
   "cameraControls": {

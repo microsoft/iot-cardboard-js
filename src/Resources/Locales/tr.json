@@ -869,7 +869,15 @@
       "modalTitleEdit": "Ontolojiyi düzenleme",
       "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
       "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
-      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin"
+      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
+      "deleteButtonText": "Ontolojiyi silme",
+      "nameLabel": "Ad",
+      "namePlaceholder": "Ontoloji adı girin",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Örnek model adı: {{modelName}}",
+      "namespacePlaceholder": "Ad alanı girme",
+      "sampleModel": "örnek Model",
+      "sampleNamespace": "örnek Ad Alanı"
     }
   },
   "cameraControls": {

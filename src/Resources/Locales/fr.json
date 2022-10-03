@@ -869,7 +869,15 @@
       "modalTitleEdit": "Modifier l’ontologie",
       "modalSubTitleCreate": "Créez une nouvelle ontologie pour structurer votre jumeau numérique.",
       "modalSubTitleEdit": "Modifiez votre ontologie pour structurer votre jumeau numérique.",
-      "modalSubTitleLinkText": "En savoir plus sur les ontologies"
+      "modalSubTitleLinkText": "En savoir plus sur les ontologies",
+      "deleteButtonText": "Supprimer l’ontologie",
+      "nameLabel": "Nom",
+      "namePlaceholder": "Entrez un nom d’ontologie",
+      "namespaceLabel": "Espace de noms",
+      "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
+      "namespacePlaceholder": "Entrer un espace de noms",
+      "sampleModel": "exemple de modèle",
+      "sampleNamespace": "exemple d’espace de noms"
     }
   },
   "cameraControls": {

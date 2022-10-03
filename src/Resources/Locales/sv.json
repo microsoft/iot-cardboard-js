@@ -869,7 +869,15 @@
       "modalTitleEdit": "Redigera ontologi",
       "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
       "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleLinkText": "Läs mer om ontologier"
+      "modalSubTitleLinkText": "Läs mer om ontologier",
+      "deleteButtonText": "Ta bort ontologi",
+      "nameLabel": "Namn",
+      "namePlaceholder": "Ange ett ontologinamn",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+      "namespacePlaceholder": "Ange ett namnområde",
+      "sampleModel": "exempelmodell",
+      "sampleNamespace": "exempel på namnrymd"
     }
   },
   "cameraControls": {

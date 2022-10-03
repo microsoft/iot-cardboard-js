@@ -869,7 +869,15 @@
       "modalTitleEdit": "オントロジーの編集",
       "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
       "modalSubTitleEdit": "あなたのオントロジーを編集して、あなたのデジタルツインに構造を与えます。",
-      "modalSubTitleLinkText": "オントロジーについてもっと知る"
+      "modalSubTitleLinkText": "オントロジーについてもっと知る",
+      "deleteButtonText": "オントロジーの削除",
+      "nameLabel": "名前",
+      "namePlaceholder": "オントロジー名を入力してください",
+      "namespaceLabel": "名前空間",
+      "namespaceDescription": "モデル名の例: {{モデル名}}",
+      "namespacePlaceholder": "名前空間を入力する",
+      "sampleModel": "サンプルモデル",
+      "sampleNamespace": "サンプル名前空間"
     }
   },
   "cameraControls": {

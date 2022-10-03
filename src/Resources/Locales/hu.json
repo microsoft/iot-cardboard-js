@@ -869,7 +869,15 @@
       "modalTitleEdit": "Ontológia szerkesztése",
       "modalSubTitleCreate": "Hozzon létre egy új ontológiát, amely struktúrát ad a számjegyi ikertestvérének.",
       "modalSubTitleEdit": "Szerkessze az ontológiát, hogy struktúrát adjon a számjegyi ikernek.",
-      "modalSubTitleLinkText": "További információ az ontológiákról"
+      "modalSubTitleLinkText": "További információ az ontológiákról",
+      "deleteButtonText": "Ontológia törlése",
+      "nameLabel": "Név",
+      "namePlaceholder": "Adjon meg egy ontológiai nevet",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Példa modellnévre: {{modelName}}",
+      "namespacePlaceholder": "Névtér megadása",
+      "sampleModel": "minta modell",
+      "sampleNamespace": "minta névtér"
     }
   },
   "cameraControls": {
