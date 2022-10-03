@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -81,7 +81,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         }
     ];
-    const additionalCols = selectedColumnNames.map((name) => {
+    const additionalColumns = selectedColumnNames.map((name) => {
         return {
             key: name,
             name: name,
@@ -97,7 +97,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             }
         };
     });
-    const tableColumns = staticColumns.concat(additionalCols);
+    const tableColumns = staticColumns.concat(additionalColumns);
     // mark each column based on whether it's currently the one sorted
     tableColumns.forEach((x) => {
         x.isSorted = sortKey === x.fieldName;
@@ -208,15 +208,29 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         return new Set(properties);
     };
     const updateColumns = (columnToAdd: string) => {
-        setSelectedColumnNames((currentValue) => {
-            return currentValue.concat(columnToAdd);
-        });
+        if (!selectedColumnNames.includes(columnToAdd)) {
+            setSelectedColumnNames((currentValue) => {
+                return [...currentValue, columnToAdd];
+            });
+        }
     };
     const deleteColumn = (columnToRemoveKey: string) => {
         setSelectedColumnNames((currentValue) =>
             currentValue.filter((col) => col !== columnToRemoveKey)
         );
     };
+
+    useEffect(() => {
+        const selectedKeysSet = new Set(selectedColumnNames);
+
+        searchedProperties.forEach((property) => {
+            if (!selectedKeysSet.has(property)) {
+                updateColumns(property);
+                selectedKeysSet.add(property);
+            }
+        });
+        setSelectedColumnNames(Array.from(selectedKeysSet));
+    }, [searchedProperties]);
     return (
         <section className={classNames.root}>
             <div className={classNames.listHeaderAndDropdown}>
@@ -225,10 +239,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 </h3>
                 {twinCount > 0 && (
                     <ColumnPicker
-                        searchedProperties={searchedProperties}
                         allAvailableProperties={getAvailableProperties()}
                         addColumn={updateColumns}
                         deleteColumn={deleteColumn}
+                        selectedKeys={selectedColumnNames}
                     />
                 )}
             </div>

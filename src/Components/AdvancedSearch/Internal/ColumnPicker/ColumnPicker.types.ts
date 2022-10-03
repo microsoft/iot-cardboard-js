@@ -7,10 +7,11 @@ import {
 } from '@fluentui/react';
 
 export interface IColumnPickerProps {
-    searchedProperties: string[];
     allAvailableProperties: Set<string>;
     addColumn: (columnName: string) => void;
     deleteColumn: (columnName: string) => void;
+    selectedKeys: string[];
+    // setSelectedKeys: (columnName: string) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
