@@ -321,6 +321,8 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemIn
 export const setLocalStorageItem = (key: string, value: string): void => {
     if (key) {
         localStorage.setItem(key, value);
+    } else {
+        console.error('Setting local storage item failed: Key not passed!');
     }
 };
 
