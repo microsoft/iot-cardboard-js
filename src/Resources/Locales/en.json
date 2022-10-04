@@ -765,17 +765,17 @@
         }
     },
     "environmentPicker": {
-        "environmentUrl": "Azure Digital Twins instance URL",
+        "adtInstanceUrl": "Azure Digital Twins instance URL",
         "storageAccountName": "Azure Storage account name",
         "storageAccountUrl": "Azure Storage account URL",
         "storageContainerName": "Azure Storage container name",
         "storageContainerUrl": "Azure Storage container URL",
         "editEnvironment": "Configure 3D Scenes environment",
-        "descriptionForEnvironment": "Link your Azure Digital Twins instance to begin building 3D scenes.",
-        "descriptionForEnvAndCont": "Link your Azure Digital Twins instance and your storage container to begin building 3D scenes.",
+        "descriptionForAdtInstance": "Link your Azure Digital Twins instance to begin building 3D scenes.",
+        "descriptionForAdtInstanceAndCont": "Link your Azure Digital Twins instance and your storage container to begin building 3D scenes.",
         "descriptionForLocalStorage": "Configuration data is saved in local storage.",
         "selectContainerUrl": "Select storage container URL",
-        "noEnvironment": "No environment added",
+        "noAdtInstance": "No ADT instance added",
         "noContainer": "No container added",
         "removeFromList": "Remove from list"
     },

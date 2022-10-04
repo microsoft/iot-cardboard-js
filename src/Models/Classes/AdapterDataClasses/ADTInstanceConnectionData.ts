@@ -1,12 +1,9 @@
-import {
-    IAdapterData,
-    IADTInstanceConnection
-} from '../../Constants/Interfaces';
+import { IAdapterData, IADXConnection } from '../../Constants/Interfaces';
 
 class ADTInstanceConnectionData implements IAdapterData {
-    data: IADTInstanceConnection;
+    data: IADXConnection;
 
-    constructor(data: IADTInstanceConnection) {
+    constructor(data: IADXConnection) {
         this.data = data;
     }
 

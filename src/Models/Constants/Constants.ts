@@ -86,6 +86,10 @@ export const LOCAL_STORAGE_KEYS = {
         VisualRules: {
             showVisualRulesPivot: 'cardboard.feature.visualRulesPivot' // shows visual rules pivot
         }
+    },
+    Environment: {
+        Configuration: 'cb-environment-configuration',
+        Options: 'cb-environment-options'
     }
 };
 
@@ -261,12 +265,17 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
     }
 ];
 
+/** @deprecated This key will be removed soon since the new local storage structure */
 export const EnvironmentsLocalStorageKey = 'cb-environments';
+/** @deprecated This key will be removed soon since the new local storage structure */
 export const ContainersLocalStorageKey = 'cb-containers';
+/** @deprecated This key will be removed soon since the new local storage structure */
 export const StorageAccountsLocalStorageKey = 'cb-storage-accounts';
-
+/** @deprecated This key will be removed soon since the new local storage structure */
 export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
+/** @deprecated This key will be removed soon since the new local storage structure */
 export const SelectedContainerLocalStorageKey = 'cb-selected-container';
+
 export const OATFilesStorageKey = 'oat-files';
 export const OATDataStorageKey = 'oat-data';
 export const OATUntargetedRelationshipName = 'Untargeted';

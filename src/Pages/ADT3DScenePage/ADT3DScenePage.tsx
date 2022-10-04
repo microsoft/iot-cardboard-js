@@ -28,6 +28,9 @@ import {
     SET_ERROR_CALLBACK
 } from '../../Models/Constants/ActionTypes';
 import {
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer,
     IBlobAdapter,
     IComponentError
 } from '../../Models/Constants/Interfaces';
@@ -53,6 +56,7 @@ import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
+import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -150,17 +154,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         },
         [deeplinkDispatch]
     );
-    const setBlobContainerUrl = useCallback(
-        (url: string) => {
-            // store container url to context
-            deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_STORAGE_URL,
-                payload: { url }
-            });
-            adapter.setBlobContainerPath(url);
-        },
-        [adapter, deeplinkDispatch]
-    );
 
     const handleOnHomeClick = useCallback(() => {
         setSelectedSceneId(null);
@@ -191,13 +184,21 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [setSelectedSceneId]
     );
 
-    const handleContainerUrlChange = useCallback(
-        (containerUrl: string, containerUrls: Array<string>) => {
-            setBlobContainerUrl(containerUrl);
+    const handleContainerChange = useCallback(
+        (
+            storageAccount: string | IAzureStorageAccount,
+            storageContainer: string | IAzureStorageBlobContainer,
+            storageContainers: Array<string | IAzureStorageBlobContainer>
+        ) => {
+            deeplinkDispatch({
+                type: DeeplinkContextActionType.SET_STORAGE_CONTAINER,
+                payload: { storageContainer, storageAccount }
+            });
+
             if (environmentPickerOptions?.storage?.onContainerChange) {
                 environmentPickerOptions.storage.onContainerChange(
-                    containerUrl,
-                    containerUrls
+                    storageContainer,
+                    storageContainers
                 );
             }
             dispatch({
@@ -206,30 +207,41 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             });
             errorCallbackSetRef.current = false;
         },
-        [environmentPickerOptions?.storage, setBlobContainerUrl]
+        [environmentPickerOptions?.storage]
     );
 
-    const handleEnvironmentUrlChange = useCallback(
-        (envUrl: string, envUrls: Array<string>) => {
+    const handleAdtInstanceChange = useCallback(
+        (
+            adtInstance: string | IADTInstance,
+            adtInstances: Array<string | IADTInstance>
+        ) => {
             deeplinkDispatch({
-                type: DeeplinkContextActionType.SET_ADT_URL,
+                type: DeeplinkContextActionType.SET_ADT_INSTANCE,
                 payload: {
-                    url: envUrl
+                    adtInstance
                 }
             });
-            if (environmentPickerOptions?.environment?.onEnvironmentChange) {
-                environmentPickerOptions.environment.onEnvironmentChange(
-                    envUrl,
-                    envUrls
+            if (environmentPickerOptions?.adt?.onAdtInstanceChange) {
+                environmentPickerOptions.adt.onAdtInstanceChange(
+                    adtInstance,
+                    adtInstances
                 );
             }
         },
-        [deeplinkDispatch, environmentPickerOptions?.environment]
+        [deeplinkDispatch, environmentPickerOptions?.adt]
     );
 
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
+        if (environmentPickerOptions?.adt?.selectedItemLocalStorageKey) {
+            setLocalStorageItem(
+                // TODO: instead should we expose a prop in ConsumerDeepLinkContext like "onAdtUrlChange" and
+                // do this update in the consumer side not to rely on environmentPickerOptions local storage key?
+                environmentPickerOptions.adt.selectedItemLocalStorageKey,
+                deeplinkState.adtUrl
+            );
+        }
     }, [adapter, deeplinkState.adtUrl]);
 
     // update the adapter if the Storage instance changes
@@ -490,26 +502,24 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                 <div className="cb-scene-page-scene-environment-picker">
                                     <EnvironmentPicker
                                         adapter={adapter}
-                                        environmentUrl={deeplinkState.adtUrl}
-                                        onEnvironmentUrlChange={
-                                            handleEnvironmentUrlChange
+                                        adtInstanceUrl={deeplinkState.adtUrl}
+                                        onAdtInstanceChange={
+                                            handleAdtInstanceChange
                                         }
-                                        {...(environmentPickerOptions
-                                            ?.environment
+                                        {...(environmentPickerOptions?.adt
                                             ?.isLocalStorageEnabled && {
                                             isLocalStorageEnabled: true,
                                             localStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage?.localStorageKey,
+                                                environmentPickerOptions?.adt
+                                                    ?.localStorageKey,
                                             selectedItemLocalStorageKey:
-                                                environmentPickerOptions
-                                                    ?.storage
+                                                environmentPickerOptions?.adt
                                                     ?.selectedItemLocalStorageKey
                                         })}
                                         storage={{
                                             containerUrl:
                                                 deeplinkState.storageUrl,
-                                            onContainerUrlChange: handleContainerUrlChange,
+                                            onContainerChange: handleContainerChange,
                                             ...(environmentPickerOptions
                                                 ?.storage
                                                 ?.isLocalStorageEnabled && {

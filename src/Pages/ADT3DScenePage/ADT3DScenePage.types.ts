@@ -9,7 +9,8 @@ import {
     IAction,
     IConsumeCompositeCardProps,
     IErrorButtonAction,
-    IADTInstance
+    IADTInstance,
+    IAzureStorageBlobContainer
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -19,13 +20,13 @@ import {
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
     environmentPickerOptions?: {
-        environment?: {
+        adt?: {
             isLocalStorageEnabled?: boolean;
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
-            onEnvironmentChange?: (
-                environment: string | IADTInstance,
-                environments: Array<string | IADTInstance>
+            onAdtInstanceChange?: (
+                adtInstance: string | IADTInstance,
+                adtInstances: Array<string | IADTInstance>
             ) => void;
         };
         storage?: {
@@ -33,8 +34,8 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
             onContainerChange?: (
-                containerUrl: string,
-                containerUrls: Array<string>
+                container: string | IAzureStorageBlobContainer,
+                containers: Array<string | IAzureStorageBlobContainer>
             ) => void;
         };
     };

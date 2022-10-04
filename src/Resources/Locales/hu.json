@@ -760,19 +760,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins példány URL-címe",
     "editEnvironment": "3D jelenetek környezetének konfigurálása",
-    "descriptionForEnvironment": "Kapcsolja össze az Azure Digital Twins-példányt a 3D-s jelenetek létrehozásának megkezdéséhez.",
-    "descriptionForEnvAndCont": "Kapcsolja össze az Azure Digital Twins-példányt és a tárolótárolót a 3D-s jelenetek létrehozásának megkezdéséhez.",
     "descriptionForLocalStorage": "A konfigurációs adatok a helyi tárolóba kerülnek.",
     "selectContainerUrl": "Tároló URL-címének kiválasztása",
-    "noEnvironment": "Nincs hozzáadott környezet",
     "noContainer": "Nincs hozzáadott tároló",
     "removeFromList": "Eltávolítás a listából",
     "storageAccountName": "Azure Storage-fiók neve",
     "storageAccountUrl": "Azure Storage-fiók URL-címe",
     "storageContainerName": "Azure Storage-tároló neve",
-    "storageContainerUrl": "Azure Storage-tároló URL-címe"
+    "storageContainerUrl": "Azure Storage-tároló URL-címe",
+    "adtInstanceUrl": "Azure Digital Twins példány URL-címe",
+    "descriptionForAdtInstance": "Kapcsolja össze a Azure Digital Twins példányát a 3D-jelenetek építésének megkezdéséhez.",
+    "descriptionForAdtInstanceAndCont": "Kapcsolja össze a Azure Digital Twins példányt és a tárolót a 3D-s jelenetek építésének megkezdéséhez.",
+    "noAdtInstance": "Nincs hozzáadva ADT-példány"
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",

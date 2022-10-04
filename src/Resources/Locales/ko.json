@@ -760,19 +760,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "3D 장면 환경 구성",
-    "descriptionForEnvironment": "Azure 디지털 트윈 인스턴스를 연결하여 3D 장면 빌드를 시작합니다.",
-    "descriptionForEnvAndCont": "Azure 디지털 트윈 인스턴스와 저장소 컨테이너를 연결하여 3D 장면 빌드를 시작합니다.",
     "descriptionForLocalStorage": "구성 데이터는 로컬 저장소에 저장됩니다.",
     "selectContainerUrl": "스토리지 컨테이너 URL 선택",
-    "noEnvironment": "환경이 추가되지 않음",
     "noContainer": "컨테이너가 추가되지 않았습니다.",
     "removeFromList": "목록에서 제거",
     "storageAccountName": "Azure Storage 계정 이름",
     "storageAccountUrl": "Azure Storage 계정 URL",
     "storageContainerName": "Azure Storage container name",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "Azure 디지털 트윈 인스턴스를 연결하여 3D 장면 빌드를 시작합니다.",
+    "descriptionForAdtInstanceAndCont": "Azure 디지털 트윈 인스턴스와 저장소 컨테이너를 연결하여 3D 장면 빌드를 시작합니다.",
+    "noAdtInstance": "ADT 인스턴스가 추가되지 않았습니다."
   },
   "behaviorsModal": {
     "closeModal": "모달 닫기",
