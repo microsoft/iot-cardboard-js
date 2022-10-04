@@ -546,7 +546,16 @@
       "rotation": "Rotasyon"
     },
     "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)",
-    "visualRulesTab": "Görsel kurallar"
+    "visualRulesTab": "Görsel kurallar",
+    "visualRule": {
+      "new": "Yeni Görsel kural",
+      "edit": "Görsel kuralı düzenle",
+      "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
+      "noDataMessageHeader": "Koşul yok",
+      "noDataMessageDescription": "Henüz bir koşul oluşturulmadı. Bir koşul oluşturmak için aşağıya tıklayın.",
+      "noDataMessageLinkText": "Koşul ekle",
+      "typePlaceholder": "Değer için türü seçin"
+    }
   },
   "widgets": {
     "trend": {

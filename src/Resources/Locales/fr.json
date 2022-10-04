@@ -546,7 +546,16 @@
       "rotation": "Rotation"
     },
     "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)",
-    "visualRulesTab": "Règles visuelles"
+    "visualRulesTab": "Règles visuelles",
+    "visualRule": {
+      "new": "Nouvelle règle visuelle",
+      "edit": "Modifier la règle visuelle",
+      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "noDataMessageHeader": "Aucune condition",
+      "noDataMessageDescription": "Aucune condition n’a encore été créée. Cliquez ci-dessous pour créer une condition.",
+      "noDataMessageLinkText": "Ajouter une condition",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
+    }
   },
   "widgets": {
     "trend": {
