@@ -553,7 +553,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         <div className={classNames.root}>
             <VirtualizedComboBox
                 styles={classNames.subComponentStyles.comboBox()}
-                placeholder={placeholder}
+                placeholder={placeholder()}
                 label={label}
                 options={options}
                 selectedKey={selectedKey}
