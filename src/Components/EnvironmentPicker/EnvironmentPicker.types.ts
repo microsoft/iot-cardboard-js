@@ -38,21 +38,21 @@ export type EnvironmentPickerProps = {
     storage?: StorageContainer;
 } & (WithLocalStorage | WithoutLocalStorage);
 
+/** @deprecated This has been used for aligning the local storage format with ADT Explorer app. This will be removed soon with the new local storage format */
 export type ADTInstanceOptionInLocalStorage = {
-    /** @deprecated This has been used for aligning the local storage format with ADT Explorer app. This will be removed soon with the new local storage format */
     name: string;
     config: {
         appAdtUrl: string;
     };
 };
 
+/** @deprecated This has been used for aligning the local storage format with ADT Explorer app. This will be removed soon with the new local storage format */
 export type ADTSelectedInstanceInLocalStorage = {
-    /** @deprecated This has been used for aligning the local storage format with ADT Explorer app. This will be removed soon with the new local storage format */
     appAdtUrl: string;
 };
 
+/** @deprecated This will be removed soon with the new local storage format */
 export type StorageAccountsInLocalStorage = {
-    /** @deprecated This will be removed soon with the new local storage format */
     id: string;
     url: string;
 };
