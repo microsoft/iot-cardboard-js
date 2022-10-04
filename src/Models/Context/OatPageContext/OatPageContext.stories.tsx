@@ -62,14 +62,83 @@ const ProviderContentRenderer: React.FC = () => {
     const theme = useTheme();
     const containerStyle = getContainerStyles(theme);
     const valueStyle = getValueStyle(theme);
+    const stringify = (object: any) =>
+        object ? JSON.stringify(object) : object;
     return (
         <Stack>
-            <h4 style={headerStyles}>Context</h4>
+            <h3 style={headerStyles}>Context</h3>
 
-            <Stack styles={containerStyle}>
+            <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
+                <h4 style={headerStyles}>Current ontology</h4>
                 <Stack horizontal styles={itemStackStyles}>
-                    <Label>ADT URL: </Label>
-                    <Text styles={valueStyle}>{oatPageState?.adtUrl}</Text>
+                    <Label>OntologyId: </Label>
+                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Ontology name: </Label>
+                    <Text styles={valueStyle}>{oatPageState.projectName}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Namespace: </Label>
+                    <Text styles={valueStyle}>{oatPageState.namespace}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Models: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.models)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Positions: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.modelPositions)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Templates: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.templates)}
+                    </Text>
+                </Stack>
+            </Stack>
+
+            <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
+                <h4 style={headerStyles}>Other attributes</h4>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Selection: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.selection)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Selected model target: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.selectedModelTarget)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>is Modified: </Label>
+                    <Text styles={valueStyle}>{oatPageState.modified}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Error: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.error)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Confirmation dialog: </Label>
+                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>JSON uploader: </Label>
+                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>IsTemplatesOpen: </Label>
+                    <Text styles={valueStyle}>
+                        {oatPageState.templatesActive}
+                    </Text>
                 </Stack>
             </Stack>
         </Stack>
