@@ -179,6 +179,7 @@ const ProviderUpdater: React.FC = () => {
     const [positionIncrementor, setPositionIncrementor] = useState<number>(0);
     const [metadataIncrementor, setMetadataIncrementor] = useState<number>(0);
     const [templateIncrementor, setTemplateIncrementor] = useState<number>(0);
+    const [selectionIncrementor, setSelectionIncrementor] = useState<number>(0);
     const theme = useTheme();
     return (
         <Stack>
@@ -310,6 +311,29 @@ const ProviderUpdater: React.FC = () => {
                             }
                         });
                         setTemplateIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-ChangeSelection'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text={'Change selection'}
+                    onClick={() => {
+                        const newValue =
+                            (selectionIncrementor + 1) %
+                            oatPageState.currentOntologyModels.length;
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                            payload: {
+                                selection: {
+                                    modelId:
+                                        oatPageState.currentOntologyModels[
+                                            newValue
+                                        ]['@id']
+                                }
+                            }
+                        });
+                        setSelectionIncrementor(newValue);
                     }}
                 />
             </Stack>
