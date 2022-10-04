@@ -4,13 +4,20 @@
 import produce from 'immer';
 import queryString from 'query-string';
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
-import { ADTSelectedEnvironmentInLocalStorage } from '../../../Components/EnvironmentPicker/EnvironmentPicker.types';
 import {
     ADT3DScenePageModes,
-    SelectedContainerLocalStorageKey,
-    SelectedEnvironmentLocalStorageKey
+    AzureResourceDisplayFields,
+    AzureResourceTypes,
+    IADTInstance
 } from '../../Constants';
-import { getDebugLogger } from '../../Services/Utils';
+import {
+    areResourceValuesEqual,
+    getContainerNameFromUrl,
+    getDebugLogger,
+    getNameOfResource,
+    getResourceId,
+    getResourceUrl
+} from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
     IDeeplinkContext,
@@ -24,7 +31,15 @@ import {
     IDeeplinkContextProviderProps,
     IPublicDeeplink
 } from '..';
+import {
+    getSelectedAdtInstanceFromLocalStorage,
+    getSelectedStorageContainerFromLocalStorage,
+    setSelectedAdtInstanceInLocalStorage,
+    setSelectedStorageAccountInLocalStorage,
+    setSelectedStorageContainerInLocalStorage
+} from '../../Services/LocalStorageManager/LocalStorageManager';
 import TelemetryService from '../../Services/TelemetryService/TelemetryService';
+import { getStorageAccountUrlFromContainerUrl } from '../../../Components/EnvironmentPicker/EnvironmentPickerManager';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('DeeplinkContext', debugLogging);
@@ -45,9 +60,16 @@ export const DeeplinkContextReducer: (
             action.payload
         );
         switch (action.type) {
-            case DeeplinkContextActionType.SET_ADT_URL: {
-                draft.adtUrl = action.payload.url || '';
-                updateSelectedEnvironmentInLocalStorage(action.payload.url);
+            case DeeplinkContextActionType.SET_ADT_INSTANCE: {
+                draft.adtUrl =
+                    getResourceUrl(
+                        action.payload.adtInstance,
+                        AzureResourceTypes.DigitalTwinInstance
+                    ) || '';
+                draft.adtResourceId = getResourceId(action.payload.adtInstance);
+                setSelectedAdtInstanceInLocalStorage(
+                    action.payload.adtInstance
+                );
                 break;
             }
             case DeeplinkContextActionType.SET_ELEMENT_ID: {
@@ -69,9 +91,20 @@ export const DeeplinkContextReducer: (
                 TelemetryService.setSceneId(draft.sceneId);
                 break;
             }
-            case DeeplinkContextActionType.SET_STORAGE_URL: {
-                draft.storageUrl = action.payload.url || '';
-                updateSelectedContainerInLocalStorage(action.payload.url);
+            case DeeplinkContextActionType.SET_STORAGE_CONTAINER: {
+                draft.storageUrl =
+                    getResourceUrl(
+                        action.payload.storageContainer,
+                        AzureResourceTypes.StorageBlobContainer,
+                        action.payload.storageAccount
+                    ) || '';
+                setSelectedStorageAccountInLocalStorage(
+                    action.payload.storageAccount
+                );
+                setSelectedStorageContainerInLocalStorage(
+                    action.payload.storageContainer,
+                    action.payload.storageAccount
+                );
                 break;
             }
         }
@@ -97,14 +130,31 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         sort: false
     }) as unknown) as IPublicDeeplink;
 
+    const selectedAdtInstanceInLocalStorage = getSelectedAdtInstanceFromLocalStorage();
+    const selectedStorageContainerInLocalStorage = getSelectedStorageContainerFromLocalStorage();
+
+    const defaultAdtUrl =
+        parsed.adtUrl ||
+        initialState.adtUrl ||
+        selectedAdtInstanceInLocalStorage?.url ||
+        '';
+    const defaultAdtResourceId =
+        parsed.adtResourceId ||
+        initialState.adtResourceId ||
+        (areResourceValuesEqual(
+            // this is needed to align the adt url with resource id, otherwise there might be cases where adt url comes from initial state or parsed link whereas the id is from localstorage which together may not point to the same Azure resource
+            defaultAdtUrl,
+            selectedAdtInstanceInLocalStorage?.url,
+            AzureResourceDisplayFields.url
+        ) &&
+            selectedAdtInstanceInLocalStorage?.id) ||
+        '';
+
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IDeeplinkContextState = {
-        adtUrl:
-            parsed.adtUrl ||
-            initialState.adtUrl ||
-            getSelectedEnvironmentUrlFromLocalStorage() ||
-            '',
+        adtUrl: defaultAdtUrl,
+        adtResourceId: defaultAdtResourceId,
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
         selectedElementId:
@@ -118,7 +168,7 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         storageUrl:
             parsed.storageUrl ||
             initialState.storageUrl ||
-            getSelectedContainerUrlFromLocalStorage() ||
+            selectedStorageContainerInLocalStorage?.url ||
             ''
     };
 
@@ -163,6 +213,34 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
         TelemetryService.setSceneId(deeplinkState.sceneId);
     }, [deeplinkState.sceneId]);
 
+    useEffect(() => {
+        // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
+        setSelectedAdtInstanceInLocalStorage(
+            defaultState.adtResourceId
+                ? ({
+                      id: defaultState.adtResourceId
+                          ? defaultState.adtResourceId
+                          : null,
+                      name: getNameOfResource(
+                          defaultState.adtUrl,
+                          AzureResourceTypes.DigitalTwinInstance
+                      ),
+                      properties: {
+                          hostName: new URL(defaultState.adtUrl).hostname
+                      },
+                      type: AzureResourceTypes.DigitalTwinInstance
+                  } as IADTInstance)
+                : defaultState.adtUrl
+        );
+        setSelectedStorageAccountInLocalStorage(
+            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+        );
+        setSelectedStorageContainerInLocalStorage(
+            getContainerNameFromUrl(defaultState.storageUrl),
+            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+        );
+    }, []);
+
     return (
         <DeeplinkContext.Provider
             value={{
@@ -193,6 +271,7 @@ const buildDeeplink = (
             : undefined,
         mode: currentState.mode,
         adtUrl: currentState.adtUrl,
+        adtResourceId: currentState.adtResourceId,
         storageUrl: currentState.storageUrl
     };
 
@@ -230,63 +309,3 @@ const parseArrayParam = (value: string): string[] => {
     if (!value) return undefined;
     return value.split(ARRAY_VALUE_SEPARATOR);
 };
-
-// START of local storage handling
-/**
- * read the selected environment url from local storage if exists to set the initial value of 'adtUrl' in the initial default state of DeeplinkContext
- */
-const getSelectedEnvironmentUrlFromLocalStorage = (): string | null => {
-    try {
-        const selectedEnvironmentInLocalStorage = localStorage.getItem(
-            SelectedEnvironmentLocalStorageKey
-        );
-        return selectedEnvironmentInLocalStorage
-            ? (JSON.parse(
-                  selectedEnvironmentInLocalStorage
-              ) as ADTSelectedEnvironmentInLocalStorage)?.appAdtUrl
-            : null;
-    } catch (error) {
-        console.error(error.message);
-        return null;
-    }
-};
-
-/**
- * read the selected container url from local storage if exists to set the initial value of 'storageUrl' in the initial default state of DeeplinkContext
- */
-const getSelectedContainerUrlFromLocalStorage = (): string | null => {
-    return localStorage.getItem(SelectedContainerLocalStorageKey);
-};
-
-/**
- * update the selected environment url in local storage along with the update in the state of DeeplinkContext
- */
-const updateSelectedEnvironmentInLocalStorage = (
-    selectedEnvironmentUrl: string
-) => {
-    if (selectedEnvironmentUrl) {
-        localStorage.setItem(
-            SelectedEnvironmentLocalStorageKey,
-            JSON.stringify({
-                appAdtUrl: selectedEnvironmentUrl
-            })
-        );
-    } else {
-        localStorage.removeItem(SelectedEnvironmentLocalStorageKey);
-    }
-};
-
-/**
- * update the selected container url in local storage along with the update in the state of DeeplinkContext
- */
-const updateSelectedContainerInLocalStorage = (selectedContainer: string) => {
-    if (selectedContainer) {
-        localStorage.setItem(
-            SelectedContainerLocalStorageKey,
-            selectedContainer
-        );
-    } else {
-        localStorage.removeItem(SelectedContainerLocalStorageKey);
-    }
-};
-// END of local storage handling

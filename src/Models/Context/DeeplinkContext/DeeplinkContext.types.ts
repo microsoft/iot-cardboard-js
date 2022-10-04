@@ -1,4 +1,9 @@
-import { ADT3DScenePageModes } from '../../Constants';
+import {
+    ADT3DScenePageModes,
+    IADTInstance,
+    IAzureStorageAccount,
+    IAzureStorageBlobContainer
+} from '../../Constants';
 import queryString from 'query-string';
 
 export interface IDeeplinkContextProviderProps {
@@ -26,6 +31,7 @@ export interface IDeeplinkContext {
  */
 export interface IDeeplinkContextState {
     adtUrl: string;
+    adtResourceId: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementId: string;
@@ -36,6 +42,7 @@ export interface IDeeplinkContextState {
 /** The object serialized to create the deeplink URL */
 export interface IPublicDeeplink {
     adtUrl: string;
+    adtResourceId: string;
     mode: ADT3DScenePageModes;
     sceneId: string;
     selectedElementIds: string;
@@ -47,19 +54,19 @@ export interface IPublicDeeplink {
  * The actions to update the state
  */
 export enum DeeplinkContextActionType {
-    SET_ADT_URL = 'SET_ADT_URL',
+    SET_ADT_INSTANCE = 'SET_ADT_INSTANCE',
     SET_ELEMENT_ID = 'SET_ELEMENT_ID',
     SET_LAYER_IDS = 'SET_LAYER_IDS',
     SET_MODE = 'SET_MODE',
     SET_SCENE_ID = 'SET_SCENE_ID',
-    SET_STORAGE_URL = 'SET_STORAGE_URL'
+    SET_STORAGE_CONTAINER = 'SET_STORAGE_CONTAINER'
 }
 
 /** The actions to update the state */
 export type DeeplinkContextAction =
     | {
-          type: DeeplinkContextActionType.SET_ADT_URL;
-          payload: { url: string };
+          type: DeeplinkContextActionType.SET_ADT_INSTANCE;
+          payload: { adtInstance: string | IADTInstance };
       }
     | {
           type: DeeplinkContextActionType.SET_ELEMENT_ID;
@@ -78,8 +85,11 @@ export type DeeplinkContextAction =
           payload: { sceneId: string };
       }
     | {
-          type: DeeplinkContextActionType.SET_STORAGE_URL;
-          payload: { url: string };
+          type: DeeplinkContextActionType.SET_STORAGE_CONTAINER;
+          payload: {
+              storageContainer: string | IAzureStorageBlobContainer;
+              storageAccount: string | IAzureStorageAccount;
+          };
       };
 
 export const DEEPLINK_SERIALIZATION_OPTIONS: queryString.StringifyOptions = {
