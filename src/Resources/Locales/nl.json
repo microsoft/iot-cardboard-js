@@ -546,7 +546,14 @@
       "rotation": "Rotatie"
     },
     "searchTwinIdPlaceholder": "Twin ID zoeken ($dtId)",
-    "visualRulesTab": "Visuele regels"
+    "visualRulesTab": "Visuele regels",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "noData": "U hebt nog geen Visual Rules geconfigureerd",
+      "addRuleButtonText": "Regel toevoegen"
+    },
+    "editRule": "Regel bewerken",
+    "removeRule": "Regel verwijderen"
   },
   "widgets": {
     "trend": {

@@ -546,7 +546,14 @@
       "rotation": "旋转"
     },
     "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）",
-    "visualRulesTab": "视觉规则"
+    "visualRulesTab": "视觉规则",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noData": "您尚未配置任何可视规则",
+      "addRuleButtonText": "添加规则"
+    },
+    "editRule": "编辑规则",
+    "removeRule": "删除规则"
   },
   "widgets": {
     "trend": {

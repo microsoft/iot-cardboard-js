@@ -546,7 +546,14 @@
       "rotation": "Rotação"
     },
     "searchTwinIdPlaceholder": "Pesquisar Twin ID ($dtId)",
-    "visualRulesTab": "Regras visuais"
+    "visualRulesTab": "Regras visuais",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
+      "noData": "Ainda não configuraste nenhuma Regra Visual.",
+      "addRuleButtonText": "Adicionar Regra"
+    },
+    "editRule": "Regra de edição",
+    "removeRule": "Remover regra"
   },
   "widgets": {
     "trend": {

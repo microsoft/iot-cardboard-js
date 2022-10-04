@@ -546,7 +546,14 @@
       "rotation": "Rotasyon"
     },
     "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)",
-    "visualRulesTab": "Görsel kurallar"
+    "visualRulesTab": "Görsel kurallar",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
+      "noData": "Henüz herhangi bir Görsel Kural yapılandırmadınız",
+      "addRuleButtonText": "Kural Ekle"
+    },
+    "editRule": "Kuralı düzenle",
+    "removeRule": "Kuralı kaldır"
   },
   "widgets": {
     "trend": {

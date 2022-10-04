@@ -546,7 +546,14 @@
       "rotation": "自転"
     },
     "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)",
-    "visualRulesTab": "ビジュアルルール"
+    "visualRulesTab": "ビジュアルルール",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "noData": "ビジュアル ルールをまだ構成していない",
+      "addRuleButtonText": "ルールの追加"
+    },
+    "editRule": "ルールの編集",
+    "removeRule": "ルールの削除"
   },
   "widgets": {
     "trend": {
