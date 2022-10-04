@@ -545,7 +545,8 @@
       "position": "Pozíció",
       "rotation": "Forgás"
     },
-    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)"
+    "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)",
+    "visualRulesTab": "Vizuális szabályok"
   },
   "widgets": {
     "trend": {
@@ -1153,8 +1154,6 @@
     "selectRow": "Iker kiválasztva",
     "inspectProperty": "Ingatlan ellenőrzése",
     "results": "Eredmények ({{twinCount}})",
-    "modalTitle": "Speciális szálláskeresés",
-    "modalSubtitle": "A megfelelő tulajdon összekapcsolása a keresés szűkítésével",
     "noPropertiesFound": "Nem található tulajdonság",
     "addNewButton": "Új hozzáadása",
     "andOrColumnHeader": "Illetve",
@@ -1169,6 +1168,8 @@
     "errorMessageHeader": "A keresés nem sikerült",
     "errorMessageDescription": "Váratlan hiba történt. Kérjük, frissítse az oldalt, vagy módosítsa a keresési feltételeket, és próbálkozzon újra.",
     "valueFieldPlaceholder": "Adjon meg egy értéket",
-    "noOptionsFoundMessage": "Nem található érték"
+    "noOptionsFoundMessage": "Nem található érték",
+    "modalTitle": "Speciális ikerkeresés",
+    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
   }
 }

@@ -184,6 +184,7 @@ export type CardboardIconNames =
     | 'Org'
     | 'ProductVariant'
     | 'Ringer'
+    | 'Search'
     | 'Shapes'
     | 'SpeedHigh'
     | 'View';
