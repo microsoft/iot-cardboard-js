@@ -246,7 +246,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 connectionState.callAdapter({
                     adtInstanceIdentifier: deeplinkState.adtResourceId
                         ? { id: deeplinkState.adtResourceId }
-                        : { hostName: deeplinkState.adtUrl?.slice(7) }
+                        : { hostName: deeplinkState.adtUrl?.slice(8) } // remove the https:// part from url
                 });
                 dispatch({
                     type:
@@ -534,40 +534,43 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // update the adx information of environment context with the fetched data
     useEffect(() => {
-        if (!connectionState?.adapterResult.hasNoData()) {
-            const connectionData = connectionState.adapterResult.getData();
-
-            dispatch({
-                type:
-                    ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
-                payload: {
-                    adxConnectionInformationLoadingState:
-                        ADXConnectionInformationLoadingState.EXIST
-                }
-            });
-            dispatch({
-                type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
-                payload: {
-                    adxConnectionInformation: connectionData
-                }
-            });
-        } else if (connectionState?.adapterResult.getData()) {
-            dispatch({
-                type:
-                    ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
-                payload: {
-                    adxConnectionInformationLoadingState:
-                        ADXConnectionInformationLoadingState.NOT_EXIST
-                }
-            });
-            dispatch({
-                type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
-                payload: {
-                    adxConnectionInformation: null
-                }
-            });
+        if (connectionState?.adapterResult?.result) {
+            if (!connectionState?.adapterResult.hasError()) {
+                const connectionData = connectionState.adapterResult.getData();
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
+                    payload: {
+                        adxConnectionInformationLoadingState:
+                            ADXConnectionInformationLoadingState.EXIST
+                    }
+                });
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+                    payload: {
+                        adxConnectionInformation: connectionData
+                    }
+                });
+            } else {
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
+                    payload: {
+                        adxConnectionInformationLoadingState:
+                            ADXConnectionInformationLoadingState.NOT_EXIST
+                    }
+                });
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+                    payload: {
+                        adxConnectionInformation: null
+                    }
+                });
+            }
         }
-    }, [connectionState?.adapterResult]);
+    }, [connectionState?.adapterResult.result]);
 
     return (
         <ADT3DScenePageContext.Provider

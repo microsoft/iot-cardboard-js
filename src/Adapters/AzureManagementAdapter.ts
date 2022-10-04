@@ -639,6 +639,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     isCatastrophic: false,
                     rawError: error
                 });
+                return new ADTInstanceTimeSeriesConnectionData(null);
             }
         }, 'azureManagement');
     }
