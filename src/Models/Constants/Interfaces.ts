@@ -41,7 +41,8 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    ADTResourceIdentifier
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -323,7 +324,8 @@ export interface IAzureStorageAccountPropertyData {
 
 export interface IAzureTimeSeriesDatabaseConnectionPropertyData {
     connectionType: 'AzureDataExplorer' | string;
-    adxEndpointUri: string; // cluster url
+    /** Kusto cluster url */
+    adxEndpointUri: string;
     adxDatabaseName: string;
     adxTableName: string;
     [additionalProperty: string]: any;
@@ -554,10 +556,9 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
-    getTimeSeriesConnectionInformation: (adtInstanceIdentifier: {
-        id?: string;
-        hostName?: string;
-    }) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
+    getTimeSeriesConnectionInformation: (
+        adtInstanceIdentifier: ADTResourceIdentifier
+    ) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
     getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 

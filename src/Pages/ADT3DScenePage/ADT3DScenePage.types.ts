@@ -81,8 +81,8 @@ export interface IADT3DScenePageContext {
 export enum ADXConnectionInformationLoadingState {
     IDLE,
     LOADING,
-    EXISTED,
-    NOT_EXISTED
+    EXIST,
+    NOT_EXIST
 }
 
 export enum ADT3DScenePageActionTypes {

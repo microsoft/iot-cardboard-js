@@ -8,6 +8,9 @@ import {
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
     AdapterMethodParamsForGetAzureResources,
+    ADTResourceIdentifier,
+    ADTResourceIdentifierWithHostname,
+    ADTResourceIdentifierWithId,
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
@@ -572,16 +575,15 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    async getTimeSeriesConnectionInformation(adtInstanceIdentifier: {
-        id?: string;
-        hostName?: string;
-    }) {
-        // either the resource object or host url of the ADT instance
+    /** either pass id or hostName as adtInstanceIdentifier */
+    async getTimeSeriesConnectionInformation(
+        adtInstanceIdentifier: ADTResourceIdentifier
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let adtInstance: IAzureResource;
-            if (adtInstanceIdentifier.hostName) {
+            if (adtInstanceIdentifier['hostName']) {
                 const digitalTwinInstances = await this.getResourcesByPermissions(
                     {
                         getResourcesParams: {
@@ -593,11 +595,13 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 const result = digitalTwinInstances.result.data;
                 adtInstance = result.find(
                     (d) =>
-                        d.properties.hostName === adtInstanceIdentifier.hostName
+                        d.properties.hostName ===
+                        (adtInstanceIdentifier as ADTResourceIdentifierWithHostname)
+                            .hostName
                 );
-            } else if (adtInstanceIdentifier.id) {
+            } else if (adtInstanceIdentifier['id']) {
                 const digitalTwinInstance = await this.getResourceById(
-                    adtInstanceIdentifier.id
+                    (adtInstanceIdentifier as ADTResourceIdentifierWithId).id
                 );
                 adtInstance = digitalTwinInstance.result.data;
             }

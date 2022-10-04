@@ -53,6 +53,7 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
+import { ADTResourceIdentifier } from '../../Models/Constants/Types';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -121,7 +122,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     const connectionState = useAdapter({
         adapterMethod: (params: {
-            adtInstanceIdentifier: { id?: string; hostName?: string };
+            adtInstanceIdentifier: ADTResourceIdentifier;
         }) =>
             adapter.getTimeSeriesConnectionInformation(
                 params.adtInstanceIdentifier
@@ -541,7 +542,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
                 payload: {
                     adxConnectionInformationLoadingState:
-                        ADXConnectionInformationLoadingState.EXISTED
+                        ADXConnectionInformationLoadingState.EXIST
                 }
             });
             dispatch({
@@ -556,7 +557,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                     ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
                 payload: {
                     adxConnectionInformationLoadingState:
-                        ADXConnectionInformationLoadingState.NOT_EXISTED
+                        ADXConnectionInformationLoadingState.NOT_EXIST
                 }
             });
             dispatch({

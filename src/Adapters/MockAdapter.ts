@@ -47,7 +47,8 @@ import {
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
     AdapterMethodParamsForSearchTwinsByQuery,
-    IADXConnection
+    IADXConnection,
+    ADTResourceIdentifier
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -1019,10 +1020,9 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesConnectionInformation(_adtInstanceIdentifier: {
-        id?: string;
-        hostName?: string;
-    }) {
+    async getTimeSeriesConnectionInformation(
+        _adtInstanceIdentifier: ADTResourceIdentifier
+    ) {
         try {
             await this.mockNetwork();
 
