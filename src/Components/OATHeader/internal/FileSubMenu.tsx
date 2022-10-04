@@ -62,12 +62,14 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             const filesCopy = deepCopy(files);
 
             const project = new ProjectData(
-                oatPageState.modelPositions,
-                convertDtdlInterfacesToModels(oatPageState.models),
-                oatPageState.projectName,
-                oatPageState.templates,
-                oatPageState.namespace,
-                oatPageState.modelsMetadata
+                oatPageState.currentOntologyModelPositions,
+                convertDtdlInterfacesToModels(
+                    oatPageState.currentOntologyModels
+                ),
+                oatPageState.currentOntologyProjectName,
+                oatPageState.currentOntologyTemplates,
+                oatPageState.currentOntologyNamespace,
+                oatPageState.currentOntologyModelMetadata
             );
 
             filesCopy[fileIndex].data = project;
@@ -91,7 +93,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         if (isFileStored) {
             // Check if current project has been modified
             if (
-                JSON.stringify(oatPageState.models) !==
+                JSON.stringify(oatPageState.currentOntologyModels) !==
                 JSON.stringify(files[fileIndex].data.models)
             ) {
                 // Prompt the if user would like to save current progress
@@ -105,8 +107,8 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             setModalOpen(true);
         } else if (
             // Check if current file has any progress
-            oatPageState.models &&
-            oatPageState.models.length > 0
+            oatPageState.currentOntologyModels &&
+            oatPageState.currentOntologyModels.length > 0
         ) {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_PROJECT_NAME,
@@ -196,21 +198,24 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         setFiles(currentFiles);
         // Check if current file is stored
         let foundIndex = -1;
-        if (currentFiles.length > 0 && oatPageState.projectName) {
+        if (
+            currentFiles.length > 0 &&
+            oatPageState.currentOntologyProjectName
+        ) {
             foundIndex = currentFiles.findIndex(
-                (file) => file.id === oatPageState.projectName
+                (file) => file.id === oatPageState.currentOntologyProjectName
             );
             setFileIndex(foundIndex);
             setIsFileStored(foundIndex > -1);
         } else {
             setIsFileStored(false);
         }
-    }, [oatPageState.projectName]);
+    }, [oatPageState.currentOntologyProjectName]);
 
     // side effects
     useEffect(() => {
         onProjectChange();
-    }, [onProjectChange, oatPageState.projectName]);
+    }, [onProjectChange, oatPageState.currentOntologyProjectName]);
 
     // styles
     const classNames = getClassNames(styles, {

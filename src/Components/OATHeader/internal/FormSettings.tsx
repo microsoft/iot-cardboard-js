@@ -35,7 +35,9 @@ export const FormSettings: React.FC<FormSettingsProps> = (props) => {
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const [namespace, setNamespace] = useState(oatPageState.namespace);
+    const [namespace, setNamespace] = useState(
+        oatPageState.currentOntologyNamespace
+    );
     const [namespaceError, setNamespaceError] = useState(false);
 
     // callbacks

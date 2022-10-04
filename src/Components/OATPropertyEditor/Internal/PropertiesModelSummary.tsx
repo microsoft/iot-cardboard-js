@@ -41,8 +41,11 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const [displayName, setDisplayName] = useState(
@@ -74,8 +77,8 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             } = updateModelId(
                 id,
                 value,
-                oatPageState.models,
-                oatPageState.modelPositions
+                oatPageState.currentOntologyModels,
+                oatPageState.currentOntologyModelPositions
             );
 
             oatPageDispatch({
@@ -104,11 +107,13 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
-                payload: { positions: oatPageState.modelPositions }
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -121,7 +126,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
 
     const onDisplayNameCommit = (value) => {
         const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -140,7 +145,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -149,7 +154,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
 
     const onNameCommit = (value) => {
         const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -174,7 +179,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -238,7 +243,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                         disabled={!model}
                         value={isSupportedModelType && id}
                         model={model}
-                        models={oatPageState.models}
+                        models={oatPageState.currentOntologyModels}
                         onCommit={onIdCommit}
                         borderless
                         autoFocus
@@ -266,7 +271,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                                 getModelPropertyListItemName(name)
                             }
                             model={model}
-                            models={oatPageState.models}
+                            models={oatPageState.currentOntologyModels}
                             onCommit={onNameCommit}
                             borderless
                             autoFocus

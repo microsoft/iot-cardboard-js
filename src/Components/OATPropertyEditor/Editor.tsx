@@ -61,8 +61,11 @@ const Editor: React.FC<EditorProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(

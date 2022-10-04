@@ -85,14 +85,16 @@ const OATGraphViewer = () => {
     const { oatPageState, oatPageDispatch } = useOatPageContext();
     const {
         selection,
-        models,
+        currentOntologyModels,
         importModels,
-        modelPositions,
-        namespace
+        currentOntologyModelPositions,
+        currentOntologyNamespace
     } = oatPageState;
 
     const idClassBase = `dtmi:${
-        namespace ? namespace : OAT_NAMESPACE_DEFAULT_VALUE
+        currentOntologyNamespace
+            ? currentOntologyNamespace
+            : OAT_NAMESPACE_DEFAULT_VALUE
     }:`;
 
     //  Converts the stored models to a graph nodes
@@ -188,7 +190,10 @@ const OATGraphViewer = () => {
     const theme = useTheme();
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
     const [elements, setElements] = useState(
-        getGraphViewerElementsFromModels(models, modelPositions)
+        getGraphViewerElementsFromModels(
+            currentOntologyModels,
+            currentOntologyModelPositions
+        )
     );
     const graphViewerStyles = getGraphViewerStyles();
     const buttonStyles = getGraphViewerButtonStyles();
@@ -448,7 +453,7 @@ const OATGraphViewer = () => {
                 addUntargetedRelationship(
                     source,
                     relationship,
-                    modelPositions,
+                    currentOntologyModelPositions,
                     elementsCopy
                 );
             }
@@ -662,14 +667,14 @@ const OATGraphViewer = () => {
     // Update graph nodes and edges when the models are updated
     useEffect(() => {
         const potentialElements = getGraphViewerElementsFromModels(
-            models,
-            modelPositions
+            currentOntologyModels,
+            currentOntologyModelPositions
         );
 
         if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
             setElements(potentialElements);
         }
-    }, [models]);
+    }, [currentOntologyModels]);
 
     useEffect(() => {
         if (importModels && importModels.length > 0) {
@@ -678,7 +683,7 @@ const OATGraphViewer = () => {
         if (importModels.length > 0) {
             const potentialElements = getGraphViewerElementsFromModels(
                 importModels,
-                modelPositions
+                currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
         }

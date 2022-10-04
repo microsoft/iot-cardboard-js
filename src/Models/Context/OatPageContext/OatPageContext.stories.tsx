@@ -72,32 +72,38 @@ const ProviderContentRenderer: React.FC = () => {
                 <h4 style={headerStyles}>Current ontology</h4>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>OntologyId: </Label>
-                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                    <Text styles={valueStyle}>
+                        {oatPageState.currentOntologyId}
+                    </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Ontology name: </Label>
-                    <Text styles={valueStyle}>{oatPageState.projectName}</Text>
+                    <Text styles={valueStyle}>
+                        {oatPageState.currentOntologyProjectName}
+                    </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Namespace: </Label>
-                    <Text styles={valueStyle}>{oatPageState.namespace}</Text>
+                    <Text styles={valueStyle}>
+                        {oatPageState.currentOntologyNamespace}
+                    </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Models: </Label>
                     <Text styles={valueStyle}>
-                        {stringify(oatPageState.models)}
+                        {stringify(oatPageState.currentOntologyModels)}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Positions: </Label>
                     <Text styles={valueStyle}>
-                        {stringify(oatPageState.modelPositions)}
+                        {stringify(oatPageState.currentOntologyModelPositions)}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Templates: </Label>
                     <Text styles={valueStyle}>
-                        {stringify(oatPageState.templates)}
+                        {stringify(oatPageState.currentOntologyTemplates)}
                     </Text>
                 </Stack>
             </Stack>
@@ -128,11 +134,15 @@ const ProviderContentRenderer: React.FC = () => {
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Confirmation dialog: </Label>
-                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                    <Text styles={valueStyle}>
+                        {oatPageState.currentOntologyId}
+                    </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>JSON uploader: </Label>
-                    <Text styles={valueStyle}>{oatPageState.ontologyId}</Text>
+                    <Text styles={valueStyle}>
+                        {oatPageState.currentOntologyId}
+                    </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>IsTemplatesOpen: </Label>

@@ -32,7 +32,7 @@ const OATModelList: React.FC = () => {
     const [idText, setIdText] = useState('');
     const [filter, setFilter] = useState('');
     const [elementCount, setElementCount] = useState(
-        oatPageState.models.length
+        oatPageState.currentOntologyModels.length
     );
     const containerRef = useRef(null);
 
@@ -86,7 +86,7 @@ const OATModelList: React.FC = () => {
                 const newModels = deleteOatModel(
                     item['@id'],
                     item,
-                    oatPageState.models
+                    oatPageState.currentOntologyModels
                 );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_MODELS,
@@ -107,7 +107,7 @@ const OATModelList: React.FC = () => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -128,8 +128,8 @@ const OATModelList: React.FC = () => {
             } = updateModelId(
                 oatPageState.selection.modelId,
                 value,
-                oatPageState.models,
-                oatPageState.modelPositions
+                oatPageState.currentOntologyModels,
+                oatPageState.currentOntologyModelPositions
             );
 
             oatPageDispatch({
@@ -153,11 +153,13 @@ const OATModelList: React.FC = () => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
-                payload: { positions: oatPageState.modelPositions }
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -172,7 +174,7 @@ const OATModelList: React.FC = () => {
 
     const onCommitDisplayName = (value: string) => {
         const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = modelsCopy.find(
                 (item) => item['@id'] === oatPageState.selection.modelId
             );
@@ -192,7 +194,7 @@ const OATModelList: React.FC = () => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -232,7 +234,7 @@ const OATModelList: React.FC = () => {
                                 <OATTextFieldId
                                     value={idText}
                                     model={item}
-                                    models={oatPageState.models}
+                                    models={oatPageState.currentOntologyModels}
                                     onChange={() => {
                                         setItems([...items]);
                                     }}
@@ -290,23 +292,23 @@ const OATModelList: React.FC = () => {
 
     // side effects
     useEffect(() => {
-        setItems(oatPageState.models);
-        if (oatPageState.models.length > elementCount) {
+        setItems(oatPageState.currentOntologyModels);
+        if (oatPageState.currentOntologyModels.length > elementCount) {
             containerRef.current?.scrollTo({
                 top: containerRef.current?.scrollHeight,
                 behavior: 'smooth'
             });
         }
-        setElementCount(oatPageState.models.length);
-    }, [oatPageState.models]);
+        setElementCount(oatPageState.currentOntologyModels.length);
+    }, [oatPageState.currentOntologyModels]);
 
     useEffect(() => {
-        setItems([...oatPageState.models]);
+        setItems([...oatPageState.currentOntologyModels]);
     }, [theme]);
 
     useEffect(() => {
         setItems(
-            oatPageState.models.filter(
+            oatPageState.currentOntologyModels.filter(
                 (element) =>
                     !filter ||
                     element['@id'].includes(filter) ||
@@ -317,7 +319,7 @@ const OATModelList: React.FC = () => {
 
     useEffect(() => {
         // Set models, so that modelList items re-render and apply style changes if necessary
-        setItems([...oatPageState.models]);
+        setItems([...oatPageState.currentOntologyModels]);
     }, [oatPageState.selection]);
 
     // styles

@@ -60,8 +60,11 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     // state
@@ -120,8 +123,10 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
     };
 
     const updateMetadata = () => {
-        if (oatPageState.modelsMetadata) {
-            const metadataCopy = deepCopy(oatPageState.modelsMetadata);
+        if (oatPageState.currentOntologyModelMetadata) {
+            const metadataCopy = deepCopy(
+                oatPageState.currentOntologyModelMetadata
+            );
             const newMetadata = {
                 '@id': model['@id'],
                 directoryPath,
@@ -145,7 +150,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
 
     const onFormSubmit = () => {
         const update = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -181,11 +186,11 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_METADATA,
-                payload: { metadata: oatPageState.modelsMetadata }
+                payload: { metadata: oatPageState.currentOntologyModelMetadata }
             });
         };
 
@@ -194,8 +199,8 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
 
     const lookUpStoredMetadata = () => {
         // Check if there is metadata for the model, if so update fileName and directoryPath
-        if (oatPageState.modelsMetadata) {
-            const modelMetadata = oatPageState.modelsMetadata.find(
+        if (oatPageState.currentOntologyModelMetadata) {
+            const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
                 (modelMetadata: any) => modelMetadata['@id'] === model['@id']
             );
             if (modelMetadata) {
@@ -349,7 +354,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                     placeholder={t('OATPropertyEditor.id')}
                     value={id}
                     model={model}
-                    models={oatPageState.models}
+                    models={oatPageState.currentOntologyModels}
                     modalFormCommit
                     onCommit={setId}
                 />

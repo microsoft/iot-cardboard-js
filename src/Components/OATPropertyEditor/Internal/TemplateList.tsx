@@ -37,8 +37,11 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -50,12 +53,14 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
         const isTemplateAlreadyInModel = model[propertiesKeyName].find(
             (item) =>
                 item['@id'] ===
-                oatPageState.templates[draggedTemplateItemRef.current]['@id']
+                oatPageState.currentOntologyTemplates[
+                    draggedTemplateItemRef.current
+                ]['@id']
         );
         if (isTemplateAlreadyInModel) return;
 
         // Drop
-        const modelsCopy = deepCopy(oatPageState.models);
+        const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
             oatPageState.selection
@@ -64,7 +69,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
         modelCopy[propertiesKeyName].splice(
             enteredPropertyRef.current + 1,
             0,
-            oatPageState.templates[draggedTemplateItemRef.current]
+            oatPageState.currentOntologyTemplates[
+                draggedTemplateItemRef.current
+            ]
         );
         oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_MODELS,
@@ -105,7 +112,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             //  Entered item is not the same as dragged node
             //  Replace entered item with dragged item
             // --> Remove dragged item and then place it on entered item's position
-            const templatesCopy = deepCopy(oatPageState.templates);
+            const templatesCopy = deepCopy(
+                oatPageState.currentOntologyTemplates
+            );
             templatesCopy.splice(
                 i,
                 0,
@@ -145,7 +154,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
 
     const deleteItem = (index: number) => {
         const deletion = (index) => {
-            const templatesCopy = deepCopy(oatPageState.templates);
+            const templatesCopy = deepCopy(
+                oatPageState.currentOntologyTemplates
+            );
             templatesCopy.splice(index, 1);
             const dispatchDelete = () => {
                 oatPageDispatch({
@@ -162,7 +173,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_TEMPLATES,
-                payload: { templates: oatPageState.templates }
+                payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
 
@@ -171,7 +182,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
 
     const onPropertyListAddition = (item: DTDLProperty) => {
         if (model) {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -187,7 +198,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
     const moveItemOnTemplateList = (index: number, moveUp: boolean) => {
         const onMove = (index: number, moveUp: boolean) => {
             const direction = moveUp ? -1 : 1;
-            const templatesCopy = deepCopy(oatPageState.templates);
+            const templatesCopy = deepCopy(
+                oatPageState.currentOntologyTemplates
+            );
             const item = templatesCopy[index];
             templatesCopy.splice(index, 1);
             templatesCopy.splice(index + direction, 0, item);
@@ -200,7 +213,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
         const undoOnMove = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_TEMPLATES,
-                payload: { templates: oatPageState.templates }
+                payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
 
@@ -220,9 +233,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             }
         >
             {oatPageState &&
-                oatPageState.templates &&
-                oatPageState.templates.length > 0 &&
-                oatPageState.templates.map((item, i) => (
+                oatPageState.currentOntologyTemplates &&
+                oatPageState.currentOntologyTemplates.length > 0 &&
+                oatPageState.currentOntologyTemplates.map((item, i) => (
                     <TemplateListItem
                         key={i + item['@id']}
                         draggingTemplate={draggingTemplate}
@@ -236,7 +249,9 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
                         getSchemaText={getSchemaText}
                         onPropertyListAddition={onPropertyListAddition}
                         onMove={moveItemOnTemplateList}
-                        templatesLength={oatPageState.templates.length}
+                        templatesLength={
+                            oatPageState.currentOntologyTemplates.length
+                        }
                     />
                 ))}
         </div>

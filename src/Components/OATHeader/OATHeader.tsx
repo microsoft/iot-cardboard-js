@@ -86,7 +86,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 );
 
                 if (!metaDataCopy) {
-                    metaDataCopy = deepCopy(oatPageState.modelsMetadata);
+                    metaDataCopy = deepCopy(
+                        oatPageState.currentOntologyModelMetadata
+                    );
                 }
 
                 // Get JSON from content
@@ -131,12 +133,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     }
 
                     const combinedModels = [
-                        ...oatPageState.models,
+                        ...oatPageState.currentOntologyModels,
                         ...newModels
                     ];
                     const error = await parseModels(combinedModels);
 
-                    const modelsCopy = deepCopy(oatPageState.models);
+                    const modelsCopy = deepCopy(
+                        oatPageState.currentOntologyModels
+                    );
                     for (const model of newModels) {
                         // Check if model already exists
                         const modelExists = modelsCopy.find(
@@ -235,8 +239,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         },
         [
             oatPageDispatch,
-            oatPageState.models,
-            oatPageState.modelsMetadata,
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelMetadata,
             t,
             uploadFileInputRef
         ]
@@ -288,14 +292,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
     const onExportClick = useCallback(() => {
         const zip = new JSZip();
-        for (const element of oatPageState.models) {
+        for (const element of oatPageState.currentOntologyModels) {
             const id = element['@id'];
             let fileName = null;
             let directoryPath = null;
 
             // Check if current elements exists within modelsMetadata array, if so, use the metadata
             // to determine the file name and directory path
-            const modelMetadata = oatPageState.modelsMetadata.find(
+            const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
                 (model) => model['@id'] === id
             );
             if (modelMetadata) {
@@ -351,7 +355,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
-    }, [oatPageState.models, oatPageState.modelsMetadata]);
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyModelMetadata
+    ]);
 
     const onAddModel = useCallback(() => {
         // TODO: the stuff
@@ -556,7 +563,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 <ManageOntologyModal
                     isOpen={openModal === HeaderModal.EditOntology}
                     onClose={() => setOpenModal(HeaderModal.None)}
-                    ontologyId={oatPageState.ontologyId}
+                    ontologyId={oatPageState.currentOntologyId}
                 />
                 {/* Confirmation dialog for deletes */}
                 <OATConfirmDialog />

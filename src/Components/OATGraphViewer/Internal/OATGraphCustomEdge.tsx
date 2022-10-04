@@ -568,7 +568,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Create models copy
-                const modelsCopy = deepCopy(oatPageState.models);
+                const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
                 // Find relationship in models copy
                 const model = modelsCopy.find(
                     (model) => model['@id'] === source.id
@@ -599,7 +599,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -614,7 +614,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
     const onNameCommit = (value: string) => {
         const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const model = modelsCopy.find(
                 (model) => model['@id'] === source.id
             );
@@ -646,7 +646,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -730,7 +730,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                                 styles={relationshipTextFieldStyles}
                                 value={nameText}
                                 model={data}
-                                models={oatPageState.models}
+                                models={oatPageState.currentOntologyModels}
                                 onCommit={onNameCommit}
                                 autoFocus
                             />

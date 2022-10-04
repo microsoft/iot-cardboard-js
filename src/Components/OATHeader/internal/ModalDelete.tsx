@@ -47,7 +47,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
 
         //  Overwrite existing file
         const foundIndex = files.findIndex(
-            (file) => file.id === oatPageState.projectName
+            (file) => file.id === oatPageState.currentOntologyProjectName
         );
         if (foundIndex > -1) {
             // Remove file
@@ -69,7 +69,7 @@ export const ModalDelete: React.FC<IModalDeleteProps> = (props) => {
             <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.deleteProjectMessage', {
-                        projectName: oatPageState.projectName
+                        projectName: oatPageState.currentOntologyProjectName
                     })}
                 </Text>
             </div>

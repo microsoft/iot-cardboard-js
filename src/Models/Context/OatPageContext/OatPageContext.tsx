@@ -73,8 +73,11 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_EDIT_PROJECT: {
-                draft.namespace = action.payload.namespace.replace(/ /g, '');
-                draft.projectName = action.payload.name;
+                draft.currentOntologyNamespace = action.payload.namespace.replace(
+                    / /g,
+                    ''
+                );
+                draft.currentOntologyProjectName = action.payload.name;
                 // TODO: look through the project data and update any references to the namespace when it changes
                 saveData(draft);
                 break;
@@ -108,10 +111,10 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_MODELS: {
-                draft.models = action.payload.models || [];
-                if (draft.models && draft.selection) {
+                draft.currentOntologyModels = action.payload.models || [];
+                if (draft.currentOntologyModels && draft.selection) {
                     draft.selectedModelTarget = getTargetFromSelection(
-                        draft.models,
+                        draft.currentOntologyModels,
                         draft.selection
                     );
                 }
@@ -119,12 +122,14 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_MODELS_METADATA: {
-                draft.modelsMetadata = action.payload.metadata || [];
+                draft.currentOntologyModelMetadata =
+                    action.payload.metadata || [];
                 saveData(draft);
                 break;
             }
             case OatPageContextActionType.SET_OAT_MODELS_POSITIONS: {
-                draft.modelPositions = action.payload.positions || [];
+                draft.currentOntologyModelPositions =
+                    action.payload.positions || [];
                 saveData(draft);
                 break;
             }
@@ -133,7 +138,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_NAMESPACE: {
-                draft.namespace = action.payload.namespace || '';
+                draft.currentOntologyNamespace = action.payload.namespace || '';
                 saveData(draft);
                 break;
             }
@@ -143,31 +148,34 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_OAT_PROJECT: {
                 // TODO: Deprecate in favor of setting via id
-                draft.modelPositions = action.payload.modelPositions;
-                draft.models = action.payload.models;
-                draft.modelsMetadata = action.payload.modelsMetadata;
-                draft.namespace = action.payload.namespace;
-                draft.projectName = action.payload.projectName || '';
-                draft.templates = action.payload.templates;
+                draft.currentOntologyModelPositions =
+                    action.payload.modelPositions;
+                draft.currentOntologyModels = action.payload.models;
+                draft.currentOntologyModelMetadata =
+                    action.payload.modelsMetadata;
+                draft.currentOntologyNamespace = action.payload.namespace;
+                draft.currentOntologyProjectName =
+                    action.payload.projectName || '';
+                draft.currentOntologyTemplates = action.payload.templates;
                 break;
             }
             case OatPageContextActionType.SET_OAT_PROJECT_NAME: {
-                draft.projectName = action.payload.name || '';
+                draft.currentOntologyProjectName = action.payload.name || '';
                 saveData(draft);
                 break;
             }
             case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
                 draft.selection = action.payload.selection;
-                if (draft.models && draft.selection) {
+                if (draft.currentOntologyModels && draft.selection) {
                     draft.selectedModelTarget = getTargetFromSelection(
-                        draft.models,
+                        draft.currentOntologyModels,
                         draft.selection
                     );
                 }
                 break;
             }
             case OatPageContextActionType.SET_OAT_TEMPLATES: {
-                draft.templates = action.payload.templates || [];
+                draft.currentOntologyTemplates = action.payload.templates || [];
                 saveData(draft);
                 break;
             }
@@ -180,9 +188,11 @@ export const OatPageContextReducer: (
 );
 
 function setProjectId(draft: IOatPageContextState, projectId: string) {
-    draft.ontologyId = projectId;
+    draft.currentOntologyId = projectId;
     const storedFiles = getOntologiesFromStorage();
-    const selectedFile = storedFiles.find((x) => x.id === draft.ontologyId);
+    const selectedFile = storedFiles.find(
+        (x) => x.id === draft.currentOntologyId
+    );
     if (selectedFile) {
         const data = selectedFile.data;
         const projectToOpen = new ProjectData(
@@ -193,14 +203,14 @@ function setProjectId(draft: IOatPageContextState, projectId: string) {
             data.namespace,
             data.modelsMetadata
         );
-        draft.modelPositions = projectToOpen.modelPositions;
-        draft.models = projectToOpen.models;
-        draft.modelsMetadata = projectToOpen.modelsMetadata;
-        draft.namespace = projectToOpen.namespace;
-        draft.projectName = projectToOpen.projectName || '';
-        draft.templates = projectToOpen.templates;
+        draft.currentOntologyModelPositions = projectToOpen.modelPositions;
+        draft.currentOntologyModels = projectToOpen.models;
+        draft.currentOntologyModelMetadata = projectToOpen.modelsMetadata;
+        draft.currentOntologyNamespace = projectToOpen.namespace;
+        draft.currentOntologyProjectName = projectToOpen.projectName || '';
+        draft.currentOntologyTemplates = projectToOpen.templates;
     }
-    storeLastUsedProjectId(draft.ontologyId);
+    storeLastUsedProjectId(draft.currentOntologyId);
 }
 
 function saveData(draft: IOatPageContextState): void {
@@ -211,12 +221,12 @@ function saveData(draft: IOatPageContextState): void {
 /** TODO: remove this helper when we move the project data into a sub object on the state */
 function getProjectDataFromState(draft: IOatPageContextState): ProjectData {
     return new ProjectData(
-        draft.modelPositions,
-        convertDtdlInterfacesToModels(draft.models),
-        draft.projectName,
-        draft.templates,
-        draft.namespace,
-        draft.modelsMetadata
+        draft.currentOntologyModelPositions,
+        convertDtdlInterfacesToModels(draft.currentOntologyModels),
+        draft.currentOntologyProjectName,
+        draft.currentOntologyTemplates,
+        draft.currentOntologyNamespace,
+        draft.currentOntologyModelMetadata
     );
 }
 
@@ -232,13 +242,15 @@ function saveEditorData(draft: IOatPageContextState): void {
 
 function saveOntologyFiles(draft: IOatPageContextState): void {
     const filesCopy = deepCopy(getOntologiesFromStorage());
-    const selectedOntology = filesCopy.find((x) => x.id === draft.ontologyId);
+    const selectedOntology = filesCopy.find(
+        (x) => x.id === draft.currentOntologyId
+    );
     if (selectedOntology) {
         selectedOntology.data = getProjectDataFromState(draft);
     } else {
         logDebugConsole(
             'warn',
-            `Unable to persist the state data to local storage. Onotology with id: ${draft.ontologyId} wasn't found in storage.`
+            `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
         );
     }
     storeOntologiesToStorage(filesCopy);
@@ -262,16 +274,16 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
         error: null,
         importModels: [],
         isJsonUploaderOpen: false,
-        modelPositions: getStoredEditorModelPositionsData(),
-        models: getStoredEditorModelsData(),
-        modelsMetadata: getStoredEditorModelMetadata(),
+        currentOntologyModelPositions: getStoredEditorModelPositionsData(),
+        currentOntologyModels: getStoredEditorModelsData(),
+        currentOntologyModelMetadata: getStoredEditorModelMetadata(),
         modified: false,
-        namespace: getStoredEditorNamespaceData(),
-        ontologyId: getLastUsedProjectId(),
-        projectName: null,
+        currentOntologyNamespace: getStoredEditorNamespaceData(),
+        currentOntologyId: getLastUsedProjectId(),
+        currentOntologyProjectName: null,
         selectedModelTarget: null,
         selection: null,
-        templates: getStoredEditorTemplateData(),
+        currentOntologyTemplates: getStoredEditorTemplateData(),
         templatesActive: false,
         ...initialState
     };

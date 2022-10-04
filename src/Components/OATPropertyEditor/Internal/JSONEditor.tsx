@@ -54,8 +54,11 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     // side effects
@@ -96,7 +99,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
 
     const checkDuplicateId = (modelValue: DTDLModel) => {
         if (modelValue['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
-            const repeatedIdOnRelationship = oatPageState.models.find(
+            const repeatedIdOnRelationship = oatPageState.currentOntologyModels.find(
                 (queryModel) =>
                     queryModel.contents &&
                     queryModel.contents.find(
@@ -108,7 +111,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
             return !!repeatedIdOnRelationship;
         } else {
             // Check current value is not used by another model as @id within models
-            const repeatedIdModel = oatPageState.models.find(
+            const repeatedIdModel = oatPageState.currentOntologyModels.find(
                 (queryModel) =>
                     queryModel['@id'] === modelValue['@id'] &&
                     queryModel['@id'] !== model['@id']
@@ -119,10 +122,13 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
 
     const onSaveClick = async () => {
         const newModel = isJsonStringValid(content);
-        const validJson = await parseModels([...oatPageState.models, content]);
+        const validJson = await parseModels([
+            ...oatPageState.currentOntologyModels,
+            content
+        ]);
 
         const save = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             replaceTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection,
@@ -141,7 +147,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
         const undoSave = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 

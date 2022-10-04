@@ -88,7 +88,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                 const modelsCopy = deleteOatModel(
                     id,
                     data,
-                    oatPageState.models
+                    oatPageState.currentOntologyModels
                 );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_OAT_MODELS,
@@ -109,7 +109,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -124,7 +124,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     const onDisplayNameCommit = (value: string) => {
         const update = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const model = modelsCopy.find((model) => model['@id'] === id);
             if (model) {
                 model.displayName = value;
@@ -140,7 +140,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -155,8 +155,8 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
             } = updateModelId(
                 id,
                 value,
-                oatPageState.models,
-                oatPageState.modelPositions
+                oatPageState.currentOntologyModels,
+                oatPageState.currentOntologyModelPositions
             );
 
             oatPageDispatch({
@@ -176,11 +176,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         const undoCommit = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
-                payload: { positions: oatPageState.modelPositions }
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -234,7 +236,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                 <OATTextFieldId
                                     value={idText}
                                     model={data}
-                                    models={oatPageState.models}
+                                    models={oatPageState.currentOntologyModels}
                                     onCommit={onIdCommit}
                                     autoFocus
                                 />

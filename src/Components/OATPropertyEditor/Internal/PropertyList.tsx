@@ -63,8 +63,11 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -72,8 +75,8 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     );
 
     const onPropertyItemDropOnTemplateList = () => {
-        const newTemplate = oatPageState.templates
-            ? deepCopy(oatPageState.templates)
+        const newTemplate = oatPageState.currentOntologyTemplates
+            ? deepCopy(oatPageState.currentOntologyTemplates)
             : [];
         newTemplate.push(
             model[propertiesKeyName][draggedPropertyItemRef.current]
@@ -89,7 +92,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             onPropertyItemDropOnTemplateList();
         }
 
-        const modelsCopy = deepCopy(oatPageState.models);
+        const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
             oatPageState.selection
@@ -164,7 +167,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     const onPropertyDisplayNameChange = (value, index) => {
         const update = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -183,7 +186,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -210,7 +213,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         setLastPropertyFocused(null);
 
         const deletion = (index) => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -231,7 +234,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         const undoDeletion = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -279,7 +282,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const moveItemOnPropertyList = (index: number, moveUp: boolean) => {
         const onMove = (index, moveUp) => {
             const direction = moveUp ? -1 : 1;
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -296,7 +299,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         const undoOnMove = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 

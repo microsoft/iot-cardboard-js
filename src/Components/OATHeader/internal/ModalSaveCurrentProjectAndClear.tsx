@@ -51,16 +51,18 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
 
         //  Overwrite existing file
         const foundIndex = files.findIndex(
-            (file) => file.id === oatPageState.projectName
+            (file) => file.id === oatPageState.currentOntologyProjectName
         );
         if (foundIndex > -1) {
             const project = new ProjectData(
-                oatPageState.modelPositions,
-                convertDtdlInterfacesToModels(oatPageState.models),
-                oatPageState.projectName,
-                oatPageState.templates,
-                oatPageState.namespace,
-                oatPageState.modelsMetadata
+                oatPageState.currentOntologyModelPositions,
+                convertDtdlInterfacesToModels(
+                    oatPageState.currentOntologyModels
+                ),
+                oatPageState.currentOntologyProjectName,
+                oatPageState.currentOntologyTemplates,
+                oatPageState.currentOntologyNamespace,
+                oatPageState.currentOntologyModelMetadata
             );
 
             files[foundIndex].data = project;
@@ -87,7 +89,7 @@ export const ModalSaveCurrentProjectAndClear: React.FC<IModalSaveCurrentProjectA
             <div className={classNames.modalRowCenterItem}>
                 <Text styles={promptTextStyles}>
                     {t('OATHeader.doYouWantToSaveChangesYouMadeTo', {
-                        projectName: oatPageState.projectName
+                        projectName: oatPageState.currentOntologyProjectName
                     })}
                 </Text>
             </div>

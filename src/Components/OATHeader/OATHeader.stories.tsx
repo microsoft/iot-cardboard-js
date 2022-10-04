@@ -33,25 +33,34 @@ const ContextRenderer: React.FC = () => {
                 <Stack tokens={{ childrenGap: 8 }}>
                     <h4>Current ontology</h4>
                     <div>
-                        <Label>OntologyId:</Label> {oatPageState.ontologyId}
+                        <Label>OntologyId:</Label>{' '}
+                        {oatPageState.currentOntologyId}
                     </div>
                     <div>
-                        <Label>Ontology name:</Label> {oatPageState.projectName}
+                        <Label>Ontology name:</Label>{' '}
+                        {oatPageState.currentOntologyProjectName}
                     </div>
                     <div>
-                        <Label>Namespace:</Label> {oatPageState.namespace}
+                        <Label>Namespace:</Label>{' '}
+                        {oatPageState.currentOntologyNamespace}
                     </div>
                     <div>
                         <Label>Models:</Label>{' '}
-                        {JSON.stringify(oatPageState.models || [])}
+                        {JSON.stringify(
+                            oatPageState.currentOntologyModels || []
+                        )}
                     </div>
                     <div>
                         <Label>Positions:</Label>{' '}
-                        {JSON.stringify(oatPageState.modelPositions || [])}
+                        {JSON.stringify(
+                            oatPageState.currentOntologyModelPositions || []
+                        )}
                     </div>
                     <div>
                         <Label>Templates:</Label>{' '}
-                        {JSON.stringify(oatPageState.templates || [])}
+                        {JSON.stringify(
+                            oatPageState.currentOntologyTemplates || []
+                        )}
                     </div>
                 </Stack>
             </Stack>
@@ -64,9 +73,9 @@ export const Default = (_args, { globals: { theme, locale } }) => {
         <BaseComponent locale={locale} theme={theme}>
             <OatPageContextProvider
                 initialState={{
-                    namespace: 'oat header test namespace',
-                    projectName: 'oat header test project name',
-                    ontologyId: 'testId'
+                    currentOntologyNamespace: 'oat header test namespace',
+                    currentOntologyProjectName: 'oat header test project name',
+                    currentOntologyId: 'testId'
                 }}
             >
                 <CommandHistoryContextProvider>

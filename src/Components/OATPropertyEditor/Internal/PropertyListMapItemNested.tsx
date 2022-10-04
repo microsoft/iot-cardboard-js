@@ -31,8 +31,11 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -41,7 +44,7 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
 
     // callbacks
     const updateMapKeyName = (value: string) => {
-        const modelsCopy = deepCopy(oatPageState.models);
+        const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
             oatPageState.selection
@@ -54,7 +57,7 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
     };
 
     const updateMapValueName = (value: string) => {
-        const modelsCopy = deepCopy(oatPageState.models);
+        const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
             oatPageState.selection

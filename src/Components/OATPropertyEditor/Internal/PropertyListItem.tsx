@@ -58,8 +58,11 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -69,14 +72,16 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
         const addition = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_TEMPLATES,
-                payload: { templates: [...oatPageState.templates, item] }
+                payload: {
+                    templates: [...oatPageState.currentOntologyTemplates, item]
+                }
             });
         };
 
         const undoAddition = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_TEMPLATES,
-                payload: { templates: oatPageState.templates }
+                payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
 
@@ -85,7 +90,7 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
 
     const onDuplicate = () => {
         const duplicate = () => {
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -115,7 +120,7 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
         const undoDuplicate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 

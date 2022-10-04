@@ -26,19 +26,19 @@ export interface IOatPageContext {
  */
 export interface IOatPageContextState {
     confirmDeleteOpen?: IOATConfirmDelete;
+    currentOntologyId: string;
+    currentOntologyModelMetadata?: IOATModelsMetadata[];
+    currentOntologyModelPositions: IOATModelPosition[];
+    currentOntologyModels?: DtdlInterface[];
+    currentOntologyNamespace?: string;
+    currentOntologyProjectName?: string;
+    currentOntologyTemplates?: DTDLProperty[];
     error?: IOATError;
     importModels?: any[];
     isJsonUploaderOpen?: boolean;
-    modelPositions: IOATModelPosition[];
-    models?: DtdlInterface[];
-    modelsMetadata?: IOATModelsMetadata[];
     modified?: boolean;
-    namespace?: string;
-    ontologyId: string;
-    projectName?: string;
-    selection?: IOATSelection;
     selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
-    templates?: DTDLProperty[];
+    selection?: IOATSelection;
     templatesActive?: boolean;
 }
 

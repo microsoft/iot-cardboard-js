@@ -50,10 +50,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
 
     // state
     const [name, setName] = useState<string>(
-        mode === FormMode.Create ? '' : oatPageState.projectName
+        mode === FormMode.Create ? '' : oatPageState.currentOntologyProjectName
     );
     const [namespace, setNamespace] = useState<string>(
-        mode === FormMode.Create ? '' : oatPageState.namespace
+        mode === FormMode.Create ? '' : oatPageState.currentOntologyNamespace
     );
 
     // hooks

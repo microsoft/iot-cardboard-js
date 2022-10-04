@@ -98,8 +98,11 @@ export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
@@ -139,7 +142,7 @@ export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
                 comment: comment ? comment : ''
             };
 
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -157,7 +160,7 @@ export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 

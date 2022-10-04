@@ -62,12 +62,14 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
             );
             if (foundIndex > -1) {
                 files[foundIndex].data = new ProjectData(
-                    oatPageState.modelPositions,
-                    convertDtdlInterfacesToModels(oatPageState.models),
+                    oatPageState.currentOntologyModelPositions,
+                    convertDtdlInterfacesToModels(
+                        oatPageState.currentOntologyModels
+                    ),
                     projectName,
-                    oatPageState.templates,
-                    oatPageState.namespace,
-                    oatPageState.modelsMetadata
+                    oatPageState.currentOntologyTemplates,
+                    oatPageState.currentOntologyNamespace,
+                    oatPageState.currentOntologyModelMetadata
                 );
 
                 storeOntologiesToStorage(files);
@@ -81,12 +83,12 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
 
         // Create new file
         const newProject = new ProjectData(
-            oatPageState.modelPositions,
-            convertDtdlInterfacesToModels(oatPageState.models),
+            oatPageState.currentOntologyModelPositions,
+            convertDtdlInterfacesToModels(oatPageState.currentOntologyModels),
             projectName,
-            oatPageState.templates,
-            oatPageState.namespace,
-            oatPageState.modelsMetadata
+            oatPageState.currentOntologyTemplates,
+            oatPageState.currentOntologyNamespace,
+            oatPageState.currentOntologyModelMetadata
         );
         oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_PROJECT,

@@ -71,8 +71,11 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
     const model = useMemo(
         () =>
             oatPageState.selection &&
-            getTargetFromSelection(oatPageState.models, oatPageState.selection),
-        [oatPageState.models, oatPageState.selection]
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
     const propertiesKeyName = getModelPropertyCollectionName(
         model ? model['@type'] : null
@@ -245,7 +248,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
                 prop.enumValue = enumValue;
             }
 
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -263,7 +266,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
@@ -327,7 +330,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
                 prop.schema.valueSchema = valueSchema;
             }
 
-            const modelsCopy = deepCopy(oatPageState.models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
                 oatPageState.selection
@@ -342,7 +345,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
         const undoUpdate = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_MODELS,
-                payload: { models: oatPageState.models }
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
