@@ -47,8 +47,6 @@ import {
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import AlertsTab from './Internal/AlertsTab';
-import StatusTab from './Internal/StatusTab';
 import WidgetsTab from './Internal/WidgetsTab';
 import {
     BehaviorFormReducer,
@@ -67,13 +65,8 @@ import {
     BehaviorFormContextProvider
 } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
-import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
 import { VisualRulesTab } from './Internal/VisualRulesTab';
 
-const showVisualRulesPivot =
-    localStorage.getItem(
-        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesPivot
-    ) === 'true' || false;
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
         ViewerConfigUtility.isElementTwinToObjectMappingDataSource
@@ -109,7 +102,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         dispatch,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        widgetFormInfo
+        widgetFormInfo,
+        sceneId
     } = useContext(SceneBuilderContext);
     const {
         behaviorFormDispatch,
@@ -512,69 +506,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     selectedElements={selectedElements}
                                 />
                             </PivotItem>
-                            {!showVisualRulesPivot && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t('3dSceneBuilder.statesTab')}
-                                    itemKey={BehaviorPivot.states}
-                                    onRenderItemLink={(
+
+                            <PivotItem
+                                className={commonPanelStyles.formTabContents}
+                                headerText={t('3dSceneBuilder.visualRulesTab')}
+                                itemKey={BehaviorPivot.visualRules}
+                                onRenderItemLink={(props, defaultRenderer) =>
+                                    setPivotToRequired(
+                                        behaviorState.validityMap?.get('Rules')
+                                            ?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
-                                    ) =>
-                                        setPivotToRequired(
-                                            behaviorState.validityMap?.get(
-                                                'Status'
-                                            )?.isValid,
-                                            t,
-                                            props,
-                                            defaultRenderer
-                                        )
+                                    )
+                                }
+                            >
+                                <VisualRulesTab
+                                    sceneId={sceneId}
+                                    config={config}
+                                    behaviorId={
+                                        behaviorFormState.behaviorToEdit.id
                                     }
-                                >
-                                    <StatusTab
-                                        onValidityChange={onTabValidityChange}
-                                    />
-                                </PivotItem>
-                            )}
-                            {!showVisualRulesPivot && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t('3dSceneBuilder.alertsTab')}
-                                    itemKey={BehaviorPivot.alerts}
-                                    onRenderItemLink={(
-                                        props,
-                                        defaultRenderer
-                                    ) =>
-                                        setPivotToRequired(
-                                            behaviorState.validityMap?.get(
-                                                'Alerts'
-                                            )?.isValid,
-                                            t,
-                                            props,
-                                            defaultRenderer
-                                        )
-                                    }
-                                >
-                                    <AlertsTab />
-                                </PivotItem>
-                            )}
-                            {showVisualRulesPivot && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t(
-                                        '3dSceneBuilder.visualRulesTab'
-                                    )}
-                                    itemKey={BehaviorPivot.visualRules}
-                                >
-                                    <VisualRulesTab />
-                                </PivotItem>
-                            )}
+                                />
+                            </PivotItem>
+
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
                                 headerText={t('3dSceneBuilder.widgets')}
