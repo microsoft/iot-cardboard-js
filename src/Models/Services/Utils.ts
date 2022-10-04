@@ -748,3 +748,23 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
         return null;
     }
 };
+
+export const getHostNameFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname;
+    } catch (error) {
+        console.error('Failed getting hostname from url string', error.message);
+        return null;
+    }
+};
+
+export const removeProtocolPartFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname + urlObj.pathname;
+    } catch (error) {
+        console.error('Failed remove protocol from url string', error.message);
+        return null;
+    }
+};

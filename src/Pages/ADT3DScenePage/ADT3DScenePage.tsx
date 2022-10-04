@@ -54,6 +54,7 @@ import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 import { ADTResourceIdentifier } from '../../Models/Constants/Types';
+import { getHostNameFromUrl } from '../../Models/Services/Utils';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -246,7 +247,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 connectionState.callAdapter({
                     adtInstanceIdentifier: deeplinkState.adtResourceId
                         ? { id: deeplinkState.adtResourceId }
-                        : { hostName: deeplinkState.adtUrl?.slice(8) } // remove the https:// part from url
+                        : { hostName: getHostNameFromUrl(deeplinkState.adtUrl) }
                 });
                 dispatch({
                     type:
