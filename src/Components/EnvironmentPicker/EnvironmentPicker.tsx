@@ -223,9 +223,9 @@ const EnvironmentPicker = ({
             containers = [containerToEdit];
         }
         if (storage.isLocalStorageEnabled) {
-            const selectedStorageContainerInLocalStorage = getSelectedStorageContainerFromLocalStorage();
             containerToEdit =
-                containerToEdit ?? selectedStorageContainerInLocalStorage?.name;
+                containerToEdit ??
+                getSelectedStorageContainerFromLocalStorage()?.name;
 
             const storageContainersInLocalStorage =
                 getStorageContainerOptionsFromLocalStorage() || [];
