@@ -4,7 +4,7 @@ import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLProperty, DTDLSchema } from '../../Classes/DTDL';
+import { DTDLProperty } from '../../Classes/DTDL';
 import { DtdlInterface } from '../../Constants/dtdlInterfaces';
 import { IOatPageContextState } from './OatPageContext.types';
 
@@ -65,7 +65,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => ({
     currentOntologyNamespace: 'test-ontology-namespace-0',
     currentOntologyProjectName: 'test-ontology-name-0',
     currentOntologyTemplates: [
-        getTemplateItem(MOCK_ID_1),
+        getTemplateItem('0'),
         getTemplateItem(MOCK_ID_2)
     ],
     error: null,

@@ -108,6 +108,12 @@ const ProviderContentRenderer: React.FC = () => {
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
+                    <Label>Metadata: </Label>
+                    <Text styles={valueStyle}>
+                        {stringify(oatPageState.currentOntologyModelMetadata)}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
                     <Label>Templates: </Label>
                     <Text styles={valueStyle}>
                         {stringify(oatPageState.currentOntologyTemplates)}
@@ -171,6 +177,8 @@ const ProviderUpdater: React.FC = () => {
     const [nameIncrementor, setNameIncrementor] = useState<number>(0);
     const [modelIncrementor, setModelIncrementor] = useState<number>(0);
     const [positionIncrementor, setPositionIncrementor] = useState<number>(0);
+    const [metadataIncrementor, setMetadataIncrementor] = useState<number>(0);
+    const [templateIncrementor, setTemplateIncrementor] = useState<number>(0);
     const theme = useTheme();
     return (
         <Stack>
@@ -244,10 +252,10 @@ const ProviderUpdater: React.FC = () => {
                     text={'Update position'}
                     onClick={() => {
                         const newValue = positionIncrementor + 1;
-                        const positions = [
+                        const data = [
                             ...oatPageState.currentOntologyModelPositions
                         ];
-                        positions[0].position = {
+                        data[0].position = {
                             x: newValue,
                             y: newValue + 2
                         };
@@ -255,10 +263,53 @@ const ProviderUpdater: React.FC = () => {
                             type:
                                 OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
                             payload: {
-                                positions: positions
+                                positions: data
                             }
                         });
                         setPositionIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-UpdateMetadata'}
+                    iconProps={{ iconName: 'Add' }}
+                    text={'Update metadata'}
+                    onClick={() => {
+                        const newValue = metadataIncrementor + 1;
+                        const data = [
+                            ...oatPageState.currentOntologyModelMetadata
+                        ];
+                        data[0].fileName = data[0].fileName.replace(
+                            metadataIncrementor.toString(),
+                            newValue.toString()
+                        );
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                            payload: {
+                                metadata: data
+                            }
+                        });
+                        setMetadataIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-UpdateTemplates'}
+                    iconProps={{ iconName: 'Add' }}
+                    text={'Update templates'}
+                    onClick={() => {
+                        const newValue = templateIncrementor + 1;
+                        const data = [...oatPageState.currentOntologyTemplates];
+                        data[0].name = data[0].name.replace(
+                            templateIncrementor.toString(),
+                            newValue.toString()
+                        );
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                            payload: {
+                                templates: data
+                            }
+                        });
+                        setTemplateIncrementor(newValue);
                     }}
                 />
             </Stack>
