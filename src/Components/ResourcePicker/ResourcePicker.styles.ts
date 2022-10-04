@@ -71,7 +71,7 @@ export const getStyles = (
                     width: 10,
                     height: 10
                 },
-                iconContainer: { margin: 0, padding: '1px 2px 0' },
+                iconContainer: { margin: '0px 12px', padding: '1px 4px 0' },
                 text: { margin: 0, paddingLeft: '8px' }
             } as IMessageBarStyles,
             comboBox: { callout: { width: 400 } }

@@ -580,11 +580,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             }}
         >
             <div className="cb-scene-page-wrapper">
-                {
-                    ADXConnectionInformationLoadingState[
-                        state.adxConnectionInformationLoadingState
-                    ]
-                }
                 <BaseComponent
                     theme={theme}
                     locale={locale}
