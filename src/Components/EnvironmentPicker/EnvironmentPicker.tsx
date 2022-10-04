@@ -104,7 +104,7 @@ const EnvironmentPicker = ({
         Array<StorageAccountToContainersMapping>
     >([]); // list of storage account and container pairs
     const prevStorageAccountToEdit = usePrevious(
-        environmentPickerState.storageAccountItems.storageAccountToEdit
+        environmentPickerState.storageAccountInfo.storageAccountToEdit
     );
     const dialogResettingValuesTimeoutRef = useRef(null);
     const hasFetchedResources = useRef({
@@ -166,9 +166,9 @@ const EnvironmentPicker = ({
             );
         }
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
+            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO,
             payload: {
-                adtInstanceItems: {
+                adtInstanceInfo: {
                     adtInstances,
                     adtInstanceToEdit
                 }
@@ -205,9 +205,9 @@ const EnvironmentPicker = ({
             );
         }
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
+            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_INFO,
             payload: {
-                storageAccountItems: {
+                storageAccountInfo: {
                     storageAccounts,
                     storageAccountToEdit
                 }
@@ -223,9 +223,9 @@ const EnvironmentPicker = ({
             containers = [containerToEdit];
         }
         if (storage.isLocalStorageEnabled) {
-            const selectedStorageContainerInLocalStorage = getSelectedStorageContainerFromLocalStorage();
             containerToEdit =
-                containerToEdit ?? selectedStorageContainerInLocalStorage?.name;
+                containerToEdit ??
+                getSelectedStorageContainerFromLocalStorage()?.name;
 
             const storageContainersInLocalStorage =
                 getStorageContainerOptionsFromLocalStorage() || [];
@@ -249,9 +249,9 @@ const EnvironmentPicker = ({
             );
         }
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
+            type: EnvironmentPickerActionType.SET_CONTAINER_INFO,
             payload: {
-                containerItems: {
+                containerInfo: {
                     containers,
                     containerToEdit
                 }
@@ -277,30 +277,30 @@ const EnvironmentPicker = ({
     const handleOnSave = useCallback(() => {
         if (onAdtInstanceChange) {
             onAdtInstanceChange(
-                environmentPickerState.adtInstanceItems.adtInstanceToEdit,
-                environmentPickerState.adtInstanceItems.adtInstances
+                environmentPickerState.adtInstanceInfo.adtInstanceToEdit,
+                environmentPickerState.adtInstanceInfo.adtInstances
             );
         }
         if (storage?.onContainerChange) {
             storage.onContainerChange(
-                environmentPickerState.storageAccountItems.storageAccountToEdit,
-                environmentPickerState.containerItems.containerToEdit,
-                environmentPickerState.containerItems.containers
+                environmentPickerState.storageAccountInfo.storageAccountToEdit,
+                environmentPickerState.containerInfo.containerToEdit,
+                environmentPickerState.containerInfo.containers
             );
         }
 
         if (isLocalStorageEnabled) {
             setAdtInstanceOptionsInLocalStorage(
-                environmentPickerState.adtInstanceItems.adtInstances
+                environmentPickerState.adtInstanceInfo.adtInstances
             );
         }
         if (storage?.isLocalStorageEnabled) {
             setStorageContainerOptionsInLocalStorage(
-                environmentPickerState.containerItems.containers,
-                environmentPickerState.storageAccountItems.storageAccountToEdit
+                environmentPickerState.containerInfo.containers,
+                environmentPickerState.storageAccountInfo.storageAccountToEdit
             );
             setStorageAccountOptionsInLocalStorage(
-                environmentPickerState.storageAccountItems.storageAccounts
+                environmentPickerState.storageAccountInfo.storageAccounts
             );
         }
 
@@ -315,9 +315,9 @@ const EnvironmentPicker = ({
         toggleIsDialogHidden,
         onAdtInstanceChange,
         isLocalStorageEnabled,
-        environmentPickerState.adtInstanceItems,
-        environmentPickerState.storageAccountItems,
-        environmentPickerState.containerItems
+        environmentPickerState.adtInstanceInfo,
+        environmentPickerState.storageAccountInfo,
+        environmentPickerState.containerInfo
     ]);
 
     const handleOnDismiss = useCallback(() => {
@@ -365,9 +365,9 @@ const EnvironmentPicker = ({
         resources: Array<IADTInstance | string>
     ) => {
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_ITEMS,
+            type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO,
             payload: {
-                adtInstanceItems: {
+                adtInstanceInfo: {
                     adtInstanceToEdit: resource,
                     adtInstances: resources
                 }
@@ -380,9 +380,9 @@ const EnvironmentPicker = ({
         resources: Array<IAzureStorageAccount | string>
     ) => {
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_ITEMS,
+            type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_INFO,
             payload: {
-                storageAccountItems: {
+                storageAccountInfo: {
                     storageAccountToEdit: resource,
                     storageAccounts: resources
                 }
@@ -401,9 +401,9 @@ const EnvironmentPicker = ({
         ) {
             // when changing the storage account, update the containers from default mappings until containers are fetched
             environmentPickerDispatch({
-                type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
+                type: EnvironmentPickerActionType.SET_CONTAINER_INFO,
                 payload: {
-                    containerItems: {
+                    containerInfo: {
                         containerToEdit: null,
                         containers:
                             defaultStorageAccountToContainersMappingsRef.current?.find(
@@ -440,9 +440,9 @@ const EnvironmentPicker = ({
         resources: Array<IAzureStorageBlobContainer | string>
     ) => {
         environmentPickerDispatch({
-            type: EnvironmentPickerActionType.SET_CONTAINER_ITEMS,
+            type: EnvironmentPickerActionType.SET_CONTAINER_INFO,
             payload: {
-                containerItems: {
+                containerInfo: {
                     containerToEdit: resource,
                     containers: resources
                 }
@@ -454,7 +454,7 @@ const EnvironmentPicker = ({
             (mapping) =>
                 areResourceValuesEqual(
                     getResourceUrl(
-                        environmentPickerState.storageAccountItems
+                        environmentPickerState.storageAccountInfo
                             .storageAccountToEdit,
                         AzureResourceTypes.StorageAccount
                     ),
@@ -522,12 +522,12 @@ const EnvironmentPicker = ({
                             label={t('environmentPicker.adtInstanceUrl')}
                             displayField={AzureResourceDisplayFields.url}
                             additionalOptions={getResourceUrls(
-                                environmentPickerState.adtInstanceItems
+                                environmentPickerState.adtInstanceInfo
                                     .adtInstances,
                                 AzureResourceTypes.DigitalTwinInstance
                             )}
                             selectedOption={getResourceUrl(
-                                environmentPickerState.adtInstanceItems
+                                environmentPickerState.adtInstanceInfo
                                     .adtInstanceToEdit,
                                 AzureResourceTypes.DigitalTwinInstance
                             )}
@@ -560,14 +560,13 @@ const EnvironmentPicker = ({
                                     }
                                     selectedOption={getResourceUrl(
                                         environmentPickerState
-                                            .storageAccountItems
+                                            .storageAccountInfo
                                             .storageAccountToEdit,
                                         AzureResourceTypes.StorageAccount
                                     )}
                                     additionalOptions={getResourceUrls(
                                         environmentPickerState
-                                            .storageAccountItems
-                                            .storageAccounts,
+                                            .storageAccountInfo.storageAccounts,
                                         AzureResourceTypes.StorageAccount
                                     )}
                                     onChange={
@@ -582,7 +581,7 @@ const EnvironmentPicker = ({
                                 <ResourcePicker
                                     key={getResourceUrl(
                                         environmentPickerState
-                                            .storageAccountItems
+                                            .storageAccountInfo
                                             .storageAccountToEdit,
                                         AzureResourceTypes.StorageAccount
                                     )}
@@ -598,7 +597,7 @@ const EnvironmentPicker = ({
                                         additionalParams: {
                                             storageAccountId: getStorageAccountId(
                                                 environmentPickerState
-                                                    .storageAccountItems
+                                                    .storageAccountInfo
                                                     .storageAccountToEdit,
                                                 defaultStorageAccountToContainersMappingsRef.current
                                             )
@@ -614,7 +613,7 @@ const EnvironmentPicker = ({
                                     displayField={
                                         AzureResourceDisplayFields.name
                                     }
-                                    additionalOptions={environmentPickerState.containerItems.containers?.map(
+                                    additionalOptions={environmentPickerState.containerInfo.containers?.map(
                                         (container) =>
                                             getNameOfResource(
                                                 container,
@@ -622,7 +621,7 @@ const EnvironmentPicker = ({
                                             )
                                     )}
                                     selectedOption={getNameOfResource(
-                                        environmentPickerState.containerItems
+                                        environmentPickerState.containerInfo
                                             .containerToEdit,
                                         AzureResourceTypes.StorageBlobContainer
                                     )}
@@ -661,12 +660,12 @@ const EnvironmentPicker = ({
                         disabled={
                             storage
                                 ? !(
-                                      environmentPickerState.adtInstanceItems
+                                      environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
-                                      environmentPickerState.containerItems
+                                      environmentPickerState.containerInfo
                                           .containerToEdit
                                   )
-                                : !environmentPickerState.adtInstanceItems
+                                : !environmentPickerState.adtInstanceInfo
                                       .adtInstanceToEdit
                         }
                     />

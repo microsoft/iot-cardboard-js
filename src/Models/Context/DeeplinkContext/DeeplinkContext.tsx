@@ -6,10 +6,12 @@ import queryString from 'query-string';
 import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import {
     ADT3DScenePageModes,
+    AzureResourceDisplayFields,
     AzureResourceTypes,
     IADTInstance
 } from '../../Constants';
 import {
+    areResourceValuesEqual,
     getContainerNameFromUrl,
     getDebugLogger,
     getNameOfResource,
@@ -131,19 +133,28 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     const selectedAdtInstanceInLocalStorage = getSelectedAdtInstanceFromLocalStorage();
     const selectedStorageContainerInLocalStorage = getSelectedStorageContainerFromLocalStorage();
 
+    const defaultAdtUrl =
+        parsed.adtUrl ||
+        initialState.adtUrl ||
+        selectedAdtInstanceInLocalStorage?.url ||
+        '';
+    const defaultAdtResourceId =
+        parsed.adtResourceId ||
+        initialState.adtResourceId ||
+        (areResourceValuesEqual(
+            // this is needed to align the adt url with resource id, otherwise there might be cases where adt url comes from initial state or parsed link whereas the id is from localstorage which together may not point to the same Azure resource
+            defaultAdtUrl,
+            selectedAdtInstanceInLocalStorage?.url,
+            AzureResourceDisplayFields.url
+        ) &&
+            selectedAdtInstanceInLocalStorage?.id) ||
+        '';
+
     // set the initial state for the Deeplink reducer
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IDeeplinkContextState = {
-        adtUrl:
-            parsed.adtUrl ||
-            initialState.adtUrl ||
-            selectedAdtInstanceInLocalStorage?.url ||
-            '',
-        adtResourceId:
-            parsed.adtResourceId ||
-            initialState.adtResourceId ||
-            selectedAdtInstanceInLocalStorage?.id ||
-            '',
+        adtUrl: defaultAdtUrl,
+        adtResourceId: defaultAdtResourceId,
         mode: parsed.mode || initialState.mode || ADT3DScenePageModes.ViewScene,
         sceneId: parsed.sceneId || initialState.sceneId || '',
         selectedElementId:

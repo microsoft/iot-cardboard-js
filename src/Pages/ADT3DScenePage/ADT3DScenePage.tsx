@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import {
     ADT3DScenePageModes,
     ADT3DScenePageSteps,
-    AzureResourceTypes,
     ComponentErrorType
 } from '../../Models/Constants/Enums';
 import SceneList from '../../Components/SceneList/SceneList';
@@ -53,7 +52,6 @@ import DeeplinkFlyout from '../../Components/DeeplinkFlyout/DeeplinkFlyout';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
-import { getResourceUrl } from '../../Models/Services/Utils';
 import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
@@ -163,12 +161,6 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         },
         [deeplinkDispatch]
     );
-    const setBlobContainerUrl = useCallback(
-        (url: string) => {
-            adapter.setBlobContainerPath(url);
-        },
-        [adapter, deeplinkDispatch]
-    );
 
     const handleOnHomeClick = useCallback(() => {
         setSelectedSceneId(null);
@@ -209,13 +201,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 type: DeeplinkContextActionType.SET_STORAGE_CONTAINER,
                 payload: { storageContainer, storageAccount }
             });
-            setBlobContainerUrl(
-                getResourceUrl(
-                    storageContainer,
-                    AzureResourceTypes.StorageBlobContainer,
-                    storageAccount
-                )
-            );
+
             if (environmentPickerOptions?.storage?.onContainerChange) {
                 environmentPickerOptions.storage.onContainerChange(
                     storageContainer,
@@ -228,7 +214,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             });
             errorCallbackSetRef.current = false;
         },
-        [environmentPickerOptions?.storage, setBlobContainerUrl]
+        [environmentPickerOptions?.storage]
     );
 
     const handleAdtInstanceChange = useCallback(

@@ -7,6 +7,7 @@ import { getStorageAccountUrlFromContainerUrl } from '../../../Components/Enviro
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
+    LOCAL_STORAGE_KEYS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     StorageAccountsLocalStorageKey
@@ -30,9 +31,7 @@ import {
 import {
     EnvironmentConfigurationInLocalStorage,
     EnvironmentItemInLocalStorage,
-    EnvironmentConfigurationLocalStorageKey,
-    EnvironmentOptionsInLocalStorage,
-    EnvironmentOptionsLocalStorageKey
+    EnvironmentOptionsInLocalStorage
 } from './LocalStorageManager.types';
 
 /** This is used for converting a adt, storage account or storage container resource
@@ -61,7 +60,7 @@ export const getEnvironmentItemFromResource = (
 export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfigurationInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = localStorage.getItem(
-            EnvironmentConfigurationLocalStorageKey
+            LOCAL_STORAGE_KEYS.Environment.Configuration
         );
         return environmentConfigurationInLocalStorage
             ? (JSON.parse(
@@ -69,7 +68,10 @@ export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfig
               ) as EnvironmentConfigurationInLocalStorage)
             : null;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get environment configuration from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -81,7 +83,7 @@ export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfig
 export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLocalStorage | null => {
     try {
         const environmentOptionsInLocalStorage = localStorage.getItem(
-            EnvironmentOptionsLocalStorageKey
+            LOCAL_STORAGE_KEYS.Environment.Options
         );
         return environmentOptionsInLocalStorage
             ? (JSON.parse(
@@ -89,7 +91,10 @@ export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLoc
               ) as EnvironmentOptionsInLocalStorage)
             : null;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get environment options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -132,7 +137,10 @@ export const getAdtInstanceOptionsFromLocalStorage = (
         }
         return environmentOptionsInLocalStorage?.adtInstances;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get ADT instance options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -184,7 +192,10 @@ export const getStorageAccountOptionsFromLocalStorage = (): Array<EnvironmentIte
         }
         return environmentOptionsInLocalStorage?.storageAccounts;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get Storage account options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -225,7 +236,10 @@ export const getStorageContainerOptionsFromLocalStorage = (
             return environmentOptionsInLocalStorage?.storageContainers;
         }
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get Storage container options from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -264,7 +278,10 @@ export const getSelectedAdtInstanceFromLocalStorage = (
         }
         return environmentConfigurationInLocalStorage?.selectedAdtInstance;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get selected ADT instance from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -309,7 +326,10 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemIn
         // END of migration
         return environmentConfigurationInLocalStorage?.selectedStorageContainer;
     } catch (error) {
-        console.error(error.message);
+        console.error(
+            'Failed to get selected Storage container from local storage',
+            error.message
+        );
         return null;
     }
 };
@@ -321,6 +341,8 @@ export const getSelectedStorageContainerFromLocalStorage = (): EnvironmentItemIn
 export const setLocalStorageItem = (key: string, value: string): void => {
     if (key) {
         localStorage.setItem(key, value);
+    } else {
+        console.error('Setting local storage item failed: Key not passed!');
     }
 };
 
@@ -331,7 +353,7 @@ const setEnvironmentConfigurationInLocalStorage = (
     configuration: EnvironmentConfigurationInLocalStorage
 ): void => {
     setLocalStorageItem(
-        EnvironmentConfigurationLocalStorageKey,
+        LOCAL_STORAGE_KEYS.Environment.Configuration,
         JSON.stringify(configuration)
     );
 };
@@ -342,8 +364,8 @@ const setEnvironmentConfigurationInLocalStorage = (
 const setEnvironmentOptionsInLocalStorage = (
     options: EnvironmentOptionsInLocalStorage
 ): void => {
-    localStorage.setItem(
-        EnvironmentOptionsLocalStorageKey,
+    setLocalStorageItem(
+        LOCAL_STORAGE_KEYS.Environment.Options,
         JSON.stringify(options)
     );
 };
@@ -495,10 +517,10 @@ export const setAdtInstanceOptionsInLocalStorage = (
             adtInstances: adtInstancesItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            adtInstances: adtInstancesItems
-        };
+        console.error(
+            'Failed to set ADT instance options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
@@ -543,10 +565,10 @@ export const setStorageAccountOptionsInLocalStorage = (
             storageAccounts: storageAccountItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            storageAccounts: storageAccountItems
-        };
+        console.error(
+            'Failed to set Storage account options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };
@@ -597,10 +619,10 @@ export const setStorageContainerOptionsInLocalStorage = (
             storageContainers: containerItems
         };
     } catch (error) {
-        console.error(error.message);
-        newEnvironmentOptions = {
-            storageContainers: containerItems
-        };
+        console.error(
+            'Failed to set Storage container options in local storage',
+            error.message
+        );
     }
     setEnvironmentOptionsInLocalStorage(newEnvironmentOptions);
 };

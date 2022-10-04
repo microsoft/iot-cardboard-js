@@ -199,6 +199,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             let urlStringToTest = urlStr;
             if (!urlStr?.startsWith('https://')) {
                 if (urlStr?.startsWith('http://')) {
+                    // if it starts with an unsecure protocol scheme part of 'http://' instead, remove that part before prepending secure 'https://' part
                     urlStringToTest = urlStringToTest.slice(7);
                 }
                 urlStringToTest = 'https://' + urlStringToTest;
@@ -222,6 +223,7 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
                     if (newVal.startsWith('http://')) {
+                        // if it starts with an unsecure protocol scheme part of 'http://' instead, remove that part before prepending secure 'https://' part
                         newVal = newVal.slice(7);
                     }
                     newVal = 'https://' + newVal;
