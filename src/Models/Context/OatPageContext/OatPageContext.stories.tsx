@@ -367,15 +367,79 @@ Base.args = {
 export const Empty = Template.bind({});
 Empty.args = {} as StoryProps;
 
-export const UpdateAdtUrl = Template.bind({});
-UpdateAdtUrl.args = {
+export const UpdateName = Template.bind({});
+UpdateName.args = {
     defaultState: GET_MOCK_OAT_CONTEXT_STATE()
 } as StoryProps;
-UpdateAdtUrl.play = async ({ canvasElement }) => {
+UpdateName.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
-    const behaviorsTabButton = await canvas.findByTestId(
-        'OatPageContext-ChangeAdtUrl'
-    );
-    await userEvent.click(behaviorsTabButton);
+    const button = await canvas.findByTestId('OatPageContext-ChangeName');
+    await userEvent.click(button);
+};
+
+export const AddModel = Template.bind({});
+AddModel.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+AddModel.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-AddModel');
+    await userEvent.click(button);
+};
+
+export const RemoveModel = Template.bind({});
+RemoveModel.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+RemoveModel.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-RemoveModel');
+    userEvent.click(button);
+};
+
+export const UpdatePosition = Template.bind({});
+UpdatePosition.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+UpdatePosition.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-UpdatePosition');
+    userEvent.click(button);
+};
+
+export const UpdateMetadata = Template.bind({});
+UpdateMetadata.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+UpdateMetadata.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-UpdateMetadata');
+    userEvent.click(button);
+};
+
+export const UpdateTemplates = Template.bind({});
+UpdateTemplates.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+UpdateTemplates.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-UpdateTemplates');
+    userEvent.click(button);
+};
+
+export const UpdateSelection = Template.bind({});
+UpdateSelection.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+UpdateSelection.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-ChangeSelection');
+    userEvent.click(button);
 };
