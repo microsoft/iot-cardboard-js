@@ -91,7 +91,6 @@ import {
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
-import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 
 export interface IAction {
     type: string;
@@ -581,7 +580,6 @@ export interface IADXAdapter {
         adxConnectionInformation: IADXConnection
     ) => void;
     getADXConnectionInformation: () => IADXConnection | null;
-    getTimeSeriesData: (query: string) => AdapterReturnType<ADXTimeSeriesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
