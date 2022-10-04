@@ -172,7 +172,8 @@ export enum WidgetFormMode {
 
 export enum VisualRuleFormMode {
     CreateVisualRule = 'CreateVisualRule',
-    EditVisualRule = 'EditVisualRule'
+    EditVisualRule = 'EditVisualRule',
+    Inactive = 'Inactive'
 }
 
 export enum TwinAliasFormMode {

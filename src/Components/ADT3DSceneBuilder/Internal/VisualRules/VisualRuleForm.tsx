@@ -2,7 +2,6 @@ import {
     DefaultButton,
     Dropdown,
     FontSizes,
-    Icon,
     IDropdownOption,
     mergeStyleSets,
     PrimaryButton,
@@ -23,6 +22,10 @@ import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { IValidityState, TabNames } from '../Behaviors/BehaviorForm.types';
 import PanelFooter from '../Shared/PanelFooter';
 import { getPanelFormStyles } from '../Shared/PanelForms.styles';
+import {
+    onRenderTypeOption,
+    onRenderTypeTitle
+} from '../Shared/SharedFormUtils';
 import { ConditionsList } from './Internal/ConditionsList';
 import { VisualRuleFormProps } from './VisualRules.types';
 
@@ -87,42 +90,6 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
         []
     );
 
-    const iconStyles = { marginRight: '8px' };
-    const optionWrapperStyle = { display: 'flex', alignItems: 'center' };
-    const onRenderTypeOption = (option: IDropdownOption): JSX.Element => {
-        return (
-            <div style={optionWrapperStyle}>
-                {option.data && option.data.icon && (
-                    <Icon
-                        style={iconStyles}
-                        iconName={option.data.icon}
-                        aria-hidden="true"
-                        title={option.data.icon}
-                    />
-                )}
-                <span>{option.text}</span>
-            </div>
-        );
-    };
-
-    const onRenderTypeTitle = (options: IDropdownOption[]): JSX.Element => {
-        const option = options[0];
-
-        return (
-            <div style={optionWrapperStyle}>
-                {option.data && option.data.icon && (
-                    <Icon
-                        style={iconStyles}
-                        iconName={option.data.icon}
-                        aria-hidden="true"
-                        title={option.data.icon}
-                    />
-                )}
-                <span>{option.text}</span>
-            </div>
-        );
-    };
-
     const customStyles = mergeStyleSets({
         description: {
             fontSize: FontSizes.size14,
@@ -144,7 +111,7 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
                         <div className={customStyles.description}>
-                            {t('3dSceneBuilder.visualRule.formDescription')}
+                            {t('3dSceneBuilder.visualRuleForm.formDescription')}
                         </div>
                         <TextField
                             label={t('displayName')}
@@ -178,7 +145,7 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
                             <Dropdown
                                 required
                                 placeholder={t(
-                                    '3dSceneBuilder.visualRule.typePlaceholder'
+                                    '3dSceneBuilder.visualRuleForm.typePlaceholder'
                                 )}
                                 label={t('type')}
                                 selectedKey={`value-type-${formData.propertyType}`}
@@ -191,7 +158,7 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
                     </Stack>
                 </div>
                 <Separator />
-                <div className={commonFormStyles.expandedSection}>
+                <div className={commonFormStyles.expandingSection}>
                     <ConditionsList />
                 </div>
             </div>

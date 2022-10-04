@@ -398,7 +398,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                         <Separator />
                         <Pivot
                             aria-label={t('3dScenePage.buildMode')}
-                            className={commonFormStyles.expandedSection}
+                            className={commonFormStyles.expandingSection}
                             styles={panelFormPivotStyles}
                         >
                             <PivotItem

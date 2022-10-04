@@ -4,13 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { BehaviorModes, ElementModes } from '../../Models/Constants/Breadcrumb';
 import {
     ADT3DSceneBuilderMode,
+    VisualRuleFormMode,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import { SceneBuilderContext } from '../ADT3DSceneBuilder/ADT3DSceneBuilder';
-import {
-    VisualRuleFormActiveMode,
-    WidgetFormInfo
-} from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
+import { WidgetFormInfo } from '../ADT3DSceneBuilder/ADT3DSceneBuilder.types';
 import {
     INavigateCallback,
     ISceneBreadcrumbFactoryProps
@@ -50,8 +48,11 @@ const isCreateOrEditElementMode = (formMode: ADT3DSceneBuilderMode) => {
     );
 };
 
-const isCreateOrEditVisualRuleMode = (formMode: VisualRuleFormActiveMode) => {
-    return formMode != null;
+const isCreateOrEditVisualRuleMode = (formMode: VisualRuleFormMode) => {
+    return (
+        formMode === VisualRuleFormMode.CreateVisualRule ||
+        formMode === VisualRuleFormMode.EditVisualRule
+    );
 };
 
 const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
@@ -70,7 +71,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
         key: 'widgetsRoot'
     };
     const visualRuleFormRootLabel: IBreadcrumbItem = {
-        text: 'Visual rule',
+        text: t('3dSceneBuilder.visualRule'),
         key: 'visualRulesRoot'
     };
 

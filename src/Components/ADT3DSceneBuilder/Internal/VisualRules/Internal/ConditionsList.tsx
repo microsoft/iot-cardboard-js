@@ -7,7 +7,7 @@ import { ConditionsMockData, ConditionsMockList } from './ConditionsMock';
 
 const LIST_KEY = 'cb-visual-rule-conditions-list';
 
-export const ConditionsList: React.FC<any> = (_props) => {
+export const ConditionsList: React.FC = (_props) => {
     // Props
     // const { listItems = [] } = props;
 
@@ -35,14 +35,18 @@ export const ConditionsList: React.FC<any> = (_props) => {
     } else {
         return (
             <IllustrationMessage
-                headerText={t('3dSceneBuilder.visualRule.noDataMessageHeader')}
+                headerText={t(
+                    '3dSceneBuilder.visualRuleForm.noDataMessageHeader'
+                )}
                 descriptionText={t(
-                    '3dSceneBuilder.visualRule.noDataMessageDescription'
+                    '3dSceneBuilder.visualRuleForm.noDataMessageDescription'
                 )}
                 type={'info'}
                 width={'compact'}
                 linkProps={noDataMessageLinkProps}
-                linkText={t('3dSceneBuilder.visualRule.noDataMessageLinkText')}
+                linkText={t(
+                    '3dSceneBuilder.visualRuleForm.noDataMessageLinkText'
+                )}
             />
         );
     }

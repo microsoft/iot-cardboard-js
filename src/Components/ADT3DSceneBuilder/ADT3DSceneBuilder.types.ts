@@ -147,8 +147,8 @@ export interface I3DSceneBuilderContext {
         behaviorId?: string,
         onFocusDismiss?: (layerId: string) => void
     ) => void;
-    visualRuleFormMode: VisualRuleFormActiveMode;
-    setVisualRuleFormMode: (mode: VisualRuleFormActiveMode) => void;
+    visualRuleFormMode: VisualRuleFormMode;
+    setVisualRuleFormMode: (mode: VisualRuleFormMode) => void;
 }
 
 export type BuilderDirtyFormType = 'behavior' | 'element';
@@ -169,8 +169,6 @@ export type ElementTwinAliasFormInfo = null | {
     twinAlias: IElementTwinAliasItem;
     mode: TwinAliasFormMode;
 };
-
-export type VisualRuleFormActiveMode = null | VisualRuleFormMode;
 
 export interface IContextMenuProps {
     isVisible: boolean;
@@ -295,7 +293,7 @@ export interface ADT3DSceneBuilderState {
     showHoverOnSelected: boolean;
     unsavedBehaviorDialogOpen: boolean;
     unsavedChangesDialogDiscardAction: VoidFunction;
-    visualRuleFormActiveMode: VisualRuleFormActiveMode;
+    visualRuleFormMode: VisualRuleFormMode;
     widgetFormInfo: WidgetFormInfo;
 }
 

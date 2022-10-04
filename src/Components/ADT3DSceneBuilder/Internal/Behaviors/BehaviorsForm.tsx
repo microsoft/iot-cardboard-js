@@ -322,7 +322,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
 
     const discardChanges = useCallback(() => {
         onBehaviorBackClick();
-        console.log('THIS GETS CALLED!');
         setSelectedElements([]);
     }, [onBehaviorBackClick, setSelectedElements]);
 
@@ -425,121 +424,139 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const isWidgetFormActive =
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
         widgetFormInfo.mode === WidgetFormMode.EditWidget;
-    const isVisualRulesFormActive = visualRuleFormMode !== null;
+    const isVisualRulesFormActive =
+        visualRuleFormMode !== VisualRuleFormMode.Inactive;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    console.log('isPropertyDropdownEnabled: ', isPropertyTypeDropdownEnabled);
     const formHeaderHeight = isVisualRulesFormActive
         ? isPropertyTypeDropdownEnabled
             ? 370
             : 268
         : 168;
-    console.log(formHeaderHeight);
-    console.log(isPropertyTypeDropdownEnabled);
     const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
 
-    const renderContent = () => {
-        if (isWidgetFormActive) {
-            return <WidgetForm />;
-        } else if (behaviorTwinAliasFormInfo) {
-            return (
-                <BehaviorTwinAliasForm
-                    selectedElements={selectedElements}
-                    setSelectedElements={setSelectedElements}
-                />
-            );
-        } else if (isVisualRulesFormActive) {
-            return (
-                <VisualRuleForm
-                    setPropertyTypeDropdownEnabled={
-                        handlePropertyTypeDropdownEnabled
-                    }
-                    isPropertyTypeDropdownEnabled={
-                        isPropertyTypeDropdownEnabled
-                    }
-                    rootHeight={formHeaderHeight}
-                />
-            );
-        } else {
-            return (
-                <>
-                    <div className={commonFormStyles.content}>
-                        <div className={commonFormStyles.header}>
-                            <Stack tokens={{ childrenGap: 12 }}>
-                                <TextField
-                                    label={t('displayName')}
-                                    value={
-                                        behaviorFormState.behaviorToEdit
-                                            .displayName
-                                    }
-                                    required
-                                    onChange={(_e, newValue) => {
-                                        onTabValidityChange('Root', {
-                                            isValid: !!newValue
-                                        });
-                                        behaviorFormDispatch({
-                                            type:
-                                                BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
-                                            payload: {
-                                                name: newValue
-                                            }
-                                        });
-                                    }}
-                                />
-                                <SceneLayerMultiSelectBuilder
-                                    behaviorId={
-                                        behaviorFormState.behaviorToEdit.id
-                                    }
-                                    selectedLayerIds={
-                                        behaviorFormState.behaviorSelectedLayerIds
-                                    }
-                                    onLayerSelected={onLayerSelected}
-                                    onLayerUnselected={onLayerUnselected}
-                                />
-                            </Stack>
-                        </div>
-                        <Separator />
-                        <Pivot
-                            selectedKey={selectedBehaviorPivotKey}
-                            onLinkClick={onPivotItemClick}
-                            className={commonFormStyles.expandedSection}
-                            overflowBehavior={'menu'}
-                            styles={panelFormPivotStyles}
-                        >
-                            <PivotItem
-                                className={commonPanelStyles.formTabContents}
-                                headerText={t('3dSceneBuilder.elements')}
-                                itemKey={BehaviorPivot.elements}
-                                onRenderItemLink={(props, defaultRenderer) =>
-                                    setPivotToRequired(
-                                        behaviorState.validityMap?.get(
-                                            'Elements'
-                                        )?.isValid,
-                                        t,
-                                        props,
-                                        defaultRenderer
-                                    )
+    const renderWidgetForm = () => {
+        return <WidgetForm />;
+    };
+
+    const renderTwinAliasForm = () => {
+        return (
+            <BehaviorTwinAliasForm
+                selectedElements={selectedElements}
+                setSelectedElements={setSelectedElements}
+            />
+        );
+    };
+
+    const renderVisualRuleForm = () => {
+        return (
+            <VisualRuleForm
+                setPropertyTypeDropdownEnabled={
+                    handlePropertyTypeDropdownEnabled
+                }
+                isPropertyTypeDropdownEnabled={isPropertyTypeDropdownEnabled}
+                rootHeight={formHeaderHeight}
+            />
+        );
+    };
+
+    const renderBehaviorFormContent = () => {
+        return (
+            <>
+                <div className={commonFormStyles.content}>
+                    <div className={commonFormStyles.header}>
+                        <Stack tokens={{ childrenGap: 12 }}>
+                            <TextField
+                                label={t('displayName')}
+                                value={
+                                    behaviorFormState.behaviorToEdit.displayName
                                 }
-                            >
-                                <SceneElements
-                                    elements={elements}
-                                    selectedElements={selectedElements}
-                                    updateSelectedElements={
-                                        localUpdateSelectedElements
-                                    }
-                                    isEditBehavior={true}
-                                    hideSearch={false}
-                                    onElementClick={onElementClick}
-                                    onRemoveElement={onRemoveElement}
-                                />
-                            </PivotItem>
+                                required
+                                onChange={(_e, newValue) => {
+                                    onTabValidityChange('Root', {
+                                        isValid: !!newValue
+                                    });
+                                    behaviorFormDispatch({
+                                        type:
+                                            BehaviorFormContextActionType.FORM_BEHAVIOR_DISPLAY_NAME_SET,
+                                        payload: {
+                                            name: newValue
+                                        }
+                                    });
+                                }}
+                            />
+                            <SceneLayerMultiSelectBuilder
+                                behaviorId={behaviorFormState.behaviorToEdit.id}
+                                selectedLayerIds={
+                                    behaviorFormState.behaviorSelectedLayerIds
+                                }
+                                onLayerSelected={onLayerSelected}
+                                onLayerUnselected={onLayerUnselected}
+                            />
+                        </Stack>
+                    </div>
+                    <Separator />
+                    <Pivot
+                        selectedKey={selectedBehaviorPivotKey}
+                        onLinkClick={onPivotItemClick}
+                        className={commonFormStyles.expandingSection}
+                        overflowBehavior={'menu'}
+                        styles={panelFormPivotStyles}
+                    >
+                        <PivotItem
+                            className={commonPanelStyles.formTabContents}
+                            headerText={t('3dSceneBuilder.elements')}
+                            itemKey={BehaviorPivot.elements}
+                            onRenderItemLink={(props, defaultRenderer) =>
+                                setPivotToRequired(
+                                    behaviorState.validityMap?.get('Elements')
+                                        ?.isValid,
+                                    t,
+                                    props,
+                                    defaultRenderer
+                                )
+                            }
+                        >
+                            <SceneElements
+                                elements={elements}
+                                selectedElements={selectedElements}
+                                updateSelectedElements={
+                                    localUpdateSelectedElements
+                                }
+                                isEditBehavior={true}
+                                hideSearch={false}
+                                onElementClick={onElementClick}
+                                onRemoveElement={onRemoveElement}
+                            />
+                        </PivotItem>
+                        <PivotItem
+                            className={commonPanelStyles.formTabContents}
+                            headerText={t('3dSceneBuilder.twinsTab')}
+                            itemKey={BehaviorPivot.twins}
+                            onRenderItemLink={(props, defaultRenderer) =>
+                                setPivotToRequired(
+                                    behaviorState.validityMap?.get('Twins')
+                                        ?.isValid,
+                                    t,
+                                    props,
+                                    defaultRenderer
+                                )
+                            }
+                        >
+                            <TwinsTab
+                                onValidityChange={onTabValidityChange}
+                                behaviors={behaviors}
+                                selectedElements={selectedElements}
+                            />
+                        </PivotItem>
+                        {!showVisualRulesFeature && (
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
-                                headerText={t('3dSceneBuilder.twinsTab')}
-                                itemKey={BehaviorPivot.twins}
+                                headerText={t('3dSceneBuilder.statesTab')}
+                                itemKey={BehaviorPivot.states}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     setPivotToRequired(
-                                        behaviorState.validityMap?.get('Twins')
+                                        behaviorState.validityMap?.get('Status')
                                             ?.isValid,
                                         t,
                                         props,
@@ -547,133 +564,93 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     )
                                 }
                             >
-                                <TwinsTab
+                                <StatusTab
                                     onValidityChange={onTabValidityChange}
-                                    behaviors={behaviors}
-                                    selectedElements={selectedElements}
                                 />
                             </PivotItem>
-                            {!showVisualRulesFeature && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t('3dSceneBuilder.statesTab')}
-                                    itemKey={BehaviorPivot.states}
-                                    onRenderItemLink={(
-                                        props,
-                                        defaultRenderer
-                                    ) =>
-                                        setPivotToRequired(
-                                            behaviorState.validityMap?.get(
-                                                'Status'
-                                            )?.isValid,
-                                            t,
-                                            props,
-                                            defaultRenderer
-                                        )
-                                    }
-                                >
-                                    <StatusTab
-                                        onValidityChange={onTabValidityChange}
-                                    />
-                                </PivotItem>
-                            )}
-                            {!showVisualRulesFeature && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t('3dSceneBuilder.alertsTab')}
-                                    itemKey={BehaviorPivot.alerts}
-                                    onRenderItemLink={(
-                                        props,
-                                        defaultRenderer
-                                    ) =>
-                                        setPivotToRequired(
-                                            behaviorState.validityMap?.get(
-                                                'Alerts'
-                                            )?.isValid,
-                                            t,
-                                            props,
-                                            defaultRenderer
-                                        )
-                                    }
-                                >
-                                    <AlertsTab />
-                                </PivotItem>
-                            )}
-                            {showVisualRulesFeature && (
-                                <PivotItem
-                                    className={
-                                        commonPanelStyles.formTabContents
-                                    }
-                                    headerText={t(
-                                        '3dSceneBuilder.visualRulesTab'
-                                    )}
-                                    itemKey={BehaviorPivot.visualRules}
-                                >
-                                    <VisualRulesTab />
-                                </PivotItem>
-                            )}
+                        )}
+                        {!showVisualRulesFeature && (
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
-                                headerText={t('3dSceneBuilder.widgets')}
-                                itemKey={BehaviorPivot.widgets}
+                                headerText={t('3dSceneBuilder.alertsTab')}
+                                itemKey={BehaviorPivot.alerts}
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     setPivotToRequired(
-                                        behaviorState.validityMap?.get(
-                                            'Widgets'
-                                        )?.isValid,
+                                        behaviorState.validityMap?.get('Alerts')
+                                            ?.isValid,
                                         t,
                                         props,
                                         defaultRenderer
                                     )
                                 }
                             >
-                                <WidgetsTab />
+                                <AlertsTab />
                             </PivotItem>
-                        </Pivot>
-                    </div>
-
-                    <PanelFooter>
-                        <PrimaryButton
-                            data-testid={'behavior-form-primary-button'}
-                            onClick={onSaveClick}
-                            text={
-                                builderMode ===
-                                ADT3DSceneBuilderMode.CreateBehavior
-                                    ? t('3dSceneBuilder.createBehavior')
-                                    : t('3dSceneBuilder.updateBehavior')
+                        )}
+                        {showVisualRulesFeature && (
+                            <PivotItem
+                                className={commonPanelStyles.formTabContents}
+                                headerText={t('3dSceneBuilder.visualRulesTab')}
+                                itemKey={BehaviorPivot.visualRules}
+                            >
+                                <VisualRulesTab />
+                            </PivotItem>
+                        )}
+                        <PivotItem
+                            className={commonPanelStyles.formTabContents}
+                            headerText={t('3dSceneBuilder.widgets')}
+                            itemKey={BehaviorPivot.widgets}
+                            onRenderItemLink={(props, defaultRenderer) =>
+                                setPivotToRequired(
+                                    behaviorState.validityMap?.get('Widgets')
+                                        ?.isValid,
+                                    t,
+                                    props,
+                                    defaultRenderer
+                                )
                             }
-                            disabled={!isFormValid}
-                        />
-                        <DefaultButton
-                            data-testid={'behavior-form-secondary-button'}
-                            text={t('cancel')}
-                            onClick={onCancelClick}
-                        />
-                    </PanelFooter>
-                    {/* REMOVE THIS BUTTON, ONLY RENDERS WITH FLIGHTS */}
-                    {showVisualRulesFeature && (
-                        <PrimaryButton
-                            text={'Open visual rules'}
-                            onClick={() => {
-                                setVisualRuleFormMode(
-                                    VisualRuleFormMode.CreateVisualRule
-                                );
-                            }}
-                            styles={{
-                                root: {
-                                    position: 'absolute',
-                                    left: 200
-                                }
-                            }}
-                        />
-                    )}
-                </>
-            );
-        }
+                        >
+                            <WidgetsTab />
+                        </PivotItem>
+                    </Pivot>
+                </div>
+
+                <PanelFooter>
+                    <PrimaryButton
+                        data-testid={'behavior-form-primary-button'}
+                        onClick={onSaveClick}
+                        text={
+                            builderMode === ADT3DSceneBuilderMode.CreateBehavior
+                                ? t('3dSceneBuilder.createBehavior')
+                                : t('3dSceneBuilder.updateBehavior')
+                        }
+                        disabled={!isFormValid}
+                    />
+                    <DefaultButton
+                        data-testid={'behavior-form-secondary-button'}
+                        text={t('cancel')}
+                        onClick={onCancelClick}
+                    />
+                </PanelFooter>
+                {/* REMOVE THIS BUTTON, ONLY RENDERS WITH FLIGHTS */}
+                {showVisualRulesFeature && (
+                    <PrimaryButton
+                        text={'Open visual rules'}
+                        onClick={() => {
+                            setVisualRuleFormMode(
+                                VisualRuleFormMode.CreateVisualRule
+                            );
+                        }}
+                        styles={{
+                            root: {
+                                position: 'absolute',
+                                left: 200
+                            }
+                        }}
+                    />
+                )}
+            </>
+        );
     };
 
     return (
@@ -683,7 +660,13 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                 subHeaderText={subHeaderText}
                 iconName={iconName}
             />
-            {renderContent()}
+            {isWidgetFormActive
+                ? renderWidgetForm()
+                : behaviorTwinAliasFormInfo
+                ? renderTwinAliasForm()
+                : isVisualRulesFormActive
+                ? renderVisualRuleForm()
+                : renderBehaviorFormContent()}
         </div>
     );
 };

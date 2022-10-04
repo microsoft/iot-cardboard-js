@@ -19,7 +19,8 @@ import React, {
 import {
     ADT3DSceneBuilderMode,
     ADT3DScenePageModes,
-    BehaviorModalMode
+    BehaviorModalMode,
+    VisualRuleFormMode
 } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
@@ -46,7 +47,6 @@ import {
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM,
-    VisualRuleFormActiveMode,
     SET_VISUAL_RULE_ACTIVE_MODE
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
@@ -318,7 +318,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
     }, []);
 
     const setVisualRuleFormMode = useCallback(
-        (visualRuleMode: VisualRuleFormActiveMode) => {
+        (visualRuleMode: VisualRuleFormMode) => {
             dispatch({
                 type: SET_VISUAL_RULE_ACTIVE_MODE,
                 payload: visualRuleMode
@@ -909,7 +909,7 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setWidgetFormInfo,
                 state,
                 theme,
-                visualRuleFormMode: state.visualRuleFormActiveMode,
+                visualRuleFormMode: state.visualRuleFormMode,
                 widgetFormInfo: state.widgetFormInfo
             }}
         >

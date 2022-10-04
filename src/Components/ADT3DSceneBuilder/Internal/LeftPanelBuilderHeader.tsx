@@ -18,7 +18,6 @@ import { ITwinToObjectMapping } from '../../../Models/Types/Generated/3DScenesCo
 import {
     BehaviorTwinAliasFormInfo,
     ElementTwinAliasFormInfo,
-    VisualRuleFormActiveMode,
     WidgetFormInfo
 } from '../ADT3DSceneBuilder.types';
 import { getStyles } from './LeftPanelBuilderHeader.styles';
@@ -37,13 +36,11 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
     widgetFormInfo: WidgetFormInfo,
     behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo,
     builderMode: ADT3DSceneBuilderMode,
-    visualRuleMode: VisualRuleFormActiveMode
+    visualRuleMode: VisualRuleFormMode
 ) => {
     let headerText = '',
         subHeaderText = '',
         iconName: '' | CardboardIconNames;
-    const isVisualRulesFormActive = visualRuleMode !== null;
-
     if (
         widgetFormInfo.mode === WidgetFormMode.CreateWidget ||
         widgetFormInfo.mode === WidgetFormMode.EditWidget
@@ -68,11 +65,14 @@ export const getLeftPanelBuilderHeaderParamsForBehaviors = (
             ? 'LinkedDatabase'
             : '';
         subHeaderText = behaviorTwinAliasFormInfo.twinAlias?.alias;
-    } else if (isVisualRulesFormActive) {
+    } else if (
+        visualRuleMode === VisualRuleFormMode.CreateVisualRule ||
+        visualRuleMode === VisualRuleFormMode.EditVisualRule
+    ) {
         if (visualRuleMode === VisualRuleFormMode.CreateVisualRule) {
-            headerText = i18n.t('3dSceneBuilder.visualRule.new');
+            headerText = i18n.t('3dSceneBuilder.visualRuleForm.new');
         } else {
-            headerText = i18n.t('3dSceneBuilder.visualRule.edit');
+            headerText = i18n.t('3dSceneBuilder.visualRuleForm.edit');
         }
     } else {
         if (builderMode === ADT3DSceneBuilderMode.CreateBehavior) {

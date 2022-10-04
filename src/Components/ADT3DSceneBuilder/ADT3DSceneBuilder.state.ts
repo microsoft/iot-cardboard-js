@@ -29,6 +29,7 @@ import {
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
+    VisualRuleFormMode,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
@@ -58,7 +59,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     showHoverOnSelected: false,
     unsavedBehaviorDialogOpen: false,
     unsavedChangesDialogDiscardAction: null,
-    visualRuleFormActiveMode: null,
+    visualRuleFormMode: VisualRuleFormMode.Inactive,
     widgetFormInfo: { mode: WidgetFormMode.Cancelled }
 };
 
@@ -174,7 +175,7 @@ export const ADT3DSceneBuilderReducer: (
                 }
                 break;
             case SET_VISUAL_RULE_ACTIVE_MODE:
-                draft.visualRuleFormActiveMode = payload;
+                draft.visualRuleFormMode = payload;
                 break;
             default:
                 break;

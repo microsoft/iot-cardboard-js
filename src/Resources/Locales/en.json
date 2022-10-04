@@ -374,6 +374,7 @@
         "alertsTab": "Alerts",
         "statesTab": "Status",
         "visualRulesTab": "Visual rules",
+        "visualRule": "Visual rule",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -552,9 +553,9 @@
                 "noNumberPrefix": "Twin name must not start with a number"
             }
         },
-        "visualRule": {
-            "new": "New Visual rule",
-            "edit": "Edit Visual rule",
+        "visualRuleForm": {
+            "new": "New visual rule",
+            "edit": "Edit visual rule",
             "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
             "noDataMessageHeader": "No conditions",
             "noDataMessageDescription": "No conditions created yet. Click below to create a condition.",
