@@ -265,7 +265,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         resourcesRef.current
     ]);
 
-    const placeholder = useMemo(() => {
+    const placeholder = () => {
         if (displayField === AzureResourceDisplayFields.url) {
             switch (resourceType) {
                 case AzureResourceTypes.DigitalTwinInstance:
@@ -286,7 +286,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 return t('resourcesPicker.noOption');
             }
         }
-    }, [resourceType, t, options.length, displayField]);
+    };
 
     const getResourcesFromOptions = (
         options: Array<IComboBoxOption>
