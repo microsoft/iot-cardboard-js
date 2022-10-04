@@ -7,6 +7,7 @@ import { getStorageAccountUrlFromContainerUrl } from '../../../Components/Enviro
 import {
     ContainersLocalStorageKey,
     EnvironmentsLocalStorageKey,
+    LOCAL_STORAGE_KEYS,
     SelectedContainerLocalStorageKey,
     SelectedEnvironmentLocalStorageKey,
     StorageAccountsLocalStorageKey
@@ -30,9 +31,7 @@ import {
 import {
     EnvironmentConfigurationInLocalStorage,
     EnvironmentItemInLocalStorage,
-    EnvironmentConfigurationLocalStorageKey,
-    EnvironmentOptionsInLocalStorage,
-    EnvironmentOptionsLocalStorageKey
+    EnvironmentOptionsInLocalStorage
 } from './LocalStorageManager.types';
 
 /** This is used for converting a adt, storage account or storage container resource
@@ -61,7 +60,7 @@ export const getEnvironmentItemFromResource = (
 export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfigurationInLocalStorage | null => {
     try {
         const environmentConfigurationInLocalStorage = localStorage.getItem(
-            EnvironmentConfigurationLocalStorageKey
+            LOCAL_STORAGE_KEYS.Environment.Configuration
         );
         return environmentConfigurationInLocalStorage
             ? (JSON.parse(
@@ -84,7 +83,7 @@ export const getEnvironmentConfigurationFromLocalStorage = (): EnvironmentConfig
 export const getEnvironmentOptionsFromLocalStorage = (): EnvironmentOptionsInLocalStorage | null => {
     try {
         const environmentOptionsInLocalStorage = localStorage.getItem(
-            EnvironmentOptionsLocalStorageKey
+            LOCAL_STORAGE_KEYS.Environment.Options
         );
         return environmentOptionsInLocalStorage
             ? (JSON.parse(
@@ -354,7 +353,7 @@ const setEnvironmentConfigurationInLocalStorage = (
     configuration: EnvironmentConfigurationInLocalStorage
 ): void => {
     setLocalStorageItem(
-        EnvironmentConfigurationLocalStorageKey,
+        LOCAL_STORAGE_KEYS.Environment.Configuration,
         JSON.stringify(configuration)
     );
 };
@@ -365,8 +364,8 @@ const setEnvironmentConfigurationInLocalStorage = (
 const setEnvironmentOptionsInLocalStorage = (
     options: EnvironmentOptionsInLocalStorage
 ): void => {
-    localStorage.setItem(
-        EnvironmentOptionsLocalStorageKey,
+    setLocalStorageItem(
+        LOCAL_STORAGE_KEYS.Environment.Options,
         JSON.stringify(options)
     );
 };

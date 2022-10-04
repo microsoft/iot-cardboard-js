@@ -83,6 +83,10 @@ export const LOCAL_STORAGE_KEYS = {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         }
+    },
+    Environment: {
+        Configuration: 'cb-environment-configuration',
+        Options: 'cb-environment-options'
     }
 };
 

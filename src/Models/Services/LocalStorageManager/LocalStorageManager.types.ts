@@ -1,8 +1,3 @@
-export const EnvironmentConfigurationLocalStorageKey =
-    'cb-environment-configuration';
-
-export const EnvironmentOptionsLocalStorageKey = 'cb-environment-options';
-
 /** EnvironmentItemInLocalStorage is used for storing the adt, storage account or storage container resource
  * as a configuration or option item to keep track of selected items and options in the app and localstorage
  * @param id id of the resource
