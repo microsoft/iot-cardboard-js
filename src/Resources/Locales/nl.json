@@ -869,7 +869,15 @@
       "modalTitleEdit": "Ontologie bewerken",
       "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
       "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleLinkText": "Meer informatie over ontologieën"
+      "modalSubTitleLinkText": "Meer informatie over ontologieën",
+      "deleteButtonText": "Ontologie verwijderen",
+      "nameLabel": "Naam",
+      "namePlaceholder": "Voer een ontologienaam in",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
+      "namespacePlaceholder": "Een naamruimte invoeren",
+      "sampleModel": "voorbeeldmodel",
+      "sampleNamespace": "voorbeeld naamruimte"
     }
   },
   "cameraControls": {

@@ -869,7 +869,15 @@
       "modalTitleEdit": "编辑本体",
       "modalSubTitleCreate": "创建一个新的本体，为您的数字孪生提供结构。",
       "modalSubTitleEdit": "编辑你的本体，给你的数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息"
+      "modalSubTitleLinkText": "了解有关本体的更多信息",
+      "deleteButtonText": "删除本体",
+      "nameLabel": "名字",
+      "namePlaceholder": "输入本体名称",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "示例模型名称：{{模型名称}}",
+      "namespacePlaceholder": "输入命名空间",
+      "sampleModel": "示例模型",
+      "sampleNamespace": "示例命名空间"
     }
   },
   "cameraControls": {

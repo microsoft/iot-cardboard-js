@@ -869,7 +869,15 @@
       "modalTitleEdit": "Edytuj ontologię",
       "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
       "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach"
+      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
+      "deleteButtonText": "Usuń ontologię",
+      "nameLabel": "Nazwa",
+      "namePlaceholder": "Wprowadź nazwę ontologii",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
+      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
+      "sampleModel": "przykładowy model",
+      "sampleNamespace": "przykładowa przestrzeń nazw"
     }
   },
   "cameraControls": {

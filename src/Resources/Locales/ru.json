@@ -869,7 +869,15 @@
       "modalTitleEdit": "Редактирование онтологии",
       "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
       "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleLinkText": "Подробнее об онтологиях"
+      "modalSubTitleLinkText": "Подробнее об онтологиях",
+      "deleteButtonText": "Удалить онтологию",
+      "nameLabel": "Имя",
+      "namePlaceholder": "Введите имя онтологии",
+      "namespaceLabel": "Пространство имен",
+      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
+      "namespacePlaceholder": "Ввод пространства имен",
+      "sampleModel": "Образец модели",
+      "sampleNamespace": "Пример пространства имен"
     }
   },
   "cameraControls": {

@@ -869,7 +869,15 @@
       "modalTitleEdit": "Editar ontologia",
       "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
       "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre os totologias"
+      "modalSubTitleLinkText": "Saiba mais sobre os totologias",
+      "deleteButtonText": "Eliminar a ontologia",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Insira um nome de ontologia",
+      "namespaceLabel": "Espaço de nome",
+      "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
+      "namespacePlaceholder": "Insira um espaço de nome",
+      "sampleModel": "modelo de amostra",
+      "sampleNamespace": "espaço de nome da amostra"
     }
   },
   "cameraControls": {
