@@ -21,7 +21,7 @@ import {
     IOatPageContextState
 } from './OatPageContext.types';
 import { userEvent, within } from '@storybook/testing-library';
-import { GET_MOCK_DEEPLINK_STATE } from './OatPageContext.mock';
+import { GET_MOCK_OAT_CONTEXT_STATE } from './OatPageContext.mock';
 
 const itemStackStyles: { root: IStyle } = {
     root: {
@@ -123,10 +123,6 @@ const ProviderContentRenderer: React.FC = () => {
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
-                    <Label>is Modified: </Label>
-                    <Text styles={valueStyle}>{oatPageState.modified}</Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
                     <Label>Error: </Label>
                     <Text styles={valueStyle}>
                         {stringify(oatPageState.error)}
@@ -135,13 +131,21 @@ const ProviderContentRenderer: React.FC = () => {
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Confirmation dialog: </Label>
                     <Text styles={valueStyle}>
-                        {oatPageState.currentOntologyId}
+                        <div>Open: {oatPageState.confirmDeleteOpen.open}</div>
+                        <div>Title: {oatPageState.confirmDeleteOpen.title}</div>
+                        <div>
+                            Message: {oatPageState.confirmDeleteOpen.message}
+                        </div>
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
-                    <Label>JSON uploader: </Label>
+                    <Label>IsModified: </Label>
+                    <Text styles={valueStyle}>{oatPageState.modified}</Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>IsJSONEditorOpen: </Label>
                     <Text styles={valueStyle}>
-                        {oatPageState.currentOntologyId}
+                        {oatPageState.isJsonUploaderOpen}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
@@ -157,7 +161,8 @@ const ProviderContentRenderer: React.FC = () => {
 
 const ProviderUpdater: React.FC = () => {
     const { oatPageState, oatPageDispatch } = useOatPageContext();
-    const [adtUrlIncrementor, setAdtUrlIncrementor] = useState<number>(0);
+    const [nameIncrementor, setNameIncrementor] = useState<number>(0);
+    const [modelIncrementor, setModelIncrementor] = useState<number>(0);
     const theme = useTheme();
     return (
         <Stack>
@@ -168,21 +173,61 @@ const ProviderUpdater: React.FC = () => {
                 tokens={{ childrenGap: 8 }}
             >
                 <DefaultButton
-                    data-testid={'OatPageContext-ChangeAdtUrl'}
+                    data-testid={'OatPageContext-ChangeName'}
                     iconProps={{ iconName: 'Add' }}
-                    text="Increment ADT url"
+                    text="Increment Name"
                     onClick={() => {
-                        const newValue = adtUrlIncrementor + 1;
+                        const newValue = nameIncrementor + 1;
                         oatPageDispatch({
-                            type: OatPageContextActionType.SET_ADT_URL,
+                            type: OatPageContextActionType.SET_OAT_PROJECT_NAME,
                             payload: {
-                                url: oatPageState.adtUrl.replace(
-                                    adtUrlIncrementor.toString(),
+                                name: oatPageState.currentOntologyProjectName.replace(
+                                    nameIncrementor.toString(),
                                     newValue.toString()
                                 )
                             }
                         });
-                        setAdtUrlIncrementor(newValue);
+                        setNameIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-AddModel'}
+                    iconProps={{ iconName: 'Add' }}
+                    text={'Add model'}
+                    onClick={() => {
+                        const newValue = modelIncrementor + 1;
+                        const models = [...oatPageState.currentOntologyModels];
+                        models.push({
+                            '@context': 'testContext',
+                            '@id': `modelId-${newValue}`,
+                            '@type': 'testType',
+                            displayName: `model-${newValue}`
+                        });
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_MODELS,
+                            payload: {
+                                models: models
+                            }
+                        });
+                        setModelIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-AddModel'}
+                    iconProps={{ iconName: 'Subtract' }}
+                    text={'Remove model'}
+                    onClick={() => {
+                        const newValue =
+                            modelIncrementor > 1 ? modelIncrementor - 1 : 0;
+                        const models = [...oatPageState.currentOntologyModels];
+                        models.pop();
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_MODELS,
+                            payload: {
+                                models: models
+                            }
+                        });
+                        setModelIncrementor(newValue);
                     }}
                 />
             </Stack>
@@ -210,7 +255,7 @@ const Template: SceneBuilderStory = (
 
 export const Base = Template.bind({});
 Base.args = {
-    defaultState: GET_MOCK_DEEPLINK_STATE()
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
 } as StoryProps;
 
 export const Empty = Template.bind({});
@@ -218,7 +263,7 @@ Empty.args = {} as StoryProps;
 
 export const UpdateAdtUrl = Template.bind({});
 UpdateAdtUrl.args = {
-    defaultState: GET_MOCK_DEEPLINK_STATE()
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
 } as StoryProps;
 UpdateAdtUrl.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);

@@ -34,6 +34,9 @@ const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 export const OatPageContext = React.createContext<IOatPageContext>(null);
 export const useOatPageContext = () => useContext(OatPageContext);
 
+/** used exclusively for storybook, should always be true in production */
+export const isStorageEnabled = true || process.env.NODE_ENV === 'production';
+
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
     action: OatPageContextAction
@@ -63,7 +66,7 @@ export const OatPageContextReducer: (
                     ...getOntologiesFromStorage(),
                     { id: id, data: project }
                 ];
-                storeOntologiesToStorage(storedFiles);
+                isStorageEnabled && storeOntologiesToStorage(storedFiles);
                 setProjectId(draft, id);
                 logDebugConsole(
                     'debug',
@@ -232,12 +235,20 @@ function getProjectDataFromState(draft: IOatPageContextState): ProjectData {
 
 function saveEditorData(draft: IOatPageContextState): void {
     const projectData = getProjectDataFromState(draft);
-    storeEditorData(projectData);
-    logDebugConsole(
-        'debug',
-        'Saved editor data to storage. {data}',
-        projectData
-    );
+    if (isStorageEnabled) {
+        storeEditorData(projectData);
+        logDebugConsole(
+            'debug',
+            'Saved editor data to storage. {data}',
+            projectData
+        );
+    } else {
+        logDebugConsole(
+            'warn',
+            'Stroage disabled. Skipping saving editor data. {data}',
+            projectData
+        );
+    }
 }
 
 function saveOntologyFiles(draft: IOatPageContextState): void {
@@ -253,8 +264,16 @@ function saveOntologyFiles(draft: IOatPageContextState): void {
             `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
         );
     }
-    storeOntologiesToStorage(filesCopy);
-    logDebugConsole('debug', 'Saved files to storage. {files}', filesCopy);
+    if (isStorageEnabled) {
+        storeOntologiesToStorage(filesCopy);
+        logDebugConsole('debug', 'Saved files to storage. {files}', filesCopy);
+    } else {
+        logDebugConsole(
+            'warn',
+            'Storage disabled. Skipping saving files. {files}',
+            filesCopy
+        );
+    }
 }
 
 export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
@@ -271,19 +290,19 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IOatPageContextState = {
         confirmDeleteOpen: { open: false },
+        currentOntologyId: getLastUsedProjectId(),
+        currentOntologyModelMetadata: getStoredEditorModelMetadata(),
+        currentOntologyModelPositions: getStoredEditorModelPositionsData(),
+        currentOntologyModels: getStoredEditorModelsData(),
+        currentOntologyNamespace: getStoredEditorNamespaceData(),
+        currentOntologyProjectName: null,
+        currentOntologyTemplates: getStoredEditorTemplateData(),
         error: null,
         importModels: [],
         isJsonUploaderOpen: false,
-        currentOntologyModelPositions: getStoredEditorModelPositionsData(),
-        currentOntologyModels: getStoredEditorModelsData(),
-        currentOntologyModelMetadata: getStoredEditorModelMetadata(),
         modified: false,
-        currentOntologyNamespace: getStoredEditorNamespaceData(),
-        currentOntologyId: getLastUsedProjectId(),
-        currentOntologyProjectName: null,
         selectedModelTarget: null,
         selection: null,
-        currentOntologyTemplates: getStoredEditorTemplateData(),
         templatesActive: false,
         ...initialState
     };

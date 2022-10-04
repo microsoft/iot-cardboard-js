@@ -66,9 +66,9 @@ import {
     addNewModel,
     addTargetedRelationship,
     addUntargetedRelationship,
-    defaultNodePosition,
+    DEFAULT_NODE_POSITION,
     getSelectionFromNode,
-    versionClassBase
+    VERSION_CLASS_BASE
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
@@ -175,8 +175,8 @@ const OATGraphViewer = () => {
                 input['@id'],
                 input['@type'],
                 {
-                    x: mp ? mp.position.x : defaultNodePosition,
-                    y: mp ? mp.position.y : defaultNodePosition
+                    x: mp ? mp.position.x : DEFAULT_NODE_POSITION,
+                    y: mp ? mp.position.y : DEFAULT_NODE_POSITION
                 },
                 input
             );
@@ -289,7 +289,7 @@ const OATGraphViewer = () => {
             index = elements.findIndex(
                 (element) =>
                     element.id ===
-                    `${idClassBase}model${nextModelId};${versionClassBase}`
+                    `${idClassBase}model${nextModelId};${VERSION_CLASS_BASE}`
             );
         }
 

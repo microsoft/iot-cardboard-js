@@ -19,9 +19,9 @@ import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-export const versionClassBase = '1';
-export const contextClassBase = 'dtmi:dtdl:context;2';
-export const defaultNodePosition = 25;
+export const VERSION_CLASS_BASE = '1';
+export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
+export const DEFAULT_NODE_POSITION = 25;
 
 const getNextRelationshipIndex = (
     sourceId: string,
@@ -108,13 +108,13 @@ export const addUntargetedRelationship = (
         id,
         OAT_INTERFACE_TYPE,
         {
-            x: rp ? rp.position.x : defaultNodePosition,
-            y: rp ? rp.position.y : defaultNodePosition
+            x: rp ? rp.position.x : DEFAULT_NODE_POSITION,
+            y: rp ? rp.position.y : DEFAULT_NODE_POSITION
         },
         {
             '@id': sourceId,
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
-            '@context': contextClassBase,
+            '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
         }
@@ -199,11 +199,11 @@ export const addNewModel = (
     position: ElementPosition,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+    const id = `${idClassBase}model${newModelId};${VERSION_CLASS_BASE}`;
     const name = `Model${newModelId}`;
     const newNode = new ElementNode(id, OAT_INTERFACE_TYPE, position, {
         '@id': id,
-        '@context': contextClassBase,
+        '@context': CONTEXT_CLASS_BASE,
         '@type': OAT_INTERFACE_TYPE,
         displayName: name,
         contents: []

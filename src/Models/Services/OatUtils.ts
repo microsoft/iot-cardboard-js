@@ -173,9 +173,9 @@ export const convertDtdlInterfaceToModel = (
         dtdlInterface.displayName,
         dtdlInterface.description,
         dtdlInterface.comment,
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Property'),
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Relationship'),
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Component')
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Property'),
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Relationship'),
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Component')
     );
 };
 
