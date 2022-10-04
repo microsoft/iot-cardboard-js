@@ -163,6 +163,7 @@ const ProviderUpdater: React.FC = () => {
     const { oatPageState, oatPageDispatch } = useOatPageContext();
     const [nameIncrementor, setNameIncrementor] = useState<number>(0);
     const [modelIncrementor, setModelIncrementor] = useState<number>(0);
+    const [positionIncrementor, setPositionIncrementor] = useState<number>(0);
     const theme = useTheme();
     return (
         <Stack>
@@ -213,8 +214,8 @@ const ProviderUpdater: React.FC = () => {
                     }}
                 />
                 <DefaultButton
-                    data-testid={'OatPageContext-AddModel'}
-                    iconProps={{ iconName: 'Subtract' }}
+                    data-testid={'OatPageContext-RemoveModel'}
+                    iconProps={{ iconName: 'Remove' }}
                     text={'Remove model'}
                     onClick={() => {
                         const newValue =
@@ -228,6 +229,29 @@ const ProviderUpdater: React.FC = () => {
                             }
                         });
                         setModelIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-UpdatePosition'}
+                    iconProps={{ iconName: 'Add' }}
+                    text={'Update position'}
+                    onClick={() => {
+                        const newValue = positionIncrementor + 1;
+                        const positions = [
+                            ...oatPageState.currentOntologyModelPositions
+                        ];
+                        positions[0].position = {
+                            x: newValue,
+                            y: newValue + 2
+                        };
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                            payload: {
+                                positions: positions
+                            }
+                        });
+                        setPositionIncrementor(newValue);
                     }}
                 />
             </Stack>
