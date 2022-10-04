@@ -555,6 +555,15 @@
       "noDataMessageDescription": "Aún no se han creado las condiciones. Haga clic a continuación para crear una condición.",
       "noDataMessageLinkText": "Agregar condición",
       "typePlaceholder": "Seleccione el tipo para el valor"
+    },
+    "visualRuleForm": {
+      "new": "Nueva regla visual",
+      "edit": "Editar regla visual",
+      "formDescription": "Establezca reglas para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
+      "noDataMessageHeader": "Sin condiciones",
+      "noDataMessageDescription": "Aún no se han creado las condiciones. Haga clic a continuación para crear una condición.",
+      "noDataMessageLinkText": "Agregar condición",
+      "typePlaceholder": "Seleccione el tipo para el valor"
     }
   },
   "widgets": {

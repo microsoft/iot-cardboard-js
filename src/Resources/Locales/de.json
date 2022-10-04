@@ -555,6 +555,15 @@
       "noDataMessageDescription": "Noch keine Bedingungen geschaffen. Klicken Sie unten, um eine Bedingung zu erstellen.",
       "noDataMessageLinkText": "Bedingung hinzufügen",
       "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+    },
+    "visualRuleForm": {
+      "new": "Neue visuelle Regel",
+      "edit": "Visuelle Regel bearbeiten",
+      "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "noDataMessageHeader": "Keine Bedingungen",
+      "noDataMessageDescription": "Noch keine Bedingungen geschaffen. Klicken Sie unten, um eine Bedingung zu erstellen.",
+      "noDataMessageLinkText": "Bedingung hinzufügen",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
     }
   },
   "widgets": {

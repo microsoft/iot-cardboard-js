@@ -555,6 +555,15 @@
       "noDataMessageDescription": "尚未创建任何条件。单击下面创建条件。",
       "noDataMessageLinkText": "添加条件",
       "typePlaceholder": "选择值的类型"
+    },
+    "visualRuleForm": {
+      "new": "新的视觉对象规则",
+      "edit": "编辑视觉对象规则",
+      "formDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noDataMessageHeader": "无条件",
+      "noDataMessageDescription": "尚未创建任何条件。单击下面创建条件。",
+      "noDataMessageLinkText": "添加条件",
+      "typePlaceholder": "选择值的类型"
     }
   },
   "widgets": {

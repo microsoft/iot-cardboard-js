@@ -555,6 +555,15 @@
       "noDataMessageDescription": "Inga förutsättningar skapade ännu. Klicka nedan för att skapa ett villkor.",
       "noDataMessageLinkText": "Lägg till villkor",
       "typePlaceholder": "Välj typ för värdet"
+    },
+    "visualRuleForm": {
+      "new": "Ny visuell regel",
+      "edit": "Redigera visuell regel",
+      "formDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
+      "noDataMessageHeader": "Inga villkor",
+      "noDataMessageDescription": "Inga förutsättningar skapade ännu. Klicka nedan för att skapa ett villkor.",
+      "noDataMessageLinkText": "Lägg till villkor",
+      "typePlaceholder": "Välj typ för värdet"
     }
   },
   "widgets": {
