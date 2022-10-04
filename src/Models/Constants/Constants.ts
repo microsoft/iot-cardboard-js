@@ -258,12 +258,16 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
     }
 ];
 
-export const EnvironmentsLocalStorageKey = 'cb-environments'; // TODO: These will be deprecated with the new local storage structure
-export const ContainersLocalStorageKey = 'cb-containers'; // TODO: These will be deprecated with the new local storage structure
-export const StorageAccountsLocalStorageKey = 'cb-storage-accounts'; // TODO: These will be deprecated with the new local storage structure
-
-export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment'; // TODO: These will be deprecated with the new local storage structure
-export const SelectedContainerLocalStorageKey = 'cb-selected-container'; // TODO: These will be deprecated with the new local storage structure
+export const EnvironmentsLocalStorageKey =
+    'cb-environments'; /** @deprecated This key will be removed soon since the new local storage structure */
+export const ContainersLocalStorageKey =
+    'cb-containers'; /** @deprecated This key will be removed soon since the new local storage structure */
+export const StorageAccountsLocalStorageKey =
+    'cb-storage-accounts'; /** @deprecated This key will be removed soon since the new local storage structure */
+export const SelectedEnvironmentLocalStorageKey =
+    'cb-selected-environment'; /** @deprecated This key will be removed soon since the new local storage structure */
+export const SelectedContainerLocalStorageKey =
+    'cb-selected-container'; /** @deprecated This key will be removed soon since the new local storage structure */
 
 export const OATFilesStorageKey = 'oat-files';
 export const OATDataStorageKey = 'oat-data';
