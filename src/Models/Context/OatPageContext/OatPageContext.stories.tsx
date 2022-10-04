@@ -65,7 +65,14 @@ const ProviderContentRenderer: React.FC = () => {
     const stringify = (object: any) =>
         object ? JSON.stringify(object) : object;
     return (
-        <Stack>
+        <Stack
+            styles={{
+                root: {
+                    maxHeight: 700,
+                    overflow: 'auto'
+                }
+            }}
+        >
             <h3 style={headerStyles}>Context</h3>
 
             <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
