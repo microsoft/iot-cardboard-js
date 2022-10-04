@@ -17,7 +17,8 @@ import {
     getOntologiesFromStorage,
     storeOntologiesToStorage,
     storeLastUsedProjectId,
-    getLastUsedProjectId
+    getLastUsedProjectId,
+    getStoredEditorName
 } from '../../Services/OatUtils';
 import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
@@ -295,7 +296,7 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
         currentOntologyModelPositions: getStoredEditorModelPositionsData(),
         currentOntologyModels: getStoredEditorModelsData(),
         currentOntologyNamespace: getStoredEditorNamespaceData(),
-        currentOntologyProjectName: null,
+        currentOntologyProjectName: getStoredEditorName(),
         currentOntologyTemplates: getStoredEditorTemplateData(),
         error: null,
         importModels: [],

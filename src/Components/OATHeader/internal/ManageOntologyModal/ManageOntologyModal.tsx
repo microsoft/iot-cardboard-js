@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     classNamesFunction,
     useTheme,
@@ -112,6 +112,22 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
             </>
         );
     };
+
+    // side effect
+    useEffect(() => {
+        const localName =
+            mode === FormMode.Create
+                ? ''
+                : oatPageState.currentOntologyProjectName;
+        setName(localName);
+    }, [isOpen, mode, oatPageState.currentOntologyProjectName]);
+    useEffect(() => {
+        const localNamespace =
+            mode === FormMode.Create
+                ? ''
+                : oatPageState.currentOntologyNamespace;
+        setNamespace(localNamespace);
+    }, [isOpen, mode, oatPageState.currentOntologyNamespace]);
 
     // data
     const sampleModelName = buildModelName(

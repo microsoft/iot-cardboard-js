@@ -27,7 +27,6 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
-    convertDtdlInterfacesToModels,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
     getOntologiesFromStorage,
@@ -36,7 +35,6 @@ import {
 import { getStyles } from './OATHeader.styles';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 
@@ -398,19 +396,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         if (storedFiles.length > 0) {
             const formattedFiles: IContextualMenuItem[] = storedFiles.map(
                 (file) => {
-                    // const projectToOpen = new ProjectData(
-                    //     file.data.modelPositions,
-                    //     convertDtdlInterfacesToModels(file.data.models),
-                    //     file.data.projectName,
-                    //     file.data.templates,
-                    //     file.data.namespace,
-                    //     file.data.modelsMetadata
-                    // );
                     const onClick = () => {
-                        // oatPageDispatch({
-                        //     type: OatPageContextActionType.SET_OAT_PROJECT,
-                        //     payload: projectToOpen
-                        // });
                         oatPageDispatch({
                             type: OatPageContextActionType.SET_OAT_PROJECT_ID,
                             payload: { projectId: file.id }
@@ -427,7 +413,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             return formattedFiles;
         }
         return [];
-    }, [oatPageDispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [oatPageDispatch, oatPageState.currentOntologyProjectName]); // include project name to bust when a new project is created
 
     const fileMenuItems: IContextualMenuItem[] = [
         {
