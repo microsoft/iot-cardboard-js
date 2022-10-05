@@ -235,7 +235,8 @@ export enum AzureResourceTypes {
     DigitalTwinInstance = 'Microsoft.DigitalTwins/digitalTwinsInstances',
     StorageAccount = 'Microsoft.Storage/storageAccounts',
     StorageBlobContainer = 'Microsoft.Storage/storageAccounts/blobServices/containers',
-    RoleAssignment = 'Microsoft.Authorization/roleAssignments'
+    RoleAssignment = 'Microsoft.Authorization/roleAssignments',
+    TimeSeriesConnection = 'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections'
 }
 
 /** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */
@@ -256,7 +257,8 @@ export enum AzureResourcesAPIVersions {
     'Microsoft.Storage/storageAccounts' = '2021-09-01',
     'Microsoft.Storage/storageAccounts/blobServices/containers' = '2021-09-01',
     'Microsoft.Authorization/roleAssignments' = '2015-07-01',
-    'Microsoft.Subscription' = '2020-01-01'
+    'Microsoft.Subscription' = '2020-01-01',
+    'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections' = '2022-05-31'
 }
 
 /** list of Azure Resource properties to be used as display in combobox list UI */
