@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Aucune condition",
       "noDataMessageDescription": "Aucune condition n’a encore été créée. Cliquez ci-dessous pour créer une condition.",
       "noDataMessageLinkText": "Ajouter une condition",
-      "typePlaceholder": "Sélectionnez le type de la valeur"
-    }
+      "typePlaceholder": "Sélectionnez le type de la valeur",
+      "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément."
+    },
+    "conditions": "Conditions"
   },
   "widgets": {
     "trend": {

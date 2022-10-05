@@ -563,8 +563,10 @@
       "noDataMessageHeader": "条件なし",
       "noDataMessageDescription": "条件はまだ作成されていません。条件を作成するには、以下をクリックします。",
       "noDataMessageLinkText": "条件の追加",
-      "typePlaceholder": "値のタイプを選択します。"
-    }
+      "typePlaceholder": "値のタイプを選択します。",
+      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {

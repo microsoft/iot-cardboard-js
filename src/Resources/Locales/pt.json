@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Sem condições",
       "noDataMessageDescription": "Nenhuma condição criada ainda. Clique abaixo para criar uma condição.",
       "noDataMessageLinkText": "Adicionar condição",
-      "typePlaceholder": "Selecione o tipo para o valor"
-    }
+      "typePlaceholder": "Selecione o tipo para o valor",
+      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento."
+    },
+    "conditions": "Condições"
   },
   "widgets": {
     "trend": {

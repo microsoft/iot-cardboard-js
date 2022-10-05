@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Inga villkor",
       "noDataMessageDescription": "Inga förutsättningar skapade ännu. Klicka nedan för att skapa ett villkor.",
       "noDataMessageLinkText": "Lägg till villkor",
-      "typePlaceholder": "Välj typ för värdet"
-    }
+      "typePlaceholder": "Välj typ för värdet",
+      "conditionsInfoContent": "Konfigurera intervallet eller specifika värden som utlöser en visuell åtgärd som relaterar till elementet."
+    },
+    "conditions": "Villkor"
   },
   "widgets": {
     "trend": {

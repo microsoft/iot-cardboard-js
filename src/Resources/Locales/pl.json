@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Brak warunków",
       "noDataMessageDescription": "Nie stworzono jeszcze żadnych warunków. Kliknij poniżej, aby utworzyć warunek.",
       "noDataMessageLinkText": "Dodaj warunek",
-      "typePlaceholder": "Wybierz typ wartości"
-    }
+      "typePlaceholder": "Wybierz typ wartości",
+      "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem."
+    },
+    "conditions": "Warunki"
   },
   "widgets": {
     "trend": {

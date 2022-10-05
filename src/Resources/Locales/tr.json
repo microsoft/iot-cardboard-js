@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Koşul yok",
       "noDataMessageDescription": "Henüz bir koşul oluşturulmadı. Bir koşul oluşturmak için aşağıya tıklayın.",
       "noDataMessageLinkText": "Koşul ekle",
-      "typePlaceholder": "Değer için türü seçin"
-    }
+      "typePlaceholder": "Değer için türü seçin",
+      "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın."
+    },
+    "conditions": "Koşul -ları"
   },
   "widgets": {
     "trend": {

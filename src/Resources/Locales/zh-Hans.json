@@ -563,8 +563,10 @@
       "noDataMessageHeader": "无条件",
       "noDataMessageDescription": "尚未创建任何条件。单击下面创建条件。",
       "noDataMessageLinkText": "添加条件",
-      "typePlaceholder": "选择值的类型"
-    }
+      "typePlaceholder": "选择值的类型",
+      "conditionsInfoContent": "配置触发与元素相关的可视操作的范围或特定值。"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {
