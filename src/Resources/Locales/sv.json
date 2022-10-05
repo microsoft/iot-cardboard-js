@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
       "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempelmodell",
-      "sampleNamespace": "exempel på namnrymd"
+      "sampleModel": "exempelmodell"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Inga värden hittades",
     "modalTitle": "Avancerad tvillingsökning",
     "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia"
   }
 }

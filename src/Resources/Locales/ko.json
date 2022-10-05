@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "예제 모델 이름: {{modelName}}",
       "namespacePlaceholder": "네임스페이스 입력",
-      "sampleModel": "샘플 모델",
-      "sampleNamespace": "샘플 네임스페이스"
+      "sampleModel": "샘플 모델"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "값을 찾을 수 없음",
     "modalTitle": "고급 트윈 검색",
     "modalSubtitle": "검색 범위를 좁혀 오른쪽 트윈 연결"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사"
   }
 }
