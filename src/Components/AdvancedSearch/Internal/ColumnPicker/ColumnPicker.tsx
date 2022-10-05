@@ -121,18 +121,14 @@ const ColumnPicker: React.FC<IColumnPickerProps> = ({
     return (
         <div>
             <Dropdown
-                placeholder={t('advancedSearch.selectAdditionalColumns')}
                 ariaLabel={t('advancedSearch.availableProperties')}
+                multiSelect={true}
+                onChange={onChange}
                 onRenderTitle={onRenderTitle}
                 options={options}
-                onChange={onChange}
-                multiSelect={true}
-                styles={classNames.subComponentStyles.dropdown}
+                placeholder={t('advancedSearch.selectAdditionalColumns')}
                 selectedKeys={selectedKeys}
-                onRenderItem={(props, defaultRenderer) => {
-                    logDebugConsole('debug', `Rendering item: ${props.text}`);
-                    return <>{defaultRenderer(props)}</>;
-                }}
+                styles={classNames.subComponentStyles.dropdown}
             />
         </div>
     );
