@@ -1028,9 +1028,10 @@ export default class MockAdapter
 
             return new AdapterResult({
                 result: new ADTInstanceTimeSeriesConnectionData({
-                    kustoClusterUrl: '',
-                    kustoDatabaseName: '',
-                    kustoTableName: ''
+                    kustoClusterUrl:
+                        'https://mockKustoClusterName.westus2.kusto.windows.net',
+                    kustoDatabaseName: 'mockKustoDatabaseName',
+                    kustoTableName: 'mockKustoTableName'
                 }),
                 errorInfo: null
             });

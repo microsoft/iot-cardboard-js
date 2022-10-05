@@ -14,9 +14,10 @@ export const defaultADT3DScenePageState: IADT3DScenePageState = {
     currentStep: ADT3DScenePageSteps.SceneList,
     errors: [],
     errorCallback: null,
-    adxConnectionInformationLoadingState:
-        ADXConnectionInformationLoadingState.IDLE,
-    adxConnectionInformation: null
+    adxConnectionInformation: {
+        connection: null,
+        loadingState: ADXConnectionInformationLoadingState.IDLE
+    }
 };
 
 export const ADT3DScenePageReducer: (
@@ -39,10 +40,6 @@ export const ADT3DScenePageReducer: (
                 break;
             case ADT3DScenePageActionTypes.SET_ERROR_CALLBACK:
                 draft.errorCallback = action.payload.errorCallback;
-                break;
-            case ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE:
-                draft.adxConnectionInformationLoadingState =
-                    action.payload.adxConnectionInformationLoadingState;
                 break;
             case ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION:
                 draft.adxConnectionInformation =

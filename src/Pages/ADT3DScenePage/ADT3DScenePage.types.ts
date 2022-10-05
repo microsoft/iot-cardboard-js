@@ -65,8 +65,10 @@ export interface IADT3DScenePageState {
     scene?: IScene;
     errors?: Array<IComponentError>;
     errorCallback: IErrorButtonAction;
-    adxConnectionInformation: IADXConnection;
-    adxConnectionInformationLoadingState: ADXConnectionInformationLoadingState;
+    adxConnectionInformation: {
+        connection: IADXConnection;
+        loadingState: ADXConnectionInformationLoadingState;
+    };
 }
 
 export interface IADT3DScenePageContext {
@@ -91,7 +93,6 @@ export enum ADT3DScenePageActionTypes {
     SET_SELECTED_SCENE = 'SET_SELECTED_SCENE',
     SET_ERRORS = 'SET_ERRORS',
     SET_ERROR_CALLBACK = 'SET_ERROR_CALLBACK',
-    SET_ADX_CONNECTION_INFORMATION_LOADING_STATE = 'SET_ADX_CONNECTION_INFORMATION_LOADING_STATE',
     SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION'
 }
 
@@ -127,14 +128,11 @@ export type ADT3DScenePageAction =
           };
       }
     | {
-          type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE;
-          payload: {
-              adxConnectionInformationLoadingState: ADXConnectionInformationLoadingState;
-          };
-      }
-    | {
           type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION;
           payload: {
-              adxConnectionInformation: IADXConnection | null;
+              adxConnectionInformation: {
+                  connection: IADXConnection;
+                  loadingState: ADXConnectionInformationLoadingState;
+              };
           };
       };

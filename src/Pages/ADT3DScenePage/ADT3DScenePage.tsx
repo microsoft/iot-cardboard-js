@@ -251,17 +251,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 });
                 dispatch({
                     type:
-                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
-                    payload: {
-                        adxConnectionInformationLoadingState:
-                            ADXConnectionInformationLoadingState.LOADING
-                    }
-                });
-                dispatch({
-                    type:
                         ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
                     payload: {
-                        adxConnectionInformation: null
+                        adxConnectionInformation: {
+                            connection: null,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.LOADING
+                        }
                     }
                 });
             }
@@ -288,7 +284,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // update the adapter when adx connection information changes
     useEffect(() => {
-        adapter.setADXConnectionInformation(state.adxConnectionInformation);
+        adapter.setADXConnectionInformation(
+            state.adxConnectionInformation.connection
+        );
     }, [adapter, state.adxConnectionInformation]);
 
     // when a scene is selected show it
@@ -540,33 +538,25 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 const connectionData = connectionState.adapterResult.getData();
                 dispatch({
                     type:
-                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
-                    payload: {
-                        adxConnectionInformationLoadingState:
-                            ADXConnectionInformationLoadingState.EXIST
-                    }
-                });
-                dispatch({
-                    type:
                         ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
                     payload: {
-                        adxConnectionInformation: connectionData
+                        adxConnectionInformation: {
+                            connection: connectionData,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.EXIST
+                        }
                     }
                 });
             } else {
                 dispatch({
                     type:
-                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION_LOADING_STATE,
-                    payload: {
-                        adxConnectionInformationLoadingState:
-                            ADXConnectionInformationLoadingState.NOT_EXIST
-                    }
-                });
-                dispatch({
-                    type:
                         ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
                     payload: {
-                        adxConnectionInformation: null
+                        adxConnectionInformation: {
+                            connection: null,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.NOT_EXIST
+                        }
                     }
                 });
             }
