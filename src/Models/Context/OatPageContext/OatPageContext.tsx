@@ -292,6 +292,7 @@ function mapProjectToState(
     draft.currentOntologyTemplates = projectToOpen.templates;
 }
 
+/** saves all the data to local storage */
 function saveData(draft: IOatPageContextState): void {
     const selectedOntology = deepCopy(
         draft.ontologyFiles.find((x) => x.id === draft.currentOntologyId)
@@ -299,7 +300,7 @@ function saveData(draft: IOatPageContextState): void {
     if (selectedOntology) {
         selectedOntology.data = convertStateToProject(draft);
         saveEditorData(selectedOntology.data);
-        saveOntologyFiles(selectedOntology, draft.ontologyFiles);
+        saveOntologyFiles(draft.ontologyFiles);
     } else {
         logDebugConsole(
             'warn',
@@ -308,6 +309,10 @@ function saveData(draft: IOatPageContextState): void {
     }
 }
 
+/**
+ * writes the editor data to storage.
+ * NOTE: this will be removed at some point to consolidate sources of truth
+ */
 function saveEditorData(projectData: ProjectData): void {
     if (isStorageEnabled) {
         storeEditorData(projectData);
@@ -325,14 +330,14 @@ function saveEditorData(projectData: ProjectData): void {
     }
 }
 
-function saveOntologyFiles(currentProject: IOATFile, files: IOATFile[]): void {
+/**
+ * Writes the collection of files to storage
+ * @param files all files to be stored
+ */
+function saveOntologyFiles(files: IOATFile[]): void {
     if (isStorageEnabled) {
         storeOntologiesToStorage(files);
-        logDebugConsole(
-            'debug',
-            `Saved ${files.length} files to storage {currentFile}.`,
-            currentProject
-        );
+        logDebugConsole('debug', `Saved ${files.length} files to storage.`);
     } else {
         logDebugConsole('warn', 'Storage disabled. Skipping saving files.');
     }
