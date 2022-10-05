@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "示例模型名称：{{模型名称}}",
       "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型",
-      "sampleNamespace": "示例命名空间"
+      "sampleModel": "示例模型"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "未找到任何值",
     "modalTitle": "高级双胞胎搜索",
     "modalSubtitle": "通过缩小搜索范围来链接正确的孪生"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "复制"
   }
 }

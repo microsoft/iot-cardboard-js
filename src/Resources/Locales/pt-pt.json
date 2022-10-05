@@ -876,8 +876,7 @@
       "namespaceLabel": "Espaço de nome",
       "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
       "namespacePlaceholder": "Insira um espaço de nome",
-      "sampleModel": "modelo de amostra",
-      "sampleNamespace": "espaço de nome da amostra"
+      "sampleModel": "modelo de amostra"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa avançada de gémeos",
     "modalSubtitle": "Ligue o gémeo direito reduzindo a sua pesquisa"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "cópia"
   }
 }

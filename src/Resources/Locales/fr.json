@@ -876,8 +876,7 @@
       "namespaceLabel": "Espace de noms",
       "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
       "namespacePlaceholder": "Entrer un espace de noms",
-      "sampleModel": "exemple de modèle",
-      "sampleNamespace": "exemple d’espace de noms"
+      "sampleModel": "exemple de modèle"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Aucune valeur trouvée",
     "modalTitle": "Recherche avancée de jumeaux",
     "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copier"
   }
 }

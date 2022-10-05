@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Beispielmodellname: {{modelName}}",
       "namespacePlaceholder": "Eingeben eines Namespaces",
-      "sampleModel": "Beispielmodell",
-      "sampleNamespace": "Beispiel-Namespace"
+      "sampleModel": "Beispielmodell"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Keine Werte gefunden",
     "modalTitle": "Erweiterte Zwillingssuche",
     "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopieren"
   }
 }

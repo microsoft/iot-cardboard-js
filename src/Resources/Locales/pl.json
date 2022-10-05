@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
       "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
-      "sampleModel": "przykładowy model",
-      "sampleNamespace": "przykładowa przestrzeń nazw"
+      "sampleModel": "przykładowy model"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Nie znaleziono wartości",
     "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
     "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiować"
   }
 }

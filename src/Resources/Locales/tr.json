@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Örnek model adı: {{modelName}}",
       "namespacePlaceholder": "Ad alanı girme",
-      "sampleModel": "örnek Model",
-      "sampleNamespace": "örnek Ad Alanı"
+      "sampleModel": "örnek Model"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Değer bulunamadı",
     "modalTitle": "Gelişmiş ikiz arama",
     "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek"
   }
 }

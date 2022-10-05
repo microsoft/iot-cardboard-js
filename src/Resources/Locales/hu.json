@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
       "namespacePlaceholder": "Névtér megadása",
-      "sampleModel": "minta modell",
-      "sampleNamespace": "minta névtér"
+      "sampleModel": "minta modell"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Nem található érték",
     "modalTitle": "Speciális ikerkeresés",
     "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "másolat"
   }
 }

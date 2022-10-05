@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
       "namespacePlaceholder": "Zadání oboru názvů",
-      "sampleModel": "ukázkový model",
-      "sampleNamespace": "Ukázkový obor názvů"
+      "sampleModel": "ukázkový model"
     }
   },
   "OATGraphViewer": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "modalTitle": "Rozšířené vyhledávání dvojčat",
     "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopírovat"
   }
 }

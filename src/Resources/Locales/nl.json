@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
       "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel",
-      "sampleNamespace": "voorbeeld naamruimte"
+      "sampleModel": "voorbeeldmodel"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "Geen waarden gevonden",
     "modalTitle": "Geavanceerd zoeken met twee tweelingen",
     "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiëren"
   }
 }

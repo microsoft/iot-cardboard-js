@@ -876,8 +876,7 @@
       "namespaceLabel": "Namespace",
       "namespaceDescription": "Nombre del modelo de ejemplo: {{modelName}}",
       "namespacePlaceholder": "Introducir un espacio de nombres",
-      "sampleModel": "Modelo de muestra",
-      "sampleNamespace": "Espacio de nombres de ejemplo"
+      "sampleModel": "Modelo de muestra"
     }
   },
   "cameraControls": {
@@ -1185,5 +1184,8 @@
     "noOptionsFoundMessage": "No se han encontrado valores",
     "modalTitle": "Búsqueda avanzada de gemelos",
     "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar"
   }
 }
