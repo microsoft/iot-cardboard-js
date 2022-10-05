@@ -180,15 +180,18 @@ const ProviderUpdater: React.FC = () => {
     const [metadataIncrementor, setMetadataIncrementor] = useState<number>(0);
     const [templateIncrementor, setTemplateIncrementor] = useState<number>(0);
     const [selectionIncrementor, setSelectionIncrementor] = useState<number>(0);
+    const [createIncrementor, setCreateIncrementor] = useState<number>(0);
+    const [editIncrementor, setEditIncrementor] = useState<number>(0);
     const theme = useTheme();
     return (
         <Stack>
-            <h4 style={headerStyles}>Context Updates</h4>
+            <h3 style={headerStyles}>Context Updates</h3>
             <Stack
                 styles={getContainerStyles(theme)}
                 horizontal
                 tokens={{ childrenGap: 8 }}
             >
+                <h3 style={headerStyles}>Ontology Updates</h3>
                 <DefaultButton
                     data-testid={'OatPageContext-ChangeName'}
                     iconProps={{ iconName: 'Add' }}
@@ -311,6 +314,46 @@ const ProviderUpdater: React.FC = () => {
                             }
                         });
                         setTemplateIncrementor(newValue);
+                    }}
+                />
+            </Stack>
+            <h4 style={headerStyles}>Other actions</h4>
+            <Stack
+                styles={getContainerStyles(theme)}
+                horizontal
+                tokens={{ childrenGap: 8 }}
+            >
+                <DefaultButton
+                    data-testid={'OatPageContext-CreateProject'}
+                    iconProps={{ iconName: 'Add' }}
+                    text={'Create new'}
+                    onClick={() => {
+                        const newValue = createIncrementor + 1;
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+                            payload: {
+                                name: `Test-Project-${newValue}`,
+                                namespace: `TestNamespace${newValue}`
+                            }
+                        });
+                        setCreateIncrementor(newValue);
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatPageContext-EditProject'}
+                    iconProps={{ iconName: 'Edit' }}
+                    text={'Edit selected'}
+                    onClick={() => {
+                        const newValue = editIncrementor + 1;
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_EDIT_PROJECT,
+                            payload: {
+                                name: `Test-Project-${newValue}`,
+                                namespace: `TestNamespace${newValue}`
+                            }
+                        });
+                        setEditIncrementor(newValue);
                     }}
                 />
                 <DefaultButton

@@ -28,6 +28,7 @@ export interface IOATHeaderStyles {
     menuComponent: IStyle;
     optionIcon: IStyle;
     options: IStyle;
+    projectName: IStyle;
     search: IStyle;
     searchComponent: IStyle;
 

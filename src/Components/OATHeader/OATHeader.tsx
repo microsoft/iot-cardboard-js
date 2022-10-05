@@ -534,6 +534,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     return (
         <>
             <div className={classNames.root}>
+                <h2 className={classNames.projectName}>
+                    {oatPageState.currentOntologyProjectName}
+                </h2>
                 <div className={classNames.menuComponent}>
                     <CommandBar
                         items={commandBarItems}

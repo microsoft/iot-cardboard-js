@@ -5,17 +5,18 @@ import { IOATHeaderStyleProps, IOATHeaderStyles } from './OATHeader.types';
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
     root: `${classPrefix}-root`,
-    searchComponent: `${classPrefix}-search-component`,
-    logo: `${classPrefix}-logo`,
-    search: `${classPrefix}-search`,
-    options: `${classPrefix}-options`,
-    menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`,
     listSubMenu: `${classPrefix}-list-sub-menu`,
     listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
+    logo: `${classPrefix}-logo`,
+    menuComponent: `${classPrefix}-menu-component`,
     modal: `${classPrefix}-modal`,
     modalRow: `${classPrefix}-modal-row`,
     modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
+    optionIcon: `${classPrefix}-option-icon`,
+    options: `${classPrefix}-options`,
+    projectName: `${classPrefix}-project-name`,
+    search: `${classPrefix}-search`,
+    searchComponent: `${classPrefix}-search-component`,
     uploadDirectoryInput: `${classPrefix}-upload-directory-input`
 };
 
@@ -27,9 +28,15 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '44px',
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
+        ],
+        projectName: [
+            classNames.projectName,
+            {
+                margin: 0,
+                paddingLeft: 4
+            }
         ],
         logo: [
             classNames.logo,
