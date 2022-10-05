@@ -6,11 +6,13 @@ import {
     AzureResourcesData,
     AzureSubscriptionData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
+import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import {
     AdapterMethodParamsForGetAzureResources,
     ADTResourceIdentifier,
     ADTResourceIdentifierWithHostname,
     ADTResourceIdentifierWithId,
+    timeSeriesConnectionRefreshMaxAge,
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     AzureResourceDisplayFields,
@@ -42,6 +44,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
     public authService: IAuthService;
     public tenantId: string;
     public uniqueObjectId: string;
+    protected timeSeriesConnectionCache: AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>;
+
     constructor(
         authService: IAuthService,
         tenantId?: string,
@@ -51,6 +55,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         this.authService.login();
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
+        this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
+            timeSeriesConnectionRefreshMaxAge
+        );
     }
 
     /** Given a url and params, continuously fetch resources if nextLink exist in the request response and append it to the given accumulator array */
@@ -577,71 +584,114 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
     /** either pass id or hostName as adtInstanceIdentifier */
     async getTimeSeriesConnectionInformation(
-        adtInstanceIdentifier: ADTResourceIdentifier
+        adtInstanceIdentifier: ADTResourceIdentifier,
+        useCache = false,
+        forceRefresh = false
     ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            let adtInstance: IAzureResource;
-            if (adtInstanceIdentifier['hostName']) {
-                const digitalTwinInstances = await this.getResourcesByPermissions(
-                    {
-                        getResourcesParams: {
-                            resourceType: AzureResourceTypes.DigitalTwinInstance
-                        },
-                        requiredAccessRoles: RequiredAccessRoleGroupForADTInstance
-                    }
-                );
-                const result = digitalTwinInstances.result.data;
-                adtInstance = result.find(
-                    (d) =>
-                        d.properties.hostName ===
-                        (adtInstanceIdentifier as ADTResourceIdentifierWithHostname)
-                            .hostName
-                );
-            } else if (adtInstanceIdentifier['id']) {
-                const digitalTwinInstance = await this.getResourceById(
-                    (adtInstanceIdentifier as ADTResourceIdentifierWithId).id
-                );
-                adtInstance = digitalTwinInstance.result.data;
-            }
+        const getDataMethod = () =>
+            adapterMethodSandbox.safelyFetchData(async (token) => {
+                let adtInstance: IAzureResource;
+                if (adtInstanceIdentifier['hostName']) {
+                    logDebugConsole(
+                        'debug',
+                        '[START] Fetching ADT instance resource by hostName'
+                    );
+                    const digitalTwinInstances = await this.getResourcesByPermissions(
+                        {
+                            getResourcesParams: {
+                                resourceType:
+                                    AzureResourceTypes.DigitalTwinInstance
+                            },
+                            requiredAccessRoles: RequiredAccessRoleGroupForADTInstance
+                        }
+                    );
+                    const result = digitalTwinInstances.result.data;
+                    adtInstance = result.find(
+                        (d) =>
+                            d.properties.hostName ===
+                            (adtInstanceIdentifier as ADTResourceIdentifierWithHostname)
+                                .hostName
+                    );
+                    logDebugConsole(
+                        'debug',
+                        '[END] Fetching ADT instance resource by hostName. {adtInstance}',
+                        adtInstance
+                    );
+                } else if (adtInstanceIdentifier['id']) {
+                    logDebugConsole(
+                        'debug',
+                        '[START] Fetching ADT instance resource by id'
+                    );
+                    const digitalTwinInstance = await this.getResourceById(
+                        (adtInstanceIdentifier as ADTResourceIdentifierWithId)
+                            .id
+                    );
+                    adtInstance = digitalTwinInstance.result.data;
+                    logDebugConsole(
+                        'debug',
+                        '[END] Fetching ADT instance resource by id. {adtInstance}',
+                        adtInstance
+                    );
+                }
 
-            try {
-                const url = `https://management.azure.com${adtInstance.id}/timeSeriesDatabaseConnections`;
-                const timeSeriesDatabaseConnections: Array<IAzureTimeSeriesDatabaseConnection> = await this.fetchAllResources(
-                    adapterMethodSandbox,
-                    [],
-                    token,
-                    url,
-                    {
-                        apiVersion:
-                            AzureResourcesAPIVersions[
-                                'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections'
-                            ]
-                    }
-                );
+                try {
+                    logDebugConsole(
+                        'debug',
+                        '[START] Fetching ADX connection information'
+                    );
+                    const url = `https://management.azure.com${adtInstance.id}/timeSeriesDatabaseConnections`;
+                    const timeSeriesDatabaseConnections: Array<IAzureTimeSeriesDatabaseConnection> = await this.fetchAllResources(
+                        adapterMethodSandbox,
+                        [],
+                        token,
+                        url,
+                        {
+                            apiVersion:
+                                AzureResourcesAPIVersions[
+                                    'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections'
+                                ]
+                        }
+                    );
+                    logDebugConsole(
+                        'debug',
+                        '[END] Fetching ADX connection information {timeSeriesDatabaseConnections}',
+                        timeSeriesDatabaseConnections
+                    );
 
-                const connectionData = timeSeriesDatabaseConnections[0]; // TODO: for now get the first connection information
-                const clusterUrl = connectionData.properties.adxEndpointUri;
-                const databaseName = connectionData.properties.adxDatabaseName;
-                const tableName =
-                    connectionData.properties.adxTableName ||
-                    `adt_dh_${databaseName.replace('-', '_')}_${
-                        adtInstance.location
-                    }`; // there is a default syntax used to construct the table name if not provided
-                return new ADTInstanceTimeSeriesConnectionData({
-                    kustoClusterUrl: clusterUrl,
-                    kustoDatabaseName: databaseName,
-                    kustoTableName: tableName
-                });
-            } catch (error) {
-                adapterMethodSandbox.pushError({
-                    isCatastrophic: false,
-                    rawError: error
-                });
-                return new ADTInstanceTimeSeriesConnectionData(null);
-            }
-        }, 'azureManagement');
+                    const connectionData = timeSeriesDatabaseConnections[0]; // TODO: for now get the first connection information
+                    const clusterUrl = connectionData.properties.adxEndpointUri;
+                    const databaseName =
+                        connectionData.properties.adxDatabaseName;
+                    const tableName =
+                        connectionData.properties.adxTableName ||
+                        `adt_dh_${databaseName.replace('-', '_')}_${
+                            adtInstance.location
+                        }`; // there is a default syntax used to construct the table name if not provided
+                    return new ADTInstanceTimeSeriesConnectionData({
+                        kustoClusterUrl: clusterUrl,
+                        kustoDatabaseName: databaseName,
+                        kustoTableName: tableName
+                    });
+                } catch (error) {
+                    adapterMethodSandbox.pushError({
+                        isCatastrophic: false,
+                        rawError: error
+                    });
+                    return new ADTInstanceTimeSeriesConnectionData(null);
+                }
+            }, 'azureManagement');
+
+        if (useCache) {
+            return this.timeSeriesConnectionCache.getEntity(
+                'adt_adx_connection_information',
+                getDataMethod,
+                forceRefresh
+            );
+        } else {
+            return getDataMethod();
+        }
     }
 
     async getResourceById(resourceId: string) {

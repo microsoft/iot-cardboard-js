@@ -126,7 +126,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             adtInstanceIdentifier: ADTResourceIdentifier;
         }) =>
             adapter.getTimeSeriesConnectionInformation(
-                params.adtInstanceIdentifier
+                params.adtInstanceIdentifier,
+                true,
+                true
             ),
         isAdapterCalledOnMount: false,
         refetchDependencies: [adapter]
