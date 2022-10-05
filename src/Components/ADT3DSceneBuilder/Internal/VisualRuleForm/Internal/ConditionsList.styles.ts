@@ -10,7 +10,8 @@ export const getStyles = (): IConditionsListStyles => {
     return {
         container: [
             classNames.container,
-            { overflow: 'auto', maxHeight: '100%' }
+            // 29px is label size, since this is resizing need to calc the 100% - label
+            { overflow: 'auto', height: 'calc(100% - 29px)' }
         ]
     };
 };

@@ -16,6 +16,7 @@ import {
 import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
+import { VisualRuleFormMode } from '../../../../Models/Constants/Enums';
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
@@ -205,7 +206,9 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             <PanelFooter>
                 <PrimaryButton
                     text={t('save')}
-                    onClick={() => setVisualRuleFormMode(null)}
+                    onClick={() =>
+                        setVisualRuleFormMode(VisualRuleFormMode.Inactive)
+                    }
                     styles={
                         classNames.subComponentStyles.saveButton
                             ? classNames.subComponentStyles.saveButton()
@@ -214,7 +217,9 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    onClick={() => setVisualRuleFormMode(null)}
+                    onClick={() =>
+                        setVisualRuleFormMode(VisualRuleFormMode.Inactive)
+                    }
                     styles={
                         classNames.subComponentStyles.cancelButton
                             ? classNames.subComponentStyles.cancelButton()

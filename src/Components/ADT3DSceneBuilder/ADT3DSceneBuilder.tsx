@@ -1000,7 +1000,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
                         state.draftBehavior &&
-                        !state.isLayerBuilderDialogOpen && (
+                        !state.isLayerBuilderDialogOpen &&
+                        state.visualRuleFormMode ===
+                            VisualRuleFormMode.Inactive && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
                                     behaviors={[state.draftBehavior]}
