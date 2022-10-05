@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { addDecorator } from '@storybook/react';
 import { withConsole, setConsoleOptions } from '@storybook/addon-console';
 import '../src/Resources/Styles/BaseThemeVars.scss'; // Import BaseThemeVars to access css theme variables
@@ -6,6 +6,7 @@ import { Locale } from '../src/Models/Constants/Enums';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
 import { SearchSpan } from '../src/Models/Classes/SearchSpan';
+import { setContextStorageEnabled } from '../src/Models/Context/OatPageContext/OatPageContext';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -128,8 +129,19 @@ const decoratorWithDebug = (Story, context) => {
         </LoggingContextProvider>
     );
 };
+/** enables use of storage in the oat context by default in case some stories turn it off */
+const decoratorEnableOatContextStorage = (Story, context) => {
+    // enable storage by default for oat context since some tests disable. There's no good 'beforeEach' hook in storybook except decorators
+    setContextStorageEnabled(true);
+    return (
+        <>
+            <Story {...context} />
+        </>
+    );
+};
 
 addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);
 addDecorator(decoratorWithWrapper);
 addDecorator(decoratorWithDebug);
+addDecorator(decoratorEnableOatContextStorage);

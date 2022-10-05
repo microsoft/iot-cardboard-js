@@ -6,6 +6,7 @@ import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import { OAT_MODEL_ID_PREFIX } from '../../Constants/Constants';
 import {
     getStoredEditorModelsData,
     getStoredEditorTemplateData,
@@ -36,7 +37,11 @@ export const OatPageContext = React.createContext<IOatPageContext>(null);
 export const useOatPageContext = () => useContext(OatPageContext);
 
 /** used exclusively for storybook, should always be true in production */
-export const isStorageEnabled = true || process.env.NODE_ENV === 'production';
+let isStorageEnabled = true || process.env.NODE_ENV === 'production';
+export const setContextStorageEnabled = (value: boolean): void => {
+    logDebugConsole('warn', 'Setting context storage property to ', value);
+    isStorageEnabled = value;
+};
 
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
@@ -77,12 +82,26 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_EDIT_PROJECT: {
+                const previousNamespace = draft.currentOntologyNamespace;
                 draft.currentOntologyNamespace = action.payload.namespace.replace(
                     / /g,
                     ''
                 );
                 draft.currentOntologyProjectName = action.payload.name;
-                // TODO: look through the project data and update any references to the namespace when it changes
+                // look through the project data and update any references to the namespace when it changes
+                logDebugConsole(
+                    'debug',
+                    'Updating project namespace to: ' +
+                        draft.currentOntologyNamespace
+                );
+                if (previousNamespace !== draft.currentOntologyNamespace) {
+                    draft.currentOntologyModels.forEach((x) => {
+                        x['@id'] = x['@id'].replace(
+                            `${OAT_MODEL_ID_PREFIX}:${previousNamespace}:`,
+                            `${OAT_MODEL_ID_PREFIX}:${draft.currentOntologyProjectName}:`
+                        );
+                    });
+                }
                 saveData(draft);
                 break;
             }

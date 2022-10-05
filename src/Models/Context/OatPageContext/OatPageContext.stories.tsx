@@ -14,7 +14,11 @@ import {
     getDefaultStoryDecorator,
     IStoryContext
 } from '../../Services/StoryUtilities';
-import { OatPageContextProvider, useOatPageContext } from './OatPageContext';
+import {
+    setContextStorageEnabled,
+    OatPageContextProvider,
+    useOatPageContext
+} from './OatPageContext';
 import {
     OatPageContextActionType,
     IOatPageContextProviderProps,
@@ -392,6 +396,7 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     _context: IStoryContext<IOatPageContextProviderProps>
 ) => {
+    setContextStorageEnabled(false);
     return (
         <OatPageContextProvider initialState={args.defaultState}>
             <Stack>
