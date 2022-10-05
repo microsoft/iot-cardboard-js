@@ -70,7 +70,7 @@ import {
 import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
 import { VisualRulesTab } from './Internal/VisualRulesTab';
-import { VisualRuleForm } from '../VisualRules/VisualRuleForm';
+import VisualRuleForm from '../VisualRuleForm/VisualRuleForm';
 
 const showVisualRulesFeature =
     localStorage.getItem(

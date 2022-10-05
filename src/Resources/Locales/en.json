@@ -375,6 +375,7 @@
         "statesTab": "Status",
         "visualRulesTab": "Visual rules",
         "visualRule": "Visual rule",
+        "conditions": "Conditions",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -560,7 +561,8 @@
             "noDataMessageHeader": "No conditions",
             "noDataMessageDescription": "No conditions created yet. Click below to create a condition.",
             "noDataMessageLinkText": "Add condition",
-            "typePlaceholder": "Select the type for the value"
+            "typePlaceholder": "Select the type for the value",
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
         }
     },
     "widgets": {

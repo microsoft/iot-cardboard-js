@@ -1,12 +1,15 @@
 import {
+    classNamesFunction,
     DefaultButton,
     Dropdown,
     FontSizes,
     IDropdownOption,
+    Label,
     mergeStyleSets,
     PrimaryButton,
     Separator,
     Stack,
+    styled,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -18,6 +21,7 @@ import {
     ModelledPropertyBuilderMode,
     PropertyExpression
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
 import { IValidityState, TabNames } from '../Behaviors/BehaviorForm.types';
 import PanelFooter from '../Shared/PanelFooter';
@@ -26,20 +30,34 @@ import {
     onRenderTypeOption,
     onRenderTypeTitle
 } from '../Shared/SharedFormUtils';
-import { ConditionsList } from './Internal/ConditionsList';
-import { VisualRuleFormProps } from './VisualRules.types';
+import ConditionsList from './Internal/ConditionsList';
+import { getStyles } from './VisualRuleForm.styles';
+import {
+    IVisualRuleFormProps,
+    IVisualRuleFormStyles,
+    IVisualRuleFormStylesProps
+} from './VisualRuleForm.types';
 
-export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
+const getClassNames = classNamesFunction<
+    IVisualRuleFormStylesProps,
+    IVisualRuleFormStyles
+>();
+
+const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     // Props
     const {
         isPropertyTypeDropdownEnabled,
         rootHeight,
-        setPropertyTypeDropdownEnabled
+        setPropertyTypeDropdownEnabled,
+        styles
     } = props;
 
     // General constants
     const { t } = useTranslation();
     const theme = useTheme();
+    const classNames = getClassNames(styles, {
+        theme: theme
+    });
     const commonFormStyles = getPanelFormStyles(theme, rootHeight);
     const typeOptions: Array<IDropdownOption> = useMemo(
         () =>
@@ -124,6 +142,7 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
                                 });
                                 // Add dispatch for state here
                             }}
+                            styles={classNames.subComponentStyles.textField}
                         />
                         <ModelledPropertyBuilder
                             adapter={adapter}
@@ -153,25 +172,62 @@ export const VisualRuleForm: React.FC<VisualRuleFormProps> = (props) => {
                                 options={typeOptions}
                                 onRenderOption={onRenderTypeOption}
                                 onRenderTitle={onRenderTypeTitle}
+                                styles={classNames.subComponentStyles.dropdown}
                             />
                         )}
                     </Stack>
                 </div>
                 <Separator />
                 <div className={commonFormStyles.expandingSection}>
-                    <ConditionsList />
+                    <Stack horizontal verticalAlign={'center'}>
+                        <Label styles={classNames.subComponentStyles.label}>
+                            {t('3dSceneBuilder.conditions')}
+                        </Label>
+                        <TooltipCallout
+                            content={{
+                                buttonAriaLabel: t(
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                ),
+                                calloutContent: t(
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                )
+                            }}
+                            styles={
+                                classNames.subComponentStyles.tooltipCallout
+                            }
+                        />
+                    </Stack>
+                    <ConditionsList
+                        styles={classNames.subComponentStyles.conditionsList}
+                    />
                 </div>
             </div>
             <PanelFooter>
                 <PrimaryButton
                     text={t('save')}
                     onClick={() => setVisualRuleFormMode(null)}
+                    styles={
+                        classNames.subComponentStyles.saveButton
+                            ? classNames.subComponentStyles.saveButton()
+                            : undefined
+                    }
                 />
                 <DefaultButton
                     text={t('cancel')}
                     onClick={() => setVisualRuleFormMode(null)}
+                    styles={
+                        classNames.subComponentStyles.cancelButton
+                            ? classNames.subComponentStyles.cancelButton()
+                            : undefined
+                    }
                 />
             </PanelFooter>
         </>
     );
 };
+
+export default styled<
+    IVisualRuleFormProps,
+    IVisualRuleFormStylesProps,
+    IVisualRuleFormStyles
+>(VisualRuleForm, getStyles);

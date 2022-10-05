@@ -1,15 +1,36 @@
-import { ILinkProps } from '@fluentui/react';
+import {
+    classNamesFunction,
+    ILinkProps,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import IllustrationMessage from '../../../../IllustrationMessage/IllustrationMessage';
+import { getStyles } from './ConditionsList.styles';
+import {
+    IConditionsListProps,
+    IConditionsListStyles,
+    IConditionsListStylesProps
+} from './ConditionsList.types';
 import { ConditionsMockData, ConditionsMockList } from './ConditionsMock';
 
 const LIST_KEY = 'cb-visual-rule-conditions-list';
 
-export const ConditionsList: React.FC = (_props) => {
+const getClassNames = classNamesFunction<
+    IConditionsListStylesProps,
+    IConditionsListStyles
+>();
+
+const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Props
-    // const { listItems = [] } = props;
+    const { styles } = props;
+
+    // Styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     // Hooks
     const { t } = useTranslation();
@@ -25,7 +46,7 @@ export const ConditionsList: React.FC = (_props) => {
 
     if (!noData) {
         return (
-            <div style={{ overflow: 'auto', maxHeight: '100%' }}>
+            <div className={classNames.container}>
                 <CardboardList<ConditionsMockData>
                     listKey={LIST_KEY}
                     items={ConditionsMockList}
@@ -51,3 +72,9 @@ export const ConditionsList: React.FC = (_props) => {
         );
     }
 };
+
+export default styled<
+    IConditionsListProps,
+    IConditionsListStylesProps,
+    IConditionsListStyles
+>(ConditionsList, getStyles);
