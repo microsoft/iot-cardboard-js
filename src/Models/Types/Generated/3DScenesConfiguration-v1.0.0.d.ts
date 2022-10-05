@@ -33,22 +33,8 @@ export type IDTDLPropertyType =
  * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
  */
 export type IDataHistoryConnectionString = string;
-export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries | IDataHistoryCustomTimeSeries;
+export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
 export type IDataHistoryChartYAxisType = 'Shared' | 'Independent';
-export type IDataHistoryQuickTimeSpan =
-    | 'Last 15 mins'
-    | 'Last 30 mins'
-    | 'Last Hour'
-    | 'Last 3 Hours'
-    | 'Last 6 Hours'
-    | 'Last 12 Hours'
-    | 'Last 24 Hours'
-    | 'Last 7 Days'
-    | 'Last 30 Days'
-    | 'Last 60 Days'
-    | 'Last 90 Days'
-    | 'Last 180 Days'
-    | 'Last Year';
 export type IDataHistoryAggregationType = 'min' | 'max' | 'avg';
 export type IExpressionRangeType = 'NumericRange' | 'CategoricalValues';
 
@@ -278,16 +264,9 @@ export interface IDataHistoryWidgetConfiguration {
  * A basic time series to be rendered in the chart of the data history widget
  */
 export interface IDataHistoryBasicTimeSeries {
-    twinID: string;
+    twinName: string;
     twinProperty: string;
     unit: string;
-    label?: string;
-}
-/**
- * A custom time series to be rendered in the chart of the data history widget
- */
-export interface IDataHistoryCustomTimeSeries {
-    query: string;
     label?: string;
 }
 /**
@@ -295,7 +274,7 @@ export interface IDataHistoryCustomTimeSeries {
  */
 export interface IDataHistoryChartOptions {
     yAxisType: IDataHistoryChartYAxisType;
-    defaultQuickTimeSpan: IDataHistoryQuickTimeSpan;
+    defaultQuickTimeSpan: number;
     aggregationType: IDataHistoryAggregationType;
     extensionProperties?: IExtensionProperties;
 }

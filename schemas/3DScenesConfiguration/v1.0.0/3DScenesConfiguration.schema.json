@@ -241,7 +241,7 @@
             "description": "A basic time series to be rendered in the chart of the data history widget",
             "additionalProperties": false,
             "properties": {
-                "twinID": {
+                "twinName": {
                     "type": "string"
                 },
                 "twinProperty": {
@@ -254,31 +254,13 @@
                     "type": "string"
                 }
             },
-            "required": ["twinID", "twinProperty", "unit"]
-        },
-        "IDataHistoryCustomTimeSeries": {
-            "type": "object",
-            "description": "A custom time series to be rendered in the chart of the data history widget",
-            "additionalProperties": false,
-            "properties": {
-                "query": {
-                    "type": "string"
-                },
-                "label": {
-                    "type": "string"
-                }
-            },
-            "required": ["query"]
+            "required": ["twinName", "twinProperty", "unit"]
         },
         "IDataHistoryTimeSeries": {
-            "anyOf": [
-                {
-                    "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
-                },
-                {
-                    "$ref": "#/$defs/IDataHistoryCustomTimeSeries"
-                }
-            ]
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
+            }
         },
         "IDataHistoryConnectionString": {
             "type": "string",
@@ -287,24 +269,6 @@
         "IDataHistoryChartYAxisType": {
             "type": "string",
             "enum": ["Shared", "Independent"]
-        },
-        "IDataHistoryQuickTimeSpan": {
-            "type": "string",
-            "enum": [
-                "Last 15 mins",
-                "Last 30 mins",
-                "Last Hour",
-                "Last 3 Hours",
-                "Last 6 Hours",
-                "Last 12 Hours",
-                "Last 24 Hours",
-                "Last 7 Days",
-                "Last 30 Days",
-                "Last 60 Days",
-                "Last 90 Days",
-                "Last 180 Days",
-                "Last Year"
-            ]
         },
         "IDataHistoryAggregationType": {
             "type": "string",
@@ -319,7 +283,7 @@
                     "$ref": "#/$defs/IDataHistoryChartYAxisType"
                 },
                 "defaultQuickTimeSpan": {
-                    "$ref": "#/$defs/IDataHistoryQuickTimeSpan"
+                    "type": "number"
                 },
                 "aggregationType": {
                     "$ref": "#/$defs/IDataHistoryAggregationType"
