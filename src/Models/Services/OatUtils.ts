@@ -81,7 +81,7 @@ export const getStoredEditorNamespaceData = () => {
 // Get stored ontology name
 export const getStoredEditorName = () => {
     const oatData = getStoredEditorData();
-    return oatData ? oatData.namespace : '';
+    return oatData ? oatData.projectName : '';
 };
 
 export const updateModelId = (

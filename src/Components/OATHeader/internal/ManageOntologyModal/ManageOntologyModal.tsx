@@ -15,7 +15,10 @@ import {
 import { getStyles } from './ManageOntologyModal.styles';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
 import OatModal from '../../../CardboardModal/CardboardModal';
-import { DOCUMENTATION_LINKS } from '../../../../Models/Constants/Constants';
+import {
+    DOCUMENTATION_LINKS,
+    OAT_NAMESPACE_DEFAULT_VALUE
+} from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
@@ -32,8 +35,7 @@ const LOC_KEYS = {
     namespaceDescription: 'OATHeader.manageOntologyModal.namespaceDescription',
     namespaceLabel: 'OATHeader.manageOntologyModal.namespaceLabel',
     namespacePlaceholder: 'OATHeader.manageOntologyModal.namespacePlaceholder',
-    sampleModel: 'OATHeader.manageOntologyModal.sampleModel',
-    sampleNamespace: 'OATHeader.manageOntologyModal.sampleNamespace'
+    sampleModel: 'OATHeader.manageOntologyModal.sampleModel'
 };
 
 const getClassNames = classNamesFunction<
@@ -131,7 +133,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
 
     // data
     const sampleModelId = buildModelId(
-        namespace || t(LOC_KEYS.sampleNamespace),
+        namespace || OAT_NAMESPACE_DEFAULT_VALUE,
         t(LOC_KEYS.sampleModel),
         1
     );

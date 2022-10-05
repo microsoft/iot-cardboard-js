@@ -265,7 +265,7 @@ function saveEditorData(draft: IOatPageContextState): void {
     } else {
         logDebugConsole(
             'warn',
-            'Stroage disabled. Skipping saving editor data. {data}',
+            'Storage disabled. Skipping saving editor data. {data}',
             projectData
         );
     }

@@ -881,8 +881,7 @@
             "namespaceLabel": "Namespace",
             "namespaceDescription": "Example model name: {{modelName}}",
             "namespacePlaceholder": "Enter a namespace",
-            "sampleModel": "sample Model",
-            "sampleNamespace": "sample Namespace"
+            "sampleModel": "sample Model"
         }
     },
     "OATGraphViewer": {
