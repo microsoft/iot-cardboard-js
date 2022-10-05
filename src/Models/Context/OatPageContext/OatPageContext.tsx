@@ -1,10 +1,11 @@
 /**
  * This context is for managing the state and actions on the Ontology Authoring Tool page
  */
-import produce from 'immer';
+import produce, { current } from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import i18n from '../../../i18n';
+import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { OAT_MODEL_ID_PREFIX } from '../../Constants/Constants';
 import {
@@ -21,7 +22,7 @@ import {
     getLastUsedProjectId,
     getStoredEditorName
 } from '../../Services/OatUtils';
-import { createGUID, getDebugLogger } from '../../Services/Utils';
+import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
@@ -263,15 +264,10 @@ function switchCurrentProject(draft: IOatPageContextState, projectId: string) {
     storeLastUsedProjectId(draft.currentOntologyId);
 }
 
-function saveData(draft: IOatPageContextState): void {
-    saveEditorData(draft);
-    saveOntologyFiles(draft);
-}
-
 /** TODO: remove this helper when we move the project data into a sub object on the state */
 function convertStateToProject(draft: IOatPageContextState): ProjectData {
     // NOTE: need to recreate the arrays to break proxy links that were causing issues downstream
-    return new ProjectData(
+    const project = new ProjectData(
         Array.from(draft.currentOntologyModelPositions),
         convertDtdlInterfacesToModels(draft.currentOntologyModels),
         draft.currentOntologyProjectName,
@@ -279,6 +275,9 @@ function convertStateToProject(draft: IOatPageContextState): ProjectData {
         draft.currentOntologyNamespace,
         Array.from(draft.currentOntologyModelMetadata)
     );
+    console.log('***Converted project', project, current(draft));
+
+    return project;
 }
 
 function mapProjectToState(
@@ -293,13 +292,28 @@ function mapProjectToState(
     draft.currentOntologyTemplates = projectToOpen.templates;
 }
 
-function saveEditorData(draft: IOatPageContextState): void {
-    const projectData = convertStateToProject(draft);
+function saveData(draft: IOatPageContextState): void {
+    const selectedOntology = deepCopy(
+        draft.ontologyFiles.find((x) => x.id === draft.currentOntologyId)
+    );
+    if (selectedOntology) {
+        selectedOntology.data = convertStateToProject(draft);
+        saveEditorData(selectedOntology.data);
+        saveOntologyFiles(selectedOntology, draft.ontologyFiles);
+    } else {
+        logDebugConsole(
+            'warn',
+            `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
+        );
+    }
+}
+
+function saveEditorData(projectData: ProjectData): void {
     if (isStorageEnabled) {
         storeEditorData(projectData);
         logDebugConsole(
             'debug',
-            'Saved editor data to storage. {data}',
+            'Saved editor data to storage. {projectData}',
             projectData
         );
     } else {
@@ -311,30 +325,16 @@ function saveEditorData(draft: IOatPageContextState): void {
     }
 }
 
-function saveOntologyFiles(draft: IOatPageContextState): void {
-    const selectedOntology = draft.ontologyFiles.find(
-        (x) => x.id === draft.currentOntologyId
-    );
-    if (selectedOntology) {
-        selectedOntology.data = convertStateToProject(draft);
-    } else {
-        logDebugConsole(
-            'warn',
-            `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
-        );
-    }
+function saveOntologyFiles(currentProject: IOATFile, files: IOATFile[]): void {
     if (isStorageEnabled) {
-        storeOntologiesToStorage(draft.ontologyFiles);
+        storeOntologiesToStorage(files);
         logDebugConsole(
             'debug',
-            `Saved ${draft.ontologyFiles.length} files to storage.`
+            `Saved ${files.length} files to storage {currentFile}.`,
+            currentProject
         );
     } else {
-        logDebugConsole(
-            'warn',
-            'Storage disabled. Skipping saving files. {files}',
-            filesCopy
-        );
+        logDebugConsole('warn', 'Storage disabled. Skipping saving files.');
     }
 }
 
