@@ -51,6 +51,7 @@ import ADTTwinLookupData from '../Models/Classes/AdapterDataClasses/ADTTwinLooku
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
 import {
+    buildCacheKey,
     getDebugLogger,
     getModelContentType,
     parseDTDLModelsAsync
@@ -199,7 +200,7 @@ export default class ADTAdapter implements IADTAdapter {
             );
         if (useCache) {
             return this.adtTwinCache.getEntity(
-                twinId,
+                buildCacheKey('adt_twin', twinId),
                 getDataMethod,
                 forceRefresh
             );
@@ -234,7 +235,10 @@ export default class ADTAdapter implements IADTAdapter {
                 }
             });
 
-        return this.adtTwinToModelMappingCache.getEntity(twinId, getDataMethod);
+        return this.adtTwinToModelMappingCache.getEntity(
+            buildCacheKey('adt_model_id', twinId),
+            getDataMethod
+        );
     }
 
     async getAllAdtModels() {
@@ -292,7 +296,10 @@ export default class ADTAdapter implements IADTAdapter {
                     });
                 }
             });
-        return this.adtModelsCache.getEntity('adt_models', getDataMethod);
+        return this.adtModelsCache.getEntity(
+            buildCacheKey('adt_models', this.adtHostUrl),
+            getDataMethod
+        );
     }
 
     getADTModel(modelId: string) {

@@ -768,3 +768,7 @@ export const removeProtocolPartFromUrl = (urlString: string) => {
         return null;
     }
 };
+
+export const buildCacheKey = (prefix: string, suffix: string) => {
+    return prefix + '_' + suffix;
+};

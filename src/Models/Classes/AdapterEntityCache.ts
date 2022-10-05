@@ -36,7 +36,7 @@ class AdapterEntityCache<T extends IAdapterData> {
             forceRefresh
         ) {
             const newCachedEntity = new CachedEntity(getEntityData);
-            this.cachedEntities[key] = newCachedEntity;
+            this.setEntity(key, newCachedEntity);
             return newCachedEntity.entityAdapterResultPromise;
         } else if (existingEntity.isGettingAdapterResult) {
             return existingEntity.entityAdapterResultPromise;
@@ -47,12 +47,8 @@ class AdapterEntityCache<T extends IAdapterData> {
         }
     }
 
-    setEntity(
-        key: string,
-        getEntityData: () => Promise<AdapterResult<T>>
-    ): void {
-        const newCachedEntity = new CachedEntity(getEntityData);
-        this.cachedEntities[key] = newCachedEntity;
+    setEntity(key: string, entity: CachedEntity<T>): void {
+        this.cachedEntities[key] = entity;
     }
 }
 
