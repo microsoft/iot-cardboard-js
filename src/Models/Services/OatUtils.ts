@@ -10,7 +10,8 @@ import {
     DtdlInterfaceContent,
     OAT_FILES_STORAGE_KEY,
     OAT_UNTARGETED_RELATIONSHIP_NAME,
-    OAT_LAST_PROJECT_STORAGE_KEY
+    OAT_LAST_PROJECT_STORAGE_KEY,
+    OAT_MODEL_ID_PREFIX
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
@@ -260,13 +261,13 @@ export function getAvailableLanguages(i18n: i18n) {
     });
 }
 
-export function buildModelName(
+export function buildModelId(
     namespace: string,
     modelName: string,
     version: number
 ): string {
-    return `dtmi:${namespace?.replace(/ /g, '')}:${modelName?.replace(
+    return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
         / /g,
         ''
-    )}:${version}`;
+    )}:${modelName?.replace(/ /g, '')}:${version}`;
 }

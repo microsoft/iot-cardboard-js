@@ -279,6 +279,7 @@ export const OAT_COMPONENT_HANDLE_NAME = 'Component';
 export const OAT_EXTEND_HANDLE_NAME = 'Extend';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';
+export const OAT_MODEL_ID_PREFIX = 'dtmi';
 export const OAT_COMMENT_LENGTH_LIMIT = 512;
 export const OAT_DESCRIPTION_LENGTH_LIMIT = 512;
 export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;

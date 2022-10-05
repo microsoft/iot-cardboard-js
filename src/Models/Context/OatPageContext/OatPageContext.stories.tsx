@@ -192,197 +192,211 @@ const ProviderUpdater: React.FC = () => {
             <h3 style={headerStyles}>Context Updates</h3>
             <Stack
                 styles={getContainerStyles(theme)}
-                horizontal
                 tokens={{ childrenGap: 8 }}
             >
-                <h3 style={headerStyles}>Ontology Updates</h3>
-                <DefaultButton
-                    data-testid={'OatPageContext-ChangeName'}
-                    iconProps={{ iconName: 'Add' }}
-                    text="Increment Name"
-                    onClick={() => {
-                        const newValue = nameIncrementor + 1;
-                        oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_PROJECT_NAME,
-                            payload: {
-                                name: oatPageState.currentOntologyProjectName.replace(
-                                    nameIncrementor.toString(),
-                                    newValue.toString()
-                                )
-                            }
-                        });
-                        setNameIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-AddModel'}
-                    iconProps={{ iconName: 'Add' }}
-                    text={'Add model'}
-                    onClick={() => {
-                        const newValue = modelIncrementor + 1;
-                        const models = [...oatPageState.currentOntologyModels];
-                        models.push({
-                            '@context': 'testContext',
-                            '@id': `modelId-${newValue}`,
-                            '@type': 'testType',
-                            displayName: `model-${newValue}`
-                        });
-                        oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_MODELS,
-                            payload: {
-                                models: models
-                            }
-                        });
-                        setModelIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-RemoveModel'}
-                    iconProps={{ iconName: 'Remove' }}
-                    text={'Remove model'}
-                    onClick={() => {
-                        const newValue =
-                            modelIncrementor > 1 ? modelIncrementor - 1 : 0;
-                        const models = [...oatPageState.currentOntologyModels];
-                        models.pop();
-                        oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_MODELS,
-                            payload: {
-                                models: models
-                            }
-                        });
-                        setModelIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-UpdatePosition'}
-                    iconProps={{ iconName: 'Add' }}
-                    text={'Update position'}
-                    onClick={() => {
-                        const newValue = positionIncrementor + 1;
-                        const data = [
-                            ...oatPageState.currentOntologyModelPositions
-                        ];
-                        data[0].position = {
-                            x: newValue,
-                            y: newValue + 2
-                        };
-                        oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
-                            payload: {
-                                positions: data
-                            }
-                        });
-                        setPositionIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-UpdateMetadata'}
-                    iconProps={{ iconName: 'Add' }}
-                    text={'Update metadata'}
-                    onClick={() => {
-                        const newValue = metadataIncrementor + 1;
-                        const data = [
-                            ...oatPageState.currentOntologyModelMetadata
-                        ];
-                        data[0].fileName = data[0].fileName.replace(
-                            metadataIncrementor.toString(),
-                            newValue.toString()
-                        );
-                        oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_OAT_MODELS_METADATA,
-                            payload: {
-                                metadata: data
-                            }
-                        });
-                        setMetadataIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-UpdateTemplates'}
-                    iconProps={{ iconName: 'Add' }}
-                    text={'Update templates'}
-                    onClick={() => {
-                        const newValue = templateIncrementor + 1;
-                        const data = [...oatPageState.currentOntologyTemplates];
-                        data[0].name = data[0].name.replace(
-                            templateIncrementor.toString(),
-                            newValue.toString()
-                        );
-                        oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_TEMPLATES,
-                            payload: {
-                                templates: data
-                            }
-                        });
-                        setTemplateIncrementor(newValue);
-                    }}
-                />
-            </Stack>
-            <h4 style={headerStyles}>Other actions</h4>
-            <Stack
-                styles={getContainerStyles(theme)}
-                horizontal
-                tokens={{ childrenGap: 8 }}
-            >
-                <DefaultButton
-                    data-testid={'OatPageContext-CreateProject'}
-                    iconProps={{ iconName: 'Add' }}
-                    text={'Create new'}
-                    onClick={() => {
-                        const newValue = createIncrementor + 1;
-                        oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_OAT_CREATE_PROJECT,
-                            payload: {
-                                name: `Test-Project-${newValue}`,
-                                namespace: `TestNamespace${newValue}`
-                            }
-                        });
-                        setCreateIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-EditProject'}
-                    iconProps={{ iconName: 'Edit' }}
-                    text={'Edit selected'}
-                    onClick={() => {
-                        const newValue = editIncrementor + 1;
-                        oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_EDIT_PROJECT,
-                            payload: {
-                                name: `Test-Project-${newValue}`,
-                                namespace: `TestNamespace${newValue}`
-                            }
-                        });
-                        setEditIncrementor(newValue);
-                    }}
-                />
-                <DefaultButton
-                    data-testid={'OatPageContext-ChangeSelection'}
-                    iconProps={{ iconName: 'Switch' }}
-                    text={'Change selection'}
-                    onClick={() => {
-                        const newValue =
-                            (selectionIncrementor + 1) %
-                            oatPageState.currentOntologyModels.length;
-                        oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                            payload: {
-                                selection: {
-                                    modelId:
-                                        oatPageState.currentOntologyModels[
-                                            newValue
-                                        ]['@id']
+                <h4 style={headerStyles}>Ontology Updates</h4>
+                <Stack
+                    styles={getContainerStyles(theme)}
+                    horizontal
+                    tokens={{ childrenGap: 8 }}
+                >
+                    <DefaultButton
+                        data-testid={'OatPageContext-ChangeName'}
+                        iconProps={{ iconName: 'Add' }}
+                        text="Increment Name"
+                        onClick={() => {
+                            const newValue = nameIncrementor + 1;
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_PROJECT_NAME,
+                                payload: {
+                                    name: oatPageState.currentOntologyProjectName.replace(
+                                        nameIncrementor.toString(),
+                                        newValue.toString()
+                                    )
                                 }
-                            }
-                        });
-                        setSelectionIncrementor(newValue);
-                    }}
-                />
+                            });
+                            setNameIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-AddModel'}
+                        iconProps={{ iconName: 'Add' }}
+                        text={'Add model'}
+                        onClick={() => {
+                            const newValue = modelIncrementor + 1;
+                            const models = [
+                                ...oatPageState.currentOntologyModels
+                            ];
+                            models.push({
+                                '@context': 'testContext',
+                                '@id': `modelId-${newValue}`,
+                                '@type': 'testType',
+                                displayName: `model-${newValue}`
+                            });
+                            oatPageDispatch({
+                                type: OatPageContextActionType.SET_OAT_MODELS,
+                                payload: {
+                                    models: models
+                                }
+                            });
+                            setModelIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-RemoveModel'}
+                        iconProps={{ iconName: 'Remove' }}
+                        text={'Remove model'}
+                        onClick={() => {
+                            const newValue =
+                                modelIncrementor > 1 ? modelIncrementor - 1 : 0;
+                            const models = [
+                                ...oatPageState.currentOntologyModels
+                            ];
+                            models.pop();
+                            oatPageDispatch({
+                                type: OatPageContextActionType.SET_OAT_MODELS,
+                                payload: {
+                                    models: models
+                                }
+                            });
+                            setModelIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-UpdatePosition'}
+                        iconProps={{ iconName: 'Add' }}
+                        text={'Update position'}
+                        onClick={() => {
+                            const newValue = positionIncrementor + 1;
+                            const data = [
+                                ...oatPageState.currentOntologyModelPositions
+                            ];
+                            data[0].position = {
+                                x: newValue,
+                                y: newValue + 2
+                            };
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                                payload: {
+                                    positions: data
+                                }
+                            });
+                            setPositionIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-UpdateMetadata'}
+                        iconProps={{ iconName: 'Add' }}
+                        text={'Update metadata'}
+                        onClick={() => {
+                            const newValue = metadataIncrementor + 1;
+                            const data = [
+                                ...oatPageState.currentOntologyModelMetadata
+                            ];
+                            data[0].fileName = data[0].fileName.replace(
+                                metadataIncrementor.toString(),
+                                newValue.toString()
+                            );
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                                payload: {
+                                    metadata: data
+                                }
+                            });
+                            setMetadataIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-UpdateTemplates'}
+                        iconProps={{ iconName: 'Add' }}
+                        text={'Update templates'}
+                        onClick={() => {
+                            const newValue = templateIncrementor + 1;
+                            const data = [
+                                ...oatPageState.currentOntologyTemplates
+                            ];
+                            data[0].name = data[0].name.replace(
+                                templateIncrementor.toString(),
+                                newValue.toString()
+                            );
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_TEMPLATES,
+                                payload: {
+                                    templates: data
+                                }
+                            });
+                            setTemplateIncrementor(newValue);
+                        }}
+                    />
+                </Stack>
+                <h4 style={headerStyles}>Other actions</h4>
+                <Stack
+                    styles={getContainerStyles(theme)}
+                    horizontal
+                    tokens={{ childrenGap: 8 }}
+                >
+                    <DefaultButton
+                        data-testid={'OatPageContext-CreateProject'}
+                        iconProps={{ iconName: 'Add' }}
+                        text={'Create new'}
+                        onClick={() => {
+                            const newValue = createIncrementor + 1;
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+                                payload: {
+                                    name: `Test-Project-${newValue}`,
+                                    namespace: `TestNamespace${newValue}`
+                                }
+                            });
+                            setCreateIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-EditProject'}
+                        iconProps={{ iconName: 'Edit' }}
+                        text={'Edit selected'}
+                        onClick={() => {
+                            const newValue = editIncrementor + 1;
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_EDIT_PROJECT,
+                                payload: {
+                                    name: `Test-Project-${newValue}`,
+                                    namespace: `TestNamespace${newValue}`
+                                }
+                            });
+                            setEditIncrementor(newValue);
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-ChangeSelection'}
+                        iconProps={{ iconName: 'Switch' }}
+                        text={'Change selection'}
+                        onClick={() => {
+                            const newValue =
+                                (selectionIncrementor + 1) %
+                                oatPageState.currentOntologyModels.length;
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                                payload: {
+                                    selection: {
+                                        modelId:
+                                            oatPageState.currentOntologyModels[
+                                                newValue
+                                            ]['@id']
+                                    }
+                                }
+                            });
+                            setSelectionIncrementor(newValue);
+                        }}
+                    />
+                </Stack>
             </Stack>
         </Stack>
     );

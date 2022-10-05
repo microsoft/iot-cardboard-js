@@ -13,7 +13,7 @@ import {
     FormMode
 } from './ManageOntologyModal.types';
 import { getStyles } from './ManageOntologyModal.styles';
-import { buildModelName } from '../../../../Models/Services/OatUtils';
+import { buildModelId } from '../../../../Models/Services/OatUtils';
 import OatModal from '../../../CardboardModal/CardboardModal';
 import { DOCUMENTATION_LINKS } from '../../../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
@@ -130,7 +130,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     }, [isOpen, mode, oatPageState.currentOntologyNamespace]);
 
     // data
-    const sampleModelName = buildModelName(
+    const sampleModelId = buildModelId(
         namespace || t(LOC_KEYS.sampleNamespace),
         t(LOC_KEYS.sampleModel),
         1
@@ -178,7 +178,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 label={t(LOC_KEYS.namespaceLabel)}
                 placeholder={t(LOC_KEYS.namespacePlaceholder)}
                 description={t(LOC_KEYS.namespaceDescription, {
-                    modelName: sampleModelName
+                    modelName: sampleModelId
                 })}
                 value={namespace}
                 onChange={(_e, value) => setNamespace(value.replace(/ /g, ''))}
