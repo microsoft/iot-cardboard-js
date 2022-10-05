@@ -86,9 +86,16 @@ export const getStoredEditorName = () => {
 };
 
 // Load files from local storage
-export const getOntologiesFromStorage = (): IOATFile[] =>
-    JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
-
+export const getOntologiesFromStorage = (): IOATFile[] => {
+    const files: IOATFile[] =
+        JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
+    files.sort((a, b) => {
+        const aVal = a.data?.projectName.toLowerCase();
+        const bVal = b.data?.projectName.toLowerCase();
+        return aVal > bVal ? 1 : -1;
+    });
+    return files;
+};
 // Save files from local storage
 export const storeOntologiesToStorage = (files: IOATFile[]) => {
     localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));

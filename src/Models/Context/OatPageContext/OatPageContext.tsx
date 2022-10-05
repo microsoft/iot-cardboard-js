@@ -7,7 +7,10 @@ import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Ut
 import i18n from '../../../i18n';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import { OAT_MODEL_ID_PREFIX } from '../../Constants/Constants';
+import {
+    OAT_MODEL_ID_PREFIX,
+    OAT_NAMESPACE_DEFAULT_VALUE
+} from '../../Constants/Constants';
 import {
     getStoredEditorModelsData,
     getStoredEditorTemplateData,
@@ -56,25 +59,10 @@ export const OatPageContextReducer: (
         );
         switch (action.type) {
             case OatPageContextActionType.CREATE_PROJECT: {
-                const { name, namespace } = action.payload;
-                const id = createGUID();
-                const project = new ProjectData(
-                    [],
-                    [],
-                    name,
-                    [],
-                    namespace.replace(/ /g, ''),
-                    []
-                );
-                draft.ontologyFiles.push({ id: id, data: project });
-
-                saveData(draft);
-                switchCurrentProject(draft, id);
-
-                logDebugConsole(
-                    'debug',
-                    `Created new project with id: ${id}, {project}`,
-                    project
+                createProject(
+                    action.payload.name,
+                    action.payload.namespace,
+                    draft
                 );
                 break;
             }
@@ -102,6 +90,37 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.SET_OAT_DELETE_PROJECT: {
+                const index = draft.ontologyFiles.findIndex(
+                    (x) => x.id === action.payload.id
+                );
+                if (index >= 0) {
+                    // remove the matching project
+                    draft.ontologyFiles.splice(index, 1);
+
+                    const fileCount = draft.ontologyFiles.length;
+                    if (fileCount > index) {
+                        // switch to the next project in the list
+                        const projectId = draft.ontologyFiles[index].id;
+                        switchCurrentProject(projectId, draft);
+                    } else if (fileCount > 0) {
+                        // switch to the first project in the list
+                        switchCurrentProject(draft.ontologyFiles[0].id, draft);
+                    } else {
+                        // create a new project if none exist to switch to
+                        const name = i18n.t('OATCommon.defaultFileName');
+                        const namespace = OAT_NAMESPACE_DEFAULT_VALUE;
+                        createProject(name, namespace, draft);
+                    }
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        `Could not find project to delete with id: ${action.payload.id}`
+                    );
+                }
+                saveData(draft);
+                break;
+            }
             case OatPageContextActionType.DUPLICATE_PROJECT: {
                 const id = createGUID();
                 // duplicate the project
@@ -116,7 +135,7 @@ export const OatPageContextReducer: (
                 saveData(draft);
 
                 // switch to the new project
-                switchCurrentProject(draft, id);
+                switchCurrentProject(id, draft);
 
                 logDebugConsole(
                     'debug',
@@ -126,7 +145,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SWITCH_CURRENT_PROJECT: {
-                switchCurrentProject(draft, action.payload.projectId);
+                switchCurrentProject(action.payload.projectId, draft);
                 break;
             }
             case OatPageContextActionType.SET_CURRENT_PROJECT_NAME: {
@@ -164,22 +183,6 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_CURRENT_NAMESPACE: {
                 draft.currentOntologyNamespace = action.payload.namespace || '';
-                saveData(draft);
-                break;
-            }
-            case OatPageContextActionType.SET_OAT_DELETE_PROJECT: {
-                const storedFiles = getOntologiesFromStorage();
-                const index = storedFiles.findIndex(
-                    (x) => x.id === action.payload.id
-                );
-                if (index >= 0) {
-                    storedFiles.splice(index, 1);
-                } else {
-                    logDebugConsole(
-                        'warn',
-                        `Could not find project to delete with id: ${action.payload.id}`
-                    );
-                }
                 saveData(draft);
                 break;
             }
@@ -234,7 +237,33 @@ export const OatPageContextReducer: (
     }
 );
 
-function switchCurrentProject(draft: IOatPageContextState, projectId: string) {
+function createProject(
+    name: string,
+    namespace: string,
+    draft: IOatPageContextState
+) {
+    const id = createGUID();
+    const project = new ProjectData(
+        [],
+        [],
+        name,
+        [],
+        namespace.replace(/ /g, ''),
+        []
+    );
+    draft.ontologyFiles.push({ id: id, data: project });
+
+    saveData(draft);
+    switchCurrentProject(id, draft);
+
+    logDebugConsole(
+        'debug',
+        `Created new project with id: ${id}, {project}`,
+        project
+    );
+}
+
+function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
     draft.currentOntologyId = projectId;
     const selectedFile = draft.ontologyFiles.find(
         (x) => x.id === draft.currentOntologyId

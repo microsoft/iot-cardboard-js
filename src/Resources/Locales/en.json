@@ -825,7 +825,8 @@
         "hidePanel": "Hide elements panel"
     },
     "OATCommon": {
-        "duplicateFileNameSuffix": "copy"
+        "duplicateFileNameSuffix": "copy",
+        "defaultFileName": "My ontology"
     },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",
