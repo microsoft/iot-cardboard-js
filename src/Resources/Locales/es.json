@@ -545,7 +545,8 @@
       "position": "Posición",
       "rotation": "Rotación"
     },
-    "searchTwinIdPlaceholder": "Buscar Twin ID ($dtId)"
+    "searchTwinIdPlaceholder": "Buscar Twin ID ($dtId)",
+    "visualRulesTab": "Reglas visuales"
   },
   "widgets": {
     "trend": {
@@ -1153,8 +1154,6 @@
     "selectRow": "Gemelo seleccionado",
     "inspectProperty": "Inspeccionar propiedad",
     "results": "Resultados ({{twinCount}})",
-    "modalTitle": "Búsqueda avanzada de propiedades",
-    "modalSubtitle": "Vincule la propiedad correcta reduciendo su búsqueda",
     "noPropertiesFound": "No se han encontrado propiedades",
     "addNewButton": "Añadir nuevo",
     "andOrColumnHeader": "Y/O",
@@ -1169,6 +1168,8 @@
     "errorMessageHeader": "Error de búsqueda",
     "errorMessageDescription": "Se ha producido un error inesperado. Actualiza la página o modifica tus criterios de búsqueda e inténtalo de nuevo.",
     "valueFieldPlaceholder": "Introduzca un valor",
-    "noOptionsFoundMessage": "No se han encontrado valores"
+    "noOptionsFoundMessage": "No se han encontrado valores",
+    "modalTitle": "Búsqueda avanzada de gemelos",
+    "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda"
   }
 }

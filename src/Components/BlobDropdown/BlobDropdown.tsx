@@ -18,6 +18,7 @@ import { IStorageBlob } from '../../Models/Constants/Interfaces';
 import { SupportedBlobFileTypes } from '../../Models/Constants/Enums';
 import prettyBytes from 'pretty-bytes';
 import { ValidContainerHostSuffixes } from '../../Models/Constants/Constants';
+import { removeProtocolPartFromUrl } from '../../Models/Services/Utils';
 
 const BlobDropdown: React.FC<BlobDropdownProps> = ({
     theme,
@@ -199,7 +200,10 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             let urlStringToTest = urlStr;
             if (!urlStr?.startsWith('https://')) {
                 if (urlStr?.startsWith('http://')) {
-                    urlStringToTest = urlStringToTest.slice(7);
+                    // if it starts with an unsecure protocol scheme part of 'http://' instead, remove that part before prepending secure 'https://' part
+                    urlStringToTest = removeProtocolPartFromUrl(
+                        urlStringToTest
+                    );
                 }
                 urlStringToTest = 'https://' + urlStringToTest;
             }
@@ -222,7 +226,8 @@ const BlobDropdown: React.FC<BlobDropdownProps> = ({
             if (value && isValidUrlStr(newVal)) {
                 if (!newVal.startsWith('https://')) {
                     if (newVal.startsWith('http://')) {
-                        newVal = newVal.slice(7);
+                        // if it starts with an unsecure protocol scheme part of 'http://' instead, remove that part before prepending secure 'https://' part
+                        newVal = removeProtocolPartFromUrl(newVal);
                     }
                     newVal = 'https://' + newVal;
                 }

@@ -484,6 +484,19 @@ export function sortAscendingOrDescending<T>(
     };
 }
 
+/**
+ * remove duplicate objects from an array
+ * @param array array of objects to operate on
+ * @param key key of the property to use as the discriminator
+ * @returns a new copy of the array with only unique values
+ */
+export function removeDuplicatesFromArray<T>(array: T[], key: keyof T) {
+    const check = new Set<string>();
+    return array.filter(
+        (obj) => !check.has(obj[key as string]) && check.add(obj[key as string])
+    );
+}
+
 export function getDebugLogger(
     context: string,
     enabled: boolean
@@ -732,6 +745,26 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
         return containerUrlObj.pathname.split('/')[1];
     } catch (error) {
         console.error(error.message);
+        return null;
+    }
+};
+
+export const getHostNameFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname;
+    } catch (error) {
+        console.error('Failed getting hostname from url string', error.message);
+        return null;
+    }
+};
+
+export const removeProtocolPartFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname + urlObj.pathname;
+    } catch (error) {
+        console.error('Failed remove protocol from url string', error.message);
         return null;
     }
 };

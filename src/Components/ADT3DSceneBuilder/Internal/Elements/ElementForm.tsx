@@ -373,6 +373,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                         }}
                                         onClick={ToggleAdvancedSearchOpen}
                                         styles={iconButtonStyles}
+                                        title={t('advancedSearch.modalTitle')}
                                     />
                                 </Stack>
                                 <TextField
@@ -408,6 +409,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                                 onRenderItemLink={(props, defaultRenderer) =>
                                     setPivotToRequired(
                                         coloredMeshItems.length > 0,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )

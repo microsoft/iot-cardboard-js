@@ -67,7 +67,13 @@ import {
     BehaviorFormContextProvider
 } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+import { LOCAL_STORAGE_KEYS } from '../../../../Models/Constants';
+import { VisualRulesTab } from './Internal/VisualRulesTab';
 
+const showVisualRulesPivot =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesPivot
+    ) === 'true' || false;
 const getElementsFromBehavior = (behavior: IBehavior) =>
     behavior.datasources.filter(
         ViewerConfigUtility.isElementTwinToObjectMappingDataSource
@@ -78,6 +84,7 @@ enum BehaviorPivot {
     elements = 'elements',
     states = 'states',
     twins = 'twins',
+    visualRules = 'visualRules',
     widgets = 'widgets'
 }
 
@@ -467,6 +474,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         behaviorState.validityMap?.get(
                                             'Elements'
                                         )?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -492,6 +500,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     setPivotToRequired(
                                         behaviorState.validityMap?.get('Twins')
                                             ?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )
@@ -503,38 +512,69 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                     selectedElements={selectedElements}
                                 />
                             </PivotItem>
-                            <PivotItem
-                                className={commonPanelStyles.formTabContents}
-                                headerText={t('3dSceneBuilder.statesTab')}
-                                itemKey={BehaviorPivot.states}
-                                onRenderItemLink={(props, defaultRenderer) =>
-                                    setPivotToRequired(
-                                        behaviorState.validityMap?.get('Status')
-                                            ?.isValid,
+                            {!showVisualRulesPivot && (
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.statesTab')}
+                                    itemKey={BehaviorPivot.states}
+                                    onRenderItemLink={(
                                         props,
                                         defaultRenderer
-                                    )
-                                }
-                            >
-                                <StatusTab
-                                    onValidityChange={onTabValidityChange}
-                                />
-                            </PivotItem>
-                            <PivotItem
-                                className={commonPanelStyles.formTabContents}
-                                headerText={t('3dSceneBuilder.alertsTab')}
-                                itemKey={BehaviorPivot.alerts}
-                                onRenderItemLink={(props, defaultRenderer) =>
-                                    setPivotToRequired(
-                                        behaviorState.validityMap?.get('Alerts')
-                                            ?.isValid,
+                                    ) =>
+                                        setPivotToRequired(
+                                            behaviorState.validityMap?.get(
+                                                'Status'
+                                            )?.isValid,
+                                            t,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
+                                >
+                                    <StatusTab
+                                        onValidityChange={onTabValidityChange}
+                                    />
+                                </PivotItem>
+                            )}
+                            {!showVisualRulesPivot && (
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t('3dSceneBuilder.alertsTab')}
+                                    itemKey={BehaviorPivot.alerts}
+                                    onRenderItemLink={(
                                         props,
                                         defaultRenderer
-                                    )
-                                }
-                            >
-                                <AlertsTab />
-                            </PivotItem>
+                                    ) =>
+                                        setPivotToRequired(
+                                            behaviorState.validityMap?.get(
+                                                'Alerts'
+                                            )?.isValid,
+                                            t,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
+                                >
+                                    <AlertsTab />
+                                </PivotItem>
+                            )}
+                            {showVisualRulesPivot && (
+                                <PivotItem
+                                    className={
+                                        commonPanelStyles.formTabContents
+                                    }
+                                    headerText={t(
+                                        '3dSceneBuilder.visualRulesTab'
+                                    )}
+                                    itemKey={BehaviorPivot.visualRules}
+                                >
+                                    <VisualRulesTab />
+                                </PivotItem>
+                            )}
                             <PivotItem
                                 className={commonPanelStyles.formTabContents}
                                 headerText={t('3dSceneBuilder.widgets')}
@@ -544,6 +584,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         behaviorState.validityMap?.get(
                                             'Widgets'
                                         )?.isValid,
+                                        t,
                                         props,
                                         defaultRenderer
                                     )

@@ -82,7 +82,14 @@ export const LOCAL_STORAGE_KEYS = {
     FeatureFlags: {
         Telemetry: {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
+        },
+        VisualRules: {
+            showVisualRulesPivot: 'cardboard.feature.visualRulesPivot' // shows visual rules pivot
         }
+    },
+    Environment: {
+        Configuration: 'cb-environment-configuration',
+        Options: 'cb-environment-options'
     }
 };
 
@@ -160,7 +167,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
-export const instancesRefreshMaxAge = 3600000;
+export const timeSeriesConnectionRefreshMaxAge = 9000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const DTID_PROPERTY_NAME = '$dtId';
@@ -257,6 +264,17 @@ export const ViewerModeBackgroundColors: Array<IADTBackgroundColor> = [
         aggregateBadgeTextColor: '#000000'
     }
 ];
+
+/** @deprecated This key will be removed soon since the new local storage structure */
+export const EnvironmentsLocalStorageKey = 'cb-environments';
+/** @deprecated This key will be removed soon since the new local storage structure */
+export const ContainersLocalStorageKey = 'cb-containers';
+/** @deprecated This key will be removed soon since the new local storage structure */
+export const StorageAccountsLocalStorageKey = 'cb-storage-accounts';
+/** @deprecated This key will be removed soon since the new local storage structure */
+export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
+/** @deprecated This key will be removed soon since the new local storage structure */
+export const SelectedContainerLocalStorageKey = 'cb-selected-container';
 
 export const OATFilesStorageKey = 'oat-files';
 export const OATDataStorageKey = 'oat-data';

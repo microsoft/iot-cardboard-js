@@ -545,7 +545,8 @@
       "position": "Position",
       "rotation": "Rotation"
     },
-    "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)"
+    "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)",
+    "visualRulesTab": "Règles visuelles"
   },
   "widgets": {
     "trend": {
@@ -1153,8 +1154,6 @@
     "selectRow": "Twin Sélectionné",
     "inspectProperty": "Inspecter la propriété",
     "results": "Résultats ({{twinCount}})",
-    "modalTitle": "Recherche avancée de propriétés",
-    "modalSubtitle": "Liez la bonne propriété en réduisant votre recherche",
     "noPropertiesFound": "Aucune propriété trouvée",
     "addNewButton": "Ajouter un nouveau",
     "andOrColumnHeader": "Et/ou",
@@ -1169,6 +1168,8 @@
     "errorMessageHeader": "Échec de la recherche",
     "errorMessageDescription": "Une erreur inattendue s’est produite. Veuillez actualiser la page ou modifier vos critères de recherche et réessayer.",
     "valueFieldPlaceholder": "Entrez une valeur",
-    "noOptionsFoundMessage": "Aucune valeur trouvée"
+    "noOptionsFoundMessage": "Aucune valeur trouvée",
+    "modalTitle": "Recherche avancée de jumeaux",
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
   }
 }

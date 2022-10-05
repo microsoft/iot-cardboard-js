@@ -41,7 +41,8 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    ADTResourceIdentifier
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -49,6 +50,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
+    AzureResourceData,
     AzureResourcesData,
     AzureSubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -90,7 +92,6 @@ import {
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
-import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
 
 export interface IAction {
     type: string;
@@ -323,7 +324,8 @@ export interface IAzureStorageAccountPropertyData {
 
 export interface IAzureTimeSeriesDatabaseConnectionPropertyData {
     connectionType: 'AzureDataExplorer' | string;
-    adxEndpointUri: string; // cluster url
+    /** Kusto cluster url */
+    adxEndpointUri: string;
     adxDatabaseName: string;
     adxTableName: string;
     [additionalProperty: string]: any;
@@ -554,9 +556,10 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
-    getTimeSeriesConnectionInformation: () => Promise<
-        AdapterResult<ADTInstanceTimeSeriesConnectionData>
-    >;
+    getTimeSeriesConnectionInformation: (
+        adtInstanceIdentifier: ADTResourceIdentifier
+    ) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
+    getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 
 export interface IBlobAdapter {
@@ -574,8 +577,10 @@ export interface IBlobAdapter {
 }
 
 export interface IADXAdapter {
-    setConnectionInformation: (connectionInformation: IADXConnection) => void;
-    getTimeSeriesData: (query: string) => AdapterReturnType<ADXTimeSeriesData>;
+    setADXConnectionInformation: (
+        adxConnectionInformation: IADXConnection
+    ) => void;
+    getADXConnectionInformation: () => IADXConnection | null;
 }
 
 export interface IBaseStandardModelSearchAdapter {

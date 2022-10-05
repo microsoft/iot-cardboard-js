@@ -545,7 +545,8 @@
       "position": "Positie",
       "rotation": "Rotatie"
     },
-    "searchTwinIdPlaceholder": "Twin ID zoeken ($dtId)"
+    "searchTwinIdPlaceholder": "Twin ID zoeken ($dtId)",
+    "visualRulesTab": "Visuele regels"
   },
   "widgets": {
     "trend": {
@@ -1153,8 +1154,6 @@
     "selectRow": "Twin geselecteerd",
     "inspectProperty": "Inspecteer onroerend goed",
     "results": "Resultaten ({{twinCount}})",
-    "modalTitle": "Geavanceerd zoeken naar onroerend goed",
-    "modalSubtitle": "Koppel de juiste woning door uw zoekopdracht te verfijnen",
     "noPropertiesFound": "Geen accommodaties gevonden",
     "addNewButton": "Nieuwe toevoegen",
     "andOrColumnHeader": "Of",
@@ -1169,6 +1168,8 @@
     "errorMessageHeader": "Zoekopdracht mislukt",
     "errorMessageDescription": "Er is een onverwachte fout opgetreden. Vernieuw de pagina of wijzig uw zoekcriteria en probeer het opnieuw.",
     "valueFieldPlaceholder": "Voer een waarde in",
-    "noOptionsFoundMessage": "Geen waarden gevonden"
+    "noOptionsFoundMessage": "Geen waarden gevonden",
+    "modalTitle": "Geavanceerd zoeken met twee tweelingen",
+    "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
   }
 }

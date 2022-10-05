@@ -545,7 +545,8 @@
       "position": "Konum",
       "rotation": "Rotasyon"
     },
-    "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)"
+    "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)",
+    "visualRulesTab": "Görsel kurallar"
   },
   "widgets": {
     "trend": {
@@ -1153,8 +1154,6 @@
     "selectRow": "Twin Seçilmiş",
     "inspectProperty": "Özelliği İncele",
     "results": "Sonuçlar ({{twinCount}})",
-    "modalTitle": "Gelişmiş mülk arama",
-    "modalSubtitle": "Aramanızı daraltarak doğru mülkü bağlayın",
     "noPropertiesFound": "Tesis bulunamadı",
     "addNewButton": "Yeni ekle",
     "andOrColumnHeader": "Ve/veya",
@@ -1169,6 +1168,8 @@
     "errorMessageHeader": "Arama başarısız oldu",
     "errorMessageDescription": "Beklenmeyen bir hata oluştu. Lütfen sayfayı yenileyin veya arama ölçütlerinizi değiştirin ve tekrar deneyin.",
     "valueFieldPlaceholder": "Bir değer girin",
-    "noOptionsFoundMessage": "Değer bulunamadı"
+    "noOptionsFoundMessage": "Değer bulunamadı",
+    "modalTitle": "Gelişmiş ikiz arama",
+    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
   }
 }

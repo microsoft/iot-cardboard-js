@@ -82,15 +82,15 @@ export const MOCK_STORAGE_CONTAINER_URL2 =
     'https://teststorageaccount2.blob.core.windows.net/teststoragecontainer2';
 
 export const MOCK_ENVIRONMENT_STATE: EnvironmentPickerState = {
-    adtInstanceItems: {
+    adtInstanceInfo: {
         adtInstances: [MOCK_ADT_INSTANCE],
         adtInstanceToEdit: MOCK_ADT_INSTANCE
     },
-    storageAccountItems: {
+    storageAccountInfo: {
         storageAccounts: [MOCK_STORAGE_ACCOUNT],
         storageAccountToEdit: MOCK_STORAGE_ACCOUNT
     },
-    containerItems: {
+    containerInfo: {
         containers: [MOCK_STORAGE_CONTAINER],
         containerToEdit: MOCK_STORAGE_CONTAINER
     },

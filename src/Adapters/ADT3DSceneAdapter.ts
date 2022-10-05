@@ -1,6 +1,5 @@
 import { ADTTwinData } from '../Models/Classes';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import AdapterMethodSandbox from '../Models/Classes/AdapterMethodSandbox';
 import AdapterResult from '../Models/Classes/AdapterResult';
 import {
@@ -20,15 +19,16 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import {
     IAzureRoleAssignment,
-    instancesRefreshMaxAge,
     AzureAccessPermissionRoleGroups,
     modelRefreshMaxAge,
-    RequiredAccessRoleGroupForStorageContainer
+    RequiredAccessRoleGroupForStorageContainer,
+    timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants';
 import {
     AzureMissingRoleDefinitionsData,
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
+import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 
 export default class ADT3DSceneAdapter {
     constructor(
@@ -51,8 +51,8 @@ export default class ADT3DSceneAdapter {
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
         );
-        this.adtInstancesCache = new AdapterEntityCache<ADTInstancesData>(
-            instancesRefreshMaxAge
+        this.timeSeriesConnectionCache = new AdapterEntityCache<ADTInstanceTimeSeriesConnectionData>(
+            timeSeriesConnectionRefreshMaxAge
         );
 
         if (blobContainerUrl) {

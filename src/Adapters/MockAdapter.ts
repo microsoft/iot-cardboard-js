@@ -47,7 +47,8 @@ import {
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
     AdapterMethodParamsForSearchTwinsByQuery,
-    IADXConnection
+    IADXConnection,
+    ADTResourceIdentifier
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -110,7 +111,7 @@ export default class MockAdapter
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
-    private mockConnectionInformation: IADXConnection;
+    private mockADXConnectionInformation: IADXConnection;
     private seededRng = seedRandom('cardboard seed');
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
@@ -756,8 +757,14 @@ export default class MockAdapter
         this.mockEnvironmentHostName = hostName;
     }
 
-    setConnectionInformation = (connectionInformation: IADXConnection) => {
-        this.mockConnectionInformation = connectionInformation;
+    setADXConnectionInformation = (
+        adxConnectionInformation: IADXConnection
+    ) => {
+        this.mockADXConnectionInformation = adxConnectionInformation;
+    };
+
+    getADXConnectionInformation = () => {
+        return this.mockADXConnectionInformation;
     };
 
     async getSubscriptions() {
@@ -1013,15 +1020,18 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesConnectionInformation() {
+    async getTimeSeriesConnectionInformation(
+        _adtInstanceIdentifier: ADTResourceIdentifier
+    ) {
         try {
             await this.mockNetwork();
 
             return new AdapterResult({
                 result: new ADTInstanceTimeSeriesConnectionData({
-                    kustoClusterUrl: '',
-                    kustoDatabaseName: '',
-                    kustoTableName: ''
+                    kustoClusterUrl:
+                        'https://mockKustoClusterName.westus2.kusto.windows.net',
+                    kustoDatabaseName: 'mockKustoDatabaseName',
+                    kustoTableName: 'mockKustoTableName'
                 }),
                 errorInfo: null
             });

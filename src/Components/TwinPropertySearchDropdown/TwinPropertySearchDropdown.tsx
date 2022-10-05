@@ -26,7 +26,8 @@ import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
 import {
     getDebugLogger,
-    getMarkedHtmlBySearch
+    getMarkedHtmlBySearch,
+    removeDuplicatesFromArray
 } from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
@@ -108,7 +109,7 @@ const TwinPropertySearchDropdown = (
     const searchTwinAdapterData = useAdapter({
         adapterMethod: (params: AdapterMethodParamsForSearchADTTwins) =>
             adapter.searchADTTwins(params),
-        refetchDependencies: [],
+        refetchDependencies: [searchPropertyName],
         isAdapterCalledOnMount: false
     });
 
@@ -135,6 +136,9 @@ const TwinPropertySearchDropdown = (
             ) {
                 options.unshift(selectedOption);
             }
+
+            // remove any duplicate entries
+            options = removeDuplicatesFromArray(options, 'label');
             setDropdownOptions(options || []);
 
             twinSearchContinuationToken.current =
