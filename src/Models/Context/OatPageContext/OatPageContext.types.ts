@@ -53,6 +53,7 @@ export enum OatPageContextActionType {
     CREATE_PROJECT = 'CREATE_PROJECT',
     /** updates properties of an existing project */
     EDIT_PROJECT = 'EDIT_PROJECT',
+    DUPLICATE_PROJECT = 'DUPLICATE_PROJECT',
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
     SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
     SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
@@ -74,10 +75,6 @@ export enum OatPageContextActionType {
 /** The actions to update the state */
 export type OatPageContextAction =
     | {
-          type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;
-          payload: IOATConfirmDelete;
-      }
-    | {
           type: OatPageContextActionType.CREATE_PROJECT;
           payload: { name: string; namespace: string };
       }
@@ -86,23 +83,16 @@ export type OatPageContextAction =
           payload: { name: string; namespace: string };
       }
     | {
+          type: OatPageContextActionType.DUPLICATE_PROJECT;
+      }
+    | {
           type: OatPageContextActionType.SET_OAT_DELETE_PROJECT;
           payload: { id: string };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_ERROR;
-          payload: IOATError;
-      }
-    | {
-          type: OatPageContextActionType.SET_OAT_IMPORT_MODELS;
+          type: OatPageContextActionType.SWITCH_CURRENT_PROJECT;
           payload: {
-              models: any[];
-          };
-      }
-    | {
-          type: OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN;
-          payload: {
-              isOpen: boolean;
+              projectId: string;
           };
       }
     | {
@@ -124,21 +114,15 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODIFIED;
-          payload: {
-              isModified: boolean;
-          };
-      }
-    | {
           type: OatPageContextActionType.SET_CURRENT_NAMESPACE;
           payload: {
               namespace: string;
           };
       }
     | {
-          type: OatPageContextActionType.SWITCH_CURRENT_PROJECT;
+          type: OatPageContextActionType.SET_CURRENT_PROJECT_NAME;
           payload: {
-              projectId: string;
+              name: string;
           };
       }
     | {
@@ -146,9 +130,29 @@ export type OatPageContextAction =
           payload: ProjectData;
       }
     | {
-          type: OatPageContextActionType.SET_CURRENT_PROJECT_NAME;
+          type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;
+          payload: IOATConfirmDelete;
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_ERROR;
+          payload: IOATError;
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_IMPORT_MODELS;
           payload: {
-              name: string;
+              models: any[];
+          };
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN;
+          payload: {
+              isOpen: boolean;
+          };
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_MODIFIED;
+          payload: {
+              isModified: boolean;
           };
       }
     | {

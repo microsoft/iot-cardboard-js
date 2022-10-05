@@ -261,31 +261,18 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     };
 
     const onNewFile = useCallback(() => {
-        // TODO: check if pending changes
-        const pendingChanges = false;
-        if (pendingChanges) {
-            // TODO: prompt
-            // TODO: set action for confirmation to clear
-        } else {
-            setOpenModal(HeaderModal.CreateOntology);
-        }
+        setOpenModal(HeaderModal.CreateOntology);
     }, []);
 
     const onManageFile = useCallback(() => {
-        // TODO: check if pending changes
-        const pendingChanges = false;
-        if (pendingChanges) {
-            // TODO: prompt
-            // TODO: set action for confirmation to clear
-        } else {
-            setOpenModal(HeaderModal.EditOntology);
-        }
+        setOpenModal(HeaderModal.EditOntology);
     }, []);
 
     const onDuplicate = useCallback(() => {
-        // TODO: the stuff
-        alert('on save as');
-    }, []);
+        oatPageDispatch({
+            type: OatPageContextActionType.DUPLICATE_PROJECT
+        });
+    }, [oatPageDispatch]);
 
     const onExportClick = useCallback(() => {
         const zip = new JSZip();

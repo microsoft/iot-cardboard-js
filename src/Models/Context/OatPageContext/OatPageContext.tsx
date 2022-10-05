@@ -4,7 +4,7 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
-import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import i18n from '../../../i18n';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { OAT_MODEL_ID_PREFIX } from '../../Constants/Constants';
 import {
@@ -51,11 +51,12 @@ export const OatPageContextReducer: (
         logDebugConsole(
             'info',
             `Updating OAT Page context ${action.type} with payload: `,
-            action.payload
+            (action as any).payload // sometimes doesn't have payload
         );
         switch (action.type) {
             case OatPageContextActionType.CREATE_PROJECT: {
                 const { name, namespace } = action.payload;
+                const id = createGUID();
                 const project = new ProjectData(
                     [],
                     [],
@@ -64,17 +65,15 @@ export const OatPageContextReducer: (
                     namespace.replace(/ /g, ''),
                     []
                 );
-                const id = createGUID();
                 draft.ontologyFiles.push({ id: id, data: project });
 
                 saveData(draft);
-                setCurrentProject(draft, id);
+                switchCurrentProject(draft, id);
 
                 logDebugConsole(
                     'debug',
-                    `Created new project with id: ${id}, {project, state}`,
-                    project,
-                    draft
+                    `Created new project with id: ${id}, {project}`,
+                    project
                 );
                 break;
             }
@@ -102,25 +101,33 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            // case OatPageContextActionType.SET_OAT_DUPLICATE_PROJECT: {
-            //     const project = convertStateToProject(draft);
-            //     const id = createGUID();
-            //     const storedFiles: IOATFile[] = [
-            //         ...getOntologiesFromStorage(),
-            //         { id: id, data: project }
-            //     ];
-            //     isStorageEnabled && storeOntologiesToStorage(storedFiles);
+            case OatPageContextActionType.DUPLICATE_PROJECT: {
+                const id = createGUID();
+                // duplicate the project
+                const project = convertStateToProject(draft);
+                project.projectName =
+                    project.projectName +
+                    '-' +
+                    i18n.t('OATCommon.duplicateFileNameSuffix');
+                draft.ontologyFiles.push({ id: id, data: project });
 
-            //     setCurrentProject(draft, id);
+                // save data
+                saveData(draft);
 
-            //     logDebugConsole(
-            //         'debug',
-            //         `Created new project with id: ${id}, {project, state}`,
-            //         project,
-            //         draft
-            //     );
-            //     break;
-            // }
+                // switch to the new project
+                switchCurrentProject(draft, id);
+
+                logDebugConsole(
+                    'debug',
+                    `Created new project with id: ${id}, {project}`,
+                    project
+                );
+                break;
+            }
+            case OatPageContextActionType.SWITCH_CURRENT_PROJECT: {
+                switchCurrentProject(draft, action.payload.projectId);
+                break;
+            }
             case OatPageContextActionType.SET_CURRENT_PROJECT_NAME: {
                 draft.currentOntologyProjectName = action.payload.name || '';
                 saveData(draft);
@@ -157,10 +164,6 @@ export const OatPageContextReducer: (
             case OatPageContextActionType.SET_CURRENT_NAMESPACE: {
                 draft.currentOntologyNamespace = action.payload.namespace || '';
                 saveData(draft);
-                break;
-            }
-            case OatPageContextActionType.SWITCH_CURRENT_PROJECT: {
-                setCurrentProject(draft, action.payload.projectId);
                 break;
             }
             case OatPageContextActionType.SET_OAT_DELETE_PROJECT: {
@@ -230,14 +233,7 @@ export const OatPageContextReducer: (
     }
 );
 
-// function CreateProject(
-//     name: string,
-//     namespace: string,
-//     draft: IOatPageContextState
-// ) {
-// }
-
-function setCurrentProject(draft: IOatPageContextState, projectId: string) {
+function switchCurrentProject(draft: IOatPageContextState, projectId: string) {
     draft.currentOntologyId = projectId;
     const selectedFile = draft.ontologyFiles.find(
         (x) => x.id === draft.currentOntologyId
@@ -255,9 +251,8 @@ function setCurrentProject(draft: IOatPageContextState, projectId: string) {
         mapProjectToState(draft, projectToOpen);
         logDebugConsole(
             'debug',
-            `Setting current project to id: ${draft.currentOntologyId}. {project, state}`,
-            projectToOpen,
-            draft
+            `Setting current project to id: ${draft.currentOntologyId}. {project}`,
+            projectToOpen
         );
     } else {
         logDebugConsole(
@@ -317,8 +312,7 @@ function saveEditorData(draft: IOatPageContextState): void {
 }
 
 function saveOntologyFiles(draft: IOatPageContextState): void {
-    const filesCopy: IOATFile[] = [...draft.ontologyFiles];
-    const selectedOntology = filesCopy.find(
+    const selectedOntology = draft.ontologyFiles.find(
         (x) => x.id === draft.currentOntologyId
     );
     if (selectedOntology) {
@@ -330,8 +324,11 @@ function saveOntologyFiles(draft: IOatPageContextState): void {
         );
     }
     if (isStorageEnabled) {
-        storeOntologiesToStorage(filesCopy);
-        logDebugConsole('debug', 'Saved files to storage. {files}', filesCopy);
+        storeOntologiesToStorage(draft.ontologyFiles);
+        logDebugConsole(
+            'debug',
+            `Saved ${draft.ontologyFiles.length} files to storage.`
+        );
     } else {
         logDebugConsole(
             'warn',
@@ -373,8 +370,6 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
         ...initialState
     };
 
-    console.log('*** INITIAL STATE', defaultState.ontologyFiles);
-
     const [oatPageState, oatPageDispatch] = useReducer(
         OatPageContextReducer,
         defaultState
@@ -382,6 +377,11 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
 
     // TODO: read local storage on mount and dispatch to SET_OAT_PROJECT_ID so all the other properties get hydrated properly
 
+    logDebugConsole(
+        'debug',
+        'Mount OatPageContextProvider. {initialState}',
+        defaultState
+    );
     return (
         <OatPageContext.Provider
             value={{
