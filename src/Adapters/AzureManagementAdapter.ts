@@ -30,7 +30,6 @@ import {
     RequiredAccessRoleGroupForADTInstance
 } from '../Models/Constants';
 import {
-    buildCacheKey,
     createGUID,
     getDebugLogger,
     getMissingRoleIdsFromRequired,
@@ -686,11 +685,10 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         if (useCache) {
             return this.timeSeriesConnectionCache.getEntity(
-                buildCacheKey(
-                    'adt_adx_connection_information',
+                `${
                     adtInstanceIdentifier['hostName'] ||
-                        adtInstanceIdentifier['id']
-                ),
+                    adtInstanceIdentifier['id']
+                }-adt_adx_connection_information`,
                 getDataMethod,
                 forceRefresh
             );
