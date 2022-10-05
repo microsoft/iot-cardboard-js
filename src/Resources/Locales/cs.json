@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Žádné podmínky",
       "noDataMessageDescription": "Zatím nebyly vytvořeny žádné podmínky. Kliknutím níže vytvořte podmínku.",
       "noDataMessageLinkText": "Přidat podmínku",
-      "typePlaceholder": "Vyberte typ hodnoty"
-    }
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku."
+    },
+    "conditions": "Podmínky"
   },
   "widgets": {
     "trend": {

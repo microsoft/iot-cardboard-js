@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Без условий",
       "noDataMessageDescription": "Никаких условий пока не создано. Нажмите ниже, чтобы создать условие.",
       "noDataMessageLinkText": "Добавить условие",
-      "typePlaceholder": "Выберите тип значения"
-    }
+      "typePlaceholder": "Выберите тип значения",
+      "conditionsInfoContent": "Настройте диапазон или определенные значения, которые инициируют визуальное действие, относящееся к элементу."
+    },
+    "conditions": "Условия"
   },
   "widgets": {
     "trend": {

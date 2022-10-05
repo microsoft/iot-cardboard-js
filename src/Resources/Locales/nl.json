@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Geen voorwaarden",
       "noDataMessageDescription": "Er zijn nog geen voorwaarden gecreëerd. Klik hieronder om een voorwaarde aan te maken.",
       "noDataMessageLinkText": "Voorwaarde toevoegen",
-      "typePlaceholder": "Selecteer het type voor de waarde"
-    }
+      "typePlaceholder": "Selecteer het type voor de waarde",
+      "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren."
+    },
+    "conditions": "Voorwaarden"
   },
   "widgets": {
     "trend": {

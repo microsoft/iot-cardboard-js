@@ -563,8 +563,10 @@
       "noDataMessageHeader": "Keine Bedingungen",
       "noDataMessageDescription": "Noch keine Bedingungen geschaffen. Klicken Sie unten, um eine Bedingung zu erstellen.",
       "noDataMessageLinkText": "Bedingung hinzufügen",
-      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
-    }
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
+      "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen."
+    },
+    "conditions": "Bedingungen"
   },
   "widgets": {
     "trend": {
