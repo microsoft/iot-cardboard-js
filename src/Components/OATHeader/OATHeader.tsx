@@ -29,7 +29,6 @@ import {
 import {
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
-    getOntologiesFromStorage,
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
@@ -181,7 +180,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         });
                         oatPageDispatch({
                             type:
-                                OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                                OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
                             payload: { metadata: modelsMetadataReference }
                         });
                     } else {
@@ -392,13 +391,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
     // Data
     const ontologyMenuItems = useMemo(() => {
-        const storedFiles = getOntologiesFromStorage();
+        const storedFiles = oatPageState.ontologyFiles;
         if (storedFiles.length > 0) {
             const formattedFiles: IContextualMenuItem[] = storedFiles.map(
                 (file) => {
                     const onClick = () => {
                         oatPageDispatch({
-                            type: OatPageContextActionType.SET_OAT_PROJECT_ID,
+                            type:
+                                OatPageContextActionType.SWITCH_CURRENT_PROJECT,
                             payload: { projectId: file.id }
                         });
                     };
@@ -413,8 +413,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             return formattedFiles;
         }
         return [];
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [oatPageDispatch, oatPageState.currentOntologyProjectName]); // include project name to bust when a new project is created
+    }, [oatPageDispatch, oatPageState.ontologyFiles]);
 
     const fileMenuItems: IContextualMenuItem[] = [
         {

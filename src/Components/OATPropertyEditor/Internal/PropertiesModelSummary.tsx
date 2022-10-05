@@ -82,11 +82,11 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             );
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: { positions: modelPositionsCopy }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
             oatPageDispatch({
@@ -106,13 +106,13 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: {
                     positions: oatPageState.currentOntologyModelPositions
                 }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
@@ -134,7 +134,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             if (modelCopy) {
                 modelCopy.displayName = value;
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
             }
@@ -144,7 +144,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -162,7 +162,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             if (modelCopy) {
                 modelCopy.name = value;
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
                 const selectionCopy = deepCopy(oatPageState.selection);
@@ -178,7 +178,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({

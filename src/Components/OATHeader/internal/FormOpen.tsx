@@ -58,7 +58,7 @@ export const FormOpen: React.FC<IFormOpenProps> = (props) => {
             selectedFile.data.modelsMetadata
         );
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_PROJECT,
+            type: OatPageContextActionType.SET_CURRENT_PROJECT,
             payload: projectToOpen
         });
 

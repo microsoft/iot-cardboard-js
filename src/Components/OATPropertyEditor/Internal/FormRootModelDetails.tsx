@@ -142,7 +142,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                 metadataCopy.push(newMetadata);
             }
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
                 payload: { metadata: metadataCopy }
             });
         }
@@ -175,7 +175,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
             modelCopy['@id'] = id ? id : model['@id'];
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
 
@@ -185,11 +185,11 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
                 payload: { metadata: oatPageState.currentOntologyModelMetadata }
             });
         };

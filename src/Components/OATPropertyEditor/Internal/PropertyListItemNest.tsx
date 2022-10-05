@@ -131,7 +131,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
     const onTemplateAddition = () => {
         const addition = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: {
                     templates: [...oatPageState.currentOntologyTemplates, item]
                 }
@@ -140,7 +140,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
         const undoAddition = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
@@ -166,14 +166,14 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             );
             modelCopy[propertiesKeyName].push(itemCopy);
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoDuplicate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -207,7 +207,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
             const dispatchDelete = () => {
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
             };
@@ -219,7 +219,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -255,14 +255,14 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             ].splice(nestedIndex + direction, 0, temp);
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoOnMove = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

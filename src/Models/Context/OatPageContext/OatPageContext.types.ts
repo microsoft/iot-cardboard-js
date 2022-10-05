@@ -8,6 +8,7 @@ import {
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLProperty } from '../../Classes/DTDL';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -27,16 +28,17 @@ export interface IOatPageContext {
 export interface IOatPageContextState {
     confirmDeleteOpen?: IOATConfirmDelete;
     currentOntologyId: string;
-    currentOntologyModelMetadata?: IOATModelsMetadata[];
+    currentOntologyModelMetadata: IOATModelsMetadata[];
     currentOntologyModelPositions: IOATModelPosition[];
-    currentOntologyModels?: DtdlInterface[];
-    currentOntologyNamespace?: string;
-    currentOntologyProjectName?: string;
-    currentOntologyTemplates?: DTDLProperty[];
+    currentOntologyModels: DtdlInterface[];
+    currentOntologyNamespace: string;
+    currentOntologyProjectName: string;
+    currentOntologyTemplates: DTDLProperty[];
     error?: IOATError;
     importModels?: any[];
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
+    ontologyFiles: IOATFile[];
     selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
     selection?: IOATSelection;
     templatesActive?: boolean;
@@ -48,25 +50,25 @@ export interface IOatPageContextState {
 export enum OatPageContextActionType {
     SET_OAT_CONFIRM_DELETE_OPEN = 'SET_OAT_CONFIRM_DELETE_OPEN',
     /** creates a new project, switches to that project */
-    SET_OAT_CREATE_PROJECT = 'SET_OAT_CREATE_PROJECT',
+    CREATE_PROJECT = 'CREATE_PROJECT',
     /** updates properties of an existing project */
-    SET_OAT_EDIT_PROJECT = 'SET_OAT_EDIT_PROJECT',
-    /** deletes an existing project from storage */
+    EDIT_PROJECT = 'EDIT_PROJECT',
+    SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
+    SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
+    SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
+    SET_CURRENT_MODELS_POSITIONS = 'SET_CURRENT_MODELS_POSITIONS',
+    SET_CURRENT_NAMESPACE = 'SET_CURRENT_NAMESPACE',
+    SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
+    SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
+
+    SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
+    SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
+    SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
+    SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
     SET_OAT_DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
     SET_OAT_ERROR = 'SET_OAT_ERROR',
     SET_OAT_IMPORT_MODELS = 'SET_OAT_IMPORT_MODELS',
-    SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN',
-    SET_OAT_MODELS = 'SET_OAT_MODELS',
-    SET_OAT_MODELS_METADATA = 'SET_OAT_MODELS_METADATA',
-    SET_OAT_MODELS_POSITIONS = 'SET_OAT_MODELS_POSITIONS',
-    SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
-    SET_OAT_NAMESPACE = 'SET_OAT_NAMESPACE',
-    SET_OAT_PROJECT_ID = 'SET_OAT_PROJECT_ID',
-    SET_OAT_PROJECT = 'SET_OAT_PROJECT',
-    SET_OAT_PROJECT_NAME = 'SET_OAT_PROJECT_NAME',
-    SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
-    SET_OAT_TEMPLATES = 'SET_OAT_TEMPLATES',
-    SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE'
+    SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN'
 }
 
 /** The actions to update the state */
@@ -76,11 +78,11 @@ export type OatPageContextAction =
           payload: IOATConfirmDelete;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_CREATE_PROJECT;
+          type: OatPageContextActionType.CREATE_PROJECT;
           payload: { name: string; namespace: string };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_EDIT_PROJECT;
+          type: OatPageContextActionType.EDIT_PROJECT;
           payload: { name: string; namespace: string };
       }
     | {
@@ -104,19 +106,19 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODELS;
+          type: OatPageContextActionType.SET_CURRENT_MODELS;
           payload: {
               models: DtdlInterface[];
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODELS_METADATA;
+          type: OatPageContextActionType.SET_CURRENT_MODELS_METADATA;
           payload: {
               metadata: IOATModelsMetadata[];
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS;
+          type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS;
           payload: {
               positions: IOATModelPosition[];
           };
@@ -128,23 +130,23 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_NAMESPACE;
+          type: OatPageContextActionType.SET_CURRENT_NAMESPACE;
           payload: {
               namespace: string;
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_PROJECT_ID;
+          type: OatPageContextActionType.SWITCH_CURRENT_PROJECT;
           payload: {
               projectId: string;
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_PROJECT;
+          type: OatPageContextActionType.SET_CURRENT_PROJECT;
           payload: ProjectData;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_PROJECT_NAME;
+          type: OatPageContextActionType.SET_CURRENT_PROJECT_NAME;
           payload: {
               name: string;
           };
@@ -156,7 +158,7 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.SET_OAT_TEMPLATES;
+          type: OatPageContextActionType.SET_CURRENT_TEMPLATES;
           payload: {
               templates: DTDLProperty[];
           };

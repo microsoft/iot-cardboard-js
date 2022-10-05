@@ -82,7 +82,7 @@ const PropertySelector: React.FC<PropertySelectorProps> = (props) => {
             lastPropertyFocused.index
         ].schema = schemaCopy;
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
         setPropertySelectorVisible(false);
@@ -101,7 +101,7 @@ const PropertySelector: React.FC<PropertySelectorProps> = (props) => {
             schema: getSchema(tag)
         });
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
         setPropertySelectorVisible(false);
@@ -123,7 +123,7 @@ const PropertySelector: React.FC<PropertySelectorProps> = (props) => {
 
         const undoOnClick = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

@@ -135,7 +135,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
                 newModel
             );
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
             oatPageDispatch({
@@ -146,7 +146,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
 
         const undoSave = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

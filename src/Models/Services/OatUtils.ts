@@ -26,16 +26,13 @@ export const storeLastUsedProjectId = (id: string) => {
     );
 };
 
-/**
- * Gets the last used project id
- * @returns
- */
+/** Gets the last used project id */
 export const getLastUsedProjectId = (): string => {
     const data = localStorage.getItem(OAT_LAST_PROJECT_STORAGE_KEY);
     return data ? JSON.parse(data) : {};
 };
 
-// Store OAT-data
+/** Store OAT-data */
 export const storeEditorData = (oatEditorData: ProjectData) => {
     localStorage.setItem(
         OAT_DATA_STORAGE_KEY,
@@ -43,25 +40,25 @@ export const storeEditorData = (oatEditorData: ProjectData) => {
     );
 };
 
-// Get stored OAT-data
+/** Get stored OAT-data */
 export const getStoredEditorData = (): ProjectData => {
     const data = localStorage.getItem(OAT_DATA_STORAGE_KEY);
     return data ? JSON.parse(data) : {};
 };
 
-// Get stored template OAT-data
+/** Get stored template OAT-data */
 export const getStoredEditorTemplateData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.templates ? oatData.templates : [];
 };
 
-// Get stored models OAT-data
+/** Get stored models OAT-data */
 export const getStoredEditorModelsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.models ? oatData.models : [];
 };
 
-// Get stored models' positions OAT-data
+/** Get stored models' positions OAT-data */
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
@@ -72,16 +69,29 @@ export const getStoredEditorModelMetadata = () => {
     return oatData && oatData.modelsMetadata ? oatData.modelsMetadata : [];
 };
 
-// Get stored models' namespace OAT-data
+/**
+ * Get stored models' namespace OAT-data
+ */
 export const getStoredEditorNamespaceData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.namespace ? oatData.namespace : null;
 };
 
-// Get stored ontology name
+/**
+ * Get stored ontology name
+ */
 export const getStoredEditorName = () => {
     const oatData = getStoredEditorData();
     return oatData ? oatData.projectName : '';
+};
+
+// Load files from local storage
+export const getOntologiesFromStorage = (): IOATFile[] =>
+    JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
+
+// Save files from local storage
+export const storeOntologiesToStorage = (files: IOATFile[]) => {
+    localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 
 export const updateModelId = (
@@ -184,15 +194,6 @@ export const convertDtdlInterfaceToModel = (
         dtdlInterface.contents?.filter((x) => x['@type'] === 'Relationship'),
         dtdlInterface.contents?.filter((x) => x['@type'] === 'Component')
     );
-};
-
-// Load files from local storage
-export const getOntologiesFromStorage = (): IOATFile[] =>
-    JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
-
-// Save files from local storage
-export const storeOntologiesToStorage = (files: IOATFile[]) => {
-    localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 
 // Delete model

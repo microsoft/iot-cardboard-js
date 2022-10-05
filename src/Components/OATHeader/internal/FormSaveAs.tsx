@@ -91,7 +91,7 @@ export const FormSaveAs: React.FC<IFormSaveAsProps> = (props) => {
             oatPageState.currentOntologyModelMetadata
         );
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_PROJECT,
+            type: OatPageContextActionType.SET_CURRENT_PROJECT,
             payload: newProject
         });
 

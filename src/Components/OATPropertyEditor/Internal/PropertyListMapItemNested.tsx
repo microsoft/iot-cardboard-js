@@ -51,7 +51,7 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
         );
         modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
     };
@@ -64,7 +64,7 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
         );
         modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
     };

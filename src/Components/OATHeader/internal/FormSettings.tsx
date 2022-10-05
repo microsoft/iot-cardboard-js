@@ -57,7 +57,7 @@ export const FormSettings: React.FC<FormSettingsProps> = (props) => {
 
     const onSave = () => {
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_NAMESPACE,
+            type: OatPageContextActionType.SET_CURRENT_NAMESPACE,
             payload: { namespace }
         });
         setModalBody(null);

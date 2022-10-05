@@ -71,7 +71,7 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
     const onTemplateAddition = () => {
         const addition = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: {
                     templates: [...oatPageState.currentOntologyTemplates, item]
                 }
@@ -80,7 +80,7 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
 
         const undoAddition = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
@@ -112,14 +112,14 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
 
             modelCopy[propertiesKeyName].push(itemCopy);
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoDuplicate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

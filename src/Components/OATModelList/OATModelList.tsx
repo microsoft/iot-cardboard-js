@@ -89,7 +89,7 @@ const OATModelList: React.FC = () => {
                     oatPageState.currentOntologyModels
                 );
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: newModels }
                 });
                 // Dispatch selected model to null
@@ -106,7 +106,7 @@ const OATModelList: React.FC = () => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
@@ -133,11 +133,11 @@ const OATModelList: React.FC = () => {
             );
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: { positions: modelPositionsCopy }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy as DtdlInterface[] }
             });
             oatPageDispatch({
@@ -152,13 +152,13 @@ const OATModelList: React.FC = () => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: {
                     positions: oatPageState.currentOntologyModelPositions
                 }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
@@ -181,7 +181,7 @@ const OATModelList: React.FC = () => {
             if (modelCopy) {
                 modelCopy.displayName = value;
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
             }
@@ -193,7 +193,7 @@ const OATModelList: React.FC = () => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

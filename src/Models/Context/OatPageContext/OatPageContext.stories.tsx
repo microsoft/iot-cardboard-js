@@ -63,6 +63,7 @@ export default {
 
 const ProviderContentRenderer: React.FC = () => {
     const { oatPageState } = useOatPageContext();
+    console.log('Render context ', oatPageState);
     const theme = useTheme();
     const containerStyle = getContainerStyles(theme);
     const valueStyle = getValueStyle(theme);
@@ -72,7 +73,7 @@ const ProviderContentRenderer: React.FC = () => {
         <Stack
             styles={{
                 root: {
-                    maxHeight: 700,
+                    maxHeight: 600,
                     overflow: 'auto'
                 }
             }}
@@ -208,7 +209,7 @@ const ProviderUpdater: React.FC = () => {
                             const newValue = nameIncrementor + 1;
                             oatPageDispatch({
                                 type:
-                                    OatPageContextActionType.SET_OAT_PROJECT_NAME,
+                                    OatPageContextActionType.SET_CURRENT_PROJECT_NAME,
                                 payload: {
                                     name: oatPageState.currentOntologyProjectName.replace(
                                         nameIncrementor.toString(),
@@ -235,7 +236,8 @@ const ProviderUpdater: React.FC = () => {
                                 displayName: `model-${newValue}`
                             });
                             oatPageDispatch({
-                                type: OatPageContextActionType.SET_OAT_MODELS,
+                                type:
+                                    OatPageContextActionType.SET_CURRENT_MODELS,
                                 payload: {
                                     models: models
                                 }
@@ -255,7 +257,8 @@ const ProviderUpdater: React.FC = () => {
                             ];
                             models.pop();
                             oatPageDispatch({
-                                type: OatPageContextActionType.SET_OAT_MODELS,
+                                type:
+                                    OatPageContextActionType.SET_CURRENT_MODELS,
                                 payload: {
                                     models: models
                                 }
@@ -278,7 +281,7 @@ const ProviderUpdater: React.FC = () => {
                             };
                             oatPageDispatch({
                                 type:
-                                    OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                                    OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                                 payload: {
                                     positions: data
                                 }
@@ -301,7 +304,7 @@ const ProviderUpdater: React.FC = () => {
                             );
                             oatPageDispatch({
                                 type:
-                                    OatPageContextActionType.SET_OAT_MODELS_METADATA,
+                                    OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
                                 payload: {
                                     metadata: data
                                 }
@@ -324,7 +327,7 @@ const ProviderUpdater: React.FC = () => {
                             );
                             oatPageDispatch({
                                 type:
-                                    OatPageContextActionType.SET_OAT_TEMPLATES,
+                                    OatPageContextActionType.SET_CURRENT_TEMPLATES,
                                 payload: {
                                     templates: data
                                 }
@@ -346,8 +349,7 @@ const ProviderUpdater: React.FC = () => {
                         onClick={() => {
                             const newValue = createIncrementor + 1;
                             oatPageDispatch({
-                                type:
-                                    OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+                                type: OatPageContextActionType.CREATE_PROJECT,
                                 payload: {
                                     name: `Test-Project-${newValue}`,
                                     namespace: `TestNamespace${newValue}`
@@ -363,8 +365,7 @@ const ProviderUpdater: React.FC = () => {
                         onClick={() => {
                             const newValue = editIncrementor + 1;
                             oatPageDispatch({
-                                type:
-                                    OatPageContextActionType.SET_OAT_EDIT_PROJECT,
+                                type: OatPageContextActionType.EDIT_PROJECT,
                                 payload: {
                                     name: `Test-Project-${newValue}`,
                                     namespace: `TestNamespace${newValue}`
@@ -410,7 +411,7 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     _context: IStoryContext<IOatPageContextProviderProps>
 ) => {
-    setContextStorageEnabled(false);
+    // setContextStorageEnabled(false);
     return (
         <OatPageContextProvider initialState={args.defaultState}>
             <Stack>

@@ -91,7 +91,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                     oatPageState.currentOntologyModels
                 );
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
                 // Dispatch selected model to null
@@ -108,7 +108,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
@@ -129,7 +129,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
             if (model) {
                 model.displayName = value;
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
             }
@@ -139,7 +139,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -160,11 +160,11 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
             );
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: { positions: modelPositionsCopy }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
             oatPageDispatch({
@@ -175,13 +175,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
                 payload: {
                     positions: oatPageState.currentOntologyModelPositions
                 }
             });
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({

@@ -152,14 +152,14 @@ export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
             ].schema.enumValues.push(prop);
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

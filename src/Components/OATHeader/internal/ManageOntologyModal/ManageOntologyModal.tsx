@@ -82,7 +82,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     const onSubmit = () => {
         if (mode === FormMode.Create) {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_CREATE_PROJECT,
+                type: OatPageContextActionType.CREATE_PROJECT,
                 payload: {
                     name: name,
                     namespace: namespace
@@ -90,7 +90,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
             });
         } else if (mode === FormMode.Edit) {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_EDIT_PROJECT,
+                type: OatPageContextActionType.EDIT_PROJECT,
                 payload: {
                     name: name,
                     namespace: namespace

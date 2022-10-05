@@ -258,14 +258,14 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
             ][currentNestedPropertyIndex] = prop;
 
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -337,14 +337,14 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
             );
             modelCopy[propertiesKeyName][currentPropertyIndex] = prop;
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

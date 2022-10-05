@@ -83,17 +83,10 @@ const OATGraphViewer = () => {
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageState, oatPageDispatch } = useOatPageContext();
-    const {
-        selection,
-        currentOntologyModels,
-        importModels,
-        currentOntologyModelPositions,
-        currentOntologyNamespace
-    } = oatPageState;
 
     const idClassBase = `dtmi:${
-        currentOntologyNamespace
-            ? currentOntologyNamespace
+        oatPageState.currentOntologyNamespace
+            ? oatPageState.currentOntologyNamespace
             : OAT_NAMESPACE_DEFAULT_VALUE
     }:`;
 
@@ -191,8 +184,8 @@ const OATGraphViewer = () => {
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
     const [elements, setElements] = useState(
         getGraphViewerElementsFromModels(
-            currentOntologyModels,
-            currentOntologyModelPositions
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelPositions
         )
     );
     const graphViewerStyles = getGraphViewerStyles();
@@ -210,75 +203,81 @@ const OATGraphViewer = () => {
     const [rfInstance, setRfInstance] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const applyLayoutToElements = (inputElements) => {
-        const nodes = inputElements.reduce((collection, element) => {
-            if (!element.source) {
-                collection.push({
-                    id: element.id,
-                    x: element.position.x + nodeWidth / 2,
-                    y: element.position.y + nodeHeight / 2
+    const applyLayoutToElements = useCallback(
+        (inputElements) => {
+            const nodes = inputElements.reduce((collection, element) => {
+                if (!element.source) {
+                    collection.push({
+                        id: element.id,
+                        x: element.position.x + nodeWidth / 2,
+                        y: element.position.y + nodeHeight / 2
+                    });
+                }
+                return collection;
+            }, []);
+
+            const links = inputElements.reduce((collection, element) => {
+                if (element.source) {
+                    collection.push({
+                        source: element.source,
+                        target: element.target
+                    });
+                }
+                return collection;
+            }, []);
+
+            forceSimulation(nodes)
+                .force(
+                    'link',
+                    forceLink(links)
+                        .id((d) => d.id)
+                        .distance(nodeWidth)
+                        .strength(1)
+                )
+                .force(
+                    'collide',
+                    forceCollide()
+                        .radius(nodeWidth / 2)
+                        .strength(1)
+                )
+                .force('x', forceX())
+                .force('y', forceY())
+                .force('center', forceCenter())
+                .on('end', () => {
+                    const newElements = inputElements.map((element) => {
+                        const node = nodes.find(
+                            (node) => !element.source && node.id === element.id
+                        );
+
+                        const newElement = { ...element };
+                        if (node) {
+                            newElement.position = {
+                                x:
+                                    node.x -
+                                    nodeWidth / 2 +
+                                    Math.random() / 1000,
+                                y: node.y - nodeHeight / 2
+                            };
+                        }
+
+                        return newElement;
+                    });
+
+                    const application = () => {
+                        setElements(newElements);
+                        setLoading(false);
+                    };
+
+                    const undoApplication = () => {
+                        setElements(inputElements);
+                    };
+
+                    execute(application, undoApplication);
+                    rfInstance.fitView();
                 });
-            }
-            return collection;
-        }, []);
-
-        const links = inputElements.reduce((collection, element) => {
-            if (element.source) {
-                collection.push({
-                    source: element.source,
-                    target: element.target
-                });
-            }
-            return collection;
-        }, []);
-
-        forceSimulation(nodes)
-            .force(
-                'link',
-                forceLink(links)
-                    .id((d) => d.id)
-                    .distance(nodeWidth)
-                    .strength(1)
-            )
-            .force(
-                'collide',
-                forceCollide()
-                    .radius(nodeWidth / 2)
-                    .strength(1)
-            )
-            .force('x', forceX())
-            .force('y', forceY())
-            .force('center', forceCenter())
-            .on('end', () => {
-                const newElements = inputElements.map((element) => {
-                    const node = nodes.find(
-                        (node) => !element.source && node.id === element.id
-                    );
-
-                    const newElement = { ...element };
-                    if (node) {
-                        newElement.position = {
-                            x: node.x - nodeWidth / 2 + Math.random() / 1000,
-                            y: node.y - nodeHeight / 2
-                        };
-                    }
-
-                    return newElement;
-                });
-
-                const application = () => {
-                    setElements(newElements);
-                    setLoading(false);
-                };
-
-                const undoApplication = () => {
-                    setElements(inputElements);
-                };
-
-                execute(application, undoApplication);
-                rfInstance.fitView();
-            });
-    };
+        },
+        [execute, rfInstance]
+    );
 
     const newModelId = useMemo(() => {
         // Identifies which is the next model Id on creating new nodes
@@ -453,7 +452,7 @@ const OATGraphViewer = () => {
                 addUntargetedRelationship(
                     source,
                     relationship,
-                    currentOntologyModelPositions,
+                    oatPageState.currentOntologyModelPositions,
                     elementsCopy
                 );
             }
@@ -481,7 +480,7 @@ const OATGraphViewer = () => {
         }, []);
 
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS_POSITIONS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
             payload: { positions: nodePositions }
         });
     }, [elements, oatPageDispatch]);
@@ -577,7 +576,7 @@ const OATGraphViewer = () => {
 
     useEffect(() => {
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: translatedOutput }
         });
     }, [oatPageDispatch, translatedOutput]);
@@ -590,13 +589,15 @@ const OATGraphViewer = () => {
             // Checks if a node is selected to display it in the property editor
             if (
                 translatedOutput &&
-                (!selection ||
+                (!oatPageState.selection ||
                     (node.type === OAT_INTERFACE_TYPE &&
-                        (node.data['@id'] !== selection.modelId ||
-                            selection.contentId)) ||
+                        (node.data['@id'] !== oatPageState.selection.modelId ||
+                            oatPageState.selection.contentId)) ||
                     (node.type !== OAT_INTERFACE_TYPE &&
-                        ((node as Edge<any>).source !== selection.modelId ||
-                            node.data.name !== selection.contentId))) // Prevent re-execute the same node
+                        ((node as Edge<any>).source !==
+                            oatPageState.selection.modelId ||
+                            node.data.name !==
+                                oatPageState.selection.contentId))) // Prevent re-execute the same node
             ) {
                 const onClick = () => {
                     oatPageDispatch({
@@ -654,7 +655,7 @@ const OATGraphViewer = () => {
             });
         };
 
-        if (selection) {
+        if (oatPageState.selection) {
             execute(clearModel, undoClearModel);
         }
     };
@@ -667,27 +668,32 @@ const OATGraphViewer = () => {
     // Update graph nodes and edges when the models are updated
     useEffect(() => {
         const potentialElements = getGraphViewerElementsFromModels(
-            currentOntologyModels,
-            currentOntologyModelPositions
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelPositions
         );
 
         if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
             setElements(potentialElements);
         }
-    }, [currentOntologyModels]);
+    }, [
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels
+    ]);
 
     useEffect(() => {
-        if (importModels && importModels.length > 0) {
+        if (oatPageState.importModels?.length > 0) {
             setLoading(true);
-        }
-        if (importModels.length > 0) {
             const potentialElements = getGraphViewerElementsFromModels(
-                importModels,
-                currentOntologyModelPositions
+                oatPageState.importModels,
+                oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
         }
-    }, [importModels]);
+    }, [
+        applyLayoutToElements,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.importModels
+    ]);
 
     return (
         <ReactFlowProvider>

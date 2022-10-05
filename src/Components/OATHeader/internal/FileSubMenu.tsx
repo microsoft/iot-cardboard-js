@@ -111,7 +111,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
             oatPageState.currentOntologyModels.length > 0
         ) {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_PROJECT_NAME,
+                type: OatPageContextActionType.SET_CURRENT_PROJECT_NAME,
                 payload: { name: t('OATHeader.untitledProject') }
             });
             setModalBody(FromBody.saveCurrentProjectAndClear);
@@ -130,7 +130,7 @@ const FileSubMenu: React.FC<IFileSubMenuProps> = (props) => {
         );
 
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_PROJECT,
+            type: OatPageContextActionType.SET_CURRENT_PROJECT,
             payload: clearProject
         });
     };

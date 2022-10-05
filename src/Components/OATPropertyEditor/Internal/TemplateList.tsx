@@ -74,7 +74,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             ]
         );
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
     };
@@ -122,7 +122,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             );
             dragItem.current = i;
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: templatesCopy }
             });
         }
@@ -160,7 +160,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             templatesCopy.splice(index, 1);
             const dispatchDelete = () => {
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                    type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                     payload: { templates: templatesCopy }
                 });
             };
@@ -172,7 +172,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };
@@ -189,7 +189,7 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             );
             modelCopy[propertiesKeyName].push(item);
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         }
@@ -205,14 +205,14 @@ export const TemplateList: React.FC<TemplateListProps> = (props) => {
             templatesCopy.splice(index, 1);
             templatesCopy.splice(index + direction, 0, item);
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: templatesCopy }
             });
         };
 
         const undoOnMove = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_TEMPLATES,
+                type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: { templates: oatPageState.currentOntologyTemplates }
             });
         };

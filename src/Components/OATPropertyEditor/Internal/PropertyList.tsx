@@ -82,7 +82,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             model[propertiesKeyName][draggedPropertyItemRef.current]
         );
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_TEMPLATES,
+            type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
             payload: { templates: newTemplate }
         });
     };
@@ -105,7 +105,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
         );
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS,
+            type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
 
@@ -178,14 +178,14 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                 modelCopy[propertiesKeyName][index].name = value;
             }
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoUpdate = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -221,7 +221,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
             };
@@ -233,7 +233,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };
@@ -291,14 +291,14 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             modelCopy[propertiesKeyName].splice(index, 1);
             modelCopy[propertiesKeyName].splice(index + direction, 0, item);
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: modelsCopy }
             });
         };
 
         const undoOnMove = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
         };

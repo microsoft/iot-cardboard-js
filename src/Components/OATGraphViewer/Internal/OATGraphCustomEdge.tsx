@@ -579,7 +579,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         (link) => link['@id'] !== id
                     );
                     oatPageDispatch({
-                        type: OatPageContextActionType.SET_OAT_MODELS,
+                        type: OatPageContextActionType.SET_CURRENT_MODELS,
                         payload: { models: modelsCopy }
                     });
                     // Dispatch selected model to null
@@ -598,7 +598,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
@@ -628,7 +628,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             if (link) {
                 link.name = value;
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_MODELS,
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
                 });
                 oatPageDispatch({
@@ -645,7 +645,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
         const undoCommit = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_MODELS,
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
             });
             oatPageDispatch({
