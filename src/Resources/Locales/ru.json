@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "копировать"
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Моя онтология"
   }
 }

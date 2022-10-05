@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopia"
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Min ontologi"
   }
 }

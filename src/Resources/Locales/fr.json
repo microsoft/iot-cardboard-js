@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "copier"
+    "duplicateFileNameSuffix": "copier",
+    "defaultFileName": "Mon ontologie"
   }
 }

@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopieren"
+    "duplicateFileNameSuffix": "kopieren",
+    "defaultFileName": "Meine Ontologie"
   }
 }

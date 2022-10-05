@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopiëren"
+    "duplicateFileNameSuffix": "kopiëren",
+    "defaultFileName": "Mijn ontologie"
   }
 }
