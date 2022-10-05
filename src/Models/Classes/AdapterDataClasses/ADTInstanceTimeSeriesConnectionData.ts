@@ -1,6 +1,6 @@
 import { IAdapterData, IADXConnection } from '../../Constants/Interfaces';
 
-class ADTInstanceConnectionData implements IAdapterData {
+class ADTInstanceTimeSeriesConnectionData implements IAdapterData {
     data: IADXConnection;
 
     constructor(data: IADXConnection) {
@@ -12,4 +12,4 @@ class ADTInstanceConnectionData implements IAdapterData {
     }
 }
 
-export default ADTInstanceConnectionData;
+export default ADTInstanceTimeSeriesConnectionData;

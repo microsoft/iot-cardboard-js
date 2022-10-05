@@ -778,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL van Azure Digital Twins-instantie",
     "editEnvironment": "3D-scèneomgeving configureren",
-    "descriptionForEnvironment": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
-    "descriptionForEnvAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
     "descriptionForLocalStorage": "Configuratiegegevens worden opgeslagen in lokale opslag.",
     "selectContainerUrl": "Url van opslagcontainer selecteren",
-    "noEnvironment": "Geen omgeving toegevoegd",
     "noContainer": "Geen container toegevoegd",
     "removeFromList": "Verwijderen uit lijst",
     "storageAccountName": "Naam azure storage-account",
     "storageAccountUrl": "URL van Azure Storage-account",
     "storageContainerName": "Naam van Azure Storage-container",
-    "storageContainerUrl": "Url van Azure Storage-container"
+    "storageContainerUrl": "Url van Azure Storage-container",
+    "adtInstanceUrl": "URL van Azure Digital Twins-exemplaar",
+    "descriptionForAdtInstance": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
+    "descriptionForAdtInstanceAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
+    "noAdtInstance": "Geen ADT-instantie toegevoegd"
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",

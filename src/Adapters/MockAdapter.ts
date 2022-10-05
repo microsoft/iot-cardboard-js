@@ -46,7 +46,9 @@ import {
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    IADXConnection,
+    ADTResourceIdentifier
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -86,6 +88,7 @@ import { applyPatch, Operation } from 'fast-json-patch';
 import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
+import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -108,6 +111,7 @@ export default class MockAdapter
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
+    private mockADXConnectionInformation: IADXConnection;
     private seededRng = seedRandom('cardboard seed');
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
@@ -753,6 +757,16 @@ export default class MockAdapter
         this.mockEnvironmentHostName = hostName;
     }
 
+    setADXConnectionInformation = (
+        adxConnectionInformation: IADXConnection
+    ) => {
+        this.mockADXConnectionInformation = adxConnectionInformation;
+    };
+
+    getADXConnectionInformation = () => {
+        return this.mockADXConnectionInformation;
+    };
+
     async getSubscriptions() {
         const mockSubscriptions: Array<IAzureSubscription> = mockSubscriptionData;
         try {
@@ -1000,6 +1014,29 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<StorageBlobServiceCorsRulesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getTimeSeriesConnectionInformation(
+        _adtInstanceIdentifier: ADTResourceIdentifier
+    ) {
+        try {
+            await this.mockNetwork();
+
+            return new AdapterResult({
+                result: new ADTInstanceTimeSeriesConnectionData({
+                    kustoClusterUrl:
+                        'https://mockKustoClusterName.westus2.kusto.windows.net',
+                    kustoDatabaseName: 'mockKustoDatabaseName',
+                    kustoTableName: 'mockKustoTableName'
+                }),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

@@ -12,7 +12,7 @@ import {
     IADTTwin,
     IADTModel,
     IResolvedRelationshipClickErrors,
-    IADTInstanceConnection
+    IADXConnection
 } from '../../Models/Constants/Interfaces';
 import './ADTTwinsPage.scss';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -37,15 +37,17 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
-    const [
-        ADXConnectionInfo,
-        setADXConnectionInfo
-    ] = useState<IADTInstanceConnection>(null);
+    const [ADXConnectionInfo, setADXConnectionInfo] = useState<IADXConnection>(
+        null
+    );
     const { t } = useTranslation();
     const lookupTwinIdRef = useRef(lookupTwinId);
 
     const connectionState = useAdapter({
-        adapterMethod: () => adapter.getConnectionInformation(),
+        adapterMethod: () =>
+            adapter.getTimeSeriesConnectionInformation({
+                hostName: adapter.getAdtHostUrl()
+            }),
         refetchDependencies: [adapter]
     });
 

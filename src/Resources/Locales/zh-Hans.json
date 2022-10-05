@@ -778,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "配置 3D 场景环境",
-    "descriptionForEnvironment": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
-    "descriptionForEnvAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
     "descriptionForLocalStorage": "配置数据保存在本地存储中。",
     "selectContainerUrl": "选择存储容器 URL",
-    "noEnvironment": "未添加环境",
     "noContainer": "未添加容器",
     "removeFromList": "从列表中删除",
     "storageAccountName": "Azure 存储帐户名称",
     "storageAccountUrl": "Azure 存储帐户 URL",
     "storageContainerName": "Azure Storage Container Name",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
+    "descriptionForAdtInstanceAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
+    "noAdtInstance": "未添加广告开发区实例"
   },
   "behaviorsModal": {
     "closeModal": "闭合模态",

@@ -778,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL dell'istanza di Gemelli digitali di Azure",
     "editEnvironment": "Configurare l'ambiente delle scene 3D",
-    "descriptionForEnvironment": "Collega l'istanza di Gemelli digitali di Azure per iniziare a creare scene 3D.",
-    "descriptionForEnvAndCont": "Collega l'istanza di Gemelli digitali di Azure e il contenitore di archiviazione per iniziare a creare scene 3D.",
     "descriptionForLocalStorage": "I dati di configurazione vengono salvati nell'archivio locale.",
     "selectContainerUrl": "Selezionare l'URL del contenitore di archiviazione",
-    "noEnvironment": "Nessun ambiente aggiunto",
     "noContainer": "Nessun contenitore aggiunto",
     "removeFromList": "Rimuovi dall'elenco",
     "storageAccountName": "Nome account archiviazione di Azure",
     "storageAccountUrl": "URL dell'account di archiviazione di Azure",
     "storageContainerName": "Nome del contenitore di Archiviazione di Azure",
-    "storageContainerUrl": "URL del contenitore di Archiviazione di Azure"
+    "storageContainerUrl": "URL del contenitore di Archiviazione di Azure",
+    "adtInstanceUrl": "URL dell'istanza di Gemelli digitali di Azure",
+    "descriptionForAdtInstance": "Collega l'istanza di Gemelli digitali di Azure per iniziare a creare scene 3D.",
+    "descriptionForAdtInstanceAndCont": "Collega l'istanza di Gemelli digitali di Azure e il contenitore di archiviazione per iniziare a creare scene 3D.",
+    "noAdtInstance": "Nessuna istanza ADT aggiunta"
   },
   "behaviorsModal": {
     "closeModal": "Chiudi modale",

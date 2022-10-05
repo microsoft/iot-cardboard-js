@@ -778,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "3D シーン環境の構成",
-    "descriptionForEnvironment": "Azure デジタル ツインズ インスタンスをリンクして、3D シーンの構築を開始します。",
-    "descriptionForEnvAndCont": "Azure デジタル ツインズ インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
     "descriptionForLocalStorage": "構成データはローカルストレージに保存されます。",
     "selectContainerUrl": "ストレージコンテナのURLを選択",
-    "noEnvironment": "環境は追加されていません",
     "noContainer": "コンテナが追加されていません",
     "removeFromList": "リストから削除",
     "storageAccountName": "Azure ストレージ アカウント名",
     "storageAccountUrl": "Azure ストレージ アカウントの URL",
     "storageContainerName": "Azure Storage コンテナー名",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "Azure デジタル ツイン インスタンスをリンクして、3D シーンの構築を開始します。",
+    "descriptionForAdtInstanceAndCont": "Azure Digital Twins インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
+    "noAdtInstance": "ADT インスタンスは追加されていません"
   },
   "behaviorsModal": {
     "closeModal": "モーダルを閉じる",

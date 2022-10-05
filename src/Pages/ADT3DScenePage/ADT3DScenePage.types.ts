@@ -9,7 +9,9 @@ import {
     IAction,
     IConsumeCompositeCardProps,
     IErrorButtonAction,
-    IADTInstance
+    IADTInstance,
+    IAzureStorageBlobContainer,
+    IADXConnection
 } from '../../Models/Constants/Interfaces';
 import {
     I3DScenesConfig,
@@ -19,13 +21,13 @@ import {
 export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
     adapter: ADT3DSceneAdapter | MockAdapter;
     environmentPickerOptions?: {
-        environment?: {
+        adt?: {
             isLocalStorageEnabled?: boolean;
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
-            onEnvironmentChange?: (
-                environment: string | IADTInstance,
-                environments: Array<string | IADTInstance>
+            onAdtInstanceChange?: (
+                adtInstance: string | IADTInstance,
+                adtInstances: Array<string | IADTInstance>
             ) => void;
         };
         storage?: {
@@ -33,8 +35,8 @@ export interface IADT3DScenePageProps extends IConsumeCompositeCardProps {
             localStorageKey?: string;
             selectedItemLocalStorageKey?: string;
             onContainerChange?: (
-                containerUrl: string,
-                containerUrls: Array<string>
+                container: string | IAzureStorageBlobContainer,
+                containers: Array<string | IAzureStorageBlobContainer>
             ) => void;
         };
     };
@@ -55,7 +57,7 @@ export interface ISceneContentsProps {
     scenesConfig: I3DScenesConfig;
 }
 
-export interface ADT3DScenePageState {
+export interface IADT3DScenePageState {
     currentStep: ADT3DScenePageSteps;
     scenesConfig: I3DScenesConfig;
     selectedBlobContainerURL: string;
@@ -63,13 +65,74 @@ export interface ADT3DScenePageState {
     scene?: IScene;
     errors?: Array<IComponentError>;
     errorCallback: IErrorButtonAction;
+    adxConnectionInformation: {
+        connection: IADXConnection;
+        loadingState: ADXConnectionInformationLoadingState;
+    };
 }
 
 export interface IADT3DScenePageContext {
-    state: ADT3DScenePageState;
+    state: IADT3DScenePageState;
     dispatch: React.Dispatch<IAction>;
     handleOnHomeClick: () => void;
     handleOnSceneClick: (scene: IScene) => void;
     handleOnSceneSwap: (sceneId: string) => void;
     isTwinPropertyInspectorPatchModeEnabled: boolean;
 }
+
+export enum ADXConnectionInformationLoadingState {
+    IDLE,
+    LOADING,
+    EXIST,
+    NOT_EXIST
+}
+
+export enum ADT3DScenePageActionTypes {
+    SET_ADT_SCENE_CONFIG = 'SET_ADT_SCENE_CONFIG',
+    SET_CURRENT_STEP = 'SET_CURRENT_STEP',
+    SET_SELECTED_SCENE = 'SET_SELECTED_SCENE',
+    SET_ERRORS = 'SET_ERRORS',
+    SET_ERROR_CALLBACK = 'SET_ERROR_CALLBACK',
+    SET_ADX_CONNECTION_INFORMATION = 'SET_ADX_CONNECTION_INFORMATION'
+}
+
+export type ADT3DScenePageAction =
+    | {
+          type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG;
+          payload: {
+              scenesConfig: I3DScenesConfig | null;
+          };
+      }
+    | {
+          type: ADT3DScenePageActionTypes.SET_CURRENT_STEP;
+          payload: {
+              currentStep: ADT3DScenePageSteps;
+          };
+      }
+    | {
+          type: ADT3DScenePageActionTypes.SET_SELECTED_SCENE;
+          payload: {
+              selectedScene: IScene | null;
+          };
+      }
+    | {
+          type: ADT3DScenePageActionTypes.SET_ERRORS;
+          payload: {
+              errors: Array<IComponentError>;
+          };
+      }
+    | {
+          type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK;
+          payload: {
+              errorCallback: IErrorButtonAction | null;
+          };
+      }
+    | {
+          type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION;
+          payload: {
+              adxConnectionInformation: {
+                  connection: IADXConnection;
+                  loadingState: ADXConnectionInformationLoadingState;
+              };
+          };
+      };
