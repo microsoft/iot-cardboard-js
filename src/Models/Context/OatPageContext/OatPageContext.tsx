@@ -303,7 +303,7 @@ function convertStateToProject(draft: IOatPageContextState): ProjectData {
     const project = new ProjectData(
         Array.from(draft.currentOntologyModelPositions),
         convertDtdlInterfacesToModels(draft.currentOntologyModels),
-        draft.currentOntologyProjectName,
+        draft.currentOntologyProjectName || '',
         Array.from(draft.currentOntologyTemplates),
         draft.currentOntologyNamespace,
         Array.from(draft.currentOntologyModelMetadata)

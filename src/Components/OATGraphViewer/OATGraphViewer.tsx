@@ -477,17 +477,20 @@ const OATGraphViewer = () => {
         execute(addition, undoAddition);
     };
 
-    const storeElements = useCallback(() => {
+    const storeElementPositions = useCallback(() => {
         // Save the session data into the local storage
-        const nodePositions = elements.reduce((collection, element) => {
-            if (!element.source) {
-                collection.push({
-                    '@id': element.id,
-                    position: element.position
-                });
-            }
-            return collection;
-        }, []);
+        const nodePositions: IOATModelPosition[] = elements.reduce(
+            (collection, element) => {
+                if (!element.source) {
+                    collection.push({
+                        '@id': element.id,
+                        position: element.position
+                    });
+                }
+                return collection;
+            },
+            []
+        );
 
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
@@ -643,7 +646,7 @@ const OATGraphViewer = () => {
         if (match) {
             match.position = node.position;
         }
-        storeElements();
+        storeElementPositions();
     };
 
     const onNodeMouseLeave = () => {
@@ -672,8 +675,8 @@ const OATGraphViewer = () => {
 
     // side effects
     useEffect(() => {
-        storeElements();
-    }, [elements, storeElements]);
+        storeElementPositions();
+    }, [elements, storeElementPositions]);
 
     // Update graph nodes and edges when the models are updated
     useEffect(() => {
@@ -688,18 +691,15 @@ const OATGraphViewer = () => {
         );
         // console.log(
         //     '***END] Setting elements in graph',
-        //     oatPageState.currentOntologyModels,
-        //     oatPageState.currentOntologyModelPositions,
-        //     potentialElements
+        //     potentialElements,
+        //     JSON.stringify(potentialElements),
+        //     JSON.stringify(elements)
         // );
 
         if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
             setElements(potentialElements);
         }
-    }, [
-        oatPageState.currentOntologyModelPositions,
-        oatPageState.currentOntologyModels
-    ]);
+    }, [oatPageState.currentOntologyModels]);
 
     useEffect(() => {
         // console.log('*** START Apply layout');
