@@ -24,13 +24,8 @@ export interface IOATHeaderStyleProps {
 
 export interface IOATHeaderStyles {
     root: IStyle;
-    logo: IStyle;
-    menuComponent: IStyle;
-    optionIcon: IStyle;
-    options: IStyle;
     projectName: IStyle;
-    search: IStyle;
-    searchComponent: IStyle;
+    switchSubMenuItem: IStyle;
 
     /**
      * SubComponent styles.

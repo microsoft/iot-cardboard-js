@@ -67,6 +67,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const redoButtonRef = useRef<IContextualMenuRenderItem>(null);
     const undoButtonRef = useRef<IContextualMenuRenderItem>(null);
 
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
+
+    // callbacks
     const onFilesUpload = useCallback(
         async (files: Array<File>) => {
             // Populates fileNames and filePaths
@@ -381,9 +385,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                             payload: { projectId: file.id }
                         });
                     };
+                    const MAX_LENGTH = 35;
+                    let fileName = file.data.projectName || '';
+                    if (fileName.length > MAX_LENGTH) {
+                        fileName = fileName.substring(0, MAX_LENGTH) + '...';
+                    }
                     return {
                         key: file.id,
-                        text: file.data.projectName,
+                        text: fileName,
+                        title: file.data.projectName,
+                        className: classNames.switchSubMenuItem,
                         onClick: onClick
                     };
                 }
@@ -507,9 +518,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         }
     ];
 
-    // styles
-    const classNames = getClassNames(styles, { theme: useTheme() });
-
     logDebugConsole('debug', 'Render');
     return (
         <>
@@ -517,12 +525,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 <h2 className={classNames.projectName}>
                     {oatPageState.currentOntologyProjectName}
                 </h2>
-                <div className={classNames.menuComponent}>
-                    <CommandBar
-                        items={commandBarItems}
-                        styles={classNames.subComponentStyles.commandBar}
-                    />
-                </div>
+                <CommandBar
+                    items={commandBarItems}
+                    styles={classNames.subComponentStyles.commandBar}
+                />
                 {/* Create ontology */}
                 <ManageOntologyModal
                     isOpen={openModal === HeaderModal.CreateOntology}
