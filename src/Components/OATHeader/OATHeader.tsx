@@ -394,7 +394,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         key: file.id,
                         text: fileName,
                         title: file.data.projectName,
-                        className: classNames.switchSubMenuItem,
                         onClick: onClick
                     };
                 }

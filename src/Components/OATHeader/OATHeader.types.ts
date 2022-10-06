@@ -25,7 +25,6 @@ export interface IOATHeaderStyleProps {
 export interface IOATHeaderStyles {
     root: IStyle;
     projectName: IStyle;
-    switchSubMenuItem: IStyle;
 
     /**
      * SubComponent styles.

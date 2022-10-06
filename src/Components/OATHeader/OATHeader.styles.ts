@@ -32,7 +32,6 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
                 whiteSpace: 'nowrap'
             }
         ],
-        switchSubMenuItem: [classNames.switchSubMenuItem, {}],
         subComponentStyles: {
             commandBar: {
                 root: {
