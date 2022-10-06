@@ -1,7 +1,14 @@
 export interface IValidityState {
     isValid: boolean;
 }
-export type TabNames = 'Root' | 'Twins' | 'Elements' | 'Widgets' | 'Rules';
+export type TabNames =
+    | 'Root'
+    | 'Twins'
+    | 'Alerts'
+    | 'Elements'
+    | 'Status'
+    | 'Widgets'
+    | 'Rules';
 export interface IBehaviorFormState {
     validityMap: Map<TabNames, IValidityState>;
 }
