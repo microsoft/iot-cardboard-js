@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName1": "Nieuwe ontologie"
+    "defaultFileName": "Nieuwe ontologie"
   }
 }

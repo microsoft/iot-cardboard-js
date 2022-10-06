@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
-    "defaultFileName1": "新しいオントロジー"
+    "defaultFileName": "新しいオントロジー"
   }
 }

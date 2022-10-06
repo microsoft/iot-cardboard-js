@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
-    "defaultFileName1": "Ny ontologi"
+    "defaultFileName": "Ny ontologi"
   }
 }

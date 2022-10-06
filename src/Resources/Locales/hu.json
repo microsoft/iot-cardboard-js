@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",
-    "defaultFileName1": "Új ontológia"
+    "defaultFileName": "Új ontológia"
   }
 }

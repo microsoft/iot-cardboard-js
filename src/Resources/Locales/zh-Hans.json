@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "复制",
-    "defaultFileName1": "新本体"
+    "defaultFileName": "新本体"
   }
 }
