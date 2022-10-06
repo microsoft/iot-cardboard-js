@@ -1,7 +1,7 @@
 /**
  * This context is for managing the state and actions on the Ontology Authoring Tool page
  */
-import produce, { current } from 'immer';
+import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import i18n from '../../../i18n';
@@ -25,7 +25,7 @@ import {
     getLastUsedProjectId,
     getStoredEditorName
 } from '../../Services/OatUtils';
-import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
+import { createGUID, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
