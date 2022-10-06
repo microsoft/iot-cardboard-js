@@ -264,7 +264,12 @@ function createProject(
 }
 
 function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
+    // save the current state
+    saveData(draft);
+
+    // do the swap
     draft.currentOntologyId = projectId;
+    saveLastProjectId(draft.currentOntologyId);
     const selectedFile = draft.ontologyFiles.find(
         (x) => x.id === draft.currentOntologyId
     );
@@ -278,7 +283,7 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
             data.namespace,
             data.modelsMetadata
         );
-        mapProjectToState(draft, projectToOpen);
+        mapProjectOntoState(draft, projectToOpen);
         logDebugConsole(
             'debug',
             `Setting current project to id: ${draft.currentOntologyId}. {project}`,
@@ -290,7 +295,6 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
             `Project not found in storage. Unable to find the current project to ${draft.currentOntologyId}`
         );
     }
-    isStorageEnabled && storeLastUsedProjectId(draft.currentOntologyId);
 }
 
 /** TODO: remove this helper when we move the project data into a sub object on the state */
@@ -304,12 +308,12 @@ function convertStateToProject(draft: IOatPageContextState): ProjectData {
         draft.currentOntologyNamespace,
         Array.from(draft.currentOntologyModelMetadata)
     );
-    console.log('***Converted project', project, current(draft));
+    // console.log('***Converted project', project, current(draft));
 
     return project;
 }
 
-function mapProjectToState(
+function mapProjectOntoState(
     draft: IOatPageContextState,
     projectToOpen: ProjectData
 ) {
@@ -323,9 +327,10 @@ function mapProjectToState(
 
 /** saves all the data to local storage */
 function saveData(draft: IOatPageContextState): void {
-    const selectedOntology = deepCopy(
-        draft.ontologyFiles.find((x) => x.id === draft.currentOntologyId)
+    const selectedOntology = draft.ontologyFiles.find(
+        (x) => x.id === draft.currentOntologyId
     );
+    saveLastProjectId(draft.currentOntologyId);
     if (selectedOntology) {
         selectedOntology.data = convertStateToProject(draft);
         saveEditorData(selectedOntology.data);
@@ -336,6 +341,15 @@ function saveData(draft: IOatPageContextState): void {
             `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
         );
     }
+}
+
+function saveLastProjectId(projectId: string): void {
+    logDebugConsole(
+        'debug',
+        'Saving current project id to storage.',
+        projectId
+    );
+    isStorageEnabled && storeLastUsedProjectId(projectId);
 }
 
 /**
