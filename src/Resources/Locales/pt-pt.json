@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Ligue o gémeo direito reduzindo a sua pesquisa"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "cópia"
+    "duplicateFileNameSuffix": "cópia",
+    "defaultFileName": "Minha ontologia"
   }
 }

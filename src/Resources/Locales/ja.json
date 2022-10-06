@@ -1186,6 +1186,7 @@
     "modalSubtitle": "検索を絞り込んで適切な双子をリンクする"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "写し"
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "私の存在論"
   }
 }

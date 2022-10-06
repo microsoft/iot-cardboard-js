@@ -1186,6 +1186,7 @@
     "modalSubtitle": "검색 범위를 좁혀 오른쪽 트윈 연결"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "복사"
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "내 온톨로지"
   }
 }

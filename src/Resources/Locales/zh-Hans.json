@@ -1186,6 +1186,7 @@
     "modalSubtitle": "通过缩小搜索范围来链接正确的孪生"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "复制"
+    "duplicateFileNameSuffix": "复制",
+    "defaultFileName": "我的本体论"
   }
 }

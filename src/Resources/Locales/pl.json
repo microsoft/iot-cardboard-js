@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopiować"
+    "duplicateFileNameSuffix": "kopiować",
+    "defaultFileName": "Moja ontologia"
   }
 }

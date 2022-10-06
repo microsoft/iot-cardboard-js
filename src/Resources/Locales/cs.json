@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopírovat"
+    "duplicateFileNameSuffix": "kopírovat",
+    "defaultFileName": "Moje ontologie"
   }
 }

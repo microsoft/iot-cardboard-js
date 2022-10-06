@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "copiare"
+    "duplicateFileNameSuffix": "copiare",
+    "defaultFileName": "La mia ontologia"
   }
 }

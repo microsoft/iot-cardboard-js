@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "kopya etmek"
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Ontolojim"
   }
 }

@@ -1186,6 +1186,7 @@
     "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "copiar"
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Minha ontologia"
   }
 }

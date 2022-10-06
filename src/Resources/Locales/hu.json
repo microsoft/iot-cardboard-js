@@ -1186,6 +1186,7 @@
     "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
   },
   "OATCommon": {
-    "duplicateFileNameSuffix": "másolat"
+    "duplicateFileNameSuffix": "másolat",
+    "defaultFileName": "Az én ontológiám"
   }
 }
