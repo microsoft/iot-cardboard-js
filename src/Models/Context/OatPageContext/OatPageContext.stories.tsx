@@ -80,6 +80,7 @@ const ProviderContentRenderer: React.FC = () => {
         >
             <h3 style={headerStyles}>Context</h3>
 
+            {/* Current ontology */}
             <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
                 <h4 style={headerStyles}>Current ontology</h4>
                 <Stack horizontal styles={itemStackStyles}>
@@ -126,8 +127,17 @@ const ProviderContentRenderer: React.FC = () => {
                 </Stack>
             </Stack>
 
+            {/* Other attributes */}
             <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
                 <h4 style={headerStyles}>Other attributes</h4>
+                <Stack horizontal styles={itemStackStyles}>
+                    <Label>Files: </Label>
+                    <Text styles={valueStyle}>
+                        {oatPageState.ontologyFiles
+                            .map((x) => x.data.projectName)
+                            .join(', ')}
+                    </Text>
+                </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Selection: </Label>
                     <Text styles={valueStyle}>
@@ -138,38 +148,6 @@ const ProviderContentRenderer: React.FC = () => {
                     <Label>Selected model target: </Label>
                     <Text styles={valueStyle}>
                         {stringify(oatPageState.selectedModelTarget)}
-                    </Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
-                    <Label>Error: </Label>
-                    <Text styles={valueStyle}>
-                        {stringify(oatPageState.error)}
-                    </Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
-                    <Label>Confirmation dialog: </Label>
-                    <Text styles={valueStyle}>
-                        <div>Open: {oatPageState.confirmDeleteOpen.open}</div>
-                        <div>Title: {oatPageState.confirmDeleteOpen.title}</div>
-                        <div>
-                            Message: {oatPageState.confirmDeleteOpen.message}
-                        </div>
-                    </Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
-                    <Label>IsModified: </Label>
-                    <Text styles={valueStyle}>{oatPageState.modified}</Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
-                    <Label>IsJSONEditorOpen: </Label>
-                    <Text styles={valueStyle}>
-                        {oatPageState.isJsonUploaderOpen}
-                    </Text>
-                </Stack>
-                <Stack horizontal styles={itemStackStyles}>
-                    <Label>IsTemplatesOpen: </Label>
-                    <Text styles={valueStyle}>
-                        {oatPageState.templatesActive}
                     </Text>
                 </Stack>
             </Stack>
@@ -336,7 +314,7 @@ const ProviderUpdater: React.FC = () => {
                         }}
                     />
                 </Stack>
-                <h4 style={headerStyles}>Other actions</h4>
+                <h4 style={headerStyles}>Project actions</h4>
                 <Stack
                     styles={getContainerStyles(theme)}
                     horizontal
@@ -345,7 +323,7 @@ const ProviderUpdater: React.FC = () => {
                     <DefaultButton
                         data-testid={'OatPageContext-CreateProject'}
                         iconProps={{ iconName: 'Add' }}
-                        text={'Create new'}
+                        text={'New project'}
                         onClick={() => {
                             const newValue = createIncrementor + 1;
                             oatPageDispatch({
@@ -374,6 +352,38 @@ const ProviderUpdater: React.FC = () => {
                             setEditIncrementor(newValue);
                         }}
                     />
+                    <DefaultButton
+                        data-testid={'OatPageContext-DuplicateProject'}
+                        iconProps={{ iconName: 'Copy' }}
+                        text={'Duplicate current'}
+                        onClick={() => {
+                            oatPageDispatch({
+                                type: OatPageContextActionType.DUPLICATE_PROJECT
+                            });
+                        }}
+                    />
+                    <DefaultButton
+                        data-testid={'OatPageContext-DeleteProject'}
+                        iconProps={{ iconName: 'Delete' }}
+                        text={'Delete project'}
+                        disabled={!oatPageState.ontologyFiles.length}
+                        onClick={() => {
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_DELETE_PROJECT,
+                                payload: {
+                                    id: oatPageState.currentOntologyId
+                                }
+                            });
+                        }}
+                    />
+                </Stack>
+                <h4 style={headerStyles}>Other actions</h4>
+                <Stack
+                    styles={getContainerStyles(theme)}
+                    horizontal
+                    tokens={{ childrenGap: 8 }}
+                >
                     <DefaultButton
                         data-testid={'OatPageContext-ChangeSelection'}
                         iconProps={{ iconName: 'Switch' }}
@@ -411,7 +421,7 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     _context: IStoryContext<IOatPageContextProviderProps>
 ) => {
-    // setContextStorageEnabled(false);
+    setContextStorageEnabled(false);
     return (
         <OatPageContextProvider initialState={args.defaultState}>
             <Stack>
@@ -493,6 +503,50 @@ UpdateTemplates.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the button and clicks it
     const button = await canvas.findByTestId('OatPageContext-UpdateTemplates');
+    userEvent.click(button);
+};
+
+export const CreateProject = Template.bind({});
+CreateProject.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+CreateProject.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-CreateProject');
+    userEvent.click(button);
+};
+
+export const EditProject = Template.bind({});
+EditProject.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+EditProject.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-EditProject');
+    userEvent.click(button);
+};
+
+export const DuplicateProject = Template.bind({});
+DuplicateProject.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+DuplicateProject.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-DuplicateProject');
+    userEvent.click(button);
+};
+
+export const DeleteProject = Template.bind({});
+DeleteProject.args = {
+    defaultState: GET_MOCK_OAT_CONTEXT_STATE()
+} as StoryProps;
+DeleteProject.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId('OatPageContext-DeleteProject');
     userEvent.click(button);
 };
 

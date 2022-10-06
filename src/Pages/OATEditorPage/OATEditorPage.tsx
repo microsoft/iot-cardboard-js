@@ -10,11 +10,7 @@ import i18n from '../../i18n';
 import OATErrorPage from './Internal/OATErrorPage';
 import { CommandHistoryContextProvider } from './Internal/Context/CommandHistoryContext';
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
-import {
-    getAvailableLanguages,
-    getOntologiesFromStorage,
-    storeOntologiesToStorage
-} from '../../Models/Services/OatUtils';
+import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
@@ -34,14 +30,6 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
     }, []);
 
     const editorPageStyles = getEditorPageStyles();
-
-    useEffect(() => {
-        //  Set the OATFilesStorageKey to the localStorage if key doesn't exist
-        const files = getOntologiesFromStorage();
-        if (!files?.length) {
-            storeOntologiesToStorage([]);
-        }
-    }, []);
 
     const isTemplatesOpen = false;
     return (

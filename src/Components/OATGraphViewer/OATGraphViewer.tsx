@@ -46,7 +46,7 @@ import {
 import { ElementsContext } from './Internal/OATContext';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
-import { deepCopy } from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     forceSimulation,
@@ -72,6 +72,9 @@ import {
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
 const nodeHeight = 100;
@@ -99,6 +102,7 @@ const OATGraphViewer = () => {
             return [];
         }
 
+        // console.log('*** getGraphViewerElementsFromModels', models);
         // Format models
         const modelsCopy = deepCopy(models);
         // TODO: define a type here that actually works so it's not an any
@@ -182,12 +186,18 @@ const OATGraphViewer = () => {
     const { t } = useTranslation();
     const theme = useTheme();
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
+    // console.log(
+    //     '***START initilize. {models, positions}',
+    //     oatPageState.currentOntologyModels,
+    //     oatPageState.currentOntologyModelPositions
+    // );
     const [elements, setElements] = useState(
         getGraphViewerElementsFromModels(
             oatPageState.currentOntologyModels,
             oatPageState.currentOntologyModelPositions
         )
     );
+    // console.log('***END initilize');
     const graphViewerStyles = getGraphViewerStyles();
     const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
@@ -667,10 +677,21 @@ const OATGraphViewer = () => {
 
     // Update graph nodes and edges when the models are updated
     useEffect(() => {
+        // console.log(
+        //     '***START] Setting elements in graph',
+        //     oatPageState.currentOntologyModels,
+        //     oatPageState.currentOntologyModelPositions
+        // );
         const potentialElements = getGraphViewerElementsFromModels(
             oatPageState.currentOntologyModels,
             oatPageState.currentOntologyModelPositions
         );
+        // console.log(
+        //     '***END] Setting elements in graph',
+        //     oatPageState.currentOntologyModels,
+        //     oatPageState.currentOntologyModelPositions,
+        //     potentialElements
+        // );
 
         if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
             setElements(potentialElements);
@@ -681,6 +702,7 @@ const OATGraphViewer = () => {
     ]);
 
     useEffect(() => {
+        // console.log('*** START Apply layout');
         if (oatPageState.importModels?.length > 0) {
             setLoading(true);
             const potentialElements = getGraphViewerElementsFromModels(
@@ -689,11 +711,19 @@ const OATGraphViewer = () => {
             );
             applyLayoutToElements(deepCopy(potentialElements));
         }
+        // console.log('*** END Apply layout');
     }, [
         applyLayoutToElements,
         oatPageState.currentOntologyModelPositions,
         oatPageState.importModels
     ]);
+
+    logDebugConsole(
+        'debug',
+        'Render {models, positions}',
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyModelPositions
+    );
 
     return (
         <ReactFlowProvider>

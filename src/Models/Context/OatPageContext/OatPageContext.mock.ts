@@ -1,11 +1,12 @@
 /** File for exporting common testing utilities for the context */
 
+import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLProperty } from '../../Classes/DTDL';
-import { DtdlInterface } from '../../Constants/dtdlInterfaces';
+import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
 import { IOatPageContextState } from './OatPageContext.types';
 
 const getMetadataItem = (id: string): IOATModelsMetadata => {
@@ -26,13 +27,16 @@ const getPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-const getModelItem = (id: string): DtdlInterface => {
-    return {
-        '@context': `test-context-${id.substring(0, 4)}`,
-        '@id': id,
-        '@type': `test-type-${id.substring(0, 2)}`,
-        displayName: `model-${id}`
-    };
+const getModelItem = (id: string): DTDLModel => {
+    return new DTDLModel(
+        id,
+        `model-${id}`,
+        'mock-description',
+        'mock-comment',
+        [],
+        [],
+        []
+    );
 };
 
 const getTemplateItem = (id: string): DTDLProperty => {
@@ -48,31 +52,43 @@ const getTemplateItem = (id: string): DTDLProperty => {
     );
 };
 
-const MOCK_ID_1 = '123456';
-const MOCK_ID_2 = '234567';
-export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => ({
-    confirmDeleteOpen: { open: false },
-    currentOntologyId: 'test-ontology-0',
-    currentOntologyModelMetadata: [
-        getMetadataItem(MOCK_ID_1),
-        getMetadataItem(MOCK_ID_2)
-    ],
-    currentOntologyModelPositions: [
-        getPositionItem(MOCK_ID_1),
-        getPositionItem(MOCK_ID_2)
-    ],
-    currentOntologyModels: [getModelItem(MOCK_ID_1), getModelItem(MOCK_ID_2)],
-    currentOntologyNamespace: 'test-ontology-namespace-0',
-    currentOntologyProjectName: 'test-ontology-name-0',
-    currentOntologyTemplates: [
-        getTemplateItem('0'),
-        getTemplateItem(MOCK_ID_2)
-    ],
-    error: null,
-    importModels: [],
-    isJsonUploaderOpen: false,
-    modified: false,
-    selectedModelTarget: null,
-    selection: null,
-    templatesActive: false
-});
+const getFile = (index: number, subId1: string, subId2: string): IOATFile => {
+    return {
+        id: 'test-ontology-' + index,
+        data: new ProjectData(
+            [getPositionItem(subId1), getPositionItem(subId2)],
+            [getModelItem(subId1), getModelItem(subId2)],
+            'test-ontology-name-' + index,
+            [getTemplateItem('0'), getTemplateItem(subId2)],
+            'test-ontology-namespace-' + index,
+            [getMetadataItem(subId1), getMetadataItem(subId2)]
+        )
+    };
+};
+
+export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
+    const files = [
+        getFile(0, '123456', '234567'),
+        getFile(1, '345678', '456789'),
+        getFile(2, '5678910', '6789101')
+    ];
+    const currentFile = files[0].data;
+    return {
+        confirmDeleteOpen: { open: false },
+        currentOntologyId: files[0].id,
+        currentOntologyModelMetadata: currentFile.modelsMetadata,
+        currentOntologyModelPositions: currentFile.modelPositions,
+        currentOntologyModels: currentFile.models,
+        currentOntologyNamespace: currentFile.namespace,
+        currentOntologyProjectName: currentFile.projectName,
+        currentOntologyTemplates: currentFile.templates,
+        error: null,
+        importModels: [],
+        isJsonUploaderOpen: false,
+        modified: false,
+        ontologyFiles: files,
+        selectedModelTarget: null,
+        selection: null,
+        templatesActive: false
+    };
+};
