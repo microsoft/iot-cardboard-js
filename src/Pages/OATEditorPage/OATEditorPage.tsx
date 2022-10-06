@@ -37,7 +37,8 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // load up the last used project on mount. If we can't find it, go to the first project in the list
-    const lastProjectId = getLastUsedProjectId();
+    const lastProjectId =
+        oatPageState.currentOntologyId || getLastUsedProjectId();
     const previousProjectIdValue = usePrevious(lastProjectId);
     if (
         oatPageState.ontologyFiles?.length > 0 &&
