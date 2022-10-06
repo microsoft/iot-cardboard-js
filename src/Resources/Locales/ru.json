@@ -1187,6 +1187,6 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Моя онтология"
+    "defaultFileName1": "Новая онтология"
   }
 }
