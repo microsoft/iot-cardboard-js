@@ -826,7 +826,7 @@
     },
     "OATCommon": {
         "duplicateFileNameSuffix": "copy",
-        "defaultFileName": "My ontology"
+        "defaultFileName1": "New ontology"
     },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",
