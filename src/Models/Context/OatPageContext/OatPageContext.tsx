@@ -290,7 +290,7 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
             `Project not found in storage. Unable to find the current project to ${draft.currentOntologyId}`
         );
     }
-    storeLastUsedProjectId(draft.currentOntologyId);
+    isStorageEnabled && storeLastUsedProjectId(draft.currentOntologyId);
 }
 
 /** TODO: remove this helper when we move the project data into a sub object on the state */

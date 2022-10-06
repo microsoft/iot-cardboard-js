@@ -19,7 +19,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import JSZip from 'jszip';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { deepCopy, parseModels } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger,
+    parseModels
+} from '../../Models/Services/Utils';
 import {
     HeaderModal,
     IOATHeaderProps,
@@ -37,6 +41,9 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
+
 const getClassNames = classNamesFunction<
     IOATHeaderStyleProps,
     IOATHeaderStyles
@@ -47,9 +54,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const { onUndo, onRedo, canUndo, canRedo } = useContext(
-        CommandHistoryContext
-    );
+    const commandContex = useContext(CommandHistoryContext);
+    const { undo, redo, canUndo, canRedo } = commandContex;
 
     // contexts
     const { oatPageDispatch, oatPageState } = useOatPageContext();
@@ -352,24 +358,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     // Side effects
     // Set listener to undo/redo buttons on key press
     useEffect(() => {
-        const onKeyDown = (e: KeyboardEvent) => {
-            //Prevent event automatically repeating due to key being held down
-            if (e.repeat) {
-                return;
-            }
-
-            if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
-                if (e.shiftKey) {
-                    redoButtonRef.current['_onClick']();
-                } else {
-                    undoButtonRef.current['_onClick']();
-                }
-            }
-
-            if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
-                redoButtonRef.current['_onClick']();
-            }
-        };
+        const onKeyDown = getKeyboardShortcutHandler(
+            redoButtonRef,
+            undoButtonRef
+        );
         document.addEventListener('keydown', onKeyDown);
         return () => {
             document.removeEventListener('keydown', onKeyDown);
@@ -451,14 +443,14 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             disabled: !canUndo,
             iconProps: { iconName: 'Undo' },
             key: 'under',
-            onClick: onUndo,
-            text: 'Undo'
+            onClick: undo,
+            text: t('OATHeader.undo')
         },
         {
             key: 'redo',
-            text: 'Redo',
+            text: t('OATHeader.redo'),
             iconProps: { iconName: 'Redo' },
-            onClick: onRedo,
+            onClick: redo,
             disabled: !canRedo,
             componentRef: redoButtonRef
         }
@@ -496,6 +488,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'Undo',
             disabled: !(canRedo || canUndo),
             iconProps: { iconName: 'Undo' },
+            onClick: undo,
             split: true,
             subMenuProps: {
                 items: undoMenuItems
@@ -517,6 +510,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     // styles
     const classNames = getClassNames(styles, { theme: useTheme() });
 
+    logDebugConsole('debug', 'Render');
     return (
         <>
             <div className={classNames.root}>
@@ -573,6 +567,30 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         </>
     );
 };
+
+function getKeyboardShortcutHandler(
+    redoButtonRef: React.MutableRefObject<IContextualMenuRenderItem>,
+    undoButtonRef: React.MutableRefObject<IContextualMenuRenderItem>
+) {
+    return (e: KeyboardEvent) => {
+        //Prevent event automatically repeating due to key being held down
+        if (e.repeat) {
+            return;
+        }
+
+        if ((e.key === 'z' && e.ctrlKey) || (e.key === 'z' && e.metaKey)) {
+            if (e.shiftKey) {
+                redoButtonRef.current['_onClick']();
+            } else {
+                undoButtonRef.current['_onClick']();
+            }
+        }
+
+        if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
+            redoButtonRef.current['_onClick']();
+        }
+    };
+}
 
 export default styled<IOATHeaderProps, IOATHeaderStyleProps, IOATHeaderStyles>(
     OATHeader,
