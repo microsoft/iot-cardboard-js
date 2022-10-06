@@ -12,18 +12,10 @@ import {
     OAT_NAMESPACE_DEFAULT_VALUE
 } from '../../Constants/Constants';
 import {
-    getStoredEditorModelsData,
-    getStoredEditorTemplateData,
-    getStoredEditorModelPositionsData,
-    getStoredEditorNamespaceData,
-    getStoredEditorModelMetadata,
     convertDtdlInterfacesToModels,
-    storeEditorData,
     getOntologiesFromStorage,
     storeOntologiesToStorage,
-    storeLastUsedProjectId,
-    getLastUsedProjectId,
-    getStoredEditorName
+    storeLastUsedProjectId
 } from '../../Services/OatUtils';
 import { createGUID, getDebugLogger } from '../../Services/Utils';
 import {
@@ -333,7 +325,6 @@ function saveData(draft: IOatPageContextState): void {
     saveLastProjectId(draft.currentOntologyId);
     if (selectedOntology) {
         selectedOntology.data = convertStateToProject(draft);
-        saveEditorData(selectedOntology.data);
         saveOntologyFiles(draft.ontologyFiles);
     } else {
         logDebugConsole(
@@ -350,27 +341,6 @@ function saveLastProjectId(projectId: string): void {
         projectId
     );
     isStorageEnabled && storeLastUsedProjectId(projectId);
-}
-
-/**
- * writes the editor data to storage.
- * NOTE: this will be removed at some point to consolidate sources of truth
- */
-function saveEditorData(projectData: ProjectData): void {
-    if (isStorageEnabled) {
-        storeEditorData(projectData);
-        logDebugConsole(
-            'debug',
-            'Saved editor data to storage. {projectData}',
-            projectData
-        );
-    } else {
-        logDebugConsole(
-            'warn',
-            'Storage disabled. Skipping saving editor data. {data}',
-            projectData
-        );
-    }
 }
 
 /**
@@ -400,13 +370,13 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
     // use the URL values and then fallback to initial state that is provided
     const defaultState: IOatPageContextState = {
         confirmDeleteOpen: { open: false },
-        currentOntologyId: getLastUsedProjectId(),
-        currentOntologyModelMetadata: getStoredEditorModelMetadata(),
-        currentOntologyModelPositions: getStoredEditorModelPositionsData(),
-        currentOntologyModels: getStoredEditorModelsData(),
-        currentOntologyNamespace: getStoredEditorNamespaceData(),
-        currentOntologyProjectName: getStoredEditorName(),
-        currentOntologyTemplates: getStoredEditorTemplateData(),
+        currentOntologyId: '',
+        currentOntologyModelMetadata: [],
+        currentOntologyModelPositions: [],
+        currentOntologyModels: [],
+        currentOntologyNamespace: '',
+        currentOntologyProjectName: '',
+        currentOntologyTemplates: [],
         error: null,
         importModels: [],
         isJsonUploaderOpen: false,
