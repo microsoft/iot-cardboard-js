@@ -23,9 +23,9 @@ export class ProjectData {
     ) {
         this.modelPositions = Array.from(modelPositions);
         this.models = Array.from(models);
-        this.projectName = projectName;
+        this.projectName = projectName || '';
         this.templates = Array.from(templates);
-        this.namespace = namespace;
+        this.namespace = namespace || '';
         this.modelsMetadata = Array.from(modelsMetadata);
         this.projectDescription = '';
     }
