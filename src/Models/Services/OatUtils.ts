@@ -35,8 +35,8 @@ export const getOntologiesFromStorage = (): IOATFile[] => {
     const files: IOATFile[] =
         JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
     files.sort((a, b) => {
-        const aVal = a.data?.projectName.toLowerCase();
-        const bVal = b.data?.projectName.toLowerCase();
+        const aVal = a.data?.projectName?.toLowerCase();
+        const bVal = b.data?.projectName?.toLowerCase();
         return aVal > bVal ? 1 : -1;
     });
     return files;
