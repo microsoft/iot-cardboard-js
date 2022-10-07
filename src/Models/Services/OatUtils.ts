@@ -1,44 +1,64 @@
+import { i18n } from 'i18next';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../Classes/DTDL';
 import {
-    OATDataStorageKey,
+    OAT_DATA_STORAGE_KEY,
     DtdlInterface,
     DtdlRelationship,
     DtdlInterfaceContent,
-    OATFilesStorageKey,
-    OATUntargetedRelationshipName
+    OAT_FILES_STORAGE_KEY,
+    OAT_UNTARGETED_RELATIONSHIP_NAME,
+    OAT_LAST_PROJECT_STORAGE_KEY,
+    OAT_MODEL_ID_PREFIX
 } from '../Constants';
-import { deepCopy } from './Utils';
+import { deepCopy, isDefined } from './Utils';
 
-// Store OAT-data
+/**
+ * Stores the last used project to local storage
+ * @param id id for the project
+ */
+export const storeLastUsedProjectId = (id: string) => {
+    localStorage.setItem(
+        OAT_LAST_PROJECT_STORAGE_KEY,
+        id ? JSON.stringify(id) : undefined
+    );
+};
+
+/** Gets the last used project id */
+export const getLastUsedProjectId = (): string => {
+    const data = localStorage.getItem(OAT_LAST_PROJECT_STORAGE_KEY);
+    return data ? JSON.parse(data) : {};
+};
+
+/** Store OAT-data */
 export const storeEditorData = (oatEditorData: ProjectData) => {
     localStorage.setItem(
-        OATDataStorageKey,
+        OAT_DATA_STORAGE_KEY,
         oatEditorData ? JSON.stringify(oatEditorData) : undefined
     );
 };
 
-// Get stored OAT-data
+/** Get stored OAT-data */
 export const getStoredEditorData = (): ProjectData => {
-    const data = localStorage.getItem(OATDataStorageKey);
+    const data = localStorage.getItem(OAT_DATA_STORAGE_KEY);
     return data ? JSON.parse(data) : {};
 };
 
-// Get stored template OAT-data
+/** Get stored template OAT-data */
 export const getStoredEditorTemplateData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.templates ? oatData.templates : [];
 };
 
-// Get stored models OAT-data
+/** Get stored models OAT-data */
 export const getStoredEditorModelsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.models ? oatData.models : [];
 };
 
-// Get stored models' positions OAT-data
+/** Get stored models' positions OAT-data */
 export const getStoredEditorModelPositionsData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.modelPositions ? oatData.modelPositions : [];
@@ -49,10 +69,36 @@ export const getStoredEditorModelMetadata = () => {
     return oatData && oatData.modelsMetadata ? oatData.modelsMetadata : [];
 };
 
-// Get stored models' namespace OAT-data
+/**
+ * Get stored models' namespace OAT-data
+ */
 export const getStoredEditorNamespaceData = () => {
     const oatData = getStoredEditorData();
     return oatData && oatData.namespace ? oatData.namespace : null;
+};
+
+/**
+ * Get stored ontology name
+ */
+export const getStoredEditorName = () => {
+    const oatData = getStoredEditorData();
+    return oatData ? oatData.projectName : '';
+};
+
+// Load files from local storage
+export const getOntologiesFromStorage = (): IOATFile[] => {
+    const files: IOATFile[] =
+        JSON.parse(localStorage.getItem(OAT_FILES_STORAGE_KEY)) || [];
+    files.sort((a, b) => {
+        const aVal = a.data?.projectName?.toLowerCase();
+        const bVal = b.data?.projectName?.toLowerCase();
+        return aVal > bVal ? 1 : -1;
+    });
+    return files;
+};
+// Save files from local storage
+export const storeOntologiesToStorage = (files: IOATFile[]) => {
+    localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
 
 export const updateModelId = (
@@ -103,7 +149,7 @@ export const updateModelId = (
         })
     );
 
-    return [modelsCopy, modelsPositionsCopy];
+    return { models: modelsCopy, positions: modelsPositionsCopy };
 };
 
 // Get fileName from DTMI
@@ -151,25 +197,20 @@ export const convertDtdlInterfaceToModel = (
         dtdlInterface.displayName,
         dtdlInterface.description,
         dtdlInterface.comment,
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Property'),
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Relationship'),
-        dtdlInterface.contents.filter((x) => x['@type'] === 'Component')
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Property'),
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Relationship'),
+        dtdlInterface.contents?.filter((x) => x['@type'] === 'Component')
     );
 };
 
-// Load files from local storage
-export const loadOatFiles = (): IOATFile[] =>
-    JSON.parse(localStorage.getItem(OATFilesStorageKey)) || [];
-
-// Save files from local storage
-export const saveOatFiles = (files: IOATFile[]) => {
-    localStorage.setItem(OATFilesStorageKey, JSON.stringify(files));
-};
-
 // Delete model
-export const deleteOatModel = (id, data, models) => {
+export const deleteOatModel = (
+    id: string,
+    data: DtdlInterface,
+    models: DtdlInterface[]
+) => {
     const modelsCopy = deepCopy(models);
-    if (data['@type'] === OATUntargetedRelationshipName) {
+    if (data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) {
         const match = modelsCopy.find(
             (element) => element['@id'] === data['@id']
         );
@@ -199,3 +240,42 @@ export const deleteOatModel = (id, data, models) => {
 
     return modelsCopy;
 };
+
+/**
+ * Tries to parse a string to an object of type `T`. Returns null and eats any exception thrown in case of an error.
+ * @param value string value to parse
+ * @returns an object
+ */
+export const safeJsonParse = <T>(value: string): T | null => {
+    if (!isDefined(value)) {
+        return null;
+    }
+    try {
+        const parsedJson = JSON.parse(value);
+        return parsedJson;
+    } catch (e) {
+        return null;
+    }
+};
+
+export function getAvailableLanguages(i18n: i18n) {
+    return Object.keys(i18n.options.resources).map((language) => {
+        return {
+            key: (i18n.options.resources[language].translation as any)
+                .languageCode,
+            text: (i18n.options.resources[language].translation as any)
+                .languageName
+        };
+    });
+}
+
+export function buildModelId(
+    namespace: string,
+    modelName: string,
+    version: number
+): string {
+    return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
+        / /g,
+        ''
+    )}:${modelName?.replace(/ /g, '')}:${version}`;
+}

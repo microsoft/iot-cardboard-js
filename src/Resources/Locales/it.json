@@ -827,7 +827,6 @@
     "sync": "Sincronizzazione",
     "import": "Importazione",
     "export": "Esportazione",
-    "file": "File",
     "new": "Nuovo",
     "open": "Aperto",
     "saveAs": "Salva con nome",
@@ -852,9 +851,6 @@
     "undo": "Disfare",
     "redo": "Rifare",
     "deleteAll": "Elimina tutto",
-    "folderUpload": "Caricamento cartella",
-    "fileUpload": "Caricamento file",
-    "files": "ﬁle",
     "selectFile": "Seleziona file",
     "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
@@ -864,6 +860,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Seleziona un'ontologia"
+    },
+    "importFolder": "Importa cartella",
+    "importFile": "Importa file",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nuova ontologia",
+      "modalTitleEdit": "Modifica ontologia",
+      "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
+      "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
+      "modalSubTitleLinkText": "Scopri di più sulle ontologie",
+      "deleteButtonText": "Elimina ontologia",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Immettere un nome di ontologia",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Nome modello di esempio: {{modelName}}",
+      "namespacePlaceholder": "Immettere uno spazio dei nomi",
+      "sampleModel": "Modello di esempio"
     }
   },
   "cameraControls": {
@@ -1171,5 +1184,9 @@
     "noOptionsFoundMessage": "Nessun valore trovato",
     "modalTitle": "Ricerca avanzata dei gemelli",
     "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiare",
+    "defaultFileName": "Nuova ontologia"
   }
 }

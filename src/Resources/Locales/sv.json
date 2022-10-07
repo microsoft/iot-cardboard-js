@@ -827,7 +827,6 @@
     "sync": "synkronisering",
     "import": "Import",
     "export": "Export",
-    "file": "Fil",
     "new": "Ny",
     "open": "Öppna",
     "saveAs": "Spara som",
@@ -852,9 +851,6 @@
     "undo": "Ångra",
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
-    "folderUpload": "Uppladdning av mapp",
-    "fileUpload": "Filuppladdning",
-    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -864,6 +860,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
+    },
+    "importFolder": "Importera mapp",
+    "importFile": "Importera fil",
+    "ontology": "Ontologi",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Ny ontologi",
+      "modalTitleEdit": "Redigera ontologi",
+      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleLinkText": "Läs mer om ontologier",
+      "deleteButtonText": "Ta bort ontologi",
+      "nameLabel": "Namn",
+      "namePlaceholder": "Ange ett ontologinamn",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+      "namespacePlaceholder": "Ange ett namnområde",
+      "sampleModel": "exempelmodell"
     }
   },
   "cameraControls": {
@@ -1171,5 +1184,9 @@
     "noOptionsFoundMessage": "Inga värden hittades",
     "modalTitle": "Avancerad tvillingsökning",
     "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Ny ontologi"
   }
 }

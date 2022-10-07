@@ -5,20 +5,23 @@ import {
     FileUploadStatus,
     IJSONUploaderFileItem as IFileItem
 } from '../../../Models/Constants';
-import {
-    SET_OAT_IMPORT_MODELS,
-    SET_OAT_IS_JSON_UPLOADER_OPEN
-} from '../../../Models/Constants/ActionTypes';
-import { IAction } from '../../../Models/Constants/Interfaces';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 type OATImportProps = {
     isJsonUploaderOpen: boolean;
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
 };
 
-const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
+const OATImport: React.FC<OATImportProps> = (props) => {
+    const { isJsonUploaderOpen } = props;
+
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
     const jsonUploaderComponentRef = useRef();
 
+    // callbacks
     const handleFileListChanged = async (files: Array<File>) => {
         const items = [];
         if (files.length > 0) {
@@ -37,13 +40,13 @@ const OATImport = ({ isJsonUploaderOpen, dispatch }: OATImportProps) => {
                 }
                 items.push(newItem.content);
             }
-            dispatch({
-                type: SET_OAT_IMPORT_MODELS,
-                payload: items
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                payload: { models: items }
             });
-            dispatch({
-                type: SET_OAT_IS_JSON_UPLOADER_OPEN,
-                payload: !isJsonUploaderOpen
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN,
+                payload: { isOpen: !oatPageState.isJsonUploaderOpen }
             });
         }
     };

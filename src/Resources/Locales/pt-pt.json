@@ -827,7 +827,6 @@
     "sync": "sincronização",
     "import": "Importação",
     "export": "Exportação",
-    "file": "Arquivo",
     "new": "Novo",
     "open": "Aberto",
     "saveAs": "Salvar como",
@@ -852,9 +851,6 @@
     "undo": "Desfazer",
     "redo": "Redo",
     "deleteAll": "Apagar tudo",
-    "folderUpload": "Upload de pasta",
-    "fileUpload": "Upload de arquivo",
-    "files": "Ficheiros",
     "selectFile": "Selecione ficheiro",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -864,6 +860,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
+    },
+    "importFolder": "Pasta de importação",
+    "importFile": "Arquivo de importação",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nova ontologia",
+      "modalTitleEdit": "Editar ontologia",
+      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
+      "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
+      "modalSubTitleLinkText": "Saiba mais sobre os totologias",
+      "deleteButtonText": "Eliminar a ontologia",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Insira um nome de ontologia",
+      "namespaceLabel": "Espaço de nome",
+      "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
+      "namespacePlaceholder": "Insira um espaço de nome",
+      "sampleModel": "modelo de amostra"
     }
   },
   "cameraControls": {
@@ -1171,5 +1184,9 @@
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa avançada de gémeos",
     "modalSubtitle": "Ligue o gémeo direito reduzindo a sua pesquisa"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "cópia",
+    "defaultFileName": "Nova ontologia"
   }
 }

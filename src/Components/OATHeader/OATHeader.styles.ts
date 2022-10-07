@@ -1,49 +1,42 @@
-import {
-    IStyle,
-    mergeStyleSets,
-    useTheme,
-    FontSizes,
-    IButtonStyles
-} from '@fluentui/react';
+import { IStyle, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { IOATHeaderStyleProps, IOATHeaderStyles } from './OATHeader.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
 const classNames = {
-    container: `${classPrefix}-container`,
-    searchComponent: `${classPrefix}-search-component`,
-    logo: `${classPrefix}-logo`,
-    search: `${classPrefix}-search`,
-    options: `${classPrefix}-options`,
-    menuComponent: `${classPrefix}-menu-component`,
-    optionIcon: `${classPrefix}-option-icon`,
+    root: `${classPrefix}-root`,
     listSubMenu: `${classPrefix}-list-sub-menu`,
     listSubMenuItem: `${classPrefix}-list-sub-menu-item`,
+    logo: `${classPrefix}-logo`,
+    menuComponent: `${classPrefix}-menu-component`,
     modal: `${classPrefix}-modal`,
     modalRow: `${classPrefix}-modal-row`,
     modalRowFlexEnd: `${classPrefix}-modal-row-flex-end`,
+    optionIcon: `${classPrefix}-option-icon`,
+    options: `${classPrefix}-options`,
+    projectName: `${classPrefix}-project-name`,
+    search: `${classPrefix}-search`,
+    searchComponent: `${classPrefix}-search-component`,
     uploadDirectoryInput: `${classPrefix}-upload-directory-input`
 };
 
-export const getHeaderStyles = () => {
-    const theme = useTheme();
-    return mergeStyleSets({
-        container: [
-            classNames.container,
+export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
+    const { theme } = props;
+    return {
+        root: [
+            classNames.root,
             {
                 display: 'grid',
                 gridTemplateColumns: '100%',
-                height: '44px',
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],
-        searchComponent: [
-            classNames.searchComponent,
+        projectName: [
+            classNames.projectName,
             {
-                backgroundColor: theme.semanticColors.bodyBackground,
-                display: 'grid',
-                gridTemplateColumns: '20% 60% 20%',
-                height: '100%'
-            } as IStyle
+                margin: 0,
+                paddingLeft: 4
+            }
         ],
         logo: [
             classNames.logo,
@@ -51,22 +44,6 @@ export const getHeaderStyles = () => {
                 color: theme.semanticColors.bodyText,
                 height: '100%',
                 padding: '4%'
-            } as IStyle
-        ],
-        search: [
-            classNames.search,
-            {
-                height: '100%',
-                padding: '1%'
-            } as IStyle
-        ],
-        options: [
-            classNames.options,
-            {
-                height: '100%',
-                padding: '4%',
-                display: 'grid',
-                gridTemplateColumns: '10% 10% 10% 70%'
             } as IStyle
         ],
         menuComponent: [
@@ -84,104 +61,37 @@ export const getHeaderStyles = () => {
                 color: theme.semanticColors.actionLink
             } as IStyle
         ],
-        modal: [
-            classNames.modal,
+        options: [
+            classNames.options,
             {
-                border: `1px solid ${theme.semanticColors.variantBorder}`,
-                borderRadius: '2px',
-                padding: '15px 25px',
-                minWidth: '600px'
-            } as IStyle
-        ],
-        modalRow: [
-            classNames.modalRow,
-            {
+                height: '100%',
+                padding: '4%',
                 display: 'grid',
-                width: '100%',
-                gridTemplateColumns: '35% 65%',
-                alignItems: 'center',
-                marginBottom: '15px',
-                '& div:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
+                gridTemplateColumns: '10% 10% 10% 70%'
             } as IStyle
         ],
-        modalRowFlexEnd: [
-            classNames.modalRowFlexEnd,
+        search: [
+            classNames.search,
             {
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginBottom: '15px',
-                width: '100%',
-                '& button:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
+                height: '100%',
+                padding: '1%'
             } as IStyle
         ],
-        modalRowCenterItem: [
-            classNames.modalRowFlexEnd,
+        searchComponent: [
+            classNames.searchComponent,
             {
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: '25px',
-                width: '100%',
-                '& button:not(:last-of-type)': {
-                    marginRight: '10px'
-                }
+                backgroundColor: theme.semanticColors.bodyBackground,
+                display: 'grid',
+                gridTemplateColumns: '20% 60% 20%',
+                height: '100%'
             } as IStyle
         ],
-        uploadDirectoryInput: [
-            classNames.uploadDirectoryInput,
-            {
-                display: 'none'
-            } as IStyle
-        ]
-    });
-};
-
-export const getSubMenuItemStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            minWidth: 'max-content',
-            width: '100%',
-            padding: '8px',
-            ':hover': {
-                backgroundColor: theme.semanticColors.primaryButtonTextDisabled
+        subComponentStyles: {
+            commandBar: {
+                root: {
+                    padding: '0px'
+                }
             }
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getSubMenuStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            position: 'absolute',
-            backgroundColor: theme.semanticColors.listBackground,
-            boxShadow: '0px 5px 10px 1px rgba(0,0,0,0.2)',
-            zIndex: 1,
-            right: '0px',
-            top: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '4px',
-            width: '400px'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getSubMenuHiddenStyles = () => {
-    return {
-        root: {
-            pointerEvents: 'none',
-            opacity: 0,
-            visibility: 'hidden'
         }
     };
 };
@@ -190,14 +100,6 @@ export const getPromptTextStyles = () => {
     return {
         root: {
             fontSize: '16px'
-        }
-    };
-};
-
-export const getCommandBarStyles = () => {
-    return {
-        root: {
-            padding: '0px'
         }
     };
 };

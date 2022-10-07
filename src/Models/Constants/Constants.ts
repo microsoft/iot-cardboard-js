@@ -59,6 +59,7 @@ const HOW_TO_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195591';
 const QUICK_START_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195592';
 const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
 const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
+
 export const DOCUMENTATION_LINKS = {
     overviewDoc: OVERVIEW_3D_SCENES,
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
@@ -69,7 +70,9 @@ export const DOCUMENTATION_LINKS = {
     howToExpressions: `${HOW_TO_DOC}#use-custom-advanced-expressions`,
     howToLayers: `${HOW_TO_DOC}#manage-layers`,
     howToTwins: `${HOW_TO_DOC}#twins`,
-    howToWidgets: `${HOW_TO_DOC}#widgets`
+    howToWidgets: `${HOW_TO_DOC}#widgets`,
+    // https://learn.microsoft.com/azure/digital-twins/concepts-ontologies
+    ontologyConcepts: 'https://go.microsoft.com/fwlink/?linkid=2209943'
 };
 
 /** this is the minimum frequency we support for fetching data from ADT */
@@ -265,21 +268,23 @@ export const EnvironmentsLocalStorageKey = 'cb-environments';
 export const ContainersLocalStorageKey = 'cb-containers';
 export const StorageAccountsLocalStorageKey = 'cb-storage-accounts';
 
-export const SelectedEnvironmentLocalStorageKey = 'cb-selected-environment';
-export const SelectedContainerLocalStorageKey = 'cb-selected-container';
-export const OATFilesStorageKey = 'oat-files';
-export const OATDataStorageKey = 'oat-data';
-export const OATUntargetedRelationshipName = 'Untargeted';
-export const OATRelationshipHandleName = 'Relationship';
-export const OATComponentHandleName = 'Component';
-export const OATExtendHandleName = 'Extend';
-export const OATInterfaceType = 'Interface';
-export const OATNamespaceDefaultValue = 'com:example';
-export const OATCommentLengthLimit = 512;
-export const OATDescriptionLengthLimit = 512;
-export const OATDisplayNameLengthLimit = 64;
-export const OATNameLengthLimit = 64;
-export const OATIdLengthLimit = 2048;
+export const SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY = 'cb-selected-environment';
+export const SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY = 'cb-selected-container';
+export const OAT_FILES_STORAGE_KEY = 'oat-files';
+export const OAT_DATA_STORAGE_KEY = 'oat-data';
+export const OAT_LAST_PROJECT_STORAGE_KEY = 'oat-last-project';
+export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
+export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
+export const OAT_COMPONENT_HANDLE_NAME = 'Component';
+export const OAT_EXTEND_HANDLE_NAME = 'Extend';
+export const OAT_INTERFACE_TYPE = 'Interface';
+export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';
+export const OAT_MODEL_ID_PREFIX = 'dtmi';
+export const OAT_COMMENT_LENGTH_LIMIT = 512;
+export const OAT_DESCRIPTION_LENGTH_LIMIT = 512;
+export const OAT_DISPLAY_NAME_LENGTH_LIMIT = 64;
+export const OAT_NAME_LENGTH_LIMIT = 64;
+export const OAT_ID_LENGTH_LIMIT = 2048;
 
 export const SelectedCameraInteractionKey = 'cb-camera-interaction';
 export const ViewerThemeStorageKey = 'cb-viewer-theme';

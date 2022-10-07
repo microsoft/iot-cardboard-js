@@ -11,49 +11,65 @@ import {
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
-    getPropertyListPivotColumnContent,
-    getPropertyListStackItem
+    getPropertyListPivotColumnContentStyles,
+    getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
-import PropertyList from './PropertyList';
-import JSONEditor from './JSONEditor';
-import TemplateColumn from './TemplateColumn';
-import PropertiesModelSummary from './PropertiesModelSummary';
+import PropertyList from './Internal/PropertyList';
+import JSONEditor from './Internal/JSONEditor';
+import TemplateColumn from './Internal/TemplateColumn';
+import PropertiesModelSummary from './Internal/PropertiesModelSummary';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN,
-    SET_OAT_TEMPLATES_ACTIVE
+    SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 import {
     getModelPropertyCollectionName,
     getTargetFromSelection
 } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
-import FormUpdateProperty from './FormUpdateProperty';
-import FormAddEnumItem from './FormAddEnumItem';
-import { FormBody } from './Constants';
-import FormRootModelDetails from './FormRootModelDetails';
+import FormAddEnumItem from './Internal/FormAddEnumItem';
+import { FormBody } from './Shared/Constants';
 import { EditorProps } from './Editor.types';
 import {
-    OATInterfaceType,
-    OATRelationshipHandleName
+    OAT_INTERFACE_TYPE,
+    OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import FormRootModelDetails from './Internal/FormRootModelDetails';
+import FormUpdateProperty from './Internal/FormUpdateProperty';
 
-const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
+const Editor: React.FC<EditorProps> = (props) => {
+    const { dispatch, languages, state, theme } = props;
+
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const propertyListPivotColumnContent = getPropertyListPivotColumnContent();
-    const propertyListStackItem = getPropertyListStackItem();
+    const propertyListPivotColumnContent = getPropertyListPivotColumnContentStyles();
+    const propertyListStackItem = getPropertyListStackItemStyles();
+
+    // state
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-    const { models, selection, templatesActive, modalOpen, modalBody } = state;
 
+    // data
     const model = useMemo(
-        () => selection && getTargetFromSelection(models, selection),
-        [models, selection]
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : OATInterfaceType
+        model ? model['@type'] : OAT_INTERFACE_TYPE
     );
 
     const propertyList = useMemo(() => {
@@ -70,19 +86,20 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
             );
         }
         return propertyItems;
-    }, [model]);
+    }, [model, propertiesKeyName]);
 
     const isSupportedModelType = useMemo(() => {
         return (
-            (model && model['@type'] === OATInterfaceType) ||
-            (model && model['@type'] === OATRelationshipHandleName)
+            (model && model['@type'] === OAT_INTERFACE_TYPE) ||
+            (model && model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
         );
     }, [model]);
 
+    // callbacks
     const onToggleTemplatesActive = () => {
-        dispatch({
-            type: SET_OAT_TEMPLATES_ACTIVE,
-            payload: !templatesActive
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
+            payload: { isActive: !oatPageState.templatesActive }
         });
     };
 
@@ -98,7 +115,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
     };
 
     const getModalBody = () => {
-        switch (modalBody) {
+        switch (state.modalBody) {
             case FormBody.property:
                 return (
                     <FormUpdateProperty
@@ -111,7 +128,6 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
             case FormBody.enum:
                 return (
                     <FormAddEnumItem
-                        dispatch={dispatch}
                         languages={languages}
                         onClose={onModalClose}
                         state={state}
@@ -120,10 +136,8 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
             case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
-                        dispatch={dispatch}
                         onClose={onModalClose}
                         languages={languages}
-                        state={state}
                     />
                 );
             default:
@@ -137,7 +151,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                 <Pivot className={propertyInspectorStyles.pivot}>
                     <PivotItem
                         headerButtonProps={{
-                            disabled: state.modified
+                            disabled: oatPageState.modified
                         }}
                         headerText={t('OATPropertyEditor.properties')}
                         className={propertyInspectorStyles.pivotItem}
@@ -146,7 +160,6 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                             <Stack.Item>
                                 <PropertiesModelSummary
                                     dispatch={dispatch}
-                                    state={state}
                                     isSupportedModelType={isSupportedModelType}
                                 />
                             </Stack.Item>
@@ -206,16 +219,10 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
                     >
-                        {isSupportedModelType && (
-                            <JSONEditor
-                                theme={theme}
-                                dispatch={dispatch}
-                                state={state}
-                            />
-                        )}
+                        {isSupportedModelType && <JSONEditor theme={theme} />}
                     </PivotItem>
                 </Pivot>
-                {templatesActive && (
+                {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}
                         enteredTemplateRef={enteredTemplateRef}
@@ -225,7 +232,7 @@ const Editor = ({ dispatch, languages, state, theme }: EditorProps) => {
                 )}
             </div>
             <OATModal
-                isOpen={modalOpen}
+                isOpen={state.modalOpen}
                 className={propertyInspectorStyles.modal}
             >
                 {getModalBody()}

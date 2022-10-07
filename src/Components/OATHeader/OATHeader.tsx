@@ -1,88 +1,295 @@
 import React, {
     useEffect,
-    useState,
     useContext,
     useRef,
-    useCallback
+    useCallback,
+    useMemo,
+    useState
 } from 'react';
-import { CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import {
+    classNamesFunction,
+    CommandBar,
+    ContextualMenuItemType,
+    ICommandBarItemProps,
+    IContextualMenuItem,
+    IContextualMenuRenderItem,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getHeaderStyles, getCommandBarStyles } from './OATHeader.styles';
 import JSZip from 'jszip';
-
-import FileSubMenu from './internal/FileSubMenu';
-import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_ERROR,
-    SET_OAT_MODELS_METADATA,
-    SET_OAT_PROJECT
-} from '../../Models/Constants/ActionTypes';
-import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
-
-import { OATNamespaceDefaultValue } from '../../Models/Constants';
-import { useDropzone } from 'react-dropzone';
-import { SET_OAT_IMPORT_MODELS } from '../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { deepCopy, parseModels } from '../../Models/Services/Utils';
-import ImportSubMenu from './internal/ImportSubMenu';
-import { OATHeaderProps } from './OATHeader.types';
 import {
-    convertDtdlInterfacesToModels,
+    deepCopy,
+    getDebugLogger,
+    parseModels
+} from '../../Models/Services/Utils';
+import {
+    HeaderModal,
+    IOATHeaderProps,
+    IOATHeaderStyleProps,
+    IOATHeaderStyles
+} from './OATHeader.types';
+import {
     getDirectoryPathFromDTMI,
-    getFileNameFromDTMI
+    getFileNameFromDTMI,
+    safeJsonParse
 } from '../../Models/Services/OatUtils';
+import { getStyles } from './OATHeader.styles';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
+import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 
-const ID_FILE = 'file';
-const ID_IMPORT = 'import';
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
-const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
+const getClassNames = classNamesFunction<
+    IOATHeaderStyleProps,
+    IOATHeaderStyles
+>();
+
+const OATHeader: React.FC<IOATHeaderProps> = (props) => {
+    const { styles } = props;
+
+    // hooks
     const { t } = useTranslation();
-    const { execute, undo, redo, canUndo, canRedo } = useContext(
-        CommandHistoryContext
-    );
-    const headerStyles = getHeaderStyles();
-    const commandBarStyles = getCommandBarStyles();
-    const {
-        acceptedFiles,
-        getRootProps,
-        getInputProps,
-        inputRef
-    } = useDropzone();
-    const [fileSubMenuActive, setFileSubMenuActive] = useState(false);
-    const [importSubMenuActive, setImportSubMenuActive] = useState(false);
-    const {
-        modelsMetadata,
-        projectName,
-        modelPositions,
-        models,
-        templates,
-        namespace
-    } = state;
-    const uploadInputRef = useRef(null);
-    const redoButtonRef = useRef(null);
-    const undoButtonRef = useRef(null);
+    const commandContex = useContext(CommandHistoryContext);
+    const { undo, redo, canUndo, canRedo } = commandContex;
 
-    const downloadModelExportBlob = (blob: Blob) => {
-        const blobURL = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.setAttribute('href', blobURL);
-        link.setAttribute('download', 'modelExport.zip');
-        link.innerHTML = '';
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode.removeChild(link);
+    // contexts
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+
+    // state
+    const [openModal, setOpenModal] = useState<HeaderModal>(HeaderModal.None);
+    const uploadFolderInputRef = useRef<HTMLInputElement>(null);
+    const uploadFileInputRef = useRef<HTMLInputElement>(null);
+    const redoButtonRef = useRef<IContextualMenuRenderItem>(null);
+    const undoButtonRef = useRef<IContextualMenuRenderItem>(null);
+
+    const onFilesUpload = useCallback(
+        async (files: Array<File>) => {
+            // Populates fileNames and filePaths
+            const populateMetadata = (
+                file: File,
+                fileContent: string,
+                metaDataCopy: any
+            ) => {
+                // Get model metadata
+                // Get file name from file
+                let fileName = file.name;
+                // Get file name without extension
+                fileName = fileName.substring(0, fileName.lastIndexOf('.'));
+                // Get directory path from file
+                let directoryPath = file.webkitRelativePath;
+                // Get directory content within first and last "\"
+                directoryPath = directoryPath.substring(
+                    directoryPath.indexOf('/') + 1,
+                    directoryPath.lastIndexOf('/')
+                );
+
+                if (!metaDataCopy) {
+                    metaDataCopy = deepCopy(
+                        oatPageState.currentOntologyModelMetadata
+                    );
+                }
+
+                // Get JSON from content
+                const json = JSON.parse(fileContent);
+                // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
+                const modelMetadata = metaDataCopy.find(
+                    (model) => model['@id'] === json['@id']
+                );
+                if (modelMetadata) {
+                    // Update model metadata
+                    modelMetadata.fileName = fileName;
+                    modelMetadata.directoryPath = directoryPath;
+                } else {
+                    // Add model metadata
+                    metaDataCopy.push({
+                        '@id': json['@id'],
+                        fileName: fileName,
+                        directoryPath: directoryPath
+                    });
+                }
+
+                return metaDataCopy;
+            };
+            const handleFileListChanged = async (files: Array<File>) => {
+                const newModels = [];
+                if (files.length > 0) {
+                    const filesErrors = [];
+                    let modelsMetadataReference = null;
+                    for (const current of files) {
+                        const content = await current.text();
+                        const validJson = safeJsonParse(content);
+                        if (validJson) {
+                            newModels.push(validJson);
+                        } else {
+                            filesErrors.push(
+                                t('OATHeader.errorFileInvalidJSON', {
+                                    fileName: current.name
+                                })
+                            );
+                            break;
+                        }
+                    }
+
+                    const combinedModels = [
+                        ...oatPageState.currentOntologyModels,
+                        ...newModels
+                    ];
+                    const error = await parseModels(combinedModels);
+
+                    const modelsCopy = deepCopy(
+                        oatPageState.currentOntologyModels
+                    );
+                    for (const model of newModels) {
+                        // Check if model already exists
+                        const modelExists = modelsCopy.find(
+                            (m) => m['@id'] === model['@id']
+                        );
+                        if (!modelExists) {
+                            modelsCopy.push(model);
+                        } else {
+                            filesErrors.push(
+                                t('OATHeader.errorImportedModelAlreadyExists', {
+                                    modelId: model['@id']
+                                })
+                            );
+                            break;
+                        }
+                    }
+
+                    if (!error) {
+                        for (let i = 0; i < files.length; i++) {
+                            modelsMetadataReference = populateMetadata(
+                                files[i],
+                                JSON.stringify(newModels[i]),
+                                modelsMetadataReference
+                            );
+                        }
+                    } else {
+                        filesErrors.push(
+                            t('OATHeader.errorIssueWithFile', {
+                                fileName: t('OATHeader.file'),
+                                error
+                            })
+                        );
+                    }
+
+                    if (filesErrors.length === 0) {
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                            payload: { models: modelsCopy }
+                        });
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
+                            payload: { metadata: modelsMetadataReference }
+                        });
+                    } else {
+                        let accumulatedError = '';
+                        for (const error of filesErrors) {
+                            accumulatedError += `${error}\n`;
+                        }
+
+                        oatPageDispatch({
+                            type: OatPageContextActionType.SET_OAT_ERROR,
+                            payload: {
+                                title: t('OATHeader.errorInvalidJSON'),
+                                message: accumulatedError
+                            }
+                        });
+                    }
+                }
+            };
+
+            const newFiles = [];
+            const newFilesErrors = [];
+
+            for (const file of files) {
+                if (file.type === 'application/json') {
+                    newFiles.push(file);
+                } else {
+                    newFilesErrors.push(
+                        t('OATHeader.errorFileFormatNotSupported', {
+                            fileName: file.name
+                        })
+                    );
+                }
+            }
+
+            if (newFilesErrors.length > 0) {
+                let accumulatedError = '';
+                for (const error of newFilesErrors) {
+                    accumulatedError += `${error} \n `;
+                }
+
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_ERROR,
+                    payload: {
+                        title: t('OATHeader.errorFormatNoSupported'),
+                        message: accumulatedError
+                    }
+                });
+            }
+            handleFileListChanged(newFiles);
+            // Reset value of input element so that it can be reused with the same file
+            uploadFolderInputRef.current.value = null;
+            uploadFileInputRef.current.value = null;
+        },
+        [
+            oatPageDispatch,
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelMetadata,
+            t,
+            uploadFileInputRef
+        ]
+    );
+
+    const getUploadFileHandler = (
+        inputRef: HTMLInputElement
+    ): React.ChangeEventHandler<HTMLInputElement> => {
+        return (e: React.ChangeEvent<HTMLInputElement>) => {
+            console.log('Processing files', e.target.files);
+            const reader = new FileReader();
+            reader.onload = () => {
+                const files: File[] = [];
+                for (const file of (inputRef.files as unknown) as File[]) {
+                    files.push(file);
+                }
+                onFilesUpload(files);
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        };
     };
 
-    const onExportClick = () => {
+    const onNewFile = useCallback(() => {
+        setOpenModal(HeaderModal.CreateOntology);
+    }, []);
+
+    const onManageFile = useCallback(() => {
+        setOpenModal(HeaderModal.EditOntology);
+    }, []);
+
+    const onDuplicate = useCallback(() => {
+        oatPageDispatch({
+            type: OatPageContextActionType.DUPLICATE_PROJECT
+        });
+    }, [oatPageDispatch]);
+
+    const onExportClick = useCallback(() => {
         const zip = new JSZip();
-        for (const element of models) {
+        for (const element of oatPageState.currentOntologyModels) {
             const id = element['@id'];
             let fileName = null;
             let directoryPath = null;
 
             // Check if current elements exists within modelsMetadata array, if so, use the metadata
             // to determine the file name and directory path
-            const modelMetadata = modelsMetadata.find(
+            const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
                 (model) => model['@id'] === id
             );
             if (modelMetadata) {
@@ -124,76 +331,94 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             }
         }
 
+        const downloadModelExportBlob = (blob: Blob) => {
+            const blobURL = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', blobURL);
+            link.setAttribute('download', 'modelExport.zip');
+            link.innerHTML = '';
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode.removeChild(link);
+        };
+
         zip.generateAsync({ type: 'blob' }).then((content) => {
             downloadModelExportBlob(content);
         });
-    };
+    }, [
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyModelMetadata
+    ]);
 
-    const onUploadFolderClick = () => {
-        uploadInputRef.current.click();
-    };
+    const onAddModel = useCallback(() => {
+        // TODO: the stuff
+        alert('on add model');
+    }, []);
 
-    const onUploadFileClick = () => {
-        inputRef.current.click();
-    };
-
-    const onDeleteAll = () => {
-        const deletion = () => {
-            const dispatchDelete = () => {
-                const newProject = new ProjectData(
-                    [],
-                    [],
-                    projectName,
-                    [],
-                    OATNamespaceDefaultValue,
-                    []
-                );
-
-                dispatch({
-                    type: SET_OAT_PROJECT,
-                    payload: newProject
-                });
-            };
-
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
-                payload: { open: true, callback: dispatchDelete }
-            });
+    // Side effects
+    // Set listener to undo/redo buttons on key press
+    useEffect(() => {
+        const onKeyDown = getKeyboardShortcutHandler(
+            redoButtonRef,
+            undoButtonRef
+        );
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
         };
+    }, []);
 
-        const undoDeletion = () => {
-            const project = new ProjectData(
-                modelPositions,
-                convertDtdlInterfacesToModels(models),
-                projectName,
-                templates,
-                namespace,
-                modelsMetadata
+    // Data
+    const ontologyMenuItems = useMemo(() => {
+        const storedFiles = oatPageState.ontologyFiles;
+        if (storedFiles.length > 0) {
+            const formattedFiles: IContextualMenuItem[] = storedFiles.map(
+                (file) => {
+                    const onClick = () => {
+                        oatPageDispatch({
+                            type:
+                                OatPageContextActionType.SWITCH_CURRENT_PROJECT,
+                            payload: { projectId: file.id }
+                        });
+                    };
+                    return {
+                        key: file.id,
+                        text: file.data.projectName,
+                        onClick: onClick
+                    };
+                }
             );
 
-            dispatch({
-                type: SET_OAT_PROJECT,
-                payload: project
-            });
-        };
+            return formattedFiles;
+        }
+        return [];
+    }, [oatPageDispatch, oatPageState.ontologyFiles]);
 
-        execute(deletion, undoDeletion);
-    };
-
-    const items: ICommandBarItemProps[] = [
+    const fileMenuItems: IContextualMenuItem[] = [
         {
-            key: 'Save',
-            text: t('OATHeader.file'),
-            iconProps: { iconName: 'Save' },
-            onClick: () => setFileSubMenuActive(!fileSubMenuActive),
-            id: ID_FILE
+            key: 'new',
+            text: 'New',
+            iconProps: { iconName: 'Add' },
+            onClick: onNewFile
         },
         {
-            key: 'Import',
-            text: t('OATHeader.import'),
-            iconProps: { iconName: 'Import' },
-            onClick: () => setImportSubMenuActive(!importSubMenuActive),
-            id: ID_IMPORT
+            key: 'switch',
+            text: 'Switch',
+            disabled: !ontologyMenuItems?.length,
+            iconProps: { iconName: 'OpenFolderHorizontal' },
+            subMenuProps: {
+                items: ontologyMenuItems
+            }
+        },
+        {
+            key: 'duplicate',
+            text: 'Duplicate',
+            iconProps: { iconName: 'Copy' },
+            onClick: onDuplicate
+        },
+        {
+            key: 'dividerImport',
+            itemType: ContextualMenuItemType.Divider
         },
         {
             key: 'Export',
@@ -202,232 +427,152 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
             onClick: onExportClick
         },
         {
-            key: 'Undo',
-            text: t('OATHeader.undo'),
-            iconProps: { iconName: 'Undo' },
-            onClick: undo,
-            disabled: !canUndo,
-            componentRef: undoButtonRef
+            key: 'dividerManage',
+            itemType: ContextualMenuItemType.Divider
         },
         {
-            key: 'Redo',
+            key: 'manage',
+            text: 'Manage',
+            iconProps: { iconName: 'Edit' },
+            onClick: onManageFile
+        }
+    ];
+    const undoMenuItems: IContextualMenuItem[] = [
+        {
+            componentRef: undoButtonRef,
+            disabled: !canUndo,
+            iconProps: { iconName: 'Undo' },
+            key: 'under',
+            onClick: undo,
+            text: t('OATHeader.undo')
+        },
+        {
+            key: 'redo',
             text: t('OATHeader.redo'),
             iconProps: { iconName: 'Redo' },
             onClick: redo,
             disabled: !canRedo,
             componentRef: redoButtonRef
+        }
+    ];
+    const newModelMenuItems: IContextualMenuItem[] = [
+        {
+            key: 'newModel',
+            iconProps: { iconName: 'AppIconDefaultAdd' },
+            text: 'New model',
+            onClick: onAddModel
         },
         {
-            key: 'DeleteAll',
-            text: t('OATHeader.deleteAll'),
-            iconProps: { iconName: 'Delete' },
-            onClick: onDeleteAll
+            key: 'importFile',
+            text: t('OATHeader.importFile'),
+            iconProps: { iconName: 'Import' },
+            onClick: () => uploadFileInputRef.current.click()
+        },
+        {
+            key: 'importFolder',
+            text: t('OATHeader.importFolder'),
+            iconProps: { iconName: 'Import' },
+            onClick: () => uploadFolderInputRef.current.click()
+        }
+    ];
+    const commandBarItems: ICommandBarItemProps[] = [
+        {
+            key: 'file',
+            iconProps: { iconName: 'FabricFolder' },
+            text: t('OATHeader.ontology'),
+            subMenuProps: {
+                items: fileMenuItems
+            }
+        },
+        {
+            key: 'Undo',
+            disabled: !(canRedo || canUndo),
+            iconProps: { iconName: 'Undo' },
+            onClick: undo,
+            split: true,
+            subMenuProps: {
+                items: undoMenuItems
+            },
+            text: t('OATHeader.undo')
+        },
+        {
+            key: 'newModel',
+            iconProps: { iconName: 'AppIconDefaultAdd' },
+            split: true,
+            subMenuProps: {
+                items: newModelMenuItems
+            },
+            text: 'New model',
+            onClick: onAddModel
         }
     ];
 
-    const safeJsonParse = (value: string) => {
-        try {
-            const parsedJson = JSON.parse(value);
-            return parsedJson;
-        } catch (e) {
-            return null;
-        }
-    };
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
 
-    // Populates fileNames and filePaths
-    const populateMetadata = useCallback(
-        (file: File, fileContent: string, metaDataCopy: any) => {
-            // Get model metadata
-            // Get file name from file
-            let fileName = file.name;
-            // Get file name without extension
-            fileName = fileName.substring(0, fileName.lastIndexOf('.'));
-            // Get directory path from file
-            let directoryPath = file.webkitRelativePath;
-            // Get directory content within first and last "\"
-            directoryPath = directoryPath.substring(
-                directoryPath.indexOf('/') + 1,
-                directoryPath.lastIndexOf('/')
-            );
+    logDebugConsole('debug', 'Render');
+    return (
+        <>
+            <div className={classNames.root}>
+                <h2 className={classNames.projectName}>
+                    {oatPageState.currentOntologyProjectName}
+                </h2>
+                <div className={classNames.menuComponent}>
+                    <CommandBar
+                        items={commandBarItems}
+                        styles={classNames.subComponentStyles.commandBar}
+                    />
+                </div>
+                {/* Create ontology */}
+                <ManageOntologyModal
+                    isOpen={openModal === HeaderModal.CreateOntology}
+                    onClose={() => setOpenModal(HeaderModal.None)}
+                    ontologyId={''}
+                />
+                {/* Edit ontology */}
+                <ManageOntologyModal
+                    isOpen={openModal === HeaderModal.EditOntology}
+                    onClose={() => setOpenModal(HeaderModal.None)}
+                    ontologyId={oatPageState.currentOntologyId}
+                />
+                {/* Confirmation dialog for deletes */}
+                <OATConfirmDialog />
+            </div>
 
-            if (!metaDataCopy) {
-                metaDataCopy = deepCopy(modelsMetadata);
-            }
-
-            // Get JSON from content
-            const json = JSON.parse(fileContent);
-            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-            const modelMetadata = metaDataCopy.find(
-                (model) => model['@id'] === json['@id']
-            );
-            if (modelMetadata) {
-                // Update model metadata
-                modelMetadata.fileName = fileName;
-                modelMetadata.directoryPath = directoryPath;
-            } else {
-                // Add model metadata
-                metaDataCopy.push({
-                    '@id': json['@id'],
-                    fileName: fileName,
-                    directoryPath: directoryPath
-                });
-            }
-
-            return metaDataCopy;
-        },
-        [modelsMetadata]
+            {/* Hidden inputs for file imports */}
+            <div
+                aria-hidden={true}
+                style={{ display: 'none', visibility: 'hidden' }}
+            >
+                {/* file upload */}
+                <input
+                    type="file"
+                    ref={uploadFileInputRef}
+                    onChange={getUploadFileHandler(uploadFileInputRef.current)}
+                    multiple
+                />
+                {/* folder upload */}
+                <input
+                    type="file"
+                    ref={uploadFolderInputRef}
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    /** @ts-ignore */
+                    webkitdirectory={''}
+                    mozdirectory={''}
+                    onChange={getUploadFileHandler(
+                        uploadFolderInputRef.current
+                    )}
+                />
+            </div>
+        </>
     );
+};
 
-    const handleFileListChanged = useCallback(
-        async (files: Array<File>) => {
-            const newModels = [];
-            if (files.length > 0) {
-                const filesErrors = [];
-                let modelsMetadataReference = null;
-                for (const current of files) {
-                    const content = await current.text();
-                    const validJson = safeJsonParse(content);
-                    if (validJson) {
-                        newModels.push(validJson);
-                    } else {
-                        filesErrors.push(
-                            t('OATHeader.errorFileInvalidJSON', {
-                                fileName: current.name
-                            })
-                        );
-                        break;
-                    }
-                }
-
-                const combinedModels = [...models, ...newModels];
-                const error = await parseModels(combinedModels);
-
-                const modelsCopy = deepCopy(models);
-                for (const model of newModels) {
-                    // Check if model already exists
-                    const modelExists = modelsCopy.find(
-                        (m) => m['@id'] === model['@id']
-                    );
-                    if (!modelExists) {
-                        modelsCopy.push(model);
-                    } else {
-                        filesErrors.push(
-                            t('OATHeader.errorImportedModelAlreadyExists', {
-                                modelId: model['@id']
-                            })
-                        );
-                        break;
-                    }
-                }
-
-                if (!error) {
-                    for (let i = 0; i < files.length; i++) {
-                        modelsMetadataReference = populateMetadata(
-                            files[i],
-                            JSON.stringify(newModels[i]),
-                            modelsMetadataReference
-                        );
-                    }
-                } else {
-                    filesErrors.push(
-                        t('OATHeader.errorIssueWithFile', {
-                            fileName: t('OATHeader.file'),
-                            error
-                        })
-                    );
-                }
-
-                if (filesErrors.length === 0) {
-                    dispatch({
-                        type: SET_OAT_IMPORT_MODELS,
-                        payload: modelsCopy
-                    });
-                    dispatch({
-                        type: SET_OAT_MODELS_METADATA,
-                        payload: modelsMetadataReference
-                    });
-                } else {
-                    let accumulatedError = '';
-                    for (const error of filesErrors) {
-                        accumulatedError += `${error}\n`;
-                    }
-
-                    dispatch({
-                        type: SET_OAT_ERROR,
-                        payload: {
-                            title: t('OATHeader.errorInvalidJSON'),
-                            message: accumulatedError
-                        }
-                    });
-                }
-            }
-        },
-        [dispatch, models, populateMetadata, t]
-    );
-
-    const onFilesUpload = useCallback(
-        async (files: Array<File>) => {
-            const newFiles = [];
-            const newFilesErrors = [];
-
-            for (const file of files) {
-                if (file.type === 'application/json') {
-                    newFiles.push(file);
-                } else {
-                    newFilesErrors.push(
-                        t('OATHeader.errorFileFormatNotSupported', {
-                            fileName: file.name
-                        })
-                    );
-                }
-            }
-
-            if (newFilesErrors.length > 0) {
-                let accumulatedError = '';
-                for (const error of newFilesErrors) {
-                    accumulatedError += `${error} \n `;
-                }
-
-                dispatch({
-                    type: SET_OAT_ERROR,
-                    payload: {
-                        title: t('OATHeader.errorFormatNoSupported'),
-                        message: accumulatedError
-                    }
-                });
-            }
-            handleFileListChanged(newFiles);
-            // Reset value of input element so that it can be reused with the same file
-            uploadInputRef.current.value = null;
-            inputRef.current.value = null;
-        },
-        [dispatch, handleFileListChanged, inputRef, t]
-    );
-
-    const onFilesChange: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-        (e) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-                const files = [];
-                for (const file of uploadInputRef.current.files) {
-                    files.push(file);
-                }
-                onFilesUpload(files);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        },
-        [onFilesUpload]
-    );
-
-    const onFileSubMenuClose = () => {
-        setFileSubMenuActive(false);
-    };
-
-    useEffect(() => {
-        onFilesUpload(acceptedFiles);
-    }, [acceptedFiles, onFilesUpload]);
-
-    const onKeyDown = useCallback((e) => {
+function getKeyboardShortcutHandler(
+    redoButtonRef: React.MutableRefObject<IContextualMenuRenderItem>,
+    undoButtonRef: React.MutableRefObject<IContextualMenuRenderItem>
+) {
+    return (e: KeyboardEvent) => {
         //Prevent event automatically repeating due to key being held down
         if (e.repeat) {
             return;
@@ -444,60 +589,10 @@ const OATHeader = ({ dispatch, state }: OATHeaderProps) => {
         if ((e.key === 'y' && e.ctrlKey) || (e.key === 'y' && e.metaKey)) {
             redoButtonRef.current['_onClick']();
         }
-    }, []);
+    };
+}
 
-    useEffect(() => {
-        // Set listener to undo/redo buttons on key press
-        document.addEventListener('keydown', onKeyDown);
-        return () => {
-            document.removeEventListener('keydown', onKeyDown);
-        };
-    }, [onKeyDown]);
-
-    return (
-        <div className={headerStyles.container}>
-            <div className={headerStyles.menuComponent}>
-                <CommandBar items={items} styles={commandBarStyles} />
-                <div className="cb-oat-header-menu">
-                    <input
-                        type="file"
-                        ref={uploadInputRef}
-                        className={headerStyles.uploadDirectoryInput}
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        /** @ts-ignore */
-                        webkitdirectory={''}
-                        mozdirectory={''}
-                        onChange={onFilesChange}
-                    />
-                    <FileSubMenu
-                        isActive={fileSubMenuActive}
-                        targetId={ID_FILE}
-                        onFileSubMenuClose={onFileSubMenuClose}
-                        dispatch={dispatch}
-                        state={state}
-                    />
-
-                    {importSubMenuActive && (
-                        <ImportSubMenu
-                            subMenuActive={importSubMenuActive}
-                            targetId={ID_IMPORT}
-                            setSubMenuActive={setImportSubMenuActive}
-                            uploadFolder={onUploadFolderClick}
-                            uploadFile={onUploadFileClick}
-                        />
-                    )}
-                </div>
-                <div className="cb-oat-header-model"></div>
-            </div>
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
-            </div>
-        </div>
-    );
-};
-
-OATHeader.defaultProps = {
-    onImportClick: () => null
-};
-
-export default OATHeader;
+export default styled<IOATHeaderProps, IOATHeaderStyleProps, IOATHeaderStyles>(
+    OATHeader,
+    getStyles
+);

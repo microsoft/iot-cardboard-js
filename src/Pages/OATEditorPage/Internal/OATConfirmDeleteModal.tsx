@@ -2,22 +2,19 @@ import React from 'react';
 import { PrimaryButton, Modal, DefaultButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getEditorPageStyles } from '../OATEditorPage.styles';
-import { IOATEditorState } from '../OATEditorPage.types';
-import { IAction } from '../../../Models/Constants/Interfaces';
-import { SET_OAT_CONFIRM_DELETE_OPEN } from '../../../Models/Constants/ActionTypes';
+import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
-interface IOATConfirmDeleteModalProps {
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
-    state: IOATEditorState;
-}
-
-const OATConfirmDeleteModal = ({
-    state,
-    dispatch
-}: IOATConfirmDeleteModalProps) => {
+const OATConfirmDeleteModal = () => {
+    // hooks
     const { t } = useTranslation();
+
+    // contexts
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
+    const { confirmDeleteOpen } = oatPageState;
+
+    // styles
     const editorPageStyles = getEditorPageStyles();
-    const { confirmDeleteOpen } = state;
 
     const getComponentContent = () => {
         return (
@@ -29,8 +26,9 @@ const OATConfirmDeleteModal = ({
                 <div className={editorPageStyles.confirmDeleteButtonsWrapper}>
                     <DefaultButton
                         onClick={() => {
-                            dispatch({
-                                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                                 payload: { open: false }
                             });
                         }}
@@ -41,8 +39,9 @@ const OATConfirmDeleteModal = ({
                     <PrimaryButton
                         onClick={() => {
                             confirmDeleteOpen.callback();
-                            dispatch({
-                                type: SET_OAT_CONFIRM_DELETE_OPEN,
+                            oatPageDispatch({
+                                type:
+                                    OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                                 payload: { open: false }
                             });
                         }}

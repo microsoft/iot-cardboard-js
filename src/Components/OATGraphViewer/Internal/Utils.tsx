@@ -1,10 +1,10 @@
 import { Node, Edge } from 'react-flow-renderer';
 import {
-    OATComponentHandleName,
-    OATExtendHandleName,
-    OATInterfaceType,
-    OATRelationshipHandleName,
-    OATUntargetedRelationshipName
+    OAT_COMPONENT_HANDLE_NAME,
+    OAT_EXTEND_HANDLE_NAME,
+    OAT_INTERFACE_TYPE,
+    OAT_RELATIONSHIP_HANDLE_NAME,
+    OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../../Models/Constants';
 import {
     DtdlInterface,
@@ -19,9 +19,9 @@ import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-export const versionClassBase = '1';
-export const contextClassBase = 'dtmi:dtdl:context;2';
-export const defaultNodePosition = 25;
+export const VERSION_CLASS_BASE = '1';
+export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
+export const DEFAULT_NODE_POSITION = 25;
 
 const getNextRelationshipIndex = (
     sourceId: string,
@@ -33,7 +33,7 @@ const getNextRelationshipIndex = (
             (element) =>
                 (element as ElementEdge).source === sourceId &&
                 (element.data as DtdlRelationship).name ===
-                    `${OATRelationshipHandleName}_${relationshipIndex}`
+                    `${OAT_RELATIONSHIP_HANDLE_NAME}_${relationshipIndex}`
         )
     ) {
         relationshipIndex++;
@@ -71,20 +71,20 @@ export const addTargetedRelationship = (
 ) => {
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
-        relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
+        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         '',
         sourceId,
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         relationship['target'],
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         {
             ...relationship,
-            '@type': OATRelationshipHandleName,
+            '@type': OAT_RELATIONSHIP_HANDLE_NAME,
             name
         }
     );
@@ -101,20 +101,20 @@ export const addUntargetedRelationship = (
 ) => {
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
-        relationship.name || `${OATRelationshipHandleName}_${nextRelIndex}`;
+        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
         id,
-        OATInterfaceType,
+        OAT_INTERFACE_TYPE,
         {
-            x: rp ? rp.position.x : defaultNodePosition,
-            y: rp ? rp.position.y : defaultNodePosition
+            x: rp ? rp.position.x : DEFAULT_NODE_POSITION,
+            y: rp ? rp.position.y : DEFAULT_NODE_POSITION
         },
         {
             '@id': sourceId,
-            '@type': OATUntargetedRelationshipName,
-            '@context': contextClassBase,
+            '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
+            '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
         }
@@ -122,16 +122,16 @@ export const addUntargetedRelationship = (
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         '',
         sourceId,
-        OATUntargetedRelationshipName,
+        OAT_UNTARGETED_RELATIONSHIP_NAME,
         id,
-        OATUntargetedRelationshipName,
+        OAT_UNTARGETED_RELATIONSHIP_NAME,
         {
             ...relationship,
             '@id': id,
-            '@type': OATUntargetedRelationshipName,
+            '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
             name
         }
     );
@@ -150,17 +150,17 @@ export const addComponentRelationship = (
     const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
     const name = component.name || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
-        `${sourceId}${OATComponentHandleName}${component.schema}${name}`,
+        `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         '',
         sourceId,
-        OATComponentHandleName,
+        OAT_COMPONENT_HANDLE_NAME,
         component.schema as string,
-        OATComponentHandleName,
+        OAT_COMPONENT_HANDLE_NAME,
         {
             ...component,
-            '@type': OATComponentHandleName,
+            '@type': OAT_COMPONENT_HANDLE_NAME,
             name
         }
     );
@@ -175,17 +175,17 @@ export const addExtendsRelationship = (
     elements: (ElementNode | ElementEdge)[]
 ) => {
     const relationshipEdge = new ElementEdge(
-        `${sourceId}${OATExtendHandleName}${extend}`,
+        `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
-        OATRelationshipHandleName,
+        OAT_RELATIONSHIP_HANDLE_NAME,
         '',
         sourceId,
-        OATExtendHandleName,
+        OAT_EXTEND_HANDLE_NAME,
         extend,
-        OATExtendHandleName,
+        OAT_EXTEND_HANDLE_NAME,
         {
-            '@id': `${sourceId}${OATExtendHandleName}${extend}`,
-            '@type': OATExtendHandleName,
+            '@id': `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
+            '@type': OAT_EXTEND_HANDLE_NAME,
             name: ''
         }
     );
@@ -199,12 +199,12 @@ export const addNewModel = (
     position: ElementPosition,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const id = `${idClassBase}model${newModelId};${versionClassBase}`;
+    const id = `${idClassBase}model${newModelId};${VERSION_CLASS_BASE}`;
     const name = `Model${newModelId}`;
-    const newNode = new ElementNode(id, OATInterfaceType, position, {
+    const newNode = new ElementNode(id, OAT_INTERFACE_TYPE, position, {
         '@id': id,
-        '@context': contextClassBase,
-        '@type': OATInterfaceType,
+        '@context': CONTEXT_CLASS_BASE,
+        '@type': OAT_INTERFACE_TYPE,
         displayName: name,
         contents: []
     });
@@ -217,7 +217,7 @@ export const getSelectionIdentifier = (
     data: DtdlRelationship | DtdlInterfaceContent
 ) => {
     switch (data['@type']) {
-        case OATExtendHandleName:
+        case OAT_EXTEND_HANDLE_NAME:
             return data['@id'];
         default:
             return data.name;

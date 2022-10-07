@@ -827,8 +827,6 @@
     "sync": "synchronizovat",
     "import": "Dovoz",
     "export": "Vývoz",
-    "file": "Soubor",
-    "files": "Soubory",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -855,8 +853,6 @@
     "errorIssueWithFile": "Problém s {{fileName}}: {{error}}",
     "undo": "Odčinit",
     "redo": "Předělat",
-    "folderUpload": "Nahrání složky",
-    "fileUpload": "Nahrání souboru",
     "errorImportedModelAlreadyExists": "Problém s {{modelId}}: Model se stejným @id již existuje",
     "errorFileInvalidJSON": "Problém s {{fileName}}: Neplatný JSON",
     "deleteProjectMessage": "Opravdu chcete odstranit {{projectName}}?",
@@ -864,6 +860,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Výběr ontologie"
+    },
+    "importFolder": "Složka importu",
+    "importFile": "Import souboru",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "modalTitleCreate": "Nová ontologie",
+      "modalTitleEdit": "Upravit ontologii",
+      "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
+      "modalSubTitleEdit": "Upravte svou ontologii tak, aby vaše digitální dvojče dalo strukturu.",
+      "modalSubTitleLinkText": "Další informace o ontologiích",
+      "deleteButtonText": "Odstranit ontologii",
+      "nameLabel": "Jméno",
+      "namePlaceholder": "Zadejte název ontologie",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
+      "namespacePlaceholder": "Zadání oboru názvů",
+      "sampleModel": "ukázkový model"
     }
   },
   "OATGraphViewer": {
@@ -1171,5 +1184,9 @@
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "modalTitle": "Rozšířené vyhledávání dvojčat",
     "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopírovat",
+    "defaultFileName": "Nová ontologie"
   }
 }

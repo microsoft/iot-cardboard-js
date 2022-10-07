@@ -7,8 +7,8 @@ import React, { useCallback, useContext, useEffect, useReducer } from 'react';
 import { ADTSelectedEnvironmentInLocalStorage } from '../../../Components/EnvironmentPicker/EnvironmentPicker.types';
 import {
     ADT3DScenePageModes,
-    SelectedContainerLocalStorageKey,
-    SelectedEnvironmentLocalStorageKey
+    SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY,
+    SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY
 } from '../../Constants';
 import { getDebugLogger } from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
@@ -17,13 +17,11 @@ import {
     IDeeplinkContextState,
     DeeplinkContextAction,
     DeeplinkContextActionType,
-    IDeeplinkOptions
-} from './DeeplinkContext.types';
-import {
+    IDeeplinkOptions,
     DEEPLINK_SERIALIZATION_OPTIONS,
-    IDeeplinkContextProviderProps,
-    IPublicDeeplink
-} from '..';
+    IDeeplinkContextProviderProps
+} from './DeeplinkContext.types';
+import { IPublicDeeplink } from '..';
 import TelemetryService from '../../Services/TelemetryService/TelemetryService';
 
 const debugLogging = false;
@@ -238,7 +236,7 @@ const parseArrayParam = (value: string): string[] => {
 const getSelectedEnvironmentUrlFromLocalStorage = (): string | null => {
     try {
         const selectedEnvironmentInLocalStorage = localStorage.getItem(
-            SelectedEnvironmentLocalStorageKey
+            SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY
         );
         return selectedEnvironmentInLocalStorage
             ? (JSON.parse(
@@ -255,7 +253,7 @@ const getSelectedEnvironmentUrlFromLocalStorage = (): string | null => {
  * read the selected container url from local storage if exists to set the initial value of 'storageUrl' in the initial default state of DeeplinkContext
  */
 const getSelectedContainerUrlFromLocalStorage = (): string | null => {
-    return localStorage.getItem(SelectedContainerLocalStorageKey);
+    return localStorage.getItem(SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY);
 };
 
 /**
@@ -266,13 +264,13 @@ const updateSelectedEnvironmentInLocalStorage = (
 ) => {
     if (selectedEnvironmentUrl) {
         localStorage.setItem(
-            SelectedEnvironmentLocalStorageKey,
+            SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY,
             JSON.stringify({
                 appAdtUrl: selectedEnvironmentUrl
             })
         );
     } else {
-        localStorage.removeItem(SelectedEnvironmentLocalStorageKey);
+        localStorage.removeItem(SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY);
     }
 };
 
@@ -282,11 +280,11 @@ const updateSelectedEnvironmentInLocalStorage = (
 const updateSelectedContainerInLocalStorage = (selectedContainer: string) => {
     if (selectedContainer) {
         localStorage.setItem(
-            SelectedContainerLocalStorageKey,
+            SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY,
             selectedContainer
         );
     } else {
-        localStorage.removeItem(SelectedContainerLocalStorageKey);
+        localStorage.removeItem(SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY);
     }
 };
 // END of local storage handling

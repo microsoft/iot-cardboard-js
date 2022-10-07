@@ -805,7 +805,7 @@ export const getPropertySelectorSeparatorStyles = () => {
 
 /* Property List */
 
-export const getPropertyListPivotColumnContent = () => {
+export const getPropertyListPivotColumnContentStyles = () => {
     return {
         root: {
             height: '100%'
@@ -813,7 +813,7 @@ export const getPropertyListPivotColumnContent = () => {
     } as Partial<IButtonStyles>;
 };
 
-export const getPropertyListStackItem = () => {
+export const getPropertyListStackItemStyles = () => {
     return {
         root: {
             overflowY: 'auto',

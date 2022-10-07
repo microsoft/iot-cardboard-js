@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import Editor from './Editor';
 import {
     OATPropertyEditorReducer,
@@ -6,35 +6,18 @@ import {
 } from './OATPropertyEditor.state';
 import { OATPropertyEditorProps } from './OATPropertyEditor.types';
 
-const OATPropertyEditor = ({
-    theme,
-    dispatch,
-    state,
-    languages
-}: OATPropertyEditorProps) => {
+const OATPropertyEditor = ({ theme, languages }: OATPropertyEditorProps) => {
+    // state
     const [localState, localDispatch] = useReducer(
         OATPropertyEditorReducer,
         defaultOATPropertyEditorState
     );
 
-    const combinedState = useMemo(() => ({ ...state, ...localState }), [
-        localState,
-        state
-    ]);
-
-    const combinedDispatch = useCallback(
-        (action) => {
-            localDispatch(action);
-            dispatch(action);
-        },
-        [localDispatch, dispatch]
-    );
-
     return (
         <Editor
             theme={theme}
-            dispatch={combinedDispatch}
-            state={combinedState}
+            dispatch={localDispatch}
+            state={localState}
             languages={languages}
         />
     );

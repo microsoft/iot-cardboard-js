@@ -6,12 +6,6 @@ import {
     getModelsIconStyles,
     getModelsActionButtonStyles
 } from './OATModelList.styles';
-import {
-    SET_OAT_CONFIRM_DELETE_OPEN,
-    SET_OAT_SELECTED_MODEL,
-    SET_OAT_MODELS,
-    SET_OAT_MODELS_POSITIONS
-} from '../../Models/Constants/ActionTypes';
 import OATTextFieldDisplayName from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import OATTextFieldId from '../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import { deleteOatModel, updateModelId } from '../../Models/Services/OatUtils';
@@ -21,79 +15,56 @@ import {
     isDisplayNameDefined
 } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { OATModelListProps } from './OATModelList.types';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
+import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
-const OATModelList = ({ dispatch, state }: OATModelListProps) => {
-    const theme = useTheme();
+const OATModelList: React.FC = () => {
+    // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const { t } = useTranslation();
-    const { selection, models, modified, modelPositions } = state;
-    const modelsStyles = getModelsStyles();
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
+
+    // state
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState('');
     const [items, setItems] = useState([]);
     const [idEditor, setIdEditor] = useState(false);
     const [idText, setIdText] = useState('');
     const [filter, setFilter] = useState('');
-    const [elementCount, setElementCount] = useState(models.length);
+    const [elementCount, setElementCount] = useState(
+        oatPageState.currentOntologyModels.length
+    );
     const containerRef = useRef(null);
-    const iconStyles = getModelsIconStyles();
-    const actionButtonStyles = getModelsActionButtonStyles();
 
-    useEffect(() => {
-        setItems(models);
-        if (models.length > elementCount) {
-            containerRef.current?.scrollTo({
-                top: containerRef.current?.scrollHeight,
-                behavior: 'smooth'
-            });
-        }
-        setElementCount(models.length);
-    }, [models]);
-
-    useEffect(() => {
-        setItems([...models]);
-    }, [theme]);
-
-    useEffect(() => {
-        setItems(
-            models.filter(
-                (element) =>
-                    !filter ||
-                    element['@id'].includes(filter) ||
-                    element.displayName.includes(filter)
-            )
-        );
-    }, [filter]);
-
-    useEffect(() => {
-        // Set models, so that modelList items re-render and apply style changes if necessary
-        setItems([...models]);
-    }, [selection]);
+    // hooks
+    const theme = useTheme();
+    const { t } = useTranslation();
 
     const onSelectedClick = (id: string) => {
         const select = () => {
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: id }
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: { modelId: id } }
             });
         };
 
         const unSelect = () => {
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
-        if (!selection || (selection && id !== selection.modelId)) {
+        if (
+            !oatPageState.selection ||
+            (oatPageState.selection && id !== oatPageState.selection.modelId)
+        ) {
             execute(select, unSelect);
         }
     };
 
     const onNameClick = (name: string) => {
-        if (!modified) {
+        if (!oatPageState.modified) {
             setNameText(name);
             setNameEditor(true);
             setItems([...items]);
@@ -101,7 +72,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
     };
 
     const onIdClick = (id: string) => {
-        if (!modified) {
+        if (!oatPageState.modified) {
             setIdText(id);
             setIdEditor(true);
             setItems([...items]);
@@ -112,59 +83,66 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deleteOatModel(item['@id'], item, models);
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: newModels
+                const newModels = deleteOatModel(
+                    item['@id'],
+                    item,
+                    oatPageState.currentOntologyModels
+                );
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
+                    payload: { models: newModels }
                 });
                 // Dispatch selected model to null
-                dispatch({
-                    type: SET_OAT_SELECTED_MODEL,
-                    payload: null
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                    payload: { selection: null }
                 });
             };
-            dispatch({
-                type: SET_OAT_CONFIRM_DELETE_OPEN,
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
                 payload: { open: true, callback: dispatchDelete }
             });
         };
 
         const undoDeletion = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
+                payload: { models: oatPageState.currentOntologyModels }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
-        if (!modified) {
+        if (!oatPageState.modified) {
             execute(deletion, undoDeletion);
         }
     };
 
-    const onCommitId = (value) => {
+    const onCommitId = (value: string) => {
         const commit = () => {
-            const [modelsCopy, modelPositionsCopy] = updateModelId(
-                selection.modelId,
+            const {
+                models: modelsCopy,
+                positions: modelPositionsCopy
+            } = updateModelId(
+                oatPageState.selection.modelId,
                 value,
-                models,
-                modelPositions
+                oatPageState.currentOntologyModels,
+                oatPageState.currentOntologyModelPositions
             );
 
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositionsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: { positions: modelPositionsCopy }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: modelsCopy
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
+                payload: { models: modelsCopy as DtdlInterface[] }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: { modelId: value }
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: { modelId: value } }
             });
 
             setIdText(value);
@@ -173,17 +151,19 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS_POSITIONS,
-                payload: modelPositions
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
+                payload: { models: oatPageState.currentOntologyModels }
             });
-            dispatch({
-                type: SET_OAT_SELECTED_MODEL,
-                payload: selection
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                payload: { selection: oatPageState.selection }
             });
         };
 
@@ -192,17 +172,17 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         }
     };
 
-    const onCommitDisplayName = (value) => {
+    const onCommitDisplayName = (value: string) => {
         const commit = () => {
-            const modelsCopy = deepCopy(models);
+            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = modelsCopy.find(
-                (item) => item['@id'] === selection.modelId
+                (item) => item['@id'] === oatPageState.selection.modelId
             );
             if (modelCopy) {
                 modelCopy.displayName = value;
-                dispatch({
-                    type: SET_OAT_MODELS,
-                    payload: modelsCopy
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
+                    payload: { models: modelsCopy }
                 });
             }
 
@@ -212,16 +192,16 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
         };
 
         const undoCommit = () => {
-            dispatch({
-                type: SET_OAT_MODELS,
-                payload: models
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS,
+                payload: { models: oatPageState.currentOntologyModels }
             });
         };
 
         execute(commit, undoCommit);
     };
 
-    const getDisplayNameText = (item) => {
+    const getDisplayNameText = (item: DtdlInterface) => {
         const displayName = getModelPropertyListItemName(item.displayName);
         return displayName.length > 0
             ? displayName
@@ -230,9 +210,9 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
 
     const onRenderCell = (item: DtdlInterface) => {
         const isSelected =
-            selection &&
-            selection.modelId === item['@id'] &&
-            !selection.contentId;
+            oatPageState.selection &&
+            oatPageState.selection.modelId === item['@id'] &&
+            !oatPageState.selection.contentId;
         return (
             <div
                 className={`${modelsStyles.modelNode} ${
@@ -254,7 +234,7 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
                                 <OATTextFieldId
                                     value={idText}
                                     model={item}
-                                    models={models}
+                                    models={oatPageState.currentOntologyModels}
                                     onChange={() => {
                                         setItems([...items]);
                                     }}
@@ -309,6 +289,43 @@ const OATModelList = ({ dispatch, state }: OATModelListProps) => {
             </div>
         );
     };
+
+    // side effects
+    useEffect(() => {
+        setItems(oatPageState.currentOntologyModels);
+        if (oatPageState.currentOntologyModels.length > elementCount) {
+            containerRef.current?.scrollTo({
+                top: containerRef.current?.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+        setElementCount(oatPageState.currentOntologyModels.length);
+    }, [oatPageState.currentOntologyModels]);
+
+    useEffect(() => {
+        setItems([...oatPageState.currentOntologyModels]);
+    }, [theme]);
+
+    useEffect(() => {
+        setItems(
+            oatPageState.currentOntologyModels.filter(
+                (element) =>
+                    !filter ||
+                    element['@id'].includes(filter) ||
+                    element.displayName.includes(filter)
+            )
+        );
+    }, [filter]);
+
+    useEffect(() => {
+        // Set models, so that modelList items re-render and apply style changes if necessary
+        setItems([...oatPageState.currentOntologyModels]);
+    }, [oatPageState.selection]);
+
+    // styles
+    const modelsStyles = getModelsStyles();
+    const iconStyles = getModelsIconStyles();
+    const actionButtonStyles = getModelsActionButtonStyles();
 
     return (
         <div>
