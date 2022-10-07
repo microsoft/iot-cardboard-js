@@ -26,7 +26,7 @@ import {
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
-import { LogConfigFileTelemetry } from './BlobAdapterUtility';
+import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
 
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
@@ -135,6 +135,8 @@ export default class BlobAdapter implements IBlobAdapter {
 
             try {
                 const configBlob = await getConfigBlob();
+                // Handle any schema migrations to transform legacy data into valid data
+                handleMigrations(configBlob.data);
                 LogConfigFileTelemetry(configBlob.data); // fire and forget the telemetry logging
                 return configBlob;
             } catch (err) {

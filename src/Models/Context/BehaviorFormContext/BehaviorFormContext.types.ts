@@ -58,9 +58,13 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_LAYERS_ADD = 'FORM_BEHAVIOR_LAYERS_ADD',
     FORM_BEHAVIOR_LAYERS_REMOVE = 'FORM_BEHAVIOR_LAYERS_REMOVE',
 
-    /** reverts all changes to the behavior back to it's initial state */
+    /** reverts all changes to the behavior back to it's initial state
+     * @deprecated
+     */
     FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
-    /** Add or update a status visual */
+    /** Add or update a status visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE',
     /** Update the value ranges for the status visual */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES',
@@ -151,9 +155,9 @@ export type BehaviorFormContextAction =
     // VISUAL RULES
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE;
-          payload: { visualRule: IExpressionRangeVisual; index?: number };
+          payload: { visualRule: IExpressionRangeVisual };
       }
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE;
-          payload: { visualRuleId?: string; index?: number };
+          payload: { visualRuleId: string };
       };

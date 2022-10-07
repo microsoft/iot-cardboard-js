@@ -5,11 +5,8 @@ import produce, { current } from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { defaultOnClickPopover } from '../../Classes/3DVConfig';
 import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
-import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
-import {
-    IBehavior,
-    IVisual
-} from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
+import { deepCopy, getDebugLogger } from '../../Services/Utils';
+import { IBehavior } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     IBehaviorFormContext,
     IBehaviorFormContextState,
@@ -21,8 +18,7 @@ import {
     AddOrUpdateListItemByFilter,
     isStateDirty,
     RemoveItemsFromListByFilter,
-    RemoveWidgetFromBehaviorById,
-    UpdateListItemByIndex
+    RemoveWidgetFromBehaviorById
 } from './BehaviorFormContextUtility';
 
 const debugLogging = false;
@@ -126,7 +122,6 @@ export const BehaviorFormContextReducer: (
                 }
                 break;
             }
-            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
                 draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
                     draft.behaviorToEdit.visuals,
@@ -136,7 +131,6 @@ export const BehaviorFormContextReducer: (
                 );
                 break;
             }
-            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES: {
                 const statusVisual = draft.behaviorToEdit.visuals?.find(
                     ViewerConfigUtility.isStatusColorVisual
@@ -210,44 +204,24 @@ export const BehaviorFormContextReducer: (
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE: {
-                let draftVisualRules = draft.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isVisualRule
+                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.visuals,
+                    action.payload.visualRule,
+                    (x) =>
+                        ViewerConfigUtility.isVisualRule(x) &&
+                        x.id === action.payload.visualRule.id,
+                    logDebugConsole
                 );
-                if (action.payload.visualRule.id) {
-                    draftVisualRules = AddOrUpdateListItemByFilter(
-                        draftVisualRules,
-                        action.payload.visualRule,
-                        (x) => x.id === action.payload.visualRule.id,
-                        logDebugConsole
-                    );
-                } else {
-                    // It is not possible to receive a new visual rule without an id, this just considers update scenario for legacy data
-                    const visualRuleToUpdate = deepCopy(
-                        action.payload.visualRule
-                    );
-                    const id = createGUID();
-                    visualRuleToUpdate.id = id;
-                    draftVisualRules = UpdateListItemByIndex(
-                        draftVisualRules,
-                        visualRuleToUpdate,
-                        action.payload.index,
-                        logDebugConsole
-                    );
-                }
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE: {
-                let draftVisualRules: IVisual[];
-                if (action.payload.visualRuleId) {
-                    draftVisualRules = draft.behaviorToEdit.visuals.filter(
-                        ViewerConfigUtility.isVisualRule,
-                        action.payload.visualRuleId
-                    );
-                } else {
-                    draftVisualRules = deepCopy(draft.behaviorToEdit.visuals);
-                    draftVisualRules.splice(action.payload.index, 1);
-                }
-                draft.behaviorToEdit.visuals = draftVisualRules;
+                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.visuals,
+                    (visual) =>
+                        ViewerConfigUtility.isVisualRule(visual) &&
+                        visual.id === action.payload.visualRuleId,
+                    logDebugConsole
+                );
                 break;
             }
         }

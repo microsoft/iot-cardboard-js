@@ -165,30 +165,3 @@ export function AddOrUpdateListItemByFilter<T>(
     );
     return items;
 }
-
-export function UpdateListItemByIndex<T>(
-    items: T[],
-    itemToUpdate: T,
-    index: number,
-    logger: IConsoleLogFunction
-): T[] {
-    logger(
-        'debug',
-        '[START] Add/Update item in list. {listItems.length, item}',
-        items?.length,
-        itemToUpdate
-    );
-    if (!items) {
-        items = [];
-    }
-
-    logger('debug', `Updating item at index ${index}.`);
-    items[index] = deepCopy(itemToUpdate);
-
-    logger(
-        'debug',
-        '[END] Add/Update item in list. {listItems.length}',
-        items?.length
-    );
-    return items;
-}
