@@ -33,44 +33,17 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     });
 
     // Hooks
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
-    const noDataMessageLinkProps: ILinkProps = {
-        onClick: () => {
-            alert('Add condition clicked');
-        }
-    };
-    // Temporary
-    // Set this to true or false to show no data message
-    const noData = false;
-
-    if (!noData) {
-        return (
-            <div className={classNames.container}>
-                <CardboardList<ConditionsMockData>
-                    listKey={LIST_KEY}
-                    items={ConditionsMockList}
-                />
-            </div>
-        );
-    } else {
-        return (
-            <IllustrationMessage
-                headerText={t(
-                    '3dSceneBuilder.visualRuleForm.noDataMessageHeader'
-                )}
-                descriptionText={t(
-                    '3dSceneBuilder.visualRuleForm.noDataMessageDescription'
-                )}
-                type={'info'}
-                width={'compact'}
-                linkProps={noDataMessageLinkProps}
-                linkText={t(
-                    '3dSceneBuilder.visualRuleForm.noDataMessageLinkText'
-                )}
+    return (
+        <div className={classNames.container}>
+            <CardboardList<ConditionsMockData>
+                listKey={LIST_KEY}
+                items={ConditionsMockList}
             />
-        );
-    }
+            {/* TODO: Add button */}
+        </div>
+    );
 };
 
 export default styled<

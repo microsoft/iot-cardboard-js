@@ -209,22 +209,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                     onClick={() =>
                         setVisualRuleFormMode(VisualRuleFormMode.Inactive)
                     }
-                    styles={
-                        classNames.subComponentStyles.saveButton
-                            ? classNames.subComponentStyles.saveButton()
-                            : undefined
-                    }
+                    styles={classNames.subComponentStyles.saveButton?.()}
                 />
                 <DefaultButton
                     text={t('cancel')}
                     onClick={() =>
                         setVisualRuleFormMode(VisualRuleFormMode.Inactive)
                     }
-                    styles={
-                        classNames.subComponentStyles.cancelButton
-                            ? classNames.subComponentStyles.cancelButton()
-                            : undefined
-                    }
+                    styles={classNames.subComponentStyles.cancelButton?.()}
                 />
             </PanelFooter>
         </>
