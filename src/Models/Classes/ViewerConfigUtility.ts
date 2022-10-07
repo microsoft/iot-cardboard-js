@@ -19,8 +19,7 @@ import {
     IScene,
     ITwinToObjectMapping,
     IValueRange,
-    IVisual,
-    IVisualRule
+    IVisual
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     DatasourceType,
