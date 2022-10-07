@@ -89,6 +89,7 @@ import { DTDLType } from '../Models/Classes/DTDL';
 import i18n from '../i18n';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
+import { handleMigrations } from './BlobAdapterUtility';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -493,6 +494,8 @@ export default class MockAdapter
             await this.mockNetwork();
             // If schema validation fails - error with be thrown and classified by adapterMethodSandbox
             const config = validate3DConfigWithSchema(this.scenesConfig);
+            // To test out migrations with mock data
+            handleMigrations(config);
             return new ADTScenesConfigData(config);
         });
     }
