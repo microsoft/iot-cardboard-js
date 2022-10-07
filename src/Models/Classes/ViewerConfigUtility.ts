@@ -774,7 +774,7 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.ExpressionRangeVisual;
     }
 
-    // TODO: Remove
+    // @deprecated
     static isStatusColorVisual(
         visual: IVisual
     ): visual is IExpressionRangeVisual {
@@ -784,7 +784,7 @@ abstract class ViewerConfigUtility {
         );
     }
 
-    // TODO: Remove
+    // @deprecated
     static isAlertVisual(visual: IVisual): visual is IExpressionRangeVisual {
         return (
             visual.type === VisualType.ExpressionRangeVisual &&
