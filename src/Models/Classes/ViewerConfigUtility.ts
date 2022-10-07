@@ -19,7 +19,8 @@ import {
     IScene,
     ITwinToObjectMapping,
     IValueRange,
-    IVisual
+    IVisual,
+    IVisualRule
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     DatasourceType,
@@ -769,6 +770,11 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.Popover;
     }
 
+    static isVisualRule(visual: IVisual): visual is IExpressionRangeVisual {
+        return visual.type === VisualType.ExpressionRangeVisual;
+    }
+
+    // TODO: Remove
     static isStatusColorVisual(
         visual: IVisual
     ): visual is IExpressionRangeVisual {
@@ -778,6 +784,7 @@ abstract class ViewerConfigUtility {
         );
     }
 
+    // TODO: Remove
     static isAlertVisual(visual: IVisual): visual is IExpressionRangeVisual {
         return (
             visual.type === VisualType.ExpressionRangeVisual &&
