@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, Theme } from '@fluentui/react';
+import {
+    IButtonStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    Theme
+} from '@fluentui/react';
 
 export interface IConditionsListProps {
     styles?: IStyleFunctionOrObject<
@@ -9,8 +14,13 @@ export interface IConditionsListProps {
 
 export interface IConditionsListStyles {
     container: IStyle;
+    subComponentStyles?: IConditionsListSubComponentStyles;
 }
 
 export interface IConditionsListStylesProps {
     theme: Theme;
+}
+
+export interface IConditionsListSubComponentStyles {
+    addButton?: Partial<IButtonStyles>;
 }

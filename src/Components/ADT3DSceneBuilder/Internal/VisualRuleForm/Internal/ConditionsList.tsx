@@ -1,13 +1,13 @@
 import {
+    ActionButton,
     classNamesFunction,
-    ILinkProps,
+    Stack,
     styled,
     useTheme
 } from '@fluentui/react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
-import IllustrationMessage from '../../../../IllustrationMessage/IllustrationMessage';
 import { getStyles } from './ConditionsList.styles';
 import {
     IConditionsListProps,
@@ -33,15 +33,27 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     });
 
     // Hooks
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
+    const handleNewCondition = useCallback(() => {
+        // TODO: Open callout
+        alert('New condition');
+    }, []);
 
     return (
         <div className={classNames.container}>
-            <CardboardList<ConditionsMockData>
-                listKey={LIST_KEY}
-                items={ConditionsMockList}
-            />
-            {/* TODO: Add button */}
+            <Stack>
+                <CardboardList<ConditionsMockData>
+                    listKey={LIST_KEY}
+                    items={ConditionsMockList}
+                />
+                <ActionButton
+                    data-testid={'visual-rule-add-condition'}
+                    styles={classNames.subComponentStyles.addButton?.()}
+                    onClick={handleNewCondition}
+                >
+                    {t('3dSceneBuilder.visualRuleForm.newCondition')}
+                </ActionButton>
+            </Stack>
         </div>
     );
 };
