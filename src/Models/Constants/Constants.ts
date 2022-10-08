@@ -178,7 +178,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
-export const timeSeriesConnectionRefreshMaxAge = 9000;
+export const timeSeriesConnectionRefreshMaxAge = 3600000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const DTID_PROPERTY_NAME = '$dtId';
