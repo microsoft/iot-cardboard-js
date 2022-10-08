@@ -560,11 +560,9 @@
       "new": "Neue visuelle Regel",
       "edit": "Visuelle Regel bearbeiten",
       "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
-      "noDataMessageHeader": "Keine Bedingungen",
-      "noDataMessageDescription": "Noch keine Bedingungen geschaffen. Klicken Sie unten, um eine Bedingung zu erstellen.",
-      "noDataMessageLinkText": "Bedingung hinzufügen",
       "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
-      "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen."
+      "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen.",
+      "newCondition": "Neuer Zustand"
     },
     "conditions": "Bedingungen"
   },

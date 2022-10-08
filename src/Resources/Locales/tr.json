@@ -560,11 +560,9 @@
       "new": "Yeni görsel kural",
       "edit": "Görsel kuralı düzenle",
       "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
-      "noDataMessageHeader": "Koşul yok",
-      "noDataMessageDescription": "Henüz bir koşul oluşturulmadı. Bir koşul oluşturmak için aşağıya tıklayın.",
-      "noDataMessageLinkText": "Koşul ekle",
       "typePlaceholder": "Değer için türü seçin",
-      "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın."
+      "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın.",
+      "newCondition": "Yeni koşul"
     },
     "conditions": "Koşul -ları"
   },

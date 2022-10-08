@@ -560,11 +560,9 @@
       "new": "新しいビジュアル ルール",
       "edit": "ビジュアル ルールの編集",
       "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
-      "noDataMessageHeader": "条件なし",
-      "noDataMessageDescription": "条件はまだ作成されていません。条件を作成するには、以下をクリックします。",
-      "noDataMessageLinkText": "条件の追加",
       "typePlaceholder": "値のタイプを選択します。",
-      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。"
+      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。",
+      "newCondition": "新しい条件"
     },
     "conditions": "条件"
   },

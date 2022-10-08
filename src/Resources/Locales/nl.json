@@ -560,11 +560,9 @@
       "new": "Nieuwe visuele regel",
       "edit": "Visuele regel bewerken",
       "formDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
-      "noDataMessageHeader": "Geen voorwaarden",
-      "noDataMessageDescription": "Er zijn nog geen voorwaarden gecreëerd. Klik hieronder om een voorwaarde aan te maken.",
-      "noDataMessageLinkText": "Voorwaarde toevoegen",
       "typePlaceholder": "Selecteer het type voor de waarde",
-      "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren."
+      "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren.",
+      "newCondition": "Nieuwstaat"
     },
     "conditions": "Voorwaarden"
   },

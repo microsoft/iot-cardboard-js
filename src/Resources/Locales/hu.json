@@ -560,11 +560,9 @@
       "new": "Új vizualizációs szabály",
       "edit": "Vizuális szabály szerkesztése",
       "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
-      "noDataMessageHeader": "Nincsenek feltételek",
-      "noDataMessageDescription": "Még nem teremtettek feltételeket. Az alábbi gombra kattintva létrehozhat egy feltételt.",
-      "noDataMessageLinkText": "Feltétel hozzáadása",
       "typePlaceholder": "Válassza ki az érték típusát",
-      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el."
+      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
+      "newCondition": "Új feltétel"
     },
     "conditions": "Feltételek"
   },

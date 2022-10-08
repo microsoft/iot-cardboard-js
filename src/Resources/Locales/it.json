@@ -560,11 +560,9 @@
       "new": "Nuova regola visiva",
       "edit": "Modificare la regola visiva",
       "formDescription": "Imposta le regole per applicare il colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
-      "noDataMessageHeader": "Nessuna condizione",
-      "noDataMessageDescription": "Nessuna condizione creata ancora. Fare clic di seguito per creare una condizione.",
-      "noDataMessageLinkText": "Aggiungi condizione",
       "typePlaceholder": "Selezionare il tipo per il valore",
-      "conditionsInfoContent": "Configurare l'intervallo o i valori specifici che attivano un'azione visiva relativa all'elemento."
+      "conditionsInfoContent": "Configurare l'intervallo o i valori specifici che attivano un'azione visiva relativa all'elemento.",
+      "newCondition": "Nuova condizione"
     },
     "conditions": "Condizioni"
   },
