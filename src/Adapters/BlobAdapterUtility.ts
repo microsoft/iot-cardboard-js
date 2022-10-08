@@ -240,16 +240,20 @@ function sendConfigTelemetry(data: I3DScenesConfig) {
 
 /** Helper function to handle all schema migration transformations */
 export function handleMigrations(data: I3DScenesConfig) {
-    addVisualRuleIds(data.configuration.behaviors);
+    addVisualRuleIds(data?.configuration?.behaviors);
 }
 
 /** Helper function that adds temporary ids to visual rules in behaviors */
 function addVisualRuleIds(data: IBehavior[]) {
-    data.forEach((behavior: IBehavior) => {
-        behavior.visuals.forEach((visual: IVisual) => {
-            if (visual.type === 'ExpressionRangeVisual' && !visual.id) {
-                visual.id = createGUID();
+    if (data) {
+        data.forEach((behavior: IBehavior) => {
+            if (behavior.visuals) {
+                behavior.visuals.forEach((visual: IVisual) => {
+                    if (visual.type === 'ExpressionRangeVisual' && !visual.id) {
+                        visual.id = createGUID();
+                    }
+                });
             }
         });
-    });
+    }
 }
