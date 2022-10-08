@@ -1,6 +1,5 @@
 import {
     FontSizes,
-    IButtonStyles,
     ICalloutContentStyles,
     ITheme,
     memoizeFunction,
@@ -14,7 +13,8 @@ const classNames = {
     title: `${classPrefix}-title`,
     description: `${classPrefix}-description`,
     list: `${classPrefix}-list`,
-    resultText: `${classPrefix}-resultText`
+    resultText: `${classPrefix}-result-text`,
+    primaryButton: `${classPrefix}-primary-button`
 };
 export const getCardboardListCalloutComponentStyles = memoizeFunction(
     (theme: ITheme) => {
@@ -64,6 +64,13 @@ export const getCardboardListCalloutComponentStyles = memoizeFunction(
                     marginTop: 8,
                     opacity: 0.6
                 }
+            ],
+            primaryButton: [
+                classNames.primaryButton,
+                {
+                    marginTop: '16px !important',
+                    width: 'fit-content'
+                }
             ]
         });
     }
@@ -82,10 +89,3 @@ export const getCardboardListCalloutStyles = memoizeFunction(
             }
         } as ICalloutContentStyles)
 );
-
-export const cardboardListCalloutPrimaryButtonStyles = {
-    root: {
-        marginTop: 16,
-        width: 'fit-content'
-    }
-} as IButtonStyles;

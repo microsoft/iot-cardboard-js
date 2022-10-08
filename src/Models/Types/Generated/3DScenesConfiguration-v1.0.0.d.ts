@@ -33,6 +33,9 @@ export type IDTDLPropertyType =
  * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
  */
 export type IDataHistoryConnectionString = string;
+/**
+ * A list of timeseries to render in the chart
+ */
 export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
 export type IDataHistoryChartYAxisType = 'Shared' | 'Independent';
 export type IDataHistoryAggregationType = 'min' | 'max' | 'avg';
@@ -254,18 +257,14 @@ export interface IDataHistoryWidget {
 export interface IDataHistoryWidgetConfiguration {
     connectionString: IDataHistoryConnectionString;
     displayName: string;
-    /**
-     * A list of query information about the series to render in the chart
-     */
-    series: IDataHistoryTimeSeries[];
+    timeSeries: IDataHistoryTimeSeries;
     chartOptions: IDataHistoryChartOptions;
 }
 /**
- * A basic time series to be rendered in the chart of the data history widget
+ * A basic timeseries to be rendered in the chart of the data history widget
  */
 export interface IDataHistoryBasicTimeSeries {
-    twinName: string;
-    twinProperty: string;
+    expression: string;
     unit: string;
     label?: string;
 }

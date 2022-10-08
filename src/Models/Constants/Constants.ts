@@ -5,6 +5,7 @@ import {
     IADTObjectColor
 } from '../Constants';
 import {
+    defaultDataHistoryWidget,
     defaultGaugeWidget,
     defaultLinkWidget,
     defaultValueWidget,
@@ -163,6 +164,16 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         description: i18n.t('widgets.value.description'),
         iconName: 'NumberField',
         data: defaultValueWidget
+    },
+    {
+        title: i18n.t('widgets.dataHistory.title'),
+        description: i18n.t('widgets.dataHistory.description'),
+        notAvailableDescription: i18n.t(
+            'widgets.dataHistory.notEnabledDescription'
+        ),
+        iconName: 'Chart',
+        data: defaultDataHistoryWidget,
+        disabled: false
     }
 ];
 export const twinRefreshMaxAge = 9000;

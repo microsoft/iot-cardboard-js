@@ -37,7 +37,8 @@ import {
     IGaugeWidget,
     ILinkWidget,
     IValueWidget,
-    ITwinToObjectMapping
+    ITwinToObjectMapping,
+    IDataHistoryWidget
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // START of Actions
@@ -309,4 +310,10 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IValueWidget;
     updateWidgetData: (widgetData: IValueWidget) => void;
+}
+
+export interface IDataHistoryWidgetBuilderProps
+    extends IWidgetBuilderFormDataProps {
+    formData: IDataHistoryWidget;
+    updateWidgetData: (widgetData: IDataHistoryWidget) => void;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     css,
     DefaultButton,
@@ -12,6 +12,8 @@ import {
     Label,
     List,
     PrimaryButton,
+    Spinner,
+    SpinnerSize,
     Stack,
     Text
 } from '@fluentui/react';
@@ -19,6 +21,8 @@ import { useTranslation } from 'react-i18next';
 import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
+import { ADT3DScenePageContext } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
+import { ADXConnectionInformationLoadingState } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 
@@ -32,6 +36,9 @@ const WidgetLibraryDialog: React.FC<{
     );
     const { t } = useTranslation();
     const styles = getWidgetLibraryDialogStyles();
+    const {
+        state: { adxConnectionInformation }
+    } = useContext(ADT3DScenePageContext);
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.close,
@@ -63,6 +70,11 @@ const WidgetLibraryDialog: React.FC<{
                     items={filteredAvailableWidgets}
                     onRenderCell={(widget, index) => (
                         <DefaultButton
+                            disabled={
+                                widget.data.type === 'DataHistory' &&
+                                adxConnectionInformation.loadingState !==
+                                    ADXConnectionInformationLoadingState.EXIST
+                            }
                             key={index}
                             className={css(
                                 'cb-widget-dialog-list-item',
@@ -87,10 +99,16 @@ const WidgetLibraryDialog: React.FC<{
                                     className="cb-widget-dialog-icon-container"
                                     aria-hidden={true}
                                 >
-                                    <FontIcon
-                                        className="cb-widget-dialog-icon"
-                                        iconName={widget.iconName}
-                                    />
+                                    {widget.data.type === 'DataHistory' &&
+                                    adxConnectionInformation.loadingState ===
+                                        ADXConnectionInformationLoadingState.LOADING ? (
+                                        <Spinner size={SpinnerSize.large} />
+                                    ) : (
+                                        <FontIcon
+                                            className="cb-widget-dialog-icon"
+                                            iconName={widget.iconName}
+                                        />
+                                    )}
                                 </Stack>
                                 <Stack
                                     styles={{
@@ -108,7 +126,11 @@ const WidgetLibraryDialog: React.FC<{
                                             }
                                         }}
                                     >
-                                        {widget.description}
+                                        {widget.data.type === 'DataHistory' &&
+                                        adxConnectionInformation.loadingState ===
+                                            ADXConnectionInformationLoadingState.NOT_EXIST
+                                            ? widget.notAvailableDescription
+                                            : widget.description}
                                     </Text>
                                 </Stack>
                             </Stack>

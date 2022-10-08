@@ -238,13 +238,10 @@
         },
         "IDataHistoryBasicTimeSeries": {
             "type": "object",
-            "description": "A basic time series to be rendered in the chart of the data history widget",
+            "description": "A basic timeseries to be rendered in the chart of the data history widget",
             "additionalProperties": false,
             "properties": {
-                "twinName": {
-                    "type": "string"
-                },
-                "twinProperty": {
+                "expression": {
                     "type": "string"
                 },
                 "unit": {
@@ -254,10 +251,11 @@
                     "type": "string"
                 }
             },
-            "required": ["twinName", "twinProperty", "unit"]
+            "required": ["expression", "unit"]
         },
         "IDataHistoryTimeSeries": {
             "type": "array",
+            "description": "A list of timeseries to render in the chart",
             "items": {
                 "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
             }
@@ -462,13 +460,7 @@
                 "displayName": {
                     "type": "string"
                 },
-                "series": {
-                    "type": "array",
-                    "description": "A list of query information about the series to render in the chart",
-                    "items": {
-                        "$ref": "#/$defs/IDataHistoryTimeSeries"
-                    }
-                },
+                "timeSeries": { "$ref": "#/$defs/IDataHistoryTimeSeries" },
                 "chartOptions": {
                     "$ref": "#/$defs/IDataHistoryChartOptions"
                 }
@@ -476,7 +468,7 @@
             "required": [
                 "connectionString",
                 "displayName",
-                "series",
+                "timeSeries",
                 "chartOptions"
             ]
         },

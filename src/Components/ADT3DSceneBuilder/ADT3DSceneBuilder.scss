@@ -50,6 +50,13 @@
     &:hover {
         cursor: pointer;
     }
+
+    &:disabled {
+        label,
+        span {
+            color: var(--cb-color-inactive) !important;
+        }
+    }
 }
 
 .cb-widget-dialog-list-item-selected {
@@ -70,6 +77,7 @@
     background-color: var(--cb-color-theme-primary);
     border-radius: 5px;
     height: 50px;
+    justify-content: center;
     margin: 8px 10px 6px 6px;
     width: 50px;
 }

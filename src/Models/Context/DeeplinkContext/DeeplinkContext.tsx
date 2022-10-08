@@ -32,6 +32,7 @@ import {
     IPublicDeeplink
 } from '..';
 import {
+    getAdtInstanceOptionsFromLocalStorage,
     getSelectedAdtInstanceFromLocalStorage,
     getSelectedStorageContainerFromLocalStorage,
     setSelectedAdtInstanceInLocalStorage,
@@ -148,6 +149,13 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             AzureResourceDisplayFields.url
         ) &&
             selectedAdtInstanceInLocalStorage?.id) ||
+        getAdtInstanceOptionsFromLocalStorage()?.find((option) =>
+            areResourceValuesEqual(
+                defaultAdtUrl,
+                option.url,
+                AzureResourceDisplayFields.url
+            )
+        )?.id || // if there is no id in the selected adt instance in localstorage, try to get it from options
         '';
 
     // set the initial state for the Deeplink reducer
