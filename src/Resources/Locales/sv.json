@@ -578,7 +578,61 @@
       "libraryName": "Panel",
       "description": "En layoutpanel"
     },
-    "notSupported": "Den här widgettypen stöds inte för närvarande"
+    "notSupported": "Den här widgettypen stöds inte för närvarande",
+    "dataHistory": {
+      "title": "Widget för datahistorik",
+      "libraryName": "DataHistoria",
+      "description": "Visa tidsseriedata i kontexten för din 3D-scen",
+      "notEnabledDescription": "Datahistorik är inte aktiverat för den här ADT-instansen.",
+      "form": {
+        "connectionStringTitle": "Anslutningssträng",
+        "connectionStringPlaceholder": "Ange anslutningssträng (t.ex. key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Laddar anslutningsinformation...",
+        "noConnectionInformationText": "Ingen anslutningsinformation hittades",
+        "displayNamePlaceholder": "Ange visningsnamn",
+        "timeSeries": {
+          "timeSeriesDescription": "Lägg till upp till {{maxTimeSeriesCount}} tidsserie som ska visas",
+          "title": "Tidsserier",
+          "description": "En serie som ska visas i linjediagrammet",
+          "property": "Egenskap",
+          "unit": "Enhet",
+          "label": "Etikett",
+          "labelPlaceholder": "Ange etikett för den här serien som ska visas i diagrammet",
+          "add": "Lägga till tidsserier",
+          "edit": "Redigera tidsserier",
+          "remove": "Ta bort tidsserier"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagramalternativ för att ange om varje serie har separata (oberoende) y-axlar eller delar samma y-axel (delad)",
+            "label": "Typ av Y-axel",
+            "sharedLabel": "Delad",
+            "independentLabel": "Oberoende"
+          },
+          "quickTimeSpan": {
+            "label": "Standardtidsspann",
+            "options": {
+              "Last 15 mins": "Sista 15 minuterna",
+              "Last 30 mins": "Sista 30 minuterna",
+              "Last Hour": "Sista timmen",
+              "Last 3 Hours": "Senaste 3 timmarna",
+              "Last 6 Hours": "Senaste 6 timmarna",
+              "Last 12 Hours": "Senaste 12 timmarna",
+              "Last 24 Hours": "Senaste 24 timmarna",
+              "Last 7 Days": "Senaste 7 dagarna",
+              "Last 30 Days": "Senaste 30 dagarna",
+              "Last 60 Days": "Senaste 60 dagarna",
+              "Last 90 Days": "Senaste 90 dagarna",
+              "Last 180 Days": "Senaste 180 dagarna",
+              "Last Year": "Fjor"
+            }
+          },
+          "aggregationType": {
+            "label": "Typ av aggregering"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Senaste 30 minuter",

@@ -578,7 +578,61 @@
       "libraryName": "Panel",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
+    "dataHistory": {
+      "title": "Adatelőzmények widget",
+      "libraryName": "DataHistory",
+      "description": "Idősorok adatainak megjelenítése a 3D-jelenet kontextusában",
+      "notEnabledDescription": "Az adatelőzmények nincsenek engedélyezve ehhez az ADT-példányhoz.",
+      "form": {
+        "connectionStringTitle": "Kapcsolati sztring",
+        "connectionStringPlaceholder": "Adja meg a kapcsolati sztringet (például key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Csatlakozási információk betöltése...",
+        "noConnectionInformationText": "Nem található kapcsolatinformáció",
+        "displayNamePlaceholder": "Adja meg a megjelenítendő nevet",
+        "timeSeries": {
+          "timeSeriesDescription": "{{maxTimeSeriesCount}} idősorok hozzáadása a megjelenítéshez",
+          "title": "Idősorok",
+          "description": "A vonaldiagramon megjelenítendő sorozat",
+          "property": "Ingatlan",
+          "unit": "Egység",
+          "label": "Címke",
+          "labelPlaceholder": "Adja meg a sorozat címkét, hogy megjelenjen a diagramon",
+          "add": "Idősorok hozzáadása",
+          "edit": "Idősorok szerkesztése",
+          "remove": "Idősorok eltávolítása"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagram opció, amelyet be kell állítani, ha minden sorozatnak külön (független) y tengelye van, vagy ugyanazt az y tengelyt osztja meg (Megosztott)",
+            "label": "Y tengely típusa",
+            "sharedLabel": "Megosztott",
+            "independentLabel": "Független"
+          },
+          "quickTimeSpan": {
+            "label": "Alapértelmezett időtartam",
+            "options": {
+              "Last 15 mins": "Az utolsó 15 perc",
+              "Last 30 mins": "Az utolsó 30 perc",
+              "Last Hour": "Utolsó óra",
+              "Last 3 Hours": "Az elmúlt 3 óra",
+              "Last 6 Hours": "Az elmúlt 6 óra",
+              "Last 12 Hours": "Az elmúlt 12 óra",
+              "Last 24 Hours": "Az elmúlt 24 óra",
+              "Last 7 Days": "Az elmúlt 7 nap",
+              "Last 30 Days": "Az elmúlt 30 nap",
+              "Last 60 Days": "Az elmúlt 60 nap",
+              "Last 90 Days": "Az elmúlt 90 nap",
+              "Last 180 Days": "Az elmúlt 180 nap",
+              "Last Year": "Tavaly"
+            }
+          },
+          "aggregationType": {
+            "label": "Összesítés típusa"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",
