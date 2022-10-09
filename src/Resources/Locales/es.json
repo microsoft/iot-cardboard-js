@@ -581,7 +581,6 @@
     "notSupported": "Este tipo de widget no es compatible actualmente",
     "dataHistory": {
       "title": "Widget de historial de datos",
-      "libraryName": "DataHistory",
       "description": "Mostrar datos de series temporales en el contexto de la escena 3D",
       "notEnabledDescription": "El historial de datos no está habilitado para esta instancia de ADT.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Tipo de agregación"
           }
         }
-      }
+      },
+      "libraryNam": "Historial de datos"
     }
   },
   "sdkStrings": {

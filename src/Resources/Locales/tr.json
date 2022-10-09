@@ -581,7 +581,6 @@
     "notSupported": "Bu widget türü şu anda desteklenmiyor",
     "dataHistory": {
       "title": "Veri geçmişi widget'ı",
-      "libraryName": "Veri Geçmişi",
       "description": "Zaman serisi verilerini 3B sahnenizin bağlamında gösterme",
       "notEnabledDescription": "Veri geçmişi bu ADT örneği için etkinleştirilmemiştir.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Toplama türü"
           }
         }
-      }
+      },
+      "libraryNam": "Veri geçmişi"
     }
   },
   "sdkStrings": {

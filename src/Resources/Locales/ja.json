@@ -581,7 +581,6 @@
     "notSupported": "このウィジェットの種類は現在サポートされていません",
     "dataHistory": {
       "title": "データ履歴ウィジェット",
-      "libraryName": "データ履歴",
       "description": "3Dシーンのコンテキストで時系列データを表示する",
       "notEnabledDescription": "この ADT インスタンスのデータ履歴は有効になっていません。",
       "form": {
@@ -631,7 +630,8 @@
             "label": "集計タイプ"
           }
         }
-      }
+      },
+      "libraryNam": "データ履歴"
     }
   },
   "sdkStrings": {

@@ -581,7 +581,6 @@
     "notSupported": "Tento typ widgetu není v současné době podporován",
     "dataHistory": {
       "title": "Widget Historie dat",
-      "libraryName": "Historie dat",
       "description": "Zobrazení dat časových řad v kontextu 3D scény",
       "notEnabledDescription": "Historie dat není pro tuto instanci nástroje ADT povolena.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Typ agregace"
           }
         }
-      }
+      },
+      "libraryNam": "Historie dat"
     }
   },
   "sdkStrings": {
