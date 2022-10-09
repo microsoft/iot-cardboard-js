@@ -38,13 +38,14 @@ export enum WidgetType {
     Value = 'Value',
     Trend = 'Trend',
     Panel = 'Panel',
-    DataHistory = 'DataHistory'
+    DataHistory = 'Data history'
 }
 
 export interface IWidgetLibraryItem {
     title: string;
     description: string;
     notAvailableDescription?: string;
+    learnMoreLink?: string;
     iconName: string;
     disabled?: boolean;
     data: IWidget;

@@ -60,6 +60,8 @@ const HOW_TO_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195591';
 const QUICK_START_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195592';
 const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
 const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
+const ADT_DATA_HISTORY_WITH_ADX =
+    'https://learn.microsoft.com/en-us/azure/digital-twins/concepts-data-history'; // TODO: have golink
 export const DOCUMENTATION_LINKS = {
     overviewDoc: OVERVIEW_3D_SCENES,
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,
@@ -70,7 +72,8 @@ export const DOCUMENTATION_LINKS = {
     howToExpressions: `${HOW_TO_DOC}#use-custom-advanced-expressions`,
     howToLayers: `${HOW_TO_DOC}#manage-layers`,
     howToTwins: `${HOW_TO_DOC}#twins`,
-    howToWidgets: `${HOW_TO_DOC}#widgets`
+    howToWidgets: `${HOW_TO_DOC}#widgets`,
+    dataHistory: ADT_DATA_HISTORY_WITH_ADX
 };
 
 /** this is the minimum frequency we support for fetching data from ADT */
@@ -171,9 +174,10 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         notAvailableDescription: i18n.t(
             'widgets.dataHistory.notEnabledDescription'
         ),
+        learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget,
-        disabled: true
+        disabled: false
     }
 ];
 export const twinRefreshMaxAge = 9000;

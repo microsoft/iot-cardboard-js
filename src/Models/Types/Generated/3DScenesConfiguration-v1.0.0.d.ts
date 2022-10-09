@@ -245,7 +245,7 @@ export interface IValueWidgetConfiguration {
  * A data history widget which uses twin properties to show timeseries data
  */
 export interface IDataHistoryWidget {
-    type: 'DataHistory';
+    type: 'Data history';
     id: string;
     groupID?: IGroupID;
     widgetConfiguration: IDataHistoryWidgetConfiguration;

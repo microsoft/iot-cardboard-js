@@ -550,7 +550,7 @@
             "additionalProperties": false,
             "properties": {
                 "type": {
-                    "const": "DataHistory"
+                    "const": "Data history"
                 },
                 "id": {
                     "type": "string"

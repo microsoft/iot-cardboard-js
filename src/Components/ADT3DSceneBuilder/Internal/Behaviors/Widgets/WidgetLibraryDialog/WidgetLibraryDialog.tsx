@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
     css,
     DefaultButton,
@@ -10,6 +10,7 @@ import {
     IDialogContentProps,
     IModalProps,
     Label,
+    Link,
     List,
     PrimaryButton,
     Spinner,
@@ -18,7 +19,10 @@ import {
     Text
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { IWidgetLibraryItem } from '../../../../../../Models/Classes/3DVConfig';
+import {
+    IWidgetLibraryItem,
+    WidgetType
+} from '../../../../../../Models/Classes/3DVConfig';
 import { availableWidgets } from '../../../../../../Models/Constants/Constants';
 import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
 import { ADT3DScenePageContext } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
@@ -58,6 +62,106 @@ const WidgetLibraryDialog: React.FC<{
         }
     };
 
+    const isSpinnerVisible = useCallback(
+        (widgetType: WidgetType) =>
+            widgetType === WidgetType.DataHistory &&
+            adxConnectionInformation.loadingState ===
+                ADXConnectionInformationLoadingState.LOADING,
+        [adxConnectionInformation.loadingState]
+    );
+
+    const isWidgetNotAvailable = useCallback(
+        (widgetType: WidgetType) =>
+            widgetType === WidgetType.DataHistory &&
+            adxConnectionInformation.loadingState ===
+                ADXConnectionInformationLoadingState.NOT_EXIST,
+        [adxConnectionInformation.loadingState]
+    );
+
+    const handleOnRenderCell = useCallback(
+        (widget: IWidgetLibraryItem, index: number) => (
+            <DefaultButton
+                disabled={
+                    widget.data.type === 'Data history' &&
+                    adxConnectionInformation.loadingState !==
+                        ADXConnectionInformationLoadingState.EXIST
+                }
+                key={index}
+                className={css(
+                    'cb-widget-dialog-list-item',
+                    index === selectedWidget
+                        ? 'cb-widget-dialog-list-item-selected'
+                        : ''
+                )}
+                onClick={() => {
+                    setSelectedWidget(index);
+                    setFilteredAvailableWidgets([...enabledWidgets]);
+                }}
+                data-testid={`widget-library-${widget.data.type}`}
+                styles={{
+                    flexContainer: { justifyContent: 'start' }
+                }}
+                selected={index === selectedWidget}
+            >
+                <Stack horizontal>
+                    <Stack
+                        className="cb-widget-dialog-icon-container"
+                        aria-hidden={true}
+                    >
+                        {isSpinnerVisible(widget.data.type as WidgetType) ? (
+                            <Spinner size={SpinnerSize.large} />
+                        ) : (
+                            <FontIcon
+                                className="cb-widget-dialog-icon"
+                                iconName={widget.iconName}
+                            />
+                        )}
+                    </Stack>
+                    <Stack
+                        styles={{
+                            root: {
+                                alignItems: 'start',
+                                textAlign: 'left'
+                            }
+                        }}
+                    >
+                        <Label>{widget.data.type}</Label>
+                        <Text
+                            styles={{
+                                root: {
+                                    fontSize: FontSizes.small
+                                }
+                            }}
+                        >
+                            {isWidgetNotAvailable(
+                                widget.data.type as WidgetType
+                            ) ? (
+                                <>
+                                    {widget.notAvailableDescription}{' '}
+                                    <Link
+                                        target="_blank"
+                                        href={widget.learnMoreLink}
+                                    >
+                                        {t('learnMore')}
+                                    </Link>
+                                </>
+                            ) : (
+                                widget.description
+                            )}
+                        </Text>
+                    </Stack>
+                </Stack>
+            </DefaultButton>
+        ),
+        [
+            adxConnectionInformation.loadingState,
+            isWidgetNotAvailable,
+            isSpinnerVisible,
+            selectedWidget,
+            enabledWidgets
+        ]
+    );
+
     return (
         <Dialog
             dialogContentProps={dialogContentProps}
@@ -68,74 +172,8 @@ const WidgetLibraryDialog: React.FC<{
             <div className="cb-widget-library-dialog-list-container">
                 <List
                     items={filteredAvailableWidgets}
-                    onRenderCell={(widget, index) => (
-                        <DefaultButton
-                            disabled={
-                                widget.data.type === 'DataHistory' &&
-                                adxConnectionInformation.loadingState !==
-                                    ADXConnectionInformationLoadingState.EXIST
-                            }
-                            key={index}
-                            className={css(
-                                'cb-widget-dialog-list-item',
-                                index === selectedWidget
-                                    ? 'cb-widget-dialog-list-item-selected'
-                                    : ''
-                            )}
-                            onClick={() => {
-                                setSelectedWidget(index);
-                                setFilteredAvailableWidgets([
-                                    ...enabledWidgets
-                                ]);
-                            }}
-                            data-testid={`widget-library-${widget.data.type}`}
-                            styles={{
-                                flexContainer: { justifyContent: 'start' }
-                            }}
-                            selected={index === selectedWidget}
-                        >
-                            <Stack horizontal>
-                                <Stack
-                                    className="cb-widget-dialog-icon-container"
-                                    aria-hidden={true}
-                                >
-                                    {widget.data.type === 'DataHistory' &&
-                                    adxConnectionInformation.loadingState ===
-                                        ADXConnectionInformationLoadingState.LOADING ? (
-                                        <Spinner size={SpinnerSize.large} />
-                                    ) : (
-                                        <FontIcon
-                                            className="cb-widget-dialog-icon"
-                                            iconName={widget.iconName}
-                                        />
-                                    )}
-                                </Stack>
-                                <Stack
-                                    styles={{
-                                        root: {
-                                            alignItems: 'start',
-                                            textAlign: 'left'
-                                        }
-                                    }}
-                                >
-                                    <Label>{widget.data.type}</Label>
-                                    <Text
-                                        styles={{
-                                            root: {
-                                                fontSize: FontSizes.small
-                                            }
-                                        }}
-                                    >
-                                        {widget.data.type === 'DataHistory' &&
-                                        adxConnectionInformation.loadingState ===
-                                            ADXConnectionInformationLoadingState.NOT_EXIST
-                                            ? widget.notAvailableDescription
-                                            : widget.description}
-                                    </Text>
-                                </Stack>
-                            </Stack>
-                        </DefaultButton>
-                    )}
+                    onRenderCell={handleOnRenderCell}
+                    version={adxConnectionInformation}
                 ></List>
                 <div className="cb-widget-panel-clear-float" />
             </div>

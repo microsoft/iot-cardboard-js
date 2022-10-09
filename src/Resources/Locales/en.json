@@ -585,7 +585,7 @@
         },
         "dataHistory": {
             "title": "Data history widget",
-            "libraryName": "DataHistory",
+            "libraryName": "Data history",
             "description": "Show timeseries data in context of your 3D scene",
             "notEnabledDescription": "Data history is not enabled for this ADT instance.",
             "form": {

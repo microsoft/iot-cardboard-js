@@ -76,6 +76,7 @@
 .cb-widget-dialog-icon-container {
     background-color: var(--cb-color-theme-primary);
     border-radius: 5px;
+    flex-shrink: 0 !important;
     height: 50px;
     justify-content: center;
     margin: 8px 10px 6px 6px;
