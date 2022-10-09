@@ -581,7 +581,6 @@
     "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
     "dataHistory": {
       "title": "데이터 히스토리 위젯",
-      "libraryName": "데이터 히스토리",
       "description": "3D 장면의 컨텍스트에 시계열 데이터 표시",
       "notEnabledDescription": "이 ADT 인스턴스에 대해 데이터 기록을 사용할 수 없습니다.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "집계 유형"
           }
         }
-      }
+      },
+      "libraryNam": "데이터 기록"
     }
   },
   "sdkStrings": {

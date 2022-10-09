@@ -581,7 +581,6 @@
     "notSupported": "Ez a widgettípus jelenleg nem támogatott",
     "dataHistory": {
       "title": "Adatelőzmények widget",
-      "libraryName": "DataHistory",
       "description": "Idősorok adatainak megjelenítése a 3D-jelenet kontextusában",
       "notEnabledDescription": "Az adatelőzmények nincsenek engedélyezve ehhez az ADT-példányhoz.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Összesítés típusa"
           }
         }
-      }
+      },
+      "libraryNam": "Adatok előzményei"
     }
   },
   "sdkStrings": {

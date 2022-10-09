@@ -581,7 +581,6 @@
     "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
     "dataHistory": {
       "title": "Widżet Historia danych",
-      "libraryName": "DataHistory",
       "description": "Pokazywanie danych szeregów czasowych w kontekście sceny 3D",
       "notEnabledDescription": "Historia danych nie jest włączona dla tego wystąpienia narzędzia ADT.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Typ agregacji"
           }
         }
-      }
+      },
+      "libraryNam": "Historia danych"
     }
   },
   "sdkStrings": {

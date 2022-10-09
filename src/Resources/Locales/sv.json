@@ -581,7 +581,6 @@
     "notSupported": "Den här widgettypen stöds inte för närvarande",
     "dataHistory": {
       "title": "Widget för datahistorik",
-      "libraryName": "DataHistoria",
       "description": "Visa tidsseriedata i kontexten för din 3D-scen",
       "notEnabledDescription": "Datahistorik är inte aktiverat för den här ADT-instansen.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Typ av aggregering"
           }
         }
-      }
+      },
+      "libraryNam": "Historik"
     }
   },
   "sdkStrings": {

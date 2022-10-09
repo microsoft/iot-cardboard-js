@@ -581,7 +581,6 @@
     "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
     "dataHistory": {
       "title": "Widget Historique des données",
-      "libraryName": "Historique des données",
       "description": "Afficher les données de séries chronologiques dans le contexte de votre scène 3D",
       "notEnabledDescription": "L’historique des données n’est pas activé pour cette instance ADT.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Type d’agrégation"
           }
         }
-      }
+      },
+      "libraryNam": "Historique des données"
     }
   },
   "sdkStrings": {

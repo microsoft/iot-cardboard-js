@@ -581,7 +581,6 @@
     "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
     "dataHistory": {
       "title": "Datenverlauf-Widget",
-      "libraryName": "Datenhistorie",
       "description": "Anzeigen von Zeitreihendaten im Kontext Ihrer 3D-Szene",
       "notEnabledDescription": "Der Datenverlauf ist für diese ADT-Instanz nicht aktiviert.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Aggregationstyp"
           }
         }
-      }
+      },
+      "libraryNam": "Datenhistorie"
     }
   },
   "sdkStrings": {

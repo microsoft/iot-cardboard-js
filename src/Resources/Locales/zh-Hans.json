@@ -581,7 +581,6 @@
     "notSupported": "目前不支持此微件类型",
     "dataHistory": {
       "title": "数据历史记录小部件",
-      "libraryName": "数据历史",
       "description": "在 3D 场景的上下文中显示时间序列数据",
       "notEnabledDescription": "未为此 ADT 实例启用数据历史记录。",
       "form": {
@@ -631,7 +630,8 @@
             "label": "聚合类型"
           }
         }
-      }
+      },
+      "libraryNam": "数据历史记录"
     }
   },
   "sdkStrings": {

@@ -581,7 +581,6 @@
     "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
     "dataHistory": {
       "title": "Widget gegevensgeschiedenis",
-      "libraryName": "DataGeschiedenis",
       "description": "Tijdreeksgegevens weergeven in de context van uw 3D-scène",
       "notEnabledDescription": "Gegevensgeschiedenis is niet ingeschakeld voor dit ADT-exemplaar.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Type aggregatie"
           }
         }
-      }
+      },
+      "libraryNam": "Gegevensgeschiedenis"
     }
   },
   "sdkStrings": {

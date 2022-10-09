@@ -581,7 +581,6 @@
     "notSupported": "Questo tipo di widget non è attualmente supportato",
     "dataHistory": {
       "title": "Widget Cronologia dati",
-      "libraryName": "DataHistory",
       "description": "Visualizzare i dati delle serie temporali nel contesto della scena 3D",
       "notEnabledDescription": "La cronologia dei dati non è abilitata per questa istanza ADT.",
       "form": {
@@ -631,7 +630,8 @@
             "label": "Tipo di aggregazione"
           }
         }
-      }
+      },
+      "libraryNam": "Cronologia dei dati"
     }
   },
   "sdkStrings": {
