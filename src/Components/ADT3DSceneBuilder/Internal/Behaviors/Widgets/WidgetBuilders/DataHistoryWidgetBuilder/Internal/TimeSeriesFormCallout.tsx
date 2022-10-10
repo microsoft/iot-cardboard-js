@@ -27,6 +27,7 @@ import ModelledPropertyBuilder from '../../../../../../../ModelledPropertyBuilde
 import { SceneBuilderContext } from '../../../../../../ADT3DSceneBuilder';
 import {
     ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 
@@ -140,6 +141,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     mode={ModelledPropertyBuilderMode.PROPERTY_SELECT}
                     propertyExpression={{ expression: seriesToEdit.expression }}
                     onChange={handlePropertyChange}
+                    allowedPropertyValueTypes={numericPropertyValueTypes}
                     required
                 />
                 <TextField
