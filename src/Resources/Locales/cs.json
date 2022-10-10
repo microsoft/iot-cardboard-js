@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "Typ agregace"
           }
-        }
+        },
+        "connectionStringInformation": "Widgety historie dat využívají instance Průzkumníka dat Azure připojené k vybrané instanci Azure Digital Twins v době vytvoření."
       },
       "libraryName": "Historie dat"
     }
