@@ -591,6 +591,7 @@
             "form": {
                 "connectionStringTitle": "Connection string",
                 "connectionStringPlaceholder": "Enter connection string (e.g. key1=value1;key2=value2;key3=value3)",
+                "connectionStringInformation": "Data history widgets leverage the Azure Data Explorer instances connected to the selected Azure Digital Twins instance at the time of creation.",
                 "connectionLoadingText": "Loading connection information...",
                 "noConnectionInformationText": "No connection information found",
                 "displayNamePlaceholder": "Enter display name",

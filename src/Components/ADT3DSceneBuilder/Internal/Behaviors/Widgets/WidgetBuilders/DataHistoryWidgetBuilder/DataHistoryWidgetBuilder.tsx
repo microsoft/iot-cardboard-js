@@ -2,7 +2,9 @@ import {
     ActionButton,
     ChoiceGroup,
     Dropdown,
+    ITextFieldProps,
     Label,
+    Link,
     Stack,
     TextField,
     useTheme
@@ -18,6 +20,7 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -179,6 +182,44 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [formData]
     );
 
+    const handleOnRenderConnectionStringLabel = useCallback(
+        (
+            props?: ITextFieldProps,
+            defaultRender?: (props?: ITextFieldProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack
+                    horizontal
+                    verticalAlign={'center'}
+                    styles={{ root: { 'label::after': { paddingRight: 0 } } }}
+                >
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                'widgets.dataHistory.form.connectionStringInformation'
+                            ),
+                            calloutContent: (
+                                <>
+                                    {t(
+                                        'widgets.dataHistory.form.connectionStringInformation'
+                                    )}{' '}
+                                    <Link
+                                        target="_blank"
+                                        href={DOCUMENTATION_LINKS.dataHistory}
+                                    >
+                                        {t('learnMore')}
+                                    </Link>
+                                </>
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t]
+    );
+
     const onChartOptionChange = useCallback(
         (
             optionKey: ChartOptionKeys,
@@ -214,6 +255,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     readOnly
                     disabled
                     title={connectionString}
+                    onRenderLabel={handleOnRenderConnectionStringLabel}
                 />
                 <TextField
                     required
