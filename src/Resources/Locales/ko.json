@@ -630,7 +630,7 @@
             "label": "집계 유형"
           }
         },
-        "connectionStringInformatio": "데이터 기록 위젯은 생성 시 Azure 디지털 트윈 인스턴스에 연결된 Azure 데이터 탐색기 인스턴스를 대상으로 합니다."
+        "connectionStringInformation": "데이터 기록 위젯은 생성 시 Azure 디지털 트윈 인스턴스에 연결된 Azure 데이터 탐색기 인스턴스를 대상으로 합니다."
       },
       "libraryName": "데이터 기록"
     }

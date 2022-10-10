@@ -630,7 +630,7 @@
             "label": "Typ av aggregering"
           }
         },
-        "connectionStringInformatio": "Datahistorikwidgetar riktar azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas."
+        "connectionStringInformation": "Datahistorikwidgetar riktar azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas."
       },
       "libraryName": "Historik"
     }

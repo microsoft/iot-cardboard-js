@@ -630,7 +630,7 @@
             "label": "聚合类型"
           }
         },
-        "connectionStringInformatio": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
+        "connectionStringInformation": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
       },
       "libraryName": "数据历史记录"
     }

@@ -630,7 +630,7 @@
             "label": "Type d’agrégation"
           }
         },
-        "connectionStringInformatio": "Les widgets d’historique des données ciblent l’instance Azure Data Explorer connectée à l’instance Azure Digital Twins au moment de la création."
+        "connectionStringInformation": "Les widgets d’historique des données ciblent l’instance Azure Data Explorer connectée à l’instance Azure Digital Twins au moment de la création."
       },
       "libraryName": "Historique des données"
     }

@@ -630,7 +630,7 @@
             "label": "Typ agregace"
           }
         },
-        "connectionStringInformatio": "Widgety historie dat cílí na instanci Průzkumníka dat Azure připojenou k instanci Azure Digital Twins v době vytvoření."
+        "connectionStringInformation": "Widgety historie dat cílí na instanci Průzkumníka dat Azure připojenou k instanci Azure Digital Twins v době vytvoření."
       },
       "libraryName": "Historie dat"
     }

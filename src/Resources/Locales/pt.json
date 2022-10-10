@@ -630,7 +630,7 @@
             "label": "Tipo de agregação"
           }
         },
-        "connectionStringInformatio": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação."
+        "connectionStringInformation": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação."
       },
       "libraryName": "Histórico de dados"
     }

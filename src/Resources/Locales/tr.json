@@ -630,7 +630,7 @@
             "label": "Toplama türü"
           }
         },
-        "connectionStringInformatio": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler."
+        "connectionStringInformation": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler."
       },
       "libraryName": "Veri geçmişi"
     }

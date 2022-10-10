@@ -630,7 +630,7 @@
             "label": "Type aggregatie"
           }
         },
-        "connectionStringInformatio": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken."
+        "connectionStringInformation": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken."
       },
       "libraryName": "Gegevensgeschiedenis"
     }

@@ -630,7 +630,7 @@
             "label": "Tipo de agregação"
           }
         },
-        "connectionStringInformatio": "Os widgets de histórico de dados visam o exemplo do Azure Data Explorer ligado à instância Azure Digital Twins no momento da criação."
+        "connectionStringInformation": "Os widgets de histórico de dados visam o exemplo do Azure Data Explorer ligado à instância Azure Digital Twins no momento da criação."
       },
       "libraryName": "Histórico de dados"
     }

@@ -630,7 +630,7 @@
             "label": "Tipo de agregación"
           }
         },
-        "connectionStringInformatio": "Los widgets de historial de datos tienen como destino la instancia del Explorador de datos de Azure conectada a la instancia de Azure Digital Twins en el momento de la creación."
+        "connectionStringInformation": "Los widgets de historial de datos tienen como destino la instancia del Explorador de datos de Azure conectada a la instancia de Azure Digital Twins en el momento de la creación."
       },
       "libraryName": "Historial de datos"
     }

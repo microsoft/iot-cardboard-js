@@ -630,7 +630,7 @@
             "label": "Aggregationstyp"
           }
         },
-        "connectionStringInformatio": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
+        "connectionStringInformation": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
       },
       "libraryName": "Datenhistorie"
     }
