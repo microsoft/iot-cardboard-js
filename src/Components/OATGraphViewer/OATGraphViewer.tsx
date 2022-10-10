@@ -16,6 +16,7 @@ import {
     Spinner,
     IconButton
 } from '@fluentui/react';
+import { usePrevious } from '@fluentui/react-hooks';
 import ReactFlow, {
     ReactFlowProvider,
     MiniMap,
@@ -92,6 +93,13 @@ const OATGraphViewer: React.FC = () => {
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageState, oatPageDispatch } = useOatPageContext();
 
+    logDebugConsole(
+        'debug',
+        '[START] Render {models, positions}',
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyModelPositions
+    );
+
     const idClassBase = `dtmi:${
         oatPageState.currentOntologyNamespace
             ? oatPageState.currentOntologyNamespace
@@ -99,99 +107,98 @@ const OATGraphViewer: React.FC = () => {
     }:`;
 
     //  Converts the stored models to a graph nodes
-    const getGraphNodesFromModels = (
-        models: DtdlInterface[],
-        modelPositions: IOATModelPosition[]
-    ) => {
-        if (!models || !modelPositions) {
-            return [];
-        }
+    const getGraphNodesFromModels = useCallback(
+        (models: DtdlInterface[], modelPositions: IOATModelPosition[]) => {
+            if (!models || !modelPositions) {
+                return [];
+            }
 
-        // console.log('*** getGraphViewerElementsFromModels', models);
-        // Format models
-        const modelsCopy = deepCopy(models);
-        // TODO: define a type here that actually works so it's not an any
-        // : ElementNode[]
-        return modelsCopy.reduce((graphElements, input) => {
-            if (input.contents) {
-                // Get the relationships
-                input.contents.forEach((content) => {
-                    switch (content['@type']) {
-                        case OAT_COMPONENT_HANDLE_NAME: {
-                            const foundComponentTarget = models.find(
-                                (model) => model['@id'] === content.schema
-                            );
-
-                            if (foundComponentTarget) {
-                                addComponentRelationship(
-                                    input['@id'],
-                                    content,
-                                    foundComponentTarget.displayName,
-                                    graphElements
-                                );
-                            }
-                            break;
-                        }
-                        case OAT_RELATIONSHIP_HANDLE_NAME:
-                            if (content.target) {
-                                const foundRelationshipTarget = models.find(
-                                    (model) => model['@id'] === content.target
+            // TODO: define a type here that actually works so it's not an any
+            return models.reduce((elements, input) => {
+                if (input.contents) {
+                    // Get the relationships
+                    input.contents.forEach((content) => {
+                        switch (content['@type']) {
+                            case OAT_COMPONENT_HANDLE_NAME: {
+                                const foundComponentTarget = models.find(
+                                    (model) => model['@id'] === content.schema
                                 );
 
-                                if (foundRelationshipTarget) {
-                                    addTargetedRelationship(
+                                if (foundComponentTarget) {
+                                    addComponentRelationship(
                                         input['@id'],
                                         content,
-                                        graphElements
+                                        foundComponentTarget.displayName,
+                                        elements
                                     );
                                 }
-                            } else {
-                                addUntargetedRelationship(
-                                    input['@id'],
-                                    content,
-                                    modelPositions,
-                                    graphElements
-                                );
+                                break;
                             }
-                            break;
-                    }
-                });
-            }
+                            case OAT_RELATIONSHIP_HANDLE_NAME:
+                                if (content.target) {
+                                    const foundRelationshipTarget = models.find(
+                                        (model) =>
+                                            model['@id'] === content.target
+                                    );
 
-            if (input.extends) {
-                (Array.isArray(input.extends)
-                    ? input.extends
-                    : [input.extends]
-                ).forEach((extend) => {
-                    const foundExtendTarget = models.find(
-                        (model) => model['@id'] === extend
-                    );
+                                    if (foundRelationshipTarget) {
+                                        addTargetedRelationship(
+                                            input['@id'],
+                                            content,
+                                            elements
+                                        );
+                                    }
+                                } else {
+                                    addUntargetedRelationship(
+                                        input['@id'],
+                                        content,
+                                        modelPositions,
+                                        elements
+                                    );
+                                }
+                                break;
+                        }
+                    });
+                }
 
-                    if (foundExtendTarget) {
-                        addExtendsRelationship(
-                            input['@id'],
-                            extend,
-                            graphElements
+                if (input.extends) {
+                    (Array.isArray(input.extends)
+                        ? input.extends
+                        : [input.extends]
+                    ).forEach((extend) => {
+                        const foundExtendTarget = models.find(
+                            (model) => model['@id'] === extend
                         );
-                    }
-                });
-            }
 
-            const mp = modelPositions.find((x) => x['@id'] === input['@id']);
-            const newNode = new ElementNode(
-                input['@id'],
-                input['@type'],
-                {
-                    x: mp ? mp.position.x : DEFAULT_NODE_POSITION,
-                    y: mp ? mp.position.y : DEFAULT_NODE_POSITION
-                },
-                input
-            );
+                        if (foundExtendTarget) {
+                            addExtendsRelationship(
+                                input['@id'],
+                                extend,
+                                elements
+                            );
+                        }
+                    });
+                }
 
-            graphElements.push(newNode);
-            return graphElements;
-        }, []);
-    };
+                const mp = modelPositions.find(
+                    (x) => x['@id'] === input['@id']
+                );
+                const newNode = new ElementNode(
+                    input['@id'],
+                    input['@type'],
+                    {
+                        x: mp ? mp.position.x : DEFAULT_NODE_POSITION,
+                        y: mp ? mp.position.y : DEFAULT_NODE_POSITION
+                    },
+                    input
+                );
+
+                elements.push(newNode);
+                return elements;
+            }, []);
+        },
+        []
+    );
 
     // state
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
@@ -219,6 +226,11 @@ const OATGraphViewer: React.FC = () => {
     // callbacks
     const applyLayoutToElements = useCallback(
         (inputElements: IOatElementNode[]) => {
+            logDebugConsole(
+                'debug',
+                '[START] Apply layout {elements}',
+                inputElements
+            );
             const nodes: IOatGraphNode[] = inputElements.reduce(
                 (collection: IOatGraphNode[], element: IOatElementNode) => {
                     if (!element.source) {
@@ -292,6 +304,11 @@ const OATGraphViewer: React.FC = () => {
                     execute(application, undoApplication);
                     rfInstance.fitView();
                 });
+            logDebugConsole(
+                'debug',
+                '[END] Apply layout {elements}',
+                inputElements
+            );
         },
         [execute, rfInstance]
     );
@@ -537,7 +554,7 @@ const OATGraphViewer: React.FC = () => {
 
     /** recreate the models anytime elements change. These then get stored back to the context */
     const modelsFromCurrentNodes = useMemo(() => {
-        logDebugConsole('debug', '[translatedOutput] ');
+        logDebugConsole('debug', '[modelsFromCurrentNodes] ');
         // Creates the json object in the DTDL standard based on the content of the nodes
         const nodes: DtdlInterface[] = elements.reduce(
             (
@@ -626,6 +643,11 @@ const OATGraphViewer: React.FC = () => {
     }, [elements]);
 
     useEffect(() => {
+        logDebugConsole(
+            'debug',
+            'Storing computed models. {model}',
+            modelsFromCurrentNodes
+        );
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsFromCurrentNodes }
@@ -650,6 +672,7 @@ const OATGraphViewer: React.FC = () => {
                             node.data.name !==
                                 oatPageState.selection.contentId))) // Prevent re-execute the same node
             ) {
+                logDebugConsole('info', 'Element selected', node);
                 const onClick = () => {
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -676,6 +699,10 @@ const OATGraphViewer: React.FC = () => {
         setCurrentHovered(node);
     };
 
+    const onNodeMouseLeave = () => {
+        setCurrentHovered(null);
+    };
+
     const onNodeDragEnd = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: IOATNodeElement
@@ -687,11 +714,8 @@ const OATGraphViewer: React.FC = () => {
         storeElementPositions(elements);
     };
 
-    const onNodeMouseLeave = () => {
-        setCurrentHovered(null);
-    };
-
     const clearSelectedModel = () => {
+        logDebugConsole('info', 'Clearing selected model');
         const clearModel = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
@@ -717,27 +741,28 @@ const OATGraphViewer: React.FC = () => {
     }, [elements, storeElementPositions]);
 
     // Update graph nodes and edges when the models are updated
+    const previousId = usePrevious(oatPageState.currentOntologyId);
     useEffect(() => {
-        // console.log(
-        //     '***START] Setting elements in graph',
-        //     oatPageState.currentOntologyModels,
-        //     oatPageState.currentOntologyModelPositions
-        // );
-        const potentialElements = getGraphNodesFromModels(
-            oatPageState.currentOntologyModels,
-            oatPageState.currentOntologyModelPositions
-        );
-        // console.log(
-        //     '***END] Setting elements in graph',
-        //     potentialElements,
-        //     JSON.stringify(potentialElements),
-        //     JSON.stringify(elements)
-        // );
+        if (previousId !== oatPageState.currentOntologyId) {
+            const potentialElements = getGraphNodesFromModels(
+                oatPageState.currentOntologyModels,
+                oatPageState.currentOntologyModelPositions
+            );
 
-        if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
-            setElements(potentialElements);
+            if (
+                JSON.stringify(potentialElements) !== JSON.stringify(elements)
+            ) {
+                setElements(potentialElements);
+            }
         }
-    }, [oatPageState.currentOntologyModels]);
+    }, [
+        elements,
+        getGraphNodesFromModels,
+        oatPageState.currentOntologyId,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels,
+        previousId
+    ]);
 
     // update the graph when models are imported
     useEffect(() => {
@@ -753,6 +778,7 @@ const OATGraphViewer: React.FC = () => {
         // console.log('*** END Apply layout');
     }, [
         applyLayoutToElements,
+        getGraphNodesFromModels,
         oatPageState.currentOntologyModelPositions,
         oatPageState.importModels
     ]);
@@ -767,7 +793,7 @@ const OATGraphViewer: React.FC = () => {
 
     logDebugConsole(
         'debug',
-        'Render {models, positions}',
+        '[END] Render {models, positions}',
         oatPageState.currentOntologyModels,
         oatPageState.currentOntologyModelPositions
     );

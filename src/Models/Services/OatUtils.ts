@@ -137,14 +137,15 @@ export const convertDtdlInterfacesToModels = (
 export const convertDtdlInterfaceToModel = (
     dtdlInterface: DtdlInterface
 ): DTDLModel => {
+    const model = deepCopy(dtdlInterface);
     return new DTDLModel(
-        dtdlInterface['@id'],
-        dtdlInterface.displayName,
-        dtdlInterface.description,
-        dtdlInterface.comment,
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Property'),
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Relationship'),
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Component')
+        model['@id'],
+        model.displayName,
+        model.description,
+        model.comment,
+        model.contents?.filter((x) => x['@type'] === 'Property'),
+        model.contents?.filter((x) => x['@type'] === 'Relationship'),
+        model.contents?.filter((x) => x['@type'] === 'Component')
     );
 };
 
