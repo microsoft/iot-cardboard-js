@@ -28,6 +28,7 @@ const Template: SceneBuilderStory = (
     return (
         <OATEditorPage
             selectedTheme={context.parameters.theme || context.globals.theme}
+            disableStorage={true}
         />
     );
 };
