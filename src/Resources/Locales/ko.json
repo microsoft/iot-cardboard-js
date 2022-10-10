@@ -546,7 +546,25 @@
       "rotation": "회전"
     },
     "searchTwinIdPlaceholder": "트윈 ID ($dtId) 검색",
-    "visualRulesTab": "시각적 규칙"
+    "visualRulesTab": "시각적 규칙",
+    "visualRule": {
+      "new": "새 시각적 규칙",
+      "edit": "시각적 규칙 편집",
+      "formDescription": "특정 조건에 색상을 적용하기 위한 규칙을 설정합니다(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색).",
+      "noDataMessageHeader": "조건 없음",
+      "noDataMessageDescription": "아직 조건이 만들어지지 않았습니다. 아래를 클릭하여 조건을 만듭니다.",
+      "noDataMessageLinkText": "조건 추가",
+      "typePlaceholder": "값의 유형을 선택합니다."
+    },
+    "visualRuleForm": {
+      "new": "새로운 시각적 규칙",
+      "edit": "시각적 규칙 편집",
+      "formDescription": "특정 조건에 색상을 적용하기 위한 규칙을 설정합니다(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색).",
+      "typePlaceholder": "값의 유형을 선택합니다.",
+      "conditionsInfoContent": "요소와 관련된 시각적 작업을 트리거하는 범위 또는 특정 값을 구성합니다.",
+      "newCondition": "새 조건"
+    },
+    "conditions": "여건"
   },
   "widgets": {
     "trend": {

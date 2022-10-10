@@ -1,6 +1,5 @@
 import {
     Dropdown,
-    Icon,
     IDropdownOption,
     Stack,
     TextField,
@@ -26,6 +25,10 @@ import {
 import { SceneBuilderContext } from '../../../../ADT3DSceneBuilder';
 
 import { IValueWidgetBuilderProps } from '../../../../ADT3DSceneBuilder.types';
+import {
+    onRenderTypeOption,
+    onRenderTypeTitle
+} from '../../../Shared/SharedFormUtils';
 import { getWidgetFormStyles } from '../WidgetForm/WidgetForm.styles';
 
 const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
@@ -99,42 +102,6 @@ const ValueWidgetBuilder: React.FC<IValueWidgetBuilderProps> = ({
         },
         [updateWidgetData, formData]
     );
-
-    const iconStyles = { marginRight: '8px' };
-    const optionWrapperStyle = { display: 'flex', alignItems: 'center' };
-    const onRenderTypeOption = (option: IDropdownOption): JSX.Element => {
-        return (
-            <div style={optionWrapperStyle}>
-                {option.data && option.data.icon && (
-                    <Icon
-                        style={iconStyles}
-                        iconName={option.data.icon}
-                        aria-hidden="true"
-                        title={option.data.icon}
-                    />
-                )}
-                <span>{option.text}</span>
-            </div>
-        );
-    };
-
-    const onRenderTypeTitle = (options: IDropdownOption[]): JSX.Element => {
-        const option = options[0];
-
-        return (
-            <div style={optionWrapperStyle}>
-                {option.data && option.data.icon && (
-                    <Icon
-                        style={iconStyles}
-                        iconName={option.data.icon}
-                        aria-hidden="true"
-                        title={option.data.icon}
-                    />
-                )}
-                <span>{option.text}</span>
-            </div>
-        );
-    };
 
     const typeOptions: Array<IDropdownOption> = useMemo(
         () =>
