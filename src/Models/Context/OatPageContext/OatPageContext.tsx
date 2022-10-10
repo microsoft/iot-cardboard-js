@@ -257,9 +257,6 @@ function createProject(
 }
 
 function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
-    // save the current state
-    saveData(draft);
-
     // do the swap
     draft.currentOntologyId = projectId;
     saveLastProjectId(draft.currentOntologyId);
@@ -279,7 +276,7 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
         mapProjectOntoState(draft, projectToOpen);
         logDebugConsole(
             'debug',
-            `Setting current project to id: ${draft.currentOntologyId}. {project}`,
+            `Switched to project: ${draft.currentOntologyProjectName} (${draft.currentOntologyId}). {project}`,
             projectToOpen
         );
     } else {
@@ -320,12 +317,12 @@ function mapProjectOntoState(
 
 /** saves all the data to local storage */
 function saveData(draft: IOatPageContextState): void {
-    const localDraft = deepCopy(draft);
-    const selectedOntology = localDraft.ontologyFiles.find(
-        (x) => x.id === localDraft.currentOntologyId
+    const selectedOntology = draft.ontologyFiles.find(
+        (x) => x.id === draft.currentOntologyId
     );
     if (selectedOntology) {
-        selectedOntology.data = convertStateToProject(localDraft);
+        selectedOntology.data = convertStateToProject(draft); // update the files list with the latest data
+        const localDraft = deepCopy(draft); // copy to avoid the delayed proxy references
         saveOntologyFiles(localDraft.ontologyFiles);
         saveLastProjectId(localDraft.currentOntologyId);
     } else {
@@ -352,9 +349,17 @@ function saveLastProjectId(projectId: string): void {
 function saveOntologyFiles(files: IOATFile[]): void {
     if (isStorageEnabled) {
         storeOntologiesToStorage(files);
-        logDebugConsole('debug', `Saved ${files.length} files to storage.`);
+        logDebugConsole(
+            'debug',
+            `Saved ${files.length} files to storage. {files}`,
+            files
+        );
     } else {
-        logDebugConsole('warn', 'Storage disabled. Skipping saving files.');
+        logDebugConsole(
+            'warn',
+            'Storage disabled. Skipping saving files. {files}',
+            files
+        );
     }
 }
 
@@ -373,9 +378,6 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = Re
             { ...emptyState, ...initialState },
             getInitialState
         );
-        // console.log('***Context');
-
-        // TODO: read local storage on mount and dispatch to SET_OAT_PROJECT_ID so all the other properties get hydrated properly
 
         logDebugConsole(
             'debug',
@@ -429,17 +431,12 @@ const getInitialState = (
         } else {
             projectIdToUse = files[0].id;
         }
-        logDebugConsole(
-            'debug',
-            'Bootstrapping OAT context with existing project. ProjectId: ',
-            projectIdToUse
-        );
         project = files.find((x) => x.id === projectIdToUse).data;
-    } else if (!files.length || !lastProjectId) {
         logDebugConsole(
             'debug',
-            'Did not find existing project. Creating a new one'
+            'Bootstrapping OAT context with existing project.'
         );
+    } else if (!files.length || !lastProjectId) {
         // create a project if none exists
         project = new ProjectData(
             [],
@@ -450,6 +447,10 @@ const getInitialState = (
             []
         );
         projectIdToUse = createGUID();
+        logDebugConsole(
+            'debug',
+            'Did not find existing project. Creating a new one.'
+        );
         files.push({
             id: projectIdToUse,
             data: project
@@ -470,7 +471,12 @@ const getInitialState = (
         currentOntologyTemplates: project.templates
     };
 
-    logDebugConsole('debug', 'Computed state', state);
+    logDebugConsole(
+        'debug',
+        'Initialized context state. {projectId, state}',
+        projectIdToUse,
+        state
+    );
 
     return state;
 };
