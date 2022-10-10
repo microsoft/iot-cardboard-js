@@ -39,6 +39,7 @@ import {
     QuickTimeSpanKey,
     QuickTimeSpanOptions,
     QuickTimeSpans,
+    SERIES_LIST_ITEM_ID_PREFIX,
     YAxisTypeOptions
 } from './DataHistoryWidgetBuilder.types';
 import TimeSeriesFormCallout from './Internal/TimeSeriesFormCallout';
@@ -53,7 +54,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     const addTimeSeriesCalloutId = useId('add-time-series-callout');
     const yAxisLabelId = useId('y-axis-label');
     const [
-        isAddTimeSeriesCalloutVisible,
+        isTimeSeriesFormCalloutVisible,
         { toggle: toggleIsAddTimeSeriesCalloutVisible }
     ] = useBoolean(false);
 
@@ -340,9 +341,13 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     options={AggregationTypeOptions}
                 />
             </Stack>
-            {isAddTimeSeriesCalloutVisible && (
+            {isTimeSeriesFormCalloutVisible && (
                 <TimeSeriesFormCallout
-                    calloutTarget={addTimeSeriesCalloutId}
+                    calloutTarget={
+                        selectedSeries
+                            ? SERIES_LIST_ITEM_ID_PREFIX + selectedTimeSeriesIdx
+                            : addTimeSeriesCalloutId
+                    }
                     series={selectedSeries}
                     onDismiss={handleTimeSeriesFormDismiss}
                     onPrimaryActionClick={handleTimeSeriesFormPrimaryAction}

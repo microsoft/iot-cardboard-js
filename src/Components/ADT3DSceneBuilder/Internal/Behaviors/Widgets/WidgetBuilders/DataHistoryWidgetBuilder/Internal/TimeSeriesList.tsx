@@ -14,7 +14,10 @@ import {
 import { CardboardList } from '../../../../../../../CardboardList';
 import { ICardboardListItem } from '../../../../../../../CardboardList/CardboardList.types';
 import { getWidgetFormStyles } from '../../../WidgetForm/WidgetForm.styles';
-import { MAX_NUMBER_OF_TIME_SERIES } from '../DataHistoryWidgetBuilder.types';
+import {
+    MAX_NUMBER_OF_TIME_SERIES,
+    SERIES_LIST_ITEM_ID_PREFIX
+} from '../DataHistoryWidgetBuilder.types';
 
 interface IProp {
     series: IDataHistoryTimeSeries;
@@ -97,6 +100,7 @@ const getTimeSeriesListItems = (
 
     return series.map((series, idx) => {
         const listItem: ICardboardListItem<IDataHistoryBasicTimeSeries> = {
+            buttonProps: { id: SERIES_LIST_ITEM_ID_PREFIX + idx },
             ariaLabel: series.label,
             iconStart: { name: 'NumberField' },
             item: series,

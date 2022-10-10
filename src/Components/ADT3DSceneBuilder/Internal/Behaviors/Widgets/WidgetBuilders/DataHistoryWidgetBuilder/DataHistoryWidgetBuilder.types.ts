@@ -6,6 +6,7 @@ import {
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const MAX_NUMBER_OF_TIME_SERIES = 3;
+export const SERIES_LIST_ITEM_ID_PREFIX = 'cb-data-history-widget-series';
 
 /** Existing chart options for data history widget in the 3D config schema */
 export type ChartOptionKeys = keyof IDataHistoryChartOptions;
