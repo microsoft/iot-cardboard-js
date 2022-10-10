@@ -1,16 +1,20 @@
 import React from 'react';
+import { ComponentStory } from '@storybook/react';
+import { Label, Separator, Stack } from '@fluentui/react';
+import { userEvent, within, screen } from '@storybook/testing-library';
 import OATHeader from './OATHeader';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     OatPageContextProvider,
     useOatPageContext
 } from '../../Models/Context/OatPageContext/OatPageContext';
-import { Label, Separator, Stack } from '@fluentui/react';
 import {
+    findCalloutItemByTestId,
     getDefaultStoryDecorator,
-    IStoryContext
+    IStoryContext,
+    sleep,
+    waitForAnimations
 } from '../../Models/Services/StoryUtilities';
-import { ComponentStory } from '@storybook/react';
 import { DTDLModel } from '../../Models/Classes/DTDL';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
@@ -80,10 +84,12 @@ const ContextRenderer: React.FC = () => {
 };
 
 const DEFAULT_PROJECT_ID = 'test-project-1';
+const DEFAULT_PROJECT_NAME_1 = 'test-name-1';
+const DEFAULT_PROJECT_NAME_2 = 'test-name-2';
 const makeTestProjects = (): IOATFile[] => {
     const defaultProject: IOATFile = {
         id: DEFAULT_PROJECT_ID,
-        data: new ProjectData('test-name-1', 'test-namespace', [
+        data: new ProjectData(DEFAULT_PROJECT_NAME_1, 'test-namespace', [
             new DTDLModel(
                 'id-1',
                 'model-1',
@@ -106,7 +112,7 @@ const makeTestProjects = (): IOATFile[] => {
     };
     const project2: IOATFile = {
         id: 'test-project-2',
-        data: new ProjectData('test-name-2', 'test-namespace-2', [
+        data: new ProjectData(DEFAULT_PROJECT_NAME_2, 'test-namespace-2', [
             new DTDLModel(
                 'id-2',
                 'model-2',
@@ -130,7 +136,7 @@ const makeTestProjects = (): IOATFile[] => {
     return [defaultProject, project2];
 };
 type StoryProps = {
-    projectId: string;
+    projectId?: string;
     files?: IOATFile[];
 };
 type SceneBuilderStory = ComponentStory<any>;
@@ -160,6 +166,69 @@ Base.args = {
     projectId: DEFAULT_PROJECT_ID,
     files: makeTestProjects()
 } as StoryProps;
+
+export const FileMenu = Template.bind({});
+FileMenu.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Finds the menu and opens it
+    const menu = await canvas.findByTestId('oat-header-ontology-menu');
+    userEvent.click(menu);
+
+    // wait for the menu
+    await sleep(100);
+};
+
+export const FileNew = Template.bind({});
+FileNew.play = async ({ canvasElement }) => {
+    await FileMenu.play({ canvasElement });
+
+    // click the sub menu button
+    const button = await findCalloutItemByTestId(
+        'oat-header-ontology-menu-new'
+    );
+    button.click();
+};
+
+export const FileEdit = Template.bind({});
+FileEdit.play = async ({ canvasElement }) => {
+    await FileMenu.play({ canvasElement });
+
+    // click the sub menu button
+    const button = await findCalloutItemByTestId(
+        'oat-header-ontology-menu-manage'
+    );
+    button.click();
+};
+
+export const FileDuplicate = Template.bind({});
+FileDuplicate.play = async ({ canvasElement }) => {
+    await FileMenu.play({ canvasElement });
+
+    // click the sub menu button
+    const button = await findCalloutItemByTestId(
+        'oat-header-ontology-menu-copy'
+    );
+    button.click();
+};
+
+export const FileSwitch = Template.bind({});
+FileSwitch.play = async ({ canvasElement }) => {
+    await FileMenu.play({ canvasElement });
+
+    // click the sub menu button
+    const button = await findCalloutItemByTestId(
+        'oat-header-ontology-menu-switch'
+    );
+    button.click();
+
+    // click the other project
+    const projectSubMenuItem = await screen.findAllByTitle(
+        DEFAULT_PROJECT_NAME_2
+    );
+    await waitForAnimations();
+    projectSubMenuItem[1].click();
+};
 
 export const LongName = Template.bind({});
 LongName.args = {
