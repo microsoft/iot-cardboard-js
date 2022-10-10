@@ -41,7 +41,7 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
 const getClassNames = classNamesFunction<

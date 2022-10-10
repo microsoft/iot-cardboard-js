@@ -15,9 +15,10 @@ import {
     convertDtdlInterfacesToModels,
     getOntologiesFromStorage,
     storeOntologiesToStorage,
-    storeLastUsedProjectId
+    storeLastUsedProjectId,
+    getLastUsedProjectId
 } from '../../Services/OatUtils';
-import { createGUID, getDebugLogger } from '../../Services/Utils';
+import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
@@ -319,13 +320,14 @@ function mapProjectOntoState(
 
 /** saves all the data to local storage */
 function saveData(draft: IOatPageContextState): void {
-    const selectedOntology = draft.ontologyFiles.find(
-        (x) => x.id === draft.currentOntologyId
+    const localDraft = deepCopy(draft);
+    const selectedOntology = localDraft.ontologyFiles.find(
+        (x) => x.id === localDraft.currentOntologyId
     );
-    saveLastProjectId(draft.currentOntologyId);
     if (selectedOntology) {
-        selectedOntology.data = convertStateToProject(draft);
-        saveOntologyFiles(draft.ontologyFiles);
+        selectedOntology.data = convertStateToProject(localDraft);
+        saveOntologyFiles(localDraft.ontologyFiles);
+        saveLastProjectId(localDraft.currentOntologyId);
     } else {
         logDebugConsole(
             'warn',
@@ -356,58 +358,119 @@ function saveOntologyFiles(files: IOATFile[]): void {
     }
 }
 
-export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = (
-    props
-) => {
-    const { children, initialState } = props;
+export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = React.memo(
+    (props) => {
+        const { children, initialState } = props;
 
-    // skip wrapping if the context already exists
-    const existingContext = useOatPageContext();
-    if (existingContext) {
-        return <>{children}</>;
+        // skip wrapping if the context already exists
+        const existingContext = useOatPageContext();
+        if (existingContext) {
+            return <>{children}</>;
+        }
+
+        const [oatPageState, oatPageDispatch] = useReducer(
+            OatPageContextReducer,
+            { ...emptyState, ...initialState },
+            getInitialState
+        );
+        // console.log('***Context');
+
+        // TODO: read local storage on mount and dispatch to SET_OAT_PROJECT_ID so all the other properties get hydrated properly
+
+        logDebugConsole(
+            'debug',
+            'Mount OatPageContextProvider. {state}',
+            oatPageState
+        );
+        return (
+            <OatPageContext.Provider
+                value={{
+                    oatPageDispatch,
+                    oatPageState
+                }}
+            >
+                {children}
+            </OatPageContext.Provider>
+        );
     }
-    // set the initial state for the Deeplink reducer
-    // use the URL values and then fallback to initial state that is provided
-    const defaultState: IOatPageContextState = {
-        confirmDeleteOpen: { open: false },
-        currentOntologyId: '',
-        currentOntologyModelMetadata: [],
-        currentOntologyModelPositions: [],
-        currentOntologyModels: [],
-        currentOntologyNamespace: '',
-        currentOntologyProjectName: '',
-        currentOntologyTemplates: [],
-        error: null,
-        importModels: [],
-        isJsonUploaderOpen: false,
-        modified: false,
-        ontologyFiles: getOntologiesFromStorage(),
-        selectedModelTarget: null,
-        selection: null,
-        templatesActive: false,
-        ...initialState
+);
+
+const emptyState: IOatPageContextState = {
+    // onotology
+    ontologyFiles: [],
+    currentOntologyId: '',
+    currentOntologyModelMetadata: [],
+    currentOntologyModelPositions: [],
+    currentOntologyModels: [],
+    currentOntologyNamespace: '',
+    currentOntologyProjectName: '',
+    currentOntologyTemplates: [],
+    // other properties
+    confirmDeleteOpen: { open: false },
+    error: null,
+    importModels: [],
+    isJsonUploaderOpen: false,
+    modified: false,
+    selectedModelTarget: null,
+    selection: null,
+    templatesActive: false
+};
+
+const getInitialState = (
+    initialState: IOatPageContextState
+): IOatPageContextState => {
+    const files = getOntologiesFromStorage();
+    const lastProjectId = getLastUsedProjectId();
+    let project: ProjectData;
+    let projectIdToUse = '';
+    if (files.length > 0 && lastProjectId) {
+        if (files.some((x) => x.id === lastProjectId)) {
+            projectIdToUse = lastProjectId;
+        } else {
+            projectIdToUse = files[0].id;
+        }
+        logDebugConsole(
+            'debug',
+            'Bootstrapping OAT context with existing project. ProjectId: ',
+            projectIdToUse
+        );
+        project = files.find((x) => x.id === projectIdToUse).data;
+    } else if (!files.length || !lastProjectId) {
+        logDebugConsole(
+            'debug',
+            'Did not find existing project. Creating a new one'
+        );
+        // create a project if none exists
+        project = new ProjectData(
+            [],
+            [],
+            i18n.t('OATCommon.defaultFileName'),
+            [],
+            OAT_NAMESPACE_DEFAULT_VALUE,
+            []
+        );
+        projectIdToUse = createGUID();
+        files.push({
+            id: projectIdToUse,
+            data: project
+        });
+    }
+
+    const state = {
+        ...initialState,
+        // files
+        ontologyFiles: files,
+        // onotology
+        currentOntologyId: projectIdToUse,
+        currentOntologyModelMetadata: project.modelsMetadata,
+        currentOntologyModelPositions: project.modelPositions,
+        currentOntologyModels: project.models,
+        currentOntologyNamespace: project.namespace,
+        currentOntologyProjectName: project.projectName,
+        currentOntologyTemplates: project.templates
     };
 
-    const [oatPageState, oatPageDispatch] = useReducer(
-        OatPageContextReducer,
-        defaultState
-    );
+    logDebugConsole('debug', 'Computed state', state);
 
-    // TODO: read local storage on mount and dispatch to SET_OAT_PROJECT_ID so all the other properties get hydrated properly
-
-    logDebugConsole(
-        'debug',
-        'Mount OatPageContextProvider. {initialState}',
-        defaultState
-    );
-    return (
-        <OatPageContext.Provider
-            value={{
-                oatPageDispatch,
-                oatPageState
-            }}
-        >
-            {children}
-        </OatPageContext.Provider>
-    );
+    return state;
 };
