@@ -1,10 +1,8 @@
 import { i18n } from 'i18next';
-import { ProjectData } from '../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../Classes/DTDL';
 import {
-    OAT_DATA_STORAGE_KEY,
     DtdlInterface,
     DtdlRelationship,
     DtdlInterfaceContent,
@@ -29,60 +27,7 @@ export const storeLastUsedProjectId = (id: string) => {
 /** Gets the last used project id */
 export const getLastUsedProjectId = (): string => {
     const data = localStorage.getItem(OAT_LAST_PROJECT_STORAGE_KEY);
-    return data ? JSON.parse(data) : {};
-};
-
-/** Store OAT-data */
-export const storeEditorData = (oatEditorData: ProjectData) => {
-    localStorage.setItem(
-        OAT_DATA_STORAGE_KEY,
-        oatEditorData ? JSON.stringify(oatEditorData) : undefined
-    );
-};
-
-/** Get stored OAT-data */
-export const getStoredEditorData = (): ProjectData => {
-    const data = localStorage.getItem(OAT_DATA_STORAGE_KEY);
-    return data ? JSON.parse(data) : {};
-};
-
-/** Get stored template OAT-data */
-export const getStoredEditorTemplateData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.templates ? oatData.templates : [];
-};
-
-/** Get stored models OAT-data */
-export const getStoredEditorModelsData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.models ? oatData.models : [];
-};
-
-/** Get stored models' positions OAT-data */
-export const getStoredEditorModelPositionsData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.modelPositions ? oatData.modelPositions : [];
-};
-
-export const getStoredEditorModelMetadata = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.modelsMetadata ? oatData.modelsMetadata : [];
-};
-
-/**
- * Get stored models' namespace OAT-data
- */
-export const getStoredEditorNamespaceData = () => {
-    const oatData = getStoredEditorData();
-    return oatData && oatData.namespace ? oatData.namespace : null;
-};
-
-/**
- * Get stored ontology name
- */
-export const getStoredEditorName = () => {
-    const oatData = getStoredEditorData();
-    return oatData ? oatData.projectName : '';
+    return data ? data : '';
 };
 
 // Load files from local storage
@@ -192,14 +137,15 @@ export const convertDtdlInterfacesToModels = (
 export const convertDtdlInterfaceToModel = (
     dtdlInterface: DtdlInterface
 ): DTDLModel => {
+    const model = deepCopy(dtdlInterface);
     return new DTDLModel(
-        dtdlInterface['@id'],
-        dtdlInterface.displayName,
-        dtdlInterface.description,
-        dtdlInterface.comment,
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Property'),
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Relationship'),
-        dtdlInterface.contents?.filter((x) => x['@type'] === 'Component')
+        model['@id'],
+        model.displayName,
+        model.description,
+        model.comment,
+        model.contents?.filter((x) => x['@type'] === 'Property'),
+        model.contents?.filter((x) => x['@type'] === 'Relationship'),
+        model.contents?.filter((x) => x['@type'] === 'Component')
     );
 };
 

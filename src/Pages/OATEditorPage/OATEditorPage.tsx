@@ -1,63 +1,83 @@
 import React, { useMemo } from 'react';
+import i18n from '../../i18n';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
 import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.styles';
-import { ErrorBoundary } from 'react-error-boundary';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
-import i18n from '../../i18n';
 import OATErrorPage from './Internal/OATErrorPage';
 import { CommandHistoryContextProvider } from './Internal/Context/CommandHistoryContext';
 import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
-import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
+import {
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
-const OATEditorPage: React.FC<IOATEditorPageProps> = ({ selectedTheme }) => {
+const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
+    const { selectedTheme } = props;
+
+    // hooks
+
+    // context
+    const { oatPageState } = useOatPageContext();
+
+    // data
     const languages = useMemo(() => {
         const languages = getAvailableLanguages(i18n);
         logDebugConsole(
             'debug',
-            `Generating language keys. Found ${languages.length} languages. {languages}`,
+            `Generating language keys. Found ${languages?.length} languages. {languages}`,
             languages
         );
         return languages;
     }, []);
 
+    // styles
     const editorPageStyles = getEditorPageStyles();
 
-    const isTemplatesOpen = false;
     return (
-        <CommandHistoryContextProvider>
-            <ErrorBoundary FallbackComponent={OATErrorPage}>
-                <OatPageContextProvider>
-                    <div className={editorPageStyles.container}>
-                        <OATHeader />
-                        <div
-                            className={
-                                isTemplatesOpen // oatState.templatesActive
-                                    ? editorPageStyles.componentTemplate
-                                    : editorPageStyles.component
-                            }
-                        >
-                            <OATModelList />
-                            <OATGraphViewer />
-                            <OATPropertyEditor
-                                theme={selectedTheme}
-                                languages={languages}
-                            />
-                        </div>
-                    </div>
-                    <OATErrorHandlingModal />
-                    <OATConfirmDeleteModal />
-                </OatPageContextProvider>
-            </ErrorBoundary>
-        </CommandHistoryContextProvider>
+        <>
+            <div className={editorPageStyles.container}>
+                <OATHeader />
+                <div
+                    className={
+                        oatPageState.templatesActive
+                            ? editorPageStyles.componentTemplate
+                            : editorPageStyles.component
+                    }
+                >
+                    <OATModelList />
+                    <OATGraphViewer />
+                    <OATPropertyEditor
+                        theme={selectedTheme}
+                        languages={languages}
+                    />
+                </div>
+            </div>
+            <OATErrorHandlingModal />
+            <OATConfirmDeleteModal />
+        </>
+    );
+};
+
+const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
+    return (
+        <ErrorBoundary FallbackComponent={OATErrorPage}>
+            <OatPageContextProvider>
+                <CommandHistoryContextProvider>
+                    <OATEditorPageContent {...props} />
+                </CommandHistoryContextProvider>
+            </OatPageContextProvider>
+        </ErrorBoundary>
     );
 };
 
