@@ -40,9 +40,7 @@ const WidgetLibraryDialog: React.FC<{
     );
     const { t } = useTranslation();
     const styles = getWidgetLibraryDialogStyles();
-    const {
-        state: { adxConnectionInformation }
-    } = useContext(ADT3DScenePageContext);
+    const scenePageContext = useContext(ADT3DScenePageContext);
 
     const dialogContentProps: IDialogContentProps = {
         type: DialogType.close,
@@ -65,25 +63,26 @@ const WidgetLibraryDialog: React.FC<{
     const isSpinnerVisible = useCallback(
         (widgetType: WidgetType) =>
             widgetType === WidgetType.DataHistory &&
-            adxConnectionInformation.loadingState ===
+            scenePageContext?.state.adxConnectionInformation?.loadingState ===
                 ADXConnectionInformationLoadingState.LOADING,
-        [adxConnectionInformation.loadingState]
+        [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
     const isWidgetNotAvailable = useCallback(
         (widgetType: WidgetType) =>
             widgetType === WidgetType.DataHistory &&
-            adxConnectionInformation.loadingState ===
+            scenePageContext?.state.adxConnectionInformation?.loadingState ===
                 ADXConnectionInformationLoadingState.NOT_EXIST,
-        [adxConnectionInformation.loadingState]
+        [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
     const handleOnRenderCell = useCallback(
         (widget: IWidgetLibraryItem, index: number) => (
             <DefaultButton
                 disabled={
-                    widget.data.type === 'Data history' &&
-                    adxConnectionInformation.loadingState !==
+                    widget.data.type === WidgetType.DataHistory &&
+                    scenePageContext?.state.adxConnectionInformation
+                        ?.loadingState !==
                         ADXConnectionInformationLoadingState.EXIST
                 }
                 key={index}
@@ -154,7 +153,7 @@ const WidgetLibraryDialog: React.FC<{
             </DefaultButton>
         ),
         [
-            adxConnectionInformation.loadingState,
+            scenePageContext?.state.adxConnectionInformation?.loadingState,
             isWidgetNotAvailable,
             isSpinnerVisible,
             selectedWidget,
@@ -173,7 +172,7 @@ const WidgetLibraryDialog: React.FC<{
                 <List
                     items={filteredAvailableWidgets}
                     onRenderCell={handleOnRenderCell}
-                    version={adxConnectionInformation}
+                    version={scenePageContext?.state.adxConnectionInformation}
                 ></List>
                 <div className="cb-widget-panel-clear-float" />
             </div>
