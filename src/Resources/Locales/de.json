@@ -1170,6 +1170,10 @@
     "valueFieldPlaceholder": "Geben Sie einen Wert ein",
     "noOptionsFoundMessage": "Keine Werte gefunden",
     "modalTitle": "Erweiterte Zwillingssuche",
-    "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen"
+    "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen",
+    "columnPicker": "Spaltenauswahl",
+    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
+    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
+    "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   }
 }

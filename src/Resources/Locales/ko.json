@@ -1170,6 +1170,10 @@
     "valueFieldPlaceholder": "값 입력",
     "noOptionsFoundMessage": "값을 찾을 수 없음",
     "modalTitle": "고급 트윈 검색",
-    "modalSubtitle": "검색 범위를 좁혀 오른쪽 트윈 연결"
+    "modalSubtitle": "검색 범위를 좁혀 오른쪽 트윈 연결",
+    "columnPicker": "열 선택기",
+    "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
+    "availableProperties": "사용 가능한 속성의 드롭다운",
+    "selectAdditionalColumns": "추가 열 선택"
   }
 }

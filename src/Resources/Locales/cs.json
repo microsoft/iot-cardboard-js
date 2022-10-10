@@ -1170,6 +1170,10 @@
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "modalTitle": "Rozšířené vyhledávání dvojčat",
-    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
+    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání",
+    "columnPicker": "Výběr sloupců",
+    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
+    "availableProperties": "Rozbalovací nabídka dostupných ubytování",
+    "selectAdditionalColumns": "Výběr dalších sloupců"
   }
 }

@@ -1170,6 +1170,10 @@
         "errorMessageHeader": "Search failed",
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "noOptionsFoundMessage": "No values found",
-        "valueFieldPlaceholder": "Enter a value"
+        "valueFieldPlaceholder": "Enter a value",
+        "columnPicker": "Column picker",
+        "propertyCount": "{{selectedPropsCount}} properties selected",
+        "availableProperties": "Dropdown of properties available",
+        "selectAdditionalColumns": "Select additional columns"
     }
 }

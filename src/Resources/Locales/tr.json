@@ -1170,6 +1170,10 @@
     "valueFieldPlaceholder": "Bir değer girin",
     "noOptionsFoundMessage": "Değer bulunamadı",
     "modalTitle": "Gelişmiş ikiz arama",
-    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
+    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın",
+    "columnPicker": "Sütun seçici",
+    "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
+    "availableProperties": "Mevcut tesislerin açılır menüsü",
+    "selectAdditionalColumns": "Ek sütunlar seçme"
   }
 }

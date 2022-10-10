@@ -1170,6 +1170,10 @@
     "valueFieldPlaceholder": "Inserisci un valore",
     "noOptionsFoundMessage": "Nessun valore trovato",
     "modalTitle": "Ricerca avanzata dei gemelli",
-    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
+    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca",
+    "columnPicker": "Selezione colonne",
+    "propertyCount": "Proprietà {{selectedPropsCount}} selected",
+    "availableProperties": "Elenco a discesa delle proprietà disponibili",
+    "selectAdditionalColumns": "Selezionare colonne aggiuntive"
   }
 }
