@@ -193,7 +193,7 @@ export const addExtendsRelationship = (
     return relationshipEdge;
 };
 
-export const addNewModel = (
+export const addNewModelToGraph = (
     newModelId: number,
     idClassBase: string,
     position: ElementPosition,
@@ -208,7 +208,6 @@ export const addNewModel = (
         displayName: name,
         contents: []
     });
-
     elements.push(newNode);
     return newNode;
 };
