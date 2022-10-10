@@ -630,7 +630,7 @@
             "label": "Tipo di aggregazione"
           }
         },
-        "connectionStringInformation": "I widget della cronologia dati sfruttano le istanze di Esplora dati di Azure connesse all'istanza di Gemelli digitali di Azure selezionata al momento della creazione."
+        "connectionStringInformatio": "I widget della cronologia dati sono destinati all'istanza di Esplora dati di Azure connessa all'istanza di Gemelli digitali di Azure al momento della creazione."
       },
       "libraryName": "Cronologia dei dati"
     }

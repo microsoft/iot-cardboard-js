@@ -630,7 +630,7 @@
             "label": "Typ agregacji"
           }
         },
-        "connectionStringInformation": "Widżety historii danych korzystają z wystąpień usługi Azure Data Explorer połączonych z wybranym wystąpieniem usługi Azure Digital Twins w momencie tworzenia."
+        "connectionStringInformatio": "Widżety historii danych są przeznaczone dla wystąpienia usługi Azure Data Explorer połączonego z wystąpieniem usługi Azure Digital Twins w momencie tworzenia."
       },
       "libraryName": "Historia danych"
     }

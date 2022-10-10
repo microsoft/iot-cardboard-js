@@ -630,7 +630,7 @@
             "label": "Összesítés típusa"
           }
         },
-        "connectionStringInformation": "Az előzmény-widgetek a azure Data Explorer a létrehozáskor a kiválasztott Azure Digital Twins-példányhoz csatlakoztatott példányokat használják."
+        "connectionStringInformatio": "Az előzmény widgetek a Azure Data Explorer példányt célozzák meg, amely a azure Digital Twins a létrehozáskor csatlakozik."
       },
       "libraryName": "Adatok előzményei"
     }

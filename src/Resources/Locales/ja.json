@@ -630,7 +630,7 @@
             "label": "集計タイプ"
           }
         },
-        "connectionStringInformation": "データ履歴ウィジェットは、作成時に選択した Azure デジタル ツイン インスタンスに接続された Azure データ エクスプローラー インスタンスを利用します。"
+        "connectionStringInformatio": "データ履歴ウィジェットは、作成時に Azure デジタル ツインズ インスタンスに接続されていた Azure データ エクスプローラー インスタンスを対象としています。"
       },
       "libraryName": "データ履歴"
     }
