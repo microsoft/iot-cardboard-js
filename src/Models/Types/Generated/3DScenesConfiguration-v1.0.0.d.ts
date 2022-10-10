@@ -265,7 +265,7 @@ export interface IDataHistoryWidgetConfiguration {
  */
 export interface IDataHistoryBasicTimeSeries {
     expression: string;
-    unit: string;
+    unit?: string;
     label?: string;
 }
 /**

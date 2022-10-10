@@ -44,8 +44,7 @@ enum Mode {
 }
 
 const defaultSeries: IDataHistoryBasicTimeSeries = {
-    expression: '',
-    unit: ''
+    expression: ''
 };
 
 /** This callout component consists form for time series authoring to show in line chart */
@@ -108,7 +107,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
     }, []);
 
     const isFormValid = useMemo(() => {
-        return seriesToEdit && seriesToEdit.expression && seriesToEdit.unit;
+        return seriesToEdit?.expression;
     }, [seriesToEdit]);
 
     const theme = useTheme();

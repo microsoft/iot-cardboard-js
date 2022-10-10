@@ -251,7 +251,7 @@
                     "type": "string"
                 }
             },
-            "required": ["expression", "unit"]
+            "required": ["expression"]
         },
         "IDataHistoryTimeSeries": {
             "type": "array",
