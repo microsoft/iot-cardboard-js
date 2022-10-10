@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "Type aggregatie"
           }
-        }
+        },
+        "connectionStringInformation": "Gegevensgeschiedeniswidgets maken gebruik van de Azure Data Explorer-exemplaren die zijn verbonden met het geselecteerde Azure Digital Twins-exemplaar op het moment van maken."
       },
       "libraryName": "Gegevensgeschiedenis"
     }

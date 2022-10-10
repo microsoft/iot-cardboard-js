@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "Aggregationstyp"
           }
-        }
+        },
+        "connectionStringInformation": "Datenverlauf-Widgets nutzen die Azure Data Explorer-Instanzen, die zum Zeitpunkt der Erstellung mit der ausgewählten Azure Digital Twins-Instanz verbunden sind."
       },
       "libraryName": "Datenhistorie"
     }

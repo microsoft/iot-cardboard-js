@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "Tipo de agregación"
           }
-        }
+        },
+        "connectionStringInformation": "Los widgets de historial de datos aprovechan las instancias del Explorador de datos de Azure conectadas a la instancia de Azure Digital Twins seleccionada en el momento de la creación."
       },
       "libraryName": "Historial de datos"
     }

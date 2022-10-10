@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "聚合类型"
           }
-        }
+        },
+        "connectionStringInformation": "数据历史记录小组件利用在创建时连接到所选 Azure 数字孪生实例的 Azure 数据资源管理器实例。"
       },
       "libraryName": "数据历史记录"
     }

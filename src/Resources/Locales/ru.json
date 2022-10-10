@@ -629,7 +629,8 @@
           "aggregationType": {
             "label": "Тип агрегирования"
           }
-        }
+        },
+        "connectionStringInformation": "Виджеты журнала данных используют экземпляры обозревателя данных Azure, подключенные к выбранному экземпляру Azure Digital Twins во время создания."
       },
       "libraryName": "История данных"
     }
