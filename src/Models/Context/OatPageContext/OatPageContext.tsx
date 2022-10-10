@@ -35,10 +35,6 @@ export const useOatPageContext = () => useContext(OatPageContext);
 
 /** used exclusively for storybook, should always be true in production */
 let isStorageEnabled = true || process.env.NODE_ENV === 'production';
-export const setContextStorageEnabled = (value: boolean): void => {
-    logDebugConsole('warn', 'Setting context storage property to ', value);
-    isStorageEnabled = value;
-};
 
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
@@ -237,11 +233,11 @@ function createProject(
 ) {
     const id = createGUID();
     const project = new ProjectData(
-        [],
-        [],
         name,
-        [],
         namespace.replace(/ /g, ''),
+        [],
+        [],
+        [],
         []
     );
     draft.ontologyFiles.push({ id: id, data: project });
@@ -266,12 +262,12 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
     if (selectedFile) {
         const data = selectedFile.data;
         const projectToOpen = new ProjectData(
-            data.modelPositions,
-            convertDtdlInterfacesToModels(data.models),
             data.projectName,
-            data.templates,
             data.namespace,
-            data.modelsMetadata
+            convertDtdlInterfacesToModels(data.models),
+            data.modelPositions,
+            data.modelsMetadata,
+            data.templates
         );
         mapProjectOntoState(draft, projectToOpen);
         logDebugConsole(
@@ -291,12 +287,12 @@ function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
 function convertStateToProject(draft: IOatPageContextState): ProjectData {
     // NOTE: need to recreate the arrays to break proxy links that were causing issues downstream
     const project = new ProjectData(
-        Array.from(draft.currentOntologyModelPositions),
-        convertDtdlInterfacesToModels(draft.currentOntologyModels),
         draft.currentOntologyProjectName || '',
-        Array.from(draft.currentOntologyTemplates),
         draft.currentOntologyNamespace,
-        Array.from(draft.currentOntologyModelMetadata)
+        convertDtdlInterfacesToModels(draft.currentOntologyModels),
+        Array.from(draft.currentOntologyModelPositions),
+        Array.from(draft.currentOntologyModelMetadata),
+        Array.from(draft.currentOntologyTemplates)
     );
     // console.log('***Converted project', project, current(draft));
 
@@ -365,7 +361,8 @@ function saveOntologyFiles(files: IOATFile[]): void {
 
 export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = React.memo(
     (props) => {
-        const { children, initialState } = props;
+        const { children, initialState, disableLocalStorage } = props;
+        isStorageEnabled = disableLocalStorage === true ? false : true;
 
         // skip wrapping if the context already exists
         const existingContext = useOatPageContext();
@@ -421,8 +418,15 @@ const emptyState: IOatPageContextState = {
 const getInitialState = (
     initialState: IOatPageContextState
 ): IOatPageContextState => {
-    const files = getOntologiesFromStorage();
-    const lastProjectId = getLastUsedProjectId();
+    // use the default state if it's provided (mostly for test cases)
+    const files = !isStorageEnabled
+        ? initialState.ontologyFiles
+        : getOntologiesFromStorage();
+    // use the default state if it's provided (mostly for test cases)
+    const lastProjectId = !isStorageEnabled
+        ? initialState.currentOntologyId
+        : getLastUsedProjectId();
+
     let project: ProjectData;
     let projectIdToUse = '';
     if (files.length > 0 && lastProjectId) {
@@ -439,11 +443,11 @@ const getInitialState = (
     } else if (!files.length || !lastProjectId) {
         // create a project if none exists
         project = new ProjectData(
-            [],
-            [],
             i18n.t('OATCommon.defaultFileName'),
-            [],
             OAT_NAMESPACE_DEFAULT_VALUE,
+            [],
+            [],
+            [],
             []
         );
         projectIdToUse = createGUID();
