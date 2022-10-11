@@ -30,12 +30,12 @@ import {
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
-import { IDataHistoryWidgetBuilderProps } from '../../../../../ADT3DSceneBuilder.types';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
+    IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     QuickTimeSpanKey,
     QuickTimeSpanOptions,
