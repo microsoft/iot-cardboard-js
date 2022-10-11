@@ -599,7 +599,7 @@
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
           "remove": "Idősorok eltávolítása",
-          "labelPlaceholde": "Írja be a diagramon megjelenítendő címkét"
+          "labelPlaceholder": "Írja be a diagramon megjelenítendő címkét"
         },
         "chartOptions": {
           "yAxisType": {

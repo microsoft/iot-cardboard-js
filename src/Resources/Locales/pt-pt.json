@@ -599,7 +599,7 @@
           "add": "Adicionar séries de tempo",
           "edit": "Editar séries tempor feiras",
           "remove": "Remover séries de tempo",
-          "labelPlaceholde": "Introduza a etiqueta para mostrar na tabela"
+          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela"
         },
         "chartOptions": {
           "yAxisType": {

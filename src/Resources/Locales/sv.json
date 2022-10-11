@@ -599,7 +599,7 @@
           "add": "Lägga till tidsserier",
           "edit": "Redigera tidsserier",
           "remove": "Ta bort tidsserier",
-          "labelPlaceholde": "Ange etikett som ska visas i diagrammet"
+          "labelPlaceholder": "Ange etikett som ska visas i diagrammet"
         },
         "chartOptions": {
           "yAxisType": {

@@ -599,7 +599,7 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "remove": "Remover séries temporizados",
-          "labelPlaceholde": "Digite rótulo para mostrar no gráfico"
+          "labelPlaceholder": "Digite rótulo para mostrar no gráfico"
         },
         "chartOptions": {
           "yAxisType": {

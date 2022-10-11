@@ -599,7 +599,7 @@
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
           "remove": "Zaman serilerini kaldırma",
-          "labelPlaceholde": "Grafikte gösterilecek etiketi girin"
+          "labelPlaceholder": "Grafikte gösterilecek etiketi girin"
         },
         "chartOptions": {
           "yAxisType": {

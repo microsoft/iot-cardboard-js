@@ -599,7 +599,7 @@
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
           "remove": "Zeitreihen entfernen",
-          "labelPlaceholde": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
         },
         "chartOptions": {
           "yAxisType": {
