@@ -596,10 +596,10 @@
           "property": "재산",
           "unit": "단위",
           "label": "레이블",
-          "labelPlaceholder": "차트에 표시할 이 계열의 레이블 입력",
           "add": "시계열 추가",
           "edit": "시계열 편집",
-          "remove": "시계열 제거"
+          "remove": "시계열 제거",
+          "labelPlaceholde": "차트에 표시할 레이블 입력"
         },
         "chartOptions": {
           "yAxisType": {

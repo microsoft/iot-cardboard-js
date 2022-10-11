@@ -596,10 +596,10 @@
           "property": "Ingatlan",
           "unit": "Egység",
           "label": "Címke",
-          "labelPlaceholder": "Adja meg a sorozat címkét, hogy megjelenjen a diagramon",
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
-          "remove": "Idősorok eltávolítása"
+          "remove": "Idősorok eltávolítása",
+          "labelPlaceholde": "Írja be a diagramon megjelenítendő címkét"
         },
         "chartOptions": {
           "yAxisType": {

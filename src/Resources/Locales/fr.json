@@ -596,10 +596,10 @@
           "property": "Propriété",
           "unit": "Unité",
           "label": "Étiquette",
-          "labelPlaceholder": "Entrez l’étiquette de cette série à afficher dans le graphique",
           "add": "Ajouter des séries chronologiques",
           "edit": "Modifier des séries chronologiques",
-          "remove": "Supprimer les séries chronologiques"
+          "remove": "Supprimer les séries chronologiques",
+          "labelPlaceholde": "Entrez l’étiquette à afficher dans le graphique"
         },
         "chartOptions": {
           "yAxisType": {

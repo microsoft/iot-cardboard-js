@@ -596,10 +596,10 @@
           "property": "Propiedad",
           "unit": "Unidad",
           "label": "Etiqueta",
-          "labelPlaceholder": "Introduzca la etiqueta de esta serie para mostrarla en el gráfico",
           "add": "Agregar series temporales",
           "edit": "Editar series temporales",
-          "remove": "Eliminar series temporales"
+          "remove": "Eliminar series temporales",
+          "labelPlaceholde": "Introduzca la etiqueta que se mostrará en el gráfico"
         },
         "chartOptions": {
           "yAxisType": {

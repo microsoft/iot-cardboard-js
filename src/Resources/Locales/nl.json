@@ -596,10 +596,10 @@
           "property": "Eigenschap",
           "unit": "Eenheid",
           "label": "Etiket",
-          "labelPlaceholder": "Voer het label voor deze serie in om in de grafiek weer te geven",
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
-          "remove": "Tijdreeksen verwijderen"
+          "remove": "Tijdreeksen verwijderen",
+          "labelPlaceholde": "Voer het label in om in de grafiek weer te geven"
         },
         "chartOptions": {
           "yAxisType": {

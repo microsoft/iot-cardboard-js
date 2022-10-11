@@ -596,10 +596,10 @@
           "property": "Propriedade",
           "unit": "Unidade",
           "label": "Etiqueta",
-          "labelPlaceholder": "Introduza a etiqueta para esta série mostrar na tabela",
           "add": "Adicionar séries de tempo",
           "edit": "Editar séries tempor feiras",
-          "remove": "Remover séries de tempo"
+          "remove": "Remover séries de tempo",
+          "labelPlaceholde": "Introduza a etiqueta para mostrar na tabela"
         },
         "chartOptions": {
           "yAxisType": {
