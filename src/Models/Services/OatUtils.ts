@@ -267,5 +267,5 @@ export function buildModelId(
     return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
         / /g,
         ''
-    )}:${modelName?.replace(/ /g, '')}:${versionNumber}`;
+    )}:${modelName?.replace(/ /g, '')};${versionNumber}`;
 }
