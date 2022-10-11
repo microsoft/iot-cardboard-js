@@ -72,7 +72,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
 const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
-            <OatPageContextProvider>
+            <OatPageContextProvider disableLocalStorage={props.disableStorage}>
                 <CommandHistoryContextProvider>
                     <OATEditorPageContent {...props} />
                 </CommandHistoryContextProvider>

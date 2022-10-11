@@ -51,6 +51,11 @@ export function getDefaultStoryDecorator<T>(cardStyle: CSSProperties) {
 export function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
+/** waits for a set amount of time for animations to complete */
+export async function waitForAnimations() {
+    await sleep(20);
+}
+
 /**
  * Function to wait for a period of time and resolves when that time has ellapsed
  * @param ms number of milliseconds to wait
@@ -108,6 +113,21 @@ export const selectDropDownMenuItem = async (
     await openDropdownMenu(canvas, dropdownTestId);
     const options = await screen.findAllByRole('option');
     options[optionIndex].click();
+};
+
+/**
+ * Click on a menu item in a context menu
+ * @param canvas the test canvas
+ * @param testId test id for the element
+ */
+export const clickContextMenuItem = async (
+    canvas: IStorybookCanvas,
+    testId: string
+) => {
+    // not using storybook helper to work around issue where pointer events are not allowed
+    const dropdown = await findCalloutItemByTestId(testId);
+    const item = document.getElementById(dropdown.id);
+    item.click();
 };
 
 export const clickOverFlowMenuItem = async (element: HTMLElement) => {

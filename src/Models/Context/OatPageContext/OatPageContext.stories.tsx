@@ -14,11 +14,7 @@ import {
     getDefaultStoryDecorator,
     IStoryContext
 } from '../../Services/StoryUtilities';
-import {
-    setContextStorageEnabled,
-    OatPageContextProvider,
-    useOatPageContext
-} from './OatPageContext';
+import { OatPageContextProvider, useOatPageContext } from './OatPageContext';
 import {
     OatPageContextActionType,
     IOatPageContextProviderProps,
@@ -53,7 +49,7 @@ const getContainerStyles = (_theme: ITheme) => ({
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
-    padding: 10
+    padding: 8
 };
 export default {
     title: 'Contexts/OatPageContext',
@@ -63,7 +59,6 @@ export default {
 
 const ProviderContentRenderer: React.FC = () => {
     const { oatPageState } = useOatPageContext();
-    console.log('Render context ', oatPageState);
     const theme = useTheme();
     const containerStyle = getContainerStyles(theme);
     const valueStyle = getValueStyle(theme);
@@ -421,9 +416,11 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     _context: IStoryContext<IOatPageContextProviderProps>
 ) => {
-    setContextStorageEnabled(false);
     return (
-        <OatPageContextProvider initialState={args.defaultState}>
+        <OatPageContextProvider
+            initialState={args.defaultState}
+            disableLocalStorage={true}
+        >
             <Stack>
                 <ProviderContentRenderer />
                 <ProviderUpdater />

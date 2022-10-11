@@ -67,6 +67,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     const redoButtonRef = useRef<IContextualMenuRenderItem>(null);
     const undoButtonRef = useRef<IContextualMenuRenderItem>(null);
 
+    // styles
+    const classNames = getClassNames(styles, { theme: useTheme() });
+
+    // callbacks
     const onFilesUpload = useCallback(
         async (files: Array<File>) => {
             // Populates fileNames and filePaths
@@ -369,7 +373,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     }, []);
 
     // Data
-    const ontologyMenuItems = useMemo(() => {
+    const switchSubMenuItems = useMemo(() => {
         const storedFiles = oatPageState.ontologyFiles;
         if (storedFiles.length > 0) {
             const formattedFiles: IContextualMenuItem[] = storedFiles.map(
@@ -381,9 +385,15 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                             payload: { projectId: file.id }
                         });
                     };
+                    const MAX_LENGTH = 35;
+                    let fileName = file.data.projectName || '';
+                    if (fileName.length > MAX_LENGTH) {
+                        fileName = fileName.substring(0, MAX_LENGTH) + '...';
+                    }
                     return {
                         key: file.id,
-                        text: file.data.projectName,
+                        text: fileName,
+                        title: file.data.projectName,
                         onClick: onClick
                     };
                 }
@@ -399,22 +409,25 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'new',
             text: 'New',
             iconProps: { iconName: 'Add' },
-            onClick: onNewFile
+            onClick: onNewFile,
+            'data-testid': 'oat-header-ontology-menu-new'
         },
         {
             key: 'switch',
             text: 'Switch',
-            disabled: !ontologyMenuItems?.length,
+            disabled: !switchSubMenuItems?.length,
             iconProps: { iconName: 'OpenFolderHorizontal' },
             subMenuProps: {
-                items: ontologyMenuItems
-            }
+                items: switchSubMenuItems
+            },
+            'data-testid': 'oat-header-ontology-menu-switch'
         },
         {
             key: 'duplicate',
             text: 'Duplicate',
             iconProps: { iconName: 'Copy' },
-            onClick: onDuplicate
+            onClick: onDuplicate,
+            'data-testid': 'oat-header-ontology-menu-copy'
         },
         {
             key: 'dividerImport',
@@ -424,7 +437,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'Export',
             text: t('OATHeader.export'),
             iconProps: { iconName: 'Export' },
-            onClick: onExportClick
+            onClick: onExportClick,
+            'data-testid': 'oat-header-ontology-menu-export'
         },
         {
             key: 'dividerManage',
@@ -434,7 +448,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'manage',
             text: 'Manage',
             iconProps: { iconName: 'Edit' },
-            onClick: onManageFile
+            onClick: onManageFile,
+            'data-testid': 'oat-header-ontology-menu-manage'
         }
     ];
     const undoMenuItems: IContextualMenuItem[] = [
@@ -444,7 +459,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             iconProps: { iconName: 'Undo' },
             key: 'under',
             onClick: undo,
-            text: t('OATHeader.undo')
+            text: t('OATHeader.undo'),
+            'data-testid': 'oat-header-undo-menu-undo'
         },
         {
             key: 'redo',
@@ -452,7 +468,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             iconProps: { iconName: 'Redo' },
             onClick: redo,
             disabled: !canRedo,
-            componentRef: redoButtonRef
+            componentRef: redoButtonRef,
+            'data-testid': 'oat-header-undo-menu-redo'
         }
     ];
     const newModelMenuItems: IContextualMenuItem[] = [
@@ -460,19 +477,22 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             key: 'newModel',
             iconProps: { iconName: 'AppIconDefaultAdd' },
             text: 'New model',
-            onClick: onAddModel
+            onClick: onAddModel,
+            'data-testid': 'oat-header-new-menu-new'
         },
         {
             key: 'importFile',
             text: t('OATHeader.importFile'),
             iconProps: { iconName: 'Import' },
-            onClick: () => uploadFileInputRef.current.click()
+            onClick: () => uploadFileInputRef.current.click(),
+            'data-testid': 'oat-header-new-menu-import-file'
         },
         {
             key: 'importFolder',
             text: t('OATHeader.importFolder'),
             iconProps: { iconName: 'Import' },
-            onClick: () => uploadFolderInputRef.current.click()
+            onClick: () => uploadFolderInputRef.current.click(),
+            'data-testid': 'oat-header-new-menu-import-folder'
         }
     ];
     const commandBarItems: ICommandBarItemProps[] = [
@@ -482,7 +502,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             text: t('OATHeader.ontology'),
             subMenuProps: {
                 items: fileMenuItems
-            }
+            },
+            'data-testid': 'oat-header-ontology-menu'
         },
         {
             key: 'Undo',
@@ -493,7 +514,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             subMenuProps: {
                 items: undoMenuItems
             },
-            text: t('OATHeader.undo')
+            text: t('OATHeader.undo'),
+            'data-testid': 'oat-header-undo-menu'
         },
         {
             key: 'newModel',
@@ -503,12 +525,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 items: newModelMenuItems
             },
             text: 'New model',
-            onClick: onAddModel
+            onClick: onAddModel,
+            'data-testid': 'oat-header-new-menu'
         }
     ];
-
-    // styles
-    const classNames = getClassNames(styles, { theme: useTheme() });
 
     logDebugConsole('debug', 'Render');
     return (
@@ -517,12 +537,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 <h2 className={classNames.projectName}>
                     {oatPageState.currentOntologyProjectName}
                 </h2>
-                <div className={classNames.menuComponent}>
-                    <CommandBar
-                        items={commandBarItems}
-                        styles={classNames.subComponentStyles.commandBar}
-                    />
-                </div>
+                <CommandBar
+                    items={commandBarItems}
+                    styles={classNames.subComponentStyles.commandBar}
+                />
                 {/* Create ontology */}
                 <ManageOntologyModal
                     isOpen={openModal === HeaderModal.CreateOntology}
