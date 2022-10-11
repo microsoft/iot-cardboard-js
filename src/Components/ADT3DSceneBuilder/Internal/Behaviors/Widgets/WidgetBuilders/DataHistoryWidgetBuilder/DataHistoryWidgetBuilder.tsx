@@ -111,13 +111,10 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         return key;
     }, [formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan]);
 
-    const selectedSeries = useMemo(
-        () =>
-            selectedTimeSeriesIdx !== -1
-                ? formData.widgetConfiguration.timeSeries[selectedTimeSeriesIdx]
-                : null,
-        [selectedTimeSeriesIdx, formData]
-    );
+    const selectedSeries =
+        selectedTimeSeriesIdx !== -1
+            ? formData.widgetConfiguration.timeSeries[selectedTimeSeriesIdx]
+            : null;
 
     const onDisplayNameChange = useCallback(
         (_event, value: string) => {
