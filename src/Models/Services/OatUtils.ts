@@ -208,24 +208,16 @@ export const getNextModelId = (
     let nextModelIdIndex = -1;
     let nextModelId = '';
     let index = 0;
-    console.log(
-        '***[START] Looking for new model id. {models, namespace, prefix}',
-        existingModels,
-        namespace,
-        defaultNamePrefix
-    );
     while (index !== -1) {
         nextModelIdIndex++;
         nextModelId = buildModelId(
             namespace,
             `${defaultNamePrefix}${nextModelIdIndex}`
         );
-        console.log('***Trying: ', nextModelId);
         index = existingModels.findIndex(
             (element) => element['@id'] === nextModelId
         );
     }
-    console.log('***[END] Looking for new model id. {id}', nextModelId);
 
     return nextModelId;
 };

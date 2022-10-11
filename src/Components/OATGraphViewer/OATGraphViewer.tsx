@@ -198,18 +198,12 @@ const OATGraphViewer: React.FC = () => {
 
     // state
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
-    // console.log(
-    //     '***START initilize. {models, positions}',
-    //     oatPageState.currentOntologyModels,
-    //     oatPageState.currentOntologyModelPositions
-    // );
     const [elements, setElements] = useState(
         getGraphNodesFromModels(
             oatPageState.currentOntologyModels,
             oatPageState.currentOntologyModelPositions
         )
     );
-    // console.log('***END initilize');
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
     const [currentHovered, setCurrentHovered] = useState<IOATNodeElement>(null);
