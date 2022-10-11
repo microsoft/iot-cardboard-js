@@ -31,7 +31,6 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
-    buildModelId,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
     getNextModelId,

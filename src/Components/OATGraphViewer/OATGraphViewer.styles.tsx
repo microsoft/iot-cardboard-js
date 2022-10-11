@@ -3,7 +3,6 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IButtonStyles,
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
