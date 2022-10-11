@@ -90,23 +90,12 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         }
     }, [adxConnectionInformation]);
 
-    const connectionString = useMemo(() => {
-        if (formData.widgetConfiguration.connectionString) {
-            return formData.widgetConfiguration.connectionString;
-        } else if (
-            adxConnectionInformation.loadingState ===
-            ADXConnectionInformationLoadingState.LOADING
-        ) {
-            return i18next.t('widgets.dataHistory.form.connectionLoadingText');
-        } else {
-            return i18next.t(
-                'widgets.dataHistory.form.noConnectionInformationText'
-            );
-        }
-    }, [
-        formData.widgetConfiguration.connectionString,
-        adxConnectionInformation.loadingState
-    ]);
+    const connectionString = formData.widgetConfiguration.connectionString
+        ? formData.widgetConfiguration.connectionString
+        : adxConnectionInformation.loadingState ===
+          ADXConnectionInformationLoadingState.LOADING
+        ? i18next.t('widgets.dataHistory.form.connectionLoadingText')
+        : i18next.t('widgets.dataHistory.form.noConnectionInformationText');
 
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
         let key: QuickTimeSpanKey;
