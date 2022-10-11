@@ -602,7 +602,7 @@
                     "property": "Property",
                     "unit": "Unit",
                     "label": "Label",
-                    "labelPlaceholder": "Enter label for this series to show in chart",
+                    "labelPlaceholde": "Enter label to show in chart",
                     "add": "Add time series",
                     "edit": "Edit time series",
                     "remove": "Remove time series"
