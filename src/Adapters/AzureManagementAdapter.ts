@@ -685,7 +685,10 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         if (useCache) {
             return this.timeSeriesConnectionCache.getEntity(
-                'adt_adx_connection_information',
+                `${
+                    adtInstanceIdentifier['hostName'] ||
+                    adtInstanceIdentifier['id']
+                }-adt_adx_connection_information`,
                 getDataMethod,
                 forceRefresh
             );
