@@ -59,7 +59,6 @@ export default {
 
 const ProviderContentRenderer: React.FC = () => {
     const { oatPageState } = useOatPageContext();
-    console.log('Render context ', oatPageState);
     const theme = useTheme();
     const containerStyle = getContainerStyles(theme);
     const valueStyle = getValueStyle(theme);
