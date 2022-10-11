@@ -880,7 +880,6 @@
     }
   },
   "OATGraphViewer": {
-    "newModel": "Nový model",
     "name": "Jméno",
     "id": "Id",
     "type": "Typ",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",
-    "defaultFileName": "Nová ontologie"
+    "defaultFileName": "Nová ontologie",
+    "defaultModelNamePrefix": "Model"
   }
 }

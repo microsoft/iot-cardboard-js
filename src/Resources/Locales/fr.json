@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "Ce champ est obligatoire",
   "OATGraphViewer": {
-    "newModel": "Nouveau modèle",
     "name": "Nom",
     "id": "Id",
     "type": "Type",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
-    "defaultFileName": "Nouvelle ontologie"
+    "defaultFileName": "Nouvelle ontologie",
+    "defaultModelNamePrefix": "Modèle"
   }
 }

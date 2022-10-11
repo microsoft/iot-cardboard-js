@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "Это поле обязательно для заполнения",
   "OATGraphViewer": {
-    "newModel": "Новая модель",
     "name": "Имя",
     "id": "Идентификатор",
     "type": "Тип",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Новая онтология"
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
   }
 }

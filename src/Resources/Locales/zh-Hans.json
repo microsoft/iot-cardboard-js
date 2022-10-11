@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {
-    "newModel": "新型号",
     "name": "名字",
     "id": "编号",
     "type": "类型",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "复制",
-    "defaultFileName": "新本体"
+    "defaultFileName": "新本体",
+    "defaultModelNamePrefix": "型"
   }
 }

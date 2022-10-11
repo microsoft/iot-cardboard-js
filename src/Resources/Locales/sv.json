@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
-    "newModel": "Ny modell",
     "name": "Namn",
     "id": "Id",
     "type": "Typ",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
-    "defaultFileName": "Ny ontologi"
+    "defaultFileName": "Ny ontologi",
+    "defaultModelNamePrefix": "Modell"
   }
 }
