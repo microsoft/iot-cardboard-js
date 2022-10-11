@@ -6,7 +6,8 @@ import {
     IKeyValuePairAdapter,
     ITsiClientChartDataAdapter,
     AzureAccessPermissionRoles,
-    AzureResourceTypes
+    AzureResourceTypes,
+    ADXTableColumns
 } from '.';
 import AdapterResult from '../Classes/AdapterResult';
 import {
@@ -69,6 +70,13 @@ export type ADTRelationship = {
 };
 
 export type TsiClientData = any[];
+
+export type ADXTimeSeries = {
+    timestamp: string;
+    id: string;
+    key: string;
+    value: string | number;
+};
 
 export type HierarchyData = Record<string, IHierarchyNode>;
 
@@ -254,3 +262,14 @@ export type ADTResourceIdentifierWithHostname = {
 export type ADTResourceIdentifier =
     | ADTResourceIdentifierWithId
     | ADTResourceIdentifierWithHostname;
+
+export type ADXTable = {
+    Rows: Array<Array<string | number>>;
+    Columns: Array<{
+        ColumnName: ADXTableColumns;
+        ColumnType: 'string' | 'datetime' | 'dynamic';
+    }>;
+    FrameType: 'DataTable';
+    TableKind: 'PrimaryResult';
+    [additionalProperty: string]: any;
+};

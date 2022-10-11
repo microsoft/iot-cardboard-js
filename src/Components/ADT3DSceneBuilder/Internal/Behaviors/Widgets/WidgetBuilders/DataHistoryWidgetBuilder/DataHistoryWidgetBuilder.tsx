@@ -20,7 +20,12 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
+import {
+    DOCUMENTATION_LINKS,
+    QuickTimeSpans
+} from '../../../../../../../Models/Constants/Constants';
+import { QuickTimeSpanKey } from '../../../../../../../Models/Constants/Enums';
+import { useTimeSeriesData } from '../../../../../../../Models/Hooks/useTimeSeriesData';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -29,6 +34,7 @@ import {
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
+import { SceneBuilderContext } from '../../../../../ADT3DSceneBuilder';
 import { IDataHistoryWidgetBuilderProps } from '../../../../../ADT3DSceneBuilder.types';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
@@ -36,9 +42,7 @@ import {
     AggregationTypeOptions,
     ChartOptionKeys,
     MAX_NUMBER_OF_TIME_SERIES,
-    QuickTimeSpanKey,
     QuickTimeSpanOptions,
-    QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
     YAxisTypeOptions
 } from './DataHistoryWidgetBuilder.types';
@@ -59,9 +63,9 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     ] = useBoolean(false);
 
     const { t } = useTranslation();
-    const {
-        state: { adxConnectionInformation }
-    } = useContext(ADT3DScenePageContext);
+    const scenePageContext = useContext(ADT3DScenePageContext);
+    const { adapter } = useContext(SceneBuilderContext);
+    const { query } = useTimeSeriesData({ adapter });
 
     useEffect(() => {
         const {
@@ -78,23 +82,24 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 
     useEffect(() => {
         if (
-            adxConnectionInformation.loadingState ===
+            scenePageContext?.state.adxConnectionInformation?.loadingState ===
             ADXConnectionInformationLoadingState.EXIST
         ) {
-            const connection = adxConnectionInformation.connection;
+            const connection =
+                scenePageContext?.state.adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
                     draft.widgetConfiguration.connectionString = `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
                 })
             );
         }
-    }, [adxConnectionInformation]);
+    }, [scenePageContext?.state.adxConnectionInformation]);
 
     const connectionString = useMemo(() => {
         if (formData.widgetConfiguration.connectionString) {
             return formData.widgetConfiguration.connectionString;
         } else if (
-            adxConnectionInformation.loadingState ===
+            scenePageContext?.state.adxConnectionInformation?.loadingState ===
             ADXConnectionInformationLoadingState.LOADING
         ) {
             return i18next.t('widgets.dataHistory.form.connectionLoadingText');
@@ -105,7 +110,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         }
     }, [
         formData.widgetConfiguration.connectionString,
-        adxConnectionInformation.loadingState
+        scenePageContext?.state.adxConnectionInformation?.loadingState
     ]);
 
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {

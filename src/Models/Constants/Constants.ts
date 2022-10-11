@@ -2,7 +2,8 @@ import {
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
-    IADTObjectColor
+    IADTObjectColor,
+    QuickTimeSpanKey
 } from '../Constants';
 import {
     defaultDataHistoryWidget,
@@ -537,4 +538,21 @@ export const InterchangeableADTInstanceAccessRoleIds: Array<
 export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGroups = {
     enforced: EnforcedADTInstanceAccessRoleIds,
     interchangeables: InterchangeableADTInstanceAccessRoleIds
+};
+
+/** Quick time span key to value in millisecond mapping */
+export const QuickTimeSpans = {
+    [QuickTimeSpanKey['Last 15 mins']]: 15 * 60 * 1000,
+    [QuickTimeSpanKey['Last 30 mins']]: 30 * 60 * 1000,
+    [QuickTimeSpanKey['Last Hour']]: 1 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 3 Hours']]: 3 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 6 Hours']]: 6 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 12 Hours']]: 12 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 24 Hours']]: 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 7 Days']]: 7 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 30 Days']]: 30 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 60 Days']]: 60 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 90 Days']]: 90 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last 180 Days']]: 180 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey['Last Year']]: 356 * 24 * 60 * 60 * 1000
 };
