@@ -12,6 +12,11 @@ import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
+    /**
+     * disables use of local storage by the context
+     * NOTE: Should ONLY be used in tests, not intended for production use.
+     */
+    disableLocalStorage?: boolean;
 }
 
 /**

@@ -14,19 +14,19 @@ export class ProjectData {
     templates: any[];
 
     constructor(
-        modelPositions: IOATModelPosition[],
-        models: DTDLModel[],
         projectName: string,
-        templates: any[],
         namespace: string,
-        modelsMetadata: IOATModelsMetadata[]
+        models?: DTDLModel[],
+        modelPositions?: IOATModelPosition[],
+        modelsMetadata?: IOATModelsMetadata[],
+        templates?: any[]
     ) {
-        this.modelPositions = Array.from(modelPositions);
-        this.models = Array.from(models);
         this.projectName = projectName || '';
-        this.templates = Array.from(templates);
         this.namespace = namespace || '';
-        this.modelsMetadata = Array.from(modelsMetadata);
         this.projectDescription = '';
+        this.models = models ? Array.from(models) : [];
+        this.modelPositions = modelPositions ? Array.from(modelPositions) : [];
+        this.modelsMetadata = modelsMetadata ? Array.from(modelsMetadata) : [];
+        this.templates = templates ? Array.from(templates) : [];
     }
 }

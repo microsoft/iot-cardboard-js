@@ -129,19 +129,8 @@ const decoratorWithDebug = (Story, context) => {
         </LoggingContextProvider>
     );
 };
-/** enables use of storage in the oat context by default in case some stories turn it off */
-const decoratorEnableOatContextStorage = (Story, context) => {
-    // enable storage by default for oat context since some tests disable. There's no good 'beforeEach' hook in storybook except decorators
-    setContextStorageEnabled(true);
-    return (
-        <>
-            <Story {...context} />
-        </>
-    );
-};
 
 addDecorator(decoratorWithConsole);
 addDecorator(decoratorWithStableGuid);
 addDecorator(decoratorWithWrapper);
 addDecorator(decoratorWithDebug);
-addDecorator(decoratorEnableOatContextStorage);

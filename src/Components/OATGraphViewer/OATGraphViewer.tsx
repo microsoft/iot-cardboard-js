@@ -830,6 +830,7 @@ const OATGraphViewer: React.FC = () => {
                             styles={buttonStyles}
                             onClick={onNewModelClick}
                             text={t('OATGraphViewer.newModel')}
+                            data-testid={'oat-add-model-button'}
                         />
                         {!elements[0] && (
                             <Label styles={warningStyles}>

@@ -56,12 +56,12 @@ const getFile = (index: number, subId1: string, subId2: string): IOATFile => {
     return {
         id: 'test-ontology-' + index,
         data: new ProjectData(
-            [getPositionItem(subId1), getPositionItem(subId2)],
-            [getModelItem(subId1), getModelItem(subId2)],
             'test-ontology-name-' + index,
-            [getTemplateItem('0'), getTemplateItem(subId2)],
             'test-ontology-namespace-' + index,
-            [getMetadataItem(subId1), getMetadataItem(subId2)]
+            [getModelItem(subId1), getModelItem(subId2)],
+            [getPositionItem(subId1), getPositionItem(subId2)],
+            [getMetadataItem(subId1), getMetadataItem(subId2)],
+            [getTemplateItem('0'), getTemplateItem(subId2)]
         )
     };
 };

@@ -1,19 +1,31 @@
 import React from 'react';
 import OATEditorPage from './OATEditorPage';
-import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import {
+    getDefaultStoryDecorator,
+    IStoryContext
+} from '../../Models/Services/StoryUtilities';
+import { ComponentStory } from '@storybook/react';
 
+const wrapperStyle: React.CSSProperties = {
+    width: 'auto',
+    padding: 8
+};
 export default {
     title: 'Pages/OATEditorPage',
     component: OATEditorPage,
-    parameters: {
-        noGlobalWrapper: true
-    }
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-export const OATModelEditorPage = (_args, { globals: { theme, locale } }) => {
+type SceneBuilderStory = ComponentStory<any>;
+const Template: SceneBuilderStory = (
+    _args: any,
+    context: IStoryContext<any>
+) => {
     return (
-        <BaseComponent locale={locale} theme={theme}>
-            <OATEditorPage selectedTheme={theme} />
-        </BaseComponent>
+        <OATEditorPage
+            selectedTheme={context.parameters.theme || context.globals.theme}
+        />
     );
 };
+
+export const OATModelEditorPage = Template.bind({});

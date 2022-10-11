@@ -6,6 +6,7 @@ import {
 
 export interface IOATEditorPageProps {
     selectedTheme: Theme;
+    disableStorage?: boolean;
 }
 
 export interface IOATError {
