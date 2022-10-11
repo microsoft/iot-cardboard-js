@@ -44,11 +44,7 @@ import {
 import { ElementsContext } from './Internal/OATContext';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
-import {
-    deepCopy,
-    getDebugLogger,
-    removeDuplicatesFromArray
-} from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     forceSimulation,
