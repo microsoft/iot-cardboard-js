@@ -79,12 +79,14 @@ export const DeeplinkContextReducer: (
                                 AzureResourceDisplayFields.url
                             )
                     );
-                    draft.adtResourceId = itemInLocalStorage.id;
-                    const resourceFromItem = getResourceFromEnvironmentItem(
-                        itemInLocalStorage,
-                        AzureResourceTypes.DigitalTwinInstance
-                    ) as IADTInstance;
-                    setSelectedAdtInstanceInLocalStorage(resourceFromItem);
+                    if (itemInLocalStorage) {
+                        draft.adtResourceId = itemInLocalStorage.id;
+                        const resourceFromItem = getResourceFromEnvironmentItem(
+                            itemInLocalStorage,
+                            AzureResourceTypes.DigitalTwinInstance
+                        ) as IADTInstance;
+                        setSelectedAdtInstanceInLocalStorage(resourceFromItem);
+                    }
                 } else {
                     setSelectedAdtInstanceInLocalStorage(
                         action.payload.adtInstance
