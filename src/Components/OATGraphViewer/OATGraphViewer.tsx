@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import {
     useTheme,
-    PrimaryButton,
     Label,
     Toggle,
     Stack,
@@ -33,12 +32,10 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
-    OAT_COMPONENT_HANDLE_NAME,
-    OAT_NAMESPACE_DEFAULT_VALUE
+    OAT_COMPONENT_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
-    getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
     getGraphViewerMinimapStyles,
     getGraphViewerFiltersStyles,
@@ -47,7 +44,11 @@ import {
 import { ElementsContext } from './Internal/OATContext';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
-import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger,
+    removeDuplicatesFromArray
+} from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     forceSimulation,
@@ -59,23 +60,24 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface } from '../../Models/Constants';
+import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
     addExtendsRelationship,
+    addModelToGraph,
     addNewModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
     DEFAULT_NODE_POSITION,
-    getSelectionFromNode,
-    VERSION_CLASS_BASE
+    getSelectionFromNode
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
+import { getNextModelId } from '../../Models/Services/OatUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -99,12 +101,6 @@ const OATGraphViewer: React.FC = () => {
         oatPageState.currentOntologyModels,
         oatPageState.currentOntologyModelPositions
     );
-
-    const idClassBase = `dtmi:${
-        oatPageState.currentOntologyNamespace
-            ? oatPageState.currentOntologyNamespace
-            : OAT_NAMESPACE_DEFAULT_VALUE
-    }:`;
 
     //  Converts the stored models to a graph nodes
     const getGraphNodesFromModels = useCallback(
@@ -293,7 +289,13 @@ const OATGraphViewer: React.FC = () => {
                     });
 
                     const application = () => {
-                        setElements(newElements);
+                        setElements((prevValue) => {
+                            const combined = removeDuplicatesFromArray(
+                                [...prevValue, ...newElements],
+                                'id'
+                            );
+                            return combined;
+                        });
                         setLoading(false);
                     };
 
@@ -312,22 +314,6 @@ const OATGraphViewer: React.FC = () => {
         },
         [execute, rfInstance]
     );
-
-    const newModelId = useMemo(() => {
-        // Identifies which is the next model Id on creating new nodes
-        let nextModelId = -1;
-        let index = 0;
-        while (index !== -1) {
-            nextModelId++;
-            index = elements.findIndex(
-                (element) =>
-                    element.id ===
-                    `${idClassBase}model${nextModelId};${VERSION_CLASS_BASE}`
-            );
-        }
-
-        return nextModelId;
-    }, [elements, idClassBase]);
 
     const providerVal = useMemo(
         () => ({
@@ -351,55 +337,30 @@ const OATGraphViewer: React.FC = () => {
         setRfInstance(_reactFlowInstance);
     }, []);
 
-    const getNewNodePosition = (coordinates) => {
-        // Find the amount of nodes at the same position
-        const nodesAtPosition = elements.filter(
-            (element) =>
-                !element.source &&
-                element.position.x === coordinates.x &&
-                element.position.y === coordinates.y
-        );
-
-        // If there is no node at the same position, return the coordinates
-        if (nodesAtPosition.length === 0) {
-            return coordinates;
-        }
-        // Define the new coordinates
-        const newCoordinates = {
-            x: coordinates.x + nodesAtPosition.length * newNodeOffset,
-            y: coordinates.y + nodesAtPosition.length * newNodeOffset
-        };
-        // Prevent nodes with the same position
-        return getNewNodePosition(newCoordinates);
-    };
-
-    const onNewModelClick = (event) => {
-        const onNewNode = () => {
-            // Create a new floating node
-            let startPositionCoordinates = event.target.getBoundingClientRect();
-            startPositionCoordinates = rfInstance.project({
-                x: newNodeLeft,
-                y: startPositionCoordinates.y
-            });
-
-            const elementsCopy = deepCopy(elements);
-            addNewModelToGraph(
-                newModelId,
-                idClassBase,
-                getNewNodePosition(startPositionCoordinates),
-                elementsCopy
+    const getNewNodePosition = useCallback(
+        (coordinates: IOATNodePosition) => {
+            // Find the amount of nodes at the same position
+            const nodesAtPosition = elements.filter(
+                (element) =>
+                    !element.source &&
+                    element.position.x === coordinates.x &&
+                    element.position.y === coordinates.y
             );
-            setElements(elementsCopy);
-        };
 
-        const undoOnNewNode = () => {
-            setElements(elements);
-        };
-
-        if (!oatPageState.modified) {
-            execute(onNewNode, undoOnNewNode);
-        }
-    };
+            // If there is no node at the same position, return the coordinates
+            if (nodesAtPosition.length === 0) {
+                return coordinates;
+            }
+            // Define the new coordinates
+            const newCoordinates = {
+                x: coordinates.x + nodesAtPosition.length * newNodeOffset,
+                y: coordinates.y + nodesAtPosition.length * newNodeOffset
+            };
+            // Prevent nodes with the same position
+            return getNewNodePosition(newCoordinates);
+        },
+        [elements]
+    );
 
     const onConnectStart = (
         _: React.MouseEvent<Element, MouseEvent>,
@@ -441,8 +402,11 @@ const OATGraphViewer: React.FC = () => {
                     y: evt.clientY - reactFlowBounds.top
                 });
                 targetModel = addNewModelToGraph(
-                    newModelId,
-                    idClassBase,
+                    getNextModelId(
+                        elementsCopy,
+                        oatPageState.currentOntologyNamespace,
+                        t('OATCommon.defaultModelNamePrefix')
+                    ),
                     position,
                     elementsCopy
                 );
@@ -766,16 +730,16 @@ const OATGraphViewer: React.FC = () => {
 
     // update the graph when models are imported
     useEffect(() => {
-        // console.log('*** START Apply layout');
         if (oatPageState.importModels?.length > 0) {
+            logDebugConsole('debug', '[START] Handle change to Import models');
             setLoading(true);
             const potentialElements = getGraphNodesFromModels(
                 oatPageState.importModels,
                 oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
+            logDebugConsole('debug', '[END] Handle change to Import models');
         }
-        // console.log('*** END Apply layout');
     }, [
         applyLayoutToElements,
         getGraphNodesFromModels,
@@ -783,9 +747,54 @@ const OATGraphViewer: React.FC = () => {
         oatPageState.importModels
     ]);
 
+    // update the graph when models are added
+    useEffect(() => {
+        if (oatPageState.modelsToAdd?.length > 0) {
+            logDebugConsole('debug', '[START] Handle change to Added models');
+
+            const onAddModels = () => {
+                const startPositionCoordinates = rfInstance.project({
+                    x: newNodeLeft,
+                    y: 20
+                });
+
+                const elementsCopy = deepCopy(elements);
+                oatPageState.modelsToAdd.forEach((x) => {
+                    addModelToGraph(
+                        x,
+                        getNewNodePosition(startPositionCoordinates),
+                        elementsCopy
+                    );
+                });
+                setElements(elementsCopy);
+            };
+
+            const undoAddModels = () => {
+                setElements(elements);
+            };
+
+            execute(onAddModels, undoAddModels);
+            oatPageDispatch({
+                type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD
+            });
+            logDebugConsole('debug', '[END] Handle change to Added models');
+        }
+    }, [
+        applyLayoutToElements,
+        elements,
+        execute,
+        getGraphNodesFromModels,
+        getNewNodePosition,
+        oatPageDispatch,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyNamespace,
+        oatPageState.modelsToAdd,
+        rfInstance,
+        t
+    ]);
+
     // styles
     const graphViewerStyles = getGraphViewerStyles();
-    const buttonStyles = getGraphViewerButtonStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
@@ -826,12 +835,6 @@ const OATGraphViewer: React.FC = () => {
                         onNodeMouseLeave={onNodeMouseLeave}
                         onPaneClick={clearSelectedModel}
                     >
-                        <PrimaryButton
-                            styles={buttonStyles}
-                            onClick={onNewModelClick}
-                            text={t('OATGraphViewer.newModel')}
-                            data-testid={'oat-add-model-button'}
-                        />
                         {!elements[0] && (
                             <Label styles={warningStyles}>
                                 {t('OATGraphViewer.emptyGraph')}

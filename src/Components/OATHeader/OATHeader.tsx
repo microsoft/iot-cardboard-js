@@ -31,8 +31,10 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
+    buildModelId,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
+    getNextModelId,
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
@@ -40,6 +42,8 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
+import { DtdlInterface, OAT_INTERFACE_TYPE } from '../../Models/Constants';
+import { CONTEXT_CLASS_BASE } from '../OATGraphViewer/Internal/Utils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
@@ -355,9 +359,31 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     ]);
 
     const onAddModel = useCallback(() => {
-        // TODO: the stuff
-        alert('on add model');
-    }, []);
+        const nextModelId = getNextModelId(
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyNamespace,
+            t('OATCommon.defaultModelNamePrefix')
+        );
+        const name = `Model${nextModelId}`;
+        const newModel: DtdlInterface = {
+            '@context': CONTEXT_CLASS_BASE,
+            '@id': nextModelId,
+            '@type': OAT_INTERFACE_TYPE,
+            displayName: name,
+            contents: []
+        };
+        oatPageDispatch({
+            type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD,
+            payload: {
+                models: [newModel]
+            }
+        });
+    }, [
+        oatPageDispatch,
+        oatPageState.currentOntologyModels,
+        oatPageState.currentOntologyNamespace,
+        t
+    ]);
 
     // Side effects
     // Set listener to undo/redo buttons on key press
@@ -415,7 +441,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         {
             key: 'switch',
             text: 'Switch',
-            disabled: !switchSubMenuItems?.length,
+            disabled: switchSubMenuItems?.length <= 1,
             iconProps: { iconName: 'OpenFolderHorizontal' },
             subMenuProps: {
                 items: switchSubMenuItems

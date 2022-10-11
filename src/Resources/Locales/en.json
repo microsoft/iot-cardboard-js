@@ -826,7 +826,8 @@
     },
     "OATCommon": {
         "duplicateFileNameSuffix": "copy",
-        "defaultFileName": "New ontology"
+        "defaultFileName": "New ontology",
+        "defaultModelNamePrefix": "Model"
     },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",
@@ -889,7 +890,6 @@
         }
     },
     "OATGraphViewer": {
-        "newModel": "New Model",
         "name": "Name",
         "id": "Id",
         "type": "Type",

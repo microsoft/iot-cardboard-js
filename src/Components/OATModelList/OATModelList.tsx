@@ -83,14 +83,22 @@ const OATModelList: React.FC = () => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const newModels = deleteOatModel(
+                const {
+                    models: newModels,
+                    positions: newPositions
+                } = deleteOatModel(
                     item['@id'],
                     item,
-                    oatPageState.currentOntologyModels
+                    oatPageState.currentOntologyModels,
+                    oatPageState.currentOntologyModelPositions
                 );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: newModels }
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                    payload: { positions: newPositions }
                 });
                 // Dispatch selected model to null
                 oatPageDispatch({
@@ -108,6 +116,12 @@ const OATModelList: React.FC = () => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
+            });
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,

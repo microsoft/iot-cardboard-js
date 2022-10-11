@@ -487,15 +487,6 @@ export const getGraphViewerStyles = () => {
     });
 };
 
-export const getGraphViewerButtonStyles = () => {
-    return {
-        root: {
-            zIndex: '100',
-            marginBottom: '8px'
-        }
-    } as Partial<IButtonStyles>;
-};
-
 export const getGraphViewerIconStyles = () => {
     const theme = useTheme();
     return {
