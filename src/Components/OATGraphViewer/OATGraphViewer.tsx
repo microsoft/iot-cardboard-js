@@ -283,13 +283,7 @@ const OATGraphViewer: React.FC = () => {
                     });
 
                     const application = () => {
-                        setElements((prevValue) => {
-                            const combined = removeDuplicatesFromArray(
-                                [...prevValue, ...newElements],
-                                'id'
-                            );
-                            return combined;
-                        });
+                        setElements(newElements);
                         setLoading(false);
                     };
 
@@ -360,8 +354,9 @@ const OATGraphViewer: React.FC = () => {
         _: React.MouseEvent<Element, MouseEvent>,
         params: ConnectionParams
     ) => {
+        logDebugConsole('debug', '[START] Connection. {params}', params);
         // Stores values before connection is created
-        currentNodeIdRef.current = params.handleId ? params.nodeId : null;
+        currentNodeIdRef.current = params.nodeId ? params.nodeId : null;
         currentHandleIdRef.current = params.handleId ? params.handleId : null;
     };
 
@@ -370,7 +365,7 @@ const OATGraphViewer: React.FC = () => {
         const source = currentNodeIdRef.current;
         logDebugConsole(
             'debug',
-            'Connection stopped. {event, elements, source}',
+            '[END] Connection stopped. {event, elements, source}',
             evt,
             elementsCopy,
             source
@@ -774,7 +769,6 @@ const OATGraphViewer: React.FC = () => {
             logDebugConsole('debug', '[END] Handle change to Added models');
         }
     }, [
-        applyLayoutToElements,
         elements,
         execute,
         getGraphNodesFromModels,
