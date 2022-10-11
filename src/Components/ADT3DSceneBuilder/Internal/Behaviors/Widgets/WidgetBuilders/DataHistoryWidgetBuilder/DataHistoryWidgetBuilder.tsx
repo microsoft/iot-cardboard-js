@@ -20,6 +20,7 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
 import {
     IDataHistoryAggregationType,
@@ -84,7 +85,9 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             const connection = adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.connectionString = `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+                    draft.widgetConfiguration.connectionString = generateConnectionString(
+                        connection
+                    );
                 })
             );
         }
@@ -344,6 +347,20 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             )}
         </div>
     );
+};
+
+const generateConnectionString = (
+    connection: IADXConnection
+): string | null => {
+    if (
+        connection?.kustoClusterUrl &&
+        connection?.kustoDatabaseName &&
+        connection?.kustoTableName
+    ) {
+        return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+    } else {
+        return null;
+    }
 };
 
 export default DataHistoryWidgetBuilder;
