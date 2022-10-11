@@ -68,11 +68,14 @@ const WidgetLibraryDialog: React.FC<{
         [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
-    const isWidgetNotAvailable = useCallback(
+    const isWidgetAvailable = useCallback(
         (widgetType: WidgetType) =>
-            widgetType === WidgetType.DataHistory &&
-            scenePageContext?.state.adxConnectionInformation?.loadingState ===
-                ADXConnectionInformationLoadingState.NOT_EXIST,
+            !(
+                widgetType === WidgetType.DataHistory &&
+                scenePageContext?.state.adxConnectionInformation
+                    ?.loadingState ===
+                    ADXConnectionInformationLoadingState.NOT_EXIST
+            ),
         [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
@@ -132,9 +135,11 @@ const WidgetLibraryDialog: React.FC<{
                                 }
                             }}
                         >
-                            {isWidgetNotAvailable(
+                            {isWidgetAvailable(
                                 widget.data.type as WidgetType
                             ) ? (
+                                widget.description
+                            ) : (
                                 <>
                                     {widget.notAvailableDescription}{' '}
                                     <Link
@@ -144,8 +149,6 @@ const WidgetLibraryDialog: React.FC<{
                                         {t('learnMore')}
                                     </Link>
                                 </>
-                            ) : (
-                                widget.description
                             )}
                         </Text>
                     </Stack>
@@ -154,7 +157,7 @@ const WidgetLibraryDialog: React.FC<{
         ),
         [
             scenePageContext?.state.adxConnectionInformation?.loadingState,
-            isWidgetNotAvailable,
+            isWidgetAvailable,
             isSpinnerVisible,
             selectedWidget,
             enabledWidgets
