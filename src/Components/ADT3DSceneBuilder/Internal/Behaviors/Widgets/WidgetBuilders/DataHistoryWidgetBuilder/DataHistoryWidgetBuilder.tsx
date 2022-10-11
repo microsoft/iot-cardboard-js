@@ -128,7 +128,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     );
 
     const handleTimeSeriesFormDismiss = useCallback(() => {
-        toggleIsAddTimeSeriesCalloutVisible(), setSelectedTimeSeriesIdx(null);
+        toggleIsAddTimeSeriesCalloutVisible();
+        setSelectedTimeSeriesIdx(null);
     }, []);
 
     const handleTimeSeriesFormPrimaryAction = useCallback(
