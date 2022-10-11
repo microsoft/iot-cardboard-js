@@ -33,7 +33,7 @@ import {
 import {
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
-    getNextModelId,
+    getNextModel,
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
@@ -358,17 +358,16 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     ]);
 
     const onAddModel = useCallback(() => {
-        const nextModelId = getNextModelId(
+        const nextModel = getNextModel(
             oatPageState.currentOntologyModels,
             oatPageState.currentOntologyNamespace,
             t('OATCommon.defaultModelNamePrefix')
         );
-        const name = `Model${nextModelId}`;
         const newModel: DtdlInterface = {
             '@context': CONTEXT_CLASS_BASE,
-            '@id': nextModelId,
+            '@id': nextModel.id,
             '@type': OAT_INTERFACE_TYPE,
-            displayName: name,
+            displayName: nextModel.name,
             contents: []
         };
         oatPageDispatch({

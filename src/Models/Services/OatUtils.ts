@@ -199,11 +199,11 @@ export const deleteOatModel = (
  * @param defaultNamePrefix the name prefix for models (ex: "Model")
  * @returns the id string for the new model
  */
-export const getNextModelId = (
+export const getNextModel = (
     existingModels: DtdlInterface[],
     namespace: string,
     defaultNamePrefix: string
-): string => {
+) => {
     // Identifies which is the next model Id on creating new nodes
     let nextModelIdIndex = -1;
     let nextModelId = '';
@@ -212,14 +212,15 @@ export const getNextModelId = (
         nextModelIdIndex++;
         nextModelId = buildModelId(
             namespace,
-            `${defaultNamePrefix}${nextModelIdIndex}`
+            `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
         );
         index = existingModels.findIndex(
             (element) => element['@id'] === nextModelId
         );
     }
 
-    return nextModelId;
+    const name = `${defaultNamePrefix}${nextModelIdIndex}`;
+    return { id: nextModelId, name: name };
 };
 
 /**

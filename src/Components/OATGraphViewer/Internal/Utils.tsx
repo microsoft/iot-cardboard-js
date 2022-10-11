@@ -217,16 +217,17 @@ export const addModelToGraph = (
 /**
  * Addsd a new model with default values to the graph
  * @param newModelId id for the new model
+ * @param name Display name for the model
  * @param position position of the node
  * @param elements collection of existing elements
  * @returns new node that was added
  */
 export const addNewModelToGraph = (
     newModelId: string,
+    name: string,
     position: ElementPosition,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const name = `Model${newModelId}`;
     const newNode = new ElementNode(newModelId, OAT_INTERFACE_TYPE, position, {
         '@id': newModelId,
         '@context': CONTEXT_CLASS_BASE,

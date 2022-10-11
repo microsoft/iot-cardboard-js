@@ -71,7 +71,7 @@ import {
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
-import { getNextModelId } from '../../Models/Services/OatUtils';
+import { getNextModel } from '../../Models/Services/OatUtils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -386,12 +386,14 @@ const OATGraphViewer: React.FC = () => {
                     x: evt.clientX - reactFlowBounds.left,
                     y: evt.clientY - reactFlowBounds.top
                 });
+                const newModel = getNextModel(
+                    elementsCopy,
+                    oatPageState.currentOntologyNamespace,
+                    t('OATCommon.defaultModelNamePrefix')
+                );
                 targetModel = addNewModelToGraph(
-                    getNextModelId(
-                        elementsCopy,
-                        oatPageState.currentOntologyNamespace,
-                        t('OATCommon.defaultModelNamePrefix')
-                    ),
+                    newModel.id,
+                    newModel.name,
                     position,
                     elementsCopy
                 );
