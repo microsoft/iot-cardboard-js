@@ -596,10 +596,10 @@
           "property": "Mülk",
           "unit": "Birim",
           "label": "Etiket",
-          "labelPlaceholder": "Bu serinin grafikte gösterilecek etiketini girin",
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
-          "remove": "Zaman serilerini kaldırma"
+          "remove": "Zaman serilerini kaldırma",
+          "labelPlaceholde": "Grafikte gösterilecek etiketi girin"
         },
         "chartOptions": {
           "yAxisType": {

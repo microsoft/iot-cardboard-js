@@ -596,10 +596,10 @@
           "property": "Vlastnost",
           "unit": "Jednotka",
           "label": "Označit",
-          "labelPlaceholder": "Zadejte popisek pro tuto řadu, který se má zobrazit v grafu.",
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
-          "remove": "Odebrání časových řad"
+          "remove": "Odebrání časových řad",
+          "labelPlaceholde": "Zadejte popisek, který se má zobrazit v grafu"
         },
         "chartOptions": {
           "yAxisType": {

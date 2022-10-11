@@ -596,10 +596,10 @@
           "property": "財産",
           "unit": "単位",
           "label": "ラベル",
-          "labelPlaceholder": "グラフに表示するこの系列のラベルを入力します。",
           "add": "時系列の追加",
           "edit": "時系列の編集",
-          "remove": "時系列の削除"
+          "remove": "時系列の削除",
+          "labelPlaceholde": "グラフに表示するラベルを入力"
         },
         "chartOptions": {
           "yAxisType": {
