@@ -599,7 +599,7 @@
           "add": "Aggiungere serie temporali",
           "edit": "Modificare le serie temporali",
           "remove": "Rimuovere le serie temporali",
-          "labelPlaceholde": "Inserisci l'etichetta da mostrare nel grafico"
+          "labelPlaceholder": "Inserisci l'etichetta da mostrare nel grafico"
         },
         "chartOptions": {
           "yAxisType": {

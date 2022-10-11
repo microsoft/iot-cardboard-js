@@ -599,7 +599,7 @@
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
           "remove": "Odebrání časových řad",
-          "labelPlaceholde": "Zadejte popisek, který se má zobrazit v grafu"
+          "labelPlaceholder": "Zadejte popisek, který se má zobrazit v grafu"
         },
         "chartOptions": {
           "yAxisType": {

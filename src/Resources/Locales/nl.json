@@ -599,7 +599,7 @@
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
           "remove": "Tijdreeksen verwijderen",
-          "labelPlaceholde": "Voer het label in om in de grafiek weer te geven"
+          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven"
         },
         "chartOptions": {
           "yAxisType": {

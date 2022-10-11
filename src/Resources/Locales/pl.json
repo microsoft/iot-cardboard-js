@@ -599,7 +599,7 @@
           "add": "Dodawanie szeregów czasowych",
           "edit": "Edytowanie szeregów czasowych",
           "remove": "Usuwanie szeregów czasowych",
-          "labelPlaceholde": "Wprowadź etykietę, która ma być wyświetlana na wykresie"
+          "labelPlaceholder": "Wprowadź etykietę, która ma być wyświetlana na wykresie"
         },
         "chartOptions": {
           "yAxisType": {

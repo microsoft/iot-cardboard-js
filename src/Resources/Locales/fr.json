@@ -599,7 +599,7 @@
           "add": "Ajouter des séries chronologiques",
           "edit": "Modifier des séries chronologiques",
           "remove": "Supprimer les séries chronologiques",
-          "labelPlaceholde": "Entrez l’étiquette à afficher dans le graphique"
+          "labelPlaceholder": "Entrez l’étiquette à afficher dans le graphique"
         },
         "chartOptions": {
           "yAxisType": {

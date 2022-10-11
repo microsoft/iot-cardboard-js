@@ -599,7 +599,7 @@
           "add": "添加时间序列",
           "edit": "编辑时间序列",
           "remove": "删除时间序列",
-          "labelPlaceholde": "输入要在图表中显示的标签"
+          "labelPlaceholder": "输入要在图表中显示的标签"
         },
         "chartOptions": {
           "yAxisType": {

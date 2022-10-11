@@ -599,7 +599,7 @@
           "add": "時系列の追加",
           "edit": "時系列の編集",
           "remove": "時系列の削除",
-          "labelPlaceholde": "グラフに表示するラベルを入力"
+          "labelPlaceholder": "グラフに表示するラベルを入力"
         },
         "chartOptions": {
           "yAxisType": {
