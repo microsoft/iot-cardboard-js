@@ -33,7 +33,7 @@ export type IDTDLPropertyType =
  * A list of timeseries to render in the chart
  */
 export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
-export type IDataHistoryChartYAxisType = 'Shared' | 'Independent';
+export type IDataHistoryChartYAxisType = 'shared' | 'independent';
 export type IDataHistoryAggregationType = 'min' | 'max' | 'avg';
 export type IExpressionRangeType = 'NumericRange' | 'CategoricalValues';
 

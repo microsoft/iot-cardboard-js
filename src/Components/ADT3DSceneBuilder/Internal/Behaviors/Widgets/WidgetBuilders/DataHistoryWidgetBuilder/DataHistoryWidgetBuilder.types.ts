@@ -2,7 +2,8 @@ import { IChoiceGroupOption, IDropdownOption } from '@fluentui/react';
 import i18next from 'i18next';
 import {
     IDataHistoryAggregationType,
-    IDataHistoryChartOptions
+    IDataHistoryChartOptions,
+    IDataHistoryChartYAxisType
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const MAX_NUMBER_OF_TIME_SERIES = 3;
@@ -46,13 +47,13 @@ export const QuickTimeSpans = {
 
 export const YAxisTypeOptions: Array<IChoiceGroupOption> = [
     {
-        key: 'Shared' as IDataHistoryAggregationType,
+        key: 'shared' as IDataHistoryChartYAxisType,
         text: i18next.t(
             'widgets.dataHistory.form.chartOptions.yAxisType.sharedLabel'
         )
     },
     {
-        key: 'Independent' as IDataHistoryAggregationType,
+        key: 'independent' as IDataHistoryChartYAxisType,
         text: i18next.t(
             'widgets.dataHistory.form.chartOptions.yAxisType.independentLabel'
         )

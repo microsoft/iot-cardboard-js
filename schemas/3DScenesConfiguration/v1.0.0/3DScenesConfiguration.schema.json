@@ -262,7 +262,7 @@
         },
         "IDataHistoryChartYAxisType": {
             "type": "string",
-            "enum": ["Shared", "Independent"]
+            "enum": ["shared", "independent"]
         },
         "IDataHistoryAggregationType": {
             "type": "string",
