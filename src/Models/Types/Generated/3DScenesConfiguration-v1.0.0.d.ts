@@ -30,10 +30,6 @@ export type IDTDLPropertyType =
     | 'string'
     | 'time';
 /**
- * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
- */
-export type IDataHistoryConnectionString = string;
-/**
  * A list of timeseries to render in the chart
  */
 export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
@@ -255,7 +251,10 @@ export interface IDataHistoryWidget {
  * Widget configuration specifies widget specific properties that are used for rendering this data history
  */
 export interface IDataHistoryWidgetConfiguration {
-    connectionString: IDataHistoryConnectionString;
+    /**
+     * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
+     */
+    connectionString: string;
     displayName: string;
     timeSeries: IDataHistoryTimeSeries;
     chartOptions: IDataHistoryChartOptions;
