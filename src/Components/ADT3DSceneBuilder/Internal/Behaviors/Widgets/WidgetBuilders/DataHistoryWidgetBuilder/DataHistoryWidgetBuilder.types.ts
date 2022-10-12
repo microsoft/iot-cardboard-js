@@ -1,4 +1,10 @@
-import { IChoiceGroupOption, IDropdownOption } from '@fluentui/react';
+import {
+    IChoiceGroupOption,
+    IDropdownOption,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import { TFunction } from 'i18next';
 import {
     IDataHistoryAggregationType,
@@ -16,6 +22,17 @@ export interface IDataHistoryWidgetBuilderProps
     extends IWidgetBuilderFormDataProps {
     formData: IDataHistoryWidget;
     updateWidgetData: (widgetData: IDataHistoryWidget) => void;
+    styles?: IStyleFunctionOrObject<
+        IDataHistoryWidgetBuilderStyleProps,
+        IDataHistoryWidgetBuilderStyles
+    >;
+}
+
+export interface IDataHistoryWidgetBuilderStyleProps {
+    theme: ITheme;
+}
+export interface IDataHistoryWidgetBuilderStyles {
+    stackWithTooltipAndRequired: IStyle;
 }
 
 /** Existing chart options for data history widget in the 3D config schema */

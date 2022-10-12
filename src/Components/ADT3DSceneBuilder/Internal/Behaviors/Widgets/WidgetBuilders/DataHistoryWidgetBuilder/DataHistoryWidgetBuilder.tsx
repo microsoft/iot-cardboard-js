@@ -1,11 +1,13 @@
 import {
     ActionButton,
     ChoiceGroup,
+    classNamesFunction,
     Dropdown,
     ITextFieldProps,
     Label,
     Link,
     Stack,
+    styled,
     TextField,
     useTheme
 } from '@fluentui/react';
@@ -31,6 +33,7 @@ import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
+import { getStyles } from './DataHistoryWidgetBuilder.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
@@ -41,15 +44,23 @@ import {
     getQuickTimeSpanOptions,
     QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
-    getYAxisTypeOptions
+    getYAxisTypeOptions,
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
 } from './DataHistoryWidgetBuilder.types';
 import TimeSeriesFormCallout from './Internal/TimeSeriesFormCallout';
 import TimeSeriesList from './Internal/TimeSeriesList';
 
+const getClassNames = classNamesFunction<
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
+>();
+
 const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     formData,
     updateWidgetData,
-    setIsWidgetConfigValid
+    setIsWidgetConfigValid,
+    styles
 }) => {
     const [selectedTimeSeriesId, setSelectedTimeSeriesId] = useState(null);
     const addTimeSeriesCalloutId = useId('add-time-series-callout');
@@ -62,7 +73,14 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         }
     ] = useBoolean(false);
 
+    const theme = useTheme();
+    const classNames = getClassNames(styles, {
+        theme
+    });
+    const sharedClassNames = getWidgetFormStyles(theme);
+    const sharedActionButtonStyles = getActionButtonStyles(theme);
     const { t } = useTranslation();
+
     const {
         state: { adxConnectionInformation }
     } = useContext(ADT3DScenePageContext);
@@ -182,8 +200,6 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [formData]
     );
 
-    const theme = useTheme();
-    const customStyles = getWidgetFormStyles(theme);
     const handleOnRenderConnectionStringLabel = useCallback(
         (
             props?: ITextFieldProps,
@@ -193,7 +209,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 <Stack
                     horizontal
                     verticalAlign={'center'}
-                    className={customStyles.stackWithTooltipAndRequired}
+                    className={classNames.stackWithTooltipAndRequired}
                 >
                     {defaultRender(props)}
                     <TooltipCallout
@@ -219,7 +235,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 </Stack>
             );
         },
-        [t, customStyles]
+        [t, classNames]
     );
 
     const onChartOptionChange = useCallback(
@@ -241,9 +257,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [updateWidgetData, formData]
     );
 
-    const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <div className={customStyles.widgetFormContents}>
+        <div className={sharedClassNames.widgetFormContents}>
             <Stack tokens={{ childrenGap: 8 }}>
                 <TextField
                     required
@@ -275,12 +290,12 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     MAX_NUMBER_OF_TIME_SERIES && (
                     <ActionButton
                         id={addTimeSeriesCalloutId}
-                        styles={actionButtonStyles}
+                        styles={sharedActionButtonStyles}
                         text={t('widgets.dataHistory.form.timeSeries.add')}
                         onClick={setIsAddTimeSeriesCalloutVisibleTrue}
                     />
                 )}
-                <Label className={customStyles.label} id={yAxisLabelId}>
+                <Label className={sharedClassNames.label} id={yAxisLabelId}>
                     <Stack horizontal verticalAlign="center">
                         <span>
                             {t(
@@ -300,7 +315,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     </Stack>
                 </Label>
                 <ChoiceGroup
-                    className={customStyles.choiceGroup}
+                    className={sharedClassNames.choiceGroup}
                     selectedKey={
                         formData.widgetConfiguration.chartOptions.yAxisType
                     }
@@ -377,4 +392,8 @@ const generateConnectionString = (
     }
 };
 
-export default DataHistoryWidgetBuilder;
+export default styled<
+    IDataHistoryWidgetBuilderProps,
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
+>(DataHistoryWidgetBuilder, getStyles);

@@ -15,8 +15,7 @@ const classNames = {
     widgetFormContents: `${classPrefix}-widget-form-contents`,
     rangeBuilderRoot: `${classPrefix}-gauge-widget-range-builder`,
     label: `${classPrefix}-label`,
-    choiceGroup: `${classPrefix}-choice-group`,
-    stackWithTooltipAndRequired: `${classPrefix}-stack-with-required-label-and-tooltip`
+    choiceGroup: `${classPrefix}-choice-group`
 };
 export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -69,12 +68,6 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
                     marginBottom: 4
                 }
             } as Partial<IChoiceGroupStyles>
-        ],
-        stackWithTooltipAndRequired: [
-            classNames.stackWithTooltipAndRequired,
-            {
-                'label::after': { paddingRight: 0 }
-            } as IStyle
         ]
     });
 });
