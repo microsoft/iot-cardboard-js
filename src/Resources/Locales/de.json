@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopieren",
+    "defaultFileName": "Neue Ontologie",
+    "defaultModelNamePrefix": "Modell"
   }
 }

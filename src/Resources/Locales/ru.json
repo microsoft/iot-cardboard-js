@@ -1205,5 +1205,10 @@
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
     "selectAdditionalColumns": "Выбор дополнительных столбцов"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
   }
 }

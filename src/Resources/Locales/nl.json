@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiëren",
+    "defaultFileName": "Nieuwe ontologie",
+    "defaultModelNamePrefix": "Model"
   }
 }

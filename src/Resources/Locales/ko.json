@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "새로운 온톨로지",
+    "defaultModelNamePrefix": "모델"
   }
 }

@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
     "availableProperties": "利用可能なプロパティのドロップダウン",
     "selectAdditionalColumns": "追加の列の選択"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
   }
 }

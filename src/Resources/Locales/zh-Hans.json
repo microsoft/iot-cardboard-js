@@ -1205,5 +1205,10 @@
     "propertyCount": "{{选定的属性计数}} 属性已选择",
     "availableProperties": "可用属性的下拉列表",
     "selectAdditionalColumns": "选择其他列"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "复制",
+    "defaultFileName": "新本体",
+    "defaultModelNamePrefix": "型"
   }
 }

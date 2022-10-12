@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} egenskaper valda",
     "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
     "selectAdditionalColumns": "Välj ytterligare kolumner"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Ny ontologi",
+    "defaultModelNamePrefix": "Modell"
   }
 }

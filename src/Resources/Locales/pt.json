@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
     "availableProperties": "Desistência de imóveis disponíveis",
     "selectAdditionalColumns": "Selecione colunas adicionais"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Nova ontologia",
+    "defaultModelNamePrefix": "Modelo"
   }
 }

@@ -1205,5 +1205,10 @@
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
   }
 }

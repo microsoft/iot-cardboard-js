@@ -546,7 +546,17 @@
       "rotation": "Rotace"
     },
     "searchTwinIdPlaceholder": "Hledat ID dvojčete ($dtId)",
-    "visualRulesTab": "Vizuální pravidla"
+    "visualRulesTab": "Vizuální pravidla",
+    "visualRule": "Vizuální pravidlo",
+    "conditions": "Podmínky",
+    "visualRuleForm": {
+      "new": "Nové vizuální pravidlo",
+      "newCondition": "Nový stav",
+      "edit": "Upravit vizuální pravidlo",
+      "formDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku."
+    }
   },
   "widgets": {
     "trend": {
@@ -760,19 +770,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "Konfigurace prostředí 3D scén",
-    "descriptionForEnvironment": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
-    "descriptionForEnvAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
     "descriptionForLocalStorage": "Konfigurační data se ukládají do místního úložiště.",
     "selectContainerUrl": "Vyberte adresu URL kontejneru úložiště",
-    "noEnvironment": "Nebylo přidáno žádné prostředí",
     "noContainer": "Nebyl přidán žádný kontejner",
     "removeFromList": "Odebrat ze seznamu",
     "storageAccountName": "Název účtu Azure Storage",
     "storageAccountUrl": "Adresa URL účtu Azure Storage",
     "storageContainerName": "Název kontejneru Azure Storage",
-    "storageContainerUrl": "Adresa URL kontejneru Azure Storage"
+    "storageContainerUrl": "Adresa URL kontejneru Azure Storage",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
+    "descriptionForAdtInstanceAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
+    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT"
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",
@@ -1182,7 +1192,11 @@
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "modalTitle": "Rozšířené vyhledávání dvojčat",
-    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
+    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání",
+    "columnPicker": "Výběr sloupců",
+    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
+    "availableProperties": "Rozbalovací nabídka dostupných ubytování",
+    "selectAdditionalColumns": "Výběr dalších sloupců"
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",
