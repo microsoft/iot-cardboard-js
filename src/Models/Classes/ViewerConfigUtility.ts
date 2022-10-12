@@ -769,6 +769,11 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.Popover;
     }
 
+    static isVisualRule(visual: IVisual): visual is IExpressionRangeVisual {
+        return visual.type === VisualType.ExpressionRangeVisual;
+    }
+
+    // @deprecated
     static isStatusColorVisual(
         visual: IVisual
     ): visual is IExpressionRangeVisual {
@@ -778,6 +783,7 @@ abstract class ViewerConfigUtility {
         );
     }
 
+    // @deprecated
     static isAlertVisual(visual: IVisual): visual is IExpressionRangeVisual {
         return (
             visual.type === VisualType.ExpressionRangeVisual &&

@@ -13,7 +13,7 @@ const classNames = {
     root: `${classPrefix}-root`,
     content: `${classPrefix}-content`,
     header: `${classPrefix}-header`,
-    pivot: `${classPrefix}-pivot`
+    expandingSection: `${classPrefix}-expandingSection`
 };
 export const getPanelFormStyles = memoizeFunction(
     (_theme: Theme, formHeaderHeight: number, shouldPadContent = false) => {
@@ -46,8 +46,8 @@ export const getPanelFormStyles = memoizeFunction(
                     padding: '0 16px 4px'
                 } as IStyle
             ],
-            pivot: [
-                classNames.pivot,
+            expandingSection: [
+                classNames.expandingSection,
                 { height: `calc(100% - ${formHeaderHeight}px)` } as IStyle
             ]
         });

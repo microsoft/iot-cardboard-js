@@ -23,11 +23,13 @@ import {
     SET_ADT_SCENE_BUILDER_DRAFT_BEHAVIOR,
     SET_GIZMO_ELEMENT_ITEM,
     SET_GIZMO_TRANSFORM_ITEM,
-    BuilderDirtyFormType
+    BuilderDirtyFormType,
+    SET_VISUAL_RULE_ACTIVE_MODE
 } from './ADT3DSceneBuilder.types';
 import {
     ADT3DSceneBuilderMode,
     ADT3DSceneTwinBindingsMode,
+    VisualRuleFormMode,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import { DefaultViewerModeObjectColor } from '../../Models/Constants';
@@ -57,6 +59,7 @@ export const defaultADT3DSceneBuilderState: ADT3DSceneBuilderState = {
     showHoverOnSelected: false,
     unsavedBehaviorDialogOpen: false,
     unsavedChangesDialogDiscardAction: null,
+    visualRuleFormMode: VisualRuleFormMode.Inactive,
     widgetFormInfo: { mode: WidgetFormMode.Cancelled }
 };
 
@@ -170,6 +173,9 @@ export const ADT3DSceneBuilderReducer: (
                         draft.enableHoverOnModel = false;
                         break;
                 }
+                break;
+            case SET_VISUAL_RULE_ACTIVE_MODE:
+                draft.visualRuleFormMode = payload;
                 break;
             default:
                 break;

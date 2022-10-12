@@ -289,6 +289,8 @@ export interface IObjectIDs {
  */
 export interface IExpressionRangeVisual {
     type: 'ExpressionRangeVisual';
+    id?: string;
+    displayName?: string;
     /**
      * Expression to evaluate
      */

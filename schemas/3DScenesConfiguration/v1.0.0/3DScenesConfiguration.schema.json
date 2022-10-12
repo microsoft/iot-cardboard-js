@@ -639,6 +639,12 @@
                 "type": {
                     "const": "ExpressionRangeVisual"
                 },
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
+                },
                 "valueExpression": {
                     "type": "string",
                     "description": "Expression to evaluate"

@@ -374,6 +374,8 @@
         "alertsTab": "Alerts",
         "statesTab": "Status",
         "visualRulesTab": "Visual rules",
+        "visualRule": "Visual rule",
+        "conditions": "Conditions",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -551,6 +553,14 @@
                 "alphanumericOnly": "Twin name must only contain alphanumeric characters",
                 "noNumberPrefix": "Twin name must not start with a number"
             }
+        },
+        "visualRuleForm": {
+            "new": "New visual rule",
+            "newCondition": "New condition",
+            "edit": "Edit visual rule",
+            "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "typePlaceholder": "Select the type for the value",
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
         }
     },
     "widgets": {
@@ -1225,6 +1235,10 @@
         "errorMessageHeader": "Search failed",
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "noOptionsFoundMessage": "No values found",
-        "valueFieldPlaceholder": "Enter a value"
+        "valueFieldPlaceholder": "Enter a value",
+        "columnPicker": "Column picker",
+        "propertyCount": "{{selectedPropsCount}} properties selected",
+        "availableProperties": "Dropdown of properties available",
+        "selectAdditionalColumns": "Select additional columns"
     }
 }

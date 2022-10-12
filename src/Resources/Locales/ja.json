@@ -546,7 +546,25 @@
       "rotation": "自転"
     },
     "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)",
-    "visualRulesTab": "ビジュアルルール"
+    "visualRulesTab": "ビジュアルルール",
+    "visualRule": {
+      "new": "新しいビジュアルルール",
+      "edit": "ビジュアルルールの編集",
+      "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "noDataMessageHeader": "条件なし",
+      "noDataMessageDescription": "条件はまだ作成されていません。条件を作成するには、以下をクリックします。",
+      "noDataMessageLinkText": "条件の追加",
+      "typePlaceholder": "値のタイプを選択します。"
+    },
+    "visualRuleForm": {
+      "new": "新しいビジュアル ルール",
+      "edit": "ビジュアル ルールの編集",
+      "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "typePlaceholder": "値のタイプを選択します。",
+      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。",
+      "newCondition": "新しい条件"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "値を入力する",
     "noOptionsFoundMessage": "値が見つかりません",
     "modalTitle": "高度な双子検索",
-    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする"
+    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする",
+    "columnPicker": "列ピッカー",
+    "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
+    "availableProperties": "利用可能なプロパティのドロップダウン",
+    "selectAdditionalColumns": "追加の列の選択"
   }
 }
