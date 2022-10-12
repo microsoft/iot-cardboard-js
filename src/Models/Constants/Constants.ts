@@ -9,7 +9,8 @@ import {
     defaultGaugeWidget,
     defaultLinkWidget,
     defaultValueWidget,
-    IWidgetLibraryItem
+    IWidgetLibraryItem,
+    WidgetType
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { DTDLSchemaType } from '../../Models/Classes/DTDL';
@@ -89,6 +90,9 @@ export const LOCAL_STORAGE_KEYS = {
         },
         VisualRules: {
             showVisualRulesFeature: 'cardboard.feature.visualRulesFeature' // shows visual rules features
+        },
+        DataHistory: {
+            showDataHistoryWidget: 'cardboard.feature.dataHistoryWidget' // shows data history widget widget library
         }
     },
     Environment: {
@@ -151,24 +155,28 @@ export const ADT3DSceneConfigFileNameInBlobStore = '3DScenesConfiguration'; //TO
 
 export const availableWidgets: Array<IWidgetLibraryItem> = [
     {
+        type: WidgetType.Gauge,
         title: i18n.t('widgets.gauge.title'),
         description: i18n.t('widgets.gauge.description'),
         iconName: 'SpeedHigh',
         data: defaultGaugeWidget
     },
     {
+        type: WidgetType.Link,
         title: i18n.t('widgets.link.title'),
         description: i18n.t('widgets.link.description'),
         iconName: 'Link',
         data: defaultLinkWidget
     },
     {
+        type: WidgetType.Value,
         title: i18n.t('widgets.value.title'),
         description: i18n.t('widgets.value.description'),
         iconName: 'NumberField',
         data: defaultValueWidget
     },
     {
+        type: WidgetType.DataHistory,
         title: i18n.t('widgets.dataHistory.title'),
         description: i18n.t('widgets.dataHistory.description'),
         notAvailableDescription: i18n.t(
@@ -177,7 +185,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget,
-        disabled: false
+        disabled: true
     }
 ];
 export const twinRefreshMaxAge = 9000;

@@ -42,6 +42,7 @@ export enum WidgetType {
 }
 
 export interface IWidgetLibraryItem {
+    type: WidgetType;
     title: string;
     description: string;
     notAvailableDescription?: string;

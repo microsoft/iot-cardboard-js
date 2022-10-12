@@ -23,12 +23,26 @@ import {
     IWidgetLibraryItem,
     WidgetType
 } from '../../../../../../Models/Classes/3DVConfig';
-import { availableWidgets } from '../../../../../../Models/Constants/Constants';
+import {
+    availableWidgets,
+    LOCAL_STORAGE_KEYS
+} from '../../../../../../Models/Constants/Constants';
 import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
 import { ADT3DScenePageContext } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
+if (
+    enabledWidgets.findIndex((w) => w.type === WidgetType.DataHistory) === -1 &&
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.DataHistory.showDataHistoryWidget
+    ) === 'true'
+) {
+    // when data history is disabled in code but enabled by local storage externally to test the feature append it to the list
+    enabledWidgets.push(
+        availableWidgets.find((w) => w.type === WidgetType.DataHistory)
+    );
+}
 
 const WidgetLibraryDialog: React.FC<{
     setIsLibraryDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
