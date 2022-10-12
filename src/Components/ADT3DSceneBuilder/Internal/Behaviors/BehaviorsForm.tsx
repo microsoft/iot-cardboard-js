@@ -132,16 +132,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
-    const [
-        isPropertyTypeDropdownEnabled,
-        setisPropertyTypeDropdownEnabled
-    ] = useState(false);
-    const handlePropertyTypeDropdownEnabled = useCallback(
-        (isEnabled: boolean) => {
-            setisPropertyTypeDropdownEnabled(isEnabled);
-        },
-        [setisPropertyTypeDropdownEnabled]
-    );
 
     useEffect(() => {
         const selectedElements = [];
@@ -428,12 +418,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         visualRuleFormMode !== VisualRuleFormMode.Inactive;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const formHeaderHeight = isVisualRulesFormActive
-        ? isPropertyTypeDropdownEnabled
-            ? 370
-            : 268
-        : 168;
+    const formHeaderHeight = isVisualRulesFormActive ? 268 : 168;
     const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
+
+    const [visualRuleId, _setSelectedVisualRuleId] = useState<string | null>(
+        null
+    );
 
     const renderWidgetForm = () => {
         return <WidgetForm />;
@@ -451,10 +441,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const renderVisualRuleForm = () => {
         return (
             <VisualRuleForm
-                setPropertyTypeDropdownEnabled={
-                    handlePropertyTypeDropdownEnabled
-                }
-                isPropertyTypeDropdownEnabled={isPropertyTypeDropdownEnabled}
+                visualRuleId={visualRuleId}
                 rootHeight={formHeaderHeight}
             />
         );
@@ -593,7 +580,12 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.visualRulesTab')}
                                 itemKey={BehaviorPivot.visualRules}
                             >
-                                <VisualRulesTab />
+                                <VisualRulesTab
+                                    // TODO: Wire this up with Ayo's changes
+                                    setSelectedVisualRuleId={
+                                        _setSelectedVisualRuleId
+                                    }
+                                />
                             </PivotItem>
                         )}
                         <PivotItem

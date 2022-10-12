@@ -26,3 +26,33 @@ export const onRenderTypeTitle = (options: IDropdownOption[]): JSX.Element => {
     const option = options[0];
     return onRenderTypeOption(option);
 };
+
+/** Check validity for a certain form */
+
+export interface IValidityState {
+    isValid: boolean;
+}
+// This is used to set initial state of a validity map
+export type FieldToValidate = {
+    key: string;
+    defaultValue: boolean;
+};
+export type ValidityMapType = Map<string, IValidityState>;
+
+export const checkValidityMap = (validityMap: ValidityMapType): boolean => {
+    let isValid = true;
+    validityMap.forEach((x) => {
+        isValid = isValid && x.isValid;
+    });
+    return isValid;
+};
+
+export const createValidityMap = (
+    fieldsToValidate: FieldToValidate[]
+): ValidityMapType => {
+    const validityMap: ValidityMapType = new Map<string, IValidityState>();
+    fieldsToValidate.forEach((field) => {
+        validityMap.set(field.key, { isValid: field.defaultValue });
+    });
+    return validityMap;
+};

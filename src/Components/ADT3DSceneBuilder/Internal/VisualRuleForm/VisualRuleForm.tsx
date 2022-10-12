@@ -1,11 +1,7 @@
 import {
     classNamesFunction,
     DefaultButton,
-    Dropdown,
-    FontSizes,
-    IDropdownOption,
     Label,
-    mergeStyleSets,
     PrimaryButton,
     Separator,
     Stack,
@@ -13,10 +9,20 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useReducer,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
-import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
+import { defaultVisualRule } from '../../../../Models/Classes/3DVConfig';
 import { VisualRuleFormMode } from '../../../../Models/Constants/Enums';
+import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+import { deepCopy } from '../../../../Models/Services/Utils';
+import { IExpressionRangeVisual } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
@@ -24,14 +30,20 @@ import {
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 import { SceneBuilderContext } from '../../ADT3DSceneBuilder';
-import { IValidityState, TabNames } from '../Behaviors/BehaviorForm.types';
+import {
+    IVisualRuleFormReducerType,
+    VisualRuleFormActionType
+} from '../Behaviors/VisualRules/VisualRules.types';
 import PanelFooter from '../Shared/PanelFooter';
 import { getPanelFormStyles } from '../Shared/PanelForms.styles';
 import {
-    onRenderTypeOption,
-    onRenderTypeTitle
+    checkValidityMap,
+    createValidityMap,
+    FieldToValidate,
+    ValidityMapType
 } from '../Shared/SharedFormUtils';
 import ConditionsList from './Internal/ConditionsList';
+import { VisualRuleFormReducer } from './VisualRuleForm.state';
 import { getStyles } from './VisualRuleForm.styles';
 import {
     IVisualRuleFormProps,
@@ -45,13 +57,14 @@ const getClassNames = classNamesFunction<
 >();
 
 const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
-    // Props
+    // Context
     const {
-        isPropertyTypeDropdownEnabled,
-        rootHeight,
-        setPropertyTypeDropdownEnabled,
-        styles
-    } = props;
+        behaviorFormState,
+        behaviorFormDispatch
+    } = useBehaviorFormContext();
+
+    // Props
+    const { rootHeight, styles, visualRuleId } = props;
 
     // General constants
     const { t } = useTranslation();
@@ -60,19 +73,52 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         theme: theme
     });
     const commonFormStyles = getPanelFormStyles(theme, rootHeight);
-    const typeOptions: Array<IDropdownOption> = useMemo(
-        () =>
-            Object.keys(DTDLPropertyIconographyMap).map((mappingKey) => ({
-                key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
-                text: DTDLPropertyIconographyMap[mappingKey].text,
-                data: { icon: DTDLPropertyIconographyMap[mappingKey].icon }
-            })),
-        []
-    );
-    // TODO: Wire this up to actual form data
-    const formData = {
-        propertyType: 'boolean'
+
+    // Refs
+    // This combination of init function and useRef should replace a useEffect that runs onMount
+    const getInitialVisualRule = (): IExpressionRangeVisual => {
+        if (visualRuleId) {
+            const selectedVisualRule = behaviorFormState.behaviorToEdit.visuals.find(
+                (visual) => {
+                    visual.type === 'ExpressionRangeVisual' &&
+                        visual.id === visualRuleId;
+                }
+            ) as IExpressionRangeVisual;
+            // If visual rule with that id is not found return default visual rule
+            return selectedVisualRule ? selectedVisualRule : defaultVisualRule;
+        } else {
+            return defaultVisualRule;
+        }
     };
+    const initialVisualRule = useRef<IExpressionRangeVisual>(
+        getInitialVisualRule()
+    );
+
+    // State
+    const getInitialFieldValidityState = (): ValidityMapType => {
+        const fieldsToValidate: FieldToValidate[] = [
+            {
+                key: 'displayName',
+                defaultValue: initialVisualRule.current.displayName
+                    ? true
+                    : false
+            }
+        ];
+        return createValidityMap(fieldsToValidate);
+    };
+    const [validityMap, setValidityMap] = useState(
+        getInitialFieldValidityState()
+    );
+
+    // Reducer
+    const [
+        visualRuleFormState,
+        visualRuleFormDispatch
+    ] = useReducer<IVisualRuleFormReducerType>(VisualRuleFormReducer, {
+        originalVisualRule: initialVisualRule.current,
+        visualRuleToEdit: initialVisualRule.current,
+        isDirty: false
+    });
 
     // Contexts
     const {
@@ -83,45 +129,70 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         state: { selectedElements, selectedBehavior }
     } = useContext(SceneBuilderContext);
 
-    // TODO: Update form callbacks to wire them to form state
-    const onTabValidityChange = useCallback(
-        (_tabName: TabNames, _state: IValidityState) => {
-            return;
+    const onDisplayNameChange = useCallback(
+        (
+            _event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+            name: string
+        ) => {
+            const validityMapCopy = deepCopy(validityMap);
+            if (name.length) {
+                validityMapCopy.set('displayName', { isValid: true });
+                setValidityMap(validityMapCopy);
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
+                    payload: { name: name }
+                });
+            } else {
+                validityMapCopy.set('displayName', { isValid: false });
+                setValidityMap(validityMapCopy);
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
+                    payload: { name: name }
+                });
+            }
         },
         []
     );
 
     const onPropertyChange = useCallback(
-        (_newPropertyExpression: PropertyExpression) => {
-            return;
+        (propertyExpression: PropertyExpression) => {
+            visualRuleFormDispatch({
+                type: VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_SET,
+                payload: { expression: propertyExpression.expression }
+            });
         },
         []
     );
-
-    const onTypeChange = useCallback(
-        (
-            _event: React.FormEvent<HTMLDivElement>,
-            _option?: IDropdownOption<any>,
-            _index?: number
-        ) => {
-            return;
-        },
-        []
-    );
-
-    const customStyles = mergeStyleSets({
-        description: {
-            fontSize: FontSizes.size14,
-            color: theme.palette.neutralSecondary
-        }
-    });
 
     const onInternalModeChanged = useCallback((internalMode) => {
         if (internalMode === 'INTELLISENSE') {
-            setPropertyTypeDropdownEnabled(true);
+            visualRuleFormDispatch({
+                type:
+                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                payload: { type: 'CategoricalValues' }
+            });
         } else {
-            setPropertyTypeDropdownEnabled(false);
+            visualRuleFormDispatch({
+                type:
+                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                payload: { type: 'NumericRange' }
+            });
         }
+    }, []);
+
+    const onSaveClick = useCallback(() => {
+        behaviorFormDispatch({
+            type:
+                BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
+            payload: { visualRule: visualRuleFormState.visualRuleToEdit }
+        });
+        setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+    }, []);
+
+    const onCancelClick = useCallback(() => {
+        setVisualRuleFormMode(VisualRuleFormMode.Inactive);
     }, []);
 
     return (
@@ -129,20 +200,16 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             <div className={commonFormStyles.content}>
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
-                        <div className={customStyles.description}>
+                        <div className={classNames.descriptionContainer}>
                             {t('3dSceneBuilder.visualRuleForm.formDescription')}
                         </div>
                         <TextField
                             label={t('displayName')}
-                            // value={FormState}
+                            value={
+                                visualRuleFormState.visualRuleToEdit.displayName
+                            }
                             required={true}
-                            onChange={(_e, newValue) => {
-                                // Alerts change to visual rules
-                                onTabValidityChange('Alerts', {
-                                    isValid: !!newValue
-                                });
-                                // Add dispatch for state here
-                            }}
+                            onChange={onDisplayNameChange}
                             styles={classNames.subComponentStyles.textField}
                         />
                         <ModelledPropertyBuilder
@@ -161,21 +228,6 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             onInternalModeChanged={onInternalModeChanged}
                             required
                         />
-                        {isPropertyTypeDropdownEnabled && (
-                            <Dropdown
-                                required
-                                placeholder={t(
-                                    '3dSceneBuilder.visualRuleForm.typePlaceholder'
-                                )}
-                                label={t('type')}
-                                selectedKey={`value-type-${formData.propertyType}`}
-                                onChange={onTypeChange}
-                                options={typeOptions}
-                                onRenderOption={onRenderTypeOption}
-                                onRenderTitle={onRenderTypeTitle}
-                                styles={classNames.subComponentStyles.dropdown}
-                            />
-                        )}
                     </Stack>
                 </div>
                 <Separator />
@@ -206,16 +258,13 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             <PanelFooter>
                 <PrimaryButton
                     text={t('save')}
-                    onClick={() =>
-                        setVisualRuleFormMode(VisualRuleFormMode.Inactive)
-                    }
+                    onClick={onSaveClick}
+                    disabled={!checkValidityMap(validityMap)}
                     styles={classNames.subComponentStyles.saveButton?.()}
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    onClick={() =>
-                        setVisualRuleFormMode(VisualRuleFormMode.Inactive)
-                    }
+                    onClick={onCancelClick}
                     styles={classNames.subComponentStyles.cancelButton?.()}
                 />
             </PanelFooter>

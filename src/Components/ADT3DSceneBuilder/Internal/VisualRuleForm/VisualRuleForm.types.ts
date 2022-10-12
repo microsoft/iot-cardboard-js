@@ -2,6 +2,7 @@ import {
     IButtonStyles,
     IDropdownStyles,
     ILabelStyles,
+    IStyle,
     IStyleFunctionOrObject,
     ITextFieldStyles,
     Theme
@@ -10,9 +11,8 @@ import { ITooltipCalloutStyles } from '../../../TooltipCallout/TooltipCallout.ty
 import { IConditionsListStyles } from './Internal/ConditionsList.types';
 
 export interface IVisualRuleFormProps {
-    isPropertyTypeDropdownEnabled: boolean;
     rootHeight: number;
-    setPropertyTypeDropdownEnabled: (isEnabled: boolean) => void;
+    visualRuleId: string | null;
     styles?: IStyleFunctionOrObject<
         IVisualRuleFormStylesProps,
         IVisualRuleFormStyles
@@ -20,6 +20,7 @@ export interface IVisualRuleFormProps {
 }
 
 export interface IVisualRuleFormStyles {
+    descriptionContainer: IStyle;
     subComponentStyles?: IVisualRuleFormSubComponentStyles;
 }
 
