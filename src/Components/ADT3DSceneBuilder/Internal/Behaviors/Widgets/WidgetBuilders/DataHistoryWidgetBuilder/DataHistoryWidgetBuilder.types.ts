@@ -1,5 +1,5 @@
 import { IChoiceGroupOption, IDropdownOption } from '@fluentui/react';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import {
     IDataHistoryAggregationType,
     IDataHistoryChartOptions,
@@ -54,30 +54,36 @@ export const QuickTimeSpans = {
     [QuickTimeSpanKey['Last Year']]: 356 * 24 * 60 * 60 * 1000
 };
 
-export const YAxisTypeOptions: Array<IChoiceGroupOption> = [
-    {
-        key: 'shared' as IDataHistoryChartYAxisType,
-        text: i18next.t(
-            'widgets.dataHistory.form.chartOptions.yAxisType.sharedLabel'
-        )
-    },
-    {
-        key: 'independent' as IDataHistoryChartYAxisType,
-        text: i18next.t(
-            'widgets.dataHistory.form.chartOptions.yAxisType.independentLabel'
-        )
-    }
-];
+export const getYAxisTypeOptions = (
+    t: TFunction
+): Array<IChoiceGroupOption> => {
+    return [
+        {
+            key: 'shared' as IDataHistoryChartYAxisType,
+            text: t(
+                'widgets.dataHistory.form.chartOptions.yAxisType.sharedLabel'
+            )
+        },
+        {
+            key: 'independent' as IDataHistoryChartYAxisType,
+            text: t(
+                'widgets.dataHistory.form.chartOptions.yAxisType.independentLabel'
+            )
+        }
+    ];
+};
 
-export const QuickTimeSpanOptions: Array<IDropdownOption> = Object.keys(
-    QuickTimeSpans
-).map((timeSpan) => ({
-    key: timeSpan,
-    text: i18next.t(
-        `widgets.dataHistory.form.chartOptions.quickTimeSpan.options.${timeSpan}`
-    ),
-    data: QuickTimeSpans[timeSpan]
-}));
+export const getQuickTimeSpanOptions = (
+    t: TFunction
+): Array<IDropdownOption> => {
+    return Object.keys(QuickTimeSpans).map((timeSpan) => ({
+        key: timeSpan,
+        text: t(
+            `widgets.dataHistory.form.chartOptions.quickTimeSpan.options.${timeSpan}`
+        ),
+        data: QuickTimeSpans[timeSpan]
+    }));
+};
 
 /** No translation needed for these options */
 export const AggregationTypeOptions: Array<IDropdownOption> = [

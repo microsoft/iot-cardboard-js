@@ -10,7 +10,6 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
-import i18next from 'i18next';
 import produce from 'immer';
 import React, {
     useCallback,
@@ -39,10 +38,10 @@ import {
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     QuickTimeSpanKey,
-    QuickTimeSpanOptions,
+    getQuickTimeSpanOptions,
     QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
-    YAxisTypeOptions
+    getYAxisTypeOptions
 } from './DataHistoryWidgetBuilder.types';
 import TimeSeriesFormCallout from './Internal/TimeSeriesFormCallout';
 import TimeSeriesList from './Internal/TimeSeriesList';
@@ -101,8 +100,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         ? formData.widgetConfiguration.connectionString
         : adxConnectionInformation.loadingState ===
           ADXConnectionInformationLoadingState.LOADING
-        ? i18next.t('widgets.dataHistory.form.connectionLoadingText')
-        : i18next.t('widgets.dataHistory.form.noConnectionInformationText');
+        ? t('widgets.dataHistory.form.connectionLoadingText')
+        : t('widgets.dataHistory.form.noConnectionInformationText');
 
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
         let key: QuickTimeSpanKey;
@@ -299,7 +298,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     selectedKey={
                         formData.widgetConfiguration.chartOptions.yAxisType
                     }
-                    options={YAxisTypeOptions}
+                    options={getYAxisTypeOptions(t)}
                     onChange={(_env, option) =>
                         onChartOptionChange(
                             'yAxisType',
@@ -316,7 +315,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     onChange={(_env, option) =>
                         onChartOptionChange('defaultQuickTimeSpan', option.data)
                     }
-                    options={QuickTimeSpanOptions}
+                    options={getQuickTimeSpanOptions(t)}
                 />
                 <Dropdown
                     label={t(
