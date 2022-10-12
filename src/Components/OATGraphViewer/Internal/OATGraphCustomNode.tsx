@@ -85,14 +85,22 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         const deletion = () => {
             const dispatchDelete = () => {
                 // Remove the model from the list
-                const modelsCopy = deleteOatModel(
+                const {
+                    models: modelsCopy,
+                    positions: positionsCopy
+                } = deleteOatModel(
                     id,
                     data,
-                    oatPageState.currentOntologyModels
+                    oatPageState.currentOntologyModels,
+                    oatPageState.currentOntologyModelPositions
                 );
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_CURRENT_MODELS,
                     payload: { models: modelsCopy }
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                    payload: { positions: positionsCopy }
                 });
                 // Dispatch selected model to null
                 oatPageDispatch({
@@ -110,6 +118,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
             oatPageDispatch({
                 type: OatPageContextActionType.SET_CURRENT_MODELS,
                 payload: { models: oatPageState.currentOntologyModels }
+            });
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: {
+                    positions: oatPageState.currentOntologyModelPositions
+                }
             });
             oatPageDispatch({
                 type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,

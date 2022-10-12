@@ -175,6 +175,28 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.SET_CURRENT_PROJECT: {
+                // TODO: Deprecate in favor of setting via id
+                draft.currentOntologyModelPositions =
+                    action.payload.modelPositions;
+                draft.currentOntologyModels = action.payload.models;
+                draft.currentOntologyModelMetadata =
+                    action.payload.modelsMetadata;
+                draft.currentOntologyNamespace = action.payload.namespace;
+                draft.currentOntologyProjectName =
+                    action.payload.projectName || '';
+                draft.currentOntologyTemplates = action.payload.templates;
+                break;
+            }
+            case OatPageContextActionType.SET_OAT_MODELS_TO_ADD: {
+                const { models } = action.payload;
+                draft.modelsToAdd = models || [];
+                break;
+            }
+            case OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD: {
+                draft.modelsToAdd = [];
+                break;
+            }
             case OatPageContextActionType.SET_OAT_ERROR: {
                 draft.error = action.payload;
                 break;
@@ -193,19 +215,6 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN: {
                 draft.confirmDeleteOpen = action.payload;
-                break;
-            }
-            case OatPageContextActionType.SET_CURRENT_PROJECT: {
-                // TODO: Deprecate in favor of setting via id
-                draft.currentOntologyModelPositions =
-                    action.payload.modelPositions;
-                draft.currentOntologyModels = action.payload.models;
-                draft.currentOntologyModelMetadata =
-                    action.payload.modelsMetadata;
-                draft.currentOntologyNamespace = action.payload.namespace;
-                draft.currentOntologyProjectName =
-                    action.payload.projectName || '';
-                draft.currentOntologyTemplates = action.payload.templates;
                 break;
             }
             case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
@@ -408,6 +417,7 @@ const emptyState: IOatPageContextState = {
     confirmDeleteOpen: { open: false },
     error: null,
     importModels: [],
+    modelsToAdd: [],
     isJsonUploaderOpen: false,
     modified: false,
     selectedModelTarget: null,

@@ -41,6 +41,7 @@ export interface IOatPageContextState {
     currentOntologyTemplates: DTDLProperty[];
     error?: IOATError;
     importModels?: any[];
+    modelsToAdd: DtdlInterface[];
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
     ontologyFiles: IOATFile[];
@@ -68,6 +69,10 @@ export enum OatPageContextActionType {
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
+    /** models that should get added to the graph */
+    SET_OAT_MODELS_TO_ADD = 'SET_OAT__MODELS_TO_ADD',
+    /** clear out the models that were added to the graph */
+    CLEAR_OAT_MODELS_TO_ADD = 'CLEAR_OAT__MODELS_TO_ADD',
     SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
     SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
@@ -133,6 +138,15 @@ export type OatPageContextAction =
     | {
           type: OatPageContextActionType.SET_CURRENT_PROJECT;
           payload: ProjectData;
+      }
+    | {
+          type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD;
+          payload: {
+              models: DtdlInterface[];
+          };
+      }
+    | {
+          type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD;
       }
     | {
           type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;

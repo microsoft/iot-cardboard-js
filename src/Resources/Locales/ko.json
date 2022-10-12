@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
-    "newModel": "새 모델",
     "name": "이름",
     "id": "아이디",
     "type": "형",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "복사",
-    "defaultFileName": "새로운 온톨로지"
+    "defaultFileName": "새로운 온톨로지",
+    "defaultModelNamePrefix": "모델"
   }
 }

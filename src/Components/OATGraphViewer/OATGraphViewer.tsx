@@ -8,7 +8,6 @@ import React, {
 } from 'react';
 import {
     useTheme,
-    PrimaryButton,
     Label,
     Toggle,
     Stack,
@@ -33,12 +32,10 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
-    OAT_COMPONENT_HANDLE_NAME,
-    OAT_NAMESPACE_DEFAULT_VALUE
+    OAT_COMPONENT_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
-    getGraphViewerButtonStyles,
     getGraphViewerWarningStyles,
     getGraphViewerMinimapStyles,
     getGraphViewerFiltersStyles,
@@ -59,22 +56,24 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface } from '../../Models/Constants';
+import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
     addExtendsRelationship,
-    addNewModel,
+    addModelToGraph,
+    addNewModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
     DEFAULT_NODE_POSITION,
-    getSelectionFromNode,
-    VERSION_CLASS_BASE
+    getSelectionFromNode
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
+import { getNextModel } from '../../Models/Services/OatUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -83,7 +82,11 @@ const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
 
-const OATGraphViewer = () => {
+const OATGraphViewer: React.FC = () => {
+    // hooks
+    const { t } = useTranslation();
+    const theme = useTheme();
+
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageState, oatPageDispatch } = useOatPageContext();
@@ -95,14 +98,8 @@ const OATGraphViewer = () => {
         oatPageState.currentOntologyModelPositions
     );
 
-    const idClassBase = `dtmi:${
-        oatPageState.currentOntologyNamespace
-            ? oatPageState.currentOntologyNamespace
-            : OAT_NAMESPACE_DEFAULT_VALUE
-    }:`;
-
     //  Converts the stored models to a graph nodes
-    const getGraphViewerElementsFromModels = useCallback(
+    const getGraphNodesFromModels = useCallback(
         (models: DtdlInterface[], modelPositions: IOATModelPosition[]) => {
             if (!models || !modelPositions) {
                 return [];
@@ -195,27 +192,14 @@ const OATGraphViewer = () => {
         []
     );
 
-    const { t } = useTranslation();
-    const theme = useTheme();
+    // state
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
-    // console.log(
-    //     '***START initilize. {models, positions}',
-    //     oatPageState.currentOntologyModels,
-    //     oatPageState.currentOntologyModelPositions
-    // );
-    const [elements, setElements] = useState(() => {
-        return getGraphViewerElementsFromModels(
+    const [elements, setElements] = useState(
+        getGraphNodesFromModels(
             oatPageState.currentOntologyModels,
             oatPageState.currentOntologyModelPositions
-        );
-    });
-    // console.log('***END initilize');
-    const graphViewerStyles = getGraphViewerStyles();
-    const buttonStyles = getGraphViewerButtonStyles();
-    const warningStyles = getGraphViewerWarningStyles();
-    const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
-    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
-    const graphForceLayoutStyles = getGraphForceLayoutStyles();
+        )
+    );
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
     const [currentHovered, setCurrentHovered] = useState<IOATNodeElement>(null);
@@ -225,25 +209,29 @@ const OATGraphViewer = () => {
     const [rfInstance, setRfInstance] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    // callbacks
     const applyLayoutToElements = useCallback(
-        (inputElements) => {
+        (inputElements: IOatElementNode[]) => {
             logDebugConsole(
                 'debug',
                 '[START] Apply layout {elements}',
                 inputElements
             );
-            const nodes = inputElements.reduce((collection, element) => {
-                if (!element.source) {
-                    collection.push({
-                        id: element.id,
-                        x: element.position.x + nodeWidth / 2,
-                        y: element.position.y + nodeHeight / 2
-                    });
-                }
-                return collection;
-            }, []);
+            const nodes: IOatGraphNode[] = inputElements.reduce(
+                (collection: IOatGraphNode[], element: IOatElementNode) => {
+                    if (!element.source) {
+                        collection.push({
+                            id: element.id,
+                            x: element.position.x + nodeWidth / 2,
+                            y: element.position.y + nodeHeight / 2
+                        });
+                    }
+                    return collection;
+                },
+                []
+            );
 
-            const links = inputElements.reduce((collection, element) => {
+            const links = inputElements.reduce((collection: any[], element) => {
                 if (element.source) {
                     collection.push({
                         source: element.source,
@@ -311,22 +299,6 @@ const OATGraphViewer = () => {
         [execute, rfInstance]
     );
 
-    const newModelId = useMemo(() => {
-        // Identifies which is the next model Id on creating new nodes
-        let nextModelId = -1;
-        let index = 0;
-        while (index !== -1) {
-            nextModelId++;
-            index = elements.findIndex(
-                (element) =>
-                    element.id ===
-                    `${idClassBase}model${nextModelId};${VERSION_CLASS_BASE}`
-            );
-        }
-
-        return nextModelId;
-    }, [elements, idClassBase]);
-
     const providerVal = useMemo(
         () => ({
             currentHovered,
@@ -341,75 +313,59 @@ const OATGraphViewer = () => {
 
     const edgeTypes = useMemo(() => ({ Relationship: OATGraphCustomEdge }), []);
 
-    const onLoad = useCallback((_reactFlowInstance: any) => {
+    /** called when the graph mounts */
+    const onLoadGraph = useCallback((_reactFlowInstance: any) => {
         _reactFlowInstance.fitView();
         _reactFlowInstance.zoomOut();
         _reactFlowInstance.zoomOut();
         setRfInstance(_reactFlowInstance);
     }, []);
 
-    const getNewNodePosition = (coordinates) => {
-        // Find the amount of nodes at the same position
-        const nodesAtPosition = elements.filter(
-            (element) =>
-                !element.source &&
-                element.position.x === coordinates.x &&
-                element.position.y === coordinates.y
-        );
-
-        // If there is no node at the same position, return the coordinates
-        if (nodesAtPosition.length === 0) {
-            return coordinates;
-        }
-        // Define the new coordinates
-        const newCoordinates = {
-            x: coordinates.x + nodesAtPosition.length * newNodeOffset,
-            y: coordinates.y + nodesAtPosition.length * newNodeOffset
-        };
-        // Prevent nodes with the same position
-        return getNewNodePosition(newCoordinates);
-    };
-
-    const onNewModelClick = (event) => {
-        const onNewNode = () => {
-            // Create a new floating node
-            let startPositionCoordinates = event.target.getBoundingClientRect();
-            startPositionCoordinates = rfInstance.project({
-                x: newNodeLeft,
-                y: startPositionCoordinates.y
-            });
-
-            const elementsCopy = deepCopy(elements);
-            addNewModel(
-                newModelId,
-                idClassBase,
-                getNewNodePosition(startPositionCoordinates),
-                elementsCopy
+    const getNewNodePosition = useCallback(
+        (coordinates: IOATNodePosition) => {
+            // Find the amount of nodes at the same position
+            const nodesAtPosition = elements.filter(
+                (element) =>
+                    !element.source &&
+                    element.position.x === coordinates.x &&
+                    element.position.y === coordinates.y
             );
-            setElements(elementsCopy);
-        };
 
-        const undoOnNewNode = () => {
-            setElements(elements);
-        };
-
-        if (!oatPageState.modified) {
-            execute(onNewNode, undoOnNewNode);
-        }
-    };
+            // If there is no node at the same position, return the coordinates
+            if (nodesAtPosition.length === 0) {
+                return coordinates;
+            }
+            // Define the new coordinates
+            const newCoordinates = {
+                x: coordinates.x + nodesAtPosition.length * newNodeOffset,
+                y: coordinates.y + nodesAtPosition.length * newNodeOffset
+            };
+            // Prevent nodes with the same position
+            return getNewNodePosition(newCoordinates);
+        },
+        [elements]
+    );
 
     const onConnectStart = (
         _: React.MouseEvent<Element, MouseEvent>,
         params: ConnectionParams
     ) => {
+        logDebugConsole('debug', '[START] Connection. {params}', params);
         // Stores values before connection is created
-        currentNodeIdRef.current = params.handleId ? params.nodeId : null;
+        currentNodeIdRef.current = params.nodeId ? params.nodeId : null;
         currentHandleIdRef.current = params.handleId ? params.handleId : null;
     };
 
     const onConnectStop = (evt: GraphViewerConnectionEvent) => {
         const elementsCopy = deepCopy(elements);
         const source = currentNodeIdRef.current;
+        logDebugConsole(
+            'debug',
+            '[END] Connection stopped. {event, elements, source}',
+            evt,
+            elementsCopy,
+            source
+        );
 
         let target = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
@@ -430,9 +386,14 @@ const OATGraphViewer = () => {
                     x: evt.clientX - reactFlowBounds.left,
                     y: evt.clientY - reactFlowBounds.top
                 });
-                targetModel = addNewModel(
-                    newModelId,
-                    idClassBase,
+                const newModel = getNextModel(
+                    elementsCopy,
+                    oatPageState.currentOntologyNamespace,
+                    t('OATCommon.defaultModelNamePrefix')
+                );
+                targetModel = addNewModelToGraph(
+                    newModel.id,
+                    newModel.name,
                     position,
                     elementsCopy
                 );
@@ -499,29 +460,40 @@ const OATGraphViewer = () => {
         execute(addition, undoAddition);
     };
 
-    const storeElementPositions = useCallback(() => {
-        // Save the session data into the local storage
-        const nodePositions: IOATModelPosition[] = elements.reduce(
-            (collection, element) => {
-                if (!element.source) {
-                    collection.push({
-                        '@id': element.id,
-                        position: element.position
-                    });
-                }
-                return collection;
-            },
-            []
-        );
+    const storeElementPositions = useCallback(
+        (currentElements) => {
+            // Save the session data into the local storage
+            const nodePositions: IOATModelPosition[] = currentElements.reduce(
+                (collection: IOATModelPosition[], element: IOatElementNode) => {
+                    if (!element.source) {
+                        collection.push({
+                            '@id': element.id,
+                            position: element.position
+                        });
+                    }
+                    return collection;
+                },
+                []
+            );
 
-        logDebugConsole('debug', 'Storing element positions', nodePositions);
-        oatPageDispatch({
-            type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-            payload: { positions: nodePositions }
-        });
-    }, [elements, oatPageDispatch]);
+            logDebugConsole(
+                'debug',
+                '[storeElementPositions] Storing the positions to context. {positions}',
+                nodePositions
+            );
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: { positions: nodePositions }
+            });
+        },
+        [oatPageDispatch]
+    );
 
     const triggerInheritanceLimitError = () => {
+        logDebugConsole(
+            'debug',
+            '[triggerInheritanceLimitError] Throwing error'
+        );
         oatPageDispatch({
             type: OatPageContextActionType.SET_OAT_ERROR,
             payload: {
@@ -531,91 +503,92 @@ const OATGraphViewer = () => {
         });
     };
 
-    const translatedOutput = useMemo(() => {
-        logDebugConsole(
-            'debug',
-            '[START] converting elements to models. {elements}',
-            elements
-        );
+    /** recreate the models anytime elements change. These then get stored back to the context */
+    const modelsFromCurrentNodes = useMemo(() => {
+        logDebugConsole('debug', '[modelsFromCurrentNodes] ');
         // Creates the json object in the DTDL standard based on the content of the nodes
-        const nodes = elements.reduce((currentNodes, currentNode) => {
-            if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
-                currentNodes.push(currentNode.data);
-            } else if (
-                currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
-            ) {
-                const sourceNode = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                if (
-                    sourceNode &&
-                    sourceNode.contents.every(
-                        (element) => element.target !== currentNode.target
-                    )
+        const nodes: DtdlInterface[] = elements.reduce(
+            (
+                currentNodes: DtdlInterface[],
+                currentNode: IOatElementNode & { data: { name: string } }
+            ) => {
+                if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
+                    currentNodes.push(currentNode.data);
+                } else if (
+                    currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
                 ) {
-                    sourceNode.contents = [
-                        ...sourceNode.contents,
-                        currentNode.data
-                    ];
-                }
-            } else if (currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME) {
-                const sourceNode = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                if (sourceNode) {
-                    sourceNode.extends = sourceNode.extends || [];
-                    if (!sourceNode.extends.includes(currentNode.target)) {
-                        sourceNode.extends.push(currentNode.target);
+                    const sourceNode = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    if (
+                        sourceNode &&
+                        sourceNode.contents.every(
+                            (element) => element.target !== currentNode.target
+                        )
+                    ) {
+                        sourceNode.contents = [
+                            ...sourceNode.contents,
+                            currentNode.data
+                        ];
+                    }
+                } else if (
+                    currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
+                ) {
+                    const sourceNode = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    if (sourceNode) {
+                        sourceNode.extends = sourceNode.extends || [];
+                        if (!sourceNode.extends.includes(currentNode.target)) {
+                            sourceNode.extends.push(currentNode.target);
+                        }
+                    }
+                } else if (
+                    currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
+                ) {
+                    const sourceNode = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    const targetNode = elements.find(
+                        (element) => element.id === currentNode.target
+                    );
+                    if (
+                        sourceNode &&
+                        targetNode &&
+                        sourceNode.contents.every(
+                            (element) => element.name !== currentNode.data.name
+                        )
+                    ) {
+                        sourceNode.contents = [
+                            ...sourceNode.contents,
+                            currentNode.data
+                        ];
+                    }
+                } else if (
+                    currentNode.data['@type'] ===
+                    OAT_UNTARGETED_RELATIONSHIP_NAME
+                ) {
+                    const sourceNode = currentNodes.find(
+                        (element) => element['@id'] === currentNode.source
+                    );
+                    if (
+                        sourceNode &&
+                        sourceNode.contents.every(
+                            (element) => element.name !== currentNode.data.name
+                        )
+                    ) {
+                        sourceNode.contents = [
+                            ...sourceNode.contents,
+                            {
+                                ...currentNode.data,
+                                '@type': OAT_RELATIONSHIP_HANDLE_NAME
+                            }
+                        ];
                     }
                 }
-            } else if (
-                currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
-            ) {
-                const sourceNode = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                const targetNode = elements.find(
-                    (element) => element.id === currentNode.target
-                );
-                if (
-                    sourceNode &&
-                    targetNode &&
-                    sourceNode.contents.every(
-                        (element) => element.name !== currentNode.data.name
-                    )
-                ) {
-                    sourceNode.contents = [
-                        ...sourceNode.contents,
-                        currentNode.data
-                    ];
-                }
-            } else if (
-                currentNode.data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME
-            ) {
-                const sourceNode = currentNodes.find(
-                    (element) => element['@id'] === currentNode.source
-                );
-                if (
-                    sourceNode &&
-                    sourceNode.contents.every(
-                        (element) => element.name !== currentNode.data.name
-                    )
-                ) {
-                    sourceNode.contents = [
-                        ...sourceNode.contents,
-                        {
-                            ...currentNode.data,
-                            '@type': OAT_RELATIONSHIP_HANDLE_NAME
-                        }
-                    ];
-                }
-            }
-            return currentNodes;
-        }, []);
-        logDebugConsole(
-            'debug',
-            '[END] converting elements to models. {model}',
-            nodes
+                return currentNodes;
+            },
+            []
         );
         return nodes;
     }, [elements]);
@@ -624,13 +597,13 @@ const OATGraphViewer = () => {
         logDebugConsole(
             'debug',
             'Storing computed models. {model}',
-            translatedOutput
+            modelsFromCurrentNodes
         );
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS,
-            payload: { models: translatedOutput }
+            payload: { models: modelsFromCurrentNodes }
         });
-    }, [oatPageDispatch, translatedOutput]);
+    }, [oatPageDispatch, modelsFromCurrentNodes]);
 
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
@@ -639,7 +612,7 @@ const OATGraphViewer = () => {
         if (!oatPageState.modified) {
             // Checks if a node is selected to display it in the property editor
             if (
-                translatedOutput &&
+                modelsFromCurrentNodes &&
                 (!oatPageState.selection ||
                     (node.type === OAT_INTERFACE_TYPE &&
                         (node.data['@id'] !== oatPageState.selection.modelId ||
@@ -689,10 +662,10 @@ const OATGraphViewer = () => {
         if (match) {
             match.position = node.position;
         }
-        storeElementPositions();
+        storeElementPositions(elements);
     };
 
-    const onBackgroundClick = () => {
+    const clearSelectedModel = () => {
         logDebugConsole('info', 'Clearing selected model');
         const clearModel = () => {
             oatPageDispatch({
@@ -715,14 +688,14 @@ const OATGraphViewer = () => {
 
     // side effects
     useEffect(() => {
-        storeElementPositions();
+        storeElementPositions(elements);
     }, [elements, storeElementPositions]);
 
     // Update graph nodes and edges when the models are updated
     const previousId = usePrevious(oatPageState.currentOntologyId);
     useEffect(() => {
         if (previousId !== oatPageState.currentOntologyId) {
-            const potentialElements = getGraphViewerElementsFromModels(
+            const potentialElements = getGraphNodesFromModels(
                 oatPageState.currentOntologyModels,
                 oatPageState.currentOntologyModelPositions
             );
@@ -735,30 +708,83 @@ const OATGraphViewer = () => {
         }
     }, [
         elements,
+        getGraphNodesFromModels,
         oatPageState.currentOntologyId,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyModels,
-        previousId,
-        getGraphViewerElementsFromModels
+        previousId
     ]);
 
+    // update the graph when models are imported
     useEffect(() => {
-        // console.log('*** START Apply layout');
         if (oatPageState.importModels?.length > 0) {
+            logDebugConsole('debug', '[START] Handle change to Import models');
             setLoading(true);
-            const potentialElements = getGraphViewerElementsFromModels(
+            const potentialElements = getGraphNodesFromModels(
                 oatPageState.importModels,
                 oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
+            logDebugConsole('debug', '[END] Handle change to Import models');
         }
-        // console.log('*** END Apply layout');
     }, [
         applyLayoutToElements,
-        getGraphViewerElementsFromModels,
+        getGraphNodesFromModels,
         oatPageState.currentOntologyModelPositions,
         oatPageState.importModels
     ]);
+
+    // update the graph when models are added
+    useEffect(() => {
+        if (oatPageState.modelsToAdd?.length > 0) {
+            logDebugConsole('debug', '[START] Handle change to Added models');
+
+            const onAddModels = () => {
+                const startPositionCoordinates = rfInstance.project({
+                    x: newNodeLeft,
+                    y: 20
+                });
+
+                const elementsCopy = deepCopy(elements);
+                oatPageState.modelsToAdd.forEach((x) => {
+                    addModelToGraph(
+                        x,
+                        getNewNodePosition(startPositionCoordinates),
+                        elementsCopy
+                    );
+                });
+                setElements(elementsCopy);
+            };
+
+            const undoAddModels = () => {
+                setElements(elements);
+            };
+
+            execute(onAddModels, undoAddModels);
+            oatPageDispatch({
+                type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD
+            });
+            logDebugConsole('debug', '[END] Handle change to Added models');
+        }
+    }, [
+        elements,
+        execute,
+        getGraphNodesFromModels,
+        getNewNodePosition,
+        oatPageDispatch,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyNamespace,
+        oatPageState.modelsToAdd,
+        rfInstance,
+        t
+    ]);
+
+    // styles
+    const graphViewerStyles = getGraphViewerStyles();
+    const warningStyles = getGraphViewerWarningStyles();
+    const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
+    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
+    const graphForceLayoutStyles = getGraphForceLayoutStyles();
 
     logDebugConsole(
         'debug',
@@ -785,7 +811,7 @@ const OATGraphViewer = () => {
                         onElementClick={onElementClick}
                         onConnectStart={onConnectStart}
                         onConnectStop={onConnectStop}
-                        onLoad={onLoad}
+                        onLoad={onLoadGraph}
                         snapToGrid={false}
                         snapGrid={[15, 15]}
                         nodeTypes={nodeTypes}
@@ -793,14 +819,8 @@ const OATGraphViewer = () => {
                         onNodeDragStop={onNodeDragEnd}
                         onNodeMouseEnter={onNodeMouseEnter}
                         onNodeMouseLeave={onNodeMouseLeave}
-                        onPaneClick={onBackgroundClick}
+                        onPaneClick={clearSelectedModel}
                     >
-                        <PrimaryButton
-                            styles={buttonStyles}
-                            onClick={onNewModelClick}
-                            text={t('OATGraphViewer.newModel')}
-                            data-testid={'oat-add-model-button'}
-                        />
                         {!elements[0] && (
                             <Label styles={warningStyles}>
                                 {t('OATGraphViewer.emptyGraph')}
@@ -925,7 +945,7 @@ const OATGraphViewer = () => {
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
-                            onClick={onBackgroundClick}
+                            onClick={clearSelectedModel}
                         />
                     </ReactFlow>
                 </ElementsContext.Provider>

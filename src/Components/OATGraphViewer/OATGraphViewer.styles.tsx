@@ -3,7 +3,6 @@ import {
     mergeStyleSets,
     useTheme,
     FontSizes,
-    IButtonStyles,
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
@@ -485,15 +484,6 @@ export const getGraphViewerStyles = () => {
             } as IStyle
         ]
     });
-};
-
-export const getGraphViewerButtonStyles = () => {
-    return {
-        root: {
-            zIndex: '100',
-            marginBottom: '8px'
-        }
-    } as Partial<IButtonStyles>;
 };
 
 export const getGraphViewerIconStyles = () => {

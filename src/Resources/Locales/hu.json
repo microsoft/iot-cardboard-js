@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "A mező kitöltése kötelező",
   "OATGraphViewer": {
-    "newModel": "Új modell",
     "name": "Név",
     "id": "Azonosító",
     "type": "Típus",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",
-    "defaultFileName": "Új ontológia"
+    "defaultFileName": "Új ontológia",
+    "defaultModelNamePrefix": "Modell"
   }
 }

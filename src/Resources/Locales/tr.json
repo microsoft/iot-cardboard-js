@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
-    "newModel": "Yeni Model",
     "name": "Ad",
     "id": "Kimliği",
     "type": "Tür",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopya etmek",
-    "defaultFileName": "Yeni ontoloji"
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
   }
 }

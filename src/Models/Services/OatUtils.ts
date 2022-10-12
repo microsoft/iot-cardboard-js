@@ -153,9 +153,11 @@ export const convertDtdlInterfaceToModel = (
 export const deleteOatModel = (
     id: string,
     data: DtdlInterface,
-    models: DtdlInterface[]
+    models: DtdlInterface[],
+    positions: IOATModelPosition[]
 ) => {
     const modelsCopy = deepCopy(models);
+    const positionsCopy = deepCopy(positions);
     if (data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) {
         const match = modelsCopy.find(
             (element) => element['@id'] === data['@id']
@@ -184,7 +186,41 @@ export const deleteOatModel = (
         }
     }
 
-    return modelsCopy;
+    const index = positionsCopy.findIndex((x) => x['@id'] === id);
+    positionsCopy.splice(index, 1);
+
+    return { models: modelsCopy, positions: positionsCopy };
+};
+
+/**
+ * Looks at the existing models and generates a new name until it finds a unique name
+ * @param existingModels current set of models in the graph
+ * @param namespace the namespace for the current ontology
+ * @param defaultNamePrefix the name prefix for models (ex: "Model")
+ * @returns the id string for the new model
+ */
+export const getNextModel = (
+    existingModels: DtdlInterface[],
+    namespace: string,
+    defaultNamePrefix: string
+) => {
+    // Identifies which is the next model Id on creating new nodes
+    let nextModelIdIndex = -1;
+    let nextModelId = '';
+    let index = 0;
+    while (index !== -1) {
+        nextModelIdIndex++;
+        nextModelId = buildModelId(
+            namespace,
+            `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
+        );
+        index = existingModels.findIndex(
+            (element) => element['@id'] === nextModelId
+        );
+    }
+
+    const name = `${defaultNamePrefix}${nextModelIdIndex}`;
+    return { id: nextModelId, name: name };
 };
 
 /**
@@ -215,13 +251,22 @@ export function getAvailableLanguages(i18n: i18n) {
     });
 }
 
+const DEFAULT_VERSION_NUMBER = 1;
+/**
+ * builds out the version id string for a model
+ * @param namespace namespace for the current ontology
+ * @param modelName name of the model
+ * @param version version number for the model. If omitted, will use the default value
+ * @returns string for the id of the model
+ */
 export function buildModelId(
     namespace: string,
     modelName: string,
-    version: number
+    version?: number
 ): string {
+    const versionNumber = isDefined(version) ? version : DEFAULT_VERSION_NUMBER;
     return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
         / /g,
         ''
-    )}:${modelName?.replace(/ /g, '')}:${version}`;
+    )}:${modelName?.replace(/ /g, '')};${versionNumber}`;
 }

@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {
-    "newModel": "新型",
     "name": "名前",
     "id": "身分証明書",
     "type": "種類",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
-    "defaultFileName": "新しいオントロジー"
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
   }
 }

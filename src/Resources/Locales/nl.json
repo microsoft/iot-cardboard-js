@@ -1000,7 +1000,6 @@
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
-    "newModel": "Nieuw model",
     "name": "Naam",
     "id": "Legitimatiebewijs",
     "type": "Type",
@@ -1187,6 +1186,7 @@
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName": "Nieuwe ontologie"
+    "defaultFileName": "Nieuwe ontologie",
+    "defaultModelNamePrefix": "Model"
   }
 }

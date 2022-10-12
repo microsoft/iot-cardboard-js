@@ -19,7 +19,6 @@ import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-export const VERSION_CLASS_BASE = '1';
 export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
 
@@ -193,22 +192,49 @@ export const addExtendsRelationship = (
     return relationshipEdge;
 };
 
-export const addNewModel = (
-    newModelId: number,
-    idClassBase: string,
+/**
+ * Adds a node to the graph with the given model data
+ * @param model model to bind to the new node
+ * @param position position of the new node
+ * @param elements collection of existing elements
+ * @returns new node that was added
+ */
+export const addModelToGraph = (
+    model: DtdlInterface,
     position: ElementPosition,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const id = `${idClassBase}model${newModelId};${VERSION_CLASS_BASE}`;
-    const name = `Model${newModelId}`;
-    const newNode = new ElementNode(id, OAT_INTERFACE_TYPE, position, {
-        '@id': id,
+    const newNode = new ElementNode(
+        model['@id'],
+        OAT_INTERFACE_TYPE,
+        position,
+        model
+    );
+    elements.push(newNode);
+    return newNode;
+};
+
+/**
+ * Addsd a new model with default values to the graph
+ * @param newModelId id for the new model
+ * @param name Display name for the model
+ * @param position position of the node
+ * @param elements collection of existing elements
+ * @returns new node that was added
+ */
+export const addNewModelToGraph = (
+    newModelId: string,
+    name: string,
+    position: ElementPosition,
+    elements: (ElementNode | ElementEdge)[]
+) => {
+    const newNode = new ElementNode(newModelId, OAT_INTERFACE_TYPE, position, {
+        '@id': newModelId,
         '@context': CONTEXT_CLASS_BASE,
         '@type': OAT_INTERFACE_TYPE,
         displayName: name,
         contents: []
     });
-
     elements.push(newNode);
     return newNode;
 };
