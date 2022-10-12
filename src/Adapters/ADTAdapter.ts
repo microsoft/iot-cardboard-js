@@ -33,7 +33,6 @@ import {
     IADTModel,
     modelRefreshMaxAge,
     twinRefreshMaxAge,
-    instancesRefreshMaxAge,
     AdapterMethodParamsForSearchTwinsByQuery,
     AdapterMethodParamsForGetTwinsByQuery
 } from '../Models/Constants';
@@ -70,7 +69,6 @@ import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import { I3DScenesConfig } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
-import ADTInstancesData from '../Models/Classes/AdapterDataClasses/ADTInstancesData';
 import queryString from 'query-string';
 
 const debugLogging = false;
@@ -90,7 +88,6 @@ export default class ADTAdapter implements IADTAdapter {
     protected adtTwinCache: AdapterEntityCache<ADTTwinData>;
     protected adtModelsCache: AdapterEntityCache<ADTAllModelsData>;
     protected adtTwinToModelMappingCache: AdapterEntityCache<ADTTwinToModelMappingData>;
-    protected adtInstancesCache: AdapterEntityCache<ADTInstancesData>;
 
     constructor(
         adtHostUrl: string,
@@ -113,9 +110,6 @@ export default class ADTAdapter implements IADTAdapter {
         );
         this.adtTwinToModelMappingCache = new AdapterEntityCache<ADTTwinToModelMappingData>(
             modelRefreshMaxAge
-        );
-        this.adtInstancesCache = new AdapterEntityCache<ADTInstancesData>(
-            instancesRefreshMaxAge
         );
 
         this.authService.login();

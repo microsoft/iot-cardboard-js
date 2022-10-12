@@ -84,7 +84,7 @@ export const LOCAL_STORAGE_KEYS = {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
         VisualRules: {
-            showVisualRulesPivot: 'cardboard.feature.visualRulesPivot' // shows visual rules pivot
+            showVisualRulesFeature: 'cardboard.feature.visualRulesFeature' // shows visual rules features
         }
     },
     Environment: {
@@ -167,7 +167,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
 ];
 export const twinRefreshMaxAge = 9000;
 export const modelRefreshMaxAge = 3600000;
-export const instancesRefreshMaxAge = 3600000;
+export const timeSeriesConnectionRefreshMaxAge = 3600000;
 
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const DTID_PROPERTY_NAME = '$dtId';

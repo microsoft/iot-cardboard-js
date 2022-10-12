@@ -41,7 +41,8 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery
+    AdapterMethodParamsForSearchTwinsByQuery,
+    ADTResourceIdentifier
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
@@ -49,6 +50,7 @@ import {
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
+    AzureResourceData,
     AzureResourcesData,
     AzureSubscriptionData
 } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -89,6 +91,7 @@ import {
 } from '../../Components/ADT3DViewer/ADT3DViewer.types';
 import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent.types';
 import ADTAdapter from '../../Adapters/ADTAdapter';
+import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 
 export interface IAction {
     type: string;
@@ -287,6 +290,7 @@ export interface IAzureRoleAssignment extends IAzureResource {
 export interface IADTInstance extends IAzureResource {
     type: AzureResourceTypes.DigitalTwinInstance;
     properties: IADTInstancePropertyData;
+    location: string;
 }
 
 export interface IAzureStorageAccount extends IAzureResource {
@@ -296,6 +300,11 @@ export interface IAzureStorageAccount extends IAzureResource {
 
 export interface IAzureStorageBlobContainer extends IAzureResource {
     type: AzureResourceTypes.StorageBlobContainer;
+}
+
+export interface IAzureTimeSeriesDatabaseConnection extends IAzureResource {
+    type: AzureResourceTypes.TimeSeriesConnection;
+    properties: IAzureTimeSeriesDatabaseConnectionPropertyData;
 }
 
 export interface IAzureRoleAssignmentPropertyData {
@@ -310,6 +319,15 @@ export interface IADTInstancePropertyData {
 
 export interface IAzureStorageAccountPropertyData {
     primaryEndpoints: { blob: string; [additionalProperty: string]: any };
+    [additionalProperty: string]: any;
+}
+
+export interface IAzureTimeSeriesDatabaseConnectionPropertyData {
+    connectionType: 'AzureDataExplorer' | string;
+    /** Kusto cluster url */
+    adxEndpointUri: string;
+    adxDatabaseName: string;
+    adxTableName: string;
     [additionalProperty: string]: any;
 }
 // END of Azure Management plane interfaces
@@ -538,6 +556,10 @@ export interface IAzureManagementAdapter {
         resourceId: string, // scope
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
+    getTimeSeriesConnectionInformation: (
+        adtInstanceIdentifier: ADTResourceIdentifier
+    ) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
+    getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 
 export interface IBlobAdapter {
@@ -552,6 +574,13 @@ export interface IBlobAdapter {
     ) => AdapterReturnType<StorageBlobsData>;
     putBlob: (file: File) => AdapterReturnType<StorageBlobsData>;
     resetSceneConfig(): AdapterReturnType<ADTScenesConfigData>;
+}
+
+export interface IADXAdapter {
+    setADXConnectionInformation: (
+        adxConnectionInformation: IADXConnection
+    ) => void;
+    getADXConnectionInformation: () => IADXConnection | null;
 }
 
 export interface IBaseStandardModelSearchAdapter {

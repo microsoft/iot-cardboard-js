@@ -13,6 +13,8 @@ import {
 } from '../../Models/Constants/Enums';
 import SceneList from '../../Components/SceneList/SceneList';
 import {
+    ADT3DScenePageActionTypes,
+    ADXConnectionInformationLoadingState,
     IADT3DScenePageContext,
     IADT3DScenePageProps
 } from './ADT3DScenePage.types';
@@ -21,12 +23,6 @@ import {
     ADT3DScenePageReducer,
     defaultADT3DScenePageState
 } from './ADT3DScenePage.state';
-import {
-    SET_ADT_SCENE_CONFIG,
-    SET_CURRENT_STEP,
-    SET_ERRORS,
-    SET_ERROR_CALLBACK
-} from '../../Models/Constants/ActionTypes';
 import {
     IADTInstance,
     IAzureStorageAccount,
@@ -57,6 +53,8 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
+import { ADTResourceIdentifier } from '../../Models/Constants/Types';
+import { getHostNameFromUrl } from '../../Models/Services/Utils';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -123,6 +121,19 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         refetchDependencies: []
     });
 
+    const connectionState = useAdapter({
+        adapterMethod: (params: {
+            adtInstanceIdentifier: ADTResourceIdentifier;
+        }) =>
+            adapter.getTimeSeriesConnectionInformation(
+                params.adtInstanceIdentifier,
+                true,
+                true
+            ),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
+
     const setSelectedSceneId = useCallback(
         (sceneId: string | undefined) => {
             // store the new step on the context
@@ -137,8 +148,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         (step: ADT3DScenePageSteps) => {
             // store the new step on the context
             dispatch({
-                type: SET_CURRENT_STEP,
-                payload: step
+                type: ADT3DScenePageActionTypes.SET_CURRENT_STEP,
+                payload: { currentStep: step }
             });
         },
         [dispatch]
@@ -202,8 +213,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 );
             }
             dispatch({
-                type: SET_ERRORS,
-                payload: []
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: [] }
             });
             errorCallbackSetRef.current = false;
         },
@@ -231,6 +242,30 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         [deeplinkDispatch, environmentPickerOptions?.adt]
     );
 
+    // if the adx connection information is not in the environment context. fetch it and update the context
+    useEffect(() => {
+        if (!adapter.getADXConnectionInformation()) {
+            {
+                connectionState.callAdapter({
+                    adtInstanceIdentifier: deeplinkState.adtResourceId
+                        ? { id: deeplinkState.adtResourceId }
+                        : { hostName: getHostNameFromUrl(deeplinkState.adtUrl) }
+                });
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+                    payload: {
+                        adxConnectionInformation: {
+                            connection: null,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.LOADING
+                        }
+                    }
+                });
+            }
+        }
+    }, [deeplinkState.adtResourceId, deeplinkState.adtUrl, adapter]);
+
     // update the adapter if the ADT instance changes
     useEffect(() => {
         adapter.setAdtHostUrl(deeplinkState.adtUrl);
@@ -248,6 +283,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     useEffect(() => {
         adapter.setBlobContainerPath(deeplinkState.storageUrl);
     }, [adapter, deeplinkState.storageUrl]);
+
+    // update the adapter when adx connection information changes
+    useEffect(() => {
+        adapter.setADXConnectionInformation(
+            state.adxConnectionInformation.connection
+        );
+    }, [adapter, state.adxConnectionInformation]);
 
     // when a scene is selected show it
     useEffect(() => {
@@ -283,39 +325,39 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         ) {
             if (storageContainerNotSet) {
                 dispatch({
-                    type: SET_ERRORS,
-                    payload: nullContainerError
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: nullContainerError }
                 });
             }
             if (adtUrlNotSet) {
                 dispatch({
-                    type: SET_ERRORS,
-                    payload: nullAdtInstanceError
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: nullAdtInstanceError }
                 });
             }
         } else {
             if (!scenesConfig.adapterResult.hasNoData()) {
                 const config: I3DScenesConfig = scenesConfig.adapterResult.getData();
                 dispatch({
-                    type: SET_ADT_SCENE_CONFIG,
-                    payload: config
+                    type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
+                    payload: { scenesConfig: config }
                 });
             } else {
                 dispatch({
-                    type: SET_ADT_SCENE_CONFIG,
-                    payload: null
+                    type: ADT3DScenePageActionTypes.SET_ADT_SCENE_CONFIG,
+                    payload: { scenesConfig: null }
                 });
             }
             if (scenesConfig?.adapterResult.getErrors()) {
                 const errors: Array<IComponentError> = scenesConfig?.adapterResult.getErrors();
                 dispatch({
-                    type: SET_ERRORS,
-                    payload: errors
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors }
                 });
             } else {
                 dispatch({
-                    type: SET_ERRORS,
-                    payload: []
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: [] }
                 });
             }
         }
@@ -337,12 +379,16 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
                 dispatch({
-                    type: SET_ERROR_CALLBACK,
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: t('scenePageErrorHandling.resolveIssues'),
-                        buttonAction: async () => {
-                            setCorsPropertiesAdapterData.callAdapter();
-                            errorCallbackSetRef.current = false;
+                        errorCallback: {
+                            buttonText: t(
+                                'scenePageErrorHandling.resolveIssues'
+                            ),
+                            buttonAction: async () => {
+                                setCorsPropertiesAdapterData.callAdapter();
+                                errorCallbackSetRef.current = false;
+                            }
                         }
                     }
                 });
@@ -354,13 +400,17 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
                 dispatch({
-                    type: SET_ERROR_CALLBACK,
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: t('scenePageErrorHandling.resetConfigFile'),
-                        buttonAction: async () => {
-                            await resetConfig.callAdapter();
-                            await scenesConfig.callAdapter();
-                            errorCallbackSetRef.current = false;
+                        errorCallback: {
+                            buttonText: t(
+                                'scenePageErrorHandling.resetConfigFile'
+                            ),
+                            buttonAction: async () => {
+                                await resetConfig.callAdapter();
+                                await scenesConfig.callAdapter();
+                                errorCallbackSetRef.current = false;
+                            }
                         }
                     }
                 });
@@ -372,13 +422,15 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
                 dispatch({
-                    type: SET_ERROR_CALLBACK,
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: t(
-                            'scenePageErrorHandling.configureEnvironment'
-                        ),
-                        buttonAction: () => {
-                            errorCallbackSetRef.current = false;
+                        errorCallback: {
+                            buttonText: t(
+                                'scenePageErrorHandling.configureEnvironment'
+                            ),
+                            buttonAction: () => {
+                                errorCallbackSetRef.current = false;
+                            }
                         }
                     }
                 });
@@ -390,13 +442,15 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
                 dispatch({
-                    type: SET_ERROR_CALLBACK,
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: t(
-                            'scenePageErrorHandling.configureEnvironment'
-                        ),
-                        buttonAction: () => {
-                            errorCallbackSetRef.current = false;
+                        errorCallback: {
+                            buttonText: t(
+                                'scenePageErrorHandling.configureEnvironment'
+                            ),
+                            buttonAction: () => {
+                                errorCallbackSetRef.current = false;
+                            }
                         }
                     }
                 });
@@ -404,14 +458,16 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // mark that we already set the callback so we don't get an infinite loop of setting
                 errorCallbackSetRef.current = true;
                 dispatch({
-                    type: SET_ERROR_CALLBACK,
+                    type: ADT3DScenePageActionTypes.SET_ERROR_CALLBACK,
                     payload: {
-                        buttonText: t('learnMore'),
-                        buttonAction: () => {
-                            window.open(
-                                DOCUMENTATION_LINKS.overviewDocSetupSection
-                            );
-                            errorCallbackSetRef.current = false;
+                        errorCallback: {
+                            buttonText: t('learnMore'),
+                            buttonAction: () => {
+                                window.open(
+                                    DOCUMENTATION_LINKS.overviewDocSetupSection
+                                );
+                                errorCallbackSetRef.current = false;
+                            }
                         }
                     }
                 });
@@ -432,8 +488,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
         if (getCorsPropertiesAdapterData?.adapterResult.getErrors()) {
             if (!deeplinkState.storageUrl || deeplinkState.storageUrl === '') {
                 dispatch({
-                    type: SET_ERRORS,
-                    payload: nullContainerError
+                    type: ADT3DScenePageActionTypes.SET_ERRORS,
+                    payload: { errors: nullContainerError }
                 });
             } else {
                 const errors: Array<IComponentError> = getCorsPropertiesAdapterData?.adapterResult.getErrors();
@@ -445,13 +501,13 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 if (errors?.[0]?.type === ComponentErrorType.CORSError) {
                     errorCallbackSetRef.current = false;
                     dispatch({
-                        type: SET_ERRORS,
-                        payload: errors
+                        type: ADT3DScenePageActionTypes.SET_ERRORS,
+                        payload: { errors }
                     });
                 } else {
                     dispatch({
-                        type: SET_ERRORS,
-                        payload: []
+                        type: ADT3DScenePageActionTypes.SET_ERRORS,
+                        payload: { errors: [] }
                     });
                     errorCallbackSetRef.current = false;
                     scenesConfig.callAdapter();
@@ -459,8 +515,8 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             }
         } else if (getCorsPropertiesAdapterData?.adapterResult.getData()) {
             dispatch({
-                type: SET_ERRORS,
-                payload: []
+                type: ADT3DScenePageActionTypes.SET_ERRORS,
+                payload: { errors: [] }
             });
             errorCallbackSetRef.current = false;
             scenesConfig.callAdapter();
@@ -476,6 +532,38 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
             scenesConfig.callAdapter();
         }
     }, [setCorsPropertiesAdapterData?.adapterResult]);
+
+    // update the adx information of environment context with the fetched data
+    useEffect(() => {
+        if (connectionState?.adapterResult?.result) {
+            if (!connectionState?.adapterResult.hasError()) {
+                const connectionData = connectionState.adapterResult.getData();
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+                    payload: {
+                        adxConnectionInformation: {
+                            connection: connectionData,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.EXIST
+                        }
+                    }
+                });
+            } else {
+                dispatch({
+                    type:
+                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+                    payload: {
+                        adxConnectionInformation: {
+                            connection: null,
+                            loadingState:
+                                ADXConnectionInformationLoadingState.NOT_EXIST
+                        }
+                    }
+                });
+            }
+        }
+    }, [connectionState?.adapterResult.result]);
 
     return (
         <ADT3DScenePageContext.Provider

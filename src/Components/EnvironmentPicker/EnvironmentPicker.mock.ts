@@ -14,6 +14,7 @@ export const MOCK_ADT_INSTANCE: IADTInstance = {
         hostName: 'testADTInstance.api.wcus.digitaltwins.azure.net'
     },
     type: AzureResourceTypes.DigitalTwinInstance,
+    location: 'westcentralus',
     subscriptionName: 'testSubscription'
 };
 export const MOCK_ADT_INSTANCE2: IADTInstance = {
@@ -24,6 +25,7 @@ export const MOCK_ADT_INSTANCE2: IADTInstance = {
         hostName: 'testADTInstance2.api.wcus.digitaltwins.azure.net'
     },
     type: AzureResourceTypes.DigitalTwinInstance,
+    location: 'westcentralus',
     subscriptionName: 'testSubscription'
 };
 export const MOCK_ADT_INSTANCE_URL =

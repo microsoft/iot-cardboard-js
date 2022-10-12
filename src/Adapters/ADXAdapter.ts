@@ -1,4 +1,6 @@
 import {
+    IADXAdapter,
+    IADXConnection,
     IAuthService,
     ITsiClientChartDataAdapter
 } from '../Models/Constants/Interfaces';
@@ -9,24 +11,20 @@ import { SearchSpan, TsiClientAdapterData } from '../Models/Classes';
 import TsqExpression from 'tsiclient/TsqExpression';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 
-export default class ADXAdapter implements ITsiClientChartDataAdapter {
+export default class ADXAdapter
+    implements ITsiClientChartDataAdapter, IADXAdapter {
     protected adxAuthService: IAuthService;
-    protected clusterUrl: string;
-    protected databaseName: string;
-    protected tableName: string;
+    protected adxConnectionInformation: IADXConnection;
 
     constructor(
-        clusterUrl: string,
-        databaseName: string,
-        tableName: string,
-        adxAuthService: IAuthService
+        adxAuthService: IAuthService,
+        adxConnectionInformation: IADXConnection
     ) {
-        this.clusterUrl = clusterUrl;
-        this.databaseName = databaseName;
-        this.tableName = tableName;
+        this.adxConnectionInformation = adxConnectionInformation;
         this.adxAuthService = adxAuthService;
         this.adxAuthService.login();
     }
+
     async getTsiclientChartDataShape(
         id: string,
         searchSpan: SearchSpan,
@@ -59,16 +57,16 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
             const getDataHistoryOfProperty = (prop: string) => {
                 return axios({
                     method: 'post',
-                    url: `${this.clusterUrl}/v2/rest/query`,
+                    url: `${this.adxConnectionInformation.kustoClusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.databaseName,
+                        db: this.adxConnectionInformation.kustoDatabaseName,
                         csl: `${
-                            this.tableName
+                            this.adxConnectionInformation.kustoTableName
                         } | where Id contains "${id}" and Key contains "${prop}" and TimeStamp between (datetime(${searchSpan.from.toISOString()}) .. datetime(${searchSpan.to.toISOString()}))`
                     }
                 });
@@ -138,5 +136,13 @@ export default class ADXAdapter implements ITsiClientChartDataAdapter {
                 });
             }
         }, 'adx');
+    }
+
+    setADXConnectionInformation(adxConnectionInformation: IADXConnection) {
+        this.adxConnectionInformation = adxConnectionInformation;
+    }
+
+    getADXConnectionInformation() {
+        return this.adxConnectionInformation;
     }
 }
