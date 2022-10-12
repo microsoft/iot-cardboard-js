@@ -111,8 +111,8 @@ WidgetsFormEditDataHistory.play = async ({ canvasElement }) => {
     await clickOverFlowMenuItem(editButton);
 };
 
-export const WidgetsFormEditTimeSerieInDataHistory = Template.bind({});
-WidgetsFormEditTimeSerieInDataHistory.play = async ({ canvasElement }) => {
+export const WidgetsFormEditTimeSeriesInDataHistory = Template.bind({});
+WidgetsFormEditTimeSeriesInDataHistory.play = async ({ canvasElement }) => {
     await WidgetsFormEditDataHistory.play({ canvasElement });
 
     // click on the first list item in time series list
