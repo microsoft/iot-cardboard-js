@@ -79,15 +79,20 @@ const WidgetLibraryDialog: React.FC<{
         [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
+    const isWidgetButtonDisabled = useCallback(
+        (widgetType: WidgetType) =>
+            widgetType === WidgetType.DataHistory &&
+            scenePageContext?.state.adxConnectionInformation?.loadingState !==
+                ADXConnectionInformationLoadingState.EXIST,
+        [scenePageContext?.state.adxConnectionInformation?.loadingState]
+    );
+
     const handleOnRenderCell = useCallback(
         (widget: IWidgetLibraryItem, index: number) => (
             <DefaultButton
-                disabled={
-                    widget.data.type === WidgetType.DataHistory &&
-                    scenePageContext?.state.adxConnectionInformation
-                        ?.loadingState !==
-                        ADXConnectionInformationLoadingState.EXIST
-                }
+                disabled={isWidgetButtonDisabled(
+                    widget.data.type as WidgetType
+                )}
                 key={index}
                 className={css(
                     'cb-widget-dialog-list-item',
