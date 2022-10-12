@@ -177,7 +177,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget,
-        disabled: false
+        disabled: true
     }
 ];
 export const twinRefreshMaxAge = 9000;
