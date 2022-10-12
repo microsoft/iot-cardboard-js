@@ -10,6 +10,7 @@ import { IWidgetBuilderFormDataProps } from '../../../../../ADT3DSceneBuilder.ty
 
 export const MAX_NUMBER_OF_TIME_SERIES = 3;
 export const SERIES_LIST_ITEM_ID_PREFIX = 'cb-data-history-widget-series';
+export const CONNECTION_STRING_SUFFIX = '.kusto.windows.net';
 
 export interface IDataHistoryWidgetBuilderProps
     extends IWidgetBuilderFormDataProps {

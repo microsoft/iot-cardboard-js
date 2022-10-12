@@ -35,6 +35,7 @@ import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
+    CONNECTION_STRING_SUFFIX,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     QuickTimeSpanKey,
@@ -56,7 +57,10 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     const yAxisLabelId = useId('y-axis-label');
     const [
         isTimeSeriesFormCalloutVisible,
-        { toggle: toggleIsAddTimeSeriesCalloutVisible }
+        {
+            setTrue: setIsAddTimeSeriesCalloutVisibleTrue,
+            setFalse: setIsAddTimeSeriesCalloutVisibleFalse
+        }
     ] = useBoolean(false);
 
     const { t } = useTranslation();
@@ -128,7 +132,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     );
 
     const handleTimeSeriesFormDismiss = useCallback(() => {
-        toggleIsAddTimeSeriesCalloutVisible();
+        setIsAddTimeSeriesCalloutVisibleFalse();
         setSelectedTimeSeriesIdx(null);
     }, []);
 
@@ -159,7 +163,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 
     const handleTimeSeriesEditClick = useCallback((idx: number) => {
         setSelectedTimeSeriesIdx(idx);
-        toggleIsAddTimeSeriesCalloutVisible();
+        setIsAddTimeSeriesCalloutVisibleTrue();
     }, []);
 
     const handleTimeSeriesRemoveClick = useCallback(
@@ -173,6 +177,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [formData]
     );
 
+    const theme = useTheme();
+    const customStyles = getWidgetFormStyles(theme);
     const handleOnRenderConnectionStringLabel = useCallback(
         (
             props?: ITextFieldProps,
@@ -182,7 +188,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 <Stack
                     horizontal
                     verticalAlign={'center'}
-                    styles={{ root: { 'label::after': { paddingRight: 0 } } }}
+                    className={customStyles.stackWithTooltipAndRequired}
                 >
                     {defaultRender(props)}
                     <TooltipCallout
@@ -208,7 +214,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 </Stack>
             );
         },
-        [t]
+        [t, customStyles]
     );
 
     const onChartOptionChange = useCallback(
@@ -230,8 +236,6 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [updateWidgetData, formData]
     );
 
-    const theme = useTheme();
-    const customStyles = getWidgetFormStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
     return (
         <div className={customStyles.widgetFormContents}>
@@ -268,7 +272,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                         id={addTimeSeriesCalloutId}
                         styles={actionButtonStyles}
                         text={t('widgets.dataHistory.form.timeSeries.add')}
-                        onClick={toggleIsAddTimeSeriesCalloutVisible}
+                        onClick={setIsAddTimeSeriesCalloutVisibleTrue}
                     />
                 )}
                 <Label className={customStyles.label} id={yAxisLabelId}>
@@ -355,7 +359,14 @@ const generateConnectionString = (
         connection?.kustoDatabaseName &&
         connection?.kustoTableName
     ) {
-        return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+        try {
+            const clusterUrl = new URL(connection?.kustoClusterUrl);
+            if (clusterUrl.host.endsWith(CONNECTION_STRING_SUFFIX)) {
+                return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+            }
+        } catch (error) {
+            return null;
+        }
     } else {
         return null;
     }
