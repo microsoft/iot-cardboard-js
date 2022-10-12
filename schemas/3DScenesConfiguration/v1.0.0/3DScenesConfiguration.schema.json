@@ -241,6 +241,9 @@
             "description": "A basic timeseries to be rendered in the chart of the data history widget",
             "additionalProperties": false,
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "expression": {
                     "type": "string"
                 },
@@ -251,7 +254,7 @@
                     "type": "string"
                 }
             },
-            "required": ["expression"]
+            "required": ["id", "expression"]
         },
         "IDataHistoryTimeSeries": {
             "type": "array",

@@ -51,7 +51,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     updateWidgetData,
     setIsWidgetConfigValid
 }) => {
-    const [selectedTimeSeriesIdx, setSelectedTimeSeriesIdx] = useState(null);
+    const [selectedTimeSeriesId, setSelectedTimeSeriesId] = useState(null);
     const addTimeSeriesCalloutId = useId('add-time-series-callout');
     const yAxisLabelId = useId('y-axis-label');
     const [
@@ -114,10 +114,11 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         return key;
     }, [formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan]);
 
-    const selectedSeries =
-        selectedTimeSeriesIdx !== -1
-            ? formData.widgetConfiguration.timeSeries[selectedTimeSeriesIdx]
-            : null;
+    const selectedSeries = selectedTimeSeriesId
+        ? formData.widgetConfiguration.timeSeries.find(
+              (ts) => ts.id === selectedTimeSeriesId
+          )
+        : null;
 
     const onDisplayNameChange = useCallback(
         (_event, value: string) => {
@@ -132,16 +133,19 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 
     const handleTimeSeriesFormDismiss = useCallback(() => {
         setIsAddTimeSeriesCalloutVisibleFalse();
-        setSelectedTimeSeriesIdx(null);
+        setSelectedTimeSeriesId(null);
     }, []);
 
     const handleTimeSeriesFormPrimaryAction = useCallback(
         (series: IDataHistoryBasicTimeSeries) => {
-            selectedSeries
+            selectedTimeSeriesId
                 ? updateWidgetData(
                       produce(formData, (draft) => {
+                          const selectedIdx = draft.widgetConfiguration.timeSeries.findIndex(
+                              (ts) => ts.id === selectedTimeSeriesId
+                          );
                           draft.widgetConfiguration.timeSeries[
-                              selectedTimeSeriesIdx
+                              selectedIdx
                           ] = series;
                       })
                   )
@@ -156,20 +160,22 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             updateWidgetData,
             handleTimeSeriesFormDismiss,
             formData,
-            selectedSeries
+            selectedTimeSeriesId
         ]
     );
 
-    const handleTimeSeriesEditClick = useCallback((idx: number) => {
-        setSelectedTimeSeriesIdx(idx);
+    const handleTimeSeriesEditClick = useCallback((id: string) => {
+        setSelectedTimeSeriesId(id);
         setIsAddTimeSeriesCalloutVisibleTrue();
     }, []);
 
     const handleTimeSeriesRemoveClick = useCallback(
-        (idx: number) => {
+        (id: string) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.timeSeries.splice(idx, 1);
+                    draft.widgetConfiguration.timeSeries = draft.widgetConfiguration.timeSeries.filter(
+                        (ts) => ts.id !== id
+                    );
                 })
             );
         },
@@ -338,7 +344,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 <TimeSeriesFormCallout
                     calloutTarget={
                         selectedSeries
-                            ? SERIES_LIST_ITEM_ID_PREFIX + selectedTimeSeriesIdx
+                            ? SERIES_LIST_ITEM_ID_PREFIX + selectedTimeSeriesId
                             : addTimeSeriesCalloutId
                     }
                     series={selectedSeries}

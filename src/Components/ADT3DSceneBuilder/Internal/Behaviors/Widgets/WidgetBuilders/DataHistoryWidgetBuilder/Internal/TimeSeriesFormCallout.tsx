@@ -30,6 +30,7 @@ import {
     numericPropertyValueTypes,
     PropertyExpression
 } from '../../../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
+import { createGUID } from '../../../../../../../../Models/Services/Utils';
 
 interface IProp {
     calloutTarget: string;
@@ -44,6 +45,7 @@ enum Mode {
 }
 
 const defaultSeries: IDataHistoryBasicTimeSeries = {
+    id: '',
     expression: ''
 };
 
@@ -58,7 +60,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
     const [
         seriesToEdit,
         setSeriesToEdit
-    ] = useState<IDataHistoryBasicTimeSeries>(defaultSeries);
+    ] = useState<IDataHistoryBasicTimeSeries>(null);
     const { t } = useTranslation();
     const {
         config,
@@ -69,7 +71,13 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
     const { behaviorFormState } = useBehaviorFormContext();
 
     useEffect(() => {
-        setSeriesToEdit(series ? series : defaultSeries);
+        if (series) {
+            setSeriesToEdit(series);
+        } else {
+            const newId = createGUID();
+            defaultSeries.id = newId;
+            setSeriesToEdit(defaultSeries);
+        }
     }, [series]);
 
     const title =
@@ -138,7 +146,9 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                         selectedElements
                     }}
                     mode={ModelledPropertyBuilderMode.PROPERTY_SELECT}
-                    propertyExpression={{ expression: seriesToEdit.expression }}
+                    propertyExpression={{
+                        expression: seriesToEdit?.expression
+                    }}
                     onChange={handlePropertyChange}
                     allowedPropertyValueTypes={numericPropertyValueTypes}
                     required
@@ -146,7 +156,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                 <TextField
                     placeholder={'e.g. m, m², kg, s, °C'}
                     label={t('widgets.dataHistory.form.timeSeries.unit')}
-                    value={seriesToEdit.unit}
+                    value={seriesToEdit?.unit}
                     onChange={handleUnitChange}
                 />
                 <TextField
@@ -154,7 +164,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                         'widgets.dataHistory.form.timeSeries.labelPlaceholder'
                     )}
                     label={t('widgets.dataHistory.form.timeSeries.label')}
-                    value={seriesToEdit.label}
+                    value={seriesToEdit?.label}
                     onChange={handleLabelChange}
                 />
                 <PrimaryButton

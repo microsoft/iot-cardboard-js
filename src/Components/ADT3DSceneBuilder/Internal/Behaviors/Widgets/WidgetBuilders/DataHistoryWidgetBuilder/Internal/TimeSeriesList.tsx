@@ -21,8 +21,8 @@ import {
 
 interface IProp {
     series: IDataHistoryTimeSeries;
-    onSeriesEditClick: (idx: number) => void;
-    onSeriesRemoveClick: (idx: number) => void;
+    onSeriesEditClick: (id: string) => void;
+    onSeriesRemoveClick: (id: string) => void;
 }
 
 const TimeSeriesList: React.FC<IProp> = ({
@@ -68,13 +68,12 @@ const TimeSeriesList: React.FC<IProp> = ({
 
 const getTimeSeriesListItems = (
     series: Array<IDataHistoryBasicTimeSeries>,
-    onSeriesEditClick: (idx: number) => void,
-    onSeriesRemoveClick: (idx: number) => void,
+    onSeriesEditClick: (id: string) => void,
+    onSeriesRemoveClick: (id: string) => void,
     t: TFunction<string>
 ): ICardboardListItem<IDataHistoryBasicTimeSeries>[] => {
     const getMenuItems = (
-        _item: IDataHistoryBasicTimeSeries,
-        idx: number
+        item: IDataHistoryBasicTimeSeries
     ): IContextualMenuItem[] => {
         return [
             {
@@ -82,7 +81,7 @@ const getTimeSeriesListItems = (
                 iconProps: { iconName: 'Edit' },
                 text: t('widgets.dataHistory.form.timeSeries.edit'),
                 onClick: () => {
-                    onSeriesEditClick(idx);
+                    onSeriesEditClick(item.id);
                 }
             },
             {
@@ -92,22 +91,22 @@ const getTimeSeriesListItems = (
                 },
                 text: t('widgets.dataHistory.form.timeSeries.remove'),
                 onClick: () => {
-                    onSeriesRemoveClick(idx);
+                    onSeriesRemoveClick(item.id);
                 }
             }
         ];
     };
 
-    return series.map((series, idx) => {
+    return series.map((series) => {
         const listItem: ICardboardListItem<IDataHistoryBasicTimeSeries> = {
-            buttonProps: { id: SERIES_LIST_ITEM_ID_PREFIX + idx },
+            buttonProps: { id: SERIES_LIST_ITEM_ID_PREFIX + series.id },
             ariaLabel: series.label,
             iconStart: { name: 'NumberField' },
             item: series,
-            onClick: () => onSeriesEditClick(idx),
+            onClick: () => onSeriesEditClick(series.id),
             textPrimary: series.label || series.expression,
             textSecondary: series.unit,
-            overflowMenuItems: getMenuItems(series, idx)
+            overflowMenuItems: getMenuItems(series)
         };
 
         return listItem;

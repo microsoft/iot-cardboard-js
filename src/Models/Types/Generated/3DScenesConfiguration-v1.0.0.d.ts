@@ -263,6 +263,7 @@ export interface IDataHistoryWidgetConfiguration {
  * A basic timeseries to be rendered in the chart of the data history widget
  */
 export interface IDataHistoryBasicTimeSeries {
+    id: string;
     expression: string;
     unit?: string;
     label?: string;
