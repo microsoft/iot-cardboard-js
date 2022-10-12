@@ -5,12 +5,17 @@ import {
 } from '../Models/Constants/TelemetryConstants';
 import { TelemetryEvent } from '../Models/Services/TelemetryService/Telemetry';
 import TelemetryService from '../Models/Services/TelemetryService/TelemetryService';
-import { getDebugLogger, isDefined } from '../Models/Services/Utils';
+import {
+    createGUID,
+    getDebugLogger,
+    isDefined
+} from '../Models/Services/Utils';
 import {
     I3DScenesConfig,
     IBehavior,
     IElement,
-    IScene
+    IScene,
+    IVisual
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 const debugLogging = false;
@@ -231,4 +236,24 @@ function sendConfigTelemetry(data: I3DScenesConfig) {
             }
         })
     );
+}
+
+/** Helper function to handle all schema migration transformations */
+export function handleMigrations(data: I3DScenesConfig) {
+    addVisualRuleIds(data?.configuration?.behaviors);
+}
+
+/** Helper function that adds temporary ids to visual rules in behaviors */
+function addVisualRuleIds(data: IBehavior[]) {
+    if (data) {
+        data.forEach((behavior: IBehavior) => {
+            if (behavior.visuals) {
+                behavior.visuals.forEach((visual: IVisual) => {
+                    if (visual.type === 'ExpressionRangeVisual' && !visual.id) {
+                        visual.id = createGUID();
+                    }
+                });
+            }
+        });
+    }
 }

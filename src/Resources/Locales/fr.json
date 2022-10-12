@@ -546,7 +546,25 @@
       "rotation": "Rotation"
     },
     "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)",
-    "visualRulesTab": "Règles visuelles"
+    "visualRulesTab": "Règles visuelles",
+    "visualRule": {
+      "new": "Nouvelle règle visuelle",
+      "edit": "Modifier la règle visuelle",
+      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "noDataMessageHeader": "Aucune condition",
+      "noDataMessageDescription": "Aucune condition n’a encore été créée. Cliquez ci-dessous pour créer une condition.",
+      "noDataMessageLinkText": "Ajouter une condition",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
+    },
+    "visualRuleForm": {
+      "new": "Nouvelle règle visuelle",
+      "edit": "Modifier la règle visuelle",
+      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "typePlaceholder": "Sélectionnez le type de la valeur",
+      "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément.",
+      "newCondition": "Nouvelle condition"
+    },
+    "conditions": "Conditions"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL de l’instance Azure Digital Twins",
     "editEnvironment": "Configurer l’environnement 3D Scenes",
-    "descriptionForEnvironment": "Liez votre instance Azure Digital Twins pour commencer à créer des scènes 3D.",
-    "descriptionForEnvAndCont": "Liez votre instance Azure Digital Twins et votre conteneur de stockage pour commencer à créer des scènes 3D.",
     "descriptionForLocalStorage": "Les données de configuration sont enregistrées dans le stockage local.",
     "selectContainerUrl": "Sélectionner l’URL du conteneur de stockage",
-    "noEnvironment": "Aucun environnement ajouté",
     "noContainer": "Aucun conteneur ajouté",
     "removeFromList": "Supprimer de la liste",
     "storageAccountName": "Nom du compte azure storage",
     "storageAccountUrl": "URL du compte de stockage Azure",
     "storageContainerName": "Nom du conteneur Azure Storage",
-    "storageContainerUrl": "URL du conteneur Azure Storage"
+    "storageContainerUrl": "URL du conteneur Azure Storage",
+    "adtInstanceUrl": "URL de l’instance Azure Digital Twins",
+    "descriptionForAdtInstance": "Liez votre instance Azure Digital Twins pour commencer à créer des scènes 3D.",
+    "descriptionForAdtInstanceAndCont": "Liez votre instance Azure Digital Twins et votre conteneur de stockage pour commencer à créer des scènes 3D.",
+    "noAdtInstance": "Aucune instance ADT ajoutée"
   },
   "behaviorsModal": {
     "closeModal": "Fermer modal",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
     "modalTitle": "Recherche avancée de jumeaux",
-    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copier",
-    "defaultFileName": "Nouvelle ontologie",
-    "defaultModelNamePrefix": "Modèle"
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche",
+    "columnPicker": "Sélecteur de colonnes",
+    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
+    "availableProperties": "Liste déroulante des propriétés disponibles",
+    "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   }
 }

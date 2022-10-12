@@ -19,7 +19,8 @@ import React, {
 import {
     ADT3DSceneBuilderMode,
     ADT3DScenePageModes,
-    BehaviorModalMode
+    BehaviorModalMode,
+    VisualRuleFormMode
 } from '../../Models/Constants/Enums';
 import ADT3DBuilder from '../ADT3DBuilder/ADT3DBuilder';
 import {
@@ -45,7 +46,8 @@ import {
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_OPEN,
     SET_UNSAVED_BEHAVIOR_CHANGES_DIALOG_DISCARD_ACTION,
     SET_GIZMO_ELEMENT_ITEM,
-    SET_GIZMO_TRANSFORM_ITEM
+    SET_GIZMO_TRANSFORM_ITEM,
+    SET_VISUAL_RULE_ACTIVE_MODE
 } from './ADT3DSceneBuilder.types';
 import './ADT3DSceneBuilder.scss';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
@@ -314,6 +316,16 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
             payload: widgetFormInfo
         });
     }, []);
+
+    const setVisualRuleFormMode = useCallback(
+        (visualRuleMode: VisualRuleFormMode) => {
+            dispatch({
+                type: SET_VISUAL_RULE_ACTIVE_MODE,
+                payload: visualRuleMode
+            });
+        },
+        []
+    );
 
     const setBehaviorTwinAliasFormInfo = useCallback(
         (behaviorTwinAliasFormInfo: BehaviorTwinAliasFormInfo) => {
@@ -893,9 +905,11 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                 setIsLayerBuilderDialogOpen,
                 setUnsavedBehaviorChangesDialogOpen,
                 setUnsavedChangesDialogDiscardAction,
+                setVisualRuleFormMode,
                 setWidgetFormInfo,
                 state,
                 theme,
+                visualRuleFormMode: state.visualRuleFormMode,
                 widgetFormInfo: state.widgetFormInfo
             }}
         >
@@ -986,7 +1000,9 @@ const ADT3DSceneBuilderBase: React.FC<IADT3DSceneBuilderCardProps> = (
                         state.builderMode ===
                             ADT3DSceneBuilderMode.EditBehavior) &&
                         state.draftBehavior &&
-                        !state.isLayerBuilderDialogOpen && (
+                        !state.isLayerBuilderDialogOpen &&
+                        state.visualRuleFormMode ===
+                            VisualRuleFormMode.Inactive && (
                             <div className={commonPanelStyles.previewContainer}>
                                 <BehaviorsModal
                                     behaviors={[state.draftBehavior]}

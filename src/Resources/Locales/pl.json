@@ -546,7 +546,25 @@
       "rotation": "Obrót"
     },
     "searchTwinIdPlaceholder": "Szukaj Twin ID ($dtId)",
-    "visualRulesTab": "Reguły wizualne"
+    "visualRulesTab": "Reguły wizualne",
+    "visualRule": {
+      "new": "Nowa reguła wizualna",
+      "edit": "Edytuj regułę wizualną",
+      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "noDataMessageHeader": "Brak warunków",
+      "noDataMessageDescription": "Nie stworzono jeszcze żadnych warunków. Kliknij poniżej, aby utworzyć warunek.",
+      "noDataMessageLinkText": "Dodaj warunek",
+      "typePlaceholder": "Wybierz typ wartości"
+    },
+    "visualRuleForm": {
+      "new": "Nowa reguła wizualna",
+      "edit": "Edytowanie reguły wizualnej",
+      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "typePlaceholder": "Wybierz typ wartości",
+      "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
+      "newCondition": "Nowy stan"
+    },
+    "conditions": "Warunki"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
-    "descriptionForEnvironment": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
-    "descriptionForEnvAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
     "descriptionForLocalStorage": "Dane konfiguracyjne są zapisywane w magazynie lokalnym.",
     "selectContainerUrl": "Wybieranie adresu URL kontenera magazynu",
-    "noEnvironment": "Nie dodano środowiska",
     "noContainer": "Nie dodano kontenera",
     "removeFromList": "Usuń z listy",
     "storageAccountName": "Nazwa konta usługi Azure Storage",
     "storageAccountUrl": "Adres URL konta usługi Azure Storage",
     "storageContainerName": "Nazwa kontenera usługi Azure Storage",
-    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage"
+    "storageContainerUrl": "Adres URL kontenera usługi Azure Storage",
+    "adtInstanceUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
+    "descriptionForAdtInstance": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
+    "descriptionForAdtInstanceAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
+    "noAdtInstance": "Nie dodano wystąpienia narzędzia ADT"
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Wprowadzanie wartości",
     "noOptionsFoundMessage": "Nie znaleziono wartości",
     "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
-    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiować",
-    "defaultFileName": "Nowa ontologia",
-    "defaultModelNamePrefix": "Model"
+    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie",
+    "columnPicker": "Selektor kolumn",
+    "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
+    "availableProperties": "Lista rozwijana dostępnych właściwości",
+    "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
   }
 }

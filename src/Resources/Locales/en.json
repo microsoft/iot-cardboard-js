@@ -374,6 +374,8 @@
         "alertsTab": "Alerts",
         "statesTab": "Status",
         "visualRulesTab": "Visual rules",
+        "visualRule": "Visual rule",
+        "conditions": "Conditions",
         "widgets": "Widgets",
         "widget": "Widget",
         "behaviors": "Behaviors",
@@ -551,6 +553,14 @@
                 "alphanumericOnly": "Twin name must only contain alphanumeric characters",
                 "noNumberPrefix": "Twin name must not start with a number"
             }
+        },
+        "visualRuleForm": {
+            "new": "New visual rule",
+            "newCondition": "New condition",
+            "edit": "Edit visual rule",
+            "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "typePlaceholder": "Select the type for the value",
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
         }
     },
     "widgets": {
@@ -765,17 +775,17 @@
         }
     },
     "environmentPicker": {
-        "environmentUrl": "Azure Digital Twins instance URL",
+        "adtInstanceUrl": "Azure Digital Twins instance URL",
         "storageAccountName": "Azure Storage account name",
         "storageAccountUrl": "Azure Storage account URL",
         "storageContainerName": "Azure Storage container name",
         "storageContainerUrl": "Azure Storage container URL",
         "editEnvironment": "Configure 3D Scenes environment",
-        "descriptionForEnvironment": "Link your Azure Digital Twins instance to begin building 3D scenes.",
-        "descriptionForEnvAndCont": "Link your Azure Digital Twins instance and your storage container to begin building 3D scenes.",
+        "descriptionForAdtInstance": "Link your Azure Digital Twins instance to begin building 3D scenes.",
+        "descriptionForAdtInstanceAndCont": "Link your Azure Digital Twins instance and your storage container to begin building 3D scenes.",
         "descriptionForLocalStorage": "Configuration data is saved in local storage.",
         "selectContainerUrl": "Select storage container URL",
-        "noEnvironment": "No environment added",
+        "noAdtInstance": "No ADT instance added",
         "noContainer": "No container added",
         "removeFromList": "Remove from list"
     },
@@ -1187,6 +1197,10 @@
         "errorMessageHeader": "Search failed",
         "errorMessageDescription": "An unexpected error occurred. Please refresh the page or modify your search criteria and try again.",
         "noOptionsFoundMessage": "No values found",
-        "valueFieldPlaceholder": "Enter a value"
+        "valueFieldPlaceholder": "Enter a value",
+        "columnPicker": "Column picker",
+        "propertyCount": "{{selectedPropsCount}} properties selected",
+        "availableProperties": "Dropdown of properties available",
+        "selectAdditionalColumns": "Select additional columns"
     }
 }

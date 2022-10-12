@@ -29,6 +29,18 @@ export class AzureResourcesData implements IAdapterData {
     }
 }
 
+export class AzureResourceData implements IAdapterData {
+    data: IAzureResource;
+
+    constructor(data: IAzureResource) {
+        this.data = data;
+    }
+
+    hasNoData() {
+        return !this.data;
+    }
+}
+
 export class AzureMissingRoleDefinitionsData implements IAdapterData {
     data: AzureAccessPermissionRoleGroups;
 

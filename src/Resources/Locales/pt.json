@@ -546,7 +546,25 @@
       "rotation": "Rotação"
     },
     "searchTwinIdPlaceholder": "Pesquisar iD duplo ($dtId)",
-    "visualRulesTab": "Regras visuais"
+    "visualRulesTab": "Regras visuais",
+    "visualRule": {
+      "new": "Nova regra visual",
+      "edit": "Editar regra visual",
+      "formDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "noDataMessageHeader": "Sem condições",
+      "noDataMessageDescription": "Nenhuma condição criada ainda. Clique abaixo para criar uma condição.",
+      "noDataMessageLinkText": "Adicionar condição",
+      "typePlaceholder": "Selecione o tipo para o valor"
+    },
+    "visualRuleForm": {
+      "new": "Nova regra visual",
+      "edit": "Editar regra visual",
+      "formDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "typePlaceholder": "Selecione o tipo para o valor",
+      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
+      "newCondition": "Nova condição"
+    },
+    "conditions": "Condições"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL de exemplo de gêmeos digitais do Azure",
     "editEnvironment": "Configure o ambiente de cenas 3D",
-    "descriptionForEnvironment": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
-    "descriptionForEnvAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
     "descriptionForLocalStorage": "Os dados de configuração são salvos no armazenamento local.",
     "selectContainerUrl": "Selecione URL do contêiner de armazenamento",
-    "noEnvironment": "Nenhum ambiente adicionado",
     "noContainer": "Nenhum contêiner adicionado",
     "removeFromList": "Remover da lista",
     "storageAccountName": "Nome da conta do Azure Storage",
     "storageAccountUrl": "URL da conta de armazenamento do Azure",
     "storageContainerName": "Nome do contêiner de armazenamento azure",
-    "storageContainerUrl": "URL do contêiner de armazenamento azure"
+    "storageContainerUrl": "URL do contêiner de armazenamento azure",
+    "adtInstanceUrl": "URL de exemplo de gêmeos digitais do Azure",
+    "descriptionForAdtInstance": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
+    "descriptionForAdtInstanceAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
+    "noAdtInstance": "Nenhuma instância do ADT adicionada"
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Digite um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa dupla avançada",
-    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copiar",
-    "defaultFileName": "Nova ontologia",
-    "defaultModelNamePrefix": "Modelo"
+    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa",
+    "columnPicker": "Catador de colunas",
+    "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
+    "availableProperties": "Desistência de imóveis disponíveis",
+    "selectAdditionalColumns": "Selecione colunas adicionais"
   }
 }

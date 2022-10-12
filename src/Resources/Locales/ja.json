@@ -546,7 +546,25 @@
       "rotation": "自転"
     },
     "searchTwinIdPlaceholder": "検索ツイン ID ($dtId)",
-    "visualRulesTab": "ビジュアルルール"
+    "visualRulesTab": "ビジュアルルール",
+    "visualRule": {
+      "new": "新しいビジュアルルール",
+      "edit": "ビジュアルルールの編集",
+      "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "noDataMessageHeader": "条件なし",
+      "noDataMessageDescription": "条件はまだ作成されていません。条件を作成するには、以下をクリックします。",
+      "noDataMessageLinkText": "条件の追加",
+      "typePlaceholder": "値のタイプを選択します。"
+    },
+    "visualRuleForm": {
+      "new": "新しいビジュアル ルール",
+      "edit": "ビジュアル ルールの編集",
+      "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "typePlaceholder": "値のタイプを選択します。",
+      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。",
+      "newCondition": "新しい条件"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "3D シーン環境の構成",
-    "descriptionForEnvironment": "Azure デジタル ツインズ インスタンスをリンクして、3D シーンの構築を開始します。",
-    "descriptionForEnvAndCont": "Azure デジタル ツインズ インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
     "descriptionForLocalStorage": "構成データはローカルストレージに保存されます。",
     "selectContainerUrl": "ストレージコンテナのURLを選択",
-    "noEnvironment": "環境は追加されていません",
     "noContainer": "コンテナが追加されていません",
     "removeFromList": "リストから削除",
     "storageAccountName": "Azure ストレージ アカウント名",
     "storageAccountUrl": "Azure ストレージ アカウントの URL",
     "storageContainerName": "Azure Storage コンテナー名",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "Azure デジタル ツイン インスタンスをリンクして、3D シーンの構築を開始します。",
+    "descriptionForAdtInstanceAndCont": "Azure Digital Twins インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
+    "noAdtInstance": "ADT インスタンスは追加されていません"
   },
   "behaviorsModal": {
     "closeModal": "モーダルを閉じる",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "値を入力する",
     "noOptionsFoundMessage": "値が見つかりません",
     "modalTitle": "高度な双子検索",
-    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "写し",
-    "defaultFileName": "新しいオントロジー",
-    "defaultModelNamePrefix": "モデル"
+    "modalSubtitle": "検索を絞り込んで適切な双子をリンクする",
+    "columnPicker": "列ピッカー",
+    "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
+    "availableProperties": "利用可能なプロパティのドロップダウン",
+    "selectAdditionalColumns": "追加の列の選択"
   }
 }

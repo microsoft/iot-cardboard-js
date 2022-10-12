@@ -546,7 +546,25 @@
       "rotation": "Forgás"
     },
     "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)",
-    "visualRulesTab": "Vizuális szabályok"
+    "visualRulesTab": "Vizuális szabályok",
+    "visualRule": {
+      "new": "Új vizuális szabály",
+      "edit": "Vizuális szabály szerkesztése",
+      "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
+      "noDataMessageHeader": "Nincsenek feltételek",
+      "noDataMessageDescription": "Még nem teremtettek feltételeket. Az alábbi gombra kattintva létrehozhat egy feltételt.",
+      "noDataMessageLinkText": "Feltétel hozzáadása",
+      "typePlaceholder": "Válassza ki az érték típusát"
+    },
+    "visualRuleForm": {
+      "new": "Új vizualizációs szabály",
+      "edit": "Vizuális szabály szerkesztése",
+      "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
+      "typePlaceholder": "Válassza ki az érték típusát",
+      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
+      "newCondition": "Új feltétel"
+    },
+    "conditions": "Feltételek"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins példány URL-címe",
     "editEnvironment": "3D jelenetek környezetének konfigurálása",
-    "descriptionForEnvironment": "Kapcsolja össze az Azure Digital Twins-példányt a 3D-s jelenetek létrehozásának megkezdéséhez.",
-    "descriptionForEnvAndCont": "Kapcsolja össze az Azure Digital Twins-példányt és a tárolótárolót a 3D-s jelenetek létrehozásának megkezdéséhez.",
     "descriptionForLocalStorage": "A konfigurációs adatok a helyi tárolóba kerülnek.",
     "selectContainerUrl": "Tároló URL-címének kiválasztása",
-    "noEnvironment": "Nincs hozzáadott környezet",
     "noContainer": "Nincs hozzáadott tároló",
     "removeFromList": "Eltávolítás a listából",
     "storageAccountName": "Azure Storage-fiók neve",
     "storageAccountUrl": "Azure Storage-fiók URL-címe",
     "storageContainerName": "Azure Storage-tároló neve",
-    "storageContainerUrl": "Azure Storage-tároló URL-címe"
+    "storageContainerUrl": "Azure Storage-tároló URL-címe",
+    "adtInstanceUrl": "Azure Digital Twins példány URL-címe",
+    "descriptionForAdtInstance": "Kapcsolja össze a Azure Digital Twins példányát a 3D-jelenetek építésének megkezdéséhez.",
+    "descriptionForAdtInstanceAndCont": "Kapcsolja össze a Azure Digital Twins példányt és a tárolót a 3D-s jelenetek építésének megkezdéséhez.",
+    "noAdtInstance": "Nincs hozzáadva ADT-példány"
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
     "modalTitle": "Speciális ikerkeresés",
-    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "másolat",
-    "defaultFileName": "Új ontológia",
-    "defaultModelNamePrefix": "Modell"
+    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével",
+    "columnPicker": "Oszlopválasztó",
+    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
+    "availableProperties": "Az elérhető szállások legördülő menüje",
+    "selectAdditionalColumns": "További oszlopok kijelölése"
   }
 }

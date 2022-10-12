@@ -546,7 +546,25 @@
       "rotation": "Вращение"
     },
     "searchTwinIdPlaceholder": "Поиск Твин ID ($dtId)",
-    "visualRulesTab": "Визуальные правила"
+    "visualRulesTab": "Визуальные правила",
+    "visualRule": {
+      "new": "Новое визуальное правило",
+      "edit": "Редактирование визуального правила",
+      "formDescription": "Установите правила для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",
+      "noDataMessageHeader": "Без условий",
+      "noDataMessageDescription": "Никаких условий пока не создано. Нажмите ниже, чтобы создать условие.",
+      "noDataMessageLinkText": "Добавить условие",
+      "typePlaceholder": "Выберите тип значения"
+    },
+    "visualRuleForm": {
+      "new": "Новое визуальное правило",
+      "edit": "Редактирование визуального правила",
+      "formDescription": "Установите правила для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",
+      "typePlaceholder": "Выберите тип значения",
+      "conditionsInfoContent": "Настройте диапазон или определенные значения, которые инициируют визуальное действие, относящееся к элементу.",
+      "newCondition": "Новое условие"
+    },
+    "conditions": "Условия"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL-адрес экземпляра Azure Digital Twins",
     "editEnvironment": "Настройка среды 3D-сцен",
-    "descriptionForEnvironment": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
-    "descriptionForEnvAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
     "descriptionForLocalStorage": "Данные конфигурации сохраняются в локальном хранилище.",
     "selectContainerUrl": "Выбор URL-адреса контейнера хранилища",
-    "noEnvironment": "Среда не добавлена",
     "noContainer": "Контейнер не добавлен",
     "removeFromList": "Удалить из списка",
     "storageAccountName": "Имя учетной записи хранения Azure",
     "storageAccountUrl": "URL-адрес учетной записи хранения Azure",
     "storageContainerName": "Имя контейнера службы хранилища Azure",
-    "storageContainerUrl": "URL-адрес контейнера службы хранилища Azure"
+    "storageContainerUrl": "URL-адрес контейнера службы хранилища Azure",
+    "adtInstanceUrl": "URL-адрес экземпляра Azure Digital Twins",
+    "descriptionForAdtInstance": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
+    "descriptionForAdtInstanceAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
+    "noAdtInstance": "Экземпляр ADT не добавлен"
   },
   "behaviorsModal": {
     "closeModal": "Закрыть модальный",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Введите значение",
     "noOptionsFoundMessage": "Значения не найдены",
     "modalTitle": "Расширенный двойной поиск",
-    "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Новая онтология",
-    "defaultModelNamePrefix": "Модель"
+    "modalSubtitle": "Свяжите нужного близнеца, сузив область поиска",
+    "columnPicker": "Средство выбора столбцов",
+    "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
+    "availableProperties": "Раскрывающийся список доступных свойств",
+    "selectAdditionalColumns": "Выбор дополнительных столбцов"
   }
 }

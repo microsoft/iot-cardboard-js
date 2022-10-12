@@ -546,7 +546,25 @@
       "rotation": "旋转"
     },
     "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）",
-    "visualRulesTab": "视觉规则"
+    "visualRulesTab": "视觉规则",
+    "visualRule": {
+      "new": "新视觉对象规则",
+      "edit": "编辑可视规则",
+      "formDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noDataMessageHeader": "无条件",
+      "noDataMessageDescription": "尚未创建任何条件。单击下面创建条件。",
+      "noDataMessageLinkText": "添加条件",
+      "typePlaceholder": "选择值的类型"
+    },
+    "visualRuleForm": {
+      "new": "新的视觉对象规则",
+      "edit": "编辑视觉对象规则",
+      "formDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "typePlaceholder": "选择值的类型",
+      "conditionsInfoContent": "配置触发与元素相关的可视操作的范围或特定值。",
+      "newCondition": "新品条件"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "Azure Digital Twins instance URL",
     "editEnvironment": "配置 3D 场景环境",
-    "descriptionForEnvironment": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
-    "descriptionForEnvAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
     "descriptionForLocalStorage": "配置数据保存在本地存储中。",
     "selectContainerUrl": "选择存储容器 URL",
-    "noEnvironment": "未添加环境",
     "noContainer": "未添加容器",
     "removeFromList": "从列表中删除",
     "storageAccountName": "Azure 存储帐户名称",
     "storageAccountUrl": "Azure 存储帐户 URL",
     "storageContainerName": "Azure Storage Container Name",
-    "storageContainerUrl": "Azure Storage container URL"
+    "storageContainerUrl": "Azure Storage container URL",
+    "adtInstanceUrl": "Azure Digital Twins instance URL",
+    "descriptionForAdtInstance": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
+    "descriptionForAdtInstanceAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
+    "noAdtInstance": "未添加广告开发区实例"
   },
   "behaviorsModal": {
     "closeModal": "闭合模态",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "输入值",
     "noOptionsFoundMessage": "未找到任何值",
     "modalTitle": "高级双胞胎搜索",
-    "modalSubtitle": "通过缩小搜索范围来链接正确的孪生"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "复制",
-    "defaultFileName": "新本体",
-    "defaultModelNamePrefix": "型"
+    "modalSubtitle": "通过缩小搜索范围来链接正确的孪生",
+    "columnPicker": "列选取器",
+    "propertyCount": "{{选定的属性计数}} 属性已选择",
+    "availableProperties": "可用属性的下拉列表",
+    "selectAdditionalColumns": "选择其他列"
   }
 }

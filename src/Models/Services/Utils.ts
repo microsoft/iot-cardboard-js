@@ -13,7 +13,8 @@ import {
     AzureResourceDisplayFields,
     IAzureResource,
     AzureAccessPermissionRoles,
-    AzureAccessPermissionRoleGroups
+    AzureAccessPermissionRoleGroups,
+    AzureResourceTypes
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import { CharacterWidths } from '../Constants/Constants';
@@ -613,3 +614,157 @@ export function getMissingRoleIdsFromRequired(
 
     return missingRoleIds;
 }
+
+export const getResourceUrl = (
+    resource: IAzureResource | string, // can either be the url string or azure resource
+    resourceType: AzureResourceTypes, // always pass this in case the resource is string type
+    parentResource?: IAzureResource | string
+): string | null => {
+    if (resource) {
+        if (typeof resource === 'string') {
+            // it means the option is manually entered using freeform
+            if (resourceType) {
+                switch (resourceType) {
+                    case AzureResourceTypes.DigitalTwinInstance:
+                    case AzureResourceTypes.StorageAccount:
+                        return resource;
+                    case AzureResourceTypes.StorageBlobContainer: {
+                        const storageAccountEndpointUrl = getResourceUrl(
+                            parentResource,
+                            AzureResourceTypes.StorageAccount
+                        );
+                        if (storageAccountEndpointUrl) {
+                            return `${
+                                storageAccountEndpointUrl.endsWith('/')
+                                    ? storageAccountEndpointUrl
+                                    : storageAccountEndpointUrl + '/'
+                            }${resource}`;
+                        } else {
+                            return null;
+                        }
+                    }
+                    default:
+                        return null;
+                }
+            } else {
+                return resource;
+            }
+        } else {
+            const resourceType = resource.type;
+            switch (resourceType) {
+                case AzureResourceTypes.DigitalTwinInstance:
+                    return resource.properties?.hostName
+                        ? 'https://' + resource.properties.hostName
+                        : null;
+                case AzureResourceTypes.StorageAccount:
+                    return resource.properties?.primaryEndpoints?.blob;
+                case AzureResourceTypes.StorageBlobContainer: {
+                    const storageAccountEndpointUrl = getResourceUrl(
+                        parentResource,
+                        AzureResourceTypes.StorageAccount
+                    );
+                    if (storageAccountEndpointUrl) {
+                        return `${
+                            storageAccountEndpointUrl.endsWith('/')
+                                ? storageAccountEndpointUrl
+                                : storageAccountEndpointUrl + '/'
+                        }${resource.name}`;
+                    } else {
+                        return null;
+                    }
+                }
+                default:
+                    return null;
+            }
+        }
+    }
+    return null;
+};
+
+export const getResourceUrls = (
+    resources: Array<IAzureResource | string> = [],
+    resourceType: AzureResourceTypes, // always pass this in case the resource is string type
+    parentResource?: IAzureResource | string
+) => {
+    return resources.map((resource) =>
+        getResourceUrl(resource, resourceType, parentResource)
+    );
+};
+
+export const getResourceId = (
+    resource: IAzureResource | string // can either be the url string or azure resource
+): string | null => {
+    if (resource) {
+        if (typeof resource === 'string') {
+            return null;
+        } else {
+            return resource.id;
+        }
+    }
+    return null;
+};
+
+export const getNameOfResource = (
+    resource: string | IAzureResource, // for container type resources string type refers to the name of the container, otherwise it is the url string of the resource
+    resourceType: AzureResourceTypes
+) => {
+    try {
+        if (resource) {
+            if (typeof resource !== 'string') {
+                return resource.name;
+            } else {
+                if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
+                    if (new URL(resource)) {
+                        return resource.split('.')[0].split('://')[1]; // to respect casing in the name of the instance
+                    } else {
+                        return null;
+                    }
+                } else if (resourceType === AzureResourceTypes.StorageAccount) {
+                    const urlObj = new URL(resource);
+                    return urlObj.hostname.split('.')[0];
+                } else if (
+                    resourceType === AzureResourceTypes.StorageBlobContainer
+                ) {
+                    return resource;
+                } else {
+                    return null;
+                }
+            }
+        } else {
+            return null;
+        }
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
+};
+
+export const getContainerNameFromUrl = (containerUrl: string) => {
+    try {
+        const containerUrlObj = new URL(containerUrl);
+        return containerUrlObj.pathname.split('/')[1];
+    } catch (error) {
+        console.error(error.message);
+        return null;
+    }
+};
+
+export const getHostNameFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname;
+    } catch (error) {
+        console.error('Failed getting hostname from url string', error.message);
+        return null;
+    }
+};
+
+export const removeProtocolPartFromUrl = (urlString: string) => {
+    try {
+        const urlObj = new URL(urlString);
+        return urlObj.hostname + urlObj.pathname;
+    } catch (error) {
+        console.error('Failed remove protocol from url string', error.message);
+        return null;
+    }
+};

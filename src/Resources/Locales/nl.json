@@ -546,7 +546,25 @@
       "rotation": "Rotatie"
     },
     "searchTwinIdPlaceholder": "Twin ID zoeken ($dtId)",
-    "visualRulesTab": "Visuele regels"
+    "visualRulesTab": "Visuele regels",
+    "visualRule": {
+      "new": "Nieuwe visuele regel",
+      "edit": "Visuele regel bewerken",
+      "formDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "noDataMessageHeader": "Geen voorwaarden",
+      "noDataMessageDescription": "Er zijn nog geen voorwaarden gecreëerd. Klik hieronder om een voorwaarde aan te maken.",
+      "noDataMessageLinkText": "Voorwaarde toevoegen",
+      "typePlaceholder": "Selecteer het type voor de waarde"
+    },
+    "visualRuleForm": {
+      "new": "Nieuwe visuele regel",
+      "edit": "Visuele regel bewerken",
+      "formDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "typePlaceholder": "Selecteer het type voor de waarde",
+      "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren.",
+      "newCondition": "Nieuwstaat"
+    },
+    "conditions": "Voorwaarden"
   },
   "widgets": {
     "trend": {
@@ -760,19 +778,19 @@
     }
   },
   "environmentPicker": {
-    "environmentUrl": "URL van Azure Digital Twins-instantie",
     "editEnvironment": "3D-scèneomgeving configureren",
-    "descriptionForEnvironment": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
-    "descriptionForEnvAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
     "descriptionForLocalStorage": "Configuratiegegevens worden opgeslagen in lokale opslag.",
     "selectContainerUrl": "Url van opslagcontainer selecteren",
-    "noEnvironment": "Geen omgeving toegevoegd",
     "noContainer": "Geen container toegevoegd",
     "removeFromList": "Verwijderen uit lijst",
     "storageAccountName": "Naam azure storage-account",
     "storageAccountUrl": "URL van Azure Storage-account",
     "storageContainerName": "Naam van Azure Storage-container",
-    "storageContainerUrl": "Url van Azure Storage-container"
+    "storageContainerUrl": "Url van Azure Storage-container",
+    "adtInstanceUrl": "URL van Azure Digital Twins-exemplaar",
+    "descriptionForAdtInstance": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
+    "descriptionForAdtInstanceAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
+    "noAdtInstance": "Geen ADT-instantie toegevoegd"
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",
@@ -1182,11 +1200,10 @@
     "valueFieldPlaceholder": "Voer een waarde in",
     "noOptionsFoundMessage": "Geen waarden gevonden",
     "modalTitle": "Geavanceerd zoeken met twee tweelingen",
-    "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName": "Nieuwe ontologie",
-    "defaultModelNamePrefix": "Model"
+    "modalSubtitle": "Koppel de juiste twin door uw zoekopdracht te verfijnen",
+    "columnPicker": "Kolomkiezer",
+    "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
+    "availableProperties": "Dropdown van beschikbare eigenschappen",
+    "selectAdditionalColumns": "Extra kolommen selecteren"
   }
 }

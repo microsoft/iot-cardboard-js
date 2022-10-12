@@ -32,6 +32,10 @@ export interface IBehaviorFormContextState {
  * The actions to update the state
  */
 export enum BehaviorFormContextActionType {
+    /** add, update or remove a visual rule */
+    FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE = 'FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE',
+    FORM_BEHAVIOR_VISUAL_RULE_REMOVE = 'FORM_BEHAVIOR_VISUAL_RULE_REMOVE',
+
     /** add or update an alert visual */
     FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE',
     /** remove the alert visual */
@@ -54,9 +58,13 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_LAYERS_ADD = 'FORM_BEHAVIOR_LAYERS_ADD',
     FORM_BEHAVIOR_LAYERS_REMOVE = 'FORM_BEHAVIOR_LAYERS_REMOVE',
 
-    /** reverts all changes to the behavior back to it's initial state */
+    /** reverts all changes to the behavior back to it's initial state
+     * @deprecated
+     */
     FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
-    /** Add or update a status visual */
+    /** Add or update a status visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE',
     /** Update the value ranges for the status visual */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES',
@@ -70,7 +78,7 @@ export enum BehaviorFormContextActionType {
 
 /** The actions to update the state */
 export type BehaviorFormContextAction =
-    // ALERTS
+    // ALERTS - DEPRECATE IN FAVOR OF VISUAL RULES
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE;
           payload: { visual: IExpressionRangeVisual };
@@ -121,7 +129,7 @@ export type BehaviorFormContextAction =
               layerIds?: string[];
           };
       }
-    // STATUS
+    // STATUS - DEPRECATE IN FAVOR OF VISUAL RULES
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE;
           payload: { visual: IExpressionRangeVisual };
@@ -143,4 +151,13 @@ export type BehaviorFormContextAction =
     | {
           type: BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_REMOVE;
           payload: { widgetId: string };
+      }
+    // VISUAL RULES
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE;
+          payload: { visualRule: IExpressionRangeVisual };
+      }
+    | {
+          type: BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE;
+          payload: { visualRuleId: string };
       };

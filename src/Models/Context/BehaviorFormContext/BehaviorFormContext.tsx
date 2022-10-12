@@ -41,6 +41,7 @@ export const BehaviorFormContextReducer: (
             current(draft.behaviorToEdit)
         );
         switch (action.type) {
+            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
                 draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
                     draft.behaviorToEdit.visuals,
@@ -50,6 +51,7 @@ export const BehaviorFormContextReducer: (
                 );
                 break;
             }
+            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE: {
                 draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,
@@ -144,6 +146,7 @@ export const BehaviorFormContextReducer: (
                 statusVisual.valueRanges = action.payload.ranges || [];
                 break;
             }
+            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
             case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
                 draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
                     draft.behaviorToEdit.visuals,
@@ -196,6 +199,27 @@ export const BehaviorFormContextReducer: (
                     (visual) =>
                         ViewerConfigUtility.isPopoverVisual(visual) &&
                         !visual.widgets?.length,
+                    logDebugConsole
+                );
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE: {
+                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
+                    draft.behaviorToEdit.visuals,
+                    action.payload.visualRule,
+                    (x) =>
+                        ViewerConfigUtility.isVisualRule(x) &&
+                        x.id === action.payload.visualRule.id,
+                    logDebugConsole
+                );
+                break;
+            }
+            case BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE: {
+                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
+                    draft.behaviorToEdit.visuals,
+                    (visual) =>
+                        ViewerConfigUtility.isVisualRule(visual) &&
+                        visual.id === action.payload.visualRuleId,
                     logDebugConsole
                 );
                 break;
