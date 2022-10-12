@@ -86,6 +86,10 @@ export const DeeplinkContextReducer: (
                             AzureResourceTypes.DigitalTwinInstance
                         ) as IADTInstance;
                         setSelectedAdtInstanceInLocalStorage(resourceFromItem);
+                    } else {
+                        setSelectedAdtInstanceInLocalStorage(
+                            action.payload.adtInstance
+                        );
                     }
                 } else {
                     setSelectedAdtInstanceInLocalStorage(
