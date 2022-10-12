@@ -845,6 +845,7 @@
         "save": "Save",
         "publish": "Publish",
         "sync": "sync",
+        "file": "file",
         "import": "Import",
         "importFolder": "Import folder",
         "importFile": "Import file",

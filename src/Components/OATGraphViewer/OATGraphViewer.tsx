@@ -725,11 +725,18 @@ const OATGraphViewer: React.FC = () => {
                 oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                payload: {
+                    models: []
+                }
+            });
             logDebugConsole('debug', '[END] Handle change to Import models');
         }
     }, [
         applyLayoutToElements,
         getGraphNodesFromModels,
+        oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.importModels
     ]);

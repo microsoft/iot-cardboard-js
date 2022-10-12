@@ -151,6 +151,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     const modelsCopy = deepCopy(
                         oatPageState.currentOntologyModels
                     );
+                    // remove duplicates
                     for (const model of newModels) {
                         // Check if model already exists
                         const modelExists = modelsCopy.find(
@@ -260,7 +261,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         inputRef: HTMLInputElement
     ): React.ChangeEventHandler<HTMLInputElement> => {
         return (e: React.ChangeEvent<HTMLInputElement>) => {
-            console.log('Processing files', e.target.files);
             const reader = new FileReader();
             reader.onload = () => {
                 const files: File[] = [];
