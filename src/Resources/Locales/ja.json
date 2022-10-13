@@ -565,7 +565,7 @@
       "newCondition": "新しい条件"
     },
     "conditions": "条件",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
       "noData": "ビジュアル ルールをまだ構成していない",
       "addRuleButtonText": "ルールの追加",

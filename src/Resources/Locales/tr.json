@@ -565,7 +565,7 @@
       "newCondition": "Yeni koşul"
     },
     "conditions": "Koşul -ları",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
       "noData": "Henüz herhangi bir Görsel Kural yapılandırmadınız",
       "addRuleButtonText": "Kural Ekle",

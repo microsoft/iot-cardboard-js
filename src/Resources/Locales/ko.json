@@ -565,7 +565,7 @@
       "newCondition": "새 조건"
     },
     "conditions": "여건",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "특정 조건에 색상을 적용하기 위한 규칙을 설정합니다(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색).",
       "noData": "아직 시각적 규칙을 구성하지 않았습니다.",
       "addRuleButtonText": "규칙 추가",
