@@ -75,16 +75,15 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         properties.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
         return new Set(properties);
     }, [twins]);
-    const updateColumns = useCallback(
-        (columnToAdd: string) => {
-            if (!selectedColumnNames.includes(columnToAdd)) {
-                setSelectedColumnNames((currentValue) => {
-                    return [...currentValue, columnToAdd];
-                });
-            }
-        },
-        [selectedColumnNames]
-    );
+
+    const updateColumns = useCallback((columnToAdd: string) => {
+        setSelectedColumnNames((prevValue) => {
+            const columns = new Set(prevValue);
+            columns.add(columnToAdd);
+            return Array.from(columns);
+        });
+    }, []);
+
     const deleteColumn = (columnToRemoveKey: string) => {
         setSelectedColumnNames((currentValue) =>
             currentValue.filter((col) => col !== columnToRemoveKey)
@@ -238,16 +237,10 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
 
     // side effects
     useEffect(() => {
-        const selectedKeysSet = new Set(selectedColumnNames);
-
         searchedProperties.forEach((property) => {
-            if (!selectedKeysSet.has(property)) {
-                updateColumns(property);
-                selectedKeysSet.add(property);
-            }
+            updateColumns(property);
         });
-        setSelectedColumnNames(Array.from(selectedKeysSet));
-    }, [searchedProperties, updateColumns]);
+    }, [searchedProperties]);
 
     logDebugConsole(
         'debug',
