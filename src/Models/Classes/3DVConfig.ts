@@ -32,7 +32,7 @@ export enum VisualType {
     ExpressionRangeVisual = 'ExpressionRangeVisual'
 }
 
-export enum WidgetType {
+export const enum WidgetType {
     Gauge = 'Gauge',
     Link = 'Link',
     Value = 'Value',
@@ -42,7 +42,6 @@ export enum WidgetType {
 }
 
 export interface IWidgetLibraryItem {
-    type: WidgetType;
     title: string;
     description: string;
     notAvailableDescription?: string;

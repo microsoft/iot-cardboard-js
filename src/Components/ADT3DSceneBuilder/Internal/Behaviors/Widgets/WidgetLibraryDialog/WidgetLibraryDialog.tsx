@@ -33,14 +33,15 @@ import { ADXConnectionInformationLoadingState } from '../../../../../../Pages/AD
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
 if (
-    enabledWidgets.findIndex((w) => w.type === WidgetType.DataHistory) === -1 &&
+    enabledWidgets.findIndex((w) => w.data.type === WidgetType.DataHistory) ===
+        -1 &&
     localStorage.getItem(
         LOCAL_STORAGE_KEYS.FeatureFlags.DataHistory.showDataHistoryWidget
     ) === 'true'
 ) {
     // when data history is disabled in code but enabled by local storage externally to test the feature append it to the list
     enabledWidgets.push(
-        availableWidgets.find((w) => w.type === WidgetType.DataHistory)
+        availableWidgets.find((w) => w.data.type === WidgetType.DataHistory)
     );
 }
 
