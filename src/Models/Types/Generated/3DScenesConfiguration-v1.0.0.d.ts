@@ -261,11 +261,3 @@ export interface ILayer {
     behaviorIDs: string[];
     extensionProperties?: IExtensionProperties;
 }
-
-export type IConditionsType = "Badge" | "Mesh coloring";
-interface IVisualRule {
-    id: string;
-    displayName: string;
-    conditions: IConditionsType[]
-    /** TODO: NEED TO ADD MORE PROPERTIES, BUT CAN'T THINK RIGHT NOW */
-}

@@ -1,7 +1,6 @@
 import { IContextualMenuItem } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
-import { IVisualRule } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { IVisualRulesListProps } from './VisualRules.types';
@@ -9,6 +8,14 @@ import { IVisualRulesListProps } from './VisualRules.types';
  *
  * Visual Rule List will handle the generation of ruleItems and the actions on a rule
  */
+
+type IConditionsType = 'Badge' | 'Mesh coloring';
+
+export interface IVisualRule {
+    id: string;
+    displayName: string;
+    conditions: IConditionsType[];
+}
 
 export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     ruleItems,

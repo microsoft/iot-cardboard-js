@@ -109,8 +109,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         dispatch,
         setUnsavedBehaviorChangesDialogOpen,
         setUnsavedChangesDialogDiscardAction,
-        widgetFormInfo,
-        sceneId
+        widgetFormInfo
     } = useContext(SceneBuilderContext);
     const {
         behaviorFormDispatch,
@@ -572,14 +571,21 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                         '3dSceneBuilder.visualRulesTab'
                                     )}
                                     itemKey={BehaviorPivot.visualRules}
+                                    onRenderItemLink={(
+                                        props,
+                                        defaultRenderer
+                                    ) =>
+                                        setPivotToRequired(
+                                            behaviorState.validityMap?.get(
+                                                'VisualRules'
+                                            )?.isValid,
+                                            t,
+                                            props,
+                                            defaultRenderer
+                                        )
+                                    }
                                 >
-                                    <VisualRulesTab
-                                        sceneId={sceneId}
-                                        config={config}
-                                        behaviorId={
-                                            behaviorFormState.behaviorToEdit.id
-                                        }
-                                    />
+                                    <VisualRulesTab />
                                 </PivotItem>
                             )}
                             <PivotItem

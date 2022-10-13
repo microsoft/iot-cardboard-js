@@ -4,27 +4,18 @@ import { useBoolean } from '@fluentui/react-hooks';
 
 import { useTranslation } from 'react-i18next';
 import {
-    I3DScenesConfig,
-    IVisualRule
-} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import {
     getActionButtonStyles,
     getLeftPanelStyles
 } from '../../Shared/LeftPanel.styles';
-import { VisualRulesList } from '../VisualRules/VisualRuleList';
+import { IVisualRule, VisualRulesList } from '../VisualRules/VisualRuleList';
 
-interface IVisualRulesTabProps {
-    sceneId: string;
-    config: I3DScenesConfig;
-    behaviorId: string;
-}
 const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesForm';
 const LOC_KEYS = {
     addButtonText: `${ROOT_LOC}.addRuleButtonText`,
     noData: `${ROOT_LOC}.noData`,
     tabDescription: `${ROOT_LOC}.tabDescription`
 };
-export const VisualRulesTab: React.FC<IVisualRulesTabProps> = () => {
+export const VisualRulesTab: React.FC = () => {
     /**
      * TODO:
      * DO SOME STUFF SO YOU CAN GET THE LIST OF VISUAL RULES CREATED BASED ON THIS BEHAVIOR

@@ -8,7 +8,7 @@ export type TabNames =
     | 'Elements'
     | 'Status'
     | 'Widgets'
-    | 'Rules';
+    | 'VisualRules';
 export interface IBehaviorFormState {
     validityMap: Map<TabNames, IValidityState>;
 }
