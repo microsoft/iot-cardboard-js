@@ -32,7 +32,7 @@ export enum VisualType {
     ExpressionRangeVisual = 'ExpressionRangeVisual'
 }
 
-export const enum WidgetType {
+export enum WidgetType {
     Gauge = 'Gauge',
     Link = 'Link',
     Value = 'Value',
