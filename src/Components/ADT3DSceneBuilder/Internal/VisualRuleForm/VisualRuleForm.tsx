@@ -17,11 +17,8 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { defaultVisualRule } from '../../../../Models/Classes/3DVConfig';
-import { VisualRuleFormMode } from '../../../../Models/Constants/Enums';
+import { getDefaultVisualRule } from '../../../../Models/Classes/3DVConfig';
 import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
-import { BehaviorFormContextActionType } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
-import { deepCopy } from '../../../../Models/Services/Utils';
 import { IExpressionRangeVisual } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
@@ -40,7 +37,7 @@ import {
     checkValidityMap,
     createValidityMap,
     FieldToValidate,
-    ValidityMapType
+    IValidityState
 } from '../Shared/SharedFormUtils';
 import ConditionsList from './Internal/ConditionsList';
 import { VisualRuleFormReducer } from './VisualRuleForm.state';
@@ -58,13 +55,17 @@ const getClassNames = classNamesFunction<
 
 const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     // Context
-    const {
-        behaviorFormState,
-        behaviorFormDispatch
-    } = useBehaviorFormContext();
+    const { behaviorFormState } = useBehaviorFormContext();
 
     // Props
-    const { rootHeight, styles, visualRuleId } = props;
+    const {
+        handleExpressionTextFieldEnabled,
+        onCancelClick,
+        onSaveClick,
+        rootHeight,
+        styles,
+        visualRuleId
+    } = props;
 
     // General constants
     const { t } = useTranslation();
@@ -80,14 +81,18 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         if (visualRuleId) {
             const selectedVisualRule = behaviorFormState.behaviorToEdit.visuals.find(
                 (visual) => {
-                    visual.type === 'ExpressionRangeVisual' &&
-                        visual.id === visualRuleId;
+                    return (
+                        visual.type === 'ExpressionRangeVisual' &&
+                        visual.id === visualRuleId
+                    );
                 }
             ) as IExpressionRangeVisual;
             // If visual rule with that id is not found return default visual rule
-            return selectedVisualRule ? selectedVisualRule : defaultVisualRule;
+            return selectedVisualRule
+                ? selectedVisualRule
+                : getDefaultVisualRule();
         } else {
-            return defaultVisualRule;
+            return getDefaultVisualRule();
         }
     };
     const initialVisualRule = useRef<IExpressionRangeVisual>(
@@ -95,13 +100,22 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     );
 
     // State
-    const getInitialFieldValidityState = (): ValidityMapType => {
+    const getInitialFieldValidityState = (): Map<string, IValidityState> => {
         const fieldsToValidate: FieldToValidate[] = [
             {
                 key: 'displayName',
-                defaultValue: initialVisualRule.current.displayName
-                    ? true
-                    : false
+                defaultValidityState:
+                    initialVisualRule.current.displayName &&
+                    initialVisualRule.current.displayName.length
+                        ? true
+                        : false
+            },
+            {
+                key: 'expression',
+                defaultValidityState:
+                    initialVisualRule.current.valueExpression.length > 0
+                        ? true
+                        : false
             }
         ];
         return createValidityMap(fieldsToValidate);
@@ -125,39 +139,45 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         config,
         sceneId,
         adapter,
-        setVisualRuleFormMode,
         state: { selectedElements, selectedBehavior }
     } = useContext(SceneBuilderContext);
 
+    // Callbacks
     const onDisplayNameChange = useCallback(
         (
             _event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
             name: string
         ) => {
-            const validityMapCopy = deepCopy(validityMap);
-            if (name.length) {
-                validityMapCopy.set('displayName', { isValid: true });
-                setValidityMap(validityMapCopy);
-                visualRuleFormDispatch({
-                    type:
-                        VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
-                    payload: { name: name }
-                });
-            } else {
-                validityMapCopy.set('displayName', { isValid: false });
-                setValidityMap(validityMapCopy);
-                visualRuleFormDispatch({
-                    type:
-                        VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
-                    payload: { name: name }
-                });
+            let isValid = false;
+            if (name && name.length) {
+                isValid = true;
             }
+            setValidityMap((validityMap) => {
+                validityMap.set('displayName', { isValid: isValid });
+                return validityMap;
+            });
+            visualRuleFormDispatch({
+                type:
+                    VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
+                payload: { name: name }
+            });
         },
         []
     );
 
     const onPropertyChange = useCallback(
         (propertyExpression: PropertyExpression) => {
+            let isValid = false;
+            if (
+                propertyExpression.expression &&
+                propertyExpression.expression.length
+            ) {
+                isValid = true;
+            }
+            setValidityMap((validityMap) => {
+                validityMap.set('expression', { isValid: isValid });
+                return validityMap;
+            });
             visualRuleFormDispatch({
                 type: VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_SET,
                 payload: { expression: propertyExpression.expression }
@@ -173,27 +193,34 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                     VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
                 payload: { type: 'CategoricalValues' }
             });
+            handleExpressionTextFieldEnabled(true);
         } else {
             visualRuleFormDispatch({
                 type:
                     VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
                 payload: { type: 'NumericRange' }
             });
+            handleExpressionTextFieldEnabled(false);
         }
     }, []);
 
-    const onSaveClick = useCallback(() => {
-        behaviorFormDispatch({
-            type:
-                BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
-            payload: { visualRule: visualRuleFormState.visualRuleToEdit }
-        });
-        setVisualRuleFormMode(VisualRuleFormMode.Inactive);
-    }, []);
+    const handleSaveClick = useCallback(() => {
+        onSaveClick(visualRuleFormState.visualRuleToEdit);
+    }, [visualRuleFormState.visualRuleToEdit]);
 
-    const onCancelClick = useCallback(() => {
-        setVisualRuleFormMode(VisualRuleFormMode.Inactive);
-    }, []);
+    const handleCancelClick = useCallback(() => {
+        onCancelClick(visualRuleFormState.isDirty);
+    }, [visualRuleFormState.isDirty]);
+
+    const handleDeleteCondition = useCallback(
+        (conditionId: string) => {
+            visualRuleFormDispatch({
+                type: VisualRuleFormActionType.FORM_CONDITION_REMOVE,
+                payload: { conditionId: conditionId }
+            });
+        },
+        [visualRuleFormDispatch]
+    );
 
     return (
         <>
@@ -222,7 +249,9 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             }}
                             mode={ModelledPropertyBuilderMode.TOGGLE}
                             propertyExpression={{
-                                expression: ''
+                                expression:
+                                    visualRuleFormState.visualRuleToEdit
+                                        .valueExpression
                             }}
                             onChange={onPropertyChange}
                             onInternalModeChanged={onInternalModeChanged}
@@ -251,6 +280,13 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         />
                     </Stack>
                     <ConditionsList
+                        valueRanges={
+                            visualRuleFormState.visualRuleToEdit.valueRanges
+                        }
+                        expressionType={
+                            visualRuleFormState.visualRuleToEdit.expressionType
+                        }
+                        onDeleteCondition={handleDeleteCondition}
                         styles={classNames.subComponentStyles.conditionsList}
                     />
                 </div>
@@ -258,13 +294,13 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             <PanelFooter>
                 <PrimaryButton
                     text={t('save')}
-                    onClick={onSaveClick}
+                    onClick={handleSaveClick}
                     disabled={!checkValidityMap(validityMap)}
                     styles={classNames.subComponentStyles.saveButton?.()}
                 />
                 <DefaultButton
                     text={t('cancel')}
-                    onClick={onCancelClick}
+                    onClick={handleCancelClick}
                     styles={classNames.subComponentStyles.cancelButton?.()}
                 />
             </PanelFooter>

@@ -119,7 +119,7 @@ export const defaultAlertVisual: IExpressionRangeVisual = {
     }
 };
 
-export const defaultVisualRule: IExpressionRangeVisual = {
+export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
     id: createGUID(),
     type: VisualType.ExpressionRangeVisual,
     valueExpression: '',
@@ -128,7 +128,7 @@ export const defaultVisualRule: IExpressionRangeVisual = {
     objectIDs: {
         expression: 'objectIDs'
     }
-};
+});
 
 export const getDefaultAlertVisualWithId = () => {
     const uniqueIdDefaultAlertVisual = produce(defaultAlertVisual, (draft) => {

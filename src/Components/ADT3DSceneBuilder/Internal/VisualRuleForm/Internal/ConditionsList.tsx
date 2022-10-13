@@ -1,20 +1,23 @@
 import {
     ActionButton,
     classNamesFunction,
+    IContextualMenuItem,
     Stack,
     styled,
     useTheme
 } from '@fluentui/react';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
+import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { transformValueRangesIntoConditions } from '../VisualRuleFormUtility';
 import { getStyles } from './ConditionsList.styles';
 import {
+    Conditions,
     IConditionsListProps,
     IConditionsListStyles,
     IConditionsListStylesProps
 } from './ConditionsList.types';
-import { ConditionsMockData, ConditionsMockList } from './ConditionsMock';
 
 const LIST_KEY = 'cb-visual-rule-conditions-list';
 
@@ -25,16 +28,79 @@ const getClassNames = classNamesFunction<
 
 const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Props
-    const { styles } = props;
-
-    // Styles
-    const classNames = getClassNames(styles, {
-        theme: useTheme()
-    });
+    const { expressionType, onDeleteCondition, styles, valueRanges } = props;
 
     // Hooks
     const { t } = useTranslation();
-    const handleNewCondition = useCallback(() => {
+
+    // Constants
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+    const getOverflowMenuItems = (
+        conditionId: string
+    ): IContextualMenuItem[] => [
+        {
+            key: `${conditionId}-edit-menu-item`,
+            text: t('3dSceneBuilder.visualRuleForm.editCondition'),
+            iconProps: {
+                iconName: 'Edit'
+            },
+            onClick: () => {
+                alert('Edit clicked');
+            },
+            data: {
+                id: conditionId
+            }
+        },
+        {
+            key: `${conditionId}-delete-menu-item`,
+            text: t('3dSceneBuilder.visualRuleForm.deleteCondition'),
+            iconProps: {
+                iconName: 'Delete'
+            },
+            onClick: (_ev, item) => {
+                onDeleteCondition(item.data.id);
+            },
+            data: {
+                id: conditionId
+            }
+        }
+    ];
+
+    // State
+    const getConditionItems = (): ICardboardListItem<Conditions>[] => {
+        const conditions = transformValueRangesIntoConditions(
+            valueRanges,
+            expressionType
+        );
+        const viewModel: ICardboardListItem<Conditions>[] = conditions.map(
+            (condition) => {
+                return {
+                    item: condition,
+                    ariaLabel: `Condition for ${condition.primaryText}`,
+                    textPrimary: condition.primaryText,
+                    textSecondary: condition.secondaryText,
+                    overflowMenuItems: getOverflowMenuItems(condition.id),
+                    onClick: () => {
+                        alert('Item clicked');
+                    }
+                };
+            }
+        );
+        return viewModel;
+    };
+
+    const [conditions, setConditions] = useState(getConditionItems());
+
+    // Effects
+    // Update list everytime valueRanges and expressionType change
+    useEffect(() => {
+        setConditions(getConditionItems());
+    }, [valueRanges, expressionType]);
+
+    // Callbacks
+    const handleOpenFlyout = useCallback(() => {
         // TODO: Open callout
         alert('New condition');
     }, []);
@@ -42,14 +108,14 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     return (
         <div className={classNames.container}>
             <Stack>
-                <CardboardList<ConditionsMockData>
+                <CardboardList<Conditions>
                     listKey={LIST_KEY}
-                    items={ConditionsMockList}
+                    items={conditions}
                 />
                 <ActionButton
                     data-testid={'visual-rule-add-condition'}
                     styles={classNames.subComponentStyles.addButton?.()}
-                    onClick={handleNewCondition}
+                    onClick={handleOpenFlyout}
                 >
                     {t('3dSceneBuilder.visualRuleForm.newCondition')}
                 </ActionButton>

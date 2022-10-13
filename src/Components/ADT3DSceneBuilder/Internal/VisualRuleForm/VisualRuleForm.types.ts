@@ -7,10 +7,14 @@ import {
     ITextFieldStyles,
     Theme
 } from '@fluentui/react';
+import { IExpressionRangeVisual } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ITooltipCalloutStyles } from '../../../TooltipCallout/TooltipCallout.types';
 import { IConditionsListStyles } from './Internal/ConditionsList.types';
 
 export interface IVisualRuleFormProps {
+    handleExpressionTextFieldEnabled: (isEnabled: boolean) => void;
+    onCancelClick: (isDirty: boolean) => void;
+    onSaveClick: (visualRule: IExpressionRangeVisual) => void;
     rootHeight: number;
     visualRuleId: string | null;
     styles?: IStyleFunctionOrObject<

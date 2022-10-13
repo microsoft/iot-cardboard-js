@@ -45,6 +45,7 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
+    IExpressionRangeVisual,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
@@ -132,6 +133,16 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         selectedBehaviorPivotKey,
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
+    const [
+        isExpressionTextFieldEnabled,
+        setisExpressionTextFieldEnabled
+    ] = useState(false);
+    const handleExpressionTextFieldEnabled = useCallback(
+        (isEnabled: boolean) => {
+            setisExpressionTextFieldEnabled(isEnabled);
+        },
+        [setisExpressionTextFieldEnabled]
+    );
 
     useEffect(() => {
         const selectedElements = [];
@@ -386,6 +397,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [dispatch]
     );
 
+    // Visual rule form callbacks
+    const onVisualRuleCancelClick = useCallback((isDirty: boolean) => {
+        if (isDirty) {
+            setUnsavedBehaviorChangesDialogOpen(true);
+            setUnsavedChangesDialogDiscardAction(() =>
+                setVisualRuleFormMode(VisualRuleFormMode.Inactive)
+            );
+        } else {
+            setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+        }
+    }, []);
+
+    const onVisualRuleSaveClick = useCallback(
+        (visualRule: IExpressionRangeVisual) => {
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
+                payload: { visualRule: visualRule }
+            });
+            setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+        },
+        []
+    );
+
     // mirror the form state up to the scene context (for navigation confirmation)
     useEffect(() => {
         notifySceneContextDirtyState(behaviorFormState.isDirty);
@@ -418,11 +453,27 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         visualRuleFormMode !== VisualRuleFormMode.Inactive;
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
-    const formHeaderHeight = isVisualRulesFormActive ? 268 : 168;
+    const formHeaderHeight = isVisualRulesFormActive
+        ? isExpressionTextFieldEnabled
+            ? 296
+            : 268
+        : 168;
     const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
 
+    // const [visualRuleId, _setSelectedVisualRuleId] = useState<string | null>(
+    //     null
+    // );
+    // TODO: setSelectedId will be wired to Ayo's changes, hard-code first visual rule to get data
+    const tempGetFirstVisualRuleId = () => {
+        const selectedVisualRule = behaviorFormState.behaviorToEdit.visuals.find(
+            (visual) => {
+                return visual.type === 'ExpressionRangeVisual';
+            }
+        ) as IExpressionRangeVisual;
+        return selectedVisualRule ? selectedVisualRule.id : null;
+    };
     const [visualRuleId, _setSelectedVisualRuleId] = useState<string | null>(
-        null
+        tempGetFirstVisualRuleId()
     );
 
     const renderWidgetForm = () => {
@@ -443,6 +494,11 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <VisualRuleForm
                 visualRuleId={visualRuleId}
                 rootHeight={formHeaderHeight}
+                handleExpressionTextFieldEnabled={
+                    handleExpressionTextFieldEnabled
+                }
+                onCancelClick={onVisualRuleCancelClick}
+                onSaveClick={onVisualRuleSaveClick}
             />
         );
     };

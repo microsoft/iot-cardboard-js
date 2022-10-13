@@ -35,11 +35,12 @@ export interface IValidityState {
 // This is used to set initial state of a validity map
 export type FieldToValidate = {
     key: string;
-    defaultValue: boolean;
+    defaultValidityState: boolean;
 };
-export type ValidityMapType = Map<string, IValidityState>;
 
-export const checkValidityMap = (validityMap: ValidityMapType): boolean => {
+export const checkValidityMap = (
+    validityMap: Map<string, IValidityState>
+): boolean => {
     let isValid = true;
     validityMap.forEach((x) => {
         isValid = isValid && x.isValid;
@@ -49,10 +50,10 @@ export const checkValidityMap = (validityMap: ValidityMapType): boolean => {
 
 export const createValidityMap = (
     fieldsToValidate: FieldToValidate[]
-): ValidityMapType => {
-    const validityMap: ValidityMapType = new Map<string, IValidityState>();
+): Map<string, IValidityState> => {
+    const validityMap = new Map<string, IValidityState>();
     fieldsToValidate.forEach((field) => {
-        validityMap.set(field.key, { isValid: field.defaultValue });
+        validityMap.set(field.key, { isValid: field.defaultValidityState });
     });
     return validityMap;
 };

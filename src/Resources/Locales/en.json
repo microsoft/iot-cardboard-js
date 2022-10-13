@@ -560,7 +560,10 @@
             "edit": "Edit visual rule",
             "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
             "typePlaceholder": "Select the type for the value",
-            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element.",
+            "editCondition": "Edit condition",
+            "deleteCondition": "Delete condition",
+            "unlabeledCondition": "Unlabeled"
         }
     },
     "widgets": {
