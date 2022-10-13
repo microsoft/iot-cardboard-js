@@ -562,7 +562,10 @@
       "formDescription": "Imposta le regole per applicare il colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
       "typePlaceholder": "Selezionare il tipo per il valore",
       "conditionsInfoContent": "Configurare l'intervallo o i valori specifici che attivano un'azione visiva relativa all'elemento.",
-      "newCondition": "Nuova condizione"
+      "newCondition": "Nuova condizione",
+      "editCondition": "Modifica condizione",
+      "deleteCondition": "Elimina condizione",
+      "unlabeledCondition": "Senza etichetta"
     },
     "conditions": "Condizioni"
   },

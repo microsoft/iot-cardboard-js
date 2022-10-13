@@ -562,7 +562,10 @@
       "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
       "typePlaceholder": "Değer için türü seçin",
       "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın.",
-      "newCondition": "Yeni koşul"
+      "newCondition": "Yeni koşul",
+      "editCondition": "Koşulu düzenle",
+      "deleteCondition": "Silme koşulu",
+      "unlabeledCondition": "Etiketlenmemiş"
     },
     "conditions": "Koşul -ları"
   },

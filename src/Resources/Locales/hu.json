@@ -562,7 +562,10 @@
       "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
       "typePlaceholder": "Válassza ki az érték típusát",
       "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
-      "newCondition": "Új feltétel"
+      "newCondition": "Új feltétel",
+      "editCondition": "Állapot szerkesztése",
+      "deleteCondition": "Feltétel törlése",
+      "unlabeledCondition": "Címkézetlen"
     },
     "conditions": "Feltételek"
   },
