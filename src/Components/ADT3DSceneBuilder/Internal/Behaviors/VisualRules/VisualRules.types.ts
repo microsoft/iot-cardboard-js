@@ -5,7 +5,16 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export interface IVisualRulesListProps {
-    ruleItems: IExpressionRangeVisual[];
+    ruleItems: IVisualRule[];
+    onRemoveRule: (ruleId: string) => void;
+    onEditRule: (ruleId: string) => void;
+}
+export type IConditionsType = 'Badge' | 'Mesh coloring';
+
+export interface IVisualRule {
+    id: string;
+    displayName: string;
+    conditions: IConditionsType[];
 }
 
 /** Reducer types */

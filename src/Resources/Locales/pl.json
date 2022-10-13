@@ -567,7 +567,14 @@
       "unlabeledCondition": "Bez etykiety",
       "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków."
     },
-    "conditions": "Warunki"
+    "conditions": "Warunki",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "noData": "Nie skonfigurowano jeszcze żadnych reguł wizualnych",
+      "addRuleButtonText": "Dodaj regułę",
+      "editRule": "Edytuj regułę",
+      "removeRule": "Usuń regułę"
+    }
   },
   "widgets": {
     "trend": {
@@ -599,7 +606,62 @@
       "libraryName": "Panel",
       "description": "Panel układu"
     },
-    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany"
+    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
+    "dataHistory": {
+      "title": "Widżet Historia danych",
+      "description": "Pokazywanie danych szeregów czasowych w kontekście sceny 3D",
+      "notEnabledDescription": "Historia danych nie jest włączona dla tego wystąpienia narzędzia ADT.",
+      "form": {
+        "connectionStringTitle": "Parametry połączenia",
+        "connectionStringPlaceholder": "Wprowadź parametry połączenia (np. klucz1=wartość1;klucz2=wartość2;klucz3=wartość3)",
+        "connectionLoadingText": "Ładowanie informacji o połączeniu...",
+        "noConnectionInformationText": "Nie znaleziono informacji o połączeniu",
+        "displayNamePlaceholder": "Wprowadź nazwę wyświetlaną",
+        "timeSeries": {
+          "timeSeriesDescription": "Dodaj do {{maxTimeSeriesCount}} timeseries do wyświetlenia",
+          "title": "Szeregi czasowe",
+          "description": "Seria do wyświetlenia na wykresie liniowym",
+          "property": "Własność",
+          "unit": "Jednostka",
+          "label": "Etykieta",
+          "add": "Dodawanie szeregów czasowych",
+          "edit": "Edytowanie szeregów czasowych",
+          "remove": "Usuwanie szeregów czasowych",
+          "labelPlaceholder": "Wprowadź etykietę, która ma być wyświetlana na wykresie"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Opcja wykresu do ustawienia, jeśli każda seria ma oddzielne (Niezależne) osie y lub współdzieli tę samą oś y (Udostępnione)",
+            "label": "Typ osi Y",
+            "sharedLabel": "Udostępnionych",
+            "independentLabel": "Niezależny"
+          },
+          "quickTimeSpan": {
+            "label": "Domyślny przedział czasu",
+            "options": {
+              "Last 15 mins": "Ostatnie 15 minut",
+              "Last 30 mins": "Ostatnie 30 minut",
+              "Last Hour": "Ostatnia godzina",
+              "Last 3 Hours": "Ostatnie 3 godziny",
+              "Last 6 Hours": "Ostatnie 6 godzin",
+              "Last 12 Hours": "Ostatnie 12 godzin",
+              "Last 24 Hours": "Ostatnie 24 godziny",
+              "Last 7 Days": "Ostatnie 7 dni",
+              "Last 30 Days": "Ostatnie 30 dni",
+              "Last 60 Days": "Ostatnie 60 dni",
+              "Last 90 Days": "Ostatnie 90 dni",
+              "Last 180 Days": "Ostatnie 180 dni",
+              "Last Year": "Ostatni rok"
+            }
+          },
+          "aggregationType": {
+            "label": "Typ agregacji"
+          }
+        },
+        "connectionStringInformation": "Widżety historii danych są przeznaczone dla wystąpienia usługi Azure Data Explorer połączonego z wystąpieniem usługi Azure Digital Twins w momencie tworzenia."
+      },
+      "libraryName": "Historia danych"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ostatnie 30 minut",

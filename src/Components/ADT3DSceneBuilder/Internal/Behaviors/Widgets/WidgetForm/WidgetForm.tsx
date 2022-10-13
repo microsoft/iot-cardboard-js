@@ -5,11 +5,13 @@ import {
     WidgetType,
     defaultGaugeWidget,
     defaultLinkWidget,
-    defaultValueWidget
+    defaultValueWidget,
+    defaultDataHistoryWidget
 } from '../../../../../../Models/Classes/3DVConfig';
 import { WidgetFormMode } from '../../../../../../Models/Constants/Enums';
 import {
     IBehavior,
+    IDataHistoryWidget,
     IGaugeWidget,
     ILinkWidget,
     IValueWidget,
@@ -27,6 +29,7 @@ import ValueWidgetBuilder from '../WidgetBuilders/ValueWidgetBuilder';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { useBehaviorFormContext } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import { BehaviorFormContextActionType } from '../../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+import DataHistoryWidgetBuilder from '../WidgetBuilders/DataHistoryWidgetBuilder/DataHistoryWidgetBuilder';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('WidgetForm', debugLogging);
@@ -39,6 +42,8 @@ const getDefaultFormData = (widgetFormInfo: WidgetFormInfo) => {
             return defaultLinkWidget;
         case WidgetType.Value:
             return defaultValueWidget;
+        case WidgetType.DataHistory:
+            return defaultDataHistoryWidget;
         default:
             return null;
     }
@@ -55,6 +60,7 @@ const WidgetForm: React.FC = () => {
     const { widgetFormInfo, setWidgetFormInfo } = useContext(
         SceneBuilderContext
     );
+
     const {
         behaviorFormState,
         behaviorFormDispatch
@@ -134,6 +140,14 @@ const WidgetForm: React.FC = () => {
                 return (
                     <ValueWidgetBuilder
                         formData={widgetData as IValueWidget}
+                        updateWidgetData={updateWidgetData}
+                        setIsWidgetConfigValid={setIsWidgetConfigValid}
+                    />
+                );
+            case WidgetType.DataHistory:
+                return (
+                    <DataHistoryWidgetBuilder
+                        formData={widgetData as IDataHistoryWidget}
                         updateWidgetData={updateWidgetData}
                         setIsWidgetConfigValid={setIsWidgetConfigValid}
                     />

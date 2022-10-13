@@ -567,7 +567,14 @@
       "unlabeledCondition": "未标记",
       "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。"
     },
-    "conditions": "条件"
+    "conditions": "条件",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noData": "您尚未配置任何可视规则",
+      "addRuleButtonText": "添加规则",
+      "editRule": "编辑规则",
+      "removeRule": "删除规则"
+    }
   },
   "widgets": {
     "trend": {
@@ -599,7 +606,62 @@
       "libraryName": "面板",
       "description": "布局面板"
     },
-    "notSupported": "目前不支持此微件类型"
+    "notSupported": "目前不支持此微件类型",
+    "dataHistory": {
+      "title": "数据历史记录小部件",
+      "description": "在 3D 场景的上下文中显示时间序列数据",
+      "notEnabledDescription": "未为此 ADT 实例启用数据历史记录。",
+      "form": {
+        "connectionStringTitle": "连接字符串",
+        "connectionStringPlaceholder": "输入连接字符串（例如，键 1=值 1;键 2=值 2;键 3=值 3）",
+        "connectionLoadingText": "正在加载连接信息...",
+        "noConnectionInformationText": "未找到连接信息",
+        "displayNamePlaceholder": "输入显示名称",
+        "timeSeries": {
+          "timeSeriesDescription": "最多可添加到 {{最大时间系列计数}} 要显示的时间序列",
+          "title": "时间序列",
+          "description": "要在折线图中显示的序列",
+          "property": "财产",
+          "unit": "单位",
+          "label": "标签",
+          "add": "添加时间序列",
+          "edit": "编辑时间序列",
+          "remove": "删除时间序列",
+          "labelPlaceholder": "输入要在图表中显示的标签"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "图表选项，用于设置每个系列是否具有单独的（独立）y 轴或共享相同的 y 轴（共享）",
+            "label": "Y 轴类型",
+            "sharedLabel": "共享",
+            "independentLabel": "独立"
+          },
+          "quickTimeSpan": {
+            "label": "默认时间跨度",
+            "options": {
+              "Last 15 mins": "最近 15 分钟",
+              "Last 30 mins": "最近 30 分钟",
+              "Last Hour": "最后一小时",
+              "Last 3 Hours": "最近 3 小时",
+              "Last 6 Hours": "最近 6 小时",
+              "Last 12 Hours": "最近 12 小时",
+              "Last 24 Hours": "最近 24 小时",
+              "Last 7 Days": "最近 7 天",
+              "Last 30 Days": "最近 30 天",
+              "Last 60 Days": "最近 60 天",
+              "Last 90 Days": "最近 90 天",
+              "Last 180 Days": "最近 180 天",
+              "Last Year": "去年"
+            }
+          },
+          "aggregationType": {
+            "label": "聚合类型"
+          }
+        },
+        "connectionStringInformation": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
+      },
+      "libraryName": "数据历史记录"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "最近 30 分钟",

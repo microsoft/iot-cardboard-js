@@ -176,6 +176,7 @@ export type CardboardIconNames =
     | 'MapLayers'
     | 'MoreVertical'
     | 'MultiSelect'
+    | 'NumberField'
     | 'Org'
     | 'ProductVariant'
     | 'Ringer'

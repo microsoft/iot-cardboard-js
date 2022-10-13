@@ -567,7 +567,14 @@
       "unlabeledCondition": "ラベル",
       "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。"
     },
-    "conditions": "条件"
+    "conditions": "条件",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
+      "noData": "ビジュアル ルールをまだ構成していない",
+      "addRuleButtonText": "ルールの追加",
+      "editRule": "ルールの編集",
+      "removeRule": "ルールの削除"
+    }
   },
   "widgets": {
     "trend": {
@@ -599,7 +606,62 @@
       "libraryName": "パネル",
       "description": "レイアウトパネル"
     },
-    "notSupported": "このウィジェットの種類は現在サポートされていません"
+    "notSupported": "このウィジェットの種類は現在サポートされていません",
+    "dataHistory": {
+      "title": "データ履歴ウィジェット",
+      "description": "3Dシーンのコンテキストで時系列データを表示する",
+      "notEnabledDescription": "この ADT インスタンスのデータ履歴は有効になっていません。",
+      "form": {
+        "connectionStringTitle": "接続文字列",
+        "connectionStringPlaceholder": "接続文字列を入力します (例: key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "接続情報を読み込んでいます...",
+        "noConnectionInformationText": "接続情報が見つかりません",
+        "displayNamePlaceholder": "表示名を入力",
+        "timeSeries": {
+          "timeSeriesDescription": "{{maxTimeSeriesCount}}時系列を加算して表示する",
+          "title": "時系列",
+          "description": "折れ線グラフに表示する系列",
+          "property": "財産",
+          "unit": "単位",
+          "label": "ラベル",
+          "add": "時系列の追加",
+          "edit": "時系列の編集",
+          "remove": "時系列の削除",
+          "labelPlaceholder": "グラフに表示するラベルを入力"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "各系列に個別の (独立した) Y 軸がある場合、または同じ Y 軸を共有する場合 (共有) を設定するグラフ オプション",
+            "label": "Y 軸タイプ",
+            "sharedLabel": "シェアード",
+            "independentLabel": "無所属"
+          },
+          "quickTimeSpan": {
+            "label": "デフォルトの期間",
+            "options": {
+              "Last 15 mins": "最後の15分",
+              "Last 30 mins": "過去30分",
+              "Last Hour": "最後の 1 時間",
+              "Last 3 Hours": "過去 3 時間",
+              "Last 6 Hours": "過去 6 時間",
+              "Last 12 Hours": "過去 12 時間",
+              "Last 24 Hours": "過去 24 時間",
+              "Last 7 Days": "過去7日間",
+              "Last 30 Days": "過去30日間",
+              "Last 60 Days": "過去60日間",
+              "Last 90 Days": "過去90日間",
+              "Last 180 Days": "過去180日間",
+              "Last Year": "去年"
+            }
+          },
+          "aggregationType": {
+            "label": "集計タイプ"
+          }
+        },
+        "connectionStringInformation": "データ履歴ウィジェットは、作成時に Azure デジタル ツインズ インスタンスに接続されていた Azure データ エクスプローラー インスタンスを対象としています。"
+      },
+      "libraryName": "データ履歴"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "最後の30分",

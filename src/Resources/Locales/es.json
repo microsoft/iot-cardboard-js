@@ -567,7 +567,14 @@
       "unlabeledCondition": "Sin etiquetar",
       "formSubtext": "Una regla contiene condiciones y señales visuales cuando se cumplen esas condiciones. Elija la expresión de datos para esta regla y agregue algunas condiciones."
     },
-    "conditions": "Condiciones"
+    "conditions": "Condiciones",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Establezca reglas para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
+      "noData": "Aún no ha configurado ninguna regla visual",
+      "addRuleButtonText": "Agregar regla",
+      "editRule": "Editar regla",
+      "removeRule": "Quitar regla"
+    }
   },
   "widgets": {
     "trend": {
@@ -599,7 +606,62 @@
       "libraryName": "Tablero",
       "description": "Un panel de diseño"
     },
-    "notSupported": "Este tipo de widget no es compatible actualmente"
+    "notSupported": "Este tipo de widget no es compatible actualmente",
+    "dataHistory": {
+      "title": "Widget de historial de datos",
+      "description": "Mostrar datos de series temporales en el contexto de la escena 3D",
+      "notEnabledDescription": "El historial de datos no está habilitado para esta instancia de ADT.",
+      "form": {
+        "connectionStringTitle": "Cadena de conexión",
+        "connectionStringPlaceholder": "Introduzca la cadena de conexión (por ejemplo, key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Cargando información de conexión...",
+        "noConnectionInformationText": "No se ha encontrado información de conexión",
+        "displayNamePlaceholder": "Introduzca el nombre para mostrar",
+        "timeSeries": {
+          "timeSeriesDescription": "Agregue a {{maxTimeSeriesCount}} series de tiempo para mostrar",
+          "title": "Series temporales",
+          "description": "Una serie para mostrar en el gráfico de líneas",
+          "property": "Propiedad",
+          "unit": "Unidad",
+          "label": "Etiqueta",
+          "add": "Agregar series temporales",
+          "edit": "Editar series temporales",
+          "remove": "Eliminar series temporales",
+          "labelPlaceholder": "Introduzca la etiqueta que se mostrará en el gráfico"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Opción de gráfico para establecer si cada serie tiene ejes y separados (independientes) o comparten el mismo eje y (compartido)",
+            "label": "Tipo de eje Y",
+            "sharedLabel": "Compartido",
+            "independentLabel": "Independiente"
+          },
+          "quickTimeSpan": {
+            "label": "Intervalo de tiempo predeterminado",
+            "options": {
+              "Last 15 mins": "Últimos 15 minutos",
+              "Last 30 mins": "Últimos 30 minutos",
+              "Last Hour": "Última hora",
+              "Last 3 Hours": "Últimas 3 horas",
+              "Last 6 Hours": "Últimas 6 horas",
+              "Last 12 Hours": "Últimas 12 horas",
+              "Last 24 Hours": "Últimas 24 horas",
+              "Last 7 Days": "Últimos 7 días",
+              "Last 30 Days": "Últimos 30 días",
+              "Last 60 Days": "Últimos 60 días",
+              "Last 90 Days": "Últimos 90 días",
+              "Last 180 Days": "Últimos 180 días",
+              "Last Year": "Año pasado"
+            }
+          },
+          "aggregationType": {
+            "label": "Tipo de agregación"
+          }
+        },
+        "connectionStringInformation": "Los widgets de historial de datos tienen como destino la instancia del Explorador de datos de Azure conectada a la instancia de Azure Digital Twins en el momento de la creación."
+      },
+      "libraryName": "Historial de datos"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",

@@ -8,7 +8,7 @@
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
-export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget;
+export type IWidget = IGaugeWidget | ILinkWidget | IValueWidget | IDataHistoryWidget;
 /**
  * Widget group to which a widget belongs
  */
@@ -29,6 +29,12 @@ export type IDTDLPropertyType =
     | 'long'
     | 'string'
     | 'time';
+/**
+ * A list of timeseries to render in the chart
+ */
+export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
+export type IDataHistoryChartYAxisType = 'shared' | 'independent';
+export type IDataHistoryAggregationType = 'min' | 'max' | 'avg';
 export type IExpressionRangeType = 'NumericRange' | 'CategoricalValues';
 
 /**
@@ -230,6 +236,46 @@ export interface IValueWidgetConfiguration {
     displayName: string;
     valueExpression: IValueExpression;
     type: IDTDLPropertyType;
+}
+/**
+ * A data history widget which uses twin properties to show timeseries data
+ */
+export interface IDataHistoryWidget {
+    type: 'Data history';
+    id: string;
+    groupID?: IGroupID;
+    widgetConfiguration: IDataHistoryWidgetConfiguration;
+    extensionProperties?: IExtensionProperties;
+}
+/**
+ * Widget configuration specifies widget specific properties that are used for rendering this data history
+ */
+export interface IDataHistoryWidgetConfiguration {
+    /**
+     * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
+     */
+    connectionString: string;
+    displayName: string;
+    timeSeries: IDataHistoryTimeSeries;
+    chartOptions: IDataHistoryChartOptions;
+}
+/**
+ * A basic timeseries to be rendered in the chart of the data history widget
+ */
+export interface IDataHistoryBasicTimeSeries {
+    id: string;
+    expression: string;
+    unit?: string;
+    label?: string;
+}
+/**
+ * Options to be used while rendering chart for data history widget
+ */
+export interface IDataHistoryChartOptions {
+    yAxisType: IDataHistoryChartYAxisType;
+    defaultQuickTimeSpan: number;
+    aggregationType: IDataHistoryAggregationType;
+    extensionProperties?: IExtensionProperties;
 }
 /**
  * objectIDs specify the objects in the scene that a visual pertains to
