@@ -559,13 +559,13 @@
     "visualRuleForm": {
       "new": "Ny visuell regel",
       "edit": "Redigera visuell regel",
-      "formDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
       "typePlaceholder": "Välj typ för värdet",
       "conditionsInfoContent": "Konfigurera intervallet eller specifika värden som utlöser en visuell åtgärd som relaterar till elementet.",
       "newCondition": "Nytt tillstånd",
       "editCondition": "Redigera villkor",
       "deleteCondition": "Ta bort villkor",
-      "unlabeledCondition": "Omärkt"
+      "unlabeledCondition": "Omärkt",
+      "formSubtext": "En regel innehåller villkor och visuella ledtrådar när dessa villkor är uppfyllda. Välj datauttryck för den här regeln och lägg till några villkor."
     },
     "conditions": "Villkor"
   },

@@ -559,13 +559,13 @@
     "visualRuleForm": {
       "new": "Nouvelle règle visuelle",
       "edit": "Modifier la règle visuelle",
-      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
       "typePlaceholder": "Sélectionnez le type de la valeur",
       "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément.",
       "newCondition": "Nouvelle condition",
       "editCondition": "Modifier la condition",
       "deleteCondition": "Supprimer la condition",
-      "unlabeledCondition": "Sans étiquette"
+      "unlabeledCondition": "Sans étiquette",
+      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions."
     },
     "conditions": "Conditions"
   },

@@ -559,13 +559,13 @@
     "visualRuleForm": {
       "new": "Yeni görsel kural",
       "edit": "Görsel kuralı düzenle",
-      "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
       "typePlaceholder": "Değer için türü seçin",
       "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın.",
       "newCondition": "Yeni koşul",
       "editCondition": "Koşulu düzenle",
       "deleteCondition": "Silme koşulu",
-      "unlabeledCondition": "Etiketlenmemiş"
+      "unlabeledCondition": "Etiketlenmemiş",
+      "formSubtext": "Bir kural, koşullar ve bu koşullar karşılandığında görsel ipuçları içerir. Bu kural için veri ifadesini seçin ve birkaç koşul ekleyin."
     },
     "conditions": "Koşul -ları"
   },

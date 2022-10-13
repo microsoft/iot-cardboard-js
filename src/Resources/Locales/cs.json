@@ -559,13 +559,13 @@
     "visualRuleForm": {
       "new": "Nové vizuální pravidlo",
       "edit": "Upravit vizuální pravidlo",
-      "formDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
       "typePlaceholder": "Vyberte typ hodnoty",
       "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku.",
       "newCondition": "Nový stav",
       "editCondition": "Upravit podmínku",
       "deleteCondition": "Odstranit podmínku",
-      "unlabeledCondition": "Neoznačené"
+      "unlabeledCondition": "Neoznačené",
+      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek."
     },
     "conditions": "Podmínky"
   },
