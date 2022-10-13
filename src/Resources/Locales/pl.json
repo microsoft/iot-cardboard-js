@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
       "newCondition": "Nowy stan"
     },
-    "conditions": "Warunki"
+    "conditions": "Warunki",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "noData": "Nie skonfigurowano jeszcze żadnych reguł wizualnych",
+      "addRuleButtonText": "Dodaj regułę",
+      "editRule": "Edytuj regułę",
+      "removeRule": "Usuń regułę"
+    }
   },
   "widgets": {
     "trend": {

@@ -564,7 +564,14 @@
       "conditionsInfoContent": "配置触发与元素相关的可视操作的范围或特定值。",
       "newCondition": "新品条件"
     },
-    "conditions": "条件"
+    "conditions": "条件",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noData": "您尚未配置任何可视规则",
+      "addRuleButtonText": "添加规则",
+      "editRule": "编辑规则",
+      "removeRule": "删除规则"
+    }
   },
   "widgets": {
     "trend": {

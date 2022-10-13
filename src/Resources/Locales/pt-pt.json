@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Configure o alcance ou valores específicos que desencadeiem uma ação visual relacionada com o elemento.",
       "newCondition": "Nova condição"
     },
-    "conditions": "Condições"
+    "conditions": "Condições",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
+      "noData": "Ainda não configuraste nenhuma Regra Visual.",
+      "addRuleButtonText": "Adicionar Regra",
+      "editRule": "Regra de edição",
+      "removeRule": "Remover regra"
+    }
   },
   "widgets": {
     "trend": {
