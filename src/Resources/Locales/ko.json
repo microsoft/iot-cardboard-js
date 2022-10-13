@@ -564,7 +564,14 @@
       "conditionsInfoContent": "요소와 관련된 시각적 작업을 트리거하는 범위 또는 특정 값을 구성합니다.",
       "newCondition": "새 조건"
     },
-    "conditions": "여건"
+    "conditions": "여건",
+    "behaviorVisualRulesForm": {
+      "tabDescription": "특정 조건에 색상을 적용하기 위한 규칙을 설정합니다(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색).",
+      "noData": "아직 시각적 규칙을 구성하지 않았습니다.",
+      "addRuleButtonText": "규칙 추가",
+      "editRule": "규칙 편집",
+      "removeRule": "규칙 제거"
+    }
   },
   "widgets": {
     "trend": {
