@@ -456,6 +456,13 @@
             "noData": "You haven't configured any widgets yet",
             "tabDescription": "Define widgets that appear in the element's context"
         },
+        "behaviorVisualRulesForm": {
+            "tabDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "noData": "You haven't configured any Visual Rules yet",
+            "addRuleButtonText": "Add Rule",
+            "editRule": "Edit rule",
+            "removeRule": "Remove rule"
+        },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
             "twinNameTooltip": "This field is case sensitive",
