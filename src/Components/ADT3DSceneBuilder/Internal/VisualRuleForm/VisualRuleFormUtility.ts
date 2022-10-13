@@ -4,7 +4,7 @@ import {
     IValueRange
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IVisualRuleFormState } from '../Behaviors/VisualRules/VisualRules.types';
-import { Conditions, ConditionType } from './Internal/ConditionsList.types';
+import { Condition, ConditionType } from './Internal/ConditionsList.types';
 import i18n from '../../../../i18n';
 
 /**
@@ -34,7 +34,7 @@ export function getConditionSecondaryText(
     values: unknown[]
 ): string {
     if (type === 'NumericRange') {
-        return `${values[0]} (min) - ${values[1]} (max)`;
+        return `${values[0]} ${i18n.t('min')} - ${values[1]} ${i18n.t('max')}`;
     } else {
         return values.join(', ');
     }
@@ -44,7 +44,7 @@ export function getConditionSecondaryText(
 export const transformValueRangesIntoConditions = (
     valueRanges: IValueRange[],
     expressionType: IExpressionRangeType
-): Conditions[] => {
+): Condition[] => {
     if (valueRanges) {
         return valueRanges.map((condition) => {
             const conditionType = condition.visual.iconName

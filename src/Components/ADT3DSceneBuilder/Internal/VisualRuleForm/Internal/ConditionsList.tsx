@@ -8,12 +8,16 @@ import {
 } from '@fluentui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+    IExpressionRangeType,
+    IValueRange
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { transformValueRangesIntoConditions } from '../VisualRuleFormUtility';
 import { getStyles } from './ConditionsList.styles';
 import {
-    Conditions,
+    Condition,
     IConditionsListProps,
     IConditionsListStyles,
     IConditionsListStylesProps
@@ -69,12 +73,15 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     ];
 
     // State
-    const getConditionItems = (): ICardboardListItem<Conditions>[] => {
+    const getConditionItems = (
+        valueRanges: IValueRange[],
+        expressionType: IExpressionRangeType
+    ): ICardboardListItem<Condition>[] => {
         const conditions = transformValueRangesIntoConditions(
             valueRanges,
             expressionType
         );
-        const viewModel: ICardboardListItem<Conditions>[] = conditions.map(
+        const viewModel: ICardboardListItem<Condition>[] = conditions.map(
             (condition) => {
                 return {
                     item: condition,
@@ -91,12 +98,14 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         return viewModel;
     };
 
-    const [conditions, setConditions] = useState(getConditionItems());
+    const [conditions, setConditions] = useState(
+        getConditionItems(valueRanges, expressionType)
+    );
 
     // Effects
     // Update list everytime valueRanges and expressionType change
     useEffect(() => {
-        setConditions(getConditionItems());
+        setConditions(getConditionItems(valueRanges, expressionType));
     }, [valueRanges, expressionType]);
 
     // Callbacks
@@ -108,7 +117,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     return (
         <div className={classNames.container}>
             <Stack>
-                <CardboardList<Conditions>
+                <CardboardList<Condition>
                     listKey={LIST_KEY}
                     items={conditions}
                 />

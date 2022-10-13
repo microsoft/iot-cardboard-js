@@ -148,10 +148,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             _event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
             name: string
         ) => {
-            let isValid = false;
-            if (name && name.length) {
-                isValid = true;
-            }
+            const isValid = name?.trim().length > 0;
             setValidityMap((validityMap) => {
                 validityMap.set('displayName', { isValid: isValid });
                 return validityMap;
@@ -167,13 +164,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
 
     const onPropertyChange = useCallback(
         (propertyExpression: PropertyExpression) => {
-            let isValid = false;
-            if (
-                propertyExpression.expression &&
-                propertyExpression.expression.length
-            ) {
-                isValid = true;
-            }
+            const isValid = propertyExpression.expression?.trim().length > 0;
             setValidityMap((validityMap) => {
                 validityMap.set('expression', { isValid: isValid });
                 return validityMap;

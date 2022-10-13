@@ -14,7 +14,7 @@ export enum ConditionType {
     MeshColoring
 }
 
-export interface Conditions {
+export interface Condition {
     id: string;
     primaryText: string;
     secondaryText: string;
