@@ -592,16 +592,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 className={commonPanelStyles.formTabContents}
                                 headerText={t('3dSceneBuilder.visualRulesTab')}
                                 itemKey={BehaviorPivot.visualRules}
-                                onRenderItemLink={(props, defaultRenderer) =>
-                                    setPivotToRequired(
-                                        behaviorState.validityMap?.get(
-                                            'VisualRules'
-                                        )?.isValid,
-                                        t,
-                                        props,
-                                        defaultRenderer
-                                    )
-                                }
                             >
                                 <VisualRulesTab />
                             </PivotItem>

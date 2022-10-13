@@ -46,14 +46,14 @@ function getListItems(
             {
                 key: 'edit',
                 'data-testid': 'editRuleOverflow',
-                text: t('3dSceneBuilder.behaviorVisualRulesForm.editRule'),
+                text: t('3dSceneBuilder.behaviorVisualRulesTab.editRule'),
                 iconProps: { iconName: 'Edit' },
                 onClick: () => onEditRule(item.id)
             },
             {
                 key: 'remove',
                 'data-testid': 'removeRuleOverflow',
-                text: t('3dSceneBuilder.behaviorVisualRulesForm.removeRule'),
+                text: t('3dSceneBuilder.behaviorVisualRulesTab.removeRule'),
                 iconProps: { iconName: 'Delete' },
                 onClick: () => onRemoveRule(item.id)
             }

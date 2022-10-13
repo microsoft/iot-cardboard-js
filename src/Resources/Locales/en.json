@@ -456,7 +456,7 @@
             "noData": "You haven't configured any widgets yet",
             "tabDescription": "Define widgets that appear in the element's context"
         },
-        "behaviorVisualRulesForm": {
+        "behaviorVisualRulesTab": {
             "tabDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
             "noData": "You haven't configured any Visual Rules yet",
             "addRuleButtonText": "Add Rule",

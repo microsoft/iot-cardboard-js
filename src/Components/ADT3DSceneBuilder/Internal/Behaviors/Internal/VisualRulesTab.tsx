@@ -10,7 +10,7 @@ import {
 import { VisualRulesList } from '../VisualRules/VisualRuleList';
 import { IVisualRule } from '../VisualRules/VisualRules.types';
 
-const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesForm';
+const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesTab';
 const LOC_KEYS = {
     addButtonText: `${ROOT_LOC}.addRuleButtonText`,
     noData: `${ROOT_LOC}.noData`,
