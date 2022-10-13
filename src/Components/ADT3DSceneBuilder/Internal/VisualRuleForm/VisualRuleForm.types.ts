@@ -13,6 +13,7 @@ import { IConditionsListStyles } from './Internal/ConditionsList.types';
 
 export interface IVisualRuleFormProps {
     handleExpressionTextFieldEnabled: (isEnabled: boolean) => void;
+    isExpressionTextFieldEnabled: boolean;
     onCancelClick: (isDirty: boolean) => void;
     onSaveClick: (visualRule: IExpressionRangeVisual) => void;
     rootHeight: number;

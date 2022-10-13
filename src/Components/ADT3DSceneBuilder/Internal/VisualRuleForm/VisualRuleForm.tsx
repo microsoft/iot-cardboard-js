@@ -1,6 +1,8 @@
 import {
     classNamesFunction,
     DefaultButton,
+    Dropdown,
+    IDropdownOption,
     Label,
     PrimaryButton,
     Separator,
@@ -12,14 +14,19 @@ import {
 import React, {
     useCallback,
     useContext,
+    useMemo,
     useReducer,
     useRef,
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDefaultVisualRule } from '../../../../Models/Classes/3DVConfig';
+import { DTDLPropertyIconographyMap } from '../../../../Models/Constants';
 import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
-import { IExpressionRangeVisual } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import {
+    IDTDLPropertyType,
+    IExpressionRangeVisual
+} from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
@@ -37,7 +44,9 @@ import {
     checkValidityMap,
     createValidityMap,
     FieldToValidate,
-    IValidityState
+    IValidityState,
+    onRenderTypeOption,
+    onRenderTypeTitle
 } from '../Shared/SharedFormUtils';
 import ConditionsList from './Internal/ConditionsList';
 import { VisualRuleFormReducer } from './VisualRuleForm.state';
@@ -60,6 +69,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     // Props
     const {
         handleExpressionTextFieldEnabled,
+        isExpressionTextFieldEnabled,
         onCancelClick,
         onSaveClick,
         rootHeight,
@@ -74,6 +84,15 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         theme: theme
     });
     const commonFormStyles = getPanelFormStyles(theme, rootHeight);
+    const typeOptions: Array<IDropdownOption> = useMemo(
+        () =>
+            Object.keys(DTDLPropertyIconographyMap).map((mappingKey) => ({
+                key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
+                text: DTDLPropertyIconographyMap[mappingKey].text,
+                data: { icon: DTDLPropertyIconographyMap[mappingKey].icon }
+            })),
+        []
+    );
 
     // Refs
     // This combination of init function and useRef should replace a useEffect that runs onMount
@@ -123,6 +142,8 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     const [validityMap, setValidityMap] = useState(
         getInitialFieldValidityState()
     );
+
+    const [propertyType, setPropertyType] = useState<IDTDLPropertyType>();
 
     // Reducer
     const [
@@ -213,13 +234,24 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         [visualRuleFormDispatch]
     );
 
+    // TODO: Remove this in favor of actually using property type for condition functionality
+    // TODO: Might need schema update
+    const tempHandlePropertyTypeChange = useCallback(
+        (_event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
+            if (option) {
+                setPropertyType(option.text as IDTDLPropertyType);
+            }
+        },
+        []
+    );
+
     return (
         <>
             <div className={commonFormStyles.content}>
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
                         <div className={classNames.descriptionContainer}>
-                            {t('3dSceneBuilder.visualRuleForm.formDescription')}
+                            {t('3dSceneBuilder.visualRuleForm.formSubtext')}
                         </div>
                         <TextField
                             label={t('displayName')}
@@ -248,6 +280,21 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             onInternalModeChanged={onInternalModeChanged}
                             required
                         />
+                        {isExpressionTextFieldEnabled && (
+                            <Dropdown
+                                required
+                                placeholder={t(
+                                    '3dSceneBuilder.visualRuleForm.typePlaceholder'
+                                )}
+                                label={t('type')}
+                                selectedKey={`value-type-${propertyType}`}
+                                onChange={tempHandlePropertyTypeChange}
+                                options={typeOptions}
+                                onRenderOption={onRenderTypeOption}
+                                onRenderTitle={onRenderTypeTitle}
+                                styles={classNames.subComponentStyles.dropdown}
+                            />
+                        )}
                     </Stack>
                 </div>
                 <Separator />

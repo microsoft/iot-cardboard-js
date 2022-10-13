@@ -455,7 +455,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const commonPanelStyles = getLeftPanelStyles(theme);
     const formHeaderHeight = isVisualRulesFormActive
         ? isExpressionTextFieldEnabled
-            ? 296
+            ? 370
             : 268
         : 168;
     const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
@@ -494,6 +494,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             <VisualRuleForm
                 visualRuleId={visualRuleId}
                 rootHeight={formHeaderHeight}
+                isExpressionTextFieldEnabled={isExpressionTextFieldEnabled}
                 handleExpressionTextFieldEnabled={
                     handleExpressionTextFieldEnabled
                 }
