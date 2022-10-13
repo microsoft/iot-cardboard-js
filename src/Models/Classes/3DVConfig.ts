@@ -6,6 +6,9 @@ import {
 import { createGUID } from '../Services/Utils';
 import {
     IBehavior,
+    IDataHistoryAggregationType,
+    IDataHistoryChartYAxisType,
+    IDataHistoryWidget,
     IExpressionRangeVisual,
     IGaugeWidget,
     ILayer,
@@ -34,12 +37,15 @@ export enum WidgetType {
     Link = 'Link',
     Value = 'Value',
     Trend = 'Trend',
-    Panel = 'Panel'
+    Panel = 'Panel',
+    DataHistory = 'Data history'
 }
 
 export interface IWidgetLibraryItem {
     title: string;
     description: string;
+    notAvailableDescription?: string;
+    learnMoreLink?: string;
     iconName: string;
     disabled?: boolean;
     data: IWidget;
@@ -152,6 +158,21 @@ export const defaultValueWidget: IValueWidget = {
         displayName: '',
         valueExpression: null,
         type: 'double'
+    }
+};
+
+export const defaultDataHistoryWidget: IDataHistoryWidget = {
+    id: '',
+    type: WidgetType.DataHistory,
+    widgetConfiguration: {
+        connectionString: '',
+        displayName: '',
+        timeSeries: [],
+        chartOptions: {
+            aggregationType: 'avg' as IDataHistoryAggregationType,
+            defaultQuickTimeSpan: 15 * 60 * 1000, // last 15 min by default
+            yAxisType: 'shared' as IDataHistoryChartYAxisType
+        }
     }
 };
 

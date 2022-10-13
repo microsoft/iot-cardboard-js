@@ -596,7 +596,62 @@
       "libraryName": "Panneau",
       "description": "Un panneau de mise en page"
     },
-    "notSupported": "Ce type de widget n’est actuellement pas pris en charge"
+    "notSupported": "Ce type de widget n’est actuellement pas pris en charge",
+    "dataHistory": {
+      "title": "Widget Historique des données",
+      "description": "Afficher les données de séries chronologiques dans le contexte de votre scène 3D",
+      "notEnabledDescription": "L’historique des données n’est pas activé pour cette instance ADT.",
+      "form": {
+        "connectionStringTitle": "Chaîne de connexion",
+        "connectionStringPlaceholder": "Entrez la chaîne de connexion (par exemple, key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Chargement des informations de connexion...",
+        "noConnectionInformationText": "Aucune information de connexion trouvée",
+        "displayNamePlaceholder": "Entrez le nom complet",
+        "timeSeries": {
+          "timeSeriesDescription": "Ajouter à {{maxTimeSeriesCount}} des séries chronologiques à afficher",
+          "title": "Séries chronologiques",
+          "description": "Une série à afficher dans le graphique en courbes",
+          "property": "Propriété",
+          "unit": "Unité",
+          "label": "Étiquette",
+          "add": "Ajouter des séries chronologiques",
+          "edit": "Modifier des séries chronologiques",
+          "remove": "Supprimer les séries chronologiques",
+          "labelPlaceholder": "Entrez l’étiquette à afficher dans le graphique"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Option graphique à définir si chaque série a des axes y distincts (indépendants) ou partage le même axe y (partagé)",
+            "label": "Type d’axe Y",
+            "sharedLabel": "Partagé",
+            "independentLabel": "Indépendant"
+          },
+          "quickTimeSpan": {
+            "label": "Intervalle de temps par défaut",
+            "options": {
+              "Last 15 mins": "Les 15 dernières minutes",
+              "Last 30 mins": "Les 30 dernières minutes",
+              "Last Hour": "Dernière heure",
+              "Last 3 Hours": "3 dernières heures",
+              "Last 6 Hours": "6 dernières heures",
+              "Last 12 Hours": "12 dernières heures",
+              "Last 24 Hours": "Dernières 24 heures",
+              "Last 7 Days": "7 derniers jours",
+              "Last 30 Days": "30 derniers jours",
+              "Last 60 Days": "60 derniers jours",
+              "Last 90 Days": "90 derniers jours",
+              "Last 180 Days": "180 derniers jours",
+              "Last Year": "L’année dernière"
+            }
+          },
+          "aggregationType": {
+            "label": "Type d’agrégation"
+          }
+        },
+        "connectionStringInformation": "Les widgets d’historique des données ciblent l’instance Azure Data Explorer connectée à l’instance Azure Digital Twins au moment de la création."
+      },
+      "libraryName": "Historique des données"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Les 30 dernières minutes",

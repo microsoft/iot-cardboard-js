@@ -596,7 +596,62 @@
       "libraryName": "Панель",
       "description": "Панель макета"
     },
-    "notSupported": "Этот тип виджета в настоящее время не поддерживается"
+    "notSupported": "Этот тип виджета в настоящее время не поддерживается",
+    "dataHistory": {
+      "title": "Виджет истории данных",
+      "description": "Отображение данных временных рядов в контексте 3D-сцены",
+      "notEnabledDescription": "Журнал данных не включен для этого экземпляра ADT.",
+      "form": {
+        "connectionStringTitle": "Строка подключения",
+        "connectionStringPlaceholder": "Введите строку подключения (например, key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Загрузка информации о соединении...",
+        "noConnectionInformationText": "Сведения о подключении не найдены",
+        "displayNamePlaceholder": "Введите отображаемое имя",
+        "timeSeries": {
+          "timeSeriesDescription": "Добавьте к времени {{maxTimeSeriesCount}} для отображения",
+          "title": "Временной ряд",
+          "description": "Ряд для отображения на линейной диаграмме",
+          "property": "Свойство",
+          "unit": "Единица",
+          "label": "Ярлык",
+          "add": "Добавление временных рядов",
+          "edit": "Редактирование временных рядов",
+          "remove": "Удаление временных рядов",
+          "labelPlaceholder": "Введите метку для отображения на диаграмме"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Параметр диаграммы для установки, если каждый ряд имеет отдельные (независимые) оси Y или разделяет одну и ту же ось Y (общий)",
+            "label": "Тип оси Y",
+            "sharedLabel": "Совместный",
+            "independentLabel": "Независимый"
+          },
+          "quickTimeSpan": {
+            "label": "Временной интервал по умолчанию",
+            "options": {
+              "Last 15 mins": "Последние 15 минут",
+              "Last 30 mins": "Последние 30 минут",
+              "Last Hour": "Последний час",
+              "Last 3 Hours": "Последние 3 часа",
+              "Last 6 Hours": "Последние 6 часов",
+              "Last 12 Hours": "Последние 12 часов",
+              "Last 24 Hours": "Последние 24 часа",
+              "Last 7 Days": "Последние 7 дней",
+              "Last 30 Days": "Последние 30 дней",
+              "Last 60 Days": "Последние 60 дней",
+              "Last 90 Days": "Последние 90 дней",
+              "Last 180 Days": "Последние 180 дней",
+              "Last Year": "В прошлом году"
+            }
+          },
+          "aggregationType": {
+            "label": "Тип агрегирования"
+          }
+        },
+        "connectionStringInformation": "Виджеты журнала данных предназначены для экземпляра обозревателя данных Azure, подключенного к экземпляру Azure Digital Twins во время создания."
+      },
+      "libraryName": "История данных"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Последние 30 минут",

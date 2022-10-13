@@ -53,6 +53,33 @@ export const getEnvironmentItemFromResource = (
     };
 };
 
+/** This is used for converting an environment configuration item to Azure resource
+ * @param item environment item in local storage
+ * @param type intended type for the Azure resource
+ */
+export const getResourceFromEnvironmentItem = (
+    item: EnvironmentItemInLocalStorage,
+    type: AzureResourceTypes
+): IAzureResource => {
+    if (!item) return null;
+    return {
+        id: item.id ?? null,
+        name: getNameOfResource(item.url, type),
+        ...(type === AzureResourceTypes.DigitalTwinInstance && {
+            properties: {
+                hostName: new URL(item.url).hostname
+            },
+            location: ''
+        }),
+        ...(type === AzureResourceTypes.StorageAccount && {
+            properties: {
+                primaryEndpoints: { blob: new URL(item.url).hostname }
+            }
+        }),
+        type
+    } as IAzureResource;
+};
+
 /** This is used for getting the main environment configuration local storage item which stores
  * selected adt, storage account and storage container related information in it
  * @returns te environment configuration local storage item or null if not exists
