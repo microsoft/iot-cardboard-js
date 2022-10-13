@@ -1,16 +1,17 @@
 import {
     ActionButton,
     ChoiceGroup,
+    classNamesFunction,
     Dropdown,
     ITextFieldProps,
     Label,
     Link,
     Stack,
+    styled,
     TextField,
     useTheme
 } from '@fluentui/react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
-import i18next from 'i18next';
 import produce from 'immer';
 import React, {
     useCallback,
@@ -20,12 +21,8 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    DOCUMENTATION_LINKS,
-    QuickTimeSpans
-} from '../../../../../../../Models/Constants/Constants';
-import { QuickTimeSpanKey } from '../../../../../../../Models/Constants/Enums';
-import { useTimeSeriesData } from '../../../../../../../Models/Hooks/useTimeSeriesData';
+import { IADXConnection } from '../../../../../../../Models/Constants';
+import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -34,38 +31,59 @@ import {
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
-import { SceneBuilderContext } from '../../../../../ADT3DSceneBuilder';
-import { IDataHistoryWidgetBuilderProps } from '../../../../../ADT3DSceneBuilder.types';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
+import { getStyles } from './DataHistoryWidgetBuilder.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
+    CONNECTION_STRING_SUFFIX,
+    IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
-    QuickTimeSpanOptions,
+    QuickTimeSpanKey,
+    getQuickTimeSpanOptions,
+    QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
-    YAxisTypeOptions
+    getYAxisTypeOptions,
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
 } from './DataHistoryWidgetBuilder.types';
 import TimeSeriesFormCallout from './Internal/TimeSeriesFormCallout';
 import TimeSeriesList from './Internal/TimeSeriesList';
 
+const getClassNames = classNamesFunction<
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
+>();
+
 const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     formData,
     updateWidgetData,
-    setIsWidgetConfigValid
+    setIsWidgetConfigValid,
+    styles
 }) => {
-    const [selectedTimeSeriesIdx, setSelectedTimeSeriesIdx] = useState(null);
+    const [selectedTimeSeriesId, setSelectedTimeSeriesId] = useState(null);
     const addTimeSeriesCalloutId = useId('add-time-series-callout');
     const yAxisLabelId = useId('y-axis-label');
     const [
         isTimeSeriesFormCalloutVisible,
-        { toggle: toggleIsAddTimeSeriesCalloutVisible }
+        {
+            setTrue: setIsAddTimeSeriesCalloutVisibleTrue,
+            setFalse: setIsAddTimeSeriesCalloutVisibleFalse
+        }
     ] = useBoolean(false);
 
+    const theme = useTheme();
+    const classNames = getClassNames(styles, {
+        theme
+    });
+    const sharedClassNames = getWidgetFormStyles(theme);
+    const sharedActionButtonStyles = getActionButtonStyles(theme);
     const { t } = useTranslation();
-    const scenePageContext = useContext(ADT3DScenePageContext);
-    const { adapter } = useContext(SceneBuilderContext);
-    const { query } = useTimeSeriesData({ adapter });
+
+    const {
+        state: { adxConnectionInformation }
+    } = useContext(ADT3DScenePageContext);
 
     useEffect(() => {
         const {
@@ -82,36 +100,26 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 
     useEffect(() => {
         if (
-            scenePageContext?.state.adxConnectionInformation?.loadingState ===
+            adxConnectionInformation.loadingState ===
             ADXConnectionInformationLoadingState.EXIST
         ) {
-            const connection =
-                scenePageContext?.state.adxConnectionInformation.connection;
+            const connection = adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.connectionString = `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+                    draft.widgetConfiguration.connectionString = generateConnectionString(
+                        connection
+                    );
                 })
             );
         }
-    }, [scenePageContext?.state.adxConnectionInformation]);
+    }, [adxConnectionInformation]);
 
-    const connectionString = useMemo(() => {
-        if (formData.widgetConfiguration.connectionString) {
-            return formData.widgetConfiguration.connectionString;
-        } else if (
-            scenePageContext?.state.adxConnectionInformation?.loadingState ===
-            ADXConnectionInformationLoadingState.LOADING
-        ) {
-            return i18next.t('widgets.dataHistory.form.connectionLoadingText');
-        } else {
-            return i18next.t(
-                'widgets.dataHistory.form.noConnectionInformationText'
-            );
-        }
-    }, [
-        formData.widgetConfiguration.connectionString,
-        scenePageContext?.state.adxConnectionInformation?.loadingState
-    ]);
+    const connectionString = formData.widgetConfiguration.connectionString
+        ? formData.widgetConfiguration.connectionString
+        : adxConnectionInformation.loadingState ===
+          ADXConnectionInformationLoadingState.LOADING
+        ? t('widgets.dataHistory.form.connectionLoadingText')
+        : t('widgets.dataHistory.form.noConnectionInformationText');
 
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
         let key: QuickTimeSpanKey;
@@ -124,13 +132,11 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         return key;
     }, [formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan]);
 
-    const selectedSeries = useMemo(
-        () =>
-            selectedTimeSeriesIdx !== -1
-                ? formData.widgetConfiguration.timeSeries[selectedTimeSeriesIdx]
-                : null,
-        [selectedTimeSeriesIdx, formData]
-    );
+    const selectedSeries = selectedTimeSeriesId
+        ? formData.widgetConfiguration.timeSeries.find(
+              (ts) => ts.id === selectedTimeSeriesId
+          )
+        : null;
 
     const onDisplayNameChange = useCallback(
         (_event, value: string) => {
@@ -144,16 +150,20 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     );
 
     const handleTimeSeriesFormDismiss = useCallback(() => {
-        toggleIsAddTimeSeriesCalloutVisible(), setSelectedTimeSeriesIdx(null);
+        setIsAddTimeSeriesCalloutVisibleFalse();
+        setSelectedTimeSeriesId(null);
     }, []);
 
     const handleTimeSeriesFormPrimaryAction = useCallback(
         (series: IDataHistoryBasicTimeSeries) => {
-            selectedSeries
+            selectedTimeSeriesId
                 ? updateWidgetData(
                       produce(formData, (draft) => {
+                          const selectedIdx = draft.widgetConfiguration.timeSeries.findIndex(
+                              (ts) => ts.id === selectedTimeSeriesId
+                          );
                           draft.widgetConfiguration.timeSeries[
-                              selectedTimeSeriesIdx
+                              selectedIdx
                           ] = series;
                       })
                   )
@@ -168,20 +178,22 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             updateWidgetData,
             handleTimeSeriesFormDismiss,
             formData,
-            selectedSeries
+            selectedTimeSeriesId
         ]
     );
 
-    const handleTimeSeriesEditClick = useCallback((idx: number) => {
-        setSelectedTimeSeriesIdx(idx);
-        toggleIsAddTimeSeriesCalloutVisible();
+    const handleTimeSeriesEditClick = useCallback((id: string) => {
+        setSelectedTimeSeriesId(id);
+        setIsAddTimeSeriesCalloutVisibleTrue();
     }, []);
 
     const handleTimeSeriesRemoveClick = useCallback(
-        (idx: number) => {
+        (id: string) => {
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.timeSeries.splice(idx, 1);
+                    draft.widgetConfiguration.timeSeries = draft.widgetConfiguration.timeSeries.filter(
+                        (ts) => ts.id !== id
+                    );
                 })
             );
         },
@@ -197,7 +209,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 <Stack
                     horizontal
                     verticalAlign={'center'}
-                    styles={{ root: { 'label::after': { paddingRight: 0 } } }}
+                    className={classNames.stackWithTooltipAndRequired}
                 >
                     {defaultRender(props)}
                     <TooltipCallout
@@ -223,7 +235,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 </Stack>
             );
         },
-        [t]
+        [t, classNames]
     );
 
     const onChartOptionChange = useCallback(
@@ -245,11 +257,8 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [updateWidgetData, formData]
     );
 
-    const theme = useTheme();
-    const customStyles = getWidgetFormStyles(theme);
-    const actionButtonStyles = getActionButtonStyles(theme);
     return (
-        <div className={customStyles.widgetFormContents}>
+        <div className={sharedClassNames.widgetFormContents}>
             <Stack tokens={{ childrenGap: 8 }}>
                 <TextField
                     required
@@ -281,12 +290,12 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     MAX_NUMBER_OF_TIME_SERIES && (
                     <ActionButton
                         id={addTimeSeriesCalloutId}
-                        styles={actionButtonStyles}
+                        styles={sharedActionButtonStyles}
                         text={t('widgets.dataHistory.form.timeSeries.add')}
-                        onClick={toggleIsAddTimeSeriesCalloutVisible}
+                        onClick={setIsAddTimeSeriesCalloutVisibleTrue}
                     />
                 )}
-                <Label className={customStyles.label} id={yAxisLabelId}>
+                <Label className={sharedClassNames.label} id={yAxisLabelId}>
                     <Stack horizontal verticalAlign="center">
                         <span>
                             {t(
@@ -306,11 +315,11 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     </Stack>
                 </Label>
                 <ChoiceGroup
-                    className={customStyles.choiceGroup}
+                    className={sharedClassNames.choiceGroup}
                     selectedKey={
                         formData.widgetConfiguration.chartOptions.yAxisType
                     }
-                    options={YAxisTypeOptions}
+                    options={getYAxisTypeOptions(t)}
                     onChange={(_env, option) =>
                         onChartOptionChange(
                             'yAxisType',
@@ -327,7 +336,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     onChange={(_env, option) =>
                         onChartOptionChange('defaultQuickTimeSpan', option.data)
                     }
-                    options={QuickTimeSpanOptions}
+                    options={getQuickTimeSpanOptions(t)}
                 />
                 <Dropdown
                     label={t(
@@ -350,7 +359,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                 <TimeSeriesFormCallout
                     calloutTarget={
                         selectedSeries
-                            ? SERIES_LIST_ITEM_ID_PREFIX + selectedTimeSeriesIdx
+                            ? SERIES_LIST_ITEM_ID_PREFIX + selectedTimeSeriesId
                             : addTimeSeriesCalloutId
                     }
                     series={selectedSeries}
@@ -362,4 +371,29 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     );
 };
 
-export default DataHistoryWidgetBuilder;
+const generateConnectionString = (
+    connection: IADXConnection
+): string | null => {
+    if (
+        connection?.kustoClusterUrl &&
+        connection?.kustoDatabaseName &&
+        connection?.kustoTableName
+    ) {
+        try {
+            const clusterUrl = new URL(connection?.kustoClusterUrl);
+            if (clusterUrl.host.endsWith(CONNECTION_STRING_SUFFIX)) {
+                return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+            }
+        } catch (error) {
+            return null;
+        }
+    } else {
+        return null;
+    }
+};
+
+export default styled<
+    IDataHistoryWidgetBuilderProps,
+    IDataHistoryWidgetBuilderStyleProps,
+    IDataHistoryWidgetBuilderStyles
+>(DataHistoryWidgetBuilder, getStyles);

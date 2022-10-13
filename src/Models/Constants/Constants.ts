@@ -89,7 +89,10 @@ export const LOCAL_STORAGE_KEYS = {
             debugLogging: 'cardboard.debug.telemetryLogging' // enables debug logging for all emitted telemetry events
         },
         VisualRules: {
-            showVisualRulesPivot: 'cardboard.feature.visualRulesPivot' // shows visual rules pivot
+            showVisualRulesFeature: 'cardboard.feature.visualRulesFeature' // shows visual rules features
+        },
+        DataHistory: {
+            showDataHistoryWidget: 'cardboard.feature.dataHistoryWidget' // shows data history widget widget library
         }
     },
     Environment: {
@@ -178,7 +181,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
         data: defaultDataHistoryWidget,
-        disabled: false
+        disabled: true
     }
 ];
 export const twinRefreshMaxAge = 9000;
@@ -538,21 +541,4 @@ export const InterchangeableADTInstanceAccessRoleIds: Array<
 export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGroups = {
     enforced: EnforcedADTInstanceAccessRoleIds,
     interchangeables: InterchangeableADTInstanceAccessRoleIds
-};
-
-/** Quick time span key to value in millisecond mapping */
-export const QuickTimeSpans = {
-    [QuickTimeSpanKey['Last 15 mins']]: 15 * 60 * 1000,
-    [QuickTimeSpanKey['Last 30 mins']]: 30 * 60 * 1000,
-    [QuickTimeSpanKey['Last Hour']]: 1 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 3 Hours']]: 3 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 6 Hours']]: 6 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 12 Hours']]: 12 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 24 Hours']]: 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 7 Days']]: 7 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 30 Days']]: 30 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 60 Days']]: 60 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 90 Days']]: 90 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 180 Days']]: 180 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last Year']]: 356 * 24 * 60 * 60 * 1000
 };

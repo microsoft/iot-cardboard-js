@@ -30,14 +30,10 @@ export type IDTDLPropertyType =
     | 'string'
     | 'time';
 /**
- * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
- */
-export type IDataHistoryConnectionString = string;
-/**
  * A list of timeseries to render in the chart
  */
 export type IDataHistoryTimeSeries = IDataHistoryBasicTimeSeries[];
-export type IDataHistoryChartYAxisType = 'Shared' | 'Independent';
+export type IDataHistoryChartYAxisType = 'shared' | 'independent';
 export type IDataHistoryAggregationType = 'min' | 'max' | 'avg';
 export type IExpressionRangeType = 'NumericRange' | 'CategoricalValues';
 
@@ -255,7 +251,10 @@ export interface IDataHistoryWidget {
  * Widget configuration specifies widget specific properties that are used for rendering this data history
  */
 export interface IDataHistoryWidgetConfiguration {
-    connectionString: IDataHistoryConnectionString;
+    /**
+     * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
+     */
+    connectionString: string;
     displayName: string;
     timeSeries: IDataHistoryTimeSeries;
     chartOptions: IDataHistoryChartOptions;
@@ -264,6 +263,7 @@ export interface IDataHistoryWidgetConfiguration {
  * A basic timeseries to be rendered in the chart of the data history widget
  */
 export interface IDataHistoryBasicTimeSeries {
+    id: string;
     expression: string;
     unit?: string;
     label?: string;
@@ -289,6 +289,8 @@ export interface IObjectIDs {
  */
 export interface IExpressionRangeVisual {
     type: 'ExpressionRangeVisual';
+    id?: string;
+    displayName?: string;
     /**
      * Expression to evaluate
      */

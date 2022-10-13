@@ -546,7 +546,25 @@
       "rotation": "Drehung"
     },
     "searchTwinIdPlaceholder": "Twin ID ($dtId) suchen",
-    "visualRulesTab": "Visuelle Regeln"
+    "visualRulesTab": "Visuelle Regeln",
+    "visualRule": {
+      "new": "Neue visuelle Regel",
+      "edit": "Visuelle Regel bearbeiten",
+      "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "noDataMessageHeader": "Keine Bedingungen",
+      "noDataMessageDescription": "Noch keine Bedingungen geschaffen. Klicken Sie unten, um eine Bedingung zu erstellen.",
+      "noDataMessageLinkText": "Bedingung hinzufügen",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus."
+    },
+    "visualRuleForm": {
+      "new": "Neue visuelle Regel",
+      "edit": "Visuelle Regel bearbeiten",
+      "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
+      "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
+      "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen.",
+      "newCondition": "Neuer Zustand"
+    },
+    "conditions": "Bedingungen"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Eigentum",
           "unit": "Einheit",
           "label": "Etikett",
-          "labelPlaceholder": "Geben Sie die Beschriftung für diese Serie ein, die im Diagramm angezeigt werden soll.",
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
-          "remove": "Zeitreihen entfernen"
+          "remove": "Zeitreihen entfernen",
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Aggregationstyp"
           }
         },
-        "connectionStringInformatio": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
+        "connectionStringInformation": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
       },
       "libraryName": "Datenhistorie"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Geben Sie einen Wert ein",
     "noOptionsFoundMessage": "Keine Werte gefunden",
     "modalTitle": "Erweiterte Zwillingssuche",
-    "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen"
+    "modalSubtitle": "Verknüpfen Sie den rechten Zwilling, indem Sie Ihre Suche eingrenzen",
+    "columnPicker": "Spaltenauswahl",
+    "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
+    "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
+    "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   }
 }

@@ -241,6 +241,9 @@
             "description": "A basic timeseries to be rendered in the chart of the data history widget",
             "additionalProperties": false,
             "properties": {
+                "id": {
+                    "type": "string"
+                },
                 "expression": {
                     "type": "string"
                 },
@@ -251,7 +254,7 @@
                     "type": "string"
                 }
             },
-            "required": ["expression"]
+            "required": ["id", "expression"]
         },
         "IDataHistoryTimeSeries": {
             "type": "array",
@@ -260,13 +263,9 @@
                 "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
             }
         },
-        "IDataHistoryConnectionString": {
-            "type": "string",
-            "description": "Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget"
-        },
         "IDataHistoryChartYAxisType": {
             "type": "string",
-            "enum": ["Shared", "Independent"]
+            "enum": ["shared", "independent"]
         },
         "IDataHistoryAggregationType": {
             "type": "string",
@@ -455,7 +454,8 @@
             "description": "Widget configuration specifies widget specific properties that are used for rendering this data history",
             "properties": {
                 "connectionString": {
-                    "$ref": "#/$defs/IDataHistoryConnectionString"
+                    "type": "string",
+                    "description": "Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget"
                 },
                 "displayName": {
                     "type": "string"
@@ -638,6 +638,12 @@
             "properties": {
                 "type": {
                     "const": "ExpressionRangeVisual"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "displayName": {
+                    "type": "string"
                 },
                 "valueExpression": {
                     "type": "string",

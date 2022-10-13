@@ -546,7 +546,25 @@
       "rotation": "Obrót"
     },
     "searchTwinIdPlaceholder": "Szukaj Twin ID ($dtId)",
-    "visualRulesTab": "Reguły wizualne"
+    "visualRulesTab": "Reguły wizualne",
+    "visualRule": {
+      "new": "Nowa reguła wizualna",
+      "edit": "Edytuj regułę wizualną",
+      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "noDataMessageHeader": "Brak warunków",
+      "noDataMessageDescription": "Nie stworzono jeszcze żadnych warunków. Kliknij poniżej, aby utworzyć warunek.",
+      "noDataMessageLinkText": "Dodaj warunek",
+      "typePlaceholder": "Wybierz typ wartości"
+    },
+    "visualRuleForm": {
+      "new": "Nowa reguła wizualna",
+      "edit": "Edytowanie reguły wizualnej",
+      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
+      "typePlaceholder": "Wybierz typ wartości",
+      "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
+      "newCondition": "Nowy stan"
+    },
+    "conditions": "Warunki"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Własność",
           "unit": "Jednostka",
           "label": "Etykieta",
-          "labelPlaceholder": "Wprowadź etykietę dla tej serii, aby pokazać ją na wykresie",
           "add": "Dodawanie szeregów czasowych",
           "edit": "Edytowanie szeregów czasowych",
-          "remove": "Usuwanie szeregów czasowych"
+          "remove": "Usuwanie szeregów czasowych",
+          "labelPlaceholder": "Wprowadź etykietę, która ma być wyświetlana na wykresie"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Typ agregacji"
           }
         },
-        "connectionStringInformatio": "Widżety historii danych są przeznaczone dla wystąpienia usługi Azure Data Explorer połączonego z wystąpieniem usługi Azure Digital Twins w momencie tworzenia."
+        "connectionStringInformation": "Widżety historii danych są przeznaczone dla wystąpienia usługi Azure Data Explorer połączonego z wystąpieniem usługi Azure Digital Twins w momencie tworzenia."
       },
       "libraryName": "Historia danych"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Wprowadzanie wartości",
     "noOptionsFoundMessage": "Nie znaleziono wartości",
     "modalTitle": "Zaawansowane wyszukiwanie bliźniacze",
-    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie"
+    "modalSubtitle": "Połącz odpowiedni bliźniak, zawężając wyszukiwanie",
+    "columnPicker": "Selektor kolumn",
+    "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
+    "availableProperties": "Lista rozwijana dostępnych właściwości",
+    "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
   }
 }

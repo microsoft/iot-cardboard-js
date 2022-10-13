@@ -63,8 +63,8 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
         >
             <Stack
                 {...contentStackProps}
-                tokens={{ ...stackTokens, ...contentStackProps?.tokens }}
-                style={{ height: '100%', ...contentStackProps?.style }}
+                tokens={stackTokens}
+                style={{ height: '100%' }}
             >
                 <div className={classNames.headerContainer}>
                     <div className={classNames.titleContainer}>
@@ -87,7 +87,15 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                     )}
                 </div>
                 <div className={classNames.content}>
-                    <Stack tokens={stackTokens}>{children}</Stack>
+                    <Stack
+                        tokens={{
+                            ...stackTokens,
+                            ...contentStackProps?.tokens
+                        }}
+                        style={{ height: '100%', ...contentStackProps?.style }}
+                    >
+                        {children}
+                    </Stack>
                 </div>
                 <div className={classNames.footer}>
                     <Stack

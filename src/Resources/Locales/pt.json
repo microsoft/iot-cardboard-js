@@ -546,7 +546,25 @@
       "rotation": "Rotação"
     },
     "searchTwinIdPlaceholder": "Pesquisar iD duplo ($dtId)",
-    "visualRulesTab": "Regras visuais"
+    "visualRulesTab": "Regras visuais",
+    "visualRule": {
+      "new": "Nova regra visual",
+      "edit": "Editar regra visual",
+      "formDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "noDataMessageHeader": "Sem condições",
+      "noDataMessageDescription": "Nenhuma condição criada ainda. Clique abaixo para criar uma condição.",
+      "noDataMessageLinkText": "Adicionar condição",
+      "typePlaceholder": "Selecione o tipo para o valor"
+    },
+    "visualRuleForm": {
+      "new": "Nova regra visual",
+      "edit": "Editar regra visual",
+      "formDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "typePlaceholder": "Selecione o tipo para o valor",
+      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
+      "newCondition": "Nova condição"
+    },
+    "conditions": "Condições"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Propriedade",
           "unit": "Unidade",
           "label": "Etiqueta",
-          "labelPlaceholder": "Digite rótulo para esta série para mostrar no gráfico",
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
-          "remove": "Remover séries temporizados"
+          "remove": "Remover séries temporizados",
+          "labelPlaceholder": "Digite rótulo para mostrar no gráfico"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Tipo de agregação"
           }
         },
-        "connectionStringInformatio": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação."
+        "connectionStringInformation": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação."
       },
       "libraryName": "Histórico de dados"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Digite um valor",
     "noOptionsFoundMessage": "Nenhum valor encontrado",
     "modalTitle": "Pesquisa dupla avançada",
-    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa"
+    "modalSubtitle": "Vincule o gêmeo certo, reduzindo sua pesquisa",
+    "columnPicker": "Catador de colunas",
+    "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
+    "availableProperties": "Desistência de imóveis disponíveis",
+    "selectAdditionalColumns": "Selecione colunas adicionais"
   }
 }

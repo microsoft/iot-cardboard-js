@@ -546,7 +546,25 @@
       "rotation": "Rotation"
     },
     "searchTwinIdPlaceholder": "Sök tvilling-ID ($dtId)",
-    "visualRulesTab": "Visuella regler"
+    "visualRulesTab": "Visuella regler",
+    "visualRule": {
+      "new": "Ny visuell regel",
+      "edit": "Redigera visuell regel",
+      "formDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
+      "noDataMessageHeader": "Inga villkor",
+      "noDataMessageDescription": "Inga förutsättningar skapade ännu. Klicka nedan för att skapa ett villkor.",
+      "noDataMessageLinkText": "Lägg till villkor",
+      "typePlaceholder": "Välj typ för värdet"
+    },
+    "visualRuleForm": {
+      "new": "Ny visuell regel",
+      "edit": "Redigera visuell regel",
+      "formDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
+      "typePlaceholder": "Välj typ för värdet",
+      "conditionsInfoContent": "Konfigurera intervallet eller specifika värden som utlöser en visuell åtgärd som relaterar till elementet.",
+      "newCondition": "Nytt tillstånd"
+    },
+    "conditions": "Villkor"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Egenskap",
           "unit": "Enhet",
           "label": "Etikett",
-          "labelPlaceholder": "Ange etikett för den här serien som ska visas i diagrammet",
           "add": "Lägga till tidsserier",
           "edit": "Redigera tidsserier",
-          "remove": "Ta bort tidsserier"
+          "remove": "Ta bort tidsserier",
+          "labelPlaceholder": "Ange etikett som ska visas i diagrammet"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Typ av aggregering"
           }
         },
-        "connectionStringInformatio": "Datahistorikwidgetar riktar azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas."
+        "connectionStringInformation": "Datahistorikwidgetar riktar azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas."
       },
       "libraryName": "Historik"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Ange ett värde",
     "noOptionsFoundMessage": "Inga värden hittades",
     "modalTitle": "Avancerad tvillingsökning",
-    "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning"
+    "modalSubtitle": "Länka rätt tvilling genom att begränsa din sökning",
+    "columnPicker": "Kolumnväljare",
+    "propertyCount": "{{selectedPropsCount}} egenskaper valda",
+    "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
+    "selectAdditionalColumns": "Välj ytterligare kolumner"
   }
 }

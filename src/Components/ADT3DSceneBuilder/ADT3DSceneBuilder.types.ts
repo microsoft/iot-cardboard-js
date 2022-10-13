@@ -25,6 +25,7 @@ import {
     Locale,
     Theme,
     TwinAliasFormMode,
+    VisualRuleFormMode,
     WidgetFormMode
 } from '../../Models/Constants/Enums';
 import {
@@ -37,8 +38,7 @@ import {
     IGaugeWidget,
     ILinkWidget,
     IValueWidget,
-    ITwinToObjectMapping,
-    IDataHistoryWidget
+    ITwinToObjectMapping
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 // START of Actions
@@ -79,6 +79,7 @@ export const SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY =
     'SET_ADT_SCENE_BUILDER_FORM_DIRTY_MAP_ENTRY';
 export const SET_GIZMO_ELEMENT_ITEM = 'SET_PARENT_MESH_IDS_TO_GIZMO';
 export const SET_GIZMO_TRANSFORM_ITEM = 'SET_GIZMO_TRANSFORM_ITEM';
+export const SET_VISUAL_RULE_ACTIVE_MODE = 'SET_VISUAL_RULE_ACTIVE_MODE';
 // END of Actions
 
 export interface IADT3DSceneBuilderCardProps
@@ -146,6 +147,8 @@ export interface I3DSceneBuilderContext {
         behaviorId?: string,
         onFocusDismiss?: (layerId: string) => void
     ) => void;
+    visualRuleFormMode: VisualRuleFormMode;
+    setVisualRuleFormMode: (mode: VisualRuleFormMode) => void;
 }
 
 export type BuilderDirtyFormType = 'behavior' | 'element';
@@ -290,6 +293,7 @@ export interface ADT3DSceneBuilderState {
     showHoverOnSelected: boolean;
     unsavedBehaviorDialogOpen: boolean;
     unsavedChangesDialogDiscardAction: VoidFunction;
+    visualRuleFormMode: VisualRuleFormMode;
     widgetFormInfo: WidgetFormInfo;
 }
 
@@ -310,10 +314,4 @@ export interface IGaugeWidgetBuilderProps extends IWidgetBuilderFormDataProps {
 export interface IValueWidgetBuilderProps extends IWidgetBuilderFormDataProps {
     formData: IValueWidget;
     updateWidgetData: (widgetData: IValueWidget) => void;
-}
-
-export interface IDataHistoryWidgetBuilderProps
-    extends IWidgetBuilderFormDataProps {
-    formData: IDataHistoryWidget;
-    updateWidgetData: (widgetData: IDataHistoryWidget) => void;
 }

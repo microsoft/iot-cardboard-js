@@ -546,7 +546,25 @@
       "rotation": "Forgás"
     },
     "searchTwinIdPlaceholder": "Keresés ikerazonosítóban ($dtId)",
-    "visualRulesTab": "Vizuális szabályok"
+    "visualRulesTab": "Vizuális szabályok",
+    "visualRule": {
+      "new": "Új vizuális szabály",
+      "edit": "Vizuális szabály szerkesztése",
+      "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
+      "noDataMessageHeader": "Nincsenek feltételek",
+      "noDataMessageDescription": "Még nem teremtettek feltételeket. Az alábbi gombra kattintva létrehozhat egy feltételt.",
+      "noDataMessageLinkText": "Feltétel hozzáadása",
+      "typePlaceholder": "Válassza ki az érték típusát"
+    },
+    "visualRuleForm": {
+      "new": "Új vizualizációs szabály",
+      "edit": "Vizuális szabály szerkesztése",
+      "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
+      "typePlaceholder": "Válassza ki az érték típusát",
+      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
+      "newCondition": "Új feltétel"
+    },
+    "conditions": "Feltételek"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Ingatlan",
           "unit": "Egység",
           "label": "Címke",
-          "labelPlaceholder": "Adja meg a sorozat címkét, hogy megjelenjen a diagramon",
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
-          "remove": "Idősorok eltávolítása"
+          "remove": "Idősorok eltávolítása",
+          "labelPlaceholder": "Írja be a diagramon megjelenítendő címkét"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Összesítés típusa"
           }
         },
-        "connectionStringInformatio": "Az előzmény widgetek a Azure Data Explorer példányt célozzák meg, amely a azure Digital Twins a létrehozáskor csatlakozik."
+        "connectionStringInformation": "Az előzmény widgetek a Azure Data Explorer példányt célozzák meg, amely a azure Digital Twins a létrehozáskor csatlakozik."
       },
       "libraryName": "Adatok előzményei"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Adjon meg egy értéket",
     "noOptionsFoundMessage": "Nem található érték",
     "modalTitle": "Speciális ikerkeresés",
-    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével"
+    "modalSubtitle": "A megfelelő iker összekapcsolása a keresés szűkítésével",
+    "columnPicker": "Oszlopválasztó",
+    "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
+    "availableProperties": "Az elérhető szállások legördülő menüje",
+    "selectAdditionalColumns": "További oszlopok kijelölése"
   }
 }

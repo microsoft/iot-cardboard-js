@@ -546,7 +546,25 @@
       "rotation": "Rotation"
     },
     "searchTwinIdPlaceholder": "Rechercher Twin ID ($dtId)",
-    "visualRulesTab": "Règles visuelles"
+    "visualRulesTab": "Règles visuelles",
+    "visualRule": {
+      "new": "Nouvelle règle visuelle",
+      "edit": "Modifier la règle visuelle",
+      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "noDataMessageHeader": "Aucune condition",
+      "noDataMessageDescription": "Aucune condition n’a encore été créée. Cliquez ci-dessous pour créer une condition.",
+      "noDataMessageLinkText": "Ajouter une condition",
+      "typePlaceholder": "Sélectionnez le type de la valeur"
+    },
+    "visualRuleForm": {
+      "new": "Nouvelle règle visuelle",
+      "edit": "Modifier la règle visuelle",
+      "formDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "typePlaceholder": "Sélectionnez le type de la valeur",
+      "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément.",
+      "newCondition": "Nouvelle condition"
+    },
+    "conditions": "Conditions"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Propriété",
           "unit": "Unité",
           "label": "Étiquette",
-          "labelPlaceholder": "Entrez l’étiquette de cette série à afficher dans le graphique",
           "add": "Ajouter des séries chronologiques",
           "edit": "Modifier des séries chronologiques",
-          "remove": "Supprimer les séries chronologiques"
+          "remove": "Supprimer les séries chronologiques",
+          "labelPlaceholder": "Entrez l’étiquette à afficher dans le graphique"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Type d’agrégation"
           }
         },
-        "connectionStringInformatio": "Les widgets d’historique des données ciblent l’instance Azure Data Explorer connectée à l’instance Azure Digital Twins au moment de la création."
+        "connectionStringInformation": "Les widgets d’historique des données ciblent l’instance Azure Data Explorer connectée à l’instance Azure Digital Twins au moment de la création."
       },
       "libraryName": "Historique des données"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Entrez une valeur",
     "noOptionsFoundMessage": "Aucune valeur trouvée",
     "modalTitle": "Recherche avancée de jumeaux",
-    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche"
+    "modalSubtitle": "Liez le bon jumeau en réduisant votre recherche",
+    "columnPicker": "Sélecteur de colonnes",
+    "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
+    "availableProperties": "Liste déroulante des propriétés disponibles",
+    "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   }
 }

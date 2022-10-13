@@ -171,7 +171,7 @@ export const defaultDataHistoryWidget: IDataHistoryWidget = {
         chartOptions: {
             aggregationType: 'avg' as IDataHistoryAggregationType,
             defaultQuickTimeSpan: 15 * 60 * 1000, // last 15 min by default
-            yAxisType: 'Shared' as IDataHistoryChartYAxisType
+            yAxisType: 'shared' as IDataHistoryChartYAxisType
         }
     }
 };

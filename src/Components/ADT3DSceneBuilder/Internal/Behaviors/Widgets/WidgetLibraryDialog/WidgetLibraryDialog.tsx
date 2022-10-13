@@ -23,12 +23,27 @@ import {
     IWidgetLibraryItem,
     WidgetType
 } from '../../../../../../Models/Classes/3DVConfig';
-import { availableWidgets } from '../../../../../../Models/Constants/Constants';
+import {
+    availableWidgets,
+    LOCAL_STORAGE_KEYS
+} from '../../../../../../Models/Constants/Constants';
 import { getWidgetLibraryDialogStyles } from './WidgetLibraryDialog.styles';
 import { ADT3DScenePageContext } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
 
 const enabledWidgets = availableWidgets.filter((w) => !w.disabled);
+if (
+    enabledWidgets.findIndex((w) => w.data.type === WidgetType.DataHistory) ===
+        -1 &&
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.DataHistory.showDataHistoryWidget
+    ) === 'true'
+) {
+    // when data history is disabled in code but enabled by local storage externally to test the feature append it to the list
+    enabledWidgets.push(
+        availableWidgets.find((w) => w.data.type === WidgetType.DataHistory)
+    );
+}
 
 const WidgetLibraryDialog: React.FC<{
     setIsLibraryDialogOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -68,23 +83,31 @@ const WidgetLibraryDialog: React.FC<{
         [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
-    const isWidgetNotAvailable = useCallback(
+    const isWidgetAvailable = useCallback(
+        (widgetType: WidgetType) =>
+            !(
+                widgetType === WidgetType.DataHistory &&
+                scenePageContext?.state.adxConnectionInformation
+                    ?.loadingState ===
+                    ADXConnectionInformationLoadingState.NOT_EXIST
+            ),
+        [scenePageContext?.state.adxConnectionInformation?.loadingState]
+    );
+
+    const isWidgetButtonDisabled = useCallback(
         (widgetType: WidgetType) =>
             widgetType === WidgetType.DataHistory &&
-            scenePageContext?.state.adxConnectionInformation?.loadingState ===
-                ADXConnectionInformationLoadingState.NOT_EXIST,
+            scenePageContext?.state.adxConnectionInformation?.loadingState !==
+                ADXConnectionInformationLoadingState.EXIST,
         [scenePageContext?.state.adxConnectionInformation?.loadingState]
     );
 
     const handleOnRenderCell = useCallback(
         (widget: IWidgetLibraryItem, index: number) => (
             <DefaultButton
-                disabled={
-                    widget.data.type === WidgetType.DataHistory &&
-                    scenePageContext?.state.adxConnectionInformation
-                        ?.loadingState !==
-                        ADXConnectionInformationLoadingState.EXIST
-                }
+                disabled={isWidgetButtonDisabled(
+                    widget.data.type as WidgetType
+                )}
                 key={index}
                 className={css(
                     'cb-widget-dialog-list-item',
@@ -132,9 +155,11 @@ const WidgetLibraryDialog: React.FC<{
                                 }
                             }}
                         >
-                            {isWidgetNotAvailable(
+                            {isWidgetAvailable(
                                 widget.data.type as WidgetType
                             ) ? (
+                                widget.description
+                            ) : (
                                 <>
                                     {widget.notAvailableDescription}{' '}
                                     <Link
@@ -144,8 +169,6 @@ const WidgetLibraryDialog: React.FC<{
                                         {t('learnMore')}
                                     </Link>
                                 </>
-                            ) : (
-                                widget.description
                             )}
                         </Text>
                     </Stack>
@@ -154,7 +177,7 @@ const WidgetLibraryDialog: React.FC<{
         ),
         [
             scenePageContext?.state.adxConnectionInformation?.loadingState,
-            isWidgetNotAvailable,
+            isWidgetAvailable,
             isSpinnerVisible,
             selectedWidget,
             enabledWidgets

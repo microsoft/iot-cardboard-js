@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     IAdvancedSearchResultDetailsListProps,
     IAdvancedSearchResultDetailsListStyleProps,
@@ -25,9 +25,19 @@ import PropertyInspectorCallout from '../../../PropertyInspector/PropertyInspect
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import NoResultImg from '../../../../Resources/Static/noResults.svg';
 import NetworkErrorImg from '../../../../Resources/Static/corsError.svg';
-import { sortAscendingOrDescending } from '../../../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    sortAscendingOrDescending
+} from '../../../../Models/Services/Utils';
 import { QUERY_RESULT_LIMIT } from '../../AdvancedSearch.types';
 
+const debugLogging = false;
+const logDebugConsole = getDebugLogger(
+    'AdvancedSearchResultsDetailsList',
+    debugLogging
+);
+
+import ColumnPicker from '../../Internal/ColumnPicker/ColumnPicker';
 const getClassNames = classNamesFunction<
     IAdvancedSearchResultDetailsListStyleProps,
     IAdvancedSearchResultDetailsListStyles
@@ -52,7 +62,60 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
     const listItems = twins.sort(
         sortAscendingOrDescending(sortKey, isSortedDescending)
     );
+    const [selectedColumnNames, setSelectedColumnNames] = useState<string[]>(
+        []
+    );
 
+    // callbacks
+    const availableProperties = useMemo(() => {
+        let properties: string[] = [];
+        twins.forEach((twin) => {
+            properties = Object.keys(twin).concat(properties);
+        });
+        properties.sort((a, b) => (a.toLowerCase() > b.toLowerCase() ? 1 : -1));
+        return new Set(properties);
+    }, [twins]);
+    const updateColumns = useCallback(
+        (columnToAdd: string) => {
+            if (!selectedColumnNames.includes(columnToAdd)) {
+                setSelectedColumnNames((currentValue) => {
+                    return [...currentValue, columnToAdd];
+                });
+            }
+        },
+        [selectedColumnNames]
+    );
+    const deleteColumn = (columnToRemoveKey: string) => {
+        setSelectedColumnNames((currentValue) =>
+            currentValue.filter((col) => col !== columnToRemoveKey)
+        );
+    };
+
+    // data
+    const selection = new Selection({
+        getKey(item: IObjectWithKey, _index?: number) {
+            return item['$dtId'];
+        },
+        onSelectionChanged: () => {
+            // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
+            const selectionValue = selection.getSelection()[0];
+            onTwinIdSelect(selectionValue ? selectionValue['$dtId'] : '');
+        }
+    });
+    const noDataHeaderText = searchedProperties.length
+        ? t('advancedSearch.noDataAfterSearchHeader')
+        : t('advancedSearch.noDataBeforeSearchHeader');
+    const noDataDescriptionText = searchedProperties.length
+        ? t('advancedSearch.noDataAfterSearchDescription')
+        : undefined;
+    const noDataImage = searchedProperties.length
+        ? {
+              height: 100,
+              src: NoResultImg
+          }
+        : undefined;
+
+    // columns
     const staticColumns: IColumn[] = [
         {
             key: 'twin-id',
@@ -78,8 +141,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             isResizable: true
         }
     ];
-
-    const additionalColumns: IColumn[] = searchedProperties.map((name) => {
+    const additionalColumns = selectedColumnNames.map((name) => {
         return {
             key: name,
             name: name,
@@ -95,17 +157,14 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             }
         };
     });
-
-    const columns: IColumn[] =
-        additionalColumns.length > 0
-            ? staticColumns.concat(additionalColumns)
-            : staticColumns;
+    const tableColumns = staticColumns.concat(additionalColumns);
     // mark each column based on whether it's currently the one sorted
-    columns.forEach((x) => {
+    tableColumns.forEach((x) => {
         x.isSorted = sortKey === x.fieldName;
         x.isSortedDescending = x.isSorted ? isSortedDescending : false;
     });
 
+    // sub renders
     const renderItemColumn: IDetailsListProps['onRenderItemColumn'] = (
         item: IADTTwin,
         _itemIndex: number,
@@ -124,30 +183,6 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                 return <span>{String(item[column.fieldName])}</span>;
         }
     };
-    const selection = new Selection({
-        getKey(item: IObjectWithKey, _index?: number) {
-            return item['$dtId'];
-        },
-        onSelectionChanged: () => {
-            // getSelection returns an array of selected elements, since this is single select first one is always going to be the correct one
-            const selectionValue = selection.getSelection()[0];
-            onTwinIdSelect(selectionValue ? selectionValue['$dtId'] : '');
-        }
-    });
-
-    const noDataHeaderText = additionalColumns.length
-        ? t('advancedSearch.noDataAfterSearchHeader')
-        : t('advancedSearch.noDataBeforeSearchHeader');
-    const noDataDescriptionText = additionalColumns.length
-        ? t('advancedSearch.noDataAfterSearchDescription')
-        : undefined;
-    const noDataImage = additionalColumns.length
-        ? {
-              height: 100,
-              src: NoResultImg
-          }
-        : undefined;
-
     const renderContent = () => {
         if (containsError) {
             return (
@@ -185,7 +220,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
             return (
                 <DetailsList
                     items={listItems}
-                    columns={columns}
+                    columns={tableColumns}
                     layoutMode={DetailsListLayoutMode.justified}
                     selectionPreservedOnEmptyClick={false}
                     ariaLabelForSelectionColumn={t(
@@ -201,11 +236,42 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
         }
     };
 
+    // side effects
+    useEffect(() => {
+        const selectedKeysSet = new Set(selectedColumnNames);
+
+        searchedProperties.forEach((property) => {
+            if (!selectedKeysSet.has(property)) {
+                updateColumns(property);
+                selectedKeysSet.add(property);
+            }
+        });
+        setSelectedColumnNames(Array.from(selectedKeysSet));
+    }, [searchedProperties, updateColumns]);
+
+    logDebugConsole(
+        'debug',
+        `Render. {columns, selectedColumns, availableProperties}`,
+        tableColumns,
+        selectedColumnNames,
+        availableProperties
+    );
+
     return (
         <section className={classNames.root}>
-            <h3 className={classNames.listHeader}>
-                {t('advancedSearch.results', { twinCount })}
-            </h3>
+            <div className={classNames.listHeaderAndDropdown}>
+                <h3 className={classNames.listHeader}>
+                    {t('advancedSearch.results', { twinCount })}
+                </h3>
+                {twinCount > 0 && (
+                    <ColumnPicker
+                        allAvailableProperties={availableProperties}
+                        addColumn={updateColumns}
+                        deleteColumn={deleteColumn}
+                        selectedKeys={selectedColumnNames}
+                    />
+                )}
+            </div>
             {twinCount === QUERY_RESULT_LIMIT && (
                 <span>
                     {t('advancedSearch.resultsExceededLabel', {
@@ -213,7 +279,7 @@ const AdvancedSearchResultDetailsList: React.FC<IAdvancedSearchResultDetailsList
                     })}
                 </span>
             )}
-            {renderContent()}
+            <div>{renderContent()}</div>
         </section>
     );
 };

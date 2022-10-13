@@ -546,7 +546,25 @@
       "rotation": "Rotace"
     },
     "searchTwinIdPlaceholder": "Hledat ID dvojčete ($dtId)",
-    "visualRulesTab": "Vizuální pravidla"
+    "visualRulesTab": "Vizuální pravidla",
+    "visualRule": {
+      "new": "Nové vizuální pravidlo",
+      "edit": "Upravit vizuální pravidlo",
+      "formDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
+      "noDataMessageHeader": "Žádné podmínky",
+      "noDataMessageDescription": "Zatím nebyly vytvořeny žádné podmínky. Kliknutím níže vytvořte podmínku.",
+      "noDataMessageLinkText": "Přidat podmínku",
+      "typePlaceholder": "Vyberte typ hodnoty"
+    },
+    "visualRuleForm": {
+      "new": "Nové vizuální pravidlo",
+      "edit": "Upravit vizuální pravidlo",
+      "formDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
+      "typePlaceholder": "Vyberte typ hodnoty",
+      "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku.",
+      "newCondition": "Nový stav"
+    },
+    "conditions": "Podmínky"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Vlastnost",
           "unit": "Jednotka",
           "label": "Označit",
-          "labelPlaceholder": "Zadejte popisek pro tuto řadu, který se má zobrazit v grafu.",
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
-          "remove": "Odebrání časových řad"
+          "remove": "Odebrání časových řad",
+          "labelPlaceholder": "Zadejte popisek, který se má zobrazit v grafu"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Typ agregace"
           }
         },
-        "connectionStringInformatio": "Widgety historie dat cílí na instanci Průzkumníka dat Azure připojenou k instanci Azure Digital Twins v době vytvoření."
+        "connectionStringInformation": "Widgety historie dat cílí na instanci Průzkumníka dat Azure připojenou k instanci Azure Digital Twins v době vytvoření."
       },
       "libraryName": "Historie dat"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Zadejte hodnotu",
     "noOptionsFoundMessage": "Nebyly nalezeny žádné hodnoty",
     "modalTitle": "Rozšířené vyhledávání dvojčat",
-    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání"
+    "modalSubtitle": "Propojte správné dvojče zúžením vyhledávání",
+    "columnPicker": "Výběr sloupců",
+    "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
+    "availableProperties": "Rozbalovací nabídka dostupných ubytování",
+    "selectAdditionalColumns": "Výběr dalších sloupců"
   }
 }

@@ -546,7 +546,25 @@
       "rotation": "旋转"
     },
     "searchTwinIdPlaceholder": "搜索双胞胎 ID （$dtId）",
-    "visualRulesTab": "视觉规则"
+    "visualRulesTab": "视觉规则",
+    "visualRule": {
+      "new": "新视觉对象规则",
+      "edit": "编辑可视规则",
+      "formDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "noDataMessageHeader": "无条件",
+      "noDataMessageDescription": "尚未创建任何条件。单击下面创建条件。",
+      "noDataMessageLinkText": "添加条件",
+      "typePlaceholder": "选择值的类型"
+    },
+    "visualRuleForm": {
+      "new": "新的视觉对象规则",
+      "edit": "编辑视觉对象规则",
+      "formDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
+      "typePlaceholder": "选择值的类型",
+      "conditionsInfoContent": "配置触发与元素相关的可视操作的范围或特定值。",
+      "newCondition": "新品条件"
+    },
+    "conditions": "条件"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "财产",
           "unit": "单位",
           "label": "标签",
-          "labelPlaceholder": "输入此系列的标签以显示在图表中",
           "add": "添加时间序列",
           "edit": "编辑时间序列",
-          "remove": "删除时间序列"
+          "remove": "删除时间序列",
+          "labelPlaceholder": "输入要在图表中显示的标签"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "聚合类型"
           }
         },
-        "connectionStringInformatio": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
+        "connectionStringInformation": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
       },
       "libraryName": "数据历史记录"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "输入值",
     "noOptionsFoundMessage": "未找到任何值",
     "modalTitle": "高级双胞胎搜索",
-    "modalSubtitle": "通过缩小搜索范围来链接正确的孪生"
+    "modalSubtitle": "通过缩小搜索范围来链接正确的孪生",
+    "columnPicker": "列选取器",
+    "propertyCount": "{{选定的属性计数}} 属性已选择",
+    "availableProperties": "可用属性的下拉列表",
+    "selectAdditionalColumns": "选择其他列"
   }
 }

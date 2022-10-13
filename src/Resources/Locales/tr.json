@@ -546,7 +546,25 @@
       "rotation": "Rotasyon"
     },
     "searchTwinIdPlaceholder": "Arama İkiz Kimliği ($dtId)",
-    "visualRulesTab": "Görsel kurallar"
+    "visualRulesTab": "Görsel kurallar",
+    "visualRule": {
+      "new": "Yeni Görsel kural",
+      "edit": "Görsel kuralı düzenle",
+      "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
+      "noDataMessageHeader": "Koşul yok",
+      "noDataMessageDescription": "Henüz bir koşul oluşturulmadı. Bir koşul oluşturmak için aşağıya tıklayın.",
+      "noDataMessageLinkText": "Koşul ekle",
+      "typePlaceholder": "Değer için türü seçin"
+    },
+    "visualRuleForm": {
+      "new": "Yeni görsel kural",
+      "edit": "Görsel kuralı düzenle",
+      "formDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
+      "typePlaceholder": "Değer için türü seçin",
+      "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın.",
+      "newCondition": "Yeni koşul"
+    },
+    "conditions": "Koşul -ları"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Mülk",
           "unit": "Birim",
           "label": "Etiket",
-          "labelPlaceholder": "Bu serinin grafikte gösterilecek etiketini girin",
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
-          "remove": "Zaman serilerini kaldırma"
+          "remove": "Zaman serilerini kaldırma",
+          "labelPlaceholder": "Grafikte gösterilecek etiketi girin"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Toplama türü"
           }
         },
-        "connectionStringInformatio": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler."
+        "connectionStringInformation": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler."
       },
       "libraryName": "Veri geçmişi"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Bir değer girin",
     "noOptionsFoundMessage": "Değer bulunamadı",
     "modalTitle": "Gelişmiş ikiz arama",
-    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın"
+    "modalSubtitle": "Aramanızı daraltarak sağ ikizi bağlayın",
+    "columnPicker": "Sütun seçici",
+    "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
+    "availableProperties": "Mevcut tesislerin açılır menüsü",
+    "selectAdditionalColumns": "Ek sütunlar seçme"
   }
 }

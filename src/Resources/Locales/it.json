@@ -546,7 +546,25 @@
       "rotation": "Rotazione"
     },
     "searchTwinIdPlaceholder": "Cerca Twin ID ($dtId)",
-    "visualRulesTab": "Regole visive"
+    "visualRulesTab": "Regole visive",
+    "visualRule": {
+      "new": "Nuova regola visiva",
+      "edit": "Modifica regola visiva",
+      "formDescription": "Imposta le regole per applicare il colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
+      "noDataMessageHeader": "Nessuna condizione",
+      "noDataMessageDescription": "Nessuna condizione creata ancora. Fare clic di seguito per creare una condizione.",
+      "noDataMessageLinkText": "Aggiungi condizione",
+      "typePlaceholder": "Selezionare il tipo per il valore"
+    },
+    "visualRuleForm": {
+      "new": "Nuova regola visiva",
+      "edit": "Modificare la regola visiva",
+      "formDescription": "Imposta le regole per applicare il colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
+      "typePlaceholder": "Selezionare il tipo per il valore",
+      "conditionsInfoContent": "Configurare l'intervallo o i valori specifici che attivano un'azione visiva relativa all'elemento.",
+      "newCondition": "Nuova condizione"
+    },
+    "conditions": "Condizioni"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Proprietà",
           "unit": "Unità",
           "label": "Etichetta",
-          "labelPlaceholder": "Immettere l'etichetta per questa serie da visualizzare nel grafico",
           "add": "Aggiungere serie temporali",
           "edit": "Modificare le serie temporali",
-          "remove": "Rimuovere le serie temporali"
+          "remove": "Rimuovere le serie temporali",
+          "labelPlaceholder": "Inserisci l'etichetta da mostrare nel grafico"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Tipo di aggregazione"
           }
         },
-        "connectionStringInformatio": "I widget della cronologia dati sono destinati all'istanza di Esplora dati di Azure connessa all'istanza di Gemelli digitali di Azure al momento della creazione."
+        "connectionStringInformation": "I widget della cronologia dati sono destinati all'istanza di Esplora dati di Azure connessa all'istanza di Gemelli digitali di Azure al momento della creazione."
       },
       "libraryName": "Cronologia dei dati"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Inserisci un valore",
     "noOptionsFoundMessage": "Nessun valore trovato",
     "modalTitle": "Ricerca avanzata dei gemelli",
-    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca"
+    "modalSubtitle": "Collega il gemello giusto restringendo la ricerca",
+    "columnPicker": "Selezione colonne",
+    "propertyCount": "Proprietà {{selectedPropsCount}} selected",
+    "availableProperties": "Elenco a discesa delle proprietà disponibili",
+    "selectAdditionalColumns": "Selezionare colonne aggiuntive"
   }
 }

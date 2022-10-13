@@ -546,7 +546,25 @@
       "rotation": "Rotación"
     },
     "searchTwinIdPlaceholder": "Buscar Twin ID ($dtId)",
-    "visualRulesTab": "Reglas visuales"
+    "visualRulesTab": "Reglas visuales",
+    "visualRule": {
+      "new": "Nueva regla visual",
+      "edit": "Editar regla visual",
+      "formDescription": "Establezca reglas para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
+      "noDataMessageHeader": "Sin condiciones",
+      "noDataMessageDescription": "Aún no se han creado las condiciones. Haga clic a continuación para crear una condición.",
+      "noDataMessageLinkText": "Agregar condición",
+      "typePlaceholder": "Seleccione el tipo para el valor"
+    },
+    "visualRuleForm": {
+      "new": "Nueva regla visual",
+      "edit": "Editar regla visual",
+      "formDescription": "Establezca reglas para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
+      "typePlaceholder": "Seleccione el tipo para el valor",
+      "conditionsInfoContent": "Configure el rango o los valores específicos que desencadenan una acción visual relacionada con el elemento.",
+      "newCondition": "Nueva condición"
+    },
+    "conditions": "Condiciones"
   },
   "widgets": {
     "trend": {
@@ -596,10 +614,10 @@
           "property": "Propiedad",
           "unit": "Unidad",
           "label": "Etiqueta",
-          "labelPlaceholder": "Introduzca la etiqueta de esta serie para mostrarla en el gráfico",
           "add": "Agregar series temporales",
           "edit": "Editar series temporales",
-          "remove": "Eliminar series temporales"
+          "remove": "Eliminar series temporales",
+          "labelPlaceholder": "Introduzca la etiqueta que se mostrará en el gráfico"
         },
         "chartOptions": {
           "yAxisType": {
@@ -630,7 +648,7 @@
             "label": "Tipo de agregación"
           }
         },
-        "connectionStringInformatio": "Los widgets de historial de datos tienen como destino la instancia del Explorador de datos de Azure conectada a la instancia de Azure Digital Twins en el momento de la creación."
+        "connectionStringInformation": "Los widgets de historial de datos tienen como destino la instancia del Explorador de datos de Azure conectada a la instancia de Azure Digital Twins en el momento de la creación."
       },
       "libraryName": "Historial de datos"
     }
@@ -1225,6 +1243,10 @@
     "valueFieldPlaceholder": "Introduzca un valor",
     "noOptionsFoundMessage": "No se han encontrado valores",
     "modalTitle": "Búsqueda avanzada de gemelos",
-    "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda"
+    "modalSubtitle": "Vincula el gemelo correcto reduciendo tu búsqueda",
+    "columnPicker": "Selector de columnas",
+    "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
+    "availableProperties": "Menú desplegable de propiedades disponibles",
+    "selectAdditionalColumns": "Seleccionar columnas adicionales"
   }
 }
