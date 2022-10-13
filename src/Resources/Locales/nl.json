@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren.",
       "newCondition": "Nieuwstaat"
     },
-    "conditions": "Voorwaarden"
+    "conditions": "Voorwaarden",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
+      "noData": "U hebt nog geen Visual Rules geconfigureerd",
+      "addRuleButtonText": "Regel toevoegen",
+      "editRule": "Regel bewerken",
+      "removeRule": "Regel verwijderen"
+    }
   },
   "widgets": {
     "trend": {
