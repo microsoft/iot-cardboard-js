@@ -1,0 +1,156 @@
+import React, { useMemo } from 'react';
+import {
+    IHighChartsWrapperProps,
+    IHighChartsWrapperStyleProps,
+    IHighChartsWrapperStyles,
+    MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS
+} from './HighChartsWrapper.types';
+import { getStyles } from './HighChartsWrapper.styles';
+import { classNamesFunction, useTheme, styled } from '@fluentui/react';
+import Highcharts, {
+    ColorString,
+    CSSObject,
+    SeriesOptionsType
+} from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import { useTranslation } from 'react-i18next';
+
+const getClassNames = classNamesFunction<
+    IHighChartsWrapperStyleProps,
+    IHighChartsWrapperStyles
+>();
+
+const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
+    const {
+        width = 264,
+        height = 188,
+        title,
+        titleTargetLink,
+        seriesData,
+        legendLayout = 'horizontal',
+        legendPadding,
+        hasMultipleAxes = false,
+        styles
+    } = props;
+
+    // contexts
+
+    // state
+
+    // hooks
+    const { t } = useTranslation();
+
+    // callbacks
+
+    // side effects
+
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
+    const highChartColor = (idx: number): ColorString =>
+        idx === 1 // that particular color of Highcharts is not visible in our dark themes, override it
+            ? '#d781fc'
+            : (Highcharts.getOptions().colors[idx] as ColorString);
+
+    const highChartSeries: Array<SeriesOptionsType> = useMemo(
+        () =>
+            seriesData?.splice(0, MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS)?.map(
+                (sD, idx) =>
+                    ({
+                        name: sD.name,
+                        data: sD.data.map((d) => [
+                            d.timestamp,
+                            Math.round(d.value * 100) / 100 // by default, fix rounding 2 decimal after point
+                        ]),
+                        type: 'line', // by default, show series in line chart type
+                        color: highChartColor(idx), // by default, set color to use it for labels in legend to match series color
+                        marker: {
+                            enabled: false // by default, do not mark data points on series, only on hover
+                        },
+                        tooltip: {
+                            ...(sD.tooltipSuffix && {
+                                // by default, append tooltip suffix if exist for series (e.g. unit and/or aggregation of series data)
+                                valueSuffix: ` ${sD.tooltipSuffix}`
+                            })
+                        }
+                    } as SeriesOptionsType)
+            ),
+        [seriesData]
+    );
+
+    const defaultYAxisProps: Highcharts.YAxisOptions = {
+        title: undefined, // by default, do not show any labels in y axis, only numeric range
+        labels: {
+            style: classNames.subComponentStyles.yAxis().label as CSSObject
+        }
+    };
+
+    const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
+        (_hcS, idx) => ({
+            gridLineWidth: idx > 1 ? 0 : 1,
+            opposite: idx > 0 ? true : false, // by default, put the other half of the y-axes to the opposite side
+            title: undefined, // by default, do not show any labels in y axis, only numeric range
+            labels: {
+                style: { color: highChartColor(idx) }
+            }
+        })
+    );
+
+    const options: Highcharts.Options = {
+        title: {
+            useHTML: titleTargetLink ? true : false,
+            text:
+                titleTargetLink && title
+                    ? `<a style="color:inherit" target="_blank" href="${titleTargetLink}">${title}</a>`
+                    : title || t('highcharts.noTitle'),
+            style: classNames.subComponentStyles.title().root as CSSObject
+        },
+        series: highChartSeries,
+        xAxis: {
+            type: 'datetime',
+            title: {
+                style: classNames.subComponentStyles.xAxis().title as CSSObject
+            },
+            labels: {
+                style: classNames.subComponentStyles.xAxis().label as CSSObject
+            }
+        },
+        yAxis: hasMultipleAxes ? multipleYAxisProps : defaultYAxisProps,
+        chart: {
+            ...(classNames.subComponentStyles.chart().root as CSSObject),
+            width: width,
+            height: height
+        },
+        legend: {
+            layout: legendLayout,
+            labelFormatter: function () {
+                return (
+                    '<span style="color: ' +
+                    this.options.color +
+                    '">' +
+                    this.name +
+                    '</span>'
+                );
+            },
+            ...(legendPadding && { padding: legendPadding }),
+            itemStyle: classNames.subComponentStyles.legend().root as CSSObject
+        },
+        tooltip: {
+            shared: true
+        }
+    };
+
+    return (
+        <div className={classNames.root}>
+            <HighchartsReact highcharts={Highcharts} options={options} />
+        </div>
+    );
+};
+
+export default styled<
+    IHighChartsWrapperProps,
+    IHighChartsWrapperStyleProps,
+    IHighChartsWrapperStyles
+>(HighChartsWrapper, getStyles);

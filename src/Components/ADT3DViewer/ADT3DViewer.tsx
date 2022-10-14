@@ -54,7 +54,8 @@ import {
 import {
     ADT3DScenePageModes,
     BehaviorModalMode,
-    IADTBackgroundColor
+    IADTBackgroundColor,
+    IADXAdapter
 } from '../../Models/Constants';
 import FloatingScenePageModeToggle from '../../Pages/ADT3DScenePage/Internal/FloatingScenePageModeToggle';
 import DeeplinkFlyout from '../DeeplinkFlyout/DeeplinkFlyout';
@@ -810,9 +811,10 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
 const hasPropertyInspectorAdapter = (
     adapter:
         | IADT3DViewerAdapter
-        | (IADT3DViewerAdapter & IPropertyInspectorAdapter)
-): adapter is IADT3DViewerAdapter & IPropertyInspectorAdapter =>
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter)
+): adapter is IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter =>
     !!(adapter as IPropertyInspectorAdapter).getADTTwin &&
+    !!(adapter as IADXAdapter).getTimeSeriesData &&
     !!(adapter as IADT3DViewerAdapter).getSceneData;
 
 const ADT3DViewer: React.FC<IADT3DViewerProps> = (props) => {

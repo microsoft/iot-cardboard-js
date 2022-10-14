@@ -582,7 +582,10 @@ export interface IADXAdapter {
         adxConnectionInformation: IADXConnection
     ) => void;
     getADXConnectionInformation: () => IADXConnection | null;
-    getTimeSeriesData: (query: string) => AdapterReturnType<ADXTimeSeriesData>;
+    getTimeSeriesData: (
+        query: string,
+        connection?: IADXConnection
+    ) => AdapterReturnType<ADXTimeSeriesData>;
 }
 
 export interface IBaseStandardModelSearchAdapter {
@@ -805,7 +808,7 @@ export interface ISceneViewWrapperProps {
 export interface IADT3DViewerProps extends BaseComponentProps {
     adapter:
         | IADT3DViewerAdapter
-        | (IADT3DViewerAdapter & IPropertyInspectorAdapter);
+        | (IADT3DViewerAdapter & IPropertyInspectorAdapter & IADXAdapter);
     sceneId: string;
     scenesConfig: I3DScenesConfig;
     title?: string;
@@ -942,4 +945,10 @@ export interface IBlobServiceCorsRule {
     AllowedHeaders?: Array<string>;
     ExposedHeaders?: Array<string>;
     MaxAgeInSeconds: number;
+}
+
+export interface IDataHistoryWidgetTimeSeriesTwin {
+    label?: string;
+    twinId: string;
+    twinPropertyName: string;
 }

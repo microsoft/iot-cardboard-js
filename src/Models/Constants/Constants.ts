@@ -2,8 +2,7 @@ import {
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
     IADTBackgroundColor,
-    IADTObjectColor,
-    QuickTimeSpanKey
+    IADTObjectColor
 } from '../Constants';
 import {
     defaultDataHistoryWidget,
@@ -542,3 +541,5 @@ export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGro
     enforced: EnforcedADTInstanceAccessRoleIds,
     interchangeables: InterchangeableADTInstanceAccessRoleIds
 };
+
+export const CONNECTION_STRING_SUFFIX = '.kusto.windows.net';

@@ -666,7 +666,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         connectionData.properties.adxDatabaseName;
                     const tableName =
                         connectionData.properties.adxTableName ||
-                        `adt_dh_${databaseName.replace('-', '_')}_${
+                        `adt_dh_${databaseName.replace(/-/g, '_')}_${
                             adtInstance.location
                         }`; // there is a default syntax used to construct the table name if not provided
                     return new ADTInstanceTimeSeriesConnectionData({

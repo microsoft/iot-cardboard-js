@@ -1240,5 +1240,8 @@
         "propertyCount": "{{selectedPropsCount}} properties selected",
         "availableProperties": "Dropdown of properties available",
         "selectAdditionalColumns": "Select additional columns"
+    },
+    "highcharts": {
+        "noTitle": "No title"
     }
 }

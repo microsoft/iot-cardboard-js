@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import {
     BehaviorModalMode,
     DTwin,
+    IADXAdapter,
     IPropertyInspectorAdapter
 } from '../../Models/Constants';
 import {
@@ -34,7 +35,7 @@ export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
     (ViewerModeProps | PreviewModeProps);
 interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
-    adapter?: IPropertyInspectorAdapter;
+    adapter?: IPropertyInspectorAdapter & IADXAdapter;
     behaviors: IBehavior[];
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
@@ -55,6 +56,7 @@ interface PreviewModeProps {
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
+    adapter?: IPropertyInspectorAdapter & IADXAdapter;
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
     activeWidgetId: string | null;
@@ -98,7 +100,9 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
     }
 
     return (
-        <BehaviorsModalContext.Provider value={{ twins, mode, activeWidgetId }}>
+        <BehaviorsModalContext.Provider
+            value={{ adapter, twins, mode, activeWidgetId }}
+        >
             <div ref={boundaryRef} className={styles.boundaryLayer}>
                 <Draggable
                     nodeRef={nodeRef}

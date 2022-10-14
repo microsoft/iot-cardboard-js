@@ -11,7 +11,13 @@ import { SearchSpan, TsiClientAdapterData } from '../Models/Classes';
 import TsqExpression from 'tsiclient/TsqExpression';
 import { transformTsqResultsForVisualization } from 'tsiclient/Transformers';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
-import { ADXTable, ADXTimeSeries } from '../Models/Constants/Types';
+import {
+    ADXTable,
+    ADXTimeSeries,
+    ADXTimeSeriesTableRow,
+    TimeSeriesData
+} from '../Models/Constants/Types';
+import { isValidADXClusterUrl } from '../Models/Services/Utils';
 
 export default class ADXAdapter
     implements ITsiClientChartDataAdapter, IADXAdapter {
@@ -27,23 +33,37 @@ export default class ADXAdapter
         this.adxAuthService.login();
     }
 
-    async getTimeSeriesData(query: string) {
+    async getTimeSeriesData(query: string, connection?: IADXConnection) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.adxAuthService
         );
 
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            const clusterUrl = connection
+                ? connection.kustoClusterUrl
+                : this.adxConnectionInformation.kustoClusterUrl;
+
+            if (!isValidADXClusterUrl(clusterUrl)) {
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true
+                });
+                return new ADXTimeSeriesData(null);
+            }
+
             const getDataHistoryFromADX = () => {
                 return axios({
                     method: 'post',
-                    url: `${this.adxConnectionInformation.kustoClusterUrl}/v2/rest/query`,
+                    url: `${clusterUrl}/v2/rest/query`,
                     headers: {
                         Authorization: 'Bearer ' + token,
                         Accept: 'application/json',
                         'Content-Type': 'application/json'
                     },
                     data: {
-                        db: this.adxConnectionInformation.kustoDatabaseName,
+                        db: connection
+                            ? connection.kustoDatabaseName
+                            : this.adxConnectionInformation.kustoDatabaseName,
                         csl: query
                     }
                 });
@@ -52,9 +72,10 @@ export default class ADXAdapter
             try {
                 // fetch data history of the properties using ADX api
                 const adxDataHistoryResults = await getDataHistoryFromADX();
-                const resultTimeSeriesData: Array<Array<ADXTimeSeries>> = []; // considering there is going to be multiple series to fetch data for
-                adxDataHistoryResults.data?.map((result) => {
-                    const primaryResultTables: Array<ADXTable> = result.data.filter(
+                const resultTimeSeriesData: Array<ADXTimeSeries> = []; // considering there is going to be multiple series to fetch data for
+
+                if (adxDataHistoryResults.data) {
+                    const primaryResultTables: Array<ADXTable> = adxDataHistoryResults.data.filter(
                         (frame) => frame.TableKind === 'PrimaryResult'
                     );
                     primaryResultTables.forEach((table) => {
@@ -70,7 +91,7 @@ export default class ADXAdapter
                         const valueColumnIndex = table.Columns.findIndex(
                             (c) => c.ColumnName === ADXTableColumns.Value
                         );
-                        const tableTimeSeriesData: Array<ADXTimeSeries> = [];
+                        const tableTimeSeriesData: Array<ADXTimeSeriesTableRow> = [];
 
                         table.Rows.forEach((r) =>
                             tableTimeSeriesData.push({
@@ -78,13 +99,27 @@ export default class ADXAdapter
                                 id: r[idColumnIndex],
                                 key: r[keyColumnIndex],
                                 value: r[valueColumnIndex]
-                            } as ADXTimeSeries)
+                            } as ADXTimeSeriesTableRow)
                         );
-                        resultTimeSeriesData.push(tableTimeSeriesData);
-                    });
 
-                    return new ADXTimeSeriesData(resultTimeSeriesData);
-                });
+                        // each table has same id and key in current design of querying for data history for twin id and property
+                        resultTimeSeriesData.push({
+                            id: tableTimeSeriesData[0].id,
+                            key: tableTimeSeriesData[0].key,
+                            data: tableTimeSeriesData.reduce(
+                                (acc: Array<TimeSeriesData>, cur) => {
+                                    acc.push({
+                                        timestamp: cur.timestamp,
+                                        value: cur.value
+                                    });
+                                    return acc;
+                                },
+                                []
+                            )
+                        });
+                    });
+                }
+                return new ADXTimeSeriesData(resultTimeSeriesData);
             } catch (err) {
                 adapterMethodSandbox.pushError({
                     type: ComponentErrorType.DataFetchFailed,

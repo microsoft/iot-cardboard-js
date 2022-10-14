@@ -23,6 +23,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
+import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -37,7 +38,6 @@ import { getStyles } from './DataHistoryWidgetBuilder.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
-    CONNECTION_STRING_SUFFIX,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     QuickTimeSpanKey,
@@ -380,8 +380,7 @@ const generateConnectionString = (
         connection?.kustoTableName
     ) {
         try {
-            const clusterUrl = new URL(connection?.kustoClusterUrl);
-            if (clusterUrl.host.endsWith(CONNECTION_STRING_SUFFIX)) {
+            if (isValidADXClusterUrl(connection?.kustoClusterUrl)) {
                 return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
             }
         } catch (error) {

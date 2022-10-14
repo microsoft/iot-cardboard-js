@@ -71,11 +71,19 @@ export type ADTRelationship = {
 
 export type TsiClientData = any[];
 
-export type ADXTimeSeries = {
+export type ADXTimeSeriesTableRow = {
     timestamp: string;
     id: string;
     key: string;
-    value: string | number;
+    value: number;
+};
+
+export type TimeSeriesData = { timestamp: string | number; value: number };
+
+export type ADXTimeSeries = {
+    id: string;
+    key: string;
+    data: Array<TimeSeriesData>;
 };
 
 export type HierarchyData = Record<string, IHierarchyNode>;

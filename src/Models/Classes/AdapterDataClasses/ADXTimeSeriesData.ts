@@ -2,9 +2,9 @@ import { IAdapterData } from '../../Constants/Interfaces';
 import { ADXTimeSeries } from '../../Constants/Types';
 
 class ADXTimeSeriesData implements IAdapterData {
-    data: Array<Array<ADXTimeSeries>>;
+    data: Array<ADXTimeSeries>;
 
-    constructor(data: Array<Array<ADXTimeSeries>>) {
+    constructor(data: Array<ADXTimeSeries>) {
         this.data = data;
     }
 

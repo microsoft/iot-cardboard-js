@@ -17,7 +17,10 @@ import {
     AzureResourceTypes
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths } from '../Constants/Constants';
+import {
+    CharacterWidths,
+    CONNECTION_STRING_SUFFIX
+} from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -767,4 +770,33 @@ export const removeProtocolPartFromUrl = (urlString: string) => {
         console.error('Failed remove protocol from url string', error.message);
         return null;
     }
+};
+
+export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
+    const isValidADXClusterHostUrl = (urlPrefix) =>
+        /^[a-zA-Z0-9]{4,22}.[a-zA-Z0-9]{1,}\b$/.test(urlPrefix);
+
+    if (clusterUrl) {
+        try {
+            const clusterUrlObj = new URL(clusterUrl);
+            if (
+                clusterUrlObj.host.endsWith(CONNECTION_STRING_SUFFIX) &&
+                isValidADXClusterHostUrl(
+                    clusterUrlObj.host.substring(
+                        0,
+                        clusterUrlObj.host.length -
+                            CONNECTION_STRING_SUFFIX.length
+                    )
+                )
+            ) {
+                return true;
+            }
+        } catch (error) {
+            console.error(
+                'Failed validating the ADX cluster url',
+                error.message
+            );
+        }
+    }
+    return false;
 };
