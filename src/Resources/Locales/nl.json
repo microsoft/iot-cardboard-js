@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren"
+  },
+  "highcharts": {
+    "noTitle": "Geen titel"
   }
 }

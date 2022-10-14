@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selectedPropsCount}} vlastnosti vybrané",
     "availableProperties": "Rozbalovací nabídka dostupných ubytování",
     "selectAdditionalColumns": "Výběr dalších sloupců"
+  },
+  "highcharts": {
+    "noTitle": "Bez názvu"
   }
 }

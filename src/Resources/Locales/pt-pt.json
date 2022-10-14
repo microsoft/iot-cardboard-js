@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selecionadosPropsCount}} propriedades selecionadas",
     "availableProperties": "Dropdown de imóveis disponíveis",
     "selectAdditionalColumns": "Selecione colunas adicionais"
+  },
+  "highcharts": {
+    "noTitle": "Sem título"
   }
 }
