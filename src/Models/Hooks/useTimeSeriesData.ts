@@ -89,7 +89,7 @@ export const useTimeSeriesData = ({
     const prevQuery = usePrevious(query);
     useEffect(() => {
         let newQuery = '';
-        if (connectionToQuery && quickTimeSpan && twins.length) {
+        if (connectionToQuery && quickTimeSpan && twins?.length) {
             const timeFrom = new Date(onMountDate - quickTimeSpan);
             const timeTo = new Date(onMountDate);
             newQuery = getBulkADXQueryFromTimeSeriesTwins(
@@ -161,6 +161,7 @@ const getBulkADXQueryFromTimeSeriesTwins = (
     connection: IADXConnection
 ): string => {
     let query = '';
+
     try {
         twins?.forEach((twin, idx) => {
             query += `${

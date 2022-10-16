@@ -6,19 +6,45 @@ import {
 
 export const classPrefix = 'cb-highcharts-wrapper';
 const classNames = {
-    root: `${classPrefix}-root`
+    container: `${classPrefix}-container`,
+    titleWithLinkContainer: `${classPrefix}-title--with-link-container`,
+    shareButton: `${classPrefix}-share-button`
 };
 export const getStyles = ({
     theme
 }: IHighChartsWrapperStyleProps): IHighChartsWrapperStyles => {
     const commonTextStyling: Partial<IStyle> = { color: theme.palette.black };
     return {
-        root: [
-            classNames.root,
+        container: [
+            classNames.container,
             {
                 width: '100%',
                 height: '100%',
                 '.highcharts-credits': { display: 'none' }
+            }
+        ],
+        titleWithLinkContainer: [
+            classNames.titleWithLinkContainer,
+            {
+                height: 20,
+                display: 'flex',
+                alignItems: 'center',
+                zIndex: -1
+            }
+        ],
+        shareButton: [
+            classNames.shareButton,
+            {
+                color: `${theme.palette.black} !important`,
+                borderRadius: 2,
+                fontSize: 16,
+                marginLeft: 8,
+                ':hover': {
+                    background: theme.palette.neutralLighter
+                },
+                ':active': {
+                    background: theme.palette.neutralLight
+                }
             }
         ],
         subComponentStyles: {
@@ -29,7 +55,11 @@ export const getStyles = ({
             },
             title: {
                 root: {
-                    color: theme.palette.themePrimary
+                    color: theme.palette.black,
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    lineHeight: '14px',
+                    zIndex: 0
                 }
             },
             xAxis: {
@@ -50,6 +80,7 @@ export const getStyles = ({
             },
             legend: {
                 root: {
+                    fontSize: 12,
                     fontWeight: 'normal'
                 }
             }

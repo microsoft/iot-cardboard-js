@@ -52,17 +52,40 @@ export default {
     ]
 };
 
-type HighChartsWrapperStory = ComponentStory<typeof HighChartsWrapper>;
+type HighChartsWrapperStory = ComponentStory<typeof HighChartsWrapper>; // TODO: fix re-rendering issue in Storybook
 
 const Template: HighChartsWrapperStory = (args) => {
-    return <HighChartsWrapper {...args} seriesData={mockSeriesData} />;
+    return <HighChartsWrapper {...args} />;
 };
 
-export const Base = Template.bind({}) as HighChartsWrapperStory;
-Base.args = {
+const BaseArgs = {
     title: 'Mock chart',
-    seriesData: mockSeriesData,
-    width: 500,
-    height: 300,
+    seriesData: mockSeriesData
+} as IHighChartsWrapperProps;
+
+export const SharedAxis = Template.bind({}) as HighChartsWrapperStory;
+SharedAxis.args = BaseArgs;
+
+export const IndependentAxis = Template.bind({}) as HighChartsWrapperStory;
+IndependentAxis.args = {
+    ...BaseArgs,
     hasMultipleAxes: true
+} as IHighChartsWrapperProps;
+
+export const WithTitleLink = Template.bind({}) as HighChartsWrapperStory;
+WithTitleLink.args = {
+    ...BaseArgs,
+    titleTargetLink: 'https://storybook.example.com'
+} as IHighChartsWrapperProps;
+
+export const VerticalLegend = Template.bind({}) as HighChartsWrapperStory;
+VerticalLegend.args = {
+    ...BaseArgs,
+    legendLayout: 'vertical'
+} as IHighChartsWrapperProps;
+
+export const TightLegend = Template.bind({}) as HighChartsWrapperStory;
+TightLegend.args = {
+    ...BaseArgs,
+    legendPadding: 0
 } as IHighChartsWrapperProps;

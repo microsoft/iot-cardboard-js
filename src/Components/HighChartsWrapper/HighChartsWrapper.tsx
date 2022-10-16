@@ -6,7 +6,12 @@ import {
     MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS
 } from './HighChartsWrapper.types';
 import { getStyles } from './HighChartsWrapper.styles';
-import { classNamesFunction, useTheme, styled } from '@fluentui/react';
+import {
+    classNamesFunction,
+    useTheme,
+    styled,
+    IconButton
+} from '@fluentui/react';
 import Highcharts, {
     ColorString,
     CSSObject,
@@ -14,6 +19,8 @@ import Highcharts, {
 } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useTranslation } from 'react-i18next';
+import { renderToString } from 'react-dom/server';
+require('highcharts/modules/accessibility')(Highcharts);
 
 const getClassNames = classNamesFunction<
     IHighChartsWrapperStyleProps,
@@ -22,8 +29,6 @@ const getClassNames = classNamesFunction<
 
 const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const {
-        width = 264,
-        height = 188,
         title,
         titleTargetLink,
         seriesData,
@@ -33,22 +38,10 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         styles
     } = props;
 
-    // contexts
-
-    // state
-
     // hooks
     const { t } = useTranslation();
 
     // callbacks
-
-    // side effects
-
-    // styles
-    const classNames = getClassNames(styles, {
-        theme: useTheme()
-    });
-
     const highChartColor = (idx: number): ColorString =>
         idx === 1 // that particular color of Highcharts is not visible in our dark themes, override it
             ? '#d781fc'
@@ -61,7 +54,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                     ({
                         name: sD.name,
                         data: sD.data.map((d) => [
-                            d.timestamp,
+                            typeof d.timestamp === 'string'
+                                ? new Date(d.timestamp).getTime()
+                                : d.timestamp, // by default, if timestamp is date string convert it to number since highcharts only accept number type for series
                             Math.round(d.value * 100) / 100 // by default, fix rounding 2 decimal after point
                         ]),
                         type: 'line', // by default, show series in line chart type
@@ -74,11 +69,17 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                                 // by default, append tooltip suffix if exist for series (e.g. unit and/or aggregation of series data)
                                 valueSuffix: ` ${sD.tooltipSuffix}`
                             })
-                        }
+                        },
+                        yAxis: hasMultipleAxes ? idx : undefined
                     } as SeriesOptionsType)
-            ),
+            ) || [],
         [seriesData]
     );
+
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     const defaultYAxisProps: Highcharts.YAxisOptions = {
         title: undefined, // by default, do not show any labels in y axis, only numeric range
@@ -98,12 +99,28 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         })
     );
 
+    const titleWithDeeplinkShareButton = renderToString(
+        <div className={classNames.titleWithLinkContainer}>
+            <span> {title} </span>
+            <IconButton
+                iconProps={{ iconName: 'Share' }}
+                title={t('highcharts.shareQuery')}
+                ariaLabel={t('highcharts.shareQuery')}
+                onClick={() => {
+                    window.open(titleTargetLink, '_blank');
+                }}
+                className={classNames.shareButton}
+            />
+        </div>
+    );
+
     const options: Highcharts.Options = {
+        accessibility: { enabled: true },
         title: {
             useHTML: titleTargetLink ? true : false,
             text:
                 titleTargetLink && title
-                    ? `<a style="color:inherit" target="_blank" href="${titleTargetLink}">${title}</a>`
+                    ? titleWithDeeplinkShareButton
                     : title || t('highcharts.noTitle'),
             style: classNames.subComponentStyles.title().root as CSSObject
         },
@@ -119,22 +136,25 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         },
         yAxis: hasMultipleAxes ? multipleYAxisProps : defaultYAxisProps,
         chart: {
-            ...(classNames.subComponentStyles.chart().root as CSSObject),
-            width: width,
-            height: height
+            ...(classNames.subComponentStyles.chart().root as CSSObject)
         },
         legend: {
             layout: legendLayout,
             labelFormatter: function () {
-                return (
-                    '<span style="color: ' +
-                    this.options.color +
-                    '">' +
-                    this.name +
-                    '</span>'
-                );
+                if (!this.visible) {
+                    return '<span>' + this.name + '</span>';
+                } else {
+                    return (
+                        '<span style="color: ' +
+                        this.options.color +
+                        '">' +
+                        this.name +
+                        '</span>'
+                    );
+                }
             },
             ...(legendPadding && { padding: legendPadding }),
+            itemHoverStyle: { color: '#cccccc', fontWeight: 'bold' },
             itemStyle: classNames.subComponentStyles.legend().root as CSSObject
         },
         tooltip: {
@@ -143,8 +163,12 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     };
 
     return (
-        <div className={classNames.root}>
-            <HighchartsReact highcharts={Highcharts} options={options} />
+        <div className={classNames.container}>
+            <HighchartsReact
+                highcharts={Highcharts}
+                options={options}
+                containerProps={{ style: { width: '100%', height: '100%' } }}
+            />
         </div>
     );
 };

@@ -1242,6 +1242,7 @@
         "selectAdditionalColumns": "Select additional columns"
     },
     "highcharts": {
-        "noTitle": "No title"
+        "noTitle": "No title",
+        "shareQuery": "Share query"
     }
 }

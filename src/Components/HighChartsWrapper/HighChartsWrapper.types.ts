@@ -15,8 +15,6 @@ export interface IHighChartsWrapperProps {
     title: string;
     titleTargetLink?: string;
     seriesData: Array<IHighChartSeriesData>;
-    width?: number | string;
-    height?: number | string;
     legendLayout?: OptionsLayoutValue;
     legendPadding?: number;
     hasMultipleAxes?: boolean;
@@ -33,7 +31,9 @@ export interface IHighChartsWrapperStyleProps {
     theme: ITheme;
 }
 export interface IHighChartsWrapperStyles {
-    root: IStyle;
+    container: IStyle;
+    shareButton: IStyle;
+    titleWithLinkContainer: IStyle;
 
     /**
      * SubComponent styles.

@@ -43,9 +43,10 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
             mode === BehaviorModalMode.viewer &&
             query &&
             (adapter || connectionString) &&
-            !isRequestSent.current
+            !isRequestSent.current &&
+            twinIdPropertyMap
         ) {
-            fetchTimeSeriesData(); // do fetching only once even if this component is being rerendered
+            fetchTimeSeriesData();
             isRequestSent.current = true;
         }
     }, [
@@ -96,7 +97,7 @@ const getTwinIdPropertyMap = (
                   };
               }
           })
-        : [];
+        : null;
 
 /** Gets fetched adx time series data and data history widget time series to twin mapping information
  * to get the labels if defined for each series, and converts it into high chart series data to render in chart
@@ -105,7 +106,7 @@ const transformADXTimeSeriesToHighChartsSeries = (
     adxTimeSeries: Array<ADXTimeSeries>,
     twinIdPropertyMap: Array<IDataHistoryWidgetTimeSeriesTwin>
 ): Array<IHighChartSeriesData> =>
-    adxTimeSeries
+    adxTimeSeries && twinIdPropertyMap
         ? adxTimeSeries.map(
               (series) =>
                   ({
