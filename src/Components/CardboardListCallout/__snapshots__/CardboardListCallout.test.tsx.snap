@@ -2,13 +2,13 @@
 
 exports[`CardboardListCallout entered search term passed successfully on primary button click 1`] = `
 <div
-  class="ms-Callout root-131"
+  class="ms-Callout root-133"
   data-testid="focus-trap"
   style="opacity: 0; filter: opacity(0); pointer-events: none;"
   tabindex="-1"
 >
   <div
-    class="ms-Callout-main calloutMain-134"
+    class="ms-Callout-main calloutMain-136"
     style="outline: none; max-height: 100%;"
   >
     <div>
@@ -20,30 +20,30 @@ exports[`CardboardListCallout entered search term passed successfully on primary
         tabindex="0"
       />
       <div
-        class="ms-Stack css-135"
+        class="ms-Stack css-137"
       >
         <h4
-          class="cb-list-callout-title title-121"
+          class="cb-list-callout-title title-123"
         >
           Test cardboard list callout
         </h4>
         <div
-          class="ms-SearchBox root-136"
+          class="ms-SearchBox root-138"
         >
           <div
             aria-hidden="true"
-            class="ms-SearchBox-iconContainer iconContainer-137"
+            class="ms-SearchBox-iconContainer iconContainer-139"
           >
             <i
               aria-hidden="true"
-              class="ms-SearchBox-icon icon-143"
+              class="ms-SearchBox-icon icon-145"
               data-icon-name="Search"
             >
               
             </i>
           </div>
           <input
-            class="ms-SearchBox-field field-140"
+            class="ms-SearchBox-field field-142"
             data-testid="search-box"
             id="SearchBox2"
             placeholder="Search"
@@ -52,7 +52,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
           />
         </div>
         <div
-          class="ms-FocusZone css-144 cb-list-callout-list list-123"
+          class="ms-FocusZone css-146 cb-list-callout-list list-125"
           data-focuszone-id="FocusZone3"
         >
           <div
@@ -75,37 +75,37 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                   role="listitem"
                 >
                   <span
-                    class="cb-list-item-root root-162"
+                    class="cb-list-item-root root-164"
                   >
                     <button
-                      class="ms-Button ms-Button--default root-165"
+                      class="ms-Button ms-Button--default root-167"
                       data-is-focusable="true"
                       data-testid="cardboard-list-item-testList-0"
                       type="button"
                     >
                       <span
-                        class="ms-Button-flexContainer flexContainer-166"
+                        class="ms-Button-flexContainer flexContainer-168"
                         data-automationid="splitbuttonprimary"
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-170 cb-list-item-icon icon-158"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
                           
                         </i>
                         <div
-                          class="cb-list-item-text-container textContainer-160"
+                          class="cb-list-item-text-container textContainer-162"
                         >
                           <div
-                            class="cb-list-item-primary-text primaryText-161"
+                            class="cb-list-item-primary-text primaryText-163"
                             title="Item 1"
                           >
                             Item 1
                           </div>
                           <div
-                            class="cb-list-item-secondary-text secondaryText-163"
+                            class="cb-list-item-secondary-text secondaryText-165"
                             title="description for item 1"
                           >
                             description for item 1
@@ -113,7 +113,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-144 cb-list-item-icon icon-158 cb-list-item-end-icon endIcon-157"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -130,37 +130,37 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                   role="listitem"
                 >
                   <span
-                    class="cb-list-item-root root-162"
+                    class="cb-list-item-root root-164"
                   >
                     <button
-                      class="ms-Button ms-Button--default root-165"
+                      class="ms-Button ms-Button--default root-167"
                       data-is-focusable="true"
                       data-testid="cardboard-list-item-testList-1"
                       type="button"
                     >
                       <span
-                        class="ms-Button-flexContainer flexContainer-166"
+                        class="ms-Button-flexContainer flexContainer-168"
                         data-automationid="splitbuttonprimary"
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-170 cb-list-item-icon icon-158"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
                           
                         </i>
                         <div
-                          class="cb-list-item-text-container textContainer-160"
+                          class="cb-list-item-text-container textContainer-162"
                         >
                           <div
-                            class="cb-list-item-primary-text primaryText-161"
+                            class="cb-list-item-primary-text primaryText-163"
                             title="Item 2"
                           >
                             Item 2
                           </div>
                           <div
-                            class="cb-list-item-secondary-text secondaryText-163"
+                            class="cb-list-item-secondary-text secondaryText-165"
                             title="description for item 1"
                           >
                             description for item 1
@@ -168,7 +168,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-144 cb-list-item-icon icon-158 cb-list-item-end-icon endIcon-157"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -185,37 +185,37 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                   role="listitem"
                 >
                   <span
-                    class="cb-list-item-root root-162"
+                    class="cb-list-item-root root-164"
                   >
                     <button
-                      class="ms-Button ms-Button--default root-165"
+                      class="ms-Button ms-Button--default root-167"
                       data-is-focusable="true"
                       data-testid="cardboard-list-item-testList-2"
                       type="button"
                     >
                       <span
-                        class="ms-Button-flexContainer flexContainer-166"
+                        class="ms-Button-flexContainer flexContainer-168"
                         data-automationid="splitbuttonprimary"
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-170 cb-list-item-icon icon-158"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
                           
                         </i>
                         <div
-                          class="cb-list-item-text-container textContainer-160"
+                          class="cb-list-item-text-container textContainer-162"
                         >
                           <div
-                            class="cb-list-item-primary-text primaryText-161"
+                            class="cb-list-item-primary-text primaryText-163"
                             title="Item 3"
                           >
                             Item 3
                           </div>
                           <div
-                            class="cb-list-item-secondary-text secondaryText-163"
+                            class="cb-list-item-secondary-text secondaryText-165"
                             title="description for item 3"
                           >
                             description for item 3
@@ -223,7 +223,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-144 cb-list-item-icon icon-158 cb-list-item-end-icon endIcon-157"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -240,37 +240,37 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                   role="listitem"
                 >
                   <span
-                    class="cb-list-item-root root-162"
+                    class="cb-list-item-root root-164"
                   >
                     <button
-                      class="ms-Button ms-Button--default root-165"
+                      class="ms-Button ms-Button--default root-167"
                       data-is-focusable="true"
                       data-testid="cardboard-list-item-testList-3"
                       type="button"
                     >
                       <span
-                        class="ms-Button-flexContainer flexContainer-166"
+                        class="ms-Button-flexContainer flexContainer-168"
                         data-automationid="splitbuttonprimary"
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-170 cb-list-item-icon icon-158"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
                           
                         </i>
                         <div
-                          class="cb-list-item-text-container textContainer-160"
+                          class="cb-list-item-text-container textContainer-162"
                         >
                           <div
-                            class="cb-list-item-primary-text primaryText-161"
+                            class="cb-list-item-primary-text primaryText-163"
                             title="Item 4"
                           >
                             Item 4
                           </div>
                           <div
-                            class="cb-list-item-secondary-text secondaryText-163"
+                            class="cb-list-item-secondary-text secondaryText-165"
                             title="description for item 4"
                           >
                             description for item 4
@@ -278,7 +278,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-144 cb-list-item-icon icon-158 cb-list-item-end-icon endIcon-157"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -295,37 +295,37 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                   role="listitem"
                 >
                   <span
-                    class="cb-list-item-root root-162"
+                    class="cb-list-item-root root-164"
                   >
                     <button
-                      class="ms-Button ms-Button--default root-165"
+                      class="ms-Button ms-Button--default root-167"
                       data-is-focusable="true"
                       data-testid="cardboard-list-item-testList-4"
                       type="button"
                     >
                       <span
-                        class="ms-Button-flexContainer flexContainer-166"
+                        class="ms-Button-flexContainer flexContainer-168"
                         data-automationid="splitbuttonprimary"
                       >
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-168 cb-list-item-icon icon-156"
+                          class="ms-Icon root-105 css-170 cb-list-item-icon icon-158"
                           data-icon-name="Shapes"
                           style="font-family: \\"FabricMDL2Icons-5\\";"
                         >
                           
                         </i>
                         <div
-                          class="cb-list-item-text-container textContainer-160"
+                          class="cb-list-item-text-container textContainer-162"
                         >
                           <div
-                            class="cb-list-item-primary-text primaryText-161"
+                            class="cb-list-item-primary-text primaryText-163"
                             title="Item 5"
                           >
                             Item 5
                           </div>
                           <div
-                            class="cb-list-item-secondary-text secondaryText-163"
+                            class="cb-list-item-secondary-text secondaryText-165"
                             title="description for item 5"
                           >
                             description for item 5
@@ -333,7 +333,7 @@ exports[`CardboardListCallout entered search term passed successfully on primary
                         </div>
                         <i
                           aria-hidden="true"
-                          class="ms-Icon root-105 css-142 cb-list-item-icon icon-156 cb-list-item-end-icon endIcon-155"
+                          class="ms-Icon root-105 css-144 cb-list-item-icon icon-158 cb-list-item-end-icon endIcon-157"
                           data-icon-name="Add"
                           style="font-family: \\"FabricMDL2Icons\\";"
                         >
@@ -348,20 +348,20 @@ exports[`CardboardListCallout entered search term passed successfully on primary
           </div>
         </div>
         <button
-          class="ms-Button ms-Button--primary cb-list-callout-primary-button primaryButton-145"
+          class="ms-Button ms-Button--primary cb-list-callout-primary-button primaryButton-147"
           data-is-focusable="true"
           data-testid="create-item-callout-button"
           type="button"
         >
           <span
-            class="ms-Button-flexContainer flexContainer-146"
+            class="ms-Button-flexContainer flexContainer-148"
             data-automationid="splitbuttonprimary"
           >
             <span
-              class="ms-Button-textContainer textContainer-147"
+              class="ms-Button-textContainer textContainer-149"
             >
               <span
-                class="ms-Button-label label-149"
+                class="ms-Button-label label-151"
                 id="id__4"
               >
                 Create
