@@ -97,6 +97,7 @@ const makeTestProjects = (): IOATFile[] => {
                 'comment-1',
                 [],
                 [],
+                [],
                 []
             ),
             new DTDLModel(
@@ -104,6 +105,7 @@ const makeTestProjects = (): IOATFile[] => {
                 'model-2',
                 'description-2',
                 'comment-2',
+                [],
                 [],
                 [],
                 []
@@ -120,6 +122,7 @@ const makeTestProjects = (): IOATFile[] => {
                 'comment-2',
                 [],
                 [],
+                [],
                 []
             ),
             new DTDLModel(
@@ -127,6 +130,7 @@ const makeTestProjects = (): IOATFile[] => {
                 'model-3',
                 'description-3',
                 'comment-3',
+                [],
                 [],
                 [],
                 []
@@ -246,6 +250,7 @@ LongName.args = {
                         'model-1',
                         'description-1',
                         'comment-1',
+                        [],
                         [],
                         [],
                         []

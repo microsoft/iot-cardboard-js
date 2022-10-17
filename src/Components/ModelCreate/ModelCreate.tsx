@@ -105,7 +105,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
                 comment,
                 properties,
                 relationships,
-                components
+                components,
+                []
             );
         }
     }));
@@ -118,7 +119,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
             comment,
             properties,
             relationships,
-            components
+            components,
+            []
         );
         if (onPrimaryAction && typeof onPrimaryAction === 'function') {
             onPrimaryAction(model);
@@ -516,7 +518,8 @@ function ModelCreate(props: ModelCreateProps, ref) {
                             comment,
                             properties,
                             relationships,
-                            components
+                            components,
+                            []
                         )
                     }
                     isOpen={isModelPreviewOpen}

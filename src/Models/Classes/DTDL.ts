@@ -1,4 +1,8 @@
-import { IADTModelDefinition, IADTProperty } from '../Constants';
+import {
+    DtdlInterfaceContent,
+    IADTModelDefinition,
+    IADTProperty
+} from '../Constants';
 
 export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
 
@@ -400,15 +404,18 @@ export class DTDLModel {
     contents?: any[];
     description?: string;
     displayName?: string;
+    /** array of strings of ids that this model extends */
+    extends?: string[];
 
     constructor(
         id: string,
         displayName: string,
         description: string,
         comment: string,
-        properties: any[],
-        relationships: any[],
-        components: any[]
+        properties: DtdlInterfaceContent[],
+        relationships: DtdlInterfaceContent[],
+        components: DtdlInterfaceContent[],
+        extendRelationships: string[]
     ) {
         this['@type'] = DTDLType.Interface;
         this['@context'] = CURRENT_CONTEXT_VERSION;
@@ -421,10 +428,11 @@ export class DTDLModel {
             ...(relationships ?? []),
             ...(components ?? [])
         ];
+        this.extends = [...(extendRelationships ?? [])];
     }
 
     static getBlank(): DTDLModel {
-        return new DTDLModel('', '', '', '', [], [], []);
+        return new DTDLModel('', '', '', '', [], [], [], []);
     }
 
     static fromObject(obj: IADTModelDefinition): DTDLModel {
@@ -441,7 +449,8 @@ export class DTDLModel {
                 .map((r: any) => DTDLRelationship.fromObject(r)),
             obj.contents
                 ?.filter((c) => c['@type'] === DTDLType.Component)
-                .map((c: any) => DTDLComponent.fromObject(c))
+                .map((c: any) => DTDLComponent.fromObject(c)),
+            []
         );
     }
 

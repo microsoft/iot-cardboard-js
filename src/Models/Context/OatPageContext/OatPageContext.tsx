@@ -205,7 +205,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_IMPORT_MODELS: {
-                draft.importModels = action.payload.models || [];
+                draft.modelsToImport = action.payload.models || [];
                 break;
             }
             case OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN: {
@@ -287,7 +287,7 @@ const emptyState: IOatPageContextState = {
     // other properties
     confirmDeleteOpen: { open: false },
     error: null,
-    importModels: [],
+    modelsToImport: [],
     modelsToAdd: [],
     isJsonUploaderOpen: false,
     modified: false,

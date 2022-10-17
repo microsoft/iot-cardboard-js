@@ -726,11 +726,11 @@ const OATGraphViewer: React.FC = () => {
 
     // update the graph when models are imported
     useEffect(() => {
-        if (oatPageState.importModels?.length > 0) {
+        if (oatPageState.modelsToImport?.length > 0) {
             logDebugConsole('debug', '[START] Handle change to Import models');
             setLoading(true);
             const potentialElements = getGraphNodesFromModels(
-                oatPageState.importModels,
+                oatPageState.modelsToImport,
                 oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
@@ -747,7 +747,7 @@ const OATGraphViewer: React.FC = () => {
         getGraphNodesFromModels,
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
-        oatPageState.importModels
+        oatPageState.modelsToImport
     ]);
 
     // update the graph when models are added

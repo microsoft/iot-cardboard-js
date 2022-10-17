@@ -145,7 +145,8 @@ export const convertDtdlInterfaceToModel = (
         model.comment,
         model.contents?.filter((x) => x['@type'] === 'Property'),
         model.contents?.filter((x) => x['@type'] === 'Relationship'),
-        model.contents?.filter((x) => x['@type'] === 'Component')
+        model.contents?.filter((x) => x['@type'] === 'Component'),
+        model.extends
     );
 };
 
