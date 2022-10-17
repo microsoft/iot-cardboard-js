@@ -895,7 +895,8 @@
       "namespaceDescription": "Örnek model adı: {{modelName}}",
       "namespacePlaceholder": "Ad alanı girme",
       "sampleModel": "örnek Model"
-    }
+    },
+    "file": "dosya"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
   }
 }

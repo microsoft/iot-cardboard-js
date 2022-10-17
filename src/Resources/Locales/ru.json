@@ -895,7 +895,8 @@
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
       "namespacePlaceholder": "Ввод пространства имен",
       "sampleModel": "Образец модели"
-    }
+    },
+    "file": "файл"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1205,5 +1206,10 @@
     "propertyCount": "Выбрано свойство {{selectedPropsCount}}",
     "availableProperties": "Раскрывающийся список доступных свойств",
     "selectAdditionalColumns": "Выбор дополнительных столбцов"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
   }
 }

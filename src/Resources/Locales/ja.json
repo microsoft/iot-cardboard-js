@@ -895,7 +895,8 @@
       "namespaceDescription": "モデル名の例: {{モデル名}}",
       "namespacePlaceholder": "名前空間を入力する",
       "sampleModel": "サンプルモデル"
-    }
+    },
+    "file": "ファイル"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}} プロパティが選択されました",
     "availableProperties": "利用可能なプロパティのドロップダウン",
     "selectAdditionalColumns": "追加の列の選択"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
   }
 }

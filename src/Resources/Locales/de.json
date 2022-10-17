@@ -895,7 +895,8 @@
       "namespaceDescription": "Beispielmodellname: {{modelName}}",
       "namespacePlaceholder": "Eingeben eines Namespaces",
       "sampleModel": "Beispielmodell"
-    }
+    },
+    "file": "Datei"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopieren",
+    "defaultFileName": "Neue Ontologie",
+    "defaultModelNamePrefix": "Modell"
   }
 }

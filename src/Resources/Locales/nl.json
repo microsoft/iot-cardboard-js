@@ -895,7 +895,8 @@
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
       "namespacePlaceholder": "Een naamruimte invoeren",
       "sampleModel": "voorbeeldmodel"
-    }
+    },
+    "file": "bestand"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiëren",
+    "defaultFileName": "Nieuwe ontologie",
+    "defaultModelNamePrefix": "Model"
   }
 }

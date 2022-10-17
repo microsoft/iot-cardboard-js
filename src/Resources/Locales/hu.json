@@ -895,7 +895,8 @@
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
       "namespacePlaceholder": "Névtér megadása",
       "sampleModel": "minta modell"
-    }
+    },
+    "file": "fájl"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
     "selectAdditionalColumns": "További oszlopok kijelölése"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "másolat",
+    "defaultFileName": "Új ontológia",
+    "defaultModelNamePrefix": "Modell"
   }
 }
