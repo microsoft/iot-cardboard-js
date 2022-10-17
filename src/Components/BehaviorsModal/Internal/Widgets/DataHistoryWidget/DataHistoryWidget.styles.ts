@@ -7,7 +7,6 @@ const classNames = {
 };
 
 export const dataHistoryClassNames = mergeStyleSets({
-    // TODO: fix styling with new format
     container: [
         classNames.container,
         {

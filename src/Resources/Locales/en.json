@@ -1243,6 +1243,7 @@
     },
     "highcharts": {
         "noTitle": "No title",
-        "shareQuery": "Share query"
+        "shareQuery": "Share query",
+        "noData": "No data to display"
     }
 }

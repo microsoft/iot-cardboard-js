@@ -7,13 +7,17 @@ import {
 export const classPrefix = 'cb-highcharts-wrapper';
 const classNames = {
     container: `${classPrefix}-container`,
-    titleWithLinkContainer: `${classPrefix}-title--with-link-container`,
     shareButton: `${classPrefix}-share-button`
 };
 export const getStyles = ({
     theme
 }: IHighChartsWrapperStyleProps): IHighChartsWrapperStyles => {
     const commonTextStyling: Partial<IStyle> = { color: theme.palette.black };
+    const commonChartTextStyling: Partial<IStyle> = {
+        ...commonTextStyling,
+        fontSize: 12,
+        fontWeight: 'normal'
+    };
     return {
         container: [
             classNames.container,
@@ -21,15 +25,6 @@ export const getStyles = ({
                 width: '100%',
                 height: '100%',
                 '.highcharts-credits': { display: 'none' }
-            }
-        ],
-        titleWithLinkContainer: [
-            classNames.titleWithLinkContainer,
-            {
-                height: 20,
-                display: 'flex',
-                alignItems: 'center',
-                zIndex: -1
             }
         ],
         shareButton: [
@@ -80,8 +75,23 @@ export const getStyles = ({
             },
             legend: {
                 root: {
-                    fontSize: 12,
-                    fontWeight: 'normal'
+                    ...commonChartTextStyling
+                },
+                hover: {
+                    fontWeight: 'bold',
+                    color: '#cccccc'
+                }
+            },
+            loadingText: {
+                root: {
+                    ...commonChartTextStyling,
+                    color: theme.palette.themePrimary
+                }
+            },
+            noDataText: {
+                root: {
+                    ...commonChartTextStyling,
+                    color: theme.palette.neutralSecondary
                 }
             }
         }

@@ -53,7 +53,7 @@ export const getWidgetClassNames = memoizeFunction(
                 {
                     ...baseWidget,
                     width: 282,
-                    height: 188
+                    height: 186
                 } as IStyle
             ]
         });

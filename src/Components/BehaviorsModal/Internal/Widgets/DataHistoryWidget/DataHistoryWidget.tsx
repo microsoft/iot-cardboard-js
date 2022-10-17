@@ -3,12 +3,14 @@ import {
     ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
-    IDataHistoryWidgetTimeSeriesTwin
+    IDataHistoryWidgetTimeSeriesTwin,
+    TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import {
     IDataHistoryTimeSeries,
-    IDataHistoryWidget
+    IDataHistoryWidget,
+    IDataHistoryWidgetConfiguration
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
@@ -31,7 +33,13 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
     const twinIdPropertyMap = getTwinIdPropertyMap(timeSeries, twins);
     const isRequestSent = useRef(false);
 
-    const { query, deeplink, data, fetchTimeSeriesData } = useTimeSeriesData({
+    const {
+        query,
+        deeplink,
+        data,
+        fetchTimeSeriesData,
+        isLoading
+    } = useTimeSeriesData({
         adapter,
         connectionString,
         quickTimeSpan: chartOptions.defaultQuickTimeSpan,
@@ -58,22 +66,54 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
         mode
     ]);
 
+    const placeholderTimeSeriesData: Array<
+        Array<TimeSeriesData>
+    > = useMemo(() => {
+        // placeholder timeseries data to be used in preview mode, need to memoize not to change the chart plot area unless time span changes
+        const toInMillis = Date.now();
+        const fromInMillis = toInMillis - chartOptions.defaultQuickTimeSpan;
+        return timeSeries.map(() =>
+            Array.from({ length: 5 }, () => ({
+                timestamp: Math.floor(
+                    Math.random() * (toInMillis - fromInMillis + 1) +
+                        fromInMillis
+                ),
+                value: Math.floor(Math.random() * 500)
+            })).sort(
+                (a, b) => (a.timestamp as number) - (b.timestamp as number)
+            )
+        );
+    }, [chartOptions.defaultQuickTimeSpan, timeSeries.length]);
+
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
-        () => transformADXTimeSeriesToHighChartsSeries(data, twinIdPropertyMap),
-        [data, twinIdPropertyMap]
+        () =>
+            mode === BehaviorModalMode.preview
+                ? generatePlaceholderHighChartsData(
+                      widget.widgetConfiguration,
+                      placeholderTimeSeriesData
+                  )
+                : transformADXTimeSeriesToHighChartsSeries(
+                      data,
+                      twinIdPropertyMap
+                  ),
+        [mode, widget.widgetConfiguration, data, twinIdPropertyMap]
     );
 
     return (
         <div className={dataHistoryClassNames.container}>
             <HighChartsWrapper
                 title={displayName}
-                titleTargetLink={
-                    mode === BehaviorModalMode.viewer ? deeplink : undefined
-                }
                 seriesData={highChartSeriesData}
-                legendLayout="vertical"
-                legendPadding={0}
-                hasMultipleAxes={chartOptions.yAxisType === 'independent'}
+                isLoading={isLoading}
+                chartOptions={{
+                    titleTargetLink:
+                        mode === BehaviorModalMode.viewer
+                            ? deeplink
+                            : undefined,
+                    legendLayout: 'vertical',
+                    legendPadding: 0,
+                    hasMultipleAxes: chartOptions.yAxisType === 'independent'
+                }}
             />
         </div>
     );
@@ -120,5 +160,16 @@ const transformADXTimeSeriesToHighChartsSeries = (
                   } as IHighChartSeriesData)
           )
         : [];
+
+const generatePlaceholderHighChartsData = (
+    widgetConfig: IDataHistoryWidgetConfiguration,
+    placeholderTimeSeriesData: Array<Array<TimeSeriesData>>
+): Array<IHighChartSeriesData> => {
+    return widgetConfig.timeSeries.map((ts, idx) => ({
+        name: `${ts.label || ts.expression}`,
+        data: placeholderTimeSeriesData[idx],
+        tooltipSuffix: ts.unit
+    }));
+};
 
 export default memo(DataHistoryWidget);
