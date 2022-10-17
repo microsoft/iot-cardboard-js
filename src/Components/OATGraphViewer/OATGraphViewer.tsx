@@ -71,7 +71,7 @@ import {
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
-import { getNextModel } from '../../Models/Services/OatUtils';
+import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -154,10 +154,7 @@ const OATGraphViewer: React.FC = () => {
                 }
 
                 if (input.extends) {
-                    (Array.isArray(input.extends)
-                        ? input.extends
-                        : [input.extends]
-                    ).forEach((extend) => {
+                    ensureIsArray(input.extends).forEach((extend) => {
                         const foundExtendTarget = models.find(
                             (model) => model['@id'] === extend
                         );
@@ -542,7 +539,7 @@ const OATGraphViewer: React.FC = () => {
                         (element) => element['@id'] === currentNode.source
                     );
                     if (sourceNode) {
-                        sourceNode.extends = sourceNode.extends || [];
+                        sourceNode.extends = ensureIsArray(sourceNode.extends);
                         if (!sourceNode.extends.includes(currentNode.target)) {
                             sourceNode.extends.push(currentNode.target);
                         }

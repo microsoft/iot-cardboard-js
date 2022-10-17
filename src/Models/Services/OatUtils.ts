@@ -146,7 +146,7 @@ export const convertDtdlInterfaceToModel = (
         model.contents?.filter((x) => x['@type'] === 'Property'),
         model.contents?.filter((x) => x['@type'] === 'Relationship'),
         model.contents?.filter((x) => x['@type'] === 'Component'),
-        model.extends
+        model.extends as string[] // we know it's an array since we only ever set it to array
     );
 };
 
@@ -250,6 +250,10 @@ export function getAvailableLanguages(i18n: i18n) {
                 .languageName
         };
     });
+}
+
+export function ensureIsArray(property: string | string[]): string[] {
+    return Array.isArray(property) ? property : [property] || [];
 }
 
 const DEFAULT_VERSION_NUMBER = 1;
