@@ -4,6 +4,7 @@ import {
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME,
+    OAT_UNTARGETED_NODE_TARGET_NAME,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../../Models/Constants';
 import {
@@ -11,6 +12,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship
 } from '../../../Models/Constants/dtdlInterfaces';
+import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     IOATModelPosition,
     IOATSelection
@@ -18,6 +20,9 @@ import {
 import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 
 export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
@@ -68,6 +73,13 @@ export const addTargetedRelationship = (
     relationship: DtdlInterfaceContent,
     elements: (ElementNode | ElementEdge)[]
 ) => {
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addTargetedRelationship. {source, relationship, elements}',
+    //     sourceId,
+    //     relationship,
+    //     elements
+    // );
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
         relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
@@ -89,6 +101,11 @@ export const addTargetedRelationship = (
     );
 
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addTargetedRelationship. {elements}',
+    //     elements
+    // );
     return relationshipEdge;
 };
 
@@ -98,6 +115,14 @@ export const addUntargetedRelationship = (
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
 ) => {
+    logDebugConsole(
+        'debug',
+        '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
+        sourceId,
+        relationship,
+        modelPositions,
+        elements
+    );
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
         relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
@@ -131,12 +156,18 @@ export const addUntargetedRelationship = (
             ...relationship,
             '@id': id,
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
-            name
+            name: name,
+            target: OAT_UNTARGETED_NODE_TARGET_NAME
         }
     );
 
     elements.push(newNode);
     elements.push(relationshipEdge);
+    logDebugConsole(
+        'debug',
+        '[END] addUntargetedRelationship. {elements}',
+        elements
+    );
     return relationshipEdge;
 };
 
@@ -146,6 +177,14 @@ export const addComponentRelationship = (
     targetName: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addComponentRelationship. {source, component, target, elements}',
+    //     sourceId,
+    //     component,
+    //     targetName,
+    //     elements
+    // );
     const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
     const name = component.name || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
@@ -165,6 +204,11 @@ export const addComponentRelationship = (
     );
 
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addComponentRelationship. {elements}',
+    //     elements
+    // );
     return relationshipEdge;
 };
 
@@ -173,6 +217,13 @@ export const addExtendsRelationship = (
     extend: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addExtendsRelationship. {source, extend, elements}',
+    //     sourceId,
+    //     extend,
+    //     elements
+    // );
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
@@ -189,6 +240,11 @@ export const addExtendsRelationship = (
         }
     );
     elements.push(relationshipEdge);
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addExtendsRelationship. {elements}',
+    //     elements
+    // );
     return relationshipEdge;
 };
 

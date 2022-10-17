@@ -32,7 +32,8 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
-    OAT_COMPONENT_HANDLE_NAME
+    OAT_COMPONENT_HANDLE_NAME,
+    OAT_UNTARGETED_NODE_TARGET_NAME
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -127,7 +128,11 @@ const OATGraphViewer: React.FC = () => {
                                 break;
                             }
                             case OAT_RELATIONSHIP_HANDLE_NAME:
-                                if (content.target) {
+                                if (
+                                    content.target &&
+                                    content.target !==
+                                        OAT_UNTARGETED_NODE_TARGET_NAME
+                                ) {
                                     const foundRelationshipTarget = models.find(
                                         (model) =>
                                             model['@id'] === content.target
