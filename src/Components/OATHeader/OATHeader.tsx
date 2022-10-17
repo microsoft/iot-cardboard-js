@@ -43,8 +43,9 @@ import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyMo
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 import { DtdlInterface, OAT_INTERFACE_TYPE } from '../../Models/Constants';
 import { CONTEXT_CLASS_BASE } from '../OATGraphViewer/Internal/Utils';
+import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -76,12 +77,24 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     // callbacks
     const onFilesUpload = useCallback(
         async (files: Array<File>) => {
+            logDebugConsole(
+                'debug',
+                `[IMPORT] [START] Files upload. (${files.length} files) {files}`,
+                files
+            );
             // Populates fileNames and filePaths
             const populateMetadata = (
                 file: File,
                 fileContent: string,
-                metaDataCopy: any
+                metaDataCopy: IOATModelsMetadata[]
             ) => {
+                logDebugConsole(
+                    'debug',
+                    '[IMPORT] [START] Populate metadata for file. {file, model, allMetadata}',
+                    file,
+                    fileContent,
+                    metaDataCopy
+                );
                 // Get model metadata
                 // Get file name from file
                 let fileName = file.name;
@@ -120,9 +133,19 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     });
                 }
 
+                logDebugConsole(
+                    'debug',
+                    '[IMPORT] [END] Populate metadata for file. {resultingMetadata}',
+                    metaDataCopy
+                );
                 return metaDataCopy;
             };
             const handleFileListChanged = async (files: Array<File>) => {
+                logDebugConsole(
+                    'debug',
+                    '[IMPORT] [START] Parsing files. {files}',
+                    files
+                );
                 const newModels = [];
                 if (files.length > 0) {
                     const filesErrors = [];
@@ -187,6 +210,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     }
 
                     if (filesErrors.length === 0) {
+                        logDebugConsole(
+                            'debug',
+                            '[IMPORT] Files parsed, storing models to context. {models}',
+                            modelsCopy
+                        );
                         oatPageDispatch({
                             type:
                                 OatPageContextActionType.SET_OAT_IMPORT_MODELS,
@@ -203,6 +231,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                             accumulatedError += `${error}\n`;
                         }
 
+                        logDebugConsole(
+                            'error',
+                            '[IMPORT] Errors while parsing. Aborting. {error}',
+                            accumulatedError
+                        );
                         oatPageDispatch({
                             type: OatPageContextActionType.SET_OAT_ERROR,
                             payload: {
@@ -212,6 +245,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         });
                     }
                 }
+                logDebugConsole(
+                    'debug',
+                    '[IMPORT] [END] Parsing files. {files}',
+                    files
+                );
             };
 
             const newFiles = [];
@@ -247,6 +285,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             // Reset value of input element so that it can be reused with the same file
             uploadFolderInputRef.current.value = null;
             uploadFileInputRef.current.value = null;
+            logDebugConsole('debug', '[IMPORT] [END] Files upload.');
         },
         [
             oatPageDispatch,
@@ -288,34 +327,41 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     }, [oatPageDispatch]);
 
     const onExportClick = useCallback(() => {
+        logDebugConsole(
+            'info',
+            '[START] Export models to file. {models, metadata}',
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelMetadata
+        );
         const zip = new JSZip();
-        for (const element of oatPageState.currentOntologyModels) {
-            const id = element['@id'];
+        for (const currentModel of oatPageState.currentOntologyModels) {
+            const currentModelId = currentModel['@id'];
             let fileName = null;
             let directoryPath = null;
 
+            // Disabling, not sure why we need this logic. It seems to only cause issues. Do we need to retain those paths from the last import for some reason?
             // Check if current elements exists within modelsMetadata array, if so, use the metadata
             // to determine the file name and directory path
-            const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
-                (model) => model['@id'] === id
-            );
-            if (modelMetadata) {
-                fileName = modelMetadata.fileName
-                    ? modelMetadata.fileName
-                    : null;
-                directoryPath = modelMetadata.directoryPath
-                    ? modelMetadata.directoryPath
-                    : null;
-            }
+            // const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
+            //     (model) => model['@id'] === currentModelId
+            // );
+            // if (modelMetadata) {
+            //     fileName = modelMetadata.fileName
+            //         ? modelMetadata.fileName
+            //         : null;
+            //     directoryPath = modelMetadata.directoryPath
+            //         ? modelMetadata.directoryPath
+            //         : null;
+            // }
 
             // If fileName or directoryPath are null, generate values from id
             if (!fileName || !directoryPath) {
                 if (!fileName) {
-                    fileName = getFileNameFromDTMI(id);
+                    fileName = getFileNameFromDTMI(currentModelId);
                 }
 
                 if (!directoryPath) {
-                    directoryPath = getDirectoryPathFromDTMI(id);
+                    directoryPath = getDirectoryPathFromDTMI(currentModelId);
                 }
             }
 
@@ -332,7 +378,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 ) {
                     currentDirectory.file(
                         `${fileName}.json`,
-                        JSON.stringify(element)
+                        JSON.stringify(currentModel)
                     );
                 }
             }
@@ -350,6 +396,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         };
 
         zip.generateAsync({ type: 'blob' }).then((content) => {
+            logDebugConsole(
+                'info',
+                '[END] Export models to file. {content}',
+                content
+            );
             downloadModelExportBlob(content);
         });
     }, [

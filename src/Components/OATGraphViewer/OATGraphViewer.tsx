@@ -73,7 +73,7 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
 import { getNextModel } from '../../Models/Services/OatUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -505,19 +505,23 @@ const OATGraphViewer: React.FC = () => {
 
     /** recreate the models anytime elements change. These then get stored back to the context */
     const modelsFromCurrentNodes = useMemo(() => {
-        logDebugConsole('debug', '[modelsFromCurrentNodes] ');
+        logDebugConsole(
+            'debug',
+            '[START] get models from current graph. {nodes}',
+            elements
+        );
         // Creates the json object in the DTDL standard based on the content of the nodes
         const nodes: DtdlInterface[] = elements.reduce(
             (
-                currentNodes: DtdlInterface[],
+                models: DtdlInterface[],
                 currentNode: IOatElementNode & { data: { name: string } }
             ) => {
                 if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
-                    currentNodes.push(currentNode.data);
+                    models.push(currentNode.data);
                 } else if (
                     currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (
@@ -534,7 +538,7 @@ const OATGraphViewer: React.FC = () => {
                 } else if (
                     currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (sourceNode) {
@@ -546,7 +550,7 @@ const OATGraphViewer: React.FC = () => {
                 } else if (
                     currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     const targetNode = elements.find(
@@ -568,7 +572,7 @@ const OATGraphViewer: React.FC = () => {
                     currentNode.data['@type'] ===
                     OAT_UNTARGETED_RELATIONSHIP_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (
@@ -586,9 +590,14 @@ const OATGraphViewer: React.FC = () => {
                         ];
                     }
                 }
-                return currentNodes;
+                return models;
             },
             []
+        );
+        logDebugConsole(
+            'debug',
+            '[END] get models from current graph. {models}',
+            nodes
         );
         return nodes;
     }, [elements]);
