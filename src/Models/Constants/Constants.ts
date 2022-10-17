@@ -374,6 +374,37 @@ export const DTDLPropertyIconographyMap = {
     }
 };
 
+export const DTDLStringNumericPropertyIconographyMap = {
+    boolean: {
+        text: 'boolean',
+        icon: 'ToggleRight'
+    },
+    double: {
+        text: 'double',
+        icon: 'NumberSymbol'
+    },
+    enum: {
+        text: 'enum',
+        icon: 'BulletedList2'
+    },
+    float: {
+        text: 'float',
+        icon: 'NumberSymbol'
+    },
+    integer: {
+        text: 'integer',
+        icon: 'NumberSymbol'
+    },
+    long: {
+        text: 'long',
+        icon: 'NumberSymbol'
+    },
+    string: {
+        text: 'string',
+        icon: 'TextField'
+    }
+};
+
 export const propertySelectorData = {
     propertyTags: {
         primitive: [

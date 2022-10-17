@@ -21,11 +21,12 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDefaultVisualRule } from '../../../../Models/Classes/3DVConfig';
-import { DTDLPropertyIconographyMap } from '../../../../Models/Constants';
+import { DTDLStringNumericPropertyIconographyMap } from '../../../../Models/Constants';
 import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import {
     IDTDLPropertyType,
-    IExpressionRangeVisual
+    IExpressionRangeVisual,
+    IValueRange
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
@@ -86,11 +87,19 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     const commonFormStyles = getPanelFormStyles(theme, rootHeight);
     const typeOptions: Array<IDropdownOption> = useMemo(
         () =>
-            Object.keys(DTDLPropertyIconographyMap).map((mappingKey) => ({
-                key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
-                text: DTDLPropertyIconographyMap[mappingKey].text,
-                data: { icon: DTDLPropertyIconographyMap[mappingKey].icon }
-            })),
+            Object.keys(DTDLStringNumericPropertyIconographyMap).map(
+                (mappingKey) => ({
+                    key: `value-type-${DTDLStringNumericPropertyIconographyMap[mappingKey].text}`,
+                    text:
+                        DTDLStringNumericPropertyIconographyMap[mappingKey]
+                            .text,
+                    data: {
+                        icon:
+                            DTDLStringNumericPropertyIconographyMap[mappingKey]
+                                .icon
+                    }
+                })
+            ),
         []
     );
 
@@ -143,13 +152,20 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         getInitialFieldValidityState()
     );
 
-    const [propertyType, setPropertyType] = useState<IDTDLPropertyType>();
-
     // Reducer
+    const getInitialConditionsHistoryMap = () => {
+        const historyMap = new Map<string, IValueRange[]>();
+        historyMap.set(
+            initialVisualRule.current.valueRangeType,
+            initialVisualRule.current.valueRanges
+        );
+        return historyMap;
+    };
     const [
         visualRuleFormState,
         visualRuleFormDispatch
     ] = useReducer<IVisualRuleFormReducerType>(VisualRuleFormReducer, {
+        conditionsHistoryMap: getInitialConditionsHistoryMap(),
         originalVisualRule: initialVisualRule.current,
         visualRuleToEdit: initialVisualRule.current,
         isDirty: false
@@ -234,12 +250,17 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         [visualRuleFormDispatch]
     );
 
-    // TODO: Remove this in favor of actually using property type for condition functionality
-    // TODO: Might need schema update
-    const tempHandlePropertyTypeChange = useCallback(
+    const handlePropertyTypeChange = useCallback(
         (_event: React.FormEvent<HTMLDivElement>, option?: IDropdownOption) => {
             if (option) {
-                setPropertyType(option.text as IDTDLPropertyType);
+                // Update state with new type and values
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET,
+                    payload: {
+                        type: option.text as IDTDLPropertyType
+                    }
+                });
             }
         },
         []
@@ -264,6 +285,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         />
                         <ModelledPropertyBuilder
                             adapter={adapter}
+                            excludeDtid={true}
                             twinIdParams={{
                                 behavior: selectedBehavior,
                                 config,
@@ -287,8 +309,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                                     '3dSceneBuilder.visualRuleForm.typePlaceholder'
                                 )}
                                 label={t('type')}
-                                selectedKey={`value-type-${propertyType}`}
-                                onChange={tempHandlePropertyTypeChange}
+                                selectedKey={`value-type-${
+                                    visualRuleFormState.visualRuleToEdit
+                                        .valueRangeType
+                                        ? visualRuleFormState.visualRuleToEdit
+                                              .valueRangeType
+                                        : 'string'
+                                }`}
+                                onChange={handlePropertyTypeChange}
                                 options={typeOptions}
                                 onRenderOption={onRenderTypeOption}
                                 onRenderTitle={onRenderTypeTitle}

@@ -1,4 +1,5 @@
 import {
+    IDTDLPropertyType,
     IExpressionRangeType,
     IExpressionRangeVisual,
     IValueRange
@@ -9,8 +10,10 @@ export interface IVisualRulesListProps {
     onRemoveRule: (ruleId: string) => void;
     onEditRule: (ruleId: string) => void;
 }
-export type IConditionsType = 'Badge' | 'Mesh coloring';
 
+/** @deprecated */
+export type IConditionsType = 'Badge' | 'Mesh coloring';
+/** @deprecated */
 export interface IVisualRule {
     id: string;
     displayName: string;
@@ -23,6 +26,7 @@ export type IVisualRuleFormReducerType = (
     action: VisualRuleFormAction
 ) => IVisualRuleFormState;
 export interface IVisualRuleFormState {
+    conditionsHistoryMap: Map<string, IValueRange[]>;
     originalVisualRule: IExpressionRangeVisual;
     visualRuleToEdit: IExpressionRangeVisual;
     isDirty: boolean;
@@ -33,10 +37,10 @@ export enum VisualRuleFormActionType {
     FORM_VISUAL_RULE_DISPLAY_NAME_SET = 'FORM_VISUAL_RULE_DISPLAY_NAME_SET',
     FORM_VISUAL_RULE_EXPRESSION_SET = 'FORM_VISUAL_RULE_EXPRESSION_SET',
     FORM_VISUAL_RULE_EXPRESSION_TYPE_SET = 'FORM_VISUAL_RULE_EXPRESSION_TYPE_SET',
+    FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET = 'FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET',
     /** Condition actions */
     FORM_CONDITION_ADD_OR_UPDATE = 'FORM_CONDITION_ADD_OR_UPDATE',
-    FORM_CONDITION_REMOVE = 'FORM_CONDITION_REMOVE',
-    FORM_CONDITION_UPDATE_TYPE = 'FORM_CONDITION_UPDATE_TYPE'
+    FORM_CONDITION_REMOVE = 'FORM_CONDITION_REMOVE'
 }
 
 export type VisualRuleFormAction =
@@ -52,6 +56,12 @@ export type VisualRuleFormAction =
     | {
           type: VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET;
           payload: { type: IExpressionRangeType };
+      }
+    | {
+          type: VisualRuleFormActionType.FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET;
+          payload: {
+              type: IDTDLPropertyType;
+          };
       }
     // CONDITIONS
     | {

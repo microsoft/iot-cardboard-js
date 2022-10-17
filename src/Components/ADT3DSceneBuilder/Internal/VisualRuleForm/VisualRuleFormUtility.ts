@@ -1,5 +1,6 @@
 import { IConsoleLogFunction } from '../../../../Models/Constants';
 import {
+    IDTDLPropertyType,
     IExpressionRangeType,
     IValueRange
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -66,6 +67,18 @@ export const transformValueRangesIntoConditions = (
                 color: condition.visual.color
             };
         });
+    } else {
+        return [];
+    }
+};
+
+/** Choose values from temporary valueRangeMap, in case user has gone back and forth from one type to another */
+export const getValuesFromMap = (
+    selectedType: IDTDLPropertyType,
+    valueRangeMap: Map<string, IValueRange[]>
+): IValueRange[] => {
+    if (valueRangeMap.has(selectedType)) {
+        return valueRangeMap.get(selectedType);
     } else {
         return [];
     }
