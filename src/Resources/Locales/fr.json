@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   },
   "highcharts": {
-    "noTitle": "Pas de titre"
+    "noTitle": "Pas de titre",
+    "shareQuery": "Partager la requête",
+    "noData": "Aucune donnée à afficher"
   }
 }

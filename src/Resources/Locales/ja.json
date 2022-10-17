@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "追加の列の選択"
   },
   "highcharts": {
-    "noTitle": "タイトルなし"
+    "noTitle": "タイトルなし",
+    "shareQuery": "共有クエリ",
+    "noData": "表示するデータがありません"
   }
 }

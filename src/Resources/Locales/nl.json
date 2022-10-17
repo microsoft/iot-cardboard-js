@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "Extra kolommen selecteren"
   },
   "highcharts": {
-    "noTitle": "Geen titel"
+    "noTitle": "Geen titel",
+    "shareQuery": "Query delen",
+    "noData": "Geen gegevens om weer te geven"
   }
 }

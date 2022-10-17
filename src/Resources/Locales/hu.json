@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "További oszlopok kijelölése"
   },
   "highcharts": {
-    "noTitle": "Nincs cím"
+    "noTitle": "Nincs cím",
+    "shareQuery": "Lekérdezés megosztása",
+    "noData": "Nincs megjelenítendő adat"
   }
 }
