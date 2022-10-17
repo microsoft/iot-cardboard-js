@@ -69,7 +69,7 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
     > = useMemo(() => {
-        // placeholder timeseries data to be used in preview mode, need to memoize not to change the chart plot area unless time span changes
+        // placeholder timeseries data to be used in preview mode, need to memoize not to change the chart plot area unless time span or series length changes
         const toInMillis = Date.now();
         const fromInMillis = toInMillis - chartOptions.defaultQuickTimeSpan;
         return timeSeries.map(() =>
@@ -112,7 +112,8 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
                             : undefined,
                     legendLayout: 'vertical',
                     legendPadding: 0,
-                    hasMultipleAxes: chartOptions.yAxisType === 'independent'
+                    hasMultipleAxes: chartOptions.yAxisType === 'independent',
+                    dataGrouping: chartOptions.aggregationType
                 }}
             />
         </div>

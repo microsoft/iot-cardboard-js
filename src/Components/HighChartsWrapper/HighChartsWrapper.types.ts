@@ -1,6 +1,7 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { OptionsLayoutValue } from 'highcharts';
 import { TimeSeriesData } from '../../Models/Constants';
+import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS = 10;
 
@@ -20,6 +21,7 @@ export interface IHighChartsWrapperProps {
         legendLayout?: OptionsLayoutValue;
         legendPadding?: number;
         hasMultipleAxes?: boolean;
+        dataGrouping?: IDataHistoryAggregationType;
     };
 
     /**

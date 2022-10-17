@@ -15,6 +15,8 @@ import {
 import Highcharts, {
     ColorString,
     CSSObject,
+    DataGroupingApproximationValue,
+    OptionsLayoutValue,
     SeriesOptionsType
 } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -22,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { renderToString } from 'react-dom/server';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { deepCopy } from '../../Models/Services/Utils';
+import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 NoDataToDisplay(Highcharts);
 require('highcharts/modules/accessibility')(Highcharts);
 
@@ -31,16 +34,13 @@ const getClassNames = classNamesFunction<
 >();
 
 const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
-    const {
-        title,
-        seriesData,
-        isLoading = false,
-        styles,
-        chartOptions = {
-            legendLayout: 'horizontal',
-            hasMultipleAxes: false
-        }
-    } = props;
+    const { title, seriesData, isLoading = false, styles } = props;
+    const chartOptions = {
+        legendLayout: 'horizontal' as OptionsLayoutValue,
+        hasMultipleAxes: false,
+        dataGrouping: 'avg' as IDataHistoryAggregationType,
+        ...props.chartOptions
+    };
 
     // hooks
     const { t } = useTranslation();
@@ -60,12 +60,14 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                     (sD, idx) =>
                         ({
                             name: sD.name,
-                            data: sD.data.map((d) => [
-                                typeof d.timestamp === 'string'
-                                    ? new Date(d.timestamp).getTime()
-                                    : d.timestamp, // by default, if timestamp is date string convert it to number since highcharts only accept number type for series
-                                Math.round(d.value * 100) / 100 // by default, fix rounding 2 decimal after point
-                            ]),
+                            data: sD.data
+                                .map((d) => [
+                                    typeof d.timestamp === 'string'
+                                        ? new Date(d.timestamp).getTime()
+                                        : d.timestamp, // by default, if timestamp is date string convert it to number since highcharts only accept number type for series
+                                    Math.round(d.value * 100) / 100 // by default, fix rounding 2 decimal after point
+                                ])
+                                .sort((a, b) => a[0] - b[0]), // sort in case the timestamps are not in ascending order
                             type: 'line', // by default, show series in line chart type
                             color: highChartColor(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
@@ -79,7 +81,15 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             },
                             yAxis: chartOptions?.hasMultipleAxes
                                 ? idx
-                                : undefined
+                                : undefined,
+                            dataGrouping: {
+                                approximation: (chartOptions.dataGrouping ===
+                                'min'
+                                    ? 'low'
+                                    : chartOptions.dataGrouping === 'max'
+                                    ? 'high'
+                                    : 'average') as DataGroupingApproximationValue
+                            }
                         } as SeriesOptionsType)
                 ) || [],
         [seriesData]
@@ -105,14 +115,19 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     };
 
     const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
-        (_hcS, idx) => ({
-            gridLineWidth: idx > 1 ? 0 : 1,
-            opposite: idx > 0 ? true : false, // by default, put the other half of the y-axes to the opposite side
-            title: undefined, // by default, do not show any labels in y axis, only numeric range
-            labels: {
-                style: { color: highChartColor(idx) }
-            }
-        })
+        (_hcS, idx) => {
+            const isOnOppositeSide =
+                idx >= Math.floor(highChartSeries.length / 2) ? true : false; // by default, put the other half of the y-axes to the opposite side
+            return {
+                gridLineWidth: idx > 1 ? 0 : 1,
+                opposite: isOnOppositeSide,
+                title: undefined, // by default, do not show any labels in y axis, only numeric range
+                labels: {
+                    x: isOnOppositeSide ? 8 : -8, // to make label space less to make up more space for plot
+                    style: { color: highChartColor(idx) }
+                }
+            };
+        }
     );
 
     const deeplinkShareButtonDOMString = renderToString(
@@ -134,7 +149,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                     <span> ${title} </span> 
                     <a style="color:inherit" target="_blank" href="${chartOptions?.titleTargetLink}">
                     ${deeplinkShareButtonDOMString}
-                    </a></div>`
+                    </a></div>` // need to hardcode styling here
                     : title || t('highcharts.noTitle'),
             style: classNames.subComponentStyles.title().root as CSSObject
         },
@@ -203,7 +218,14 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             : {
                   style: classNames.subComponentStyles.noDataText()
                       .root as CSSObject
-              }
+              },
+        plotOptions: {
+            series: {
+                dataGrouping: {
+                    enabled: true // by default, notice that it is not forced considering we may want to see raw data when possible
+                }
+            }
+        }
     };
 
     return (
