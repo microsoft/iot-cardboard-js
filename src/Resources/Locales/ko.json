@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택"
+  },
+  "highcharts": {
+    "noTitle": "제목 없음"
   }
 }

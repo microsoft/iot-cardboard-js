@@ -1248,5 +1248,8 @@
     "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
     "availableProperties": "Lista rozwijana dostępnych właściwości",
     "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
+  },
+  "highcharts": {
+    "noTitle": "Brak tytułu"
   }
 }

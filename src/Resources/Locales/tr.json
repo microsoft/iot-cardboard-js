@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme"
+  },
+  "highcharts": {
+    "noTitle": "Başlık yok"
   }
 }

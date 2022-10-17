@@ -1248,5 +1248,8 @@
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
     "selectAdditionalColumns": "További oszlopok kijelölése"
+  },
+  "highcharts": {
+    "noTitle": "Nincs cím"
   }
 }
