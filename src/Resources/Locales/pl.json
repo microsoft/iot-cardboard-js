@@ -895,7 +895,8 @@
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
       "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
       "sampleModel": "przykładowy model"
-    }
+    },
+    "file": "plik"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -1205,5 +1206,10 @@
     "propertyCount": "Wybrano właściwości {{selectedPropsCount}}",
     "availableProperties": "Lista rozwijana dostępnych właściwości",
     "selectAdditionalColumns": "Zaznaczanie dodatkowych kolumn"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiować",
+    "defaultFileName": "Nowa ontologia",
+    "defaultModelNamePrefix": "Model"
   }
 }

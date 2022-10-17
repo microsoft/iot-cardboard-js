@@ -895,7 +895,8 @@
       "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
       "namespacePlaceholder": "Entrer un espace de noms",
       "sampleModel": "exemple de modèle"
-    }
+    },
+    "file": "lime"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",
@@ -1205,5 +1206,10 @@
     "propertyCount": "Propriétés {{selectedPropsCount}} sélectionnées",
     "availableProperties": "Liste déroulante des propriétés disponibles",
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copier",
+    "defaultFileName": "Nouvelle ontologie",
+    "defaultModelNamePrefix": "Modèle"
   }
 }

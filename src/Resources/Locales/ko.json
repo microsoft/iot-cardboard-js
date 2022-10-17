@@ -895,7 +895,8 @@
       "namespaceDescription": "예제 모델 이름: {{modelName}}",
       "namespacePlaceholder": "네임스페이스 입력",
       "sampleModel": "샘플 모델"
-    }
+    },
+    "file": "파일"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -1205,5 +1206,10 @@
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "새로운 온톨로지",
+    "defaultModelNamePrefix": "모델"
   }
 }
