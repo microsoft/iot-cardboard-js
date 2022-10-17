@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "Ek sütunlar seçme"
   },
   "highcharts": {
-    "noTitle": "Başlık yok"
+    "noTitle": "Başlık yok",
+    "shareQuery": "Sorguyu paylaşma",
+    "noData": "Görüntülenecek veri yok"
   }
 }

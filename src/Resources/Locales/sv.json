@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "Välj ytterligare kolumner"
   },
   "highcharts": {
-    "noTitle": "Ingen titel"
+    "noTitle": "Ingen titel",
+    "shareQuery": "Dela fråga",
+    "noData": "Inga data att visa"
   }
 }

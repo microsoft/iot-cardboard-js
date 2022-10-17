@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "选择其他列"
   },
   "highcharts": {
-    "noTitle": "无标题"
+    "noTitle": "无标题",
+    "shareQuery": "共享查询",
+    "noData": "无要显示的数据"
   }
 }

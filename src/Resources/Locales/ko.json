@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "추가 열 선택"
   },
   "highcharts": {
-    "noTitle": "제목 없음"
+    "noTitle": "제목 없음",
+    "shareQuery": "쿼리 공유",
+    "noData": "표시할 데이터 없음"
   }
 }

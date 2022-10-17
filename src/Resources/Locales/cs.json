@@ -1250,6 +1250,8 @@
     "selectAdditionalColumns": "Výběr dalších sloupců"
   },
   "highcharts": {
-    "noTitle": "Bez názvu"
+    "noTitle": "Bez názvu",
+    "shareQuery": "Sdílet dotaz",
+    "noData": "Žádná data k zobrazení"
   }
 }
