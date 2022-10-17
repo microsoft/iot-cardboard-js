@@ -5,20 +5,16 @@ import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import i18n from '../../../i18n';
-import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
 } from '../../Constants/Constants';
 import {
-    convertDtdlInterfacesToModels,
     getOntologiesFromStorage,
-    storeOntologiesToStorage,
-    storeLastUsedProjectId,
     getLastUsedProjectId
 } from '../../Services/OatUtils';
-import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
+import { createGUID, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
@@ -26,15 +22,22 @@ import {
     OatPageContextAction,
     OatPageContextActionType
 } from './OatPageContext.types';
+import {
+    createProject,
+    saveData,
+    switchCurrentProject,
+    convertStateToProject
+} from './OatPageContextUtils';
 
 const debugLogging = true;
-const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
+export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
 export const useOatPageContext = () => useContext(OatPageContext);
 
 /** used exclusively for storybook, should always be true in production */
-let isStorageEnabled = true || process.env.NODE_ENV === 'production';
+export let isOatContextStorageEnabled =
+    true || process.env.NODE_ENV === 'production';
 
 export const OatPageContextReducer: (
     draft: IOatPageContextState,
@@ -235,143 +238,11 @@ export const OatPageContextReducer: (
     }
 );
 
-function createProject(
-    name: string,
-    namespace: string,
-    draft: IOatPageContextState
-) {
-    const id = createGUID();
-    const project = new ProjectData(
-        name,
-        namespace.replace(/ /g, ''),
-        [],
-        [],
-        [],
-        []
-    );
-    draft.ontologyFiles.push({ id: id, data: project });
-
-    saveData(draft);
-    switchCurrentProject(id, draft);
-
-    logDebugConsole(
-        'debug',
-        `Created new project with id: ${id}, {project}`,
-        project
-    );
-}
-
-function switchCurrentProject(projectId: string, draft: IOatPageContextState) {
-    // do the swap
-    draft.currentOntologyId = projectId;
-    saveLastProjectId(draft.currentOntologyId);
-    const selectedFile = draft.ontologyFiles.find(
-        (x) => x.id === draft.currentOntologyId
-    );
-    if (selectedFile) {
-        const data = selectedFile.data;
-        const projectToOpen = new ProjectData(
-            data.projectName,
-            data.namespace,
-            convertDtdlInterfacesToModels(data.models),
-            data.modelPositions,
-            data.modelsMetadata,
-            data.templates
-        );
-        mapProjectOntoState(draft, projectToOpen);
-        logDebugConsole(
-            'debug',
-            `Switched to project: ${draft.currentOntologyProjectName} (${draft.currentOntologyId}). {project}`,
-            projectToOpen
-        );
-    } else {
-        logDebugConsole(
-            'warn',
-            `Project not found in storage. Unable to find the current project to ${draft.currentOntologyId}`
-        );
-    }
-}
-
-/** TODO: remove this helper when we move the project data into a sub object on the state */
-function convertStateToProject(draft: IOatPageContextState): ProjectData {
-    // NOTE: need to recreate the arrays to break proxy links that were causing issues downstream
-    const project = new ProjectData(
-        draft.currentOntologyProjectName || '',
-        draft.currentOntologyNamespace,
-        convertDtdlInterfacesToModels(draft.currentOntologyModels),
-        Array.from(draft.currentOntologyModelPositions),
-        Array.from(draft.currentOntologyModelMetadata),
-        Array.from(draft.currentOntologyTemplates)
-    );
-    // console.log('***Converted project', project, current(draft));
-
-    return project;
-}
-
-function mapProjectOntoState(
-    draft: IOatPageContextState,
-    projectToOpen: ProjectData
-) {
-    draft.currentOntologyModelPositions = projectToOpen.modelPositions;
-    draft.currentOntologyModels = projectToOpen.models;
-    draft.currentOntologyModelMetadata = projectToOpen.modelsMetadata;
-    draft.currentOntologyNamespace = projectToOpen.namespace;
-    draft.currentOntologyProjectName = projectToOpen.projectName || '';
-    draft.currentOntologyTemplates = projectToOpen.templates;
-}
-
-/** saves all the data to local storage */
-function saveData(draft: IOatPageContextState): void {
-    const selectedOntology = draft.ontologyFiles.find(
-        (x) => x.id === draft.currentOntologyId
-    );
-    if (selectedOntology) {
-        selectedOntology.data = convertStateToProject(draft); // update the files list with the latest data
-        const localDraft = deepCopy(draft); // copy to avoid the delayed proxy references
-        saveOntologyFiles(localDraft.ontologyFiles);
-        saveLastProjectId(localDraft.currentOntologyId);
-    } else {
-        logDebugConsole(
-            'warn',
-            `Unable to persist the state data to local storage. Onotology with id: ${draft.currentOntologyId} wasn't found in storage.`
-        );
-    }
-}
-
-function saveLastProjectId(projectId: string): void {
-    logDebugConsole(
-        'debug',
-        'Saving current project id to storage.',
-        projectId
-    );
-    isStorageEnabled && storeLastUsedProjectId(projectId);
-}
-
-/**
- * Writes the collection of files to storage
- * @param files all files to be stored
- */
-function saveOntologyFiles(files: IOATFile[]): void {
-    if (isStorageEnabled) {
-        storeOntologiesToStorage(files);
-        logDebugConsole(
-            'debug',
-            `Saved ${files.length} files to storage. {files}`,
-            files
-        );
-    } else {
-        logDebugConsole(
-            'warn',
-            'Storage disabled. Skipping saving files. {files}',
-            files
-        );
-    }
-}
-
 export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = React.memo(
     (props) => {
         const { children, initialState, disableLocalStorage } = props;
-        isStorageEnabled = disableLocalStorage === true ? false : true;
+        isOatContextStorageEnabled =
+            disableLocalStorage === true ? false : true;
 
         // skip wrapping if the context already exists
         const existingContext = useOatPageContext();
@@ -429,11 +300,11 @@ const getInitialState = (
     initialState: IOatPageContextState
 ): IOatPageContextState => {
     // use the default state if it's provided (mostly for test cases)
-    const files = !isStorageEnabled
+    const files = !isOatContextStorageEnabled
         ? initialState.ontologyFiles
         : getOntologiesFromStorage();
     // use the default state if it's provided (mostly for test cases)
-    const lastProjectId = !isStorageEnabled
+    const lastProjectId = !isOatContextStorageEnabled
         ? initialState.currentOntologyId
         : getLastUsedProjectId();
 
