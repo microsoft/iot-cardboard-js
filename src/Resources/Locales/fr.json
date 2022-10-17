@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément.",
       "newCondition": "Nouvelle condition"
     },
-    "conditions": "Conditions"
+    "conditions": "Conditions",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
+      "noData": "Vous n'avez pas encore configuré de règles visuelles",
+      "addRuleButtonText": "Ajouter une règle",
+      "editRule": "Modifier la règle",
+      "removeRule": "Supprimer la règle"
+    }
   },
   "widgets": {
     "trend": {

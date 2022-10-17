@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
       "newCondition": "Nova condição"
     },
-    "conditions": "Condições"
+    "conditions": "Condições",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
+      "noData": "Você ainda não configurou nenhuma regra visual",
+      "addRuleButtonText": "Adicionar regra",
+      "editRule": "Editar regra",
+      "removeRule": "Remover regra"
+    }
   },
   "widgets": {
     "trend": {

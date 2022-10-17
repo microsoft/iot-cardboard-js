@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
       "newCondition": "Új feltétel"
     },
-    "conditions": "Feltételek"
+    "conditions": "Feltételek",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
+      "noData": "Még nem konfigurált vizuális szabályokat",
+      "addRuleButtonText": "Szabály hozzáadása",
+      "editRule": "Szerkesztési szabály",
+      "removeRule": "Szabály eltávolítása"
+    }
   },
   "widgets": {
     "trend": {

@@ -162,6 +162,8 @@ const transformADXTimeSeriesToHighChartsSeries = (
           )
         : [];
 
+/** Generate placeholder mock data for timeseries to show in chart in preview mode
+ */
 const generatePlaceholderHighChartsData = (
     widgetConfig: IDataHistoryWidgetConfiguration,
     placeholderTimeSeriesData: Array<Array<TimeSeriesData>>

@@ -564,7 +564,14 @@
       "conditionsInfoContent": "Öğeyle ilgili görsel bir eylemi tetikleyen aralığı veya belirli değerleri yapılandırın.",
       "newCondition": "Yeni koşul"
     },
-    "conditions": "Koşul -ları"
+    "conditions": "Koşul -ları",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Belirli koşullara renk uygulamak için kurallar belirleyin - örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil.",
+      "noData": "Henüz herhangi bir Görsel Kural yapılandırmadınız",
+      "addRuleButtonText": "Kural Ekle",
+      "editRule": "Kuralı düzenle",
+      "removeRule": "Kuralı kaldır"
+    }
   },
   "widgets": {
     "trend": {
