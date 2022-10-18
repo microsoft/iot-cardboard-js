@@ -154,13 +154,16 @@ const getTwinIdPropertyMap = (
 ): Array<IDataHistoryWidgetTimeSeriesTwin> =>
     twins
         ? timeSeries.map((ts) => {
-              const aliasAndPropertyTuple = ts.expression?.split('.'); // TODO: change this logic when timeSeries expressions gets complex, current expression is in [PrimaryTwin.Temperature] format
-              if (twins && aliasAndPropertyTuple.length === 2) {
-                  return {
-                      label: ts.label,
-                      twinId: twins[aliasAndPropertyTuple[0]]?.$dtId,
-                      twinPropertyName: aliasAndPropertyTuple[1]
-                  };
+              const splittedArray = ts.expression?.split('.'); // expression is in [PrimaryTwin.Temperature] or [PrimaryTwin.Status.Temperature] nested propery format
+              if (splittedArray) {
+                  const [alias, ...propertyPath] = splittedArray;
+                  if (twins && alias?.length && propertyPath?.length) {
+                      return {
+                          label: ts.label,
+                          twinId: twins[alias]?.$dtId,
+                          twinPropertyName: propertyPath.join('.')
+                      };
+                  }
               }
           })
         : null;
