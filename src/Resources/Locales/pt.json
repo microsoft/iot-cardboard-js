@@ -570,8 +570,7 @@
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
-      "removeRule": "Remover regra",
-      "meshAndBadgeCount": "{{meshColoringCount}} coloração de malha , {{badgeCount}} crachás"
+      "removeRule": "Remover regra"
     }
   },
   "widgets": {

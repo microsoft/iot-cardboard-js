@@ -570,8 +570,7 @@
       "noData": "Non hai ancora configurato alcuna regola visiva",
       "addRuleButtonText": "Aggiungi regola",
       "editRule": "Modifica regola",
-      "removeRule": "Rimuovi regola",
-      "meshAndBadgeCount": "{{meshColoringCount}} colorazioni mesh , {{badgeCount}} badge"
+      "removeRule": "Rimuovi regola"
     }
   },
   "widgets": {

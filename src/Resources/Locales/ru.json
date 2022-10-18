@@ -570,8 +570,7 @@
       "noData": "Вы еще не настроили визуальные правила",
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
-      "removeRule": "Удалить правило",
-      "meshAndBadgeCount": "{{meshColoringCount}} раскраски сетки , {{badgeCount}} значки"
+      "removeRule": "Удалить правило"
     }
   },
   "widgets": {

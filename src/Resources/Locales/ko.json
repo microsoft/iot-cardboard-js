@@ -570,8 +570,7 @@
       "noData": "아직 시각적 규칙을 구성하지 않았습니다.",
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
-      "removeRule": "규칙 제거",
-      "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
+      "removeRule": "규칙 제거"
     }
   },
   "widgets": {

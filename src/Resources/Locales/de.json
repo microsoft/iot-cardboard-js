@@ -570,8 +570,7 @@
       "noData": "Sie haben noch keine visuellen Regeln konfiguriert",
       "addRuleButtonText": "Regel hinzufügen",
       "editRule": "Regel bearbeiten",
-      "removeRule": "Regel entfernen",
-      "meshAndBadgeCount": "{{meshColoringCount}} Mesh-Färbungen , {{badgeCount}} Abzeichen"
+      "removeRule": "Regel entfernen"
     }
   },
   "widgets": {
