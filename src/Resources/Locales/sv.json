@@ -570,7 +570,8 @@
       "noData": "Du har inte konfigurerat några visuella regler ännu",
       "addRuleButtonText": "Lägg till regel",
       "editRule": "Redigera regel",
-      "removeRule": "Ta bort regel"
+      "removeRule": "Ta bort regel",
+      "meshAndBadgeCount": "{{meshColoringCount}} nätfärgningar , {{badgeCount}} märken"
     }
   },
   "widgets": {

@@ -570,7 +570,8 @@
       "noData": "Nie skonfigurowano jeszcze żadnych reguł wizualnych",
       "addRuleButtonText": "Dodaj regułę",
       "editRule": "Edytuj regułę",
-      "removeRule": "Usuń regułę"
+      "removeRule": "Usuń regułę",
+      "meshAndBadgeCount": "{{meshColoringCount}} kolorowane siatki , {{badgeCount}} odznaki"
     }
   },
   "widgets": {

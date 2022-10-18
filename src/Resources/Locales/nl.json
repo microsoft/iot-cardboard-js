@@ -570,7 +570,8 @@
       "noData": "U hebt nog geen Visual Rules geconfigureerd",
       "addRuleButtonText": "Regel toevoegen",
       "editRule": "Regel bewerken",
-      "removeRule": "Regel verwijderen"
+      "removeRule": "Regel verwijderen",
+      "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
     }
   },
   "widgets": {
