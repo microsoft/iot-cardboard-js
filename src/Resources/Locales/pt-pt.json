@@ -565,7 +565,7 @@
       "newCondition": "Nova condição"
     },
     "conditions": "Condições",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
       "noData": "Ainda não configuraste nenhuma Regra Visual.",
       "addRuleButtonText": "Adicionar Regra",

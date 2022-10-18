@@ -565,7 +565,7 @@
       "newCondition": "Nový stav"
     },
     "conditions": "Podmínky",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",

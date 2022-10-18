@@ -565,7 +565,7 @@
       "newCondition": "Nytt tillstånd"
     },
     "conditions": "Villkor",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
       "noData": "Du har inte konfigurerat några visuella regler ännu",
       "addRuleButtonText": "Lägg till regel",

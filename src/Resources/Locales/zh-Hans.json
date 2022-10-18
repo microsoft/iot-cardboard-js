@@ -565,7 +565,7 @@
       "newCondition": "新品条件"
     },
     "conditions": "条件",
-    "behaviorVisualRulesForm": {
+    "behaviorVisualRulesTab": {
       "tabDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
       "noData": "您尚未配置任何可视规则",
       "addRuleButtonText": "添加规则",
