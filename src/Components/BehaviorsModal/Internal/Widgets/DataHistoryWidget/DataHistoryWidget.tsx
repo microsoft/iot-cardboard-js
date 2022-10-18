@@ -42,9 +42,12 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
     } = useTimeSeriesData({
         adapter,
         connectionString,
-        quickTimeSpan: chartOptions.defaultQuickTimeSpan,
+        quickTimeSpanInMillis: chartOptions.defaultQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });
+
+    const xMinDateInUTCRef = useRef<Date>(null);
+    const xMaxDateInUTCRef = useRef<Date>(null);
 
     useEffect(() => {
         if (
@@ -56,6 +59,15 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
         ) {
             fetchTimeSeriesData();
             isRequestSent.current = true;
+            const nowDate = new Date();
+            xMinDateInUTCRef.current = new Date(
+                nowDate.valueOf() -
+                    nowDate.getTimezoneOffset() * 60 * 1000 -
+                    chartOptions.defaultQuickTimeSpanInMillis
+            );
+            xMaxDateInUTCRef.current = new Date(
+                nowDate.valueOf() - nowDate.getTimezoneOffset() * 60 * 1000
+            );
         }
     }, [
         adapter,
@@ -71,7 +83,8 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
     > = useMemo(() => {
         // placeholder timeseries data to be used in preview mode, need to memoize not to change the chart plot area unless time span or series length changes
         const toInMillis = Date.now();
-        const fromInMillis = toInMillis - chartOptions.defaultQuickTimeSpan;
+        const fromInMillis =
+            toInMillis - chartOptions.defaultQuickTimeSpanInMillis;
         return timeSeries.map(() =>
             Array.from({ length: 5 }, () => ({
                 timestamp: Math.floor(
@@ -83,7 +96,7 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
                 (a, b) => (a.timestamp as number) - (b.timestamp as number)
             )
         );
-    }, [chartOptions.defaultQuickTimeSpan, timeSeries.length]);
+    }, [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]);
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
         () =>
@@ -113,7 +126,9 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
                     legendLayout: 'vertical',
                     legendPadding: 0,
                     hasMultipleAxes: chartOptions.yAxisType === 'independent',
-                    dataGrouping: chartOptions.aggregationType
+                    dataGrouping: chartOptions.aggregationType,
+                    xMinInMillis: xMinDateInUTCRef.current?.valueOf(),
+                    xMaxInMillis: xMaxDateInUTCRef.current?.valueOf()
                 }}
             />
         </div>

@@ -16,7 +16,7 @@ const logDebugConsole = getDebugLogger('useTimeSeriesData', debugLogging);
 interface IProp {
     adapter?: IADXAdapter;
     connectionString: string;
-    quickTimeSpan: number;
+    quickTimeSpanInMillis: number;
     twins: Array<IDataHistoryWidgetTimeSeriesTwin>;
     pollingInterval?: number;
 }
@@ -24,7 +24,7 @@ interface IProp {
 export const useTimeSeriesData = ({
     adapter,
     connectionString,
-    quickTimeSpan,
+    quickTimeSpanInMillis,
     twins,
     pollingInterval
 }: IProp): {
@@ -57,8 +57,6 @@ export const useTimeSeriesData = ({
         pollingIntervalMillis: pollingInterval
     });
 
-    const onMountDate = useMemo(() => Date.now(), []);
-
     /**
      * After getting time series data from adapter, parse it in a structure of
      * [timestamp, value] and store it as data to expose for consumers of this hook
@@ -89,19 +87,17 @@ export const useTimeSeriesData = ({
     const prevQuery = usePrevious(query);
     useEffect(() => {
         let newQuery = '';
-        if (connectionToQuery && quickTimeSpan && twins?.length) {
-            const timeFrom = new Date(onMountDate - quickTimeSpan);
-            const timeTo = new Date(onMountDate);
+        if (connectionToQuery && quickTimeSpanInMillis && twins?.length) {
             newQuery = getBulkADXQueryFromTimeSeriesTwins(
                 twins,
-                { from: timeFrom, to: timeTo },
+                quickTimeSpanInMillis,
                 connectionToQuery
             );
         }
         if (prevQuery !== newQuery) {
             setQuery(newQuery);
         }
-    }, [connectionToQuery, quickTimeSpan, twins, onMountDate]);
+    }, [connectionToQuery, quickTimeSpanInMillis, twins]);
 
     const prevDeeplink = usePrevious(deeplink);
     useEffect(() => {
@@ -157,17 +153,16 @@ const generateADXConnectionFromString = (
  */
 const getBulkADXQueryFromTimeSeriesTwins = (
     twins: Array<IDataHistoryWidgetTimeSeriesTwin>,
-    timeSpan: { from: Date; to: Date },
+    agoTimeInMillis: number,
     connection: IADXConnection
 ): string => {
     let query = '';
 
     try {
         twins?.forEach((twin, idx) => {
-            query += `${
-                connection.kustoTableName
-            } | where TimeStamp between (datetime(${timeSpan.from.toISOString()}) .. datetime(${timeSpan.to.toISOString()}))`;
+            query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += `| where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
+            query += '| order by TimeStamp asc';
             query += `| project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
             if (idx < twins.length - 1) {
                 query += ';';

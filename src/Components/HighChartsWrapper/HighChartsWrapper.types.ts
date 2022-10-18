@@ -22,6 +22,8 @@ export interface IHighChartsWrapperProps {
         legendPadding?: number;
         hasMultipleAxes?: boolean;
         dataGrouping?: IDataHistoryAggregationType;
+        xMinInMillis?: number;
+        xMaxInMillis?: number;
     };
 
     /**

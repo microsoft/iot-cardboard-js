@@ -67,7 +67,7 @@ export const QuickTimeSpans = {
     [QuickTimeSpanKey['Last 60 Days']]: 60 * 24 * 60 * 60 * 1000,
     [QuickTimeSpanKey['Last 90 Days']]: 90 * 24 * 60 * 60 * 1000,
     [QuickTimeSpanKey['Last 180 Days']]: 180 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last Year']]: 356 * 24 * 60 * 60 * 1000
+    [QuickTimeSpanKey['Last Year']]: 365 * 24 * 60 * 60 * 1000
 };
 
 export const getYAxisTypeOptions = (

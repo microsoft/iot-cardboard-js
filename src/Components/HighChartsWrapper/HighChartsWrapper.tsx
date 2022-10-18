@@ -140,6 +140,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     );
 
     const options: Highcharts.Options = {
+        time: {
+            useUTC: true // by default, date is in UTC
+        },
         accessibility: { enabled: true },
         title: {
             useHTML: chartOptions?.titleTargetLink ? true : false,
@@ -161,7 +164,11 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             },
             labels: {
                 style: classNames.subComponentStyles.xAxis().label as CSSObject
-            }
+            },
+            showFirstLabel: true,
+            showLastLabel: true,
+            min: chartOptions.xMinInMillis,
+            max: chartOptions.xMaxInMillis
         },
         yAxis: chartOptions?.hasMultipleAxes
             ? multipleYAxisProps

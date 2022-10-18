@@ -124,13 +124,16 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
         let key: QuickTimeSpanKey;
         const idx = Object.values(QuickTimeSpans).indexOf(
-            formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan
+            formData.widgetConfiguration.chartOptions
+                .defaultQuickTimeSpanInMillis
         );
         if (idx !== -1) {
             key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
         }
         return key;
-    }, [formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan]);
+    }, [
+        formData.widgetConfiguration.chartOptions.defaultQuickTimeSpanInMillis
+    ]);
 
     const selectedSeries = selectedTimeSeriesId
         ? formData.widgetConfiguration.timeSeries.find(
@@ -334,7 +337,10 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     )}
                     selectedKey={quickTimeSpanKeyByValue}
                     onChange={(_env, option) =>
-                        onChartOptionChange('defaultQuickTimeSpan', option.data)
+                        onChartOptionChange(
+                            'defaultQuickTimeSpanInMillis',
+                            option.data
+                        )
                     }
                     options={getQuickTimeSpanOptions(t)}
                 />

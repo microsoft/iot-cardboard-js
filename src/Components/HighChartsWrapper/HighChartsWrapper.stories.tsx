@@ -53,3 +53,12 @@ NoData.args = {
     ...commonArgs,
     seriesData: []
 } as IHighChartsWrapperProps;
+
+export const FixedTimeRange = Template.bind({}) as HighChartsWrapperStory;
+FixedTimeRange.args = {
+    ...commonArgs,
+    chartOptions: {
+        xMinInMillis: Date.UTC(2012, 5, 16).valueOf(),
+        xMaxInMillis: Date.UTC(2012, 5, 26).valueOf()
+    }
+} as IHighChartsWrapperProps;

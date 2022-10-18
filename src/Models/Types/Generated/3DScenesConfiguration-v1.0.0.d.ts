@@ -273,7 +273,7 @@ export interface IDataHistoryBasicTimeSeries {
  */
 export interface IDataHistoryChartOptions {
     yAxisType: IDataHistoryChartYAxisType;
-    defaultQuickTimeSpan: number;
+    defaultQuickTimeSpanInMillis: number;
     aggregationType: IDataHistoryAggregationType;
     extensionProperties?: IExtensionProperties;
 }
