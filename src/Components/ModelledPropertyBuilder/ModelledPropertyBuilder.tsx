@@ -44,7 +44,10 @@ import {
     separators
 } from '../AutoComplete/Intellisense';
 import { getProperty } from 'dot-prop';
-import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
+import {
+    DTDLPropertyIconographyMap,
+    DTID_PROPERTY_NAME
+} from '../../Models/Constants/Constants';
 import i18next from 'i18next';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 
@@ -404,7 +407,7 @@ const getDropdownOptions = (
 
         if (excludeDtid) {
             tagProperties = tagProperties.filter((t) => {
-                return !t.key.includes('$dtId');
+                return !t.key.includes(DTID_PROPERTY_NAME);
             });
         }
 
