@@ -35,6 +35,7 @@ const getModelItem = (id: string): DTDLModel => {
         'mock-comment',
         [],
         [],
+        [],
         []
     );
 };
@@ -83,7 +84,8 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
         error: null,
-        importModels: [],
+        modelsToImport: [],
+        modelsToAdd: [],
         isJsonUploaderOpen: false,
         modified: false,
         ontologyFiles: files,

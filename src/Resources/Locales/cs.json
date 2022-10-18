@@ -952,7 +952,8 @@
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
       "namespacePlaceholder": "Zadání oboru názvů",
       "sampleModel": "ukázkový model"
-    }
+    },
+    "file": "soubor"
   },
   "OATGraphViewer": {
     "name": "Jméno",

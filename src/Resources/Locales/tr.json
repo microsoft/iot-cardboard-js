@@ -960,7 +960,8 @@
       "namespaceDescription": "Örnek model adı: {{modelName}}",
       "namespacePlaceholder": "Ad alanı girme",
       "sampleModel": "örnek Model"
-    }
+    },
+    "file": "dosya"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",

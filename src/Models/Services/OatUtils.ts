@@ -9,7 +9,8 @@ import {
     OAT_FILES_STORAGE_KEY,
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_LAST_PROJECT_STORAGE_KEY,
-    OAT_MODEL_ID_PREFIX
+    OAT_MODEL_ID_PREFIX,
+    OAT_INTERFACE_TYPE
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
@@ -145,7 +146,8 @@ export const convertDtdlInterfaceToModel = (
         model.comment,
         model.contents?.filter((x) => x['@type'] === 'Property'),
         model.contents?.filter((x) => x['@type'] === 'Relationship'),
-        model.contents?.filter((x) => x['@type'] === 'Component')
+        model.contents?.filter((x) => x['@type'] === 'Component'),
+        model.extends as string[] // we know it's an array since we only ever set it to array
     );
 };
 
@@ -249,6 +251,22 @@ export function getAvailableLanguages(i18n: i18n) {
                 .languageName
         };
     });
+}
+
+export function ensureIsArray(property: string | string[]): string[] {
+    return Array.isArray(property) ? property : [property] || [];
+}
+
+/** does some cleanup on the entities to make them properly shaped for DTDL since we need some extra stuff to manage the lifecycle within the app */
+export function convertModelToDtdl(model: DtdlInterface): DtdlInterface {
+    const newModel = deepCopy(model);
+    newModel.contents?.forEach((x) => {
+        if (x['@type'] !== OAT_INTERFACE_TYPE) {
+            delete x['@id'];
+        }
+    });
+    // console.log(`***Converted ${model['@id']}. {model}`, newModel);
+    return newModel;
 }
 
 const DEFAULT_VERSION_NUMBER = 1;

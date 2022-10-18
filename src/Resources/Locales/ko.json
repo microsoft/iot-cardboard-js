@@ -960,7 +960,8 @@
       "namespaceDescription": "예제 모델 이름: {{modelName}}",
       "namespacePlaceholder": "네임스페이스 입력",
       "sampleModel": "샘플 모델"
-    }
+    },
+    "file": "파일"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",

@@ -960,7 +960,8 @@
       "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
       "namespacePlaceholder": "Entrer un espace de noms",
       "sampleModel": "exemple de modèle"
-    }
+    },
+    "file": "lime"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

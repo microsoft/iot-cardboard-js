@@ -960,7 +960,8 @@
       "namespaceDescription": "Nombre del modelo de ejemplo: {{modelName}}",
       "namespacePlaceholder": "Introducir un espacio de nombres",
       "sampleModel": "Modelo de muestra"
-    }
+    },
+    "file": "archivo"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",

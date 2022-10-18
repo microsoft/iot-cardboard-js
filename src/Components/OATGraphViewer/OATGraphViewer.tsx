@@ -56,7 +56,11 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    IOATNodePosition
+} from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -71,9 +75,9 @@ import {
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
-import { getNextModel } from '../../Models/Services/OatUtils';
+import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -154,10 +158,7 @@ const OATGraphViewer: React.FC = () => {
                 }
 
                 if (input.extends) {
-                    (Array.isArray(input.extends)
-                        ? input.extends
-                        : [input.extends]
-                    ).forEach((extend) => {
+                    ensureIsArray(input.extends).forEach((extend) => {
                         const foundExtendTarget = models.find(
                             (model) => model['@id'] === extend
                         );
@@ -387,7 +388,7 @@ const OATGraphViewer: React.FC = () => {
                     y: evt.clientY - reactFlowBounds.top
                 });
                 const newModel = getNextModel(
-                    elementsCopy,
+                    oatPageState.currentOntologyModels,
                     oatPageState.currentOntologyNamespace,
                     t('OATCommon.defaultModelNamePrefix')
                 );
@@ -398,6 +399,12 @@ const OATGraphViewer: React.FC = () => {
                     elementsCopy
                 );
                 target = targetModel.id;
+                logDebugConsole(
+                    'debug',
+                    'No target node found. Creating new node. {model, allElements}',
+                    newModel,
+                    elementsCopy
+                );
             }
 
             if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {
@@ -505,19 +512,23 @@ const OATGraphViewer: React.FC = () => {
 
     /** recreate the models anytime elements change. These then get stored back to the context */
     const modelsFromCurrentNodes = useMemo(() => {
-        logDebugConsole('debug', '[modelsFromCurrentNodes] ');
+        logDebugConsole(
+            'debug',
+            '[START] get models from current graph. {nodes}',
+            elements
+        );
         // Creates the json object in the DTDL standard based on the content of the nodes
         const nodes: DtdlInterface[] = elements.reduce(
             (
-                currentNodes: DtdlInterface[],
+                models: DtdlInterface[],
                 currentNode: IOatElementNode & { data: { name: string } }
             ) => {
                 if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
-                    currentNodes.push(currentNode.data);
+                    models.push(currentNode.data);
                 } else if (
                     currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (
@@ -526,19 +537,20 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.target !== currentNode.target
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            currentNode.data
-                        ];
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(currentNode.data);
+                        } else {
+                            sourceNode.contents = [currentNode.data];
+                        }
                     }
                 } else if (
                     currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (sourceNode) {
-                        sourceNode.extends = sourceNode.extends || [];
+                        sourceNode.extends = ensureIsArray(sourceNode.extends);
                         if (!sourceNode.extends.includes(currentNode.target)) {
                             sourceNode.extends.push(currentNode.target);
                         }
@@ -546,7 +558,7 @@ const OATGraphViewer: React.FC = () => {
                 } else if (
                     currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     const targetNode = elements.find(
@@ -559,16 +571,17 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.name !== currentNode.data.name
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            currentNode.data
-                        ];
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(currentNode.data);
+                        } else {
+                            sourceNode.contents = [currentNode.data];
+                        }
                     }
                 } else if (
                     currentNode.data['@type'] ===
                     OAT_UNTARGETED_RELATIONSHIP_NAME
                 ) {
-                    const sourceNode = currentNodes.find(
+                    const sourceNode = models.find(
                         (element) => element['@id'] === currentNode.source
                     );
                     if (
@@ -577,18 +590,25 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.name !== currentNode.data.name
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            {
-                                ...currentNode.data,
-                                '@type': OAT_RELATIONSHIP_HANDLE_NAME
-                            }
-                        ];
+                        const data: DtdlInterfaceContent = {
+                            ...currentNode.data,
+                            '@type': OAT_RELATIONSHIP_HANDLE_NAME
+                        };
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(data);
+                        } else {
+                            sourceNode.contents = [data];
+                        }
                     }
                 }
-                return currentNodes;
+                return models;
             },
             []
+        );
+        logDebugConsole(
+            'debug',
+            '[END] get models from current graph. {models}',
+            nodes
         );
         return nodes;
     }, [elements]);
@@ -717,21 +737,28 @@ const OATGraphViewer: React.FC = () => {
 
     // update the graph when models are imported
     useEffect(() => {
-        if (oatPageState.importModels?.length > 0) {
+        if (oatPageState.modelsToImport?.length > 0) {
             logDebugConsole('debug', '[START] Handle change to Import models');
             setLoading(true);
             const potentialElements = getGraphNodesFromModels(
-                oatPageState.importModels,
+                oatPageState.modelsToImport,
                 oatPageState.currentOntologyModelPositions
             );
             applyLayoutToElements(deepCopy(potentialElements));
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                payload: {
+                    models: []
+                }
+            });
             logDebugConsole('debug', '[END] Handle change to Import models');
         }
     }, [
         applyLayoutToElements,
         getGraphNodesFromModels,
+        oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
-        oatPageState.importModels
+        oatPageState.modelsToImport
     ]);
 
     // update the graph when models are added

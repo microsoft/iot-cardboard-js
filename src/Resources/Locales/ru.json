@@ -960,7 +960,8 @@
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
       "namespacePlaceholder": "Ввод пространства имен",
       "sampleModel": "Образец модели"
-    }
+    },
+    "file": "файл"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

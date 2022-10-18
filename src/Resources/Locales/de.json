@@ -960,7 +960,8 @@
       "namespaceDescription": "Beispielmodellname: {{modelName}}",
       "namespacePlaceholder": "Eingeben eines Namespaces",
       "sampleModel": "Beispielmodell"
-    }
+    },
+    "file": "Datei"
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",

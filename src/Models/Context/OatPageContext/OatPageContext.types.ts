@@ -40,7 +40,7 @@ export interface IOatPageContextState {
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
     error?: IOATError;
-    importModels?: any[];
+    modelsToImport?: any[];
     modelsToAdd: DtdlInterface[];
     isJsonUploaderOpen?: boolean;
     modified?: boolean;

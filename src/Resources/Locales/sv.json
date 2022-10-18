@@ -960,7 +960,8 @@
       "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
       "namespacePlaceholder": "Ange ett namnområde",
       "sampleModel": "exempelmodell"
-    }
+    },
+    "file": "fil"
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
