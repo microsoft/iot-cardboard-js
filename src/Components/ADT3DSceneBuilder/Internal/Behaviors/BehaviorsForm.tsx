@@ -105,6 +105,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onRemoveElement
 }) => {
     const { t } = useTranslation();
+    const [visualRuleId, setVisualRuleId] = useState<string | null>('');
 
     const {
         behaviorTwinAliasFormInfo,
@@ -444,6 +445,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         notifySceneContextDirtyState,
         notifySceneContextDraftBehavior
     ]);
+    const onEditRule = useCallback((id: string) => {
+        setVisualRuleFormMode(VisualRuleFormMode.EditVisualRule);
+        setVisualRuleId(id);
+    }, []);
+
+    const onAddRule = useCallback(() => {
+        setVisualRuleFormMode(VisualRuleFormMode.CreateVisualRule);
+        setVisualRuleId('');
+    }, []);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const isWidgetFormActive =
@@ -459,22 +469,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
             : 268
         : 168;
     const commonFormStyles = getPanelFormStyles(theme, formHeaderHeight);
-
-    // const [visualRuleId, _setSelectedVisualRuleId] = useState<string | null>(
-    //     null
-    // );
-    // TODO: setSelectedId will be wired to Ayo's changes, hard-code first visual rule to get data
-    const tempGetFirstVisualRuleId = () => {
-        const selectedVisualRule = behaviorFormState.behaviorToEdit.visuals.find(
-            (visual) => {
-                return visual.type === 'ExpressionRangeVisual';
-            }
-        ) as IExpressionRangeVisual;
-        return selectedVisualRule ? selectedVisualRule.id : null;
-    };
-    const [visualRuleId, _setSelectedVisualRuleId] = useState<string | null>(
-        tempGetFirstVisualRuleId()
-    );
 
     const renderWidgetForm = () => {
         return <WidgetForm />;
@@ -638,10 +632,8 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 itemKey={BehaviorPivot.visualRules}
                             >
                                 <VisualRulesTab
-                                    // TODO: Wire this up with Ayo's changes
-                                    setSelectedVisualRuleId={
-                                        _setSelectedVisualRuleId
-                                    }
+                                    onEditRule={onEditRule}
+                                    onAddRule={onAddRule}
                                 />
                             </PivotItem>
                         )}

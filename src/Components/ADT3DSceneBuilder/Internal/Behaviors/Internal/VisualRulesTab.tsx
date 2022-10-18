@@ -1,11 +1,5 @@
 import { Stack, useTheme, Text, ActionButton } from '@fluentui/react';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import {
@@ -20,9 +14,6 @@ import {
     IExpressionRangeVisual
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
-import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
-import { VisualRuleFormMode } from '../../../../../Models/Constants';
-import VisualRuleForm from '../../VisualRuleForm/VisualRuleForm';
 import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
 
 //get an array of all the visual rules in the behavior
@@ -35,7 +26,14 @@ const LOC_KEYS = {
     noData: `${ROOT_LOC}.noData`,
     tabDescription: `${ROOT_LOC}.tabDescription`
 };
-export const VisualRulesTab: React.FC = () => {
+export interface IVisualRuleProps {
+    onEditRule: (ruleId: string) => void;
+    onAddRule: () => void;
+}
+export const VisualRulesTab: React.FC<IVisualRuleProps> = ({
+    onEditRule,
+    onAddRule
+}) => {
     //hooks
     const { t } = useTranslation();
 
@@ -43,24 +41,9 @@ export const VisualRulesTab: React.FC = () => {
         behaviorFormState,
         behaviorFormDispatch
     } = useBehaviorFormContext();
-    const { visualRuleFormMode, setVisualRuleFormMode } = useContext(
-        SceneBuilderContext
-    );
 
     //state
     const [ruleItems, setRuleItems] = useState<IVisualRule[]>([]);
-    const [
-        isPropertyTypeDropdownEnabled,
-        setisPropertyTypeDropdownEnabled
-    ] = useState(false);
-
-    const isVisualRulesFormActive =
-        visualRuleFormMode !== VisualRuleFormMode.Inactive;
-    const formHeaderHeight = isVisualRulesFormActive
-        ? isPropertyTypeDropdownEnabled
-            ? 370
-            : 268
-        : 168;
 
     //callbacks
     const onRemoveRule = useCallback(
@@ -76,21 +59,15 @@ export const VisualRulesTab: React.FC = () => {
         [behaviorFormDispatch]
     );
 
-    const onEditRule = useCallback(() => {
-        setVisualRuleFormMode(VisualRuleFormMode.EditVisualRule);
-    }, []);
-
     //side effects
 
-    //get all the Visual Rules from behavior
-    const visualRules: IExpressionRangeVisual[] = useMemo(() => {
-        return (
-            getVisualRulesFromBehavior(behaviorFormState.behaviorToEdit) || []
-        );
-    }, [behaviorFormState.behaviorToEdit]);
+    // set the list IVisualRules that are going to be shown
+    useEffect(() => {
+        //get all the Visual Rules from behavior
+        const visualRules: IExpressionRangeVisual[] =
+            getVisualRulesFromBehavior(behaviorFormState.behaviorToEdit) || [];
 
-    //transform from elements from IExpressionVisual => IVisualRule
-    const getVisualList = () => {
+        //transform from elements from IExpressionVisual => IVisualRule
         let rules: IVisualRule[] = [];
         if (visualRules.length > 0) {
             rules = visualRules.map((rule) => {
@@ -104,20 +81,9 @@ export const VisualRulesTab: React.FC = () => {
                 };
             });
         }
-        return rules;
-    };
 
-    // set the list IVisualRules that are going to be shown
-    useEffect(() => {
-        setRuleItems(getVisualList());
+        setRuleItems(rules);
     }, [behaviorFormState.behaviorToEdit.visuals]);
-
-    const handlePropertyTypeDropdownEnabled = useCallback(
-        (isEnabled: boolean) => {
-            setisPropertyTypeDropdownEnabled(isEnabled);
-        },
-        [setisPropertyTypeDropdownEnabled]
-    );
 
     //Styles
     const theme = useTheme();
@@ -148,24 +114,9 @@ export const VisualRulesTab: React.FC = () => {
                     styles={actionButtonStyles}
                     text={t(LOC_KEYS.addButtonText)}
                     data-testid={'visualRuleFor-addRule'}
-                    onClick={() => {
-                        setVisualRuleFormMode(
-                            VisualRuleFormMode.CreateVisualRule
-                        );
-                    }}
+                    onClick={onAddRule}
                 />
             </Stack>
-            {visualRuleFormMode !== 'Inactive' && (
-                <VisualRuleForm
-                    setPropertyTypeDropdownEnabled={
-                        handlePropertyTypeDropdownEnabled
-                    }
-                    isPropertyTypeDropdownEnabled={
-                        isPropertyTypeDropdownEnabled
-                    }
-                    rootHeight={formHeaderHeight}
-                />
-            )}
         </div>
     );
 };

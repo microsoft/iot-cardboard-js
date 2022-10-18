@@ -462,7 +462,10 @@
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
             "removeRule": "Remove rule",
-            "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
+            "singleBadge": "{{badgeCount}} badge",
+            "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+            "multipleBadges": "{{badgeCount}} badges",
+            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
