@@ -570,7 +570,8 @@
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
-      "removeRule": "Odebrat pravidlo"
+      "removeRule": "Odebrat pravidlo",
+      "meshAndBadgeCount": "{{meshColoringCount}} zbarvení sítě, {{badgeCount}} odznaky"
     }
   },
   "widgets": {

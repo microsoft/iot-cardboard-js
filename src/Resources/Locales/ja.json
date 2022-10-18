@@ -570,7 +570,8 @@
       "noData": "ビジュアル ルールをまだ構成していない",
       "addRuleButtonText": "ルールの追加",
       "editRule": "ルールの編集",
-      "removeRule": "ルールの削除"
+      "removeRule": "ルールの削除",
+      "meshAndBadgeCount": "{{meshColoringCount}} メッシュカラーリング , {{badgeCount}} バッジ"
     }
   },
   "widgets": {

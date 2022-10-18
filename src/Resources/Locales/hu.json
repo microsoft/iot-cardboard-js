@@ -570,7 +570,8 @@
       "noData": "Még nem konfigurált vizuális szabályokat",
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
-      "removeRule": "Szabály eltávolítása"
+      "removeRule": "Szabály eltávolítása",
+      "meshAndBadgeCount": "{{meshColoringCount}} hálószínezés , {{badgeCount}} jelvények"
     }
   },
   "widgets": {

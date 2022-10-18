@@ -570,7 +570,8 @@
       "noData": "Henüz herhangi bir Görsel Kural yapılandırmadınız",
       "addRuleButtonText": "Kural Ekle",
       "editRule": "Kuralı düzenle",
-      "removeRule": "Kuralı kaldır"
+      "removeRule": "Kuralı kaldır",
+      "meshAndBadgeCount": "{{meshColoringCount}} örgü renklendirmeleri, {{badgeCount}} rozetleri"
     }
   },
   "widgets": {
