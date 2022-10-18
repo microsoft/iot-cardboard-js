@@ -574,7 +574,10 @@
       "addRuleButtonText": "Agregar regla",
       "editRule": "Editar regla",
       "removeRule": "Quitar regla",
-      "meshAndBadgeCount": "{{meshColoringCount}} coloraciones de malla , {{badgeCount}} insignias"
+      "singleBadge": "Insignia {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} coloración de malla",
+      "multipleBadges": "{{badgeCount}} insignias",
+      "multipleMeshColorings": "{{meshColoringCount}} coloraciones de malla"
     }
   },
   "widgets": {

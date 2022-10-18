@@ -574,7 +574,10 @@
       "addRuleButtonText": "添加规则",
       "editRule": "编辑规则",
       "removeRule": "删除规则",
-      "meshAndBadgeCount": "{{网格着色计数}} 网格着色 ， {{徽章计数}} 徽章"
+      "singleBadge": "{{徽章计数}} 徽章",
+      "singleMeshColoring": "{{网格着色计数}} 网格着色",
+      "multipleBadges": "{{徽章计数}} 徽章",
+      "multipleMeshColorings": "{{网格着色计数}} 网格着色"
     }
   },
   "widgets": {

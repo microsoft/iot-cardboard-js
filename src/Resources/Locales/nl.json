@@ -574,7 +574,10 @@
       "addRuleButtonText": "Regel toevoegen",
       "editRule": "Regel bewerken",
       "removeRule": "Regel verwijderen",
-      "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
+      "singleBadge": "Badge {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} netkleuring",
+      "multipleBadges": "{{badgeCount}} badges",
+      "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren"
     }
   },
   "widgets": {

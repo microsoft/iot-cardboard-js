@@ -574,7 +574,10 @@
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
       "removeRule": "Удалить правило",
-      "meshAndBadgeCount": "{{meshColoringCount}} раскраски сетки , {{badgeCount}} значки"
+      "singleBadge": "{{badgeCount}} значок",
+      "singleMeshColoring": "{{meshColoringCount}} раскраска сетки",
+      "multipleBadges": "{{badgeCount}} значки",
+      "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки"
     }
   },
   "widgets": {
