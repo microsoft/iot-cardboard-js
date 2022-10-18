@@ -63,7 +63,15 @@ const getClassNames = classNamesFunction<
     IVisualRuleFormStyles
 >();
 
-const EXCLUDED_KEYS = ['date', 'dateTime', 'duration', 'time'];
+const INCLUDED_KEYS = [
+    'boolean',
+    'double',
+    'enum',
+    'float',
+    'integer',
+    'long',
+    'string'
+];
 
 const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     // Context
@@ -90,7 +98,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     const typeOptions: Array<IDropdownOption> = useMemo(() => {
         const options = [];
         Object.keys(DTDLPropertyIconographyMap).forEach((mappingKey) => {
-            if (!EXCLUDED_KEYS.includes(mappingKey)) {
+            if (INCLUDED_KEYS.includes(mappingKey)) {
                 options.push({
                     key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
                     text: DTDLPropertyIconographyMap[mappingKey].text,
