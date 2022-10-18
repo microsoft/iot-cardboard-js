@@ -27,16 +27,17 @@ export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
 
 const getNextRelationshipIndex = (
-    sourceId: string,
+    _sourceId: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     let relationshipIndex = 0;
     while (
         elements.some(
             (element) =>
-                (element as ElementEdge).source === sourceId &&
+                // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
+                // (element as ElementEdge).source === sourceId &&
                 (element.data as DtdlRelationship).name ===
-                    `${OAT_RELATIONSHIP_HANDLE_NAME}_${relationshipIndex}`
+                `${OAT_RELATIONSHIP_HANDLE_NAME}_${relationshipIndex}`
         )
     ) {
         relationshipIndex++;

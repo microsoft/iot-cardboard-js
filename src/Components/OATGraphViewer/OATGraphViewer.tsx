@@ -32,8 +32,7 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
-    OAT_COMPONENT_HANDLE_NAME,
-    OAT_UNTARGETED_NODE_TARGET_NAME
+    OAT_COMPONENT_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -132,11 +131,7 @@ const OATGraphViewer: React.FC = () => {
                                 break;
                             }
                             case OAT_RELATIONSHIP_HANDLE_NAME:
-                                if (
-                                    content.target &&
-                                    content.target !==
-                                        OAT_UNTARGETED_NODE_TARGET_NAME
-                                ) {
+                                if (content.target) {
                                     const foundRelationshipTarget = models.find(
                                         (model) =>
                                             model['@id'] === content.target
@@ -393,7 +388,7 @@ const OATGraphViewer: React.FC = () => {
                     y: evt.clientY - reactFlowBounds.top
                 });
                 const newModel = getNextModel(
-                    elementsCopy,
+                    oatPageState.currentOntologyModels,
                     oatPageState.currentOntologyNamespace,
                     t('OATCommon.defaultModelNamePrefix')
                 );
@@ -404,6 +399,12 @@ const OATGraphViewer: React.FC = () => {
                     elementsCopy
                 );
                 target = targetModel.id;
+                logDebugConsole(
+                    'debug',
+                    'No target node found. Creating new node. {model, allElements}',
+                    newModel,
+                    elementsCopy
+                );
             }
 
             if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {

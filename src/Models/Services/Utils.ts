@@ -444,6 +444,7 @@ export async function parseModels(models: DtdlInterface[]) {
     try {
         await modelParser.parse([JSON.stringify(models)]);
     } catch (err) {
+        console.error('Error while parsing models {input, error}', models, err);
         if (err.name === 'ParsingException') {
             return err._parsingErrors
                 .map((e) => `${e.action} ${e.cause}`)
