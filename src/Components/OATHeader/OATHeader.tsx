@@ -31,6 +31,7 @@ import {
     IOATHeaderStyles
 } from './OATHeader.types';
 import {
+    convertModelToDtdl,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
     getNextModel,
@@ -336,8 +337,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         const zip = new JSZip();
         for (const currentModel of oatPageState.currentOntologyModels) {
             const currentModelId = currentModel['@id'];
-            let fileName = null;
-            let directoryPath = null;
+            const fileName = getFileNameFromDTMI(currentModelId);
+            const directoryPath = getDirectoryPathFromDTMI(currentModelId);
 
             // Disabling, not sure why we need this logic. It seems to only cause issues. Do we need to retain those paths from the last import for some reason?
             // Check if current elements exists within modelsMetadata array, if so, use the metadata
@@ -354,17 +355,6 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             //         : null;
             // }
 
-            // If fileName or directoryPath are null, generate values from id
-            if (!fileName || !directoryPath) {
-                if (!fileName) {
-                    fileName = getFileNameFromDTMI(currentModelId);
-                }
-
-                if (!directoryPath) {
-                    directoryPath = getDirectoryPathFromDTMI(currentModelId);
-                }
-            }
-
             // Split every part of the directory path
             const directoryPathParts = directoryPath.split('\\');
             // Create a folder for evert directory path part and nest them
@@ -378,7 +368,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 ) {
                     currentDirectory.file(
                         `${fileName}.json`,
-                        JSON.stringify(currentModel)
+                        JSON.stringify(convertModelToDtdl(currentModel))
                     );
                 }
             }

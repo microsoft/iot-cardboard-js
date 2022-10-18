@@ -4,7 +4,6 @@ import {
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME,
-    OAT_UNTARGETED_NODE_TARGET_NAME,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../../Models/Constants';
 import {
@@ -156,8 +155,7 @@ export const addUntargetedRelationship = (
             ...relationship,
             '@id': id,
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
-            name: name,
-            target: OAT_UNTARGETED_NODE_TARGET_NAME
+            name: name
         }
     );
 

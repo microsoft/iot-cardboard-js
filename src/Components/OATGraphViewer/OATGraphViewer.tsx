@@ -57,7 +57,11 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    IOATNodePosition
+} from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -532,10 +536,11 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.target !== currentNode.target
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            currentNode.data
-                        ];
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(currentNode.data);
+                        } else {
+                            sourceNode.contents = [currentNode.data];
+                        }
                     }
                 } else if (
                     currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
@@ -565,10 +570,11 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.name !== currentNode.data.name
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            currentNode.data
-                        ];
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(currentNode.data);
+                        } else {
+                            sourceNode.contents = [currentNode.data];
+                        }
                     }
                 } else if (
                     currentNode.data['@type'] ===
@@ -583,13 +589,15 @@ const OATGraphViewer: React.FC = () => {
                             (element) => element.name !== currentNode.data.name
                         )
                     ) {
-                        sourceNode.contents = [
-                            ...sourceNode.contents,
-                            {
-                                ...currentNode.data,
-                                '@type': OAT_RELATIONSHIP_HANDLE_NAME
-                            }
-                        ];
+                        const data: DtdlInterfaceContent = {
+                            ...currentNode.data,
+                            '@type': OAT_RELATIONSHIP_HANDLE_NAME
+                        };
+                        if (sourceNode.contents) {
+                            sourceNode.contents.push(data);
+                        } else {
+                            sourceNode.contents = [data];
+                        }
                     }
                 }
                 return models;

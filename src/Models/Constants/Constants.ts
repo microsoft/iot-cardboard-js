@@ -283,7 +283,6 @@ export const SELECTED_ENVIRONMENT_LOCAL_STORAGE_KEY = 'cb-selected-environment';
 export const SELECTECTED_CONTAINER_LOCAL_STORAGE_KEY = 'cb-selected-container';
 export const OAT_FILES_STORAGE_KEY = 'oat-files';
 export const OAT_LAST_PROJECT_STORAGE_KEY = 'oat-last-project';
-export const OAT_UNTARGETED_NODE_TARGET_NAME = '*';
 export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
 export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
 export const OAT_COMPONENT_HANDLE_NAME = 'Component';
