@@ -573,7 +573,8 @@
       "noData": "Non hai ancora configurato alcuna regola visiva",
       "addRuleButtonText": "Aggiungi regola",
       "editRule": "Modifica regola",
-      "removeRule": "Rimuovi regola"
+      "removeRule": "Rimuovi regola",
+      "meshAndBadgeCount": "{{meshColoringCount}} colorazioni mesh , {{badgeCount}} badge"
     }
   },
   "widgets": {
@@ -606,62 +607,7 @@
       "libraryName": "Pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato",
-    "dataHistory": {
-      "title": "Widget Cronologia dati",
-      "description": "Visualizzare i dati delle serie temporali nel contesto della scena 3D",
-      "notEnabledDescription": "La cronologia dei dati non è abilitata per questa istanza ADT.",
-      "form": {
-        "connectionStringTitle": "Stringa di connessione",
-        "connectionStringPlaceholder": "Immettere la stringa di connessione (ad esempio key1=value1;key2=value2;key3=value3)",
-        "connectionLoadingText": "Caricamento delle informazioni di connessione...",
-        "noConnectionInformationText": "Nessuna informazione di connessione trovata",
-        "displayNamePlaceholder": "Immettere il nome visualizzato",
-        "timeSeries": {
-          "timeSeriesDescription": "Aggiungi fino a {{maxTimeSeriesCount}} timeseries per visualizzare",
-          "title": "Serie temporali",
-          "description": "Una serie da visualizzare nel grafico a linee",
-          "property": "Proprietà",
-          "unit": "Unità",
-          "label": "Etichetta",
-          "add": "Aggiungere serie temporali",
-          "edit": "Modificare le serie temporali",
-          "remove": "Rimuovere le serie temporali",
-          "labelPlaceholder": "Inserisci l'etichetta da mostrare nel grafico"
-        },
-        "chartOptions": {
-          "yAxisType": {
-            "description": "Opzione Grafico da impostare se ogni serie ha assi y separati (indipendenti) o condivide lo stesso asse y (condiviso)",
-            "label": "Tipo di asse Y",
-            "sharedLabel": "Condiviso",
-            "independentLabel": "Indipendente"
-          },
-          "quickTimeSpan": {
-            "label": "Intervallo di tempo predefinito",
-            "options": {
-              "Last 15 mins": "Ultimi 15 minuti",
-              "Last 30 mins": "Ultimi 30 minuti",
-              "Last Hour": "Ultima ora",
-              "Last 3 Hours": "Ultime 3 ore",
-              "Last 6 Hours": "Ultime 6 Ore",
-              "Last 12 Hours": "Ultime 12 Ore",
-              "Last 24 Hours": "Ultime 24 ore",
-              "Last 7 Days": "Ultimi 7 giorni",
-              "Last 30 Days": "Ultimi 30 giorni",
-              "Last 60 Days": "Ultimi 60 giorni",
-              "Last 90 Days": "Ultimi 90 giorni",
-              "Last 180 Days": "Ultimi 180 giorni",
-              "Last Year": "Anno scorso"
-            }
-          },
-          "aggregationType": {
-            "label": "Tipo di aggregazione"
-          }
-        },
-        "connectionStringInformation": "I widget della cronologia dati sono destinati all'istanza di Esplora dati di Azure connessa all'istanza di Gemelli digitali di Azure al momento della creazione."
-      },
-      "libraryName": "Cronologia dei dati"
-    }
+    "notSupported": "Questo tipo di widget non è attualmente supportato"
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",
