@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nieuwe visuele regel",
       "edit": "Visuele regel bewerken",
-      "formDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
       "typePlaceholder": "Selecteer het type voor de waarde",
       "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren.",
-      "newCondition": "Nieuwstaat"
+      "newCondition": "Nieuwstaat",
+      "editCondition": "Voorwaarde bewerken",
+      "deleteCondition": "Voorwaarde verwijderen",
+      "unlabeledCondition": "Niet-gelabeld",
+      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe."
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {

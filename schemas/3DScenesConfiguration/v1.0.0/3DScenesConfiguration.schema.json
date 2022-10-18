@@ -658,6 +658,9 @@
                         "$ref": "#/$defs/IValueRange"
                     }
                 },
+                "valueRangeType": {
+                    "$ref": "#/$defs/IDTDLPropertyType"
+                },
                 "objectIDs": {
                     "$ref": "#/$defs/IObjectIDs"
                 },

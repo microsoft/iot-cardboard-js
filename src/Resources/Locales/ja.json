@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "新しいビジュアル ルール",
       "edit": "ビジュアル ルールの編集",
-      "formDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
       "typePlaceholder": "値のタイプを選択します。",
       "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。",
-      "newCondition": "新しい条件"
+      "newCondition": "新しい条件",
+      "editCondition": "条件の編集",
+      "deleteCondition": "条件の削除",
+      "unlabeledCondition": "ラベル",
+      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {

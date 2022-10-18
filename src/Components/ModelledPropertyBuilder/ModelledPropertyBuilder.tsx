@@ -44,7 +44,10 @@ import {
     separators
 } from '../AutoComplete/Intellisense';
 import { getProperty } from 'dot-prop';
-import { DTDLPropertyIconographyMap } from '../../Models/Constants/Constants';
+import {
+    DTDLPropertyIconographyMap,
+    DTID_PROPERTY_NAME
+} from '../../Models/Constants/Constants';
 import i18next from 'i18next';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 
@@ -63,7 +66,8 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     customLabel,
     customLabelTooltip,
     isClearEnabled,
-    onInternalModeChanged
+    onInternalModeChanged,
+    excludeDtid = false
 }) => {
     const { t } = useTranslation();
     const styles = getStyles();
@@ -97,12 +101,13 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
             // Once modelled properties load, construct dropdown options
             const dropdownOptions = getDropdownOptions(
                 modelledProperties.flattenedFormat,
-                enableNoneDropdownOption
+                enableNoneDropdownOption,
+                excludeDtid
             );
 
             setDropdownOptions(dropdownOptions);
         }
-    }, [enableNoneDropdownOption, modelledProperties]);
+    }, [enableNoneDropdownOption, excludeDtid, modelledProperties]);
 
     useEffect(() => {
         // Report internal mode change
@@ -357,7 +362,8 @@ const choiceGroupOptions = [
 
 const getDropdownOptions = (
     flattenedProperties: IFlattenedModelledPropertiesFormat,
-    enableNoneDropdownOption: boolean
+    enableNoneDropdownOption: boolean,
+    excludeDtid: boolean
 ) => {
     let modelledPropertyOptions: Array<
         IDropdownOption<IModelledPropertyDropdownItem>
@@ -375,7 +381,7 @@ const getDropdownOptions = (
     ];
 
     for (const tag of Object.keys(flattenedProperties)) {
-        const tagProperties = [
+        let tagProperties = [
             {
                 key: `${tag}-header`,
                 text: tag,
@@ -398,6 +404,12 @@ const getDropdownOptions = (
                 };
             })
         ];
+
+        if (excludeDtid) {
+            tagProperties = tagProperties.filter((t) => {
+                return !t.key.includes(DTID_PROPERTY_NAME);
+            });
+        }
 
         modelledPropertyOptions = modelledPropertyOptions.concat(tagProperties);
     }

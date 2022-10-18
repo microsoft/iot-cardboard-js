@@ -16,7 +16,7 @@ const LOC_KEYS = {
     noData: `${ROOT_LOC}.noData`,
     tabDescription: `${ROOT_LOC}.tabDescription`
 };
-export const VisualRulesTab: React.FC = () => {
+export const VisualRulesTab: React.FC<any> = (_props: any) => {
     /**
      * TODO:
      * DO SOME STUFF SO YOU CAN GET THE LIST OF VISUAL RULES CREATED BASED ON THIS BEHAVIOR

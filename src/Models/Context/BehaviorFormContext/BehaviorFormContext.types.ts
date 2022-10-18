@@ -36,9 +36,13 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE = 'FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE',
     FORM_BEHAVIOR_VISUAL_RULE_REMOVE = 'FORM_BEHAVIOR_VISUAL_RULE_REMOVE',
 
-    /** add or update an alert visual */
+    /** add or update an alert visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE',
-    /** remove the alert visual */
+    /** remove the alert visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_ALERT_VISUAL_REMOVE = 'FORM_BEHAVIOR_ALERT_VISUAL_REMOVE',
 
     /** add or update a twin alias */
@@ -58,17 +62,19 @@ export enum BehaviorFormContextActionType {
     FORM_BEHAVIOR_LAYERS_ADD = 'FORM_BEHAVIOR_LAYERS_ADD',
     FORM_BEHAVIOR_LAYERS_REMOVE = 'FORM_BEHAVIOR_LAYERS_REMOVE',
 
-    /** reverts all changes to the behavior back to it's initial state
-     * @deprecated
-     */
+    /** reverts all changes to the behavior back to it's initial state */
     FORM_BEHAVIOR_RESET = 'FORM_BEHAVIOR_RESET',
     /** Add or update a status visual
      * @deprecated
      */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE',
-    /** Update the value ranges for the status visual */
+    /** Update the value ranges for the status visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES = 'FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES',
-    /** remove a status visual */
+    /** remove a status visual
+     * @deprecated
+     */
     FORM_BEHAVIOR_STATUS_VISUAL_REMOVE = 'FORM_BEHAVIOR_STATUS_VISUAL_REMOVE',
     /** add or update a widget */
     FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE = 'FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE',
