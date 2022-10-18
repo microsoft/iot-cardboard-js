@@ -603,7 +603,62 @@
       "libraryName": "Paneel",
       "description": "Een indelingspaneel"
     },
-    "notSupported": "Dit widgettype wordt momenteel niet ondersteund"
+    "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
+    "dataHistory": {
+      "title": "Widget gegevensgeschiedenis",
+      "description": "Tijdreeksgegevens weergeven in de context van uw 3D-scène",
+      "notEnabledDescription": "Gegevensgeschiedenis is niet ingeschakeld voor dit ADT-exemplaar.",
+      "form": {
+        "connectionStringTitle": "Verbindingsreeks",
+        "connectionStringPlaceholder": "Voer de verbindingsreeks in (bijvoorbeeld key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Verbindingsgegevens worden geladen...",
+        "noConnectionInformationText": "Geen verbindingsgegevens gevonden",
+        "displayNamePlaceholder": "Voer de weergavenaam in",
+        "timeSeries": {
+          "timeSeriesDescription": "Voeg toe aan {{maxTimeSeriesCount}} timeseries om weer te geven",
+          "title": "Tijdreeksen",
+          "description": "Een reeks die in het lijndiagram moet worden weergegeven",
+          "property": "Eigenschap",
+          "unit": "Eenheid",
+          "label": "Etiket",
+          "add": "Tijdreeksen toevoegen",
+          "edit": "Tijdreeksen bewerken",
+          "remove": "Tijdreeksen verwijderen",
+          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Grafiekoptie om in te stellen of elke serie afzonderlijke (onafhankelijke) y-assen heeft of dezelfde y-as deelt (gedeeld)",
+            "label": "Type Y-as",
+            "sharedLabel": "Gedeeld",
+            "independentLabel": "Onafhankelijk"
+          },
+          "quickTimeSpan": {
+            "label": "Standaard tijdspanne",
+            "options": {
+              "Last 15 mins": "Laatste 15 minuten",
+              "Last 30 mins": "Laatste 30 minuten",
+              "Last Hour": "Laatste uur",
+              "Last 3 Hours": "Laatste 3 uur",
+              "Last 6 Hours": "Laatste 6 uur",
+              "Last 12 Hours": "Laatste 12 uur",
+              "Last 24 Hours": "Laatste 24 uur",
+              "Last 7 Days": "Laatste 7 dagen",
+              "Last 30 Days": "Laatste 30 dagen",
+              "Last 60 Days": "Laatste 60 dagen",
+              "Last 90 Days": "Laatste 90 dagen",
+              "Last 180 Days": "Laatste 180 dagen",
+              "Last Year": "Vorig jaar"
+            }
+          },
+          "aggregationType": {
+            "label": "Type aggregatie"
+          }
+        },
+        "connectionStringInformation": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken."
+      },
+      "libraryName": "Gegevensgeschiedenis"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Laatste 30 minuten",

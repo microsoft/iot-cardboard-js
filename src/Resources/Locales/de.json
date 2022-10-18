@@ -603,7 +603,62 @@
       "libraryName": "Gremium",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
+    "dataHistory": {
+      "title": "Datenverlauf-Widget",
+      "description": "Anzeigen von Zeitreihendaten im Kontext Ihrer 3D-Szene",
+      "notEnabledDescription": "Der Datenverlauf ist für diese ADT-Instanz nicht aktiviert.",
+      "form": {
+        "connectionStringTitle": "Verbindungszeichenfolge",
+        "connectionStringPlaceholder": "Geben Sie die Verbindungszeichenfolge ein (z. B. key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "Verbindungsinformationen werden geladen...",
+        "noConnectionInformationText": "Keine Verbindungsinformationen gefunden",
+        "displayNamePlaceholder": "Anzeigenamen eingeben",
+        "timeSeries": {
+          "timeSeriesDescription": "Addieren Sie die anzuzeigende Zeitreihe {{maxTimeSeriesCount}}",
+          "title": "Zeitreihe",
+          "description": "Eine Reihe, die im Liniendiagramm angezeigt werden soll",
+          "property": "Eigentum",
+          "unit": "Einheit",
+          "label": "Etikett",
+          "add": "Zeitreihen hinzufügen",
+          "edit": "Zeitreihen bearbeiten",
+          "remove": "Zeitreihen entfernen",
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagrammoption zum Festlegen, wenn jede Reihe separate (unabhängige) y-Achsen hat oder dieselbe y-Achse (Shared) gemeinsam nutzt",
+            "label": "Y-Achsen-Typ",
+            "sharedLabel": "Geteilt",
+            "independentLabel": "Unabhängig"
+          },
+          "quickTimeSpan": {
+            "label": "Standardzeitspanne",
+            "options": {
+              "Last 15 mins": "Letzte 15 Minuten",
+              "Last 30 mins": "Letzte 30 Minuten",
+              "Last Hour": "Letzte Stunde",
+              "Last 3 Hours": "Letzte 3 Stunden",
+              "Last 6 Hours": "Letzte 6 Stunden",
+              "Last 12 Hours": "Letzte 12 Stunden",
+              "Last 24 Hours": "Letzte 24 Stunden",
+              "Last 7 Days": "Letzte 7 Tage",
+              "Last 30 Days": "Letzte 30 Tage",
+              "Last 60 Days": "Letzte 60 Tage",
+              "Last 90 Days": "Letzte 90 Tage",
+              "Last 180 Days": "Letzte 180 Tage",
+              "Last Year": "Letztes Jahr"
+            }
+          },
+          "aggregationType": {
+            "label": "Aggregationstyp"
+          }
+        },
+        "connectionStringInformation": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
+      },
+      "libraryName": "Datenhistorie"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",
