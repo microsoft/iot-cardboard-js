@@ -244,26 +244,20 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
 
     // if the adx connection information is not in the environment context. fetch it and update the context
     useEffect(() => {
-        if (!adapter.getADXConnectionInformation()) {
-            {
-                connectionState.callAdapter({
-                    adtInstanceIdentifier: deeplinkState.adtResourceId
-                        ? { id: deeplinkState.adtResourceId }
-                        : { hostName: getHostNameFromUrl(deeplinkState.adtUrl) }
-                });
-                dispatch({
-                    type:
-                        ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
-                    payload: {
-                        adxConnectionInformation: {
-                            connection: null,
-                            loadingState:
-                                ADXConnectionInformationLoadingState.LOADING
-                        }
-                    }
-                });
+        connectionState.callAdapter({
+            adtInstanceIdentifier: deeplinkState.adtResourceId
+                ? { id: deeplinkState.adtResourceId }
+                : { hostName: getHostNameFromUrl(deeplinkState.adtUrl) }
+        });
+        dispatch({
+            type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,
+            payload: {
+                adxConnectionInformation: {
+                    connection: null,
+                    loadingState: ADXConnectionInformationLoadingState.LOADING
+                }
             }
-        }
+        });
     }, [deeplinkState.adtResourceId, deeplinkState.adtUrl, adapter]);
 
     // update the adapter if the ADT instance changes
@@ -536,7 +530,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // update the adx information of environment context with the fetched data
     useEffect(() => {
         if (connectionState?.adapterResult?.result) {
-            if (!connectionState?.adapterResult.hasError()) {
+            if (!connectionState?.adapterResult.hasNoData()) {
                 const connectionData = connectionState.adapterResult.getData();
                 dispatch({
                     type:

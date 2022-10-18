@@ -15,7 +15,6 @@ import { ICardboardListCalloutProps } from './CardboardListCallout.types';
 import { ICardboardListItem } from '../CardboardList/CardboardList.types';
 import { CardboardList } from '../CardboardList/CardboardList';
 import {
-    cardboardListCalloutPrimaryButtonStyles,
     getCardboardListCalloutComponentStyles,
     getCardboardListCalloutStyles
 } from './CardboardListCallout.styles';
@@ -131,7 +130,7 @@ const CardboardListCallout = <T extends unknown>({
                         {...(dataButtonTestId && {
                             'data-testid': dataButtonTestId
                         })}
-                        styles={cardboardListCalloutPrimaryButtonStyles}
+                        className={styles.primaryButton}
                         onClick={() =>
                             primaryActionProps.onPrimaryActionClick(searchText)
                         }

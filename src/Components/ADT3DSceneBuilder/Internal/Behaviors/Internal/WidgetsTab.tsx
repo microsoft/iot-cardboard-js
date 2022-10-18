@@ -199,6 +199,8 @@ function getListItems(
                 return widget?.widgetConfiguration?.label;
             case WidgetType.Value:
                 return widget?.widgetConfiguration?.displayName;
+            case WidgetType.DataHistory:
+                return widget?.widgetConfiguration?.displayName;
             default:
                 return widget.type;
         }

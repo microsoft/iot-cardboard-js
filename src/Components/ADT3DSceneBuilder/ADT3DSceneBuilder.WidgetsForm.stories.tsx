@@ -18,6 +18,13 @@ import {
     WidgetsListAddDialogShow,
     WidgetsListMore
 } from './ADT3DSceneBuilder.WidgetsList.stories';
+import { ADT3DScenePageContext } from '../../Pages/ADT3DScenePage/ADT3DScenePage';
+import {
+    ADXConnectionInformationLoadingState,
+    IADT3DScenePageContext,
+    IADT3DScenePageState
+} from '../../Pages/ADT3DScenePage/ADT3DScenePage.types';
+import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/WidgetsForm',
@@ -29,28 +36,53 @@ const cardStyle = {
     width: '100%'
 };
 
+const mockScenePageContext: IADT3DScenePageContext = {
+    state: {
+        scenesConfig: trucksMockVConfig as I3DScenesConfig,
+        adxConnectionInformation: {
+            connection: null,
+            loadingState: ADXConnectionInformationLoadingState.IDLE
+        }
+    } as IADT3DScenePageState,
+    dispatch: () => {
+        return;
+    },
+    handleOnHomeClick: () => {
+        return;
+    },
+    handleOnSceneClick: () => {
+        return;
+    },
+    handleOnSceneSwap: () => {
+        return;
+    },
+    isTwinPropertyInspectorPatchModeEnabled: false
+};
+
 type SceneBuilderStory = ComponentStory<typeof ADT3DSceneBuilder>;
 const Template: SceneBuilderStory = (
     _args,
     context: IStoryContext<IADT3DSceneBuilderCardProps>
 ) => {
     return (
-        <div style={cardStyle}>
-            <ADT3DSceneBuilder
-                title={'3D Scene Builder'}
-                theme={context.globals.theme}
-                locale={context.globals.locale}
-                adapter={
-                    new MockAdapter({
-                        mockData: context.parameters.data
-                            ? deepCopy(context.parameters.data)
-                            : trucksMockVConfig
-                    })
-                }
-                sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
-                {..._args}
-            />
-        </div>
+        <ADT3DScenePageContext.Provider value={mockScenePageContext}>
+            <div style={cardStyle}>
+                <ADT3DSceneBuilder
+                    title={'3D Scene Builder'}
+                    theme={context.globals.theme}
+                    locale={context.globals.locale}
+                    adapter={
+                        new MockAdapter({
+                            mockData: context.parameters.data
+                                ? deepCopy(context.parameters.data)
+                                : trucksMockVConfig
+                        })
+                    }
+                    sceneId="58e02362287440d9a5bf3f8d6d6bfcf9"
+                    {..._args}
+                />
+            </div>
+        </ADT3DScenePageContext.Provider>
     );
 };
 

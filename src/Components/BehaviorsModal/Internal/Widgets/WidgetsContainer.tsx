@@ -6,6 +6,7 @@ import {
     IWidget
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
+import { DataHistoryWidget } from './DataHistoryWidget/DataHistoryWidget';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
 import { ValueWidget } from './ValueWidget/ValueWidget';
@@ -26,6 +27,8 @@ const makeWidget = (widget: IWidget) => {
             return <GaugeWidget key={widget.id} widget={widget} />;
         case WidgetType.Value:
             return <ValueWidget key={widget.id} widget={widget} />;
+        case WidgetType.DataHistory:
+            return <DataHistoryWidget key={widget.id} widget={widget} />;
         default:
             return null;
     }

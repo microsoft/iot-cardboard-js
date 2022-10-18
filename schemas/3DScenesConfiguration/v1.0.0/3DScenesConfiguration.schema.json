@@ -236,6 +236,61 @@
                 "time"
             ]
         },
+        "IDataHistoryBasicTimeSeries": {
+            "type": "object",
+            "description": "A basic timeseries to be rendered in the chart of the data history widget",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "expression": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                }
+            },
+            "required": ["id", "expression"]
+        },
+        "IDataHistoryTimeSeries": {
+            "type": "array",
+            "description": "A list of timeseries to render in the chart",
+            "items": {
+                "$ref": "#/$defs/IDataHistoryBasicTimeSeries"
+            }
+        },
+        "IDataHistoryChartYAxisType": {
+            "type": "string",
+            "enum": ["shared", "independent"]
+        },
+        "IDataHistoryAggregationType": {
+            "type": "string",
+            "enum": ["min", "max", "avg"]
+        },
+        "IDataHistoryChartOptions": {
+            "type": "object",
+            "description": "Options to be used while rendering chart for data history widget",
+            "additionalProperties": false,
+            "properties": {
+                "yAxisType": {
+                    "$ref": "#/$defs/IDataHistoryChartYAxisType"
+                },
+                "defaultQuickTimeSpan": {
+                    "type": "number"
+                },
+                "aggregationType": {
+                    "$ref": "#/$defs/IDataHistoryAggregationType"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["yAxisType", "defaultQuickTimeSpan", "aggregationType"]
+        },
         "IObjectIDs": {
             "type": "object",
             "description": "objectIDs specify the objects in the scene that a visual pertains to",
@@ -393,6 +448,30 @@
             },
             "required": ["displayName", "valueExpression", "type"]
         },
+        "IDataHistoryWidgetConfiguration": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Widget configuration specifies widget specific properties that are used for rendering this data history",
+            "properties": {
+                "connectionString": {
+                    "type": "string",
+                    "description": "Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget"
+                },
+                "displayName": {
+                    "type": "string"
+                },
+                "timeSeries": { "$ref": "#/$defs/IDataHistoryTimeSeries" },
+                "chartOptions": {
+                    "$ref": "#/$defs/IDataHistoryChartOptions"
+                }
+            },
+            "required": [
+                "connectionString",
+                "displayName",
+                "timeSeries",
+                "chartOptions"
+            ]
+        },
         "IGaugeWidget": {
             "type": "object",
             "description": "A gauge widget",
@@ -465,6 +544,29 @@
             },
             "required": ["type", "id", "widgetConfiguration"]
         },
+        "IDataHistoryWidget": {
+            "type": "object",
+            "description": "A data history widget which uses twin properties to show timeseries data",
+            "additionalProperties": false,
+            "properties": {
+                "type": {
+                    "const": "Data history"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "groupID": {
+                    "$ref": "#/$defs/IGroupID"
+                },
+                "widgetConfiguration": {
+                    "$ref": "#/$defs/IDataHistoryWidgetConfiguration"
+                },
+                "extensionProperties": {
+                    "$ref": "#/$defs/IExtensionProperties"
+                }
+            },
+            "required": ["type", "id", "widgetConfiguration"]
+        },
         "IWidget": {
             "anyOf": [
                 {
@@ -475,6 +577,9 @@
                 },
                 {
                     "$ref": "#/$defs/IValueWidget"
+                },
+                {
+                    "$ref": "#/$defs/IDataHistoryWidget"
                 }
             ]
         },
@@ -552,6 +657,9 @@
                     "items": {
                         "$ref": "#/$defs/IValueRange"
                     }
+                },
+                "valueRangeType": {
+                    "$ref": "#/$defs/IDTDLPropertyType"
                 },
                 "objectIDs": {
                     "$ref": "#/$defs/IObjectIDs"

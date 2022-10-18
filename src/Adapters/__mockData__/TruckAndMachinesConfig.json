@@ -149,6 +149,34 @@
                                     "valueExpression": "PrimaryTwin.InFlow",
                                     "type": "double"
                                 }
+                            },
+                            {
+                                "type": "Data history",
+                                "groupID": "8bf489e804884596afe8abb7e803d5c5",
+                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
+                                "widgetConfiguration": {
+                                    "connectionString": "kustoClusterUrl=https://mockKustoClusterName.westus2.kusto.windows.net;kustoDatabaseName=mockKustoDatabaseName;kustoTableName=mockKustoTableName",
+                                    "displayName": "Temperature and InFlow Data History",
+                                    "timeSeries": [
+                                        {
+                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
+                                            "expression": "PrimaryTwin.Temperature",
+                                            "unit": "F",
+                                            "label": "Temperature Trend"
+                                        },
+                                        {
+                                            "id": "b03980c3857e44a0bcf6390a82522ee7",
+                                            "expression": "PrimaryTwin.InFlow",
+                                            "unit": "cfs",
+                                            "label": "Inflow Trend"
+                                        }
+                                    ],
+                                    "chartOptions": {
+                                        "aggregationType": "avg",
+                                        "defaultQuickTimeSpan": 900000,
+                                        "yAxisType": "shared"
+                                    }
+                                }
                             }
                         ],
                         "widgetGroups": [
