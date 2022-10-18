@@ -3,15 +3,19 @@ import {
     mergeStyleSets,
     FontSizes,
     IStyle,
-    Theme
+    Theme,
+    IChoiceGroupStyles
 } from '@fluentui/react';
 import { leftPanelBuilderBlock } from '../../../../../../Resources/Styles/BaseStyles';
 
 const classPrefix = 'widget-form';
 const classNames = {
     description: `${classPrefix}-description`,
+    innerDescription: `${classPrefix}-inner-description`,
     widgetFormContents: `${classPrefix}-widget-form-contents`,
-    rangeBuilderRoot: `${classPrefix}-gauge-widget-range-builder`
+    rangeBuilderRoot: `${classPrefix}-gauge-widget-range-builder`,
+    label: `${classPrefix}-label`,
+    choiceGroup: `${classPrefix}-choice-group`
 };
 export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
     return mergeStyleSets({
@@ -19,6 +23,13 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
             classNames.description,
             {
                 fontSize: FontSizes.size14,
+                color: theme.palette.neutralSecondary
+            } as IStyle
+        ],
+        innerDescription: [
+            classNames.innerDescription,
+            {
+                fontSize: FontSizes.size12,
                 color: theme.palette.neutralSecondary
             } as IStyle
         ],
@@ -38,6 +49,25 @@ export const getWidgetFormStyles = memoizeFunction((theme: Theme) => {
             {
                 paddingTop: 8
             } as IStyle
+        ],
+        label: [
+            classNames.label,
+            {
+                margin: '4px 0 0',
+                padding: 0,
+                height: 20
+            } as IStyle
+        ],
+        choiceGroup: [
+            classNames.choiceGroup,
+            {
+                marginTop: 0,
+                flexContainer: {
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginBottom: 4
+                }
+            } as Partial<IChoiceGroupStyles>
         ]
     });
 });

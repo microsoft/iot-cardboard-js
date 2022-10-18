@@ -5,8 +5,8 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const retryNumber = 3;
 
 module.exports = function (app) {
-    const validAdtHostSuffixes = ['digitaltwins.azure.net'];
-    const validBlobHostSuffixes = ['blob.core.windows.net'];
+    const validAdtHostSuffixes = ['.digitaltwins.azure.net'];
+    const validBlobHostSuffixes = ['.blob.core.windows.net'];
 
     const validHeaders = [
         'Accept',
