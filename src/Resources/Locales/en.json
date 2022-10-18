@@ -461,7 +461,8 @@
             "noData": "You haven't configured any Visual Rules yet",
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
-            "removeRule": "Remove rule"
+            "removeRule": "Remove rule",
+            "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",

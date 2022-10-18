@@ -35,6 +35,23 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     );
 };
 
+function getBadgesAndMeshesCount(item: IVisualRule, t: TFunction<string>) {
+    let badgeCount = 0;
+    let meshColoringCount = 0;
+    item.conditions.forEach((condition) => {
+        if (condition.visual.iconName) {
+            badgeCount = badgeCount + 1;
+        } else {
+            meshColoringCount = meshColoringCount + 1;
+        }
+    });
+    const text = t('3dSceneBuilder.behaviorVisualRulesTab.meshAndBadgeCount', {
+        meshColoringCount: meshColoringCount,
+        badgeCount: badgeCount
+    });
+    return text;
+}
+
 function getListItems(
     rules: IVisualRule[],
     onRemoveRule: (ruleItem: string) => void,
@@ -63,12 +80,15 @@ function getListItems(
     return rules.map((item) => {
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
-            iconStart: { name: '' },
+            iconStart: {
+                name:
+                    item.type === 'NumericRange' ? 'NumberSymbol' : 'TextField'
+            },
             item: item,
-            openMenuOnClick: true,
+            onClick: () => onEditRule(item.id),
             overflowMenuItems: getMenuItems(item),
             textPrimary: item.displayName,
-            textSecondary: item.conditions.join(', ')
+            textSecondary: getBadgesAndMeshesCount(item, t)
         };
         return viewModel;
     });
