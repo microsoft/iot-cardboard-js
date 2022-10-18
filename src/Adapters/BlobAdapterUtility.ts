@@ -13,7 +13,9 @@ import {
 import {
     I3DScenesConfig,
     IBehavior,
+    IDTDLPropertyType,
     IElement,
+    IExpressionRangeVisual,
     IScene,
     IVisual
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -241,6 +243,7 @@ function sendConfigTelemetry(data: I3DScenesConfig) {
 /** Helper function to handle all schema migration transformations */
 export function handleMigrations(data: I3DScenesConfig) {
     addVisualRuleIds(data?.configuration?.behaviors);
+    addVisualsTypes(data?.configuration?.behaviors);
 }
 
 /** Helper function that adds temporary ids to visual rules in behaviors */
@@ -253,6 +256,43 @@ function addVisualRuleIds(data: IBehavior[]) {
                         visual.id = createGUID();
                     }
                 });
+            }
+        });
+    }
+}
+
+/** Helper function that adds temporary types to conditions in behaviors */
+function addVisualsTypes(data: IBehavior[]) {
+    if (data) {
+        data.forEach((behavior: IBehavior) => {
+            if (behavior.visuals) {
+                const visualRules = behavior.visuals.filter(
+                    (visual: IVisual) => {
+                        return visual.type === 'ExpressionRangeVisual';
+                    }
+                );
+                if (visualRules) {
+                    visualRules.forEach(
+                        (visualRule: IExpressionRangeVisual) => {
+                            // In the case that numeric range is the visual rule expression type select integer as value range type to display range picker in conditions form
+                            // else find the type that the expression should resolve to by checking the values in an existing condition.
+                            if (
+                                visualRule.expressionType === 'NumericRange' &&
+                                !visualRule.valueRangeType
+                            ) {
+                                visualRule.valueRangeType = 'integer';
+                            } else if (!visualRule.valueRangeType) {
+                                if (visualRule.valueRanges?.length) {
+                                    visualRule.valueRangeType = visualRule
+                                        .valueRanges[0].values[0]
+                                        ? (typeof visualRule.valueRanges[0]
+                                              .values[0] as IDTDLPropertyType)
+                                        : 'string';
+                                }
+                            }
+                        }
+                    );
+                }
             }
         });
     }

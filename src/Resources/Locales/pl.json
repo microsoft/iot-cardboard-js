@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nowa reguła wizualna",
       "edit": "Edytowanie reguły wizualnej",
-      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
       "typePlaceholder": "Wybierz typ wartości",
       "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
-      "newCondition": "Nowy stan"
+      "newCondition": "Nowy stan",
+      "editCondition": "Edytuj warunek",
+      "deleteCondition": "Usuń warunek",
+      "unlabeledCondition": "Bez etykiety",
+      "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków."
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {

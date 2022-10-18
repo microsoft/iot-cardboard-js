@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
-      "formDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
       "typePlaceholder": "Selecione o tipo para o valor",
       "conditionsInfoContent": "Configure o alcance ou valores específicos que desencadeiem uma ação visual relacionada com o elemento.",
-      "newCondition": "Nova condição"
+      "newCondition": "Nova condição",
+      "editCondition": "Condição de edição",
+      "deleteCondition": "Eliminar condição",
+      "unlabeledCondition": "Sem rótulo",
+      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são satisfeitas. Escolha a expressão de dados para esta regra e adicione algumas condições."
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {

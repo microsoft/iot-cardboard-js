@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Neue visuelle Regel",
       "edit": "Visuelle Regel bearbeiten",
-      "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
       "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
       "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen.",
-      "newCondition": "Neuer Zustand"
+      "newCondition": "Neuer Zustand",
+      "editCondition": "Bedingung bearbeiten",
+      "deleteCondition": "Löschbedingung",
+      "unlabeledCondition": "Unbeschriftet",
+      "formSubtext": "Eine Regel enthält Bedingungen und visuelle Hinweise, wenn diese Bedingungen erfüllt sind. Wählen Sie den Datenausdruck für diese Regel aus, und fügen Sie einige Bedingungen hinzu."
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {
