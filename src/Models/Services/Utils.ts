@@ -14,7 +14,8 @@ import {
     IAzureResource,
     AzureAccessPermissionRoles,
     AzureAccessPermissionRoleGroups,
-    AzureResourceTypes
+    AzureResourceTypes,
+    TimeSeriesData
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import {
@@ -800,4 +801,28 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
         }
     }
     return false;
+};
+
+export const getCurrentDateInUTC = (): Date => {
+    const nowDate = new Date();
+    return new Date(
+        nowDate.valueOf() - nowDate.getTimezoneOffset() * 60 * 1000
+    );
+};
+
+export const getMockTimeSeriesDataArrayInUTC = (
+    lengthOfSeries = 1,
+    numberOfDataPoints = 5,
+    agoInMillis = 1 * 60 * 60 * 1000
+): Array<Array<TimeSeriesData>> => {
+    const toInMillis = getCurrentDateInUTC().valueOf();
+    const fromInMillis = toInMillis - agoInMillis;
+    return Array.from({ length: lengthOfSeries }).map(() =>
+        Array.from({ length: numberOfDataPoints }, () => ({
+            timestamp: Math.floor(
+                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
+            ),
+            value: Math.floor(Math.random() * 500)
+        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
+    );
 };

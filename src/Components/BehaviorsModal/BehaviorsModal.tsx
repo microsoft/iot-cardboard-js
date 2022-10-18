@@ -10,6 +10,7 @@ import { useId } from '@fluentui/react-hooks';
 import React, { createContext, useContext, useRef, useState } from 'react';
 import Draggable from 'react-draggable';
 import { useTranslation } from 'react-i18next';
+import MockAdapter from '../../Adapters/MockAdapter';
 import {
     BehaviorModalMode,
     DTwin,
@@ -35,7 +36,7 @@ export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
     (ViewerModeProps | PreviewModeProps);
 interface IBehaviorsModalBaseProps {
     activeWidgetId?: string;
-    adapter?: IPropertyInspectorAdapter & IADXAdapter;
+    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
     behaviors: IBehavior[];
     onClose?: () => any;
     onPropertyInspectorPatch?: (patchData: OnCommitPatchParams) => any;
@@ -56,7 +57,7 @@ interface PreviewModeProps {
 const cancelIcon: IIconProps = { iconName: 'Cancel' };
 
 export const BehaviorsModalContext = createContext<{
-    adapter?: IPropertyInspectorAdapter & IADXAdapter;
+    adapter?: MockAdapter | (IPropertyInspectorAdapter & IADXAdapter);
     twins: Record<string, DTwin>;
     mode: BehaviorModalMode;
     activeWidgetId: string | null;

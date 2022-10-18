@@ -9,6 +9,10 @@ import {
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import {
+    getCurrentDateInUTC,
+    getMockTimeSeriesDataArrayInUTC
+} from '../../../../../Models/Services/Utils';
+import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -68,15 +72,11 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         ) {
             fetchTimeSeriesData();
             isRequestSent.current = true;
-            const nowDate = new Date();
+            const nowInUTC = getCurrentDateInUTC();
             xMinDateInUTCRef.current = new Date(
-                nowDate.valueOf() -
-                    nowDate.getTimezoneOffset() * 60 * 1000 -
-                    chartOptions.defaultQuickTimeSpanInMillis
+                nowInUTC.valueOf() - chartOptions.defaultQuickTimeSpanInMillis
             );
-            xMaxDateInUTCRef.current = new Date(
-                nowDate.valueOf() - nowDate.getTimezoneOffset() * 60 * 1000
-            );
+            xMaxDateInUTCRef.current = nowInUTC;
         }
     }, [
         adapter,
@@ -89,23 +89,15 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
-    > = useMemo(() => {
-        // placeholder timeseries data to be used in preview mode, need to memoize not to change the chart plot area unless time span or series length changes
-        const toInMillis = Date.now();
-        const fromInMillis =
-            toInMillis - chartOptions.defaultQuickTimeSpanInMillis;
-        return timeSeries.map(() =>
-            Array.from({ length: 5 }, () => ({
-                timestamp: Math.floor(
-                    Math.random() * (toInMillis - fromInMillis + 1) +
-                        fromInMillis
-                ),
-                value: Math.floor(Math.random() * 500)
-            })).sort(
-                (a, b) => (a.timestamp as number) - (b.timestamp as number)
-            )
-        );
-    }, [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]);
+    > = useMemo(
+        () =>
+            getMockTimeSeriesDataArrayInUTC(
+                timeSeries.length,
+                5,
+                chartOptions.defaultQuickTimeSpanInMillis
+            ),
+        [chartOptions.defaultQuickTimeSpanInMillis, timeSeries.length]
+    );
 
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
         () =>
