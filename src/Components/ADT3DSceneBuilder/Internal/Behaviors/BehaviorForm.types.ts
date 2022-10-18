@@ -7,7 +7,8 @@ export type TabNames =
     | 'Alerts'
     | 'Elements'
     | 'Status'
-    | 'Widgets';
+    | 'Widgets'
+    | 'VisualRules';
 export interface IBehaviorFormState {
     validityMap: Map<TabNames, IValidityState>;
 }

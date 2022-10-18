@@ -103,6 +103,11 @@ export interface ModelledPropertyBuilderProps {
 		
 	*/
     onChange: (newPropertyExpression: PropertyExpression) => void;
+
+    /**
+     * Exlcude dtid from property picker dropdown
+     */
+    excludeDtid?: boolean;
 }
 
 export interface IModelledProperty {

@@ -456,6 +456,13 @@
             "noData": "You haven't configured any widgets yet",
             "tabDescription": "Define widgets that appear in the element's context"
         },
+        "behaviorVisualRulesTab": {
+            "tabDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "noData": "You haven't configured any Visual Rules yet",
+            "addRuleButtonText": "Add Rule",
+            "editRule": "Edit rule",
+            "removeRule": "Remove rule"
+        },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
             "twinNameTooltip": "This field is case sensitive",
@@ -558,9 +565,12 @@
             "new": "New visual rule",
             "newCondition": "New condition",
             "edit": "Edit visual rule",
-            "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "formSubtext": "A rule contains conditions and visual cues when those conditions are met. Choose the data expression for this rule and add a few conditions.",
             "typePlaceholder": "Select the type for the value",
-            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element.",
+            "editCondition": "Edit condition",
+            "deleteCondition": "Delete condition",
+            "unlabeledCondition": "Unlabeled"
         }
     },
     "widgets": {
@@ -592,6 +602,61 @@
             "title": "Panel widget",
             "libraryName": "Panel",
             "description": "A layout panel"
+        },
+        "dataHistory": {
+            "title": "Data history widget",
+            "libraryName": "Data history",
+            "description": "Show timeseries data in context of your 3D scene",
+            "notEnabledDescription": "Data history is not enabled for this ADT instance.",
+            "form": {
+                "connectionStringTitle": "Connection string",
+                "connectionStringPlaceholder": "Enter connection string (e.g. key1=value1;key2=value2;key3=value3)",
+                "connectionStringInformation": "Data history widgets target the Azure Data Explorer instance connected to the Azure Digital Twins instance at the time of creation.",
+                "connectionLoadingText": "Loading connection information...",
+                "noConnectionInformationText": "No connection information found",
+                "displayNamePlaceholder": "Enter display name",
+                "timeSeries": {
+                    "timeSeriesDescription": "Add up to {{maxTimeSeriesCount}} timeseries to display",
+                    "title": "Time series",
+                    "description": "A series to display in the line chart",
+                    "property": "Property",
+                    "unit": "Unit",
+                    "label": "Label",
+                    "labelPlaceholder": "Enter label to show in chart",
+                    "add": "Add time series",
+                    "edit": "Edit time series",
+                    "remove": "Remove time series"
+                },
+                "chartOptions": {
+                    "yAxisType": {
+                        "description": "Chart option to set if each series has separate (Independent) y-axes or sharing the same y-axis (Shared)",
+                        "label": "Y axis type",
+                        "sharedLabel": "Shared",
+                        "independentLabel": "Independent"
+                    },
+                    "quickTimeSpan": {
+                        "label": "Default time span",
+                        "options": {
+                            "Last 15 mins": "Last 15 mins",
+                            "Last 30 mins": "Last 30 mins",
+                            "Last Hour": "Last Hour",
+                            "Last 3 Hours": "Last 3 Hours",
+                            "Last 6 Hours": "Last 6 Hours",
+                            "Last 12 Hours": "Last 12 Hours",
+                            "Last 24 Hours": "Last 24 Hours",
+                            "Last 7 Days": "Last 7 Days",
+                            "Last 30 Days": "Last 30 Days",
+                            "Last 60 Days": "Last 60 Days",
+                            "Last 90 Days": "Last 90 Days",
+                            "Last 180 Days": "Last 180 Days",
+                            "Last Year": "Last Year"
+                        }
+                    },
+                    "aggregationType": {
+                        "label": "Aggregation type"
+                    }
+                }
+            }
         },
         "notSupported": "This widget type is not currently supported"
     },

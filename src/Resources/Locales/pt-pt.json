@@ -559,12 +559,22 @@
     "visualRuleForm": {
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
-      "formDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
       "typePlaceholder": "Selecione o tipo para o valor",
       "conditionsInfoContent": "Configure o alcance ou valores específicos que desencadeiem uma ação visual relacionada com o elemento.",
-      "newCondition": "Nova condição"
+      "newCondition": "Nova condição",
+      "editCondition": "Condição de edição",
+      "deleteCondition": "Eliminar condição",
+      "unlabeledCondition": "Sem rótulo",
+      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são satisfeitas. Escolha a expressão de dados para esta regra e adicione algumas condições."
     },
-    "conditions": "Condições"
+    "conditions": "Condições",
+    "behaviorVisualRulesTab": {
+      "tabDescription": "Estabeleça regras para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
+      "noData": "Ainda não configuraste nenhuma Regra Visual.",
+      "addRuleButtonText": "Adicionar Regra",
+      "editRule": "Regra de edição",
+      "removeRule": "Remover regra"
+    }
   },
   "widgets": {
     "trend": {
@@ -596,7 +606,62 @@
       "libraryName": "Painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é atualmente suportado"
+    "notSupported": "Este tipo de widget não é atualmente suportado",
+    "dataHistory": {
+      "title": "Widget de histórico de dados",
+      "description": "Mostrar dados de timeeries no contexto da sua cena 3D",
+      "notEnabledDescription": "O histórico de dados não está habilitado para este caso de ADT.",
+      "form": {
+        "connectionStringTitle": "Cadeia de conexão",
+        "connectionStringPlaceholder": "Introduza a cadeia de ligação (por exemplo, key1=value1;key2=value2;key3=value3)",
+        "connectionLoadingText": "A carregar informações de ligação...",
+        "noConnectionInformationText": "Nenhuma informação de ligação encontrada",
+        "displayNamePlaceholder": "Insira o nome do visor",
+        "timeSeries": {
+          "timeSeriesDescription": "Adicione até {{maxTimeSeriesCount}} timeseries para exibir",
+          "title": "Séries hors 10",
+          "description": "Uma série para exibir na tabela de linhas",
+          "property": "Propriedade",
+          "unit": "Unidade",
+          "label": "Etiqueta",
+          "add": "Adicionar séries de tempo",
+          "edit": "Editar séries tempor feiras",
+          "remove": "Remover séries de tempo",
+          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "A opção de gráfico para definir se cada série tiver eixos y separados (Independentes) ou partilhar o mesmo eixo y (Compartilhado)",
+            "label": "Tipo de eixo Y",
+            "sharedLabel": "Compartilhado",
+            "independentLabel": "Independente"
+          },
+          "quickTimeSpan": {
+            "label": "Intervalo de tempo predefinido",
+            "options": {
+              "Last 15 mins": "Últimos 15 minutos",
+              "Last 30 mins": "Últimos 30 minutos",
+              "Last Hour": "Última Hora",
+              "Last 3 Hours": "Últimas 3 Horas",
+              "Last 6 Hours": "Últimas 6 Horas",
+              "Last 12 Hours": "Últimas 12 Horas",
+              "Last 24 Hours": "Últimas 24 Horas",
+              "Last 7 Days": "Últimos 7 dias",
+              "Last 30 Days": "Últimos 30 dias",
+              "Last 60 Days": "Últimos 60 dias",
+              "Last 90 Days": "Últimos 90 dias",
+              "Last 180 Days": "Últimos 180 dias",
+              "Last Year": "Ano passado"
+            }
+          },
+          "aggregationType": {
+            "label": "Tipo de agregação"
+          }
+        },
+        "connectionStringInformation": "Os widgets de histórico de dados visam o exemplo do Azure Data Explorer ligado à instância Azure Digital Twins no momento da criação."
+      },
+      "libraryName": "Histórico de dados"
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
