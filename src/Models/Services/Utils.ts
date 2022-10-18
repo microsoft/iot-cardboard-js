@@ -772,6 +772,7 @@ export const removeProtocolPartFromUrl = (urlString: string) => {
     }
 };
 
+/** Checking if a given ADX cluster url is a safe url following a certain regex and hostname */
 export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     const isValidADXClusterHostUrl = (urlPrefix) =>
         /^[a-zA-Z0-9]{4,22}.[a-zA-Z0-9]{1,}\b$/.test(urlPrefix);

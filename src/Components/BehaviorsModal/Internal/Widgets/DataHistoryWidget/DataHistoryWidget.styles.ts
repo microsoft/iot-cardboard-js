@@ -1,26 +1,20 @@
-import { IStyle, mergeStyleSets } from '@fluentui/react';
+import { IDataHistoryWidgetStyles } from './DataHistoryWidget.types';
 
 export const classPrefix = 'cb-data-history-widget';
 const classNames = {
-    container: `${classPrefix}-container`,
-    chart: `${classPrefix}-chart`
+    root: `${classPrefix}-root`
 };
-
-export const dataHistoryClassNames = mergeStyleSets({
-    container: [
-        classNames.container,
-        {
-            width: '100%',
-            height: '100%',
-            padding: 0,
-            position: 'relative',
-            overflow: 'hidden'
-        } as IStyle
-    ],
-    chart: [
-        classNames.chart,
-        {
-            backgroundColor: 'transparent'
-        } as IStyle
-    ]
-});
+export const getStyles = (): IDataHistoryWidgetStyles => {
+    return {
+        root: [
+            classNames.root,
+            {
+                width: '100%',
+                height: '100%',
+                padding: 0,
+                position: 'relative',
+                overflow: 'hidden'
+            }
+        ]
+    };
+};

@@ -1,3 +1,4 @@
+import { classNamesFunction, styled } from '@fluentui/react';
 import React, { memo, useContext, useEffect, useMemo, useRef } from 'react';
 import {
     ADXTimeSeries,
@@ -9,19 +10,27 @@ import {
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import {
     IDataHistoryTimeSeries,
-    IDataHistoryWidget,
     IDataHistoryWidgetConfiguration
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
-import { dataHistoryClassNames } from './DataHistoryWidget.styles';
+import { getStyles } from './DataHistoryWidget.styles';
+import {
+    IDataHistoryWidgetProps,
+    IDataHistoryWidgetStyleProps,
+    IDataHistoryWidgetStyles
+} from './DataHistoryWidget.types';
 
-interface IProp {
-    widget: IDataHistoryWidget;
-}
+const getClassNames = classNamesFunction<
+    IDataHistoryWidgetStyleProps,
+    IDataHistoryWidgetStyles
+>();
 
-const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
+const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
+    widget,
+    styles
+}) => {
     const {
         displayName,
         connectionString,
@@ -112,8 +121,9 @@ const DataHistoryWidget: React.FC<IProp> = ({ widget }) => {
         [mode, widget.widgetConfiguration, data, twinIdPropertyMap]
     );
 
+    const classNames = getClassNames(styles);
     return (
-        <div className={dataHistoryClassNames.container}>
+        <div className={classNames.root}>
             <HighChartsWrapper
                 title={displayName}
                 seriesData={highChartSeriesData}
@@ -190,4 +200,8 @@ const generatePlaceholderHighChartsData = (
     }));
 };
 
-export default memo(DataHistoryWidget);
+export default styled<
+    IDataHistoryWidgetProps,
+    IDataHistoryWidgetStyleProps,
+    IDataHistoryWidgetStyles
+>(memo(DataHistoryWidget), getStyles);
