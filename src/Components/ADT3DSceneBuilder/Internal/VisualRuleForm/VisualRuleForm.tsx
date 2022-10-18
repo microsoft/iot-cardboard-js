@@ -21,7 +21,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDefaultVisualRule } from '../../../../Models/Classes/3DVConfig';
-import { DTDLStringNumericPropertyIconographyMap } from '../../../../Models/Constants';
+import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import {
     IDTDLPropertyType,
@@ -63,6 +63,8 @@ const getClassNames = classNamesFunction<
     IVisualRuleFormStyles
 >();
 
+const EXCLUDED_KEYS = ['date', 'dateTime', 'duration', 'time'];
+
 const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     // Context
     const { behaviorFormState } = useBehaviorFormContext();
@@ -85,23 +87,21 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         theme: theme
     });
     const commonFormStyles = getPanelFormStyles(theme, rootHeight);
-    const typeOptions: Array<IDropdownOption> = useMemo(
-        () =>
-            Object.keys(DTDLStringNumericPropertyIconographyMap).map(
-                (mappingKey) => ({
-                    key: `value-type-${DTDLStringNumericPropertyIconographyMap[mappingKey].text}`,
-                    text:
-                        DTDLStringNumericPropertyIconographyMap[mappingKey]
-                            .text,
+    const typeOptions: Array<IDropdownOption> = useMemo(() => {
+        const options = [];
+        Object.keys(DTDLPropertyIconographyMap).forEach((mappingKey) => {
+            if (!EXCLUDED_KEYS.includes(mappingKey)) {
+                options.push({
+                    key: `value-type-${DTDLPropertyIconographyMap[mappingKey].text}`,
+                    text: DTDLPropertyIconographyMap[mappingKey].text,
                     data: {
-                        icon:
-                            DTDLStringNumericPropertyIconographyMap[mappingKey]
-                                .icon
+                        icon: DTDLPropertyIconographyMap[mappingKey].icon
                     }
-                })
-            ),
-        []
-    );
+                });
+            }
+        });
+        return options;
+    }, []);
 
     // Refs
     // This combination of init function and useRef should replace a useEffect that runs onMount
