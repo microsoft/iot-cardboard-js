@@ -147,7 +147,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     '[IMPORT] [START] Parsing files. {files}',
                     files
                 );
-                const newModels = [];
+                const newModels: DtdlInterface[] = [];
                 if (files.length > 0) {
                     const filesErrors = [];
                     let modelsMetadataReference = null;
@@ -155,7 +155,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                         const content = await current.text();
                         const validJson = safeJsonParse(content);
                         if (validJson) {
-                            newModels.push(validJson);
+                            newModels.push(validJson as DtdlInterface);
                         } else {
                             filesErrors.push(
                                 t('OATHeader.errorFileInvalidJSON', {
