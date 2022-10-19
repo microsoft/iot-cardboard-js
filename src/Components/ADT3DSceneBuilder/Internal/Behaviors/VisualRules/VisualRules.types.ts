@@ -11,13 +11,11 @@ export interface IVisualRulesListProps {
     onEditRule: (ruleId: string) => void;
 }
 
-/** @deprecated */
-export type IConditionsType = 'Badge' | 'Mesh coloring';
-/** @deprecated */
 export interface IVisualRule {
     id: string;
     displayName: string;
-    conditions: IConditionsType[];
+    conditions: IValueRange[];
+    type: IExpressionRangeType;
 }
 
 /** Reducer types */

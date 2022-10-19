@@ -1,6 +1,5 @@
 import { Stack, useTheme, Text, ActionButton } from '@fluentui/react';
-import React, { useCallback, useState } from 'react';
-import { useBoolean } from '@fluentui/react-hooks';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,6 +8,17 @@ import {
 } from '../../Shared/LeftPanel.styles';
 import { VisualRulesList } from '../VisualRules/VisualRuleList';
 import { IVisualRule } from '../VisualRules/VisualRules.types';
+import { useBehaviorFormContext } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
+import {
+    IBehavior,
+    IExpressionRangeVisual
+} from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import ViewerConfigUtility from '../../../../../Models/Classes/ViewerConfigUtility';
+import { BehaviorFormContextActionType } from '../../../../../Models/Context/BehaviorFormContext/BehaviorFormContext.types';
+
+//get an array of all the visual rules in the behavior
+const getVisualRulesFromBehavior = (behavior: IBehavior) =>
+    behavior.visuals.filter(ViewerConfigUtility.isVisualRule) || [];
 
 const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesTab';
 const LOC_KEYS = {
@@ -16,50 +26,69 @@ const LOC_KEYS = {
     noData: `${ROOT_LOC}.noData`,
     tabDescription: `${ROOT_LOC}.tabDescription`
 };
-export const VisualRulesTab: React.FC<any> = (_props: any) => {
-    /**
-     * TODO:
-     * DO SOME STUFF SO YOU CAN GET THE LIST OF VISUAL RULES CREATED BASED ON THIS BEHAVIOR
-     * THE DATA RETURNED FROM THE STEP ABOVE IS NOT CONSUMABLE BY CARDBOARDLIST SO YOU HAVE TO SHAPE RESULTS INTO IVISUALRULE FORM
-     * WILL NEED TO IMPLEMENT CALLBACK FUNCTIONS FOR WHEN USER ADDS, REMOVES, & UPDATES A VISUAL RULE
-     * UPDATES RULE WILL NEED TO PROPAGATE TO BEHAVIOR STATE
-     *  */
-    const mockData: IVisualRule[] = [
-        {
-            id: 'Machine temp',
-            displayName: 'Machine temp',
-            conditions: ['Badge', 'Mesh coloring']
+export interface IVisualRuleProps {
+    onEditRule: (ruleId: string) => void;
+    onAddRule: () => void;
+}
+export const VisualRulesTab: React.FC<IVisualRuleProps> = ({
+    onEditRule,
+    onAddRule
+}) => {
+    //hooks
+    const { t } = useTranslation();
+
+    const {
+        behaviorFormState,
+        behaviorFormDispatch
+    } = useBehaviorFormContext();
+
+    //state
+    const [ruleItems, setRuleItems] = useState<IVisualRule[]>([]);
+
+    //callbacks
+    const onRemoveRule = useCallback(
+        (id: string) => {
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE,
+                payload: {
+                    visualRuleId: id
+                }
+            });
         },
-        {
-            id: 'Machine health',
-            displayName: 'Machine health',
-            conditions: ['Mesh coloring']
-        },
-        {
-            id: 'Machine active',
-            displayName: 'Machine active',
-            conditions: ['Mesh coloring']
+        [behaviorFormDispatch]
+    );
+
+    //side effects
+
+    // set the list IVisualRules that are going to be shown
+    useEffect(() => {
+        //get all the Visual Rules from behavior
+        const visualRules: IExpressionRangeVisual[] =
+            getVisualRulesFromBehavior(behaviorFormState.behaviorToEdit) || [];
+
+        //transform from elements from IExpressionVisual => IVisualRule
+        let rules: IVisualRule[] = [];
+        if (visualRules.length > 0) {
+            rules = visualRules.map((rule) => {
+                return {
+                    id: rule.id,
+                    displayName: rule?.displayName
+                        ? rule.displayName
+                        : t('3dSceneBuilder.behaviorVisualRulesTab.unlabeled'),
+                    conditions: rule.valueRanges,
+                    type: rule.expressionType
+                };
+            });
         }
-    ];
-    const [ruleItems] = useState<IVisualRule[]>(mockData);
-    const [
-        isVisualRuleFormOpen,
-        { toggle: toggleIsVisualRuleFormOpen }
-    ] = useBoolean(false);
+
+        setRuleItems(rules);
+    }, [behaviorFormState.behaviorToEdit.visuals]);
+
+    //Styles
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const actionButtonStyles = getActionButtonStyles(theme);
-
-    const { t } = useTranslation();
-    const onAddRule = useCallback(() => {
-        alert('** Visual Rule Form Appears ***');
-    }, []);
-    const onEditRule = useCallback(() => {
-        alert('Edited a rule');
-    }, []);
-    const onRemoveRule = useCallback(() => {
-        alert('Removed a rule');
-    }, []);
 
     return (
         <div className={commonPanelStyles.formTabContents}>
@@ -85,12 +114,9 @@ export const VisualRulesTab: React.FC<any> = (_props: any) => {
                     styles={actionButtonStyles}
                     text={t(LOC_KEYS.addButtonText)}
                     data-testid={'visualRuleFor-addRule'}
-                    onClick={() => {
-                        toggleIsVisualRuleFormOpen();
-                    }}
+                    onClick={onAddRule}
                 />
             </Stack>
-            {isVisualRuleFormOpen && onAddRule()}
         </div>
     );
 };

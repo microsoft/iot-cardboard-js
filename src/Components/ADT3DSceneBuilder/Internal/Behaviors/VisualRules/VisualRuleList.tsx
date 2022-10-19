@@ -35,6 +35,49 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     );
 };
 
+function getBadgesAndMeshesCount(item: IVisualRule) {
+    let badgeCount = 0;
+    let meshColoringCount = 0;
+    item.conditions.forEach((condition) => {
+        if (condition.visual.iconName) {
+            badgeCount = badgeCount + 1;
+        } else {
+            meshColoringCount = meshColoringCount + 1;
+        }
+    });
+
+    return [badgeCount, meshColoringCount];
+}
+
+function getSecondaryText(item: IVisualRule, t: TFunction<string>) {
+    const [badgeCount, meshColoringCount] = getBadgesAndMeshesCount(item);
+    const badgeCondition =
+        badgeCount > 1
+            ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleBadges', {
+                  badgeCount: badgeCount
+              })
+            : t('3dSceneBuilder.behaviorVisualRulesTab.singleBadge', {
+                  badgeCount: badgeCount
+              });
+    const meshColoringCondition =
+        meshColoringCount > 1
+            ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColorings', {
+                  meshColoringCount: meshColoringCount
+              })
+            : t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColoring', {
+                  meshColoringCount: meshColoringCount
+              });
+    let text = '';
+    if (meshColoringCount > 0 && badgeCount > 0) {
+        text = text.concat(`${meshColoringCondition + ', ' + badgeCondition}`);
+    } else if (badgeCount > 0) {
+        text = text.concat(`${badgeCondition}`);
+    } else if (meshColoringCount > 0) {
+        text = text.concat(`${meshColoringCondition}`);
+    }
+    return text;
+}
+
 function getListItems(
     rules: IVisualRule[],
     onRemoveRule: (ruleItem: string) => void,
@@ -63,12 +106,15 @@ function getListItems(
     return rules.map((item) => {
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
-            iconStart: { name: '' },
+            iconStart: {
+                name:
+                    item.type === 'NumericRange' ? 'NumberSymbol' : 'TextField'
+            },
             item: item,
-            openMenuOnClick: true,
+            onClick: () => onEditRule(item.id),
             overflowMenuItems: getMenuItems(item),
             textPrimary: item.displayName,
-            textSecondary: item.conditions.join(', ')
+            textSecondary: getSecondaryText(item, t)
         };
         return viewModel;
     });
