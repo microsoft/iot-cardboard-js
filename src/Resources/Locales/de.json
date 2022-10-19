@@ -660,10 +660,12 @@
               "Last 90 Days": "Letzte 90 Tage",
               "Last 180 Days": "Letzte 180 Tage",
               "Last Year": "Letztes Jahr"
-            }
+            },
+            "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
           },
           "aggregationType": {
-            "label": "Aggregationstyp"
+            "label": "Aggregationstyp",
+            "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
           }
         }
       }

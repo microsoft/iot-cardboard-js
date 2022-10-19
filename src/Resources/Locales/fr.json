@@ -660,10 +660,12 @@
               "Last 90 Days": "90 derniers jours",
               "Last 180 Days": "180 derniers jours",
               "Last Year": "L’année dernière"
-            }
+            },
+            "information": "Sélection de plage horaire par défaut en heure locale pour l’axe des x dans le graphique"
           },
           "aggregationType": {
-            "label": "Type d’agrégation"
+            "label": "Type d’agrégation",
+            "information": "Opération d’agrégation par défaut lorsque le regroupement de données est actif en fonction du nombre de points de données dans le graphique"
           }
         }
       }

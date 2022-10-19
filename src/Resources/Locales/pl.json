@@ -660,10 +660,12 @@
               "Last 90 Days": "Ostatnie 90 dni",
               "Last 180 Days": "Ostatnie 180 dni",
               "Last Year": "Ostatni rok"
-            }
+            },
+            "information": "Domyślny wybór zakresu czasu w czasie lokalnym dla osi x na wykresie"
           },
           "aggregationType": {
-            "label": "Typ agregacji"
+            "label": "Typ agregacji",
+            "information": "Domyślna operacja agregacji, gdy grupowanie danych jest aktywne na podstawie liczby punktów danych na wykresie"
           }
         }
       }

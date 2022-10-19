@@ -660,10 +660,12 @@
               "Last 90 Days": "Laatste 90 dagen",
               "Last 180 Days": "Laatste 180 dagen",
               "Last Year": "Vorig jaar"
-            }
+            },
+            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
           },
           "aggregationType": {
-            "label": "Type aggregatie"
+            "label": "Type aggregatie",
+            "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
           }
         }
       }

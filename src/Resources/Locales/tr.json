@@ -660,10 +660,12 @@
               "Last 90 Days": "Son 90 Gün",
               "Last 180 Days": "Son 180 Gün",
               "Last Year": "Geçen yıl"
-            }
+            },
+            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
           },
           "aggregationType": {
-            "label": "Toplama türü"
+            "label": "Toplama türü",
+            "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
           }
         }
       }
