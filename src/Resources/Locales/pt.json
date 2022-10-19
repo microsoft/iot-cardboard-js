@@ -660,10 +660,12 @@
               "Last 90 Days": "Últimos 90 dias",
               "Last 180 Days": "Últimos 180 Dias",
               "Last Year": "Ano passado"
-            }
+            },
+            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
           },
           "aggregationType": {
-            "label": "Tipo de agregação"
+            "label": "Tipo de agregação",
+            "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
           }
         }
       }

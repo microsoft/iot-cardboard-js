@@ -660,10 +660,12 @@
               "Last 90 Days": "Senaste 90 dagarna",
               "Last 180 Days": "Senaste 180 dagarna",
               "Last Year": "Fjor"
-            }
+            },
+            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
           },
           "aggregationType": {
-            "label": "Typ av aggregering"
+            "label": "Typ av aggregering",
+            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
           }
         }
       }

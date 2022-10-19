@@ -660,10 +660,12 @@
               "Last 90 Days": "Utolsó 90 nap",
               "Last 180 Days": "Az elmúlt 180 nap",
               "Last Year": "Tavaly"
-            }
+            },
+            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
           },
           "aggregationType": {
-            "label": "Összesítés típusa"
+            "label": "Összesítés típusa",
+            "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
           }
         }
       }

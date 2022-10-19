@@ -660,10 +660,12 @@
               "Last 90 Days": "지난 90일",
               "Last 180 Days": "지난 180일",
               "Last Year": "작년"
-            }
+            },
+            "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
           },
           "aggregationType": {
-            "label": "집계 유형"
+            "label": "집계 유형",
+            "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
           }
         }
       }

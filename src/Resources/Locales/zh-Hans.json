@@ -660,10 +660,12 @@
               "Last 90 Days": "最近 90 天",
               "Last 180 Days": "最近 180 天",
               "Last Year": "去年"
-            }
+            },
+            "information": "图表中 x 轴的默认时间范围选择（以本地时间为单位）"
           },
           "aggregationType": {
-            "label": "聚合类型"
+            "label": "聚合类型",
+            "information": "基于图表中数据点数的数据分组处于活动状态时的默认聚合操作"
           }
         }
       }
