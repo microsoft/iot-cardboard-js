@@ -222,37 +222,50 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         []
     );
 
-    const onInternalModeChanged = useCallback((internalMode) => {
-        if (internalMode === 'INTELLISENSE') {
-            visualRuleFormDispatch({
-                type:
-                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
-                payload: { type: 'CategoricalValues' }
-            });
-            handleExpressionTextFieldEnabled(true);
-        } else {
-            visualRuleFormDispatch({
-                type:
-                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
-                payload: { type: 'NumericRange' }
-            });
-            handleExpressionTextFieldEnabled(false);
-        }
-    }, []);
+    const onInternalModeChanged = useCallback(
+        (internalMode) => {
+            if (internalMode === 'INTELLISENSE') {
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                    payload: { type: 'CategoricalValues' }
+                });
+                handleExpressionTextFieldEnabled(true);
+            } else {
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                    payload: { type: 'NumericRange' }
+                });
+                handleExpressionTextFieldEnabled(false);
+            }
+        },
+        [handleExpressionTextFieldEnabled]
+    );
 
     const handleSaveClick = useCallback(() => {
         onSaveClick(visualRuleFormState.visualRuleToEdit);
-    }, [visualRuleFormState.visualRuleToEdit]);
+    }, [visualRuleFormState.visualRuleToEdit, onSaveClick]);
 
     const handleCancelClick = useCallback(() => {
         onCancelClick(visualRuleFormState.isDirty);
-    }, [visualRuleFormState.isDirty]);
+    }, [visualRuleFormState.isDirty, onCancelClick]);
 
     const handleDeleteCondition = useCallback(
         (conditionId: string) => {
             visualRuleFormDispatch({
                 type: VisualRuleFormActionType.FORM_CONDITION_REMOVE,
                 payload: { conditionId: conditionId }
+            });
+        },
+        [visualRuleFormDispatch]
+    );
+
+    const handleSaveCondition = useCallback(
+        (condition: IValueRange) => {
+            visualRuleFormDispatch({
+                type: VisualRuleFormActionType.FORM_CONDITION_ADD_OR_UPDATE,
+                payload: { condition: condition }
             });
         },
         [visualRuleFormDispatch]
@@ -300,7 +313,12 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                                 sceneId,
                                 selectedElements
                             }}
-                            mode={ModelledPropertyBuilderMode.TOGGLE}
+                            mode={
+                                visualRuleFormState.visualRuleToEdit
+                                    .expressionType === 'NumericRange'
+                                    ? ModelledPropertyBuilderMode.TOGGLE
+                                    : ModelledPropertyBuilderMode.INTELLISENSE
+                            }
                             propertyExpression={{
                                 expression:
                                     visualRuleFormState.visualRuleToEdit
@@ -357,10 +375,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         valueRanges={
                             visualRuleFormState.visualRuleToEdit.valueRanges
                         }
+                        valueRangeType={
+                            visualRuleFormState.visualRuleToEdit.valueRangeType
+                        }
                         expressionType={
                             visualRuleFormState.visualRuleToEdit.expressionType
                         }
                         onDeleteCondition={handleDeleteCondition}
+                        onSaveCondition={handleSaveCondition}
                         styles={classNames.subComponentStyles.conditionsList}
                     />
                 </div>

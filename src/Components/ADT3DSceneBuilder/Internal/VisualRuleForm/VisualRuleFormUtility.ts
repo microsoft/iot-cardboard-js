@@ -83,3 +83,14 @@ export const getValuesFromMap = (
         return [];
     }
 };
+
+/** Check if property type is numeric */
+export const isNumericType = (type: IDTDLPropertyType): boolean => {
+    const numericTypes: IDTDLPropertyType[] = [
+        'double',
+        'float',
+        'integer',
+        'long'
+    ];
+    return numericTypes.includes(type);
+};

@@ -5,6 +5,7 @@ import {
     Theme
 } from '@fluentui/react';
 import {
+    IDTDLPropertyType,
     IExpressionRangeType,
     IValueRange
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -23,10 +24,18 @@ export interface Condition {
     color?: string;
 }
 
+export interface CalloutInfo {
+    selectedCondition: IValueRange;
+    selectedTarget: string;
+    isOpen: boolean;
+}
+
 export interface IConditionsListProps {
-    valueRanges: IValueRange[];
-    onDeleteCondition: (conditionId: string) => void;
     expressionType: IExpressionRangeType;
+    onDeleteCondition: (conditionId: string) => void;
+    onSaveCondition: (condition: IValueRange) => void;
+    valueRanges: IValueRange[];
+    valueRangeType: IDTDLPropertyType;
     styles?: IStyleFunctionOrObject<
         IConditionsListStylesProps,
         IConditionsListStyles
