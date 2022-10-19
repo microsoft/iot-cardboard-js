@@ -1065,7 +1065,7 @@ export default class MockAdapter
                 errorInfo: null
             });
         } catch (err) {
-            return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
+            return new AdapterResult<ADXTimeSeriesData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });
