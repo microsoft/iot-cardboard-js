@@ -624,7 +624,8 @@
           "add": "Ajouter des séries chronologiques",
           "edit": "Modifier des séries chronologiques",
           "remove": "Supprimer les séries chronologiques",
-          "labelPlaceholder": "Entrez l’étiquette à afficher dans le graphique"
+          "labelPlaceholder": "Entrez l’étiquette à afficher dans le graphique",
+          "update": "Mettre à jour les séries chronologiques"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Pas de titre",
-    "shareQuery": "Partager la requête",
-    "noData": "Aucune donnée à afficher"
+    "shareQueryTitle": "Partager la requête",
+    "noDataDescription": "Aucune donnée à afficher"
   }
 }

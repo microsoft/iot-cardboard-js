@@ -624,7 +624,8 @@
           "add": "添加时间序列",
           "edit": "编辑时间序列",
           "remove": "删除时间序列",
-          "labelPlaceholder": "输入要在图表中显示的标签"
+          "labelPlaceholder": "输入要在图表中显示的标签",
+          "update": "更新时间序列"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "无标题",
-    "shareQuery": "共享查询",
-    "noData": "无要显示的数据"
+    "shareQueryTitle": "共享查询",
+    "noDataDescription": "无要显示的数据"
   }
 }

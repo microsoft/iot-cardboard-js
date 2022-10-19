@@ -624,7 +624,8 @@
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
           "remove": "Zeitreihen entfernen",
-          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll",
+          "update": "Zeitreihen aktualisieren"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Kein Titel",
-    "shareQuery": "Freigabeabfrage",
-    "noData": "Keine Daten anzuzeigen"
+    "shareQueryTitle": "Freigabeabfrage",
+    "noDataDescription": "Keine Daten anzuzeigen"
   }
 }

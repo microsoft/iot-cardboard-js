@@ -624,7 +624,8 @@
           "add": "Adicionar séries de tempo",
           "edit": "Editar séries tempor feiras",
           "remove": "Remover séries de tempo",
-          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela"
+          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela",
+          "update": "Atualizar séries de tempo"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Sem título",
-    "shareQuery": "Consulta de partilha",
-    "noData": "Sem dados para exibir"
+    "shareQueryTitle": "Consulta de partilha",
+    "noDataDescription": "Sem dados para exibir"
   }
 }
