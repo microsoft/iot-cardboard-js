@@ -60,6 +60,11 @@ export const getMultiSelectStyles = (theme: Theme): StylesConfig => {
             color: theme.semanticColors.inputText,
             fontSize: FontSizes.size14
         }),
+        multiValue: (provided) => ({
+            ...provided,
+            background: theme.semanticColors.accentButtonBackground,
+            color: theme.semanticColors.accentButtonText
+        }),
         option: (provided, state) => ({
             ...provided,
             alignItems: 'center',
