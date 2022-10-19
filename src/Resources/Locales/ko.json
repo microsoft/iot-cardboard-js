@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} 배지",
       "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
       "multipleBadges": "{{badgeCount}} 배지",
-      "multipleMeshColorings": "{{meshColoringCount}} mesh colorings"
+      "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
+      "unlabeled": "(레이블이 지정되지 않음)"
     }
   },
   "widgets": {

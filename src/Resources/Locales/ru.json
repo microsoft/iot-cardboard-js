@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} значок",
       "singleMeshColoring": "{{meshColoringCount}} раскраска сетки",
       "multipleBadges": "{{badgeCount}} значки",
-      "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки"
+      "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
+      "unlabeled": "(без маркировки)"
     }
   },
   "widgets": {

@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} rozeti",
       "singleMeshColoring": "{{meshColoringCount}} örgü renklendirme",
       "multipleBadges": "{{badgeCount}} rozetleri",
-      "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri"
+      "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri",
+      "unlabeled": "(etiketsiz)"
     }
   },
   "widgets": {

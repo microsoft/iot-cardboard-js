@@ -577,7 +577,8 @@
       "singleBadge": "Odznak {{badgeCount}}",
       "singleMeshColoring": "{{meshColoringCount}} zbarvení sítě",
       "multipleBadges": "{{badgeCount}} odznaky",
-      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě"
+      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
+      "unlabeled": "(neoznačeno)"
     }
   },
   "widgets": {

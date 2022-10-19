@@ -577,7 +577,8 @@
       "singleBadge": "{{バッジカウント}}バッジ",
       "singleMeshColoring": "{{meshColoringCount}} メッシュカラーリング",
       "multipleBadges": "{{バッジカウント}}バッジ",
-      "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング"
+      "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
+      "unlabeled": "(ラベルなし)"
     }
   },
   "widgets": {

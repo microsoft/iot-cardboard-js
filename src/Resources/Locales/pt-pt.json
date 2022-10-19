@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} crachá",
       "singleMeshColoring": "{{meshColoringCount}} coloração da malha",
       "multipleBadges": "{{badgeCount}} crachás",
-      "multipleMeshColorings": "{{meshColoringCount}} colorações de malha"
+      "multipleMeshColorings": "{{meshColoringCount}} colorações de malha",
+      "unlabeled": "(sem rótulo)"
     }
   },
   "widgets": {

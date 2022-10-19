@@ -577,7 +577,8 @@
       "singleBadge": "{{徽章计数}} 徽章",
       "singleMeshColoring": "{{网格着色计数}} 网格着色",
       "multipleBadges": "{{徽章计数}} 徽章",
-      "multipleMeshColorings": "{{网格着色计数}} 网格着色"
+      "multipleMeshColorings": "{{网格着色计数}} 网格着色",
+      "unlabeled": "（未标记）"
     }
   },
   "widgets": {

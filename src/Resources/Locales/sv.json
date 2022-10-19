@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} märke",
       "singleMeshColoring": "{{meshColoringCount}} nätfärgning",
       "multipleBadges": "{{badgeCount}} märken",
-      "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar"
+      "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
+      "unlabeled": "(omärkt)"
     }
   },
   "widgets": {

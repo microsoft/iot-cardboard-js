@@ -577,7 +577,8 @@
       "singleBadge": "Badge {{badgeCount}}",
       "singleMeshColoring": "{{meshColoringCount}} netkleuring",
       "multipleBadges": "{{badgeCount}} badges",
-      "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren"
+      "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren",
+      "unlabeled": "(niet gelabeld)"
     }
   },
   "widgets": {

@@ -577,7 +577,8 @@
       "singleBadge": "{{badgeCount}} jelvény",
       "singleMeshColoring": "{{meshColoringCount}} háló színezése",
       "multipleBadges": "{{badgeCount}} jelvények",
-      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés"
+      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
+      "unlabeled": "(címkézetlen)"
     }
   },
   "widgets": {
