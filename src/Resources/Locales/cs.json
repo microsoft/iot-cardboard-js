@@ -573,7 +573,12 @@
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
-      "removeRule": "Odebrat pravidlo"
+      "removeRule": "Odebrat pravidlo",
+      "singleBadge": "Odznak {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} zbarvení sítě",
+      "multipleBadges": "{{badgeCount}} odznaky",
+      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
+      "unlabeled": "(neoznačeno)"
     }
   },
   "widgets": {
@@ -606,62 +611,7 @@
       "libraryName": "Panel",
       "description": "Panel rozvržení"
     },
-    "notSupported": "Tento typ widgetu není v současné době podporován",
-    "dataHistory": {
-      "title": "Widget Historie dat",
-      "description": "Zobrazení dat časových řad v kontextu 3D scény",
-      "notEnabledDescription": "Historie dat není pro tuto instanci nástroje ADT povolena.",
-      "form": {
-        "connectionStringTitle": "Připojovací řetězec",
-        "connectionStringPlaceholder": "Zadejte připojovací řetězec (např. key1=value1;key2=value2;key3=value3)",
-        "connectionLoadingText": "Načítání informací o připojení...",
-        "noConnectionInformationText": "Nebyly nalezeny žádné informace o připojení",
-        "displayNamePlaceholder": "Zadejte zobrazovaný název",
-        "timeSeries": {
-          "timeSeriesDescription": "Přidání časových řad {{maxTimeSeriesCount}} k zobrazení",
-          "title": "Časové řady",
-          "description": "Řada, která se má zobrazit ve spojnicovém grafu",
-          "property": "Vlastnost",
-          "unit": "Jednotka",
-          "label": "Označit",
-          "add": "Přidání časových řad",
-          "edit": "Úprava časových řad",
-          "remove": "Odebrání časových řad",
-          "labelPlaceholder": "Zadejte popisek, který se má zobrazit v grafu"
-        },
-        "chartOptions": {
-          "yAxisType": {
-            "description": "Možnost grafu pro nastavení, pokud má každá řada samostatné (nezávislé) osy y nebo sdílí stejnou osu y (sdílená)",
-            "label": "Typ osy Y",
-            "sharedLabel": "Společný",
-            "independentLabel": "Nezávislý"
-          },
-          "quickTimeSpan": {
-            "label": "Výchozí časové rozpětí",
-            "options": {
-              "Last 15 mins": "Posledních 15 minut",
-              "Last 30 mins": "Posledních 30 minut",
-              "Last Hour": "Poslední hodina",
-              "Last 3 Hours": "Poslední 3 hodiny",
-              "Last 6 Hours": "Posledních 6 hodin",
-              "Last 12 Hours": "Posledních 12 hodin",
-              "Last 24 Hours": "Posledních 24 hodin",
-              "Last 7 Days": "Posledních 7 dní",
-              "Last 30 Days": "Posledních 30 dní",
-              "Last 60 Days": "Posledních 60 dní",
-              "Last 90 Days": "Posledních 90 dní",
-              "Last 180 Days": "Posledních 180 dní",
-              "Last Year": "Loni"
-            }
-          },
-          "aggregationType": {
-            "label": "Typ agregace"
-          }
-        },
-        "connectionStringInformation": "Widgety historie dat cílí na instanci Průzkumníka dat Azure připojenou k instanci Azure Digital Twins v době vytvoření."
-      },
-      "libraryName": "Historie dat"
-    }
+    "notSupported": "Tento typ widgetu není v současné době podporován"
   },
   "sdkStrings": {
     "Last 30 mins": "Posledních 30 minut",

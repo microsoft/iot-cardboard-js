@@ -573,7 +573,12 @@
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
-      "removeRule": "Remover regra"
+      "removeRule": "Remover regra",
+      "singleBadge": "{{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} coloração de malha",
+      "multipleBadges": "{{badgeCount}}",
+      "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
+      "unlabeled": "(sem rótulo)"
     }
   },
   "widgets": {
@@ -606,62 +611,7 @@
       "libraryName": "Painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é suportado atualmente",
-    "dataHistory": {
-      "title": "Widget do histórico de dados",
-      "description": "Mostre dados de timeseries no contexto de sua cena 3D",
-      "notEnabledDescription": "O histórico de dados não está habilitado para esta instância do ADT.",
-      "form": {
-        "connectionStringTitle": "String de conexão",
-        "connectionStringPlaceholder": "Digite a sequência de conexão (por exemplo, key1=value1;key2=value2;key3=value3)",
-        "connectionLoadingText": "Carregando informações de conexão...",
-        "noConnectionInformationText": "Nenhuma informação de conexão encontrada",
-        "displayNamePlaceholder": "Digite o nome do display",
-        "timeSeries": {
-          "timeSeriesDescription": "Adicione ao timeseries {{maxTimeSeriesCount}} para exibir",
-          "title": "Série temporal",
-          "description": "Uma série para exibir no gráfico de linhas",
-          "property": "Propriedade",
-          "unit": "Unidade",
-          "label": "Etiqueta",
-          "add": "Adicionar séries temporizados",
-          "edit": "Editar séries temporitais",
-          "remove": "Remover séries temporizados",
-          "labelPlaceholder": "Digite rótulo para mostrar no gráfico"
-        },
-        "chartOptions": {
-          "yAxisType": {
-            "description": "Opção de gráfico para definir se cada série tiver eixos y separados (Independentes) ou compartilhar o mesmo eixo y (Compartilhado)",
-            "label": "Tipo de eixo Y",
-            "sharedLabel": "Compartilhado",
-            "independentLabel": "Independente"
-          },
-          "quickTimeSpan": {
-            "label": "Período de tempo padrão",
-            "options": {
-              "Last 15 mins": "Últimos 15 minutos",
-              "Last 30 mins": "Últimos 30 minutos",
-              "Last Hour": "Última Hora",
-              "Last 3 Hours": "Últimas 3 horas",
-              "Last 6 Hours": "Últimas 6 horas",
-              "Last 12 Hours": "Últimas 12 horas",
-              "Last 24 Hours": "Últimas 24 horas",
-              "Last 7 Days": "Últimos 7 Dias",
-              "Last 30 Days": "Últimos 30 dias",
-              "Last 60 Days": "Últimos 60 dias",
-              "Last 90 Days": "Últimos 90 dias",
-              "Last 180 Days": "Últimos 180 Dias",
-              "Last Year": "Ano passado"
-            }
-          },
-          "aggregationType": {
-            "label": "Tipo de agregação"
-          }
-        },
-        "connectionStringInformation": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação."
-      },
-      "libraryName": "Histórico de dados"
-    }
+    "notSupported": "Este tipo de widget não é suportado atualmente"
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
