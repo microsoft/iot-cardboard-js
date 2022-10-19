@@ -574,7 +574,10 @@
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
       "removeRule": "규칙 제거",
-      "meshAndBadgeCount": "{{meshColoringCount}} mesh colorings , {{badgeCount}} badges"
+      "singleBadge": "{{badgeCount}} 배지",
+      "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+      "multipleBadges": "{{badgeCount}} 배지",
+      "multipleMeshColorings": "{{meshColoringCount}} mesh colorings"
     }
   },
   "widgets": {

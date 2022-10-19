@@ -574,7 +574,10 @@
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
       "removeRule": "Szabály eltávolítása",
-      "meshAndBadgeCount": "{{meshColoringCount}} hálószínezés , {{badgeCount}} jelvények"
+      "singleBadge": "{{badgeCount}} jelvény",
+      "singleMeshColoring": "{{meshColoringCount}} háló színezése",
+      "multipleBadges": "{{badgeCount}} jelvények",
+      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés"
     }
   },
   "widgets": {

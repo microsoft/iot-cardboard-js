@@ -574,7 +574,10 @@
       "addRuleButtonText": "Kural Ekle",
       "editRule": "Kuralı düzenle",
       "removeRule": "Kuralı kaldır",
-      "meshAndBadgeCount": "{{meshColoringCount}} örgü renklendirmeleri, {{badgeCount}} rozetleri"
+      "singleBadge": "{{badgeCount}} rozeti",
+      "singleMeshColoring": "{{meshColoringCount}} örgü renklendirme",
+      "multipleBadges": "{{badgeCount}} rozetleri",
+      "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri"
     }
   },
   "widgets": {
