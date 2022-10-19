@@ -803,19 +803,13 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
     return false;
 };
 
-export const getCurrentDateInUTC = (): Date => {
-    const nowDate = new Date();
-    return new Date(
-        nowDate.valueOf() - nowDate.getTimezoneOffset() * 60 * 1000
-    );
-};
-
-export const getMockTimeSeriesDataArrayInUTC = (
+/** Creates mock time series data array with data points between now and a certain milliseconds ago */
+export const getMockTimeSeriesDataArrayInLocalTime = (
     lengthOfSeries = 1,
     numberOfDataPoints = 5,
     agoInMillis = 1 * 60 * 60 * 1000
 ): Array<Array<TimeSeriesData>> => {
-    const toInMillis = getCurrentDateInUTC().valueOf();
+    const toInMillis = Date.now();
     const fromInMillis = toInMillis - agoInMillis;
     return Array.from({ length: lengthOfSeries }).map(() =>
         Array.from({ length: numberOfDataPoints }, () => ({

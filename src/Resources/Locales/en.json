@@ -642,6 +642,7 @@
                     },
                     "quickTimeSpan": {
                         "label": "Default time span",
+                        "information": "Default time range selection in local time for the x-axis in chart",
                         "options": {
                             "Last 15 mins": "Last 15 mins",
                             "Last 30 mins": "Last 30 mins",
@@ -659,7 +660,8 @@
                         }
                     },
                     "aggregationType": {
-                        "label": "Aggregation type"
+                        "label": "Aggregation type",
+                        "information": "Default aggregation operation when data grouping is active based on the number of data points in chart"
                     }
                 }
             }

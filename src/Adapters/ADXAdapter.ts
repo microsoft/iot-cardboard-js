@@ -109,7 +109,7 @@ export default class ADXAdapter
                             data: tableTimeSeriesData.reduce(
                                 (acc: Array<TimeSeriesData>, cur) => {
                                     acc.push({
-                                        timestamp: cur.timestamp,
+                                        timestamp: cur.timestamp, // note that date is in UTC
                                         value: cur.value
                                     });
                                     return acc;

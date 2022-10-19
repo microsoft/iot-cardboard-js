@@ -8,10 +8,7 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import {
-    getCurrentDateInUTC,
-    getMockTimeSeriesDataArrayInUTC
-} from '../../../../../Models/Services/Utils';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -59,8 +56,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         twins: twinIdPropertyMap
     });
 
-    const xMinDateInUTCRef = useRef<Date>(null);
-    const xMaxDateInUTCRef = useRef<Date>(null);
+    const xMinDateInMillisRef = useRef<number>(null);
+    const xMaxDateInMillisRef = useRef<number>(null);
 
     useEffect(() => {
         if (
@@ -72,11 +69,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         ) {
             fetchTimeSeriesData();
             isRequestSent.current = true;
-            const nowInUTC = getCurrentDateInUTC();
-            xMinDateInUTCRef.current = new Date(
-                nowInUTC.valueOf() - chartOptions.defaultQuickTimeSpanInMillis
-            );
-            xMaxDateInUTCRef.current = nowInUTC;
+            const nowInMillis = Date.now();
+            xMinDateInMillisRef.current =
+                nowInMillis - chartOptions.defaultQuickTimeSpanInMillis;
+            xMaxDateInMillisRef.current = nowInMillis;
         }
     }, [
         adapter,
@@ -91,7 +87,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         Array<TimeSeriesData>
     > = useMemo(
         () =>
-            getMockTimeSeriesDataArrayInUTC(
+            getMockTimeSeriesDataArrayInLocalTime(
                 timeSeries.length,
                 5,
                 chartOptions.defaultQuickTimeSpanInMillis
@@ -130,8 +126,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     legendPadding: 0,
                     hasMultipleAxes: chartOptions.yAxisType === 'independent',
                     dataGrouping: chartOptions.aggregationType,
-                    xMinInMillis: xMinDateInUTCRef.current?.valueOf(),
-                    xMaxInMillis: xMaxDateInUTCRef.current?.valueOf()
+                    xMinInMillis: xMinDateInMillisRef.current,
+                    xMaxInMillis: xMaxDateInMillisRef.current
                 }}
             />
         </div>

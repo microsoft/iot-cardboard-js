@@ -69,7 +69,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
-    getMockTimeSeriesDataArrayInUTC,
+    getMockTimeSeriesDataArrayInLocalTime,
     getModelContentType,
     parseDTDLModelsAsync,
     validate3DConfigWithSchema
@@ -1057,7 +1057,7 @@ export default class MockAdapter
                 {
                     id: 'PasteurizationMachine_A01',
                     key: 'InFlow',
-                    data: getMockTimeSeriesDataArrayInUTC(1)[0]
+                    data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
                 }
             ];
             return new AdapterResult({

@@ -145,7 +145,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const options: Highcharts.Options = {
         credits: { enabled: false },
         time: {
-            useUTC: true // by default, date is in UTC
+            useUTC: false // by default, date is in local time
         },
         accessibility: { enabled: true },
         title: {

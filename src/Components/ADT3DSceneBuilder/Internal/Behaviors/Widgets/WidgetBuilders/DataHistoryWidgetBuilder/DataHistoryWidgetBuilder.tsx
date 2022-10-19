@@ -3,6 +3,7 @@ import {
     ChoiceGroup,
     classNamesFunction,
     Dropdown,
+    IDropdownProps,
     ITextFieldProps,
     Label,
     Link,
@@ -241,6 +242,62 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [t, classNames]
     );
 
+    const handleOnRenderTimeSpanLabel = useCallback(
+        (
+            props?: IDropdownProps,
+            defaultRender?: (props?: IDropdownProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                'widgets.dataHistory.form.chartOptions.quickTimeSpan.information'
+                            ),
+                            calloutContent: (
+                                <>
+                                    {t(
+                                        'widgets.dataHistory.form.chartOptions.quickTimeSpan.information'
+                                    )}
+                                </>
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t, classNames]
+    );
+
+    const handleOnRenderAggregationTypeLabel = useCallback(
+        (
+            props?: IDropdownProps,
+            defaultRender?: (props?: IDropdownProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                'widgets.dataHistory.form.chartOptions.aggregationType.information'
+                            ),
+                            calloutContent: (
+                                <>
+                                    {t(
+                                        'widgets.dataHistory.form.chartOptions.aggregationType.information'
+                                    )}
+                                </>
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t, classNames]
+    );
+
     const onChartOptionChange = useCallback(
         (
             optionKey: ChartOptionKeys,
@@ -343,6 +400,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                         )
                     }
                     options={getQuickTimeSpanOptions(t)}
+                    onRenderLabel={handleOnRenderTimeSpanLabel}
                 />
                 <Dropdown
                     label={t(
@@ -359,6 +417,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                         )
                     }
                     options={AggregationTypeOptions}
+                    onRenderLabel={handleOnRenderAggregationTypeLabel}
                 />
             </Stack>
             {isTimeSeriesFormCalloutVisible && (
