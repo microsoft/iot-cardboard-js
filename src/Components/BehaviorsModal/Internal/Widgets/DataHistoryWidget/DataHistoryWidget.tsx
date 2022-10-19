@@ -133,11 +133,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     xMinInMillis: xMinDateInUTCRef.current?.valueOf(),
                     xMaxInMillis: xMaxDateInUTCRef.current?.valueOf()
                 }}
-                styles={{
-                    subComponentStyles: {
-                        title: classNames.subComponentStyles.title()
-                    }
-                }}
             />
         </div>
     );

@@ -45,17 +45,11 @@ export const getStyles = ({
             }
         ],
         subComponentStyles: {
-            chart: {
-                root: {
-                    backgroundColor: 'var(--cb-color-glassy-modal)'
-                }
-            },
             title: {
                 root: {
                     color: theme.palette.black,
-                    fontSize: '14px',
-                    fontWeight: FontWeights.bold as string,
-                    lineHeight: '14px',
+                    fontSize: '12px',
+                    lineHeight: '12px',
                     zIndex: 0
                 }
             },

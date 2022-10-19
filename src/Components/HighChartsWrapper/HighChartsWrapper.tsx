@@ -179,7 +179,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             ? multipleYAxisProps
             : defaultYAxisProps,
         chart: {
-            ...classNames.subComponentStyles.chart().root,
+            backgroundColor: 'transparent',
+            ...classNames.subComponentStyles.chart?.().root,
             events: {
                 load() {
                     this.showLoading();
