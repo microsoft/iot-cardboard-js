@@ -624,7 +624,8 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "remove": "Remover séries temporizados",
-          "labelPlaceholder": "Digite rótulo para mostrar no gráfico"
+          "labelPlaceholder": "Digite rótulo para mostrar no gráfico",
+          "update": "Atualizar séries temporizes"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Sem título",
-    "shareQuery": "Consulta de compartilhamento",
-    "noData": "Sem dados para exibir"
+    "shareQueryTitle": "Consulta de compartilhamento",
+    "noDataDescription": "Sem dados para exibir"
   }
 }

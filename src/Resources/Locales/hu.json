@@ -624,7 +624,8 @@
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
           "remove": "Idősorok eltávolítása",
-          "labelPlaceholder": "Írja be a diagramon megjelenítendő címkét"
+          "labelPlaceholder": "Írja be a diagramon megjelenítendő címkét",
+          "update": "Idősorok frissítése"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Nincs cím",
-    "shareQuery": "Lekérdezés megosztása",
-    "noData": "Nincs megjelenítendő adat"
+    "shareQueryTitle": "Lekérdezés megosztása",
+    "noDataDescription": "Nincs megjelenítendő adat"
   }
 }

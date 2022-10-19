@@ -624,7 +624,8 @@
           "add": "時系列の追加",
           "edit": "時系列の編集",
           "remove": "時系列の削除",
-          "labelPlaceholder": "グラフに表示するラベルを入力"
+          "labelPlaceholder": "グラフに表示するラベルを入力",
+          "update": "時系列の更新"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "タイトルなし",
-    "shareQuery": "共有クエリ",
-    "noData": "表示するデータがありません"
+    "shareQueryTitle": "共有クエリ",
+    "noDataDescription": "表示するデータがありません"
   }
 }

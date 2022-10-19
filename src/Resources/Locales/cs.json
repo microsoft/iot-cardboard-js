@@ -624,7 +624,8 @@
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
           "remove": "Odebrání časových řad",
-          "labelPlaceholder": "Zadejte popisek, který se má zobrazit v grafu"
+          "labelPlaceholder": "Zadejte popisek, který se má zobrazit v grafu",
+          "update": "Aktualizace časových řad"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Bez názvu",
-    "shareQuery": "Sdílet dotaz",
-    "noData": "Žádná data k zobrazení"
+    "shareQueryTitle": "Sdílet dotaz",
+    "noDataDescription": "Žádná data k zobrazení"
   }
 }

@@ -624,7 +624,8 @@
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
           "remove": "Zaman serilerini kaldırma",
-          "labelPlaceholder": "Grafikte gösterilecek etiketi girin"
+          "labelPlaceholder": "Grafikte gösterilecek etiketi girin",
+          "update": "Güncelleme zaman serisi"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Başlık yok",
-    "shareQuery": "Sorguyu paylaşma",
-    "noData": "Görüntülenecek veri yok"
+    "shareQueryTitle": "Sorguyu paylaşma",
+    "noDataDescription": "Görüntülenecek veri yok"
   }
 }

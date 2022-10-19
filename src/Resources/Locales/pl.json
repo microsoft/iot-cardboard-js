@@ -624,7 +624,8 @@
           "add": "Dodawanie szeregów czasowych",
           "edit": "Edytowanie szeregów czasowych",
           "remove": "Usuwanie szeregów czasowych",
-          "labelPlaceholder": "Wprowadź etykietę, która ma być wyświetlana na wykresie"
+          "labelPlaceholder": "Wprowadź etykietę, która ma być wyświetlana na wykresie",
+          "update": "Seria czasowa aktualizacji"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Brak tytułu",
-    "shareQuery": "Udostępnianie zapytania",
-    "noData": "Brak danych do wyświetlenia"
+    "shareQueryTitle": "Udostępnianie zapytania",
+    "noDataDescription": "Brak danych do wyświetlenia"
   }
 }

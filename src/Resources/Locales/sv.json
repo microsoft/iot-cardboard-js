@@ -624,7 +624,8 @@
           "add": "Lägga till tidsserier",
           "edit": "Redigera tidsserier",
           "remove": "Ta bort tidsserier",
-          "labelPlaceholder": "Ange etikett som ska visas i diagrammet"
+          "labelPlaceholder": "Ange etikett som ska visas i diagrammet",
+          "update": "Uppdatera tidsserier"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Ingen titel",
-    "shareQuery": "Dela fråga",
-    "noData": "Inga data att visa"
+    "shareQueryTitle": "Dela fråga",
+    "noDataDescription": "Inga data att visa"
   }
 }

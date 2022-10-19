@@ -624,7 +624,8 @@
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
           "remove": "Tijdreeksen verwijderen",
-          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven"
+          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven",
+          "update": "Tijdreeksen bijwerken"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1258,7 +1259,7 @@
   },
   "highcharts": {
     "noTitle": "Geen titel",
-    "shareQuery": "Query delen",
-    "noData": "Geen gegevens om weer te geven"
+    "shareQueryTitle": "Query delen",
+    "noDataDescription": "Geen gegevens om weer te geven"
   }
 }
