@@ -1,20 +1,24 @@
-import React from 'react';
-import { ChoiceGroup, IChoiceGroupOption, Stack } from '@fluentui/react';
+import React, { useMemo } from 'react';
+import {
+    ChoiceGroup,
+    IChoiceGroupOption,
+    Stack,
+    useTheme
+} from '@fluentui/react';
 import CardboardMultiSelect from '../../../../../CardboardMultiSelect/CardboardMultiSelect';
 import { IConditionSummaryProps } from './ConditionsCallout.types';
 import BoundaryInput from './BoundaryInput';
 import { Boundary } from '../../../../../ValueRangeBuilder/ValueRangeBuilder.types';
+import { useTranslation } from 'react-i18next';
+import { getSummaryStyles } from './ConditionsCallout.styles';
 
-const choiceGroupOptions: IChoiceGroupOption[] = [
-    {
-        key: 'true',
-        text: 'true' // TODO LOC THIS
-    },
-    {
-        key: 'false',
-        text: 'false' // TODO LOC THIS
-    }
-];
+const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
+const LOC_KEYS = {
+    invalidRanges: `${ROOT_LOC}.invalidRanges`,
+    choiceGroupTrue: `${ROOT_LOC}.choiceGroupTrue`,
+    choiceGroupFalse: `${ROOT_LOC}.choiceGroupFalse`,
+    conditionsTitle: `${ROOT_LOC}.conditionsTitle`
+};
 
 export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     const {
@@ -23,6 +27,23 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         onChangeValues,
         currentValues
     } = props;
+
+    // Hooks
+    const { t } = useTranslation();
+
+    const getChoiceGroupOptions: IChoiceGroupOption[] = useMemo(
+        () => [
+            {
+                key: 'true',
+                text: `${t(LOC_KEYS.choiceGroupTrue)}`
+            },
+            {
+                key: 'false',
+                text: `${t(LOC_KEYS.choiceGroupFalse)}`
+            }
+        ],
+        [t]
+    );
 
     // Render callbacks
     const renderFields = () => {
@@ -35,6 +56,8 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                 return renderNumericalSummary();
         }
     };
+
+    const styles = getSummaryStyles(useTheme());
 
     const renderNumericalSummary = () => {
         return (
@@ -61,8 +84,11 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                         }}
                     />
                 </Stack>
-                {/* TODO: LOC THIS */}
-                {!areValuesValid && <p>'Ranges invalid'</p>}
+                {!areValuesValid && (
+                    <div className={styles.invalidText}>
+                        {t(LOC_KEYS.invalidRanges)}
+                    </div>
+                )}
             </Stack>
         );
     };
@@ -71,10 +97,10 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         return (
             <ChoiceGroup
                 selectedKey={String(currentValues[0])}
-                options={choiceGroupOptions}
+                options={getChoiceGroupOptions}
                 onChange={(_ev, option) => {
                     // Comparison turns value into correct boolean
-                    onChangeValues(conditionType, [option.text === 'true']);
+                    onChangeValues(conditionType, [option.key === 'true']);
                 }}
                 styles={{
                     flexContainer: {
@@ -100,8 +126,7 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     return (
         <>
             <Stack>
-                {/* TODO: LOC THIS */}
-                <p>Conditions</p>
+                <p>{t(LOC_KEYS.conditionsTitle)}</p>
                 {renderFields()}
             </Stack>
         </>

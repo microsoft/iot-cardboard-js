@@ -27,14 +27,23 @@ import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DSc
 import { useTranslation } from 'react-i18next';
 import { areRangesValid, checkValidity } from './ConditionCalloutUtility';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
+import { CalloutInfoType } from '../ConditionsList.types';
 
 const getClassNames = classNamesFunction<
     IConditionsCalloutStyleProps,
     IConditionsCalloutStyles
 >();
 
+const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
+const LOC_KEYS = {
+    addCondition: `${ROOT_LOC}.addCondition`,
+    editCondition: `${ROOT_LOC}.editCondition`,
+    labelField: `${ROOT_LOC}.labelField`
+};
+
 const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
     const {
+        calloutType,
         isOpen,
         onDismiss,
         onSave,
@@ -171,8 +180,11 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                     directionalHint={DirectionalHint.rightCenter}
                 >
                     <Stack tokens={{ childrenGap: 8 }}>
-                        {/* TODO: LOC THIS */}
-                        <span>Add condition</span>
+                        {calloutType === CalloutInfoType.create ? (
+                            <span>{t(LOC_KEYS.addCondition)}</span>
+                        ) : (
+                            <span>{t(LOC_KEYS.editCondition)}</span>
+                        )}
                         <TextField
                             value={
                                 conditionCalloutState.conditionToEdit.visual
@@ -182,8 +194,7 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                                     : ''
                             }
                             onChange={onLabelChange}
-                            // TODO: LOC THIS
-                            label={'Label'}
+                            label={t(LOC_KEYS.labelField)}
                             required={true}
                         />
                         <ConditionSummary

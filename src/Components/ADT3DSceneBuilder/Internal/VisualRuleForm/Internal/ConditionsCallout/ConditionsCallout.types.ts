@@ -9,8 +9,10 @@ import {
     IDTDLPropertyType,
     IValueRange
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { CalloutInfoType } from '../ConditionsList.types';
 
 export interface IConditionsCalloutProps {
+    calloutType: CalloutInfoType;
     isOpen: boolean;
     onDismiss: () => void;
     onSave: (condition: IValueRange) => void;

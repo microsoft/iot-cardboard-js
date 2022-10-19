@@ -24,6 +24,7 @@ import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
     CalloutInfo,
+    CalloutInfoType,
     Condition,
     IConditionsListProps,
     IConditionsListStyles,
@@ -66,6 +67,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     });
 
     const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>({
+        calloutType: CalloutInfoType.inactive,
         isOpen: false,
         selectedCondition: null,
         selectedTarget: null
@@ -74,6 +76,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Callbacks
     const handleOpenNewConditionFlyout = useCallback(() => {
         setCalloutInfo({
+            calloutType: CalloutInfoType.create,
             isOpen: true,
             selectedCondition: getDefaultCondition(valueRangeType),
             selectedTarget: `#${LIST_KEY}`
@@ -82,6 +85,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
 
     const handleDismissFlyout = useCallback(() => {
         setCalloutInfo({
+            calloutType: CalloutInfoType.inactive,
             isOpen: false,
             selectedCondition: null,
             selectedTarget: ''
@@ -98,6 +102,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                 },
                 onClick: () => {
                     setCalloutInfo({
+                        calloutType: CalloutInfoType.edit,
                         isOpen: true,
                         selectedCondition: valueRanges.find(
                             (vr) => vr.id === conditionId
@@ -146,6 +151,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         overflowMenuItems: getOverflowMenuItems(condition.id),
                         onClick: () => {
                             setCalloutInfo({
+                                calloutType: CalloutInfoType.edit,
                                 isOpen: true,
                                 selectedCondition: valueRanges.find(
                                     (vr) => vr.id === condition.id
@@ -195,6 +201,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
             </div>
             {calloutInfo.isOpen && (
                 <ConditionsCallout
+                    calloutType={calloutInfo.calloutType}
                     isOpen={calloutInfo.isOpen}
                     onDismiss={handleDismissFlyout}
                     onSave={onSaveCondition}

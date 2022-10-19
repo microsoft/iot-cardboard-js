@@ -38,6 +38,14 @@ export const getStyles = (
     };
 };
 
+export const getSummaryStyles = (theme: ITheme) =>
+    mergeStyleSets({
+        invalidText: {
+            color: theme.semanticColors.errorText,
+            fontSize: FontSizes.size12
+        }
+    });
+
 export const getBoundaryInputStyles = (theme: ITheme) => {
     return mergeStyleSets({
         container: {

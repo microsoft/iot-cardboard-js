@@ -24,7 +24,13 @@ export interface Condition {
     color?: string;
 }
 
+export enum CalloutInfoType {
+    inactive,
+    edit,
+    create
+}
 export interface CalloutInfo {
+    calloutType: CalloutInfoType;
     selectedCondition: IValueRange;
     selectedTarget: string;
     isOpen: boolean;

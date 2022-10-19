@@ -64,7 +64,7 @@ function getSecondaryText(item: IVisualRule, t: TFunction<string>) {
             ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColorings', {
                   meshColoringCount: meshColoringCount
               })
-            : t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColoring', {
+            : t('3dSceneBuilder.behaviorVisualRulesTab.singleMeshColoring', {
                   meshColoringCount: meshColoringCount
               });
     let text = '';

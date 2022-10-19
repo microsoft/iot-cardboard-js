@@ -568,14 +568,25 @@
         },
         "visualRuleForm": {
             "new": "New visual rule",
+            "addCondition": "Add condition",
             "newCondition": "New condition",
+            "conditionsTitle": "Conditions",
             "edit": "Edit visual rule",
             "formSubtext": "A rule contains conditions and visual cues when those conditions are met. Choose the data expression for this rule and add a few conditions.",
             "typePlaceholder": "Select the type for the value",
             "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element.",
             "editCondition": "Edit condition",
             "deleteCondition": "Delete condition",
-            "unlabeledCondition": "Unlabeled"
+            "unlabeledCondition": "Unlabeled",
+            "actionsTitle": "Actions",
+            "actionTypeLabel": "Type",
+            "colorLabel": "Color",
+            "iconLabel": "Icon",
+            "invalidRanges": "Invalid range, min should be less than max, and values should be numeric.",
+            "labelField": "Label",
+            "choiceGroupTrue": "True",
+            "choiceGroupFalse": "False",
+            "multiselectPlaceholder": "Type something and press enter..."
         }
     },
     "widgets": {

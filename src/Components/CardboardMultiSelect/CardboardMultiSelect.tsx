@@ -9,6 +9,7 @@ import { getMultiSelectStyles, getStyles } from './CardboardMultiSelect.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import CreatableSelect from 'react-select/creatable';
 import { OnChangeValue } from 'react-select';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     ICardboardMultiSelectStyleProps,
@@ -24,6 +25,11 @@ const createOption = (label: string): MultiselectOption => ({
     value: label
 });
 
+const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
+const LOC_KEYS = {
+    multiselectPlaceholder: `${ROOT_LOC}.multiselectPlaceholder`
+};
+
 const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
     const { currentValues, onChangeValues, styles } = props;
 
@@ -38,6 +44,7 @@ const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
     );
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
     const handleKeyDown = useCallback(
@@ -95,8 +102,7 @@ const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
                 onChange={handleChange}
                 onInputChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                // TODO: LOC THIS
-                placeholder="Type something and press enter..."
+                placeholder={t(LOC_KEYS.multiselectPlaceholder)}
                 value={selectedValues}
                 styles={reactSelectStyles}
             />

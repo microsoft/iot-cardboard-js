@@ -1,6 +1,6 @@
 import { Dropdown, IDropdownOption, Stack } from '@fluentui/react';
 import React, { useCallback, useEffect, useState } from 'react';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
@@ -21,12 +21,20 @@ const DROPDOWN_OPTIONS: IDropdownOption[] = [
     }
 ];
 
+const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
+const LOC_KEYS = {
+    actionsTitle: `${ROOT_LOC}.actionsTitle`,
+    actionTypeLabel: `${ROOT_LOC}.actionTypeLabel`,
+    colorLabel: `${ROOT_LOC}.colorLabel`,
+    iconLabel: `${ROOT_LOC}.iconLabel`
+};
+
 export const ActionItem: React.FC<IActionItemProps> = (props) => {
     // props
     const { color, iconName, setActionSelectedValue } = props;
 
     // hooks
-    // const { t } = useTranslation();
+    const { t } = useTranslation();
 
     // state
     const [selectedOption, setSelectedOption] = useState(
@@ -69,13 +77,11 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
 
     return (
         <>
-            <Stack>
-                {/* TODO: LOC THIS */}
-                <p>Actions</p>
+            <Stack tokens={{ childrenGap: 8 }}>
+                <div>{t(LOC_KEYS.actionsTitle)}</div>
                 <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
                     <Dropdown
-                        // TODO: LOC THIS
-                        label={'type'}
+                        label={t(LOC_KEYS.actionTypeLabel)}
                         options={DROPDOWN_OPTIONS}
                         selectedKey={selectedOption}
                         onChange={handleOnDropdownChange}
@@ -83,7 +89,7 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
                     <ColorPicker
                         selectedItem={color}
                         items={defaultSwatchColors}
-                        label={'Colors'}
+                        label={t(LOC_KEYS.colorLabel)}
                         onChangeItem={onColorChange}
                         styles={{
                             // match the icon picker
@@ -97,7 +103,7 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
                         <IconPicker
                             selectedItem={iconName}
                             items={defaultSwatchIcons}
-                            label={'Icons'}
+                            label={t(LOC_KEYS.iconLabel)}
                             onChangeItem={onIconChange}
                         />
                     )}
