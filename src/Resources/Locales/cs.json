@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nové vizuální pravidlo",
       "edit": "Upravit vizuální pravidlo",
-      "formDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
       "typePlaceholder": "Vyberte typ hodnoty",
       "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku.",
-      "newCondition": "Nový stav"
+      "newCondition": "Nový stav",
+      "editCondition": "Upravit podmínku",
+      "deleteCondition": "Odstranit podmínku",
+      "unlabeledCondition": "Neoznačené",
+      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek."
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
-      "removeRule": "Odebrat pravidlo"
+      "removeRule": "Odebrat pravidlo",
+      "singleBadge": "Odznak {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} zbarvení sítě",
+      "multipleBadges": "{{badgeCount}} odznaky",
+      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
+      "unlabeled": "(neoznačeno)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Panel",
       "description": "Panel rozvržení"
     },
+<<<<<<< HEAD
     "notSupported": "Tento typ widgetu není v současné době podporován",
     "dataHistory": {
       "title": "Widget Historie dat",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Historie dat"
     }
+=======
+    "notSupported": "Tento typ widgetu není v současné době podporován"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Posledních 30 minut",

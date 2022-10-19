@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
-      "formDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
       "typePlaceholder": "Selecione o tipo para o valor",
       "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
-      "newCondition": "Nova condição"
+      "newCondition": "Nova condição",
+      "editCondition": "Condição de edição",
+      "deleteCondition": "Exclua a condição",
+      "unlabeledCondition": "Unlabeled",
+      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições."
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
-      "removeRule": "Remover regra"
+      "removeRule": "Remover regra",
+      "singleBadge": "{{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} coloração de malha",
+      "multipleBadges": "{{badgeCount}}",
+      "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
+      "unlabeled": "(sem rótulo)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Painel",
       "description": "Um painel de layout"
     },
+<<<<<<< HEAD
     "notSupported": "Este tipo de widget não é suportado atualmente",
     "dataHistory": {
       "title": "Widget do histórico de dados",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Histórico de dados"
     }
+=======
+    "notSupported": "Este tipo de widget não é suportado atualmente"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",

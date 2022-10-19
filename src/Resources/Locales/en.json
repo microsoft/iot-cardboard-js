@@ -461,7 +461,12 @@
             "noData": "You haven't configured any Visual Rules yet",
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
-            "removeRule": "Remove rule"
+            "removeRule": "Remove rule",
+            "singleBadge": "{{badgeCount}} badge",
+            "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+            "multipleBadges": "{{badgeCount}} badges",
+            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
+            "unlabeled": "(unlabeled)"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
@@ -565,9 +570,12 @@
             "new": "New visual rule",
             "newCondition": "New condition",
             "edit": "Edit visual rule",
-            "formDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "formSubtext": "A rule contains conditions and visual cues when those conditions are met. Choose the data expression for this rule and add a few conditions.",
             "typePlaceholder": "Select the type for the value",
-            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element."
+            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element.",
+            "editCondition": "Edit condition",
+            "deleteCondition": "Delete condition",
+            "unlabeledCondition": "Unlabeled"
         }
     },
     "widgets": {

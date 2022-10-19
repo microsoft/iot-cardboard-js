@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Új vizualizációs szabály",
       "edit": "Vizuális szabály szerkesztése",
-      "formDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
       "typePlaceholder": "Válassza ki az érték típusát",
       "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
-      "newCondition": "Új feltétel"
+      "newCondition": "Új feltétel",
+      "editCondition": "Állapot szerkesztése",
+      "deleteCondition": "Feltétel törlése",
+      "unlabeledCondition": "Címkézetlen",
+      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt."
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Még nem konfigurált vizuális szabályokat",
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
-      "removeRule": "Szabály eltávolítása"
+      "removeRule": "Szabály eltávolítása",
+      "singleBadge": "{{badgeCount}} jelvény",
+      "singleMeshColoring": "{{meshColoringCount}} háló színezése",
+      "multipleBadges": "{{badgeCount}} jelvények",
+      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
+      "unlabeled": "(címkézetlen)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Panel",
       "description": "Elrendezéspanel"
     },
+<<<<<<< HEAD
     "notSupported": "Ez a widgettípus jelenleg nem támogatott",
     "dataHistory": {
       "title": "Adatelőzmények widget",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Adatok előzményei"
     }
+=======
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",

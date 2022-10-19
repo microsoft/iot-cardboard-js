@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Neue visuelle Regel",
       "edit": "Visuelle Regel bearbeiten",
-      "formDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
       "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
       "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen.",
-      "newCondition": "Neuer Zustand"
+      "newCondition": "Neuer Zustand",
+      "editCondition": "Bedingung bearbeiten",
+      "deleteCondition": "Löschbedingung",
+      "unlabeledCondition": "Unbeschriftet",
+      "formSubtext": "Eine Regel enthält Bedingungen und visuelle Hinweise, wenn diese Bedingungen erfüllt sind. Wählen Sie den Datenausdruck für diese Regel aus, und fügen Sie einige Bedingungen hinzu."
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Sie haben noch keine visuellen Regeln konfiguriert",
       "addRuleButtonText": "Regel hinzufügen",
       "editRule": "Regel bearbeiten",
-      "removeRule": "Regel entfernen"
+      "removeRule": "Regel entfernen",
+      "singleBadge": "{{badgeCount}}-Abzeichen",
+      "singleMeshColoring": "{{meshColoringCount}} Mesh-Färbung",
+      "multipleBadges": "{{badgeCount}} Abzeichen",
+      "multipleMeshColorings": "{{meshColoringCount}} Mesh-Färbungen",
+      "unlabeled": "(unbeschriftet)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Gremium",
       "description": "Ein Layoutpanel"
     },
+<<<<<<< HEAD
     "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
     "dataHistory": {
       "title": "Datenverlauf-Widget",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Datenhistorie"
     }
+=======
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",

@@ -297,6 +297,7 @@ export interface IExpressionRangeVisual {
     valueExpression: string;
     expressionType: IExpressionRangeType;
     valueRanges: IValueRange[];
+    valueRangeType?: IDTDLPropertyType;
     objectIDs: IObjectIDs;
     extensionProperties?: IExtensionProperties;
 }

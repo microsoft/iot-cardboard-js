@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nowa reguła wizualna",
       "edit": "Edytowanie reguły wizualnej",
-      "formDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
       "typePlaceholder": "Wybierz typ wartości",
       "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
-      "newCondition": "Nowy stan"
+      "newCondition": "Nowy stan",
+      "editCondition": "Edytuj warunek",
+      "deleteCondition": "Usuń warunek",
+      "unlabeledCondition": "Bez etykiety",
+      "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków."
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Nie skonfigurowano jeszcze żadnych reguł wizualnych",
       "addRuleButtonText": "Dodaj regułę",
       "editRule": "Edytuj regułę",
-      "removeRule": "Usuń regułę"
+      "removeRule": "Usuń regułę",
+      "singleBadge": "Odznaka {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} kolorowanie siatki",
+      "multipleBadges": "Odznaki {{badgeCount}}",
+      "multipleMeshColorings": "{{meshColoringCount}} kolorowanie siatki",
+      "unlabeled": "(bez etykiety)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Panel",
       "description": "Panel układu"
     },
+<<<<<<< HEAD
     "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany",
     "dataHistory": {
       "title": "Widżet Historia danych",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Historia danych"
     }
+=======
+    "notSupported": "Ten typ widżetu nie jest obecnie obsługiwany"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Ostatnie 30 minut",

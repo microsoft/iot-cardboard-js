@@ -45,6 +45,7 @@ import {
 } from '../Shared/PanelForms.styles';
 import {
     IBehavior,
+    IExpressionRangeVisual,
     ITwinToObjectMapping
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
@@ -104,6 +105,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onRemoveElement
 }) => {
     const { t } = useTranslation();
+    const [visualRuleId, setVisualRuleId] = useState<string>('');
 
     const {
         behaviorTwinAliasFormInfo,
@@ -133,14 +135,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         setSelectedBehaviorPivotKey
     ] = useState<BehaviorPivot>(BehaviorPivot.elements);
     const [
-        isPropertyTypeDropdownEnabled,
-        setisPropertyTypeDropdownEnabled
+        isExpressionTextFieldEnabled,
+        setisExpressionTextFieldEnabled
     ] = useState(false);
-    const handlePropertyTypeDropdownEnabled = useCallback(
+    const handleExpressionTextFieldEnabled = useCallback(
         (isEnabled: boolean) => {
-            setisPropertyTypeDropdownEnabled(isEnabled);
+            setisExpressionTextFieldEnabled(isEnabled);
         },
-        [setisPropertyTypeDropdownEnabled]
+        [setisExpressionTextFieldEnabled]
     );
 
     useEffect(() => {
@@ -396,6 +398,30 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         [dispatch]
     );
 
+    // Visual rule form callbacks
+    const onVisualRuleCancelClick = useCallback((isDirty: boolean) => {
+        if (isDirty) {
+            setUnsavedBehaviorChangesDialogOpen(true);
+            setUnsavedChangesDialogDiscardAction(() =>
+                setVisualRuleFormMode(VisualRuleFormMode.Inactive)
+            );
+        } else {
+            setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+        }
+    }, []);
+
+    const onVisualRuleSaveClick = useCallback(
+        (visualRule: IExpressionRangeVisual) => {
+            behaviorFormDispatch({
+                type:
+                    BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
+                payload: { visualRule: visualRule }
+            });
+            setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+        },
+        []
+    );
+
     // mirror the form state up to the scene context (for navigation confirmation)
     useEffect(() => {
         notifySceneContextDirtyState(behaviorFormState.isDirty);
@@ -419,6 +445,15 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         notifySceneContextDirtyState,
         notifySceneContextDraftBehavior
     ]);
+    const onEditRule = useCallback((id: string) => {
+        setVisualRuleFormMode(VisualRuleFormMode.EditVisualRule);
+        setVisualRuleId(id);
+    }, []);
+
+    const onAddRule = useCallback(() => {
+        setVisualRuleFormMode(VisualRuleFormMode.CreateVisualRule);
+        setVisualRuleId('');
+    }, []);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const isWidgetFormActive =
@@ -429,7 +464,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const theme = useTheme();
     const commonPanelStyles = getLeftPanelStyles(theme);
     const formHeaderHeight = isVisualRulesFormActive
-        ? isPropertyTypeDropdownEnabled
+        ? isExpressionTextFieldEnabled
             ? 370
             : 268
         : 168;
@@ -451,11 +486,14 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     const renderVisualRuleForm = () => {
         return (
             <VisualRuleForm
-                setPropertyTypeDropdownEnabled={
-                    handlePropertyTypeDropdownEnabled
-                }
-                isPropertyTypeDropdownEnabled={isPropertyTypeDropdownEnabled}
+                visualRuleId={visualRuleId}
                 rootHeight={formHeaderHeight}
+                isExpressionTextFieldEnabled={isExpressionTextFieldEnabled}
+                handleExpressionTextFieldEnabled={
+                    handleExpressionTextFieldEnabled
+                }
+                onCancelClick={onVisualRuleCancelClick}
+                onSaveClick={onVisualRuleSaveClick}
             />
         );
     };
@@ -593,7 +631,10 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                                 headerText={t('3dSceneBuilder.visualRulesTab')}
                                 itemKey={BehaviorPivot.visualRules}
                             >
-                                <VisualRulesTab />
+                                <VisualRulesTab
+                                    onEditRule={onEditRule}
+                                    onAddRule={onAddRule}
+                                />
                             </PivotItem>
                         )}
                         <PivotItem

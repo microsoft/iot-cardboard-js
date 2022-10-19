@@ -559,10 +559,13 @@
     "visualRuleForm": {
       "new": "Nueva regla visual",
       "edit": "Editar regla visual",
-      "formDescription": "Establezca reglas para aplicar color a ciertas condiciones, por ejemplo, rojo para indicar altas temperaturas o verde para una velocidad óptima.",
       "typePlaceholder": "Seleccione el tipo para el valor",
       "conditionsInfoContent": "Configure el rango o los valores específicos que desencadenan una acción visual relacionada con el elemento.",
-      "newCondition": "Nueva condición"
+      "newCondition": "Nueva condición",
+      "editCondition": "Editar condición",
+      "deleteCondition": "Eliminar condición",
+      "unlabeledCondition": "Sin etiquetar",
+      "formSubtext": "Una regla contiene condiciones y señales visuales cuando se cumplen esas condiciones. Elija la expresión de datos para esta regla y agregue algunas condiciones."
     },
     "conditions": "Condiciones",
     "behaviorVisualRulesTab": {
@@ -570,7 +573,12 @@
       "noData": "Aún no ha configurado ninguna regla visual",
       "addRuleButtonText": "Agregar regla",
       "editRule": "Editar regla",
-      "removeRule": "Quitar regla"
+      "removeRule": "Quitar regla",
+      "singleBadge": "Insignia {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} coloración de malla",
+      "multipleBadges": "{{badgeCount}} insignias",
+      "multipleMeshColorings": "{{meshColoringCount}} coloraciones de malla",
+      "unlabeled": "(sin etiquetar)"
     }
   },
   "widgets": {
@@ -603,6 +611,7 @@
       "libraryName": "Tablero",
       "description": "Un panel de diseño"
     },
+<<<<<<< HEAD
     "notSupported": "Este tipo de widget no es compatible actualmente",
     "dataHistory": {
       "title": "Widget de historial de datos",
@@ -660,6 +669,9 @@
       },
       "libraryName": "Historial de datos"
     }
+=======
+    "notSupported": "Este tipo de widget no es compatible actualmente"
+>>>>>>> c17842226f755ecafcf90e91de185818c8c3a074
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
