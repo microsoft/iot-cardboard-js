@@ -1,5 +1,6 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
+import { userEvent, within } from '@storybook/testing-library';
 import {
     DefaultButton,
     IStyle,
@@ -74,21 +75,27 @@ const ProviderContentRenderer: React.FC = () => {
 
             <Stack styles={containerStyle} tokens={{ childrenGap: 8 }}>
                 <Stack horizontal styles={itemStackStyles}>
+                    <Label>Loading: </Label>
+                    <Text styles={valueStyle}>
+                        {oatGraphState.isLoading ? 'true' : 'false'}
+                    </Text>
+                </Stack>
+                <Stack horizontal styles={itemStackStyles}>
                     <Label>Show components: </Label>
                     <Text styles={valueStyle}>
-                        {oatGraphState.showComponents}
+                        {oatGraphState.showComponents ? 'true' : 'false'}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Show inheritance: </Label>
                     <Text styles={valueStyle}>
-                        {oatGraphState.showInheritances}
+                        {oatGraphState.showInheritances ? 'true' : 'false'}
                     </Text>
                 </Stack>
                 <Stack horizontal styles={itemStackStyles}>
                     <Label>Show relationships: </Label>
                     <Text styles={valueStyle}>
-                        {oatGraphState.showRelationships}
+                        {oatGraphState.showRelationships ? 'true' : 'false'}
                     </Text>
                 </Stack>
             </Stack>
@@ -105,48 +112,52 @@ const ProviderUpdater: React.FC = () => {
             <h3 style={headerStyles}>Context Updates</h3>
             <Stack
                 styles={getContainerStyles(theme)}
+                horizontal
                 tokens={{ childrenGap: 8 }}
             >
-                <h4 style={headerStyles}>Ontology Updates</h4>
-                <Stack
-                    styles={getContainerStyles(theme)}
-                    horizontal
-                    tokens={{ childrenGap: 8 }}
-                >
-                    <DefaultButton
-                        data-testid={'OatGraphContext-ToggleComponents'}
-                        iconProps={{ iconName: 'Switch' }}
-                        text="Toggle components"
-                        onClick={() => {
-                            oatGraphDispatch({
-                                type:
-                                    OatGraphContextActionType.SHOW_COMPONENTS_TOGGLE
-                            });
-                        }}
-                    />
-                    <DefaultButton
-                        data-testid={'OatGraphContext-ToggleInheritances'}
-                        iconProps={{ iconName: 'Switch' }}
-                        text="Toggle inheritance"
-                        onClick={() => {
-                            oatGraphDispatch({
-                                type:
-                                    OatGraphContextActionType.SHOW_INHERITANCES_TOGGLE
-                            });
-                        }}
-                    />
-                    <DefaultButton
-                        data-testid={'OatGraphContext-ToggleRelationships'}
-                        iconProps={{ iconName: 'Switch' }}
-                        text="Toggle relationships"
-                        onClick={() => {
-                            oatGraphDispatch({
-                                type:
-                                    OatGraphContextActionType.SHOW_RELATIONSHIPS_TOGGLE
-                            });
-                        }}
-                    />
-                </Stack>
+                <DefaultButton
+                    data-testid={'OatGraphContext-ToggleLoading'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text="Toggle loading"
+                    onClick={() => {
+                        oatGraphDispatch({
+                            type: OatGraphContextActionType.LOADING_TOGGLE
+                        });
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatGraphContext-ToggleComponents'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text="Toggle components"
+                    onClick={() => {
+                        oatGraphDispatch({
+                            type:
+                                OatGraphContextActionType.SHOW_COMPONENTS_TOGGLE
+                        });
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatGraphContext-ToggleInheritances'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text="Toggle inheritance"
+                    onClick={() => {
+                        oatGraphDispatch({
+                            type:
+                                OatGraphContextActionType.SHOW_INHERITANCES_TOGGLE
+                        });
+                    }}
+                />
+                <DefaultButton
+                    data-testid={'OatGraphContext-ToggleRelationships'}
+                    iconProps={{ iconName: 'Switch' }}
+                    text="Toggle relationships"
+                    onClick={() => {
+                        oatGraphDispatch({
+                            type:
+                                OatGraphContextActionType.SHOW_RELATIONSHIPS_TOGGLE
+                        });
+                    }}
+                />
             </Stack>
         </Stack>
     );
@@ -174,3 +185,42 @@ export const Base = Template.bind({});
 Base.args = {
     defaultState: GET_MOCK_OAT_GRAPH_CONTEXT_STATE()
 } as StoryProps;
+
+export const ToggleComponents = Template.bind({});
+ToggleComponents.args = {
+    defaultState: GET_MOCK_OAT_GRAPH_CONTEXT_STATE()
+} as StoryProps;
+ToggleComponents.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId(
+        'OatGraphContext-ToggleComponents'
+    );
+    userEvent.click(button);
+};
+
+export const ToggleInheritance = Template.bind({});
+ToggleInheritance.args = {
+    defaultState: GET_MOCK_OAT_GRAPH_CONTEXT_STATE()
+} as StoryProps;
+ToggleInheritance.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId(
+        'OatGraphContext-ToggleInheritances'
+    );
+    userEvent.click(button);
+};
+
+export const ToggleRelationships = Template.bind({});
+ToggleRelationships.args = {
+    defaultState: GET_MOCK_OAT_GRAPH_CONTEXT_STATE()
+} as StoryProps;
+ToggleRelationships.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // Finds the button and clicks it
+    const button = await canvas.findByTestId(
+        'OatGraphContext-ToggleRelationships'
+    );
+    userEvent.click(button);
+};

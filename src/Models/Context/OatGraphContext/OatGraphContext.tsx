@@ -19,6 +19,7 @@ export const OatGraphContext = React.createContext<IOatGraphContext>(null);
 export const useOatGraphContext = () => useContext(OatGraphContext);
 
 const defaultState: IOatGraphContextState = {
+    isLoading: false,
     showComponents: true,
     showInheritances: true,
     showRelationships: true
@@ -35,6 +36,12 @@ export const OatGraphContextReducer: (
             (action as any).payload // sometimes doesn't have payload
         );
         switch (action.type) {
+            case OatGraphContextActionType.LOADING_TOGGLE: {
+                draft.isLoading = isDefined(action.payload?.value)
+                    ? action.payload?.value
+                    : !draft.isLoading;
+                break;
+            }
             case OatGraphContextActionType.SHOW_COMPONENTS_TOGGLE: {
                 draft.showComponents = isDefined(action.payload?.enabled)
                     ? action.payload?.enabled

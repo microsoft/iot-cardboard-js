@@ -1,5 +1,3 @@
-import { IOATNodeElement } from '../../Constants/Interfaces';
-
 export interface IOatGraphContextProviderProps {
     initialState?: Partial<IOatGraphContextState>;
 }
@@ -16,6 +14,7 @@ export interface IOatGraphContext {
  * The state of the context
  */
 export interface IOatGraphContextState {
+    isLoading: boolean;
     showRelationships: boolean;
     showInheritances: boolean;
     showComponents: boolean;
@@ -25,6 +24,7 @@ export interface IOatGraphContextState {
  * The actions to update the state
  */
 export enum OatGraphContextActionType {
+    LOADING_TOGGLE = 'LOADING_TOGGLE',
     SHOW_COMPONENTS_TOGGLE = 'SHOW_COMPONENTS_SET',
     SHOW_INHERITANCES_TOGGLE = 'SHOW_INHERITANCES_SET',
     SHOW_RELATIONSHIPS_TOGGLE = 'SHOW_RELATIONSHIPS_SET'
@@ -32,6 +32,11 @@ export enum OatGraphContextActionType {
 
 /** The actions to update the state */
 export type OatGraphContextAction =
+    | {
+          type: OatGraphContextActionType.LOADING_TOGGLE;
+          /** optional payload to force a specific value */
+          payload?: { value: boolean };
+      }
     | {
           type: OatGraphContextActionType.SHOW_RELATIONSHIPS_TOGGLE;
           /** optional payload to force a specific value */
