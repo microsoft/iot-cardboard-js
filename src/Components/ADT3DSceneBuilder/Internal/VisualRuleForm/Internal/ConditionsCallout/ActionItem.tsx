@@ -67,36 +67,6 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
         [setActionSelectedValue]
     );
 
-    const renderPicker = () => {
-        switch (selectedOption) {
-            case 'Mesh-coloring-action-item':
-                return (
-                    <ColorPicker
-                        selectedItem={color}
-                        items={defaultSwatchColors}
-                        label={'Colors'}
-                        onChangeItem={onColorChange}
-                        styles={{
-                            // match the icon picker
-                            button: {
-                                height: 32,
-                                width: 32
-                            }
-                        }}
-                    />
-                );
-            case 'Badge-action-item':
-                return (
-                    <IconPicker
-                        selectedItem={iconName}
-                        items={defaultSwatchIcons}
-                        label={'Icons'}
-                        onChangeItem={onIconChange}
-                    />
-                );
-        }
-    };
-
     return (
         <>
             <Stack>
@@ -110,7 +80,27 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
                         selectedKey={selectedOption}
                         onChange={handleOnDropdownChange}
                     />
-                    {renderPicker()}
+                    <ColorPicker
+                        selectedItem={color}
+                        items={defaultSwatchColors}
+                        label={'Colors'}
+                        onChangeItem={onColorChange}
+                        styles={{
+                            // match the icon picker
+                            button: {
+                                height: 32,
+                                width: 32
+                            }
+                        }}
+                    />
+                    {selectedOption === 'Badge-action-item' && (
+                        <IconPicker
+                            selectedItem={iconName}
+                            items={defaultSwatchIcons}
+                            label={'Icons'}
+                            onChangeItem={onIconChange}
+                        />
+                    )}
                 </Stack>
             </Stack>
         </>

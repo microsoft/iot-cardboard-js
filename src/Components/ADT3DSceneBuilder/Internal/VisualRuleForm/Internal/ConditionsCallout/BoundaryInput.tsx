@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useId } from '@fluentui/react-hooks';
 import { ReactComponent as InfinitySvg } from '../../../../../../Resources/Static/infinity.svg';
+import { getBoundaryInputStyles } from './ConditionsCallout.styles';
+import { useTheme } from '@fluentui/react';
 
 enum Boundary {
     min = 'min',
@@ -27,14 +29,15 @@ const BoundaryInput: React.FC<{
     const infinityIconMessage = isMin
         ? t('valueRangeBuilder.negativeInfinityIconMessage')
         : t('valueRangeBuilder.positiveInfinityIconMessage');
+    const styles = getBoundaryInputStyles(useTheme());
 
     return (
         <>
-            <div className="cb-range-boundary">
-                <label className="cb-range-boundary-label" htmlFor={guid}>
+            <div className={styles.container}>
+                <label className={styles.label} htmlFor={guid}>
                     {isMin ? t('min') : t('max')}
                 </label>
-                <div className="cb-range-boundary-input-container">
+                <div className={styles.inputContainer}>
                     <input
                         autoComplete="false"
                         data-testid={
@@ -46,38 +49,17 @@ const BoundaryInput: React.FC<{
                         value={String(inputValue)}
                         type="string"
                         onChange={(event) => setInputValue(event.target.value)}
-                        className={'cb-value-range-input'}
-                        // className={`cb-value-range-input ${
-                        //     !isNumericInputValid
-                        //         ? 'cb-value-range-input-invalid'
-                        //         : ''
-                        // }`}
+                        className={styles.input}
                         onBlur={() => {
-                            // dispatch({
-                            //     type:
-                            //         ValueRangeBuilderActionType.UPDATE_VALUE_RANGE,
-                            //     payload: {
-                            //         boundary,
-                            //         newValue: inputValue,
-                            //         id: valueRange.id
-                            //     }
-                            // });
-                            // dispatch({
-                            //     type:
-                            //         ValueRangeBuilderActionType.UPDATE_VALUE_RANGE_VALIDATION,
-                            //     payload: {
-                            //         currentValueRange: valueRange,
-                            //         isMin,
-                            //         newValue: inputValue
-                            //     }
-                            // });
                             setNewValues(inputValue);
                         }}
                     />
                     <button
                         aria-label={infinityIconMessage}
-                        className={`cb-value-range-input-infinity-button ${
-                            isMin ? 'cb-value-range-negative-infinity' : ''
+                        className={`${
+                            isMin
+                                ? styles.negativeInfinityButton
+                                : styles.infinityButton
                         }`}
                         data-testid={
                             isMin
@@ -85,25 +67,11 @@ const BoundaryInput: React.FC<{
                                 : 'range-builder-row-infinite-max'
                         }
                         title={infinityIconMessage}
-                        onClick={() =>
-                            // dispatch({
-                            //     type:
-                            //         ValueRangeBuilderActionType.SNAP_VALUE_TO_INFINITY,
-                            //     payload: {
-                            //         boundary,
-                            //         newValue:
-                            //             boundary === Boundary.min
-                            //                 ? '-Infinity'
-                            //                 : 'Infinity',
-                            //         currentValueRange: valueRange
-                            //     }
-                            // })
-                            {
-                                setValueToInfinity(
-                                    isMin ? '-Infinity' : 'Infinity'
-                                );
-                            }
-                        }
+                        onClick={() => {
+                            setValueToInfinity(
+                                isMin ? '-Infinity' : 'Infinity'
+                            );
+                        }}
                     >
                         <InfinitySvg />
                     </button>

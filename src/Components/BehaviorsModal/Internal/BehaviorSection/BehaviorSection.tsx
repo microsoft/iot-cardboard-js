@@ -77,30 +77,33 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
     alertVisual
 }) => {
-    const styles = getStyles();
+    if (alertVisual.valueRanges[0]) {
+        const styles = getStyles();
+        const {
+            visual: { color, iconName, labelExpression }
+        } = alertVisual.valueRanges[0];
 
-    const {
-        visual: { color, iconName, labelExpression }
-    } = alertVisual.valueRanges[0];
+        const alertStyles = getElementsPanelAlertStyles(color);
+        const { twins, mode } = useContext(BehaviorsModalContext);
 
-    const alertStyles = getElementsPanelAlertStyles(color);
-    const { twins, mode } = useContext(BehaviorsModalContext);
-
-    return (
-        <div className={styles.infoContainer}>
-            <div className={alertStyles.alertCircle}>
-                <Icon iconName={iconName} />
+        return (
+            <div className={styles.infoContainer}>
+                <div className={alertStyles.alertCircle}>
+                    <Icon iconName={iconName} />
+                </div>
+                <div className={styles.infoTextContainer}>
+                    {mode === BehaviorModalMode.preview
+                        ? stripTemplateStringsFromText(labelExpression)
+                        : parseLinkedTwinExpression(
+                              wrapTextInTemplateString(labelExpression),
+                              twins
+                          )}
+                </div>
             </div>
-            <div className={styles.infoTextContainer}>
-                {mode === BehaviorModalMode.preview
-                    ? stripTemplateStringsFromText(labelExpression)
-                    : parseLinkedTwinExpression(
-                          wrapTextInTemplateString(labelExpression),
-                          twins
-                      )}
-            </div>
-        </div>
-    );
+        );
+    } else {
+        return <></>;
+    }
 };
 
 export default React.memo(BehaviorSection);

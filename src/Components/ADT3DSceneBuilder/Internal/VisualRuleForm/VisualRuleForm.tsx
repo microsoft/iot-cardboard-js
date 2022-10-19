@@ -31,6 +31,7 @@ import {
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
     PropertyExpression
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
@@ -265,7 +266,15 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         (condition: IValueRange) => {
             visualRuleFormDispatch({
                 type: VisualRuleFormActionType.FORM_CONDITION_ADD_OR_UPDATE,
-                payload: { condition: condition }
+                payload: {
+                    condition: {
+                        ...condition,
+                        visual: {
+                            ...condition.visual,
+                            labelExpression: condition.visual.labelExpression.trim()
+                        }
+                    }
+                }
             });
         },
         [visualRuleFormDispatch]
@@ -313,12 +322,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                                 sceneId,
                                 selectedElements
                             }}
-                            mode={
-                                visualRuleFormState.visualRuleToEdit
-                                    .expressionType === 'NumericRange'
-                                    ? ModelledPropertyBuilderMode.TOGGLE
-                                    : ModelledPropertyBuilderMode.INTELLISENSE
-                            }
+                            mode={ModelledPropertyBuilderMode.TOGGLE}
                             propertyExpression={{
                                 expression:
                                     visualRuleFormState.visualRuleToEdit
@@ -326,6 +330,9 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             }}
                             onChange={onPropertyChange}
                             onInternalModeChanged={onInternalModeChanged}
+                            allowedPropertyValueTypes={
+                                numericPropertyValueTypes
+                            }
                             required
                         />
                         {isExpressionTextFieldEnabled && (

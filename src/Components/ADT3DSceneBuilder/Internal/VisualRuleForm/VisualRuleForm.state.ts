@@ -33,11 +33,12 @@ export const VisualRuleFormReducer: IVisualRuleFormReducerType = produce(
         );
         switch (action.type) {
             case VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET: {
-                draft.visualRuleToEdit.displayName = action.payload.name.trim();
+                draft.visualRuleToEdit.displayName = action.payload.name;
                 break;
             }
             case VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_SET: {
-                draft.visualRuleToEdit.valueExpression = action.payload.expression.trim();
+                draft.visualRuleToEdit.valueExpression =
+                    action.payload.expression;
                 break;
             }
             case VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET: {

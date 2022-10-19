@@ -70,10 +70,12 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     const renderBooleanSummary = () => {
         return (
             <ChoiceGroup
-                defaultSelectedKey={
-                    currentValues.length ? (currentValues[0] as string) : 'true'
-                }
+                selectedKey={String(currentValues[0])}
                 options={choiceGroupOptions}
+                onChange={(_ev, option) => {
+                    // Comparison turns value into correct boolean
+                    onChangeValues(conditionType, [option.text === 'true']);
+                }}
                 styles={{
                     flexContainer: {
                         display: 'flex',

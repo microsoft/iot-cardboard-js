@@ -399,27 +399,40 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     );
 
     // Visual rule form callbacks
-    const onVisualRuleCancelClick = useCallback((isDirty: boolean) => {
-        if (isDirty) {
-            setUnsavedBehaviorChangesDialogOpen(true);
-            setUnsavedChangesDialogDiscardAction(() =>
-                setVisualRuleFormMode(VisualRuleFormMode.Inactive)
-            );
-        } else {
-            setVisualRuleFormMode(VisualRuleFormMode.Inactive);
-        }
-    }, []);
+    const onVisualRuleCancelClick = useCallback(
+        (isDirty: boolean) => {
+            if (isDirty) {
+                setUnsavedBehaviorChangesDialogOpen(true);
+                setUnsavedChangesDialogDiscardAction(() =>
+                    setVisualRuleFormMode(VisualRuleFormMode.Inactive)
+                );
+            } else {
+                setVisualRuleFormMode(VisualRuleFormMode.Inactive);
+            }
+        },
+        [
+            setUnsavedBehaviorChangesDialogOpen,
+            setUnsavedChangesDialogDiscardAction,
+            setVisualRuleFormMode
+        ]
+    );
 
     const onVisualRuleSaveClick = useCallback(
         (visualRule: IExpressionRangeVisual) => {
             behaviorFormDispatch({
                 type:
                     BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
-                payload: { visualRule: visualRule }
+                payload: {
+                    visualRule: {
+                        ...visualRule,
+                        displayName: visualRule.displayName.trim(),
+                        valueExpression: visualRule.valueExpression.trim()
+                    }
+                }
             });
             setVisualRuleFormMode(VisualRuleFormMode.Inactive);
         },
-        []
+        [behaviorFormDispatch, setVisualRuleFormMode]
     );
 
     // mirror the form state up to the scene context (for navigation confirmation)
@@ -445,15 +458,18 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
         notifySceneContextDirtyState,
         notifySceneContextDraftBehavior
     ]);
-    const onEditRule = useCallback((id: string) => {
-        setVisualRuleFormMode(VisualRuleFormMode.EditVisualRule);
-        setVisualRuleId(id);
-    }, []);
+    const onEditRule = useCallback(
+        (id: string) => {
+            setVisualRuleFormMode(VisualRuleFormMode.EditVisualRule);
+            setVisualRuleId(id);
+        },
+        [setVisualRuleFormMode]
+    );
 
     const onAddRule = useCallback(() => {
         setVisualRuleFormMode(VisualRuleFormMode.CreateVisualRule);
         setVisualRuleId('');
-    }, []);
+    }, [setVisualRuleFormMode]);
 
     const isFormValid = checkValidityMap(behaviorState.validityMap);
     const isWidgetFormActive =
@@ -673,23 +689,6 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
                         onClick={onCancelClick}
                     />
                 </PanelFooter>
-                {/* REMOVE THIS BUTTON, ONLY RENDERS WITH FLIGHTS */}
-                {showVisualRulesFeature && (
-                    <PrimaryButton
-                        text={'Open visual rules'}
-                        onClick={() => {
-                            setVisualRuleFormMode(
-                                VisualRuleFormMode.CreateVisualRule
-                            );
-                        }}
-                        styles={{
-                            root: {
-                                position: 'absolute',
-                                left: 200
-                            }
-                        }}
-                    />
-                )}
             </>
         );
     };

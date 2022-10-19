@@ -33,7 +33,7 @@ import {
 const LIST_KEY = 'cb-visual-rule-conditions-list';
 const getDefaultCondition = (type: IDTDLPropertyType): IValueRange => ({
     id: createGUID(),
-    values: isNumericType(type) ? [0, 1] : [],
+    values: isNumericType(type) ? [0, 1] : type === 'boolean' ? [true] : [],
     visual: {
         color: null,
         iconName: null,
@@ -64,6 +64,30 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+
+    const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>({
+        isOpen: false,
+        selectedCondition: null,
+        selectedTarget: null
+    });
+
+    // Callbacks
+    const handleOpenNewConditionFlyout = useCallback(() => {
+        setCalloutInfo({
+            isOpen: true,
+            selectedCondition: getDefaultCondition(valueRangeType),
+            selectedTarget: `#${LIST_KEY}`
+        });
+    }, [valueRangeType]);
+
+    const handleDismissFlyout = useCallback(() => {
+        setCalloutInfo({
+            isOpen: false,
+            selectedCondition: null,
+            selectedTarget: ''
+        });
+    }, []);
+
     const getOverflowMenuItems = useCallback(
         (conditionId: string): IContextualMenuItem[] => [
             {
@@ -93,13 +117,14 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                 },
                 onClick: (_ev, item) => {
                     onDeleteCondition(item.data.id);
+                    handleDismissFlyout();
                 },
                 data: {
                     id: conditionId
                 }
             }
         ],
-        [onDeleteCondition, t, valueRanges]
+        [handleDismissFlyout, onDeleteCondition, t, valueRanges]
     );
 
     const getConditionItems = useCallback(
@@ -141,34 +166,11 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         getConditionItems(valueRanges, expressionType)
     );
 
-    const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>({
-        isOpen: false,
-        selectedCondition: null,
-        selectedTarget: null
-    });
-
     // Effects
     // Update list everytime valueRanges and expressionType change
     useEffect(() => {
         setConditions(getConditionItems(valueRanges, expressionType));
     }, [valueRanges, expressionType, getConditionItems]);
-
-    // Callbacks
-    const handleOpenNewConditionFlyout = useCallback(() => {
-        setCalloutInfo({
-            isOpen: true,
-            selectedCondition: getDefaultCondition(valueRangeType),
-            selectedTarget: `#${LIST_KEY}`
-        });
-    }, [valueRangeType]);
-
-    const handleDismissFlyout = useCallback(() => {
-        setCalloutInfo({
-            isOpen: false,
-            selectedCondition: null,
-            selectedTarget: ''
-        });
-    }, []);
 
     return (
         <>
