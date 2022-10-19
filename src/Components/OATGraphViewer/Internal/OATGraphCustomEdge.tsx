@@ -12,7 +12,6 @@ import {
     getGraphViewerStyles,
     getRelationshipTextFieldStyles
 } from '../OATGraphViewer.styles';
-import { ElementsContext } from './OATContext';
 import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_RELATIONSHIP_HANDLE_NAME,
@@ -29,6 +28,7 @@ import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Con
 import { deepCopy } from '../../../Models/Services/Utils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
 
 const foreignObjectSize = 180;
 const foreignObjectSizeExtendRelation = 20;
@@ -190,13 +190,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { oatGraphState } = useOatGraphContext();
 
     // state
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getDisplayName(data.name));
-    const { showRelationships, showInheritances, showComponents } = useContext(
-        ElementsContext
-    );
+    const {
+        showRelationships,
+        showInheritances,
+        showComponents
+    } = oatGraphState;
 
     // data
     const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);

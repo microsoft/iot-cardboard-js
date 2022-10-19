@@ -9,7 +9,6 @@ import React, {
 import {
     useTheme,
     Label,
-    Toggle,
     Stack,
     SpinnerSize,
     Spinner,
@@ -22,7 +21,8 @@ import ReactFlow, {
     Controls,
     Background,
     Node,
-    Edge
+    Edge,
+    ControlButton
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
@@ -38,10 +38,8 @@ import {
     getGraphViewerStyles,
     getGraphViewerWarningStyles,
     getGraphViewerMinimapStyles,
-    getGraphViewerFiltersStyles,
     getGraphForceLayoutStyles
 } from './OATGraphViewer.styles';
-import { ElementsContext } from './Internal/OATContext';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
@@ -76,8 +74,10 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
 import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
+import GraphLegend from './Internal/GraphLegend/GraphLegend';
+import { OatGraphContextProvider } from '../../Models/Context/OatGraphContext/OatGraphContext';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -203,10 +203,6 @@ const OATGraphViewer: React.FC = () => {
     );
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
-    const [currentHovered, setCurrentHovered] = useState<IOATNodeElement>(null);
-    const [showRelationships, setShowRelationships] = useState(true);
-    const [showInheritances, setShowInheritances] = useState(true);
-    const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -298,16 +294,6 @@ const OATGraphViewer: React.FC = () => {
             );
         },
         [execute, rfInstance]
-    );
-
-    const providerVal = useMemo(
-        () => ({
-            currentHovered,
-            showRelationships,
-            showInheritances,
-            showComponents
-        }),
-        [currentHovered, showRelationships, showInheritances, showComponents]
     );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
@@ -663,17 +649,6 @@ const OATGraphViewer: React.FC = () => {
         }
     };
 
-    const onNodeMouseEnter = (
-        _: React.MouseEvent<Element, MouseEvent>,
-        node: IOATNodeElement
-    ) => {
-        setCurrentHovered(node);
-    };
-
-    const onNodeMouseLeave = () => {
-        setCurrentHovered(null);
-    };
-
     const onNodeDragEnd = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: IOATNodeElement
@@ -810,7 +785,6 @@ const OATGraphViewer: React.FC = () => {
     const graphViewerStyles = getGraphViewerStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
-    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
     const graphForceLayoutStyles = getGraphForceLayoutStyles();
 
     logDebugConsole(
@@ -832,7 +806,7 @@ const OATGraphViewer: React.FC = () => {
                     </div>
                 )}
 
-                <ElementsContext.Provider value={providerVal}>
+                <OatGraphContextProvider>
                     <ReactFlow
                         elements={elements}
                         onElementClick={onElementClick}
@@ -844,8 +818,6 @@ const OATGraphViewer: React.FC = () => {
                         nodeTypes={nodeTypes}
                         edgeTypes={edgeTypes}
                         onNodeDragStop={onNodeDragEnd}
-                        onNodeMouseEnter={onNodeMouseEnter}
-                        onNodeMouseLeave={onNodeMouseLeave}
                         onPaneClick={clearSelectedModel}
                     >
                         {!elements[0] && (
@@ -853,129 +825,57 @@ const OATGraphViewer: React.FC = () => {
                                 {t('OATGraphViewer.emptyGraph')}
                             </Label>
                         )}
-                        <Stack styles={graphViewerFiltersStyles}>
-                            <div
-                                className={
-                                    graphViewerStyles.graphViewerFiltersWrap
-                                }
-                            >
+                        <Stack tokens={{ childrenGap: 8 }}>
+                            <GraphLegend />
+                            <Stack styles={graphForceLayoutStyles}>
                                 <div
                                     className={
-                                        graphViewerStyles.graphViewerFiltersKey
+                                        graphViewerStyles.graphViewerForceLayoutWrap
                                     }
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23 8.86"
-                                    >
-                                        <g>
-                                            <polygon
-                                                fill="#ffb200"
-                                                points="18.57 0 17.3 1.27 19.96 3.93 0 3.93 0 4.93 19.96 4.93 17.3 7.59 18.57 8.86 23 4.43 18.57 0"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.relationships')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showRelationships}
-                                        onChange={() => {
-                                            setShowRelationships(
-                                                !showRelationships
-                                            );
+                                    <IconButton
+                                        iconProps={{
+                                            iconName: 'GridViewMedium'
+                                        }}
+                                        title={t('OATGraphViewer.runLayout')}
+                                        ariaLabel={t(
+                                            'OATGraphViewer.runLayout'
+                                        )}
+                                        onClick={() => {
+                                            setLoading(true);
+                                            applyLayoutToElements(elements);
                                         }}
                                     />
                                 </div>
-                                <div
-                                    className={
-                                        graphViewerStyles.graphViewerFiltersKey
-                                    }
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23.15 9.46"
-                                    >
-                                        <g>
-                                            <path
-                                                fill="#008945"
-                                                d="M15,9.46l8.19-4.73L15,0V4.23H0v1H15V9.46Zm1-7.84,5.4,3.11-5.4,3.11Z"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.inheritances')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showInheritances}
-                                        onChange={() => {
-                                            setShowInheritances(
-                                                !showInheritances
-                                            );
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className={
-                                        graphViewerStyles.graphViewerFiltersKey
-                                    }
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23.06 8.12"
-                                    >
-                                        <g>
-                                            <polygon
-                                                fill="#0078ce"
-                                                points="23.06 3.56 7.72 3.56 4.11 0 0 4.06 4.11 8.12 7.72 4.56 23.06 4.56 23.06 3.56"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.components')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showComponents}
-                                        onChange={() => {
-                                            setShowComponents(!showComponents);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </Stack>
-
-                        <Stack styles={graphForceLayoutStyles}>
-                            <div
-                                className={
-                                    graphViewerStyles.graphViewerForceLayoutWrap
-                                }
-                            >
-                                <IconButton
-                                    iconProps={{ iconName: 'GridViewMedium' }}
-                                    title={t('OATGraphViewer.runLayout')}
-                                    ariaLabel={t('OATGraphViewer.runLayout')}
-                                    onClick={() => {
-                                        setLoading(true);
-                                        applyLayoutToElements(elements);
-                                    }}
-                                />
-                            </div>
+                            </Stack>
                         </Stack>
 
                         <MiniMap
                             nodeColor={theme.semanticColors.inputBackground}
                             style={graphViewerMinimapStyles}
                         />
-                        <Controls
-                            className={graphViewerStyles.graphViewerControls}
-                        />
+                        <div
+                            className={
+                                graphViewerStyles.graphViewerControlsContainer
+                            }
+                        >
+                            <Controls
+                                className={
+                                    graphViewerStyles.graphViewerControls
+                                }
+                            >
+                                {/* <ControlButton
+                                    onClick={() => alert('clicked')}
+                                /> */}
+                            </Controls>
+                        </div>
                         <Background
                             color={theme.semanticColors.bodyBackground}
                             gap={16}
                             onClick={clearSelectedModel}
                         />
                     </ReactFlow>
-                </ElementsContext.Provider>
+                </OatGraphContextProvider>
             </div>
         </ReactFlowProvider>
     );
