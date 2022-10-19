@@ -565,7 +565,18 @@
       "editCondition": "编辑条件",
       "deleteCondition": "删除条件",
       "unlabeledCondition": "未标记",
-      "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。"
+      "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。",
+      "addCondition": "添加条件",
+      "conditionsTitle": "条件",
+      "actionsTitle": "行动",
+      "actionTypeLabel": "类型",
+      "colorLabel": "颜色",
+      "iconLabel": "图标",
+      "invalidRanges": "范围无效，最小值应小于 max，值应为数字。",
+      "labelField": "标签",
+      "choiceGroupTrue": "真",
+      "choiceGroupFalse": "假",
+      "multiselectPlaceholder": "键入内容并按回车键..."
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {

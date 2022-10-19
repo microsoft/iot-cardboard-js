@@ -565,7 +565,18 @@
       "editCondition": "Upravit podmínku",
       "deleteCondition": "Odstranit podmínku",
       "unlabeledCondition": "Neoznačené",
-      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek."
+      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek.",
+      "addCondition": "Přidat podmínku",
+      "conditionsTitle": "Podmínky",
+      "actionsTitle": "Akce",
+      "actionTypeLabel": "Typ",
+      "colorLabel": "Barva",
+      "iconLabel": "Ikona",
+      "invalidRanges": "Neplatný rozsah, min by měl být menší než max a hodnoty by měly být číselné.",
+      "labelField": "Označit",
+      "choiceGroupTrue": "Pravdivý",
+      "choiceGroupFalse": "Falešný",
+      "multiselectPlaceholder": "Napište něco a stiskněte klávesu Enter..."
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {

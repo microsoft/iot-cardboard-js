@@ -565,7 +565,18 @@
       "editCondition": "Bedingung bearbeiten",
       "deleteCondition": "Löschbedingung",
       "unlabeledCondition": "Unbeschriftet",
-      "formSubtext": "Eine Regel enthält Bedingungen und visuelle Hinweise, wenn diese Bedingungen erfüllt sind. Wählen Sie den Datenausdruck für diese Regel aus, und fügen Sie einige Bedingungen hinzu."
+      "formSubtext": "Eine Regel enthält Bedingungen und visuelle Hinweise, wenn diese Bedingungen erfüllt sind. Wählen Sie den Datenausdruck für diese Regel aus, und fügen Sie einige Bedingungen hinzu.",
+      "addCondition": "Bedingung hinzufügen",
+      "conditionsTitle": "Bedingungen",
+      "actionsTitle": "Aktionen",
+      "actionTypeLabel": "Art",
+      "colorLabel": "Farbe",
+      "iconLabel": "Ikone",
+      "invalidRanges": "Ungültiger Bereich, min sollte kleiner als max sein, und Werte sollten numerisch sein.",
+      "labelField": "Etikett",
+      "choiceGroupTrue": "STIMMT",
+      "choiceGroupFalse": "FALSE",
+      "multiselectPlaceholder": "Geben Sie etwas ein und drücken Sie die Eingabetaste..."
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {

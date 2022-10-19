@@ -565,7 +565,18 @@
       "editCondition": "Voorwaarde bewerken",
       "deleteCondition": "Voorwaarde verwijderen",
       "unlabeledCondition": "Niet-gelabeld",
-      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe."
+      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe.",
+      "addCondition": "Voorwaarde toevoegen",
+      "conditionsTitle": "Voorwaarden",
+      "actionsTitle": "Acties",
+      "actionTypeLabel": "Type",
+      "colorLabel": "Kleur",
+      "iconLabel": "Pictogram",
+      "invalidRanges": "Ongeldig bereik, min moet kleiner zijn dan max en waarden moeten numeriek zijn.",
+      "labelField": "Etiket",
+      "choiceGroupTrue": "Waar",
+      "choiceGroupFalse": "Vals",
+      "multiselectPlaceholder": "Typ iets en druk op enter..."
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {

@@ -565,7 +565,18 @@
       "editCondition": "조건 편집",
       "deleteCondition": "조건 삭제",
       "unlabeledCondition": "레이블이 지정되지 않은",
-      "formSubtext": "규칙에는 이러한 조건이 충족될 때 조건과 시각적 단서가 포함됩니다. 이 규칙의 데이터 표현식을 선택하고 몇 가지 조건을 추가합니다."
+      "formSubtext": "규칙에는 이러한 조건이 충족될 때 조건과 시각적 단서가 포함됩니다. 이 규칙의 데이터 표현식을 선택하고 몇 가지 조건을 추가합니다.",
+      "addCondition": "조건 추가",
+      "conditionsTitle": "여건",
+      "actionsTitle": "작업",
+      "actionTypeLabel": "형",
+      "colorLabel": "색",
+      "iconLabel": "아이콘",
+      "invalidRanges": "유효하지 않은 범위, 최소값은 최대보다 작아야 하며 값은 숫자여야 합니다.",
+      "labelField": "레이블",
+      "choiceGroupTrue": "참",
+      "choiceGroupFalse": "거짓",
+      "multiselectPlaceholder": "무언가를 입력하고 Enter 키를 누릅니다 ..."
     },
     "conditions": "여건",
     "behaviorVisualRulesTab": {

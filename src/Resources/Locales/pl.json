@@ -565,7 +565,18 @@
       "editCondition": "Edytuj warunek",
       "deleteCondition": "Usuń warunek",
       "unlabeledCondition": "Bez etykiety",
-      "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków."
+      "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków.",
+      "addCondition": "Dodaj warunek",
+      "conditionsTitle": "Warunki",
+      "actionsTitle": "Akcje",
+      "actionTypeLabel": "Typ",
+      "colorLabel": "Kolor",
+      "iconLabel": "Ikona",
+      "invalidRanges": "Nieprawidłowy zakres, min powinien być mniejszy niż max, a wartości powinny być liczbowe.",
+      "labelField": "Etykieta",
+      "choiceGroupTrue": "Prawdziwy",
+      "choiceGroupFalse": "Fałszywy",
+      "multiselectPlaceholder": "Wpisz coś i naciśnij enter..."
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {

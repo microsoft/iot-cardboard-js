@@ -565,7 +565,18 @@
       "editCondition": "Állapot szerkesztése",
       "deleteCondition": "Feltétel törlése",
       "unlabeledCondition": "Címkézetlen",
-      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt."
+      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt.",
+      "addCondition": "Feltétel hozzáadása",
+      "conditionsTitle": "Feltételek",
+      "actionsTitle": "Műveletek",
+      "actionTypeLabel": "Típus",
+      "colorLabel": "Szín",
+      "iconLabel": "Ikon",
+      "invalidRanges": "Érvénytelen tartomány, a min-nek kisebbnek kell lennie a max-nál, és az értékeknek numerikusnak kell lenniük.",
+      "labelField": "Címke",
+      "choiceGroupTrue": "Igaz",
+      "choiceGroupFalse": "Téves",
+      "multiselectPlaceholder": "Írjon be valamit, és nyomja meg az Enter billentyűt..."
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {

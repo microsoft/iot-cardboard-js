@@ -565,7 +565,18 @@
       "editCondition": "Redigera villkor",
       "deleteCondition": "Ta bort villkor",
       "unlabeledCondition": "Omärkt",
-      "formSubtext": "En regel innehåller villkor och visuella ledtrådar när dessa villkor är uppfyllda. Välj datauttryck för den här regeln och lägg till några villkor."
+      "formSubtext": "En regel innehåller villkor och visuella ledtrådar när dessa villkor är uppfyllda. Välj datauttryck för den här regeln och lägg till några villkor.",
+      "addCondition": "Lägg till villkor",
+      "conditionsTitle": "Villkor",
+      "actionsTitle": "Åtgärder",
+      "actionTypeLabel": "Typ",
+      "colorLabel": "Färg",
+      "iconLabel": "Ikon",
+      "invalidRanges": "Ogiltigt intervall, min ska vara mindre än max och värdena ska vara numeriska.",
+      "labelField": "Etikett",
+      "choiceGroupTrue": "Sann",
+      "choiceGroupFalse": "Falsk",
+      "multiselectPlaceholder": "Skriv något och tryck på enter..."
     },
     "conditions": "Villkor",
     "behaviorVisualRulesTab": {

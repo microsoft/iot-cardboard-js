@@ -565,7 +565,18 @@
       "editCondition": "Modifica condizione",
       "deleteCondition": "Elimina condizione",
       "unlabeledCondition": "Senza etichetta",
-      "formSubtext": "Una regola contiene condizioni e segnali visivi quando tali condizioni sono soddisfatte. Scegliere l'espressione dati per questa regola e aggiungere alcune condizioni."
+      "formSubtext": "Una regola contiene condizioni e segnali visivi quando tali condizioni sono soddisfatte. Scegliere l'espressione dati per questa regola e aggiungere alcune condizioni.",
+      "addCondition": "Aggiungi condizione",
+      "conditionsTitle": "Condizioni",
+      "actionsTitle": "Azioni",
+      "actionTypeLabel": "Digitare",
+      "colorLabel": "Colore",
+      "iconLabel": "Icona",
+      "invalidRanges": "Intervallo non valido, min deve essere minore di max e i valori devono essere numerici.",
+      "labelField": "Etichetta",
+      "choiceGroupTrue": "Vero",
+      "choiceGroupFalse": "Falso",
+      "multiselectPlaceholder": "Digita qualcosa e premi invio..."
     },
     "conditions": "Condizioni",
     "behaviorVisualRulesTab": {

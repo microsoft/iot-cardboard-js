@@ -565,7 +565,18 @@
       "editCondition": "Editar condición",
       "deleteCondition": "Eliminar condición",
       "unlabeledCondition": "Sin etiquetar",
-      "formSubtext": "Una regla contiene condiciones y señales visuales cuando se cumplen esas condiciones. Elija la expresión de datos para esta regla y agregue algunas condiciones."
+      "formSubtext": "Una regla contiene condiciones y señales visuales cuando se cumplen esas condiciones. Elija la expresión de datos para esta regla y agregue algunas condiciones.",
+      "addCondition": "Agregar condición",
+      "conditionsTitle": "Condiciones",
+      "actionsTitle": "Acciones",
+      "actionTypeLabel": "Tipo",
+      "colorLabel": "Color",
+      "iconLabel": "Icono",
+      "invalidRanges": "Rango no válido, min debe ser menor que max y los valores deben ser numéricos.",
+      "labelField": "Etiqueta",
+      "choiceGroupTrue": "Verdadero",
+      "choiceGroupFalse": "Falso",
+      "multiselectPlaceholder": "Escribe algo y presiona enter..."
     },
     "conditions": "Condiciones",
     "behaviorVisualRulesTab": {

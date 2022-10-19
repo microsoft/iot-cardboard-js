@@ -565,7 +565,18 @@
       "editCondition": "Modifier la condition",
       "deleteCondition": "Supprimer la condition",
       "unlabeledCondition": "Sans étiquette",
-      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions."
+      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions.",
+      "addCondition": "Ajouter une condition",
+      "conditionsTitle": "Conditions",
+      "actionsTitle": "Actions",
+      "actionTypeLabel": "Type",
+      "colorLabel": "Couleur",
+      "iconLabel": "Icône",
+      "invalidRanges": "Plage non valide, min doit être inférieure à max et les valeurs doivent être numériques.",
+      "labelField": "Étiquette",
+      "choiceGroupTrue": "Vrai",
+      "choiceGroupFalse": "Faux",
+      "multiselectPlaceholder": "Tapez quelque chose et appuyez sur Entrée..."
     },
     "conditions": "Conditions",
     "behaviorVisualRulesTab": {

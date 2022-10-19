@@ -565,7 +565,18 @@
       "editCondition": "条件の編集",
       "deleteCondition": "条件の削除",
       "unlabeledCondition": "ラベル",
-      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。"
+      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。",
+      "addCondition": "条件の追加",
+      "conditionsTitle": "条件",
+      "actionsTitle": "アクション",
+      "actionTypeLabel": "種類",
+      "colorLabel": "色",
+      "iconLabel": "アイコン",
+      "invalidRanges": "無効な範囲です。min は max より小さく、値は数値でなければなりません。",
+      "labelField": "ラベル",
+      "choiceGroupTrue": "真",
+      "choiceGroupFalse": "偽",
+      "multiselectPlaceholder": "何かを入力して、Enter キーを押します..."
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
