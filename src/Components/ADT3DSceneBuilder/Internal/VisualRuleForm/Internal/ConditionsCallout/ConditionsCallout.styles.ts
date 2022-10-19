@@ -29,7 +29,7 @@ export const getStyles = (
         subComponentStyles: {
             callout: {
                 root: {
-                    height: 400,
+                    minHeight: 400,
                     width: 300,
                     padding: 8
                 }

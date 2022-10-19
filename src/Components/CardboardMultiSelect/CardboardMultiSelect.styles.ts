@@ -43,7 +43,6 @@ export const getMultiSelectStyles = (theme: Theme): StylesConfig => {
             cursor: 'pointer',
             fontSize: FontSizes.size14,
             fontWeight: 400, // Font weight enum gives a type error here
-            height: 32,
             minHeight: 32,
             outline: 'none !important'
         }),
