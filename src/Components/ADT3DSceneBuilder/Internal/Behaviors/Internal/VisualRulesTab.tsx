@@ -18,7 +18,7 @@ import { BehaviorFormContextActionType } from '../../../../../Models/Context/Beh
 
 //get an array of all the visual rules in the behavior
 const getVisualRulesFromBehavior = (behavior: IBehavior) =>
-    behavior.visuals.filter(ViewerConfigUtility.isVisualRule) || null;
+    behavior.visuals.filter(ViewerConfigUtility.isVisualRule) || [];
 
 const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesTab';
 const LOC_KEYS = {
@@ -75,7 +75,7 @@ export const VisualRulesTab: React.FC<IVisualRuleProps> = ({
                     id: rule.id,
                     displayName: rule?.displayName
                         ? rule.displayName
-                        : '(unlabeled)',
+                        : t('3dSceneBuilder.behaviorVisualRulesTab.unlabeled'),
                     conditions: rule.valueRanges,
                     type: rule.expressionType
                 };

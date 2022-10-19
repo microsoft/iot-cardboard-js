@@ -465,7 +465,8 @@
             "singleBadge": "{{badgeCount}} badge",
             "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
             "multipleBadges": "{{badgeCount}} badges",
-            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings"
+            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
+            "unlabeled": "(unlabeled)"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",

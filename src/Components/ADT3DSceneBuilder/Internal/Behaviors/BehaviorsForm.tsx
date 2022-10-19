@@ -105,7 +105,7 @@ const SceneBehaviorsForm: React.FC<IADT3DSceneBuilderBehaviorFormProps> = ({
     onRemoveElement
 }) => {
     const { t } = useTranslation();
-    const [visualRuleId, setVisualRuleId] = useState<string | null>('');
+    const [visualRuleId, setVisualRuleId] = useState<string>('');
 
     const {
         behaviorTwinAliasFormInfo,
