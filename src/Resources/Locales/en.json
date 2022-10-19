@@ -642,7 +642,7 @@
                     },
                     "quickTimeSpan": {
                         "label": "Default time span",
-                        "information": "Default time range selection in local time for the x-axis in chart",
+                        "informatio": "Default time range selection in local time for the x-axis in chart",
                         "options": {
                             "Last 15 mins": "Last 15 mins",
                             "Last 30 mins": "Last 30 mins",
