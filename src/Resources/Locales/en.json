@@ -622,6 +622,7 @@
                     "labelPlaceholder": "Enter label to show in chart",
                     "add": "Add time series",
                     "edit": "Edit time series",
+                    "update": "Update time series",
                     "remove": "Remove time series"
                 },
                 "chartOptions": {
@@ -1250,7 +1251,7 @@
     },
     "highcharts": {
         "noTitle": "No title",
-        "shareQuery": "Share query",
-        "noData": "No data to display"
+        "shareQueryTitle": "Share query",
+        "noDataDescription": "No data to display"
     }
 }

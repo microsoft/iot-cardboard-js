@@ -1,4 +1,5 @@
-import { IStyle } from '@fluentui/react';
+import { FontWeights } from '@fluentui/react';
+import { CSSObject } from 'highcharts';
 import {
     IHighChartsWrapperStyleProps,
     IHighChartsWrapperStyles
@@ -6,25 +7,26 @@ import {
 
 export const classPrefix = 'cb-highcharts-wrapper';
 const classNames = {
-    container: `${classPrefix}-container`,
+    root: `${classPrefix}-root`,
     shareButton: `${classPrefix}-share-button`
 };
 export const getStyles = ({
     theme
 }: IHighChartsWrapperStyleProps): IHighChartsWrapperStyles => {
-    const commonTextStyling: Partial<IStyle> = { color: theme.palette.black };
-    const commonChartTextStyling: Partial<IStyle> = {
+    const commonTextStyling: Partial<CSSObject> = {
+        color: theme.palette.black
+    };
+    const commonChartTextStyling: Partial<CSSObject> = {
         ...commonTextStyling,
-        fontSize: 12,
+        fontSize: '12px',
         fontWeight: 'normal'
     };
     return {
-        container: [
-            classNames.container,
+        root: [
+            classNames.root,
             {
                 width: '100%',
-                height: '100%',
-                '.highcharts-credits': { display: 'none' }
+                height: '100%'
             }
         ],
         shareButton: [
@@ -52,33 +54,23 @@ export const getStyles = ({
                 root: {
                     color: theme.palette.black,
                     fontSize: '14px',
-                    fontWeight: 'bold',
+                    fontWeight: FontWeights.bold as string,
                     lineHeight: '14px',
                     zIndex: 0
                 }
             },
             xAxis: {
-                title: {
-                    ...commonTextStyling
-                },
-                label: {
-                    ...commonTextStyling
-                }
+                title: commonTextStyling,
+                label: commonTextStyling
             },
             yAxis: {
-                title: {
-                    ...commonTextStyling
-                },
-                label: {
-                    ...commonTextStyling
-                }
+                title: commonTextStyling,
+                label: commonTextStyling
             },
             legend: {
-                root: {
-                    ...commonChartTextStyling
-                },
+                root: commonChartTextStyling,
                 hover: {
-                    fontWeight: 'bold',
+                    fontWeight: FontWeights.bold as string,
                     color: '#cccccc'
                 }
             },

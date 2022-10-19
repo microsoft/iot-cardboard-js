@@ -38,36 +38,36 @@ export interface IDataHistoryWidgetBuilderStyles {
 export type ChartOptionKeys = keyof IDataHistoryChartOptions;
 
 export enum QuickTimeSpanKey {
-    'Last 15 mins' = 'Last 15 mins',
-    'Last 30 mins' = 'Last 30 mins',
-    'Last Hour' = 'Last Hour',
-    'Last 3 Hours' = 'Last 3 Hours',
-    'Last 6 Hours' = 'Last 6 Hours',
-    'Last 12 Hours' = 'Last 12 Hours',
-    'Last 24 Hours' = 'Last 24 Hours',
-    'Last 7 Days' = 'Last 7 Days',
-    'Last 30 Days' = 'Last 30 Days',
-    'Last 60 Days' = 'Last 60 Days',
-    'Last 90 Days' = 'Last 90 Days',
-    'Last 180 Days' = 'Last 180 Days',
-    'Last Year' = 'Last Year'
+    Last15mins = 'Last 15 mins',
+    Last30mins = 'Last 30 mins',
+    LastHour = 'Last Hour',
+    Last3Hours = 'Last 3 Hours',
+    Last6Hours = 'Last 6 Hours',
+    Last12Hours = 'Last 12 Hours',
+    Last24Hours = 'Last 24 Hours',
+    Last7Days = 'Last 7 Days',
+    Last30Days = 'Last 30 Days',
+    Last60Days = 'Last 60 Days',
+    Last90Days = 'Last 90 Days',
+    Last180Days = 'Last 180 Days',
+    LastYear = 'Last Year'
 }
 
 /** Quick time span key to value in millisecond mapping */
 export const QuickTimeSpans = {
-    [QuickTimeSpanKey['Last 15 mins']]: 15 * 60 * 1000,
-    [QuickTimeSpanKey['Last 30 mins']]: 30 * 60 * 1000,
-    [QuickTimeSpanKey['Last Hour']]: 1 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 3 Hours']]: 3 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 6 Hours']]: 6 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 12 Hours']]: 12 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 24 Hours']]: 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 7 Days']]: 7 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 30 Days']]: 30 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 60 Days']]: 60 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 90 Days']]: 90 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last 180 Days']]: 180 * 24 * 60 * 60 * 1000,
-    [QuickTimeSpanKey['Last Year']]: 365 * 24 * 60 * 60 * 1000
+    [QuickTimeSpanKey.Last15mins]: 15 * 60 * 1000,
+    [QuickTimeSpanKey.Last30mins]: 30 * 60 * 1000,
+    [QuickTimeSpanKey.LastHour]: 1 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last3Hours]: 3 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last6Hours]: 6 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last12Hours]: 12 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last24Hours]: 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last7Days]: 7 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Days]: 30 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last60Days]: 60 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last90Days]: 90 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last180Days]: 180 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.LastYear]: 365 * 24 * 60 * 60 * 1000
 };
 
 export const getYAxisTypeOptions = (

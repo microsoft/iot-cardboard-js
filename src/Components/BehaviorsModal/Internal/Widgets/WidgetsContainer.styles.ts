@@ -52,7 +52,7 @@ export const getWidgetClassNames = memoizeFunction(
                 classNames.wideWidget,
                 {
                     ...baseWidget,
-                    width: 282,
+                    width: 264,
                     height: 186
                 } as IStyle
             ]

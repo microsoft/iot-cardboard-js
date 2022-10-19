@@ -1,4 +1,4 @@
-import { classNamesFunction, styled } from '@fluentui/react';
+import { classNamesFunction, styled, useTheme } from '@fluentui/react';
 import React, { memo, useContext, useEffect, useMemo, useRef } from 'react';
 import {
     ADXTimeSeries,
@@ -113,7 +113,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         [mode, widget.widgetConfiguration, data, twinIdPropertyMap]
     );
 
-    const classNames = getClassNames(styles);
+    const classNames = getClassNames(styles, { theme: useTheme() });
     return (
         <div className={classNames.root}>
             <HighChartsWrapper
@@ -121,6 +121,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 seriesData={highChartSeriesData}
                 isLoading={isLoading}
                 chartOptions={{
+                    titleAlign: 'left',
                     titleTargetLink:
                         mode === BehaviorModalMode.viewer
                             ? deeplink
@@ -131,6 +132,11 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     dataGrouping: chartOptions.aggregationType,
                     xMinInMillis: xMinDateInUTCRef.current?.valueOf(),
                     xMaxInMillis: xMaxDateInUTCRef.current?.valueOf()
+                }}
+                styles={{
+                    subComponentStyles: {
+                        title: classNames.subComponentStyles.title()
+                    }
                 }}
             />
         </div>

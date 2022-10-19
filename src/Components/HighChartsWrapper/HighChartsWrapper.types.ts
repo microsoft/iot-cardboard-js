@@ -1,15 +1,15 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import { OptionsLayoutValue } from 'highcharts';
-import { TimeSeriesData } from '../../Models/Constants';
+import { AlignValue, CSSObject, OptionsLayoutValue } from 'highcharts';
+import { TimeSeriesData } from '../../Models/Constants/Types';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS = 10;
 
 export interface IHighChartSeriesData {
-    name: string;
+    name: string; // name of the series which is used in legend and tooltip
     data: Array<TimeSeriesData>;
-    color?: string;
-    tooltipSuffix?: string;
+    color?: string; // color of the series line in chart plot, if not provided Highchart defaults used
+    tooltipSuffix?: string; // suffix string to append to the end of the name and value of the series to be shown in tooltip (e.g. "F" as unit)
 }
 
 export interface IHighChartsWrapperProps {
@@ -18,6 +18,7 @@ export interface IHighChartsWrapperProps {
     isLoading?: boolean;
     chartOptions?: {
         titleTargetLink?: string;
+        titleAlign?: AlignValue;
         legendLayout?: OptionsLayoutValue;
         legendPadding?: number;
         hasMultipleAxes?: boolean;
@@ -39,7 +40,7 @@ export interface IHighChartsWrapperStyleProps {
     theme: ITheme;
 }
 export interface IHighChartsWrapperStyles {
-    container: IStyle;
+    root: IStyle;
     shareButton: IStyle;
 
     /**
@@ -49,13 +50,13 @@ export interface IHighChartsWrapperStyles {
 }
 
 export interface IHighChartsWrapperSubComponentStyles {
-    chart?: { root: IStyle };
-    title?: { root: IStyle };
-    xAxis?: { title: IStyle; label: IStyle };
-    yAxis?: { title: IStyle; label: IStyle };
-    legend?: { root: IStyle; hover: IStyle };
-    loadingText?: { root: IStyle };
-    noDataText?: { root: IStyle };
+    chart?: { root: CSSObject };
+    title?: { root: CSSObject };
+    xAxis?: { title: CSSObject; label: CSSObject };
+    yAxis?: { title: CSSObject; label: CSSObject };
+    legend?: { root: CSSObject; hover: CSSObject };
+    loadingText?: { root: CSSObject };
+    noDataText?: { root: CSSObject };
 }
 
 export const HighChartsMockData: Array<IHighChartSeriesData> = [

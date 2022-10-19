@@ -1,5 +1,6 @@
 import { usePrevious } from '@fluentui/react-hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { MockAdapter } from '../../Adapters';
 import {
     ADXTableColumns,
     ADXTimeSeries,
@@ -14,7 +15,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('useTimeSeriesData', debugLogging);
 
 interface IProp {
-    adapter?: IADXAdapter;
+    adapter?: IADXAdapter | MockAdapter;
     connectionString: string;
     quickTimeSpanInMillis: number;
     twins: Array<IDataHistoryWidgetTimeSeriesTwin>;

@@ -1049,7 +1049,7 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesData() {
+    async getTimeSeriesData(_query: string) {
         try {
             await this.mockNetwork();
 

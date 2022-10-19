@@ -274,22 +274,6 @@ export enum AzureResourceDisplayFields {
     'url'
 }
 
-export enum QuickTimeSpanKey {
-    'Last 15 mins' = 'Last 15 mins',
-    'Last 30 mins' = 'Last 30 mins',
-    'Last Hour' = 'Last Hour',
-    'Last 3 Hours' = 'Last 3 Hours',
-    'Last 6 Hours' = 'Last 6 Hours',
-    'Last 12 Hours' = 'Last 12 Hours',
-    'Last 24 Hours' = 'Last 24 Hours',
-    'Last 7 Days' = 'Last 7 Days',
-    'Last 30 Days' = 'Last 30 Days',
-    'Last 60 Days' = 'Last 60 Days',
-    'Last 90 Days' = 'Last 90 Days',
-    'Last 180 Days' = 'Last 180 Days',
-    'Last Year' = 'Last Year'
-}
-
 export enum ADXTableColumns {
     Id = 'Id', // twin id
     TimeStamp = 'TimeStamp',

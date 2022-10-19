@@ -13,8 +13,8 @@ import {
     IconButton
 } from '@fluentui/react';
 import Highcharts, {
+    AlignValue,
     ColorString,
-    CSSObject,
     DataGroupingApproximationValue,
     OptionsLayoutValue,
     SeriesOptionsType
@@ -36,6 +36,7 @@ const getClassNames = classNamesFunction<
 const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const { title, seriesData, isLoading = false, styles } = props;
     const chartOptions = {
+        titleAlign: 'center' as AlignValue,
         legendLayout: 'horizontal' as OptionsLayoutValue,
         hasMultipleAxes: false,
         dataGrouping: 'avg' as IDataHistoryAggregationType,
@@ -110,7 +111,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const defaultYAxisProps: Highcharts.YAxisOptions = {
         title: undefined, // by default, do not show any labels in y axis, only numeric range
         labels: {
-            style: classNames.subComponentStyles.yAxis().label as CSSObject
+            style: classNames.subComponentStyles.yAxis().label
         }
     };
 
@@ -133,18 +134,22 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const deeplinkShareButtonDOMString = renderToString(
         <IconButton
             iconProps={{ iconName: 'Share' }}
-            title={t('highcharts.shareQuery')}
-            ariaLabel={t('highcharts.shareQuery')}
+            title={t('highcharts.shareQueryTitle')}
+            ariaLabel={t('highcharts.shareQueryTitle')}
             className={classNames.shareButton}
         />
     );
 
+    const xAxisStyles = classNames.subComponentStyles.xAxis();
+    const legendStyles = classNames.subComponentStyles.legend();
     const options: Highcharts.Options = {
+        credits: { enabled: false },
         time: {
             useUTC: true // by default, date is in UTC
         },
         accessibility: { enabled: true },
         title: {
+            align: chartOptions.titleAlign,
             useHTML: chartOptions?.titleTargetLink ? true : false,
             text:
                 chartOptions?.titleTargetLink && title
@@ -154,16 +159,16 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                     ${deeplinkShareButtonDOMString}
                     </a></div>` // need to hardcode styling here
                     : title || t('highcharts.noTitle'),
-            style: classNames.subComponentStyles.title().root as CSSObject
+            style: classNames.subComponentStyles.title().root
         },
         series: highChartSeries,
         xAxis: {
             type: 'datetime',
             title: {
-                style: classNames.subComponentStyles.xAxis().title as CSSObject
+                style: xAxisStyles.title
             },
             labels: {
-                style: classNames.subComponentStyles.xAxis().label as CSSObject
+                style: xAxisStyles.label
             },
             showFirstLabel: true,
             showLastLabel: true,
@@ -174,7 +179,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             ? multipleYAxisProps
             : defaultYAxisProps,
         chart: {
-            ...(classNames.subComponentStyles.chart().root as CSSObject),
+            ...classNames.subComponentStyles.chart().root,
             events: {
                 load() {
                     this.showLoading();
@@ -201,12 +206,11 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             }),
             margin: 0,
             y: 12,
-            itemHoverStyle: classNames.subComponentStyles.legend()
-                .hover as CSSObject,
-            itemStyle: classNames.subComponentStyles.legend().root as CSSObject
+            itemHoverStyle: legendStyles.hover,
+            itemStyle: legendStyles.root
         },
         lang: {
-            noData: t('highcharts.noData'),
+            noData: t('highcharts.noDataDescription'),
             loading: t('loading')
         },
         tooltip: {
@@ -217,14 +221,12 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             style: {
                 background: 'transparent'
             },
-            labelStyle: classNames.subComponentStyles.loadingText()
-                .root as CSSObject
+            labelStyle: classNames.subComponentStyles.loadingText().root
         },
         noData: isLoading
             ? null
             : {
-                  style: classNames.subComponentStyles.noDataText()
-                      .root as CSSObject
+                  style: classNames.subComponentStyles.noDataText().root
               },
         plotOptions: {
             series: {
@@ -236,7 +238,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     };
 
     return (
-        <div className={classNames.container}>
+        <div className={classNames.root}>
             <HighchartsReact
                 ref={chartComponentRef}
                 highcharts={Highcharts}
