@@ -622,7 +622,65 @@
       "libraryName": "패널",
       "description": "레이아웃 패널"
     },
-    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다."
+    "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
+    "dataHistory": {
+      "title": "데이터 히스토리 위젯",
+      "libraryName": "데이터 기록",
+      "description": "3D 장면의 컨텍스트에 시계열 데이터 표시",
+      "notEnabledDescription": "이 ADT 인스턴스에 대해 데이터 기록을 사용할 수 없습니다.",
+      "form": {
+        "connectionStringTitle": "연결 문자열",
+        "connectionStringPlaceholder": "연결 문자열을 입력합니다(예: key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "데이터 기록 위젯은 생성 시 Azure 디지털 트윈 인스턴스에 연결된 Azure 데이터 탐색기 인스턴스를 대상으로 합니다.",
+        "connectionLoadingText": "연결 정보 로드 중...",
+        "noConnectionInformationText": "연결 정보를 찾을 수 없음",
+        "displayNamePlaceholder": "표시 이름 입력",
+        "timeSeries": {
+          "timeSeriesDescription": "표시할 {{maxTimeSeriesCount}} 시계열을 추가합니다.",
+          "title": "시계열",
+          "description": "꺾은선형 차트에 표시할 계열",
+          "property": "재산",
+          "unit": "단위",
+          "label": "레이블",
+          "labelPlaceholder": "차트에 표시할 레이블 입력",
+          "add": "시계열 추가",
+          "edit": "시계열 편집",
+          "update": "시계열 업데이트",
+          "remove": "시계열 제거"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "각 시리즈에 분리된(독립적인) y축이 있는지 또는 동일한 y축(공유)을 공유하는지 여부를 설정하는 차트 옵션",
+            "label": "Y 축 유형",
+            "sharedLabel": "공유",
+            "independentLabel": "독립의"
+          },
+          "quickTimeSpan": {
+            "label": "기본 시간 범위",
+            "options": {
+              "Last 15 mins": "지난 15분",
+              "Last 30 mins": "지난 30분",
+              "Last hour": "지난 시간",
+              "Last 3 hours": "지난 3시간",
+              "Last 6 hours": "지난 6시간",
+              "Last 12 hours": "지난 12시간",
+              "Last 24 hours": "지난 24시간",
+              "Last 7 days": "지난 7일",
+              "Last 30 days": "지난 30일",
+              "Last 60 days": "지난 60일",
+              "Last 90 days": "지난 90일",
+              "Last 180 days": "지난 180일",
+              "Last year": "작년"
+            },
+            "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
+          },
+          "aggregationType": {
+            "label": "집계 유형",
+            "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "지난 30분",
@@ -1219,5 +1277,10 @@
     "propertyCount": "{{selectedPropsCount}} 속성 선택됨",
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택"
+  },
+  "highcharts": {
+    "noTitle": "제목 없음",
+    "shareQueryTitle": "쿼리 공유",
+    "noDataDescription": "표시할 데이터 없음"
   }
 }

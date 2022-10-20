@@ -37,7 +37,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     const [reverseLookupTwinId, setReverseLookupTwinId] = useState(
         lookupTwinId
     );
-    const [ADXConnectionInfo, setADXConnectionInfo] = useState<IADXConnection>(
+    const [adxConnectionInfo, setAdxConnectionInfo] = useState<IADXConnection>(
         null
     );
     const { t } = useTranslation();
@@ -54,11 +54,11 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
     const hasConnectionInfo = useMemo(
         () =>
             Boolean(
-                ADXConnectionInfo?.kustoClusterUrl &&
-                    ADXConnectionInfo?.kustoDatabaseName &&
-                    ADXConnectionInfo?.kustoTableName
+                adxConnectionInfo?.kustoClusterUrl &&
+                    adxConnectionInfo?.kustoDatabaseName &&
+                    adxConnectionInfo?.kustoTableName
             ),
-        [ADXConnectionInfo]
+        [adxConnectionInfo]
     );
 
     const handleChildNodeClick = (
@@ -126,7 +126,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
 
     useEffect(() => {
         if (!connectionState.adapterResult.hasNoData()) {
-            setADXConnectionInfo(connectionState.adapterResult.getData());
+            setAdxConnectionInfo(connectionState.adapterResult.getData());
         }
     }, [connectionState.adapterResult.result]);
 
@@ -150,7 +150,7 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
                     />
                 </div>
                 <div className="cb-hbcard-board">
-                    {selectedTwin && ADXConnectionInfo && (
+                    {selectedTwin && adxConnectionInfo && (
                         <Board
                             theme={theme}
                             locale={locale}

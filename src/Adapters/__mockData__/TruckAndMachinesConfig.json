@@ -193,7 +193,7 @@
                                     ],
                                     "chartOptions": {
                                         "aggregationType": "avg",
-                                        "defaultQuickTimeSpan": 900000,
+                                        "defaultQuickTimeSpanInMillis": 900000,
                                         "yAxisType": "shared"
                                     }
                                 }

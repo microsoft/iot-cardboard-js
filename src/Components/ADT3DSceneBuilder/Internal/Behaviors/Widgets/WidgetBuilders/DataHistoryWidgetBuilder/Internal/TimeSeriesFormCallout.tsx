@@ -85,7 +85,9 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
             ? t('widgets.dataHistory.form.timeSeries.add')
             : t('widgets.dataHistory.form.timeSeries.edit');
 
-    const primaryActionLabel = series ? t('edit') : t('add');
+    const primaryActionLabel = series
+        ? t('widgets.dataHistory.form.timeSeries.update')
+        : t('widgets.dataHistory.form.timeSeries.add');
 
     const handlePropertyChange = useCallback(
         (newPropertyExpression: PropertyExpression) => {

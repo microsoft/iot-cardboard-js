@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { CardboardListItem } from './CardboardListItem';
-import { IContextualMenuItem } from '@fluentui/react';
+import { IContextualMenuItem, Image } from '@fluentui/react';
 import {
     getDefaultStoryDecorator,
     waitForFirstRender
@@ -9,6 +9,7 @@ import {
 import { userEvent, within } from '@storybook/testing-library';
 import { Theme } from '../..';
 import { ICardboardListItemPropsInternal } from './CardboardList.types';
+import GenericErrorImg from '../../Resources/Static/noResults.svg';
 
 const cardStyle = {
     width: '300px',
@@ -114,10 +115,22 @@ WithStartIcon.args = {
     iconStart: { name: 'Shapes' }
 };
 
+export const WithStartIconCustom = Template.bind({}) as TemplateStory;
+WithStartIconCustom.args = {
+    ...defaultProps,
+    iconStart: () => <Image src={GenericErrorImg} height={14} />
+};
+
 export const WithEndIcon = Template.bind({}) as TemplateStory;
 WithEndIcon.args = {
     ...defaultProps,
     iconEnd: { name: 'Add' }
+};
+
+export const WithEndIconCustom = Template.bind({}) as TemplateStory;
+WithEndIconCustom.args = {
+    ...defaultProps,
+    iconEnd: () => <Image src={GenericErrorImg} height={14} />
 };
 
 export const WithEndIconButton = Template.bind({}) as TemplateStory;
@@ -130,6 +143,14 @@ export const WithStartAndEndIcon = Template.bind({}) as TemplateStory;
 WithStartAndEndIcon.args = {
     ...WithStartIcon.args,
     ...WithEndIcon.args
+};
+
+export const WithStartAndEndIconCustom = Template.bind({}) as TemplateStory;
+WithStartAndEndIconCustom.args = {
+    ...defaultProps,
+    textPrimary: 'something crazy super long and overflowing',
+    iconStart: () => <Image src={GenericErrorImg} height={14} />,
+    iconEnd: () => <Image src={GenericErrorImg} height={14} />
 };
 
 export const WithStartIconAndMenu = Template.bind({}) as TemplateStory;

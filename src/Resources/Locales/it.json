@@ -622,7 +622,65 @@
       "libraryName": "Pannello",
       "description": "Un pannello di layout"
     },
-    "notSupported": "Questo tipo di widget non è attualmente supportato"
+    "notSupported": "Questo tipo di widget non è attualmente supportato",
+    "dataHistory": {
+      "title": "Widget Cronologia dati",
+      "libraryName": "Cronologia dei dati",
+      "description": "Visualizzare i dati delle serie temporali nel contesto della scena 3D",
+      "notEnabledDescription": "La cronologia dei dati non è abilitata per questa istanza ADT.",
+      "form": {
+        "connectionStringTitle": "Stringa di connessione",
+        "connectionStringPlaceholder": "Immettere la stringa di connessione (ad esempio key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "I widget della cronologia dei dati sono destinati all'istanza di Esplora dati di Azure connessa all'istanza Gemelli digitali di Azure al momento della creazione.",
+        "connectionLoadingText": "Caricamento delle informazioni di connessione...",
+        "noConnectionInformationText": "Nessuna informazione di connessione trovata",
+        "displayNamePlaceholder": "Immettere il nome visualizzato",
+        "timeSeries": {
+          "timeSeriesDescription": "Aggiungi fino a {{maxTimeSeriesCount}} serie temporali da visualizzare",
+          "title": "Serie storiche",
+          "description": "Serie da visualizzare nel grafico a linee",
+          "property": "Proprietà",
+          "unit": "Unità",
+          "label": "Etichetta",
+          "labelPlaceholder": "Inserisci l'etichetta da mostrare nel grafico",
+          "add": "Aggiungere serie temporali",
+          "edit": "Modificare le serie temporali",
+          "update": "Aggiornare le serie temporali",
+          "remove": "Rimuovere serie temporali"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Opzione grafico per impostare se ogni serie ha assi y separati (indipendenti) o condivide lo stesso asse y (condiviso)",
+            "label": "Tipo di asse Y",
+            "sharedLabel": "Condiviso",
+            "independentLabel": "Indipendente"
+          },
+          "quickTimeSpan": {
+            "label": "Intervallo di tempo predefinito",
+            "options": {
+              "Last 15 mins": "Ultimi 15 minuti",
+              "Last 30 mins": "Ultimi 30 minuti",
+              "Last hour": "Ultima ora",
+              "Last 3 hours": "Ultime 3 ore",
+              "Last 6 hours": "Ultime 6 ore",
+              "Last 12 hours": "Ultime 12 ore",
+              "Last 24 hours": "Ultime 24 ore",
+              "Last 7 days": "Ultimi 7 giorni",
+              "Last 30 days": "Ultimi 30 giorni",
+              "Last 60 days": "Ultimi 60 giorni",
+              "Last 90 days": "Ultimi 90 giorni",
+              "Last 180 days": "Ultimi 180 giorni",
+              "Last year": "Anno scorso"
+            },
+            "information": "Selezione dell'intervallo di tempo predefinito in ora locale per l'asse x nel grafico"
+          },
+          "aggregationType": {
+            "label": "Tipo di aggregazione",
+            "information": "Operazione di aggregazione predefinita quando il raggruppamento dei dati è attivo in base al numero di punti dati nel grafico"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Ultimi 30 minuti",
@@ -1219,5 +1277,10 @@
     "propertyCount": "Proprietà {{selectedPropsCount}} selected",
     "availableProperties": "Elenco a discesa delle proprietà disponibili",
     "selectAdditionalColumns": "Selezionare colonne aggiuntive"
+  },
+  "highcharts": {
+    "noTitle": "Nessun titolo",
+    "shareQueryTitle": "Query di condivisione",
+    "noDataDescription": "Nessun dato da visualizzare"
   }
 }
