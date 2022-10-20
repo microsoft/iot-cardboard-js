@@ -10,7 +10,6 @@ import {
     IIconStyles,
     ITextFieldStyles
 } from '@fluentui/react';
-import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import {
@@ -21,6 +20,7 @@ import {
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
     root: `${classPrefix2}-root`,
+    minimap: `${classPrefix2}-minimap`,
     builtInControls: `${classPrefix2}-built-in-controls`
 };
 export const getStyles = (
@@ -29,6 +29,12 @@ export const getStyles = (
     const { theme } = props;
     return {
         root: [classNames2.root],
+        graphMiniMap: [
+            classNames2.minimap,
+            {
+                background: theme.semanticColors.bodyBackground
+            }
+        ],
         graphBuiltInControls: [
             classNames2.builtInControls,
             {
@@ -41,6 +47,7 @@ export const getStyles = (
                     background: theme.semanticColors.buttonBackground,
                     border: `1px solid ${theme.semanticColors.buttonBackground}`,
                     borderRadius: 4,
+                    color: theme.semanticColors.bodyText,
                     // remove border for the groups
                     height: HEADER_BUTTON_HEIGHT - 4,
                     width: HEADER_BUTTON_HEIGHT - 4,
@@ -261,11 +268,6 @@ export const getGraphViewerStyles = () => {
                 alignItems: 'center'
             } as IStyle
         ],
-        legendContainer: {
-            position: 'absolute',
-            left: 10,
-            bottom: 30
-        } as IStyle,
         handleContentRelationship: [
             classNames.handleContentRelationship,
             {
@@ -518,13 +520,6 @@ export const getGraphViewerWarningStyles = () => {
             color: theme.semanticColors.severeWarningIcon
         }
     } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
-};
-
-export const getGraphViewerMinimapStyles = () => {
-    const theme = useTheme();
-    return {
-        background: theme.semanticColors.bodyBackground
-    } as CSSProperties;
 };
 
 export const getRelationshipTextFieldStyles = () => {

@@ -14,9 +14,12 @@ import {
     Spinner,
     classNamesFunction,
     styled,
-    FocusZone
+    FocusZone,
+    Icon,
+    Callout,
+    DirectionalHint
 } from '@fluentui/react';
-import { usePrevious } from '@fluentui/react-hooks';
+import { useId, usePrevious } from '@fluentui/react-hooks';
 import ReactFlow, {
     ReactFlowProvider,
     MiniMap,
@@ -39,7 +42,6 @@ import {
 import {
     getGraphViewerStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles,
     getStyles
 } from './OATGraphViewer.styles';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
@@ -88,7 +90,6 @@ import {
     useOatGraphContext
 } from '../../Models/Context/OatGraphContext/OatGraphContext';
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
-import GraphAutoLayout from '../GraphAutoLayout/GraphAutoLayout';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 
@@ -112,6 +113,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     // hooks
     const { t } = useTranslation();
     const theme = useTheme();
+    const legendButtonId = useId('legend-button');
+    const mapButtonId = useId('map-button');
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -813,7 +816,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     // styles
     const graphViewerStyles = getGraphViewerStyles();
     const warningStyles = getGraphViewerWarningStyles();
-    const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
     const classNames = getClassNames(styles, { theme });
 
     logDebugConsole(
@@ -854,25 +856,28 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                         </Label>
                     )}
 
-                    <Stack
-                        tokens={{ childrenGap: 8 }}
-                        className={graphViewerStyles.legendContainer}
-                        horizontal
-                        verticalAlign={'baseline'}
-                    >
-                        {oatGraphState.isLegendVisible && <GraphLegend />}
-                        <GraphAutoLayout
-                            onForceLayout={() =>
-                                applyLayoutToElements(elements)
-                            }
-                        />
-                    </Stack>
-
                     {oatGraphState.isMiniMapVisible && (
-                        <MiniMap
-                            nodeColor={theme.semanticColors.inputBackground}
-                            style={graphViewerMinimapStyles}
-                        />
+                        <Callout
+                            setInitialFocus={true}
+                            styles={classNames.subComponentStyles.mapCallout}
+                            target={`#${mapButtonId}`}
+                            directionalHint={DirectionalHint.topCenter}
+                        >
+                            <MiniMap
+                                nodeColor={theme.semanticColors.inputBackground}
+                                className={classNames.graphMiniMap}
+                            />
+                        </Callout>
+                    )}
+                    {oatGraphState.isLegendVisible && (
+                        <Callout
+                            setInitialFocus={true}
+                            styles={classNames.subComponentStyles.legendCallout}
+                            target={`#${legendButtonId}`}
+                            directionalHint={DirectionalHint.topCenter}
+                        >
+                            <GraphLegend />
+                        </Callout>
                     )}
                     <FocusZone style={{ zIndex: 5 }}>
                         <Stack
@@ -880,7 +885,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             tokens={{ childrenGap: 16 }}
                             styles={classNames.subComponentStyles.controlsStack}
                         >
-                            <HeaderControlGroup>
+                            <HeaderControlGroup id={legendButtonId}>
                                 <HeaderControlButton
                                     iconProps={{ iconName: 'View' }}
                                     onClick={() =>
@@ -892,10 +897,19 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                     isActive={oatGraphState.isLegendVisible}
                                 />
                             </HeaderControlGroup>
+                            {/* built in controls for the graph */}
                             <Controls
                                 className={classNames.graphBuiltInControls}
-                            ></Controls>
-                            <HeaderControlGroup>
+                            >
+                                <ControlButton
+                                    onClick={() =>
+                                        applyLayoutToElements(elements)
+                                    }
+                                >
+                                    <Icon iconName={'GridViewMedium'} />
+                                </ControlButton>
+                            </Controls>
+                            <HeaderControlGroup id={mapButtonId}>
                                 <HeaderControlButton
                                     iconProps={{ iconName: 'Nav2DMapView' }}
                                     onClick={() =>

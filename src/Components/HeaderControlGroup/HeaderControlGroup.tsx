@@ -16,13 +16,14 @@ const getClassNames = classNamesFunction<
  * Component that wraps a collection of `HeaderControlButtons` to group them together and style them accordingly
  */
 const HeaderControlGroup: React.FC<IHeaderControlGroupProps> = (props) => {
-    const { children, styles } = props;
+    const { children, id, styles } = props;
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
 
     return (
         <Stack
+            id={id}
             horizontal
             className={classNames.root}
             styles={classNames.subComponentStyles.stack}

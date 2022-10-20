@@ -2,7 +2,8 @@ import {
     IStyleFunctionOrObject,
     ITheme,
     IStyle,
-    IStackStyles
+    IStackStyles,
+    ICalloutContentStyles
 } from '@fluentui/react';
 import { SimulationNodeDatum } from 'd3-force';
 import { ElementNode } from './Internal/Classes/ElementNode';
@@ -31,6 +32,7 @@ export interface IOATGraphViewerStyleProps {
 }
 export interface IOATGraphViewerStyles {
     root: IStyle;
+    graphMiniMap: IStyle;
     graphBuiltInControls: IStyle;
 
     /**
@@ -40,5 +42,7 @@ export interface IOATGraphViewerStyles {
 }
 
 export interface IOATGraphViewerSubComponentStyles {
-    controlsStack: IStackStyles;
+    controlsStack?: IStackStyles;
+    legendCallout?: ICalloutContentStyles;
+    mapCallout?: ICalloutContentStyles;
 }
