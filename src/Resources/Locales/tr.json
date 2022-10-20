@@ -668,7 +668,9 @@
             "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
           }
         }
-      }
+      },
+      "headerMenu": "Veri geçmişi widget menüsü",
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "Ek sütunlar seçme"
   },
   "highcharts": {
-    "noTitle": "Başlık yok",
     "shareQueryTitle": "Sorguyu paylaşma",
     "noDataDescription": "Görüntülenecek veri yok"
   }
