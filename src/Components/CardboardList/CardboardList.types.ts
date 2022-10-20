@@ -36,7 +36,7 @@ type IListItemBaseProps<T> = {
     /** icon or JSX element to render at the left side of the list item */
     iconStart?:
         | {
-              name: IIconNames | JSX.Element;
+              name: IIconNames;
           }
         | ((item: T) => React.ReactElement);
     /** if provided false will result in rendering the red dot at the very left of the element. If not provided, will assume it is valid and not render any dot */
