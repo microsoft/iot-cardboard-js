@@ -1,5 +1,5 @@
 import { DtdlInterface, IOATNodeElement } from '../../../../Models/Constants';
-import { ElementPosition } from './Element Position';
+import { ElementPosition } from './ElementPosition';
 
 export class ElementNode implements IOATNodeElement {
     public id: string;
