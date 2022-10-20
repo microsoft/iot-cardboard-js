@@ -12,7 +12,8 @@ import {
 
 const classNames = {
     widgetsContainer: `${behaviorsModalClassPrefix}-widgets-container`,
-    widget: `${behaviorsModalClassPrefix}-widget`
+    widget: `${behaviorsModalClassPrefix}-widget`,
+    wideWidget: `${behaviorsModalClassPrefix}-widget-wide`
 };
 
 export const widgetContainerClassNames = mergeStyleSets({
@@ -30,23 +31,29 @@ export const widgetContainerClassNames = mergeStyleSets({
 export const getWidgetClassNames = memoizeFunction(
     (theme: ITheme, mode: BehaviorModalMode, isActive: boolean) => {
         const borderStyle = getBorderStyle(theme, mode, 'border', isActive);
+        const baseWidget: IStyle = {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '124px',
+            height: '124px',
+            margin: 8,
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            wordBreak: 'break',
+            position: 'relative',
+            border: borderStyle,
+            borderRadius: '6px'
+        };
         return mergeStyleSets({
-            widget: [
-                classNames.widget,
+            widget: [classNames.widget, baseWidget],
+            wideWidget: [
+                classNames.wideWidget,
                 {
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: '124px',
-                    height: '124px',
-                    margin: 8,
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    wordBreak: 'break',
-                    position: 'relative',
-                    border: borderStyle,
-                    borderRadius: '6px'
+                    ...baseWidget,
+                    width: 264,
+                    height: 186
                 } as IStyle
             ]
         });

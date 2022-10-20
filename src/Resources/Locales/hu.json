@@ -611,7 +611,65 @@
       "libraryName": "Panel",
       "description": "Elrendezéspanel"
     },
-    "notSupported": "Ez a widgettípus jelenleg nem támogatott"
+    "notSupported": "Ez a widgettípus jelenleg nem támogatott",
+    "dataHistory": {
+      "title": "Adatelőzmények widget",
+      "libraryName": "Adatelőzmények",
+      "description": "Idősorozat-adatok megjelenítése a 3D-jelenet kontextusában",
+      "notEnabledDescription": "Az adatelőzmények nincsenek engedélyezve ehhez az ADT-példányhoz.",
+      "form": {
+        "connectionStringTitle": "Kapcsolati sztring",
+        "connectionStringPlaceholder": "Adja meg a kapcsolati sztringet (például key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Az adatelőzmények widgetek a Azure Data Explorer példányhoz csatlakoztatott példányt célozzák meg a Azure Digital Twins létrehozásakor.",
+        "connectionLoadingText": "Csatlakozási adatok betöltése...",
+        "noConnectionInformationText": "Nem található kapcsolati adat",
+        "displayNamePlaceholder": "Adja meg a megjelenítendő nevet",
+        "timeSeries": {
+          "timeSeriesDescription": "{{maxTimeSeriesCount}} megjelenítendő idősorok hozzáadása",
+          "title": "Idősorok",
+          "description": "A vonaldiagramon megjelenítendő adatsor",
+          "property": "Ingatlan",
+          "unit": "Egység",
+          "label": "Címke",
+          "labelPlaceholder": "Írja be a diagramon megjelenítendő címkét",
+          "add": "Idősorok hozzáadása",
+          "edit": "Idősorok szerkesztése",
+          "update": "Idősorok frissítése",
+          "remove": "Idősorok eltávolítása"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagram opció annak beállításához, hogy az egyes adatsorozatok külön (független) y tengelyekkel rendelkezzenek-e, vagy ugyanazon az y tengelyen osztozzanak (megosztott)",
+            "label": "Y tengely típusa",
+            "sharedLabel": "Megosztott",
+            "independentLabel": "Független"
+          },
+          "quickTimeSpan": {
+            "label": "Alapértelmezett időtartam",
+            "options": {
+              "Last 15 mins": "Utolsó 15 perc",
+              "Last 30 mins": "Utolsó 30 perc",
+              "Last hour": "Utolsó óra",
+              "Last 3 hours": "Utolsó 3 óra",
+              "Last 6 hours": "Utolsó 6 óra",
+              "Last 12 hours": "Az elmúlt 12 óra",
+              "Last 24 hours": "Az elmúlt 24 óra",
+              "Last 7 days": "Utolsó 7 nap",
+              "Last 30 days": "Az elmúlt 30 napban",
+              "Last 60 days": "Az elmúlt 60 napban",
+              "Last 90 days": "Az elmúlt 90 napban",
+              "Last 180 days": "Az elmúlt 180 napban",
+              "Last year": "Tavaly"
+            },
+            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
+          },
+          "aggregationType": {
+            "label": "Összesítés típusa",
+            "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Utolsó 30 perc",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} tulajdonságok ki vannak választva",
     "availableProperties": "Az elérhető szállások legördülő menüje",
     "selectAdditionalColumns": "További oszlopok kijelölése"
+  },
+  "highcharts": {
+    "noTitle": "Nincs cím",
+    "shareQueryTitle": "Lekérdezés megosztása",
+    "noDataDescription": "Nincs megjelenítendő adat"
   }
 }

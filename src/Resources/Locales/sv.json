@@ -611,7 +611,65 @@
       "libraryName": "Panel",
       "description": "En layoutpanel"
     },
-    "notSupported": "Den här widgettypen stöds inte för närvarande"
+    "notSupported": "Den här widgettypen stöds inte för närvarande",
+    "dataHistory": {
+      "title": "Widget för datahistorik",
+      "libraryName": "Historik",
+      "description": "Visa tidsseriedata i kontexten för din 3D-scen",
+      "notEnabledDescription": "Datahistorik är inte aktiverat för den här ADT-instansen.",
+      "form": {
+        "connectionStringTitle": "Anslutningssträng",
+        "connectionStringPlaceholder": "Ange anslutningssträng (t.ex. key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Datahistorikwidgetar riktar sig mot Azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas.",
+        "connectionLoadingText": "Laddar anslutningsinformation...",
+        "noConnectionInformationText": "Ingen anslutningsinformation hittades",
+        "displayNamePlaceholder": "Ange visningsnamn",
+        "timeSeries": {
+          "timeSeriesDescription": "Lägg till {{maxTimeSeriesCount}} tidsserier som ska visas",
+          "title": "Tidsserier",
+          "description": "En serie som ska visas i linjediagrammet",
+          "property": "Egenskap",
+          "unit": "Enhet",
+          "label": "Etikett",
+          "labelPlaceholder": "Ange etikett som ska visas i diagrammet",
+          "add": "Lägg till tidsserier",
+          "edit": "Redigera tidsserier",
+          "update": "Uppdatera tidsserier",
+          "remove": "Ta bort tidsserier"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagramalternativ för att ange om varje serie har separata (oberoende) y-axlar eller delar samma y-axel (delad)",
+            "label": "Typ av Y-axel",
+            "sharedLabel": "Delad",
+            "independentLabel": "Oberoende"
+          },
+          "quickTimeSpan": {
+            "label": "Standardtidsintervall",
+            "options": {
+              "Last 15 mins": "Senaste 15 minuterna",
+              "Last 30 mins": "Senaste 30 minuterna",
+              "Last hour": "Sista timmen",
+              "Last 3 hours": "Senaste 3 timmarna",
+              "Last 6 hours": "Senaste 6 timmarna",
+              "Last 12 hours": "Senaste 12 timmarna",
+              "Last 24 hours": "Senaste 24 timmarna",
+              "Last 7 days": "Senaste 7 dagarna",
+              "Last 30 days": "Senaste 30 dagarna",
+              "Last 60 days": "Senaste 60 dagarna",
+              "Last 90 days": "Senaste 90 dagarna",
+              "Last 180 days": "Senaste 180 dagarna",
+              "Last year": "Fjor"
+            },
+            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
+          },
+          "aggregationType": {
+            "label": "Typ av aggregering",
+            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Senaste 30 minuter",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} egenskaper valda",
     "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
     "selectAdditionalColumns": "Välj ytterligare kolumner"
+  },
+  "highcharts": {
+    "noTitle": "Ingen titel",
+    "shareQueryTitle": "Dela fråga",
+    "noDataDescription": "Inga data att visa"
   }
 }

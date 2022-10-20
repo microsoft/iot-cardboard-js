@@ -179,8 +179,7 @@ export const availableWidgets: Array<IWidgetLibraryItem> = [
         ),
         learnMoreLink: DOCUMENTATION_LINKS.dataHistory,
         iconName: 'Chart',
-        data: defaultDataHistoryWidget,
-        disabled: true
+        data: defaultDataHistoryWidget
     }
 ];
 export const twinRefreshMaxAge = 9000;
@@ -541,3 +540,5 @@ export const RequiredAccessRoleGroupForADTInstance: AzureAccessPermissionRoleGro
     enforced: EnforcedADTInstanceAccessRoleIds,
     interchangeables: InterchangeableADTInstanceAccessRoleIds
 };
+
+export const CONNECTION_STRING_SUFFIX = '.kusto.windows.net';

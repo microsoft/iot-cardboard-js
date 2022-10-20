@@ -611,7 +611,65 @@
       "libraryName": "Panel",
       "description": "Mizanpaj paneli"
     },
-    "notSupported": "Bu widget türü şu anda desteklenmiyor"
+    "notSupported": "Bu widget türü şu anda desteklenmiyor",
+    "dataHistory": {
+      "title": "Veri geçmişi widget'ı",
+      "libraryName": "Veri geçmişi",
+      "description": "Zaman serisi verilerini 3B sahnenizin bağlamında gösterme",
+      "notEnabledDescription": "Veri geçmişi bu ADT örneği için etkinleştirilmemiştir.",
+      "form": {
+        "connectionStringTitle": "Bağlantı dizesi",
+        "connectionStringPlaceholder": "Bağlantı dizesi girin (ör. key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler.",
+        "connectionLoadingText": "Bağlantı bilgileri yükleniyor...",
+        "noConnectionInformationText": "Bağlantı bilgisi bulunamadı",
+        "displayNamePlaceholder": "Görünen adı girin",
+        "timeSeries": {
+          "timeSeriesDescription": "Görüntülemek için {{maxTimeSeriesCount}} zaman serisine kadar ekleme",
+          "title": "Zaman serisi",
+          "description": "Çizgi grafikte görüntülenecek bir seri",
+          "property": "Mülk",
+          "unit": "Birim",
+          "label": "Etiket",
+          "labelPlaceholder": "Grafikte gösterilecek etiketi girin",
+          "add": "Zaman serisi ekleme",
+          "edit": "Zaman serilerini düzenleme",
+          "update": "Güncelleme zaman serisi",
+          "remove": "Zaman serilerini kaldırma"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Her serinin ayrı (Bağımsız) y ekseni olup olmadığını veya aynı y eksenini paylaşıp paylaşmadığını (Paylaşılan) ayarlamak için grafik seçeneği",
+            "label": "Y ekseni tipi",
+            "sharedLabel": "Paylaşılan",
+            "independentLabel": "Bağımsız"
+          },
+          "quickTimeSpan": {
+            "label": "Varsayılan zaman aralığı",
+            "options": {
+              "Last 15 mins": "Son 15 dakika",
+              "Last 30 mins": "Son 30 dakika",
+              "Last hour": "Son saat",
+              "Last 3 hours": "Son 3 saat",
+              "Last 6 hours": "Son 6 saat",
+              "Last 12 hours": "Son 12 saat",
+              "Last 24 hours": "Son 24 saat",
+              "Last 7 days": "Son 7 gün",
+              "Last 30 days": "Son 30 gün",
+              "Last 60 days": "Son 60 gün",
+              "Last 90 days": "Son 90 gün",
+              "Last 180 days": "Son 180 gün",
+              "Last year": "Geçen yıl"
+            },
+            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
+          },
+          "aggregationType": {
+            "label": "Toplama türü",
+            "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Son 30 dakika",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} özellikleri seçildi",
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme"
+  },
+  "highcharts": {
+    "noTitle": "Başlık yok",
+    "shareQueryTitle": "Sorguyu paylaşma",
+    "noDataDescription": "Görüntülenecek veri yok"
   }
 }

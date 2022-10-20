@@ -48,7 +48,8 @@ import {
     RequiredAccessRoleGroupForStorageContainer,
     AdapterMethodParamsForSearchTwinsByQuery,
     IADXConnection,
-    ADTResourceIdentifier
+    ADTResourceIdentifier,
+    ADXTimeSeries
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -68,6 +69,7 @@ import {
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
+    getMockTimeSeriesDataArrayInLocalTime,
     getModelContentType,
     parseDTDLModelsAsync,
     validate3DConfigWithSchema
@@ -90,6 +92,7 @@ import i18n from '../i18n';
 import ViewerConfigUtility from '../Models/Classes/ViewerConfigUtility';
 import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import { handleMigrations } from './BlobAdapterUtility';
+import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
 
 const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
@@ -1040,6 +1043,29 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async getTimeSeriesData(_query: string) {
+        try {
+            await this.mockNetwork();
+
+            const mockData: Array<ADXTimeSeries> = [
+                {
+                    id: 'PasteurizationMachine_A01',
+                    key: 'InFlow',
+                    data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
+                }
+            ];
+            return new AdapterResult({
+                result: new ADXTimeSeriesData(mockData),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult<ADXTimeSeriesData>({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

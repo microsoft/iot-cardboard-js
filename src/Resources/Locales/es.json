@@ -611,7 +611,65 @@
       "libraryName": "Tablero",
       "description": "Un panel de diseño"
     },
-    "notSupported": "Este tipo de widget no es compatible actualmente"
+    "notSupported": "Este tipo de widget no es compatible actualmente",
+    "dataHistory": {
+      "title": "Widget de historial de datos",
+      "libraryName": "Historial de datos",
+      "description": "Mostrar datos de series temporales en el contexto de la escena 3D",
+      "notEnabledDescription": "El historial de datos no está habilitado para esta instancia de ADT.",
+      "form": {
+        "connectionStringTitle": "Cadena de conexión",
+        "connectionStringPlaceholder": "Introduzca la cadena de conexión (por ejemplo, key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Los widgets de historial de datos se dirigen a la instancia de Azure Data Explorer conectada a la instancia de Azure Digital Twins en el momento de la creación.",
+        "connectionLoadingText": "Cargando información de conexión...",
+        "noConnectionInformationText": "No se encontró información de conexión",
+        "displayNamePlaceholder": "Introduzca el nombre para mostrar",
+        "timeSeries": {
+          "timeSeriesDescription": "Agregar a {{maxTimeSeriesCount}} series temporales para mostrar",
+          "title": "Series temporales",
+          "description": "Una serie para mostrar en el gráfico de líneas",
+          "property": "Propiedad",
+          "unit": "Unidad",
+          "label": "Etiqueta",
+          "labelPlaceholder": "Introduzca la etiqueta que se mostrará en el gráfico",
+          "add": "Agregar series temporales",
+          "edit": "Editar series temporales",
+          "update": "Actualizar series temporales",
+          "remove": "Quitar series temporales"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Opción de gráfico para establecer si cada serie tiene ejes y separados (independientes) o si comparten el mismo eje y (compartido)",
+            "label": "Tipo de eje Y",
+            "sharedLabel": "Compartido",
+            "independentLabel": "Independiente"
+          },
+          "quickTimeSpan": {
+            "label": "Intervalo de tiempo predeterminado",
+            "options": {
+              "Last 15 mins": "Últimos 15 minutos",
+              "Last 30 mins": "Últimos 30 minutos",
+              "Last hour": "Última hora",
+              "Last 3 hours": "Últimas 3 horas",
+              "Last 6 hours": "Últimas 6 horas",
+              "Last 12 hours": "Últimas 12 horas",
+              "Last 24 hours": "Últimas 24 horas",
+              "Last 7 days": "Últimos 7 días",
+              "Last 30 days": "Últimos 30 días",
+              "Last 60 days": "Últimos 60 días",
+              "Last 90 days": "Últimos 90 días",
+              "Last 180 days": "Últimos 180 días",
+              "Last year": "Año pasado"
+            },
+            "information": "Selección predeterminada del intervalo de tiempo en hora local para el eje x en el gráfico"
+          },
+          "aggregationType": {
+            "label": "Tipo de agregación",
+            "information": "Operación de agregación predeterminada cuando la agrupación de datos está activa en función del número de puntos de datos del gráfico"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} propiedades seleccionadas",
     "availableProperties": "Menú desplegable de propiedades disponibles",
     "selectAdditionalColumns": "Seleccionar columnas adicionales"
+  },
+  "highcharts": {
+    "noTitle": "Sin título",
+    "shareQueryTitle": "Compartir consulta",
+    "noDataDescription": "No hay datos para mostrar"
   }
 }

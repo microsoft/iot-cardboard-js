@@ -611,7 +611,65 @@
       "libraryName": "Painel",
       "description": "Um painel de layout"
     },
-    "notSupported": "Este tipo de widget não é suportado atualmente"
+    "notSupported": "Este tipo de widget não é suportado atualmente",
+    "dataHistory": {
+      "title": "Widget do histórico de dados",
+      "libraryName": "Histórico de dados",
+      "description": "Mostre dados de timeseries no contexto de sua cena 3D",
+      "notEnabledDescription": "O histórico de dados não está habilitado para esta instância do ADT.",
+      "form": {
+        "connectionStringTitle": "String de conexão",
+        "connectionStringPlaceholder": "Digite a sequência de conexão (por exemplo, key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "O histórico de dados tem como alvo a instância do Azure Data Explorer conectada à instância Azure Digital Twins no momento da criação.",
+        "connectionLoadingText": "Carregando informações de conexão...",
+        "noConnectionInformationText": "Nenhuma informação de conexão encontrada",
+        "displayNamePlaceholder": "Digite o nome do display",
+        "timeSeries": {
+          "timeSeriesDescription": "Adicione ao timeseries {{maxTimeSeriesCount}} para exibir",
+          "title": "Série temporal",
+          "description": "Uma série para exibir no gráfico de linhas",
+          "property": "Propriedade",
+          "unit": "Unidade",
+          "label": "Etiqueta",
+          "labelPlaceholder": "Digite rótulo para mostrar no gráfico",
+          "add": "Adicionar séries temporizados",
+          "edit": "Editar séries temporitais",
+          "update": "Atualizar séries temporizes",
+          "remove": "Remover séries temporizados"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Opção de gráfico para definir se cada série tiver eixos y separados (Independentes) ou compartilhar o mesmo eixo y (Compartilhado)",
+            "label": "Tipo de eixo Y",
+            "sharedLabel": "Compartilhado",
+            "independentLabel": "Independente"
+          },
+          "quickTimeSpan": {
+            "label": "Período de tempo padrão",
+            "options": {
+              "Last 15 mins": "Últimos 15 minutos",
+              "Last 30 mins": "Últimos 30 minutos",
+              "Last hour": "Última hora",
+              "Last 3 hours": "Últimas 3 horas.",
+              "Last 6 hours": "Últimas 6 horas",
+              "Last 12 hours": "Últimas 12 horas",
+              "Last 24 hours": "Últimas 24 horas",
+              "Last 7 days": "Últimos 7 dias",
+              "Last 30 days": "Últimos 30 dias.",
+              "Last 60 days": "Últimos 60 dias",
+              "Last 90 days": "Últimos 90 dias",
+              "Last 180 days": "Últimos 180 dias",
+              "Last year": "Ano passado"
+            },
+            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
+          },
+          "aggregationType": {
+            "label": "Tipo de agregação",
+            "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Últimos 30 minutos",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} propriedades selecionadas",
     "availableProperties": "Desistência de imóveis disponíveis",
     "selectAdditionalColumns": "Selecione colunas adicionais"
+  },
+  "highcharts": {
+    "noTitle": "Sem título",
+    "shareQueryTitle": "Consulta de compartilhamento",
+    "noDataDescription": "Sem dados para exibir"
   }
 }

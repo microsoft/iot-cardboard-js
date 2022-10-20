@@ -273,3 +273,10 @@ export enum AzureResourceDisplayFields {
     'name',
     'url'
 }
+
+export enum ADXTableColumns {
+    Id = 'Id', // twin id
+    TimeStamp = 'TimeStamp',
+    Key = 'Key', // twin property
+    Value = 'Value' // value of twin property at that time
+}

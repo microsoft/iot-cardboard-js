@@ -3,6 +3,7 @@ import {
     ChoiceGroup,
     classNamesFunction,
     Dropdown,
+    IDropdownProps,
     ITextFieldProps,
     Label,
     Link,
@@ -23,6 +24,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
+import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -37,7 +39,6 @@ import { getStyles } from './DataHistoryWidgetBuilder.styles';
 import {
     AggregationTypeOptions,
     ChartOptionKeys,
-    CONNECTION_STRING_SUFFIX,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     QuickTimeSpanKey,
@@ -124,13 +125,16 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
         let key: QuickTimeSpanKey;
         const idx = Object.values(QuickTimeSpans).indexOf(
-            formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan
+            formData.widgetConfiguration.chartOptions
+                .defaultQuickTimeSpanInMillis
         );
         if (idx !== -1) {
             key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
         }
         return key;
-    }, [formData.widgetConfiguration.chartOptions.defaultQuickTimeSpan]);
+    }, [
+        formData.widgetConfiguration.chartOptions.defaultQuickTimeSpanInMillis
+    ]);
 
     const selectedSeries = selectedTimeSeriesId
         ? formData.widgetConfiguration.timeSeries.find(
@@ -238,6 +242,62 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
         [t, classNames]
     );
 
+    const handleOnRenderTimeSpanLabel = useCallback(
+        (
+            props?: IDropdownProps,
+            defaultRender?: (props?: IDropdownProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                'widgets.dataHistory.form.chartOptions.quickTimeSpan.information'
+                            ),
+                            calloutContent: (
+                                <>
+                                    {t(
+                                        'widgets.dataHistory.form.chartOptions.quickTimeSpan.information'
+                                    )}
+                                </>
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t, classNames]
+    );
+
+    const handleOnRenderAggregationTypeLabel = useCallback(
+        (
+            props?: IDropdownProps,
+            defaultRender?: (props?: IDropdownProps) => JSX.Element | null
+        ): JSX.Element => {
+            return (
+                <Stack horizontal verticalAlign={'center'}>
+                    {defaultRender(props)}
+                    <TooltipCallout
+                        content={{
+                            buttonAriaLabel: t(
+                                'widgets.dataHistory.form.chartOptions.aggregationType.information'
+                            ),
+                            calloutContent: (
+                                <>
+                                    {t(
+                                        'widgets.dataHistory.form.chartOptions.aggregationType.information'
+                                    )}
+                                </>
+                            )
+                        }}
+                    />
+                </Stack>
+            );
+        },
+        [t, classNames]
+    );
+
     const onChartOptionChange = useCallback(
         (
             optionKey: ChartOptionKeys,
@@ -334,9 +394,13 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     )}
                     selectedKey={quickTimeSpanKeyByValue}
                     onChange={(_env, option) =>
-                        onChartOptionChange('defaultQuickTimeSpan', option.data)
+                        onChartOptionChange(
+                            'defaultQuickTimeSpanInMillis',
+                            option.data
+                        )
                     }
                     options={getQuickTimeSpanOptions(t)}
+                    onRenderLabel={handleOnRenderTimeSpanLabel}
                 />
                 <Dropdown
                     label={t(
@@ -353,6 +417,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                         )
                     }
                     options={AggregationTypeOptions}
+                    onRenderLabel={handleOnRenderAggregationTypeLabel}
                 />
             </Stack>
             {isTimeSeriesFormCalloutVisible && (
@@ -380,8 +445,7 @@ const generateConnectionString = (
         connection?.kustoTableName
     ) {
         try {
-            const clusterUrl = new URL(connection?.kustoClusterUrl);
-            if (clusterUrl.host.endsWith(CONNECTION_STRING_SUFFIX)) {
+            if (isValidADXClusterUrl(connection?.kustoClusterUrl)) {
                 return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
             }
         } catch (error) {

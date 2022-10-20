@@ -6,7 +6,7 @@ import {
     IWidget
 } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
-import { DataHistoryWidget } from './DataHistoryWidget/DataHistoryWidget';
+import DataHistoryWidget from './DataHistoryWidget/DataHistoryWidget';
 import GaugeWidget from './GaugeWidget/GaugeWidget';
 import { LinkWidget } from './LinkWidget/LinkWidget';
 import { ValueWidget } from './ValueWidget/ValueWidget';
@@ -46,11 +46,17 @@ const WidgetsContainer: React.FC<IWidgetContainerProps> = ({
                 <div
                     key={widget.id}
                     className={
-                        getWidgetClassNames(
-                            theme,
-                            mode,
-                            activeWidgetId === widget.id
-                        ).widget
+                        widget.type === WidgetType.DataHistory
+                            ? getWidgetClassNames(
+                                  theme,
+                                  mode,
+                                  activeWidgetId === widget.id
+                              ).wideWidget
+                            : getWidgetClassNames(
+                                  theme,
+                                  mode,
+                                  activeWidgetId === widget.id
+                              ).widget
                     }
                 >
                     {makeWidget(widget)}

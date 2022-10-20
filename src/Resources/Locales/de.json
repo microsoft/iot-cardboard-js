@@ -611,7 +611,65 @@
       "libraryName": "Gremium",
       "description": "Ein Layoutpanel"
     },
-    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt"
+    "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
+    "dataHistory": {
+      "title": "Widget \"Datenverlauf\"",
+      "libraryName": "Datenhistorie",
+      "description": "Anzeigen von Zeitreihendaten im Kontext Ihrer 3D-Szene",
+      "notEnabledDescription": "Der Datenverlauf ist für diese ADT-Instanz nicht aktiviert.",
+      "form": {
+        "connectionStringTitle": "Verbindungszeichenfolge",
+        "connectionStringPlaceholder": "Geben Sie die Verbindungszeichenfolge ein (z. B. Schlüssel1=Wert1;Schlüssel2=Wert2;Schlüssel3=Wert3)",
+        "connectionStringInformation": "Datenverlaufswidgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden war.",
+        "connectionLoadingText": "Verbindungsinformationen werden geladen...",
+        "noConnectionInformationText": "Keine Verbindungsinformationen gefunden",
+        "displayNamePlaceholder": "Anzeigenamen eingeben",
+        "timeSeries": {
+          "timeSeriesDescription": "Addieren Sie die anzuzeigenden {{maxTimeSeriesCount}}-Zeitreihen",
+          "title": "Zeitreihe",
+          "description": "Eine Reihe, die im Liniendiagramm angezeigt werden soll",
+          "property": "Eigentum",
+          "unit": "Einheit",
+          "label": "Etikett",
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll",
+          "add": "Zeitreihen hinzufügen",
+          "edit": "Zeitreihen bearbeiten",
+          "update": "Zeitreihen aktualisieren",
+          "remove": "Zeitreihen entfernen"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Diagrammoption zum Festlegen, ob jede Reihe separate (unabhängige) y-Achsen hat oder dieselbe y-Achse verwendet (Shared)",
+            "label": "Y-Achsentyp",
+            "sharedLabel": "Geteilt",
+            "independentLabel": "Unabhängig"
+          },
+          "quickTimeSpan": {
+            "label": "Standardzeitspanne",
+            "options": {
+              "Last 15 mins": "Letzte 15 Minuten",
+              "Last 30 mins": "Letzte 30 Minuten",
+              "Last hour": "Letzte Stunde",
+              "Last 3 hours": "Letzte 3 Stunden",
+              "Last 6 hours": "Letzte 6 Stunden",
+              "Last 12 hours": "Letzte 12 Stunden",
+              "Last 24 hours": "Letzte 24 Stunden",
+              "Last 7 days": "Letzte 7 Tage",
+              "Last 30 days": "Letzte 30 Tage",
+              "Last 60 days": "Letzte 60 Tage",
+              "Last 90 days": "Letzte 90 Tage",
+              "Last 180 days": "Letzte 180 Tage",
+              "Last year": "Letztes Jahr"
+            },
+            "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
+          },
+          "aggregationType": {
+            "label": "Aggregationstyp",
+            "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Letzte 30 Minuten",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}}-Eigenschaften ausgewählt",
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
+  },
+  "highcharts": {
+    "noTitle": "Kein Titel",
+    "shareQueryTitle": "Freigabeabfrage",
+    "noDataDescription": "Keine Daten anzuzeigen"
   }
 }

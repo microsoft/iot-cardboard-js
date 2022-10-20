@@ -611,7 +611,65 @@
       "libraryName": "Paneel",
       "description": "Een indelingspaneel"
     },
-    "notSupported": "Dit widgettype wordt momenteel niet ondersteund"
+    "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
+    "dataHistory": {
+      "title": "Widget gegevensgeschiedenis",
+      "libraryName": "Gegevensgeschiedenis",
+      "description": "Tijdreeksgegevens weergeven in de context van uw 3D-scène",
+      "notEnabledDescription": "Gegevensgeschiedenis is niet ingeschakeld voor dit ADT-exemplaar.",
+      "form": {
+        "connectionStringTitle": "Verbindingsreeks",
+        "connectionStringPlaceholder": "Voer de verbindingsreeks in (bijvoorbeeld key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken.",
+        "connectionLoadingText": "Verbindingsgegevens worden geladen...",
+        "noConnectionInformationText": "Geen verbindingsgegevens gevonden",
+        "displayNamePlaceholder": "Voer de weergavenaam in",
+        "timeSeries": {
+          "timeSeriesDescription": "Voeg toe aan {{maxTimeSeriesCount}} timeseries om weer te geven",
+          "title": "Tijdreeksen",
+          "description": "Een reeks die in het lijndiagram moet worden weergegeven",
+          "property": "Eigenschap",
+          "unit": "Eenheid",
+          "label": "Etiket",
+          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven",
+          "add": "Tijdreeksen toevoegen",
+          "edit": "Tijdreeksen bewerken",
+          "update": "Tijdreeksen bijwerken",
+          "remove": "Tijdreeksen verwijderen"
+        },
+        "chartOptions": {
+          "yAxisType": {
+            "description": "Grafiekoptie om in te stellen of elke serie afzonderlijke (onafhankelijke) y-assen heeft of dezelfde y-as deelt (gedeeld)",
+            "label": "Type Y-as",
+            "sharedLabel": "Gedeeld",
+            "independentLabel": "Onafhankelijk"
+          },
+          "quickTimeSpan": {
+            "label": "Standaard tijdspanne",
+            "options": {
+              "Last 15 mins": "Laatste 15 minuten",
+              "Last 30 mins": "Laatste 30 minuten",
+              "Last hour": "Laatste uur",
+              "Last 3 hours": "Laatste 3 uur",
+              "Last 6 hours": "Laatste 6 uur",
+              "Last 12 hours": "Laatste 12 uur",
+              "Last 24 hours": "Afgelopen 24 uur",
+              "Last 7 days": "Laatste 7 dagen",
+              "Last 30 days": "Laatste 30 dagen",
+              "Last 60 days": "Laatste 60 dagen",
+              "Last 90 days": "Afgelopen 90 dagen",
+              "Last 180 days": "Afgelopen 180 dagen",
+              "Last year": "Vorig jaar"
+            },
+            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
+          },
+          "aggregationType": {
+            "label": "Type aggregatie",
+            "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
+          }
+        }
+      }
+    }
   },
   "sdkStrings": {
     "Last 30 mins": "Laatste 30 minuten",
@@ -1208,5 +1266,10 @@
     "propertyCount": "{{selectedPropsCount}} eigenschappen geselecteerd",
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren"
+  },
+  "highcharts": {
+    "noTitle": "Geen titel",
+    "shareQueryTitle": "Query delen",
+    "noDataDescription": "Geen gegevens om weer te geven"
   }
 }
