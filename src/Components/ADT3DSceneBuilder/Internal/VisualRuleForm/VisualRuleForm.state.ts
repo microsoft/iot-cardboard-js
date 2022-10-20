@@ -65,6 +65,12 @@ export const VisualRuleFormReducer: IVisualRuleFormReducerType = produce(
                 draft.visualRuleToEdit.valueRangeType = action.payload.type;
                 break;
             }
+            case VisualRuleFormActionType.RESET_VISUAL_RULE_EXPRESSION_AND_TYPE: {
+                draft.visualRuleToEdit.valueRangeType = 'integer';
+                draft.visualRuleToEdit.valueExpression = '';
+                draft.visualRuleToEdit.valueRanges = [];
+                break;
+            }
             case VisualRuleFormActionType.FORM_CONDITION_ADD_OR_UPDATE: {
                 draft.visualRuleToEdit.valueRanges = AddOrUpdateListItemByFilter(
                     draft.visualRuleToEdit.valueRanges,

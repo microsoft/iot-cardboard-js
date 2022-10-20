@@ -17,8 +17,11 @@ const LOC_KEYS = {
     invalidRanges: `${ROOT_LOC}.invalidRanges`,
     choiceGroupTrue: `${ROOT_LOC}.choiceGroupTrue`,
     choiceGroupFalse: `${ROOT_LOC}.choiceGroupFalse`,
-    conditionsTitle: `${ROOT_LOC}.conditionsTitle`
+    flyoutValuesTitle: `${ROOT_LOC}.flyoutValuesTitle`,
+    flyoutValueTitle: `${ROOT_LOC}.flyoutValueTitle`
 };
+
+const STACK_TOKENS = { childrenGap: 8 };
 
 export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     const {
@@ -45,6 +48,7 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         [t]
     );
 
+    const styles = getSummaryStyles(useTheme());
     // Render callbacks
     const renderFields = () => {
         switch (conditionType) {
@@ -57,12 +61,10 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         }
     };
 
-    const styles = getSummaryStyles(useTheme());
-
     const renderNumericalSummary = () => {
         return (
             <Stack>
-                <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
+                <Stack horizontal={true} tokens={STACK_TOKENS}>
                     <BoundaryInput
                         value={currentValues[0] as string}
                         boundary={Boundary.min}
@@ -125,8 +127,12 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
 
     return (
         <>
-            <Stack>
-                <p>{t(LOC_KEYS.conditionsTitle)}</p>
+            <Stack tokens={STACK_TOKENS}>
+                <h4 className={styles.title}>
+                    {conditionType === 'boolean'
+                        ? t(LOC_KEYS.flyoutValueTitle)
+                        : t(LOC_KEYS.flyoutValuesTitle)}
+                </h4>
                 {renderFields()}
             </Stack>
         </>

@@ -23,8 +23,7 @@ const DROPDOWN_OPTIONS: IDropdownOption[] = [
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
-    actionsTitle: `${ROOT_LOC}.actionsTitle`,
-    actionTypeLabel: `${ROOT_LOC}.actionTypeLabel`,
+    actionLabel: `${ROOT_LOC}.actionLabel`,
     colorLabel: `${ROOT_LOC}.colorLabel`,
     iconLabel: `${ROOT_LOC}.iconLabel`
 };
@@ -78,13 +77,17 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
     return (
         <>
             <Stack tokens={{ childrenGap: 8 }}>
-                <div>{t(LOC_KEYS.actionsTitle)}</div>
                 <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
                     <Dropdown
-                        label={t(LOC_KEYS.actionTypeLabel)}
+                        label={t(LOC_KEYS.actionLabel)}
                         options={DROPDOWN_OPTIONS}
                         selectedKey={selectedOption}
                         onChange={handleOnDropdownChange}
+                        styles={{
+                            root: {
+                                minWidth: '126px'
+                            }
+                        }}
                     />
                     <ColorPicker
                         selectedItem={color}

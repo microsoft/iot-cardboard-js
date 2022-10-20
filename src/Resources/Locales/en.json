@@ -571,6 +571,8 @@
             "addCondition": "Add condition",
             "newCondition": "New condition",
             "conditionsTitle": "Conditions",
+            "flyoutValuesTitle": "Values",
+            "flyoutValueTitle": "Value",
             "edit": "Edit visual rule",
             "formSubtext": "A rule contains conditions and visual cues when those conditions are met. Choose the data expression for this rule and add a few conditions.",
             "typePlaceholder": "Select the type for the value",
@@ -579,14 +581,14 @@
             "deleteCondition": "Delete condition",
             "unlabeledCondition": "Unlabeled",
             "actionsTitle": "Actions",
-            "actionTypeLabel": "Type",
+            "actionLabel": "Action",
             "colorLabel": "Color",
             "iconLabel": "Icon",
             "invalidRanges": "Invalid range, min should be less than max, and values should be numeric.",
             "labelField": "Label",
             "choiceGroupTrue": "True",
             "choiceGroupFalse": "False",
-            "multiselectPlaceholder": "Type something and press enter..."
+            "placeholderMultiselect": "Type values, press enter to add"
         }
     },
     "widgets": {

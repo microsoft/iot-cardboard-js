@@ -179,11 +179,15 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                     onDismiss={onDismiss}
                     directionalHint={DirectionalHint.rightCenter}
                 >
-                    <Stack tokens={{ childrenGap: 8 }}>
+                    <Stack tokens={{ childrenGap: 12 }}>
                         {calloutType === CalloutInfoType.create ? (
-                            <span>{t(LOC_KEYS.addCondition)}</span>
+                            <h4 className={classNames.title}>
+                                {t(LOC_KEYS.addCondition)}
+                            </h4>
                         ) : (
-                            <span>{t(LOC_KEYS.editCondition)}</span>
+                            <h4 className={classNames.title}>
+                                {t(LOC_KEYS.editCondition)}
+                            </h4>
                         )}
                         <TextField
                             value={

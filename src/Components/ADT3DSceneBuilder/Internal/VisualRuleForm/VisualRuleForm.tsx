@@ -58,6 +58,7 @@ import {
     IVisualRuleFormStyles,
     IVisualRuleFormStylesProps
 } from './VisualRuleForm.types';
+import { isNumericType } from './VisualRuleFormUtility';
 
 const getClassNames = classNamesFunction<
     IVisualRuleFormStylesProps,
@@ -113,6 +114,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     }, []);
 
     // Refs
+    const ignorePropertyChangeOnMount = useRef(true);
     // This combination of init function and useRef should replace a useEffect that runs onMount
     const getInitialVisualRule = (): IExpressionRangeVisual => {
         if (visualRuleId) {
@@ -233,6 +235,20 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 });
                 handleExpressionTextFieldEnabled(true);
             } else {
+                // Check for property type not being numeric, reset property selection
+                // exclude this from internal mode changed triggered on mount of component
+                if (
+                    !isNumericType(
+                        visualRuleFormState.visualRuleToEdit.valueRangeType
+                    ) &&
+                    !ignorePropertyChangeOnMount.current
+                ) {
+                    visualRuleFormDispatch({
+                        type:
+                            VisualRuleFormActionType.RESET_VISUAL_RULE_EXPRESSION_AND_TYPE
+                    });
+                }
+
                 visualRuleFormDispatch({
                     type:
                         VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
@@ -240,8 +256,13 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 });
                 handleExpressionTextFieldEnabled(false);
             }
+            // Once this was triggered on mount allow reset when mode changes from advanced -> simple
+            ignorePropertyChangeOnMount.current = false;
         },
-        [handleExpressionTextFieldEnabled]
+        [
+            handleExpressionTextFieldEnabled,
+            visualRuleFormState.visualRuleToEdit.valueRangeType
+        ]
     );
 
     const handleSaveClick = useCallback(() => {

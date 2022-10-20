@@ -27,7 +27,7 @@ const createOption = (label: string): MultiselectOption => ({
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
-    multiselectPlaceholder: `${ROOT_LOC}.multiselectPlaceholder`
+    placeholderMultiselect: `${ROOT_LOC}.placeholderMultiselect`
 };
 
 const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
@@ -102,7 +102,7 @@ const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
                 onChange={handleChange}
                 onInputChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                placeholder={t(LOC_KEYS.multiselectPlaceholder)}
+                placeholder={t(LOC_KEYS.placeholderMultiselect)}
                 value={selectedValues}
                 styles={reactSelectStyles}
             />

@@ -34,6 +34,7 @@ export interface IConditionsCalloutStyleProps {
 export interface IConditionsCalloutStyles {
     root: IStyle;
     footer: IStyle;
+    title: IStyle;
     /**
      * SubComponent styles.
      */

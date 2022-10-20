@@ -13,7 +13,8 @@ import {
 export const classPrefix = 'cb-conditionscallout';
 const classNames = {
     root: `${classPrefix}-root`,
-    footer: `${classPrefix}-footer`
+    footer: `${classPrefix}-footer`,
+    title: `${classPrefix}-title`
 };
 export const getStyles = (
     _props: IConditionsCalloutStyleProps
@@ -23,15 +24,21 @@ export const getStyles = (
         footer: [
             classNames.footer,
             {
-                paddingTop: 20
+                paddingTop: 32
+            }
+        ],
+        title: [
+            classNames.title,
+            {
+                fontSize: FontSizes.size16,
+                margin: 0
             }
         ],
         subComponentStyles: {
             callout: {
                 root: {
-                    minHeight: 400,
                     width: 300,
-                    padding: 8
+                    padding: 20
                 }
             }
         }
@@ -40,6 +47,9 @@ export const getStyles = (
 
 export const getSummaryStyles = (theme: ITheme) =>
     mergeStyleSets({
+        title: {
+            margin: 0
+        },
         invalidText: {
             color: theme.semanticColors.errorText,
             fontSize: FontSizes.size12
