@@ -38,8 +38,8 @@ export interface IDataHistoryWidgetBuilderStyles {
 export type ChartOptionKeys = keyof IDataHistoryChartOptions;
 
 export enum QuickTimeSpanKey {
-    Last15mins = 'Last 15 mins',
-    Last30mins = 'Last 30 mins',
+    Last15Mins = 'Last 15 mins',
+    Last30Mins = 'Last 30 mins',
     LastHour = 'Last hour',
     Last3Hours = 'Last 3 hours',
     Last6Hours = 'Last 6 hours',
@@ -55,8 +55,8 @@ export enum QuickTimeSpanKey {
 
 /** Quick time span key to value in millisecond mapping */
 export const QuickTimeSpans = {
-    [QuickTimeSpanKey.Last15mins]: 15 * 60 * 1000,
-    [QuickTimeSpanKey.Last30mins]: 30 * 60 * 1000,
+    [QuickTimeSpanKey.Last15Mins]: 15 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Mins]: 30 * 60 * 1000,
     [QuickTimeSpanKey.LastHour]: 1 * 60 * 60 * 1000,
     [QuickTimeSpanKey.Last3Hours]: 3 * 60 * 60 * 1000,
     [QuickTimeSpanKey.Last6Hours]: 6 * 60 * 60 * 1000,
