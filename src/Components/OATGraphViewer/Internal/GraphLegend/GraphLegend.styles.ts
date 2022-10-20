@@ -6,7 +6,7 @@ import {
 
 const classPrefix = 'cb-graph-legend';
 const classNames = {
-    itemIcon: `${classPrefix}-ite m-icon`
+    itemIcon: `${classPrefix}-item-icon`
 };
 export const getStyles = (
     _props: IGraphLegendStyleProps
