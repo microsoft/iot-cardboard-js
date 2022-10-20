@@ -40,17 +40,17 @@ export type ChartOptionKeys = keyof IDataHistoryChartOptions;
 export enum QuickTimeSpanKey {
     Last15mins = 'Last 15 mins',
     Last30mins = 'Last 30 mins',
-    LastHour = 'Last Hour',
-    Last3Hours = 'Last 3 Hours',
-    Last6Hours = 'Last 6 Hours',
-    Last12Hours = 'Last 12 Hours',
-    Last24Hours = 'Last 24 Hours',
-    Last7Days = 'Last 7 Days',
-    Last30Days = 'Last 30 Days',
-    Last60Days = 'Last 60 Days',
-    Last90Days = 'Last 90 Days',
-    Last180Days = 'Last 180 Days',
-    LastYear = 'Last Year'
+    LastHour = 'Last hour',
+    Last3Hours = 'Last 3 hours',
+    Last6Hours = 'Last 6 hours',
+    Last12Hours = 'Last 12 hours',
+    Last24Hours = 'Last 24 hours',
+    Last7Days = 'Last 7 days',
+    Last30Days = 'Last 30 days',
+    Last60Days = 'Last 60 days',
+    Last90Days = 'Last 90 days',
+    Last180Days = 'Last 180 days',
+    LastYear = 'Last year'
 }
 
 /** Quick time span key to value in millisecond mapping */

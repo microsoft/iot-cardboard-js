@@ -646,17 +646,17 @@
                         "options": {
                             "Last 15 mins": "Last 15 mins",
                             "Last 30 mins": "Last 30 mins",
-                            "Last Hour": "Last Hour",
-                            "Last 3 Hours": "Last 3 Hours",
-                            "Last 6 Hours": "Last 6 Hours",
-                            "Last 12 Hours": "Last 12 Hours",
-                            "Last 24 Hours": "Last 24 Hours",
-                            "Last 7 Days": "Last 7 Days",
-                            "Last 30 Days": "Last 30 Days",
-                            "Last 60 Days": "Last 60 Days",
-                            "Last 90 Days": "Last 90 Days",
-                            "Last 180 Days": "Last 180 Days",
-                            "Last Year": "Last Year"
+                            "Last hour": "Last hour",
+                            "Last 3 hours": "Last 3 hours",
+                            "Last 6 hours": "Last 6 hours",
+                            "Last 12 hours": "Last 12 hours",
+                            "Last 24 hours": "Last 24 hours",
+                            "Last 7 days": "Last 7 days",
+                            "Last 30 days": "Last 30 days",
+                            "Last 60 days": "Last 60 days",
+                            "Last 90 days": "Last 90 days",
+                            "Last 180 days": "Last 180 days",
+                            "Last year": "Last year"
                         }
                     },
                     "aggregationType": {
