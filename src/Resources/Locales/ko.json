@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "지난 15분",
               "Last 30 mins": "지난 30분",
-              "Last Hour": "지난 시간",
-              "Last 3 Hours": "지난 3시간",
-              "Last 6 Hours": "지난 6시간",
-              "Last 12 Hours": "지난 12시간",
-              "Last 24 Hours": "지난 24시간",
-              "Last 7 Days": "지난 7일",
-              "Last 30 Days": "지난 30일",
-              "Last 60 Days": "지난 60일",
-              "Last 90 Days": "지난 90일",
-              "Last 180 Days": "지난 180일",
-              "Last Year": "작년"
+              "Last hour": "지난 시간",
+              "Last 3 hours": "지난 3시간",
+              "Last 6 hours": "지난 6시간",
+              "Last 12 hours": "지난 12시간",
+              "Last 24 hours": "지난 24시간",
+              "Last 7 days": "지난 7일",
+              "Last 30 days": "지난 30일",
+              "Last 60 days": "지난 60일",
+              "Last 90 days": "지난 90일",
+              "Last 180 days": "지난 180일",
+              "Last year": "작년"
             },
             "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
           },

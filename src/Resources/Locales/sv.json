@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Senaste 15 minuterna",
               "Last 30 mins": "Senaste 30 minuterna",
-              "Last Hour": "Senaste timmen",
-              "Last 3 Hours": "Senaste 3 timmarna",
-              "Last 6 Hours": "Senaste 6 timmarna",
-              "Last 12 Hours": "Senaste 12 timmarna",
-              "Last 24 Hours": "Senaste 24 timmarna",
-              "Last 7 Days": "Senaste 7 dagarna",
-              "Last 30 Days": "Senaste 30 dagarna",
-              "Last 60 Days": "Senaste 60 dagarna",
-              "Last 90 Days": "Senaste 90 dagarna",
-              "Last 180 Days": "Senaste 180 dagarna",
-              "Last Year": "Fjor"
+              "Last hour": "Sista timmen",
+              "Last 3 hours": "Senaste 3 timmarna",
+              "Last 6 hours": "Senaste 6 timmarna",
+              "Last 12 hours": "Senaste 12 timmarna",
+              "Last 24 hours": "Senaste 24 timmarna",
+              "Last 7 days": "Senaste 7 dagarna",
+              "Last 30 days": "Senaste 30 dagarna",
+              "Last 60 days": "Senaste 60 dagarna",
+              "Last 90 days": "Senaste 90 dagarna",
+              "Last 180 days": "Senaste 180 dagarna",
+              "Last year": "Fjor"
             },
             "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
           },

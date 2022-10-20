@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "最近 15 分钟",
               "Last 30 mins": "最近 30 分钟",
-              "Last Hour": "最后一小时",
-              "Last 3 Hours": "最近 3 小时",
-              "Last 6 Hours": "最近 6 小时",
-              "Last 12 Hours": "最近 12 小时",
-              "Last 24 Hours": "最近 24 小时",
-              "Last 7 Days": "最近 7 天",
-              "Last 30 Days": "最近 30 天",
-              "Last 60 Days": "最近 60 天",
-              "Last 90 Days": "最近 90 天",
-              "Last 180 Days": "最近 180 天",
-              "Last Year": "去年"
+              "Last hour": "最后一小时",
+              "Last 3 hours": "最近 3 小时",
+              "Last 6 hours": "最近 6 小时",
+              "Last 12 hours": "最近 12 小时",
+              "Last 24 hours": "最近 24 小时",
+              "Last 7 days": "最近 7 天",
+              "Last 30 days": "最近 30 天",
+              "Last 60 days": "最近 60 天",
+              "Last 90 days": "最近 90 天",
+              "Last 180 days": "最近 180 天",
+              "Last year": "去年"
             },
             "information": "图表中 x 轴的默认时间范围选择（以本地时间为单位）"
           },
