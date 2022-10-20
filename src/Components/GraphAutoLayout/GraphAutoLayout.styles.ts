@@ -1,4 +1,3 @@
-import { FontSizes } from '@fluentui/react';
 import {
     IGraphAutoLayoutStyleProps,
     IGraphAutoLayoutStyles
