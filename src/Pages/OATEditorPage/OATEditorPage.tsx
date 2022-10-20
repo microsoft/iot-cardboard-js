@@ -4,7 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import OATHeader from '../../Components/OATHeader/OATHeader';
 import OATModelList from '../../Components/OATModelList/OATModelList';
-import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
+import OATGraphViewerContent from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.styles';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
@@ -56,7 +56,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                     }
                 >
                     <OATModelList />
-                    <OATGraphViewer />
+                    <OATGraphViewerContent />
                     <OATPropertyEditor
                         theme={selectedTheme}
                         languages={languages}

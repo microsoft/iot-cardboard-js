@@ -6,7 +6,6 @@ import {
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
-    IStackProps,
     IButtonProps,
     IIconStyles,
     ITextFieldStyles
@@ -45,7 +44,6 @@ const classNames = {
     nodeContainer: `${classPrefix}-node-container`,
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
-    graphViewerForceLayoutWrap: `${classPrefix}-graph-viewer-force-layout-wrap`,
     extendCancel: `${classPrefix}-extend-cancel`,
     relationshipCTASection: `${classPrefix}-node-container-cta-section`,
     relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`,
@@ -194,6 +192,11 @@ export const getGraphViewerStyles = () => {
                 alignItems: 'center'
             } as IStyle
         ],
+        legendContainer: {
+            position: 'absolute',
+            left: 10,
+            bottom: 30
+        } as IStyle,
         handleContentRelationship: [
             classNames.handleContentRelationship,
             {
@@ -433,21 +436,6 @@ export const getGraphViewerStyles = () => {
                 }
             } as IStyle
         ],
-        graphViewerForceLayoutWrap: [
-            classNames.graphViewerForceLayoutWrap,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                background: theme.palette.neutralLight,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '34px',
-                zIndex: '100',
-                height: 'fit-content'
-            } as IStyle
-        ],
         extendCancel: [
             classNames.extendCancel,
             {
@@ -495,16 +483,6 @@ export const getGraphViewerMinimapStyles = () => {
     return {
         background: theme.semanticColors.bodyBackground
     } as CSSProperties;
-};
-
-export const getGraphForceLayoutStyles = () => {
-    return {
-        root: {
-            position: 'absolute',
-            top: '110px',
-            right: '10px'
-        }
-    } as IStackProps;
 };
 
 export const getRelationshipTextFieldStyles = () => {

@@ -6,31 +6,23 @@ import {
 
 const classPrefix = 'cb-graph-legend';
 const classNames = {
-    item: `${classPrefix}-item`
+    itemIcon: `${classPrefix}-item-icon`
 };
 export const getStyles = (
     props: IGraphLegendStyleProps
 ): IGraphLegendStyles => {
     const { theme } = props;
     return {
-        // filterItem: [
-        //     classNames.item,
-        //     {
-        //         zIndex: '100',
-        //         display: 'flex',
-        //         alignItems: 'center',
-        //         marginBottom: 4
-        //     }
-        // ],
-        itemIcon: {
-            width: 28
-        },
+        itemIcon: [
+            classNames.itemIcon,
+            {
+                width: 28
+            }
+        ],
         subComponentStyles: {
             rootStack: {
                 root: {
-                    position: 'absolute',
-                    top: '10px',
-                    right: '10px',
+                    position: 'relative',
                     background: theme.palette.neutralLight,
                     border: `1px solid ${theme.semanticColors.inputBorder}`,
                     fontSize: FontSizes.size12,
