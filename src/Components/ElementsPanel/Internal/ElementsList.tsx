@@ -155,11 +155,9 @@ function getListItems(
                     onBlur: () => onItemBlur(element, panelItem)
                 })
             },
-            iconStart: {
-                name: (
-                    <ElementStatus statuses={statuses} panelItem={panelItem} />
-                )
-            },
+            iconStart: () => (
+                <ElementStatus statuses={statuses} panelItem={panelItem} />
+            ),
             item: element,
             itemType: 'header',
             onClick: () => onItemClick(element, panelItem),
@@ -184,18 +182,15 @@ function getListItems(
                     onMouseLeave: onLeave,
                     onBlur: onLeave
                 },
-                iconStart: {
-                    name: (
-                        <span className={alertStyles.alertCircle}>
-                            <Icon
-                                iconName={
-                                    alert.alertVisual.valueRanges[0].visual
-                                        .iconName
-                                }
-                            />
-                        </span>
-                    )
-                },
+                iconStart: () => (
+                    <span className={alertStyles.alertCircle}>
+                        <Icon
+                            iconName={
+                                alert.alertVisual.valueRanges[0].visual.iconName
+                            }
+                        />
+                    </span>
+                ),
                 item: alert.alertVisual,
                 itemType: 'item',
                 onClick: () =>
