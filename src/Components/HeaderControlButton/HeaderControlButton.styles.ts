@@ -15,7 +15,7 @@ export function GET_HEADER_BUTTON_STYLES(
             backgroundColor: isActive
                 ? theme.semanticColors.buttonBackgroundPressed
                 : theme.semanticColors.buttonBackground,
-            borderRadius: 2,
+            borderRadius: 4,
             // remove the border for the groups
             height: HEADER_BUTTON_HEIGHT - 2,
             width: HEADER_BUTTON_HEIGHT - 2,

@@ -6,7 +6,16 @@ import React, {
     useCallback,
     useContext
 } from 'react';
-import { useTheme, Label, Stack, SpinnerSize, Spinner } from '@fluentui/react';
+import {
+    useTheme,
+    Label,
+    Stack,
+    SpinnerSize,
+    Spinner,
+    classNamesFunction,
+    styled,
+    FocusZone
+} from '@fluentui/react';
 import { usePrevious } from '@fluentui/react-hooks';
 import ReactFlow, {
     ReactFlowProvider,
@@ -14,7 +23,8 @@ import ReactFlow, {
     Controls,
     Background,
     Node,
-    Edge
+    Edge,
+    ControlButton
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
@@ -29,7 +39,8 @@ import {
 import {
     getGraphViewerStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles
+    getGraphViewerMinimapStyles,
+    getStyles
 } from './OATGraphViewer.styles';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
@@ -63,7 +74,13 @@ import {
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
+import {
+    IOatElementNode,
+    IOatGraphNode,
+    IOATGraphViewerProps,
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+} from './OATGraphViewer.types';
 import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
 import GraphLegend from './Internal/GraphLegend/GraphLegend';
 import {
@@ -72,9 +89,16 @@ import {
 } from '../../Models/Context/OatGraphContext/OatGraphContext';
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
 import GraphAutoLayout from '../GraphAutoLayout/GraphAutoLayout';
+import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
+import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
+
+const getClassNames = classNamesFunction<
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+>();
 
 const nodeWidth = 300;
 const nodeHeight = 100;
@@ -82,7 +106,9 @@ const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
 
-const OATGraphViewerContent: React.FC = () => {
+const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
+    const { styles } = props;
+
     // hooks
     const { t } = useTranslation();
     const theme = useTheme();
@@ -788,6 +814,7 @@ const OATGraphViewerContent: React.FC = () => {
     const graphViewerStyles = getGraphViewerStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
+    const classNames = getClassNames(styles, { theme });
 
     logDebugConsole(
         'debug',
@@ -826,13 +853,14 @@ const OATGraphViewerContent: React.FC = () => {
                             {t('OATGraphViewer.emptyGraph')}
                         </Label>
                     )}
+
                     <Stack
                         tokens={{ childrenGap: 8 }}
                         className={graphViewerStyles.legendContainer}
                         horizontal
                         verticalAlign={'baseline'}
                     >
-                        <GraphLegend />
+                        {oatGraphState.isLegendVisible && <GraphLegend />}
                         <GraphAutoLayout
                             onForceLayout={() =>
                                 applyLayoutToElements(elements)
@@ -840,25 +868,47 @@ const OATGraphViewerContent: React.FC = () => {
                         />
                     </Stack>
 
-                    <MiniMap
-                        nodeColor={theme.semanticColors.inputBackground}
-                        style={graphViewerMinimapStyles}
-                    />
-                    <div
-                        className={
-                            graphViewerStyles.graphViewerControlsContainer
-                        }
-                    >
-                        <Controls
-                            className={graphViewerStyles.graphViewerControls}
+                    {oatGraphState.isMiniMapVisible && (
+                        <MiniMap
+                            nodeColor={theme.semanticColors.inputBackground}
+                            style={graphViewerMinimapStyles}
+                        />
+                    )}
+                    <FocusZone style={{ zIndex: 5 }}>
+                        <Stack
+                            horizontal
+                            tokens={{ childrenGap: 16 }}
+                            styles={classNames.subComponentStyles.controlsStack}
                         >
-                            {/* <div style={{ paddingLeft: 20 }}>
-                                <ControlButton
-                                    onClick={() => alert('clicked')}
+                            <HeaderControlGroup>
+                                <HeaderControlButton
+                                    iconProps={{ iconName: 'View' }}
+                                    onClick={() =>
+                                        oatGraphDispatch({
+                                            type:
+                                                OatGraphContextActionType.LEGEND_VISBLE_TOGGLE
+                                        })
+                                    }
+                                    isActive={oatGraphState.isLegendVisible}
                                 />
-                            </div> */}
-                        </Controls>
-                    </div>
+                            </HeaderControlGroup>
+                            <Controls
+                                className={classNames.graphBuiltInControls}
+                            ></Controls>
+                            <HeaderControlGroup>
+                                <HeaderControlButton
+                                    iconProps={{ iconName: 'Nav2DMapView' }}
+                                    onClick={() =>
+                                        oatGraphDispatch({
+                                            type:
+                                                OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE
+                                        })
+                                    }
+                                    isActive={oatGraphState.isMiniMapVisible}
+                                />
+                            </HeaderControlGroup>
+                        </Stack>
+                    </FocusZone>
                     <Background
                         color={theme.semanticColors.bodyBackground}
                         gap={16}
@@ -870,12 +920,16 @@ const OATGraphViewerContent: React.FC = () => {
     );
 };
 
-const OATGraphViewer: React.FC = () => {
+const OATGraphViewer: React.FC<IOATGraphViewerProps> = (props) => {
     return (
         <OatGraphContextProvider>
-            <OATGraphViewerContent />
+            <OATGraphViewerContent {...props} />
         </OatGraphContextProvider>
     );
 };
 
-export default OATGraphViewer;
+export default styled<
+    IOATGraphViewerProps,
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+>(OATGraphViewer, getStyles);

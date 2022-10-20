@@ -12,6 +12,75 @@ import {
 } from '@fluentui/react';
 import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
+import {
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+} from './OATGraphViewer.types';
+
+export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
+const classNames2 = {
+    root: `${classPrefix2}-root`,
+    builtInControls: `${classPrefix2}-built-in-controls`
+};
+export const getStyles = (
+    props: IOATGraphViewerStyleProps
+): IOATGraphViewerStyles => {
+    const { theme } = props;
+    return {
+        root: [classNames2.root],
+        graphBuiltInControls: [
+            classNames2.builtInControls,
+            {
+                alignItems: 'center',
+                display: 'flex',
+                backgroundColor: theme.semanticColors.buttonBackground,
+                border: `1px solid ${theme.palette.neutralLight} !important`,
+                borderRadius: 4,
+                '.react-flow__controls-button': {
+                    background: theme.semanticColors.buttonBackground,
+                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
+                    borderRadius: 4,
+                    // remove border for the groups
+                    height: HEADER_BUTTON_HEIGHT - 4,
+                    width: HEADER_BUTTON_HEIGHT - 4,
+                    padding: 0,
+                    ':hover': {
+                        background:
+                            theme.semanticColors.buttonBackgroundHovered,
+                        border: `1px solid ${theme.palette.neutralSecondary}`
+                    },
+                    ':focused': {
+                        background:
+                            theme.semanticColors.buttonBackgroundHovered,
+                        border: `1px solid ${theme.palette.neutralSecondary}`
+                    },
+                    ':active': {
+                        background: theme.semanticColors.buttonBackgroundPressed
+                    },
+                    '& svg': {
+                        fill: theme.semanticColors.bodyText
+                    }
+                }
+            }
+        ],
+        subComponentStyles: {
+            controlsStack: {
+                root: {
+                    bottom: 60,
+                    left: '50%',
+                    position: 'absolute',
+                    zIndex: 5,
+
+                    '> .react-flow__controls': {
+                        position: 'unset',
+                        left: 'unset'
+                    }
+                }
+            }
+        }
+    };
+};
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
@@ -406,33 +475,6 @@ export const getGraphViewerStyles = () => {
             {
                 label: {
                     overflowWrap: 'normal'
-                }
-            } as IStyle
-        ],
-        graphViewerControlsContainer: {
-            position: 'absolute',
-            bottom: 30,
-            left: '50%',
-            zIndex: 5,
-            '> .react-flow__controls': {
-                position: 'unset',
-                left: 'unset'
-            }
-        },
-        graphViewerControls: [
-            classNames.graphViewerControls,
-            {
-                display: 'flex',
-                '& button': {
-                    background: theme.semanticColors.primaryButtonBackground,
-                    borderColor: theme.semanticColors.primaryButtonTextPressed,
-                    ':hover': {
-                        background:
-                            theme.semanticColors.primaryButtonBackgroundHovered
-                    },
-                    '& svg': {
-                        fill: theme.semanticColors.primaryButtonTextPressed
-                    }
                 }
             } as IStyle
         ],
