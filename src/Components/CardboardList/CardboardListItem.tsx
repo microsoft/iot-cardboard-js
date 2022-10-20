@@ -37,16 +37,16 @@ export const CardboardListItem = <T extends unknown>(
     const showSecondaryText = !!textSecondary;
 
     // start icon
-    const isStartIconCustomRender = typeof iconStart === 'function';
+    const isStartIconCustomRender = typeof iconStart !== 'object';
     const showStartIcon = !!iconStart && !isStartIconCustomRender;
     const showWarningIndicator = isValid === false;
 
     // end icon
-    const isEndIconCustomRender = typeof iconEnd === 'function';
+    const isEndIconCustomRender = typeof iconEnd !== 'object';
     const showEndIconButton =
-        !isEndIconCustomRender && iconEnd?.name && iconEnd?.onClick;
+        typeof iconEnd === 'object' && iconEnd?.name && iconEnd?.onClick;
     const showEndIcon =
-        !isEndIconCustomRender && iconEnd?.name && !showEndIconButton;
+        typeof iconEnd === 'object' && iconEnd?.name && !showEndIconButton;
 
     const showOverflow = !!overflowMenuItems?.length;
 
@@ -62,7 +62,7 @@ export const CardboardListItem = <T extends unknown>(
     }, [onMenuStateChange]);
 
     const onSecondaryAction = useCallback(() => {
-        !isEndIconCustomRender && iconEnd?.onClick?.(item);
+        typeof iconEnd === 'object' && iconEnd?.onClick?.(item);
     }, [iconEnd, isEndIconCustomRender, item]);
 
     const onButtonClick = useCallback(() => {
@@ -116,7 +116,7 @@ export const CardboardListItem = <T extends unknown>(
                             />
                         </>
                     )}
-                    {isStartIconCustomRender && iconStart(item)}
+                    {typeof iconStart === 'function' && iconStart(item)}
                     {showStartIcon &&
                         (typeof iconStart.name === 'string' ? (
                             <FontIcon
@@ -147,7 +147,7 @@ export const CardboardListItem = <T extends unknown>(
                             </div>
                         )}
                     </div>
-                    {isEndIconCustomRender && iconEnd(item)}
+                    {typeof iconEnd === 'function' && iconEnd(item)}
                     {showEndIcon && (
                         <FontIcon
                             iconName={iconEnd.name}
