@@ -2,11 +2,11 @@ import React from 'react';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import BaseComponent from '../BaseComponent/BaseComponent';
-import OATGraphViewerContent from './OATGraphViewer';
+import OATGraphViewer from './OATGraphViewer';
 
 export default {
     title: 'Components - OAT/OATGraphViewer',
-    component: OATGraphViewerContent
+    component: OATGraphViewer
 };
 
 export const Default = (_args, { globals: { theme, locale } }) => {
@@ -14,7 +14,7 @@ export const Default = (_args, { globals: { theme, locale } }) => {
         <BaseComponent locale={locale} theme={theme}>
             <OatPageContextProvider>
                 <CommandHistoryContextProvider>
-                    <OATGraphViewerContent />
+                    <OATGraphViewer />
                 </CommandHistoryContextProvider>
             </OatPageContextProvider>
         </BaseComponent>
