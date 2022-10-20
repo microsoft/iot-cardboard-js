@@ -6,10 +6,24 @@ import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScen
 export const MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS = 10;
 
 export interface IHighChartSeriesData {
-    name: string /**  name of the series which is used in legend and tooltip*/;
+    /**
+     * Name of the series which is used in legend and tooltip
+     */
+    name: string;
+    /**
+     * Data points for series to be plotted in chart
+     */
     data: Array<TimeSeriesData>;
-    color?: string /** color of the series line in chart plot, if not provided Highchart defaults used  */;
-    tooltipSuffix?: string /**  suffix string to append to the end of the name and value of the series to be shown in tooltip (e.g. "F" as unit)*/;
+    /**
+     * Color of the series line in chart plot, if not provided
+     * Highchart defaults used
+     */
+    color?: string;
+    /**
+     * Suffix string to append to the end of the name and
+     * value of the series to be shown in tooltip (e.g. "F" as unit)
+     */
+    tooltipSuffix?: string;
 }
 
 export interface IHighChartsWrapperProps {
