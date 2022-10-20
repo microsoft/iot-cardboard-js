@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Ultimi 15 minuti",
               "Last 30 mins": "Ultimi 30 minuti",
-              "Last Hour": "Ultima Ora",
-              "Last 3 Hours": "Ultime 3 ore",
-              "Last 6 Hours": "Ultime 6 ore",
-              "Last 12 Hours": "Ultime 12 ore",
-              "Last 24 Hours": "Ultime 24 ore",
-              "Last 7 Days": "Ultimi 7 giorni",
-              "Last 30 Days": "Ultimi 30 giorni",
-              "Last 60 Days": "Ultimi 60 giorni",
-              "Last 90 Days": "Ultimi 90 giorni",
-              "Last 180 Days": "Ultimi 180 giorni",
-              "Last Year": "Anno scorso"
+              "Last hour": "Ultima ora",
+              "Last 3 hours": "Ultime 3 ore",
+              "Last 6 hours": "Ultime 6 ore",
+              "Last 12 hours": "Ultime 12 ore",
+              "Last 24 hours": "Ultime 24 ore",
+              "Last 7 days": "Ultimi 7 giorni",
+              "Last 30 days": "Ultimi 30 giorni",
+              "Last 60 days": "Ultimi 60 giorni",
+              "Last 90 days": "Ultimi 90 giorni",
+              "Last 180 days": "Ultimi 180 giorni",
+              "Last year": "Anno scorso"
             },
             "information": "Selezione dell'intervallo di tempo predefinito in ora locale per l'asse x nel grafico"
           },

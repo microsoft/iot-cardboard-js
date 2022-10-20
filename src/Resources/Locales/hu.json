@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Utolsó 15 perc",
               "Last 30 mins": "Utolsó 30 perc",
-              "Last Hour": "Utolsó óra",
-              "Last 3 Hours": "Utolsó 3 óra",
-              "Last 6 Hours": "Utolsó 6 óra",
-              "Last 12 Hours": "Utolsó 12 óra",
-              "Last 24 Hours": "Utolsó 24 óra",
-              "Last 7 Days": "Utolsó 7 nap",
-              "Last 30 Days": "Utolsó 30 nap",
-              "Last 60 Days": "Az elmúlt 60 nap",
-              "Last 90 Days": "Utolsó 90 nap",
-              "Last 180 Days": "Az elmúlt 180 nap",
-              "Last Year": "Tavaly"
+              "Last hour": "Utolsó óra",
+              "Last 3 hours": "Utolsó 3 óra",
+              "Last 6 hours": "Utolsó 6 óra",
+              "Last 12 hours": "Az elmúlt 12 óra",
+              "Last 24 hours": "Az elmúlt 24 óra",
+              "Last 7 days": "Utolsó 7 nap",
+              "Last 30 days": "Az elmúlt 30 napban",
+              "Last 60 days": "Az elmúlt 60 napban",
+              "Last 90 days": "Az elmúlt 90 napban",
+              "Last 180 days": "Az elmúlt 180 napban",
+              "Last year": "Tavaly"
             },
             "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
           },

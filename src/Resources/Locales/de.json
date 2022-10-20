@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Letzte 15 Minuten",
               "Last 30 mins": "Letzte 30 Minuten",
-              "Last Hour": "Letzte Stunde",
-              "Last 3 Hours": "Letzte 3 Stunden",
-              "Last 6 Hours": "Letzte 6 Stunden",
-              "Last 12 Hours": "Letzte 12 Stunden",
-              "Last 24 Hours": "Letzte 24 Stunden",
-              "Last 7 Days": "Letzte 7 Tage",
-              "Last 30 Days": "Letzte 30 Tage",
-              "Last 60 Days": "Letzte 60 Tage",
-              "Last 90 Days": "Letzte 90 Tage",
-              "Last 180 Days": "Letzte 180 Tage",
-              "Last Year": "Letztes Jahr"
+              "Last hour": "Letzte Stunde",
+              "Last 3 hours": "Letzte 3 Stunden",
+              "Last 6 hours": "Letzte 6 Stunden",
+              "Last 12 hours": "Letzte 12 Stunden",
+              "Last 24 hours": "Letzte 24 Stunden",
+              "Last 7 days": "Letzte 7 Tage",
+              "Last 30 days": "Letzte 30 Tage",
+              "Last 60 days": "Letzte 60 Tage",
+              "Last 90 days": "Letzte 90 Tage",
+              "Last 180 days": "Letzte 180 Tage",
+              "Last year": "Letztes Jahr"
             },
             "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
           },

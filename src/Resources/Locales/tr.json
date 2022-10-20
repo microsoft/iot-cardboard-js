@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Son 15 dakika",
               "Last 30 mins": "Son 30 dakika",
-              "Last Hour": "Son Saat",
-              "Last 3 Hours": "Son 3 Saat",
-              "Last 6 Hours": "Son 6 Saat",
-              "Last 12 Hours": "Son 12 Saat",
-              "Last 24 Hours": "Son 24 Saat",
-              "Last 7 Days": "Son 7 Gün",
-              "Last 30 Days": "Son 30 Gün",
-              "Last 60 Days": "Son 60 Gün",
-              "Last 90 Days": "Son 90 Gün",
-              "Last 180 Days": "Son 180 Gün",
-              "Last Year": "Geçen yıl"
+              "Last hour": "Son saat",
+              "Last 3 hours": "Son 3 saat",
+              "Last 6 hours": "Son 6 saat",
+              "Last 12 hours": "Son 12 saat",
+              "Last 24 hours": "Son 24 saat",
+              "Last 7 days": "Son 7 gün",
+              "Last 30 days": "Son 30 gün",
+              "Last 60 days": "Son 60 gün",
+              "Last 90 days": "Son 90 gün",
+              "Last 180 days": "Son 180 gün",
+              "Last year": "Geçen yıl"
             },
             "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
           },

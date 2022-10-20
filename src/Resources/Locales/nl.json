@@ -649,17 +649,17 @@
             "options": {
               "Last 15 mins": "Laatste 15 minuten",
               "Last 30 mins": "Laatste 30 minuten",
-              "Last Hour": "Laatste uur",
-              "Last 3 Hours": "Laatste 3 uur",
-              "Last 6 Hours": "Laatste 6 uur",
-              "Last 12 Hours": "Laatste 12 uur",
-              "Last 24 Hours": "Laatste 24 uur",
-              "Last 7 Days": "Laatste 7 dagen",
-              "Last 30 Days": "Laatste 30 dagen",
-              "Last 60 Days": "Laatste 60 dagen",
-              "Last 90 Days": "Laatste 90 dagen",
-              "Last 180 Days": "Laatste 180 dagen",
-              "Last Year": "Vorig jaar"
+              "Last hour": "Laatste uur",
+              "Last 3 hours": "Laatste 3 uur",
+              "Last 6 hours": "Laatste 6 uur",
+              "Last 12 hours": "Laatste 12 uur",
+              "Last 24 hours": "Afgelopen 24 uur",
+              "Last 7 days": "Laatste 7 dagen",
+              "Last 30 days": "Laatste 30 dagen",
+              "Last 60 days": "Laatste 60 dagen",
+              "Last 90 days": "Afgelopen 90 dagen",
+              "Last 180 days": "Afgelopen 180 dagen",
+              "Last year": "Vorig jaar"
             },
             "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
           },
