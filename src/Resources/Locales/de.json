@@ -569,14 +569,16 @@
       "addCondition": "Bedingung hinzufügen",
       "conditionsTitle": "Bedingungen",
       "actionsTitle": "Aktionen",
-      "actionTypeLabel": "Art",
       "colorLabel": "Farbe",
       "iconLabel": "Ikone",
       "invalidRanges": "Ungültiger Bereich, min sollte kleiner als max sein, und Werte sollten numerisch sein.",
       "labelField": "Etikett",
       "choiceGroupTrue": "STIMMT",
       "choiceGroupFalse": "FALSE",
-      "multiselectPlaceholder": "Geben Sie etwas ein und drücken Sie die Eingabetaste..."
+      "flyoutValuesTitle": "Werte",
+      "flyoutValueTitle": "Wert",
+      "actionLabel": "Aktion",
+      "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {

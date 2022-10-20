@@ -569,14 +569,16 @@
       "addCondition": "Feltétel hozzáadása",
       "conditionsTitle": "Feltételek",
       "actionsTitle": "Műveletek",
-      "actionTypeLabel": "Típus",
       "colorLabel": "Szín",
       "iconLabel": "Ikon",
       "invalidRanges": "Érvénytelen tartomány, a min-nek kisebbnek kell lennie a max-nál, és az értékeknek numerikusnak kell lenniük.",
       "labelField": "Címke",
       "choiceGroupTrue": "Igaz",
       "choiceGroupFalse": "Téves",
-      "multiselectPlaceholder": "Írjon be valamit, és nyomja meg az Enter billentyűt..."
+      "flyoutValuesTitle": "Értékrend",
+      "flyoutValueTitle": "Érték",
+      "actionLabel": "Akció",
+      "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {

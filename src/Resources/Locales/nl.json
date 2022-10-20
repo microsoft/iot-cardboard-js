@@ -569,14 +569,16 @@
       "addCondition": "Voorwaarde toevoegen",
       "conditionsTitle": "Voorwaarden",
       "actionsTitle": "Acties",
-      "actionTypeLabel": "Type",
       "colorLabel": "Kleur",
       "iconLabel": "Pictogram",
       "invalidRanges": "Ongeldig bereik, min moet kleiner zijn dan max en waarden moeten numeriek zijn.",
       "labelField": "Etiket",
       "choiceGroupTrue": "Waar",
       "choiceGroupFalse": "Vals",
-      "multiselectPlaceholder": "Typ iets en druk op enter..."
+      "flyoutValuesTitle": "Waarden",
+      "flyoutValueTitle": "Waarde",
+      "actionLabel": "Actie",
+      "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {

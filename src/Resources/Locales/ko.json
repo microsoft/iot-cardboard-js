@@ -569,14 +569,16 @@
       "addCondition": "조건 추가",
       "conditionsTitle": "여건",
       "actionsTitle": "작업",
-      "actionTypeLabel": "형",
       "colorLabel": "색",
       "iconLabel": "아이콘",
       "invalidRanges": "유효하지 않은 범위, 최소값은 최대보다 작아야 하며 값은 숫자여야 합니다.",
       "labelField": "레이블",
       "choiceGroupTrue": "참",
       "choiceGroupFalse": "거짓",
-      "multiselectPlaceholder": "무언가를 입력하고 Enter 키를 누릅니다 ..."
+      "flyoutValuesTitle": "값",
+      "flyoutValueTitle": "값",
+      "actionLabel": "행동",
+      "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다."
     },
     "conditions": "여건",
     "behaviorVisualRulesTab": {

@@ -569,14 +569,16 @@
       "addCondition": "Dodaj warunek",
       "conditionsTitle": "Warunki",
       "actionsTitle": "Akcje",
-      "actionTypeLabel": "Typ",
       "colorLabel": "Kolor",
       "iconLabel": "Ikona",
       "invalidRanges": "Nieprawidłowy zakres, min powinien być mniejszy niż max, a wartości powinny być liczbowe.",
       "labelField": "Etykieta",
       "choiceGroupTrue": "Prawdziwy",
       "choiceGroupFalse": "Fałszywy",
-      "multiselectPlaceholder": "Wpisz coś i naciśnij enter..."
+      "flyoutValuesTitle": "Wartości",
+      "flyoutValueTitle": "Wartość",
+      "actionLabel": "Akcja",
+      "placeholderMultiselect": "Wpisz wartości, naciśnij Enter, aby dodać"
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {

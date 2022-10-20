@@ -569,14 +569,16 @@
       "addCondition": "Lägg till villkor",
       "conditionsTitle": "Villkor",
       "actionsTitle": "Åtgärder",
-      "actionTypeLabel": "Typ",
       "colorLabel": "Färg",
       "iconLabel": "Ikon",
       "invalidRanges": "Ogiltigt intervall, min ska vara mindre än max och värdena ska vara numeriska.",
       "labelField": "Etikett",
       "choiceGroupTrue": "Sann",
       "choiceGroupFalse": "Falsk",
-      "multiselectPlaceholder": "Skriv något och tryck på enter..."
+      "flyoutValuesTitle": "Värden",
+      "flyoutValueTitle": "Värde",
+      "actionLabel": "Handling",
+      "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
     },
     "conditions": "Villkor",
     "behaviorVisualRulesTab": {

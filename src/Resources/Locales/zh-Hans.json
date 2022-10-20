@@ -569,14 +569,16 @@
       "addCondition": "添加条件",
       "conditionsTitle": "条件",
       "actionsTitle": "行动",
-      "actionTypeLabel": "类型",
       "colorLabel": "颜色",
       "iconLabel": "图标",
       "invalidRanges": "范围无效，最小值应小于 max，值应为数字。",
       "labelField": "标签",
       "choiceGroupTrue": "真",
       "choiceGroupFalse": "假",
-      "multiselectPlaceholder": "键入内容并按回车键..."
+      "flyoutValuesTitle": "值",
+      "flyoutValueTitle": "价值",
+      "actionLabel": "行动",
+      "placeholderMultiselect": "键入值，按回车键添加"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
