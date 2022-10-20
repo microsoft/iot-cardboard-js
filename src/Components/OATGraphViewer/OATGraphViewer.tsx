@@ -6,15 +6,7 @@ import React, {
     useCallback,
     useContext
 } from 'react';
-import {
-    useTheme,
-    Label,
-    Toggle,
-    Stack,
-    SpinnerSize,
-    Spinner,
-    IconButton
-} from '@fluentui/react';
+import { useTheme, Label, Stack, SpinnerSize, Spinner } from '@fluentui/react';
 import { usePrevious } from '@fluentui/react-hooks';
 import ReactFlow, {
     ReactFlowProvider,
@@ -37,11 +29,8 @@ import {
 import {
     getGraphViewerStyles,
     getGraphViewerWarningStyles,
-    getGraphViewerMinimapStyles,
-    getGraphViewerFiltersStyles,
-    getGraphForceLayoutStyles
+    getGraphViewerMinimapStyles
 } from './OATGraphViewer.styles';
-import { ElementsContext } from './Internal/OATContext';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
 import { ElementNode } from './Internal/Classes/ElementNode';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
@@ -76,8 +65,15 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import { IOatElementNode, IOatGraphNode } from './OATGraphViewer.types';
 import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
+import GraphLegend from './Internal/GraphLegend/GraphLegend';
+import {
+    OatGraphContextProvider,
+    useOatGraphContext
+} from '../../Models/Context/OatGraphContext/OatGraphContext';
+import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
+import GraphAutoLayout from '../GraphAutoLayout/GraphAutoLayout';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const nodeWidth = 300;
@@ -86,7 +82,7 @@ const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
 
-const OATGraphViewer: React.FC = () => {
+const OATGraphViewerContent: React.FC = () => {
     // hooks
     const { t } = useTranslation();
     const theme = useTheme();
@@ -94,6 +90,7 @@ const OATGraphViewer: React.FC = () => {
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageState, oatPageDispatch } = useOatPageContext();
+    const { oatGraphDispatch, oatGraphState } = useOatGraphContext();
 
     logDebugConsole(
         'debug',
@@ -203,12 +200,7 @@ const OATGraphViewer: React.FC = () => {
     );
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
-    const [currentHovered, setCurrentHovered] = useState<IOATNodeElement>(null);
-    const [showRelationships, setShowRelationships] = useState(true);
-    const [showInheritances, setShowInheritances] = useState(true);
-    const [showComponents, setShowComponents] = useState(true);
     const [rfInstance, setRfInstance] = useState(null);
-    const [loading, setLoading] = useState(false);
 
     // callbacks
     const applyLayoutToElements = useCallback(
@@ -218,6 +210,10 @@ const OATGraphViewer: React.FC = () => {
                 '[START] Apply layout {elements}',
                 inputElements
             );
+            oatGraphDispatch({
+                type: OatGraphContextActionType.LOADING_TOGGLE,
+                payload: { value: true }
+            });
             const nodes: IOatGraphNode[] = inputElements.reduce(
                 (collection: IOatGraphNode[], element: IOatElementNode) => {
                     if (!element.source) {
@@ -281,7 +277,10 @@ const OATGraphViewer: React.FC = () => {
 
                     const application = () => {
                         setElements(newElements);
-                        setLoading(false);
+                        oatGraphDispatch({
+                            type: OatGraphContextActionType.LOADING_TOGGLE,
+                            payload: { value: false }
+                        });
                     };
 
                     const undoApplication = () => {
@@ -297,17 +296,7 @@ const OATGraphViewer: React.FC = () => {
                 inputElements
             );
         },
-        [execute, rfInstance]
-    );
-
-    const providerVal = useMemo(
-        () => ({
-            currentHovered,
-            showRelationships,
-            showInheritances,
-            showComponents
-        }),
-        [currentHovered, showRelationships, showInheritances, showComponents]
+        [execute, oatGraphDispatch, rfInstance]
     );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
@@ -663,17 +652,6 @@ const OATGraphViewer: React.FC = () => {
         }
     };
 
-    const onNodeMouseEnter = (
-        _: React.MouseEvent<Element, MouseEvent>,
-        node: IOATNodeElement
-    ) => {
-        setCurrentHovered(node);
-    };
-
-    const onNodeMouseLeave = () => {
-        setCurrentHovered(null);
-    };
-
     const onNodeDragEnd = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: IOATNodeElement
@@ -739,7 +717,6 @@ const OATGraphViewer: React.FC = () => {
     useEffect(() => {
         if (oatPageState.modelsToImport?.length > 0) {
             logDebugConsole('debug', '[START] Handle change to Import models');
-            setLoading(true);
             const potentialElements = getGraphNodesFromModels(
                 oatPageState.modelsToImport,
                 oatPageState.currentOntologyModelPositions
@@ -756,6 +733,7 @@ const OATGraphViewer: React.FC = () => {
     }, [
         applyLayoutToElements,
         getGraphNodesFromModels,
+        oatGraphDispatch,
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.modelsToImport
@@ -810,8 +788,6 @@ const OATGraphViewer: React.FC = () => {
     const graphViewerStyles = getGraphViewerStyles();
     const warningStyles = getGraphViewerWarningStyles();
     const graphViewerMinimapStyles = getGraphViewerMinimapStyles();
-    const graphViewerFiltersStyles = getGraphViewerFiltersStyles();
-    const graphForceLayoutStyles = getGraphForceLayoutStyles();
 
     logDebugConsole(
         'debug',
@@ -826,163 +802,80 @@ const OATGraphViewer: React.FC = () => {
                 className={graphViewerStyles.container}
                 ref={reactFlowWrapperRef}
             >
-                {loading && (
+                {oatGraphState.isLoading && (
                     <div className={graphViewerStyles.loadingOverlay}>
                         <Spinner size={SpinnerSize.large} />
                     </div>
                 )}
 
-                <ElementsContext.Provider value={providerVal}>
-                    <ReactFlow
-                        elements={elements}
-                        onElementClick={onElementClick}
-                        onConnectStart={onConnectStart}
-                        onConnectStop={onConnectStop}
-                        onLoad={onLoadGraph}
-                        snapToGrid={false}
-                        snapGrid={[15, 15]}
-                        nodeTypes={nodeTypes}
-                        edgeTypes={edgeTypes}
-                        onNodeDragStop={onNodeDragEnd}
-                        onNodeMouseEnter={onNodeMouseEnter}
-                        onNodeMouseLeave={onNodeMouseLeave}
-                        onPaneClick={clearSelectedModel}
+                <ReactFlow
+                    elements={elements}
+                    onElementClick={onElementClick}
+                    onConnectStart={onConnectStart}
+                    onConnectStop={onConnectStop}
+                    onLoad={onLoadGraph}
+                    snapToGrid={false}
+                    snapGrid={[15, 15]}
+                    nodeTypes={nodeTypes}
+                    edgeTypes={edgeTypes}
+                    onNodeDragStop={onNodeDragEnd}
+                    onPaneClick={clearSelectedModel}
+                >
+                    {!elements[0] && (
+                        <Label styles={warningStyles}>
+                            {t('OATGraphViewer.emptyGraph')}
+                        </Label>
+                    )}
+                    <Stack
+                        tokens={{ childrenGap: 8 }}
+                        className={graphViewerStyles.legendContainer}
+                        horizontal
+                        verticalAlign={'baseline'}
                     >
-                        {!elements[0] && (
-                            <Label styles={warningStyles}>
-                                {t('OATGraphViewer.emptyGraph')}
-                            </Label>
-                        )}
-                        <Stack styles={graphViewerFiltersStyles}>
-                            <div
-                                className={
-                                    graphViewerStyles.graphViewerFiltersWrap
-                                }
-                            >
-                                <div
-                                    className={
-                                        graphViewerStyles.graphViewerFiltersKey
-                                    }
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23 8.86"
-                                    >
-                                        <g>
-                                            <polygon
-                                                fill="#ffb200"
-                                                points="18.57 0 17.3 1.27 19.96 3.93 0 3.93 0 4.93 19.96 4.93 17.3 7.59 18.57 8.86 23 4.43 18.57 0"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.relationships')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showRelationships}
-                                        onChange={() => {
-                                            setShowRelationships(
-                                                !showRelationships
-                                            );
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className={
-                                        graphViewerStyles.graphViewerFiltersKey
-                                    }
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23.15 9.46"
-                                    >
-                                        <g>
-                                            <path
-                                                fill="#008945"
-                                                d="M15,9.46l8.19-4.73L15,0V4.23H0v1H15V9.46Zm1-7.84,5.4,3.11-5.4,3.11Z"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.inheritances')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showInheritances}
-                                        onChange={() => {
-                                            setShowInheritances(
-                                                !showInheritances
-                                            );
-                                        }}
-                                    />
-                                </div>
-                                <div
-                                    className={
-                                        graphViewerStyles.graphViewerFiltersKey
-                                    }
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 23.06 8.12"
-                                    >
-                                        <g>
-                                            <polygon
-                                                fill="#0078ce"
-                                                points="23.06 3.56 7.72 3.56 4.11 0 0 4.06 4.11 8.12 7.72 4.56 23.06 4.56 23.06 3.56"
-                                            />
-                                        </g>
-                                    </svg>
-                                    <span className="rel-title">
-                                        {t('OATGraphViewer.components')}
-                                    </span>
-                                    <Toggle
-                                        defaultChecked={showComponents}
-                                        onChange={() => {
-                                            setShowComponents(!showComponents);
-                                        }}
-                                    />
-                                </div>
-                            </div>
-                        </Stack>
-
-                        <Stack styles={graphForceLayoutStyles}>
-                            <div
-                                className={
-                                    graphViewerStyles.graphViewerForceLayoutWrap
-                                }
-                            >
-                                <IconButton
-                                    iconProps={{ iconName: 'GridViewMedium' }}
-                                    title={t('OATGraphViewer.runLayout')}
-                                    ariaLabel={t('OATGraphViewer.runLayout')}
-                                    onClick={() => {
-                                        setLoading(true);
-                                        applyLayoutToElements(elements);
-                                    }}
-                                />
-                            </div>
-                        </Stack>
-
-                        <MiniMap
-                            nodeColor={theme.semanticColors.inputBackground}
-                            style={graphViewerMinimapStyles}
+                        <GraphLegend />
+                        <GraphAutoLayout
+                            onForceLayout={() =>
+                                applyLayoutToElements(elements)
+                            }
                         />
+                    </Stack>
+
+                    <MiniMap
+                        nodeColor={theme.semanticColors.inputBackground}
+                        style={graphViewerMinimapStyles}
+                    />
+                    <div
+                        className={
+                            graphViewerStyles.graphViewerControlsContainer
+                        }
+                    >
                         <Controls
                             className={graphViewerStyles.graphViewerControls}
-                        />
-                        <Background
-                            color={theme.semanticColors.bodyBackground}
-                            gap={16}
-                            onClick={clearSelectedModel}
-                        />
-                    </ReactFlow>
-                </ElementsContext.Provider>
+                        >
+                            {/* <div style={{ paddingLeft: 20 }}>
+                                <ControlButton
+                                    onClick={() => alert('clicked')}
+                                />
+                            </div> */}
+                        </Controls>
+                    </div>
+                    <Background
+                        color={theme.semanticColors.bodyBackground}
+                        gap={16}
+                        onClick={clearSelectedModel}
+                    />
+                </ReactFlow>
             </div>
         </ReactFlowProvider>
     );
 };
 
-OATGraphViewer.defaultProps = {
-    importModels: []
+const OATGraphViewer: React.FC = () => {
+    return (
+        <OatGraphContextProvider>
+            <OATGraphViewerContent />
+        </OatGraphContextProvider>
+    );
 };
 
 export default OATGraphViewer;

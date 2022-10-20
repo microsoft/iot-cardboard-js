@@ -6,7 +6,6 @@ import {
     IStyleFunctionOrObject,
     ILabelStyleProps,
     ILabelStyles,
-    IStackProps,
     IButtonProps,
     IIconStyles,
     ITextFieldStyles
@@ -45,9 +44,6 @@ const classNames = {
     nodeContainer: `${classPrefix}-node-container`,
     untargetedNodeContainer: `${classPrefix}-untargeted-node-container`,
     graphViewerControls: `${classPrefix}-graph-viewer-controls`,
-    graphViewerFiltersWrap: `${classPrefix}-graph-viewer-filters-wrap`,
-    graphViewerForceLayoutWrap: `${classPrefix}-graph-viewer-force-layout-wrap`,
-    graphViewerFiltersKey: `${classPrefix}-graph-viewer-filters-key`,
     extendCancel: `${classPrefix}-extend-cancel`,
     relationshipCTASection: `${classPrefix}-node-container-cta-section`,
     relationshipNameEditorBody: `${classPrefix}-relationship-name-editor-body`,
@@ -68,7 +64,7 @@ export const getGraphViewerStyles = () => {
             classNames.container,
             {
                 background: theme.semanticColors.bodyBackground,
-                height: 'auto',
+                height: '100%',
                 position: 'relative',
                 [`& .${classNames.handle}`]: {
                     background: 'transparent',
@@ -196,6 +192,11 @@ export const getGraphViewerStyles = () => {
                 alignItems: 'center'
             } as IStyle
         ],
+        legendContainer: {
+            position: 'absolute',
+            left: 10,
+            bottom: 30
+        } as IStyle,
         handleContentRelationship: [
             classNames.handleContentRelationship,
             {
@@ -408,9 +409,20 @@ export const getGraphViewerStyles = () => {
                 }
             } as IStyle
         ],
+        graphViewerControlsContainer: {
+            position: 'absolute',
+            bottom: 30,
+            left: '50%',
+            zIndex: 5,
+            '> .react-flow__controls': {
+                position: 'unset',
+                left: 'unset'
+            }
+        },
         graphViewerControls: [
             classNames.graphViewerControls,
             {
+                display: 'flex',
                 '& button': {
                     background: theme.semanticColors.primaryButtonBackground,
                     borderColor: theme.semanticColors.primaryButtonTextPressed,
@@ -421,58 +433,6 @@ export const getGraphViewerStyles = () => {
                     '& svg': {
                         fill: theme.semanticColors.primaryButtonTextPressed
                     }
-                }
-            } as IStyle
-        ],
-        graphViewerFiltersWrap: [
-            classNames.graphViewerFiltersWrap,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                background: theme.palette.neutralLight,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '180px',
-                padding: '10px',
-                zIndex: '100',
-                height: 'fit-content'
-            } as IStyle
-        ],
-        graphViewerForceLayoutWrap: [
-            classNames.graphViewerForceLayoutWrap,
-            {
-                display: 'flex',
-                flexDirection: 'column',
-                background: theme.palette.neutralLight,
-                border: `1px solid ${theme.semanticColors.inputBorder}`,
-                borderRadius: '5px',
-                fontSize: FontSizes.size12,
-                textAlign: 'center',
-                width: '34px',
-                zIndex: '100',
-                height: 'fit-content'
-            } as IStyle
-        ],
-        graphViewerFiltersKey: [
-            classNames.graphViewerFiltersKey,
-            {
-                zIndex: '100',
-                display: 'flex',
-                alignItems: 'center',
-                marginBottom: '4px',
-                '& svg': {
-                    minWidth: '28px',
-                    width: '28px',
-                    marginRight: '10px'
-                },
-                '& span.rel-title': {
-                    marginRight: '10px',
-                    minWidth: '70px'
-                },
-                '& div.ms-Toggle': {
-                    marginBottom: '0'
                 }
             } as IStyle
         ],
@@ -523,26 +483,6 @@ export const getGraphViewerMinimapStyles = () => {
     return {
         background: theme.semanticColors.bodyBackground
     } as CSSProperties;
-};
-
-export const getGraphViewerFiltersStyles = () => {
-    return {
-        root: {
-            position: 'absolute',
-            top: '10px',
-            right: '10px'
-        }
-    } as IStackProps;
-};
-
-export const getGraphForceLayoutStyles = () => {
-    return {
-        root: {
-            position: 'absolute',
-            top: '110px',
-            right: '10px'
-        }
-    } as IStackProps;
 };
 
 export const getRelationshipTextFieldStyles = () => {

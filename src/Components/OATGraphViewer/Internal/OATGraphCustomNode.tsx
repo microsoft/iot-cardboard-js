@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useContext } from 'react';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { Icon, ActionButton, Label, TooltipHost } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import { Handle, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
@@ -9,7 +10,6 @@ import {
     getGraphViewerIconStyles,
     getGraphViewerActionButtonStyles
 } from '../OATGraphViewer.styles';
-import { ElementsContext } from './OATContext';
 import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_COMPONENT_HANDLE_NAME,
@@ -44,10 +44,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
-    const { currentHovered } = useContext(ElementsContext);
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
+    const [
+        isHovered,
+        { setTrue: setIsHoveredTrue, setFalse: setIsHoveredFalse }
+    ] = useBoolean(false);
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getDisplayName(data.displayName));
     const [idEditor, setIdEditor] = useState(false);
@@ -218,7 +221,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const actionButtonStyles = getGraphViewerActionButtonStyles();
 
     return (
-        <>
+        <div
+            onMouseEnter={setIsHoveredTrue}
+            onFocus={setIsHoveredTrue}
+            onMouseLeave={setIsHoveredFalse}
+            onBlur={setIsHoveredFalse}
+        >
             {data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME && (
                 <Handle
                     type="target"
@@ -315,8 +323,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             position={Position.Bottom}
                             id={OAT_COMPONENT_HANDLE_NAME}
                             className={
-                                currentHovered &&
-                                currentHovered.id === data['@id']
+                                isHovered
                                     ? graphViewerStyles.componentHandleFocus
                                     : graphViewerStyles.componentHandleHidden
                             }
@@ -330,9 +337,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         >
                             <div
                                 className={
-                                    !handleHoverComponent &&
-                                    currentHovered &&
-                                    currentHovered.id === data['@id']
+                                    !handleHoverComponent && isHovered
                                         ? graphViewerStyles.handleContentComponent
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -366,8 +371,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             position={Position.Bottom}
                             id={OAT_RELATIONSHIP_HANDLE_NAME}
                             className={
-                                currentHovered &&
-                                currentHovered.id === data['@id']
+                                isHovered
                                     ? graphViewerStyles.relationshipHandleFocus
                                     : graphViewerStyles.relationshipHandleHidden
                             }
@@ -381,9 +385,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         >
                             <div
                                 className={
-                                    !handleHoverRelationship &&
-                                    currentHovered &&
-                                    currentHovered.id === data['@id']
+                                    !handleHoverRelationship && isHovered
                                         ? graphViewerStyles.handleContentRelationship
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -417,8 +419,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             position={Position.Bottom}
                             id={OAT_UNTARGETED_RELATIONSHIP_NAME}
                             className={
-                                currentHovered &&
-                                currentHovered.id === data['@id']
+                                isHovered
                                     ? graphViewerStyles.untargetRelationshipHandleFocus
                                     : graphViewerStyles.untargetRelationshipHandleHidden
                             }
@@ -432,9 +433,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         >
                             <div
                                 className={
-                                    !handleHoverUntargeted &&
-                                    currentHovered &&
-                                    currentHovered.id === data['@id']
+                                    !handleHoverUntargeted && isHovered
                                         ? graphViewerStyles.handleContentRelationship
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -468,8 +467,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             position={Position.Bottom}
                             id={OAT_EXTEND_HANDLE_NAME}
                             className={
-                                currentHovered &&
-                                currentHovered.id === data['@id']
+                                isHovered
                                     ? graphViewerStyles.extendHandleFocus
                                     : graphViewerStyles.extendHandleHidden
                             }
@@ -483,9 +481,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         >
                             <div
                                 className={
-                                    !handleHoverExtend &&
-                                    currentHovered &&
-                                    currentHovered.id === data['@id']
+                                    !handleHoverExtend && isHovered
                                         ? graphViewerStyles.handleContentExtend
                                         : graphViewerStyles.handleContentHidden
                                 }
@@ -506,7 +502,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                     </TooltipHost>
                 </>
             )}
-        </>
+        </div>
     );
 };
 

@@ -6,7 +6,6 @@ import { Locale } from '../src/Models/Constants/Enums';
 import { StableGuidRngProvider } from '../src/Models/Context/StableGuidRngProvider';
 import { LoggingContextProvider } from '../src/Models/Context/LoggingContextProvider';
 import { SearchSpan } from '../src/Models/Classes/SearchSpan';
-import { setContextStorageEnabled } from '../src/Models/Context/OatPageContext/OatPageContext';
 
 // global inputs for all stories, but it is not included in args
 // so make sure to include second object parameter including 'globals' in your stories to access these inputs: https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals
@@ -117,7 +116,7 @@ const decoratorWithWrapper = (Story, context) => {
             break;
     }
     return (
-        <div style={{ backgroundColor: background }}>
+        <div style={{ backgroundColor: background, height: '100%' }}>
             <Story {...context} />
         </div>
     );
