@@ -105,7 +105,7 @@
         "@storybook/react": "^6.5.9",
         "@storybook/testing-library": "^0.0.9",
         "@svgr/rollup": "^6.2.1",
-        "@svgr/webpack": "^5.5.0",
+        "@svgr/webpack": "^6.5.0",
         "@testing-library/jest-dom": "^5.11.8",
         "@testing-library/react": "^11.2.2",
         "@testing-library/react-hooks": "^5.1.0",
