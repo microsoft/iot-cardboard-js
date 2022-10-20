@@ -43,6 +43,5 @@ export interface IOATGraphViewerStyles {
 
 export interface IOATGraphViewerSubComponentStyles {
     controlsStack?: IStackStyles;
-    legendCallout?: ICalloutContentStyles;
-    mapCallout?: ICalloutContentStyles;
+    legendCallout?: Partial<ICalloutContentStyles>;
 }

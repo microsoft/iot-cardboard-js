@@ -17,10 +17,12 @@ import {
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
 
+const CONTROLS_BOTTOM_OFFSET = 60;
+
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
     root: `${classPrefix2}-root`,
-    minimap: `${classPrefix2}-minimap`,
+    minimapContainer: `${classPrefix2}-minimap-container`,
     builtInControls: `${classPrefix2}-built-in-controls`
 };
 export const getStyles = (
@@ -30,9 +32,17 @@ export const getStyles = (
     return {
         root: [classNames2.root],
         graphMiniMap: [
-            classNames2.minimap,
+            classNames2.minimapContainer,
             {
-                background: theme.semanticColors.bodyBackground
+                bottom: CONTROLS_BOTTOM_OFFSET + CONTROLS_BOTTOM_OFFSET, // extra offset so they don't overlap till we have room off to the right
+                position: 'absolute',
+                right: 0,
+                '.react-flow__minimap': {
+                    cursor: 'crosshair',
+                    background: theme.semanticColors.bodyBackground,
+                    left: 'unset',
+                    zIndex: 7
+                }
             }
         ],
         graphBuiltInControls: [
@@ -74,7 +84,7 @@ export const getStyles = (
         subComponentStyles: {
             controlsStack: {
                 root: {
-                    bottom: 60,
+                    bottom: CONTROLS_BOTTOM_OFFSET,
                     left: '50%',
                     position: 'absolute',
                     zIndex: 5,

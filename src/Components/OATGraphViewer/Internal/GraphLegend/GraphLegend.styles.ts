@@ -9,9 +9,8 @@ const classNames = {
     itemIcon: `${classPrefix}-item-icon`
 };
 export const getStyles = (
-    props: IGraphLegendStyleProps
+    _props: IGraphLegendStyleProps
 ): IGraphLegendStyles => {
-    const { theme } = props;
     return {
         itemIcon: [
             classNames.itemIcon,
@@ -23,11 +22,8 @@ export const getStyles = (
             rootStack: {
                 root: {
                     position: 'relative',
-                    background: theme.palette.neutralLight,
-                    border: `1px solid ${theme.semanticColors.inputBorder}`,
                     fontSize: FontSizes.size12,
                     padding: 10,
-                    zIndex: '100',
                     borderRadius: 5
                 }
             },

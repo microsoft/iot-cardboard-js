@@ -857,17 +857,11 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     )}
 
                     {oatGraphState.isMiniMapVisible && (
-                        <Callout
-                            setInitialFocus={true}
-                            styles={classNames.subComponentStyles.mapCallout}
-                            target={`#${mapButtonId}`}
-                            directionalHint={DirectionalHint.topCenter}
-                        >
+                        <div className={classNames.graphMiniMap}>
                             <MiniMap
                                 nodeColor={theme.semanticColors.inputBackground}
-                                className={classNames.graphMiniMap}
                             />
-                        </Callout>
+                        </div>
                     )}
                     {oatGraphState.isLegendVisible && (
                         <Callout
