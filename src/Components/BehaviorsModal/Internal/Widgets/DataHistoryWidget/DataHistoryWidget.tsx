@@ -1,5 +1,11 @@
-import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import {
+    classNamesFunction,
+    DirectionalHint,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React, { memo, useContext, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ADXTimeSeries,
     BehaviorModalMode,
@@ -15,6 +21,10 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
+import {
+    IOverflowMenuProps,
+    OverflowMenu
+} from '../../../../OverflowMenu/OverflowMenu';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
@@ -55,6 +65,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         quickTimeSpanInMillis: chartOptions.defaultQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });
+
+    const { t } = useTranslation();
 
     const xMinDateInMillisRef = useRef<number>(null);
     const xMaxDateInMillisRef = useRef<number>(null);
@@ -110,26 +122,52 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     );
 
     const classNames = getClassNames(styles, { theme: useTheme() });
+    const menuProps: IOverflowMenuProps = {
+        ariaLabel: t('widgets.dataHistory.headerMenu'),
+        index: 0,
+        menuKey: `${widget.id}-overflow-menu`,
+        menuProps: {
+            directionalHint: DirectionalHint.bottomRightEdge,
+            items: [
+                {
+                    key: 'open-link',
+                    text: t('widgets.dataHistory.openQuery'),
+                    onClick: () => {
+                        window.open(deeplink, '_blank');
+                    },
+                    iconProps: { iconName: 'Share' },
+                    className: classNames.menuItem
+                }
+            ]
+        },
+        className: classNames.menuButton
+    };
+
     return (
         <div className={classNames.root}>
-            <HighChartsWrapper
-                title={displayName}
-                seriesData={highChartSeriesData}
-                isLoading={isLoading}
-                chartOptions={{
-                    titleAlign: 'left',
-                    titleTargetLink:
-                        mode === BehaviorModalMode.viewer
-                            ? deeplink
-                            : undefined,
-                    legendLayout: 'vertical',
-                    legendPadding: 0,
-                    hasMultipleAxes: chartOptions.yAxisType === 'independent',
-                    dataGrouping: chartOptions.aggregationType,
-                    xMinInMillis: xMinDateInMillisRef.current,
-                    xMaxInMillis: xMaxDateInMillisRef.current
-                }}
-            />
+            <div className={classNames.header}>
+                <span className={classNames.title}>{displayName}</span>
+                {mode === BehaviorModalMode.viewer && (
+                    <OverflowMenu {...menuProps} />
+                )}
+            </div>
+
+            <div className={classNames.chartContainer}>
+                <HighChartsWrapper
+                    seriesData={highChartSeriesData}
+                    isLoading={isLoading}
+                    chartOptions={{
+                        titleAlign: 'left',
+                        legendLayout: 'vertical',
+                        legendPadding: 0,
+                        hasMultipleAxes:
+                            chartOptions.yAxisType === 'independent',
+                        dataGrouping: chartOptions.aggregationType,
+                        xMinInMillis: xMinDateInMillisRef.current,
+                        xMaxInMillis: xMaxDateInMillisRef.current
+                    }}
+                />
+            </div>
         </div>
     );
 };

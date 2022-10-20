@@ -6,12 +6,7 @@ import {
     MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS
 } from './HighChartsWrapper.types';
 import { getStyles } from './HighChartsWrapper.styles';
-import {
-    classNamesFunction,
-    useTheme,
-    styled,
-    IconButton
-} from '@fluentui/react';
+import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import Highcharts, {
     AlignValue,
     ColorString,
@@ -21,7 +16,6 @@ import Highcharts, {
 } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { useTranslation } from 'react-i18next';
-import { renderToString } from 'react-dom/server';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -131,15 +125,6 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         }
     );
 
-    const deeplinkShareButtonDOMString = renderToString(
-        <IconButton
-            iconProps={{ iconName: 'Share' }}
-            title={t('highcharts.shareQueryTitle')}
-            ariaLabel={t('highcharts.shareQueryTitle')}
-            className={classNames.shareButton}
-        />
-    );
-
     const xAxisStyles = classNames.subComponentStyles.xAxis();
     const legendStyles = classNames.subComponentStyles.legend();
     const options: Highcharts.Options = {
@@ -150,15 +135,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         accessibility: { enabled: true },
         title: {
             align: chartOptions.titleAlign,
-            useHTML: chartOptions?.titleTargetLink ? true : false,
-            text:
-                chartOptions?.titleTargetLink && title
-                    ? `<div style="display: flex; align-items: center">
-                    <span> ${title} </span> 
-                    <a style="color:inherit" target="_blank" href="${chartOptions?.titleTargetLink}">
-                    ${deeplinkShareButtonDOMString}
-                    </a></div>` // need to hardcode styling here
-                    : title || t('highcharts.noTitle'),
+            text: title,
             style: classNames.subComponentStyles.title().root
         },
         series: highChartSeries,

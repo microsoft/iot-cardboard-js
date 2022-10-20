@@ -29,21 +29,6 @@ export const getStyles = ({
                 height: '100%'
             }
         ],
-        shareButton: [
-            classNames.shareButton,
-            {
-                color: `${theme.palette.black} !important`,
-                borderRadius: 2,
-                fontSize: 16,
-                marginLeft: 8,
-                ':hover': {
-                    background: theme.palette.neutralLighter
-                },
-                ':active': {
-                    background: theme.palette.neutralLight
-                }
-            }
-        ],
         subComponentStyles: {
             title: {
                 root: {

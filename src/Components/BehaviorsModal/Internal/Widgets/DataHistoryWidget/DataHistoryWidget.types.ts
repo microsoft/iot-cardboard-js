@@ -14,4 +14,9 @@ export interface IDataHistoryWidgetStyleProps {
 }
 export interface IDataHistoryWidgetStyles {
     root: IStyle;
+    header: IStyle;
+    title: IStyle;
+    chartContainer: IStyle;
+    menuButton: IStyle;
+    menuItem: IStyle;
 }

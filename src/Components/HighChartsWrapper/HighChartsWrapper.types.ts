@@ -27,11 +27,10 @@ export interface IHighChartSeriesData {
 }
 
 export interface IHighChartsWrapperProps {
-    title: string;
+    title?: string;
     seriesData: Array<IHighChartSeriesData>;
     isLoading?: boolean;
     chartOptions?: {
-        titleTargetLink?: string;
         titleAlign?: AlignValue;
         legendLayout?: OptionsLayoutValue;
         legendPadding?: number;
@@ -55,7 +54,6 @@ export interface IHighChartsWrapperStyleProps {
 }
 export interface IHighChartsWrapperStyles {
     root: IStyle;
-    shareButton: IStyle;
 
     /**
      * SubComponent styles.
