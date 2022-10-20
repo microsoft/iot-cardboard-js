@@ -8,7 +8,6 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -197,3 +196,21 @@ export default styled<
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 >(memo(DataHistoryWidget), getStyles);
+
+/** Creates mock time series data array with data points between now and a certain milliseconds ago */
+const getMockTimeSeriesDataArrayInLocalTime = (
+    lengthOfSeries = 1,
+    numberOfDataPoints = 5,
+    agoInMillis = 1 * 60 * 60 * 1000
+): Array<Array<TimeSeriesData>> => {
+    const toInMillis = Date.now();
+    const fromInMillis = toInMillis - agoInMillis;
+    return Array.from({ length: lengthOfSeries }).map(() =>
+        Array.from({ length: numberOfDataPoints }, () => ({
+            timestamp: Math.floor(
+                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
+            ),
+            value: Math.floor(Math.random() * 500)
+        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
+    );
+};
