@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "값",
       "flyoutValueTitle": "값",
       "actionLabel": "행동",
-      "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다."
+      "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다.",
+      "meshColoringOption": "메쉬 채색",
+      "badgeOption": "배지"
     },
     "conditions": "여건",
     "behaviorVisualRulesTab": {

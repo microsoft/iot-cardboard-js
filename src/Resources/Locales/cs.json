@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Hodnoty",
       "flyoutValueTitle": "Hodnota",
       "actionLabel": "Akce",
-      "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
+      "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte",
+      "meshColoringOption": "Zbarvení sítě",
+      "badgeOption": "Odznak"
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {

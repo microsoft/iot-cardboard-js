@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "值",
       "flyoutValueTitle": "价值",
       "actionLabel": "行动",
-      "placeholderMultiselect": "键入值，按回车键添加"
+      "placeholderMultiselect": "键入值，按回车键添加",
+      "meshColoringOption": "网眼着色",
+      "badgeOption": "徽章"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {

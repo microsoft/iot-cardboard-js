@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Значения",
       "flyoutValueTitle": "Ценность",
       "actionLabel": "Действие",
-      "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить"
+      "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить",
+      "meshColoringOption": "Окраска сетки",
+      "badgeOption": "Значок"
     },
     "conditions": "Условия",
     "behaviorVisualRulesTab": {

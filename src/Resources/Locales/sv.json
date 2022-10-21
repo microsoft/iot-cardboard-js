@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Värden",
       "flyoutValueTitle": "Värde",
       "actionLabel": "Handling",
-      "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
+      "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till",
+      "meshColoringOption": "Mesh färgning",
+      "badgeOption": "Emblem"
     },
     "conditions": "Villkor",
     "behaviorVisualRulesTab": {

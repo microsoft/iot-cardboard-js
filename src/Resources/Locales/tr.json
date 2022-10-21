@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Değer",
       "flyoutValueTitle": "Değer",
       "actionLabel": "Eylem",
-      "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın"
+      "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın",
+      "meshColoringOption": "Mesh renklendirme",
+      "badgeOption": "Rozet"
     },
     "conditions": "Koşul -ları",
     "behaviorVisualRulesTab": {

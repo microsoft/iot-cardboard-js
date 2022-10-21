@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "価値観",
       "flyoutValueTitle": "価値",
       "actionLabel": "アクション",
-      "placeholderMultiselect": "値を入力し、Enter キーを押して追加します。"
+      "placeholderMultiselect": "値を入力し、Enter キーを押して追加します。",
+      "meshColoringOption": "メッシュカラーリング",
+      "badgeOption": "バッジ"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {

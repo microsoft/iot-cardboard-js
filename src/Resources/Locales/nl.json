@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Waarden",
       "flyoutValueTitle": "Waarde",
       "actionLabel": "Actie",
-      "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
+      "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen",
+      "meshColoringOption": "Mesh kleuring",
+      "badgeOption": "Insigne"
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {

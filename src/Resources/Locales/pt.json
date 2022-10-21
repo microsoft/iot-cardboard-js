@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Valores",
       "flyoutValueTitle": "Valor",
       "actionLabel": "Ação",
-      "placeholderMultiselect": "Digite valores, pressione enter para adicionar"
+      "placeholderMultiselect": "Digite valores, pressione enter para adicionar",
+      "meshColoringOption": "Coloração de malha",
+      "badgeOption": "Distintivo"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {

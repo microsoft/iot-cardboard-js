@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Wartości",
       "flyoutValueTitle": "Wartość",
       "actionLabel": "Akcja",
-      "placeholderMultiselect": "Wpisz wartości, naciśnij Enter, aby dodać"
+      "placeholderMultiselect": "Wpisz wartości, naciśnij Enter, aby dodać",
+      "meshColoringOption": "Kolorowanie siatki",
+      "badgeOption": "Odznaka"
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {

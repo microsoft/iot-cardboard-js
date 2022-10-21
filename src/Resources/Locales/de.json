@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Werte",
       "flyoutValueTitle": "Wert",
       "actionLabel": "Aktion",
-      "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
+      "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um",
+      "meshColoringOption": "Mesh-Färbung",
+      "badgeOption": "Abzeichen"
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {

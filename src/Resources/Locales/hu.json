@@ -578,7 +578,9 @@
       "flyoutValuesTitle": "Értékrend",
       "flyoutValueTitle": "Érték",
       "actionLabel": "Akció",
-      "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
+      "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz",
+      "meshColoringOption": "Hálós színezés",
+      "badgeOption": "Jelvény"
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {
