@@ -646,21 +646,6 @@
           },
           "quickTimeSpan": {
             "label": "デフォルトの期間",
-            "options": {
-              "Last 15 mins": "最後の15分",
-              "Last 30 mins": "過去30分",
-              "Last hour": "過去 1 時間",
-              "Last 3 hours": "過去 3 時間",
-              "Last 6 hours": "過去 6 時間",
-              "Last 12 hours": "過去 12 時間",
-              "Last 24 hours": "過去24時間",
-              "Last 7 days": "過去7日間",
-              "Last 30 days": "過去30日間",
-              "Last 60 days": "過去60日間",
-              "Last 90 days": "過去 90 日間",
-              "Last 180 days": "過去 180 日間",
-              "Last year": "去年"
-            },
             "information": "グラフの X 軸の現地時間での既定の時間範囲選択"
           },
           "aggregationType": {
@@ -670,8 +655,7 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く",
-      "quickTimeSpanTitle": "期間"
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1273,5 +1257,24 @@
   "highcharts": {
     "shareQueryTitle": "共有クエリ",
     "noDataDescription": "表示するデータがありません"
+  },
+  "quickTimesDropdown": {
+    "label": "期間",
+    "placeholder": "クイックタイムを選択する",
+    "options": {
+      "Last 15 mins": "最後の15分",
+      "Last 30 mins": "過去30分",
+      "Last hour": "過去 1 時間",
+      "Last 3 hours": "過去 3 時間",
+      "Last 6 hours": "過去 6 時間",
+      "Last 12 hours": "過去 12 時間",
+      "Last 24 hours": "過去24時間",
+      "Last 7 days": "過去7日間",
+      "Last 30 days": "過去30日間",
+      "Last 60 days": "過去60日間",
+      "Last 90 days": "過去 90 日間",
+      "Last 180 days": "過去 180 日間",
+      "Last year": "去年"
+    }
   }
 }

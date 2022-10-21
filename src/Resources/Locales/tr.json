@@ -646,21 +646,6 @@
           },
           "quickTimeSpan": {
             "label": "Varsayılan zaman aralığı",
-            "options": {
-              "Last 15 mins": "Son 15 dakika",
-              "Last 30 mins": "Son 30 dakika",
-              "Last hour": "Son saat",
-              "Last 3 hours": "Son 3 saat",
-              "Last 6 hours": "Son 6 saat",
-              "Last 12 hours": "Son 12 saat",
-              "Last 24 hours": "Son 24 saat",
-              "Last 7 days": "Son 7 gün",
-              "Last 30 days": "Son 30 gün",
-              "Last 60 days": "Son 60 gün",
-              "Last 90 days": "Son 90 gün",
-              "Last 180 days": "Son 180 gün",
-              "Last year": "Geçen yıl"
-            },
             "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
           },
           "aggregationType": {
@@ -670,8 +655,7 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
-      "quickTimeSpanTitle": "Zaman aralığı"
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
     }
   },
   "sdkStrings": {
@@ -1273,5 +1257,24 @@
   "highcharts": {
     "shareQueryTitle": "Sorguyu paylaşma",
     "noDataDescription": "Görüntülenecek veri yok"
+  },
+  "quickTimesDropdown": {
+    "label": "Zaman aralığı",
+    "placeholder": "Hızlı bir zaman seçin",
+    "options": {
+      "Last 15 mins": "Son 15 dakika",
+      "Last 30 mins": "Son 30 dakika",
+      "Last hour": "Son saat",
+      "Last 3 hours": "Son 3 saat",
+      "Last 6 hours": "Son 6 saat",
+      "Last 12 hours": "Son 12 saat",
+      "Last 24 hours": "Son 24 saat",
+      "Last 7 days": "Son 7 gün",
+      "Last 30 days": "Son 30 gün",
+      "Last 60 days": "Son 60 gün",
+      "Last 90 days": "Son 90 gün",
+      "Last 180 days": "Son 180 gün",
+      "Last year": "Geçen yıl"
+    }
   }
 }
