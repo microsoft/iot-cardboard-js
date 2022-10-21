@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
+      "quickTimeSpanTitle": "Időtartam"
     }
   },
   "sdkStrings": {

@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
-      "openQuery": "Otevření dotazu v Průzkumníku dat Azure"
+      "openQuery": "Otevření dotazu v Průzkumníku dat Azure",
+      "quickTimeSpanTitle": "Časové rozpětí"
     }
   },
   "sdkStrings": {

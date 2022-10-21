@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
-      "openQuery": "Öppna frågan i Azure Data Explorer"
+      "openQuery": "Öppna frågan i Azure Data Explorer",
+      "quickTimeSpanTitle": "Tidsspann"
     }
   },
   "sdkStrings": {

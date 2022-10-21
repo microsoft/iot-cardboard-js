@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
+      "quickTimeSpanTitle": "Intervalle de temps"
     }
   },
   "sdkStrings": {

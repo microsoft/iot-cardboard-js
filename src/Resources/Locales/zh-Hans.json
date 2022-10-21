@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "数据历史记录小组件菜单",
-      "openQuery": "在 Azure 数据资源管理器中打开查询"
+      "openQuery": "在 Azure 数据资源管理器中打开查询",
+      "quickTimeSpanTitle": "时间跨度"
     }
   },
   "sdkStrings": {

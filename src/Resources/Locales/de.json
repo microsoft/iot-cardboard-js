@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
-      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
+      "quickTimeSpanTitle": "Zeitspanne"
     }
   },
   "sdkStrings": {
