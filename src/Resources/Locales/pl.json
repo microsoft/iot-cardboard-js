@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
+      "quickTimeSpanTitle": "Przedział czasowy"
     }
   },
   "sdkStrings": {

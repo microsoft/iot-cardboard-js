@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
+      "quickTimeSpanTitle": "Lapso de tiempo"
     }
   },
   "sdkStrings": {

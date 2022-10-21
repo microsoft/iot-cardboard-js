@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer"
+      "openQuery": "Query openen in Azure Data Explorer",
+      "quickTimeSpanTitle": "Tijdspanne"
     }
   },
   "sdkStrings": {

@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
+      "quickTimeSpanTitle": "Zaman aralığı"
     }
   },
   "sdkStrings": {

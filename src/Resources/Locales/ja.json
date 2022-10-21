@@ -670,7 +670,8 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く"
+      "openQuery": "Azure データ エクスプローラーでクエリを開く",
+      "quickTimeSpanTitle": "期間"
     }
   },
   "sdkStrings": {
