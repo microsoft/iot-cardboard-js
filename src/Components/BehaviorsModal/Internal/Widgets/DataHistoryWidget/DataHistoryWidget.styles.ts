@@ -9,6 +9,7 @@ const classNames = {
     title: `${classPrefix}-title`,
     chartContainer: `${classPrefix}-chart-container`,
     menuButton: `${classPrefix}-menu-button`,
+    menu: `${classPrefix}-menu`,
     menuItem: `${classPrefix}-menu-item`
 };
 export const getStyles = (): IDataHistoryWidgetStyles => {
@@ -57,6 +58,12 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
                 padding: 0
             }
         ],
+        menu: [
+            classNames.menu,
+            {
+                overflow: 'hidden'
+            }
+        ],
         menuItem: [
             classNames.menuItem,
             {
@@ -64,6 +71,23 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
                     fontSize: FontSizes.size12
                 }
             }
-        ]
+        ],
+        subComponentStyles: {
+            quickTimePicker: {
+                dropdown: {
+                    '.ms-Dropdown-title': {
+                        borderWidth: 0
+                    }
+                },
+                titleContainer: {
+                    display: 'flex',
+                    fontSize: FontSizes.size12
+                },
+                menuTtemIcon: {
+                    fontSize: FontSizes.size16,
+                    marginRight: 8
+                }
+            }
+        }
     };
 };

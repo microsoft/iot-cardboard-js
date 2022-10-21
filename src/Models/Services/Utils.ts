@@ -15,12 +15,14 @@ import {
     AzureAccessPermissionRoles,
     AzureAccessPermissionRoleGroups,
     AzureResourceTypes,
-    TimeSeriesData
+    TimeSeriesData,
+    QuickTimeSpanKey
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import {
     CharacterWidths,
-    CONNECTION_STRING_SUFFIX
+    CONNECTION_STRING_SUFFIX,
+    QuickTimeSpans
 } from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
@@ -819,4 +821,16 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
             value: Math.floor(Math.random() * 500)
         })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
     );
+};
+
+/** Returns QuickTimeSpanKey from given millisecond */
+export const getQuickTimeSpanKeyByValue = (
+    millis: number
+): QuickTimeSpanKey => {
+    let key: QuickTimeSpanKey;
+    const idx = Object.values(QuickTimeSpans).indexOf(millis);
+    if (idx !== -1) {
+        key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
+    }
+    return key;
 };

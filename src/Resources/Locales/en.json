@@ -615,7 +615,6 @@
             "notEnabledDescription": "Data history is not enabled for this ADT instance.",
             "headerMenu": "Data history widget menu",
             "openQuery": "Open query in Azure Data Explorer",
-            "quickTimeSpanTitle": "Time span",
             "form": {
                 "connectionStringTitle": "Connection string",
                 "connectionStringPlaceholder": "Enter connection string (e.g. key1=value1;key2=value2;key3=value3)",
@@ -645,22 +644,7 @@
                     },
                     "quickTimeSpan": {
                         "label": "Default time span",
-                        "information": "Default time range selection in local time for the x-axis in chart",
-                        "options": {
-                            "Last 15 mins": "Last 15 mins",
-                            "Last 30 mins": "Last 30 mins",
-                            "Last hour": "Last hour",
-                            "Last 3 hours": "Last 3 hours",
-                            "Last 6 hours": "Last 6 hours",
-                            "Last 12 hours": "Last 12 hours",
-                            "Last 24 hours": "Last 24 hours",
-                            "Last 7 days": "Last 7 days",
-                            "Last 30 days": "Last 30 days",
-                            "Last 60 days": "Last 60 days",
-                            "Last 90 days": "Last 90 days",
-                            "Last 180 days": "Last 180 days",
-                            "Last year": "Last year"
-                        }
+                        "information": "Default time range selection in local time for the x-axis in chart"
                     },
                     "aggregationType": {
                         "label": "Aggregation type",
@@ -1265,5 +1249,24 @@
     "highcharts": {
         "shareQueryTitle": "Share query",
         "noDataDescription": "No data to display"
+    },
+    "quickTimesDropdown": {
+        "label": "Time span",
+        "placeholder": "Select a quick time",
+        "options": {
+            "Last 15 mins": "Last 15 mins",
+            "Last 30 mins": "Last 30 mins",
+            "Last hour": "Last hour",
+            "Last 3 hours": "Last 3 hours",
+            "Last 6 hours": "Last 6 hours",
+            "Last 12 hours": "Last 12 hours",
+            "Last 24 hours": "Last 24 hours",
+            "Last 7 days": "Last 7 days",
+            "Last 30 days": "Last 30 days",
+            "Last 60 days": "Last 60 days",
+            "Last 90 days": "Last 90 days",
+            "Last 180 days": "Last 180 days",
+            "Last year": "Last year"
+        }
     }
 }

@@ -1,7 +1,8 @@
 import {
     classNamesFunction,
     DirectionalHint,
-    IContextualMenuItem,
+    Icon,
+    IDropdownOption,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -20,11 +21,13 @@ import {
     BehaviorModalMode,
     DTwin,
     IDataHistoryWidgetTimeSeriesTwin,
-    QuickTimeSpans,
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
+import {
+    getMockTimeSeriesDataArrayInLocalTime,
+    getQuickTimeSpanKeyByValue
+} from '../../../../../Models/Services/Utils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -35,6 +38,7 @@ import {
     IOverflowMenuProps,
     OverflowMenu
 } from '../../../../OverflowMenu/OverflowMenu';
+import QuickTimesDropdown from '../../../../QuickTimesDropdown/QuickTimesDropdown';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
@@ -133,20 +137,54 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     );
 
     const classNames = getClassNames(styles, { theme: useTheme() });
-    const quickTimeSpanMenuItems: Array<IContextualMenuItem> = Object.keys(
-        QuickTimeSpans
-    ).map((timeSpan) => ({
-        key: timeSpan,
-        text: t(
-            `widgets.dataHistory.form.chartOptions.quickTimeSpan.options.${timeSpan}`
-        ),
-        onClick: () => {
-            isRequestSent.current = false;
-            setSelectedQuickTimeSpanInMillis(QuickTimeSpans[timeSpan]);
-        },
-        data: QuickTimeSpans[timeSpan],
-        className: classNames.menuItem
-    }));
+    const onRenderTitleOfQucikTimePickerItem = (
+        options: IDropdownOption[]
+    ): JSX.Element => {
+        const option = options[0];
+        return (
+            <div
+                style={
+                    classNames.subComponentStyles?.quickTimePicker?.()
+                        .titleContainer
+                }
+            >
+                {option.data && (
+                    <Icon
+                        style={
+                            classNames.subComponentStyles?.quickTimePicker?.()
+                                .menuTtemIcon
+                        }
+                        iconName="DateTime"
+                        aria-hidden="true"
+                    />
+                )}
+                <span>{option.text}</span>
+            </div>
+        );
+    };
+    const onRenderQuickTimePickerItem = (
+        _item: any,
+        onDismissMenu: () => void
+    ): React.ReactNode => {
+        return (
+            <QuickTimesDropdown
+                styles={{
+                    root: classNames.subComponentStyles?.quickTimePicker?.()
+                        .dropdown
+                }}
+                hasLabel={false}
+                defaultSelectedKey={getQuickTimeSpanKeyByValue(
+                    selectedQuickTimeSpanInMillis
+                )}
+                onChange={(_env, option) => {
+                    isRequestSent.current = false;
+                    setSelectedQuickTimeSpanInMillis(option.data);
+                    onDismissMenu();
+                }}
+                onRenderTitle={onRenderTitleOfQucikTimePickerItem}
+            />
+        );
+    };
     const menuProps: IOverflowMenuProps = {
         ariaLabel: t('widgets.dataHistory.headerMenu'),
         index: 0,
@@ -165,15 +203,11 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 },
                 {
                     key: 'quick-time-picker',
-                    text: t('widgets.dataHistory.quickTimeSpanTitle'),
-                    iconProps: { iconName: 'DateTime' },
                     className: classNames.menuItem,
-                    split: true,
-                    subMenuProps: {
-                        items: quickTimeSpanMenuItems
-                    }
+                    onRender: onRenderQuickTimePickerItem
                 }
-            ]
+            ],
+            className: classNames.menu
         },
         className: classNames.menuButton
     };

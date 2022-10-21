@@ -56,18 +56,6 @@ export const getYAxisTypeOptions = (
     ];
 };
 
-export const getQuickTimeSpanOptions = (
-    t: TFunction
-): Array<IDropdownOption> => {
-    return Object.keys(QuickTimeSpans).map((timeSpan) => ({
-        key: timeSpan,
-        text: t(
-            `widgets.dataHistory.form.chartOptions.quickTimeSpan.options.${timeSpan}`
-        ),
-        data: QuickTimeSpans[timeSpan]
-    }));
-};
-
 /** No translation needed for these options */
 export const AggregationTypeOptions: Array<IDropdownOption> = [
     {
