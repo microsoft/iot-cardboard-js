@@ -47,33 +47,6 @@ export interface IConditionsCalloutSubComponentStyles {
     cancelButton?: Partial<IButtonStyles>;
 }
 
-/** Condition summary types */
-export interface IConditionSummaryProps {
-    areValuesValid: boolean;
-    conditionType: IDTDLPropertyType;
-    currentValues: unknown[];
-    onChangeValues: (
-        valueType: IDTDLPropertyType,
-        newValues: unknown[],
-        index?: number
-    ) => void;
-}
-
-export interface IValueRangeValidation {
-    minValid: boolean;
-    maxValid: boolean;
-    rangeValid: boolean;
-}
-
-/** Action item types */
-export type ActionItemKey = 'color' | 'iconName';
-
-export interface IActionItemProps {
-    color?: string;
-    iconName?: string;
-    setActionSelectedValue(key: ActionItemKey, value: string);
-}
-
 /** Reducer types */
 export type ConditionValidityMapKeys = 'label' | 'ranges';
 

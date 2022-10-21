@@ -2,21 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useId } from '@fluentui/react-hooks';
 import { ReactComponent as InfinitySvg } from '../../../../../../Resources/Static/infinity.svg';
-import { getBoundaryInputStyles } from './ConditionsCallout.styles';
-import { useTheme } from '@fluentui/react';
+import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import {
+    BoundaryType,
+    IBoundaryInputProps,
+    IBoundaryInputStyleProps,
+    IBoundaryInputStyles
+} from './BoundaryInput.types';
+import { getStyles } from './BoundaryInput.styles';
 
-enum Boundary {
-    min = 'min',
-    max = 'max'
-}
+const getClassNames = classNamesFunction<
+    IBoundaryInputStyleProps,
+    IBoundaryInputStyles
+>();
 
-const BoundaryInput: React.FC<{
-    value: string;
-    boundary: Boundary;
-    setNewValues: (value: string) => void;
-    setValueToInfinity: (value: string) => void;
-}> = ({ boundary, setNewValues, setValueToInfinity, value }) => {
-    const guid = useId();
+const BoundaryInput: React.FC<IBoundaryInputProps> = (props) => {
+    const { boundary, setNewValues, setValueToInfinity, value, styles } = props;
+    const inputFieldId = useId();
     const { t } = useTranslation();
 
     const [inputValue, setInputValue] = useState(value);
@@ -25,19 +27,23 @@ const BoundaryInput: React.FC<{
         setInputValue(value);
     }, [value]);
 
-    const isMin = boundary === Boundary.min;
+    const isMin = boundary === BoundaryType.min;
     const infinityIconMessage = isMin
         ? t('valueRangeBuilder.negativeInfinityIconMessage')
         : t('valueRangeBuilder.positiveInfinityIconMessage');
-    const styles = getBoundaryInputStyles(useTheme());
+
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
 
     return (
         <>
-            <div className={styles.container}>
-                <label className={styles.label} htmlFor={guid}>
+            <div className={classNames.container}>
+                <label className={classNames.label} htmlFor={inputFieldId}>
                     {isMin ? t('min') : t('max')}
                 </label>
-                <div className={styles.inputContainer}>
+                <div className={classNames.inputContainer}>
                     <input
                         autoComplete="false"
                         data-testid={
@@ -45,11 +51,11 @@ const BoundaryInput: React.FC<{
                                 ? 'range-builder-row-input-min'
                                 : 'range-builder-row-input-max'
                         }
-                        id={guid}
+                        id={inputFieldId}
                         value={String(inputValue)}
                         type="string"
                         onChange={(event) => setInputValue(event.target.value)}
-                        className={styles.input}
+                        className={classNames.input}
                         onBlur={() => {
                             setNewValues(inputValue);
                         }}
@@ -58,8 +64,8 @@ const BoundaryInput: React.FC<{
                         aria-label={infinityIconMessage}
                         className={`${
                             isMin
-                                ? styles.negativeInfinityButton
-                                : styles.infinityButton
+                                ? classNames.negativeInfinityButton
+                                : classNames.infinityButton
                         }`}
                         data-testid={
                             isMin
@@ -81,4 +87,8 @@ const BoundaryInput: React.FC<{
     );
 };
 
-export default BoundaryInput;
+export default styled<
+    IBoundaryInputProps,
+    IBoundaryInputStyleProps,
+    IBoundaryInputStyles
+>(BoundaryInput, getStyles);

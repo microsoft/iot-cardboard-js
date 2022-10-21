@@ -1,6 +1,14 @@
-import { Dropdown, IDropdownOption, Stack } from '@fluentui/react';
+import {
+    classNamesFunction,
+    Dropdown,
+    IDropdownOption,
+    Stack,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18n from '../../../../../../i18n';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
@@ -8,44 +16,57 @@ import {
 import ColorPicker from '../../../../../Pickers/ColorSelectButton/ColorPicker';
 import IconPicker from '../../../../../Pickers/IconSelectButton/IconPicker';
 import { IPickerOption } from '../../../../../Pickers/Internal/Picker.base.types';
-import { IActionItemProps } from './ConditionsCallout.types';
-
-const DROPDOWN_OPTIONS: IDropdownOption[] = [
-    {
-        key: 'Mesh-coloring-action-item',
-        text: 'Mesh coloring'
-    },
-    {
-        key: 'Badge-action-item',
-        text: 'Badge'
-    }
-];
+import { getStyles } from './ActionItem.styles';
+import {
+    IActionItemStyleProps,
+    IActionItemStyles,
+    IActionItemProps
+} from './ActionItem.types';
+import { hasBadge } from './ConditionCalloutUtility';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
     actionLabel: `${ROOT_LOC}.actionLabel`,
     colorLabel: `${ROOT_LOC}.colorLabel`,
-    iconLabel: `${ROOT_LOC}.iconLabel`
+    iconLabel: `${ROOT_LOC}.iconLabel`,
+    meshColoringOption: `${ROOT_LOC}.meshColoringOption`,
+    badgeOption: `${ROOT_LOC}.badgeOption`
 };
 
-export const ActionItem: React.FC<IActionItemProps> = (props) => {
+const DROPDOWN_OPTIONS: IDropdownOption[] = [
+    {
+        key: 'Mesh-coloring-action-item',
+        text: i18n.t(LOC_KEYS.meshColoringOption)
+    },
+    {
+        key: 'Badge-action-item',
+        text: i18n.t(LOC_KEYS.badgeOption)
+    }
+];
+
+const getClassNames = classNamesFunction<
+    IActionItemStyleProps,
+    IActionItemStyles
+>();
+
+const ActionItem: React.FC<IActionItemProps> = (props) => {
     // props
-    const { color, iconName, setActionSelectedValue } = props;
+    const { color, iconName, setActionSelectedValue, styles } = props;
 
     // hooks
     const { t } = useTranslation();
 
     // state
-    const [selectedOption, setSelectedOption] = useState(
-        iconName ? DROPDOWN_OPTIONS[1].key : DROPDOWN_OPTIONS[0].key
+    const [selectedOptionKey, setSelectedOptionKey] = useState(
+        hasBadge(iconName) ? DROPDOWN_OPTIONS[1].key : DROPDOWN_OPTIONS[0].key
     );
 
     // side-effects
     useEffect(() => {
-        if (!iconName) {
-            setSelectedOption(DROPDOWN_OPTIONS[0].key);
+        if (!hasBadge(iconName)) {
+            setSelectedOptionKey(DROPDOWN_OPTIONS[0].key);
         } else {
-            setSelectedOption(DROPDOWN_OPTIONS[1].key);
+            setSelectedOptionKey(DROPDOWN_OPTIONS[1].key);
         }
     }, [iconName]);
 
@@ -56,7 +77,7 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
             option?: IDropdownOption<any>
         ) => {
             if (option) {
-                setSelectedOption(option.key);
+                setSelectedOptionKey(option.key);
             }
         },
         []
@@ -74,44 +95,41 @@ export const ActionItem: React.FC<IActionItemProps> = (props) => {
         [setActionSelectedValue]
     );
 
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
     return (
-        <>
-            <Stack tokens={{ childrenGap: 8 }}>
-                <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
-                    <Dropdown
-                        label={t(LOC_KEYS.actionLabel)}
-                        options={DROPDOWN_OPTIONS}
-                        selectedKey={selectedOption}
-                        onChange={handleOnDropdownChange}
-                        styles={{
-                            root: {
-                                minWidth: '126px'
-                            }
-                        }}
-                    />
-                    <ColorPicker
-                        selectedItem={color}
-                        items={defaultSwatchColors}
-                        label={t(LOC_KEYS.colorLabel)}
-                        onChangeItem={onColorChange}
-                        styles={{
-                            // match the icon picker
-                            button: {
-                                height: 32,
-                                width: 32
-                            }
-                        }}
-                    />
-                    {selectedOption === 'Badge-action-item' && (
-                        <IconPicker
-                            selectedItem={iconName}
-                            items={defaultSwatchIcons}
-                            label={t(LOC_KEYS.iconLabel)}
-                            onChangeItem={onIconChange}
-                        />
-                    )}
-                </Stack>
-            </Stack>
-        </>
+        <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
+            <Dropdown
+                label={t(LOC_KEYS.actionLabel)}
+                options={DROPDOWN_OPTIONS}
+                selectedKey={selectedOptionKey}
+                onChange={handleOnDropdownChange}
+                styles={classNames.subComponentStyles.dropdown}
+            />
+            <ColorPicker
+                selectedItem={color}
+                items={defaultSwatchColors}
+                label={t(LOC_KEYS.colorLabel)}
+                onChangeItem={onColorChange}
+                styles={classNames.subComponentStyles.colorPicker}
+            />
+            {selectedOptionKey === 'Badge-action-item' && (
+                <IconPicker
+                    selectedItem={iconName}
+                    items={defaultSwatchIcons}
+                    label={t(LOC_KEYS.iconLabel)}
+                    onChangeItem={onIconChange}
+                />
+            )}
+        </Stack>
     );
 };
+
+export default styled<
+    IActionItemProps,
+    IActionItemStyleProps,
+    IActionItemStyles
+>(ActionItem, getStyles);

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useReducer, useRef } from 'react';
 import {
-    ActionItemKey,
     ConditionCalloutActionType,
     ConditionCalloutReducerType,
     ConditionValidityMap,
@@ -20,14 +19,15 @@ import {
     PrimaryButton,
     DefaultButton
 } from '@fluentui/react';
-import { ConditionSummary } from './ConditionSummary';
-import { ActionItem } from './ActionItem';
+import ConditionSummary from './ConditionSummary';
+import ActionItem from './ActionItem';
 import { ConditionCalloutReducer } from './ConditionsCallout.state';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { useTranslation } from 'react-i18next';
 import { areRangesValid, checkValidity } from './ConditionCalloutUtility';
 import { deepCopy } from '../../../../../../Models/Services/Utils';
 import { CalloutInfoType } from '../ConditionsList.types';
+import { ActionItemKey } from './ActionItem.types';
 
 const getClassNames = classNamesFunction<
     IConditionsCalloutStyleProps,

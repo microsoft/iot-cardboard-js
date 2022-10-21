@@ -76,3 +76,8 @@ export const areRangesValid = (
     }
     return true;
 };
+
+/** Returns true if an action contains an icon name which will be shown in the badge */
+export const hasBadge = (iconName?: string): boolean => {
+    return !!iconName;
+};

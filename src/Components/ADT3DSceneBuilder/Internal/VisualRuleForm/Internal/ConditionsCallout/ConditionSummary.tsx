@@ -1,16 +1,22 @@
 import React, { useMemo } from 'react';
 import {
     ChoiceGroup,
+    classNamesFunction,
     IChoiceGroupOption,
     Stack,
+    styled,
     useTheme
 } from '@fluentui/react';
 import CardboardMultiSelect from '../../../../../CardboardMultiSelect/CardboardMultiSelect';
-import { IConditionSummaryProps } from './ConditionsCallout.types';
 import BoundaryInput from './BoundaryInput';
-import { Boundary } from '../../../../../ValueRangeBuilder/ValueRangeBuilder.types';
 import { useTranslation } from 'react-i18next';
-import { getSummaryStyles } from './ConditionsCallout.styles';
+import {
+    IConditionSummaryStyleProps,
+    IConditionSummaryStyles,
+    IConditionSummaryProps
+} from './ConditionSummary.types';
+import { BoundaryType } from './BoundaryInput.types';
+import { getStyles } from './ConditionSummary.styles';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
@@ -23,12 +29,18 @@ const LOC_KEYS = {
 
 const STACK_TOKENS = { childrenGap: 8 };
 
-export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
+const getClassNames = classNamesFunction<
+    IConditionSummaryStyleProps,
+    IConditionSummaryStyles
+>();
+
+const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     const {
         areValuesValid,
         conditionType,
         onChangeValues,
-        currentValues
+        currentValues,
+        styles
     } = props;
 
     // Hooks
@@ -48,7 +60,6 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         [t]
     );
 
-    const styles = getSummaryStyles(useTheme());
     // Render callbacks
     const renderFields = () => {
         switch (conditionType) {
@@ -61,13 +72,18 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         }
     };
 
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useTheme()
+    });
+
     const renderNumericalSummary = () => {
         return (
             <Stack>
                 <Stack horizontal={true} tokens={STACK_TOKENS}>
                     <BoundaryInput
                         value={currentValues[0] as string}
-                        boundary={Boundary.min}
+                        boundary={BoundaryType.min}
                         setNewValues={(value: string) => {
                             onChangeValues(conditionType, [Number(value)], 0);
                         }}
@@ -77,7 +93,7 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                     />
                     <BoundaryInput
                         value={currentValues[1] as string}
-                        boundary={Boundary.max}
+                        boundary={BoundaryType.max}
                         setNewValues={(value: string) => {
                             onChangeValues(conditionType, [Number(value)], 1);
                         }}
@@ -87,7 +103,7 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                     />
                 </Stack>
                 {!areValuesValid && (
-                    <div className={styles.invalidText}>
+                    <div className={classNames.invalidText}>
                         {t(LOC_KEYS.invalidRanges)}
                     </div>
                 )}
@@ -128,7 +144,7 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     return (
         <>
             <Stack tokens={STACK_TOKENS}>
-                <h4 className={styles.title}>
+                <h4 className={classNames.title}>
                     {conditionType === 'boolean'
                         ? t(LOC_KEYS.flyoutValueTitle)
                         : t(LOC_KEYS.flyoutValuesTitle)}
@@ -138,3 +154,9 @@ export const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
         </>
     );
 };
+
+export default styled<
+    IConditionSummaryProps,
+    IConditionSummaryStyleProps,
+    IConditionSummaryStyles
+>(ConditionSummary, getStyles);

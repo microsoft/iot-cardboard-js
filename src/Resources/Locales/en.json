@@ -588,7 +588,9 @@
             "labelField": "Label",
             "choiceGroupTrue": "True",
             "choiceGroupFalse": "False",
-            "placeholderMultiselect": "Type values, press enter to add"
+            "placeholderMultiselect": "Type values, press enter to add",
+            "meshColoringOption": "Mesh coloring",
+            "badgeOption": "Badge"
         }
     },
     "widgets": {
