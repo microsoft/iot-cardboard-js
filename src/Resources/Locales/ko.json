@@ -668,7 +668,9 @@
             "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
           }
         }
-      }
+      },
+      "headerMenu": "데이터 히스토리 위젯 메뉴",
+      "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "추가 열 선택"
   },
   "highcharts": {
-    "noTitle": "제목 없음",
     "shareQueryTitle": "쿼리 공유",
     "noDataDescription": "표시할 데이터 없음"
   }

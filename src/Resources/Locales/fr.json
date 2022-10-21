@@ -668,7 +668,9 @@
             "information": "Opération d’agrégation par défaut lorsque le regroupement de données est actif en fonction du nombre de points de données dans le graphique"
           }
         }
-      }
+      },
+      "headerMenu": "Menu du widget Historique des données",
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   },
   "highcharts": {
-    "noTitle": "Pas de titre",
     "shareQueryTitle": "Partager la requête",
     "noDataDescription": "Aucune donnée à afficher"
   }

@@ -668,7 +668,9 @@
             "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenu gegevensgeschiedenis",
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "Extra kolommen selecteren"
   },
   "highcharts": {
-    "noTitle": "Geen titel",
     "shareQueryTitle": "Query delen",
     "noDataDescription": "Geen gegevens om weer te geven"
   }

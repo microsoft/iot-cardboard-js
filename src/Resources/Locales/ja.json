@@ -668,7 +668,9 @@
             "information": "グラフ内のデータ ポイントの数に基づいてデータのグループ化がアクティブな場合の既定の集計操作"
           }
         }
-      }
+      },
+      "headerMenu": "データ履歴ウィジェットメニュー",
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "追加の列の選択"
   },
   "highcharts": {
-    "noTitle": "タイトルなし",
     "shareQueryTitle": "共有クエリ",
     "noDataDescription": "表示するデータがありません"
   }

@@ -668,7 +668,9 @@
             "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
           }
         }
-      }
+      },
+      "headerMenu": "Menu de widget do histórico de dados",
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "Selecione colunas adicionais"
   },
   "highcharts": {
-    "noTitle": "Sem título",
     "shareQueryTitle": "Consulta de compartilhamento",
     "noDataDescription": "Sem dados para exibir"
   }

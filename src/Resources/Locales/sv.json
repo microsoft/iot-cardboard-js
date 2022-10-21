@@ -668,7 +668,9 @@
             "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenyn Datahistorik",
+      "openQuery": "Öppna frågan i Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,7 +1270,6 @@
     "selectAdditionalColumns": "Välj ytterligare kolumner"
   },
   "highcharts": {
-    "noTitle": "Ingen titel",
     "shareQueryTitle": "Dela fråga",
     "noDataDescription": "Inga data att visa"
   }
