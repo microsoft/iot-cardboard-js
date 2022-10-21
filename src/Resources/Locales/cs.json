@@ -569,14 +569,16 @@
       "addCondition": "Přidat podmínku",
       "conditionsTitle": "Podmínky",
       "actionsTitle": "Akce",
-      "actionTypeLabel": "Typ",
       "colorLabel": "Barva",
       "iconLabel": "Ikona",
       "invalidRanges": "Neplatný rozsah, min by měl být menší než max a hodnoty by měly být číselné.",
       "labelField": "Označit",
       "choiceGroupTrue": "Pravdivý",
       "choiceGroupFalse": "Falešný",
-      "multiselectPlaceholder": "Napište něco a stiskněte klávesu Enter..."
+      "flyoutValuesTitle": "Hodnoty",
+      "flyoutValueTitle": "Hodnota",
+      "actionLabel": "Akce",
+      "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {

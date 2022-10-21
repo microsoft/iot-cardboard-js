@@ -569,14 +569,16 @@
       "addCondition": "Agregar condición",
       "conditionsTitle": "Condiciones",
       "actionsTitle": "Acciones",
-      "actionTypeLabel": "Tipo",
       "colorLabel": "Color",
       "iconLabel": "Icono",
       "invalidRanges": "Rango no válido, min debe ser menor que max y los valores deben ser numéricos.",
       "labelField": "Etiqueta",
       "choiceGroupTrue": "Verdadero",
       "choiceGroupFalse": "Falso",
-      "multiselectPlaceholder": "Escribe algo y presiona enter..."
+      "flyoutValuesTitle": "Valores",
+      "flyoutValueTitle": "Valor",
+      "actionLabel": "Acción",
+      "placeholderMultiselect": "Escriba los valores, presione enter para agregar"
     },
     "conditions": "Condiciones",
     "behaviorVisualRulesTab": {

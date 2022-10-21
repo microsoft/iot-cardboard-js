@@ -569,14 +569,16 @@
       "addCondition": "Добавить условие",
       "conditionsTitle": "Условия",
       "actionsTitle": "Действия",
-      "actionTypeLabel": "Тип",
       "colorLabel": "Цвет",
       "iconLabel": "Икона",
       "invalidRanges": "Недопустимый диапазон, min должен быть меньше max, а значения должны быть числовыми.",
       "labelField": "Ярлык",
       "choiceGroupTrue": "Истинный",
       "choiceGroupFalse": "Ложный",
-      "multiselectPlaceholder": "Введите что-нибудь и нажмите enter..."
+      "flyoutValuesTitle": "Значения",
+      "flyoutValueTitle": "Ценность",
+      "actionLabel": "Действие",
+      "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить"
     },
     "conditions": "Условия",
     "behaviorVisualRulesTab": {
