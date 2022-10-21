@@ -1,16 +1,26 @@
 import {
     classNamesFunction,
     DirectionalHint,
+    IContextualMenuItem,
     styled,
     useTheme
 } from '@fluentui/react';
-import React, { memo, useContext, useEffect, useMemo, useRef } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
     ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
     IDataHistoryWidgetTimeSeriesTwin,
+    QuickTimeSpans,
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
@@ -51,6 +61,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 
     const { adapter, twins, mode } = useContext(BehaviorsModalContext);
     const twinIdPropertyMap = getTwinIdPropertyMap(timeSeries, twins);
+    const [
+        selectedQuickTimeSpanInMillis,
+        setSelectedQuickTimeSpanInMillis
+    ] = useState(chartOptions.defaultQuickTimeSpanInMillis);
     const isRequestSent = useRef(false);
 
     const {
@@ -62,7 +76,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     } = useTimeSeriesData({
         adapter,
         connectionString,
-        quickTimeSpanInMillis: chartOptions.defaultQuickTimeSpanInMillis,
+        quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });
 
@@ -70,6 +84,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 
     const xMinDateInMillisRef = useRef<number>(null);
     const xMaxDateInMillisRef = useRef<number>(null);
+
+    const updateXMinAndMax = useCallback(() => {
+        const nowInMillis = Date.now();
+        xMinDateInMillisRef.current =
+            nowInMillis - selectedQuickTimeSpanInMillis;
+        xMaxDateInMillisRef.current = nowInMillis;
+    }, [selectedQuickTimeSpanInMillis]);
 
     useEffect(() => {
         if (
@@ -80,20 +101,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             twinIdPropertyMap
         ) {
             fetchTimeSeriesData();
+            updateXMinAndMax();
             isRequestSent.current = true;
-            const nowInMillis = Date.now();
-            xMinDateInMillisRef.current =
-                nowInMillis - chartOptions.defaultQuickTimeSpanInMillis;
-            xMaxDateInMillisRef.current = nowInMillis;
         }
-    }, [
-        adapter,
-        query,
-        connectionString,
-        twinIdPropertyMap,
-        chartOptions,
-        mode
-    ]);
+    }, [adapter, query, connectionString, twinIdPropertyMap, mode]);
 
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
@@ -122,6 +133,20 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     );
 
     const classNames = getClassNames(styles, { theme: useTheme() });
+    const quickTimeSpanMenuItems: Array<IContextualMenuItem> = Object.keys(
+        QuickTimeSpans
+    ).map((timeSpan) => ({
+        key: timeSpan,
+        text: t(
+            `widgets.dataHistory.form.chartOptions.quickTimeSpan.options.${timeSpan}`
+        ),
+        onClick: () => {
+            isRequestSent.current = false;
+            setSelectedQuickTimeSpanInMillis(QuickTimeSpans[timeSpan]);
+        },
+        data: QuickTimeSpans[timeSpan],
+        className: classNames.menuItem
+    }));
     const menuProps: IOverflowMenuProps = {
         ariaLabel: t('widgets.dataHistory.headerMenu'),
         index: 0,
@@ -137,6 +162,16 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     },
                     iconProps: { iconName: 'Share' },
                     className: classNames.menuItem
+                },
+                {
+                    key: 'quick-time-picker',
+                    text: t('widgets.dataHistory.quickTimeSpanTitle'),
+                    iconProps: { iconName: 'DateTime' },
+                    className: classNames.menuItem,
+                    split: true,
+                    subMenuProps: {
+                        items: quickTimeSpanMenuItems
+                    }
                 }
             ]
         },

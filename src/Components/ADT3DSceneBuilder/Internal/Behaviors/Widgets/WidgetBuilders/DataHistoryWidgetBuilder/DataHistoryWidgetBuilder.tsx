@@ -22,8 +22,14 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADXConnection } from '../../../../../../../Models/Constants';
-import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
+import {
+    IADXConnection,
+    QuickTimeSpanKey
+} from '../../../../../../../Models/Constants';
+import {
+    DOCUMENTATION_LINKS,
+    QuickTimeSpans
+} from '../../../../../../../Models/Constants/Constants';
 import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
     IDataHistoryAggregationType,
@@ -41,9 +47,7 @@ import {
     ChartOptionKeys,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
-    QuickTimeSpanKey,
     getQuickTimeSpanOptions,
-    QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
     getYAxisTypeOptions,
     IDataHistoryWidgetBuilderStyleProps,

@@ -60,8 +60,9 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
         menuItem: [
             classNames.menuItem,
             {
-                height: 28,
-                fontSize: FontSizes.size10
+                '.ms-ContextualMenu-itemText': {
+                    fontSize: FontSizes.size12
+                }
             }
         ]
     };

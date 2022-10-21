@@ -615,6 +615,7 @@
             "notEnabledDescription": "Data history is not enabled for this ADT instance.",
             "headerMenu": "Data history widget menu",
             "openQuery": "Open query in Azure Data Explorer",
+            "quickTimeSpanTitle": "Time span",
             "form": {
                 "connectionStringTitle": "Connection string",
                 "connectionStringPlaceholder": "Enter connection string (e.g. key1=value1;key2=value2;key3=value3)",
