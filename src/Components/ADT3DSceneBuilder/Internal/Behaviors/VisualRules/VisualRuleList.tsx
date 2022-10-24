@@ -1,9 +1,11 @@
-import { IContextualMenuItem } from '@fluentui/react';
+import { IContextualMenuItem, Image, useTheme } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { IVisualRule, IVisualRulesListProps } from './VisualRules.types';
+import meshAndBadgeIcon from '../../../../../Resources/Static/meshAndBadgeIcon.svg';
+
 /**
  *
  * Visual Rule List will handle the generation of ruleItems and the actions on a rule
@@ -103,13 +105,41 @@ function getListItems(
         ];
     };
 
+    function getIconStart(item) {
+        const theme = useTheme();
+
+        const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
+        let icon;
+        if (meshCount && badgeCount) {
+            icon = {
+                name: 'TextField'
+            };
+        } else if (meshCount) {
+            icon = {
+                name: 'CubeShape'
+            };
+        } else if (badgeCount) {
+            icon = () => {
+                theme.palette.themeLight ? (
+                    (icon = {
+                        name: 'Textfield'
+                    })
+                ) : (
+                    <Image
+                        src={meshAndBadgeIcon}
+                        height={16}
+                        style={{ marginRight: 8 }}
+                    />
+                );
+            };
+        }
+        return icon;
+    }
+
     return rules.map((item) => {
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
-            iconStart: {
-                name:
-                    item.type === 'NumericRange' ? 'NumberSymbol' : 'TextField'
-            },
+            iconStart: getIconStart(item),
             item: item,
             onClick: () => onEditRule(item.id),
             overflowMenuItems: getMenuItems(item),
