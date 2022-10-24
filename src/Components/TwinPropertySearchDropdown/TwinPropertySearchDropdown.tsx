@@ -27,7 +27,8 @@ import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Typ
 import {
     getDebugLogger,
     getMarkedHtmlBySearch,
-    removeDuplicatesFromArray
+    removeDuplicatesFromArray,
+    sortAscendingOrDescending
 } from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
@@ -143,6 +144,7 @@ const TwinPropertySearchDropdown = (
 
             twinSearchContinuationToken.current =
                 searchTwinAdapterData.adapterResult.result.data.continuationToken;
+            options.sort(sortAscendingOrDescending('label'));
         }
     }, [searchTwinAdapterData.adapterResult, selectedOption]);
 
