@@ -573,7 +573,12 @@
       "noData": "Ainda não configuraste nenhuma Regra Visual.",
       "addRuleButtonText": "Adicionar Regra",
       "editRule": "Regra de edição",
-      "removeRule": "Remover regra"
+      "removeRule": "Remover regra",
+      "singleBadge": "{{badgeCount}} crachá",
+      "singleMeshColoring": "{{meshColoringCount}} coloração da malha",
+      "multipleBadges": "{{badgeCount}} crachás",
+      "multipleMeshColorings": "{{meshColoringCount}} colorações de malha",
+      "unlabeled": "(sem rótulo)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "Este tipo de widget não é atualmente suportado",
     "dataHistory": {
       "title": "Widget de histórico de dados",
+      "libraryName": "Histórico de dados",
       "description": "Mostrar dados de timeeries no contexto da sua cena 3D",
       "notEnabledDescription": "O histórico de dados não está habilitado para este caso de ADT.",
       "form": {
         "connectionStringTitle": "Cadeia de conexão",
         "connectionStringPlaceholder": "Introduza a cadeia de ligação (por exemplo, key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Os widgets de histórico de dados visam o exemplo do Azure Data Explorer ligado à instância Azure Digital Twins no momento da criação.",
         "connectionLoadingText": "A carregar informações de ligação...",
         "noConnectionInformationText": "Nenhuma informação de ligação encontrada",
         "displayNamePlaceholder": "Insira o nome do visor",
@@ -624,10 +631,11 @@
           "property": "Propriedade",
           "unit": "Unidade",
           "label": "Etiqueta",
+          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela",
           "add": "Adicionar séries de tempo",
           "edit": "Editar séries tempor feiras",
-          "remove": "Remover séries de tempo",
-          "labelPlaceholder": "Introduza a etiqueta para mostrar na tabela"
+          "update": "Atualizar séries de tempo",
+          "remove": "Remover séries de tempo"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "Últimos 15 minutos",
               "Last 30 mins": "Últimos 30 minutos",
-              "Last Hour": "Última Hora",
-              "Last 3 Hours": "Últimas 3 Horas",
-              "Last 6 Hours": "Últimas 6 Horas",
-              "Last 12 Hours": "Últimas 12 Horas",
-              "Last 24 Hours": "Últimas 24 Horas",
-              "Last 7 Days": "Últimos 7 dias",
-              "Last 30 Days": "Últimos 30 dias",
-              "Last 60 Days": "Últimos 60 dias",
-              "Last 90 Days": "Últimos 90 dias",
-              "Last 180 Days": "Últimos 180 dias",
-              "Last Year": "Ano passado"
-            }
+              "Last hour": "Última hora",
+              "Last 3 hours": "Últimas 3 horas",
+              "Last 6 hours": "Últimas 6 horas",
+              "Last 12 hours": "Últimas 12 horas",
+              "Last 24 hours": "Últimas 24 horas",
+              "Last 7 days": "Últimos 7 dias",
+              "Last 30 days": "Últimos 30 dias",
+              "Last 60 days": "Últimos 60 dias",
+              "Last 90 days": "Últimos 90 dias",
+              "Last 180 days": "Últimos 180 dias",
+              "Last year": "No ano passado"
+            },
+            "information": "Seleção de intervalo de tempo padrão na hora local para o eixo x na tabela"
           },
           "aggregationType": {
-            "label": "Tipo de agregação"
+            "label": "Tipo de agregação",
+            "information": "Operação de agregação predefinido quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
           }
-        },
-        "connectionStringInformation": "Os widgets de histórico de dados visam o exemplo do Azure Data Explorer ligado à instância Azure Digital Twins no momento da criação."
-      },
-      "libraryName": "Histórico de dados"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "sincronização",
     "import": "Importação",
     "export": "Exportação",
+    "file": "Arquivo",
     "new": "Novo",
     "open": "Aberto",
     "saveAs": "Salvar como",
@@ -934,6 +943,9 @@
     "undo": "Desfazer",
     "redo": "Redo",
     "deleteAll": "Apagar tudo",
+    "folderUpload": "Upload de pasta",
+    "fileUpload": "Upload de arquivo",
+    "files": "Ficheiros",
     "selectFile": "Selecione ficheiro",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    },
-    "importFolder": "Pasta de importação",
-    "importFile": "Arquivo de importação",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre os totologias",
-      "deleteButtonText": "Eliminar a ontologia",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Insira um nome de ontologia",
-      "namespaceLabel": "Espaço de nome",
-      "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
-      "namespacePlaceholder": "Insira um espaço de nome",
-      "sampleModel": "modelo de amostra"
-    },
-    "file": "arquivo"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controlos do rato",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Este campo é necessário",
   "OATGraphViewer": {
+    "newModel": "Novo Modelo",
     "name": "Nome",
     "id": "Id",
     "type": "Tipo",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Dropdown de imóveis disponíveis",
     "selectAdditionalColumns": "Selecione colunas adicionais"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "cópia",
-    "defaultFileName": "Nova ontologia",
-    "defaultModelNamePrefix": "Modelo"
+  "highcharts": {
+    "noTitle": "Sem título",
+    "shareQueryTitle": "Consulta de partilha",
+    "noDataDescription": "Sem dados para exibir"
   }
 }

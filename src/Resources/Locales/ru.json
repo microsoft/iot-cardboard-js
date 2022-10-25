@@ -573,7 +573,12 @@
       "noData": "Вы еще не настроили визуальные правила",
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
-      "removeRule": "Удалить правило"
+      "removeRule": "Удалить правило",
+      "singleBadge": "{{badgeCount}} значок",
+      "singleMeshColoring": "{{meshColoringCount}} раскраска сетки",
+      "multipleBadges": "{{badgeCount}} значки",
+      "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
+      "unlabeled": "(без маркировки)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "Этот тип виджета в настоящее время не поддерживается",
     "dataHistory": {
       "title": "Виджет истории данных",
+      "libraryName": "История данных",
       "description": "Отображение данных временных рядов в контексте 3D-сцены",
       "notEnabledDescription": "Журнал данных не включен для этого экземпляра ADT.",
       "form": {
         "connectionStringTitle": "Строка подключения",
         "connectionStringPlaceholder": "Введите строку подключения (например, key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Виджеты журнала данных предназначены для экземпляра обозревателя данных Azure, подключенного к экземпляру Azure Digital Twins во время создания.",
         "connectionLoadingText": "Загрузка информации о соединении...",
         "noConnectionInformationText": "Сведения о подключении не найдены",
         "displayNamePlaceholder": "Введите отображаемое имя",
@@ -624,10 +631,11 @@
           "property": "Свойство",
           "unit": "Единица",
           "label": "Ярлык",
+          "labelPlaceholder": "Введите метку для отображения на диаграмме",
           "add": "Добавление временных рядов",
           "edit": "Редактирование временных рядов",
-          "remove": "Удаление временных рядов",
-          "labelPlaceholder": "Введите метку для отображения на диаграмме"
+          "update": "Обновление временных рядов",
+          "remove": "Удаление временных рядов"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "Последние 15 минут",
               "Last 30 mins": "Последние 30 минут",
-              "Last Hour": "Последний час",
-              "Last 3 Hours": "Последние 3 часа",
-              "Last 6 Hours": "Последние 6 часов",
-              "Last 12 Hours": "Последние 12 часов",
-              "Last 24 Hours": "Последние 24 часа",
-              "Last 7 Days": "Последние 7 дней",
-              "Last 30 Days": "Последние 30 дней",
-              "Last 60 Days": "Последние 60 дней",
-              "Last 90 Days": "Последние 90 дней",
-              "Last 180 Days": "Последние 180 дней",
-              "Last Year": "В прошлом году"
-            }
+              "Last hour": "Последний час",
+              "Last 3 hours": "Последние 3 часа",
+              "Last 6 hours": "Последние 6 часов",
+              "Last 12 hours": "Последние 12 часов",
+              "Last 24 hours": "Последние 24 часа",
+              "Last 7 days": "Последние 7 дней",
+              "Last 30 days": "Последние 30 дней",
+              "Last 60 days": "Последние 60 дней",
+              "Last 90 days": "Последние 90 дней",
+              "Last 180 days": "Последние 180 дней",
+              "Last year": "В прошлом году"
+            },
+            "information": "Выбор диапазона времени по умолчанию в локальном времени для оси X на диаграмме"
           },
           "aggregationType": {
-            "label": "Тип агрегирования"
+            "label": "Тип агрегирования",
+            "information": "Операция агрегирования по умолчанию, когда группировка данных активна в зависимости от количества точек данных на диаграмме"
           }
-        },
-        "connectionStringInformation": "Виджеты журнала данных предназначены для экземпляра обозревателя данных Azure, подключенного к экземпляру Azure Digital Twins во время создания."
-      },
-      "libraryName": "История данных"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "синхронизировать",
     "import": "Импорт",
     "export": "Экспорт",
+    "file": "Файл",
     "new": "Новые функции",
     "open": "Открытый",
     "saveAs": "Сохранить как",
@@ -934,6 +943,9 @@
     "undo": "Отменить",
     "redo": "Повторить",
     "deleteAll": "Удалить все",
+    "folderUpload": "Загрузка папки",
+    "fileUpload": "Загрузка файла",
+    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
-    },
-    "importFolder": "Папка импорта",
-    "importFile": "Импорт файла",
-    "ontology": "Онтология",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Новая онтология",
-      "modalTitleEdit": "Редактирование онтологии",
-      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleLinkText": "Подробнее об онтологиях",
-      "deleteButtonText": "Удалить онтологию",
-      "nameLabel": "Имя",
-      "namePlaceholder": "Введите имя онтологии",
-      "namespaceLabel": "Пространство имен",
-      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
-      "namespacePlaceholder": "Ввод пространства имен",
-      "sampleModel": "Образец модели"
-    },
-    "file": "файл"
+    }
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Это поле обязательно для заполнения",
   "OATGraphViewer": {
+    "newModel": "Новая модель",
     "name": "Имя",
     "id": "Идентификатор",
     "type": "Тип",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Раскрывающийся список доступных свойств",
     "selectAdditionalColumns": "Выбор дополнительных столбцов"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Новая онтология",
-    "defaultModelNamePrefix": "Модель"
+  "highcharts": {
+    "noTitle": "Без названия",
+    "shareQueryTitle": "Общий доступ к запросу",
+    "noDataDescription": "Нет отображаемых данных"
   }
 }

@@ -573,7 +573,12 @@
       "noData": "Henüz herhangi bir Görsel Kural yapılandırmadınız",
       "addRuleButtonText": "Kural Ekle",
       "editRule": "Kuralı düzenle",
-      "removeRule": "Kuralı kaldır"
+      "removeRule": "Kuralı kaldır",
+      "singleBadge": "{{badgeCount}} rozeti",
+      "singleMeshColoring": "{{meshColoringCount}} örgü renklendirme",
+      "multipleBadges": "{{badgeCount}} rozetleri",
+      "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri",
+      "unlabeled": "(etiketsiz)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "Bu widget türü şu anda desteklenmiyor",
     "dataHistory": {
       "title": "Veri geçmişi widget'ı",
+      "libraryName": "Veri geçmişi",
       "description": "Zaman serisi verilerini 3B sahnenizin bağlamında gösterme",
       "notEnabledDescription": "Veri geçmişi bu ADT örneği için etkinleştirilmemiştir.",
       "form": {
         "connectionStringTitle": "Bağlantı dizesi",
         "connectionStringPlaceholder": "Bağlantı dizesi girin (ör. key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler.",
         "connectionLoadingText": "Bağlantı bilgileri yükleniyor...",
         "noConnectionInformationText": "Bağlantı bilgisi bulunamadı",
         "displayNamePlaceholder": "Görünen adı girin",
@@ -624,10 +631,11 @@
           "property": "Mülk",
           "unit": "Birim",
           "label": "Etiket",
+          "labelPlaceholder": "Grafikte gösterilecek etiketi girin",
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
-          "remove": "Zaman serilerini kaldırma",
-          "labelPlaceholder": "Grafikte gösterilecek etiketi girin"
+          "update": "Güncelleme zaman serisi",
+          "remove": "Zaman serilerini kaldırma"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "Son 15 dakika",
               "Last 30 mins": "Son 30 dakika",
-              "Last Hour": "Son Saat",
-              "Last 3 Hours": "Son 3 Saat",
-              "Last 6 Hours": "Son 6 Saat",
-              "Last 12 Hours": "Son 12 Saat",
-              "Last 24 Hours": "Son 24 Saat",
-              "Last 7 Days": "Son 7 Gün",
-              "Last 30 Days": "Son 30 Gün",
-              "Last 60 Days": "Son 60 Gün",
-              "Last 90 Days": "Son 90 Gün",
-              "Last 180 Days": "Son 180 Gün",
-              "Last Year": "Geçen yıl"
-            }
+              "Last hour": "Son saat",
+              "Last 3 hours": "Son 3 saat",
+              "Last 6 hours": "Son 6 saat",
+              "Last 12 hours": "Son 12 saat",
+              "Last 24 hours": "Son 24 saat",
+              "Last 7 days": "Son 7 gün",
+              "Last 30 days": "Son 30 gün",
+              "Last 60 days": "Son 60 gün",
+              "Last 90 days": "Son 90 gün",
+              "Last 180 days": "Son 180 gün",
+              "Last year": "Geçen yıl"
+            },
+            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
           },
           "aggregationType": {
-            "label": "Toplama türü"
+            "label": "Toplama türü",
+            "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
           }
-        },
-        "connectionStringInformation": "Veri geçmişi pencere öğeleri, oluşturma sırasında Azure Digital Twins örneğine bağlı Azure Veri Gezgini örneğini hedefler."
-      },
-      "libraryName": "Veri geçmişi"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "Eşitleme",
     "import": "Ithalat",
     "export": "Ihracat",
+    "file": "Dosya",
     "new": "Yeni",
     "open": "Açık",
     "saveAs": "Farklı kaydet",
@@ -934,6 +943,9 @@
     "undo": "Geri almak",
     "redo": "Yinele",
     "deleteAll": "Tümünü Sil",
+    "folderUpload": "Klasör yükleme",
+    "fileUpload": "Dosya yükleme",
+    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    },
-    "importFolder": "Klasörü içe aktar",
-    "importFile": "Dosyayı içe aktar",
-    "ontology": "Ontoloji",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Yeni ontoloji",
-      "modalTitleEdit": "Ontolojiyi düzenleme",
-      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
-      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
-      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
-      "deleteButtonText": "Ontolojiyi silme",
-      "nameLabel": "Ad",
-      "namePlaceholder": "Ontoloji adı girin",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Örnek model adı: {{modelName}}",
-      "namespacePlaceholder": "Ad alanı girme",
-      "sampleModel": "örnek Model"
-    },
-    "file": "dosya"
+    }
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Bu alan zorunludur",
   "OATGraphViewer": {
+    "newModel": "Yeni Model",
     "name": "Ad",
     "id": "Kimliği",
     "type": "Tür",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Mevcut tesislerin açılır menüsü",
     "selectAdditionalColumns": "Ek sütunlar seçme"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopya etmek",
-    "defaultFileName": "Yeni ontoloji",
-    "defaultModelNamePrefix": "Model"
+  "highcharts": {
+    "noTitle": "Başlık yok",
+    "shareQueryTitle": "Sorguyu paylaşma",
+    "noDataDescription": "Görüntülenecek veri yok"
   }
 }

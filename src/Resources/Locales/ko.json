@@ -573,7 +573,12 @@
       "noData": "아직 시각적 규칙을 구성하지 않았습니다.",
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
-      "removeRule": "규칙 제거"
+      "removeRule": "규칙 제거",
+      "singleBadge": "{{badgeCount}} 배지",
+      "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+      "multipleBadges": "{{badgeCount}} 배지",
+      "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
+      "unlabeled": "(레이블이 지정되지 않음)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "이 위젯 유형은 현재 지원되지 않습니다.",
     "dataHistory": {
       "title": "데이터 히스토리 위젯",
+      "libraryName": "데이터 기록",
       "description": "3D 장면의 컨텍스트에 시계열 데이터 표시",
       "notEnabledDescription": "이 ADT 인스턴스에 대해 데이터 기록을 사용할 수 없습니다.",
       "form": {
         "connectionStringTitle": "연결 문자열",
         "connectionStringPlaceholder": "연결 문자열을 입력합니다(예: key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "데이터 기록 위젯은 생성 시 Azure 디지털 트윈 인스턴스에 연결된 Azure 데이터 탐색기 인스턴스를 대상으로 합니다.",
         "connectionLoadingText": "연결 정보 로드 중...",
         "noConnectionInformationText": "연결 정보를 찾을 수 없음",
         "displayNamePlaceholder": "표시 이름 입력",
@@ -624,10 +631,11 @@
           "property": "재산",
           "unit": "단위",
           "label": "레이블",
+          "labelPlaceholder": "차트에 표시할 레이블 입력",
           "add": "시계열 추가",
           "edit": "시계열 편집",
-          "remove": "시계열 제거",
-          "labelPlaceholder": "차트에 표시할 레이블 입력"
+          "update": "시계열 업데이트",
+          "remove": "시계열 제거"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "지난 15분",
               "Last 30 mins": "지난 30분",
-              "Last Hour": "지난 시간",
-              "Last 3 Hours": "지난 3시간",
-              "Last 6 Hours": "지난 6시간",
-              "Last 12 Hours": "지난 12시간",
-              "Last 24 Hours": "지난 24시간",
-              "Last 7 Days": "지난 7일",
-              "Last 30 Days": "지난 30일",
-              "Last 60 Days": "지난 60일",
-              "Last 90 Days": "지난 90일",
-              "Last 180 Days": "지난 180일",
-              "Last Year": "작년"
-            }
+              "Last hour": "지난 시간",
+              "Last 3 hours": "지난 3시간",
+              "Last 6 hours": "지난 6시간",
+              "Last 12 hours": "지난 12시간",
+              "Last 24 hours": "지난 24시간",
+              "Last 7 days": "지난 7일",
+              "Last 30 days": "지난 30일",
+              "Last 60 days": "지난 60일",
+              "Last 90 days": "지난 90일",
+              "Last 180 days": "지난 180일",
+              "Last year": "작년"
+            },
+            "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
           },
           "aggregationType": {
-            "label": "집계 유형"
+            "label": "집계 유형",
+            "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
           }
-        },
-        "connectionStringInformation": "데이터 기록 위젯은 생성 시 Azure 디지털 트윈 인스턴스에 연결된 Azure 데이터 탐색기 인스턴스를 대상으로 합니다."
-      },
-      "libraryName": "데이터 기록"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "동기화",
     "import": "수입",
     "export": "수출",
+    "file": "파일",
     "new": "새로운",
     "open": "열다",
     "saveAs": "다른 이름으로 저장",
@@ -934,6 +943,9 @@
     "undo": "취소",
     "redo": "다시",
     "deleteAll": "모두 삭제",
+    "folderUpload": "폴더 업로드",
+    "fileUpload": "파일 업로드",
+    "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "존재론",
       "dropdownPlaceholder": "온톨로지 선택"
-    },
-    "importFolder": "폴더 가져오기",
-    "importFile": "파일 가져오기",
-    "ontology": "존재론",
-    "manageOntologyModal": {
-      "modalTitleCreate": "새로운 온톨로지",
-      "modalTitleEdit": "온톨로지 편집",
-      "modalSubTitleCreate": "디지탈 트윈에 구조를 제공하기 위해 새로운 온톨로지를 만듭니다.",
-      "modalSubTitleEdit": "온톨로지를 편집하여 디지탈 트윈에 구조를 제공하십시오.",
-      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
-      "deleteButtonText": "온톨로지 삭제",
-      "nameLabel": "이름",
-      "namePlaceholder": "온톨로지 이름 입력",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "예제 모델 이름: {{modelName}}",
-      "namespacePlaceholder": "네임스페이스 입력",
-      "sampleModel": "샘플 모델"
-    },
-    "file": "파일"
+    }
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "이 필드는 필수입니다.",
   "OATGraphViewer": {
+    "newModel": "새 모델",
     "name": "이름",
     "id": "아이디",
     "type": "형",
@@ -1272,9 +1267,9 @@
     "availableProperties": "사용 가능한 속성의 드롭다운",
     "selectAdditionalColumns": "추가 열 선택"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "복사",
-    "defaultFileName": "새로운 온톨로지",
-    "defaultModelNamePrefix": "모델"
+  "highcharts": {
+    "noTitle": "제목 없음",
+    "shareQueryTitle": "쿼리 공유",
+    "noDataDescription": "표시할 데이터 없음"
   }
 }

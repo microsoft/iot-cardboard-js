@@ -461,7 +461,12 @@
             "noData": "You haven't configured any Visual Rules yet",
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
-            "removeRule": "Remove rule"
+            "removeRule": "Remove rule",
+            "singleBadge": "{{badgeCount}} badge",
+            "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+            "multipleBadges": "{{badgeCount}} badges",
+            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
+            "unlabeled": "(unlabeled)"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
@@ -625,6 +630,7 @@
                     "labelPlaceholder": "Enter label to show in chart",
                     "add": "Add time series",
                     "edit": "Edit time series",
+                    "update": "Update time series",
                     "remove": "Remove time series"
                 },
                 "chartOptions": {
@@ -636,24 +642,26 @@
                     },
                     "quickTimeSpan": {
                         "label": "Default time span",
+                        "information": "Default time range selection in local time for the x-axis in chart",
                         "options": {
                             "Last 15 mins": "Last 15 mins",
                             "Last 30 mins": "Last 30 mins",
-                            "Last Hour": "Last Hour",
-                            "Last 3 Hours": "Last 3 Hours",
-                            "Last 6 Hours": "Last 6 Hours",
-                            "Last 12 Hours": "Last 12 Hours",
-                            "Last 24 Hours": "Last 24 Hours",
-                            "Last 7 Days": "Last 7 Days",
-                            "Last 30 Days": "Last 30 Days",
-                            "Last 60 Days": "Last 60 Days",
-                            "Last 90 Days": "Last 90 Days",
-                            "Last 180 Days": "Last 180 Days",
-                            "Last Year": "Last Year"
+                            "Last hour": "Last hour",
+                            "Last 3 hours": "Last 3 hours",
+                            "Last 6 hours": "Last 6 hours",
+                            "Last 12 hours": "Last 12 hours",
+                            "Last 24 hours": "Last 24 hours",
+                            "Last 7 days": "Last 7 days",
+                            "Last 30 days": "Last 30 days",
+                            "Last 60 days": "Last 60 days",
+                            "Last 90 days": "Last 90 days",
+                            "Last 180 days": "Last 180 days",
+                            "Last year": "Last year"
                         }
                     },
                     "aggregationType": {
-                        "label": "Aggregation type"
+                        "label": "Aggregation type",
+                        "information": "Default aggregation operation when data grouping is active based on the number of data points in chart"
                     }
                 }
             }
@@ -899,23 +907,16 @@
         "showPanel": "Show elements panel",
         "hidePanel": "Hide elements panel"
     },
-    "OATCommon": {
-        "duplicateFileNameSuffix": "copy",
-        "defaultFileName": "New ontology",
-        "defaultModelNamePrefix": "Model"
-    },
     "OATHeader": {
         "title": "Azure Digital Twins Ontology Editor",
         "searchContent": "Search file, asset, property, or location",
         "save": "Save",
         "publish": "Publish",
         "sync": "sync",
-        "file": "file",
         "import": "Import",
-        "importFolder": "Import folder",
-        "importFile": "Import file",
         "export": "Export",
-        "ontology": "Ontology",
+        "file": "File",
+        "files": "Files",
         "new": "New",
         "open": "Open",
         "saveAs": "Save as",
@@ -946,26 +947,15 @@
         "errorImportedModelAlreadyExists": "Issue with {{modelId}}: Model with the same @id already exists",
         "undo": "Undo",
         "redo": "Redo",
+        "folderUpload": "Folder upload",
+        "fileUpload": "File upload",
         "fileOpenModal": {
             "dropdownLabel": "Ontology",
             "dropdownPlaceholder": "Select an ontology"
-        },
-        "manageOntologyModal": {
-            "deleteButtonText": "Delete ontology",
-            "modalTitleCreate": "New ontology",
-            "modalTitleEdit": "Edit ontology",
-            "modalSubTitleCreate": "Create a new ontology to give structure to your digitial twin.",
-            "modalSubTitleEdit": "Edit your ontology to give structure to your digitial twin.",
-            "modalSubTitleLinkText": "Learn more about ontologies",
-            "nameLabel": "Name",
-            "namePlaceholder": "Enter an ontology name",
-            "namespaceLabel": "Namespace",
-            "namespaceDescription": "Example model name: {{modelName}}",
-            "namespacePlaceholder": "Enter a namespace",
-            "sampleModel": "sample Model"
         }
     },
     "OATGraphViewer": {
+        "newModel": "New Model",
         "name": "Name",
         "id": "Id",
         "type": "Type",
@@ -1268,5 +1258,10 @@
         "propertyCount": "{{selectedPropsCount}} properties selected",
         "availableProperties": "Dropdown of properties available",
         "selectAdditionalColumns": "Select additional columns"
+    },
+    "highcharts": {
+        "noTitle": "No title",
+        "shareQueryTitle": "Share query",
+        "noDataDescription": "No data to display"
     }
 }

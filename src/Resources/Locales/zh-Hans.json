@@ -573,7 +573,12 @@
       "noData": "您尚未配置任何可视规则",
       "addRuleButtonText": "添加规则",
       "editRule": "编辑规则",
-      "removeRule": "删除规则"
+      "removeRule": "删除规则",
+      "singleBadge": "{{徽章计数}} 徽章",
+      "singleMeshColoring": "{{网格着色计数}} 网格着色",
+      "multipleBadges": "{{徽章计数}} 徽章",
+      "multipleMeshColorings": "{{网格着色计数}} 网格着色",
+      "unlabeled": "（未标记）"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "目前不支持此微件类型",
     "dataHistory": {
       "title": "数据历史记录小部件",
+      "libraryName": "数据历史记录",
       "description": "在 3D 场景的上下文中显示时间序列数据",
       "notEnabledDescription": "未为此 ADT 实例启用数据历史记录。",
       "form": {
         "connectionStringTitle": "连接字符串",
         "connectionStringPlaceholder": "输入连接字符串（例如，键 1=值 1;键 2=值 2;键 3=值 3）",
+        "connectionStringInformation": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。",
         "connectionLoadingText": "正在加载连接信息...",
         "noConnectionInformationText": "未找到连接信息",
         "displayNamePlaceholder": "输入显示名称",
@@ -624,10 +631,11 @@
           "property": "财产",
           "unit": "单位",
           "label": "标签",
+          "labelPlaceholder": "输入要在图表中显示的标签",
           "add": "添加时间序列",
           "edit": "编辑时间序列",
-          "remove": "删除时间序列",
-          "labelPlaceholder": "输入要在图表中显示的标签"
+          "update": "更新时间序列",
+          "remove": "删除时间序列"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "最近 15 分钟",
               "Last 30 mins": "最近 30 分钟",
-              "Last Hour": "最后一小时",
-              "Last 3 Hours": "最近 3 小时",
-              "Last 6 Hours": "最近 6 小时",
-              "Last 12 Hours": "最近 12 小时",
-              "Last 24 Hours": "最近 24 小时",
-              "Last 7 Days": "最近 7 天",
-              "Last 30 Days": "最近 30 天",
-              "Last 60 Days": "最近 60 天",
-              "Last 90 Days": "最近 90 天",
-              "Last 180 Days": "最近 180 天",
-              "Last Year": "去年"
-            }
+              "Last hour": "最后一小时",
+              "Last 3 hours": "最近 3 小时",
+              "Last 6 hours": "最近 6 小时",
+              "Last 12 hours": "最近 12 小时",
+              "Last 24 hours": "最近 24 小时",
+              "Last 7 days": "最近 7 天",
+              "Last 30 days": "最近 30 天",
+              "Last 60 days": "最近 60 天",
+              "Last 90 days": "最近 90 天",
+              "Last 180 days": "最近 180 天",
+              "Last year": "去年"
+            },
+            "information": "图表中 x 轴的默认时间范围选择（以本地时间为单位）"
           },
           "aggregationType": {
-            "label": "聚合类型"
+            "label": "聚合类型",
+            "information": "基于图表中数据点数的数据分组处于活动状态时的默认聚合操作"
           }
-        },
-        "connectionStringInformation": "数据历史记录小组件以创建时连接到 Azure 数字孪生实例的 Azure 数据资源管理器实例为目标。"
-      },
-      "libraryName": "数据历史记录"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "同步",
     "import": "进口",
     "export": "出口",
+    "file": "文件",
     "new": "新增功能",
     "open": "打开",
     "saveAs": "另存为",
@@ -934,6 +943,9 @@
     "undo": "撤消",
     "redo": "重做",
     "deleteAll": "全部删除",
+    "folderUpload": "文件夹上传",
+    "fileUpload": "文件上传",
+    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    },
-    "importFolder": "导入文件夹",
-    "importFile": "导入文件",
-    "ontology": "本体",
-    "manageOntologyModal": {
-      "modalTitleCreate": "新本体",
-      "modalTitleEdit": "编辑本体",
-      "modalSubTitleCreate": "创建一个新的本体，为您的数字孪生提供结构。",
-      "modalSubTitleEdit": "编辑你的本体，给你的数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息",
-      "deleteButtonText": "删除本体",
-      "nameLabel": "名字",
-      "namePlaceholder": "输入本体名称",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型"
-    },
-    "file": "文件"
+    }
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "此字段为必填项",
   "OATGraphViewer": {
+    "newModel": "新型号",
     "name": "名字",
     "id": "编号",
     "type": "类型",
@@ -1272,9 +1267,9 @@
     "availableProperties": "可用属性的下拉列表",
     "selectAdditionalColumns": "选择其他列"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "复制",
-    "defaultFileName": "新本体",
-    "defaultModelNamePrefix": "型"
+  "highcharts": {
+    "noTitle": "无标题",
+    "shareQueryTitle": "共享查询",
+    "noDataDescription": "无要显示的数据"
   }
 }

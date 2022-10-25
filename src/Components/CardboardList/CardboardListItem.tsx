@@ -35,10 +35,19 @@ export const CardboardListItem = <T extends unknown>(
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const showCheckbox = isChecked === true || isChecked === false;
     const showSecondaryText = !!textSecondary;
-    const showStartIcon = !!iconStart;
-    const showNotValidIcon = isValid === false;
-    const showEndIconButton = iconEnd?.name && iconEnd?.onClick;
-    const showEndIcon = iconEnd?.name && !showEndIconButton;
+
+    // start icon
+    const isStartIconCustomRender = typeof iconStart !== 'object';
+    const showStartIcon = !!iconStart && !isStartIconCustomRender;
+    const showWarningIndicator = isValid === false;
+
+    // end icon
+    const isEndIconCustomRender = typeof iconEnd !== 'object';
+    const showEndIconButton =
+        typeof iconEnd === 'object' && iconEnd?.name && iconEnd?.onClick;
+    const showEndIcon =
+        typeof iconEnd === 'object' && iconEnd?.name && !showEndIconButton;
+
     const showOverflow = !!overflowMenuItems?.length;
 
     const overflowRef = useRef(null);
@@ -50,11 +59,11 @@ export const CardboardListItem = <T extends unknown>(
         overflowRef?.current?.openMenu?.();
         // set state for css
         onMenuStateChange(true);
-    }, [overflowRef, setIsMenuOpen]);
+    }, [onMenuStateChange]);
 
     const onSecondaryAction = useCallback(() => {
-        iconEnd?.onClick?.(item);
-    }, [iconEnd, item]);
+        typeof iconEnd === 'object' && iconEnd?.onClick?.(item);
+    }, [iconEnd, isEndIconCustomRender, item]);
 
     const onButtonClick = useCallback(() => {
         if (openMenuOnClick) {
@@ -62,7 +71,7 @@ export const CardboardListItem = <T extends unknown>(
         } else {
             onClick(item);
         }
-    }, [onMenuClick, onClick]);
+    }, [openMenuOnClick, onMenuClick, onClick, item]);
     const onButtonKeyPress = useCallback(
         (event: React.KeyboardEvent<HTMLButtonElement>) => {
             if (event.code === 'Space') {
@@ -75,7 +84,7 @@ export const CardboardListItem = <T extends unknown>(
                 }
             }
         },
-        [onMenuClick]
+        [onMenuClick, onSecondaryAction, showEndIconButton, showOverflow]
     );
 
     const theme = useTheme();
@@ -96,7 +105,7 @@ export const CardboardListItem = <T extends unknown>(
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}
                 >
-                    {showNotValidIcon && (
+                    {showWarningIndicator && (
                         <span className={classNames.alertDot} />
                     )}
                     {showCheckbox && (
@@ -107,6 +116,7 @@ export const CardboardListItem = <T extends unknown>(
                             />
                         </>
                     )}
+                    {typeof iconStart === 'function' && iconStart(item)}
                     {showStartIcon &&
                         (typeof iconStart.name === 'string' ? (
                             <FontIcon
@@ -137,6 +147,7 @@ export const CardboardListItem = <T extends unknown>(
                             </div>
                         )}
                     </div>
+                    {typeof iconEnd === 'function' && iconEnd(item)}
                     {showEndIcon && (
                         <FontIcon
                             iconName={iconEnd.name}

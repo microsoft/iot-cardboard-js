@@ -14,10 +14,14 @@ import {
     IAzureResource,
     AzureAccessPermissionRoles,
     AzureAccessPermissionRoleGroups,
-    AzureResourceTypes
+    AzureResourceTypes,
+    TimeSeriesData
 } from '../Constants';
 import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
-import { CharacterWidths } from '../Constants/Constants';
+import {
+    CharacterWidths,
+    CONNECTION_STRING_SUFFIX
+} from '../Constants/Constants';
 import { Parser } from 'expr-eval';
 import Ajv from 'ajv/dist/2020';
 import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json';
@@ -768,4 +772,52 @@ export const removeProtocolPartFromUrl = (urlString: string) => {
         console.error('Failed remove protocol from url string', error.message);
         return null;
     }
+};
+
+/** Checking if a given ADX cluster url is a safe url following a certain regex and hostname */
+export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
+    const isValidADXClusterHostUrl = (urlPrefix) =>
+        /^[a-zA-Z0-9]{4,22}.[a-zA-Z0-9]{1,}\b$/.test(urlPrefix);
+
+    if (clusterUrl) {
+        try {
+            const clusterUrlObj = new URL(clusterUrl);
+            if (
+                clusterUrlObj.host.endsWith(CONNECTION_STRING_SUFFIX) &&
+                isValidADXClusterHostUrl(
+                    clusterUrlObj.host.substring(
+                        0,
+                        clusterUrlObj.host.length -
+                            CONNECTION_STRING_SUFFIX.length
+                    )
+                )
+            ) {
+                return true;
+            }
+        } catch (error) {
+            console.error(
+                'Failed validating the ADX cluster url',
+                error.message
+            );
+        }
+    }
+    return false;
+};
+
+/** Creates mock time series data array with data points between now and a certain milliseconds ago */
+export const getMockTimeSeriesDataArrayInLocalTime = (
+    lengthOfSeries = 1,
+    numberOfDataPoints = 5,
+    agoInMillis = 1 * 60 * 60 * 1000
+): Array<Array<TimeSeriesData>> => {
+    const toInMillis = Date.now();
+    const fromInMillis = toInMillis - agoInMillis;
+    return Array.from({ length: lengthOfSeries }).map(() =>
+        Array.from({ length: numberOfDataPoints }, () => ({
+            timestamp: Math.floor(
+                Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
+            ),
+            value: Math.floor(Math.random() * 500)
+        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
+    );
 };

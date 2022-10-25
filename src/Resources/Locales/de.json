@@ -573,7 +573,12 @@
       "noData": "Sie haben noch keine visuellen Regeln konfiguriert",
       "addRuleButtonText": "Regel hinzufügen",
       "editRule": "Regel bearbeiten",
-      "removeRule": "Regel entfernen"
+      "removeRule": "Regel entfernen",
+      "singleBadge": "{{badgeCount}}-Abzeichen",
+      "singleMeshColoring": "{{meshColoringCount}} Mesh-Färbung",
+      "multipleBadges": "{{badgeCount}} Abzeichen",
+      "multipleMeshColorings": "{{meshColoringCount}} Mesh-Färbungen",
+      "unlabeled": "(unbeschriftet)"
     }
   },
   "widgets": {
@@ -608,31 +613,34 @@
     },
     "notSupported": "Dieser Widget-Typ wird derzeit nicht unterstützt",
     "dataHistory": {
-      "title": "Datenverlauf-Widget",
+      "title": "Widget \"Datenverlauf\"",
+      "libraryName": "Datenhistorie",
       "description": "Anzeigen von Zeitreihendaten im Kontext Ihrer 3D-Szene",
       "notEnabledDescription": "Der Datenverlauf ist für diese ADT-Instanz nicht aktiviert.",
       "form": {
         "connectionStringTitle": "Verbindungszeichenfolge",
-        "connectionStringPlaceholder": "Geben Sie die Verbindungszeichenfolge ein (z. B. key1=value1;key2=value2;key3=value3)",
+        "connectionStringPlaceholder": "Geben Sie die Verbindungszeichenfolge ein (z. B. Schlüssel1=Wert1;Schlüssel2=Wert2;Schlüssel3=Wert3)",
+        "connectionStringInformation": "Datenverlaufswidgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden war.",
         "connectionLoadingText": "Verbindungsinformationen werden geladen...",
         "noConnectionInformationText": "Keine Verbindungsinformationen gefunden",
         "displayNamePlaceholder": "Anzeigenamen eingeben",
         "timeSeries": {
-          "timeSeriesDescription": "Addieren Sie die anzuzeigende Zeitreihe {{maxTimeSeriesCount}}",
+          "timeSeriesDescription": "Addieren Sie die anzuzeigenden {{maxTimeSeriesCount}}-Zeitreihen",
           "title": "Zeitreihe",
           "description": "Eine Reihe, die im Liniendiagramm angezeigt werden soll",
           "property": "Eigentum",
           "unit": "Einheit",
           "label": "Etikett",
+          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll",
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
-          "remove": "Zeitreihen entfernen",
-          "labelPlaceholder": "Geben Sie die Beschriftung ein, die im Diagramm angezeigt werden soll"
+          "update": "Zeitreihen aktualisieren",
+          "remove": "Zeitreihen entfernen"
         },
         "chartOptions": {
           "yAxisType": {
-            "description": "Diagrammoption zum Festlegen, wenn jede Reihe separate (unabhängige) y-Achsen hat oder dieselbe y-Achse (Shared) gemeinsam nutzt",
-            "label": "Y-Achsen-Typ",
+            "description": "Diagrammoption zum Festlegen, ob jede Reihe separate (unabhängige) y-Achsen hat oder dieselbe y-Achse verwendet (Shared)",
+            "label": "Y-Achsentyp",
             "sharedLabel": "Geteilt",
             "independentLabel": "Unabhängig"
           },
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "Letzte 15 Minuten",
               "Last 30 mins": "Letzte 30 Minuten",
-              "Last Hour": "Letzte Stunde",
-              "Last 3 Hours": "Letzte 3 Stunden",
-              "Last 6 Hours": "Letzte 6 Stunden",
-              "Last 12 Hours": "Letzte 12 Stunden",
-              "Last 24 Hours": "Letzte 24 Stunden",
-              "Last 7 Days": "Letzte 7 Tage",
-              "Last 30 Days": "Letzte 30 Tage",
-              "Last 60 Days": "Letzte 60 Tage",
-              "Last 90 Days": "Letzte 90 Tage",
-              "Last 180 Days": "Letzte 180 Tage",
-              "Last Year": "Letztes Jahr"
-            }
+              "Last hour": "Letzte Stunde",
+              "Last 3 hours": "Letzte 3 Stunden",
+              "Last 6 hours": "Letzte 6 Stunden",
+              "Last 12 hours": "Letzte 12 Stunden",
+              "Last 24 hours": "Letzte 24 Stunden",
+              "Last 7 days": "Letzte 7 Tage",
+              "Last 30 days": "Letzte 30 Tage",
+              "Last 60 days": "Letzte 60 Tage",
+              "Last 90 days": "Letzte 90 Tage",
+              "Last 180 days": "Letzte 180 Tage",
+              "Last year": "Letztes Jahr"
+            },
+            "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
           },
           "aggregationType": {
-            "label": "Aggregationstyp"
+            "label": "Aggregationstyp",
+            "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
           }
-        },
-        "connectionStringInformation": "Datenverlaufs-Widgets zielen auf die Azure Data Explorer-Instanz ab, die zum Zeitpunkt der Erstellung mit der Azure Digital Twins-Instanz verbunden ist."
-      },
-      "libraryName": "Datenhistorie"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "synchronisieren",
     "import": "Importieren",
     "export": "Exportieren",
+    "file": "Datei",
     "new": "Neu",
     "open": "Offen",
     "saveAs": "Speichern unter",
@@ -934,6 +943,9 @@
     "undo": "Aufmachen",
     "redo": "Noch einmal machen",
     "deleteAll": "Alle löschen",
+    "folderUpload": "Ordner-Upload",
+    "fileUpload": "Datei-Upload",
+    "files": "Dateien",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
     "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Wählen Sie eine Ontologie"
-    },
-    "importFolder": "Ordner importieren",
-    "importFile": "Datei importieren",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Neue Ontologie",
-      "modalTitleEdit": "Ontologie bearbeiten",
-      "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling Struktur zu verleihen.",
-      "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
-      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
-      "deleteButtonText": "Ontologie löschen",
-      "nameLabel": "Name",
-      "namePlaceholder": "Geben Sie einen Ontologienamen ein",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Beispielmodellname: {{modelName}}",
-      "namespacePlaceholder": "Eingeben eines Namespaces",
-      "sampleModel": "Beispielmodell"
-    },
-    "file": "Datei"
+    }
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Dieses Feld ist ein Pflichtfeld",
   "OATGraphViewer": {
+    "newModel": "Neues Modell",
     "name": "Name",
     "id": "Id",
     "type": "Art",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Dropdown-Liste der verfügbaren Eigenschaften",
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopieren",
-    "defaultFileName": "Neue Ontologie",
-    "defaultModelNamePrefix": "Modell"
+  "highcharts": {
+    "noTitle": "Kein Titel",
+    "shareQueryTitle": "Freigabeabfrage",
+    "noDataDescription": "Keine Daten anzuzeigen"
   }
 }

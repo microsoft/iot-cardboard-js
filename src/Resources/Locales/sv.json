@@ -573,7 +573,12 @@
       "noData": "Du har inte konfigurerat några visuella regler ännu",
       "addRuleButtonText": "Lägg till regel",
       "editRule": "Redigera regel",
-      "removeRule": "Ta bort regel"
+      "removeRule": "Ta bort regel",
+      "singleBadge": "{{badgeCount}} märke",
+      "singleMeshColoring": "{{meshColoringCount}} nätfärgning",
+      "multipleBadges": "{{badgeCount}} märken",
+      "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
+      "unlabeled": "(omärkt)"
     }
   },
   "widgets": {
@@ -609,25 +614,28 @@
     "notSupported": "Den här widgettypen stöds inte för närvarande",
     "dataHistory": {
       "title": "Widget för datahistorik",
+      "libraryName": "Historik",
       "description": "Visa tidsseriedata i kontexten för din 3D-scen",
       "notEnabledDescription": "Datahistorik är inte aktiverat för den här ADT-instansen.",
       "form": {
         "connectionStringTitle": "Anslutningssträng",
         "connectionStringPlaceholder": "Ange anslutningssträng (t.ex. key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Datahistorikwidgetar riktar sig mot Azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas.",
         "connectionLoadingText": "Laddar anslutningsinformation...",
         "noConnectionInformationText": "Ingen anslutningsinformation hittades",
         "displayNamePlaceholder": "Ange visningsnamn",
         "timeSeries": {
-          "timeSeriesDescription": "Lägg till upp till {{maxTimeSeriesCount}} tidsserie som ska visas",
+          "timeSeriesDescription": "Lägg till {{maxTimeSeriesCount}} tidsserier som ska visas",
           "title": "Tidsserier",
           "description": "En serie som ska visas i linjediagrammet",
           "property": "Egenskap",
           "unit": "Enhet",
           "label": "Etikett",
-          "add": "Lägga till tidsserier",
+          "labelPlaceholder": "Ange etikett som ska visas i diagrammet",
+          "add": "Lägg till tidsserier",
           "edit": "Redigera tidsserier",
-          "remove": "Ta bort tidsserier",
-          "labelPlaceholder": "Ange etikett som ska visas i diagrammet"
+          "update": "Uppdatera tidsserier",
+          "remove": "Ta bort tidsserier"
         },
         "chartOptions": {
           "yAxisType": {
@@ -637,30 +645,30 @@
             "independentLabel": "Oberoende"
           },
           "quickTimeSpan": {
-            "label": "Standardtidsspann",
+            "label": "Standardtidsintervall",
             "options": {
-              "Last 15 mins": "Sista 15 minuterna",
-              "Last 30 mins": "Sista 30 minuterna",
-              "Last Hour": "Sista timmen",
-              "Last 3 Hours": "Senaste 3 timmarna",
-              "Last 6 Hours": "Senaste 6 timmarna",
-              "Last 12 Hours": "Senaste 12 timmarna",
-              "Last 24 Hours": "Senaste 24 timmarna",
-              "Last 7 Days": "Senaste 7 dagarna",
-              "Last 30 Days": "Senaste 30 dagarna",
-              "Last 60 Days": "Senaste 60 dagarna",
-              "Last 90 Days": "Senaste 90 dagarna",
-              "Last 180 Days": "Senaste 180 dagarna",
-              "Last Year": "Fjor"
-            }
+              "Last 15 mins": "Senaste 15 minuterna",
+              "Last 30 mins": "Senaste 30 minuterna",
+              "Last hour": "Sista timmen",
+              "Last 3 hours": "Senaste 3 timmarna",
+              "Last 6 hours": "Senaste 6 timmarna",
+              "Last 12 hours": "Senaste 12 timmarna",
+              "Last 24 hours": "Senaste 24 timmarna",
+              "Last 7 days": "Senaste 7 dagarna",
+              "Last 30 days": "Senaste 30 dagarna",
+              "Last 60 days": "Senaste 60 dagarna",
+              "Last 90 days": "Senaste 90 dagarna",
+              "Last 180 days": "Senaste 180 dagarna",
+              "Last year": "Fjor"
+            },
+            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
           },
           "aggregationType": {
-            "label": "Typ av aggregering"
+            "label": "Typ av aggregering",
+            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
           }
-        },
-        "connectionStringInformation": "Datahistorikwidgetar riktar azure Data Explorer instansen som är ansluten till Azure Digital Twins instansen när den skapas."
-      },
-      "libraryName": "Historik"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "synkronisering",
     "import": "Import",
     "export": "Export",
+    "file": "Fil",
     "new": "Ny",
     "open": "Öppna",
     "saveAs": "Spara som",
@@ -934,6 +943,9 @@
     "undo": "Ångra",
     "redo": "Göra om",
     "deleteAll": "Ta bort alla",
+    "folderUpload": "Uppladdning av mapp",
+    "fileUpload": "Filuppladdning",
+    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
-    },
-    "importFolder": "Importera mapp",
-    "importFile": "Importera fil",
-    "ontology": "Ontologi",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Ny ontologi",
-      "modalTitleEdit": "Redigera ontologi",
-      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleLinkText": "Läs mer om ontologier",
-      "deleteButtonText": "Ta bort ontologi",
-      "nameLabel": "Namn",
-      "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempelmodell"
-    },
-    "file": "fil"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Det här fältet är obligatoriskt",
   "OATGraphViewer": {
+    "newModel": "Ny modell",
     "name": "Namn",
     "id": "Id",
     "type": "Typ",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Rullgardinsmeny med tillgängliga egenskaper",
     "selectAdditionalColumns": "Välj ytterligare kolumner"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopia",
-    "defaultFileName": "Ny ontologi",
-    "defaultModelNamePrefix": "Modell"
+  "highcharts": {
+    "noTitle": "Ingen titel",
+    "shareQueryTitle": "Dela fråga",
+    "noDataDescription": "Inga data att visa"
   }
 }

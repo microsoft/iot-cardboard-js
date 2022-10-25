@@ -573,7 +573,12 @@
       "noData": "ビジュアル ルールをまだ構成していない",
       "addRuleButtonText": "ルールの追加",
       "editRule": "ルールの編集",
-      "removeRule": "ルールの削除"
+      "removeRule": "ルールの削除",
+      "singleBadge": "{{バッジカウント}}バッジ",
+      "singleMeshColoring": "{{meshColoringCount}} メッシュカラーリング",
+      "multipleBadges": "{{バッジカウント}}バッジ",
+      "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
+      "unlabeled": "(ラベルなし)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "このウィジェットの種類は現在サポートされていません",
     "dataHistory": {
       "title": "データ履歴ウィジェット",
+      "libraryName": "データ履歴",
       "description": "3Dシーンのコンテキストで時系列データを表示する",
       "notEnabledDescription": "この ADT インスタンスのデータ履歴は有効になっていません。",
       "form": {
         "connectionStringTitle": "接続文字列",
         "connectionStringPlaceholder": "接続文字列を入力します (例: key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "データ履歴ウィジェットは、作成時に Azure デジタル ツインズ インスタンスに接続されていた Azure データ エクスプローラー インスタンスを対象としています。",
         "connectionLoadingText": "接続情報を読み込んでいます...",
         "noConnectionInformationText": "接続情報が見つかりません",
         "displayNamePlaceholder": "表示名を入力",
@@ -624,10 +631,11 @@
           "property": "財産",
           "unit": "単位",
           "label": "ラベル",
+          "labelPlaceholder": "グラフに表示するラベルを入力",
           "add": "時系列の追加",
           "edit": "時系列の編集",
-          "remove": "時系列の削除",
-          "labelPlaceholder": "グラフに表示するラベルを入力"
+          "update": "時系列の更新",
+          "remove": "時系列の削除"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "最後の15分",
               "Last 30 mins": "過去30分",
-              "Last Hour": "最後の 1 時間",
-              "Last 3 Hours": "過去 3 時間",
-              "Last 6 Hours": "過去 6 時間",
-              "Last 12 Hours": "過去 12 時間",
-              "Last 24 Hours": "過去 24 時間",
-              "Last 7 Days": "過去7日間",
-              "Last 30 Days": "過去30日間",
-              "Last 60 Days": "過去60日間",
-              "Last 90 Days": "過去90日間",
-              "Last 180 Days": "過去180日間",
-              "Last Year": "去年"
-            }
+              "Last hour": "過去 1 時間",
+              "Last 3 hours": "過去 3 時間",
+              "Last 6 hours": "過去 6 時間",
+              "Last 12 hours": "過去 12 時間",
+              "Last 24 hours": "過去24時間",
+              "Last 7 days": "過去7日間",
+              "Last 30 days": "過去30日間",
+              "Last 60 days": "過去60日間",
+              "Last 90 days": "過去 90 日間",
+              "Last 180 days": "過去 180 日間",
+              "Last year": "去年"
+            },
+            "information": "グラフの X 軸の現地時間での既定の時間範囲選択"
           },
           "aggregationType": {
-            "label": "集計タイプ"
+            "label": "集計タイプ",
+            "information": "グラフ内のデータ ポイントの数に基づいてデータのグループ化がアクティブな場合の既定の集計操作"
           }
-        },
-        "connectionStringInformation": "データ履歴ウィジェットは、作成時に Azure デジタル ツインズ インスタンスに接続されていた Azure データ エクスプローラー インスタンスを対象としています。"
-      },
-      "libraryName": "データ履歴"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "同期",
     "import": "輸入",
     "export": "輸出",
+    "file": "ファイル",
     "new": "新機能",
     "open": "開ける",
     "saveAs": "名前を付けて保存",
@@ -934,6 +943,9 @@
     "undo": "外す",
     "redo": "やり直す",
     "deleteAll": "すべて削除",
+    "folderUpload": "フォルダのアップロード",
+    "fileUpload": "ファイルのアップロード",
+    "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
-    },
-    "importFolder": "フォルダのインポート",
-    "importFile": "ファイルのインポート",
-    "ontology": "オントロジー",
-    "manageOntologyModal": {
-      "modalTitleCreate": "新しいオントロジー",
-      "modalTitleEdit": "オントロジーの編集",
-      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
-      "modalSubTitleEdit": "あなたのオントロジーを編集して、あなたのデジタルツインに構造を与えます。",
-      "modalSubTitleLinkText": "オントロジーについてもっと知る",
-      "deleteButtonText": "オントロジーの削除",
-      "nameLabel": "名前",
-      "namePlaceholder": "オントロジー名を入力してください",
-      "namespaceLabel": "名前空間",
-      "namespaceDescription": "モデル名の例: {{モデル名}}",
-      "namespacePlaceholder": "名前空間を入力する",
-      "sampleModel": "サンプルモデル"
-    },
-    "file": "ファイル"
+    }
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "このフィールドは必須です",
   "OATGraphViewer": {
+    "newModel": "新型",
     "name": "名前",
     "id": "身分証明書",
     "type": "種類",
@@ -1272,9 +1267,9 @@
     "availableProperties": "利用可能なプロパティのドロップダウン",
     "selectAdditionalColumns": "追加の列の選択"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "写し",
-    "defaultFileName": "新しいオントロジー",
-    "defaultModelNamePrefix": "モデル"
+  "highcharts": {
+    "noTitle": "タイトルなし",
+    "shareQueryTitle": "共有クエリ",
+    "noDataDescription": "表示するデータがありません"
   }
 }

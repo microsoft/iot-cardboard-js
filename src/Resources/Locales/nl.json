@@ -573,7 +573,12 @@
       "noData": "U hebt nog geen Visual Rules geconfigureerd",
       "addRuleButtonText": "Regel toevoegen",
       "editRule": "Regel bewerken",
-      "removeRule": "Regel verwijderen"
+      "removeRule": "Regel verwijderen",
+      "singleBadge": "Badge {{badgeCount}}",
+      "singleMeshColoring": "{{meshColoringCount}} netkleuring",
+      "multipleBadges": "{{badgeCount}} badges",
+      "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren",
+      "unlabeled": "(niet gelabeld)"
     }
   },
   "widgets": {
@@ -609,11 +614,13 @@
     "notSupported": "Dit widgettype wordt momenteel niet ondersteund",
     "dataHistory": {
       "title": "Widget gegevensgeschiedenis",
+      "libraryName": "Gegevensgeschiedenis",
       "description": "Tijdreeksgegevens weergeven in de context van uw 3D-scène",
       "notEnabledDescription": "Gegevensgeschiedenis is niet ingeschakeld voor dit ADT-exemplaar.",
       "form": {
         "connectionStringTitle": "Verbindingsreeks",
         "connectionStringPlaceholder": "Voer de verbindingsreeks in (bijvoorbeeld key1=value1;key2=value2;key3=value3)",
+        "connectionStringInformation": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken.",
         "connectionLoadingText": "Verbindingsgegevens worden geladen...",
         "noConnectionInformationText": "Geen verbindingsgegevens gevonden",
         "displayNamePlaceholder": "Voer de weergavenaam in",
@@ -624,10 +631,11 @@
           "property": "Eigenschap",
           "unit": "Eenheid",
           "label": "Etiket",
+          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven",
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
-          "remove": "Tijdreeksen verwijderen",
-          "labelPlaceholder": "Voer het label in om in de grafiek weer te geven"
+          "update": "Tijdreeksen bijwerken",
+          "remove": "Tijdreeksen verwijderen"
         },
         "chartOptions": {
           "yAxisType": {
@@ -641,26 +649,26 @@
             "options": {
               "Last 15 mins": "Laatste 15 minuten",
               "Last 30 mins": "Laatste 30 minuten",
-              "Last Hour": "Laatste uur",
-              "Last 3 Hours": "Laatste 3 uur",
-              "Last 6 Hours": "Laatste 6 uur",
-              "Last 12 Hours": "Laatste 12 uur",
-              "Last 24 Hours": "Laatste 24 uur",
-              "Last 7 Days": "Laatste 7 dagen",
-              "Last 30 Days": "Laatste 30 dagen",
-              "Last 60 Days": "Laatste 60 dagen",
-              "Last 90 Days": "Laatste 90 dagen",
-              "Last 180 Days": "Laatste 180 dagen",
-              "Last Year": "Vorig jaar"
-            }
+              "Last hour": "Laatste uur",
+              "Last 3 hours": "Laatste 3 uur",
+              "Last 6 hours": "Laatste 6 uur",
+              "Last 12 hours": "Laatste 12 uur",
+              "Last 24 hours": "Afgelopen 24 uur",
+              "Last 7 days": "Laatste 7 dagen",
+              "Last 30 days": "Laatste 30 dagen",
+              "Last 60 days": "Laatste 60 dagen",
+              "Last 90 days": "Afgelopen 90 dagen",
+              "Last 180 days": "Afgelopen 180 dagen",
+              "Last year": "Vorig jaar"
+            },
+            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
           },
           "aggregationType": {
-            "label": "Type aggregatie"
+            "label": "Type aggregatie",
+            "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
           }
-        },
-        "connectionStringInformation": "Gegevensgeschiedeniswidgets zijn gericht op het Azure Data Explorer-exemplaar dat is verbonden met het Azure Digital Twins-exemplaar op het moment van maken."
-      },
-      "libraryName": "Gegevensgeschiedenis"
+        }
+      }
     }
   },
   "sdkStrings": {
@@ -910,6 +918,7 @@
     "sync": "Sync",
     "import": "Importeren",
     "export": "Exporteren",
+    "file": "Bestand",
     "new": "Nieuw",
     "open": "Openen",
     "saveAs": "Opslaan als",
@@ -934,6 +943,9 @@
     "undo": "Ongedaan maken",
     "redo": "Opnieuw",
     "deleteAll": "Alles verwijderen",
+    "folderUpload": "Map uploaden",
+    "fileUpload": "Bestand uploaden",
+    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -943,25 +955,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
-    },
-    "importFolder": "Map importeren",
-    "importFile": "Bestand importeren",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "modalTitleCreate": "Nieuwe ontologie",
-      "modalTitleEdit": "Ontologie bewerken",
-      "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleLinkText": "Meer informatie over ontologieën",
-      "deleteButtonText": "Ontologie verwijderen",
-      "nameLabel": "Naam",
-      "namePlaceholder": "Voer een ontologienaam in",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
-      "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel"
-    },
-    "file": "bestand"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -1084,6 +1078,7 @@
   },
   "fieldRequired": "Dit veld is verplicht",
   "OATGraphViewer": {
+    "newModel": "Nieuw model",
     "name": "Naam",
     "id": "Legitimatiebewijs",
     "type": "Type",
@@ -1272,9 +1267,9 @@
     "availableProperties": "Dropdown van beschikbare eigenschappen",
     "selectAdditionalColumns": "Extra kolommen selecteren"
   },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName": "Nieuwe ontologie",
-    "defaultModelNamePrefix": "Model"
+  "highcharts": {
+    "noTitle": "Geen titel",
+    "shareQueryTitle": "Query delen",
+    "noDataDescription": "Geen gegevens om weer te geven"
   }
 }
