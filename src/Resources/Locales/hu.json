@@ -945,7 +945,6 @@
     "deleteAll": "Összes törlése",
     "folderUpload": "Mappa feltöltése",
     "fileUpload": "Fájlfeltöltés",
-    "files": "Fájlokat",
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
@@ -955,6 +954,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontológia",
       "dropdownPlaceholder": "Válasszon ki egy ontológiát"
+    },
+    "importFolder": "Mappa importálása",
+    "importFile": "Fájl importálása",
+    "ontology": "Ontológia",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ontológia törlése",
+      "modalTitleCreate": "Új ontológia",
+      "modalTitleEdit": "Ontológia szerkesztése",
+      "modalSubTitleCreate": "Hozzon létre egy új ontológiát, hogy struktúrát adjon a digitiális ikertestvérének.",
+      "modalSubTitleEdit": "Szerkeszd az ontológiádat, hogy struktúrát adj a digitális ikertestvérednek.",
+      "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
+      "nameLabel": "Név",
+      "namePlaceholder": "Adjon meg egy ontológiai nevet",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Példa modellnévre: {{modelName}}",
+      "namespacePlaceholder": "Névtér megadása",
+      "sampleModel": "minta modell"
     }
   },
   "cameraControls": {
@@ -1271,5 +1287,10 @@
     "noTitle": "Nincs cím",
     "shareQueryTitle": "Lekérdezés megosztása",
     "noDataDescription": "Nincs megjelenítendő adat"
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "másolat",
+    "defaultFileName": "Új ontológia",
+    "defaultModelNamePrefix": "Modell"
   }
 }
