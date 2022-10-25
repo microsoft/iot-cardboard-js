@@ -20,6 +20,8 @@ export const useOatGraphContext = () => useContext(OatGraphContext);
 
 const defaultState: IOatGraphContextState = {
     isLoading: false,
+    isLegendVisible: true,
+    isMiniMapVisible: true,
     showComponents: true,
     showInheritances: true,
     showRelationships: true
@@ -40,6 +42,18 @@ export const OatGraphContextReducer: (
                 draft.isLoading = isDefined(action.payload?.value)
                     ? action.payload?.value
                     : !draft.isLoading;
+                break;
+            }
+            case OatGraphContextActionType.LEGEND_VISBLE_TOGGLE: {
+                draft.isLegendVisible = isDefined(action.payload?.value)
+                    ? action.payload?.value
+                    : !draft.isLegendVisible;
+                break;
+            }
+            case OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE: {
+                draft.isMiniMapVisible = isDefined(action.payload?.value)
+                    ? action.payload?.value
+                    : !draft.isMiniMapVisible;
                 break;
             }
             case OatGraphContextActionType.SHOW_COMPONENTS_TOGGLE: {

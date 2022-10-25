@@ -10,8 +10,94 @@ import {
     IIconStyles,
     ITextFieldStyles
 } from '@fluentui/react';
-import { CSSProperties } from 'react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
+import {
+    IOATGraphViewerStyleProps,
+    IOATGraphViewerStyles
+} from './OATGraphViewer.types';
+
+const CONTROLS_BOTTOM_OFFSET = 60;
+
+export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
+const classNames2 = {
+    root: `${classPrefix2}-root`,
+    minimapContainer: `${classPrefix2}-minimap-container`,
+    builtInControls: `${classPrefix2}-built-in-controls`
+};
+export const getStyles = (
+    props: IOATGraphViewerStyleProps
+): IOATGraphViewerStyles => {
+    const { theme } = props;
+    return {
+        root: [classNames2.root],
+        graphMiniMap: [
+            classNames2.minimapContainer,
+            {
+                bottom: CONTROLS_BOTTOM_OFFSET + CONTROLS_BOTTOM_OFFSET, // extra offset so they don't overlap till we have room off to the right
+                position: 'absolute',
+                right: 0,
+                '.react-flow__minimap': {
+                    cursor: 'crosshair',
+                    background: theme.semanticColors.bodyBackground,
+                    left: 'unset',
+                    zIndex: 7
+                }
+            }
+        ],
+        graphBuiltInControls: [
+            classNames2.builtInControls,
+            {
+                alignItems: 'center',
+                display: 'flex',
+                backgroundColor: theme.semanticColors.buttonBackground,
+                border: `1px solid ${theme.palette.neutralLight} !important`,
+                borderRadius: 4,
+                '.react-flow__controls-button': {
+                    background: theme.semanticColors.buttonBackground,
+                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
+                    borderRadius: 4,
+                    color: theme.semanticColors.bodyText,
+                    // remove border for the groups
+                    height: HEADER_BUTTON_HEIGHT - 4,
+                    width: HEADER_BUTTON_HEIGHT - 4,
+                    padding: 0,
+                    ':hover': {
+                        background:
+                            theme.semanticColors.buttonBackgroundHovered,
+                        border: `1px solid ${theme.palette.neutralSecondary}`
+                    },
+                    ':focused': {
+                        background:
+                            theme.semanticColors.buttonBackgroundHovered,
+                        border: `1px solid ${theme.palette.neutralSecondary}`
+                    },
+                    ':active': {
+                        background: theme.semanticColors.buttonBackgroundPressed
+                    },
+                    '& svg': {
+                        fill: theme.semanticColors.bodyText
+                    }
+                }
+            }
+        ],
+        subComponentStyles: {
+            controlsStack: {
+                root: {
+                    bottom: CONTROLS_BOTTOM_OFFSET,
+                    left: '50%',
+                    position: 'absolute',
+                    zIndex: 5,
+
+                    '> .react-flow__controls': {
+                        position: 'unset',
+                        left: 'unset'
+                    }
+                }
+            }
+        }
+    };
+};
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames = {
@@ -192,11 +278,6 @@ export const getGraphViewerStyles = () => {
                 alignItems: 'center'
             } as IStyle
         ],
-        legendContainer: {
-            position: 'absolute',
-            left: 10,
-            bottom: 30
-        } as IStyle,
         handleContentRelationship: [
             classNames.handleContentRelationship,
             {
@@ -409,33 +490,6 @@ export const getGraphViewerStyles = () => {
                 }
             } as IStyle
         ],
-        graphViewerControlsContainer: {
-            position: 'absolute',
-            bottom: 30,
-            left: '50%',
-            zIndex: 5,
-            '> .react-flow__controls': {
-                position: 'unset',
-                left: 'unset'
-            }
-        },
-        graphViewerControls: [
-            classNames.graphViewerControls,
-            {
-                display: 'flex',
-                '& button': {
-                    background: theme.semanticColors.primaryButtonBackground,
-                    borderColor: theme.semanticColors.primaryButtonTextPressed,
-                    ':hover': {
-                        background:
-                            theme.semanticColors.primaryButtonBackgroundHovered
-                    },
-                    '& svg': {
-                        fill: theme.semanticColors.primaryButtonTextPressed
-                    }
-                }
-            } as IStyle
-        ],
         extendCancel: [
             classNames.extendCancel,
             {
@@ -476,13 +530,6 @@ export const getGraphViewerWarningStyles = () => {
             color: theme.semanticColors.severeWarningIcon
         }
     } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
-};
-
-export const getGraphViewerMinimapStyles = () => {
-    const theme = useTheme();
-    return {
-        background: theme.semanticColors.bodyBackground
-    } as CSSProperties;
 };
 
 export const getRelationshipTextFieldStyles = () => {
