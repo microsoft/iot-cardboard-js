@@ -6,7 +6,6 @@ import {
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
-import { QuickTimeSpanKey } from '../../Models/Constants/Enums';
 
 export interface IQuickTimesDropdownProps {
     defaultSelectedKey?: QuickTimeSpanKey;
@@ -48,3 +47,36 @@ export interface IQuickTimesDropdownStyles {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IQuickTimesDropdownSubComponentStyles {}
+
+export enum QuickTimeSpanKey {
+    Last15Mins = 'Last 15 mins',
+    Last30Mins = 'Last 30 mins',
+    LastHour = 'Last hour',
+    Last3Hours = 'Last 3 hours',
+    Last6Hours = 'Last 6 hours',
+    Last12Hours = 'Last 12 hours',
+    Last24Hours = 'Last 24 hours',
+    Last7Days = 'Last 7 days',
+    Last30Days = 'Last 30 days',
+    Last60Days = 'Last 60 days',
+    Last90Days = 'Last 90 days',
+    Last180Days = 'Last 180 days',
+    LastYear = 'Last year'
+}
+
+/** Quick time span key to value in millisecond mapping */
+export const QuickTimeSpans = {
+    [QuickTimeSpanKey.Last15Mins]: 15 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Mins]: 30 * 60 * 1000,
+    [QuickTimeSpanKey.LastHour]: 1 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last3Hours]: 3 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last6Hours]: 6 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last12Hours]: 12 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last24Hours]: 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last7Days]: 7 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last30Days]: 30 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last60Days]: 60 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last90Days]: 90 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.Last180Days]: 180 * 24 * 60 * 60 * 1000,
+    [QuickTimeSpanKey.LastYear]: 365 * 24 * 60 * 60 * 1000
+};

@@ -2,7 +2,8 @@ import React from 'react';
 import {
     IQuickTimesDropdownProps,
     IQuickTimesDropdownStyleProps,
-    IQuickTimesDropdownStyles
+    IQuickTimesDropdownStyles,
+    QuickTimeSpans
 } from './QuickTimesDropdown.types';
 import { getStyles } from './QuickTimesDropdown.styles';
 import {
@@ -13,7 +14,6 @@ import {
     Dropdown
 } from '@fluentui/react';
 import { TFunction } from 'i18next';
-import { QuickTimeSpans } from '../../Models/Constants/Constants';
 import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
