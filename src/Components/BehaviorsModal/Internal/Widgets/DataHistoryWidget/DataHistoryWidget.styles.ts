@@ -48,7 +48,8 @@ export const getStyles = ({
                 fontSize: FontSizes.size12,
                 minHeight: '16px',
                 fontWeight: FontWeights.semibold,
-                paddingRight: 4
+                paddingRight: 4,
+                maxWidth: 192
             }
         ],
         chartContainer: [
@@ -92,7 +93,7 @@ export const getStyles = ({
                                 theme.semanticColors.buttonBackgroundHovered
                         }
                     },
-                    '::after': {
+                    '.ms-Dropdown::after': {
                         border: 'none'
                     }
                 },
