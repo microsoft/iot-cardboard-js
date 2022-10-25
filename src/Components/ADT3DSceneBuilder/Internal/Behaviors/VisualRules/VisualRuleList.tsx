@@ -1,4 +1,5 @@
-import { IContextualMenuItem, Image } from '@fluentui/react';
+import { IContextualMenuItem, Theme, useTheme } from '@fluentui/react';
+import Svg from 'react-inlinesvg';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
@@ -17,6 +18,8 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     onRemoveRule
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
+
     //list of data in carbboardlist shape
     const [listItems, setListItems] = useState<
         ICardboardListItem<IVisualRule>[]
@@ -25,9 +28,15 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     //making sure to display the correct listItem when one of the dependencies below changes
     useEffect(() => {
         //making sure to get the rules in cardboardlist data shape
-        const listItems = getListItems(ruleItems, onRemoveRule, onEditRule, t);
+        const listItems = getListItems(
+            ruleItems,
+            onRemoveRule,
+            onEditRule,
+            theme,
+            t
+        );
         setListItems(listItems);
-    }, [ruleItems, onRemoveRule, onEditRule, t]);
+    }, [ruleItems, onRemoveRule, onEditRule, t, theme]);
 
     return (
         <CardboardList<IVisualRule>
@@ -84,6 +93,7 @@ function getListItems(
     rules: IVisualRule[],
     onRemoveRule: (ruleItem: string) => void,
     onEditRule: (ruleItem: string) => void,
+    theme: Theme,
     t: TFunction<string>
 ) {
     const getMenuItems = (item: IVisualRule): IContextualMenuItem[] => {
@@ -105,9 +115,7 @@ function getListItems(
         ];
     };
 
-    function getIconStart(item) {
-        //const theme = useTheme();
-
+    function getIconStart(item: IVisualRule) {
         const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
         let icon;
         if (meshCount && badgeCount) {
@@ -120,10 +128,14 @@ function getListItems(
             };
         } else if (badgeCount) {
             icon = () => (
-                <Image
+                <Svg
                     src={meshAndBadgeIcon}
                     height={16}
-                    style={{ marginRight: 8 }}
+                    style={{
+                        marginRight: 8,
+                        fill: theme.palette.neutralPrimary,
+                        stroke: theme.palette.neutralPrimary
+                    }}
                 />
             );
         }
