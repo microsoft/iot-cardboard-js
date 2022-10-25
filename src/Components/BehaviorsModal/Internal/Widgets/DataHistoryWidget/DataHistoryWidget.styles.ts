@@ -1,6 +1,9 @@
 import { FontSizes, FontWeights } from '@fluentui/react';
 import { textOverflow } from '../../../../../Resources/Styles/BaseStyles';
-import { IDataHistoryWidgetStyles } from './DataHistoryWidget.types';
+import {
+    IDataHistoryWidgetStyleProps,
+    IDataHistoryWidgetStyles
+} from './DataHistoryWidget.types';
 
 export const classPrefix = 'cb-data-history-widget';
 const classNames = {
@@ -12,7 +15,9 @@ const classNames = {
     menu: `${classPrefix}-menu`,
     menuItem: `${classPrefix}-menu-item`
 };
-export const getStyles = (): IDataHistoryWidgetStyles => {
+export const getStyles = ({
+    theme
+}: IDataHistoryWidgetStyleProps): IDataHistoryWidgetStyles => {
     return {
         root: [
             classNames.root,
@@ -31,6 +36,7 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
             {
                 width: '100%',
                 padding: 8,
+                height: 36,
                 display: 'flex',
                 justifyContent: 'space-between'
             }
@@ -41,7 +47,8 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
             {
                 fontSize: FontSizes.size12,
                 minHeight: '16px',
-                fontWeight: FontWeights.semibold
+                fontWeight: FontWeights.semibold,
+                paddingRight: 4
             }
         ],
         chartContainer: [
@@ -55,7 +62,7 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
             {
                 width: 20,
                 height: 20,
-                padding: 0
+                padding: 12
             }
         ],
         menu: [
@@ -76,17 +83,24 @@ export const getStyles = (): IDataHistoryWidgetStyles => {
             quickTimePicker: {
                 dropdown: {
                     '.ms-Dropdown-title': {
-                        borderWidth: 0
+                        borderWidth: 0,
+                        padding: '0px 4px',
+                        height: 24,
+                        background: 'transparent',
+                        ':hover': {
+                            backgroundColor:
+                                theme.semanticColors.buttonBackgroundHovered
+                        }
+                    },
+                    '::after': {
+                        border: 'none'
                     }
-                },
-                titleContainer: {
-                    display: 'flex',
-                    fontSize: FontSizes.size12
                 },
                 menuTtemIcon: {
                     fontSize: FontSizes.size16,
-                    marginRight: 8
-                }
+                    lineHeight: '16px'
+                },
+                calloutWidth: 104
             }
         }
     };

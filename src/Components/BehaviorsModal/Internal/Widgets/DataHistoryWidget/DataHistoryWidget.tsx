@@ -137,35 +137,30 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     );
 
     const classNames = getClassNames(styles, { theme: useTheme() });
-    const onRenderTitleOfQucikTimePickerItem = (
+
+    const onRenderTitleOfQuickTimePickerItem = (
         options: IDropdownOption[]
     ): JSX.Element => {
         const option = options[0];
         return (
-            <div
-                style={
-                    classNames.subComponentStyles?.quickTimePicker?.()
-                        .titleContainer
-                }
-            >
-                {option.data && (
-                    <Icon
-                        style={
-                            classNames.subComponentStyles?.quickTimePicker?.()
-                                .menuTtemIcon
-                        }
-                        iconName="DateTime"
-                        aria-hidden="true"
-                    />
-                )}
-                <span>{option.text}</span>
-            </div>
+            option.data && (
+                <Icon
+                    style={
+                        classNames.subComponentStyles?.quickTimePicker?.()
+                            .menuTtemIcon
+                    }
+                    iconName="DateTime"
+                    aria-hidden="true"
+                />
+            )
         );
     };
-    const onRenderQuickTimePickerItem = (
-        _item: any,
-        onDismissMenu: () => void
-    ): React.ReactNode => {
+
+    const onRenderCaretDown = (): JSX.Element => {
+        return;
+    };
+
+    const renderQuickTimePickerItem = (): React.ReactNode => {
         return (
             <QuickTimesDropdown
                 styles={{
@@ -179,12 +174,17 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 onChange={(_env, option) => {
                     isRequestSent.current = false;
                     setSelectedQuickTimeSpanInMillis(option.data);
-                    onDismissMenu();
                 }}
-                onRenderTitle={onRenderTitleOfQucikTimePickerItem}
+                onRenderTitle={onRenderTitleOfQuickTimePickerItem}
+                onRenderCaretDown={onRenderCaretDown}
+                calloutProps={{
+                    calloutWidth: classNames.subComponentStyles?.quickTimePicker?.()
+                        .calloutWidth
+                }}
             />
         );
     };
+
     const menuProps: IOverflowMenuProps = {
         ariaLabel: t('widgets.dataHistory.headerMenu'),
         index: 0,
@@ -198,13 +198,8 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     onClick: () => {
                         window.open(deeplink, '_blank');
                     },
-                    iconProps: { iconName: 'Share' },
+                    iconProps: { iconName: 'OpenInNewWindow' },
                     className: classNames.menuItem
-                },
-                {
-                    key: 'quick-time-picker',
-                    className: classNames.menuItem,
-                    onRender: onRenderQuickTimePickerItem
                 }
             ],
             className: classNames.menu
@@ -217,7 +212,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
             <div className={classNames.header}>
                 <span className={classNames.title}>{displayName}</span>
                 {mode === BehaviorModalMode.viewer && (
-                    <OverflowMenu {...menuProps} />
+                    <>
+                        {renderQuickTimePickerItem()}
+                        <OverflowMenu {...menuProps} />
+                    </>
                 )}
             </div>
 
