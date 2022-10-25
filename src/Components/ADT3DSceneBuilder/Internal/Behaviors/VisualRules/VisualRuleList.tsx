@@ -1,4 +1,4 @@
-import { IContextualMenuItem, Image, useTheme } from '@fluentui/react';
+import { IContextualMenuItem, Image } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
@@ -106,7 +106,7 @@ function getListItems(
     };
 
     function getIconStart(item) {
-        const theme = useTheme();
+        //const theme = useTheme();
 
         const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
         let icon;
@@ -119,19 +119,13 @@ function getListItems(
                 name: 'CubeShape'
             };
         } else if (badgeCount) {
-            icon = () => {
-                theme.palette.themeLight ? (
-                    (icon = {
-                        name: 'Textfield'
-                    })
-                ) : (
-                    <Image
-                        src={meshAndBadgeIcon}
-                        height={16}
-                        style={{ marginRight: 8 }}
-                    />
-                );
-            };
+            icon = () => (
+                <Image
+                    src={meshAndBadgeIcon}
+                    height={16}
+                    style={{ marginRight: 8 }}
+                />
+            );
         }
         return icon;
     }
