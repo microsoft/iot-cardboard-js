@@ -364,8 +364,7 @@ const ProviderUpdater: React.FC = () => {
                         disabled={!oatPageState.ontologyFiles.length}
                         onClick={() => {
                             oatPageDispatch({
-                                type:
-                                    OatPageContextActionType.SET_OAT_DELETE_PROJECT,
+                                type: OatPageContextActionType.DELETE_PROJECT,
                                 payload: {
                                     id: oatPageState.currentOntologyId
                                 }

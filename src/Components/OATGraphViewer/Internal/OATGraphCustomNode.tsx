@@ -29,10 +29,7 @@ import IconInheritance from '../../../Resources/Static/relationshipInheritance.s
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
 import { deepCopy } from '../../../Models/Services/Utils';
-import {
-    deleteOatModel,
-    updateModelId
-} from '../../../Models/Services/OatUtils';
+import { updateModelId } from '../../../Models/Services/OatUtils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
@@ -87,28 +84,9 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const onDelete = () => {
         const deletion = () => {
             const dispatchDelete = () => {
-                // Remove the model from the list
-                const {
-                    models: modelsCopy,
-                    positions: positionsCopy
-                } = deleteOatModel(
-                    id,
-                    data,
-                    oatPageState.currentOntologyModels,
-                    oatPageState.currentOntologyModelPositions
-                );
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                    payload: { positions: positionsCopy }
-                });
-                // Dispatch selected model to null
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                    payload: { selection: null }
+                    type: OatPageContextActionType.DELETE_MODEL,
+                    payload: { id: id }
                 });
             };
             oatPageDispatch({
@@ -119,18 +97,12 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                type: OatPageContextActionType.DELETE_MODEL_UNDO,
                 payload: {
-                    positions: oatPageState.currentOntologyModelPositions
+                    models: oatPageState.currentOntologyModels,
+                    positions: oatPageState.currentOntologyModelPositions,
+                    selection: oatPageState.selection
                 }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
             });
         };
 

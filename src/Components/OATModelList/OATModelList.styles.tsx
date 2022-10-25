@@ -1,11 +1,4 @@
-import {
-    IStyle,
-    mergeStyleSets,
-    useTheme,
-    FontSizes,
-    IButtonStyles,
-    IIconStyles
-} from '@fluentui/react';
+import { IStyle, mergeStyleSets, useTheme, FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-model`;
@@ -126,26 +119,4 @@ export const getModelsStyles = () => {
             } as IStyle
         ]
     });
-};
-
-export const getModelsIconStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size10,
-            color: theme.semanticColors.actionLink,
-            marginRight: '5px',
-            marginTop: '5px'
-        }
-    } as IIconStyles;
-};
-
-export const getModelsActionButtonStyles = () => {
-    return {
-        root: {
-            width: '100%',
-            height: 'fit-content',
-            position: 'relative'
-        }
-    } as IButtonStyles;
 };

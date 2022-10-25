@@ -70,7 +70,7 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
                 callback: () => {
                     onClose();
                     oatPageDispatch({
-                        type: OatPageContextActionType.SET_OAT_DELETE_PROJECT,
+                        type: OatPageContextActionType.DELETE_PROJECT,
                         payload: {
                             id: ontologyId
                         }

@@ -1,5 +1,14 @@
+import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import {
+    IOATModelPosition,
+    IOATSelection
+} from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import {
+    DtdlInterface,
+    OAT_UNTARGETED_RELATIONSHIP_NAME
+} from '../../Constants';
 import {
     convertDtdlInterfacesToModels,
     storeLastUsedProjectId,
@@ -68,6 +77,63 @@ export function switchCurrentProject(
         );
     }
 }
+
+/** deletes all references of a model from the graph including relationships */
+export const deleteModelFromState = (
+    modelId: string,
+    modelType: string,
+    models: DtdlInterface[],
+    positions: IOATModelPosition[]
+) => {
+    if (modelType === OAT_UNTARGETED_RELATIONSHIP_NAME) {
+        const match = models.find((element) => element['@id'] === modelId);
+        if (match) {
+            match.contents = match.contents.filter(
+                (content) => content['@id'] !== modelId
+            );
+        }
+    } else {
+        const index = models.findIndex((m) => m['@id'] === modelId);
+        if (index >= 0) {
+            // remove from models list
+            models.splice(index, 1);
+            models.forEach((m) => {
+                // remove from relationship list of all models
+                m.contents = m.contents.filter(
+                    (content) =>
+                        content.target !== modelId && content.schema !== modelId
+                );
+                // remove from extends list for all models
+                if (m.extends) {
+                    m.extends = (m.extends as string[]).filter(
+                        (ex) => ex !== modelId
+                    );
+                }
+            });
+        }
+    }
+
+    // remove from positions list
+    const index = positions.findIndex((x) => x['@id'] === modelId);
+    positions.splice(index, 1);
+
+    return { models: models, positions: positions };
+};
+
+export const setSelectedModel = (
+    selection: IOATSelection,
+    draft: IOatPageContextState
+): void => {
+    draft.selection = selection;
+    if (draft.currentOntologyModels && draft.selection) {
+        draft.selectedModelTarget = getTargetFromSelection(
+            draft.currentOntologyModels,
+            draft.selection
+        );
+    } else {
+        draft.selectedModelTarget = null;
+    }
+};
 
 /** TODO: remove this helper when we move the project data into a sub object on the state */
 export function convertStateToProject(

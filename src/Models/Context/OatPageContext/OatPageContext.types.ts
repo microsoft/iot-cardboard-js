@@ -62,6 +62,8 @@ export enum OatPageContextActionType {
     DUPLICATE_PROJECT = 'DUPLICATE_PROJECT',
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
     SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
+    DELETE_MODEL = 'DELETE_MODEL',
+    DELETE_MODEL_UNDO = 'DELETE_MODEL_UNDO',
     SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
     SET_CURRENT_MODELS_POSITIONS = 'SET_CURRENT_MODELS_POSITIONS',
     SET_CURRENT_NAMESPACE = 'SET_CURRENT_NAMESPACE',
@@ -76,7 +78,7 @@ export enum OatPageContextActionType {
     SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
     SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
-    SET_OAT_DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
+    DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
     SET_OAT_ERROR = 'SET_OAT_ERROR',
     SET_OAT_IMPORT_MODELS = 'SET_OAT_IMPORT_MODELS',
     SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN'
@@ -96,7 +98,7 @@ export type OatPageContextAction =
           type: OatPageContextActionType.DUPLICATE_PROJECT;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_DELETE_PROJECT;
+          type: OatPageContextActionType.DELETE_PROJECT;
           payload: { id: string };
       }
     | {
@@ -109,6 +111,20 @@ export type OatPageContextAction =
           type: OatPageContextActionType.SET_CURRENT_MODELS;
           payload: {
               models: DtdlInterface[];
+          };
+      }
+    | {
+          type: OatPageContextActionType.DELETE_MODEL;
+          payload: {
+              id: string;
+          };
+      }
+    | {
+          type: OatPageContextActionType.DELETE_MODEL_UNDO;
+          payload: {
+              models: DtdlInterface[];
+              positions: IOATModelPosition[];
+              selection: IOATSelection;
           };
       }
     | {
