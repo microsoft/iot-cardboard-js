@@ -97,7 +97,7 @@ export const getStyles = ({
                         border: 'none'
                     }
                 },
-                menuTtemIcon: {
+                menuItemIcon: {
                     fontSize: FontSizes.size16,
                     lineHeight: '16px'
                 },

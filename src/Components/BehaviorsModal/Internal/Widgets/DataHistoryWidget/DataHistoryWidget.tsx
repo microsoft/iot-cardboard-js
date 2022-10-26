@@ -140,10 +140,9 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 <Icon
                     style={
                         classNames.subComponentStyles?.quickTimePicker?.()
-                            .menuTtemIcon
+                            .menuItemIcon
                     }
                     iconName="DateTime"
-                    aria-hidden="true"
                 />
             )
         );

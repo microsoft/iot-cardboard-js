@@ -30,7 +30,7 @@ export interface IDataHistoryWidgetStyles {
 export interface IDataHistoryWidgetSubComponentStyles {
     quickTimePicker: {
         dropdown?: IStyle;
-        menuTtemIcon?: CSSProperties;
+        menuItemIcon?: CSSProperties;
         calloutWidth?: number;
     };
 }
