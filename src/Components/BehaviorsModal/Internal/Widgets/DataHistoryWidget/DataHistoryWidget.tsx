@@ -21,6 +21,7 @@ import {
     ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
+    IADXConnection,
     IDataHistoryWidgetTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
@@ -58,7 +59,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 }) => {
     const {
         displayName,
-        connectionString,
+        connection,
         timeSeries,
         chartOptions
     } = widget.widgetConfiguration;
@@ -70,6 +71,17 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         setSelectedQuickTimeSpanInMillis
     ] = useState(chartOptions.defaultQuickTimeSpanInMillis);
 
+    const connectionToQuery: IADXConnection = useMemo(
+        () =>
+            connection
+                ? {
+                      kustoClusterUrl: connection.adxClusterUrl,
+                      kustoDatabaseName: connection.adxDatabaseName,
+                      kustoTableName: connection.adxTableName
+                  }
+                : null,
+        [connection]
+    );
     const {
         query,
         deeplink,
@@ -78,7 +90,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         isLoading
     } = useTimeSeriesData({
         adapter,
-        connectionString,
+        connection: connectionToQuery,
         quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });

@@ -27,14 +27,18 @@ type IListItemBaseProps<T> = {
         customStyles?: IButtonStyles;
     };
     /** icon to render on the right side of the list item */
-    iconEnd?: {
-        name: IIconNames;
-        onClick?: (item: T) => void;
-    };
+    iconEnd?:
+        | {
+              name: IIconNames;
+              onClick?: (item: T) => void;
+          }
+        | ((item: T) => React.ReactElement);
     /** icon or JSX element to render at the left side of the list item */
-    iconStart?: {
-        name: IIconNames | JSX.Element;
-    };
+    iconStart?:
+        | {
+              name: IIconNames;
+          }
+        | ((item: T) => React.ReactElement);
     /** if provided false will result in rendering the red dot at the very left of the element. If not provided, will assume it is valid and not render any dot */
     isValid?: boolean;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
