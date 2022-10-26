@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Değer",
       "flyoutValueTitle": "Değer",
       "actionLabel": "Eylem",
-      "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın",
       "meshColoringOption": "Mesh renklendirme",
       "badgeOption": "Rozet"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Başlık yok",
     "shareQueryTitle": "Sorguyu paylaşma",
     "noDataDescription": "Görüntülenecek veri yok"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın"
   }
 }

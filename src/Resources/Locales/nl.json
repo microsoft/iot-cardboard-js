@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Waarden",
       "flyoutValueTitle": "Waarde",
       "actionLabel": "Actie",
-      "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen",
       "meshColoringOption": "Mesh kleuring",
       "badgeOption": "Insigne"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Geen titel",
     "shareQueryTitle": "Query delen",
     "noDataDescription": "Geen gegevens om weer te geven"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
   }
 }

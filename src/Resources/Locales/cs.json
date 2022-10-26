@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Hodnoty",
       "flyoutValueTitle": "Hodnota",
       "actionLabel": "Akce",
-      "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte",
       "meshColoringOption": "Zbarvení sítě",
       "badgeOption": "Odznak"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Bez názvu",
     "shareQueryTitle": "Sdílet dotaz",
     "noDataDescription": "Žádná data k zobrazení"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
   }
 }

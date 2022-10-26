@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Värden",
       "flyoutValueTitle": "Värde",
       "actionLabel": "Handling",
-      "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till",
       "meshColoringOption": "Mesh färgning",
       "badgeOption": "Emblem"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Ingen titel",
     "shareQueryTitle": "Dela fråga",
     "noDataDescription": "Inga data att visa"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
   }
 }

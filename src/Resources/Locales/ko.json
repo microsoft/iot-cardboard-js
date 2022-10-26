@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "값",
       "flyoutValueTitle": "값",
       "actionLabel": "행동",
-      "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다.",
       "meshColoringOption": "메쉬 채색",
       "badgeOption": "배지"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "제목 없음",
     "shareQueryTitle": "쿼리 공유",
     "noDataDescription": "표시할 데이터 없음"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다."
   }
 }

@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Значения",
       "flyoutValueTitle": "Ценность",
       "actionLabel": "Действие",
-      "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить",
       "meshColoringOption": "Окраска сетки",
       "badgeOption": "Значок"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Без названия",
     "shareQueryTitle": "Общий доступ к запросу",
     "noDataDescription": "Нет отображаемых данных"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить"
   }
 }

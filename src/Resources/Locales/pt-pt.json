@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Valores",
       "flyoutValueTitle": "Valor",
       "actionLabel": "Ação",
-      "placeholderMultiselect": "Tipo de valores, prima insira para adicionar",
       "meshColoringOption": "Coloração de malha",
       "badgeOption": "Crachá"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Sem título",
     "shareQueryTitle": "Consulta de partilha",
     "noDataDescription": "Sem dados para exibir"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Tipo de valores, prima insira para adicionar"
   }
 }

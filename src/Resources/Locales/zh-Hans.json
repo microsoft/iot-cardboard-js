@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "值",
       "flyoutValueTitle": "价值",
       "actionLabel": "行动",
-      "placeholderMultiselect": "键入值，按回车键添加",
       "meshColoringOption": "网眼着色",
       "badgeOption": "徽章"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "无标题",
     "shareQueryTitle": "共享查询",
     "noDataDescription": "无要显示的数据"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "键入值，按回车键添加"
   }
 }

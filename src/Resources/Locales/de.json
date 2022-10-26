@@ -578,7 +578,6 @@
       "flyoutValuesTitle": "Werte",
       "flyoutValueTitle": "Wert",
       "actionLabel": "Aktion",
-      "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um",
       "meshColoringOption": "Mesh-Färbung",
       "badgeOption": "Abzeichen"
     },
@@ -1286,5 +1285,8 @@
     "noTitle": "Kein Titel",
     "shareQueryTitle": "Freigabeabfrage",
     "noDataDescription": "Keine Daten anzuzeigen"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
   }
 }
