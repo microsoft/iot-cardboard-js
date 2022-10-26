@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useId } from '@fluentui/react-hooks';
 import { ReactComponent as InfinitySvg } from '../../../../../../Resources/Static/infinity.svg';
-import { classNamesFunction, styled, useTheme } from '@fluentui/react';
+import {
+    ActionButton,
+    classNamesFunction,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import {
     BoundaryType,
     IBoundaryInputProps,
@@ -60,7 +65,7 @@ const BoundaryInput: React.FC<IBoundaryInputProps> = (props) => {
                             setNewValues(inputValue);
                         }}
                     />
-                    <button
+                    <ActionButton
                         aria-label={infinityIconMessage}
                         className={`${
                             isMin
@@ -80,7 +85,7 @@ const BoundaryInput: React.FC<IBoundaryInputProps> = (props) => {
                         }}
                     >
                         <InfinitySvg />
-                    </button>
+                    </ActionButton>
                 </div>
             </div>
         </>
