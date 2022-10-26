@@ -660,16 +660,29 @@
           },
           "quickTimeSpan": {
             "label": "Alapértelmezett időtartam",
-            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
+            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon",
+            "options": {
+              "Last 15 mins": "Utolsó 15 perc",
+              "Last 30 mins": "Utolsó 30 perc",
+              "Last hour": "Utolsó óra",
+              "Last 3 hours": "Utolsó 3 óra",
+              "Last 6 hours": "Utolsó 6 óra",
+              "Last 12 hours": "Az elmúlt 12 óra",
+              "Last 24 hours": "Az elmúlt 24 óra",
+              "Last 7 days": "Utolsó 7 nap",
+              "Last 30 days": "Az elmúlt 30 napban",
+              "Last 60 days": "Az elmúlt 60 napban",
+              "Last 90 days": "Az elmúlt 90 napban",
+              "Last 180 days": "Az elmúlt 180 napban",
+              "Last year": "Tavaly"
+            }
           },
           "aggregationType": {
             "label": "Összesítés típusa",
             "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
           }
         }
-      },
-      "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
+      }
     }
   },
   "sdkStrings": {
@@ -1270,25 +1283,10 @@
   },
   "highcharts": {
     "shareQueryTitle": "Lekérdezés megosztása",
-    "noDataDescription": "Nincs megjelenítendő adat"
+    "noDataDescription": "Nincs megjelenítendő adat",
+    "noTitle": "Nincs cím"
   },
-  "quickTimesDropdown": {
-    "label": "Időtartam",
-    "placeholder": "Válasszon ki egy gyors időpontot",
-    "options": {
-      "Last 15 mins": "Utolsó 15 perc",
-      "Last 30 mins": "Utolsó 30 perc",
-      "Last hour": "Utolsó óra",
-      "Last 3 hours": "Utolsó 3 óra",
-      "Last 6 hours": "Utolsó 6 óra",
-      "Last 12 hours": "Az elmúlt 12 óra",
-      "Last 24 hours": "Az elmúlt 24 óra",
-      "Last 7 days": "Utolsó 7 nap",
-      "Last 30 days": "Az elmúlt 30 napban",
-      "Last 60 days": "Az elmúlt 60 napban",
-      "Last 90 days": "Az elmúlt 90 napban",
-      "Last 180 days": "Az elmúlt 180 napban",
-      "Last year": "Tavaly"
-    }
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
   }
 }
