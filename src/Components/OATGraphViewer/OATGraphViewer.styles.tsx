@@ -11,13 +11,16 @@ import {
     ITextFieldStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import {
+    CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_Z_INDEX,
+    LOADING_Z_INDEX
+} from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
-
-const CONTROLS_BOTTOM_OFFSET = 30;
 
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
@@ -41,7 +44,7 @@ export const getStyles = (
                     cursor: 'crosshair',
                     background: theme.semanticColors.bodyBackground,
                     left: 'unset',
-                    zIndex: 7
+                    zIndex: CONTROLS_Z_INDEX
                 }
             }
         ],
@@ -93,7 +96,7 @@ export const getStyles = (
                     bottom: CONTROLS_BOTTOM_OFFSET,
                     left: '50%',
                     position: 'absolute',
-                    zIndex: 5,
+                    zIndex: CONTROLS_Z_INDEX,
 
                     '> .react-flow__controls': {
                         position: 'unset',
@@ -286,7 +289,7 @@ export const getGraphViewerStyles = () => {
                 width: '100%',
                 height: '100%',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                zIndex: 101,
+                zIndex: LOADING_Z_INDEX,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'

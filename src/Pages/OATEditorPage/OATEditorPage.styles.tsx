@@ -18,6 +18,8 @@ const classNames = {
     confirmDeleteButtonsWrapper: `${classPrefix}-confirm-delete-buttons-wrapper`,
     confirmDeleteWrapperTitle: `${classPrefix}-confirm-delete-wrapper-title`
 };
+
+const PROPERTY_EDITOR_WIDTH = 340;
 export const getEditorPageStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
@@ -40,12 +42,18 @@ export const getEditorPageStyles = () => {
         component: [
             classNames.component,
             {
+                display: 'flex',
                 backgroundColor: theme.semanticColors.bodyBackground,
-                display: 'grid',
-                gridTemplateColumns: '280px 1fr 340px',
-                height: `calc(100% - ${OAT_HEADER_HEIGHT}px)`
+                height: `calc(100% - ${OAT_HEADER_HEIGHT}px)`,
+                position: 'relative'
             } as IStyle
         ],
+        viewerContainer: {
+            width: `calc(100% - ${PROPERTY_EDITOR_WIDTH}px)`
+        },
+        propertyEditorContainer: {
+            width: PROPERTY_EDITOR_WIDTH
+        },
         errorHandlingWrapper: [
             classNames.errorHandlingWrapper,
             {

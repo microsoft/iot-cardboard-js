@@ -92,6 +92,8 @@ import {
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
 import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
 import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
+import { CONTROLS_Z_INDEX } from '../../Models/Constants/OatStyleConstants';
+import OATLeftFloatingControls from '../OATLeftFloatingControls/OATLeftFloatingControls';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -855,12 +857,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             {t('OATGraphViewer.emptyGraph')}
                         </Label>
                     )}
-                    <FocusZone style={{ zIndex: 5 }}>
+                    <FocusZone style={{ zIndex: CONTROLS_Z_INDEX }}>
                         <Stack
                             horizontal
                             tokens={{ childrenGap: 16 }}
                             styles={classNames.subComponentStyles.controlsStack}
                         >
+                            <OATLeftFloatingControls />
                             <HeaderControlGroup id={legendButtonId}>
                                 <HeaderControlButton
                                     iconProps={{ iconName: 'View' }}
