@@ -590,7 +590,9 @@
       "removeRule": "ルールの削除",
       "multipleBadges": "{{バッジカウント}}バッジ",
       "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
-      "unlabeled": "(ラベルなし)"
+      "unlabeled": "(ラベルなし)",
+      "singleBadge": "バッジ1個",
+      "singleMeshColoring": "1メッシュカラーリング"
     }
   },
   "widgets": {

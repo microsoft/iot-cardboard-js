@@ -590,7 +590,9 @@
       "removeRule": "删除规则",
       "multipleBadges": "{{徽章计数}} 徽章",
       "multipleMeshColorings": "{{网格着色计数}} 网格着色",
-      "unlabeled": "（未标记）"
+      "unlabeled": "（未标记）",
+      "singleBadge": "1 个徽章",
+      "singleMeshColoring": "1 网格着色"
     }
   },
   "widgets": {

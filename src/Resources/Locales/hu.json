@@ -590,7 +590,9 @@
       "removeRule": "Szabály eltávolítása",
       "multipleBadges": "{{badgeCount}} jelvények",
       "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
-      "unlabeled": "(címkézetlen)"
+      "unlabeled": "(címkézetlen)",
+      "singleBadge": "1 jelvény",
+      "singleMeshColoring": "1 hálós színezés"
     }
   },
   "widgets": {

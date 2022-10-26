@@ -590,7 +590,9 @@
       "removeRule": "Odebrat pravidlo",
       "multipleBadges": "{{badgeCount}} odznaky",
       "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
-      "unlabeled": "(neoznačeno)"
+      "unlabeled": "(neoznačeno)",
+      "singleBadge": "1 odznak",
+      "singleMeshColoring": "1 zbarvení ok"
     }
   },
   "widgets": {

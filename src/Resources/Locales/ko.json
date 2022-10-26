@@ -590,7 +590,9 @@
       "removeRule": "규칙 제거",
       "multipleBadges": "{{badgeCount}} 배지",
       "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
-      "unlabeled": "(레이블이 지정되지 않음)"
+      "unlabeled": "(레이블이 지정되지 않음)",
+      "singleBadge": "배지 1개",
+      "singleMeshColoring": "1 메쉬 채색"
     }
   },
   "widgets": {

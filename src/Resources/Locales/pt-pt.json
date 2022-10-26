@@ -590,7 +590,9 @@
       "removeRule": "Remover regra",
       "multipleBadges": "{{badgeCount}} crachás",
       "multipleMeshColorings": "{{meshColoringCount}} colorações de malha",
-      "unlabeled": "(sem rótulo)"
+      "unlabeled": "(sem rótulo)",
+      "singleBadge": "1 distintivo",
+      "singleMeshColoring": "1 coloração de malha"
     }
   },
   "widgets": {

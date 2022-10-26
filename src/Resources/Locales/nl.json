@@ -590,7 +590,9 @@
       "removeRule": "Regel verwijderen",
       "multipleBadges": "{{badgeCount}} badges",
       "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren",
-      "unlabeled": "(niet gelabeld)"
+      "unlabeled": "(niet gelabeld)",
+      "singleBadge": "1 badge",
+      "singleMeshColoring": "1 mesh kleuring"
     }
   },
   "widgets": {

@@ -590,7 +590,9 @@
       "removeRule": "Usuń regułę",
       "multipleBadges": "Odznaki {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} kolorowanie siatki",
-      "unlabeled": "(bez etykiety)"
+      "unlabeled": "(bez etykiety)",
+      "singleBadge": "1 odznaka",
+      "singleMeshColoring": "1 kolorowanie siatki"
     }
   },
   "widgets": {

@@ -590,7 +590,9 @@
       "removeRule": "Kuralı kaldır",
       "multipleBadges": "{{badgeCount}} rozetleri",
       "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri",
-      "unlabeled": "(etiketsiz)"
+      "unlabeled": "(etiketsiz)",
+      "singleBadge": "1 rozet",
+      "singleMeshColoring": "1 örgü renklendirme"
     }
   },
   "widgets": {

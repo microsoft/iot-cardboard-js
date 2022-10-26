@@ -590,7 +590,9 @@
       "removeRule": "Quitar regla",
       "multipleBadges": "{{badgeCount}} insignias",
       "multipleMeshColorings": "{{meshColoringCount}} coloraciones de malla",
-      "unlabeled": "(sin etiquetar)"
+      "unlabeled": "(sin etiquetar)",
+      "singleBadge": "1 insignia",
+      "singleMeshColoring": "1 coloración de malla"
     }
   },
   "widgets": {

@@ -590,7 +590,9 @@
       "removeRule": "Ta bort regel",
       "multipleBadges": "{{badgeCount}} märken",
       "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
-      "unlabeled": "(omärkt)"
+      "unlabeled": "(omärkt)",
+      "singleBadge": "1 märke",
+      "singleMeshColoring": "1 nätfärgning"
     }
   },
   "widgets": {

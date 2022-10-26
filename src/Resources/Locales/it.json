@@ -590,7 +590,9 @@
       "removeRule": "Rimuovi regola",
       "multipleBadges": "Badge {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} colorazioni mesh",
-      "unlabeled": "(senza etichetta)"
+      "unlabeled": "(senza etichetta)",
+      "singleBadge": "1 distintivo",
+      "singleMeshColoring": "1 colorazione a maglie"
     }
   },
   "widgets": {

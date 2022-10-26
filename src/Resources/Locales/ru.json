@@ -590,7 +590,9 @@
       "removeRule": "Удалить правило",
       "multipleBadges": "{{badgeCount}} значки",
       "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
-      "unlabeled": "(без маркировки)"
+      "unlabeled": "(без маркировки)",
+      "singleBadge": "1 значок",
+      "singleMeshColoring": "1 сетка раскраска"
     }
   },
   "widgets": {
