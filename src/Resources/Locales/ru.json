@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "копировать",
     "defaultFileName": "Новая онтология",
     "defaultModelNamePrefix": "Модель"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Удалить модель"
   }
 }

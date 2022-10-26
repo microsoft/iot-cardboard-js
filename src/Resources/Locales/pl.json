@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",
     "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Usuń model"
   }
 }

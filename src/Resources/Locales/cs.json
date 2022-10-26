@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "kopírovat",
     "defaultFileName": "Nová ontologie",
     "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Odebrat model"
   }
 }
