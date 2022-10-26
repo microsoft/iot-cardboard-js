@@ -77,6 +77,7 @@ abstract class PropertyInspectorModel {
             case dtdlPropertyTypesEnum.float:
                 return '';
             case dtdlPropertyTypesEnum.Array:
+                return [];
             default:
                 return null;
         }
@@ -100,7 +101,8 @@ abstract class PropertyInspectorModel {
         propertySourceObject,
         mapInfo = null,
         forceSet = false,
-        schemas
+        schemas,
+        isArrayChild = false
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
@@ -111,15 +113,23 @@ abstract class PropertyInspectorModel {
         mapInfo?: { key: string };
         forceSet?: boolean;
         schemas?: DtdlInterfaceSchema[];
+        isArrayChild?: boolean;
     }): PropertyTreeNode => {
         // Check if property is using reusable schema from schemas set
+        if (isArrayChild) {
+            // eslint-disable-next-line no-debugger
+            debugger;
+        }
         if (
             typeof modelProperty.schema === 'string' &&
             Array.isArray(schemas) &&
             schemas.map((s) => s['@id']).includes(modelProperty.schema)
         ) {
             const targetSchema = schemas.find(
-                (s) => s['@id'] === modelProperty.schema
+                (s) =>
+                    s['@id'] ===
+                    ((modelProperty.schema as any).elementSchema ||
+                        modelProperty.schema)
             );
 
             return PropertyInspectorModel.parsePropertyIntoNode({
@@ -137,7 +147,8 @@ abstract class PropertyInspectorModel {
                 path,
                 schemas,
                 mapInfo,
-                forceSet
+                forceSet,
+                isArrayChild
             });
         } else if (
             typeof modelProperty.schema === 'string' &&
@@ -207,7 +218,7 @@ abstract class PropertyInspectorModel {
                                           )
                                         : PropertyInspectorModel.buildPath(
                                               path,
-                                              modelProperty.name
+                                              modelProperty.name || field.name
                                           ),
                                     isObjectChild: true,
                                     isMapChild: false,
@@ -358,7 +369,89 @@ abstract class PropertyInspectorModel {
                         ...(schemas && { mapSchemas: schemas })
                     };
                 }
-                case DTDLSchemaType.Array: // TODO support arrays in future
+                case DTDLSchemaType.Array: {
+                    const arrayItems: any[] = PropertyInspectorModel.getPropertyValueOrDefault(
+                        modelProperty.name,
+                        propertySourceObject,
+                        dtdlPropertyTypesEnum.Array
+                    );
+                    const targetSchema = schemas.find(
+                        (s) =>
+                            s['@id'] ===
+                            ((modelProperty.schema as any).elementSchema ||
+                                modelProperty.schema)
+                    );
+                    return {
+                        name: modelProperty.name,
+                        displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
+                            modelProperty
+                        ),
+                        role: NodeRole.parent,
+                        schema: dtdlPropertyTypesEnum.Array,
+                        isCollapsed: true,
+                        type: DTDLType.Property,
+                        path: mapInfo
+                            ? PropertyInspectorModel.buildPath(
+                                  path,
+                                  mapInfo.key
+                              )
+                            : PropertyInspectorModel.buildPath(
+                                  path,
+                                  modelProperty.name
+                              ),
+                        parentObjectPath: isObjectChild && path,
+                        isInherited,
+                        isMapChild,
+                        isRemovable: !isMapChild,
+                        value: undefined,
+                        isSet:
+                            (propertySourceObject &&
+                                modelProperty.name in propertySourceObject) ||
+                            forceSet,
+                        unit: getModelContentUnit(
+                            modelProperty['@type'],
+                            modelProperty
+                        ),
+                        children:
+                            arrayItems && arrayItems.length > 0
+                                ? arrayItems.map((arrayItem, index) => {
+                                      const itemSchema =
+                                          dtdlPrimitiveTypesList.indexOf(
+                                              (modelProperty.schema as any)
+                                                  .elementSchema
+                                          ) !== -1
+                                              ? {
+                                                    schema: (modelProperty.schema as any)
+                                                        .elementSchema
+                                                } // primate array item
+                                              : targetSchema; //complex array item
+
+                                      const childItem = PropertyInspectorModel.parsePropertyIntoNode(
+                                          {
+                                              isInherited,
+                                              isObjectChild: true,
+                                              modelProperty: {
+                                                  name: index,
+                                                  schema: itemSchema['@id'],
+                                                  ...itemSchema
+                                              },
+                                              path: PropertyInspectorModel.buildPath(
+                                                  path,
+                                                  modelProperty.name
+                                              ),
+                                              propertySourceObject: arrayItem,
+                                              isMapChild: false,
+                                              forceSet: true,
+                                              schemas,
+                                              isArrayChild: true
+                                          }
+                                      );
+                                      return childItem;
+                                  })
+                                : null,
+                        ...(schemas && { mapSchemas: schemas })
+                    };
+                }
                 default:
                     return null;
             }
@@ -803,7 +896,6 @@ abstract class PropertyInspectorModel {
         const modelledPropertyNames = PropertyInspectorModel.getModelledPropertyNames(
             [...rootModelNodes, ...extendedModelNodes]
         );
-
         // Parse meta data nodes
         let metaDataNodes = Object.keys(twin || {})
             .filter(
@@ -986,7 +1078,7 @@ abstract class PropertyInspectorModel {
             return arr.reduce(
                 (flat: PropertyTreeNode[], toFlatten: PropertyTreeNode) => {
                     return flat.concat(
-                        Array.isArray(toFlatten.children)
+                        Array.isArray(toFlatten?.children)
                             ? [toFlatten, ...flatten(toFlatten.children)]
                             : toFlatten
                     );
@@ -994,7 +1086,6 @@ abstract class PropertyInspectorModel {
                 []
             );
         };
-
         return flatten(tree).map((node) => node.name);
     };
 

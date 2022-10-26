@@ -221,10 +221,7 @@
             "alternateName": {
                 "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "BatteryCapacity": {
-                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
-            },
-            "BatteryLevel": {
+            "Batteries": {
                 "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
             "CarName": {

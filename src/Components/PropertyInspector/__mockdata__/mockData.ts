@@ -3,10 +3,25 @@ export const mockTwin = {
     $etag: 'W/"7cece777-dbf3-47ca-947e-5842ff8021fb"',
     CarName: 'Slaaaa',
     CarPackage: 'Basic',
-    BatteryDeadState: false,
+    SeatsOccupied: [true, true, false, false, true],
+    Batteries: [
+        {
+            BatteryDeadState: false,
+            BatteryLevel: 92,
+            BatteryCapacity: 75
+        },
+        {
+            BatteryDeadState: false,
+            BatteryLevel: 20,
+            BatteryCapacity: 100
+        },
+        {
+            BatteryDeadState: true,
+            BatteryLevel: 0,
+            BatteryCapacity: 100
+        }
+    ],
     Mileage: 18324,
-    BatteryLevel: 92,
-    BatteryCapacity: 75,
     WheelInformation: {
         leftFrontPressure: 42,
         rightFrontPressure: 43,
@@ -54,19 +69,13 @@ export const mockRelationship = {
 export const mockExpandedModels = [
     {
         '@type': 'Interface',
-        '@context': 'dtmi:dtdl:context;2',
+        '@context': 'dtmi:dtdl:context;3',
         '@id': 'dtmi:com:cocrowle:teslamodely;1',
         extends: 'dtmi:digitaltwins:ngsi_ld:city:NGSILDBaseModel;1',
         displayName: 'Tesla Model Y',
         description: 'Zooooooooom',
         comment: '',
         contents: [
-            {
-                '@type': 'Telemetry',
-                name: 'batteryTemp',
-                displayName: 'Battery temperature',
-                'dtmi:dtdl:property:schema;2': 'double'
-            },
             {
                 '@type': 'Relationship',
                 name: 'chargedBy',
@@ -82,13 +91,21 @@ export const mockExpandedModels = [
             },
             {
                 '@type': 'Property',
-                '@id': 'dtmi:com:cocrowle:batterydead;1',
-                name: 'BatteryDeadState',
-                schema: 'boolean',
-                comment: '',
-                description: 'Battery state',
-                displayName: 'Battery dead',
-                writable: true
+                '@id': 'dtmi:com:cocrowle:batteries;1',
+                name: 'Batteries',
+                schema: {
+                    '@type': 'Array',
+                    elementSchema: 'dtmi:com:azure:batteryInformation;1'
+                }
+            },
+            {
+                '@type': 'Property',
+                '@id': 'dtmi:com:cocrowle:seatsOccupied;1',
+                name: 'SeatsOccupied',
+                schema: {
+                    '@type': 'Array',
+                    elementSchema: 'boolean'
+                }
             },
             {
                 '@type': 'Property',
@@ -112,16 +129,6 @@ export const mockExpandedModels = [
             },
             {
                 '@type': 'Property',
-                '@id': 'dtmi:com:cocrowle:batteryLevel;1',
-                name: 'BatteryLevel',
-                schema: 'double',
-                comment: '',
-                description: 'Current Battery Level',
-                displayName: 'Battery level',
-                writable: true
-            },
-            {
-                '@type': 'Property',
                 '@id': 'dtmi:com:cocrowle:timedriven;1',
                 name: 'TimeDriven',
                 schema: 'duration',
@@ -129,17 +136,6 @@ export const mockExpandedModels = [
                 description:
                     'Driving time of the time in ISO 8601 duration format',
                 displayName: 'Time driven',
-                writable: true
-            },
-            {
-                '@type': ['Property', 'Energy'],
-                '@id': 'dtmi:com:cocrowle:batterycapacity;1',
-                name: 'BatteryCapacity',
-                schema: 'float',
-                comment: '',
-                description: 'Capacity of the car battery',
-                displayName: 'Battery capacity',
-                unit: 'kilowattHour',
                 writable: true
             },
             {
@@ -276,6 +272,51 @@ export const mockExpandedModels = [
             }
         ],
         schemas: [
+            {
+                '@id': 'dtmi:com:azure:batteryInformation;1',
+                '@type': 'Object',
+                displayName: 'Battery information',
+                description: 'Information about a battery',
+                fields: [
+                    {
+                        '@type': 'Telemetry',
+                        name: 'batteryTemp',
+                        displayName: 'Battery temperature',
+                        schema: 'double'
+                    },
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:cocrowle:batterydead;1',
+                        name: 'BatteryDeadState',
+                        schema: 'boolean',
+                        comment: '',
+                        description: 'Battery state',
+                        displayName: 'Battery dead',
+                        writable: true
+                    },
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:cocrowle:batteryLevel;1',
+                        name: 'BatteryLevel',
+                        schema: 'double',
+                        comment: '',
+                        description: 'Current Battery Level',
+                        displayName: 'Battery level',
+                        writable: true
+                    },
+                    {
+                        '@type': ['Property', 'Energy'],
+                        '@id': 'dtmi:com:cocrowle:batterycapacity;1',
+                        name: 'BatteryCapacity',
+                        schema: 'float',
+                        comment: '',
+                        description: 'Capacity of the car battery',
+                        displayName: 'Battery capacity',
+                        unit: 'kilowattHour',
+                        writable: true
+                    }
+                ]
+            },
             {
                 '@id': 'dtmi:com:cocrowle:wheelinformation;1',
                 '@type': 'Object',
