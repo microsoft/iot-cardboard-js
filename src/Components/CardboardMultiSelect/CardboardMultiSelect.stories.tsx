@@ -21,4 +21,17 @@ const Template: CardboardMultiSelectStory = (args) => {
 };
 
 export const Base = Template.bind({}) as CardboardMultiSelectStory;
-Base.args = {} as ICardboardMultiSelectProps;
+Base.args = {
+    currentValues: [],
+    onChangeValues(valueType = 'string', values) {
+        console.log('Values', valueType, values);
+    }
+} as ICardboardMultiSelectProps;
+
+export const WithInput = Template.bind({}) as CardboardMultiSelectStory;
+WithInput.args = {
+    currentValues: ['Tesla', 'Ford', 'VW'],
+    onChangeValues(valueType = 'string', values) {
+        console.log('Values', valueType, values);
+    }
+} as ICardboardMultiSelectProps;

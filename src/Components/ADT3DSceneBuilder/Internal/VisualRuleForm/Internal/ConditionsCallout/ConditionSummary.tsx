@@ -83,20 +83,36 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                         value={currentValues?.[0] as string}
                         boundary={BoundaryType.min}
                         setNewValues={(value: string) => {
-                            onChangeValues(conditionType, [Number(value)], 0);
+                            onChangeValues(
+                                conditionType,
+                                [Number(value)] as number[],
+                                0
+                            );
                         }}
                         setValueToInfinity={(value: string) => {
-                            onChangeValues(conditionType, [value], 0);
+                            onChangeValues(
+                                conditionType,
+                                [value] as string[],
+                                0
+                            );
                         }}
                     />
                     <BoundaryInput
                         value={currentValues?.[1] as string}
                         boundary={BoundaryType.max}
                         setNewValues={(value: string) => {
-                            onChangeValues(conditionType, [Number(value)], 1);
+                            onChangeValues(
+                                conditionType,
+                                [Number(value)] as number[],
+                                1
+                            );
                         }}
                         setValueToInfinity={(value: string) => {
-                            onChangeValues(conditionType, [value], 1);
+                            onChangeValues(
+                                conditionType,
+                                [value] as string[],
+                                1
+                            );
                         }}
                     />
                 </Stack>
@@ -116,7 +132,9 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                 options={getChoiceGroupOptions()}
                 onChange={(_ev, option) => {
                     // Comparison turns value into correct boolean
-                    onChangeValues(conditionType, [option.key === 'true']);
+                    onChangeValues(conditionType, [
+                        option.key === 'true'
+                    ] as boolean[]);
                 }}
                 styles={{
                     flexContainer: {

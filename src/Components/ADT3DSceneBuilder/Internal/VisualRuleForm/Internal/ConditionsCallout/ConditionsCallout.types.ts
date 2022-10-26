@@ -70,7 +70,7 @@ export enum ConditionCalloutActionType {
     FORM_CONDITION_VALUES_SET = 'FORM_CONDITION_VALUES_SET',
     FORM_CONDITION_COLOR_SET = 'FORM_CONDITION_COLOR_SET',
     FORM_CONDITION_ICON_SET = 'FORM_CONDITION_ICON_SET',
-    RESET_CONDITION = 'RESET_CONDITION',
+    INITIALIZE_CONDITION = 'INITIALIZE_CONDITION',
     /** Numerical values handling */
     FORM_CONDITION_NUMERICAL_VALUES_SET = 'FORM_CONDITION_NUMERICAL_VALUES_SET',
     FORM_CONDITION_SNAP_VALUE_TO_INFINITY = 'FORM_CONDITION_SNAP_VALUE_TO_INFINITY',
@@ -95,7 +95,7 @@ export type ConditionCalloutAction =
           payload: { iconName: string };
       }
     | {
-          type: ConditionCalloutActionType.RESET_CONDITION;
+          type: ConditionCalloutActionType.INITIALIZE_CONDITION;
           payload: { valueRange: IValueRange };
       }
     | {

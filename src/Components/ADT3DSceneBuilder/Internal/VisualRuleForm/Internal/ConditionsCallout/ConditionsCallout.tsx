@@ -71,9 +71,10 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
 
     // side-effects
     useEffect(() => {
-        // RESET CONDITION IN STATE AND VALIDITY MAP
+        // Re-initialize condition when another item on the list is clicked and callout is open.
+        // This means new value range has been selected but callout doesn't unmount, reducer state needs to be re-initialized.
         conditionCalloutDispatch({
-            type: ConditionCalloutActionType.RESET_CONDITION,
+            type: ConditionCalloutActionType.INITIALIZE_CONDITION,
             payload: { valueRange: valueRange }
         });
         validityMap.current = {
@@ -104,7 +105,7 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
     const onValuesChange = useCallback(
         (
             valueType: IDTDLPropertyType,
-            newValues: unknown[],
+            newValues: (string | boolean | number)[],
             index?: number
         ) => {
             if (valueType === 'boolean' || valueType === 'string') {

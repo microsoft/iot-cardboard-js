@@ -10,7 +10,7 @@ export interface ICardboardMultiSelectProps {
     currentValues: unknown[];
     onChangeValues: (
         valueType: IDTDLPropertyType,
-        values: unknown[],
+        values: string[],
         index?: number
     ) => void;
     /**

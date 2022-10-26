@@ -48,7 +48,7 @@ export const ConditionCalloutReducer: ConditionCalloutReducerType = produce(
                 draft.conditionToEdit.values = action.payload.values;
                 break;
             }
-            case ConditionCalloutActionType.RESET_CONDITION: {
+            case ConditionCalloutActionType.INITIALIZE_CONDITION: {
                 const resetValueRange = deepCopy(action.payload.valueRange);
                 draft.conditionToEdit = resetValueRange;
                 draft.originalCondition = resetValueRange;

@@ -93,6 +93,8 @@ const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
     return (
         <div className={classNames.root}>
             <CreatableSelect
+                className={'cb-multiselect-reactSelect-input'}
+                classNamePrefix={'cb-multiselect-reactSelect-input'}
                 components={components}
                 inputValue={inputValue}
                 isClearable={true}

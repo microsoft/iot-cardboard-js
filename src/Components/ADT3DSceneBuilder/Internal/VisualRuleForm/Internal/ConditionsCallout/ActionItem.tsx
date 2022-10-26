@@ -33,13 +33,16 @@ const LOC_KEYS = {
     badgeOption: `${ROOT_LOC}.badgeOption`
 };
 
+const MESH_COLORING_KEY = 'Mesh-coloring-action-item';
+const BADGE_KEY = 'Badge-action-item';
+
 const DROPDOWN_OPTIONS: IDropdownOption[] = [
     {
-        key: 'Mesh-coloring-action-item',
+        key: MESH_COLORING_KEY,
         text: i18n.t(LOC_KEYS.meshColoringOption)
     },
     {
-        key: 'Badge-action-item',
+        key: BADGE_KEY,
         text: i18n.t(LOC_KEYS.badgeOption)
     }
 ];
@@ -116,7 +119,7 @@ const ActionItem: React.FC<IActionItemProps> = (props) => {
                 onChangeItem={onColorChange}
                 styles={classNames.subComponentStyles.colorPicker}
             />
-            {selectedOptionKey === 'Badge-action-item' && (
+            {selectedOptionKey === BADGE_KEY && (
                 <IconPicker
                     selectedItem={iconName}
                     items={defaultSwatchIcons}

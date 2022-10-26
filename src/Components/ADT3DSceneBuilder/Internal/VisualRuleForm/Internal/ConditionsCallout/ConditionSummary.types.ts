@@ -13,7 +13,7 @@ export interface IConditionSummaryProps {
     currentValues: unknown[];
     onChangeValues: (
         valueType: IDTDLPropertyType,
-        newValues: unknown[],
+        newValues: (string | boolean | number)[],
         index?: number
     ) => void;
     /**
