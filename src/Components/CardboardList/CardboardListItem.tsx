@@ -19,6 +19,7 @@ export const CardboardListItem = <T extends unknown>(
         buttonProps,
         iconEnd,
         iconStart,
+        id,
         index,
         item,
         itemType,
@@ -102,6 +103,7 @@ export const CardboardListItem = <T extends unknown>(
                     {...buttonProps}
                     key={`cardboard-list-item-${listKey}-${index}`}
                     data-testid={`cardboard-list-item-${listKey}-${index}`}
+                    id={id}
                     selected={isSelected}
                     styles={buttonStyles}
                     onClick={onButtonClick}

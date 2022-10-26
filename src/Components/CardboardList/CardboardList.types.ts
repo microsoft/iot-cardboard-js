@@ -39,6 +39,8 @@ type IListItemBaseProps<T> = {
               name: IIconNames;
           }
         | ((item: T) => React.ReactElement);
+    /** id attribute to attach to the list item button */
+    id?: string;
     /** if provided false will result in rendering the red dot at the very left of the element. If not provided, will assume it is valid and not render any dot */
     isValid?: boolean;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
