@@ -6,6 +6,7 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
+import { usePrevious } from '@fluentui/react-hooks';
 import React, {
     memo,
     useCallback,
@@ -69,7 +70,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         selectedQuickTimeSpanInMillis,
         setSelectedQuickTimeSpanInMillis
     ] = useState(chartOptions.defaultQuickTimeSpanInMillis);
-    const isRequestSent = useRef(false);
 
     const {
         query,
@@ -96,19 +96,13 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         xMaxDateInMillisRef.current = nowInMillis;
     }, [selectedQuickTimeSpanInMillis]);
 
+    const prevQuery = usePrevious(query);
     useEffect(() => {
-        if (
-            mode === BehaviorModalMode.viewer &&
-            query &&
-            (adapter || connectionString) &&
-            !isRequestSent.current &&
-            twinIdPropertyMap
-        ) {
+        if (mode === BehaviorModalMode.viewer && query !== prevQuery) {
             fetchTimeSeriesData();
             updateXMinAndMax();
-            isRequestSent.current = true;
         }
-    }, [adapter, query, connectionString, twinIdPropertyMap, mode]);
+    }, [query, mode]);
 
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
@@ -172,7 +166,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     selectedQuickTimeSpanInMillis
                 )}
                 onChange={(_env, option) => {
-                    isRequestSent.current = false;
                     setSelectedQuickTimeSpanInMillis(option.data);
                 }}
                 onRenderTitle={onRenderTitleOfQuickTimePickerItem}

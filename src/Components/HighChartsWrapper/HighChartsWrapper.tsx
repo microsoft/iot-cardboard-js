@@ -66,7 +66,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             type: 'line', // by default, show series in line chart type
                             color: highChartColor(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
-                                enabled: false // by default, do not mark data points on series, only on hover
+                                enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
                             tooltip: {
                                 ...(sD.tooltipSuffix && {
@@ -127,6 +127,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
 
     const xAxisStyles = classNames.subComponentStyles.xAxis();
     const legendStyles = classNames.subComponentStyles.legend();
+    const tooltipStyles = classNames.subComponentStyles.tooltip();
     const options: Highcharts.Options = {
         credits: { enabled: false },
         time: {
@@ -192,7 +193,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             loading: t('loading')
         },
         tooltip: {
-            shared: true
+            shared: true,
+            useHTML: true,
+            style: tooltipStyles?.root
         },
         loading: {
             hideDuration: 1000,

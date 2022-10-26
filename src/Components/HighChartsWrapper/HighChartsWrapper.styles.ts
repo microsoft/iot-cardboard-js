@@ -46,6 +46,15 @@ export const getStyles = ({
                 title: commonTextStyling,
                 label: commonTextStyling
             },
+            tooltip: {
+                root: {
+                    maxWidth: 240,
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    display: 'block',
+                    overflow: 'hidden'
+                }
+            },
             legend: {
                 root: commonChartTextStyling,
                 hover: {

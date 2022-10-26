@@ -49,7 +49,7 @@ export const getStyles = ({
                 minHeight: '16px',
                 fontWeight: FontWeights.semibold,
                 paddingRight: 4,
-                maxWidth: 192
+                width: 192
             }
         ],
         chartContainer: [

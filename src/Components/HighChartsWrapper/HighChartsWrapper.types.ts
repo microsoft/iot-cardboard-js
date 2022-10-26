@@ -66,6 +66,9 @@ export interface IHighChartsWrapperSubComponentStyles {
     title?: { root: CSSObject };
     xAxis?: { title: CSSObject; label: CSSObject };
     yAxis?: { title: CSSObject; label: CSSObject };
+    tooltip?: {
+        root: CSSObject;
+    };
     legend?: { root: CSSObject; hover: CSSObject };
     loadingText?: { root: CSSObject };
     noDataText?: { root: CSSObject };

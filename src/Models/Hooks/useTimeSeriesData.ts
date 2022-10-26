@@ -109,14 +109,16 @@ export const useTimeSeriesData = ({
     }, [connectionToQuery, query]);
 
     const fetchData = () => {
-        logDebugConsole(
-            'debug',
-            `[START]: Fetching time series data using query "${query}"`
-        );
-        timeSeriesData.callAdapter({
-            query,
-            connection: connectionToQuery
-        });
+        if (connectionToQuery && query) {
+            logDebugConsole(
+                'debug',
+                `[START]: Fetching time series data using query "${query}"`
+            );
+            timeSeriesData.callAdapter({
+                query,
+                connection: connectionToQuery
+            });
+        }
     };
 
     return useMemo(() => {
@@ -162,9 +164,9 @@ const getBulkADXQueryFromTimeSeriesTwins = (
     try {
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
-            query += `| where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += '| order by TimeStamp asc';
-            query += `| project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
+            query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
+            query += ' | order by TimeStamp asc';
+            query += ` | project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
             if (idx < twins.length - 1) {
                 query += ';';
             }
