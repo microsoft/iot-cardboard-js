@@ -165,6 +165,12 @@ WithSecondaryText.args = {
     textSecondary: 'secondary text goes here'
 };
 
+export const WithSelected = Template.bind({}) as TemplateStory;
+WithSelected.args = {
+    ...defaultProps,
+    isSelected: true
+};
+
 export const WithCheckboxUnchecked = Template.bind({}) as TemplateStory;
 WithCheckboxUnchecked.args = {
     ...defaultProps,
