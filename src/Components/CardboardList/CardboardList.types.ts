@@ -18,6 +18,7 @@ type IListItemBaseProps<T> = {
      */
     buttonProps?: Omit<
         IButtonProps,
+        | 'id'
         | 'styles'
         | 'onClick'
         | 'onKeyPress'
