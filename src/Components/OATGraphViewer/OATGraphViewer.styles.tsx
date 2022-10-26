@@ -16,7 +16,6 @@ import {
     CONTROLS_Z_INDEX,
     LOADING_Z_INDEX
 } from '../../Models/Constants/OatStyleConstants';
-import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
@@ -25,8 +24,7 @@ import {
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
     root: `${classPrefix2}-root`,
-    minimapContainer: `${classPrefix2}-minimap-container`,
-    builtInControls: `${classPrefix2}-built-in-controls`
+    minimapContainer: `${classPrefix2}-minimap-container`
 };
 export const getStyles = (
     props: IOATGraphViewerStyleProps
@@ -54,62 +52,18 @@ export const getStyles = (
                 boxShadow: theme.effects.elevation16
             }
         ],
-        graphBuiltInControls: [
-            classNames2.builtInControls,
-            {
-                alignItems: 'center',
-                display: 'flex',
-                backgroundColor: theme.semanticColors.buttonBackground,
-                border: `1px solid ${theme.palette.neutralLight} !important`,
-                borderRadius: 4,
-                '.react-flow__controls-button': {
-                    background: theme.semanticColors.buttonBackground,
-                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
-                    borderRadius: 4,
-                    color: theme.semanticColors.bodyText,
-                    // remove border for the groups
-                    height: HEADER_BUTTON_HEIGHT - 4,
-                    width: HEADER_BUTTON_HEIGHT - 4,
-                    padding: 0,
-                    ':hover': {
-                        background:
-                            theme.semanticColors.buttonBackgroundHovered,
-                        border: `1px solid ${theme.palette.neutralSecondary}`
-                    },
-                    ':focused': {
-                        background:
-                            theme.semanticColors.buttonBackgroundHovered,
-                        border: `1px solid ${theme.palette.neutralSecondary}`
-                    },
-                    ':active': {
-                        background: theme.semanticColors.buttonBackgroundPressed
-                    },
-                    '& svg': {
-                        fill: theme.semanticColors.bodyText
-                    }
-                }
-            }
-        ],
         subComponentStyles: {
-            controlsStack: {
-                root: {
-                    bottom: CONTROLS_BOTTOM_OFFSET,
-                    left: '50%',
-                    position: 'absolute',
-                    zIndex: CONTROLS_Z_INDEX,
-
-                    '> .react-flow__controls': {
-                        position: 'unset',
-                        left: 'unset'
-                    }
-                }
-            },
             legendCallout: {
                 calloutMain: {
                     backgroundColor: theme.palette.neutralLight
                 },
                 beak: {
                     backgroundColor: theme.palette.neutralLight
+                }
+            },
+            modelsListCallout: {
+                root: {
+                    maxHeight: 500
                 }
             }
         }

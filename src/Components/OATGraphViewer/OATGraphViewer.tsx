@@ -9,13 +9,10 @@ import React, {
 import {
     useTheme,
     Label,
-    Stack,
     SpinnerSize,
     Spinner,
     classNamesFunction,
     styled,
-    FocusZone,
-    Icon,
     Callout,
     DirectionalHint
 } from '@fluentui/react';
@@ -23,11 +20,9 @@ import { useId, usePrevious } from '@fluentui/react-hooks';
 import ReactFlow, {
     ReactFlowProvider,
     MiniMap,
-    Controls,
     Background,
     Node,
-    Edge,
-    ControlButton
+    Edge
 } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
 import OATGraphCustomNode from './Internal/OATGraphCustomNode';
@@ -90,12 +85,10 @@ import {
     useOatGraphContext
 } from '../../Models/Context/OatGraphContext/OatGraphContext';
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
-import HeaderControlGroup from '../HeaderControlGroup/HeaderControlGroup';
-import HeaderControlButton from '../HeaderControlButton/HeaderControlButton';
-import { CONTROLS_Z_INDEX } from '../../Models/Constants/OatStyleConstants';
-import OATLeftFloatingControls from '../OATLeftFloatingControls/OATLeftFloatingControls';
+import GraphViewerControls from './Internal/GraphViewerControls/GraphViewerControls';
+import OATModelList from '../OATModelList/OATModelList';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -115,8 +108,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     // hooks
     const { t } = useTranslation();
     const theme = useTheme();
-    const legendButtonId = useId('legend-button');
-    const mapButtonId = useId('map-button');
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -232,6 +223,10 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
     const [rfInstance, setRfInstance] = useState(null);
+
+    const legendButtonId = useId('legend-button');
+    const mapButtonId = useId('map-button');
+    const modelListButtonId = useId('model-list-button');
 
     // callbacks
     const applyLayoutToElements = useCallback(
@@ -857,51 +852,26 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             {t('OATGraphViewer.emptyGraph')}
                         </Label>
                     )}
-                    <FocusZone style={{ zIndex: CONTROLS_Z_INDEX }}>
-                        <Stack
-                            horizontal
-                            tokens={{ childrenGap: 16 }}
-                            styles={classNames.subComponentStyles.controlsStack}
+                    {oatGraphState.isModelListVisible && (
+                        <Callout
+                            target={`#${modelListButtonId}`}
+                            directionalHint={DirectionalHint.bottomLeftEdge}
+                            styles={
+                                classNames.subComponentStyles.modelsListCallout
+                            }
                         >
-                            <OATLeftFloatingControls />
-                            <HeaderControlGroup id={legendButtonId}>
-                                <HeaderControlButton
-                                    iconProps={{ iconName: 'View' }}
-                                    onClick={() =>
-                                        oatGraphDispatch({
-                                            type:
-                                                OatGraphContextActionType.LEGEND_VISBLE_TOGGLE
-                                        })
-                                    }
-                                    isActive={oatGraphState.isLegendVisible}
-                                />
-                            </HeaderControlGroup>
-                            {/* built in controls for the graph */}
-                            <Controls
-                                className={classNames.graphBuiltInControls}
-                            >
-                                <ControlButton
-                                    onClick={() =>
-                                        applyLayoutToElements(elements)
-                                    }
-                                >
-                                    <Icon iconName={'GridViewMedium'} />
-                                </ControlButton>
-                            </Controls>
-                            <HeaderControlGroup id={mapButtonId}>
-                                <HeaderControlButton
-                                    iconProps={{ iconName: 'Nav2DMapView' }}
-                                    onClick={() =>
-                                        oatGraphDispatch({
-                                            type:
-                                                OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE
-                                        })
-                                    }
-                                    isActive={oatGraphState.isMiniMapVisible}
-                                />
-                            </HeaderControlGroup>
-                        </Stack>
-                    </FocusZone>
+                            <OATModelList />
+                        </Callout>
+                    )}
+
+                    <GraphViewerControls
+                        legendButtonId={legendButtonId}
+                        miniMapButtonId={mapButtonId}
+                        modelListButtonId={modelListButtonId}
+                        onApplyAutoLayoutClick={() =>
+                            applyLayoutToElements(elements)
+                        }
+                    />
 
                     {oatGraphState.isMiniMapVisible && (
                         <div className={classNames.graphMiniMapContainer}>

@@ -34,7 +34,6 @@ export interface IOATGraphViewerStyles {
     root: IStyle;
     graphMiniMapContainer: IStyle;
     graphMiniMap: IStyle;
-    graphBuiltInControls: IStyle;
 
     /**
      * SubComponent styles.
@@ -43,6 +42,6 @@ export interface IOATGraphViewerStyles {
 }
 
 export interface IOATGraphViewerSubComponentStyles {
-    controlsStack?: IStackStyles;
     legendCallout?: Partial<ICalloutContentStyles>;
+    modelsListCallout?: Partial<ICalloutContentStyles>;
 }
