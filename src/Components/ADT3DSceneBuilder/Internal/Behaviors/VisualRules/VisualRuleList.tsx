@@ -119,14 +119,6 @@ function getListItems(
         const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
         let icon;
         if (meshCount && badgeCount) {
-            icon = {
-                name: 'TextField'
-            };
-        } else if (meshCount) {
-            icon = {
-                name: 'CubeShape'
-            };
-        } else if (badgeCount) {
             icon = () => (
                 <Svg
                     src={meshAndBadgeIcon}
@@ -138,6 +130,14 @@ function getListItems(
                     }}
                 />
             );
+        } else if (meshCount) {
+            icon = {
+                name: 'CubeShape'
+            };
+        } else if (badgeCount) {
+            icon = {
+                name: 'Ringer'
+            };
         }
         return icon;
     }
