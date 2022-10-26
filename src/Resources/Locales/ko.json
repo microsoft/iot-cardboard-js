@@ -646,21 +646,6 @@
           },
           "quickTimeSpan": {
             "label": "기본 시간 범위",
-            "options": {
-              "Last 15 mins": "지난 15분",
-              "Last 30 mins": "지난 30분",
-              "Last hour": "지난 시간",
-              "Last 3 hours": "지난 3시간",
-              "Last 6 hours": "지난 6시간",
-              "Last 12 hours": "지난 12시간",
-              "Last 24 hours": "지난 24시간",
-              "Last 7 days": "지난 7일",
-              "Last 30 days": "지난 30일",
-              "Last 60 days": "지난 60일",
-              "Last 90 days": "지난 90일",
-              "Last 180 days": "지난 180일",
-              "Last year": "작년"
-            },
             "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
           },
           "aggregationType": {
@@ -668,7 +653,9 @@
             "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
           }
         }
-      }
+      },
+      "headerMenu": "데이터 히스토리 위젯 메뉴",
+      "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1255,26 @@
     "selectAdditionalColumns": "추가 열 선택"
   },
   "highcharts": {
-    "noTitle": "제목 없음",
     "shareQueryTitle": "쿼리 공유",
     "noDataDescription": "표시할 데이터 없음"
+  },
+  "quickTimesDropdown": {
+    "label": "시간 범위",
+    "placeholder": "빠른 시간 선택",
+    "options": {
+      "Last 15 mins": "지난 15분",
+      "Last 30 mins": "지난 30분",
+      "Last hour": "지난 시간",
+      "Last 3 hours": "지난 3시간",
+      "Last 6 hours": "지난 6시간",
+      "Last 12 hours": "지난 12시간",
+      "Last 24 hours": "지난 24시간",
+      "Last 7 days": "지난 7일",
+      "Last 30 days": "지난 30일",
+      "Last 60 days": "지난 60일",
+      "Last 90 days": "지난 90일",
+      "Last 180 days": "지난 180일",
+      "Last year": "작년"
+    }
   }
 }

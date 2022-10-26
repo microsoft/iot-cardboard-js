@@ -646,21 +646,6 @@
           },
           "quickTimeSpan": {
             "label": "Intervalle de temps par défaut",
-            "options": {
-              "Last 15 mins": "15 dernières minutes",
-              "Last 30 mins": "30 dernières minutes",
-              "Last hour": "Dernière heure",
-              "Last 3 hours": "3 dernières heures",
-              "Last 6 hours": "6 dernières heures",
-              "Last 12 hours": "12 dernières heures",
-              "Last 24 hours": "Dernières 24 heures",
-              "Last 7 days": "7 derniers jours",
-              "Last 30 days": "30 derniers jours",
-              "Last 60 days": "60 derniers jours",
-              "Last 90 days": "90 derniers jours",
-              "Last 180 days": "180 derniers jours",
-              "Last year": "L’année dernière"
-            },
             "information": "Sélection de plage horaire par défaut en heure locale pour l’axe des x dans le graphique"
           },
           "aggregationType": {
@@ -668,7 +653,9 @@
             "information": "Opération d’agrégation par défaut lorsque le regroupement de données est actif en fonction du nombre de points de données dans le graphique"
           }
         }
-      }
+      },
+      "headerMenu": "Menu du widget Historique des données",
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1255,26 @@
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   },
   "highcharts": {
-    "noTitle": "Pas de titre",
     "shareQueryTitle": "Partager la requête",
     "noDataDescription": "Aucune donnée à afficher"
+  },
+  "quickTimesDropdown": {
+    "label": "Intervalle de temps",
+    "placeholder": "Sélectionnez une heure rapide",
+    "options": {
+      "Last 15 mins": "15 dernières minutes",
+      "Last 30 mins": "30 dernières minutes",
+      "Last hour": "Dernière heure",
+      "Last 3 hours": "3 dernières heures",
+      "Last 6 hours": "6 dernières heures",
+      "Last 12 hours": "12 dernières heures",
+      "Last 24 hours": "Dernières 24 heures",
+      "Last 7 days": "7 derniers jours",
+      "Last 30 days": "30 derniers jours",
+      "Last 60 days": "60 derniers jours",
+      "Last 90 days": "90 derniers jours",
+      "Last 180 days": "180 derniers jours",
+      "Last year": "L’année dernière"
+    }
   }
 }

@@ -646,21 +646,6 @@
           },
           "quickTimeSpan": {
             "label": "Výchozí časové rozpětí",
-            "options": {
-              "Last 15 mins": "Posledních 15 minut",
-              "Last 30 mins": "Posledních 30 minut",
-              "Last hour": "Poslední hodina",
-              "Last 3 hours": "Poslední 3 hodiny",
-              "Last 6 hours": "Posledních 6 hodin",
-              "Last 12 hours": "Posledních 12 hodin",
-              "Last 24 hours": "Posledních 24 hodin",
-              "Last 7 days": "Posledních 7 dní",
-              "Last 30 days": "Posledních 30 dní",
-              "Last 60 days": "Posledních 60 dní",
-              "Last 90 days": "Posledních 90 dní",
-              "Last 180 days": "Posledních 180 dní",
-              "Last year": "Loni"
-            },
             "information": "Výchozí výběr časového rozsahu v místním čase pro osu x v grafu"
           },
           "aggregationType": {
@@ -668,7 +653,9 @@
             "information": "Výchozí operace agregace, když je aktivní seskupování dat na základě počtu datových bodů v grafu"
           }
         }
-      }
+      },
+      "headerMenu": "Nabídka widgetu Historie dat",
+      "openQuery": "Otevření dotazu v Průzkumníku dat Azure"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1255,26 @@
     "selectAdditionalColumns": "Výběr dalších sloupců"
   },
   "highcharts": {
-    "noTitle": "Bez názvu",
     "shareQueryTitle": "Sdílet dotaz",
     "noDataDescription": "Žádná data k zobrazení"
+  },
+  "quickTimesDropdown": {
+    "label": "Časové rozpětí",
+    "placeholder": "Vyberte rychlý čas",
+    "options": {
+      "Last 15 mins": "Posledních 15 minut",
+      "Last 30 mins": "Posledních 30 minut",
+      "Last hour": "Poslední hodina",
+      "Last 3 hours": "Poslední 3 hodiny",
+      "Last 6 hours": "Posledních 6 hodin",
+      "Last 12 hours": "Posledních 12 hodin",
+      "Last 24 hours": "Posledních 24 hodin",
+      "Last 7 days": "Posledních 7 dní",
+      "Last 30 days": "Posledních 30 dní",
+      "Last 60 days": "Posledních 60 dní",
+      "Last 90 days": "Posledních 90 dní",
+      "Last 180 days": "Posledních 180 dní",
+      "Last year": "Loni"
+    }
   }
 }
