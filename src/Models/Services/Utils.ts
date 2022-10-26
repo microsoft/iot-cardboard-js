@@ -36,10 +36,6 @@ import {
     IConsoleLogFunction,
     TimeSeriesData
 } from '../Constants/Types';
-import {
-    QuickTimeSpanKey,
-    QuickTimeSpans
-} from '../../Components/QuickTimesDropdown/QuickTimesDropdown.types';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -823,16 +819,4 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
             value: Math.floor(Math.random() * 500)
         })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
     );
-};
-
-/** Returns QuickTimeSpanKey from given millisecond */
-export const getQuickTimeSpanKeyByValue = (
-    millis: number
-): QuickTimeSpanKey => {
-    let key: QuickTimeSpanKey;
-    const idx = Object.values(QuickTimeSpans).indexOf(millis);
-    if (idx !== -1) {
-        key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
-    }
-    return key;
 };

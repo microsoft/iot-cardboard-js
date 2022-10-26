@@ -3,6 +3,7 @@ import {
     IQuickTimesDropdownProps,
     IQuickTimesDropdownStyleProps,
     IQuickTimesDropdownStyles,
+    QuickTimeSpanKey,
     QuickTimeSpans
 } from './QuickTimesDropdown.types';
 import { getStyles } from './QuickTimesDropdown.styles';
@@ -66,6 +67,18 @@ const getQuickTimeSpanOptions = (t: TFunction): Array<IDropdownOption> => {
         text: t(`quickTimesDropdown.options.${timeSpan}`),
         data: QuickTimeSpans[timeSpan]
     }));
+};
+
+/** Returns QuickTimeSpanKey from given millisecond */
+export const getQuickTimeSpanKeyByValue = (
+    millis: number
+): QuickTimeSpanKey => {
+    let key: QuickTimeSpanKey;
+    const idx = Object.values(QuickTimeSpans).indexOf(millis);
+    if (idx !== -1) {
+        key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
+    }
+    return key;
 };
 
 export default styled<

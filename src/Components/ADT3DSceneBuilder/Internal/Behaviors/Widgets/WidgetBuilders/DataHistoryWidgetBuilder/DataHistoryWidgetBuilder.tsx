@@ -18,10 +18,7 @@ import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
-import {
-    getQuickTimeSpanKeyByValue,
-    isValidADXClusterUrl
-} from '../../../../../../../Models/Services/Utils';
+import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
@@ -29,7 +26,9 @@ import {
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
-import QuickTimesDropdown from '../../../../../../QuickTimesDropdown/QuickTimesDropdown';
+import QuickTimesDropdown, {
+    getQuickTimeSpanKeyByValue
+} from '../../../../../../QuickTimesDropdown/QuickTimesDropdown';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
