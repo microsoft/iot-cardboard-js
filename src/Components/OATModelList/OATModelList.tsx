@@ -1,7 +1,13 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { IContextualMenuItem, SearchBox } from '@fluentui/react';
+import React, { useEffect, useState, useContext } from 'react';
+import {
+    classNamesFunction,
+    IContextualMenuItem,
+    SearchBox,
+    styled,
+    useTheme
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getModelsStyles } from './OATModelList.styles';
+import { getStyles } from './OATModelList.styles';
 import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
@@ -10,11 +16,23 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import { CardboardList } from '../CardboardList';
 import { ICardboardListItem } from '../CardboardList/CardboardList.types';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import {
+    IOATModelListStyleProps,
+    IOATModelListStyles,
+    IOATModelListProps
+} from './OATModelList.types';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
 
-const OATModelList: React.FC = () => {
+const getClassNames = classNamesFunction<
+    IOATModelListStyleProps,
+    IOATModelListStyles
+>();
+
+const OATModelList: React.FC<IOATModelListProps> = (props) => {
+    const { styles } = props;
+
     // hooks
     const { t } = useTranslation();
 
@@ -27,7 +45,6 @@ const OATModelList: React.FC = () => {
         ICardboardListItem<DtdlInterface>[]
     >([]);
     const [filter, setFilter] = useState('');
-    const containerRef = useRef(null);
 
     useEffect(() => {
         const onModelSelected = (id: string) => {
@@ -128,20 +145,26 @@ const OATModelList: React.FC = () => {
     ]);
 
     // styles
-    const modelsStyles = getModelsStyles();
+    const classNames = getClassNames(styles, { theme: useTheme() });
 
     return (
-        <div>
+        <div className={classNames.root}>
             <SearchBox
-                className={modelsStyles.searchText}
                 placeholder={t('search')}
                 onChange={(_, value) => setFilter(value)}
+                styles={classNames.subComponentStyles.searchbox}
             />
-            <div className={modelsStyles.container} ref={containerRef}>
-                <CardboardList items={listItems} listKey={'model-list'} />
-            </div>
+            <CardboardList
+                className={classNames.listContainer}
+                items={listItems}
+                listKey={'model-list'}
+            />
         </div>
     );
 };
 
-export default OATModelList;
+export default styled<
+    IOATModelListProps,
+    IOATModelListStyleProps,
+    IOATModelListStyles
+>(OATModelList, getStyles);
