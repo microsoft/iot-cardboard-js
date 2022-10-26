@@ -34,12 +34,6 @@ IndependentAxis.args = {
     chartOptions: { hasMultipleAxes: true }
 } as IHighChartsWrapperProps;
 
-export const WithTitleLink = Template.bind({}) as HighChartsWrapperStory;
-WithTitleLink.args = {
-    ...commonArgs,
-    chartOptions: { titleTargetLink: 'https://storybook.example.com' }
-} as IHighChartsWrapperProps;
-
 export const VerticalLegend = Template.bind({}) as HighChartsWrapperStory;
 VerticalLegend.args = {
     ...commonArgs,

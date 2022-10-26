@@ -954,12 +954,6 @@ export default class MockAdapter
                 Path:
                     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BluePackingLine.gltf',
                 Properties: { 'Content-Length': 2000 }
-            },
-            {
-                Name: '3DScenesConfiguration.json',
-                Path:
-                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/3DScenesConfiguration.json',
-                Properties: { 'Content-Length': 3000 }
             }
         ];
         try {

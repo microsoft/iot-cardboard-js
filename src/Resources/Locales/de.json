@@ -660,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Standardzeitspanne",
-            "options": {
-              "Last 15 mins": "Letzte 15 Minuten",
-              "Last 30 mins": "Letzte 30 Minuten",
-              "Last hour": "Letzte Stunde",
-              "Last 3 hours": "Letzte 3 Stunden",
-              "Last 6 hours": "Letzte 6 Stunden",
-              "Last 12 hours": "Letzte 12 Stunden",
-              "Last 24 hours": "Letzte 24 Stunden",
-              "Last 7 days": "Letzte 7 Tage",
-              "Last 30 days": "Letzte 30 Tage",
-              "Last 60 days": "Letzte 60 Tage",
-              "Last 90 days": "Letzte 90 Tage",
-              "Last 180 days": "Letzte 180 Tage",
-              "Last year": "Letztes Jahr"
-            },
             "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
           },
           "aggregationType": {
@@ -682,7 +667,9 @@
             "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
           }
         }
-      }
+      },
+      "headerMenu": "Menü des Widgets \"Datenverlauf\"",
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     }
   },
   "sdkStrings": {
@@ -1282,8 +1269,26 @@
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   },
   "highcharts": {
-    "noTitle": "Kein Titel",
     "shareQueryTitle": "Freigabeabfrage",
     "noDataDescription": "Keine Daten anzuzeigen"
+  },
+  "quickTimesDropdown": {
+    "label": "Zeitspanne",
+    "placeholder": "Wählen Sie eine schnelle Zeit",
+    "options": {
+      "Last 15 mins": "Letzte 15 Minuten",
+      "Last 30 mins": "Letzte 30 Minuten",
+      "Last hour": "Letzte Stunde",
+      "Last 3 hours": "Letzte 3 Stunden",
+      "Last 6 hours": "Letzte 6 Stunden",
+      "Last 12 hours": "Letzte 12 Stunden",
+      "Last 24 hours": "Letzte 24 Stunden",
+      "Last 7 days": "Letzte 7 Tage",
+      "Last 30 days": "Letzte 30 Tage",
+      "Last 60 days": "Letzte 60 Tage",
+      "Last 90 days": "Letzte 90 Tage",
+      "Last 180 days": "Letzte 180 Tage",
+      "Last year": "Letztes Jahr"
+    }
   }
 }

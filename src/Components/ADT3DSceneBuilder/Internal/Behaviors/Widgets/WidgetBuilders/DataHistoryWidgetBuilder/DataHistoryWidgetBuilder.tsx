@@ -14,24 +14,21 @@ import {
 } from '@fluentui/react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import produce from 'immer';
-import React, {
-    useCallback,
-    useContext,
-    useEffect,
-    useMemo,
-    useState
-} from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
 import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
+    IADXTimeSeriesConnection,
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
     IDataHistoryChartYAxisType
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
+import QuickTimesDropdown, {
+    getQuickTimeSpanKeyByValue
+} from '../../../../../../QuickTimesDropdown/QuickTimesDropdown';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
@@ -41,9 +38,6 @@ import {
     ChartOptionKeys,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
-    QuickTimeSpanKey,
-    getQuickTimeSpanOptions,
-    QuickTimeSpans,
     SERIES_LIST_ITEM_ID_PREFIX,
     getYAxisTypeOptions,
     IDataHistoryWidgetBuilderStyleProps,
@@ -89,10 +83,10 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     useEffect(() => {
         const {
             displayName,
-            connectionString,
+            connection,
             timeSeries
         } = formData.widgetConfiguration;
-        if (displayName && connectionString && timeSeries.length) {
+        if (displayName && connection && timeSeries.length) {
             setIsWidgetConfigValid(true);
         } else {
             setIsWidgetConfigValid(false);
@@ -107,34 +101,22 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             const connection = adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.connectionString = generateConnectionString(
-                        connection
-                    );
+                    draft.widgetConfiguration.connection = {
+                        adxClusterUrl: connection.kustoClusterUrl,
+                        adxDatabaseName: connection.kustoDatabaseName,
+                        adxTableName: connection.kustoTableName
+                    };
                 })
             );
         }
     }, [adxConnectionInformation]);
 
-    const connectionString = formData.widgetConfiguration.connectionString
-        ? formData.widgetConfiguration.connectionString
+    const connectionString = formData.widgetConfiguration.connection
+        ? generateConnectionString(formData.widgetConfiguration.connection)
         : adxConnectionInformation.loadingState ===
           ADXConnectionInformationLoadingState.LOADING
         ? t('widgets.dataHistory.form.connectionLoadingText')
         : t('widgets.dataHistory.form.noConnectionInformationText');
-
-    const quickTimeSpanKeyByValue = useMemo((): QuickTimeSpanKey => {
-        let key: QuickTimeSpanKey;
-        const idx = Object.values(QuickTimeSpans).indexOf(
-            formData.widgetConfiguration.chartOptions
-                .defaultQuickTimeSpanInMillis
-        );
-        if (idx !== -1) {
-            key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
-        }
-        return key;
-    }, [
-        formData.widgetConfiguration.chartOptions.defaultQuickTimeSpanInMillis
-    ]);
 
     const selectedSeries = selectedTimeSeriesId
         ? formData.widgetConfiguration.timeSeries.find(
@@ -388,18 +370,17 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                     }
                     ariaLabelledBy={yAxisLabelId}
                 />
-                <Dropdown
-                    label={t(
-                        'widgets.dataHistory.form.chartOptions.quickTimeSpan.label'
+                <QuickTimesDropdown
+                    defaultSelectedKey={getQuickTimeSpanKeyByValue(
+                        formData.widgetConfiguration.chartOptions
+                            .defaultQuickTimeSpanInMillis
                     )}
-                    selectedKey={quickTimeSpanKeyByValue}
                     onChange={(_env, option) =>
                         onChartOptionChange(
                             'defaultQuickTimeSpanInMillis',
                             option.data
                         )
                     }
-                    options={getQuickTimeSpanOptions(t)}
                     onRenderLabel={handleOnRenderTimeSpanLabel}
                 />
                 <Dropdown
@@ -437,16 +418,16 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 };
 
 const generateConnectionString = (
-    connection: IADXConnection
+    connection: IADXTimeSeriesConnection
 ): string | null => {
     if (
-        connection?.kustoClusterUrl &&
-        connection?.kustoDatabaseName &&
-        connection?.kustoTableName
+        connection?.adxClusterUrl &&
+        connection?.adxDatabaseName &&
+        connection?.adxTableName
     ) {
         try {
-            if (isValidADXClusterUrl(connection?.kustoClusterUrl)) {
-                return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+            if (isValidADXClusterUrl(connection?.adxClusterUrl)) {
+                return `kustoClusterUrl=${connection.adxClusterUrl};kustoDatabaseName=${connection.adxDatabaseName};kustoTableName=${connection.adxTableName}`;
             }
         } catch (error) {
             return null;
