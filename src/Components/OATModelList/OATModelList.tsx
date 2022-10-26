@@ -100,13 +100,13 @@ const OATModelList: React.FC = () => {
                 ];
             };
             const item: ICardboardListItem<DtdlInterface> = {
+                ariaLabel: getDisplayNameText(x),
+                isSelected: x['@id'] === oatPageState.selection?.modelId,
                 item: x,
-                ariaLabel: '',
-                textPrimary: getDisplayNameText(x),
-                textSecondary: x['@id'],
                 onClick: () => onModelSelected(x['@id']),
-                overflowMenuItems: getOverflowMenuItems(x)
-                // isChecked: x['@id'] === oatPageState.selection?.modelId
+                overflowMenuItems: getOverflowMenuItems(x),
+                textPrimary: getDisplayNameText(x),
+                textSecondary: x['@id']
             };
             return item;
         });
