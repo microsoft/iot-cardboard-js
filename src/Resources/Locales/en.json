@@ -117,9 +117,6 @@
         "negativeInfinityIconMessage": "Set value to -Infinity",
         "positiveInfinityIconMessage": "Set value to Infinity"
     },
-    "cardboardMultiSelect": {
-        "placeholderMultiselect": "Type values, press enter to add"
-    },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
         "dataFetchFailed": "Data retrieval failed",
