@@ -31,7 +31,7 @@ export const getStyles = (
     const { theme } = props;
     return {
         root: [classNames2.root],
-        graphMiniMap: [
+        graphMiniMapContainer: [
             classNames2.minimapContainer,
             {
                 bottom: CONTROLS_BOTTOM_OFFSET + CONTROLS_BOTTOM_OFFSET, // extra offset so they don't overlap till we have room off to the right
@@ -43,6 +43,12 @@ export const getStyles = (
                     left: 'unset',
                     zIndex: 7
                 }
+            }
+        ],
+        graphMiniMap: [
+            {
+                borderRadius: theme.effects.roundedCorner2,
+                boxShadow: theme.effects.elevation16
             }
         ],
         graphBuiltInControls: [
@@ -93,6 +99,14 @@ export const getStyles = (
                         position: 'unset',
                         left: 'unset'
                     }
+                }
+            },
+            legendCallout: {
+                calloutMain: {
+                    backgroundColor: theme.palette.neutralLight
+                },
+                beak: {
+                    backgroundColor: theme.palette.neutralLight
                 }
             }
         }

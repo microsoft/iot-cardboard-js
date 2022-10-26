@@ -901,12 +901,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     </FocusZone>
 
                     {oatGraphState.isMiniMapVisible && (
-                        <div className={classNames.graphMiniMap}>
+                        <div className={classNames.graphMiniMapContainer}>
                             <MiniMap
                                 nodeColor={'transparent'}
                                 nodeStrokeColor={theme.palette.black}
                                 nodeStrokeWidth={2}
-                                maskColor={theme.palette.neutralLighterAlt}
+                                maskColor={theme.palette.neutralLight}
+                                className={classNames.graphMiniMap}
                             />
                         </div>
                     )}

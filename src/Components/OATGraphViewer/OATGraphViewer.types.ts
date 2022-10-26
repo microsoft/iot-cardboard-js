@@ -32,6 +32,7 @@ export interface IOATGraphViewerStyleProps {
 }
 export interface IOATGraphViewerStyles {
     root: IStyle;
+    graphMiniMapContainer: IStyle;
     graphMiniMap: IStyle;
     graphBuiltInControls: IStyle;
 
