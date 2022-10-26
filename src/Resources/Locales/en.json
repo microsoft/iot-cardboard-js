@@ -975,6 +975,9 @@
             "sampleModel": "sample Model"
         }
     },
+    "OATModelList": {
+        "removeModelButtonText": "Remove model"
+    },
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",

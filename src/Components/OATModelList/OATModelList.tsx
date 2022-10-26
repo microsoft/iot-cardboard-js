@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { SearchBox } from '@fluentui/react';
+import { IContextualMenuItem, SearchBox } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getModelsStyles } from './OATModelList.styles';
 import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
@@ -80,17 +80,33 @@ const OATModelList: React.FC = () => {
                     .includes(filter.trim().toLowerCase())
             );
         });
+
         const items = models.map((x) => {
+            const getOverflowMenuItems = (
+                model: DtdlInterface
+            ): IContextualMenuItem[] => {
+                return [
+                    {
+                        key: 'delete',
+                        'data-testid': 'delete-model',
+                        iconProps: {
+                            iconName: 'Delete'
+                        },
+                        text: t('OATModelList.removeModelButtonText'),
+                        onClick: () => {
+                            onModelDelete(model);
+                        }
+                    }
+                ];
+            };
             const item: ICardboardListItem<DtdlInterface> = {
                 item: x,
                 ariaLabel: '',
                 textPrimary: getDisplayNameText(x),
                 textSecondary: x['@id'],
                 onClick: () => onModelSelected(x['@id']),
-                iconEnd: {
-                    name: 'Delete',
-                    onClick: () => onModelDelete(x)
-                }
+                overflowMenuItems: getOverflowMenuItems(x)
+                // isChecked: x['@id'] === oatPageState.selection?.modelId
             };
             return item;
         });

@@ -1,13 +1,11 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { within, screen, userEvent } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/testing-library';
 import OATEditorPage from './OATEditorPage';
 import {
-    findCalloutItemByTestId,
     getDefaultStoryDecorator,
     IStoryContext,
-    sleep,
-    waitForAnimations
+    sleep
 } from '../../Models/Services/StoryUtilities';
 
 const wrapperStyle: React.CSSProperties = {
@@ -27,7 +25,9 @@ const Template: SceneBuilderStory = (
 ) => {
     return (
         <OATEditorPage
-            selectedTheme={context.parameters.theme || context.globals.theme}
+            selectedTheme={
+                context?.parameters?.theme || context?.globals?.theme
+            }
             disableStorage={true}
         />
     );
@@ -45,46 +45,70 @@ FileMenu.play = async ({ canvasElement }) => {
     await sleep(100);
 };
 
-// export const AddModel = Template.bind({});
-// AddModel.play = async ({ canvasElement }) => {
-//     const canvas = within(canvasElement);
+export const AddModel = Template.bind({});
+AddModel.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-//     // Finds the menu and opens it
-//     const menu = await canvas.findByTestId('oat-add-model-button');
-//     userEvent.click(menu);
-// };
-
-export const AddThenDuplicate = Template.bind({});
-AddThenDuplicate.play = async ({ canvasElement }) => {
-    // add a model
-    // await AddModel.play({ canvasElement });
-
-    await FileMenu.play({ canvasElement });
-
-    // click the sub menu button
-    const button = await findCalloutItemByTestId(
-        'oat-header-ontology-menu-copy'
-    );
-    button.click();
+    // Finds the menu and opens it
+    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[1];
+    userEvent.click(menu);
 };
 
-export const AddThenDuplicateThenSwitch = Template.bind({});
-AddThenDuplicateThenSwitch.play = async ({ canvasElement }) => {
-    // add, duplicate/switch
-    await AddThenDuplicate.play({ canvasElement });
+// export const AddThenDuplicate = Template.bind({});
+// AddThenDuplicate.play = async ({ canvasElement }) => {
+//     // add a model
+//     // await AddModel.play({ canvasElement });
 
-    // switch back
-    await FileMenu.play({ canvasElement });
+//     await FileMenu.play({ canvasElement });
 
-    // click the sub menu button
-    const button = await findCalloutItemByTestId(
-        'oat-header-ontology-menu-switch'
-    );
-    button.click();
+//     // click the sub menu button
+//     const button = await findCalloutItemByTestId(
+//         'oat-header-ontology-menu-copy'
+//     );
+//     button.click();
+// };
 
-    await waitForAnimations();
+// export const AddThenDuplicateThenSwitch = Template.bind({});
+// AddThenDuplicateThenSwitch.play = async ({ canvasElement }) => {
+//     // add, duplicate/switch
+//     await AddThenDuplicate.play({ canvasElement });
 
-    // click the other project
-    const projectSubMenuItem = await screen.findAllByRole('menuitem');
-    projectSubMenuItem[11].click();
+//     // switch back
+//     await FileMenu.play({ canvasElement });
+
+//     // click the sub menu button
+//     const button = await findCalloutItemByTestId(
+//         'oat-header-ontology-menu-switch'
+//     );
+//     button.click();
+
+//     await waitForAnimations();
+
+//     // click the other project
+//     const projectSubMenuItem = await screen.findAllByRole('menuitem');
+//     projectSubMenuItem[11].click();
+// };
+
+export const AddMultipleModels = Template.bind({});
+AddMultipleModels.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Clicks the button
+    const menu = (await canvas.findAllByTestId('oat-header-new-menu'))[1];
+    userEvent.click(menu);
+    await sleep(10);
+    userEvent.click(menu);
+    await sleep(10);
+    userEvent.click(menu);
+};
+
+export const SelectModel = Template.bind({});
+SelectModel.play = async ({ canvasElement }) => {
+    await AddModel.play({ canvasElement });
+
+    const canvas = within(canvasElement);
+
+    // Clicks the button
+    const menu = await canvas.findByTestId('cardboard-list-item-model-list-0');
+    userEvent.click(menu);
 };
