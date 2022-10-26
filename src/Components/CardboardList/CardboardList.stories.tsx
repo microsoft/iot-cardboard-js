@@ -114,6 +114,21 @@ BasicList.play = async ({ canvasElement }) => {
     await sleep(1);
 };
 
+export const WithSelectedItem = Template.bind({}) as TemplateStory;
+WithSelectedItem.args = {
+    ...getDefaultProps(),
+    items: getDefaultItems().map(
+        (item, index) =>
+            ({
+                textPrimary: item.item.itemId,
+                textSecondary: item.item.itemDescription,
+                item: item,
+                onClick: defaultOnClickHandler,
+                isSelected: index === 2
+            } as ICardboardListItem<unknown>)
+    )
+};
+
 export const WithAllElements = Template.bind({}) as TemplateStory;
 WithAllElements.args = {
     ...getDefaultProps(),
