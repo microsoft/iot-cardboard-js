@@ -855,24 +855,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             {t('OATGraphViewer.emptyGraph')}
                         </Label>
                     )}
-
-                    {oatGraphState.isMiniMapVisible && (
-                        <div className={classNames.graphMiniMap}>
-                            <MiniMap
-                                nodeColor={theme.semanticColors.inputBackground}
-                            />
-                        </div>
-                    )}
-                    {oatGraphState.isLegendVisible && (
-                        <Callout
-                            setInitialFocus={true}
-                            styles={classNames.subComponentStyles.legendCallout}
-                            target={`#${legendButtonId}`}
-                            directionalHint={DirectionalHint.topCenter}
-                        >
-                            <GraphLegend />
-                        </Callout>
-                    )}
                     <FocusZone style={{ zIndex: 5 }}>
                         <Stack
                             horizontal
@@ -917,6 +899,27 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             </HeaderControlGroup>
                         </Stack>
                     </FocusZone>
+
+                    {oatGraphState.isMiniMapVisible && (
+                        <div className={classNames.graphMiniMap}>
+                            <MiniMap
+                                nodeColor={'transparent'}
+                                nodeStrokeColor={theme.palette.black}
+                                nodeStrokeWidth={2}
+                                maskColor={theme.palette.neutralLighterAlt}
+                            />
+                        </div>
+                    )}
+                    {oatGraphState.isLegendVisible && (
+                        <Callout
+                            setInitialFocus={true}
+                            styles={classNames.subComponentStyles.legendCallout}
+                            target={`#${legendButtonId}`}
+                            directionalHint={DirectionalHint.topRightEdge}
+                        >
+                            <GraphLegend />
+                        </Callout>
+                    )}
                     <Background
                         color={theme.semanticColors.bodyBackground}
                         gap={16}
