@@ -465,6 +465,8 @@
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
             "removeRule": "Remove rule",
+            "singleBadge": "1 badge",
+            "singleMeshColoring": "1 mesh coloring",
             "multipleBadges": "{{badgeCount}} badges",
             "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
             "unlabeled": "(unlabeled)"

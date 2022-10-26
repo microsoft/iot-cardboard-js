@@ -56,17 +56,13 @@ function getSecondaryText(item: IVisualRule, t: TFunction<string>) {
             ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleBadges', {
                   badgeCount: badgeCount
               })
-            : t('3dSceneBuilder.behaviorVisualRulesTab.singleBadge', {
-                  badgeCount: badgeCount
-              });
+            : t('3dSceneBuilder.behaviorVisualRulesTab.singleBadge');
     const meshColoringCondition =
         meshColoringCount > 1
             ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColorings', {
                   meshColoringCount: meshColoringCount
               })
-            : t('3dSceneBuilder.behaviorVisualRulesTab.singleMeshColoring', {
-                  meshColoringCount: meshColoringCount
-              });
+            : t('3dSceneBuilder.behaviorVisualRulesTab.singleMeshColoring');
     let text = '';
     if (meshColoringCount > 0 && badgeCount > 0) {
         text = text.concat(`${meshColoringCondition + ', ' + badgeCondition}`);
