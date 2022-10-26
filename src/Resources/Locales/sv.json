@@ -588,8 +588,6 @@
       "addRuleButtonText": "Lägg till regel",
       "editRule": "Redigera regel",
       "removeRule": "Ta bort regel",
-      "singleBadge": "{{badgeCount}} märke",
-      "singleMeshColoring": "{{meshColoringCount}} nätfärgning",
       "multipleBadges": "{{badgeCount}} märken",
       "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
       "unlabeled": "(omärkt)"

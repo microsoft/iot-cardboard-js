@@ -588,8 +588,6 @@
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
       "removeRule": "규칙 제거",
-      "singleBadge": "{{badgeCount}} 배지",
-      "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
       "multipleBadges": "{{badgeCount}} 배지",
       "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
       "unlabeled": "(레이블이 지정되지 않음)"

@@ -588,8 +588,6 @@
       "addRuleButtonText": "ルールの追加",
       "editRule": "ルールの編集",
       "removeRule": "ルールの削除",
-      "singleBadge": "{{バッジカウント}}バッジ",
-      "singleMeshColoring": "{{meshColoringCount}} メッシュカラーリング",
       "multipleBadges": "{{バッジカウント}}バッジ",
       "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
       "unlabeled": "(ラベルなし)"

@@ -588,8 +588,6 @@
       "addRuleButtonText": "Dodaj regułę",
       "editRule": "Edytuj regułę",
       "removeRule": "Usuń regułę",
-      "singleBadge": "Odznaka {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} kolorowanie siatki",
       "multipleBadges": "Odznaki {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} kolorowanie siatki",
       "unlabeled": "(bez etykiety)"

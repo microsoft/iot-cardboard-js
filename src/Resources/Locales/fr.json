@@ -588,8 +588,6 @@
       "addRuleButtonText": "Ajouter une règle",
       "editRule": "Modifier la règle",
       "removeRule": "Supprimer la règle",
-      "singleBadge": "Badge {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} coloration du maillage",
       "multipleBadges": "Badges {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} colorations de maillage",
       "unlabeled": "(non étiqueté)"

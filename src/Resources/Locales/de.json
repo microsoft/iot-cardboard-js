@@ -588,8 +588,6 @@
       "addRuleButtonText": "Regel hinzufügen",
       "editRule": "Regel bearbeiten",
       "removeRule": "Regel entfernen",
-      "singleBadge": "{{badgeCount}}-Abzeichen",
-      "singleMeshColoring": "{{meshColoringCount}} Mesh-Färbung",
       "multipleBadges": "{{badgeCount}} Abzeichen",
       "multipleMeshColorings": "{{meshColoringCount}} Mesh-Färbungen",
       "unlabeled": "(unbeschriftet)"

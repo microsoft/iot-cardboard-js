@@ -588,8 +588,6 @@
       "addRuleButtonText": "Kural Ekle",
       "editRule": "Kuralı düzenle",
       "removeRule": "Kuralı kaldır",
-      "singleBadge": "{{badgeCount}} rozeti",
-      "singleMeshColoring": "{{meshColoringCount}} örgü renklendirme",
       "multipleBadges": "{{badgeCount}} rozetleri",
       "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri",
       "unlabeled": "(etiketsiz)"

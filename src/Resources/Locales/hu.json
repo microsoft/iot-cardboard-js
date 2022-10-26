@@ -588,8 +588,6 @@
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
       "removeRule": "Szabály eltávolítása",
-      "singleBadge": "{{badgeCount}} jelvény",
-      "singleMeshColoring": "{{meshColoringCount}} háló színezése",
       "multipleBadges": "{{badgeCount}} jelvények",
       "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
       "unlabeled": "(címkézetlen)"

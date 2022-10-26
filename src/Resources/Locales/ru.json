@@ -588,8 +588,6 @@
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
       "removeRule": "Удалить правило",
-      "singleBadge": "{{badgeCount}} значок",
-      "singleMeshColoring": "{{meshColoringCount}} раскраска сетки",
       "multipleBadges": "{{badgeCount}} значки",
       "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
       "unlabeled": "(без маркировки)"
