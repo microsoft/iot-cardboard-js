@@ -17,7 +17,7 @@ import {
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
 
-const CONTROLS_BOTTOM_OFFSET = 60;
+const CONTROLS_BOTTOM_OFFSET = 30;
 
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {

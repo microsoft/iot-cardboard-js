@@ -32,8 +32,7 @@ export const getStyles = (
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
-                maxHeight: 'calc(100% - 32px)', // less the search box
-                height: '100%',
+                height: 'calc(100% - 32px)', // less the search box
                 overflowX: 'hidden'
             }
         ],

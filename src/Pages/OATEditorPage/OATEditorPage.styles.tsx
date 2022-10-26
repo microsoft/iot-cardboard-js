@@ -1,5 +1,6 @@
 import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { OAT_HEADER_HEIGHT } from '../../Models/Constants/OatStyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
 const classNames = {
@@ -39,19 +40,10 @@ export const getEditorPageStyles = () => {
         component: [
             classNames.component,
             {
-                display: 'grid',
-                gridTemplateColumns: '20% 55% 25%',
-                height: '95%', // 100% - header height
-                backgroundColor: theme.semanticColors.bodyBackground
-            } as IStyle
-        ],
-        componentTemplate: [
-            classNames.componentTemplate,
-            {
-                display: 'grid',
-                height: '100%',
                 backgroundColor: theme.semanticColors.bodyBackground,
-                gridTemplateColumns: '20% 30% 50%'
+                display: 'grid',
+                gridTemplateColumns: '280px 1fr 340px',
+                height: `calc(100% - ${OAT_HEADER_HEIGHT}px)`
             } as IStyle
         ],
         errorHandlingWrapper: [

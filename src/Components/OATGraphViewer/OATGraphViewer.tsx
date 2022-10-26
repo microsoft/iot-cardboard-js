@@ -843,7 +843,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     onConnectStart={onConnectStart}
                     onConnectStop={onConnectStop}
                     onLoad={onLoadGraph}
-                    snapToGrid={false}
+                    snapToGrid={true}
                     snapGrid={[15, 15]}
                     nodeTypes={nodeTypes}
                     edgeTypes={edgeTypes}
@@ -922,7 +922,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                         </Callout>
                     )}
                     <Background
-                        color={theme.semanticColors.bodyBackground}
+                        // color={theme.semanticColors.bodyBackground}
                         gap={16}
                         onClick={clearSelectedModel}
                     />

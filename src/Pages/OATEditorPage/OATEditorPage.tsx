@@ -14,10 +14,7 @@ import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
-import {
-    OatPageContextProvider,
-    useOatPageContext
-} from '../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
@@ -28,7 +25,6 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     // hooks
 
     // context
-    const { oatPageState } = useOatPageContext();
 
     // data
     const languages = useMemo(() => {
@@ -48,13 +44,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
         <>
             <div className={editorPageStyles.container}>
                 <OATHeader />
-                <div
-                    className={
-                        oatPageState.templatesActive
-                            ? editorPageStyles.componentTemplate
-                            : editorPageStyles.component
-                    }
-                >
+                <div className={editorPageStyles.component}>
                     <OATModelList />
                     <OATGraphViewerContent />
                     <OATPropertyEditor
