@@ -43,6 +43,11 @@ type IListItemBaseProps<T> = {
     isValid?: boolean;
     /** if provided will result in rendering the checkbox in either checked or unchecked state. If not provided, will not render a checkbox */
     isChecked?: boolean;
+    /**
+     * if provided, will style the item as being selected. This will not show the checkbox.
+     * NOTE: Should not be combined with `isChecked`. They should be mutually exclusive
+     */
+    isSelected?: boolean;
     /** the original item to provide back to callbacks */
     item: T;
     /** type of item when rendering a grouped list. Headers have dividers and items have indentation */

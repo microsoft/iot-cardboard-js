@@ -143,7 +143,11 @@
                                 "type": "Data history",
                                 "id": "b2cf0aa2415f4e029f27f957fb559db2",
                                 "widgetConfiguration": {
-                                    "connectionString": "kustoClusterUrl=https://mockKustoClusterName.westus2.kusto.windows.net;kustoDatabaseName=mockKustoDatabaseName;kustoTableName=mockKustoTableName",
+                                    "connection": {
+                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
+                                        "adxDatabaseName": "mockKustoDatabaseName",
+                                        "adxTableName": "mockKustoTableName"
+                                    },
                                     "displayName": "Temperature and InFlow Trends",
                                     "timeSeries": [
                                         {
@@ -295,7 +299,11 @@
                                 "type": "Data history",
                                 "id": "b2cf0aa2415f4e029f27f957fb559db3",
                                 "widgetConfiguration": {
-                                    "connectionString": "kustoClusterUrl=https://mockKustoClusterName.westus2.kusto.windows.net;kustoDatabaseName=mockKustoDatabaseName;kustoTableName=mockKustoTableName",
+                                    "connection": {
+                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
+                                        "adxDatabaseName": "mockKustoDatabaseName",
+                                        "adxTableName": "mockKustoTableName"
+                                    },
                                     "displayName": "Temperature and InFlow Data History",
                                     "timeSeries": [
                                         {

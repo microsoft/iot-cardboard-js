@@ -23,6 +23,7 @@ export const CardboardListItem = <T extends unknown>(
         item,
         itemType,
         isChecked,
+        isSelected,
         isValid,
         listKey,
         openMenuOnClick,
@@ -42,7 +43,6 @@ export const CardboardListItem = <T extends unknown>(
     const showWarningIndicator = isValid === false;
 
     // end icon
-    const isEndIconCustomRender = typeof iconEnd !== 'object';
     const showEndIconButton =
         typeof iconEnd === 'object' && iconEnd?.name && iconEnd?.onClick;
     const showEndIcon =
@@ -63,7 +63,7 @@ export const CardboardListItem = <T extends unknown>(
 
     const onSecondaryAction = useCallback(() => {
         typeof iconEnd === 'object' && iconEnd?.onClick?.(item);
-    }, [iconEnd, isEndIconCustomRender, item]);
+    }, [iconEnd, item]);
 
     const onButtonClick = useCallback(() => {
         if (openMenuOnClick) {
@@ -91,6 +91,7 @@ export const CardboardListItem = <T extends unknown>(
     const classNames = getStyles(theme, isMenuOpen);
     const buttonStyles = getButtonStyles(
         itemType,
+        isSelected,
         theme,
         buttonProps?.customStyles
     );
@@ -101,6 +102,7 @@ export const CardboardListItem = <T extends unknown>(
                     {...buttonProps}
                     key={`cardboard-list-item-${listKey}-${index}`}
                     data-testid={`cardboard-list-item-${listKey}-${index}`}
+                    selected={isSelected}
                     styles={buttonStyles}
                     onClick={onButtonClick}
                     onKeyPress={onButtonKeyPress}
