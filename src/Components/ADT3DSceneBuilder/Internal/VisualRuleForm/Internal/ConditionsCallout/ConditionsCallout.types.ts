@@ -13,7 +13,6 @@ import { CalloutInfoType } from '../ConditionsList.types';
 
 export interface IConditionsCalloutProps {
     calloutType: CalloutInfoType;
-    isOpen: boolean;
     onDismiss: () => void;
     onSave: (condition: IValueRange) => void;
     target: string;

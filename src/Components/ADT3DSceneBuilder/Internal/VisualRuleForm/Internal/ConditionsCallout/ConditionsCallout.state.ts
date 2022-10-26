@@ -1,4 +1,5 @@
 import produce, { current } from 'immer';
+import { getDefaultCondition } from '../../../../../../Models/Classes/3DVConfig';
 import {
     deepCopy,
     getDebugLogger
@@ -15,8 +16,8 @@ const debugLogging = true;
 const logDebugConsole = getDebugLogger('Condition', debugLogging);
 
 export const defaultConditionCalloutState: IConditionCalloutState = {
-    originalCondition: null,
-    conditionToEdit: null,
+    originalCondition: getDefaultCondition('integer'),
+    conditionToEdit: getDefaultCondition('integer'),
     isDirty: false
 };
 

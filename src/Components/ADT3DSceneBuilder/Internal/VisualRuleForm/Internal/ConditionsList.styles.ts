@@ -6,15 +6,15 @@ import {
 
 const classPrefix = CardboardClassNamePrefix + '-conditions-list';
 const classNames = {
-    container: `${classPrefix}-container`
+    root: `${classPrefix}-root`
 };
 
 export const getStyles = (
     props: IConditionsListStylesProps
 ): IConditionsListStyles => {
     return {
-        container: [
-            classNames.container,
+        root: [
+            classNames.root,
             // 30px is label size, since this is resizing need to calc the 100% - label
             { overflow: 'auto', height: 'calc(100% - 30px)' }
         ],

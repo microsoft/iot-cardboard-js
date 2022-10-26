@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {
     ChoiceGroup,
     classNamesFunction,
@@ -17,6 +17,7 @@ import {
 } from './ConditionSummary.types';
 import { BoundaryType } from './BoundaryInput.types';
 import { getStyles } from './ConditionSummary.styles';
+import i18n from '../../../../../../i18n';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
@@ -28,6 +29,17 @@ const LOC_KEYS = {
 };
 
 const STACK_TOKENS = { childrenGap: 8 };
+
+const getChoiceGroupOptions = (): IChoiceGroupOption[] => [
+    {
+        key: 'true',
+        text: `${i18n.t(LOC_KEYS.choiceGroupTrue)}`
+    },
+    {
+        key: 'false',
+        text: `${i18n.t(LOC_KEYS.choiceGroupFalse)}`
+    }
+];
 
 const getClassNames = classNamesFunction<
     IConditionSummaryStyleProps,
@@ -45,20 +57,6 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
 
     // Hooks
     const { t } = useTranslation();
-
-    const getChoiceGroupOptions: IChoiceGroupOption[] = useMemo(
-        () => [
-            {
-                key: 'true',
-                text: `${t(LOC_KEYS.choiceGroupTrue)}`
-            },
-            {
-                key: 'false',
-                text: `${t(LOC_KEYS.choiceGroupFalse)}`
-            }
-        ],
-        [t]
-    );
 
     // Render callbacks
     const renderFields = () => {
@@ -82,7 +80,7 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
             <Stack>
                 <Stack horizontal={true} tokens={STACK_TOKENS}>
                     <BoundaryInput
-                        value={currentValues[0] as string}
+                        value={currentValues?.[0] as string}
                         boundary={BoundaryType.min}
                         setNewValues={(value: string) => {
                             onChangeValues(conditionType, [Number(value)], 0);
@@ -92,7 +90,7 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                         }}
                     />
                     <BoundaryInput
-                        value={currentValues[1] as string}
+                        value={currentValues?.[1] as string}
                         boundary={BoundaryType.max}
                         setNewValues={(value: string) => {
                             onChangeValues(conditionType, [Number(value)], 1);
@@ -114,8 +112,8 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     const renderBooleanSummary = () => {
         return (
             <ChoiceGroup
-                selectedKey={String(currentValues[0])}
-                options={getChoiceGroupOptions}
+                selectedKey={String(currentValues?.[0])}
+                options={getChoiceGroupOptions()}
                 onChange={(_ev, option) => {
                     // Comparison turns value into correct boolean
                     onChangeValues(conditionType, [option.key === 'true']);
@@ -142,16 +140,14 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
     };
 
     return (
-        <>
-            <Stack tokens={STACK_TOKENS}>
-                <h4 className={classNames.title}>
-                    {conditionType === 'boolean'
-                        ? t(LOC_KEYS.flyoutValueTitle)
-                        : t(LOC_KEYS.flyoutValuesTitle)}
-                </h4>
-                {renderFields()}
-            </Stack>
-        </>
+        <Stack tokens={STACK_TOKENS}>
+            <h4 className={classNames.title}>
+                {conditionType === 'boolean'
+                    ? t(LOC_KEYS.flyoutValueTitle)
+                    : t(LOC_KEYS.flyoutValuesTitle)}
+            </h4>
+            {renderFields()}
+        </Stack>
     );
 };
 

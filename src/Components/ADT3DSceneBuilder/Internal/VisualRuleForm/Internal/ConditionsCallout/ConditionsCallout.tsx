@@ -44,7 +44,6 @@ const LOC_KEYS = {
 const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
     const {
         calloutType,
-        isOpen,
         onDismiss,
         onSave,
         target,
@@ -53,12 +52,10 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
         valueRangeType
     } = props;
 
-    // state
-
     // refs
     const validityMap = useRef<ConditionValidityMap>({
-        label: !!valueRange.visual.labelExpression?.length,
-        ranges: areRangesValid(valueRange.values, valueRangeType)
+        label: !!valueRange?.visual?.labelExpression?.length,
+        ranges: areRangesValid(valueRange?.values, valueRangeType)
     });
 
     // hooks
@@ -80,8 +77,8 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
             payload: { valueRange: valueRange }
         });
         validityMap.current = {
-            label: !!valueRange.visual.labelExpression?.length,
-            ranges: areRangesValid(valueRange.values, valueRangeType)
+            label: !!valueRange?.visual?.labelExpression?.length,
+            ranges: areRangesValid(valueRange?.values, valueRangeType)
         };
     }, [valueRange, valueRangeType]);
 
@@ -91,7 +88,7 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
             _event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
             newValue?: string
         ) => {
-            if (newValue) {
+            if (newValue && newValue.trim().length > 0) {
                 validityMap.current.label = true;
             } else {
                 validityMap.current.label = false;
@@ -121,7 +118,8 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                     payload: { values: newValues }
                 });
             } else {
-                const rangeValues = conditionCalloutState.conditionToEdit.values
+                const rangeValues = conditionCalloutState.conditionToEdit
+                    ?.values
                     ? deepCopy(conditionCalloutState.conditionToEdit.values)
                     : [0, 0];
                 // Values
@@ -136,7 +134,7 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                 });
             }
         },
-        [conditionCalloutState.conditionToEdit.values, valueRangeType]
+        [conditionCalloutState.conditionToEdit?.values, valueRangeType]
     );
 
     const onActionValueChange = useCallback(
@@ -171,80 +169,67 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
     });
 
     return (
-        <>
-            {isOpen && (
-                <Callout
-                    target={target}
-                    styles={classNames.subComponentStyles.callout}
-                    onDismiss={onDismiss}
-                    directionalHint={DirectionalHint.rightCenter}
-                >
-                    <Stack tokens={{ childrenGap: 12 }}>
-                        {calloutType === CalloutInfoType.create ? (
-                            <h4 className={classNames.title}>
-                                {t(LOC_KEYS.addCondition)}
-                            </h4>
-                        ) : (
-                            <h4 className={classNames.title}>
-                                {t(LOC_KEYS.editCondition)}
-                            </h4>
-                        )}
-                        <TextField
-                            value={
-                                conditionCalloutState.conditionToEdit.visual
-                                    ?.labelExpression
-                                    ? conditionCalloutState.conditionToEdit
-                                          .visual?.labelExpression
-                                    : ''
-                            }
-                            onChange={onLabelChange}
-                            label={t(LOC_KEYS.labelField)}
-                            required={true}
+        <Callout
+            target={target}
+            styles={classNames.subComponentStyles.callout}
+            onDismiss={onDismiss}
+            directionalHint={DirectionalHint.rightCenter}
+            hidden={calloutType === CalloutInfoType.inactive}
+        >
+            <Stack tokens={{ childrenGap: 12 }}>
+                <h4 className={classNames.title}>
+                    {calloutType === CalloutInfoType.create
+                        ? t(LOC_KEYS.addCondition)
+                        : t(LOC_KEYS.editCondition)}
+                </h4>
+                <TextField
+                    value={
+                        conditionCalloutState.conditionToEdit?.visual
+                            ?.labelExpression
+                            ? conditionCalloutState.conditionToEdit.visual
+                                  ?.labelExpression
+                            : ''
+                    }
+                    onChange={onLabelChange}
+                    label={t(LOC_KEYS.labelField)}
+                    required={true}
+                />
+                <ConditionSummary
+                    onChangeValues={onValuesChange}
+                    currentValues={
+                        conditionCalloutState.conditionToEdit?.values
+                    }
+                    conditionType={valueRangeType}
+                    areValuesValid={validityMap.current.ranges}
+                />
+                <ActionItem
+                    setActionSelectedValue={onActionValueChange}
+                    color={conditionCalloutState.conditionToEdit?.visual.color}
+                    iconName={
+                        conditionCalloutState.conditionToEdit?.visual.iconName
+                    }
+                />
+                <div className={classNames.footer}>
+                    <Stack
+                        horizontal={true}
+                        horizontalAlign={'end'}
+                        tokens={{ childrenGap: 4 }}
+                    >
+                        <PrimaryButton
+                            text={t('save')}
+                            onClick={handleSaveClick}
+                            disabled={!checkValidity(validityMap.current)}
+                            styles={classNames.subComponentStyles.saveButton?.()}
                         />
-                        <ConditionSummary
-                            onChangeValues={onValuesChange}
-                            currentValues={
-                                conditionCalloutState.conditionToEdit?.values
-                            }
-                            conditionType={valueRangeType}
-                            areValuesValid={validityMap.current.ranges}
+                        <DefaultButton
+                            text={t('cancel')}
+                            onClick={handleCancelClick}
+                            styles={classNames.subComponentStyles.cancelButton?.()}
                         />
-                        <ActionItem
-                            setActionSelectedValue={onActionValueChange}
-                            color={
-                                conditionCalloutState.conditionToEdit.visual
-                                    .color
-                            }
-                            iconName={
-                                conditionCalloutState.conditionToEdit.visual
-                                    .iconName
-                            }
-                        />
-                        <div className={classNames.footer}>
-                            <Stack
-                                horizontal={true}
-                                horizontalAlign={'end'}
-                                tokens={{ childrenGap: 4 }}
-                            >
-                                <PrimaryButton
-                                    text={t('save')}
-                                    onClick={handleSaveClick}
-                                    disabled={
-                                        !checkValidity(validityMap.current)
-                                    }
-                                    styles={classNames.subComponentStyles.saveButton?.()}
-                                />
-                                <DefaultButton
-                                    text={t('cancel')}
-                                    onClick={handleCancelClick}
-                                    styles={classNames.subComponentStyles.cancelButton?.()}
-                                />
-                            </Stack>
-                        </div>
                     </Stack>
-                </Callout>
-            )}
-        </>
+                </div>
+            </Stack>
+        </Callout>
     );
 };
 

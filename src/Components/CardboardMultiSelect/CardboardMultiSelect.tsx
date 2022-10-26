@@ -25,7 +25,7 @@ const createOption = (label: string): MultiselectOption => ({
     value: label
 });
 
-const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
+const ROOT_LOC = 'cardboardMultiSelect';
 const LOC_KEYS = {
     placeholderMultiselect: `${ROOT_LOC}.placeholderMultiselect`
 };
@@ -51,8 +51,7 @@ const CardboardMultiSelect: React.FC<ICardboardMultiSelectProps> = (props) => {
         (event: React.KeyboardEvent<HTMLDivElement>) => {
             if (!inputValue) return;
             switch (event.key) {
-                case 'Enter':
-                case 'Tab': {
+                case 'Enter': {
                     const newValues = [
                         ...selectedValues,
                         createOption(inputValue)

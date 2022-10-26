@@ -2,9 +2,9 @@ import { IConsoleLogFunction } from '../../../../../../Models/Constants/Types';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import {
     ConditionValidityMap,
-    IConditionCalloutState,
-    IValueRangeValidation
+    IConditionCalloutState
 } from './ConditionsCallout.types';
+import { IValueRangeValidation } from './ConditionSummary.types';
 
 /**
  * Looks at the state and determines whether anything has been changed
@@ -30,9 +30,7 @@ export function checkValidity(validityMap: ConditionValidityMap): boolean {
 }
 
 /** Looks at a min-max value and determines if it is valid */
-export const getRangeValidation = (
-    values: unknown[]
-): IValueRangeValidation => {
+export const getRangeValidation = (values: string[]): IValueRangeValidation => {
     let minValid = false,
         maxValid = false,
         rangeValid = false,
@@ -66,8 +64,12 @@ export const areRangesValid = (
     values: unknown[],
     type: IDTDLPropertyType
 ): boolean => {
+    if (!values) {
+        return false;
+    }
+
     if (!(type === 'boolean' || type === 'string' || type === 'enum')) {
-        const rangeValidation = getRangeValidation(values);
+        const rangeValidation = getRangeValidation(values as string[]);
         return (
             rangeValidation.minValid &&
             rangeValidation.maxValid &&

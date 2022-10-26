@@ -6,20 +6,17 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { createGUID } from '../../../../../Models/Services/Utils';
+import { getDefaultCondition } from '../../../../../Models/Classes/3DVConfig';
 import {
-    IDTDLPropertyType,
     IExpressionRangeType,
     IValueRange
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import {
-    isNumericType,
-    transformValueRangesIntoConditions
-} from '../VisualRuleFormUtility';
+import { transformValueRangesIntoConditions } from '../VisualRuleFormUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
@@ -31,21 +28,16 @@ import {
     IConditionsListStylesProps
 } from './ConditionsList.types';
 
-const LIST_KEY = 'cb-visual-rule-conditions-list';
-const getDefaultCondition = (type: IDTDLPropertyType): IValueRange => ({
-    id: createGUID(),
-    values: isNumericType(type) ? [0, 1] : type === 'boolean' ? [true] : [],
-    visual: {
-        color: null,
-        iconName: null,
-        labelExpression: null
-    }
-});
-
 const getClassNames = classNamesFunction<
     IConditionsListStylesProps,
     IConditionsListStyles
 >();
+
+const defaultCalloutInfo: CalloutInfo = {
+    calloutType: CalloutInfoType.inactive,
+    selectedCondition: null,
+    selectedTarget: ''
+};
 
 const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Props
@@ -60,36 +52,28 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
 
     // Hooks
     const { t } = useTranslation();
+    const LIST_KEY = useId('cb-visual-rule-conditions-list');
 
     // Constants
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
 
-    const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>({
-        calloutType: CalloutInfoType.inactive,
-        isOpen: false,
-        selectedCondition: null,
-        selectedTarget: null
-    });
+    const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>(
+        defaultCalloutInfo
+    );
 
     // Callbacks
     const handleOpenNewConditionFlyout = useCallback(() => {
         setCalloutInfo({
             calloutType: CalloutInfoType.create,
-            isOpen: true,
             selectedCondition: getDefaultCondition(valueRangeType),
             selectedTarget: `#${LIST_KEY}`
         });
     }, [valueRangeType]);
 
     const handleDismissFlyout = useCallback(() => {
-        setCalloutInfo({
-            calloutType: CalloutInfoType.inactive,
-            isOpen: false,
-            selectedCondition: null,
-            selectedTarget: ''
-        });
+        setCalloutInfo(defaultCalloutInfo);
     }, []);
 
     const getOverflowMenuItems = useCallback(
@@ -103,7 +87,6 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                 onClick: () => {
                     setCalloutInfo({
                         calloutType: CalloutInfoType.edit,
-                        isOpen: true,
                         selectedCondition: valueRanges.find(
                             (vr) => vr.id === conditionId
                         ),
@@ -152,7 +135,6 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         onClick: () => {
                             setCalloutInfo({
                                 calloutType: CalloutInfoType.edit,
-                                isOpen: true,
                                 selectedCondition: valueRanges.find(
                                     (vr) => vr.id === condition.id
                                 ),
@@ -180,7 +162,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
 
     return (
         <>
-            <div className={classNames.container}>
+            <div className={classNames.root}>
                 <Stack>
                     <CardboardList<Condition>
                         listProps={{
@@ -199,10 +181,9 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                     </ActionButton>
                 </Stack>
             </div>
-            {calloutInfo.isOpen && (
+            {calloutInfo.calloutType !== CalloutInfoType.inactive && (
                 <ConditionsCallout
                     calloutType={calloutInfo.calloutType}
-                    isOpen={calloutInfo.isOpen}
                     onDismiss={handleDismissFlyout}
                     onSave={onSaveCondition}
                     target={calloutInfo.selectedTarget}

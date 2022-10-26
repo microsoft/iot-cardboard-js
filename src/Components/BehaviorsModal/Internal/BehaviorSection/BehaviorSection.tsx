@@ -77,33 +77,33 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
     alertVisual
 }) => {
-    if (alertVisual.valueRanges[0]) {
-        const styles = getStyles();
-        const {
-            visual: { color, iconName, labelExpression }
-        } = alertVisual.valueRanges[0];
-
-        const alertStyles = getElementsPanelAlertStyles(color);
-        const { twins, mode } = useContext(BehaviorsModalContext);
-
-        return (
-            <div className={styles.infoContainer}>
-                <div className={alertStyles.alertCircle}>
-                    <Icon iconName={iconName} />
-                </div>
-                <div className={styles.infoTextContainer}>
-                    {mode === BehaviorModalMode.preview
-                        ? stripTemplateStringsFromText(labelExpression)
-                        : parseLinkedTwinExpression(
-                              wrapTextInTemplateString(labelExpression),
-                              twins
-                          )}
-                </div>
-            </div>
-        );
-    } else {
-        return <></>;
+    if (!alertVisual && !alertVisual.valueRanges[0]) {
+        return null;
     }
+
+    const styles = getStyles();
+    const {
+        visual: { color, iconName, labelExpression }
+    } = alertVisual.valueRanges[0];
+
+    const alertStyles = getElementsPanelAlertStyles(color);
+    const { twins, mode } = useContext(BehaviorsModalContext);
+
+    return (
+        <div className={styles.infoContainer}>
+            <div className={alertStyles.alertCircle}>
+                <Icon iconName={iconName} />
+            </div>
+            <div className={styles.infoTextContainer}>
+                {mode === BehaviorModalMode.preview
+                    ? stripTemplateStringsFromText(labelExpression)
+                    : parseLinkedTwinExpression(
+                          wrapTextInTemplateString(labelExpression),
+                          twins
+                      )}
+            </div>
+        </div>
+    );
 };
 
 export default React.memo(BehaviorSection);

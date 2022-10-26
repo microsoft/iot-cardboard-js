@@ -33,7 +33,6 @@ export interface CalloutInfo {
     calloutType: CalloutInfoType;
     selectedCondition: IValueRange;
     selectedTarget: string;
-    isOpen: boolean;
 }
 
 export interface IConditionsListProps {
@@ -49,7 +48,7 @@ export interface IConditionsListProps {
 }
 
 export interface IConditionsListStyles {
-    container: IStyle;
+    root: IStyle;
     subComponentStyles?: IConditionsListSubComponentStyles;
 }
 
