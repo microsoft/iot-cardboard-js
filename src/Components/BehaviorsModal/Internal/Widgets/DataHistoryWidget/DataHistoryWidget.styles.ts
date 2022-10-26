@@ -62,8 +62,7 @@ export const getStyles = ({
             classNames.menuButton,
             {
                 width: 20,
-                height: 20,
-                padding: 12
+                height: 24
             }
         ],
         menu: [
@@ -84,17 +83,22 @@ export const getStyles = ({
             quickTimePicker: {
                 dropdown: {
                     '.ms-Dropdown-title': {
-                        borderWidth: 0,
+                        display: 'flex',
+                        alignItems: 'center',
                         padding: '0px 4px',
                         height: 24,
                         background: 'transparent',
                         ':hover': {
                             backgroundColor:
                                 theme.semanticColors.buttonBackgroundHovered
+                        },
+                        ':not(:focus)': {
+                            borderColor: 'transparent'
                         }
                     },
                     '.ms-Dropdown::after': {
-                        border: 'none'
+                        borderWidth: 1,
+                        borderColor: theme.semanticColors.focusBorder
                     }
                 },
                 menuItemIcon: {
