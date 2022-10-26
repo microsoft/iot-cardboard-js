@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
     "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Ta bort modell"
   }
 }

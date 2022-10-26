@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "复制",
     "defaultFileName": "新本体",
     "defaultModelNamePrefix": "型"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "删除模型"
   }
 }

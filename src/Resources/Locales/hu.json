@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "másolat",
     "defaultFileName": "Új ontológia",
     "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Modell eltávolítása"
   }
 }

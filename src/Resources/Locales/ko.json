@@ -1292,5 +1292,8 @@
     "duplicateFileNameSuffix": "복사",
     "defaultFileName": "새로운 온톨로지",
     "defaultModelNamePrefix": "모델"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "모델 제거"
   }
 }
