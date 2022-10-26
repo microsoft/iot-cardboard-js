@@ -4,6 +4,7 @@ import {
     ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
+    IADXConnection,
     IDataHistoryWidgetTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
@@ -34,7 +35,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 }) => {
     const {
         displayName,
-        connectionString,
+        connection,
         timeSeries,
         chartOptions
     } = widget.widgetConfiguration;
@@ -43,6 +44,17 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     const twinIdPropertyMap = getTwinIdPropertyMap(timeSeries, twins);
     const isRequestSent = useRef(false);
 
+    const connectionToQuery: IADXConnection = useMemo(
+        () =>
+            connection
+                ? {
+                      kustoClusterUrl: connection.adxClusterUrl,
+                      kustoDatabaseName: connection.adxDatabaseName,
+                      kustoTableName: connection.adxTableName
+                  }
+                : null,
+        [connection]
+    );
     const {
         query,
         deeplink,
@@ -51,7 +63,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         isLoading
     } = useTimeSeriesData({
         adapter,
-        connectionString,
+        connection: connectionToQuery,
         quickTimeSpanInMillis: chartOptions.defaultQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });
@@ -63,7 +75,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         if (
             mode === BehaviorModalMode.viewer &&
             query &&
-            (adapter || connectionString) &&
+            (adapter || connection) &&
             !isRequestSent.current &&
             twinIdPropertyMap
         ) {
@@ -74,14 +86,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 nowInMillis - chartOptions.defaultQuickTimeSpanInMillis;
             xMaxDateInMillisRef.current = nowInMillis;
         }
-    }, [
-        adapter,
-        query,
-        connectionString,
-        twinIdPropertyMap,
-        chartOptions,
-        mode
-    ]);
+    }, [adapter, query, connection, twinIdPropertyMap, chartOptions, mode]);
 
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
