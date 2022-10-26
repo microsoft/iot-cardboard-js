@@ -140,11 +140,13 @@ const TwinPropertySearchDropdown = (
 
             // remove any duplicate entries
             options = removeDuplicatesFromArray(options, 'label');
+            //sort the options
+            options.sort(sortAscendingOrDescending('label'));
+
             setDropdownOptions(options || []);
 
             twinSearchContinuationToken.current =
                 searchTwinAdapterData.adapterResult.result.data.continuationToken;
-            options.sort(sortAscendingOrDescending('label'));
         }
     }, [searchTwinAdapterData.adapterResult, selectedOption]);
 
