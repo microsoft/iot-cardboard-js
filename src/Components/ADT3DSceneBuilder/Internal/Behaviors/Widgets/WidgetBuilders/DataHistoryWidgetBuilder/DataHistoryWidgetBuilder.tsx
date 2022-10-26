@@ -22,10 +22,10 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IADXConnection } from '../../../../../../../Models/Constants';
 import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
 import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
 import {
+    IADXTimeSeriesConnection,
     IDataHistoryAggregationType,
     IDataHistoryBasicTimeSeries,
     IDataHistoryChartYAxisType
@@ -89,10 +89,10 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
     useEffect(() => {
         const {
             displayName,
-            connectionString,
+            connection,
             timeSeries
         } = formData.widgetConfiguration;
-        if (displayName && connectionString && timeSeries.length) {
+        if (displayName && connection && timeSeries.length) {
             setIsWidgetConfigValid(true);
         } else {
             setIsWidgetConfigValid(false);
@@ -107,16 +107,18 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
             const connection = adxConnectionInformation.connection;
             updateWidgetData(
                 produce(formData, (draft) => {
-                    draft.widgetConfiguration.connectionString = generateConnectionString(
-                        connection
-                    );
+                    draft.widgetConfiguration.connection = {
+                        adxClusterUrl: connection.kustoClusterUrl,
+                        adxDatabaseName: connection.kustoDatabaseName,
+                        adxTableName: connection.kustoTableName
+                    };
                 })
             );
         }
     }, [adxConnectionInformation]);
 
-    const connectionString = formData.widgetConfiguration.connectionString
-        ? formData.widgetConfiguration.connectionString
+    const connectionString = formData.widgetConfiguration.connection
+        ? generateConnectionString(formData.widgetConfiguration.connection)
         : adxConnectionInformation.loadingState ===
           ADXConnectionInformationLoadingState.LOADING
         ? t('widgets.dataHistory.form.connectionLoadingText')
@@ -437,16 +439,16 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
 };
 
 const generateConnectionString = (
-    connection: IADXConnection
+    connection: IADXTimeSeriesConnection
 ): string | null => {
     if (
-        connection?.kustoClusterUrl &&
-        connection?.kustoDatabaseName &&
-        connection?.kustoTableName
+        connection?.adxClusterUrl &&
+        connection?.adxDatabaseName &&
+        connection?.adxTableName
     ) {
         try {
-            if (isValidADXClusterUrl(connection?.kustoClusterUrl)) {
-                return `kustoClusterUrl=${connection.kustoClusterUrl};kustoDatabaseName=${connection.kustoDatabaseName};kustoTableName=${connection.kustoTableName}`;
+            if (isValidADXClusterUrl(connection?.adxClusterUrl)) {
+                return `kustoClusterUrl=${connection.adxClusterUrl};kustoDatabaseName=${connection.adxDatabaseName};kustoTableName=${connection.adxTableName}`;
             }
         } catch (error) {
             return null;

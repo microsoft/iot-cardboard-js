@@ -176,7 +176,7 @@ export const defaultDataHistoryWidget: IDataHistoryWidget = {
     id: '',
     type: WidgetType.DataHistory,
     widgetConfiguration: {
-        connectionString: '',
+        connection: null,
         displayName: '',
         timeSeries: [],
         chartOptions: {

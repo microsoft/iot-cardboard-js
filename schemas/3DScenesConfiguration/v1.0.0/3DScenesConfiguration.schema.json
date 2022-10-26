@@ -236,6 +236,30 @@
                 "time"
             ]
         },
+        "IADXTimeSeriesConnection": {
+            "type": "object",
+            "description": "Azure Data Explorer connection information for time series data",
+            "additionalProperties": false,
+            "properties": {
+                "adxClusterUrl": {
+                    "type": "string"
+                },
+                "adxDatabaseName": {
+                    "type": "string"
+                },
+                "adxTableName": {
+                    "type": "string"
+                }
+            },
+            "required": ["adxClusterUrl", "adxDatabaseName", "adxTableName"]
+        },
+        "ITimeSeriesConnection": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/IADXTimeSeriesConnection"
+                }
+            ]
+        },
         "IDataHistoryBasicTimeSeries": {
             "type": "object",
             "description": "A basic timeseries to be rendered in the chart of the data history widget",
@@ -457,9 +481,9 @@
             "additionalProperties": false,
             "description": "Widget configuration specifies widget specific properties that are used for rendering this data history",
             "properties": {
-                "connectionString": {
-                    "type": "string",
-                    "description": "Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget"
+                "connection": {
+                    "description": "Database connection information of timeseries data",
+                    "$ref": "#/$defs/ITimeSeriesConnection"
                 },
                 "displayName": {
                     "type": "string"
@@ -470,7 +494,7 @@
                 }
             },
             "required": [
-                "connectionString",
+                "connection",
                 "displayName",
                 "timeSeries",
                 "chartOptions"
