@@ -1,10 +1,32 @@
-import { FontSizes, FontWeights } from '@fluentui/react';
+import { FontSizes, FontWeights, IStyle, ITheme } from '@fluentui/react';
 import {
     IBoundaryInputStyleProps,
     IBoundaryInputStyles
 } from './BoundaryInput.types';
 
 export const classPrefix = 'cb-boundaryinput';
+
+const getInfinityStyles = (theme: ITheme) =>
+    ({
+        alignItems: 'center',
+        backgroundColor: 'unset',
+        border: 'unset',
+        bottom: 0,
+        cursor: 'pointer',
+        display: 'flex',
+        fontsize: 14,
+        height: 32,
+        justifyContent: 'center',
+        padding: 'unset',
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        width: 32,
+        path: {
+            fill: theme.semanticColors.accentButtonBackground
+        }
+    } as IStyle);
+
 const classNames = {
     root: `${classPrefix}-root`,
     container: `${classPrefix}-container`,
@@ -56,24 +78,8 @@ export const getStyles = (
         ],
         negativeInfinityButton: [
             classNames.negativeInfinityButton,
+            getInfinityStyles(theme),
             {
-                alignItems: 'center',
-                backgroundColor: 'unset',
-                border: 'unset',
-                bottom: 0,
-                cursor: 'pointer',
-                display: 'flex',
-                fontsize: 14,
-                height: 32,
-                justifyContent: 'center',
-                padding: 'unset',
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                width: 32,
-                path: {
-                    fill: theme.semanticColors.accentButtonBackground
-                },
                 marginRight: 4,
                 '::before': {
                     color: theme.semanticColors.accentButtonBackground,
@@ -84,28 +90,7 @@ export const getStyles = (
                 }
             }
         ],
-        infinityButton: [
-            classNames.infinityButton,
-            {
-                alignItems: 'center',
-                backgroundColor: 'unset',
-                border: 'unset',
-                bottom: 0,
-                cursor: 'pointer',
-                display: 'flex',
-                fontsize: 14,
-                height: 32,
-                justifyContent: 'center',
-                padding: 'unset',
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                width: 32,
-                path: {
-                    fill: theme.semanticColors.accentButtonBackground
-                }
-            }
-        ],
+        infinityButton: [classNames.infinityButton, getInfinityStyles(theme)],
         subComponentStyles: {}
     };
 };

@@ -54,13 +54,6 @@ export const ConditionCalloutReducer: ConditionCalloutReducerType = produce(
                 draft.originalCondition = resetValueRange;
                 break;
             }
-            /** Numerical values actions */
-            case ConditionCalloutActionType.FORM_CONDITION_NUMERICAL_VALUES_SET: {
-                break;
-            }
-            case ConditionCalloutActionType.FORM_CONDITION_SNAP_VALUE_TO_INFINITY: {
-                break;
-            }
         }
         // check for changes after every action
         draft.isDirty = isStateDirty(draft, logDebugConsole);

@@ -9,7 +9,7 @@ import { CalloutInfoType } from '../ConditionsList.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/ConditionsCallout',
+    title: 'Components/VisualRules/ConditionsCallout',
     component: ConditionsCallout,
     decorators: [
         getDefaultStoryDecorator<IConditionsCalloutProps>(wrapperStyle)

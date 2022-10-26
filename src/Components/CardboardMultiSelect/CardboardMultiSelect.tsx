@@ -5,11 +5,12 @@ import {
     ICardboardMultiSelectStyles,
     MultiselectOption
 } from './CardboardMultiSelect.types';
-import { getMultiSelectStyles, getStyles } from './CardboardMultiSelect.styles';
+import { getStyles } from './CardboardMultiSelect.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import CreatableSelect from 'react-select/creatable';
 import { OnChangeValue } from 'react-select';
 import { useTranslation } from 'react-i18next';
+import { getMultiSelectStyles } from '../../Resources/Styles/ReactSelect.styles';
 
 const getClassNames = classNamesFunction<
     ICardboardMultiSelectStyleProps,
