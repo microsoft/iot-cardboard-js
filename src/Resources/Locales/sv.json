@@ -1285,8 +1285,5 @@
     "noTitle": "Ingen titel",
     "shareQueryTitle": "Dela fråga",
     "noDataDescription": "Inga data att visa"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
   }
 }

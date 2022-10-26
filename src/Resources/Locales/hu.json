@@ -1285,8 +1285,5 @@
     "noTitle": "Nincs cím",
     "shareQueryTitle": "Lekérdezés megosztása",
     "noDataDescription": "Nincs megjelenítendő adat"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
   }
 }

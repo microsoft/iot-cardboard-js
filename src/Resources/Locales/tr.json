@@ -1285,8 +1285,5 @@
     "noTitle": "Başlık yok",
     "shareQueryTitle": "Sorguyu paylaşma",
     "noDataDescription": "Görüntülenecek veri yok"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın"
   }
 }

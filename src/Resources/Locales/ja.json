@@ -1285,8 +1285,5 @@
     "noTitle": "タイトルなし",
     "shareQueryTitle": "共有クエリ",
     "noDataDescription": "表示するデータがありません"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "値を入力し、Enter キーを押して追加します。"
   }
 }

@@ -1285,8 +1285,5 @@
     "noTitle": "Geen titel",
     "shareQueryTitle": "Query delen",
     "noDataDescription": "Geen gegevens om weer te geven"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
   }
 }

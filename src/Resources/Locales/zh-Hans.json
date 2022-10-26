@@ -1285,8 +1285,5 @@
     "noTitle": "无标题",
     "shareQueryTitle": "共享查询",
     "noDataDescription": "无要显示的数据"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "键入值，按回车键添加"
   }
 }

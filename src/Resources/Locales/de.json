@@ -1285,8 +1285,5 @@
     "noTitle": "Kein Titel",
     "shareQueryTitle": "Freigabeabfrage",
     "noDataDescription": "Keine Daten anzuzeigen"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
   }
 }

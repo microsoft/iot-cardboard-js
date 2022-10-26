@@ -1285,8 +1285,5 @@
     "noTitle": "Brak tytułu",
     "shareQueryTitle": "Udostępnianie zapytania",
     "noDataDescription": "Brak danych do wyświetlenia"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Wpisz wartości, naciśnij Enter, aby dodać"
   }
 }

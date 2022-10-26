@@ -1285,8 +1285,5 @@
     "noTitle": "Bez názvu",
     "shareQueryTitle": "Sdílet dotaz",
     "noDataDescription": "Žádná data k zobrazení"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
   }
 }

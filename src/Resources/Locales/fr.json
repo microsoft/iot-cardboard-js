@@ -1285,8 +1285,5 @@
     "noTitle": "Pas de titre",
     "shareQueryTitle": "Partager la requête",
     "noDataDescription": "Aucune donnée à afficher"
-  },
-  "cardboardMultiSelect": {
-    "placeholderMultiselect": "Tapez des valeurs, appuyez sur Entrée pour ajouter"
   }
 }
