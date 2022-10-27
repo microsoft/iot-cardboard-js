@@ -24,7 +24,7 @@ import {
     IOATModelListProps
 } from './OATModelList.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
 
 const LIST_ITEM_HEIGHT = 51;
