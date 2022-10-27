@@ -944,6 +944,7 @@
     "deleteAll": "Supprimer tout",
     "folderUpload": "Téléchargement de dossiers",
     "fileUpload": "Téléchargement de fichiers",
+    "files": "Fichiers",
     "selectFile": "Sélectionner un fichier",
     "errorSingleFileHoldsRelationships": "Problème avec {{fileName}} : le modèle contient des relations qui ne sont pas importées",
     "errorImportedModelAlreadyExists": "Problème avec {{modelId}} : Modèle avec le même @id existe déjà",
@@ -953,23 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Sélectionner une ontologie"
-    },
-    "importFolder": "Importer le dossier",
-    "importFile": "Importer un fichier",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Supprimer l’ontologie",
-      "modalTitleCreate": "Nouvelle ontologie",
-      "modalTitleEdit": "Modifier l’ontologie",
-      "modalSubTitleCreate": "Créez une nouvelle ontologie pour structurer votre jumeau numérique.",
-      "modalSubTitleEdit": "Modifiez votre ontologie pour donner une structure à votre jumeau numérique.",
-      "modalSubTitleLinkText": "En savoir plus sur les ontologies",
-      "nameLabel": "Nom",
-      "namePlaceholder": "Entrez un nom d’ontologie",
-      "namespaceLabel": "Espace de noms",
-      "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
-      "namespacePlaceholder": "Entrez un espace de noms",
-      "sampleModel": "exemple de modèle"
     }
   },
   "cameraControls": {
@@ -1284,14 +1268,6 @@
   },
   "highcharts": {
     "shareQueryTitle": "Partager la requête",
-<<<<<<< HEAD
-    "noDataDescription": "Aucune donnée à afficher"
-  },
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copier",
-    "defaultFileName": "Nouvelle ontologie",
-    "defaultModelNamePrefix": "Modèle"
-=======
     "noDataDescription": "Aucune donnée à afficher",
     "noTitle": "Sans titre"
   },
@@ -1317,6 +1293,5 @@
       "Last 180 days": "180 derniers jours",
       "Last year": "L’année dernière"
     }
->>>>>>> origin/main
   }
 }
