@@ -7,13 +7,14 @@ import {
 } from './HighChartsWrapper.types';
 import { getStyles } from './HighChartsWrapper.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
-import Highcharts, {
+import {
     AlignValue,
     ColorString,
     DataGroupingApproximationValue,
     OptionsLayoutValue,
     SeriesOptionsType
 } from 'highcharts';
+import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useTranslation } from 'react-i18next';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
@@ -195,7 +196,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         tooltip: {
             shared: true,
             useHTML: true,
-            style: tooltipStyles?.root
+            style: tooltipStyles?.root,
+            valueDecimals: 2
         },
         loading: {
             hideDuration: 1000,
@@ -212,7 +214,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         plotOptions: {
             series: {
                 dataGrouping: {
-                    enabled: true // by default, notice that it is not forced considering we may want to see raw data when possible
+                    enabled: true, // by default, notice that it is not forced considering we may want to see raw data when possible
+                    anchor: 'middle'
                 }
             }
         }

@@ -1,6 +1,7 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { AlignValue, CSSObject, OptionsLayoutValue } from 'highcharts';
 import { TimeSeriesData } from '../../Models/Constants/Types';
+import { getMockTimeSeriesDataArrayInLocalTime } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS = 10;
@@ -107,5 +108,13 @@ export const HighChartsMockData: Array<IHighChartSeriesData> = [
             { timestamp: 1340401653986, value: 107 }
         ],
         tooltipSuffix: 'm'
+    }
+];
+
+export const HighChartsMockLargeData: Array<IHighChartSeriesData> = [
+    {
+        name: 'Mock series-1',
+        data: getMockTimeSeriesDataArrayInLocalTime(1, 10000)[0],
+        tooltipSuffix: '°F'
     }
 ];

@@ -4,6 +4,7 @@ import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import HighChartsWrapper from './HighChartsWrapper';
 import {
     HighChartsMockData,
+    HighChartsMockLargeData,
     IHighChartsWrapperProps
 } from './HighChartsWrapper.types';
 
@@ -55,4 +56,10 @@ FixedTimeRange.args = {
         xMinInMillis: Date.UTC(2012, 5, 16).valueOf(),
         xMaxInMillis: Date.UTC(2012, 5, 26).valueOf()
     }
+} as IHighChartsWrapperProps;
+
+export const LargeDataSet = Template.bind({}) as HighChartsWrapperStory;
+LargeDataSet.args = {
+    ...commonArgs,
+    seriesData: HighChartsMockLargeData
 } as IHighChartsWrapperProps;
