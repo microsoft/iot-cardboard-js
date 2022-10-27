@@ -1,11 +1,11 @@
 import { IContextualMenuItem, Theme, useTheme } from '@fluentui/react';
-import Svg from 'react-inlinesvg';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { IVisualRule, IVisualRulesListProps } from './VisualRules.types';
-import meshAndBadgeIcon from '../../../../../Resources/Static/meshAndBadgeIcon.svg';
+import { ReactComponent as MeshAndBadgeIcon } from '../../../../../Resources/Static/meshAndBadgeIcon.svg';
+import { getVisualRuleListStyles } from './VisualRuleList.styles';
 
 /**
  *
@@ -120,15 +120,9 @@ function getListItems(
         let icon;
         if (meshCount && badgeCount) {
             icon = () => (
-                <Svg
-                    src={meshAndBadgeIcon}
-                    height={16}
-                    style={{
-                        marginRight: 8,
-                        fill: theme.palette.neutralPrimary,
-                        stroke: theme.palette.neutralPrimary
-                    }}
-                />
+                <div className={getVisualRuleListStyles(theme)}>
+                    <MeshAndBadgeIcon />
+                </div>
             );
         } else if (meshCount) {
             icon = {
