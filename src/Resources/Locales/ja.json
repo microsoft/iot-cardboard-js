@@ -1294,6 +1294,8 @@
     "defaultModelNamePrefix": "モデル"
   },
   "OATModelList": {
-    "removeModelButtonText": "モデルの削除"
+    "removeModelButtonText": "モデルの削除",
+    "modelListToggleAriaLabelShow": "モデル一覧を表示",
+    "modelListToggleAriaLabelHide": "モデルリストを隠す"
   }
 }

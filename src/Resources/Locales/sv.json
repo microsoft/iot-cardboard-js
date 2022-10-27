@@ -1294,6 +1294,8 @@
     "defaultModelNamePrefix": "Modell"
   },
   "OATModelList": {
-    "removeModelButtonText": "Ta bort modell"
+    "removeModelButtonText": "Ta bort modell",
+    "modelListToggleAriaLabelShow": "Visa modelllista",
+    "modelListToggleAriaLabelHide": "Dölj modelllista"
   }
 }
