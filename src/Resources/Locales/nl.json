@@ -1297,6 +1297,8 @@
     "removeModelButtonText": "Model verwijderen",
     "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
     "modelListToggleAriaLabelHide": "Modellenlijst verbergen",
-    "searchModels": "Modellen zoeken"
+    "searchModels": "Modellen zoeken",
+    "noDataMessage": "Geen modellen",
+    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria"
   }
 }

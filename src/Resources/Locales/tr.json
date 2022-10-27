@@ -1297,6 +1297,8 @@
     "removeModelButtonText": "Modeli kaldır",
     "modelListToggleAriaLabelShow": "Model listesini göster",
     "modelListToggleAriaLabelHide": "Model listesini gizle",
-    "searchModels": "Modelleri ara"
+    "searchModels": "Modelleri ara",
+    "noDataMessage": "Model yok",
+    "noMatchingItemsMessage": "Bu ölçütlere uyan model yok"
   }
 }
