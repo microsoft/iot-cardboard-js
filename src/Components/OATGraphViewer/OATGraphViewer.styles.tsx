@@ -67,7 +67,8 @@ export const getStyles = (
             },
             modelsListCallout: {
                 root: {
-                    height: `${300}px !important`,
+                    maxHeight: '70vh !important',
+                    minHeight: '300px !important',
                     width: 350
                 },
                 calloutMain: {
