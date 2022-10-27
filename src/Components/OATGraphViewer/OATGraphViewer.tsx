@@ -269,7 +269,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 .force(
                     'link',
                     forceLink(links)
-                        .id((d) => d.id)
+                        .id((d) => (d as any).id)
                         .distance(nodeWidth)
                         .strength(1)
                 )
