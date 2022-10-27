@@ -667,7 +667,9 @@
             "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenu gegevensgeschiedenis",
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {

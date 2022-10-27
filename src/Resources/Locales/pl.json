@@ -667,7 +667,9 @@
             "information": "Domyślna operacja agregacji, gdy grupowanie danych jest aktywne na podstawie liczby punktów danych na wykresie"
           }
         }
-      }
+      },
+      "headerMenu": "Menu widżetu Historia danych",
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     }
   },
   "sdkStrings": {
