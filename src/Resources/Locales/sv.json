@@ -660,22 +660,7 @@
           },
           "quickTimeSpan": {
             "label": "Standardtidsintervall",
-            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet",
-            "options": {
-              "Last 15 mins": "Senaste 15 minuterna",
-              "Last 30 mins": "Senaste 30 minuterna",
-              "Last hour": "Sista timmen",
-              "Last 3 hours": "Senaste 3 timmarna",
-              "Last 6 hours": "Senaste 6 timmarna",
-              "Last 12 hours": "Senaste 12 timmarna",
-              "Last 24 hours": "Senaste 24 timmarna",
-              "Last 7 days": "Senaste 7 dagarna",
-              "Last 30 days": "Senaste 30 dagarna",
-              "Last 60 days": "Senaste 60 dagarna",
-              "Last 90 days": "Senaste 90 dagarna",
-              "Last 180 days": "Senaste 180 dagarna",
-              "Last year": "Fjor"
-            }
+            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
           },
           "aggregationType": {
             "label": "Typ av aggregering",
@@ -1289,5 +1274,24 @@
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
   },
-  "to": "till"
+  "to": "till",
+  "quickTimesDropdown": {
+    "label": "Tidsspann",
+    "placeholder": "Välj en snabb tid",
+    "options": {
+      "Last 15 mins": "Senaste 15 minuterna",
+      "Last 30 mins": "Senaste 30 minuterna",
+      "Last hour": "Sista timmen",
+      "Last 3 hours": "Senaste 3 timmarna",
+      "Last 6 hours": "Senaste 6 timmarna",
+      "Last 12 hours": "Senaste 12 timmarna",
+      "Last 24 hours": "Senaste 24 timmarna",
+      "Last 7 days": "Senaste 7 dagarna",
+      "Last 30 days": "Senaste 30 dagarna",
+      "Last 60 days": "Senaste 60 dagarna",
+      "Last 90 days": "Senaste 90 dagarna",
+      "Last 180 days": "Senaste 180 dagarna",
+      "Last year": "Fjor"
+    }
+  }
 }
