@@ -1294,6 +1294,8 @@
     "defaultModelNamePrefix": "Model"
   },
   "OATModelList": {
-    "removeModelButtonText": "Odebrat model"
+    "removeModelButtonText": "Odebrat model",
+    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
+    "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
   }
 }

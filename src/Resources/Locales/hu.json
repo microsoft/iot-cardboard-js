@@ -1294,6 +1294,8 @@
     "defaultModelNamePrefix": "Modell"
   },
   "OATModelList": {
-    "removeModelButtonText": "Modell eltávolítása"
+    "removeModelButtonText": "Modell eltávolítása",
+    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
+    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
   }
 }

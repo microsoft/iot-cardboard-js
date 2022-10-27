@@ -1294,6 +1294,8 @@
     "defaultModelNamePrefix": "Modello"
   },
   "OATModelList": {
-    "removeModelButtonText": "Rimuovi modello"
+    "removeModelButtonText": "Rimuovi modello",
+    "modelListToggleAriaLabelShow": "Mostra elenco modelli",
+    "modelListToggleAriaLabelHide": "Nascondi elenco modelli"
   }
 }
