@@ -944,7 +944,6 @@
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
-    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -954,6 +953,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
+    },
+    "importFolder": "Папка импорта",
+    "importFile": "Импорт файла",
+    "ontology": "Онтология",
+    "manageOntologyModal": {
+      "deleteButtonText": "Удалить онтологию",
+      "modalTitleCreate": "Новая онтология",
+      "modalTitleEdit": "Редактирование онтологии",
+      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleLinkText": "Подробнее об онтологиях",
+      "nameLabel": "Имя",
+      "namePlaceholder": "Введите имя онтологии",
+      "namespaceLabel": "Пространство имен",
+      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
+      "namespacePlaceholder": "Ввод пространства имен",
+      "sampleModel": "Образец модели"
     }
   },
   "cameraControls": {
@@ -1293,5 +1309,10 @@
       "Last 180 days": "Последние 180 дней",
       "Last year": "В прошлом году"
     }
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
   }
 }

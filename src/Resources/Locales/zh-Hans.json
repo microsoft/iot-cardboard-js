@@ -944,7 +944,6 @@
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
-    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -954,6 +953,23 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
+    },
+    "importFolder": "导入文件夹",
+    "importFile": "导入文件",
+    "ontology": "本体",
+    "manageOntologyModal": {
+      "deleteButtonText": "删除本体",
+      "modalTitleCreate": "新本体",
+      "modalTitleEdit": "编辑本体",
+      "modalSubTitleCreate": "创建一个新的本体，为您的数字孪生提供结构。",
+      "modalSubTitleEdit": "编辑你的本体，给你的数字孪生提供结构。",
+      "modalSubTitleLinkText": "了解有关本体的更多信息",
+      "nameLabel": "名字",
+      "namePlaceholder": "输入本体名称",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "示例模型名称：{{模型名称}}",
+      "namespacePlaceholder": "输入命名空间",
+      "sampleModel": "示例模型"
     }
   },
   "cameraControls": {
@@ -1293,5 +1309,10 @@
       "Last 180 days": "最近 180 天",
       "Last year": "去年"
     }
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "复制",
+    "defaultFileName": "新本体",
+    "defaultModelNamePrefix": "型"
   }
 }

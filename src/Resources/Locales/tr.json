@@ -944,7 +944,6 @@
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
-    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -954,6 +953,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
+    },
+    "importFolder": "Klasörü içe aktar",
+    "importFile": "Dosyayı içe aktar",
+    "ontology": "Ontoloji",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ontolojiyi silme",
+      "modalTitleCreate": "Yeni ontoloji",
+      "modalTitleEdit": "Ontolojiyi düzenleme",
+      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
+      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
+      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
+      "nameLabel": "Ad",
+      "namePlaceholder": "Ontoloji adı girin",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Örnek model adı: {{modelName}}",
+      "namespacePlaceholder": "Ad alanı girme",
+      "sampleModel": "örnek Model"
     }
   },
   "cameraControls": {
@@ -1293,5 +1309,10 @@
       "Last 180 days": "Son 180 gün",
       "Last year": "Geçen yıl"
     }
+  },
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopya etmek",
+    "defaultFileName": "Yeni ontoloji",
+    "defaultModelNamePrefix": "Model"
   }
 }
