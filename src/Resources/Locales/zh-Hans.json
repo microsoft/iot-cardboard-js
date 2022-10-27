@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "键入值，按回车键添加"
-  }
+  },
+  "to": "自"
 }

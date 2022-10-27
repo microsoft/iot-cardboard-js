@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın"
-  }
+  },
+  "to": "Hedef"
 }

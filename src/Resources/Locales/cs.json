@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
-  }
+  },
+  "to": "k"
 }

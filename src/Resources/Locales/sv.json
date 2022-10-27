@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
-  }
+  },
+  "to": "till"
 }

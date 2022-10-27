@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Escriba los valores, presione enter para agregar"
-  }
+  },
+  "to": "Para"
 }

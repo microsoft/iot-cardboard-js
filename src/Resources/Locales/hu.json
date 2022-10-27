@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
-  }
+  },
+  "to": "hoz"
 }

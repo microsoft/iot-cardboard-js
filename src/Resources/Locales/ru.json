@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить"
-  }
+  },
+  "to": "Кому"
 }

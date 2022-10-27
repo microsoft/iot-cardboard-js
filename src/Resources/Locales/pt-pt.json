@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Tipo de valores, prima insira para adicionar"
-  }
+  },
+  "to": "Para"
 }

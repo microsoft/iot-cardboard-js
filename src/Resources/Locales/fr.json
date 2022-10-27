@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Tapez des valeurs, appuyez sur Entrée pour ajouter"
-  }
+  },
+  "to": "À"
 }

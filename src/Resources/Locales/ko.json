@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다."
-  }
+  },
+  "to": "받는 사람"
 }

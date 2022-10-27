@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
-  }
+  },
+  "to": "Aan"
 }

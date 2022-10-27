@@ -1288,5 +1288,6 @@
   },
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
-  }
+  },
+  "to": "An"
 }
