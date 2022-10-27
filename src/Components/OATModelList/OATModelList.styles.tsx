@@ -21,22 +21,24 @@ export const getStyles = (
 ): IOATModelListStyles => {
     const { theme } = props;
     return {
-        root: [
-            classNames.root,
-            {
-                overflow: 'hidden'
-            }
-        ],
+        root: [classNames.root],
         listContainer: [
             classNames.listContainer,
             {
                 backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
                 height: 'calc(100% - 32px)', // less the search box
-                overflowX: 'hidden'
+                overflowX: 'hidden',
+                overflowY: 'auto'
             }
         ],
         subComponentStyles: {
+            rootStack: {
+                root: {
+                    height: '100%',
+                    overflow: 'hidden'
+                }
+            },
             searchbox: {
                 root: {
                     marginLeft: 4,

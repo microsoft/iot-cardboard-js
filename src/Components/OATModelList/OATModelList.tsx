@@ -3,6 +3,7 @@ import {
     classNamesFunction,
     IContextualMenuItem,
     SearchBox,
+    Stack,
     styled,
     useTheme
 } from '@fluentui/react';
@@ -148,7 +149,11 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
     const classNames = getClassNames(styles, { theme: useTheme() });
 
     return (
-        <div className={classNames.root}>
+        <Stack
+            className={classNames.root}
+            tokens={{ childrenGap: 8 }}
+            styles={classNames.subComponentStyles.rootStack}
+        >
             <SearchBox
                 placeholder={t('search')}
                 onChange={(_, value) => setFilter(value)}
@@ -159,7 +164,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                 items={listItems}
                 listKey={'model-list'}
             />
-        </div>
+        </Stack>
     );
 };
 

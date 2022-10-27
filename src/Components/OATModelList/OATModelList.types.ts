@@ -2,7 +2,8 @@ import {
     IStyleFunctionOrObject,
     ITheme,
     IStyle,
-    ISearchBoxStyles
+    ISearchBoxStyles,
+    IStackStyles
 } from '@fluentui/react';
 
 export interface IOATModelListProps {
@@ -29,5 +30,6 @@ export interface IOATModelListStyles {
 }
 
 export interface IOATModelListSubComponentStyles {
+    rootStack: IStackStyles;
     searchbox?: ISearchBoxStyles;
 }
