@@ -1043,21 +1043,54 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesData(_query: string) {
+    async getTimeSeriesData(query: string) {
+        let mockData: Array<ADXTimeSeries> = [];
         try {
             await this.mockNetwork();
+            try {
+                const listOfTimeSeries = query.split(';');
+                listOfTimeSeries.forEach((ts) => {
+                    const split = ts.split('ago(')[1].split(')');
+                    const quickTimeSpanInMillis = Number(
+                        split[0].replace('ms', '')
+                    );
+                    const idAndPropertyPart = split[1]
+                        .split('Id == ')[1]
+                        .split(' and Key == ');
+                    const twinId = idAndPropertyPart[0].replace(/'/g, '');
+                    const twinProperty = idAndPropertyPart[1]
+                        .split(' | order by')[0]
+                        .replace(/'/g, '');
 
-            const mockData: Array<ADXTimeSeries> = [
-                {
-                    id: 'PasteurizationMachine_A01',
-                    key: 'InFlow',
-                    data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
-                }
-            ];
-            return new AdapterResult({
-                result: new ADXTimeSeriesData(mockData),
-                errorInfo: null
-            });
+                    mockData.push({
+                        id: twinId,
+                        key: twinProperty,
+                        data: getMockTimeSeriesDataArrayInLocalTime(
+                            1,
+                            5,
+                            quickTimeSpanInMillis
+                        )[0]
+                    });
+                });
+
+                return new AdapterResult({
+                    result: new ADXTimeSeriesData(mockData),
+                    errorInfo: null
+                });
+            } catch (error) {
+                console.log(error);
+                mockData = [
+                    {
+                        id: 'PasteurizationMachine_A01',
+                        key: 'InFlow',
+                        data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
+                    }
+                ];
+                return new AdapterResult({
+                    result: new ADXTimeSeriesData(mockData),
+                    errorInfo: null
+                });
+            }
         } catch (err) {
             return new AdapterResult<ADXTimeSeriesData>({
                 result: null,
