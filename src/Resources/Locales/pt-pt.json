@@ -1297,6 +1297,8 @@
     "removeModelButtonText": "Remover modelo",
     "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
     "modelListToggleAriaLabelHide": "Lista de modelos de ocultação",
-    "searchModels": "Modelos de pesquisa"
+    "searchModels": "Modelos de pesquisa",
+    "noDataMessage": "Sem modelos",
+    "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério"
   }
 }

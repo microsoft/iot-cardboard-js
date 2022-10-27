@@ -1297,6 +1297,8 @@
     "removeModelButtonText": "モデルの削除",
     "modelListToggleAriaLabelShow": "モデル一覧を表示",
     "modelListToggleAriaLabelHide": "モデルリストを隠す",
-    "searchModels": "検索モデル"
+    "searchModels": "検索モデル",
+    "noDataMessage": "モデルなし",
+    "noMatchingItemsMessage": "その基準に一致するモデルはありません"
   }
 }

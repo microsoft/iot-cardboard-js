@@ -1297,6 +1297,8 @@
     "removeModelButtonText": "删除模型",
     "modelListToggleAriaLabelShow": "显示型号列表",
     "modelListToggleAriaLabelHide": "隐藏模型列表",
-    "searchModels": "搜索型号"
+    "searchModels": "搜索型号",
+    "noDataMessage": "无型号",
+    "noMatchingItemsMessage": "没有符合该条件的模型"
   }
 }
