@@ -835,17 +835,18 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 )}
 
                 <ReactFlow
+                    className={classNames.graph}
+                    edgeTypes={edgeTypes}
                     elements={elements}
-                    onElementClick={onElementClick}
+                    nodeTypes={nodeTypes}
                     onConnectStart={onConnectStart}
                     onConnectStop={onConnectStop}
+                    onElementClick={onElementClick}
                     onLoad={onLoadGraph}
-                    snapToGrid={true}
-                    snapGrid={[15, 15]}
-                    nodeTypes={nodeTypes}
-                    edgeTypes={edgeTypes}
                     onNodeDragStop={onNodeDragEnd}
                     onPaneClick={clearSelectedModel}
+                    snapGrid={[15, 15]}
+                    snapToGrid={true}
                 >
                     {!elements[0] && (
                         <Label styles={warningStyles}>
@@ -896,11 +897,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             <GraphLegend />
                         </Callout>
                     )}
-                    <Background
-                        // color={theme.semanticColors.bodyBackground}
-                        gap={16}
-                        onClick={clearSelectedModel}
-                    />
+                    <Background gap={16} onClick={clearSelectedModel} />
                 </ReactFlow>
             </div>
         </ReactFlowProvider>

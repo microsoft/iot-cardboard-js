@@ -24,6 +24,8 @@ import {
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
     root: `${classPrefix2}-root`,
+    graph: `${classPrefix2}-graph`,
+    graphMiniMap: `${classPrefix2}-graph-mini-map`,
     minimapContainer: `${classPrefix2}-minimap-container`
 };
 export const getStyles = (
@@ -32,6 +34,7 @@ export const getStyles = (
     const { theme } = props;
     return {
         root: [classNames2.root],
+        graph: [classNames2.graph, { cursor: 'move' }],
         graphMiniMapContainer: [
             classNames2.minimapContainer,
             {
@@ -39,7 +42,6 @@ export const getStyles = (
                 position: 'absolute',
                 right: 0,
                 '.react-flow__minimap': {
-                    cursor: 'crosshair',
                     background: theme.semanticColors.bodyBackground,
                     left: 'unset',
                     zIndex: CONTROLS_Z_INDEX
@@ -47,6 +49,7 @@ export const getStyles = (
             }
         ],
         graphMiniMap: [
+            classNames2.graphMiniMap,
             {
                 borderRadius: theme.effects.roundedCorner2,
                 boxShadow: theme.effects.elevation16
