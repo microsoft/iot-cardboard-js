@@ -565,7 +565,21 @@
       "editCondition": "Koşulu düzenle",
       "deleteCondition": "Silme koşulu",
       "unlabeledCondition": "Etiketlenmemiş",
-      "formSubtext": "Bir kural, koşullar ve bu koşullar karşılandığında görsel ipuçları içerir. Bu kural için veri ifadesini seçin ve birkaç koşul ekleyin."
+      "formSubtext": "Bir kural, koşullar ve bu koşullar karşılandığında görsel ipuçları içerir. Bu kural için veri ifadesini seçin ve birkaç koşul ekleyin.",
+      "addCondition": "Koşul ekle",
+      "conditionsTitle": "Koşul -ları",
+      "actionsTitle": "Eylemler",
+      "colorLabel": "Renk",
+      "iconLabel": "İkon",
+      "invalidRanges": "Geçersiz aralık, min maksimumdan küçük olmalı ve değerler sayısal olmalıdır.",
+      "labelField": "Etiket",
+      "choiceGroupTrue": "Doğru",
+      "choiceGroupFalse": "Yanlış",
+      "flyoutValuesTitle": "Değer",
+      "flyoutValueTitle": "Değer",
+      "actionLabel": "Eylem",
+      "meshColoringOption": "Mesh renklendirme",
+      "badgeOption": "Rozet"
     },
     "conditions": "Koşul -ları",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Kural Ekle",
       "editRule": "Kuralı düzenle",
       "removeRule": "Kuralı kaldır",
-      "singleBadge": "{{badgeCount}} rozeti",
-      "singleMeshColoring": "{{meshColoringCount}} örgü renklendirme",
       "multipleBadges": "{{badgeCount}} rozetleri",
       "multipleMeshColorings": "{{meshColoringCount}} örgü renklendirmeleri",
-      "unlabeled": "(etiketsiz)"
+      "unlabeled": "(etiketsiz)",
+      "singleBadge": "1 rozet",
+      "singleMeshColoring": "1 örgü renklendirme"
     }
   },
   "widgets": {
@@ -646,16 +660,29 @@
           },
           "quickTimeSpan": {
             "label": "Varsayılan zaman aralığı",
-            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
+            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi",
+            "options": {
+              "Last 15 mins": "Son 15 dakika",
+              "Last 30 mins": "Son 30 dakika",
+              "Last hour": "Son saat",
+              "Last 3 hours": "Son 3 saat",
+              "Last 6 hours": "Son 6 saat",
+              "Last 12 hours": "Son 12 saat",
+              "Last 24 hours": "Son 24 saat",
+              "Last 7 days": "Son 7 gün",
+              "Last 30 days": "Son 30 gün",
+              "Last 60 days": "Son 60 gün",
+              "Last 90 days": "Son 90 gün",
+              "Last 180 days": "Son 180 gün",
+              "Last year": "Geçen yıl"
+            }
           },
           "aggregationType": {
             "label": "Toplama türü",
             "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
           }
         }
-      },
-      "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+      }
     }
   },
   "sdkStrings": {
@@ -1256,25 +1283,11 @@
   },
   "highcharts": {
     "shareQueryTitle": "Sorguyu paylaşma",
-    "noDataDescription": "Görüntülenecek veri yok"
+    "noDataDescription": "Görüntülenecek veri yok",
+    "noTitle": "Başlık yok"
   },
-  "quickTimesDropdown": {
-    "label": "Zaman aralığı",
-    "placeholder": "Hızlı bir zaman seçin",
-    "options": {
-      "Last 15 mins": "Son 15 dakika",
-      "Last 30 mins": "Son 30 dakika",
-      "Last hour": "Son saat",
-      "Last 3 hours": "Son 3 saat",
-      "Last 6 hours": "Son 6 saat",
-      "Last 12 hours": "Son 12 saat",
-      "Last 24 hours": "Son 24 saat",
-      "Last 7 days": "Son 7 gün",
-      "Last 30 days": "Son 30 gün",
-      "Last 60 days": "Son 60 gün",
-      "Last 90 days": "Son 90 gün",
-      "Last 180 days": "Son 180 gün",
-      "Last year": "Geçen yıl"
-    }
-  }
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Değerler yazın, eklemek için enter tuşuna basın"
+  },
+  "to": "Hedef"
 }

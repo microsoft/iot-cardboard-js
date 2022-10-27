@@ -565,7 +565,21 @@
       "editCondition": "Voorwaarde bewerken",
       "deleteCondition": "Voorwaarde verwijderen",
       "unlabeledCondition": "Niet-gelabeld",
-      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe."
+      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe.",
+      "addCondition": "Voorwaarde toevoegen",
+      "conditionsTitle": "Voorwaarden",
+      "actionsTitle": "Acties",
+      "colorLabel": "Kleur",
+      "iconLabel": "Pictogram",
+      "invalidRanges": "Ongeldig bereik, min moet kleiner zijn dan max en waarden moeten numeriek zijn.",
+      "labelField": "Etiket",
+      "choiceGroupTrue": "Waar",
+      "choiceGroupFalse": "Vals",
+      "flyoutValuesTitle": "Waarden",
+      "flyoutValueTitle": "Waarde",
+      "actionLabel": "Actie",
+      "meshColoringOption": "Mesh kleuring",
+      "badgeOption": "Insigne"
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Regel toevoegen",
       "editRule": "Regel bewerken",
       "removeRule": "Regel verwijderen",
-      "singleBadge": "Badge {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} netkleuring",
       "multipleBadges": "{{badgeCount}} badges",
       "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren",
-      "unlabeled": "(niet gelabeld)"
+      "unlabeled": "(niet gelabeld)",
+      "singleBadge": "1 badge",
+      "singleMeshColoring": "1 mesh kleuring"
     }
   },
   "widgets": {
@@ -646,16 +660,29 @@
           },
           "quickTimeSpan": {
             "label": "Standaard tijdspanne",
-            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
+            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek",
+            "options": {
+              "Last 15 mins": "Laatste 15 minuten",
+              "Last 30 mins": "Laatste 30 minuten",
+              "Last hour": "Laatste uur",
+              "Last 3 hours": "Laatste 3 uur",
+              "Last 6 hours": "Laatste 6 uur",
+              "Last 12 hours": "Laatste 12 uur",
+              "Last 24 hours": "Afgelopen 24 uur",
+              "Last 7 days": "Laatste 7 dagen",
+              "Last 30 days": "Laatste 30 dagen",
+              "Last 60 days": "Laatste 60 dagen",
+              "Last 90 days": "Afgelopen 90 dagen",
+              "Last 180 days": "Afgelopen 180 dagen",
+              "Last year": "Vorig jaar"
+            }
           },
           "aggregationType": {
             "label": "Type aggregatie",
             "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
           }
         }
-      },
-      "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer"
+      }
     }
   },
   "sdkStrings": {
@@ -1256,25 +1283,11 @@
   },
   "highcharts": {
     "shareQueryTitle": "Query delen",
-    "noDataDescription": "Geen gegevens om weer te geven"
+    "noDataDescription": "Geen gegevens om weer te geven",
+    "noTitle": "Geen titel"
   },
-  "quickTimesDropdown": {
-    "label": "Tijdspanne",
-    "placeholder": "Selecteer een snelle tijd",
-    "options": {
-      "Last 15 mins": "Laatste 15 minuten",
-      "Last 30 mins": "Laatste 30 minuten",
-      "Last hour": "Laatste uur",
-      "Last 3 hours": "Laatste 3 uur",
-      "Last 6 hours": "Laatste 6 uur",
-      "Last 12 hours": "Laatste 12 uur",
-      "Last 24 hours": "Afgelopen 24 uur",
-      "Last 7 days": "Laatste 7 dagen",
-      "Last 30 days": "Laatste 30 dagen",
-      "Last 60 days": "Laatste 60 dagen",
-      "Last 90 days": "Afgelopen 90 dagen",
-      "Last 180 days": "Afgelopen 180 dagen",
-      "Last year": "Vorig jaar"
-    }
-  }
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
+  },
+  "to": "Aan"
 }
