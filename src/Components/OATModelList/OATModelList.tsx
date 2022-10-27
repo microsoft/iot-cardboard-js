@@ -169,6 +169,8 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
     // styles
     const classNames = getClassNames(styles, { theme: useTheme() });
 
+    const listHasItems = listItems.length > 0;
+
     return (
         <Stack
             className={classNames.root}
@@ -181,14 +183,23 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                 styles={classNames.subComponentStyles.searchbox}
                 data-testid={'models-list-search-box'}
             />
-            <CardboardList
-                className={classNames.listContainer}
-                listProps={{
-                    componentRef: listRef
-                }}
-                items={listItems}
-                listKey={'models-list'}
-            />
+            {!listHasItems && (
+                <div className={classNames.noDataMessage}>
+                    {filter?.length
+                        ? t('OATModelList.noMatchingItemsMessage')
+                        : t('OATModelList.noDataMessage')}
+                </div>
+            )}
+            {listHasItems && (
+                <CardboardList
+                    className={classNames.listContainer}
+                    listProps={{
+                        componentRef: listRef
+                    }}
+                    items={listItems}
+                    listKey={'models-list'}
+                />
+            )}
         </Stack>
     );
 };

@@ -22,6 +22,7 @@ export interface IOATModelListStyleProps {
 export interface IOATModelListStyles {
     root: IStyle;
     listContainer: IStyle;
+    noDataMessage: IStyle;
 
     /**
      * SubComponent styles.

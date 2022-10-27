@@ -1,3 +1,4 @@
+import { FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
 import {
@@ -9,13 +10,7 @@ const classPrefix = `${CardboardClassNamePrefix}-oat-model-list`;
 const classNames = {
     root: `${classPrefix}-root`,
     listContainer: `${classPrefix}-container`,
-    modelNode: `${classPrefix}-model-node`,
-    modelNodeSelected: `${classPrefix}-model-node-selected`,
-    modelNodeButtonContent: `${classPrefix}-model-node-button-content`,
-    nodeCancel: `${classPrefix}-nodeCancel`,
-    strongText: `${classPrefix}-strong-text`,
-    searchText: `${classPrefix}-searchText`,
-    placeholderText: `${classPrefix}-placeholder-text`
+    noDataMessage: `${classPrefix}-no-data`
 };
 export const getStyles = (
     props: IOATModelListStyleProps
@@ -31,6 +26,13 @@ export const getStyles = (
                 height: 'calc(100% - 32px)', // less the search box
                 overflowX: 'hidden',
                 overflowY: 'auto'
+            }
+        ],
+        noDataMessage: [
+            classNames.noDataMessage,
+            {
+                fontSize: FontSizes.size12,
+                color: theme.palette.neutralSecondary
             }
         ],
         subComponentStyles: {

@@ -10,6 +10,7 @@ import {
 } from '../../Models/Services/StoryUtilities';
 import { getMockFile } from '../../Models/Context/OatPageContext/OatPageContext.mock';
 import { userEvent, within } from '@storybook/testing-library';
+import { IOatPageContextState } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -22,9 +23,12 @@ export default {
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
+type StoryProps = {
+    initialState?: Partial<IOatPageContextState>;
+};
 type SceneBuilderStory = ComponentStory<any>;
 const Template: SceneBuilderStory = (
-    _args: any,
+    args: StoryProps,
     _context: IStoryContext<any>
 ) => {
     return (
@@ -32,7 +36,8 @@ const Template: SceneBuilderStory = (
             disableLocalStorage={true}
             initialState={{
                 ontologyFiles: [getMockFile(0, '123', '234')],
-                currentOntologyId: 'something'
+                currentOntologyId: 'something',
+                ...args?.initialState
             }}
         >
             <CommandHistoryContextProvider>
@@ -44,13 +49,30 @@ const Template: SceneBuilderStory = (
 
 export const Base = Template.bind({});
 
-export const Search = Template.bind({});
-Search.play = async ({ canvasElement }) => {
+export const NoData = Template.bind({});
+NoData.args = {
+    initialState: {
+        ontologyFiles: []
+    }
+} as StoryProps;
+
+export const SearchWithMatch = Template.bind({});
+SearchWithMatch.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // type in the search box
     const searchBox = canvas.getByTestId('models-list-search-box');
     userEvent.type(searchBox, '1');
+    await sleep(1);
+};
+
+export const SearchNoMatch = Template.bind({});
+SearchNoMatch.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // type in the search box
+    const searchBox = canvas.getByTestId('models-list-search-box');
+    userEvent.type(searchBox, 'something');
     await sleep(1);
 };
 
