@@ -6,6 +6,7 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants
 import { HEADER_BUTTON_HEIGHT } from '../../../../Models/Constants/StyleConstants';
 import {
     CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_LEFT_OFFSET,
     CONTROLS_Z_INDEX
 } from '../../../../Models/Constants/OatStyleConstants';
 
@@ -19,7 +20,18 @@ export const getStyles = (
 ): IGraphViewerControlsStyles => {
     const { theme } = props;
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                left: CONTROLS_LEFT_OFFSET,
+                bottom: CONTROLS_BOTTOM_OFFSET,
+                position: 'absolute',
+                width: '100%',
+                zIndex: CONTROLS_Z_INDEX
+            }
+        ],
         graphBuiltInControls: [
             classNames.builtInControls,
             {
@@ -59,11 +71,6 @@ export const getStyles = (
         subComponentStyles: {
             controlsStack: {
                 root: {
-                    bottom: CONTROLS_BOTTOM_OFFSET,
-                    left: '50%',
-                    position: 'absolute',
-                    zIndex: CONTROLS_Z_INDEX,
-
                     '> .react-flow__controls': {
                         position: 'unset',
                         left: 'unset'

@@ -1,10 +1,10 @@
 import {
-    ICalloutContentStyles,
     IStackStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
 } from '@fluentui/react';
+import { IHeaderControlGroupStyles } from '../../../HeaderControlGroup/HeaderControlGroup.types';
 
 export interface IGraphViewerControlsProps {
     legendButtonId?: string;
@@ -35,4 +35,5 @@ export interface IGraphViewerControlsStyles {
 
 export interface IGraphViewerControlsSubComponentStyles {
     controlsStack?: IStackStyles;
+    modelsListButtonGroup?: IHeaderControlGroupStyles;
 }

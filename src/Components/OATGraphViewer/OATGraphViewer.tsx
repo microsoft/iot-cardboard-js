@@ -854,11 +854,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     )}
                     {oatGraphState.isModelListVisible && (
                         <Callout
-                            target={`#${modelListButtonId}`}
                             directionalHint={DirectionalHint.bottomLeftEdge}
+                            gapSpace={16}
+                            isBeakVisible={false}
                             styles={
                                 classNames.subComponentStyles.modelsListCallout
                             }
+                            target={`#${modelListButtonId}`}
                         >
                             <OATModelList />
                         </Callout>
