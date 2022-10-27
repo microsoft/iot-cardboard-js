@@ -20,7 +20,7 @@ export const useOatGraphContext = () => useContext(OatGraphContext);
 
 const defaultState: IOatGraphContextState = {
     isLoading: false,
-    isLegendVisible: true,
+    isLegendVisible: false,
     isMiniMapVisible: true,
     isModelListVisible: true,
     showComponents: true,

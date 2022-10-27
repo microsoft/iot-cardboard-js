@@ -1,4 +1,5 @@
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
 import {
     IOATModelListStyleProps,
     IOATModelListStyles
@@ -41,8 +42,7 @@ export const getStyles = (
             },
             searchbox: {
                 root: {
-                    marginLeft: 4,
-                    marginRight: 4
+                    backgroundColor: getControlBackgroundColor(theme)
                 }
             }
         }

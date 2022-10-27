@@ -87,6 +87,7 @@ import {
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
 import GraphViewerControls from './Internal/GraphViewerControls/GraphViewerControls';
 import OATModelList from '../OATModelList/OATModelList';
+import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -882,7 +883,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                 nodeColor={'transparent'}
                                 nodeStrokeColor={theme.palette.black}
                                 nodeStrokeWidth={2}
-                                maskColor={theme.palette.neutralLight}
+                                maskColor={getControlBackgroundColor(theme)}
                                 className={classNames.graphMiniMap}
                             />
                         </div>

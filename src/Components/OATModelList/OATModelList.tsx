@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import {
     classNamesFunction,
     IContextualMenuItem,
+    IList,
     SearchBox,
     Stack,
     styled,
@@ -26,6 +27,8 @@ import {
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
 
+const LIST_ITEM_HEIGHT = 51;
+
 const getClassNames = classNamesFunction<
     IOATModelListStyleProps,
     IOATModelListStyles
@@ -46,7 +49,25 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
         ICardboardListItem<DtdlInterface>[]
     >([]);
     const [filter, setFilter] = useState('');
+    const listRef = useRef<IList>();
 
+    // scroll to the item when it's selected from the graph side
+    useEffect(() => {
+        const index = listItems.findIndex(
+            (x) => x.item['@id'] === oatPageState.selection?.modelId
+        );
+        logDebugConsole(
+            'debug',
+            'Scrolling to selected item. {index, item}',
+            index,
+            oatPageState.selection?.modelId
+        );
+        if (index > -1) {
+            listRef.current.scrollToIndex(index, () => LIST_ITEM_HEIGHT);
+        }
+    }, [listItems, oatPageState.selection]);
+
+    // update the list items anytime a new model is added to the context
     useEffect(() => {
         const onModelSelected = (id: string) => {
             oatPageDispatch({
@@ -155,12 +176,15 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
             styles={classNames.subComponentStyles.rootStack}
         >
             <SearchBox
-                placeholder={t('search')}
+                placeholder={t('OATModelList.searchModels')}
                 onChange={(_, value) => setFilter(value)}
                 styles={classNames.subComponentStyles.searchbox}
             />
             <CardboardList
                 className={classNames.listContainer}
+                listProps={{
+                    componentRef: listRef
+                }}
                 items={listItems}
                 listKey={'model-list'}
             />

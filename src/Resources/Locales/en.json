@@ -976,6 +976,7 @@
         }
     },
     "OATModelList": {
+        "searchModels": "Search models",
         "removeModelButtonText": "Remove model",
         "modelListToggleAriaLabelShow": "Show model list",
         "modelListToggleAriaLabelHide": "Hide model list"

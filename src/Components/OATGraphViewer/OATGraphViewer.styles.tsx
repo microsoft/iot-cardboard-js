@@ -14,6 +14,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
     CONTROLS_Z_INDEX,
+    getControlBackgroundColor,
     LOADING_Z_INDEX
 } from '../../Models/Constants/OatStyleConstants';
 import {
@@ -58,15 +59,21 @@ export const getStyles = (
         subComponentStyles: {
             legendCallout: {
                 calloutMain: {
-                    backgroundColor: theme.palette.neutralLight
+                    backgroundColor: getControlBackgroundColor(theme)
                 },
                 beak: {
-                    backgroundColor: theme.palette.neutralLight
+                    backgroundColor: getControlBackgroundColor(theme)
                 }
             },
             modelsListCallout: {
                 root: {
-                    maxHeight: 500
+                    height: `${300}px !important`,
+                    width: 350
+                },
+                calloutMain: {
+                    backgroundColor: getControlBackgroundColor(theme),
+                    overflow: 'hidden',
+                    padding: 20
                 }
             }
         }
@@ -314,7 +321,7 @@ export const getGraphViewerStyles = () => {
         node: [
             classNames.node,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
@@ -325,7 +332,7 @@ export const getGraphViewerStyles = () => {
         selectedNode: [
             classNames.selectedNode,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `3px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
