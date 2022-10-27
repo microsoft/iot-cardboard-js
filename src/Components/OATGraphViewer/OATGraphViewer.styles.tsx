@@ -67,9 +67,11 @@ export const getStyles = (
             },
             modelsListCallout: {
                 root: {
-                    maxHeight: '70vh !important',
+                    height: '75vh !important',
                     minHeight: '300px !important',
-                    width: 350
+                    width: '30vw',
+                    minWidth: 200,
+                    maxWidth: 400
                 },
                 calloutMain: {
                     backgroundColor: getControlBackgroundColor(theme),
