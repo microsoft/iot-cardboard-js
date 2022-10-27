@@ -667,7 +667,9 @@
             "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
           }
         }
-      }
+      },
+      "headerMenu": "Adatelőzmények widget menü",
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     }
   },
   "sdkStrings": {

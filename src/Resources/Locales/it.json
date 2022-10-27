@@ -667,7 +667,9 @@
             "information": "Operazione di aggregazione predefinita quando il raggruppamento dei dati è attivo in base al numero di punti dati nel grafico"
           }
         }
-      }
+      },
+      "headerMenu": "Menu widget Cronologia dati",
+      "openQuery": "Aprire query in Esplora dati di Azure"
     }
   },
   "sdkStrings": {
