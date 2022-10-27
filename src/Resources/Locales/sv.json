@@ -1296,6 +1296,7 @@
   "OATModelList": {
     "removeModelButtonText": "Ta bort modell",
     "modelListToggleAriaLabelShow": "Visa modelllista",
-    "modelListToggleAriaLabelHide": "Dölj modelllista"
+    "modelListToggleAriaLabelHide": "Dölj modelllista",
+    "searchModels": "Sök modeller"
   }
 }

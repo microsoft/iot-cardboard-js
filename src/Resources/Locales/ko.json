@@ -1296,6 +1296,7 @@
   "OATModelList": {
     "removeModelButtonText": "모델 제거",
     "modelListToggleAriaLabelShow": "모델 목록 표시",
-    "modelListToggleAriaLabelHide": "모델 목록 숨기기"
+    "modelListToggleAriaLabelHide": "모델 목록 숨기기",
+    "searchModels": "모델 검색"
   }
 }

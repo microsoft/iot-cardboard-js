@@ -1296,6 +1296,7 @@
   "OATModelList": {
     "removeModelButtonText": "Usuń model",
     "modelListToggleAriaLabelShow": "Pokaż listę modeli",
-    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
+    "modelListToggleAriaLabelHide": "Ukryj listę modeli",
+    "searchModels": "Szukaj modeli"
   }
 }

@@ -1296,6 +1296,7 @@
   "OATModelList": {
     "removeModelButtonText": "Modell eltávolítása",
     "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
-    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
+    "modelListToggleAriaLabelHide": "Modelllista elrejtése",
+    "searchModels": "Keresési modellek"
   }
 }
