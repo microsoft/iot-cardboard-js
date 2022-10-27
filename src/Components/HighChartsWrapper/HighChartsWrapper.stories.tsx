@@ -2,11 +2,11 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import HighChartsWrapper from './HighChartsWrapper';
+import { IHighChartsWrapperProps } from './HighChartsWrapper.types';
 import {
     HighChartsMockData,
-    HighChartsMockLargeData,
-    IHighChartsWrapperProps
-} from './HighChartsWrapper.types';
+    HighChartsMockLargeData
+} from './HighChartsWrapper.mock';
 
 const wrapperStyle = { width: '500px', height: '300px', padding: 8 };
 
