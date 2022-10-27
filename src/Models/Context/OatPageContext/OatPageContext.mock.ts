@@ -27,7 +27,7 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-export const getMockModelItem = (id: string): DTDLModel => {
+const getMockModelItem = (id: string): DTDLModel => {
     return new DTDLModel(
         id,
         `model-${id}`,
@@ -53,7 +53,7 @@ const getMockTemplateItem = (id: string): DTDLProperty => {
     );
 };
 
-const getMockFile = (
+export const getMockFile = (
     index: number,
     subId1: string,
     subId2: string

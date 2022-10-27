@@ -362,6 +362,7 @@ const getInitialState = (
     }
 
     const state = {
+        ...initialState,
         // files
         ontologyFiles: files,
         // onotology
@@ -371,8 +372,7 @@ const getInitialState = (
         currentOntologyModels: project.models,
         currentOntologyNamespace: project.namespace,
         currentOntologyProjectName: project.projectName,
-        currentOntologyTemplates: project.templates,
-        ...initialState
+        currentOntologyTemplates: project.templates
     };
 
     logDebugConsole(

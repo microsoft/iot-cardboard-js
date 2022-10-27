@@ -8,8 +8,7 @@ import {
     IStoryContext,
     sleep
 } from '../../Models/Services/StoryUtilities';
-import { DtdlInterface } from '../../Models/Constants';
-import { getMockModelItem } from '../../Models/Context/OatPageContext/OatPageContext.mock';
+import { getMockFile } from '../../Models/Context/OatPageContext/OatPageContext.mock';
 import { userEvent, within } from '@storybook/testing-library';
 
 const wrapperStyle: React.CSSProperties = {
@@ -23,13 +22,6 @@ export default {
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
-const modelList: DtdlInterface[] = [
-    getMockModelItem('item-1'),
-    getMockModelItem('item-2'),
-    getMockModelItem('item-3'),
-    getMockModelItem('item-4')
-];
-
 type SceneBuilderStory = ComponentStory<any>;
 const Template: SceneBuilderStory = (
     _args: any,
@@ -38,7 +30,10 @@ const Template: SceneBuilderStory = (
     return (
         <OatPageContextProvider
             disableLocalStorage={true}
-            initialState={{ currentOntologyModels: modelList }}
+            initialState={{
+                ontologyFiles: [getMockFile(0, '123', '234')],
+                currentOntologyId: 'something'
+            }}
         >
             <CommandHistoryContextProvider>
                 <OATModelList />
