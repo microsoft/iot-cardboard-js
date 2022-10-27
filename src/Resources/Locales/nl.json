@@ -660,22 +660,7 @@
           },
           "quickTimeSpan": {
             "label": "Standaard tijdspanne",
-            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek",
-            "options": {
-              "Last 15 mins": "Laatste 15 minuten",
-              "Last 30 mins": "Laatste 30 minuten",
-              "Last hour": "Laatste uur",
-              "Last 3 hours": "Laatste 3 uur",
-              "Last 6 hours": "Laatste 6 uur",
-              "Last 12 hours": "Laatste 12 uur",
-              "Last 24 hours": "Afgelopen 24 uur",
-              "Last 7 days": "Laatste 7 dagen",
-              "Last 30 days": "Laatste 30 dagen",
-              "Last 60 days": "Laatste 60 dagen",
-              "Last 90 days": "Afgelopen 90 dagen",
-              "Last 180 days": "Afgelopen 180 dagen",
-              "Last year": "Vorig jaar"
-            }
+            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
           },
           "aggregationType": {
             "label": "Type aggregatie",
@@ -1289,5 +1274,24 @@
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Typ waarden, druk op enter om toe te voegen"
   },
-  "to": "Aan"
+  "to": "Aan",
+  "quickTimesDropdown": {
+    "label": "Tijdspanne",
+    "placeholder": "Selecteer een snelle tijd",
+    "options": {
+      "Last 15 mins": "Laatste 15 minuten",
+      "Last 30 mins": "Laatste 30 minuten",
+      "Last hour": "Laatste uur",
+      "Last 3 hours": "Laatste 3 uur",
+      "Last 6 hours": "Laatste 6 uur",
+      "Last 12 hours": "Laatste 12 uur",
+      "Last 24 hours": "Afgelopen 24 uur",
+      "Last 7 days": "Laatste 7 dagen",
+      "Last 30 days": "Laatste 30 dagen",
+      "Last 60 days": "Laatste 60 dagen",
+      "Last 90 days": "Afgelopen 90 dagen",
+      "Last 180 days": "Afgelopen 180 dagen",
+      "Last year": "Vorig jaar"
+    }
+  }
 }

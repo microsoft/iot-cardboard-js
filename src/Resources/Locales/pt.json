@@ -660,22 +660,7 @@
           },
           "quickTimeSpan": {
             "label": "Período de tempo padrão",
-            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico",
-            "options": {
-              "Last 15 mins": "Últimos 15 minutos",
-              "Last 30 mins": "Últimos 30 minutos",
-              "Last hour": "Última hora",
-              "Last 3 hours": "Últimas 3 horas.",
-              "Last 6 hours": "Últimas 6 horas",
-              "Last 12 hours": "Últimas 12 horas",
-              "Last 24 hours": "Últimas 24 horas",
-              "Last 7 days": "Últimos 7 dias",
-              "Last 30 days": "Últimos 30 dias.",
-              "Last 60 days": "Últimos 60 dias",
-              "Last 90 days": "Últimos 90 dias",
-              "Last 180 days": "Últimos 180 dias",
-              "Last year": "Ano passado"
-            }
+            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
           },
           "aggregationType": {
             "label": "Tipo de agregação",
@@ -1289,5 +1274,24 @@
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Digite valores, pressione enter para adicionar"
   },
-  "to": "Para"
+  "to": "Para",
+  "quickTimesDropdown": {
+    "label": "Período de tempo",
+    "placeholder": "Selecione um tempo rápido",
+    "options": {
+      "Last 15 mins": "Últimos 15 minutos",
+      "Last 30 mins": "Últimos 30 minutos",
+      "Last hour": "Última hora",
+      "Last 3 hours": "Últimas 3 horas.",
+      "Last 6 hours": "Últimas 6 horas",
+      "Last 12 hours": "Últimas 12 horas",
+      "Last 24 hours": "Últimas 24 horas",
+      "Last 7 days": "Últimos 7 dias",
+      "Last 30 days": "Últimos 30 dias.",
+      "Last 60 days": "Últimos 60 dias",
+      "Last 90 days": "Últimos 90 dias",
+      "Last 180 days": "Últimos 180 dias",
+      "Last year": "Ano passado"
+    }
+  }
 }

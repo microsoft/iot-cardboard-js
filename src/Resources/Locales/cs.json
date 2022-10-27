@@ -660,22 +660,7 @@
           },
           "quickTimeSpan": {
             "label": "Výchozí časové rozpětí",
-            "information": "Výchozí výběr časového rozsahu v místním čase pro osu x v grafu",
-            "options": {
-              "Last 15 mins": "Posledních 15 minut",
-              "Last 30 mins": "Posledních 30 minut",
-              "Last hour": "Poslední hodina",
-              "Last 3 hours": "Poslední 3 hodiny",
-              "Last 6 hours": "Posledních 6 hodin",
-              "Last 12 hours": "Posledních 12 hodin",
-              "Last 24 hours": "Posledních 24 hodin",
-              "Last 7 days": "Posledních 7 dní",
-              "Last 30 days": "Posledních 30 dní",
-              "Last 60 days": "Posledních 60 dní",
-              "Last 90 days": "Posledních 90 dní",
-              "Last 180 days": "Posledních 180 dní",
-              "Last year": "Loni"
-            }
+            "information": "Výchozí výběr časového rozsahu v místním čase pro osu x v grafu"
           },
           "aggregationType": {
             "label": "Typ agregace",
@@ -1289,5 +1274,24 @@
   "cardboardMultiSelect": {
     "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
   },
-  "to": "k"
+  "to": "k",
+  "quickTimesDropdown": {
+    "label": "Časové rozpětí",
+    "placeholder": "Výběr rychlého času",
+    "options": {
+      "Last 15 mins": "Posledních 15 minut",
+      "Last 30 mins": "Posledních 30 minut",
+      "Last hour": "Poslední hodina",
+      "Last 3 hours": "Poslední 3 hodiny",
+      "Last 6 hours": "Posledních 6 hodin",
+      "Last 12 hours": "Posledních 12 hodin",
+      "Last 24 hours": "Posledních 24 hodin",
+      "Last 7 days": "Posledních 7 dní",
+      "Last 30 days": "Posledních 30 dní",
+      "Last 60 days": "Posledních 60 dní",
+      "Last 90 days": "Posledních 90 dní",
+      "Last 180 days": "Posledních 180 dní",
+      "Last year": "Loni"
+    }
+  }
 }
