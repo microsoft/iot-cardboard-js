@@ -199,7 +199,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const actionButtonStyles = getGraphViewerActionButtonStyles();
 
     return (
-        <FocusZone>
+        <FocusZone style={{ cursor: 'pointer' }}>
             <div
                 onMouseEnter={setIsHoveredTrue}
                 onFocus={setIsHoveredTrue}
