@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "копировать",
     "defaultFileName": "Новая онтология",
     "defaultModelNamePrefix": "Модель"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Удалить модель",
+    "modelListToggleAriaLabelShow": "Показать список моделей",
+    "modelListToggleAriaLabelHide": "Скрыть список моделей",
+    "searchModels": "Поиск моделей",
+    "noDataMessage": "Нет моделей",
+    "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям"
   }
 }

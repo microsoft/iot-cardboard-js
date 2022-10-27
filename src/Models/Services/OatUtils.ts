@@ -7,7 +7,6 @@ import {
     DtdlRelationship,
     DtdlInterfaceContent,
     OAT_FILES_STORAGE_KEY,
-    OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_LAST_PROJECT_STORAGE_KEY,
     OAT_MODEL_ID_PREFIX,
     OAT_INTERFACE_TYPE
@@ -149,49 +148,6 @@ export const convertDtdlInterfaceToModel = (
         model.contents?.filter((x) => x['@type'] === 'Component'),
         model.extends as string[] // we know it's an array since we only ever set it to array
     );
-};
-
-// Delete model
-export const deleteOatModel = (
-    id: string,
-    data: DtdlInterface,
-    models: DtdlInterface[],
-    positions: IOATModelPosition[]
-) => {
-    const modelsCopy = deepCopy(models);
-    const positionsCopy = deepCopy(positions);
-    if (data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) {
-        const match = modelsCopy.find(
-            (element) => element['@id'] === data['@id']
-        );
-        if (match) {
-            match.contents = match.contents.filter(
-                (content) => content['@id'] !== id
-            );
-        }
-    } else {
-        const index = modelsCopy.findIndex((m) => m['@id'] === data['@id']);
-        if (index >= 0) {
-            modelsCopy.splice(index, 1);
-            modelsCopy.forEach((m) => {
-                m.contents = m.contents.filter(
-                    (content) =>
-                        content.target !== data['@id'] &&
-                        content.schema !== data['@id']
-                );
-                if (m.extends) {
-                    m.extends = (m.extends as string[]).filter(
-                        (ex) => ex !== data['@id']
-                    );
-                }
-            });
-        }
-    }
-
-    const index = positionsCopy.findIndex((x) => x['@id'] === id);
-    positionsCopy.splice(index, 1);
-
-    return { models: modelsCopy, positions: positionsCopy };
 };
 
 /**

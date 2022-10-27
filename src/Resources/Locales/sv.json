@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
     "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Ta bort modell",
+    "modelListToggleAriaLabelShow": "Visa modelllista",
+    "modelListToggleAriaLabelHide": "Dölj modelllista",
+    "searchModels": "Sök modeller",
+    "noDataMessage": "Inga modeller",
+    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet"
   }
 }

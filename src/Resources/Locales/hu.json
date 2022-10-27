@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "másolat",
     "defaultFileName": "Új ontológia",
     "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Modell eltávolítása",
+    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
+    "modelListToggleAriaLabelHide": "Modelllista elrejtése",
+    "searchModels": "Keresési modellek",
+    "noDataMessage": "Nincs modell",
+    "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek"
   }
 }

@@ -17,6 +17,7 @@ export interface IOatGraphContextState {
     isLoading: boolean;
     isLegendVisible: boolean;
     isMiniMapVisible: boolean;
+    isModelListVisible: boolean;
     showRelationships: boolean;
     showInheritances: boolean;
     showComponents: boolean;
@@ -29,6 +30,7 @@ export enum OatGraphContextActionType {
     LOADING_TOGGLE = 'LOADING_TOGGLE',
     LEGEND_VISBLE_TOGGLE = 'LEGEND_VISBLE_TOGGLE',
     MINI_MAP_VISIBLE_TOGGLE = 'MINI_MAP_VISIBLE_TOGGLE',
+    MODEL_LIST_VISIBLE_TOGGLE = 'MODEL_LIST_VISIBLE_TOGGLE',
     SHOW_COMPONENTS_TOGGLE = 'SHOW_COMPONENTS_SET',
     SHOW_INHERITANCES_TOGGLE = 'SHOW_INHERITANCES_SET',
     SHOW_RELATIONSHIPS_TOGGLE = 'SHOW_RELATIONSHIPS_SET'
@@ -48,6 +50,11 @@ export type OatGraphContextAction =
       }
     | {
           type: OatGraphContextActionType.MINI_MAP_VISIBLE_TOGGLE;
+          /** optional payload to force a specific value */
+          payload?: { value: boolean };
+      }
+    | {
+          type: OatGraphContextActionType.MODEL_LIST_VISIBLE_TOGGLE;
           /** optional payload to force a specific value */
           payload?: { value: boolean };
       }

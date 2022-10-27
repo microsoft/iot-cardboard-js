@@ -14,12 +14,14 @@ const OATPropertyEditor = ({ theme, languages }: OATPropertyEditorProps) => {
     );
 
     return (
-        <Editor
-            theme={theme}
-            dispatch={localDispatch}
-            state={localState}
-            languages={languages}
-        />
+        <div style={{ width: 340, position: 'relative' }}>
+            <Editor
+                theme={theme}
+                dispatch={localDispatch}
+                state={localState}
+                languages={languages}
+            />
+        </div>
     );
 };
 

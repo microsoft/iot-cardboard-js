@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "kopírovat",
     "defaultFileName": "Nová ontologie",
     "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Odebrat model",
+    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
+    "modelListToggleAriaLabelHide": "Skrýt seznam modelů",
+    "searchModels": "Hledat modely",
+    "noDataMessage": "Žádné modely",
+    "noMatchingItemsMessage": "Žádné modely neodpovídají těmto kritériím"
   }
 }

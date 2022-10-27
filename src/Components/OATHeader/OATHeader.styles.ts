@@ -1,5 +1,6 @@
 import { IStyle } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { OAT_HEADER_HEIGHT } from '../../Models/Constants/OatStyleConstants';
 import { IOATHeaderStyleProps, IOATHeaderStyles } from './OATHeader.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-header`;
@@ -17,8 +18,7 @@ export const getStyles = (props: IOATHeaderStyleProps): IOATHeaderStyles => {
         root: [
             classNames.root,
             {
-                display: 'grid',
-                gridTemplateColumns: '100%',
+                height: OAT_HEADER_HEIGHT,
                 backgroundColor: theme.semanticColors.bodyBackground
             } as IStyle
         ],

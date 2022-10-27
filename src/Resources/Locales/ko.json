@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "복사",
     "defaultFileName": "새로운 온톨로지",
     "defaultModelNamePrefix": "모델"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "모델 제거",
+    "modelListToggleAriaLabelShow": "모델 목록 표시",
+    "modelListToggleAriaLabelHide": "모델 목록 숨기기",
+    "searchModels": "모델 검색",
+    "noDataMessage": "모델 없음",
+    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다."
   }
 }

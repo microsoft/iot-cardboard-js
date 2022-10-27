@@ -978,6 +978,14 @@
             "sampleModel": "sample Model"
         }
     },
+    "OATModelList": {
+        "searchModels": "Search models",
+        "noDataMessage": "No models",
+        "noMatchingItemsMessage": "No models match that criteria",
+        "removeModelButtonText": "Remove model",
+        "modelListToggleAriaLabelShow": "Show model list",
+        "modelListToggleAriaLabelHide": "Hide model list"
+    },
     "OATGraphViewer": {
         "newModel": "New Model",
         "name": "Name",

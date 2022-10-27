@@ -11,19 +11,23 @@ import {
     ITextFieldStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
-import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
+import {
+    CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_Z_INDEX,
+    getControlBackgroundColor,
+    LOADING_Z_INDEX
+} from '../../Models/Constants/OatStyleConstants';
 import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
 
-const CONTROLS_BOTTOM_OFFSET = 60;
-
 export const classPrefix2 = `${CardboardClassNamePrefix}-oat-graph-viewer`;
 const classNames2 = {
     root: `${classPrefix2}-root`,
-    minimapContainer: `${classPrefix2}-minimap-container`,
-    builtInControls: `${classPrefix2}-built-in-controls`
+    graph: `${classPrefix2}-graph`,
+    graphMiniMap: `${classPrefix2}-graph-mini-map`,
+    minimapContainer: `${classPrefix2}-minimap-container`
 };
 export const getStyles = (
     props: IOATGraphViewerStyleProps
@@ -31,68 +35,48 @@ export const getStyles = (
     const { theme } = props;
     return {
         root: [classNames2.root],
-        graphMiniMap: [
+        graph: [classNames2.graph, { cursor: 'move' }],
+        graphMiniMapContainer: [
             classNames2.minimapContainer,
             {
                 bottom: CONTROLS_BOTTOM_OFFSET + CONTROLS_BOTTOM_OFFSET, // extra offset so they don't overlap till we have room off to the right
                 position: 'absolute',
                 right: 0,
                 '.react-flow__minimap': {
-                    cursor: 'crosshair',
                     background: theme.semanticColors.bodyBackground,
                     left: 'unset',
-                    zIndex: 7
+                    zIndex: CONTROLS_Z_INDEX
                 }
             }
         ],
-        graphBuiltInControls: [
-            classNames2.builtInControls,
+        graphMiniMap: [
+            classNames2.graphMiniMap,
             {
-                alignItems: 'center',
-                display: 'flex',
-                backgroundColor: theme.semanticColors.buttonBackground,
-                border: `1px solid ${theme.palette.neutralLight} !important`,
-                borderRadius: 4,
-                '.react-flow__controls-button': {
-                    background: theme.semanticColors.buttonBackground,
-                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
-                    borderRadius: 4,
-                    color: theme.semanticColors.bodyText,
-                    // remove border for the groups
-                    height: HEADER_BUTTON_HEIGHT - 4,
-                    width: HEADER_BUTTON_HEIGHT - 4,
-                    padding: 0,
-                    ':hover': {
-                        background:
-                            theme.semanticColors.buttonBackgroundHovered,
-                        border: `1px solid ${theme.palette.neutralSecondary}`
-                    },
-                    ':focused': {
-                        background:
-                            theme.semanticColors.buttonBackgroundHovered,
-                        border: `1px solid ${theme.palette.neutralSecondary}`
-                    },
-                    ':active': {
-                        background: theme.semanticColors.buttonBackgroundPressed
-                    },
-                    '& svg': {
-                        fill: theme.semanticColors.bodyText
-                    }
-                }
+                borderRadius: theme.effects.roundedCorner2,
+                boxShadow: theme.effects.elevation16
             }
         ],
         subComponentStyles: {
-            controlsStack: {
+            legendCallout: {
+                calloutMain: {
+                    backgroundColor: getControlBackgroundColor(theme)
+                },
+                beak: {
+                    backgroundColor: getControlBackgroundColor(theme)
+                }
+            },
+            modelsListCallout: {
                 root: {
-                    bottom: CONTROLS_BOTTOM_OFFSET,
-                    left: '50%',
-                    position: 'absolute',
-                    zIndex: 5,
-
-                    '> .react-flow__controls': {
-                        position: 'unset',
-                        left: 'unset'
-                    }
+                    height: '75vh !important',
+                    minHeight: '300px !important',
+                    width: '30vw',
+                    minWidth: 200,
+                    maxWidth: 400
+                },
+                calloutMain: {
+                    backgroundColor: getControlBackgroundColor(theme),
+                    overflow: 'hidden',
+                    padding: 20
                 }
             }
         }
@@ -272,7 +256,7 @@ export const getGraphViewerStyles = () => {
                 width: '100%',
                 height: '100%',
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                zIndex: 101,
+                zIndex: LOADING_Z_INDEX,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center'
@@ -340,7 +324,7 @@ export const getGraphViewerStyles = () => {
         node: [
             classNames.node,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `1px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,
@@ -351,7 +335,7 @@ export const getGraphViewerStyles = () => {
         selectedNode: [
             classNames.selectedNode,
             {
-                background: theme.palette.neutralLight,
+                backgroundColor: getControlBackgroundColor(theme),
                 border: `3px solid ${theme.semanticColors.inputBorder}`,
                 borderRadius: '5px',
                 fontSize: FontSizes.size12,

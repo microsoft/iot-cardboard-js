@@ -1314,5 +1314,13 @@
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",
     "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "removeModelButtonText": "Usuń model",
+    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
+    "modelListToggleAriaLabelHide": "Ukryj listę modeli",
+    "searchModels": "Szukaj modeli",
+    "noDataMessage": "Brak modeli",
+    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów"
   }
 }

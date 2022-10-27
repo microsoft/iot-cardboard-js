@@ -3,7 +3,6 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
-import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
 import i18n from '../../../i18n';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
@@ -26,10 +25,12 @@ import {
     createProject,
     saveData,
     switchCurrentProject,
-    convertStateToProject
+    convertStateToProject,
+    deleteModelFromState,
+    setSelectedModel
 } from './OatPageContextUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -82,7 +83,7 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.SET_OAT_DELETE_PROJECT: {
+            case OatPageContextActionType.DELETE_PROJECT: {
                 const index = draft.ontologyFiles.findIndex(
                     (x) => x.id === action.payload.id
                 );
@@ -152,12 +153,7 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_CURRENT_MODELS: {
                 draft.currentOntologyModels = action.payload.models || [];
-                if (draft.currentOntologyModels && draft.selection) {
-                    draft.selectedModelTarget = getTargetFromSelection(
-                        draft.currentOntologyModels,
-                        draft.selection
-                    );
-                }
+                setSelectedModel(draft.selection, draft);
                 saveData(draft);
                 break;
             }
@@ -191,6 +187,34 @@ export const OatPageContextReducer: (
                 draft.currentOntologyTemplates = action.payload.templates;
                 break;
             }
+            case OatPageContextActionType.DELETE_MODEL: {
+                const targetModel = draft.currentOntologyModels.find(
+                    (x) => x['@id'] === action.payload.id
+                );
+                if (!targetModel) {
+                    logDebugConsole(
+                        'warn',
+                        `Could not find model (id: ${action.payload.id}) to delete in state.`
+                    );
+                    break;
+                }
+                setSelectedModel(null, draft);
+                deleteModelFromState(
+                    targetModel['@id'],
+                    targetModel['@type'],
+                    draft.currentOntologyModels,
+                    draft.currentOntologyModelPositions
+                );
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.DELETE_MODEL_UNDO: {
+                draft.currentOntologyModels = action.payload.models;
+                draft.currentOntologyModelPositions = action.payload.positions;
+                setSelectedModel(action.payload.selection, draft);
+                saveData(draft);
+                break;
+            }
             case OatPageContextActionType.SET_OAT_MODELS_TO_ADD: {
                 const { models } = action.payload;
                 draft.modelsToAdd = models || [];
@@ -221,13 +245,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.SET_OAT_SELECTED_MODEL: {
-                draft.selection = action.payload.selection;
-                if (draft.currentOntologyModels && draft.selection) {
-                    draft.selectedModelTarget = getTargetFromSelection(
-                        draft.currentOntologyModels,
-                        draft.selection
-                    );
-                }
+                setSelectedModel(action.payload.selection, draft);
                 break;
             }
             case OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE: {
@@ -258,8 +276,9 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = Re
 
         logDebugConsole(
             'debug',
-            'Mount OatPageContextProvider. {state}',
-            oatPageState
+            'Mount OatPageContextProvider. {state, storageEnabled}',
+            oatPageState,
+            isOatContextStorageEnabled
         );
         return (
             <OatPageContext.Provider
