@@ -140,6 +140,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                     onSceneClick();
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
+                    setVisualRuleFormMode(VisualRuleFormMode.Inactive);
                 };
                 onNavigateCallback('goToScene', navigate);
             };
@@ -148,6 +149,7 @@ const SceneBreadcrumbFactory: React.FC<ISceneBreadcrumbFactoryProps> = ({
                 const navigate = () => {
                     cancelWidgetForm(widgetFormInfo, setWidgetFormInfo);
                     setBehaviorTwinAliasFormInfo(null);
+                    setVisualRuleFormMode(VisualRuleFormMode.Inactive);
                 };
                 onNavigateCallback('cancelForm', navigate);
             };

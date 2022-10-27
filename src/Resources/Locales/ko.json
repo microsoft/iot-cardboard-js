@@ -565,7 +565,21 @@
       "editCondition": "조건 편집",
       "deleteCondition": "조건 삭제",
       "unlabeledCondition": "레이블이 지정되지 않은",
-      "formSubtext": "규칙에는 이러한 조건이 충족될 때 조건과 시각적 단서가 포함됩니다. 이 규칙의 데이터 표현식을 선택하고 몇 가지 조건을 추가합니다."
+      "formSubtext": "규칙에는 이러한 조건이 충족될 때 조건과 시각적 단서가 포함됩니다. 이 규칙의 데이터 표현식을 선택하고 몇 가지 조건을 추가합니다.",
+      "addCondition": "조건 추가",
+      "conditionsTitle": "여건",
+      "actionsTitle": "작업",
+      "colorLabel": "색",
+      "iconLabel": "아이콘",
+      "invalidRanges": "유효하지 않은 범위, 최소값은 최대보다 작아야 하며 값은 숫자여야 합니다.",
+      "labelField": "레이블",
+      "choiceGroupTrue": "참",
+      "choiceGroupFalse": "거짓",
+      "flyoutValuesTitle": "값",
+      "flyoutValueTitle": "값",
+      "actionLabel": "행동",
+      "meshColoringOption": "메쉬 채색",
+      "badgeOption": "배지"
     },
     "conditions": "여건",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
       "removeRule": "규칙 제거",
-      "singleBadge": "{{badgeCount}} 배지",
-      "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
       "multipleBadges": "{{badgeCount}} 배지",
       "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
-      "unlabeled": "(레이블이 지정되지 않음)"
+      "unlabeled": "(레이블이 지정되지 않음)",
+      "singleBadge": "배지 1개",
+      "singleMeshColoring": "1 메쉬 채색"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "기본 시간 범위",
-            "options": {
-              "Last 15 mins": "지난 15분",
-              "Last 30 mins": "지난 30분",
-              "Last hour": "지난 시간",
-              "Last 3 hours": "지난 3시간",
-              "Last 6 hours": "지난 6시간",
-              "Last 12 hours": "지난 12시간",
-              "Last 24 hours": "지난 24시간",
-              "Last 7 days": "지난 7일",
-              "Last 30 days": "지난 30일",
-              "Last 60 days": "지난 60일",
-              "Last 90 days": "지난 90일",
-              "Last 180 days": "지난 180일",
-              "Last year": "작년"
-            },
             "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
           },
           "aggregationType": {
@@ -1284,13 +1283,40 @@
     "selectAdditionalColumns": "추가 열 선택"
   },
   "highcharts": {
-    "noTitle": "제목 없음",
     "shareQueryTitle": "쿼리 공유",
+<<<<<<< HEAD
     "noDataDescription": "표시할 데이터 없음"
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "복사",
     "defaultFileName": "새로운 온톨로지",
     "defaultModelNamePrefix": "모델"
+=======
+    "noDataDescription": "표시할 데이터 없음",
+    "noTitle": "제목 없음"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "값을 입력하고 Enter 키를 눌러 추가합니다."
+  },
+  "to": "받는 사람",
+  "quickTimesDropdown": {
+    "label": "시간 범위",
+    "placeholder": "빠른 시간 선택",
+    "options": {
+      "Last 15 mins": "지난 15분",
+      "Last 30 mins": "지난 30분",
+      "Last hour": "지난 시간",
+      "Last 3 hours": "지난 3시간",
+      "Last 6 hours": "지난 6시간",
+      "Last 12 hours": "지난 12시간",
+      "Last 24 hours": "지난 24시간",
+      "Last 7 days": "지난 7일",
+      "Last 30 days": "지난 30일",
+      "Last 60 days": "지난 60일",
+      "Last 90 days": "지난 90일",
+      "Last 180 days": "지난 180일",
+      "Last year": "작년"
+    }
+>>>>>>> origin/main
   }
 }

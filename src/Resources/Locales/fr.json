@@ -565,7 +565,21 @@
       "editCondition": "Modifier la condition",
       "deleteCondition": "Supprimer la condition",
       "unlabeledCondition": "Sans étiquette",
-      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions."
+      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions.",
+      "addCondition": "Ajouter une condition",
+      "conditionsTitle": "Conditions",
+      "actionsTitle": "Actions",
+      "colorLabel": "Couleur",
+      "iconLabel": "Icône",
+      "invalidRanges": "Plage non valide, min doit être inférieure à max et les valeurs doivent être numériques.",
+      "labelField": "Étiquette",
+      "choiceGroupTrue": "Vrai",
+      "choiceGroupFalse": "Faux",
+      "flyoutValuesTitle": "Valeurs",
+      "flyoutValueTitle": "Valeur",
+      "actionLabel": "Action",
+      "meshColoringOption": "Coloration des mailles",
+      "badgeOption": "Insigne"
     },
     "conditions": "Conditions",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Ajouter une règle",
       "editRule": "Modifier la règle",
       "removeRule": "Supprimer la règle",
-      "singleBadge": "Badge {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} coloration du maillage",
       "multipleBadges": "Badges {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} colorations de maillage",
-      "unlabeled": "(non étiqueté)"
+      "unlabeled": "(non étiqueté)",
+      "singleBadge": "1 badge",
+      "singleMeshColoring": "1 coloration maillée"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Intervalle de temps par défaut",
-            "options": {
-              "Last 15 mins": "15 dernières minutes",
-              "Last 30 mins": "30 dernières minutes",
-              "Last hour": "Dernière heure",
-              "Last 3 hours": "3 dernières heures",
-              "Last 6 hours": "6 dernières heures",
-              "Last 12 hours": "12 dernières heures",
-              "Last 24 hours": "Dernières 24 heures",
-              "Last 7 days": "7 derniers jours",
-              "Last 30 days": "30 derniers jours",
-              "Last 60 days": "60 derniers jours",
-              "Last 90 days": "90 derniers jours",
-              "Last 180 days": "180 derniers jours",
-              "Last year": "L’année dernière"
-            },
             "information": "Sélection de plage horaire par défaut en heure locale pour l’axe des x dans le graphique"
           },
           "aggregationType": {
@@ -1284,13 +1283,40 @@
     "selectAdditionalColumns": "Sélectionner des colonnes supplémentaires"
   },
   "highcharts": {
-    "noTitle": "Pas de titre",
     "shareQueryTitle": "Partager la requête",
+<<<<<<< HEAD
     "noDataDescription": "Aucune donnée à afficher"
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
     "defaultFileName": "Nouvelle ontologie",
     "defaultModelNamePrefix": "Modèle"
+=======
+    "noDataDescription": "Aucune donnée à afficher",
+    "noTitle": "Sans titre"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Tapez des valeurs, appuyez sur Entrée pour ajouter"
+  },
+  "to": "À",
+  "quickTimesDropdown": {
+    "label": "Intervalle de temps",
+    "placeholder": "Sélectionnez une heure rapide",
+    "options": {
+      "Last 15 mins": "15 dernières minutes",
+      "Last 30 mins": "30 dernières minutes",
+      "Last hour": "Dernière heure",
+      "Last 3 hours": "3 dernières heures",
+      "Last 6 hours": "6 dernières heures",
+      "Last 12 hours": "12 dernières heures",
+      "Last 24 hours": "Dernières 24 heures",
+      "Last 7 days": "7 derniers jours",
+      "Last 30 days": "30 derniers jours",
+      "Last 60 days": "60 derniers jours",
+      "Last 90 days": "90 derniers jours",
+      "Last 180 days": "180 derniers jours",
+      "Last year": "L’année dernière"
+    }
+>>>>>>> origin/main
   }
 }

@@ -565,7 +565,21 @@
       "editCondition": "Condição de edição",
       "deleteCondition": "Exclua a condição",
       "unlabeledCondition": "Unlabeled",
-      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições."
+      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições.",
+      "addCondition": "Adicionar condição",
+      "conditionsTitle": "Condições",
+      "actionsTitle": "Ações",
+      "colorLabel": "Cor",
+      "iconLabel": "Ícone",
+      "invalidRanges": "Alcance inválido, min deve ser menor que o máximo, e os valores devem ser numéricos.",
+      "labelField": "Etiqueta",
+      "choiceGroupTrue": "Verdadeiro",
+      "choiceGroupFalse": "Falso",
+      "flyoutValuesTitle": "Valores",
+      "flyoutValueTitle": "Valor",
+      "actionLabel": "Ação",
+      "meshColoringOption": "Coloração de malha",
+      "badgeOption": "Distintivo"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
       "removeRule": "Remover regra",
-      "singleBadge": "{{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} coloração de malha",
       "multipleBadges": "{{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
-      "unlabeled": "(sem rótulo)"
+      "unlabeled": "(sem rótulo)",
+      "singleBadge": "1 crachá",
+      "singleMeshColoring": "1 coloração de malha"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Período de tempo padrão",
-            "options": {
-              "Last 15 mins": "Últimos 15 minutos",
-              "Last 30 mins": "Últimos 30 minutos",
-              "Last hour": "Última hora",
-              "Last 3 hours": "Últimas 3 horas.",
-              "Last 6 hours": "Últimas 6 horas",
-              "Last 12 hours": "Últimas 12 horas",
-              "Last 24 hours": "Últimas 24 horas",
-              "Last 7 days": "Últimos 7 dias",
-              "Last 30 days": "Últimos 30 dias.",
-              "Last 60 days": "Últimos 60 dias",
-              "Last 90 days": "Últimos 90 dias",
-              "Last 180 days": "Últimos 180 dias",
-              "Last year": "Ano passado"
-            },
             "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
           },
           "aggregationType": {
@@ -1284,13 +1283,40 @@
     "selectAdditionalColumns": "Selecione colunas adicionais"
   },
   "highcharts": {
-    "noTitle": "Sem título",
     "shareQueryTitle": "Consulta de compartilhamento",
+<<<<<<< HEAD
     "noDataDescription": "Sem dados para exibir"
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nova ontologia",
     "defaultModelNamePrefix": "Modelo"
+=======
+    "noDataDescription": "Sem dados para exibir",
+    "noTitle": "Sem título"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Digite valores, pressione enter para adicionar"
+  },
+  "to": "Para",
+  "quickTimesDropdown": {
+    "label": "Período de tempo",
+    "placeholder": "Selecione um tempo rápido",
+    "options": {
+      "Last 15 mins": "Últimos 15 minutos",
+      "Last 30 mins": "Últimos 30 minutos",
+      "Last hour": "Última hora",
+      "Last 3 hours": "Últimas 3 horas.",
+      "Last 6 hours": "Últimas 6 horas",
+      "Last 12 hours": "Últimas 12 horas",
+      "Last 24 hours": "Últimas 24 horas",
+      "Last 7 days": "Últimos 7 dias",
+      "Last 30 days": "Últimos 30 dias.",
+      "Last 60 days": "Últimos 60 dias",
+      "Last 90 days": "Últimos 90 dias",
+      "Last 180 days": "Últimos 180 dias",
+      "Last year": "Ano passado"
+    }
+>>>>>>> origin/main
   }
 }
