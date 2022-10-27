@@ -139,11 +139,14 @@ export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
     }
 });
 
-export const getDefaultCondition = (type: IDTDLPropertyType): IValueRange => ({
+export const getDefaultVisualRuleCondition = (
+    type: IDTDLPropertyType = 'integer',
+    color?: string
+): IValueRange => ({
     id: createGUID(),
     values: isNumericType(type) ? [0, 1] : type === 'boolean' ? [true] : [],
     visual: {
-        color: null,
+        color: color,
         iconName: null,
         labelExpression: null
     }

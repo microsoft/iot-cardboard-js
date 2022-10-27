@@ -21,7 +21,8 @@ export const getStyles = (
         subComponentStyles: {
             addButton: {
                 root: {
-                    color: props.theme.palette.themePrimary
+                    color: props.theme.palette.themePrimary,
+                    marginLeft: 2
                 }
             }
         }

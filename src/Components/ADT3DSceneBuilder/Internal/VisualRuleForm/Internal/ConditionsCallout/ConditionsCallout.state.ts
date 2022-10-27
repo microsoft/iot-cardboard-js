@@ -1,5 +1,5 @@
 import produce, { current } from 'immer';
-import { getDefaultCondition } from '../../../../../../Models/Classes/3DVConfig';
+import { getDefaultVisualRuleCondition } from '../../../../../../Models/Classes/3DVConfig';
 import {
     deepCopy,
     getDebugLogger
@@ -12,12 +12,12 @@ import {
     IConditionCalloutState
 } from './ConditionsCallout.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('Condition', debugLogging);
 
 export const defaultConditionCalloutState: IConditionCalloutState = {
-    originalCondition: getDefaultCondition('integer'),
-    conditionToEdit: getDefaultCondition('integer'),
+    originalCondition: getDefaultVisualRuleCondition('integer'),
+    conditionToEdit: getDefaultVisualRuleCondition('integer'),
     isDirty: false
 };
 

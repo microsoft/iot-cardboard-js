@@ -99,6 +99,7 @@
     "resolve": "Resolve",
     "verify": "Verify",
     "success": "Success!",
+    "to": "to",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",

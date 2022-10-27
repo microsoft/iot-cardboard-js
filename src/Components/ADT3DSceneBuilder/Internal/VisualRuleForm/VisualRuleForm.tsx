@@ -14,6 +14,7 @@ import {
 import React, {
     useCallback,
     useContext,
+    useEffect,
     useMemo,
     useReducer,
     useRef,
@@ -155,6 +156,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                     initialVisualRule.current.valueExpression.length > 0
                         ? true
                         : false
+            },
+            {
+                key: 'conditions',
+                defaultValidityState:
+                    initialVisualRule.current.valueRanges &&
+                    initialVisualRule.current.valueRanges.length > 0
+                        ? true
+                        : false
             }
         ];
         return createValidityMap(fieldsToValidate);
@@ -189,6 +198,24 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         adapter,
         state: { selectedElements, selectedBehavior }
     } = useContext(SceneBuilderContext);
+
+    // Side-effects
+    useEffect(() => {
+        if (
+            visualRuleFormState.visualRuleToEdit.valueRanges &&
+            visualRuleFormState.visualRuleToEdit.valueRanges.length >= 1
+        ) {
+            setValidityMap((validityMap) => {
+                validityMap.set('conditions', { isValid: true });
+                return validityMap;
+            });
+        } else {
+            setValidityMap((validityMap) => {
+                validityMap.set('conditions', { isValid: false });
+                return validityMap;
+            });
+        }
+    }, [visualRuleFormState.visualRuleToEdit.valueRanges]);
 
     // Callbacks
     const onDisplayNameChange = useCallback(

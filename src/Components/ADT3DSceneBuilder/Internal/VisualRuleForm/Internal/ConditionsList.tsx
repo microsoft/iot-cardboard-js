@@ -9,14 +9,18 @@ import {
 import { useId } from '@fluentui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getDefaultCondition } from '../../../../../Models/Classes/3DVConfig';
+import { getDefaultVisualRuleCondition } from '../../../../../Models/Classes/3DVConfig';
 import {
     IExpressionRangeType,
     IValueRange
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { transformValueRangesIntoConditions } from '../VisualRuleFormUtility';
+import {
+    getNextColor,
+    transformValueRangesIntoConditions
+} from '../VisualRuleFormUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
@@ -67,7 +71,10 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     const handleOpenNewConditionFlyout = useCallback(() => {
         setCalloutInfo({
             calloutType: CalloutInfoType.create,
-            selectedCondition: getDefaultCondition(valueRangeType),
+            selectedCondition: getDefaultVisualRuleCondition(
+                valueRangeType,
+                getNextColor(valueRanges, defaultSwatchColors)
+            ),
             selectedTarget: `#${LIST_KEY}`
         });
     }, [valueRangeType]);

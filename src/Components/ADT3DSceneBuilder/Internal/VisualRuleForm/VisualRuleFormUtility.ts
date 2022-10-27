@@ -7,6 +7,7 @@ import {
 import { IVisualRuleFormState } from '../Behaviors/VisualRules/VisualRules.types';
 import { Condition, ConditionType } from './Internal/ConditionsList.types';
 import i18n from '../../../../i18n';
+import { IPickerOption } from '../../../Pickers/Internal/Picker.base.types';
 
 /**
  * Looks at the state and determines whether anything has been changed
@@ -35,7 +36,9 @@ export function getConditionSecondaryText(
     values: unknown[]
 ): string {
     if (type === 'NumericRange') {
-        return `${values[0]} ${i18n.t('min')} - ${values[1]} ${i18n.t('max')}`;
+        return `${values[0]} ${i18n.t('min')} ${i18n.t('to')} ${
+            values[1]
+        } ${i18n.t('max')}`;
     } else {
         return values.join(', ');
     }
@@ -93,4 +96,21 @@ export const isNumericType = (type: IDTDLPropertyType): boolean => {
         'long'
     ];
     return numericTypes.includes(type);
+};
+
+/** Get color for new condition */
+export const getNextColor = (
+    valueRanges: IValueRange[],
+    colorSwatch: IPickerOption[]
+) => {
+    const randomColor =
+        colorSwatch[Math.floor(Math.random() * colorSwatch.length)]?.item ||
+        '#FF000';
+
+    for (const { item } of colorSwatch) {
+        if (!valueRanges.map((vr) => vr.visual.color).includes(item)) {
+            return item;
+        }
+    }
+    return randomColor;
 };

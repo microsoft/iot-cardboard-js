@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import ConditionsCallout from './ConditionsCallout';
 import { IConditionsCalloutProps } from './ConditionsCallout.types';
-import { getDefaultCondition } from '../../../../../../Models/Classes/3DVConfig';
+import { getDefaultVisualRuleCondition } from '../../../../../../Models/Classes/3DVConfig';
 import { CalloutInfoType } from '../ConditionsList.types';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
@@ -23,7 +23,7 @@ const Template: ConditionsCalloutStory = (args) => {
 };
 
 export const Numerical = Template.bind({}) as ConditionsCalloutStory;
-const integerCondition = getDefaultCondition('integer');
+const integerCondition = getDefaultVisualRuleCondition('integer');
 Numerical.args = {
     calloutType: CalloutInfoType.create,
     onDismiss: () => {
@@ -38,7 +38,7 @@ Numerical.args = {
 } as IConditionsCalloutProps;
 
 export const Boolean = Template.bind({}) as ConditionsCalloutStory;
-const booleanCondition = getDefaultCondition('boolean');
+const booleanCondition = getDefaultVisualRuleCondition('boolean');
 Boolean.args = {
     calloutType: CalloutInfoType.create,
     onDismiss: () => {
@@ -53,7 +53,7 @@ Boolean.args = {
 } as IConditionsCalloutProps;
 
 export const String = Template.bind({}) as ConditionsCalloutStory;
-const stringCondition = getDefaultCondition('string');
+const stringCondition = getDefaultVisualRuleCondition('string');
 String.args = {
     calloutType: CalloutInfoType.create,
     onDismiss: () => {
