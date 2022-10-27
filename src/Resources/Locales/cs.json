@@ -565,7 +565,21 @@
       "editCondition": "Upravit podmínku",
       "deleteCondition": "Odstranit podmínku",
       "unlabeledCondition": "Neoznačené",
-      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek."
+      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek.",
+      "addCondition": "Přidat podmínku",
+      "conditionsTitle": "Podmínky",
+      "actionsTitle": "Akce",
+      "colorLabel": "Barva",
+      "iconLabel": "Ikona",
+      "invalidRanges": "Neplatný rozsah, min by měl být menší než max a hodnoty by měly být číselné.",
+      "labelField": "Označit",
+      "choiceGroupTrue": "Pravdivý",
+      "choiceGroupFalse": "Falešný",
+      "flyoutValuesTitle": "Hodnoty",
+      "flyoutValueTitle": "Hodnota",
+      "actionLabel": "Akce",
+      "meshColoringOption": "Zbarvení sítě",
+      "badgeOption": "Odznak"
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
       "removeRule": "Odebrat pravidlo",
-      "singleBadge": "Odznak {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} zbarvení sítě",
       "multipleBadges": "{{badgeCount}} odznaky",
       "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
-      "unlabeled": "(neoznačeno)"
+      "unlabeled": "(neoznačeno)",
+      "singleBadge": "1 odznak",
+      "singleMeshColoring": "1 zbarvení ok"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Výchozí časové rozpětí",
-            "options": {
-              "Last 15 mins": "Posledních 15 minut",
-              "Last 30 mins": "Posledních 30 minut",
-              "Last hour": "Poslední hodina",
-              "Last 3 hours": "Poslední 3 hodiny",
-              "Last 6 hours": "Posledních 6 hodin",
-              "Last 12 hours": "Posledních 12 hodin",
-              "Last 24 hours": "Posledních 24 hodin",
-              "Last 7 days": "Posledních 7 dní",
-              "Last 30 days": "Posledních 30 dní",
-              "Last 60 days": "Posledních 60 dní",
-              "Last 90 days": "Posledních 90 dní",
-              "Last 180 days": "Posledních 180 dní",
-              "Last year": "Loni"
-            },
             "information": "Výchozí výběr časového rozsahu v místním čase pro osu x v grafu"
           },
           "aggregationType": {
@@ -1284,9 +1283,32 @@
     "selectAdditionalColumns": "Výběr dalších sloupců"
   },
   "highcharts": {
-    "noTitle": "Bez názvu",
     "shareQueryTitle": "Sdílet dotaz",
-    "noDataDescription": "Žádná data k zobrazení"
+    "noDataDescription": "Žádná data k zobrazení",
+    "noTitle": "Bez názvu"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
+  },
+  "to": "k",
+  "quickTimesDropdown": {
+    "label": "Časové rozpětí",
+    "placeholder": "Výběr rychlého času",
+    "options": {
+      "Last 15 mins": "Posledních 15 minut",
+      "Last 30 mins": "Posledních 30 minut",
+      "Last hour": "Poslední hodina",
+      "Last 3 hours": "Poslední 3 hodiny",
+      "Last 6 hours": "Posledních 6 hodin",
+      "Last 12 hours": "Posledních 12 hodin",
+      "Last 24 hours": "Posledních 24 hodin",
+      "Last 7 days": "Posledních 7 dní",
+      "Last 30 days": "Posledních 30 dní",
+      "Last 60 days": "Posledních 60 dní",
+      "Last 90 days": "Posledních 90 dní",
+      "Last 180 days": "Posledních 180 dní",
+      "Last year": "Loni"
+    }
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",

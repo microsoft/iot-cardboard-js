@@ -565,7 +565,21 @@
       "editCondition": "Állapot szerkesztése",
       "deleteCondition": "Feltétel törlése",
       "unlabeledCondition": "Címkézetlen",
-      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt."
+      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt.",
+      "addCondition": "Feltétel hozzáadása",
+      "conditionsTitle": "Feltételek",
+      "actionsTitle": "Műveletek",
+      "colorLabel": "Szín",
+      "iconLabel": "Ikon",
+      "invalidRanges": "Érvénytelen tartomány, a min-nek kisebbnek kell lennie a max-nál, és az értékeknek numerikusnak kell lenniük.",
+      "labelField": "Címke",
+      "choiceGroupTrue": "Igaz",
+      "choiceGroupFalse": "Téves",
+      "flyoutValuesTitle": "Értékrend",
+      "flyoutValueTitle": "Érték",
+      "actionLabel": "Akció",
+      "meshColoringOption": "Hálós színezés",
+      "badgeOption": "Jelvény"
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
       "removeRule": "Szabály eltávolítása",
-      "singleBadge": "{{badgeCount}} jelvény",
-      "singleMeshColoring": "{{meshColoringCount}} háló színezése",
       "multipleBadges": "{{badgeCount}} jelvények",
       "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
-      "unlabeled": "(címkézetlen)"
+      "unlabeled": "(címkézetlen)",
+      "singleBadge": "1 jelvény",
+      "singleMeshColoring": "1 hálós színezés"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Alapértelmezett időtartam",
-            "options": {
-              "Last 15 mins": "Utolsó 15 perc",
-              "Last 30 mins": "Utolsó 30 perc",
-              "Last hour": "Utolsó óra",
-              "Last 3 hours": "Utolsó 3 óra",
-              "Last 6 hours": "Utolsó 6 óra",
-              "Last 12 hours": "Az elmúlt 12 óra",
-              "Last 24 hours": "Az elmúlt 24 óra",
-              "Last 7 days": "Utolsó 7 nap",
-              "Last 30 days": "Az elmúlt 30 napban",
-              "Last 60 days": "Az elmúlt 60 napban",
-              "Last 90 days": "Az elmúlt 90 napban",
-              "Last 180 days": "Az elmúlt 180 napban",
-              "Last year": "Tavaly"
-            },
             "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
           },
           "aggregationType": {
@@ -1284,9 +1283,32 @@
     "selectAdditionalColumns": "További oszlopok kijelölése"
   },
   "highcharts": {
-    "noTitle": "Nincs cím",
     "shareQueryTitle": "Lekérdezés megosztása",
-    "noDataDescription": "Nincs megjelenítendő adat"
+    "noDataDescription": "Nincs megjelenítendő adat",
+    "noTitle": "Nincs cím"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
+  },
+  "to": "hoz",
+  "quickTimesDropdown": {
+    "label": "Időtartam",
+    "placeholder": "Válasszon ki egy gyors időpontot",
+    "options": {
+      "Last 15 mins": "Utolsó 15 perc",
+      "Last 30 mins": "Utolsó 30 perc",
+      "Last hour": "Utolsó óra",
+      "Last 3 hours": "Utolsó 3 óra",
+      "Last 6 hours": "Utolsó 6 óra",
+      "Last 12 hours": "Az elmúlt 12 óra",
+      "Last 24 hours": "Az elmúlt 24 óra",
+      "Last 7 days": "Utolsó 7 nap",
+      "Last 30 days": "Az elmúlt 30 napban",
+      "Last 60 days": "Az elmúlt 60 napban",
+      "Last 90 days": "Az elmúlt 90 napban",
+      "Last 180 days": "Az elmúlt 180 napban",
+      "Last year": "Tavaly"
+    }
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",

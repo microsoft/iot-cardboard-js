@@ -565,7 +565,21 @@
       "editCondition": "Condição de edição",
       "deleteCondition": "Eliminar condição",
       "unlabeledCondition": "Sem rótulo",
-      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são satisfeitas. Escolha a expressão de dados para esta regra e adicione algumas condições."
+      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são satisfeitas. Escolha a expressão de dados para esta regra e adicione algumas condições.",
+      "addCondition": "Adicionar condição",
+      "conditionsTitle": "Condições",
+      "actionsTitle": "Ações",
+      "colorLabel": "Cor",
+      "iconLabel": "Ícone",
+      "invalidRanges": "Alcance inválido, min deve ser inferior ao máximo, e os valores devem ser numéricos.",
+      "labelField": "Etiqueta",
+      "choiceGroupTrue": "Verdade",
+      "choiceGroupFalse": "Falso",
+      "flyoutValuesTitle": "Valores",
+      "flyoutValueTitle": "Valor",
+      "actionLabel": "Ação",
+      "meshColoringOption": "Coloração de malha",
+      "badgeOption": "Crachá"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Adicionar Regra",
       "editRule": "Regra de edição",
       "removeRule": "Remover regra",
-      "singleBadge": "{{badgeCount}} crachá",
-      "singleMeshColoring": "{{meshColoringCount}} coloração da malha",
       "multipleBadges": "{{badgeCount}} crachás",
       "multipleMeshColorings": "{{meshColoringCount}} colorações de malha",
-      "unlabeled": "(sem rótulo)"
+      "unlabeled": "(sem rótulo)",
+      "singleBadge": "1 distintivo",
+      "singleMeshColoring": "1 coloração de malha"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Intervalo de tempo predefinido",
-            "options": {
-              "Last 15 mins": "Últimos 15 minutos",
-              "Last 30 mins": "Últimos 30 minutos",
-              "Last hour": "Última hora",
-              "Last 3 hours": "Últimas 3 horas",
-              "Last 6 hours": "Últimas 6 horas",
-              "Last 12 hours": "Últimas 12 horas",
-              "Last 24 hours": "Últimas 24 horas",
-              "Last 7 days": "Últimos 7 dias",
-              "Last 30 days": "Últimos 30 dias",
-              "Last 60 days": "Últimos 60 dias",
-              "Last 90 days": "Últimos 90 dias",
-              "Last 180 days": "Últimos 180 dias",
-              "Last year": "No ano passado"
-            },
             "information": "Seleção de intervalo de tempo padrão na hora local para o eixo x na tabela"
           },
           "aggregationType": {
@@ -1284,9 +1283,32 @@
     "selectAdditionalColumns": "Selecione colunas adicionais"
   },
   "highcharts": {
-    "noTitle": "Sem título",
     "shareQueryTitle": "Consulta de partilha",
-    "noDataDescription": "Sem dados para exibir"
+    "noDataDescription": "Sem dados para exibir",
+    "noTitle": "Sem título"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Tipo de valores, prima insira para adicionar"
+  },
+  "to": "Para",
+  "quickTimesDropdown": {
+    "label": "Duração do tempo",
+    "placeholder": "Selecione um tempo rápido",
+    "options": {
+      "Last 15 mins": "Últimos 15 minutos",
+      "Last 30 mins": "Últimos 30 minutos",
+      "Last hour": "Última hora",
+      "Last 3 hours": "Últimas 3 horas",
+      "Last 6 hours": "Últimas 6 horas",
+      "Last 12 hours": "Últimas 12 horas",
+      "Last 24 hours": "Últimas 24 horas",
+      "Last 7 days": "Últimos 7 dias",
+      "Last 30 days": "Últimos 30 dias",
+      "Last 60 days": "Últimos 60 dias",
+      "Last 90 days": "Últimos 90 dias",
+      "Last 180 days": "Últimos 180 dias",
+      "Last year": "No ano passado"
+    }
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "cópia",

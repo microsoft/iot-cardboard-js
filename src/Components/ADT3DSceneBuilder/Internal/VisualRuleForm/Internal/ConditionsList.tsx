@@ -6,98 +6,157 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getDefaultVisualRuleCondition } from '../../../../../Models/Classes/3DVConfig';
 import {
     IExpressionRangeType,
     IValueRange
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { transformValueRangesIntoConditions } from '../VisualRuleFormUtility';
+import {
+    getNextColor,
+    transformValueRangesIntoConditions
+} from '../VisualRuleFormUtility';
+import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
+    CalloutInfo,
+    CalloutInfoType,
     Condition,
     IConditionsListProps,
     IConditionsListStyles,
     IConditionsListStylesProps
 } from './ConditionsList.types';
 
-const LIST_KEY = 'cb-visual-rule-conditions-list';
-
 const getClassNames = classNamesFunction<
     IConditionsListStylesProps,
     IConditionsListStyles
 >();
 
+const defaultCalloutInfo: CalloutInfo = {
+    calloutType: CalloutInfoType.inactive,
+    selectedCondition: null,
+    selectedTarget: ''
+};
+
 const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Props
-    const { expressionType, onDeleteCondition, styles, valueRanges } = props;
+    const {
+        expressionType,
+        onDeleteCondition,
+        onSaveCondition,
+        styles,
+        valueRanges,
+        valueRangeType
+    } = props;
 
     // Hooks
     const { t } = useTranslation();
+    const LIST_KEY = useId('cb-visual-rule-conditions-list');
 
     // Constants
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
-    const getOverflowMenuItems = (
-        conditionId: string
-    ): IContextualMenuItem[] => [
-        {
-            key: `${conditionId}-edit-menu-item`,
-            text: t('3dSceneBuilder.visualRuleForm.editCondition'),
-            iconProps: {
-                iconName: 'Edit'
+
+    const [calloutInfo, setCalloutInfo] = useState<CalloutInfo>(
+        defaultCalloutInfo
+    );
+
+    // Callbacks
+    const handleOpenNewConditionFlyout = useCallback(() => {
+        setCalloutInfo({
+            calloutType: CalloutInfoType.create,
+            selectedCondition: getDefaultVisualRuleCondition(
+                valueRangeType,
+                getNextColor(valueRanges, defaultSwatchColors)
+            ),
+            selectedTarget: `#${LIST_KEY}`
+        });
+    }, [valueRangeType]);
+
+    const handleDismissFlyout = useCallback(() => {
+        setCalloutInfo(defaultCalloutInfo);
+    }, []);
+
+    const getOverflowMenuItems = useCallback(
+        (conditionId: string): IContextualMenuItem[] => [
+            {
+                key: `${conditionId}-edit-menu-item`,
+                text: t('3dSceneBuilder.visualRuleForm.editCondition'),
+                iconProps: {
+                    iconName: 'Edit'
+                },
+                onClick: () => {
+                    setCalloutInfo({
+                        calloutType: CalloutInfoType.edit,
+                        selectedCondition: valueRanges.find(
+                            (vr) => vr.id === conditionId
+                        ),
+                        selectedTarget: `#${LIST_KEY}`
+                    });
+                },
+                data: {
+                    id: conditionId
+                }
             },
-            onClick: () => {
-                alert('Edit clicked');
-            },
-            data: {
-                id: conditionId
+            {
+                key: `${conditionId}-delete-menu-item`,
+                text: t('3dSceneBuilder.visualRuleForm.deleteCondition'),
+                iconProps: {
+                    iconName: 'Delete'
+                },
+                onClick: (_ev, item) => {
+                    onDeleteCondition(item.data.id);
+                    handleDismissFlyout();
+                },
+                data: {
+                    id: conditionId
+                }
             }
+        ],
+        [handleDismissFlyout, onDeleteCondition, t, valueRanges]
+    );
+
+    const getConditionItems = useCallback(
+        (
+            valueRanges: IValueRange[],
+            expressionType: IExpressionRangeType
+        ): ICardboardListItem<Condition>[] => {
+            const conditions = transformValueRangesIntoConditions(
+                valueRanges,
+                expressionType
+            );
+            const viewModel: ICardboardListItem<Condition>[] = conditions.map(
+                (condition) => {
+                    return {
+                        item: condition,
+                        ariaLabel: `Condition for ${condition.primaryText}`,
+                        textPrimary: condition.primaryText,
+                        textSecondary: condition.secondaryText,
+                        overflowMenuItems: getOverflowMenuItems(condition.id),
+                        onClick: () => {
+                            setCalloutInfo({
+                                calloutType: CalloutInfoType.edit,
+                                selectedCondition: valueRanges.find(
+                                    (vr) => vr.id === condition.id
+                                ),
+                                selectedTarget: `#${LIST_KEY}`
+                            });
+                        }
+                    };
+                }
+            );
+            return viewModel;
         },
-        {
-            key: `${conditionId}-delete-menu-item`,
-            text: t('3dSceneBuilder.visualRuleForm.deleteCondition'),
-            iconProps: {
-                iconName: 'Delete'
-            },
-            onClick: (_ev, item) => {
-                onDeleteCondition(item.data.id);
-            },
-            data: {
-                id: conditionId
-            }
-        }
-    ];
+        [getOverflowMenuItems]
+    );
 
     // State
-    const getConditionItems = (
-        valueRanges: IValueRange[],
-        expressionType: IExpressionRangeType
-    ): ICardboardListItem<Condition>[] => {
-        const conditions = transformValueRangesIntoConditions(
-            valueRanges,
-            expressionType
-        );
-        const viewModel: ICardboardListItem<Condition>[] = conditions.map(
-            (condition) => {
-                return {
-                    item: condition,
-                    ariaLabel: `Condition for ${condition.primaryText}`,
-                    textPrimary: condition.primaryText,
-                    textSecondary: condition.secondaryText,
-                    overflowMenuItems: getOverflowMenuItems(condition.id),
-                    onClick: () => {
-                        alert('Item clicked');
-                    }
-                };
-            }
-        );
-        return viewModel;
-    };
-
     const [conditions, setConditions] = useState(
         getConditionItems(valueRanges, expressionType)
     );
@@ -106,30 +165,40 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Update list everytime valueRanges and expressionType change
     useEffect(() => {
         setConditions(getConditionItems(valueRanges, expressionType));
-    }, [valueRanges, expressionType]);
-
-    // Callbacks
-    const handleOpenFlyout = useCallback(() => {
-        // TODO: Open callout
-        alert('New condition');
-    }, []);
+    }, [valueRanges, expressionType, getConditionItems]);
 
     return (
-        <div className={classNames.container}>
-            <Stack>
-                <CardboardList<Condition>
-                    listKey={LIST_KEY}
-                    items={conditions}
+        <>
+            <div className={classNames.root}>
+                <Stack>
+                    <CardboardList<Condition>
+                        listProps={{
+                            id: LIST_KEY
+                        }}
+                        listKey={LIST_KEY}
+                        items={conditions}
+                    />
+                    <ActionButton
+                        id={'visual-rule-add-condition'}
+                        data-testid={'visual-rule-add-condition'}
+                        styles={classNames.subComponentStyles.addButton?.()}
+                        onClick={handleOpenNewConditionFlyout}
+                    >
+                        {t('3dSceneBuilder.visualRuleForm.newCondition')}
+                    </ActionButton>
+                </Stack>
+            </div>
+            {calloutInfo.calloutType !== CalloutInfoType.inactive && (
+                <ConditionsCallout
+                    calloutType={calloutInfo.calloutType}
+                    onDismiss={handleDismissFlyout}
+                    onSave={onSaveCondition}
+                    target={calloutInfo.selectedTarget}
+                    valueRange={calloutInfo.selectedCondition}
+                    valueRangeType={valueRangeType}
                 />
-                <ActionButton
-                    data-testid={'visual-rule-add-condition'}
-                    styles={classNames.subComponentStyles.addButton?.()}
-                    onClick={handleOpenFlyout}
-                >
-                    {t('3dSceneBuilder.visualRuleForm.newCondition')}
-                </ActionButton>
-            </Stack>
-        </div>
+            )}
+        </>
     );
 };
 

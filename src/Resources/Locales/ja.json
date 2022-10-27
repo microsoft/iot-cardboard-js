@@ -565,7 +565,21 @@
       "editCondition": "条件の編集",
       "deleteCondition": "条件の削除",
       "unlabeledCondition": "ラベル",
-      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。"
+      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。",
+      "addCondition": "条件の追加",
+      "conditionsTitle": "条件",
+      "actionsTitle": "アクション",
+      "colorLabel": "色",
+      "iconLabel": "アイコン",
+      "invalidRanges": "無効な範囲です。min は max より小さく、値は数値でなければなりません。",
+      "labelField": "ラベル",
+      "choiceGroupTrue": "真",
+      "choiceGroupFalse": "偽",
+      "flyoutValuesTitle": "価値観",
+      "flyoutValueTitle": "価値",
+      "actionLabel": "アクション",
+      "meshColoringOption": "メッシュカラーリング",
+      "badgeOption": "バッジ"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "ルールの追加",
       "editRule": "ルールの編集",
       "removeRule": "ルールの削除",
-      "singleBadge": "{{バッジカウント}}バッジ",
-      "singleMeshColoring": "{{meshColoringCount}} メッシュカラーリング",
       "multipleBadges": "{{バッジカウント}}バッジ",
       "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
-      "unlabeled": "(ラベルなし)"
+      "unlabeled": "(ラベルなし)",
+      "singleBadge": "バッジ1個",
+      "singleMeshColoring": "1メッシュカラーリング"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "デフォルトの期間",
-            "options": {
-              "Last 15 mins": "最後の15分",
-              "Last 30 mins": "過去30分",
-              "Last hour": "過去 1 時間",
-              "Last 3 hours": "過去 3 時間",
-              "Last 6 hours": "過去 6 時間",
-              "Last 12 hours": "過去 12 時間",
-              "Last 24 hours": "過去24時間",
-              "Last 7 days": "過去7日間",
-              "Last 30 days": "過去30日間",
-              "Last 60 days": "過去60日間",
-              "Last 90 days": "過去 90 日間",
-              "Last 180 days": "過去 180 日間",
-              "Last year": "去年"
-            },
             "information": "グラフの X 軸の現地時間での既定の時間範囲選択"
           },
           "aggregationType": {
@@ -1284,9 +1283,32 @@
     "selectAdditionalColumns": "追加の列の選択"
   },
   "highcharts": {
-    "noTitle": "タイトルなし",
     "shareQueryTitle": "共有クエリ",
-    "noDataDescription": "表示するデータがありません"
+    "noDataDescription": "表示するデータがありません",
+    "noTitle": "タイトルなし"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "値を入力し、Enter キーを押して追加します。"
+  },
+  "to": "宛先",
+  "quickTimesDropdown": {
+    "label": "期間",
+    "placeholder": "クイック時間を選択する",
+    "options": {
+      "Last 15 mins": "最後の 15 分",
+      "Last 30 mins": "最後の30分",
+      "Last hour": "最後の時間",
+      "Last 3 hours": "過去 3 時間",
+      "Last 6 hours": "過去 6 時間",
+      "Last 12 hours": "過去 12 時間",
+      "Last 24 hours": "過去 24 時間",
+      "Last 7 days": "過去 7 日間",
+      "Last 30 days": "過去 30 日間",
+      "Last 60 days": "過去 60 日間",
+      "Last 90 days": "過去 90 日間",
+      "Last 180 days": "過去 180 日間",
+      "Last year": "去年"
+    }
   },
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
