@@ -1296,6 +1296,7 @@
   "OATModelList": {
     "removeModelButtonText": "删除模型",
     "modelListToggleAriaLabelShow": "显示型号列表",
-    "modelListToggleAriaLabelHide": "隐藏模型列表"
+    "modelListToggleAriaLabelHide": "隐藏模型列表",
+    "searchModels": "搜索型号"
   }
 }
