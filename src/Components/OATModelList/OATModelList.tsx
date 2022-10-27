@@ -51,22 +51,6 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
     const [filter, setFilter] = useState('');
     const listRef = useRef<IList>();
 
-    // scroll to the item when it's selected from the graph side
-    useEffect(() => {
-        const index = listItems.findIndex(
-            (x) => x.item['@id'] === oatPageState.selection?.modelId
-        );
-        logDebugConsole(
-            'debug',
-            'Scrolling to selected item. {index, item}',
-            index,
-            oatPageState.selection?.modelId
-        );
-        if (index > -1) {
-            listRef.current.scrollToIndex(index, () => LIST_ITEM_HEIGHT);
-        }
-    }, [listItems, oatPageState.selection]);
-
     // update the list items anytime a new model is added to the context
     useEffect(() => {
         const onModelSelected = (id: string) => {
@@ -166,6 +150,22 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
         t
     ]);
 
+    // scroll to the item when it's selected from the graph side
+    useEffect(() => {
+        const index = listItems.findIndex(
+            (x) => x.item['@id'] === oatPageState.selection?.modelId
+        );
+        logDebugConsole(
+            'debug',
+            'Scrolling to selected item. {index, item}',
+            index,
+            oatPageState.selection?.modelId
+        );
+        if (index > -1) {
+            listRef.current.scrollToIndex(index, () => LIST_ITEM_HEIGHT);
+        }
+    }, [listItems, oatPageState.selection]);
+
     // styles
     const classNames = getClassNames(styles, { theme: useTheme() });
 
@@ -179,6 +179,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                 placeholder={t('OATModelList.searchModels')}
                 onChange={(_, value) => setFilter(value)}
                 styles={classNames.subComponentStyles.searchbox}
+                data-testid={'models-list-search-box'}
             />
             <CardboardList
                 className={classNames.listContainer}
@@ -186,7 +187,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                     componentRef: listRef
                 }}
                 items={listItems}
-                listKey={'model-list'}
+                listKey={'models-list'}
             />
         </Stack>
     );

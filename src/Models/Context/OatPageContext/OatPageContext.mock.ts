@@ -9,7 +9,7 @@ import {
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
 import { IOatPageContextState } from './OatPageContext.types';
 
-const getMetadataItem = (id: string): IOATModelsMetadata => {
+const getMockMetadataItem = (id: string): IOATModelsMetadata => {
     return {
         '@id': id,
         directoryPath: `directory1/${id.substring(0, 3)}`,
@@ -17,7 +17,7 @@ const getMetadataItem = (id: string): IOATModelsMetadata => {
     };
 };
 
-const getPositionItem = (id: string): IOATModelPosition => {
+const getMockPositionItem = (id: string): IOATModelPosition => {
     return {
         '@id': id,
         position: {
@@ -27,7 +27,7 @@ const getPositionItem = (id: string): IOATModelPosition => {
     };
 };
 
-const getModelItem = (id: string): DTDLModel => {
+export const getMockModelItem = (id: string): DTDLModel => {
     return new DTDLModel(
         id,
         `model-${id}`,
@@ -40,7 +40,7 @@ const getModelItem = (id: string): DTDLModel => {
     );
 };
 
-const getTemplateItem = (id: string): DTDLProperty => {
+const getMockTemplateItem = (id: string): DTDLProperty => {
     return new DTDLProperty(
         id,
         `template-${id}`,
@@ -53,25 +53,29 @@ const getTemplateItem = (id: string): DTDLProperty => {
     );
 };
 
-const getFile = (index: number, subId1: string, subId2: string): IOATFile => {
+const getMockFile = (
+    index: number,
+    subId1: string,
+    subId2: string
+): IOATFile => {
     return {
         id: 'test-ontology-' + index,
         data: new ProjectData(
             'test-ontology-name-' + index,
             'test-ontology-namespace-' + index,
-            [getModelItem(subId1), getModelItem(subId2)],
-            [getPositionItem(subId1), getPositionItem(subId2)],
-            [getMetadataItem(subId1), getMetadataItem(subId2)],
-            [getTemplateItem('0'), getTemplateItem(subId2)]
+            [getMockModelItem(subId1), getMockModelItem(subId2)],
+            [getMockPositionItem(subId1), getMockPositionItem(subId2)],
+            [getMockMetadataItem(subId1), getMockMetadataItem(subId2)],
+            [getMockTemplateItem('0'), getMockTemplateItem(subId2)]
         )
     };
 };
 
 export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
     const files = [
-        getFile(0, '123456', '234567'),
-        getFile(1, '345678', '456789'),
-        getFile(2, '5678910', '6789101')
+        getMockFile(0, '123456', '234567'),
+        getMockFile(1, '345678', '456789'),
+        getMockFile(2, '5678910', '6789101')
     ];
     const currentFile = files[0].data;
     return {

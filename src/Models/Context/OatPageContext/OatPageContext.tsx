@@ -30,7 +30,7 @@ import {
     setSelectedModel
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -276,8 +276,9 @@ export const OatPageContextProvider: React.FC<IOatPageContextProviderProps> = Re
 
         logDebugConsole(
             'debug',
-            'Mount OatPageContextProvider. {state}',
-            oatPageState
+            'Mount OatPageContextProvider. {state, storageEnabled}',
+            oatPageState,
+            isOatContextStorageEnabled
         );
         return (
             <OatPageContext.Provider
@@ -361,7 +362,6 @@ const getInitialState = (
     }
 
     const state = {
-        ...initialState,
         // files
         ontologyFiles: files,
         // onotology
@@ -371,7 +371,8 @@ const getInitialState = (
         currentOntologyModels: project.models,
         currentOntologyNamespace: project.namespace,
         currentOntologyProjectName: project.projectName,
-        currentOntologyTemplates: project.templates
+        currentOntologyTemplates: project.templates,
+        ...initialState
     };
 
     logDebugConsole(
