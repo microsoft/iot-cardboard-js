@@ -46,7 +46,7 @@ import { DtdlInterface, OAT_INTERFACE_TYPE } from '../../Models/Constants';
 import { CONTEXT_CLASS_BASE } from '../OATGraphViewer/Internal/Utils';
 import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
 const getClassNames = classNamesFunction<
