@@ -667,7 +667,9 @@
             "information": "基于图表中数据点数的数据分组处于活动状态时的默认聚合操作"
           }
         }
-      }
+      },
+      "headerMenu": "“数据历史记录”小组件菜单",
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {

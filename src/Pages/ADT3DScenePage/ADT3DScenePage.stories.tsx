@@ -57,6 +57,7 @@ Mock3DScenePage.storyName = 'Mock 3D scene page';
 export const DeeplinkedViewer = (_args, { globals: { theme, locale } }) => {
     const deeplinkState: IDeeplinkContextState = {
         adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
+        adtResourceId: '',
         mode: ADT3DScenePageModes.ViewScene,
         sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
         selectedElementId: '45131a84754280b924477f1df54ca547',
@@ -86,6 +87,7 @@ DeeplinkedViewer.storyName = 'Mock 3D scene page (Deeplinked Viewer)';
 export const DeeplinkedBuilder = (_args, { globals: { theme, locale } }) => {
     const deeplinkState: IDeeplinkContextState = {
         adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
+        adtResourceId: '',
         mode: ADT3DScenePageModes.BuildScene,
         sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
         selectedElementId: '45131a84754280b924477f1df54ca547',
@@ -202,6 +204,7 @@ const ThemeCustomizationContent: React.FC<{ theme; locale }> = ({
 export const ThemeCustomization = (_args, { globals: { theme, locale } }) => {
     const deeplinkState: IDeeplinkContextState = {
         adtUrl: 'https://mockAdt.api.wcus.digitaltwins.azure.net',
+        adtResourceId: '',
         mode: ADT3DScenePageModes.ViewScene,
         sceneId: 'f7053e7537048e03be4d1e6f8f93aa8a',
         selectedElementId: '45131a84754280b924477f1df54ca547',

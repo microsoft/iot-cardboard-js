@@ -196,8 +196,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         tooltip: {
             shared: true,
             useHTML: true,
-            style: tooltipStyles?.root,
-            valueDecimals: 2
+            style: tooltipStyles?.root
         },
         loading: {
             hideDuration: 1000,

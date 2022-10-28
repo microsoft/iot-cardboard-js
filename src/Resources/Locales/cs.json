@@ -667,7 +667,9 @@
             "information": "Výchozí operace agregace, když je aktivní seskupování dat na základě počtu datových bodů v grafu"
           }
         }
-      }
+      },
+      "headerMenu": "Nabídka widgetu Historie dat",
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
     }
   },
   "sdkStrings": {
