@@ -27,7 +27,7 @@ export const storeLastUsedProjectId = (id: string) => {
 /** Gets the last used project id */
 export const getLastUsedProjectId = (): string => {
     const data = localStorage.getItem(OAT_LAST_PROJECT_STORAGE_KEY);
-    return data ? data : '';
+    return data ? JSON.parse(data) : '';
 };
 
 // Load files from local storage

@@ -338,7 +338,8 @@ const getInitialState = (
         project = files.find((x) => x.id === projectIdToUse).data;
         logDebugConsole(
             'debug',
-            'Bootstrapping OAT context with existing project.'
+            'Bootstrapping OAT context with existing project. {projectId}',
+            projectIdToUse
         );
     } else if (!files.length || !lastProjectId) {
         // create a project if none exists
