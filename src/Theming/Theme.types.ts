@@ -16,7 +16,7 @@ export type IExtendedPartialPalette = Partial<IPalette> & CustomPalette;
  */
 export type IExtendedPalette = IPalette & CustomPalette;
 
-export interface IPartialExtendedTheme extends IPartialTheme {
+export interface IExtendedPartialTheme extends IPartialTheme {
     palette: Partial<IExtendedPartialPalette>; // override with our own palette type
 }
 export interface IExtendedTheme extends Theme {
