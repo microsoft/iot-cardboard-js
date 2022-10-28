@@ -2,7 +2,6 @@ import {
     IStyleFunctionOrObject,
     ITheme,
     IStyle,
-    IStackStyles,
     ICalloutContentStyles
 } from '@fluentui/react';
 import { SimulationNodeDatum } from 'd3-force';

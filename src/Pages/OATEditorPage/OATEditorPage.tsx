@@ -16,7 +16,7 @@ import { IOATEditorPageProps } from './OATEditorPage.types';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 import { Stack } from '@fluentui/react';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
