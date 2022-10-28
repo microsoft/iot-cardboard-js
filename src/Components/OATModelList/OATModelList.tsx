@@ -5,8 +5,7 @@ import {
     IList,
     SearchBox,
     Stack,
-    styled,
-    useTheme
+    styled
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from './OATModelList.styles';
@@ -23,11 +22,12 @@ import {
     IOATModelListStyles,
     IOATModelListProps
 } from './OATModelList.types';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
 
-const LIST_ITEM_HEIGHT = 51;
+const LIST_ITEM_HEIGHT = 53;
 
 const getClassNames = classNamesFunction<
     IOATModelListStyleProps,
@@ -173,7 +173,7 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
     }, [listItems, oatPageState.selection]);
 
     // styles
-    const classNames = getClassNames(styles, { theme: useTheme() });
+    const classNames = getClassNames(styles, { theme: useExtendedTheme() });
 
     const listHasItems = listItems.length > 0;
 

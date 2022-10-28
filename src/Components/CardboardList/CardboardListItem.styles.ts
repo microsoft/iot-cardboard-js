@@ -135,7 +135,7 @@ export const getButtonStyles = memoizeFunction(
             root: [
                 {
                     alignItems: 'start', // top align everything
-                    border: 0,
+                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
                     height: 'auto',
                     ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                         opacity: 1
@@ -153,6 +153,7 @@ export const getButtonStyles = memoizeFunction(
             ],
             rootChecked: {
                 backgroundColor: theme.semanticColors.buttonBackgroundPressed,
+                borderColor: theme.palette.black,
                 ...(customStyles?.rootChecked as IRawStyle)
             },
             flexContainer: {

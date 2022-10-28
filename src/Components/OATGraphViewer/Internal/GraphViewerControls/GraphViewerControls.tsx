@@ -19,6 +19,7 @@ import {
 } from './GraphViewerControls.types';
 import { getStyles } from './GraphViewerControls.styles';
 import { useOatGraphContext } from '../../../../Models/Context/OatGraphContext/OatGraphContext';
+import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 
 const getClassNames = classNamesFunction<
     IGraphViewerControlsStyleProps,
@@ -47,7 +48,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useTheme()
+        theme: useExtendedTheme()
     });
 
     return (
@@ -65,6 +66,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                         })
                     }
                     isActive={oatGraphState.isModelListVisible}
+                    styles={classNames.subComponentStyles.controlButton}
                 />
             </HeaderControlGroup>
             <FocusZone style={{ zIndex: CONTROLS_Z_INDEX }}>
@@ -83,6 +85,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                                 })
                             }
                             isActive={oatGraphState.isLegendVisible}
+                            styles={classNames.subComponentStyles.controlButton}
                         />
                     </HeaderControlGroup>
                     {/* built in controls for the graph */}
@@ -101,6 +104,7 @@ const GraphViewerControls: React.FC<IGraphViewerControlsProps> = (props) => {
                                 })
                             }
                             isActive={oatGraphState.isMiniMapVisible}
+                            styles={classNames.subComponentStyles.controlButton}
                         />
                     </HeaderControlGroup>
                 </Stack>

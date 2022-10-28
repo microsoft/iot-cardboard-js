@@ -1,11 +1,11 @@
 import {
     IStyleFunctionOrObject,
-    ITheme,
     IStyle,
     ISearchBoxStyles,
     IStackStyles,
     IButtonStyles
 } from '@fluentui/react';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export interface IOATModelListProps {
     /**
@@ -18,7 +18,7 @@ export interface IOATModelListProps {
 }
 
 export interface IOATModelListStyleProps {
-    theme: ITheme;
+    theme: IExtendedTheme;
 }
 export interface IOATModelListStyles {
     root: IStyle;

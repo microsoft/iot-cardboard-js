@@ -87,7 +87,6 @@ import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/
 import GraphViewerControls from './Internal/GraphViewerControls/GraphViewerControls';
 import OATModelList from '../OATModelList/OATModelList';
 import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const debugLogging = false;
