@@ -74,7 +74,7 @@ export const getStyles = (
                     maxWidth: 400
                 },
                 calloutMain: {
-                    backgroundColor: getControlBackgroundColor(theme),
+                    backgroundColor: theme.palette.glassyBackground90,
                     overflow: 'hidden',
                     padding: 20
                 }

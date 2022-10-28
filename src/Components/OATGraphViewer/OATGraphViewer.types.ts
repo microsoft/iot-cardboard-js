@@ -1,10 +1,11 @@
 import {
     IStyleFunctionOrObject,
-    ITheme,
     IStyle,
     ICalloutContentStyles
 } from '@fluentui/react';
 import { SimulationNodeDatum } from 'd3-force';
+import { Theme } from '../../Models/Constants';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
 
 export type IOatGraphNode = SimulationNodeDatum & {
@@ -27,7 +28,7 @@ export interface IOATGraphViewerProps {
 }
 
 export interface IOATGraphViewerStyleProps {
-    theme: ITheme;
+    theme: IExtendedTheme;
 }
 export interface IOATGraphViewerStyles {
     root: IStyle;

@@ -7,8 +7,9 @@ import {
 import { ComponentStory } from '@storybook/react';
 
 const wrapperStyle: React.CSSProperties = {
-    width: 'auto',
-    padding: 8
+    height: '100%',
+    width: '100%',
+    position: 'absolute'
 };
 export default {
     title: 'Pages/OATEditorPage',
@@ -23,7 +24,9 @@ const Template: SceneBuilderStory = (
 ) => {
     return (
         <OATEditorPage
-            selectedTheme={context.parameters.theme || context.globals.theme}
+            theme={context.parameters.theme || context.globals.theme}
+            locale={context.globals.locale}
+            localeStrings={context.globals.locale}
         />
     );
 };

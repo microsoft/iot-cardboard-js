@@ -122,9 +122,15 @@ const OATModelList: React.FC<IOATModelListProps> = (props) => {
                     }
                 ];
             };
+            const isSelected = x['@id'] === oatPageState.selection?.modelId;
             const item: ICardboardListItem<DtdlInterface> = {
                 ariaLabel: getDisplayNameText(x),
-                isSelected: x['@id'] === oatPageState.selection?.modelId,
+                buttonProps: {
+                    customStyles: classNames.subComponentStyles.listItem?.({
+                        isSelected
+                    })
+                },
+                isSelected: isSelected,
                 item: x,
                 onClick: () => onModelSelected(x['@id']),
                 overflowMenuItems: getOverflowMenuItems(x),

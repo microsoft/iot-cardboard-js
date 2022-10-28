@@ -127,11 +127,11 @@ export const getStyles = memoizeFunction(
 export const getButtonStyles = memoizeFunction(
     (
         itemType: CardboardGroupedListItemType | undefined,
-        isSelected: boolean | undefined,
         theme: Theme,
         customStyles: Partial<IButtonStyles> | undefined
     ): IButtonStyles => {
         return {
+            ...(customStyles as IButtonStyles),
             root: [
                 {
                     alignItems: 'start', // top align everything
@@ -141,13 +141,9 @@ export const getButtonStyles = memoizeFunction(
                         opacity: 1
                     },
                     padding: '8px 12px',
-                    width: '100%',
-                    ...(customStyles?.root as IRawStyle)
+                    width: '100%'
                 },
-                isSelected && {
-                    backgroundColor:
-                        theme.semanticColors.buttonBackgroundPressed
-                },
+                { ...(customStyles?.root as IRawStyle) },
                 itemType === 'item' && {
                     paddingLeft: 40
                 },
@@ -155,6 +151,10 @@ export const getButtonStyles = memoizeFunction(
                     borderTop: `1px solid ${theme.palette.neutralLight}`
                 }
             ],
+            rootChecked: {
+                backgroundColor: theme.semanticColors.buttonBackgroundPressed,
+                ...(customStyles?.rootChecked as IRawStyle)
+            },
             flexContainer: {
                 justifyContent: 'start',
                 ...(customStyles?.flexContainer as IRawStyle)

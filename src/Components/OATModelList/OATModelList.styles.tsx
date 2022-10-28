@@ -21,7 +21,7 @@ export const getStyles = (
         listContainer: [
             classNames.listContainer,
             {
-                backgroundColor: theme.semanticColors.bodyBackground,
+                // backgroundColor: theme.semanticColors.bodyBackground,
                 width: '100%',
                 height: 'calc(100% - 32px)', // less the search box
                 overflowX: 'hidden',
@@ -36,6 +36,11 @@ export const getStyles = (
             }
         ],
         subComponentStyles: {
+            listItem: (_props?: { isSelected: boolean }) => ({
+                root: {
+                    backgroundColor: 'transparent'
+                }
+            }),
             rootStack: {
                 root: {
                     height: '100%',
