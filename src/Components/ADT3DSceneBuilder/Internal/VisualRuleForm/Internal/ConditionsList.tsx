@@ -1,7 +1,6 @@
 import {
     ActionButton,
     classNamesFunction,
-    FontSizes,
     Icon,
     IContextualMenuItem,
     Stack,
@@ -26,7 +25,11 @@ import {
 } from '../VisualRuleFormUtility';
 import { hasBadge } from './ConditionsCallout/ConditionCalloutUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
-import { getStyles } from './ConditionsList.styles';
+import {
+    getBadgeStyles,
+    getMeshColoringStyles,
+    getStyles
+} from './ConditionsList.styles';
 import {
     CalloutInfo,
     CalloutInfoType,
@@ -127,33 +130,14 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     );
 
     const renderBadge = useCallback((iconName: string, color: string) => {
-        return (
-            <Icon
-                iconName={iconName}
-                styles={{
-                    root: {
-                        background: color,
-                        borderRadius: '50%',
-                        fontSize: FontSizes.size16,
-                        padding: 4,
-                        marginRight: 8
-                    }
-                }}
-            />
-        );
+        return <Icon iconName={iconName} styles={getBadgeStyles(color)} />;
     }, []);
 
     const renderMeshColoring = useCallback((color: string) => {
         return (
             <Icon
                 iconName={'CubeShape'}
-                styles={{
-                    root: {
-                        color: color,
-                        fontSize: FontSizes.size24,
-                        marginRight: 8
-                    }
-                }}
+                styles={getMeshColoringStyles(color)}
             />
         );
     }, []);

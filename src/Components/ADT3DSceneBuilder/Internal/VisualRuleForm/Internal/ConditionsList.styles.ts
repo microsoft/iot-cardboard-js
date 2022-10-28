@@ -1,3 +1,4 @@
+import { FontSizes } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../../Models/Constants/Constants';
 import {
     IConditionsListStyles,
@@ -25,6 +26,28 @@ export const getStyles = (
                     marginLeft: 2
                 }
             }
+        }
+    };
+};
+
+export const getMeshColoringStyles = (color: string) => {
+    return {
+        root: {
+            color: color,
+            fontSize: FontSizes.size24,
+            marginRight: 8
+        }
+    };
+};
+
+export const getBadgeStyles = (color: string) => {
+    return {
+        root: {
+            background: color,
+            borderRadius: '50%',
+            fontSize: FontSizes.size16,
+            padding: 4,
+            marginRight: 8
         }
     };
 };
