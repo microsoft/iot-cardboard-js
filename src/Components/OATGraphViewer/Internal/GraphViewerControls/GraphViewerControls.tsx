@@ -2,7 +2,6 @@ import React from 'react';
 import { Controls, ControlButton } from 'react-flow-renderer';
 import {
     classNamesFunction,
-    useTheme,
     styled,
     FocusZone,
     Icon,
