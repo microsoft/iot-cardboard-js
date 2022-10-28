@@ -13,7 +13,7 @@ import {
     fluentKrakenThemeSemanticColors,
     fluentLightThemeSemanticColors
 } from './SemanticColors';
-import { IPartialExtendedTheme } from './Theme.types';
+import { IExtendedPartialTheme } from './Theme.types';
 
 export const getFluentTheme = (theme: Theme): ITheme => {
     switch (theme) {
@@ -35,7 +35,7 @@ export const getFluentTheme = (theme: Theme): ITheme => {
     then applies custom component style overrides.
 */
 const createThemeWithCustomStyles = (
-    themeInfo: IPartialExtendedTheme,
+    themeInfo: IExtendedPartialTheme,
     themeSetting: Theme
 ): FluentTheme => {
     const theme = createTheme(themeInfo);
@@ -49,22 +49,22 @@ const createThemeWithCustomStyles = (
     semanticColors: Specific UI color slots.  These are created using 
     the palette colors, but can be overriden for more stylistic control.
 */
-const fluentLightThemeInfo: IPartialExtendedTheme = {
+const fluentLightThemeInfo: IExtendedPartialTheme = {
     palette: fluentLightThemePalette,
     semanticColors: fluentLightThemeSemanticColors
 };
 
-const fluentDarkThemeInfo: IPartialExtendedTheme = {
+const fluentDarkThemeInfo: IExtendedPartialTheme = {
     palette: fluentDarkThemePalette,
     semanticColors: fluentDarkThemeSemanticColors
 };
 
-const fluentExplorerThemeInfo: IPartialExtendedTheme = {
+const fluentExplorerThemeInfo: IExtendedPartialTheme = {
     palette: fluentExplorerThemePalette,
     semanticColors: fluentExplorerThemeSemanticColors
 };
 
-const fluentKrakenThemeInfo: IPartialExtendedTheme = {
+const fluentKrakenThemeInfo: IExtendedPartialTheme = {
     palette: fluentKrakenThemePalette,
     semanticColors: fluentKrakenThemeSemanticColors
 };
