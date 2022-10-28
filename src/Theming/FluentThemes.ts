@@ -1,9 +1,4 @@
-import {
-    createTheme,
-    IPartialTheme,
-    ITheme,
-    Theme as FluentTheme
-} from '@fluentui/react';
+import { createTheme, ITheme, Theme as FluentTheme } from '@fluentui/react';
 import {
     fluentDarkThemePalette,
     fluentExplorerThemePalette,
