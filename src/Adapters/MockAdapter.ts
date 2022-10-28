@@ -1043,24 +1043,27 @@ export default class MockAdapter
         }
     }
 
+    /** Returns a mock data based on the passed query by parsing it
+     * to get quick time, twin id and twin property to reflect
+     * on the generated mock data */
     async getTimeSeriesData(query: string) {
         let mockData: Array<ADXTimeSeries> = [];
         try {
             await this.mockNetwork();
             try {
-                const listOfTimeSeries = query.split(';');
+                const listOfTimeSeries = query.split(';'); // split the query by statements for each time series
                 listOfTimeSeries.forEach((ts) => {
-                    const split = ts.split('ago(')[1].split(')');
+                    const split = ts.split('ago(')[1].split(')'); // split the query by timestamp 'ago' operation
                     const quickTimeSpanInMillis = Number(
-                        split[0].replace('ms', '')
+                        split[0].replace('ms', '') // get the quick time in milliseconds and cast it to number
                     );
                     const idAndPropertyPart = split[1]
                         .split('Id == ')[1]
-                        .split(' and Key == ');
-                    const twinId = idAndPropertyPart[0].replace(/'/g, '');
+                        .split(' and Key == '); // get the part of the query where there is twin id and property information
+                    const twinId = idAndPropertyPart[0].replace(/'/g, ''); // get the id and replace the single quote characters around the string
                     const twinProperty = idAndPropertyPart[1]
                         .split(' | order by')[0]
-                        .replace(/'/g, '');
+                        .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
                     mockData.push({
                         id: twinId,
@@ -1072,11 +1075,6 @@ export default class MockAdapter
                         )[0]
                     });
                 });
-
-                return new AdapterResult({
-                    result: new ADXTimeSeriesData(mockData),
-                    errorInfo: null
-                });
             } catch (error) {
                 console.log(error);
                 mockData = [
@@ -1086,11 +1084,11 @@ export default class MockAdapter
                         data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
                     }
                 ];
-                return new AdapterResult({
-                    result: new ADXTimeSeriesData(mockData),
-                    errorInfo: null
-                });
             }
+            return new AdapterResult({
+                result: new ADXTimeSeriesData(mockData),
+                errorInfo: null
+            });
         } catch (err) {
             return new AdapterResult<ADXTimeSeriesData>({
                 result: null,

@@ -1,1592 +1,1663 @@
 {
-    "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
-    "configuration": {
-        "scenes": [
-            {
-                "id": "125b193c784a52635a411fa469aafbf7",
-                "displayName": "Cosmo Tech Windfarm",
-                "description": "",
-                "assets": [
-                    {
-                        "type": "3DAsset",
-                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/CosmoTechWind.glb"
-                    }
-                ],
-                "elements": [
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "f33467fc9374f486576249224634bc37",
-                        "displayName": "Windmill1",
-                        "primaryTwinID": "Windmill1",
-                        "objectIDs": [
-                            "Cylinder.006",
-                            "Cylinder.007",
-                            "Cylinder.008_primitive0",
-                            "Cylinder.008_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "5b5f6e188fb21f85fd0b8d3678291f5d",
-                        "displayName": "Windmill2",
-                        "primaryTwinID": "Windmill2",
-                        "objectIDs": [
-                            "Cylinder",
-                            "Cylinder.001",
-                            "Cylinder.003_primitive0",
-                            "Cylinder.003_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "38b0b76ae18ba56c6c1d6301f8b16a01",
-                        "displayName": "Windmill4",
-                        "primaryTwinID": "Windmill4",
-                        "objectIDs": [
-                            "Cylinder.021",
-                            "Cylinder.022",
-                            "Cylinder.023_primitive0",
-                            "Cylinder.023_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "950252852e85a95b7e13b529532fa3f3",
-                        "displayName": "Windmill5",
-                        "primaryTwinID": "Windmill5",
-                        "objectIDs": [
-                            "Cylinder.015",
-                            "Cylinder.016",
-                            "Cylinder.017_primitive0",
-                            "Cylinder.017_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "8b8e3ed9c715d05bbedbb3e58ea4e211",
-                        "displayName": "Windmill3",
-                        "primaryTwinID": "Windmill3",
-                        "objectIDs": [
-                            "Cylinder.018",
-                            "Cylinder.019",
-                            "Cylinder.020_primitive0",
-                            "Cylinder.020_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "ad4474b01463f45ab5e3de1de9957433",
-                        "displayName": "Windmill6",
-                        "primaryTwinID": "Windmill6",
-                        "objectIDs": [
-                            "Cylinder.009",
-                            "Cylinder.010",
-                            "Cylinder.011_primitive0",
-                            "Cylinder.011_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "bbdbd3ccd9efdd99b8c607fbf0d92035",
-                        "displayName": "Windmill7",
-                        "primaryTwinID": "Windmill7",
-                        "objectIDs": [
-                            "Cylinder.002",
-                            "Cylinder.004",
-                            "Cylinder.005_primitive0",
-                            "Cylinder.005_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "e38f2a9b0680d583ca6367112ebd7632",
-                        "displayName": "Windmill8",
-                        "primaryTwinID": "Windmill8",
-                        "objectIDs": [
-                            "Cylinder.012",
-                            "Cylinder.013",
-                            "Cylinder.014_primitive0",
-                            "Cylinder.014_primitive1"
-                        ]
-                    }
-                ],
-                "behaviorIDs": ["084ca93b5809ae23ee47f83d77a53b08"],
-                "latitude": 45.917899,
-                "longitude": 6.729412
-            },
-            {
-                "id": "744d634cc9fef4ca9dfed38a614c5814",
-                "displayName": "Ecolab Water Plant",
-                "description": "",
-                "assets": [
-                    {
-                        "type": "3DAsset",
-                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Ecolab.glb"
-                    }
-                ],
-                "elements": [
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "29783b955e651f339598e4b603cee651",
-                        "displayName": "Exchanger1",
-                        "primaryTwinID": "Exchanger1",
-                        "objectIDs": [
-                            "AnionEx1_1c35124d-9df8-482a-8a44-8dc5db5f1d3a"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "d1fe933ae5c5b07553a049516c8dc72a",
-                        "displayName": "Exchanger2",
-                        "primaryTwinID": "Exchanger2",
-                        "objectIDs": [
-                            "AnionEx2_8ae3ad3d-b80f-4cfe-b06e-62083355a731"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "903ab45381d8e3fff0a0d79f52227891",
-                        "displayName": "Exchanger3",
-                        "primaryTwinID": "Exchanger3",
-                        "objectIDs": [
-                            "CationEx1_eb0d3916-b961-49c2-bd00-99dd19886576"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "099cf01bb750c41ecb4204f45779ff5d",
-                        "displayName": "Exchanger4",
-                        "primaryTwinID": "Exchanger4",
-                        "objectIDs": ["polySurface2339"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "36a91edbfef3b5be8e180babd35d0c31",
-                        "displayName": "TransferPipe",
-                        "primaryTwinID": "TransferPipe",
-                        "objectIDs": ["Pipe01", "PipeCCIX"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "72236bcd699e69ff49d591f9cf04404d",
-                        "displayName": "StorageTanks1",
-                        "primaryTwinID": "StorageTanks1",
-                        "objectIDs": ["polySurface1240"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "e8d59d0e9f0eec44dbfcdb6bef4543d4",
-                        "displayName": "StorageTanks2",
-                        "primaryTwinID": "StorageTanks2",
-                        "objectIDs": [
-                            "Tank535CCIXStorage2_aeeeb662-9892-4d48-9b46-396ed82c087f",
-                            "Tank536LMAS1Storage_e47410db-086a-45af-a7a4-d568d27bddc7",
-                            "Tank537CCIXStorage2_5a736ad8-debd-400a-956c-e459ee5ee832",
-                            "Tanks538LMAS2Storage_9ee6d550-bde5-4e99-b1df-4ce80e2cf3dd"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "a98e4deb284437171ed102665fe25b43",
-                        "displayName": "StorageTanks3",
-                        "primaryTwinID": "StorageTanks3",
-                        "objectIDs": ["polySurface1914", "polySurface92"]
-                    }
-                ],
-                "behaviorIDs": [
-                    "25b5a6bbaeeed2e86a9b7cad242c9b33",
-                    "11b51a4a193447d88bb8fe7b1df5be15",
-                    "621fc7d3dad1d615098c626f1228a510"
-                ],
-                "latitude": 44.9537,
-                "longitude": -93.09
-            },
-            {
-                "id": "14001b74c90b1a4b73975cd891ae5415",
-                "displayName": "Element Refinery",
-                "description": "",
-                "assets": [
-                    {
-                        "type": "3DAsset",
-                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Refinery.glb"
-                    }
-                ],
-                "elements": [
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "9cd0254a000cf3ae531828f1bf1bdc7c",
-                        "displayName": "Distillation1",
-                        "primaryTwinID": "Distillation1",
-                        "objectIDs": ["MODULE_FACTORY_LOD1_001"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "6085775e705f33b80a4d3c6841d201e4",
-                        "displayName": "Distillation2",
-                        "primaryTwinID": "Distillation2",
-                        "objectIDs": ["MODULE_TOWER_770_LOD1_001"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "5791116f3466d14ea9280bcc81b8e5b3",
-                        "displayName": "Distillation3",
-                        "primaryTwinID": "Distillation3",
-                        "objectIDs": ["MODULE_TOWER_514_LOD1_001"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "da83113c831ea7dd49f1a69d99b051b8",
-                        "displayName": "Tank1",
-                        "primaryTwinID": "Tank1",
-                        "objectIDs": ["MODULE_SILOS_530_LOD1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "bb75f4f82d56c1ac7b5450fb02d64d99",
-                        "displayName": "Tank2",
-                        "primaryTwinID": "Tank2",
-                        "objectIDs": ["MODULE_SILOS_354_LOD1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "06d7aa2bb004d776ec21ad2df948962f",
-                        "displayName": "Tank3",
-                        "primaryTwinID": "Tank3",
-                        "objectIDs": ["MODULE_SILOS_02_LOD1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "ed79fb94d9559f58feef3738f980cceb",
-                        "displayName": "Tank4",
-                        "primaryTwinID": "Tank4",
-                        "objectIDs": ["MODULE_SILOS_178_LOD1"]
-                    }
-                ],
-                "behaviorIDs": ["83f16294b7959c4e362aa4c1c3264f85"],
-                "latitude": 37.8044,
-                "longitude": -122.2712
-            },
-            {
-                "id": "88112b3417e053c276e9f441ec9270a9",
-                "displayName": "Robotic Arms",
-                "description": "TMG Headquarters",
-                "assets": [
-                    {
-                        "type": "3DAsset",
-                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/RobotArms.glb"
-                    }
-                ],
-                "elements": [
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "6cef18ac870f90ee102e55b7c01fc89f",
-                        "displayName": "Arm1",
-                        "primaryTwinID": "Arm1",
-                        "objectIDs": [
-                            "__polySurface11",
-                            "_polySurface2_primitive0",
-                            "_polySurface2_primitive1",
-                            "_polySurface9_primitive0"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "f713b7d953fa838652a191b17be8aafb",
-                        "displayName": "Arm2",
-                        "primaryTwinID": "Arm2",
-                        "objectIDs": [
-                            "__Table7_primitive6",
-                            "__polySurface15",
-                            "_polySurface5_primitive0",
-                            "_polySurface5_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "1fdf890f7601445da865ad35f6e28c5c",
-                        "displayName": "Arm3",
-                        "primaryTwinID": "Arm3",
-                        "objectIDs": [
-                            "__Table8_primitive6",
-                            "__polySurface16",
-                            "_polySurface6_primitive0",
-                            "_polySurface6_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "7f5793dce57278cf4f86570013745c7d",
-                        "displayName": "Arm4",
-                        "primaryTwinID": "Arm4",
-                        "objectIDs": [
-                            "__Table9_primitive6",
-                            "__polySurface13",
-                            "_polySurface3_primitive0",
-                            "_polySurface3_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "ce4a64c1b6e4df7c2791cbf41c54613c",
-                        "displayName": "Arm5",
-                        "primaryTwinID": "Arm5",
-                        "objectIDs": [
-                            "__Table10_primitive6",
-                            "__polySurface14",
-                            "_polySurface4_primitive0",
-                            "_polySurface4_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "bc87da036ff1b8a75b04575ed72ca2e0",
-                        "displayName": "Arm6",
-                        "primaryTwinID": "Arm6",
-                        "objectIDs": [
-                            "__Table11_primitive6",
-                            "__polySurface17",
-                            "_polySurface7_primitive0",
-                            "_polySurface7_primitive1"
-                        ]
-                    }
-                ],
-                "behaviorIDs": ["587e9e665017750a7ea9a2efe9840119"],
-                "latitude": 29.7604,
-                "longitude": -95.3698
-            },
-            {
-                "id": "02fe3198727a77eff7b109661a581cbc",
-                "displayName": "Space Station",
-                "description": "",
-                "assets": [
-                    {
-                        "type": "3DAsset",
-                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/ISS.glb"
-                    }
-                ],
-                "elements": [
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "e52d771d430964c98f9cb9fd53a60254",
-                        "displayName": "MainPanel1",
-                        "primaryTwinID": "MainPanel1",
-                        "objectIDs": ["32 S6 Truss_02_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "9ef8e9ed475d129a649369f69186b9be",
-                        "displayName": "MainPanel2",
-                        "primaryTwinID": "MainPanel2",
-                        "objectIDs": ["23 S4 Truss_02_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "307a60be743528ba904e0494ba9571cd",
-                        "displayName": "MainPanel3",
-                        "primaryTwinID": "MainPanel3",
-                        "objectIDs": ["32 S6 Truss_01_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "622bb42bb3c7686c660b09b645cb3a9d",
-                        "displayName": "MainPanel4",
-                        "primaryTwinID": "MainPanel4",
-                        "objectIDs": ["23 S4 Truss_01_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "d0944ed6f71b4863be474dceef2baf08",
-                        "displayName": "MainPanel5",
-                        "primaryTwinID": "MainPanel5",
-                        "objectIDs": ["20 P4 Truss_02_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "a1b62c20f2743840a168b070a6c3fbc6",
-                        "displayName": "MainPanel6",
-                        "primaryTwinID": "MainPanel6",
-                        "objectIDs": ["08 P6 Truss_02_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "0897348fda18de0a1996de444e366d20",
-                        "displayName": "MainPanel7",
-                        "primaryTwinID": "MainPanel7",
-                        "objectIDs": ["20 P4 Truss_01_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "8f068c42f187cc54d3dc61c57e09e9f7",
-                        "displayName": "MainPanel8",
-                        "primaryTwinID": "MainPanel8",
-                        "objectIDs": ["08 P6 Truss_01_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "329f661167a43807c9688a8d2de614c1",
-                        "displayName": "RearPanel1",
-                        "primaryTwinID": "RearPanel1",
-                        "objectIDs": [
-                            "panel_01_s.001_primitive0",
-                            "panel_02_s.001_primitive0",
-                            "panel_03_s.001_primitive0",
-                            "panel_04_s.001_primitive0",
-                            "panel_05_s_primitive0",
-                            "panel_06_s_primitive0",
-                            "panel_07_s_primitive1",
-                            "panel_08_s_primitive0",
-                            "panel_09_s_primitive0"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "62385b2e289729685c97b4845311b9fb",
-                        "displayName": "RearPanel2",
-                        "primaryTwinID": "RearPanel2",
-                        "objectIDs": [
-                            "panel_01_p.001_primitive0",
-                            "panel_02_p.001_primitive0",
-                            "panel_03_p.001_primitive0",
-                            "panel_04_p.001_primitive0",
-                            "panel_05_p_primitive0",
-                            "panel_06_p_primitive0",
-                            "panel_07_p_primitive1",
-                            "panel_08_p_primitive0",
-                            "panel_09_p_primitive0"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "29ac7cca3a22a06784fd2c9d1e45ef1a",
-                        "displayName": "ColumbusLab",
-                        "primaryTwinID": "ColumbusLab",
-                        "objectIDs": ["27 Columbus Space Laboratory_primitive3"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "9fead963403f6d16f1b95068e18fb5da",
-                        "displayName": "DestinyLab",
-                        "primaryTwinID": "DestinyLab",
-                        "objectIDs": ["09 Destiny Space Laboratory_primitive5"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "3a9ad613f55a4dc952b5da9e3e3ed545",
-                        "displayName": "HarmonyModule",
-                        "primaryTwinID": "HarmonyModule",
-                        "objectIDs": ["26 Harmony Node 2_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "9faeafa393d1e6463877c939f862487c",
-                        "displayName": "KiboLab",
-                        "primaryTwinID": "KiboLab",
-                        "objectIDs": [
-                            "30 Kibo Space Laboratory (PSM) Pressurized Module_primitive4"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "f87e265e8772992c941c2155195c33fc",
-                        "displayName": "TranquilityModule",
-                        "primaryTwinID": "TranquilityModule",
-                        "objectIDs": ["37 Tranquility Node 3_primitive1"]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "94e06fe54f1102bd8dc855cc428c1981",
-                        "displayName": "ZaryaBlock",
-                        "primaryTwinID": "ZaryaBlock",
-                        "objectIDs": [
-                            "01 Zarya - (FGB) Funtional Cargo Block_primitive1"
-                        ]
-                    },
-                    {
-                        "type": "TwinToObjectMapping",
-                        "id": "2f8016a04a9a44c2fd4546f85c50761f",
-                        "displayName": "ZvezdaModule",
-                        "primaryTwinID": "ZvezdaModule",
-                        "objectIDs": [
-                            "05 Zvezda (SM) Service Module_primitive2"
-                        ]
-                    }
-                ],
-                "behaviorIDs": [
-                    "1bec3465be9f20b0dbf5c17818da2050",
-                    "d0fdbfdde9a5c6f1bfb2c16738722885",
-                    "65f63c22166430d2c3417da7f7541d49"
-                ]
-            }
+  "$schema": "https://github.com/microsoft/iot-cardboard-js/tree/main/schemas/3DScenesConfiguration/v1.0.0/3DScenesConfiguration.schema.json",
+  "configuration": {
+    "scenes": [
+      {
+        "id": "125b193c784a52635a411fa469aafbf7",
+        "displayName": "Cosmo Tech Windfarm",
+        "description": "",
+        "assets": [
+          {
+            "type": "3DAsset",
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/CosmoTechWind.glb"
+          }
         ],
-        "behaviors": [
-            {
-                "id": "587e9e665017750a7ea9a2efe9840119",
-                "displayName": "Packing Line Efficiency",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "6cef18ac870f90ee102e55b7c01fc89f",
-                            "f713b7d953fa838652a191b17be8aafb",
-                            "1fdf890f7601445da865ad35f6e28c5c",
-                            "7f5793dce57278cf4f86570013745c7d",
-                            "ce4a64c1b6e4df7c2791cbf41c54613c",
-                            "bc87da036ff1b8a75b04575ed72ca2e0"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.FailedPickupsLastHr",
-                        "valueRanges": [
-                            {
-                                "values": [1, 3],
-                                "visual": {
-                                    "color": "#F79824"
-                                },
-                                "id": "73490c2ed90b4f4444cf20e7196c7727"
-                            },
-                            {
-                                "values": [3, "Infinity"],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "c98d9ac58bf64b99b6ba69038ab4ce63"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.PickupFailedAlert",
-                        "valueRanges": [
-                            {
-                                "id": "8454f4dd37b20f6789dc39c57db7f3fe",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#C32F27",
-                                    "iconName": "Stopwatch",
-                                    "labelExpression": "`${PrimaryTwin.PickupFailedBoxID} was missed, please track down this box and remediate.`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "18b9dc52818117ea5b4d384b0d507d04",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.HydraulicPressure",
-                                "widgetConfiguration": {
-                                    "label": "Hydraulic Pressure",
-                                    "valueRanges": [
-                                        {
-                                            "values": [0, 40],
-                                            "visual": {
-                                                "color": "#33A1FD"
-                                            },
-                                            "id": "fe907c924388592d9272ddf1b2f72dea"
-                                        },
-                                        {
-                                            "values": [40, 80],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "08f9fe942bdf86652bb18eaf6ab18940"
-                                        },
-                                        {
-                                            "values": [80, "Infinity"],
-                                            "visual": {
-                                                "color": "#F79824"
-                                            },
-                                            "id": "17bd0a869cb8be46624e173d59fdada0"
-                                        }
-                                    ],
-                                    "units": "kPa"
-                                }
-                            },
-                            {
-                                "id": "8b545049d869d18fdd2b08eebde73662",
-                                "type": "Link",
-                                "widgetConfiguration": {
-                                    "label": "Live arm camera",
-                                    "linkExpression": "`https://contoso.armstreams.com/${PrimaryTwin.$dtId}`"
-                                }
-                            },
-                            {
-                                "type": "Data history",
-                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
-                                "widgetConfiguration": {
-                                    "connection": {
-                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
-                                        "adxDatabaseName": "mockKustoDatabaseName",
-                                        "adxTableName": "mockKustoTableName"
-                                    },
-                                    "displayName": "Hydraulic Pressure Data History",
-                                    "timeSeries": [
-                                        {
-                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
-                                            "expression": "PrimaryTwin.HydraulicPressure",
-                                            "unit": "kPa",
-                                            "label": "Hydraulic Pressure Trend"
-                                        }
-                                    ],
-                                    "chartOptions": {
-                                        "aggregationType": "avg",
-                                        "defaultQuickTimeSpanInMillis": 900000,
-                                        "yAxisType": "shared"
-                                    }
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "084ca93b5809ae23ee47f83d77a53b08",
-                "displayName": "Windmill Health",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "f33467fc9374f486576249224634bc37",
-                            "5b5f6e188fb21f85fd0b8d3678291f5d",
-                            "38b0b76ae18ba56c6c1d6301f8b16a01",
-                            "950252852e85a95b7e13b529532fa3f3",
-                            "8b8e3ed9c715d05bbedbb3e58ea4e211",
-                            "ad4474b01463f45ab5e3de1de9957433",
-                            "bbdbd3ccd9efdd99b8c607fbf0d92035",
-                            "e38f2a9b0680d583ca6367112ebd7632"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.HealthScore",
-                        "valueRanges": [
-                            {
-                                "values": [0, 5],
-                                "visual": {
-                                    "color": "#33A1FD"
-                                },
-                                "id": "5e055c7d991fa5456f66e5aa2dac25a4"
-                            },
-                            {
-                                "values": [5, 10],
-                                "visual": {
-                                    "color": "#FEE440"
-                                },
-                                "id": "87ce16c212ed366fcaa5ad49868264d5"
-                            },
-                            {
-                                "values": [10, "Infinity"],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "ac3a82f8de0099186bf3f4d6b0c47cdd"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.HealthScore > 5",
-                        "valueRanges": [
-                            {
-                                "id": "7a56ff5593ca49ebe438ab89ec5b21c4",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#33A1FD",
-                                    "iconName": "Asterisk",
-                                    "labelExpression": "`Optimal maintenance time: 8 days`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "46b6b7e1ce2114d48960c795a1013b46",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.HealthScore",
-                                "widgetConfiguration": {
-                                    "label": "Health",
-                                    "valueRanges": [
-                                        {
-                                            "values": [0, 5],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "9e602dfe5a5128918dfd53b0af74416b"
-                                        },
-                                        {
-                                            "values": [5, 20],
-                                            "visual": {
-                                                "color": "#C32F27"
-                                            },
-                                            "id": "a4a0cbc7f0b00b5bc3bec26d91ee3579"
-                                        }
-                                    ]
-                                }
-                            },
-                            {
-                                "id": "42164b3792c6b0ca7c217ab31aebc27f",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Overall Eqpt Effectiveness",
-                                    "valueExpression": "PrimaryTwin.OEE",
-                                    "type": "double"
-                                }
-                            },
-                            {
-                                "id": "279dc97b8cfb3d3446975711d1fe2921",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Wind Speed",
-                                    "valueExpression": "PrimaryTwin.WindSpeed",
-                                    "type": "double"
-                                }
-                            },
-                            {
-                                "id": "40679f84097cb81e74c5610499d81f1d",
-                                "type": "Link",
-                                "widgetConfiguration": {
-                                    "label": "Learn more",
-                                    "linkExpression": "`https://cosmotech.com/`"
-                                }
-                            },
-                            {
-                                "type": "Data history",
-                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
-                                "widgetConfiguration": {
-                                    "connection": {
-                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
-                                        "adxDatabaseName": "mockKustoDatabaseName",
-                                        "adxTableName": "mockKustoTableName"
-                                    },
-                                    "displayName": "Wind Speed Data History",
-                                    "timeSeries": [
-                                        {
-                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
-                                            "expression": "PrimaryTwin.WindSpeed",
-                                            "unit": "mph",
-                                            "label": "Windspeed Trend"
-                                        }
-                                    ],
-                                    "chartOptions": {
-                                        "aggregationType": "avg",
-                                        "defaultQuickTimeSpanInMillis": 900000,
-                                        "yAxisType": "shared"
-                                    }
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "1bec3465be9f20b0dbf5c17818da2050",
-                "displayName": "CO2 Levels",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "29ac7cca3a22a06784fd2c9d1e45ef1a",
-                            "9fead963403f6d16f1b95068e18fb5da",
-                            "3a9ad613f55a4dc952b5da9e3e3ed545",
-                            "9faeafa393d1e6463877c939f862487c",
-                            "f87e265e8772992c941c2155195c33fc",
-                            "94e06fe54f1102bd8dc855cc428c1981",
-                            "2f8016a04a9a44c2fd4546f85c50761f"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.CO2Level",
-                        "valueRanges": [
-                            {
-                                "values": [0, 10],
-                                "visual": {
-                                    "color": "#33A1FD"
-                                },
-                                "id": "df9e1c9a8f11438edec43615155aed37"
-                            },
-                            {
-                                "values": [10, 25],
-                                "visual": {
-                                    "color": "#FEE440"
-                                },
-                                "id": "8a87bd7f149669d37e5aa5e0e751cf42"
-                            },
-                            {
-                                "values": [25, 40],
-                                "visual": {
-                                    "color": "#F79824"
-                                },
-                                "id": "48b4b5bd48bdbd8f2a295789ae86bf0b"
-                            },
-                            {
-                                "values": [40, "Infinity"],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "983d0ee23b7b8bc13fbf0b30998f0fd1"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.CO2Level > 40",
-                        "valueRanges": [
-                            {
-                                "id": "01525277c517c8062b164bd6447be49a",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#EE92C2",
-                                    "iconName": "Shield",
-                                    "labelExpression": "`CO2 Level Dangerously High`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "5faa9077a55ecc616b0e3d14710646a8",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "CO2 Level",
-                                    "valueExpression": "PrimaryTwin.CO2Level",
-                                    "type": "double"
-                                }
-                            },
-                            {
-                                "id": "9de1f028aee9f7eefaa0ae05d541b81c",
-                                "type": "Link",
-                                "widgetConfiguration": {
-                                    "label": "Mitigation Tactics",
-                                    "linkExpression": "`https://contoso.com/co2mitigation`"
-                                }
-                            },
-                            {
-                              "type": "Data history",
-                              "id": "b2cf0aa2415f4e029f27f957fb559db3",
-                              "widgetConfiguration": {
-                                  "connection": {
-                                      "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
-                                      "adxDatabaseName": "mockKustoDatabaseName",
-                                      "adxTableName": "mockKustoTableName"
-                                  },
-                                  "displayName": "CO2 Level Data History",
-                                  "timeSeries": [
-                                      {
-                                          "id": "d5eb9b1f51ce487897e3c5df3732bf73",
-                                          "expression": "PrimaryTwin.CO2Level",
-                                          "unit": "ppm",
-                                          "label": "CO2 Level Trend"
-                                      }
-                                  ],
-                                  "chartOptions": {
-                                      "aggregationType": "avg",
-                                      "defaultQuickTimeSpanInMillis": 900000,
-                                      "yAxisType": "shared"
-                                  }
-                              }
-                          }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "d0fdbfdde9a5c6f1bfb2c16738722885",
-                "displayName": "Humidity Level",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "29ac7cca3a22a06784fd2c9d1e45ef1a",
-                            "9fead963403f6d16f1b95068e18fb5da",
-                            "3a9ad613f55a4dc952b5da9e3e3ed545",
-                            "9faeafa393d1e6463877c939f862487c",
-                            "f87e265e8772992c941c2155195c33fc",
-                            "94e06fe54f1102bd8dc855cc428c1981",
-                            "2f8016a04a9a44c2fd4546f85c50761f"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.Humidity",
-                        "valueRanges": [
-                            {
-                                "values": [0, 60],
-                                "visual": {
-                                    "color": "#33A1FD"
-                                },
-                                "id": "0601d74edbdca2fb3f14f154c96876a0"
-                            },
-                            {
-                                "values": [60, "Infinity"],
-                                "visual": {
-                                    "color": "#26C485"
-                                },
-                                "id": "e88c6b298d889cb042a780333db37e27"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.Temperature > 75 && PrimaryTwin.Humidity > 80",
-                        "valueRanges": [
-                            {
-                                "id": "43519b37020d6df7d457e312b3d71413",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#C32F27",
-                                    "iconName": "Frigid",
-                                    "labelExpression": "`Dangerously high temperature to humidity ratio`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "65f63c22166430d2c3417da7f7541d49",
-                "displayName": "Power Output",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "e52d771d430964c98f9cb9fd53a60254",
-                            "9ef8e9ed475d129a649369f69186b9be",
-                            "307a60be743528ba904e0494ba9571cd",
-                            "622bb42bb3c7686c660b09b645cb3a9d",
-                            "d0944ed6f71b4863be474dceef2baf08",
-                            "a1b62c20f2743840a168b070a6c3fbc6",
-                            "0897348fda18de0a1996de444e366d20",
-                            "8f068c42f187cc54d3dc61c57e09e9f7",
-                            "329f661167a43807c9688a8d2de614c1",
-                            "62385b2e289729685c97b4845311b9fb"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.Wattage",
-                        "valueRanges": [
-                            {
-                                "values": [240, 280],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "464f93347c71059f308d82e6825b32fb"
-                            },
-                            {
-                                "values": [280, 320],
-                                "visual": {
-                                    "color": "#F79824"
-                                },
-                                "id": "e817fc189fa09e4a97fc23e9af67cb2f"
-                            },
-                            {
-                                "values": [320, 360],
-                                "visual": {
-                                    "color": "#FEE440"
-                                },
-                                "id": "44ed2d729caa29322d92924e6a5c2d62"
-                            },
-                            {
-                                "values": [360, "Infinity"],
-                                "visual": {
-                                    "color": "#26C485"
-                                },
-                                "id": "8e30fc316324b9fc70d111df9531316f"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.Wattage < 300",
-                        "valueRanges": [
-                            {
-                                "id": "ef2f55dd17acf276f4903ca266f13353",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#F79824",
-                                    "iconName": "Ringer",
-                                    "labelExpression": "`Low wattage warning`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "30485a97a481a0311ed705cf8e724c0e",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.Wattage",
-                                "widgetConfiguration": {
-                                    "label": "Power output",
-                                    "valueRanges": [
-                                        {
-                                            "values": [240, 300],
-                                            "visual": {
-                                                "color": "#C32F27"
-                                            },
-                                            "id": "b81e25607cfc766692e621646b3b0242"
-                                        },
-                                        {
-                                            "values": [300, 350],
-                                            "visual": {
-                                                "color": "#F79824"
-                                            },
-                                            "id": "4292b3c74680b68467de1d638cf8041d"
-                                        },
-                                        {
-                                            "values": [350, "Infinity"],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "d38d72ab4c29c0957e51f9dce7f28c4a"
-                                        }
-                                    ],
-                                    "units": "Watts"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "25b5a6bbaeeed2e86a9b7cad242c9b33",
-                "displayName": "Water Monitoring",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "29783b955e651f339598e4b603cee651",
-                            "d1fe933ae5c5b07553a049516c8dc72a",
-                            "903ab45381d8e3fff0a0d79f52227891",
-                            "099cf01bb750c41ecb4204f45779ff5d"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.CopperCorrosion",
-                        "valueRanges": [
-                            {
-                                "values": [0, 85],
-                                "visual": {
-                                    "color": "#F79824"
-                                },
-                                "id": "b3948c1c48a09e7d4182ba8441495640"
-                            },
-                            {
-                                "values": [85, "Infinity"],
-                                "visual": {
-                                    "color": "#26C485"
-                                },
-                                "id": "2d55d1ebea871597539a57cacb83e4c7"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.CopperCorrosion < 85",
-                        "valueRanges": [
-                            {
-                                "id": "5c419bcf354de39ebcf7fef50e8adf6a",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#F79824",
-                                    "iconName": "Ringer",
-                                    "labelExpression": "`Water Quality Warning`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "4748128eb0c1f7df34e18cc94c8f7374",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.CopperCorrosion",
-                                "widgetConfiguration": {
-                                    "label": "Copper Corrosion",
-                                    "valueRanges": [
-                                        {
-                                            "values": [0, 85],
-                                            "visual": {
-                                                "color": "#F79824"
-                                            },
-                                            "id": "e4ba193e14a7f68e08a266de1a142cba"
-                                        },
-                                        {
-                                            "values": [85, "Infinity"],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "6f923038881245b442980c7a11dbb3d7"
-                                        }
-                                    ],
-                                    "units": "%"
-                                }
-                            },
-                            {
-                                "id": "eb0eebf14c5dc219617fbdd11e3c1e9f",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.SteelCorrosion",
-                                "widgetConfiguration": {
-                                    "label": "Steel Corrosion",
-                                    "valueRanges": [
-                                        {
-                                            "values": [0, 85],
-                                            "visual": {
-                                                "color": "#FEE440"
-                                            },
-                                            "id": "b61c17b98689e5c41755d36b4385598d"
-                                        },
-                                        {
-                                            "values": [85, "Infinity"],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "0a21b75abc0d8e06fc5e4cf12f0fa75c"
-                                        }
-                                    ],
-                                    "units": "%"
-                                }
-                            },
-                            {
-                                "id": "d45ef2155ff571c8671f417e437e70c1",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Process Step",
-                                    "valueExpression": "PrimaryTwin.ProcessStep",
-                                    "type": "string"
-                                }
-                            },
-                            {
-                                "id": "b17f2eaca65dc79867277ffb9751c27a",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Process Time Remaining",
-                                    "valueExpression": "PrimaryTwin.TimeRemaining",
-                                    "type": "double"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "11b51a4a193447d88bb8fe7b1df5be15",
-                "displayName": "Tank Levels",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "72236bcd699e69ff49d591f9cf04404d",
-                            "e8d59d0e9f0eec44dbfcdb6bef4543d4",
-                            "a98e4deb284437171ed102665fe25b43"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.TankLevel > 90",
-                        "valueRanges": [
-                            {
-                                "id": "9949e94c8a41edd403882258cb34bda6",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#C32F27",
-                                    "iconName": "SpeedHigh",
-                                    "labelExpression": "`Tank dangerously full`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.TankLevel",
-                        "valueRanges": [
-                            {
-                                "values": [70, 90],
-                                "visual": {
-                                    "color": "#FEE440"
-                                },
-                                "id": "8f22d949459194380e892f0f78a2d9e9"
-                            },
-                            {
-                                "values": [90, "Infinity"],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "6bb35adc585d341938923a14649ad208"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "f8a3d751544f4d410e33c7b33e589aa9",
-                                "type": "Link",
-                                "widgetConfiguration": {
-                                    "label": "Empty Tank",
-                                    "linkExpression": "`https://contoso.com`"
-                                }
-                            },
-                            {
-                                "id": "f2d56f535fc587221aebd3f5b2df669b",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Tank Level",
-                                    "valueExpression": "PrimaryTwin.TankLevel",
-                                    "type": "double"
-                                }
-                            },
-                            {
-                                "id": "3dc83b710fa6ad299392a2305efe6c4d",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Process Step",
-                                    "valueExpression": "PrimaryTwin.ProcessStep",
-                                    "type": "string"
-                                }
-                            },
-                            {
-                                "id": "dc50634fbe5587443123b24e08eb3f5b",
-                                "type": "Value",
-                                "widgetConfiguration": {
-                                    "displayName": "Batch ID",
-                                    "valueExpression": "PrimaryTwin.BatchID",
-                                    "type": "string"
-                                }
-                            },
-                            {
-                                "type": "Data history",
-                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
-                                "widgetConfiguration": {
-                                    "connection": {
-                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
-                                        "adxDatabaseName": "mockKustoDatabaseName",
-                                        "adxTableName": "mockKustoTableName"
-                                    },
-                                    "displayName": "Tank Level Data History",
-                                    "timeSeries": [
-                                        {
-                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
-                                            "expression": "PrimaryTwin.TankLevel",
-                                            "unit": "ft",
-                                            "label": "Tank Level Trend"
-                                        }
-                                    ],
-                                    "chartOptions": {
-                                        "aggregationType": "avg",
-                                        "defaultQuickTimeSpanInMillis": 900000,
-                                        "yAxisType": "shared"
-                                    }
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "621fc7d3dad1d615098c626f1228a510",
-                "displayName": "Flow Rate",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["36a91edbfef3b5be8e180babd35d0c31"]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.FlowRate",
-                        "valueRanges": [
-                            {
-                                "values": [0, "Infinity"],
-                                "visual": {
-                                    "color": "#33A1FD"
-                                },
-                                "id": "2c0c903fb4ae85c17d007af4f0e53935"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    }
-                ]
-            },
-            {
-                "id": "83f16294b7959c4e362aa4c1c3264f85",
-                "displayName": "High Emissions",
-                "datasources": [
-                    {
-                        "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": [
-                            "9cd0254a000cf3ae531828f1bf1bdc7c",
-                            "6085775e705f33b80a4d3c6841d201e4",
-                            "5791116f3466d14ea9280bcc81b8e5b3",
-                            "da83113c831ea7dd49f1a69d99b051b8",
-                            "bb75f4f82d56c1ac7b5450fb02d64d99",
-                            "06d7aa2bb004d776ec21ad2df948962f",
-                            "ed79fb94d9559f58feef3738f980cceb"
-                        ]
-                    }
-                ],
-                "visuals": [
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "NumericRange",
-                        "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
-                        "valueRanges": [
-                            {
-                                "values": [0, 7000],
-                                "visual": {
-                                    "color": "#26C485"
-                                },
-                                "id": "7c5bd46ca3d98fc4de4aef7d0942bff0"
-                            },
-                            {
-                                "values": [7000, 7100],
-                                "visual": {
-                                    "color": "#F79824"
-                                },
-                                "id": "acf1678d7d6f06aef279930903ad922f"
-                            },
-                            {
-                                "values": [7100, "Infinity"],
-                                "visual": {
-                                    "color": "#C32F27"
-                                },
-                                "id": "c50c37b344449810ab79f53136da6692"
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "ExpressionRangeVisual",
-                        "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.SpecificFuelConsumption > 7100",
-                        "valueRanges": [
-                            {
-                                "id": "0c8d6c37ddce2e3451a279dfea1f992d",
-                                "values": [true],
-                                "visual": {
-                                    "color": "#C32F27",
-                                    "iconName": "Ringer",
-                                    "labelExpression": "`Excess methane production`"
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "objectIDs"
-                        }
-                    },
-                    {
-                        "type": "Popover",
-                        "title": "",
-                        "widgets": [
-                            {
-                                "id": "aff70fc5b36d416024c1317710e1a367",
-                                "type": "Gauge",
-                                "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
-                                "widgetConfiguration": {
-                                    "label": "Fuel Consumption",
-                                    "valueRanges": [
-                                        {
-                                            "values": [0, 7000],
-                                            "visual": {
-                                                "color": "#26C485"
-                                            },
-                                            "id": "892e7c40460983c42dbd0091f190bbfb"
-                                        },
-                                        {
-                                            "values": [7000, 7100],
-                                            "visual": {
-                                                "color": "#F79824"
-                                            },
-                                            "id": "ff88bdbd5a69d45be6bd0fe1623a83f6"
-                                        },
-                                        {
-                                            "values": [7100, "Infinity"],
-                                            "visual": {
-                                                "color": "#C32F27"
-                                            },
-                                            "id": "2948fdb30ae752d74b574397f72c49cc"
-                                        }
-                                    ],
-                                    "units": "gallons"
-                                }
-                            },
-                            {
-                                "id": "02fc995792073b87a9154c9fbd0f300a",
-                                "type": "Link",
-                                "widgetConfiguration": {
-                                    "label": "Learn more",
-                                    "linkExpression": "`https://www.elementanalytics.com/`"
-                                }
-                            },
-                            {
-                                "type": "Data history",
-                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
-                                "widgetConfiguration": {
-                                    "connection": {
-                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
-                                        "adxDatabaseName": "mockKustoDatabaseName",
-                                        "adxTableName": "mockKustoTableName"
-                                    },
-                                    "displayName": "Fuel Consumption Data History",
-                                    "timeSeries": [
-                                        {
-                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
-                                            "expression": "PrimaryTwin.SpecificFuelConsumption",
-                                            "unit": "gallons",
-                                            "label": "Fuel Consumption Trend"
-                                        }
-                                    ],
-                                    "chartOptions": {
-                                        "aggregationType": "avg",
-                                        "defaultQuickTimeSpanInMillis": 900000,
-                                        "yAxisType": "shared"
-                                    }
-                                }
-                            }
-                        ],
-                        "objectIDs": {
-                            "expression": "meshIDs"
-                        }
-                    }
-                ]
-            }
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "f33467fc9374f486576249224634bc37",
+            "displayName": "Windmill1",
+            "primaryTwinID": "Windmill1",
+            "objectIDs": [
+              "Cylinder.006",
+              "Cylinder.007",
+              "Cylinder.008_primitive0",
+              "Cylinder.008_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "5b5f6e188fb21f85fd0b8d3678291f5d",
+            "displayName": "Windmill2",
+            "primaryTwinID": "Windmill2",
+            "objectIDs": [
+              "Cylinder",
+              "Cylinder.001",
+              "Cylinder.003_primitive0",
+              "Cylinder.003_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "38b0b76ae18ba56c6c1d6301f8b16a01",
+            "displayName": "Windmill4",
+            "primaryTwinID": "Windmill4",
+            "objectIDs": [
+              "Cylinder.021",
+              "Cylinder.022",
+              "Cylinder.023_primitive0",
+              "Cylinder.023_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "950252852e85a95b7e13b529532fa3f3",
+            "displayName": "Windmill5",
+            "primaryTwinID": "Windmill5",
+            "objectIDs": [
+              "Cylinder.015",
+              "Cylinder.016",
+              "Cylinder.017_primitive0",
+              "Cylinder.017_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "8b8e3ed9c715d05bbedbb3e58ea4e211",
+            "displayName": "Windmill3",
+            "primaryTwinID": "Windmill3",
+            "objectIDs": [
+              "Cylinder.018",
+              "Cylinder.019",
+              "Cylinder.020_primitive0",
+              "Cylinder.020_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "ad4474b01463f45ab5e3de1de9957433",
+            "displayName": "Windmill6",
+            "primaryTwinID": "Windmill6",
+            "objectIDs": [
+              "Cylinder.009",
+              "Cylinder.010",
+              "Cylinder.011_primitive0",
+              "Cylinder.011_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "bbdbd3ccd9efdd99b8c607fbf0d92035",
+            "displayName": "Windmill7",
+            "primaryTwinID": "Windmill7",
+            "objectIDs": [
+              "Cylinder.002",
+              "Cylinder.004",
+              "Cylinder.005_primitive0",
+              "Cylinder.005_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "e38f2a9b0680d583ca6367112ebd7632",
+            "displayName": "Windmill8",
+            "primaryTwinID": "Windmill8",
+            "objectIDs": [
+              "Cylinder.012",
+              "Cylinder.013",
+              "Cylinder.014_primitive0",
+              "Cylinder.014_primitive1"
+            ]
+          }
         ],
-        "layers": [
-            {
-                "id": "5f9f3dcead0aeb9ee69e19567b1b4b77",
-                "behaviorIDs": ["1bec3465be9f20b0dbf5c17818da2050"],
-                "displayName": "CO2"
-            },
-            {
-                "id": "bf42b52b638f32603ac530e0b8918159",
-                "behaviorIDs": ["d0fdbfdde9a5c6f1bfb2c16738722885"],
-                "displayName": "Humidity"
-            },
-            {
-                "id": "7333d0b3718f5cd01e73902565219314",
-                "behaviorIDs": ["65f63c22166430d2c3417da7f7541d49"],
-                "displayName": "Power"
-            },
-            {
-                "id": "9c8cc61c9c0ba9b6e531d083a7f9efe1",
-                "behaviorIDs": ["25b5a6bbaeeed2e86a9b7cad242c9b33"],
-                "displayName": "Sustainability"
-            },
-            {
-                "id": "19825d4cf57e57c02b5250c73e923090",
-                "behaviorIDs": ["11b51a4a193447d88bb8fe7b1df5be15"],
-                "displayName": "TankLevels"
-            }
+        "behaviorIDs": [
+          "084ca93b5809ae23ee47f83d77a53b08"
+        ],
+        "latitude": 45.917899,
+        "longitude": 6.729412
+      },
+      {
+        "id": "744d634cc9fef4ca9dfed38a614c5814",
+        "displayName": "Ecolab Water Plant",
+        "description": "",
+        "assets": [
+          {
+            "type": "3DAsset",
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Ecolab.glb"
+          }
+        ],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "29783b955e651f339598e4b603cee651",
+            "displayName": "Exchanger1",
+            "primaryTwinID": "Exchanger1",
+            "objectIDs": [
+              "AnionEx1_1c35124d-9df8-482a-8a44-8dc5db5f1d3a"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "d1fe933ae5c5b07553a049516c8dc72a",
+            "displayName": "Exchanger2",
+            "primaryTwinID": "Exchanger2",
+            "objectIDs": [
+              "AnionEx2_8ae3ad3d-b80f-4cfe-b06e-62083355a731"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "903ab45381d8e3fff0a0d79f52227891",
+            "displayName": "Exchanger3",
+            "primaryTwinID": "Exchanger3",
+            "objectIDs": [
+              "CationEx1_eb0d3916-b961-49c2-bd00-99dd19886576"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "099cf01bb750c41ecb4204f45779ff5d",
+            "displayName": "Exchanger4",
+            "primaryTwinID": "Exchanger4",
+            "objectIDs": [
+              "polySurface2339"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "36a91edbfef3b5be8e180babd35d0c31",
+            "displayName": "TransferPipe",
+            "primaryTwinID": "TransferPipe",
+            "objectIDs": [
+              "Pipe01",
+              "PipeCCIX"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "72236bcd699e69ff49d591f9cf04404d",
+            "displayName": "StorageTanks1",
+            "primaryTwinID": "StorageTanks1",
+            "objectIDs": [
+              "polySurface1240"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "e8d59d0e9f0eec44dbfcdb6bef4543d4",
+            "displayName": "StorageTanks2",
+            "primaryTwinID": "StorageTanks2",
+            "objectIDs": [
+              "Tank535CCIXStorage2_aeeeb662-9892-4d48-9b46-396ed82c087f",
+              "Tank536LMAS1Storage_e47410db-086a-45af-a7a4-d568d27bddc7",
+              "Tank537CCIXStorage2_5a736ad8-debd-400a-956c-e459ee5ee832",
+              "Tanks538LMAS2Storage_9ee6d550-bde5-4e99-b1df-4ce80e2cf3dd"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "a98e4deb284437171ed102665fe25b43",
+            "displayName": "StorageTanks3",
+            "primaryTwinID": "StorageTanks3",
+            "objectIDs": [
+              "polySurface1914",
+              "polySurface92"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "25b5a6bbaeeed2e86a9b7cad242c9b33",
+          "11b51a4a193447d88bb8fe7b1df5be15",
+          "621fc7d3dad1d615098c626f1228a510"
+        ],
+        "latitude": 44.9537,
+        "longitude": -93.09
+      },
+      {
+        "id": "14001b74c90b1a4b73975cd891ae5415",
+        "displayName": "Element Refinery",
+        "description": "",
+        "assets": [
+          {
+            "type": "3DAsset",
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Refinery.glb"
+          }
+        ],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "9cd0254a000cf3ae531828f1bf1bdc7c",
+            "displayName": "Distillation1",
+            "primaryTwinID": "Distillation1",
+            "objectIDs": [
+              "MODULE_FACTORY_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "6085775e705f33b80a4d3c6841d201e4",
+            "displayName": "Distillation2",
+            "primaryTwinID": "Distillation2",
+            "objectIDs": [
+              "MODULE_TOWER_770_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "5791116f3466d14ea9280bcc81b8e5b3",
+            "displayName": "Distillation3",
+            "primaryTwinID": "Distillation3",
+            "objectIDs": [
+              "MODULE_TOWER_514_LOD1_001"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "da83113c831ea7dd49f1a69d99b051b8",
+            "displayName": "Tank1",
+            "primaryTwinID": "Tank1",
+            "objectIDs": [
+              "MODULE_SILOS_530_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "bb75f4f82d56c1ac7b5450fb02d64d99",
+            "displayName": "Tank2",
+            "primaryTwinID": "Tank2",
+            "objectIDs": [
+              "MODULE_SILOS_354_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "06d7aa2bb004d776ec21ad2df948962f",
+            "displayName": "Tank3",
+            "primaryTwinID": "Tank3",
+            "objectIDs": [
+              "MODULE_SILOS_02_LOD1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "ed79fb94d9559f58feef3738f980cceb",
+            "displayName": "Tank4",
+            "primaryTwinID": "Tank4",
+            "objectIDs": [
+              "MODULE_SILOS_178_LOD1"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "83f16294b7959c4e362aa4c1c3264f85"
+        ],
+        "latitude": 37.8044,
+        "longitude": -122.2712
+      },
+      {
+        "id": "88112b3417e053c276e9f441ec9270a9",
+        "displayName": "Robotic Arms",
+        "description": "TMG Headquarters",
+        "assets": [
+          {
+            "type": "3DAsset",
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/RobotArms.glb"
+          }
+        ],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "6cef18ac870f90ee102e55b7c01fc89f",
+            "displayName": "Arm1",
+            "primaryTwinID": "Arm1",
+            "objectIDs": [
+              "__polySurface11",
+              "_polySurface2_primitive0",
+              "_polySurface2_primitive1",
+              "_polySurface9_primitive0"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "f713b7d953fa838652a191b17be8aafb",
+            "displayName": "Arm2",
+            "primaryTwinID": "Arm2",
+            "objectIDs": [
+              "__Table7_primitive6",
+              "__polySurface15",
+              "_polySurface5_primitive0",
+              "_polySurface5_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "1fdf890f7601445da865ad35f6e28c5c",
+            "displayName": "Arm3",
+            "primaryTwinID": "Arm3",
+            "objectIDs": [
+              "__Table8_primitive6",
+              "__polySurface16",
+              "_polySurface6_primitive0",
+              "_polySurface6_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "7f5793dce57278cf4f86570013745c7d",
+            "displayName": "Arm4",
+            "primaryTwinID": "Arm4",
+            "objectIDs": [
+              "__Table9_primitive6",
+              "__polySurface13",
+              "_polySurface3_primitive0",
+              "_polySurface3_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "ce4a64c1b6e4df7c2791cbf41c54613c",
+            "displayName": "Arm5",
+            "primaryTwinID": "Arm5",
+            "objectIDs": [
+              "__Table10_primitive6",
+              "__polySurface14",
+              "_polySurface4_primitive0",
+              "_polySurface4_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "bc87da036ff1b8a75b04575ed72ca2e0",
+            "displayName": "Arm6",
+            "primaryTwinID": "Arm6",
+            "objectIDs": [
+              "__Table11_primitive6",
+              "__polySurface17",
+              "_polySurface7_primitive0",
+              "_polySurface7_primitive1"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "587e9e665017750a7ea9a2efe9840119"
+        ],
+        "latitude": 29.7604,
+        "longitude": -95.3698
+      },
+      {
+        "id": "02fe3198727a77eff7b109661a581cbc",
+        "displayName": "Space Station",
+        "description": "",
+        "assets": [
+          {
+            "type": "3DAsset",
+            "url": "https://iotcardboardjsresources.blob.core.windows.net/public/ISS.glb"
+          }
+        ],
+        "elements": [
+          {
+            "type": "TwinToObjectMapping",
+            "id": "e52d771d430964c98f9cb9fd53a60254",
+            "displayName": "MainPanel1",
+            "primaryTwinID": "MainPanel1",
+            "objectIDs": [
+              "32 S6 Truss_02_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "9ef8e9ed475d129a649369f69186b9be",
+            "displayName": "MainPanel2",
+            "primaryTwinID": "MainPanel2",
+            "objectIDs": [
+              "23 S4 Truss_02_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "307a60be743528ba904e0494ba9571cd",
+            "displayName": "MainPanel3",
+            "primaryTwinID": "MainPanel3",
+            "objectIDs": [
+              "32 S6 Truss_01_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "622bb42bb3c7686c660b09b645cb3a9d",
+            "displayName": "MainPanel4",
+            "primaryTwinID": "MainPanel4",
+            "objectIDs": [
+              "23 S4 Truss_01_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "d0944ed6f71b4863be474dceef2baf08",
+            "displayName": "MainPanel5",
+            "primaryTwinID": "MainPanel5",
+            "objectIDs": [
+              "20 P4 Truss_02_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "a1b62c20f2743840a168b070a6c3fbc6",
+            "displayName": "MainPanel6",
+            "primaryTwinID": "MainPanel6",
+            "objectIDs": [
+              "08 P6 Truss_02_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "0897348fda18de0a1996de444e366d20",
+            "displayName": "MainPanel7",
+            "primaryTwinID": "MainPanel7",
+            "objectIDs": [
+              "20 P4 Truss_01_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "8f068c42f187cc54d3dc61c57e09e9f7",
+            "displayName": "MainPanel8",
+            "primaryTwinID": "MainPanel8",
+            "objectIDs": [
+              "08 P6 Truss_01_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "329f661167a43807c9688a8d2de614c1",
+            "displayName": "RearPanel1",
+            "primaryTwinID": "RearPanel1",
+            "objectIDs": [
+              "panel_01_s.001_primitive0",
+              "panel_02_s.001_primitive0",
+              "panel_03_s.001_primitive0",
+              "panel_04_s.001_primitive0",
+              "panel_05_s_primitive0",
+              "panel_06_s_primitive0",
+              "panel_07_s_primitive1",
+              "panel_08_s_primitive0",
+              "panel_09_s_primitive0"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "62385b2e289729685c97b4845311b9fb",
+            "displayName": "RearPanel2",
+            "primaryTwinID": "RearPanel2",
+            "objectIDs": [
+              "panel_01_p.001_primitive0",
+              "panel_02_p.001_primitive0",
+              "panel_03_p.001_primitive0",
+              "panel_04_p.001_primitive0",
+              "panel_05_p_primitive0",
+              "panel_06_p_primitive0",
+              "panel_07_p_primitive1",
+              "panel_08_p_primitive0",
+              "panel_09_p_primitive0"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "29ac7cca3a22a06784fd2c9d1e45ef1a",
+            "displayName": "ColumbusLab",
+            "primaryTwinID": "ColumbusLab",
+            "objectIDs": [
+              "27 Columbus Space Laboratory_primitive3"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "9fead963403f6d16f1b95068e18fb5da",
+            "displayName": "DestinyLab",
+            "primaryTwinID": "DestinyLab",
+            "objectIDs": [
+              "09 Destiny Space Laboratory_primitive5"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "3a9ad613f55a4dc952b5da9e3e3ed545",
+            "displayName": "HarmonyModule",
+            "primaryTwinID": "HarmonyModule",
+            "objectIDs": [
+              "26 Harmony Node 2_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "9faeafa393d1e6463877c939f862487c",
+            "displayName": "KiboLab",
+            "primaryTwinID": "KiboLab",
+            "objectIDs": [
+              "30 Kibo Space Laboratory (PSM) Pressurized Module_primitive4"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "f87e265e8772992c941c2155195c33fc",
+            "displayName": "TranquilityModule",
+            "primaryTwinID": "TranquilityModule",
+            "objectIDs": [
+              "37 Tranquility Node 3_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "94e06fe54f1102bd8dc855cc428c1981",
+            "displayName": "ZaryaBlock",
+            "primaryTwinID": "ZaryaBlock",
+            "objectIDs": [
+              "01 Zarya - (FGB) Funtional Cargo Block_primitive1"
+            ]
+          },
+          {
+            "type": "TwinToObjectMapping",
+            "id": "2f8016a04a9a44c2fd4546f85c50761f",
+            "displayName": "ZvezdaModule",
+            "primaryTwinID": "ZvezdaModule",
+            "objectIDs": [
+              "05 Zvezda (SM) Service Module_primitive2"
+            ]
+          }
+        ],
+        "behaviorIDs": [
+          "1bec3465be9f20b0dbf5c17818da2050",
+          "d0fdbfdde9a5c6f1bfb2c16738722885",
+          "65f63c22166430d2c3417da7f7541d49"
         ]
-    }
+      }
+    ],
+    "behaviors": [
+      {
+        "id": "587e9e665017750a7ea9a2efe9840119",
+        "displayName": "Packing Line Efficiency",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "6cef18ac870f90ee102e55b7c01fc89f",
+              "f713b7d953fa838652a191b17be8aafb",
+              "1fdf890f7601445da865ad35f6e28c5c",
+              "7f5793dce57278cf4f86570013745c7d",
+              "ce4a64c1b6e4df7c2791cbf41c54613c",
+              "bc87da036ff1b8a75b04575ed72ca2e0"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.FailedPickupsLastHr",
+            "valueRanges": [
+              {
+                "values": [
+                  1,
+                  3
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "73490c2ed90b4f4444cf20e7196c7727"
+              },
+              {
+                "values": [
+                  3,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "c98d9ac58bf64b99b6ba69038ab4ce63"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.PickupFailedAlert",
+            "valueRanges": [
+              {
+                "id": "8454f4dd37b20f6789dc39c57db7f3fe",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "Stopwatch",
+                  "labelExpression": "`${PrimaryTwin.PickupFailedBoxID} was missed, please track down this box and remediate.`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "18b9dc52818117ea5b4d384b0d507d04",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.HydraulicPressure",
+                "widgetConfiguration": {
+                  "label": "Hydraulic Pressure",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        40
+                      ],
+                      "visual": {
+                        "color": "#33A1FD"
+                      },
+                      "id": "fe907c924388592d9272ddf1b2f72dea"
+                    },
+                    {
+                      "values": [
+                        40,
+                        80
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "08f9fe942bdf86652bb18eaf6ab18940"
+                    },
+                    {
+                      "values": [
+                        80,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "17bd0a869cb8be46624e173d59fdada0"
+                    }
+                  ],
+                  "units": "kPa"
+                }
+              },
+              {
+                "id": "8b545049d869d18fdd2b08eebde73662",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Live arm camera",
+                  "linkExpression": "`https://contoso.armstreams.com/${PrimaryTwin.$dtId}`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "084ca93b5809ae23ee47f83d77a53b08",
+        "displayName": "Windmill Health",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "f33467fc9374f486576249224634bc37",
+              "5b5f6e188fb21f85fd0b8d3678291f5d",
+              "38b0b76ae18ba56c6c1d6301f8b16a01",
+              "950252852e85a95b7e13b529532fa3f3",
+              "8b8e3ed9c715d05bbedbb3e58ea4e211",
+              "ad4474b01463f45ab5e3de1de9957433",
+              "bbdbd3ccd9efdd99b8c607fbf0d92035",
+              "e38f2a9b0680d583ca6367112ebd7632"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.HealthScore",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  5
+                ],
+                "visual": {
+                  "color": "#33A1FD"
+                },
+                "id": "5e055c7d991fa5456f66e5aa2dac25a4"
+              },
+              {
+                "values": [
+                  5,
+                  10
+                ],
+                "visual": {
+                  "color": "#FEE440"
+                },
+                "id": "87ce16c212ed366fcaa5ad49868264d5"
+              },
+              {
+                "values": [
+                  10,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "ac3a82f8de0099186bf3f4d6b0c47cdd"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.HealthScore > 5",
+            "valueRanges": [
+              {
+                "id": "7a56ff5593ca49ebe438ab89ec5b21c4",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#33A1FD",
+                  "iconName": "Asterisk",
+                  "labelExpression": "`Optimal maintenance time: 8 days`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "46b6b7e1ce2114d48960c795a1013b46",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.HealthScore",
+                "widgetConfiguration": {
+                  "label": "Health",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        5
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "9e602dfe5a5128918dfd53b0af74416b"
+                    },
+                    {
+                      "values": [
+                        5,
+                        20
+                      ],
+                      "visual": {
+                        "color": "#C32F27"
+                      },
+                      "id": "a4a0cbc7f0b00b5bc3bec26d91ee3579"
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "42164b3792c6b0ca7c217ab31aebc27f",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Overall Eqpt Effectiveness",
+                  "valueExpression": "PrimaryTwin.OEE",
+                  "type": "double"
+                }
+              },
+              {
+                "id": "279dc97b8cfb3d3446975711d1fe2921",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Wind Speed",
+                  "valueExpression": "PrimaryTwin.WindSpeed",
+                  "type": "double"
+                }
+              },
+              {
+                "id": "40679f84097cb81e74c5610499d81f1d",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Learn more",
+                  "linkExpression": "`https://cosmotech.com/`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "1bec3465be9f20b0dbf5c17818da2050",
+        "displayName": "CO2 Levels",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "29ac7cca3a22a06784fd2c9d1e45ef1a",
+              "9fead963403f6d16f1b95068e18fb5da",
+              "3a9ad613f55a4dc952b5da9e3e3ed545",
+              "9faeafa393d1e6463877c939f862487c",
+              "f87e265e8772992c941c2155195c33fc",
+              "94e06fe54f1102bd8dc855cc428c1981",
+              "2f8016a04a9a44c2fd4546f85c50761f"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.CO2Level",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  10
+                ],
+                "visual": {
+                  "color": "#33A1FD"
+                },
+                "id": "df9e1c9a8f11438edec43615155aed37"
+              },
+              {
+                "values": [
+                  10,
+                  25
+                ],
+                "visual": {
+                  "color": "#FEE440"
+                },
+                "id": "8a87bd7f149669d37e5aa5e0e751cf42"
+              },
+              {
+                "values": [
+                  25,
+                  40
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "48b4b5bd48bdbd8f2a295789ae86bf0b"
+              },
+              {
+                "values": [
+                  40,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "983d0ee23b7b8bc13fbf0b30998f0fd1"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.CO2Level > 40",
+            "valueRanges": [
+              {
+                "id": "01525277c517c8062b164bd6447be49a",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#EE92C2",
+                  "iconName": "Shield",
+                  "labelExpression": "`CO2 Level Dangerously High`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "5faa9077a55ecc616b0e3d14710646a8",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "CO2 Level",
+                  "valueExpression": "PrimaryTwin.CO2Level",
+                  "type": "double"
+                }
+              },
+              {
+                "id": "9de1f028aee9f7eefaa0ae05d541b81c",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Mitigation Tactics",
+                  "linkExpression": "`https://contoso.com/co2mitigation`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "d0fdbfdde9a5c6f1bfb2c16738722885",
+        "displayName": "Humidity Level",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "29ac7cca3a22a06784fd2c9d1e45ef1a",
+              "9fead963403f6d16f1b95068e18fb5da",
+              "3a9ad613f55a4dc952b5da9e3e3ed545",
+              "9faeafa393d1e6463877c939f862487c",
+              "f87e265e8772992c941c2155195c33fc",
+              "94e06fe54f1102bd8dc855cc428c1981",
+              "2f8016a04a9a44c2fd4546f85c50761f"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.Humidity",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  60
+                ],
+                "visual": {
+                  "color": "#33A1FD"
+                },
+                "id": "0601d74edbdca2fb3f14f154c96876a0"
+              },
+              {
+                "values": [
+                  60,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "e88c6b298d889cb042a780333db37e27"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.Temperature > 75 && PrimaryTwin.Humidity > 80",
+            "valueRanges": [
+              {
+                "id": "43519b37020d6df7d457e312b3d71413",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "Frigid",
+                  "labelExpression": "`Dangerously high temperature to humidity ratio`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "65f63c22166430d2c3417da7f7541d49",
+        "displayName": "Power Output",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "e52d771d430964c98f9cb9fd53a60254",
+              "9ef8e9ed475d129a649369f69186b9be",
+              "307a60be743528ba904e0494ba9571cd",
+              "622bb42bb3c7686c660b09b645cb3a9d",
+              "d0944ed6f71b4863be474dceef2baf08",
+              "a1b62c20f2743840a168b070a6c3fbc6",
+              "0897348fda18de0a1996de444e366d20",
+              "8f068c42f187cc54d3dc61c57e09e9f7",
+              "329f661167a43807c9688a8d2de614c1",
+              "62385b2e289729685c97b4845311b9fb"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.Wattage",
+            "valueRanges": [
+              {
+                "values": [
+                  240,
+                  280
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "464f93347c71059f308d82e6825b32fb"
+              },
+              {
+                "values": [
+                  280,
+                  320
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "e817fc189fa09e4a97fc23e9af67cb2f"
+              },
+              {
+                "values": [
+                  320,
+                  360
+                ],
+                "visual": {
+                  "color": "#FEE440"
+                },
+                "id": "44ed2d729caa29322d92924e6a5c2d62"
+              },
+              {
+                "values": [
+                  360,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "8e30fc316324b9fc70d111df9531316f"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.Wattage < 300",
+            "valueRanges": [
+              {
+                "id": "ef2f55dd17acf276f4903ca266f13353",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#F79824",
+                  "iconName": "Ringer",
+                  "labelExpression": "`Low wattage warning`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "30485a97a481a0311ed705cf8e724c0e",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.Wattage",
+                "widgetConfiguration": {
+                  "label": "Power output",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        240,
+                        300
+                      ],
+                      "visual": {
+                        "color": "#C32F27"
+                      },
+                      "id": "b81e25607cfc766692e621646b3b0242"
+                    },
+                    {
+                      "values": [
+                        300,
+                        350
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "4292b3c74680b68467de1d638cf8041d"
+                    },
+                    {
+                      "values": [
+                        350,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "d38d72ab4c29c0957e51f9dce7f28c4a"
+                    }
+                  ],
+                  "units": "Watts"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "25b5a6bbaeeed2e86a9b7cad242c9b33",
+        "displayName": "Water Monitoring",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "29783b955e651f339598e4b603cee651",
+              "d1fe933ae5c5b07553a049516c8dc72a",
+              "903ab45381d8e3fff0a0d79f52227891",
+              "099cf01bb750c41ecb4204f45779ff5d"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.CopperCorrosion",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  85
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "b3948c1c48a09e7d4182ba8441495640"
+              },
+              {
+                "values": [
+                  85,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "2d55d1ebea871597539a57cacb83e4c7"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.CopperCorrosion < 85",
+            "valueRanges": [
+              {
+                "id": "5c419bcf354de39ebcf7fef50e8adf6a",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#F79824",
+                  "iconName": "Ringer",
+                  "labelExpression": "`Water Quality Warning`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "4748128eb0c1f7df34e18cc94c8f7374",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.CopperCorrosion",
+                "widgetConfiguration": {
+                  "label": "Copper Corrosion",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        85
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "e4ba193e14a7f68e08a266de1a142cba"
+                    },
+                    {
+                      "values": [
+                        85,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "6f923038881245b442980c7a11dbb3d7"
+                    }
+                  ],
+                  "units": "%"
+                }
+              },
+              {
+                "id": "eb0eebf14c5dc219617fbdd11e3c1e9f",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.SteelCorrosion",
+                "widgetConfiguration": {
+                  "label": "Steel Corrosion",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        85
+                      ],
+                      "visual": {
+                        "color": "#FEE440"
+                      },
+                      "id": "b61c17b98689e5c41755d36b4385598d"
+                    },
+                    {
+                      "values": [
+                        85,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "0a21b75abc0d8e06fc5e4cf12f0fa75c"
+                    }
+                  ],
+                  "units": "%"
+                }
+              },
+              {
+                "id": "d45ef2155ff571c8671f417e437e70c1",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Step",
+                  "valueExpression": "PrimaryTwin.ProcessStep",
+                  "type": "string"
+                }
+              },
+              {
+                "id": "b17f2eaca65dc79867277ffb9751c27a",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Time Remaining",
+                  "valueExpression": "PrimaryTwin.TimeRemaining",
+                  "type": "double"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "11b51a4a193447d88bb8fe7b1df5be15",
+        "displayName": "Tank Levels",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "72236bcd699e69ff49d591f9cf04404d",
+              "e8d59d0e9f0eec44dbfcdb6bef4543d4",
+              "a98e4deb284437171ed102665fe25b43"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.TankLevel > 90",
+            "valueRanges": [
+              {
+                "id": "9949e94c8a41edd403882258cb34bda6",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "SpeedHigh",
+                  "labelExpression": "`Tank dangerously full`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.TankLevel",
+            "valueRanges": [
+              {
+                "values": [
+                  70,
+                  90
+                ],
+                "visual": {
+                  "color": "#FEE440"
+                },
+                "id": "8f22d949459194380e892f0f78a2d9e9"
+              },
+              {
+                "values": [
+                  90,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "6bb35adc585d341938923a14649ad208"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "f8a3d751544f4d410e33c7b33e589aa9",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Empty Tank",
+                  "linkExpression": "`https://contoso.com`"
+                }
+              },
+              {
+                "id": "f2d56f535fc587221aebd3f5b2df669b",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Tank Level",
+                  "valueExpression": "PrimaryTwin.TankLevel",
+                  "type": "double"
+                }
+              },
+              {
+                "id": "3dc83b710fa6ad299392a2305efe6c4d",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Process Step",
+                  "valueExpression": "PrimaryTwin.ProcessStep",
+                  "type": "string"
+                }
+              },
+              {
+                "id": "dc50634fbe5587443123b24e08eb3f5b",
+                "type": "Value",
+                "widgetConfiguration": {
+                  "displayName": "Batch ID",
+                  "valueExpression": "PrimaryTwin.BatchID",
+                  "type": "string"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "621fc7d3dad1d615098c626f1228a510",
+        "displayName": "Flow Rate",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "36a91edbfef3b5be8e180babd35d0c31"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.FlowRate",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#33A1FD"
+                },
+                "id": "2c0c903fb4ae85c17d007af4f0e53935"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          }
+        ]
+      },
+      {
+        "id": "83f16294b7959c4e362aa4c1c3264f85",
+        "displayName": "High Emissions",
+        "datasources": [
+          {
+            "type": "ElementTwinToObjectMappingDataSource",
+            "elementIDs": [
+              "9cd0254a000cf3ae531828f1bf1bdc7c",
+              "6085775e705f33b80a4d3c6841d201e4",
+              "5791116f3466d14ea9280bcc81b8e5b3",
+              "da83113c831ea7dd49f1a69d99b051b8",
+              "bb75f4f82d56c1ac7b5450fb02d64d99",
+              "06d7aa2bb004d776ec21ad2df948962f",
+              "ed79fb94d9559f58feef3738f980cceb"
+            ]
+          }
+        ],
+        "visuals": [
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "NumericRange",
+            "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
+            "valueRanges": [
+              {
+                "values": [
+                  0,
+                  7000
+                ],
+                "visual": {
+                  "color": "#26C485"
+                },
+                "id": "7c5bd46ca3d98fc4de4aef7d0942bff0"
+              },
+              {
+                "values": [
+                  7000,
+                  7100
+                ],
+                "visual": {
+                  "color": "#F79824"
+                },
+                "id": "acf1678d7d6f06aef279930903ad922f"
+              },
+              {
+                "values": [
+                  7100,
+                  "Infinity"
+                ],
+                "visual": {
+                  "color": "#C32F27"
+                },
+                "id": "c50c37b344449810ab79f53136da6692"
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "ExpressionRangeVisual",
+            "expressionType": "CategoricalValues",
+            "valueExpression": "PrimaryTwin.SpecificFuelConsumption > 7100",
+            "valueRanges": [
+              {
+                "id": "0c8d6c37ddce2e3451a279dfea1f992d",
+                "values": [
+                  true
+                ],
+                "visual": {
+                  "color": "#C32F27",
+                  "iconName": "Ringer",
+                  "labelExpression": "`Excess methane production`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "objectIDs"
+            }
+          },
+          {
+            "type": "Popover",
+            "title": "",
+            "widgets": [
+              {
+                "id": "aff70fc5b36d416024c1317710e1a367",
+                "type": "Gauge",
+                "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
+                "widgetConfiguration": {
+                  "label": "Fuel Consumption",
+                  "valueRanges": [
+                    {
+                      "values": [
+                        0,
+                        7000
+                      ],
+                      "visual": {
+                        "color": "#26C485"
+                      },
+                      "id": "892e7c40460983c42dbd0091f190bbfb"
+                    },
+                    {
+                      "values": [
+                        7000,
+                        7100
+                      ],
+                      "visual": {
+                        "color": "#F79824"
+                      },
+                      "id": "ff88bdbd5a69d45be6bd0fe1623a83f6"
+                    },
+                    {
+                      "values": [
+                        7100,
+                        "Infinity"
+                      ],
+                      "visual": {
+                        "color": "#C32F27"
+                      },
+                      "id": "2948fdb30ae752d74b574397f72c49cc"
+                    }
+                  ],
+                  "units": "gallons"
+                }
+              },
+              {
+                "id": "02fc995792073b87a9154c9fbd0f300a",
+                "type": "Link",
+                "widgetConfiguration": {
+                  "label": "Learn more",
+                  "linkExpression": "`https://www.elementanalytics.com/`"
+                }
+              }
+            ],
+            "objectIDs": {
+              "expression": "meshIDs"
+            }
+          }
+        ]
+      }
+    ],
+    "layers": [
+      {
+        "id": "5f9f3dcead0aeb9ee69e19567b1b4b77",
+        "behaviorIDs": [
+          "1bec3465be9f20b0dbf5c17818da2050"
+        ],
+        "displayName": "CO2"
+      },
+      {
+        "id": "bf42b52b638f32603ac530e0b8918159",
+        "behaviorIDs": [
+          "d0fdbfdde9a5c6f1bfb2c16738722885"
+        ],
+        "displayName": "Humidity"
+      },
+      {
+        "id": "7333d0b3718f5cd01e73902565219314",
+        "behaviorIDs": [
+          "65f63c22166430d2c3417da7f7541d49"
+        ],
+        "displayName": "Power"
+      },
+      {
+        "id": "9c8cc61c9c0ba9b6e531d083a7f9efe1",
+        "behaviorIDs": [
+          "25b5a6bbaeeed2e86a9b7cad242c9b33"
+        ],
+        "displayName": "Sustainability"
+      },
+      {
+        "id": "19825d4cf57e57c02b5250c73e923090",
+        "behaviorIDs": [
+          "11b51a4a193447d88bb8fe7b1df5be15"
+        ],
+        "displayName": "TankLevels"
+      }
+    ]
+  }
 }
