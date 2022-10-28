@@ -22,6 +22,7 @@ export interface Condition {
     type: ConditionType;
     iconName?: string;
     color?: string;
+    isUnlabeled?: boolean;
 }
 
 export enum CalloutInfoType {

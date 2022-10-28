@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { classNames } from '../../../../CardboardList/CardboardListItem.styles';
 import { IVisualRule, IVisualRulesListProps } from './VisualRules.types';
 /**
  *
@@ -59,10 +60,13 @@ function getSecondaryText(item: IVisualRule, t: TFunction<string>) {
             : t('3dSceneBuilder.behaviorVisualRulesTab.singleBadge');
     const meshColoringCondition =
         meshColoringCount > 1
-            ? t('3dSceneBuilder.behaviorVisualRulesTab.multipleMeshColorings', {
-                  meshColoringCount: meshColoringCount
-              })
-            : t('3dSceneBuilder.behaviorVisualRulesTab.singleMeshColoring');
+            ? t(
+                  '3dSceneBuilder.behaviorVisualRulesTab.multipleElementColorings',
+                  {
+                      meshColoringCount: meshColoringCount
+                  }
+              )
+            : t('3dSceneBuilder.behaviorVisualRulesTab.singleElementColoring');
     let text = '';
     if (meshColoringCount > 0 && badgeCount > 0) {
         text = text.concat(`${meshColoringCondition + ', ' + badgeCondition}`);
@@ -100,6 +104,7 @@ function getListItems(
     };
 
     return rules.map((item) => {
+        const primaryTextClassName = `.${classNames.primaryText}`;
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
             iconStart: {
@@ -110,7 +115,16 @@ function getListItems(
             onClick: () => onEditRule(item.id),
             overflowMenuItems: getMenuItems(item),
             textPrimary: item.displayName,
-            textSecondary: getSecondaryText(item, t)
+            textSecondary: getSecondaryText(item, t),
+            buttonProps: {
+                customStyles: {
+                    root: {
+                        [primaryTextClassName]: {
+                            fontStyle: item.isUnlabeled ? 'italic' : 'normal'
+                        }
+                    }
+                }
+            }
         };
         return viewModel;
     });

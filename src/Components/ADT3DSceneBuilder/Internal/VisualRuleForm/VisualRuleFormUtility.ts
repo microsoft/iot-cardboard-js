@@ -36,9 +36,9 @@ export function getConditionSecondaryText(
     values: unknown[]
 ): string {
     if (type === 'NumericRange') {
-        return `${values[0]} ${i18n.t('min')} ${i18n.t('to')} ${
+        return `${values[0]} (${i18n.t('min').toLowerCase()}) ${i18n.t('to')} ${
             values[1]
-        } ${i18n.t('max')}`;
+        } (${i18n.t('max').toLowerCase()})`;
     } else {
         return values.join(', ');
     }
@@ -51,23 +51,25 @@ export const transformValueRangesIntoConditions = (
 ): Condition[] => {
     if (valueRanges) {
         return valueRanges.map((condition) => {
+            const hasLabel = !!condition.visual.labelExpression;
             const conditionType = condition.visual.iconName
                 ? ConditionType.Badge
                 : ConditionType.MeshColoring;
             return {
                 id: condition.id,
-                primaryText: condition.visual.labelExpression
+                primaryText: hasLabel
                     ? condition.visual.labelExpression
-                    : `(${i18n.t(
+                    : `${i18n.t(
                           '3dSceneBuilder.visualRuleForm.unlabeledCondition'
-                      )})`,
+                      )}`,
                 secondaryText: getConditionSecondaryText(
                     expressionType,
                     condition.values
                 ),
                 type: conditionType,
                 iconName: condition.visual.iconName,
-                color: condition.visual.color
+                color: condition.visual.color,
+                isUnlabeled: !hasLabel
             };
         });
     } else {

@@ -1,6 +1,8 @@
 import {
     ActionButton,
     classNamesFunction,
+    FontSizes,
+    Icon,
     IContextualMenuItem,
     Stack,
     styled,
@@ -17,10 +19,12 @@ import {
 import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
+import { classNames as cardboardListItemClassNames } from '../../../../CardboardList/CardboardListItem.styles';
 import {
     getNextColor,
     transformValueRangesIntoConditions
 } from '../VisualRuleFormUtility';
+import { hasBadge } from './ConditionsCallout/ConditionCalloutUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
@@ -122,6 +126,38 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         [handleDismissFlyout, onDeleteCondition, t, valueRanges]
     );
 
+    const renderBadge = useCallback((iconName: string, color: string) => {
+        return (
+            <Icon
+                iconName={iconName}
+                styles={{
+                    root: {
+                        background: color,
+                        borderRadius: '50%',
+                        fontSize: FontSizes.size16,
+                        padding: 4,
+                        marginRight: 8
+                    }
+                }}
+            />
+        );
+    }, []);
+
+    const renderMeshColoring = useCallback((color: string) => {
+        return (
+            <Icon
+                iconName={'CubeShape'}
+                styles={{
+                    root: {
+                        color: color,
+                        fontSize: FontSizes.size24,
+                        marginRight: 8
+                    }
+                }}
+            />
+        );
+    }, []);
+
     const getConditionItems = useCallback(
         (
             valueRanges: IValueRange[],
@@ -133,12 +169,21 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
             );
             const viewModel: ICardboardListItem<Condition>[] = conditions.map(
                 (condition) => {
+                    const primaryTextClassName = `.${cardboardListItemClassNames.primaryText}`;
+                    const showBadgeIcon = hasBadge(condition.iconName);
                     return {
                         item: condition,
                         ariaLabel: `Condition for ${condition.primaryText}`,
                         textPrimary: condition.primaryText,
                         textSecondary: condition.secondaryText,
                         overflowMenuItems: getOverflowMenuItems(condition.id),
+                        iconStart: showBadgeIcon
+                            ? () =>
+                                  renderBadge(
+                                      condition.iconName,
+                                      condition.color
+                                  )
+                            : () => renderMeshColoring(condition.color),
                         onClick: () => {
                             setCalloutInfo({
                                 calloutType: CalloutInfoType.edit,
@@ -147,6 +192,17 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                                 ),
                                 selectedTarget: `#${LIST_KEY}`
                             });
+                        },
+                        buttonProps: {
+                            customStyles: {
+                                root: {
+                                    [primaryTextClassName]: {
+                                        fontStyle: condition.isUnlabeled
+                                            ? 'italic'
+                                            : 'normal'
+                                    }
+                                }
+                            }
                         }
                     };
                 }
