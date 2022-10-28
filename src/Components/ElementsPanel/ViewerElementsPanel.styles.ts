@@ -154,14 +154,12 @@ export const getElementsPanelButtonSyles = memoizeFunction(() => ({
     elementButton: {
         root: {
             background: 'transparent',
-            border: 'transparent',
             fontWeight: FontWeights.semibold
         }
     } as IButtonStyles,
     alertButton: {
         root: {
-            background: 'transparent',
-            border: 'transparent'
+            background: 'transparent'
         }
     } as IButtonStyles
 }));

@@ -135,7 +135,7 @@ export const getButtonStyles = memoizeFunction(
             root: [
                 {
                     alignItems: 'start', // top align everything
-                    border: `1px solid ${theme.semanticColors.buttonBackground}`,
+                    border: '1px solid transparent',
                     height: 'auto',
                     ':hover .cb-more-menu, :focus .cb-more-menu, .cb-more-menu-visible': {
                         opacity: 1

@@ -38,8 +38,7 @@ export const getStyles = (
         subComponentStyles: {
             listItem: (_props?: { isSelected: boolean }) => ({
                 root: {
-                    backgroundColor: 'transparent',
-                    borderColor: 'transparent'
+                    backgroundColor: 'transparent'
                 },
                 rootCheckedHovered: {
                     backgroundColor: theme.palette.neutralLighter
