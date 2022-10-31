@@ -658,13 +658,13 @@
             "sharedLabel": "Delad",
             "independentLabel": "Oberoende"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Standardtidsintervall",
-            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
+            "information": "Välj ett standardtidsintervall för det här diagrammet"
           },
-          "aggregationType": {
-            "label": "Typ av aggregering",
-            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
+          "aggregationMethod": {
+            "label": "Aggregeringsmetod",
+            "information": "När det finns för många datapunkter att visa grupperas värdena i diagrammet. Välj aggregeringsmetod för dessa grupperingar."
           }
         }
       },

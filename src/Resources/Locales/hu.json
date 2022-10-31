@@ -658,13 +658,13 @@
             "sharedLabel": "Megosztott",
             "independentLabel": "Független"
           },
-          "quickTimeSpan": {
-            "label": "Alapértelmezett időtartam",
-            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
+          "quickTimeRange": {
+            "label": "Alapértelmezett időtartomány",
+            "information": "A diagram alapértelmezett időtartományának kiválasztása"
           },
-          "aggregationType": {
-            "label": "Összesítés típusa",
-            "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
+          "aggregationMethod": {
+            "label": "Aggregációs módszer",
+            "information": "Ha túl sok adatpont jelenik meg, az értékek csoportosítva lesznek a diagramon. Válassza ki a csoportosítások összesítési módszerét."
           }
         }
       },

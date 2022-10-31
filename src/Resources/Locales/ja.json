@@ -658,13 +658,13 @@
             "sharedLabel": "シェアード",
             "independentLabel": "無所属"
           },
-          "quickTimeSpan": {
-            "label": "デフォルトの期間",
-            "information": "グラフの X 軸の現地時間での既定の時間範囲選択"
+          "quickTimeRange": {
+            "label": "既定の時間範囲",
+            "information": "このグラフのデフォルトの時間範囲を選択する"
           },
-          "aggregationType": {
-            "label": "集計タイプ",
-            "information": "グラフ内のデータ ポイントの数に基づいてデータのグループ化がアクティブな場合の既定の集計操作"
+          "aggregationMethod": {
+            "label": "集計方法",
+            "information": "表示するデータポイントが多すぎる場合、値はグラフにグループ化されます。これらのグループの集計方法を選択します。"
           }
         }
       },

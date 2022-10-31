@@ -658,13 +658,13 @@
             "sharedLabel": "Compartilhado",
             "independentLabel": "Independente"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Intervalo de tempo predefinido",
-            "information": "Seleção de intervalo de tempo padrão na hora local para o eixo x na tabela"
+            "information": "Escolha um intervalo de tempo padrão para este gráfico"
           },
-          "aggregationType": {
-            "label": "Tipo de agregação",
-            "information": "Operação de agregação predefinido quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
+          "aggregationMethod": {
+            "label": "Método de agregação",
+            "information": "Quando há demasiados pontos de dados para exibir, os valores serão agrupados na tabela. Escolha o método de agregação para estes agrupamentos."
           }
         }
       },

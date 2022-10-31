@@ -658,13 +658,13 @@
             "sharedLabel": "Gedeeld",
             "independentLabel": "Onafhankelijk"
           },
-          "quickTimeSpan": {
-            "label": "Standaard tijdspanne",
-            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
+          "quickTimeRange": {
+            "label": "Standaard tijdsbereik",
+            "information": "Een standaardtijdbereik voor deze grafiek kiezen"
           },
-          "aggregationType": {
-            "label": "Type aggregatie",
-            "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
+          "aggregationMethod": {
+            "label": "Aggregatiemethode",
+            "information": "Wanneer er te veel gegevenspunten zijn om weer te geven, worden waarden gegroepeerd in de grafiek. Kies de aggregatiemethode voor deze groeperingen."
           }
         }
       },

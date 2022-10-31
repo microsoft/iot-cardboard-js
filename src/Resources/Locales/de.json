@@ -658,13 +658,13 @@
             "sharedLabel": "Geteilt",
             "independentLabel": "Unabhängig"
           },
-          "quickTimeSpan": {
-            "label": "Standardzeitspanne",
-            "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
+          "quickTimeRange": {
+            "label": "Standardzeitbereich",
+            "information": "Auswählen eines Standardzeitraums für dieses Diagramm"
           },
-          "aggregationType": {
-            "label": "Aggregationstyp",
-            "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
+          "aggregationMethod": {
+            "label": "Aggregationsmethode",
+            "information": "Wenn zu viele Datenpunkte angezeigt werden müssen, werden die Werte im Diagramm gruppiert. Wählen Sie die Aggregationsmethode für diese Gruppierungen aus."
           }
         }
       },

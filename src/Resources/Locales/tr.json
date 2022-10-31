@@ -658,13 +658,13 @@
             "sharedLabel": "Paylaşılan",
             "independentLabel": "Bağımsız"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Varsayılan zaman aralığı",
-            "information": "Grafikteki x ekseni için yerel saatte varsayılan zaman aralığı seçimi"
+            "information": "Bu grafik için varsayılan bir zaman aralığı seçin"
           },
-          "aggregationType": {
-            "label": "Toplama türü",
-            "information": "Grafikteki veri noktalarının sayısına bağlı olarak veri gruplandırma etkin olduğunda varsayılan toplama işlemi"
+          "aggregationMethod": {
+            "label": "Toplama yöntemi",
+            "information": "Görüntülenemeyecek kadar çok veri noktası olduğunda, değerler grafikte gruplandırılır. Bu gruplandırmalar için toplama yöntemini seçin."
           }
         }
       },

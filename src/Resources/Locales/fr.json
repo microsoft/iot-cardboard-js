@@ -658,13 +658,13 @@
             "sharedLabel": "Partagé",
             "independentLabel": "Indépendant"
           },
-          "quickTimeSpan": {
-            "label": "Intervalle de temps par défaut",
-            "information": "Sélection de plage horaire par défaut en heure locale pour l’axe des x dans le graphique"
+          "quickTimeRange": {
+            "label": "Plage de temps par défaut",
+            "information": "Choisissez une plage de temps par défaut pour ce graphique"
           },
-          "aggregationType": {
-            "label": "Type d’agrégation",
-            "information": "Opération d’agrégation par défaut lorsque le regroupement de données est actif en fonction du nombre de points de données dans le graphique"
+          "aggregationMethod": {
+            "label": "Méthode d’agrégation",
+            "information": "Lorsqu’il y a trop de points de données à afficher, les valeurs sont regroupées dans le graphique. Choisissez la méthode d’agrégation pour ces regroupements."
           }
         }
       },

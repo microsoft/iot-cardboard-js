@@ -658,13 +658,13 @@
             "sharedLabel": "공유",
             "independentLabel": "독립의"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "기본 시간 범위",
-            "information": "차트의 x축에 대한 현지 시간의 기본 시간 범위 선택"
+            "information": "이 차트의 기본 시간 범위 선택"
           },
-          "aggregationType": {
-            "label": "집계 유형",
-            "information": "차트의 데이터 요소 수에 따라 데이터 그룹화가 활성 상태인 경우 기본 집계 작업"
+          "aggregationMethod": {
+            "label": "집계 방법",
+            "information": "표시할 데이터 포인트가 너무 많으면 차트에 값이 그룹화됩니다. 이러한 그룹화에 대한 집계 방법을 선택합니다."
           }
         }
       },
