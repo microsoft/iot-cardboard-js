@@ -1294,5 +1294,7 @@
       "Last 180 days": "Ostatnie 180 dni",
       "Last year": "W ubiegłym roku"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

@@ -1294,5 +1294,7 @@
       "Last 180 days": "過去 180 日間",
       "Last year": "去年"
     }
-  }
+  },
+  "minLower": "分",
+  "maxLower": ".max"
 }

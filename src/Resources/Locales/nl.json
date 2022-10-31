@@ -1294,5 +1294,7 @@
       "Last 180 days": "Afgelopen 180 dagen",
       "Last year": "Vorig jaar"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

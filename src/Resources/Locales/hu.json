@@ -1294,5 +1294,7 @@
       "Last 180 days": "Az elmúlt 180 napban",
       "Last year": "Tavaly"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }
