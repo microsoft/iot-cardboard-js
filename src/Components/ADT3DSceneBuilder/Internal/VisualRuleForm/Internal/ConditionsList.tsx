@@ -1,6 +1,7 @@
 import {
     ActionButton,
     classNamesFunction,
+    Icon,
     IContextualMenuItem,
     Stack,
     styled,
@@ -21,6 +22,7 @@ import {
     getNextColor,
     transformValueRangesIntoConditions
 } from '../VisualRuleFormUtility';
+import { hasBadge } from './ConditionsCallout/ConditionCalloutUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {
@@ -122,6 +124,24 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         [handleDismissFlyout, onDeleteCondition, t, valueRanges]
     );
 
+    const renderBadge = useCallback((iconName: string, color: string) => {
+        return (
+            <Icon
+                iconName={iconName}
+                styles={classNames.subComponentStyles.badgeIcon({ color })}
+            />
+        );
+    }, []);
+
+    const renderMeshColoring = useCallback((color: string) => {
+        return (
+            <Icon
+                iconName={'CubeShape'}
+                styles={classNames.subComponentStyles.meshIcon({ color })}
+            />
+        );
+    }, []);
+
     const getConditionItems = useCallback(
         (
             valueRanges: IValueRange[],
@@ -129,16 +149,25 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         ): ICardboardListItem<Condition>[] => {
             const conditions = transformValueRangesIntoConditions(
                 valueRanges,
-                expressionType
+                expressionType,
+                t
             );
             const viewModel: ICardboardListItem<Condition>[] = conditions.map(
                 (condition) => {
+                    const showBadgeIcon = hasBadge(condition.iconName);
                     return {
                         item: condition,
                         ariaLabel: `Condition for ${condition.primaryText}`,
                         textPrimary: condition.primaryText,
                         textSecondary: condition.secondaryText,
                         overflowMenuItems: getOverflowMenuItems(condition.id),
+                        iconStart: showBadgeIcon
+                            ? () =>
+                                  renderBadge(
+                                      condition.iconName,
+                                      condition.color
+                                  )
+                            : () => renderMeshColoring(condition.color),
                         onClick: () => {
                             setCalloutInfo({
                                 calloutType: CalloutInfoType.edit,
@@ -147,13 +176,18 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                                 ),
                                 selectedTarget: `#${LIST_KEY}`
                             });
+                        },
+                        buttonProps: {
+                            customStyles: classNames.subComponentStyles.itemButton(
+                                { isUnlabeled: condition.isUnlabeled }
+                            )
                         }
                     };
                 }
             );
             return viewModel;
         },
-        [getOverflowMenuItems]
+        [getOverflowMenuItems, t]
     );
 
     // State

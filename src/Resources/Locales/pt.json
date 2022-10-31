@@ -560,39 +560,38 @@
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
       "typePlaceholder": "Selecione o tipo para o valor",
-      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
       "newCondition": "Nova condição",
       "editCondition": "Condição de edição",
       "deleteCondition": "Exclua a condição",
       "unlabeledCondition": "Unlabeled",
-      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições.",
       "addCondition": "Adicionar condição",
       "conditionsTitle": "Condições",
-      "actionsTitle": "Ações",
       "colorLabel": "Cor",
       "iconLabel": "Ícone",
-      "invalidRanges": "Alcance inválido, min deve ser menor que o máximo, e os valores devem ser numéricos.",
       "labelField": "Etiqueta",
       "choiceGroupTrue": "Verdadeiro",
       "choiceGroupFalse": "Falso",
       "flyoutValuesTitle": "Valores",
       "flyoutValueTitle": "Valor",
-      "actionLabel": "Ação",
-      "meshColoringOption": "Coloração de malha",
-      "badgeOption": "Distintivo"
+      "badgeOption": "Distintivo",
+      "formSubTitle": "Escolha a expressão da propriedade que será avaliada e crie condições que determinem quais visuais são mostrados.",
+      "conditionsInfoIconText": "Configure o intervalo ou valores específicos que acionam um visual aplicado ao elemento.",
+      "visualLabel": "Tipo visual",
+      "rangeErrorMessage": "Alcance inválido.",
+      "elementColoringOption": "Coloração de elementos"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
       "removeRule": "Remover regra",
       "multipleBadges": "{{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
-      "unlabeled": "(sem rótulo)",
       "singleBadge": "1 crachá",
-      "singleMeshColoring": "1 coloração de malha"
+      "tabSubtitle": "Crie regras para aplicar visuais a elementos baseados em dados gêmeos.",
+      "singleElementColoring": "1 elemento de coloração",
+      "multipleElementColorings": "{{meshColoringCount}} coloração de elementos",
+      "unlabeledTag": "Unlabeled"
     }
   },
   "widgets": {
@@ -1295,5 +1294,7 @@
       "Last 180 days": "Últimos 180 dias",
       "Last year": "Ano passado"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

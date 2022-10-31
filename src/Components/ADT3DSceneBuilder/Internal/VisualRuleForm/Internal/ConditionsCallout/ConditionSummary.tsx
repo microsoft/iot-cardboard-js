@@ -18,10 +18,11 @@ import {
 import { BoundaryType } from './BoundaryInput.types';
 import { getStyles } from './ConditionSummary.styles';
 import i18n from '../../../../../../i18n';
+import { isNumericType } from '../../VisualRuleFormUtility';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
-    invalidRanges: `${ROOT_LOC}.invalidRanges`,
+    rangeErrorMessage: `${ROOT_LOC}.rangeErrorMessage`,
     choiceGroupTrue: `${ROOT_LOC}.choiceGroupTrue`,
     choiceGroupFalse: `${ROOT_LOC}.choiceGroupFalse`,
     flyoutValuesTitle: `${ROOT_LOC}.flyoutValuesTitle`,
@@ -118,7 +119,7 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
                 </Stack>
                 {!areValuesValid && (
                     <div className={classNames.invalidText}>
-                        {t(LOC_KEYS.invalidRanges)}
+                        {t(LOC_KEYS.rangeErrorMessage)}
                     </div>
                 )}
             </Stack>
@@ -159,11 +160,13 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
 
     return (
         <Stack tokens={STACK_TOKENS}>
-            <h4 className={classNames.title}>
-                {conditionType === 'boolean'
-                    ? t(LOC_KEYS.flyoutValueTitle)
-                    : t(LOC_KEYS.flyoutValuesTitle)}
-            </h4>
+            {!isNumericType(conditionType) && (
+                <label className={classNames.title}>
+                    {conditionType === 'boolean'
+                        ? t(LOC_KEYS.flyoutValueTitle)
+                        : t(LOC_KEYS.flyoutValuesTitle)}
+                </label>
+            )}
             {renderFields()}
         </Stack>
     );

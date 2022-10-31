@@ -560,39 +560,38 @@
       "new": "Nowa reguła wizualna",
       "edit": "Edytowanie reguły wizualnej",
       "typePlaceholder": "Wybierz typ wartości",
-      "conditionsInfoContent": "Skonfiguruj zakres lub określone wartości, które wyzwalają akcję wizualną związaną z elementem.",
       "newCondition": "Nowy stan",
       "editCondition": "Edytuj warunek",
       "deleteCondition": "Usuń warunek",
       "unlabeledCondition": "Bez etykiety",
-      "formSubtext": "Reguła zawiera warunki i wskazówki wizualne, gdy te warunki są spełnione. Wybierz wyrażenie danych dla tej reguły i dodaj kilka warunków.",
       "addCondition": "Dodaj warunek",
       "conditionsTitle": "Warunki",
-      "actionsTitle": "Akcje",
       "colorLabel": "Kolor",
       "iconLabel": "Ikona",
-      "invalidRanges": "Nieprawidłowy zakres, min powinien być mniejszy niż max, a wartości powinny być liczbowe.",
       "labelField": "Etykieta",
       "choiceGroupTrue": "Prawdziwy",
       "choiceGroupFalse": "Fałszywy",
       "flyoutValuesTitle": "Wartości",
       "flyoutValueTitle": "Wartość",
-      "actionLabel": "Akcja",
-      "meshColoringOption": "Kolorowanie siatki",
-      "badgeOption": "Odznaka"
+      "badgeOption": "Odznaka",
+      "formSubTitle": "Wybierz wyrażenie właściwości, które będzie obliczane, a następnie utwórz warunki określające, które wizualizacje są wyświetlane.",
+      "conditionsInfoIconText": "Skonfiguruj zakres lub określone wartości, które wyzwalają wizualizację zastosowaną do elementu.",
+      "visualLabel": "Typ wizualny",
+      "rangeErrorMessage": "Nieprawidłowy zakres.",
+      "elementColoringOption": "Kolorowanie elementów"
     },
     "conditions": "Warunki",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Ustaw reguły stosowania koloru do określonych warunków — na przykład czerwonego, aby wskazać wysokie temperatury, lub zielonego dla optymalnej prędkości.",
       "noData": "Nie skonfigurowano jeszcze żadnych reguł wizualnych",
       "addRuleButtonText": "Dodaj regułę",
       "editRule": "Edytuj regułę",
       "removeRule": "Usuń regułę",
       "multipleBadges": "Odznaki {{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} kolorowanie siatki",
-      "unlabeled": "(bez etykiety)",
       "singleBadge": "1 odznaka",
-      "singleMeshColoring": "1 kolorowanie siatki"
+      "tabSubtitle": "Tworzenie reguł stosowania wizualizacji do elementów opartych na bliźniaczych danych.",
+      "singleElementColoring": "Kolorowanie 1 elementu",
+      "multipleElementColorings": "{{meshColoringCount}} kolorowanie elementów",
+      "unlabeledTag": "Bez etykiety"
     }
   },
   "widgets": {
@@ -1295,5 +1294,7 @@
       "Last 180 days": "Ostatnie 180 dni",
       "Last year": "W ubiegłym roku"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

@@ -560,39 +560,38 @@
       "new": "Új vizualizációs szabály",
       "edit": "Vizuális szabály szerkesztése",
       "typePlaceholder": "Válassza ki az érték típusát",
-      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
       "newCondition": "Új feltétel",
       "editCondition": "Állapot szerkesztése",
       "deleteCondition": "Feltétel törlése",
       "unlabeledCondition": "Címkézetlen",
-      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt.",
       "addCondition": "Feltétel hozzáadása",
       "conditionsTitle": "Feltételek",
-      "actionsTitle": "Műveletek",
       "colorLabel": "Szín",
       "iconLabel": "Ikon",
-      "invalidRanges": "Érvénytelen tartomány, a min-nek kisebbnek kell lennie a max-nál, és az értékeknek numerikusnak kell lenniük.",
       "labelField": "Címke",
       "choiceGroupTrue": "Igaz",
       "choiceGroupFalse": "Téves",
       "flyoutValuesTitle": "Értékrend",
       "flyoutValueTitle": "Érték",
-      "actionLabel": "Akció",
-      "meshColoringOption": "Hálós színezés",
-      "badgeOption": "Jelvény"
+      "badgeOption": "Jelvény",
+      "formSubTitle": "Válassza ki a kiértékelni kívánt tulajdonságkifejezést, majd hozzon létre olyan feltételeket, amelyek meghatározzák, hogy mely vizualizációk jelenjenek meg.",
+      "conditionsInfoIconText": "Konfigurálja az elemre alkalmazott vizualizációt kiváltó tartományt vagy értékeket.",
+      "visualLabel": "Vizualizáció típusa",
+      "rangeErrorMessage": "Érvénytelen tartomány.",
+      "elementColoringOption": "Elem színezése"
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
       "noData": "Még nem konfigurált vizuális szabályokat",
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
       "removeRule": "Szabály eltávolítása",
       "multipleBadges": "{{badgeCount}} jelvények",
-      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
-      "unlabeled": "(címkézetlen)",
       "singleBadge": "1 jelvény",
-      "singleMeshColoring": "1 hálós színezés"
+      "tabSubtitle": "Hozzon létre szabályokat a vizualizációk elemekre való alkalmazásához ikeradatok alapján.",
+      "singleElementColoring": "1 elem színezése",
+      "multipleElementColorings": "{{meshColoringCount}} elem színezése",
+      "unlabeledTag": "Címkézetlen"
     }
   },
   "widgets": {
@@ -1295,5 +1294,7 @@
       "Last 180 days": "Az elmúlt 180 napban",
       "Last year": "Tavaly"
     }
-  }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }
