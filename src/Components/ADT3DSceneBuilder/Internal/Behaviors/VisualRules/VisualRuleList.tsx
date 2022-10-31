@@ -1,10 +1,13 @@
-import { IContextualMenuItem } from '@fluentui/react';
+import { IContextualMenuItem, Theme, useTheme } from '@fluentui/react';
 import React, { useEffect, useState } from 'react';
 import { TFunction, useTranslation } from 'react-i18next';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
 import { classNames } from '../../../../CardboardList/CardboardListItem.styles';
 import { IVisualRule, IVisualRulesListProps } from './VisualRules.types';
+import { ReactComponent as MeshAndBadgeIcon } from '../../../../../Resources/Static/meshAndBadgeIcon.svg';
+import { getVisualRuleListStyles } from './VisualRuleList.styles';
+
 /**
  *
  * Visual Rule List will handle the generation of ruleItems and the actions on a rule
@@ -16,6 +19,8 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     onRemoveRule
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
+
     //list of data in carbboardlist shape
     const [listItems, setListItems] = useState<
         ICardboardListItem<IVisualRule>[]
@@ -24,9 +29,15 @@ export const VisualRulesList: React.FC<IVisualRulesListProps> = ({
     //making sure to display the correct listItem when one of the dependencies below changes
     useEffect(() => {
         //making sure to get the rules in cardboardlist data shape
-        const listItems = getListItems(ruleItems, onRemoveRule, onEditRule, t);
+        const listItems = getListItems(
+            ruleItems,
+            onRemoveRule,
+            onEditRule,
+            theme,
+            t
+        );
         setListItems(listItems);
-    }, [ruleItems, onRemoveRule, onEditRule, t]);
+    }, [ruleItems, onRemoveRule, onEditRule, t, theme]);
 
     return (
         <CardboardList<IVisualRule>
@@ -82,6 +93,7 @@ function getListItems(
     rules: IVisualRule[],
     onRemoveRule: (ruleItem: string) => void,
     onEditRule: (ruleItem: string) => void,
+    theme: Theme,
     t: TFunction<string>
 ) {
     const getMenuItems = (item: IVisualRule): IContextualMenuItem[] => {
@@ -103,14 +115,32 @@ function getListItems(
         ];
     };
 
+    function getIconStart(item: IVisualRule) {
+        const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
+        let icon;
+        if (meshCount && badgeCount) {
+            icon = () => (
+                <div className={getVisualRuleListStyles(theme)}>
+                    <MeshAndBadgeIcon />
+                </div>
+            );
+        } else if (meshCount) {
+            icon = {
+                name: 'CubeShape'
+            };
+        } else if (badgeCount) {
+            icon = {
+                name: 'Ringer'
+            };
+        }
+        return icon;
+    }
+
     return rules.map((item) => {
         const primaryTextClassName = `.${classNames.primaryText}`;
         const viewModel: ICardboardListItem<IVisualRule> = {
             ariaLabel: '',
-            iconStart: {
-                name:
-                    item.type === 'NumericRange' ? 'NumberSymbol' : 'TextField'
-            },
+            iconStart: getIconStart(item),
             item: item,
             onClick: () => onEditRule(item.id),
             overflowMenuItems: getMenuItems(item),
