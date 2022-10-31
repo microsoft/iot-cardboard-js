@@ -649,7 +649,8 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "update": "Atualizar séries temporizes",
-          "remove": "Remover séries temporizados"
+          "remove": "Remover séries temporizados",
+          "unitPlaceholder": "por exemplo, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

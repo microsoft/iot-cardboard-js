@@ -649,7 +649,8 @@
           "add": "Lägg till tidsserier",
           "edit": "Redigera tidsserier",
           "update": "Uppdatera tidsserier",
-          "remove": "Ta bort tidsserier"
+          "remove": "Ta bort tidsserier",
+          "unitPlaceholder": "t.ex. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

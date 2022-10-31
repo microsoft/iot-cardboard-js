@@ -649,7 +649,8 @@
           "add": "Agregar series temporales",
           "edit": "Editar series temporales",
           "update": "Actualizar series temporales",
-          "remove": "Quitar series temporales"
+          "remove": "Quitar series temporales",
+          "unitPlaceholder": "por ejemplo, m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

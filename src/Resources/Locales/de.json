@@ -649,7 +649,8 @@
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
           "update": "Zeitreihen aktualisieren",
-          "remove": "Zeitreihen entfernen"
+          "remove": "Zeitreihen entfernen",
+          "unitPlaceholder": "z.B. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

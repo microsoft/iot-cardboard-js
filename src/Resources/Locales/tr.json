@@ -649,7 +649,8 @@
           "add": "Zaman serisi ekleme",
           "edit": "Zaman serilerini düzenleme",
           "update": "Güncelleme zaman serisi",
-          "remove": "Zaman serilerini kaldırma"
+          "remove": "Zaman serilerini kaldırma",
+          "unitPlaceholder": "örneğin m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

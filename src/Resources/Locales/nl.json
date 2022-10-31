@@ -649,7 +649,8 @@
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
           "update": "Tijdreeksen bijwerken",
-          "remove": "Tijdreeksen verwijderen"
+          "remove": "Tijdreeksen verwijderen",
+          "unitPlaceholder": "bv. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

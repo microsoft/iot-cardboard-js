@@ -649,7 +649,8 @@
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
           "update": "Aktualizace časových řad",
-          "remove": "Odebrání časových řad"
+          "remove": "Odebrání časových řad",
+          "unitPlaceholder": "např. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

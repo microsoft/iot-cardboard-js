@@ -649,7 +649,8 @@
           "add": "시계열 추가",
           "edit": "시계열 편집",
           "update": "시계열 업데이트",
-          "remove": "시계열 제거"
+          "remove": "시계열 제거",
+          "unitPlaceholder": "예: m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

@@ -649,7 +649,8 @@
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
           "update": "Idősorok frissítése",
-          "remove": "Idősorok eltávolítása"
+          "remove": "Idősorok eltávolítása",
+          "unitPlaceholder": "pl. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {

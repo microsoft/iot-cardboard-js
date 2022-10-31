@@ -649,7 +649,8 @@
           "add": "Dodawanie szeregów czasowych",
           "edit": "Edytowanie szeregów czasowych",
           "update": "Seria czasowa aktualizacji",
-          "remove": "Usuwanie szeregów czasowych"
+          "remove": "Usuwanie szeregów czasowych",
+          "unitPlaceholder": "np. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
