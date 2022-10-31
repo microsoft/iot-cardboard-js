@@ -1,5 +1,6 @@
 import {
     IButtonStyles,
+    IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
     Theme
@@ -59,4 +60,10 @@ export interface IConditionsListStylesProps {
 
 export interface IConditionsListSubComponentStyles {
     addButton?: Partial<IButtonStyles>;
+    itemButton?: IStyleFunctionOrObject<
+        { isUnlabeled: boolean },
+        IButtonStyles
+    >;
+    meshIcon?: IStyleFunctionOrObject<{ color: string }, IIconStyles>;
+    badgeIcon?: IStyleFunctionOrObject<{ color: string }, IIconStyles>;
 }

@@ -4,6 +4,7 @@ import {
     IConditionsListStyles,
     IConditionsListStylesProps
 } from './ConditionsList.types';
+import { classNames as cardboardListItemClassNames } from '../../../../CardboardList/CardboardListItem.styles';
 
 const classPrefix = CardboardClassNamePrefix + '-conditions-list';
 const classNames = {
@@ -25,29 +26,37 @@ export const getStyles = (
                     color: props.theme.palette.themePrimary,
                     marginLeft: 2
                 }
+            },
+            itemButton: (props) => {
+                const primaryTextClassName = `.${cardboardListItemClassNames.primaryText}`;
+                return {
+                    root: {
+                        [primaryTextClassName]: {
+                            fontStyle: props.isUnlabeled ? 'italic' : 'normal'
+                        }
+                    }
+                };
+            },
+            meshIcon: (props) => {
+                return {
+                    root: {
+                        color: props.color,
+                        fontSize: FontSizes.size24,
+                        marginRight: 8
+                    }
+                };
+            },
+            badgeIcon: (props) => {
+                return {
+                    root: {
+                        background: props.color,
+                        borderRadius: '50%',
+                        fontSize: FontSizes.size16,
+                        padding: 4,
+                        marginRight: 8
+                    }
+                };
             }
-        }
-    };
-};
-
-export const getMeshColoringStyles = (color: string) => {
-    return {
-        root: {
-            color: color,
-            fontSize: FontSizes.size24,
-            marginRight: 8
-        }
-    };
-};
-
-export const getBadgeStyles = (color: string) => {
-    return {
-        root: {
-            background: color,
-            borderRadius: '50%',
-            fontSize: FontSizes.size16,
-            padding: 4,
-            marginRight: 8
         }
     };
 };

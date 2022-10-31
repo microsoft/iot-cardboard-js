@@ -18,18 +18,13 @@ import {
 import { defaultSwatchColors } from '../../../../../Theming/Palettes';
 import { CardboardList } from '../../../../CardboardList';
 import { ICardboardListItem } from '../../../../CardboardList/CardboardList.types';
-import { classNames as cardboardListItemClassNames } from '../../../../CardboardList/CardboardListItem.styles';
 import {
     getNextColor,
     transformValueRangesIntoConditions
 } from '../VisualRuleFormUtility';
 import { hasBadge } from './ConditionsCallout/ConditionCalloutUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
-import {
-    getBadgeStyles,
-    getMeshColoringStyles,
-    getStyles
-} from './ConditionsList.styles';
+import { getStyles } from './ConditionsList.styles';
 import {
     CalloutInfo,
     CalloutInfoType,
@@ -130,14 +125,19 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     );
 
     const renderBadge = useCallback((iconName: string, color: string) => {
-        return <Icon iconName={iconName} styles={getBadgeStyles(color)} />;
+        return (
+            <Icon
+                iconName={iconName}
+                styles={classNames.subComponentStyles.badgeIcon({ color })}
+            />
+        );
     }, []);
 
     const renderMeshColoring = useCallback((color: string) => {
         return (
             <Icon
                 iconName={'CubeShape'}
-                styles={getMeshColoringStyles(color)}
+                styles={classNames.subComponentStyles.meshIcon({ color })}
             />
         );
     }, []);
@@ -154,7 +154,6 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
             );
             const viewModel: ICardboardListItem<Condition>[] = conditions.map(
                 (condition) => {
-                    const primaryTextClassName = `.${cardboardListItemClassNames.primaryText}`;
                     const showBadgeIcon = hasBadge(condition.iconName);
                     return {
                         item: condition,
@@ -179,15 +178,9 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                             });
                         },
                         buttonProps: {
-                            customStyles: {
-                                root: {
-                                    [primaryTextClassName]: {
-                                        fontStyle: condition.isUnlabeled
-                                            ? 'italic'
-                                            : 'normal'
-                                    }
-                                }
-                            }
+                            customStyles: classNames.subComponentStyles.itemButton(
+                                { isUnlabeled: condition.isUnlabeled }
+                            )
                         }
                     };
                 }
