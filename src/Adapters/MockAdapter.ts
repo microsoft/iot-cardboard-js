@@ -954,12 +954,6 @@ export default class MockAdapter
                 Path:
                     'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/BluePackingLine.gltf',
                 Properties: { 'Content-Length': 2000 }
-            },
-            {
-                Name: '3DScenesConfiguration.json',
-                Path:
-                    'https://cardboardresources.blob.core.windows.net/cardboard-mock-files/3DScenesConfiguration.json',
-                Properties: { 'Content-Length': 3000 }
             }
         ];
         try {
@@ -1049,17 +1043,48 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesData(_query: string) {
+    /** Returns a mock data based on the passed query by parsing it
+     * to get quick time, twin id and twin property to reflect
+     * on the generated mock data */
+    async getTimeSeriesData(query: string) {
+        let mockData: Array<ADXTimeSeries> = [];
         try {
             await this.mockNetwork();
+            try {
+                const listOfTimeSeries = query.split(';'); // split the query by statements for each time series
+                listOfTimeSeries.forEach((ts) => {
+                    const split = ts.split('ago(')[1].split(')'); // split the query by timestamp 'ago' operation
+                    const quickTimeSpanInMillis = Number(
+                        split[0].replace('ms', '') // get the quick time in milliseconds and cast it to number
+                    );
+                    const idAndPropertyPart = split[1]
+                        .split('Id == ')[1]
+                        .split(' and Key == '); // get the part of the query where there is twin id and property information
+                    const twinId = idAndPropertyPart[0].replace(/'/g, ''); // get the id and replace the single quote characters around the string
+                    const twinProperty = idAndPropertyPart[1]
+                        .split(' | order by')[0]
+                        .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
-            const mockData: Array<ADXTimeSeries> = [
-                {
-                    id: 'PasteurizationMachine_A01',
-                    key: 'InFlow',
-                    data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
-                }
-            ];
+                    mockData.push({
+                        id: twinId,
+                        key: twinProperty,
+                        data: getMockTimeSeriesDataArrayInLocalTime(
+                            1,
+                            5,
+                            quickTimeSpanInMillis
+                        )[0]
+                    });
+                });
+            } catch (error) {
+                console.log(error);
+                mockData = [
+                    {
+                        id: 'PasteurizationMachine_A01',
+                        key: 'InFlow',
+                        data: getMockTimeSeriesDataArrayInLocalTime(1)[0]
+                    }
+                ];
+            }
             return new AdapterResult({
                 result: new ADXTimeSeriesData(mockData),
                 errorInfo: null

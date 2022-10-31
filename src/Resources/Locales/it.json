@@ -565,7 +565,21 @@
       "editCondition": "Modifica condizione",
       "deleteCondition": "Elimina condizione",
       "unlabeledCondition": "Senza etichetta",
-      "formSubtext": "Una regola contiene condizioni e segnali visivi quando tali condizioni sono soddisfatte. Scegliere l'espressione dati per questa regola e aggiungere alcune condizioni."
+      "formSubtext": "Una regola contiene condizioni e segnali visivi quando tali condizioni sono soddisfatte. Scegliere l'espressione dati per questa regola e aggiungere alcune condizioni.",
+      "addCondition": "Aggiungi condizione",
+      "conditionsTitle": "Condizioni",
+      "actionsTitle": "Azioni",
+      "colorLabel": "Colore",
+      "iconLabel": "Icona",
+      "invalidRanges": "Intervallo non valido, min deve essere minore di max e i valori devono essere numerici.",
+      "labelField": "Etichetta",
+      "choiceGroupTrue": "Vero",
+      "choiceGroupFalse": "Falso",
+      "flyoutValuesTitle": "Valori",
+      "flyoutValueTitle": "Valore",
+      "actionLabel": "Azione",
+      "meshColoringOption": "Colorazione mesh",
+      "badgeOption": "Distintivo"
     },
     "conditions": "Condizioni",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Aggiungi regola",
       "editRule": "Modifica regola",
       "removeRule": "Rimuovi regola",
-      "singleBadge": "Badge {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} colorazione mesh",
       "multipleBadges": "Badge {{badgeCount}}",
       "multipleMeshColorings": "{{meshColoringCount}} colorazioni mesh",
-      "unlabeled": "(senza etichetta)"
+      "unlabeled": "(senza etichetta)",
+      "singleBadge": "1 distintivo",
+      "singleMeshColoring": "1 colorazione a maglie"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Intervallo di tempo predefinito",
-            "options": {
-              "Last 15 mins": "Ultimi 15 minuti",
-              "Last 30 mins": "Ultimi 30 minuti",
-              "Last hour": "Ultima ora",
-              "Last 3 hours": "Ultime 3 ore",
-              "Last 6 hours": "Ultime 6 ore",
-              "Last 12 hours": "Ultime 12 ore",
-              "Last 24 hours": "Ultime 24 ore",
-              "Last 7 days": "Ultimi 7 giorni",
-              "Last 30 days": "Ultimi 30 giorni",
-              "Last 60 days": "Ultimi 60 giorni",
-              "Last 90 days": "Ultimi 90 giorni",
-              "Last 180 days": "Ultimi 180 giorni",
-              "Last year": "Anno scorso"
-            },
             "information": "Selezione dell'intervallo di tempo predefinito in ora locale per l'asse x nel grafico"
           },
           "aggregationType": {
@@ -668,7 +667,9 @@
             "information": "Operazione di aggregazione predefinita quando il raggruppamento dei dati è attivo in base al numero di punti dati nel grafico"
           }
         }
-      }
+      },
+      "headerMenu": "Menu widget Cronologia dati",
+      "openQuery": "Aprire query in Esplora dati di Azure"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,31 @@
     "selectAdditionalColumns": "Selezionare colonne aggiuntive"
   },
   "highcharts": {
-    "noTitle": "Nessun titolo",
     "shareQueryTitle": "Query di condivisione",
-    "noDataDescription": "Nessun dato da visualizzare"
+    "noDataDescription": "Nessun dato da visualizzare",
+    "noTitle": "Nessun titolo"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Digitare i valori, premere Invio per aggiungere"
+  },
+  "to": "A",
+  "quickTimesDropdown": {
+    "label": "Intervallo di tempo",
+    "placeholder": "Seleziona un orario rapido",
+    "options": {
+      "Last 15 mins": "Ultimi 15 minuti",
+      "Last 30 mins": "Ultimi 30 minuti",
+      "Last hour": "Ultima ora",
+      "Last 3 hours": "Ultime 3 ore",
+      "Last 6 hours": "Ultime 6 ore",
+      "Last 12 hours": "Ultime 12 ore",
+      "Last 24 hours": "Ultime 24 ore",
+      "Last 7 days": "Ultimi 7 giorni",
+      "Last 30 days": "Ultimi 30 giorni",
+      "Last 60 days": "Ultimi 60 giorni",
+      "Last 90 days": "Ultimi 90 giorni",
+      "Last 180 days": "Ultimi 180 giorni",
+      "Last year": "Anno scorso"
+    }
   }
 }

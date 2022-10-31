@@ -565,7 +565,21 @@
       "editCondition": "编辑条件",
       "deleteCondition": "删除条件",
       "unlabeledCondition": "未标记",
-      "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。"
+      "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。",
+      "addCondition": "添加条件",
+      "conditionsTitle": "条件",
+      "actionsTitle": "行动",
+      "colorLabel": "颜色",
+      "iconLabel": "图标",
+      "invalidRanges": "范围无效，最小值应小于 max，值应为数字。",
+      "labelField": "标签",
+      "choiceGroupTrue": "真",
+      "choiceGroupFalse": "假",
+      "flyoutValuesTitle": "值",
+      "flyoutValueTitle": "价值",
+      "actionLabel": "行动",
+      "meshColoringOption": "网眼着色",
+      "badgeOption": "徽章"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "添加规则",
       "editRule": "编辑规则",
       "removeRule": "删除规则",
-      "singleBadge": "{{徽章计数}} 徽章",
-      "singleMeshColoring": "{{网格着色计数}} 网格着色",
       "multipleBadges": "{{徽章计数}} 徽章",
       "multipleMeshColorings": "{{网格着色计数}} 网格着色",
-      "unlabeled": "（未标记）"
+      "unlabeled": "（未标记）",
+      "singleBadge": "1 个徽章",
+      "singleMeshColoring": "1 网格着色"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "默认时间跨度",
-            "options": {
-              "Last 15 mins": "最近 15 分钟",
-              "Last 30 mins": "最近 30 分钟",
-              "Last hour": "最后一小时",
-              "Last 3 hours": "最近 3 小时",
-              "Last 6 hours": "最近 6 小时",
-              "Last 12 hours": "最近 12 小时",
-              "Last 24 hours": "最近 24 小时",
-              "Last 7 days": "最近 7 天",
-              "Last 30 days": "最近 30 天",
-              "Last 60 days": "最近 60 天",
-              "Last 90 days": "最近 90 天",
-              "Last 180 days": "最近 180 天",
-              "Last year": "去年"
-            },
             "information": "图表中 x 轴的默认时间范围选择（以本地时间为单位）"
           },
           "aggregationType": {
@@ -668,7 +667,9 @@
             "information": "基于图表中数据点数的数据分组处于活动状态时的默认聚合操作"
           }
         }
-      }
+      },
+      "headerMenu": "“数据历史记录”小组件菜单",
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,31 @@
     "selectAdditionalColumns": "选择其他列"
   },
   "highcharts": {
-    "noTitle": "无标题",
     "shareQueryTitle": "共享查询",
-    "noDataDescription": "无要显示的数据"
+    "noDataDescription": "无要显示的数据",
+    "noTitle": "无标题"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "键入值，按回车键添加"
+  },
+  "to": "自",
+  "quickTimesDropdown": {
+    "label": "时间跨度",
+    "placeholder": "选择快速时间",
+    "options": {
+      "Last 15 mins": "最后 15 分钟",
+      "Last 30 mins": "最后 30 分钟",
+      "Last hour": "最后一小时",
+      "Last 3 hours": "最近 3 小时",
+      "Last 6 hours": "最近 6 小时",
+      "Last 12 hours": "最近 12 小时",
+      "Last 24 hours": "最近 24 小时",
+      "Last 7 days": "最近 7 天",
+      "Last 30 days": "最近 30 天",
+      "Last 60 days": "最近 60 天",
+      "Last 90 days": "最近 90 天",
+      "Last 180 days": "最近 180 天",
+      "Last year": "去年"
+    }
   }
 }

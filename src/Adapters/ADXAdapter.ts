@@ -102,21 +102,23 @@ export default class ADXAdapter
                             } as ADXTimeSeriesTableRow)
                         );
 
-                        // each table has same id and key in current design of querying for data history for twin id and property
-                        resultTimeSeriesData.push({
-                            id: tableTimeSeriesData[0].id,
-                            key: tableTimeSeriesData[0].key,
-                            data: tableTimeSeriesData.reduce(
-                                (acc: Array<TimeSeriesData>, cur) => {
-                                    acc.push({
-                                        timestamp: cur.timestamp, // note that date is in UTC
-                                        value: cur.value
-                                    });
-                                    return acc;
-                                },
-                                []
-                            )
-                        });
+                        if (tableTimeSeriesData.length) {
+                            // each table has same id and key in current design of querying for data history for twin id and property
+                            resultTimeSeriesData.push({
+                                id: tableTimeSeriesData[0].id,
+                                key: tableTimeSeriesData[0].key,
+                                data: tableTimeSeriesData.reduce(
+                                    (acc: Array<TimeSeriesData>, cur) => {
+                                        acc.push({
+                                            timestamp: cur.timestamp, // note that date is in UTC
+                                            value: cur.value
+                                        });
+                                        return acc;
+                                    },
+                                    []
+                                )
+                            });
+                        }
                     });
                 }
                 return new ADXTimeSeriesData(resultTimeSeriesData);

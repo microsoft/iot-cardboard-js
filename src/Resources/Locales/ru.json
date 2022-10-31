@@ -565,7 +565,21 @@
       "editCondition": "Изменить условие",
       "deleteCondition": "Условие удаления",
       "unlabeledCondition": "Без маркировки",
-      "formSubtext": "Правило содержит условия и визуальные подсказки при выполнении этих условий. Выберите выражение данных для этого правила и добавьте несколько условий."
+      "formSubtext": "Правило содержит условия и визуальные подсказки при выполнении этих условий. Выберите выражение данных для этого правила и добавьте несколько условий.",
+      "addCondition": "Добавить условие",
+      "conditionsTitle": "Условия",
+      "actionsTitle": "Действия",
+      "colorLabel": "Цвет",
+      "iconLabel": "Икона",
+      "invalidRanges": "Недопустимый диапазон, min должен быть меньше max, а значения должны быть числовыми.",
+      "labelField": "Ярлык",
+      "choiceGroupTrue": "Истинный",
+      "choiceGroupFalse": "Ложный",
+      "flyoutValuesTitle": "Значения",
+      "flyoutValueTitle": "Ценность",
+      "actionLabel": "Действие",
+      "meshColoringOption": "Окраска сетки",
+      "badgeOption": "Значок"
     },
     "conditions": "Условия",
     "behaviorVisualRulesTab": {
@@ -574,11 +588,11 @@
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
       "removeRule": "Удалить правило",
-      "singleBadge": "{{badgeCount}} значок",
-      "singleMeshColoring": "{{meshColoringCount}} раскраска сетки",
       "multipleBadges": "{{badgeCount}} значки",
       "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
-      "unlabeled": "(без маркировки)"
+      "unlabeled": "(без маркировки)",
+      "singleBadge": "1 значок",
+      "singleMeshColoring": "1 сетка раскраска"
     }
   },
   "widgets": {
@@ -646,21 +660,6 @@
           },
           "quickTimeSpan": {
             "label": "Временной интервал по умолчанию",
-            "options": {
-              "Last 15 mins": "Последние 15 минут",
-              "Last 30 mins": "Последние 30 минут",
-              "Last hour": "Последний час",
-              "Last 3 hours": "Последние 3 часа",
-              "Last 6 hours": "Последние 6 часов",
-              "Last 12 hours": "Последние 12 часов",
-              "Last 24 hours": "Последние 24 часа",
-              "Last 7 days": "Последние 7 дней",
-              "Last 30 days": "Последние 30 дней",
-              "Last 60 days": "Последние 60 дней",
-              "Last 90 days": "Последние 90 дней",
-              "Last 180 days": "Последние 180 дней",
-              "Last year": "В прошлом году"
-            },
             "information": "Выбор диапазона времени по умолчанию в локальном времени для оси X на диаграмме"
           },
           "aggregationType": {
@@ -668,7 +667,9 @@
             "information": "Операция агрегирования по умолчанию, когда группировка данных активна в зависимости от количества точек данных на диаграмме"
           }
         }
-      }
+      },
+      "headerMenu": "Меню виджета истории данных",
+      "openQuery": "Открытие запроса в обозревателе данных Azure"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,31 @@
     "selectAdditionalColumns": "Выбор дополнительных столбцов"
   },
   "highcharts": {
-    "noTitle": "Без названия",
     "shareQueryTitle": "Общий доступ к запросу",
-    "noDataDescription": "Нет отображаемых данных"
+    "noDataDescription": "Нет отображаемых данных",
+    "noTitle": "Без названия"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Введите значения, нажмите клавишу ВВОД, чтобы добавить"
+  },
+  "to": "Кому",
+  "quickTimesDropdown": {
+    "label": "Промежуток времени",
+    "placeholder": "Выберите быстрое время",
+    "options": {
+      "Last 15 mins": "Последние 15 минут",
+      "Last 30 mins": "Последние 30 минут",
+      "Last hour": "Последний час",
+      "Last 3 hours": "Последние 3 часа",
+      "Last 6 hours": "Последние 6 часов",
+      "Last 12 hours": "Последние 12 часов",
+      "Last 24 hours": "Последние 24 часа",
+      "Last 7 days": "Последние 7 дней",
+      "Last 30 days": "Последние 30 дней",
+      "Last 60 days": "Последние 60 дней",
+      "Last 90 days": "Последние 90 дней",
+      "Last 180 days": "Последние 180 дней",
+      "Last year": "В прошлом году"
+    }
   }
 }
