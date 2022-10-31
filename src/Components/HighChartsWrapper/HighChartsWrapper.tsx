@@ -113,7 +113,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
         (_hcS, idx) => {
             const isOnOppositeSide =
-                idx >= Math.floor(highChartSeries.length / 2) ? true : false; // by default, put the other half of the y-axes to the opposite side
+                idx > 0 && idx >= Math.floor(highChartSeries.length / 2)
+                    ? true
+                    : false; // by default, put the other half of the y-axes to the opposite side
             return {
                 gridLineWidth: idx > 1 ? 0 : 1,
                 opposite: isOnOppositeSide,

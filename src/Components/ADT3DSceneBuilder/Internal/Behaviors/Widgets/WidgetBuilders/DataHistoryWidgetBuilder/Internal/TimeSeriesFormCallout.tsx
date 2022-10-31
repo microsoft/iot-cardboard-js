@@ -156,18 +156,18 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     required
                 />
                 <TextField
-                    placeholder={'e.g. m, m², kg, s, °C'}
-                    label={t('widgets.dataHistory.form.timeSeries.unit')}
-                    value={seriesToEdit?.unit}
-                    onChange={handleUnitChange}
-                />
-                <TextField
                     placeholder={t(
                         'widgets.dataHistory.form.timeSeries.labelPlaceholder'
                     )}
                     label={t('widgets.dataHistory.form.timeSeries.label')}
                     value={seriesToEdit?.label}
                     onChange={handleLabelChange}
+                />
+                <TextField
+                    placeholder={'e.g. m, m², kg, s, °C'}
+                    label={t('widgets.dataHistory.form.timeSeries.unit')}
+                    value={seriesToEdit?.unit}
+                    onChange={handleUnitChange}
                 />
                 <PrimaryButton
                     className={styles.primaryButton}
