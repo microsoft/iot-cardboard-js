@@ -8,6 +8,7 @@ import { IVisualRuleFormState } from '../Behaviors/VisualRules/VisualRules.types
 import { Condition, ConditionType } from './Internal/ConditionsList.types';
 import i18n from '../../../../i18n';
 import { IPickerOption } from '../../../Pickers/Internal/Picker.base.types';
+import { TFunction } from 'react-i18next';
 
 /**
  * Looks at the state and determines whether anything has been changed
@@ -33,12 +34,13 @@ export function isStateDirty(
  */
 export function getConditionSecondaryText(
     type: IExpressionRangeType,
-    values: unknown[]
+    values: unknown[],
+    t: TFunction<string>
 ): string {
     if (type === 'NumericRange') {
-        return `${values[0]} (${i18n.t('min').toLowerCase()}) ${i18n.t('to')} ${
-            values[1]
-        } (${i18n.t('max').toLowerCase()})`;
+        return `${values[0]} (${t('minLower')}) ${t('to')} ${values[1]} (${t(
+            'maxLower'
+        )})`;
     } else {
         return values.join(', ');
     }
@@ -47,7 +49,8 @@ export function getConditionSecondaryText(
 /** Create Conditions view model from config types */
 export const transformValueRangesIntoConditions = (
     valueRanges: IValueRange[],
-    expressionType: IExpressionRangeType
+    expressionType: IExpressionRangeType,
+    t: TFunction<string>
 ): Condition[] => {
     if (valueRanges) {
         return valueRanges.map((condition) => {
@@ -64,7 +67,8 @@ export const transformValueRangesIntoConditions = (
                       )}`,
                 secondaryText: getConditionSecondaryText(
                     expressionType,
-                    condition.values
+                    condition.values,
+                    t
                 ),
                 type: conditionType,
                 iconName: condition.visual.iconName,

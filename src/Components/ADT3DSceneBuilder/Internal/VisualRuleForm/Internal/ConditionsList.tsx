@@ -149,7 +149,8 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
         ): ICardboardListItem<Condition>[] => {
             const conditions = transformValueRangesIntoConditions(
                 valueRanges,
-                expressionType
+                expressionType,
+                t
             );
             const viewModel: ICardboardListItem<Condition>[] = conditions.map(
                 (condition) => {
@@ -193,7 +194,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
             );
             return viewModel;
         },
-        [getOverflowMenuItems]
+        [getOverflowMenuItems, t]
     );
 
     // State

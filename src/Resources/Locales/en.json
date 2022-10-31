@@ -7,6 +7,8 @@
     "labelPlaceholder": "Enter label",
     "min": "Min",
     "max": "Max",
+    "minLower": "min",
+    "maxLower": "max",
     "noData": "No data",
     "noName": "No name",
     "error": "Error fetching data",
