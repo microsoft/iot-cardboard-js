@@ -646,6 +646,7 @@
                     "description": "Choose a numeric property for this time series",
                     "property": "Property",
                     "unit": "Unit",
+                    "unitPlaceholder": "e.g. m, m², kg, s, °C",
                     "label": "Label",
                     "labelPlaceholder": "Enter label to show in chart",
                     "add": "Add time series",
