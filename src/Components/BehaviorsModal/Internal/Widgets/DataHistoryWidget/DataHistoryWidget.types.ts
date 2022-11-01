@@ -17,6 +17,7 @@ export interface IDataHistoryWidgetStyles {
     root: IStyle;
     header: IStyle;
     title: IStyle;
+    errorContainer: IStyle;
     chartContainer: IStyle;
     menuButton: IStyle;
     menu: IStyle;
@@ -33,4 +34,8 @@ export interface IDataHistoryWidgetSubComponentStyles {
         menuItemIcon?: CSSProperties;
         calloutWidth?: number;
     };
+}
+
+export enum ConnectionErrors {
+    General_BadRequest = 'General_BadRequest'
 }

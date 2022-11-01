@@ -669,6 +669,9 @@
                         "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
+            },
+            "errors": {
+                "generalBadRequestMessage": "Request is invalid and cannot be executed."
             }
         },
         "notSupported": "This widget type is not currently supported"

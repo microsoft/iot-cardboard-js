@@ -43,6 +43,7 @@ import QuickTimesDropdown, {
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
+    ConnectionErrors,
     IDataHistoryWidgetProps,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
@@ -86,6 +87,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         query,
         deeplink,
         data,
+        errors,
         fetchTimeSeriesData,
         isLoading
     } = useTimeSeriesData({
@@ -212,32 +214,52 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.header}>
-                <span className={classNames.title}>{displayName}</span>
-                {mode === BehaviorModalMode.viewer && (
-                    <>
-                        {renderQuickTimePickerItem()}
-                        <OverflowMenu {...menuProps} />
-                    </>
-                )}
-            </div>
+            {errors.length > 0 ? (
+                <>
+                    <div className={classNames.header}>
+                        <span className={classNames.title}>{displayName}</span>
+                    </div>
+                    <div className={classNames.errorContainer}>
+                        <span>
+                            {(errors[0].rawError as any).response?.data?.error
+                                .code === ConnectionErrors.General_BadRequest
+                                ? t(
+                                      'widgets.dataHistory.errors.generalBadRequestMessage'
+                                  )
+                                : errors[0].message}
+                        </span>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className={classNames.header}>
+                        <span className={classNames.title}>{displayName}</span>
+                        {mode === BehaviorModalMode.viewer && (
+                            <>
+                                {renderQuickTimePickerItem()}
+                                <OverflowMenu {...menuProps} />
+                            </>
+                        )}
+                    </div>
 
-            <div className={classNames.chartContainer}>
-                <HighChartsWrapper
-                    seriesData={highChartSeriesData}
-                    isLoading={isLoading}
-                    chartOptions={{
-                        titleAlign: 'left',
-                        legendLayout: 'vertical',
-                        legendPadding: 0,
-                        hasMultipleAxes:
-                            chartOptions.yAxisType === 'independent',
-                        dataGrouping: chartOptions.aggregationType,
-                        xMinInMillis: xMinDateInMillisRef.current,
-                        xMaxInMillis: xMaxDateInMillisRef.current
-                    }}
-                />
-            </div>
+                    <div className={classNames.chartContainer}>
+                        <HighChartsWrapper
+                            seriesData={highChartSeriesData}
+                            isLoading={isLoading}
+                            chartOptions={{
+                                titleAlign: 'left',
+                                legendLayout: 'vertical',
+                                legendPadding: 0,
+                                hasMultipleAxes:
+                                    chartOptions.yAxisType === 'independent',
+                                dataGrouping: chartOptions.aggregationType,
+                                xMinInMillis: xMinDateInMillisRef.current,
+                                xMaxInMillis: xMaxDateInMillisRef.current
+                            }}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

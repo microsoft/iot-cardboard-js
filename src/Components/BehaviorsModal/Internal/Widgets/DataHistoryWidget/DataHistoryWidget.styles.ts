@@ -10,6 +10,7 @@ const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
     title: `${classPrefix}-title`,
+    errorContainer: `${classPrefix}-error-container`,
     chartContainer: `${classPrefix}-chart-container`,
     menuButton: `${classPrefix}-menu-button`,
     menu: `${classPrefix}-menu`,
@@ -50,6 +51,19 @@ export const getStyles = ({
                 fontWeight: FontWeights.semibold,
                 paddingRight: 4,
                 width: 192
+            }
+        ],
+        errorContainer: [
+            classNames.errorContainer,
+            {
+                flexGrow: 1,
+                padding: '0 8px 20px',
+                whiteSpace: 'normal',
+                fontSize: FontSizes.size12,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: FontWeights.bold
             }
         ],
         chartContainer: [
