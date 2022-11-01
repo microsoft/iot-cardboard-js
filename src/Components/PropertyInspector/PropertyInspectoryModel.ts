@@ -33,6 +33,9 @@ abstract class PropertyInspectorModel {
         propertySourceObject: Record<string, any>,
         schema: dtdlPropertyTypesEnum
     ) => {
+        if (typeof propertySourceObject !== 'object') {
+            return propertySourceObject;
+        }
         if (
             [
                 dtdlPropertyTypesEnum.integer,
@@ -46,7 +49,7 @@ abstract class PropertyInspectorModel {
                 : PropertyInspectorModel.getEmptyValueForNode(schema);
         } else {
             return (
-                propertySourceObject?.[propertyName] ??
+                (propertySourceObject && propertySourceObject[propertyName]) ??
                 PropertyInspectorModel.getEmptyValueForNode(schema)
             );
         }
@@ -102,7 +105,7 @@ abstract class PropertyInspectorModel {
         mapInfo = null,
         forceSet = false,
         schemas,
-        isArrayChild = false
+        isArrayItem = false
     }: {
         modelProperty: DtdlProperty;
         propertySourceObject: Record<string, any>;
@@ -113,13 +116,9 @@ abstract class PropertyInspectorModel {
         mapInfo?: { key: string };
         forceSet?: boolean;
         schemas?: DtdlInterfaceSchema[];
-        isArrayChild?: boolean;
+        isArrayItem?: boolean;
     }): PropertyTreeNode => {
         // Check if property is using reusable schema from schemas set
-        if (isArrayChild) {
-            // eslint-disable-next-line no-debugger
-            debugger;
-        }
         if (
             typeof modelProperty.schema === 'string' &&
             Array.isArray(schemas) &&
@@ -148,7 +147,7 @@ abstract class PropertyInspectorModel {
                 schemas,
                 mapInfo,
                 forceSet,
-                isArrayChild
+                isArrayItem
             });
         } else if (
             typeof modelProperty.schema === 'string' &&
@@ -168,6 +167,7 @@ abstract class PropertyInspectorModel {
                     mapInfo ? mapInfo.key : modelProperty.name,
                     propertySourceObject,
                     modelProperty.schema as dtdlPropertyTypesEnum
+                    // here is where we are passing the primative values
                 ),
                 path: mapInfo
                     ? PropertyInspectorModel.buildPath(path, mapInfo.key)
@@ -179,8 +179,9 @@ abstract class PropertyInspectorModel {
                 isMapChild,
                 isRemovable: !isMapChild,
                 isSet:
-                    (propertySourceObject &&
-                        modelProperty.name in propertySourceObject) ||
+                    (propertySourceObject !== undefined &&
+                        (typeof propertySourceObject !== 'object' ||
+                            modelProperty.name in propertySourceObject)) ||
                     forceSet,
                 isInherited,
                 unit: getModelContentUnit(modelProperty['@type'], modelProperty)
@@ -201,30 +202,48 @@ abstract class PropertyInspectorModel {
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
-                            modelProperty.schema?.fields?.map((field) =>
-                                PropertyInspectorModel.parsePropertyIntoNode({
-                                    modelProperty: field,
-                                    propertySourceObject: mapInfo
-                                        ? propertySourceObject?.[mapInfo.key] ??
-                                          {}
-                                        : propertySourceObject?.[
-                                              modelProperty.name
-                                          ] ?? {},
-                                    isInherited,
-                                    path: mapInfo
-                                        ? PropertyInspectorModel.buildPath(
-                                              path,
-                                              mapInfo.key
-                                          )
-                                        : PropertyInspectorModel.buildPath(
-                                              path,
-                                              modelProperty.name || field.name
-                                          ),
-                                    isObjectChild: true,
-                                    isMapChild: false,
-                                    schemas
-                                })
-                            ) ?? [],
+                            modelProperty.schema?.fields
+                                ?.filter(
+                                    (field) =>
+                                        field?.['@type'] === 'Property' ||
+                                        (Array.isArray(field?.['@type']) &&
+                                            field?.['@type'].indexOf(
+                                                'Property'
+                                            ) > -1)
+                                )
+                                .map((field) =>
+                                    PropertyInspectorModel.parsePropertyIntoNode(
+                                        {
+                                            modelProperty: field,
+                                            propertySourceObject: mapInfo
+                                                ? propertySourceObject?.[
+                                                      mapInfo.key
+                                                  ] ?? isArrayItem
+                                                    ? propertySourceObject
+                                                    : {}
+                                                : propertySourceObject?.[
+                                                      modelProperty.name
+                                                  ] ?? isArrayItem
+                                                ? propertySourceObject
+                                                : {},
+                                            isInherited,
+                                            path: mapInfo
+                                                ? PropertyInspectorModel.buildPath(
+                                                      path,
+                                                      mapInfo.key
+                                                  )
+                                                : PropertyInspectorModel.buildPath(
+                                                      path,
+                                                      modelProperty.name ||
+                                                          field.name
+                                                  ),
+                                            isObjectChild: true,
+                                            isMapChild: false,
+                                            schemas,
+                                            isArrayItem
+                                        }
+                                    )
+                                ) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: mapInfo
@@ -241,8 +260,10 @@ abstract class PropertyInspectorModel {
                         isRemovable: !isMapChild,
                         isInherited,
                         isSet:
-                            (propertySourceObject &&
-                                modelProperty.name in propertySourceObject) ||
+                            (propertySourceObject !== undefined &&
+                                (typeof propertySourceObject !== 'object' ||
+                                    modelProperty.name in
+                                        propertySourceObject)) ||
                             forceSet,
                         value: undefined,
                         unit: getModelContentUnit(
@@ -294,8 +315,10 @@ abstract class PropertyInspectorModel {
                         isInherited,
                         isRemovable: !isMapChild,
                         isSet:
-                            (propertySourceObject &&
-                                modelProperty.name in propertySourceObject) ||
+                            (propertySourceObject !== undefined &&
+                                (typeof propertySourceObject !== 'object' ||
+                                    modelProperty.name in
+                                        propertySourceObject)) ||
                             forceSet,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
@@ -337,6 +360,7 @@ abstract class PropertyInspectorModel {
                         value: undefined,
                         isSet:
                             (propertySourceObject &&
+                                typeof propertySourceObject === 'object' &&
                                 modelProperty.name in propertySourceObject) ||
                             forceSet,
                         unit: getModelContentUnit(
@@ -361,7 +385,8 @@ abstract class PropertyInspectorModel {
                                               mapInfo: { key },
                                               isMapChild: true,
                                               forceSet: true,
-                                              schemas
+                                              schemas,
+                                              isArrayItem
                                           }
                                       );
                                   })
@@ -405,8 +430,10 @@ abstract class PropertyInspectorModel {
                         isRemovable: !isMapChild,
                         value: undefined,
                         isSet:
-                            (propertySourceObject &&
-                                modelProperty.name in propertySourceObject) ||
+                            (propertySourceObject !== undefined &&
+                                (typeof propertySourceObject !== 'object' ||
+                                    modelProperty.name in
+                                        propertySourceObject)) ||
                             forceSet,
                         unit: getModelContentUnit(
                             modelProperty['@type'],
@@ -423,15 +450,16 @@ abstract class PropertyInspectorModel {
                                               ? {
                                                     schema: (modelProperty.schema as any)
                                                         .elementSchema
-                                                } // primate array item
+                                                } // primative array item
                                               : targetSchema; //complex array item
-
                                       const childItem = PropertyInspectorModel.parsePropertyIntoNode(
                                           {
                                               isInherited,
                                               isObjectChild: true,
                                               modelProperty: {
-                                                  name: index,
+                                                  name: `${modelProperty.name}[${index}]`,
+                                                  '@type':
+                                                      modelProperty['@type'],
                                                   schema: itemSchema['@id'],
                                                   ...itemSchema
                                               },
@@ -443,7 +471,7 @@ abstract class PropertyInspectorModel {
                                               isMapChild: false,
                                               forceSet: true,
                                               schemas,
-                                              isArrayChild: true
+                                              isArrayItem: true
                                           }
                                       );
                                       return childItem;
