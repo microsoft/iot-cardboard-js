@@ -648,7 +648,8 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "update": "Atualizar séries temporizes",
-          "remove": "Remover séries temporizados"
+          "remove": "Remover séries temporizados",
+          "unitPlaceholder": "por exemplo, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -657,13 +658,13 @@
             "sharedLabel": "Compartilhado",
             "independentLabel": "Independente"
           },
-          "quickTimeSpan": {
-            "label": "Período de tempo padrão",
-            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
+          "quickTimeRange": {
+            "label": "Faixa de tempo padrão",
+            "information": "Escolha um intervalo de tempo padrão para este gráfico"
           },
-          "aggregationType": {
-            "label": "Tipo de agregação",
-            "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
+          "aggregationMethod": {
+            "label": "Método de agregação",
+            "information": "Quando houver muitos pontos de dados para exibir, os valores serão agrupados no gráfico. Escolha o método de agregação desses agrupamentos."
           }
         }
       },

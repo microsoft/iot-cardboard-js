@@ -648,7 +648,8 @@
           "add": "Aggiungere serie temporali",
           "edit": "Modificare le serie temporali",
           "update": "Aggiornare le serie temporali",
-          "remove": "Rimuovere serie temporali"
+          "remove": "Rimuovere serie temporali",
+          "unitPlaceholder": "ad esempio m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -657,13 +658,13 @@
             "sharedLabel": "Condiviso",
             "independentLabel": "Indipendente"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Intervallo di tempo predefinito",
-            "information": "Selezione dell'intervallo di tempo predefinito in ora locale per l'asse x nel grafico"
+            "information": "Scegliere un intervallo di tempo predefinito per questo grafico"
           },
-          "aggregationType": {
-            "label": "Tipo di aggregazione",
-            "information": "Operazione di aggregazione predefinita quando il raggruppamento dei dati è attivo in base al numero di punti dati nel grafico"
+          "aggregationMethod": {
+            "label": "Metodo di aggregazione",
+            "information": "Quando ci sono troppi punti dati da visualizzare, i valori verranno raggruppati nel grafico. Scegliere il metodo di aggregazione per questi raggruppamenti."
           }
         }
       },

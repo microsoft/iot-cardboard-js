@@ -648,7 +648,8 @@
           "add": "Dodawanie szeregów czasowych",
           "edit": "Edytowanie szeregów czasowych",
           "update": "Seria czasowa aktualizacji",
-          "remove": "Usuwanie szeregów czasowych"
+          "remove": "Usuwanie szeregów czasowych",
+          "unitPlaceholder": "np. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -657,13 +658,13 @@
             "sharedLabel": "Udostępnionych",
             "independentLabel": "Niezależny"
           },
-          "quickTimeSpan": {
-            "label": "Domyślny przedział czasu",
-            "information": "Domyślny wybór zakresu czasu w czasie lokalnym dla osi x na wykresie"
+          "quickTimeRange": {
+            "label": "Domyślny zakres czasu",
+            "information": "Wybieranie domyślnego zakresu czasu dla tego wykresu"
           },
-          "aggregationType": {
-            "label": "Typ agregacji",
-            "information": "Domyślna operacja agregacji, gdy grupowanie danych jest aktywne na podstawie liczby punktów danych na wykresie"
+          "aggregationMethod": {
+            "label": "Metoda agregacji",
+            "information": "Jeśli istnieje zbyt wiele punktów danych do wyświetlenia, wartości zostaną zgrupowane na wykresie. Wybierz metodę agregacji dla tych grup."
           }
         }
       },
