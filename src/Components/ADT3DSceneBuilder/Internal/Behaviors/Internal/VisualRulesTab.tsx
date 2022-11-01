@@ -24,7 +24,7 @@ const ROOT_LOC = '3dSceneBuilder.behaviorVisualRulesTab';
 const LOC_KEYS = {
     addButtonText: `${ROOT_LOC}.addRuleButtonText`,
     noData: `${ROOT_LOC}.noData`,
-    tabDescription: `${ROOT_LOC}.tabDescription`
+    tabSubtitle: `${ROOT_LOC}.tabSubtitle`
 };
 export interface IVisualRuleProps {
     onEditRule: (ruleId: string) => void;
@@ -71,13 +71,17 @@ export const VisualRulesTab: React.FC<IVisualRuleProps> = ({
         let rules: IVisualRule[] = [];
         if (visualRules.length > 0) {
             rules = visualRules.map((rule) => {
+                const hasDisplayName = !!rule?.displayName;
                 return {
                     id: rule.id,
-                    displayName: rule?.displayName
+                    displayName: hasDisplayName
                         ? rule.displayName
-                        : t('3dSceneBuilder.behaviorVisualRulesTab.unlabeled'),
+                        : t(
+                              '3dSceneBuilder.behaviorVisualRulesTab.unlabeledTag'
+                          ),
                     conditions: rule.valueRanges,
-                    type: rule.expressionType
+                    type: rule.expressionType,
+                    isUnlabeled: !hasDisplayName
                 };
             });
         }
@@ -97,7 +101,7 @@ export const VisualRulesTab: React.FC<IVisualRuleProps> = ({
                 className={commonPanelStyles.paddedLeftPanelBlock}
             >
                 <Text className={commonPanelStyles.text}>
-                    {t(LOC_KEYS.tabDescription)}
+                    {t(LOC_KEYS.tabSubtitle)}
                 </Text>
                 {ruleItems.length ? (
                     <VisualRulesList

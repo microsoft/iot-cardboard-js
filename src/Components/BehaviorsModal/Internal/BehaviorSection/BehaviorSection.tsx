@@ -77,8 +77,11 @@ const BehaviorSection: React.FC<IBehaviorsSectionProps> = ({ behavior }) => {
 const AlertBlock: React.FC<{ alertVisual: IExpressionRangeVisual }> = ({
     alertVisual
 }) => {
-    const styles = getStyles();
+    if (!alertVisual && !alertVisual.valueRanges[0]) {
+        return null;
+    }
 
+    const styles = getStyles();
     const {
         visual: { color, iconName, labelExpression }
     } = alertVisual.valueRanges[0];

@@ -16,7 +16,7 @@ const logDebugConsole = getDebugLogger('useTimeSeriesData', debugLogging);
 
 interface IProp {
     adapter?: IADXAdapter | MockAdapter;
-    connectionString: string;
+    connection: IADXConnection;
     quickTimeSpanInMillis: number;
     twins: Array<IDataHistoryWidgetTimeSeriesTwin>;
     pollingInterval?: number;
@@ -24,7 +24,7 @@ interface IProp {
 
 export const useTimeSeriesData = ({
     adapter,
-    connectionString,
+    connection,
     quickTimeSpanInMillis,
     twins,
     pollingInterval
@@ -47,12 +47,7 @@ export const useTimeSeriesData = ({
             query: string;
             connection: IADXConnection;
         }) => adapter.getTimeSeriesData(params.query, params.connection),
-        refetchDependencies: [
-            adapter,
-            connectionString,
-            twins,
-            pollingInterval
-        ],
+        refetchDependencies: [adapter, connection, twins, pollingInterval],
         isAdapterCalledOnMount: false,
         isLongPolling: pollingInterval ? true : false,
         pollingIntervalMillis: pollingInterval
@@ -76,14 +71,12 @@ export const useTimeSeriesData = ({
     }, [timeSeriesData?.adapterResult.result]);
 
     useEffect(() => {
-        if (connectionString) {
-            setConnectionToQuery(
-                generateADXConnectionFromString(connectionString)
-            );
+        if (connection) {
+            setConnectionToQuery(connection);
         } else {
             setConnectionToQuery(adapter?.getADXConnectionInformation());
         }
-    }, [connectionString, adapter]);
+    }, [connection, adapter]);
 
     const prevQuery = usePrevious(query);
     useEffect(() => {
@@ -109,14 +102,16 @@ export const useTimeSeriesData = ({
     }, [connectionToQuery, query]);
 
     const fetchData = () => {
-        logDebugConsole(
-            'debug',
-            `[START]: Fetching time series data using query "${query}"`
-        );
-        timeSeriesData.callAdapter({
-            query,
-            connection: connectionToQuery
-        });
+        if (connectionToQuery && query) {
+            logDebugConsole(
+                'debug',
+                `[START]: Fetching time series data using query "${query}"`
+            );
+            timeSeriesData.callAdapter({
+                query,
+                connection: connectionToQuery
+            });
+        }
     };
 
     return useMemo(() => {
@@ -128,25 +123,6 @@ export const useTimeSeriesData = ({
             isLoading: timeSeriesData.isLoading
         };
     }, [query, deeplink, data, fetchData, timeSeriesData.isLoading]);
-};
-
-const generateADXConnectionFromString = (
-    connectionString: string
-): IADXConnection | null => {
-    if (connectionString) {
-        try {
-            const parts = connectionString.split(';');
-            return {
-                kustoClusterUrl: parts[0].split('=')[1],
-                kustoDatabaseName: parts[1].split('=')[1],
-                kustoTableName: parts[2].split('=')[1]
-            };
-        } catch (error) {
-            return null;
-        }
-    } else {
-        return null;
-    }
 };
 
 /** Constructs the bulk query based on the parsed time series twin information from data history widget
@@ -162,9 +138,9 @@ const getBulkADXQueryFromTimeSeriesTwins = (
     try {
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
-            query += `| where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += '| order by TimeStamp asc';
-            query += `| project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
+            query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
+            query += ' | order by TimeStamp asc';
+            query += ` | project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
             if (idx < twins.length - 1) {
                 query += ';';
             }

@@ -6,22 +6,17 @@ import {
     MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS
 } from './HighChartsWrapper.types';
 import { getStyles } from './HighChartsWrapper.styles';
+import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import {
-    classNamesFunction,
-    useTheme,
-    styled,
-    IconButton
-} from '@fluentui/react';
-import Highcharts, {
     AlignValue,
     ColorString,
     DataGroupingApproximationValue,
     OptionsLayoutValue,
     SeriesOptionsType
 } from 'highcharts';
+import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useTranslation } from 'react-i18next';
-import { renderToString } from 'react-dom/server';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -72,7 +67,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             type: 'line', // by default, show series in line chart type
                             color: highChartColor(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
-                                enabled: false // by default, do not mark data points on series, only on hover
+                                enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
                             tooltip: {
                                 ...(sD.tooltipSuffix && {
@@ -118,7 +113,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
         (_hcS, idx) => {
             const isOnOppositeSide =
-                idx >= Math.floor(highChartSeries.length / 2) ? true : false; // by default, put the other half of the y-axes to the opposite side
+                idx > 0 && idx >= Math.floor(highChartSeries.length / 2)
+                    ? true
+                    : false; // by default, put the other half of the y-axes to the opposite side
             return {
                 gridLineWidth: idx > 1 ? 0 : 1,
                 opposite: isOnOppositeSide,
@@ -131,17 +128,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         }
     );
 
-    const deeplinkShareButtonDOMString = renderToString(
-        <IconButton
-            iconProps={{ iconName: 'Share' }}
-            title={t('highcharts.shareQueryTitle')}
-            ariaLabel={t('highcharts.shareQueryTitle')}
-            className={classNames.shareButton}
-        />
-    );
-
     const xAxisStyles = classNames.subComponentStyles.xAxis();
     const legendStyles = classNames.subComponentStyles.legend();
+    const tooltipStyles = classNames.subComponentStyles.tooltip();
     const options: Highcharts.Options = {
         credits: { enabled: false },
         time: {
@@ -150,15 +139,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         accessibility: { enabled: true },
         title: {
             align: chartOptions.titleAlign,
-            useHTML: chartOptions?.titleTargetLink ? true : false,
-            text:
-                chartOptions?.titleTargetLink && title
-                    ? `<div style="display: flex; align-items: center">
-                    <span> ${title} </span> 
-                    <a style="color:inherit" target="_blank" href="${chartOptions?.titleTargetLink}">
-                    ${deeplinkShareButtonDOMString}
-                    </a></div>` // need to hardcode styling here
-                    : title || t('highcharts.noTitle'),
+            text: title,
             style: classNames.subComponentStyles.title().root
         },
         series: highChartSeries,
@@ -215,7 +196,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             loading: t('loading')
         },
         tooltip: {
-            shared: true
+            shared: true,
+            useHTML: true,
+            style: tooltipStyles?.root
         },
         loading: {
             hideDuration: 1000,
@@ -232,7 +215,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         plotOptions: {
             series: {
                 dataGrouping: {
-                    enabled: true // by default, notice that it is not forced considering we may want to see raw data when possible
+                    enabled: true, // by default, notice that it is not forced considering we may want to see raw data when possible
+                    anchor: 'middle'
                 }
             }
         }

@@ -16,6 +16,7 @@ export interface IVisualRule {
     displayName: string;
     conditions: IValueRange[];
     type: IExpressionRangeType;
+    isUnlabeled?: boolean;
 }
 
 /** Reducer types */
@@ -36,6 +37,7 @@ export enum VisualRuleFormActionType {
     FORM_VISUAL_RULE_EXPRESSION_SET = 'FORM_VISUAL_RULE_EXPRESSION_SET',
     FORM_VISUAL_RULE_EXPRESSION_TYPE_SET = 'FORM_VISUAL_RULE_EXPRESSION_TYPE_SET',
     FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET = 'FORM_VISUAL_RULE_VALUE_RANGE_TYPE_SET',
+    RESET_VISUAL_RULE_EXPRESSION_AND_TYPE = 'RESET_VISUAL_RULE_EXPRESSION_AND_TYPE',
     /** Condition actions */
     FORM_CONDITION_ADD_OR_UPDATE = 'FORM_CONDITION_ADD_OR_UPDATE',
     FORM_CONDITION_REMOVE = 'FORM_CONDITION_REMOVE'
@@ -60,6 +62,9 @@ export type VisualRuleFormAction =
           payload: {
               type: IDTDLPropertyType;
           };
+      }
+    | {
+          type: VisualRuleFormActionType.RESET_VISUAL_RULE_EXPRESSION_AND_TYPE;
       }
     // CONDITIONS
     | {

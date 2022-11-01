@@ -14,7 +14,7 @@ import {
 import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
-const classNames = {
+export const classNames = {
     alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
@@ -127,6 +127,7 @@ export const getStyles = memoizeFunction(
 export const getButtonStyles = memoizeFunction(
     (
         itemType: CardboardGroupedListItemType | undefined,
+        isSelected: boolean | undefined,
         theme: Theme,
         customStyles: Partial<IButtonStyles> | undefined
     ): IButtonStyles => {
@@ -142,6 +143,10 @@ export const getButtonStyles = memoizeFunction(
                     padding: '8px 12px',
                     width: '100%',
                     ...(customStyles?.root as IRawStyle)
+                },
+                isSelected && {
+                    backgroundColor:
+                        theme.semanticColors.buttonBackgroundPressed
                 },
                 itemType === 'item' && {
                     paddingLeft: 40

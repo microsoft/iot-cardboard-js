@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
@@ -9,12 +10,14 @@ import {
     IDataHistoryAggregationType,
     IDataHistoryChartYAxisType,
     IDataHistoryWidget,
+    IDTDLPropertyType,
     IExpressionRangeVisual,
     IGaugeWidget,
     ILayer,
     ILinkWidget,
     IPopoverVisual,
     ITwinToObjectMapping,
+    IValueRange,
     IValueWidget,
     IWidget
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -136,6 +139,19 @@ export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
     }
 });
 
+export const getDefaultVisualRuleCondition = (
+    type: IDTDLPropertyType = 'integer',
+    color?: string
+): IValueRange => ({
+    id: createGUID(),
+    values: isNumericType(type) ? [0, 1] : type === 'boolean' ? [true] : [],
+    visual: {
+        color: color,
+        iconName: null,
+        labelExpression: null
+    }
+});
+
 export const getDefaultAlertVisualWithId = () => {
     const uniqueIdDefaultAlertVisual = produce(defaultAlertVisual, (draft) => {
         draft.valueRanges[0].id = createGUID();
@@ -176,7 +192,7 @@ export const defaultDataHistoryWidget: IDataHistoryWidget = {
     id: '',
     type: WidgetType.DataHistory,
     widgetConfiguration: {
-        connectionString: '',
+        connection: null,
         displayName: '',
         timeSeries: [],
         chartOptions: {

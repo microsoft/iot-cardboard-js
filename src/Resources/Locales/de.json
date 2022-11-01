@@ -560,25 +560,38 @@
       "new": "Neue visuelle Regel",
       "edit": "Visuelle Regel bearbeiten",
       "typePlaceholder": "Wählen Sie den Typ für den Wert aus.",
-      "conditionsInfoContent": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Aktion in Bezug auf das Element auslösen.",
       "newCondition": "Neuer Zustand",
       "editCondition": "Bedingung bearbeiten",
       "deleteCondition": "Löschbedingung",
       "unlabeledCondition": "Unbeschriftet",
-      "formSubtext": "Eine Regel enthält Bedingungen und visuelle Hinweise, wenn diese Bedingungen erfüllt sind. Wählen Sie den Datenausdruck für diese Regel aus, und fügen Sie einige Bedingungen hinzu."
+      "addCondition": "Bedingung hinzufügen",
+      "conditionsTitle": "Bedingungen",
+      "colorLabel": "Farbe",
+      "iconLabel": "Ikone",
+      "labelField": "Etikett",
+      "choiceGroupTrue": "STIMMT",
+      "choiceGroupFalse": "FALSE",
+      "flyoutValuesTitle": "Werte",
+      "flyoutValueTitle": "Wert",
+      "badgeOption": "Abzeichen",
+      "formSubTitle": "Wählen Sie den Eigenschaftsausdruck aus, der ausgewertet werden soll, und erstellen Sie dann Bedingungen, die bestimmen, welche visuellen Elemente angezeigt werden.",
+      "conditionsInfoIconText": "Konfigurieren Sie den Bereich oder bestimmte Werte, die eine visuelle Anwendung auf das Element auslösen.",
+      "visualLabel": "Visueller Typ",
+      "rangeErrorMessage": "Ungültiger Bereich.",
+      "elementColoringOption": "Elementfärbung"
     },
     "conditions": "Bedingungen",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Legen Sie Regeln für die Anwendung von Farbe auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
       "noData": "Sie haben noch keine visuellen Regeln konfiguriert",
       "addRuleButtonText": "Regel hinzufügen",
       "editRule": "Regel bearbeiten",
       "removeRule": "Regel entfernen",
-      "singleBadge": "{{badgeCount}}-Abzeichen",
-      "singleMeshColoring": "{{meshColoringCount}} Mesh-Färbung",
       "multipleBadges": "{{badgeCount}} Abzeichen",
-      "multipleMeshColorings": "{{meshColoringCount}} Mesh-Färbungen",
-      "unlabeled": "(unbeschriftet)"
+      "singleBadge": "1 Abzeichen",
+      "tabSubtitle": "Erstellen Sie Regeln für die Anwendung visueller Elemente auf Elemente, die auf Zwillingsdaten basieren.",
+      "singleElementColoring": "1 Element Färbung",
+      "multipleElementColorings": "{{meshColoringCount}}-Elementfärbungen",
+      "unlabeledTag": "Unbeschriftet"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "Zeitreihen hinzufügen",
           "edit": "Zeitreihen bearbeiten",
           "update": "Zeitreihen aktualisieren",
-          "remove": "Zeitreihen entfernen"
+          "remove": "Zeitreihen entfernen",
+          "unitPlaceholder": "z.B. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "Geteilt",
             "independentLabel": "Unabhängig"
           },
-          "quickTimeSpan": {
-            "label": "Standardzeitspanne",
-            "options": {
-              "Last 15 mins": "Letzte 15 Minuten",
-              "Last 30 mins": "Letzte 30 Minuten",
-              "Last hour": "Letzte Stunde",
-              "Last 3 hours": "Letzte 3 Stunden",
-              "Last 6 hours": "Letzte 6 Stunden",
-              "Last 12 hours": "Letzte 12 Stunden",
-              "Last 24 hours": "Letzte 24 Stunden",
-              "Last 7 days": "Letzte 7 Tage",
-              "Last 30 days": "Letzte 30 Tage",
-              "Last 60 days": "Letzte 60 Tage",
-              "Last 90 days": "Letzte 90 Tage",
-              "Last 180 days": "Letzte 180 Tage",
-              "Last year": "Letztes Jahr"
-            },
-            "information": "Standardauswahl des Zeitbereichs in Ortszeit für die x-Achse im Diagramm"
+          "quickTimeRange": {
+            "label": "Standardzeitbereich",
+            "information": "Auswählen eines Standardzeitraums für dieses Diagramm"
           },
-          "aggregationType": {
-            "label": "Aggregationstyp",
-            "information": "Standard-Aggregationsvorgang, wenn die Datengruppierung basierend auf der Anzahl der Datenpunkte im Diagramm aktiv ist"
+          "aggregationMethod": {
+            "label": "Aggregationsmethode",
+            "information": "Wenn zu viele Datenpunkte angezeigt werden müssen, werden die Werte im Diagramm gruppiert. Wählen Sie die Aggregationsmethode für diese Gruppierungen aus."
           }
         }
-      }
+      },
+      "headerMenu": "Menü des Widgets \"Datenverlauf\"",
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "Zusätzliche Spalten auswählen"
   },
   "highcharts": {
-    "noTitle": "Kein Titel",
     "shareQueryTitle": "Freigabeabfrage",
-    "noDataDescription": "Keine Daten anzuzeigen"
-  }
+    "noDataDescription": "Keine Daten anzuzeigen",
+    "noTitle": "Kein Titel"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Geben Sie Werte ein, drücken Sie die Eingabetaste, um"
+  },
+  "to": "An",
+  "quickTimesDropdown": {
+    "label": "Zeitspanne",
+    "placeholder": "Wählen Sie eine schnelle Zeit",
+    "options": {
+      "Last 15 mins": "Letzte 15 Minuten",
+      "Last 30 mins": "Letzte 30 Minuten",
+      "Last hour": "Letzte Stunde",
+      "Last 3 hours": "Letzte 3 Stunden",
+      "Last 6 hours": "Letzte 6 Stunden",
+      "Last 12 hours": "Letzte 12 Stunden",
+      "Last 24 hours": "Letzte 24 Stunden",
+      "Last 7 days": "Letzte 7 Tage",
+      "Last 30 days": "Letzte 30 Tage",
+      "Last 60 days": "Letzte 60 Tage",
+      "Last 90 days": "Letzte 90 Tage",
+      "Last 180 days": "Letzte 180 Tage",
+      "Last year": "Letztes Jahr"
+    }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

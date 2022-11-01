@@ -99,9 +99,9 @@ const getTimeSeriesListItems = (
 
     return series.map((series) => {
         const listItem: ICardboardListItem<IDataHistoryBasicTimeSeries> = {
-            buttonProps: { id: SERIES_LIST_ITEM_ID_PREFIX + series.id },
             ariaLabel: series.label,
             iconStart: { name: 'NumberField' },
+            id: SERIES_LIST_ITEM_ID_PREFIX + series.id,
             item: series,
             onClick: () => onSeriesEditClick(series.id),
             textPrimary: series.label || series.expression,

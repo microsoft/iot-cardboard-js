@@ -1,9 +1,27 @@
-import { classNamesFunction, styled, useTheme } from '@fluentui/react';
-import React, { memo, useContext, useEffect, useMemo, useRef } from 'react';
+import {
+    classNamesFunction,
+    DirectionalHint,
+    Icon,
+    IDropdownOption,
+    styled,
+    useTheme
+} from '@fluentui/react';
+import { usePrevious } from '@fluentui/react-hooks';
+import React, {
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
+    IADXConnection,
     IDataHistoryWidgetTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
@@ -15,6 +33,13 @@ import {
 } from '../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import HighChartsWrapper from '../../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../../HighChartsWrapper/HighChartsWrapper.types';
+import {
+    IOverflowMenuProps,
+    OverflowMenu
+} from '../../../../OverflowMenu/OverflowMenu';
+import QuickTimesDropdown, {
+    getQuickTimeSpanKeyByValue
+} from '../../../../QuickTimesDropdown/QuickTimesDropdown';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
@@ -34,15 +59,29 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 }) => {
     const {
         displayName,
-        connectionString,
+        connection,
         timeSeries,
         chartOptions
     } = widget.widgetConfiguration;
 
     const { adapter, twins, mode } = useContext(BehaviorsModalContext);
     const twinIdPropertyMap = getTwinIdPropertyMap(timeSeries, twins);
-    const isRequestSent = useRef(false);
+    const [
+        selectedQuickTimeSpanInMillis,
+        setSelectedQuickTimeSpanInMillis
+    ] = useState(chartOptions.defaultQuickTimeSpanInMillis);
 
+    const connectionToQuery: IADXConnection = useMemo(
+        () =>
+            connection
+                ? {
+                      kustoClusterUrl: connection.adxClusterUrl,
+                      kustoDatabaseName: connection.adxDatabaseName,
+                      kustoTableName: connection.adxTableName
+                  }
+                : null,
+        [connection]
+    );
     const {
         query,
         deeplink,
@@ -51,37 +90,30 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         isLoading
     } = useTimeSeriesData({
         adapter,
-        connectionString,
-        quickTimeSpanInMillis: chartOptions.defaultQuickTimeSpanInMillis,
+        connection: connectionToQuery,
+        quickTimeSpanInMillis: selectedQuickTimeSpanInMillis,
         twins: twinIdPropertyMap
     });
+
+    const { t } = useTranslation();
 
     const xMinDateInMillisRef = useRef<number>(null);
     const xMaxDateInMillisRef = useRef<number>(null);
 
+    const updateXMinAndMax = useCallback(() => {
+        const nowInMillis = Date.now();
+        xMinDateInMillisRef.current =
+            nowInMillis - selectedQuickTimeSpanInMillis;
+        xMaxDateInMillisRef.current = nowInMillis;
+    }, [selectedQuickTimeSpanInMillis]);
+
+    const prevQuery = usePrevious(query);
     useEffect(() => {
-        if (
-            mode === BehaviorModalMode.viewer &&
-            query &&
-            (adapter || connectionString) &&
-            !isRequestSent.current &&
-            twinIdPropertyMap
-        ) {
+        if (mode === BehaviorModalMode.viewer && query !== prevQuery) {
             fetchTimeSeriesData();
-            isRequestSent.current = true;
-            const nowInMillis = Date.now();
-            xMinDateInMillisRef.current =
-                nowInMillis - chartOptions.defaultQuickTimeSpanInMillis;
-            xMaxDateInMillisRef.current = nowInMillis;
+            updateXMinAndMax();
         }
-    }, [
-        adapter,
-        query,
-        connectionString,
-        twinIdPropertyMap,
-        chartOptions,
-        mode
-    ]);
+    }, [query, mode]);
 
     const placeholderTimeSeriesData: Array<
         Array<TimeSeriesData>
@@ -110,26 +142,102 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
     );
 
     const classNames = getClassNames(styles, { theme: useTheme() });
-    return (
-        <div className={classNames.root}>
-            <HighChartsWrapper
-                title={displayName}
-                seriesData={highChartSeriesData}
-                isLoading={isLoading}
-                chartOptions={{
-                    titleAlign: 'left',
-                    titleTargetLink:
-                        mode === BehaviorModalMode.viewer
-                            ? deeplink
-                            : undefined,
-                    legendLayout: 'vertical',
-                    legendPadding: 0,
-                    hasMultipleAxes: chartOptions.yAxisType === 'independent',
-                    dataGrouping: chartOptions.aggregationType,
-                    xMinInMillis: xMinDateInMillisRef.current,
-                    xMaxInMillis: xMaxDateInMillisRef.current
+
+    const onRenderTitleOfQuickTimePickerItem = (
+        options: IDropdownOption[]
+    ): JSX.Element => {
+        const option = options[0];
+        return (
+            option.data && (
+                <Icon
+                    style={
+                        classNames.subComponentStyles?.quickTimePicker?.()
+                            .menuItemIcon
+                    }
+                    iconName="DateTime"
+                />
+            )
+        );
+    };
+
+    const onRenderCaretDown = (): JSX.Element => {
+        return;
+    };
+
+    const renderQuickTimePickerItem = (): React.ReactNode => {
+        return (
+            <QuickTimesDropdown
+                styles={{
+                    root: classNames.subComponentStyles?.quickTimePicker?.()
+                        .dropdown
+                }}
+                hasLabel={false}
+                defaultSelectedKey={getQuickTimeSpanKeyByValue(
+                    selectedQuickTimeSpanInMillis
+                )}
+                onChange={(_env, option) => {
+                    setSelectedQuickTimeSpanInMillis(option.data);
+                }}
+                onRenderTitle={onRenderTitleOfQuickTimePickerItem}
+                onRenderCaretDown={onRenderCaretDown}
+                calloutProps={{
+                    calloutWidth: classNames.subComponentStyles?.quickTimePicker?.()
+                        .calloutWidth
                 }}
             />
+        );
+    };
+
+    const menuProps: IOverflowMenuProps = {
+        ariaLabel: t('widgets.dataHistory.headerMenu'),
+        index: 0,
+        menuKey: `${widget.id}-overflow-menu`,
+        menuProps: {
+            directionalHint: DirectionalHint.bottomRightEdge,
+            items: [
+                {
+                    key: 'open-link',
+                    text: t('widgets.dataHistory.openQuery'),
+                    onClick: () => {
+                        window.open(deeplink, '_blank');
+                    },
+                    iconProps: { iconName: 'OpenInNewWindow' },
+                    className: classNames.menuItem
+                }
+            ],
+            className: classNames.menu
+        },
+        className: classNames.menuButton
+    };
+
+    return (
+        <div className={classNames.root}>
+            <div className={classNames.header}>
+                <span className={classNames.title}>{displayName}</span>
+                {mode === BehaviorModalMode.viewer && (
+                    <>
+                        {renderQuickTimePickerItem()}
+                        <OverflowMenu {...menuProps} />
+                    </>
+                )}
+            </div>
+
+            <div className={classNames.chartContainer}>
+                <HighChartsWrapper
+                    seriesData={highChartSeriesData}
+                    isLoading={isLoading}
+                    chartOptions={{
+                        titleAlign: 'left',
+                        legendLayout: 'vertical',
+                        legendPadding: 0,
+                        hasMultipleAxes:
+                            chartOptions.yAxisType === 'independent',
+                        dataGrouping: chartOptions.aggregationType,
+                        xMinInMillis: xMinDateInMillisRef.current,
+                        xMaxInMillis: xMaxDateInMillisRef.current
+                    }}
+                />
+            </div>
         </div>
     );
 };

@@ -14,6 +14,7 @@ import {
 import React, {
     useCallback,
     useContext,
+    useEffect,
     useMemo,
     useReducer,
     useRef,
@@ -31,6 +32,7 @@ import {
 import ModelledPropertyBuilder from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder';
 import {
     ModelledPropertyBuilderMode,
+    numericPropertyValueTypes,
     PropertyExpression
 } from '../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
@@ -57,6 +59,7 @@ import {
     IVisualRuleFormStyles,
     IVisualRuleFormStylesProps
 } from './VisualRuleForm.types';
+import { isNumericType } from './VisualRuleFormUtility';
 
 const getClassNames = classNamesFunction<
     IVisualRuleFormStylesProps,
@@ -112,6 +115,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     }, []);
 
     // Refs
+    const ignorePropertyChangeOnMount = useRef(true);
     // This combination of init function and useRef should replace a useEffect that runs onMount
     const getInitialVisualRule = (): IExpressionRangeVisual => {
         if (visualRuleId) {
@@ -152,6 +156,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                     initialVisualRule.current.valueExpression.length > 0
                         ? true
                         : false
+            },
+            {
+                key: 'conditions',
+                defaultValidityState:
+                    initialVisualRule.current.valueRanges &&
+                    initialVisualRule.current.valueRanges.length > 0
+                        ? true
+                        : false
             }
         ];
         return createValidityMap(fieldsToValidate);
@@ -186,6 +198,24 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         adapter,
         state: { selectedElements, selectedBehavior }
     } = useContext(SceneBuilderContext);
+
+    // Side-effects
+    useEffect(() => {
+        if (
+            visualRuleFormState.visualRuleToEdit.valueRanges &&
+            visualRuleFormState.visualRuleToEdit.valueRanges.length >= 1
+        ) {
+            setValidityMap((validityMap) => {
+                validityMap.set('conditions', { isValid: true });
+                return validityMap;
+            });
+        } else {
+            setValidityMap((validityMap) => {
+                validityMap.set('conditions', { isValid: false });
+                return validityMap;
+            });
+        }
+    }, [visualRuleFormState.visualRuleToEdit.valueRanges]);
 
     // Callbacks
     const onDisplayNameChange = useCallback(
@@ -222,37 +252,77 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         []
     );
 
-    const onInternalModeChanged = useCallback((internalMode) => {
-        if (internalMode === 'INTELLISENSE') {
-            visualRuleFormDispatch({
-                type:
-                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
-                payload: { type: 'CategoricalValues' }
-            });
-            handleExpressionTextFieldEnabled(true);
-        } else {
-            visualRuleFormDispatch({
-                type:
-                    VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
-                payload: { type: 'NumericRange' }
-            });
-            handleExpressionTextFieldEnabled(false);
-        }
-    }, []);
+    const onInternalModeChanged = useCallback(
+        (internalMode) => {
+            if (internalMode === 'INTELLISENSE') {
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                    payload: { type: 'CategoricalValues' }
+                });
+                handleExpressionTextFieldEnabled(true);
+            } else {
+                // Check for property type not being numeric, reset property selection
+                // exclude this from internal mode changed triggered on mount of component
+                if (
+                    !isNumericType(
+                        visualRuleFormState.visualRuleToEdit.valueRangeType
+                    ) &&
+                    !ignorePropertyChangeOnMount.current
+                ) {
+                    visualRuleFormDispatch({
+                        type:
+                            VisualRuleFormActionType.RESET_VISUAL_RULE_EXPRESSION_AND_TYPE
+                    });
+                }
+
+                visualRuleFormDispatch({
+                    type:
+                        VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_TYPE_SET,
+                    payload: { type: 'NumericRange' }
+                });
+                handleExpressionTextFieldEnabled(false);
+            }
+            // Once this was triggered on mount allow reset when mode changes from advanced -> simple
+            ignorePropertyChangeOnMount.current = false;
+        },
+        [
+            handleExpressionTextFieldEnabled,
+            visualRuleFormState.visualRuleToEdit.valueRangeType
+        ]
+    );
 
     const handleSaveClick = useCallback(() => {
         onSaveClick(visualRuleFormState.visualRuleToEdit);
-    }, [visualRuleFormState.visualRuleToEdit]);
+    }, [visualRuleFormState.visualRuleToEdit, onSaveClick]);
 
     const handleCancelClick = useCallback(() => {
         onCancelClick(visualRuleFormState.isDirty);
-    }, [visualRuleFormState.isDirty]);
+    }, [visualRuleFormState.isDirty, onCancelClick]);
 
     const handleDeleteCondition = useCallback(
         (conditionId: string) => {
             visualRuleFormDispatch({
                 type: VisualRuleFormActionType.FORM_CONDITION_REMOVE,
                 payload: { conditionId: conditionId }
+            });
+        },
+        [visualRuleFormDispatch]
+    );
+
+    const handleSaveCondition = useCallback(
+        (condition: IValueRange) => {
+            visualRuleFormDispatch({
+                type: VisualRuleFormActionType.FORM_CONDITION_ADD_OR_UPDATE,
+                payload: {
+                    condition: {
+                        ...condition,
+                        visual: {
+                            ...condition.visual,
+                            labelExpression: condition.visual.labelExpression.trim()
+                        }
+                    }
+                }
             });
         },
         [visualRuleFormDispatch]
@@ -280,7 +350,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
                         <div className={classNames.descriptionContainer}>
-                            {t('3dSceneBuilder.visualRuleForm.formSubtext')}
+                            {t('3dSceneBuilder.visualRuleForm.formSubtitle')}
                         </div>
                         <TextField
                             label={t('displayName')}
@@ -308,6 +378,9 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             }}
                             onChange={onPropertyChange}
                             onInternalModeChanged={onInternalModeChanged}
+                            allowedPropertyValueTypes={
+                                numericPropertyValueTypes
+                            }
                             required
                         />
                         {isExpressionTextFieldEnabled && (
@@ -342,10 +415,10 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         <TooltipCallout
                             content={{
                                 buttonAriaLabel: t(
-                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoIconText'
                                 ),
                                 calloutContent: t(
-                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoIconText'
                                 )
                             }}
                             styles={
@@ -357,10 +430,14 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         valueRanges={
                             visualRuleFormState.visualRuleToEdit.valueRanges
                         }
+                        valueRangeType={
+                            visualRuleFormState.visualRuleToEdit.valueRangeType
+                        }
                         expressionType={
                             visualRuleFormState.visualRuleToEdit.expressionType
                         }
                         onDeleteCondition={handleDeleteCondition}
+                        onSaveCondition={handleSaveCondition}
                         styles={classNames.subComponentStyles.conditionsList}
                     />
                 </div>

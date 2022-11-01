@@ -560,25 +560,38 @@
       "new": "新的视觉对象规则",
       "edit": "编辑视觉对象规则",
       "typePlaceholder": "选择值的类型",
-      "conditionsInfoContent": "配置触发与元素相关的可视操作的范围或特定值。",
       "newCondition": "新品条件",
       "editCondition": "编辑条件",
       "deleteCondition": "删除条件",
       "unlabeledCondition": "未标记",
-      "formSubtext": "规则包含条件和满足这些条件时的视觉提示。选择此规则的数据表达式并添加一些条件。"
+      "addCondition": "添加条件",
+      "conditionsTitle": "条件",
+      "colorLabel": "颜色",
+      "iconLabel": "图标",
+      "labelField": "标签",
+      "choiceGroupTrue": "真",
+      "choiceGroupFalse": "假",
+      "flyoutValuesTitle": "值",
+      "flyoutValueTitle": "价值",
+      "badgeOption": "徽章",
+      "formSubTitle": "选择要计算的属性表达式，然后创建条件来确定显示哪些视觉对象。",
+      "conditionsInfoIconText": "配置触发应用于元素的视觉对象的范围或特定值。",
+      "visualLabel": "视觉对象类型",
+      "rangeErrorMessage": "范围无效。",
+      "elementColoringOption": "元素着色"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
-      "tabDescription": "设置将颜色应用于特定条件的规则，例如，红色表示高温，或绿色表示最佳速度。",
       "noData": "您尚未配置任何可视规则",
       "addRuleButtonText": "添加规则",
       "editRule": "编辑规则",
       "removeRule": "删除规则",
-      "singleBadge": "{{徽章计数}} 徽章",
-      "singleMeshColoring": "{{网格着色计数}} 网格着色",
       "multipleBadges": "{{徽章计数}} 徽章",
-      "multipleMeshColorings": "{{网格着色计数}} 网格着色",
-      "unlabeled": "（未标记）"
+      "singleBadge": "1 个徽章",
+      "tabSubtitle": "创建用于基于孪生数据将视觉对象应用于元素的规则。",
+      "singleElementColoring": "1 元素着色",
+      "multipleElementColorings": "{{网格着色计数}} 元素着色",
+      "unlabeledTag": "未标记"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "添加时间序列",
           "edit": "编辑时间序列",
           "update": "更新时间序列",
-          "remove": "删除时间序列"
+          "remove": "删除时间序列",
+          "unitPlaceholder": "例如 米， 平方米， 公斤， 秒， °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "共享",
             "independentLabel": "独立"
           },
-          "quickTimeSpan": {
-            "label": "默认时间跨度",
-            "options": {
-              "Last 15 mins": "最近 15 分钟",
-              "Last 30 mins": "最近 30 分钟",
-              "Last hour": "最后一小时",
-              "Last 3 hours": "最近 3 小时",
-              "Last 6 hours": "最近 6 小时",
-              "Last 12 hours": "最近 12 小时",
-              "Last 24 hours": "最近 24 小时",
-              "Last 7 days": "最近 7 天",
-              "Last 30 days": "最近 30 天",
-              "Last 60 days": "最近 60 天",
-              "Last 90 days": "最近 90 天",
-              "Last 180 days": "最近 180 天",
-              "Last year": "去年"
-            },
-            "information": "图表中 x 轴的默认时间范围选择（以本地时间为单位）"
+          "quickTimeRange": {
+            "label": "默认时间范围",
+            "information": "选择此图表的默认时间范围"
           },
-          "aggregationType": {
-            "label": "聚合类型",
-            "information": "基于图表中数据点数的数据分组处于活动状态时的默认聚合操作"
+          "aggregationMethod": {
+            "label": "聚合方式",
+            "information": "当要显示的数据点过多时，值将在图表中分组。为这些分组选择聚合方法。"
           }
         }
-      }
+      },
+      "headerMenu": "“数据历史记录”小组件菜单",
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "选择其他列"
   },
   "highcharts": {
-    "noTitle": "无标题",
     "shareQueryTitle": "共享查询",
-    "noDataDescription": "无要显示的数据"
-  }
+    "noDataDescription": "无要显示的数据",
+    "noTitle": "无标题"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "键入值，按回车键添加"
+  },
+  "to": "自",
+  "quickTimesDropdown": {
+    "label": "时间跨度",
+    "placeholder": "选择快速时间",
+    "options": {
+      "Last 15 mins": "最后 15 分钟",
+      "Last 30 mins": "最后 30 分钟",
+      "Last hour": "最后一小时",
+      "Last 3 hours": "最近 3 小时",
+      "Last 6 hours": "最近 6 小时",
+      "Last 12 hours": "最近 12 小时",
+      "Last 24 hours": "最近 24 小时",
+      "Last 7 days": "最近 7 天",
+      "Last 30 days": "最近 30 天",
+      "Last 60 days": "最近 60 天",
+      "Last 90 days": "最近 90 天",
+      "Last 180 days": "最近 180 天",
+      "Last year": "去年"
+    }
+  },
+  "minLower": "最小",
+  "maxLower": ".max"
 }

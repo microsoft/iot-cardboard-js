@@ -560,25 +560,38 @@
       "new": "Nové vizuální pravidlo",
       "edit": "Upravit vizuální pravidlo",
       "typePlaceholder": "Vyberte typ hodnoty",
-      "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku.",
       "newCondition": "Nový stav",
       "editCondition": "Upravit podmínku",
       "deleteCondition": "Odstranit podmínku",
       "unlabeledCondition": "Neoznačené",
-      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek."
+      "addCondition": "Přidat podmínku",
+      "conditionsTitle": "Podmínky",
+      "colorLabel": "Barva",
+      "iconLabel": "Ikona",
+      "labelField": "Označit",
+      "choiceGroupTrue": "Pravdivý",
+      "choiceGroupFalse": "Falešný",
+      "flyoutValuesTitle": "Hodnoty",
+      "flyoutValueTitle": "Hodnota",
+      "badgeOption": "Odznak",
+      "formSubTitle": "Vyberte výraz vlastnosti, který bude vyhodnocen, a pak vytvořte podmínky, které určují, které vizuály se zobrazí.",
+      "conditionsInfoIconText": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které aktivují vizuál aplikovaný na prvek.",
+      "visualLabel": "Vizuální typ",
+      "rangeErrorMessage": "Neplatný rozsah.",
+      "elementColoringOption": "Zbarvení prvků"
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
       "removeRule": "Odebrat pravidlo",
-      "singleBadge": "Odznak {{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} zbarvení sítě",
       "multipleBadges": "{{badgeCount}} odznaky",
-      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
-      "unlabeled": "(neoznačeno)"
+      "singleBadge": "1 odznak",
+      "tabSubtitle": "Vytvořte pravidla pro použití vizuálů na prvky založené na datech dvojčat.",
+      "singleElementColoring": "1 prvek zbarvení",
+      "multipleElementColorings": "{{meshColoringCount}} zbarvení elementů",
+      "unlabeledTag": "Neoznačené"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
           "update": "Aktualizace časových řad",
-          "remove": "Odebrání časových řad"
+          "remove": "Odebrání časových řad",
+          "unitPlaceholder": "např. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "Společný",
             "independentLabel": "Nezávislý"
           },
-          "quickTimeSpan": {
-            "label": "Výchozí časové rozpětí",
-            "options": {
-              "Last 15 mins": "Posledních 15 minut",
-              "Last 30 mins": "Posledních 30 minut",
-              "Last hour": "Poslední hodina",
-              "Last 3 hours": "Poslední 3 hodiny",
-              "Last 6 hours": "Posledních 6 hodin",
-              "Last 12 hours": "Posledních 12 hodin",
-              "Last 24 hours": "Posledních 24 hodin",
-              "Last 7 days": "Posledních 7 dní",
-              "Last 30 days": "Posledních 30 dní",
-              "Last 60 days": "Posledních 60 dní",
-              "Last 90 days": "Posledních 90 dní",
-              "Last 180 days": "Posledních 180 dní",
-              "Last year": "Loni"
-            },
-            "information": "Výchozí výběr časového rozsahu v místním čase pro osu x v grafu"
+          "quickTimeRange": {
+            "label": "Výchozí časový rozsah",
+            "information": "Výběr výchozího časového rozsahu pro tento graf"
           },
-          "aggregationType": {
-            "label": "Typ agregace",
-            "information": "Výchozí operace agregace, když je aktivní seskupování dat na základě počtu datových bodů v grafu"
+          "aggregationMethod": {
+            "label": "Agregační metoda",
+            "information": "Pokud je k dispozici příliš mnoho datových bodů k zobrazení, budou hodnoty seskupeny v grafu. Zvolte metodu agregace pro tato seskupení."
           }
         }
-      }
+      },
+      "headerMenu": "Nabídka widgetu Historie dat",
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "Výběr dalších sloupců"
   },
   "highcharts": {
-    "noTitle": "Bez názvu",
     "shareQueryTitle": "Sdílet dotaz",
-    "noDataDescription": "Žádná data k zobrazení"
-  }
+    "noDataDescription": "Žádná data k zobrazení",
+    "noTitle": "Bez názvu"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Zadejte hodnoty, stisknutím klávesy Enter přidejte"
+  },
+  "to": "k",
+  "quickTimesDropdown": {
+    "label": "Časové rozpětí",
+    "placeholder": "Výběr rychlého času",
+    "options": {
+      "Last 15 mins": "Posledních 15 minut",
+      "Last 30 mins": "Posledních 30 minut",
+      "Last hour": "Poslední hodina",
+      "Last 3 hours": "Poslední 3 hodiny",
+      "Last 6 hours": "Posledních 6 hodin",
+      "Last 12 hours": "Posledních 12 hodin",
+      "Last 24 hours": "Posledních 24 hodin",
+      "Last 7 days": "Posledních 7 dní",
+      "Last 30 days": "Posledních 30 dní",
+      "Last 60 days": "Posledních 60 dní",
+      "Last 90 days": "Posledních 90 dní",
+      "Last 180 days": "Posledních 180 dní",
+      "Last year": "Loni"
+    }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

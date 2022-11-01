@@ -1,24 +1,11 @@
 import * as BABYLON from '@babylonjs/core/Legacy/legacy';
 import React from 'react';
+import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
 import {
-    IADTTwin,
-    ADTModel_ViewData_PropertyName,
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
     ADTModel_InBIM_RelationshipName,
-    ComponentErrorType,
-    DTwin,
-    IConsoleLogFunction,
-    DurationUnits,
-    AzureResourceDisplayFields,
-    IAzureResource,
-    AzureAccessPermissionRoles,
-    AzureAccessPermissionRoleGroups,
-    AzureResourceTypes,
-    TimeSeriesData
-} from '../Constants';
-import { DtdlInterface, DtdlProperty } from '../Constants/dtdlInterfaces';
-import {
+    ADTModel_ViewData_PropertyName,
     CharacterWidths,
     CONNECTION_STRING_SUFFIX
 } from '../Constants/Constants';
@@ -36,6 +23,19 @@ import { createParser, ModelParsingOption } from 'azure-iot-dtdl-parser';
 import { isConstant, toConstant } from 'constantinople';
 import { v4 } from 'uuid';
 import TreeMap from 'ts-treemap';
+import {
+    AzureAccessPermissionRoles,
+    AzureResourceDisplayFields,
+    AzureResourceTypes,
+    ComponentErrorType
+} from '../Constants/Enums';
+import { DTwin, IADTTwin, IAzureResource } from '../Constants/Interfaces';
+import {
+    AzureAccessPermissionRoleGroups,
+    DurationUnits,
+    IConsoleLogFunction,
+    TimeSeriesData
+} from '../Constants/Types';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -811,12 +811,13 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
 ): Array<Array<TimeSeriesData>> => {
     const toInMillis = Date.now();
     const fromInMillis = toInMillis - agoInMillis;
-    return Array.from({ length: lengthOfSeries }).map(() =>
-        Array.from({ length: numberOfDataPoints }, () => ({
+    return Array.from({ length: lengthOfSeries }).map(() => {
+        const maxLimitVariance = Math.floor(Math.random() * 500); // pick a max value between 0-500 as this timeseries value range to add more variance for values of different timeseries in independent y axes
+        return Array.from({ length: numberOfDataPoints }, () => ({
             timestamp: Math.floor(
                 Math.random() * (toInMillis - fromInMillis + 1) + fromInMillis
             ),
-            value: Math.floor(Math.random() * 500)
-        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number))
-    );
+            value: Math.floor(Math.random() * maxLimitVariance)
+        })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
+    });
 };

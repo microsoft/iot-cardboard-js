@@ -560,25 +560,38 @@
       "new": "Új vizualizációs szabály",
       "edit": "Vizuális szabály szerkesztése",
       "typePlaceholder": "Válassza ki az érték típusát",
-      "conditionsInfoContent": "Konfigurálja azokat a tartományokat vagy értékeket, amelyek az elemhez kapcsolódó vizuális műveletet indítanak el.",
       "newCondition": "Új feltétel",
       "editCondition": "Állapot szerkesztése",
       "deleteCondition": "Feltétel törlése",
       "unlabeledCondition": "Címkézetlen",
-      "formSubtext": "A szabály feltételeket és vizuális jelzéseket tartalmaz, ha ezek a feltételek teljesülnek. Válassza ki a szabály adatkifejezését, és adjon hozzá néhány feltételt."
+      "addCondition": "Feltétel hozzáadása",
+      "conditionsTitle": "Feltételek",
+      "colorLabel": "Szín",
+      "iconLabel": "Ikon",
+      "labelField": "Címke",
+      "choiceGroupTrue": "Igaz",
+      "choiceGroupFalse": "Téves",
+      "flyoutValuesTitle": "Értékrend",
+      "flyoutValueTitle": "Érték",
+      "badgeOption": "Jelvény",
+      "formSubTitle": "Válassza ki a kiértékelni kívánt tulajdonságkifejezést, majd hozzon létre olyan feltételeket, amelyek meghatározzák, hogy mely vizualizációk jelenjenek meg.",
+      "conditionsInfoIconText": "Konfigurálja az elemre alkalmazott vizualizációt kiváltó tartományt vagy értékeket.",
+      "visualLabel": "Vizualizáció típusa",
+      "rangeErrorMessage": "Érvénytelen tartomány.",
+      "elementColoringOption": "Elem színezése"
     },
     "conditions": "Feltételek",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Állítson be szabályokat a színek bizonyos körülményekre való alkalmazásához – például pirosat a magas hőmérsékletek jelzésére, vagy zöldet az optimális sebességhez.",
       "noData": "Még nem konfigurált vizuális szabályokat",
       "addRuleButtonText": "Szabály hozzáadása",
       "editRule": "Szerkesztési szabály",
       "removeRule": "Szabály eltávolítása",
-      "singleBadge": "{{badgeCount}} jelvény",
-      "singleMeshColoring": "{{meshColoringCount}} háló színezése",
       "multipleBadges": "{{badgeCount}} jelvények",
-      "multipleMeshColorings": "{{meshColoringCount}} hálószínezés",
-      "unlabeled": "(címkézetlen)"
+      "singleBadge": "1 jelvény",
+      "tabSubtitle": "Hozzon létre szabályokat a vizualizációk elemekre való alkalmazásához ikeradatok alapján.",
+      "singleElementColoring": "1 elem színezése",
+      "multipleElementColorings": "{{meshColoringCount}} elem színezése",
+      "unlabeledTag": "Címkézetlen"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "Idősorok hozzáadása",
           "edit": "Idősorok szerkesztése",
           "update": "Idősorok frissítése",
-          "remove": "Idősorok eltávolítása"
+          "remove": "Idősorok eltávolítása",
+          "unitPlaceholder": "pl. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "Megosztott",
             "independentLabel": "Független"
           },
-          "quickTimeSpan": {
-            "label": "Alapértelmezett időtartam",
-            "options": {
-              "Last 15 mins": "Utolsó 15 perc",
-              "Last 30 mins": "Utolsó 30 perc",
-              "Last hour": "Utolsó óra",
-              "Last 3 hours": "Utolsó 3 óra",
-              "Last 6 hours": "Utolsó 6 óra",
-              "Last 12 hours": "Az elmúlt 12 óra",
-              "Last 24 hours": "Az elmúlt 24 óra",
-              "Last 7 days": "Utolsó 7 nap",
-              "Last 30 days": "Az elmúlt 30 napban",
-              "Last 60 days": "Az elmúlt 60 napban",
-              "Last 90 days": "Az elmúlt 90 napban",
-              "Last 180 days": "Az elmúlt 180 napban",
-              "Last year": "Tavaly"
-            },
-            "information": "Alapértelmezett időtartomány kiválasztása helyi időben az x tengelyhez a diagramon"
+          "quickTimeRange": {
+            "label": "Alapértelmezett időtartomány",
+            "information": "A diagram alapértelmezett időtartományának kiválasztása"
           },
-          "aggregationType": {
-            "label": "Összesítés típusa",
-            "information": "Alapértelmezett összesítési művelet, ha az adatcsoportosítás aktív a diagram adatpontjainak száma alapján"
+          "aggregationMethod": {
+            "label": "Aggregációs módszer",
+            "information": "Ha túl sok adatpont jelenik meg, az értékek csoportosítva lesznek a diagramon. Válassza ki a csoportosítások összesítési módszerét."
           }
         }
-      }
+      },
+      "headerMenu": "Adatelőzmények widget menü",
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "További oszlopok kijelölése"
   },
   "highcharts": {
-    "noTitle": "Nincs cím",
     "shareQueryTitle": "Lekérdezés megosztása",
-    "noDataDescription": "Nincs megjelenítendő adat"
-  }
+    "noDataDescription": "Nincs megjelenítendő adat",
+    "noTitle": "Nincs cím"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Írja be az értékeket, nyomja meg az Enter billentyűt a hozzáadáshoz"
+  },
+  "to": "hoz",
+  "quickTimesDropdown": {
+    "label": "Időtartam",
+    "placeholder": "Válasszon ki egy gyors időpontot",
+    "options": {
+      "Last 15 mins": "Utolsó 15 perc",
+      "Last 30 mins": "Utolsó 30 perc",
+      "Last hour": "Utolsó óra",
+      "Last 3 hours": "Utolsó 3 óra",
+      "Last 6 hours": "Utolsó 6 óra",
+      "Last 12 hours": "Az elmúlt 12 óra",
+      "Last 24 hours": "Az elmúlt 24 óra",
+      "Last 7 days": "Utolsó 7 nap",
+      "Last 30 days": "Az elmúlt 30 napban",
+      "Last 60 days": "Az elmúlt 60 napban",
+      "Last 90 days": "Az elmúlt 90 napban",
+      "Last 180 days": "Az elmúlt 180 napban",
+      "Last year": "Tavaly"
+    }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

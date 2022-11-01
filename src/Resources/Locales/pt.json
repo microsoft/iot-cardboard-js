@@ -560,25 +560,38 @@
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
       "typePlaceholder": "Selecione o tipo para o valor",
-      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
       "newCondition": "Nova condição",
       "editCondition": "Condição de edição",
       "deleteCondition": "Exclua a condição",
       "unlabeledCondition": "Unlabeled",
-      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições."
+      "addCondition": "Adicionar condição",
+      "conditionsTitle": "Condições",
+      "colorLabel": "Cor",
+      "iconLabel": "Ícone",
+      "labelField": "Etiqueta",
+      "choiceGroupTrue": "Verdadeiro",
+      "choiceGroupFalse": "Falso",
+      "flyoutValuesTitle": "Valores",
+      "flyoutValueTitle": "Valor",
+      "badgeOption": "Distintivo",
+      "formSubTitle": "Escolha a expressão da propriedade que será avaliada e crie condições que determinem quais visuais são mostrados.",
+      "conditionsInfoIconText": "Configure o intervalo ou valores específicos que acionam um visual aplicado ao elemento.",
+      "visualLabel": "Tipo visual",
+      "rangeErrorMessage": "Alcance inválido.",
+      "elementColoringOption": "Coloração de elementos"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
       "removeRule": "Remover regra",
-      "singleBadge": "{{badgeCount}}",
-      "singleMeshColoring": "{{meshColoringCount}} coloração de malha",
       "multipleBadges": "{{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
-      "unlabeled": "(sem rótulo)"
+      "singleBadge": "1 crachá",
+      "tabSubtitle": "Crie regras para aplicar visuais a elementos baseados em dados gêmeos.",
+      "singleElementColoring": "1 elemento de coloração",
+      "multipleElementColorings": "{{meshColoringCount}} coloração de elementos",
+      "unlabeledTag": "Unlabeled"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "update": "Atualizar séries temporizes",
-          "remove": "Remover séries temporizados"
+          "remove": "Remover séries temporizados",
+          "unitPlaceholder": "por exemplo, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "Compartilhado",
             "independentLabel": "Independente"
           },
-          "quickTimeSpan": {
-            "label": "Período de tempo padrão",
-            "options": {
-              "Last 15 mins": "Últimos 15 minutos",
-              "Last 30 mins": "Últimos 30 minutos",
-              "Last hour": "Última hora",
-              "Last 3 hours": "Últimas 3 horas.",
-              "Last 6 hours": "Últimas 6 horas",
-              "Last 12 hours": "Últimas 12 horas",
-              "Last 24 hours": "Últimas 24 horas",
-              "Last 7 days": "Últimos 7 dias",
-              "Last 30 days": "Últimos 30 dias.",
-              "Last 60 days": "Últimos 60 dias",
-              "Last 90 days": "Últimos 90 dias",
-              "Last 180 days": "Últimos 180 dias",
-              "Last year": "Ano passado"
-            },
-            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
+          "quickTimeRange": {
+            "label": "Faixa de tempo padrão",
+            "information": "Escolha um intervalo de tempo padrão para este gráfico"
           },
-          "aggregationType": {
-            "label": "Tipo de agregação",
-            "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
+          "aggregationMethod": {
+            "label": "Método de agregação",
+            "information": "Quando houver muitos pontos de dados para exibir, os valores serão agrupados no gráfico. Escolha o método de agregação desses agrupamentos."
           }
         }
-      }
+      },
+      "headerMenu": "Menu de widget do histórico de dados",
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "Selecione colunas adicionais"
   },
   "highcharts": {
-    "noTitle": "Sem título",
     "shareQueryTitle": "Consulta de compartilhamento",
-    "noDataDescription": "Sem dados para exibir"
-  }
+    "noDataDescription": "Sem dados para exibir",
+    "noTitle": "Sem título"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Digite valores, pressione enter para adicionar"
+  },
+  "to": "Para",
+  "quickTimesDropdown": {
+    "label": "Período de tempo",
+    "placeholder": "Selecione um tempo rápido",
+    "options": {
+      "Last 15 mins": "Últimos 15 minutos",
+      "Last 30 mins": "Últimos 30 minutos",
+      "Last hour": "Última hora",
+      "Last 3 hours": "Últimas 3 horas.",
+      "Last 6 hours": "Últimas 6 horas",
+      "Last 12 hours": "Últimas 12 horas",
+      "Last 24 hours": "Últimas 24 horas",
+      "Last 7 days": "Últimos 7 dias",
+      "Last 30 days": "Últimos 30 dias.",
+      "Last 60 days": "Últimos 60 dias",
+      "Last 90 days": "Últimos 90 dias",
+      "Last 180 days": "Últimos 180 dias",
+      "Last year": "Ano passado"
+    }
+  },
+  "minLower": "Min",
+  "maxLower": ".max"
 }

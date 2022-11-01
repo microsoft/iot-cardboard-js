@@ -175,7 +175,11 @@
                                 "groupID": "8bf489e804884596afe8abb7e803d5c5",
                                 "id": "b2cf0aa2415f4e029f27f957fb559db3",
                                 "widgetConfiguration": {
-                                    "connectionString": "kustoClusterUrl=https://mockKustoClusterName.westus2.kusto.windows.net;kustoDatabaseName=mockKustoDatabaseName;kustoTableName=mockKustoTableName",
+                                    "connection": {
+                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
+                                        "adxDatabaseName": "mockKustoDatabaseName",
+                                        "adxTableName": "mockKustoTableName"
+                                    },
                                     "displayName": "Temperature and InFlow Data History",
                                     "timeSeries": [
                                         {
@@ -244,6 +248,17 @@
                                 ],
                                 "visual": {
                                     "color": "#FF0000"
+                                }
+                            },
+                            {
+                                "id": "0278cd377adbc30253b0fdb6b5fc3123",
+                                "values": [
+                                    21,
+                                    29
+                                ],
+                                "visual": {
+                                    "color": "#FF0000",
+                                    "iconName": "heart"
                                 }
                             }
                         ],

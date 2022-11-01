@@ -252,12 +252,20 @@ export interface IDataHistoryWidget {
  */
 export interface IDataHistoryWidgetConfiguration {
     /**
-     * Timeseries database connection string in key1=value1;key2=value2;key3=value3 format that is used for the connection of a data history widget
+     * Database connection information of timeseries data
      */
-    connectionString: string;
+    connection: IADXTimeSeriesConnection;
     displayName: string;
     timeSeries: IDataHistoryTimeSeries;
     chartOptions: IDataHistoryChartOptions;
+}
+/**
+ * Azure Data Explorer connection information for time series data
+ */
+export interface IADXTimeSeriesConnection {
+    adxClusterUrl: string;
+    adxDatabaseName: string;
+    adxTableName: string;
 }
 /**
  * A basic timeseries to be rendered in the chart of the data history widget

@@ -7,6 +7,8 @@
     "labelPlaceholder": "Enter label",
     "min": "Min",
     "max": "Max",
+    "minLower": "min",
+    "maxLower": "max",
     "noData": "No data",
     "noName": "No name",
     "error": "Error fetching data",
@@ -99,6 +101,7 @@
     "resolve": "Resolve",
     "verify": "Verify",
     "success": "Success!",
+    "to": "to",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -116,6 +119,9 @@
         "deleteValueRangeTitle": "Delete range",
         "negativeInfinityIconMessage": "Set value to -Infinity",
         "positiveInfinityIconMessage": "Set value to Infinity"
+    },
+    "cardboardMultiSelect": {
+        "placeholderMultiselect": "Type values, press enter to add"
     },
     "adapterErrors": {
         "tokenFailed": "Token retrieval failed",
@@ -457,16 +463,16 @@
             "tabDescription": "Define widgets that appear in the element's context"
         },
         "behaviorVisualRulesTab": {
-            "tabDescription": "Set rules for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
+            "tabSubtitle": "Create rules for applying visuals to elements based on twin data.",
             "noData": "You haven't configured any Visual Rules yet",
             "addRuleButtonText": "Add Rule",
             "editRule": "Edit rule",
             "removeRule": "Remove rule",
-            "singleBadge": "{{badgeCount}} badge",
-            "singleMeshColoring": "{{meshColoringCount}} mesh coloring",
+            "singleBadge": "1 badge",
+            "singleElementColoring": "1 element coloring",
             "multipleBadges": "{{badgeCount}} badges",
-            "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
-            "unlabeled": "(unlabeled)"
+            "multipleElementColorings": "{{meshColoringCount}} element colorings",
+            "unlabeledTag": "Unlabeled"
         },
         "elementForm": {
             "formSubTitle": "Elements link objects in your 3D model with digital twin data",
@@ -568,14 +574,27 @@
         },
         "visualRuleForm": {
             "new": "New visual rule",
+            "addCondition": "Add condition",
             "newCondition": "New condition",
+            "conditionsTitle": "Conditions",
+            "flyoutValuesTitle": "Values",
+            "flyoutValueTitle": "Value",
             "edit": "Edit visual rule",
-            "formSubtext": "A rule contains conditions and visual cues when those conditions are met. Choose the data expression for this rule and add a few conditions.",
+            "formSubTitle": "Choose the property expression that will be evaluated, then create conditions that determine which visuals are shown.",
             "typePlaceholder": "Select the type for the value",
-            "conditionsInfoContent": "Configure the range or specific values that trigger a visual action relating to the element.",
+            "conditionsInfoIconText": "Configure the range or specific values that trigger a visual applied to the element.",
             "editCondition": "Edit condition",
             "deleteCondition": "Delete condition",
-            "unlabeledCondition": "Unlabeled"
+            "unlabeledCondition": "Unlabeled",
+            "visualLabel": "Visual type",
+            "colorLabel": "Color",
+            "iconLabel": "Icon",
+            "rangeErrorMessage": "Invalid range.",
+            "labelField": "Label",
+            "choiceGroupTrue": "True",
+            "choiceGroupFalse": "False",
+            "elementColoringOption": "Element coloring",
+            "badgeOption": "Badge"
         }
     },
     "widgets": {
@@ -611,21 +630,24 @@
         "dataHistory": {
             "title": "Data history widget",
             "libraryName": "Data history",
-            "description": "Show timeseries data in context of your 3D scene",
+            "description": "Configure time series charts for historized properties",
             "notEnabledDescription": "Data history is not enabled for this ADT instance.",
+            "headerMenu": "Data history widget menu",
+            "openQuery": "Open query in Azure Data Explorer",
             "form": {
                 "connectionStringTitle": "Connection string",
                 "connectionStringPlaceholder": "Enter connection string (e.g. key1=value1;key2=value2;key3=value3)",
-                "connectionStringInformation": "Data history widgets target the Azure Data Explorer instance connected to the Azure Digital Twins instance at the time of creation.",
+                "connectionStringInformation": "Data history widgets target data in the Azure Data Explorer instance already connected to this Azure Digital Twins instance.",
                 "connectionLoadingText": "Loading connection information...",
                 "noConnectionInformationText": "No connection information found",
                 "displayNamePlaceholder": "Enter display name",
                 "timeSeries": {
-                    "timeSeriesDescription": "Add up to {{maxTimeSeriesCount}} timeseries to display",
+                    "timeSeriesDescription": "Add up to {{maxTimeSeriesCount}} time series for this widget",
                     "title": "Time series",
-                    "description": "A series to display in the line chart",
+                    "description": "Choose a numeric property for this time series",
                     "property": "Property",
                     "unit": "Unit",
+                    "unitPlaceholder": "e.g. m, m², kg, s, °C",
                     "label": "Label",
                     "labelPlaceholder": "Enter label to show in chart",
                     "add": "Add time series",
@@ -635,33 +657,18 @@
                 },
                 "chartOptions": {
                     "yAxisType": {
-                        "description": "Chart option to set if each series has separate (Independent) y-axes or sharing the same y-axis (Shared)",
+                        "description": "Time series can be constrained to a shared or independent (separate) y-axis scale. Choose 'shared' if your time series units are similar.",
                         "label": "Y axis type",
                         "sharedLabel": "Shared",
                         "independentLabel": "Independent"
                     },
-                    "quickTimeSpan": {
-                        "label": "Default time span",
-                        "information": "Default time range selection in local time for the x-axis in chart",
-                        "options": {
-                            "Last 15 mins": "Last 15 mins",
-                            "Last 30 mins": "Last 30 mins",
-                            "Last hour": "Last hour",
-                            "Last 3 hours": "Last 3 hours",
-                            "Last 6 hours": "Last 6 hours",
-                            "Last 12 hours": "Last 12 hours",
-                            "Last 24 hours": "Last 24 hours",
-                            "Last 7 days": "Last 7 days",
-                            "Last 30 days": "Last 30 days",
-                            "Last 60 days": "Last 60 days",
-                            "Last 90 days": "Last 90 days",
-                            "Last 180 days": "Last 180 days",
-                            "Last year": "Last year"
-                        }
+                    "quickTimeRange": {
+                        "label": "Default time range",
+                        "information": "Choose a default time range for this chart"
                     },
-                    "aggregationType": {
-                        "label": "Aggregation type",
-                        "information": "Default aggregation operation when data grouping is active based on the number of data points in chart"
+                    "aggregationMethod": {
+                        "label": "Aggregation method",
+                        "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
             }
@@ -1263,5 +1270,24 @@
         "noTitle": "No title",
         "shareQueryTitle": "Share query",
         "noDataDescription": "No data to display"
+    },
+    "quickTimesDropdown": {
+        "label": "Time span",
+        "placeholder": "Select a quick time",
+        "options": {
+            "Last 15 mins": "Last 15 mins",
+            "Last 30 mins": "Last 30 mins",
+            "Last hour": "Last hour",
+            "Last 3 hours": "Last 3 hours",
+            "Last 6 hours": "Last 6 hours",
+            "Last 12 hours": "Last 12 hours",
+            "Last 24 hours": "Last 24 hours",
+            "Last 7 days": "Last 7 days",
+            "Last 30 days": "Last 30 days",
+            "Last 60 days": "Last 60 days",
+            "Last 90 days": "Last 90 days",
+            "Last 180 days": "Last 180 days",
+            "Last year": "Last year"
+        }
     }
 }

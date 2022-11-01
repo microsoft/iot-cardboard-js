@@ -560,25 +560,38 @@
       "new": "Ny visuell regel",
       "edit": "Redigera visuell regel",
       "typePlaceholder": "Välj typ för värdet",
-      "conditionsInfoContent": "Konfigurera intervallet eller specifika värden som utlöser en visuell åtgärd som relaterar till elementet.",
       "newCondition": "Nytt tillstånd",
       "editCondition": "Redigera villkor",
       "deleteCondition": "Ta bort villkor",
       "unlabeledCondition": "Omärkt",
-      "formSubtext": "En regel innehåller villkor och visuella ledtrådar när dessa villkor är uppfyllda. Välj datauttryck för den här regeln och lägg till några villkor."
+      "addCondition": "Lägg till villkor",
+      "conditionsTitle": "Villkor",
+      "colorLabel": "Färg",
+      "iconLabel": "Ikon",
+      "labelField": "Etikett",
+      "choiceGroupTrue": "Sann",
+      "choiceGroupFalse": "Falsk",
+      "flyoutValuesTitle": "Värden",
+      "flyoutValueTitle": "Värde",
+      "badgeOption": "Emblem",
+      "formSubTitle": "Välj det egenskapsuttryck som ska utvärderas och skapa sedan villkor som avgör vilka visuella objekt som visas.",
+      "conditionsInfoIconText": "Konfigurera intervallet eller specifika värden som utlöser ett visuellt objekt som tillämpas på elementet.",
+      "visualLabel": "Visuell typ",
+      "rangeErrorMessage": "Ogiltigt intervall.",
+      "elementColoringOption": "Element färgning"
     },
     "conditions": "Villkor",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
       "noData": "Du har inte konfigurerat några visuella regler ännu",
       "addRuleButtonText": "Lägg till regel",
       "editRule": "Redigera regel",
       "removeRule": "Ta bort regel",
-      "singleBadge": "{{badgeCount}} märke",
-      "singleMeshColoring": "{{meshColoringCount}} nätfärgning",
       "multipleBadges": "{{badgeCount}} märken",
-      "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
-      "unlabeled": "(omärkt)"
+      "singleBadge": "1 märke",
+      "tabSubtitle": "Skapa regler för att tillämpa visuella objekt på element baserat på tvillingdata.",
+      "singleElementColoring": "1 element färgning",
+      "multipleElementColorings": "{{meshColoringCount}} elementfärgningar",
+      "unlabeledTag": "Omärkt"
     }
   },
   "widgets": {
@@ -635,7 +648,8 @@
           "add": "Lägg till tidsserier",
           "edit": "Redigera tidsserier",
           "update": "Uppdatera tidsserier",
-          "remove": "Ta bort tidsserier"
+          "remove": "Ta bort tidsserier",
+          "unitPlaceholder": "t.ex. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -644,31 +658,18 @@
             "sharedLabel": "Delad",
             "independentLabel": "Oberoende"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Standardtidsintervall",
-            "options": {
-              "Last 15 mins": "Senaste 15 minuterna",
-              "Last 30 mins": "Senaste 30 minuterna",
-              "Last hour": "Sista timmen",
-              "Last 3 hours": "Senaste 3 timmarna",
-              "Last 6 hours": "Senaste 6 timmarna",
-              "Last 12 hours": "Senaste 12 timmarna",
-              "Last 24 hours": "Senaste 24 timmarna",
-              "Last 7 days": "Senaste 7 dagarna",
-              "Last 30 days": "Senaste 30 dagarna",
-              "Last 60 days": "Senaste 60 dagarna",
-              "Last 90 days": "Senaste 90 dagarna",
-              "Last 180 days": "Senaste 180 dagarna",
-              "Last year": "Fjor"
-            },
-            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
+            "information": "Välj ett standardtidsintervall för det här diagrammet"
           },
-          "aggregationType": {
-            "label": "Typ av aggregering",
-            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
+          "aggregationMethod": {
+            "label": "Aggregeringsmetod",
+            "information": "När det finns för många datapunkter att visa grupperas värdena i diagrammet. Välj aggregeringsmetod för dessa grupperingar."
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenyn Datahistorik",
+      "openQuery": "Öppna frågan i Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1268,8 +1269,33 @@
     "selectAdditionalColumns": "Välj ytterligare kolumner"
   },
   "highcharts": {
-    "noTitle": "Ingen titel",
     "shareQueryTitle": "Dela fråga",
-    "noDataDescription": "Inga data att visa"
-  }
+    "noDataDescription": "Inga data att visa",
+    "noTitle": "Ingen titel"
+  },
+  "cardboardMultiSelect": {
+    "placeholderMultiselect": "Skriv värden, tryck på enter för att lägga till"
+  },
+  "to": "till",
+  "quickTimesDropdown": {
+    "label": "Tidsspann",
+    "placeholder": "Välj en snabb tid",
+    "options": {
+      "Last 15 mins": "Senaste 15 minuterna",
+      "Last 30 mins": "Senaste 30 minuterna",
+      "Last hour": "Sista timmen",
+      "Last 3 hours": "Senaste 3 timmarna",
+      "Last 6 hours": "Senaste 6 timmarna",
+      "Last 12 hours": "Senaste 12 timmarna",
+      "Last 24 hours": "Senaste 24 timmarna",
+      "Last 7 days": "Senaste 7 dagarna",
+      "Last 30 days": "Senaste 30 dagarna",
+      "Last 60 days": "Senaste 60 dagarna",
+      "Last 90 days": "Senaste 90 dagarna",
+      "Last 180 days": "Senaste 180 dagarna",
+      "Last year": "Fjor"
+    }
+  },
+  "minLower": "min",
+  "maxLower": ".max"
 }

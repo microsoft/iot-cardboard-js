@@ -2,10 +2,11 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import HighChartsWrapper from './HighChartsWrapper';
+import { IHighChartsWrapperProps } from './HighChartsWrapper.types';
 import {
     HighChartsMockData,
-    IHighChartsWrapperProps
-} from './HighChartsWrapper.types';
+    HighChartsMockLargeData
+} from './HighChartsWrapper.mock';
 
 const wrapperStyle = { width: '500px', height: '300px', padding: 8 };
 
@@ -34,12 +35,6 @@ IndependentAxis.args = {
     chartOptions: { hasMultipleAxes: true }
 } as IHighChartsWrapperProps;
 
-export const WithTitleLink = Template.bind({}) as HighChartsWrapperStory;
-WithTitleLink.args = {
-    ...commonArgs,
-    chartOptions: { titleTargetLink: 'https://storybook.example.com' }
-} as IHighChartsWrapperProps;
-
 export const VerticalLegend = Template.bind({}) as HighChartsWrapperStory;
 VerticalLegend.args = {
     ...commonArgs,
@@ -61,4 +56,10 @@ FixedTimeRange.args = {
         xMinInMillis: Date.UTC(2012, 5, 16).valueOf(),
         xMaxInMillis: Date.UTC(2012, 5, 26).valueOf()
     }
+} as IHighChartsWrapperProps;
+
+export const LargeDataSet = Template.bind({}) as HighChartsWrapperStory;
+LargeDataSet.args = {
+    ...commonArgs,
+    seriesData: HighChartsMockLargeData
 } as IHighChartsWrapperProps;
