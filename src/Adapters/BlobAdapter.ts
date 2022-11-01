@@ -32,7 +32,7 @@ import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
 const showVisualRulesFeature =
     localStorage.getItem(
         LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-    ) === 'true' || false;
+    ) === 'true';
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
     protected storageAccountHostName: string;
