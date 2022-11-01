@@ -89,7 +89,8 @@ const EnvironmentPicker = ({
     localStorageKey,
     adtInstanceUrl,
     onAdtInstanceChange,
-    storage
+    storage,
+    isDialogOpen: isDialogOpenProp = false
 }: EnvironmentPickerProps) => {
     const { t } = useTranslation();
 
@@ -98,7 +99,14 @@ const EnvironmentPicker = ({
         defaultEnvironmentPickerState
     );
 
-    const [isDialogHidden, { toggle: toggleIsDialogHidden }] = useBoolean(true);
+    const [
+        isDialogHidden,
+        {
+            toggle: toggleIsDialogHidden,
+            setFalse: showDialog,
+            setTrue: hideDialog
+        }
+    ] = useBoolean(!isDialogOpenProp);
 
     const defaultStorageAccountToContainersMappingsRef = useRef<
         Array<StorageAccountToContainersMapping>
@@ -138,6 +146,16 @@ const EnvironmentPicker = ({
             });
         }
     }, [isDialogHidden]);
+
+    useEffect(() => {
+        if (isDialogOpenProp !== undefined) {
+            if (isDialogOpenProp) {
+                showDialog();
+            } else {
+                hideDialog();
+            }
+        }
+    }, [isDialogOpenProp]);
 
     // set initial values based on props and local storage
     useEffect(() => {
