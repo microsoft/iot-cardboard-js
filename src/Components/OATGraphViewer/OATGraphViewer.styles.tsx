@@ -83,7 +83,7 @@ export const getStyles = (
                 calloutMain: {
                     backgroundColor: getControlBackgroundColor(theme),
                     overflow: 'hidden',
-                    padding: 20
+                    padding: 16
                 }
             }
         }

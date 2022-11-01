@@ -8,7 +8,10 @@ import {
     IStackStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
-import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
+import {
+    getControlBackgroundColor,
+    PROPERTY_EDITOR_WIDTH
+} from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
@@ -88,8 +91,9 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 height: '100%',
-                maxHeight: '100vh',
-                minWidth: '300px'
+                maxHeight: '80vh',
+                padding: 16,
+                width: PROPERTY_EDITOR_WIDTH
             } as IStyle
         ],
         pivot: [

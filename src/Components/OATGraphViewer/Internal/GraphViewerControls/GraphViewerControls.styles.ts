@@ -6,7 +6,7 @@ import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants
 import { HEADER_BUTTON_HEIGHT } from '../../../../Models/Constants/StyleConstants';
 import {
     CONTROLS_BOTTOM_OFFSET,
-    CONTROLS_LEFT_OFFSET,
+    CONTROLS_SIDE_OFFSET,
     CONTROLS_Z_INDEX,
     getControlBackgroundColor
 } from '../../../../Models/Constants/OatStyleConstants';
@@ -26,7 +26,7 @@ export const getStyles = (
             {
                 display: 'grid',
                 gridTemplateColumns: `0.5fr 1fr 0.5fr`,
-                left: CONTROLS_LEFT_OFFSET,
+                left: CONTROLS_SIDE_OFFSET,
                 bottom: CONTROLS_BOTTOM_OFFSET,
                 position: 'absolute',
                 width: '100%',
