@@ -946,6 +946,7 @@
     "deleteAll": "모두 삭제",
     "folderUpload": "폴더 업로드",
     "fileUpload": "파일 업로드",
+    "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
@@ -955,23 +956,6 @@
     "fileOpenModal": {
       "dropdownLabel": "존재론",
       "dropdownPlaceholder": "온톨로지 선택"
-    },
-    "importFolder": "폴더 가져오기",
-    "importFile": "파일 가져오기",
-    "ontology": "존재론",
-    "manageOntologyModal": {
-      "deleteButtonText": "온톨로지 삭제",
-      "modalTitleCreate": "새로운 온톨로지",
-      "modalTitleEdit": "온톨로지 편집",
-      "modalSubTitleCreate": "디지탈 트윈에 구조를 제공하기 위해 새로운 온톨로지를 만듭니다.",
-      "modalSubTitleEdit": "온톨로지를 편집하여 디지탈 트윈에 구조를 제공하십시오.",
-      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
-      "nameLabel": "이름",
-      "namePlaceholder": "온톨로지 이름 입력",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "예제 모델 이름: {{modelName}}",
-      "namespacePlaceholder": "네임스페이스 입력",
-      "sampleModel": "샘플 모델"
     }
   },
   "cameraControls": {
@@ -1312,22 +1296,6 @@
       "Last year": "작년"
     }
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "복사",
-    "defaultFileName": "새로운 온톨로지",
-    "defaultModelNamePrefix": "모델"
-  },
-  "OATModelList": {
-    "removeModelButtonText": "모델 제거",
-    "modelListToggleAriaLabelShow": "모델 목록 표시",
-    "modelListToggleAriaLabelHide": "모델 목록 숨기기",
-    "searchModels": "모델 검색",
-    "noDataMessage": "모델 없음",
-    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다."
-  }
-=======
   "minLower": "분",
   "maxLower": ".max"
->>>>>>> origin/main
 }

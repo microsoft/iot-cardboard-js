@@ -946,6 +946,7 @@
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
     "fileUpload": "Filuppladdning",
+    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -955,23 +956,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
-    },
-    "importFolder": "Importera mapp",
-    "importFile": "Importera fil",
-    "ontology": "Ontologi",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ta bort ontologi",
-      "modalTitleCreate": "Ny ontologi",
-      "modalTitleEdit": "Redigera ontologi",
-      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleLinkText": "Läs mer om ontologier",
-      "nameLabel": "Namn",
-      "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempel modell"
     }
   },
   "cameraControls": {
@@ -1312,22 +1296,6 @@
       "Last year": "Fjor"
     }
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopia",
-    "defaultFileName": "Ny ontologi",
-    "defaultModelNamePrefix": "Modell"
-  },
-  "OATModelList": {
-    "removeModelButtonText": "Ta bort modell",
-    "modelListToggleAriaLabelShow": "Visa modelllista",
-    "modelListToggleAriaLabelHide": "Dölj modelllista",
-    "searchModels": "Sök modeller",
-    "noDataMessage": "Inga modeller",
-    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet"
-  }
-=======
   "minLower": "min",
   "maxLower": ".max"
->>>>>>> origin/main
 }
