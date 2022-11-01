@@ -29,7 +29,7 @@ import {
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
-import { EditorProps } from './Editor.types';
+import { IEditorProps } from './Editor.types';
 import {
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME
@@ -39,8 +39,8 @@ import { OatPageContextActionType } from '../../Models/Context/OatPageContext/Oa
 import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 
-const Editor: React.FC<EditorProps> = (props) => {
-    const { dispatch, languages, state, theme } = props;
+const Editor: React.FC<IEditorProps> = (props) => {
+    const { editorDispatch, languages, editorState, selectedThemeName } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -104,25 +104,25 @@ const Editor: React.FC<EditorProps> = (props) => {
     };
 
     const onModalClose = () => {
-        dispatch({
+        editorDispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
             payload: false
         });
-        dispatch({
+        editorDispatch({
             type: SET_OAT_PROPERTY_MODAL_BODY,
             payload: null
         });
     };
 
     const getModalBody = () => {
-        switch (state.modalBody) {
+        switch (editorState.modalBody) {
             case FormBody.property:
                 return (
                     <FormUpdateProperty
-                        dispatch={dispatch}
+                        dispatch={editorDispatch}
                         languages={languages}
                         onClose={onModalClose}
-                        state={state}
+                        state={editorState}
                     />
                 );
             case FormBody.enum:
@@ -130,7 +130,7 @@ const Editor: React.FC<EditorProps> = (props) => {
                     <FormAddEnumItem
                         languages={languages}
                         onClose={onModalClose}
-                        state={state}
+                        state={editorState}
                     />
                 );
             case FormBody.rootModel:
@@ -146,8 +146,8 @@ const Editor: React.FC<EditorProps> = (props) => {
     };
 
     return (
-        <div>
-            <div className={propertyInspectorStyles.container}>
+        <>
+            <div className={propertyInspectorStyles.root}>
                 <Pivot className={propertyInspectorStyles.pivot}>
                     <PivotItem
                         headerButtonProps={{
@@ -159,7 +159,7 @@ const Editor: React.FC<EditorProps> = (props) => {
                         <Stack styles={propertyListPivotColumnContent}>
                             <Stack.Item>
                                 <PropertiesModelSummary
-                                    dispatch={dispatch}
+                                    dispatch={editorDispatch}
                                     isSupportedModelType={isSupportedModelType}
                                 />
                             </Stack.Item>
@@ -205,8 +205,8 @@ const Editor: React.FC<EditorProps> = (props) => {
 
                             <Stack.Item grow styles={propertyListStackItem}>
                                 <PropertyList
-                                    dispatch={dispatch}
-                                    state={state}
+                                    dispatch={editorDispatch}
+                                    state={editorState}
                                     enteredPropertyRef={enteredPropertyRef}
                                     enteredTemplateRef={enteredTemplateRef}
                                     propertyList={propertyList}
@@ -219,25 +219,27 @@ const Editor: React.FC<EditorProps> = (props) => {
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
                     >
-                        {isSupportedModelType && <JSONEditor theme={theme} />}
+                        {isSupportedModelType && (
+                            <JSONEditor theme={selectedThemeName} />
+                        )}
                     </PivotItem>
                 </Pivot>
                 {oatPageState.templatesActive && (
                     <TemplateColumn
                         enteredPropertyRef={enteredPropertyRef}
                         enteredTemplateRef={enteredTemplateRef}
-                        dispatch={dispatch}
-                        state={state}
+                        dispatch={editorDispatch}
+                        state={editorState}
                     />
                 )}
             </div>
             <OATModal
-                isOpen={state.modalOpen}
+                isOpen={editorState.modalOpen}
                 className={propertyInspectorStyles.modal}
             >
                 {getModalBody()}
             </OATModal>
-        </div>
+        </>
     );
 };
 

@@ -25,7 +25,7 @@ export const getStyles = (
             classNames.root,
             {
                 display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
+                gridTemplateColumns: `0.5fr 1fr 0.5fr`,
                 left: CONTROLS_LEFT_OFFSET,
                 bottom: CONTROLS_BOTTOM_OFFSET,
                 position: 'absolute',
@@ -81,6 +81,7 @@ export const getStyles = (
             },
             controlsStack: {
                 root: {
+                    justifyContent: 'center',
                     '> .react-flow__controls': {
                         position: 'unset',
                         left: 'unset'

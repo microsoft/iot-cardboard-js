@@ -49,10 +49,12 @@ export const getEditorPageStyles = () => {
             } as IStyle
         ],
         viewerContainer: {
-            width: `calc(100% - ${PROPERTY_EDITOR_WIDTH}px)`
+            width: '100%'
         },
         propertyEditorContainer: {
-            width: PROPERTY_EDITOR_WIDTH
+            width: PROPERTY_EDITOR_WIDTH,
+            position: 'absolute',
+            right: 0
         },
         errorHandlingWrapper: [
             classNames.errorHandlingWrapper,

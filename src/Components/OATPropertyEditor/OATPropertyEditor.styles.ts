@@ -8,6 +8,8 @@ import {
     IStackStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
+import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-property-editor`;
 const classNames = {
@@ -77,15 +79,16 @@ const classNames = {
 const OATEditorPivotContentHeightAdjustment = 82;
 
 export const getPropertyInspectorStyles = () => {
-    const theme = useTheme();
+    const theme = useExtendedTheme();
     return mergeStyleSets({
-        container: [
+        root: [
             classNames.container,
             {
-                height: '100%',
-                maxHeight: '100vh',
+                backgroundColor: getControlBackgroundColor(theme),
                 display: 'flex',
                 flexDirection: 'row',
+                height: '100%',
+                maxHeight: '100vh',
                 minWidth: '300px'
             } as IStyle
         ],
@@ -93,7 +96,6 @@ export const getPropertyInspectorStyles = () => {
             classNames.pivot,
             {
                 width: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
                 '[role="tabpanel"]': {
                     height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
                 },
@@ -104,15 +106,14 @@ export const getPropertyInspectorStyles = () => {
             classNames.pivotItem,
             {
                 height: '100%',
-                backgroundColor: theme.semanticColors.listBackground
+                backgroundColor: 'transparent'
             } as IStyle
         ],
         templateColumn: [
             classNames.templateColumn,
             {
                 width: '80%',
-                height: '100%',
-                backgroundColor: theme.semanticColors.buttonBackgroundDisabled
+                height: '100%'
             } as IStyle
         ],
         row: [

@@ -14,7 +14,6 @@ import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
-import { Stack } from '@fluentui/react';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 const debugLogging = false;
@@ -51,9 +50,9 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                 disableDefaultStyles={true}
             >
                 <OATHeader />
-                <Stack horizontal className={editorPageStyles.component}>
+                <div className={editorPageStyles.component}>
                     <div className={editorPageStyles.viewerContainer}>
-                        <OATGraphViewerContent selectedTheme={theme} />
+                        <OATGraphViewerContent />
                     </div>
                     <div className={editorPageStyles.propertyEditorContainer}>
                         <OATPropertyEditor
@@ -61,7 +60,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                             languages={languages}
                         />
                     </div>
-                </Stack>
+                </div>
                 <OATErrorHandlingModal />
                 <OATConfirmDeleteModal />
             </BaseComponent>

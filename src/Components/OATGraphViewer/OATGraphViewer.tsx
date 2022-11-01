@@ -86,7 +86,10 @@ import {
 import { OatGraphContextActionType } from '../../Models/Context/OatGraphContext/OatGraphContext.types';
 import GraphViewerControls from './Internal/GraphViewerControls/GraphViewerControls';
 import OATModelList from '../OATModelList/OATModelList';
-import { getControlBackgroundColor } from '../../Models/Constants/OatStyleConstants';
+import {
+    CONTROLS_CALLOUT_OFFSET,
+    getControlBackgroundColor
+} from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const debugLogging = false;
@@ -857,7 +860,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     {oatGraphState.isModelListVisible && (
                         <Callout
                             directionalHint={DirectionalHint.bottomLeftEdge}
-                            gapSpace={16}
+                            gapSpace={CONTROLS_CALLOUT_OFFSET}
                             isBeakVisible={false}
                             styles={
                                 classNames.subComponentStyles.modelsListCallout

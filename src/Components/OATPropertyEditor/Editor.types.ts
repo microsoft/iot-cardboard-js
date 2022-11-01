@@ -3,9 +3,9 @@ import { IOATPropertyEditorState } from './OATPropertyEditor.types';
 import { IDropdownOption } from '@fluentui/react';
 import { Theme } from '../../Models/Constants/Enums';
 
-export type EditorProps = {
-    dispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+export type IEditorProps = {
+    editorDispatch?: React.Dispatch<React.SetStateAction<IAction>>;
+    editorState?: IOATPropertyEditorState;
     languages: IDropdownOption[];
-    state?: IOATPropertyEditorState;
-    theme?: Theme;
+    selectedThemeName?: Theme;
 };
