@@ -946,7 +946,6 @@
     "deleteAll": "Alles verwijderen",
     "folderUpload": "Map uploaden",
     "fileUpload": "Bestand uploaden",
-    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -956,6 +955,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
+    },
+    "importFolder": "Map importeren",
+    "importFile": "Bestand importeren",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ontologie verwijderen",
+      "modalTitleCreate": "Nieuwe ontologie",
+      "modalTitleEdit": "Ontologie bewerken",
+      "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
+      "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
+      "modalSubTitleLinkText": "Meer informatie over ontologieën",
+      "nameLabel": "Naam",
+      "namePlaceholder": "Voer een ontologienaam in",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
+      "namespacePlaceholder": "Een naamruimte invoeren",
+      "sampleModel": "voorbeeldmodel"
     }
   },
   "cameraControls": {
@@ -1297,5 +1313,18 @@
     }
   },
   "minLower": "Min",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiëren",
+    "defaultFileName": "Nieuwe ontologie",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Modellen zoeken",
+    "noDataMessage": "Geen modellen",
+    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
+    "removeModelButtonText": "Model verwijderen",
+    "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
+    "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
+  }
 }

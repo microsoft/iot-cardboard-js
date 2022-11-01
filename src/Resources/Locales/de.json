@@ -946,7 +946,6 @@
     "deleteAll": "Alle löschen",
     "folderUpload": "Ordner-Upload",
     "fileUpload": "Datei-Upload",
-    "files": "Dateien",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
     "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
@@ -956,6 +955,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Wählen Sie eine Ontologie"
+    },
+    "importFolder": "Ordner importieren",
+    "importFile": "Datei importieren",
+    "ontology": "Ontologie",
+    "manageOntologyModal": {
+      "deleteButtonText": "Etologie löschen",
+      "modalTitleCreate": "Neue Ontologie",
+      "modalTitleEdit": "Initologie bearbeiten",
+      "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
+      "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling Struktur zu geben.",
+      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
+      "nameLabel": "Name",
+      "namePlaceholder": "Geben Sie einen Ontologienamen ein",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Beispielmodellname: {{modelName}}",
+      "namespacePlaceholder": "Eingeben eines Namespaces",
+      "sampleModel": "Beispielmodell"
     }
   },
   "cameraControls": {
@@ -1297,5 +1313,18 @@
     }
   },
   "minLower": "Min",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopieren",
+    "defaultFileName": "Neue Ontologie",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "searchModels": "Modelle suchen",
+    "noDataMessage": "Keine Modelle",
+    "noMatchingItemsMessage": "Kein Modell erfüllt diese Kriterien",
+    "removeModelButtonText": "Modell entfernen",
+    "modelListToggleAriaLabelShow": "Modellliste anzeigen",
+    "modelListToggleAriaLabelHide": "Modellliste ausblenden"
+  }
 }

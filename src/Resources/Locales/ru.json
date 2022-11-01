@@ -946,7 +946,6 @@
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
-    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -956,6 +955,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
+    },
+    "importFolder": "Папка импорта",
+    "importFile": "Импорт файла",
+    "ontology": "Онтология",
+    "manageOntologyModal": {
+      "deleteButtonText": "Удалить онтологию",
+      "modalTitleCreate": "Новая онтология",
+      "modalTitleEdit": "Редактирование онтологии",
+      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
+      "modalSubTitleLinkText": "Подробнее об онтологиях",
+      "nameLabel": "Имя",
+      "namePlaceholder": "Введите имя онтологии",
+      "namespaceLabel": "Пространство имен",
+      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
+      "namespacePlaceholder": "Ввод пространства имен",
+      "sampleModel": "Образец модели"
     }
   },
   "cameraControls": {
@@ -1297,5 +1313,18 @@
     }
   },
   "minLower": "Мин",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "копировать",
+    "defaultFileName": "Новая онтология",
+    "defaultModelNamePrefix": "Модель"
+  },
+  "OATModelList": {
+    "searchModels": "Поиск моделей",
+    "noDataMessage": "Нет моделей",
+    "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
+    "removeModelButtonText": "Удалить модель",
+    "modelListToggleAriaLabelShow": "Показать список моделей",
+    "modelListToggleAriaLabelHide": "Скрыть список моделей"
+  }
 }

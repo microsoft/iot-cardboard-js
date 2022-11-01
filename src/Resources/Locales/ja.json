@@ -946,7 +946,6 @@
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
     "fileUpload": "ファイルのアップロード",
-    "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
@@ -956,6 +955,23 @@
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
+    },
+    "importFolder": "インポートフォルダ",
+    "importFile": "ファイルのインポート",
+    "ontology": "オントロジー",
+    "manageOntologyModal": {
+      "deleteButtonText": "オントロジーの削除",
+      "modalTitleCreate": "新しいオントロジー",
+      "modalTitleEdit": "オントロジーの編集",
+      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+      "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
+      "modalSubTitleLinkText": "オントロジーの詳細",
+      "nameLabel": "名前",
+      "namePlaceholder": "オントロジー名を入力する",
+      "namespaceLabel": "名前空間",
+      "namespaceDescription": "モデル名の例: {{モデル名}}",
+      "namespacePlaceholder": "名前空間を入力する",
+      "sampleModel": "サンプルモデル"
     }
   },
   "cameraControls": {
@@ -1297,5 +1313,18 @@
     }
   },
   "minLower": "分",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
+  },
+  "OATModelList": {
+    "searchModels": "モデルの検索",
+    "noDataMessage": "モデルなし",
+    "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+    "removeModelButtonText": "モデルを削除",
+    "modelListToggleAriaLabelShow": "モデル一覧を表示",
+    "modelListToggleAriaLabelHide": "モデルリストを隠す"
+  }
 }

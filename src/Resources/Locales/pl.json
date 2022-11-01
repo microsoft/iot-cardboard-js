@@ -946,7 +946,6 @@
     "deleteAll": "Usuń wszystko",
     "folderUpload": "Przesyłanie folderu",
     "fileUpload": "Przesyłanie plików",
-    "files": "Pliki",
     "selectFile": "Wybierz plik",
     "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
     "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje",
@@ -956,6 +955,23 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Wybierz ontologię"
+    },
+    "importFolder": "Folder importu",
+    "importFile": "Importuj plik",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "deleteButtonText": "Usuń ontologię",
+      "modalTitleCreate": "Nowa ontologia",
+      "modalTitleEdit": "Edytuj ontologię",
+      "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
+      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
+      "nameLabel": "Nazwa",
+      "namePlaceholder": "Wprowadź nazwę ontologii",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
+      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
+      "sampleModel": "przykładowy model"
     }
   },
   "cameraControls": {
@@ -1297,5 +1313,18 @@
     }
   },
   "minLower": "Min",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopiować",
+    "defaultFileName": "Nowa ontologia",
+    "defaultModelNamePrefix": "Model"
+  },
+  "OATModelList": {
+    "searchModels": "Szukaj modeli",
+    "noDataMessage": "Brak modeli",
+    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
+    "removeModelButtonText": "Usuń model",
+    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
+    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
+  }
 }
