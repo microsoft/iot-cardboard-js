@@ -16,6 +16,7 @@ export interface IVisualRule {
     displayName: string;
     conditions: IValueRange[];
     type: IExpressionRangeType;
+    isUnlabeled?: boolean;
 }
 
 /** Reducer types */

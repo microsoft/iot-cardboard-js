@@ -26,10 +26,10 @@ import { hasBadge } from './ConditionCalloutUtility';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
-    actionLabel: `${ROOT_LOC}.actionLabel`,
+    visualLabel: `${ROOT_LOC}.visualLabel`,
     colorLabel: `${ROOT_LOC}.colorLabel`,
     iconLabel: `${ROOT_LOC}.iconLabel`,
-    meshColoringOption: `${ROOT_LOC}.meshColoringOption`,
+    elementColoringOption: `${ROOT_LOC}.elementColoringOption`,
     badgeOption: `${ROOT_LOC}.badgeOption`
 };
 
@@ -39,7 +39,7 @@ const BADGE_KEY = 'Badge-action-item';
 const DROPDOWN_OPTIONS: IDropdownOption[] = [
     {
         key: MESH_COLORING_KEY,
-        text: i18n.t(LOC_KEYS.meshColoringOption)
+        text: i18n.t(LOC_KEYS.elementColoringOption)
     },
     {
         key: BADGE_KEY,
@@ -106,7 +106,7 @@ const ActionItem: React.FC<IActionItemProps> = (props) => {
     return (
         <Stack horizontal={true} tokens={{ childrenGap: 8 }}>
             <Dropdown
-                label={t(LOC_KEYS.actionLabel)}
+                label={t(LOC_KEYS.visualLabel)}
                 options={DROPDOWN_OPTIONS}
                 selectedKey={selectedOptionKey}
                 onChange={handleOnDropdownChange}

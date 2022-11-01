@@ -560,39 +560,38 @@
       "new": "新しいビジュアル ルール",
       "edit": "ビジュアル ルールの編集",
       "typePlaceholder": "値のタイプを選択します。",
-      "conditionsInfoContent": "要素に関連するビジュアル アクションをトリガーする範囲または特定の値を構成します。",
       "newCondition": "新しい条件",
       "editCondition": "条件の編集",
       "deleteCondition": "条件の削除",
       "unlabeledCondition": "ラベル",
-      "formSubtext": "ルールには、条件と、これらの条件が満たされたときの視覚的な手がかりが含まれます。このルールのデータ式を選択し、いくつかの条件を追加します。",
       "addCondition": "条件の追加",
       "conditionsTitle": "条件",
-      "actionsTitle": "アクション",
       "colorLabel": "色",
       "iconLabel": "アイコン",
-      "invalidRanges": "無効な範囲です。min は max より小さく、値は数値でなければなりません。",
       "labelField": "ラベル",
       "choiceGroupTrue": "真",
       "choiceGroupFalse": "偽",
       "flyoutValuesTitle": "価値観",
       "flyoutValueTitle": "価値",
-      "actionLabel": "アクション",
-      "meshColoringOption": "メッシュカラーリング",
-      "badgeOption": "バッジ"
+      "badgeOption": "バッジ",
+      "formSubTitle": "評価するプロパティ式を選択し、表示するビジュアルを決定する条件を作成します。",
+      "conditionsInfoIconText": "要素に適用されるビジュアルをトリガーする範囲または特定の値を構成します。",
+      "visualLabel": "ビジュアルタイプ",
+      "rangeErrorMessage": "無効な範囲です。",
+      "elementColoringOption": "要素の色付け"
     },
     "conditions": "条件",
     "behaviorVisualRulesTab": {
-      "tabDescription": "特定の条件に色を適用するためのルールを設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
       "noData": "ビジュアル ルールをまだ構成していない",
       "addRuleButtonText": "ルールの追加",
       "editRule": "ルールの編集",
       "removeRule": "ルールの削除",
       "multipleBadges": "{{バッジカウント}}バッジ",
-      "multipleMeshColorings": "{{meshColoringCount}} メッシュカラーリング",
-      "unlabeled": "(ラベルなし)",
       "singleBadge": "バッジ1個",
-      "singleMeshColoring": "1メッシュカラーリング"
+      "tabSubtitle": "ツイン データに基づいて要素にビジュアルを適用するためのルールを作成します。",
+      "singleElementColoring": "1 要素着色",
+      "multipleElementColorings": "{{meshColoringCount}} 要素のカラーリング",
+      "unlabeledTag": "ラベル"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "時系列の追加",
           "edit": "時系列の編集",
           "update": "時系列の更新",
-          "remove": "時系列の削除"
+          "remove": "時系列の削除",
+          "unitPlaceholder": "例:m、平方メートル、キログラム、秒、°C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "シェアード",
             "independentLabel": "無所属"
           },
-          "quickTimeSpan": {
-            "label": "デフォルトの期間",
-            "information": "グラフの X 軸の現地時間での既定の時間範囲選択"
+          "quickTimeRange": {
+            "label": "既定の時間範囲",
+            "information": "このグラフのデフォルトの時間範囲を選択する"
           },
-          "aggregationType": {
-            "label": "集計タイプ",
-            "information": "グラフ内のデータ ポイントの数に基づいてデータのグループ化がアクティブな場合の既定の集計操作"
+          "aggregationMethod": {
+            "label": "集計方法",
+            "information": "表示するデータポイントが多すぎる場合、値はグラフにグループ化されます。これらのグループの集計方法を選択します。"
           }
         }
-      }
+      },
+      "headerMenu": "データ履歴ウィジェットメニュー",
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "去年"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
     "defaultFileName": "新しいオントロジー",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "モデルなし",
     "noMatchingItemsMessage": "その基準に一致するモデルはありません"
   }
+=======
+  "minLower": "分",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

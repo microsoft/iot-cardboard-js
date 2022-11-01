@@ -1,5 +1,6 @@
 import {
     IButtonStyles,
+    IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
     Theme
@@ -22,6 +23,7 @@ export interface Condition {
     type: ConditionType;
     iconName?: string;
     color?: string;
+    isUnlabeled?: boolean;
 }
 
 export enum CalloutInfoType {
@@ -58,4 +60,10 @@ export interface IConditionsListStylesProps {
 
 export interface IConditionsListSubComponentStyles {
     addButton?: Partial<IButtonStyles>;
+    itemButton?: IStyleFunctionOrObject<
+        { isUnlabeled: boolean },
+        IButtonStyles
+    >;
+    meshIcon?: IStyleFunctionOrObject<{ color: string }, IIconStyles>;
+    badgeIcon?: IStyleFunctionOrObject<{ color: string }, IIconStyles>;
 }

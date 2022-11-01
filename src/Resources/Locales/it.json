@@ -560,39 +560,38 @@
       "new": "Nuova regola visiva",
       "edit": "Modificare la regola visiva",
       "typePlaceholder": "Selezionare il tipo per il valore",
-      "conditionsInfoContent": "Configurare l'intervallo o i valori specifici che attivano un'azione visiva relativa all'elemento.",
       "newCondition": "Nuova condizione",
       "editCondition": "Modifica condizione",
       "deleteCondition": "Elimina condizione",
       "unlabeledCondition": "Senza etichetta",
-      "formSubtext": "Una regola contiene condizioni e segnali visivi quando tali condizioni sono soddisfatte. Scegliere l'espressione dati per questa regola e aggiungere alcune condizioni.",
       "addCondition": "Aggiungi condizione",
       "conditionsTitle": "Condizioni",
-      "actionsTitle": "Azioni",
       "colorLabel": "Colore",
       "iconLabel": "Icona",
-      "invalidRanges": "Intervallo non valido, min deve essere minore di max e i valori devono essere numerici.",
       "labelField": "Etichetta",
       "choiceGroupTrue": "Vero",
       "choiceGroupFalse": "Falso",
       "flyoutValuesTitle": "Valori",
       "flyoutValueTitle": "Valore",
-      "actionLabel": "Azione",
-      "meshColoringOption": "Colorazione mesh",
-      "badgeOption": "Distintivo"
+      "badgeOption": "Distintivo",
+      "formSubTitle": "Scegliere l'espressione di proprietà che verrà valutata, quindi creare condizioni che determinino quali oggetti visivi vengono visualizzati.",
+      "conditionsInfoIconText": "Configurare l'intervallo o i valori specifici che attivano un oggetto visivo applicato all'elemento.",
+      "visualLabel": "Tipo di visualizzazione",
+      "rangeErrorMessage": "Intervallo non valido.",
+      "elementColoringOption": "Colorazione degli elementi"
     },
     "conditions": "Condizioni",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Imposta le regole per applicare il colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
       "noData": "Non hai ancora configurato alcuna regola visiva",
       "addRuleButtonText": "Aggiungi regola",
       "editRule": "Modifica regola",
       "removeRule": "Rimuovi regola",
       "multipleBadges": "Badge {{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} colorazioni mesh",
-      "unlabeled": "(senza etichetta)",
       "singleBadge": "1 distintivo",
-      "singleMeshColoring": "1 colorazione a maglie"
+      "tabSubtitle": "Creare regole per l'applicazione di oggetti visivi a elementi basati su dati gemelli.",
+      "singleElementColoring": "Colorazione di 1 elemento",
+      "multipleElementColorings": "Colorazioni dell'elemento {{meshColoringCount}}",
+      "unlabeledTag": "Senza etichetta"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Aggiungere serie temporali",
           "edit": "Modificare le serie temporali",
           "update": "Aggiornare le serie temporali",
-          "remove": "Rimuovere serie temporali"
+          "remove": "Rimuovere serie temporali",
+          "unitPlaceholder": "ad esempio m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "Condiviso",
             "independentLabel": "Indipendente"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Intervallo di tempo predefinito",
-            "information": "Selezione dell'intervallo di tempo predefinito in ora locale per l'asse x nel grafico"
+            "information": "Scegliere un intervallo di tempo predefinito per questo grafico"
           },
-          "aggregationType": {
-            "label": "Tipo di aggregazione",
-            "information": "Operazione di aggregazione predefinita quando il raggruppamento dei dati è attivo in base al numero di punti dati nel grafico"
+          "aggregationMethod": {
+            "label": "Metodo di aggregazione",
+            "information": "Quando ci sono troppi punti dati da visualizzare, i valori verranno raggruppati nel grafico. Scegliere il metodo di aggregazione per questi raggruppamenti."
           }
         }
-      }
+      },
+      "headerMenu": "Menu widget Cronologia dati",
+      "openQuery": "Aprire query in Esplora dati di Azure"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "Anno scorso"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copiare",
     "defaultFileName": "Nuova ontologia",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "Nessun modello",
     "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri"
   }
+=======
+  "minLower": "Min",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

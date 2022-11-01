@@ -560,39 +560,38 @@
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
       "typePlaceholder": "Selecione o tipo para o valor",
-      "conditionsInfoContent": "Configure o intervalo ou valores específicos que desencadeiam uma ação visual relacionada ao elemento.",
       "newCondition": "Nova condição",
       "editCondition": "Condição de edição",
       "deleteCondition": "Exclua a condição",
       "unlabeledCondition": "Unlabeled",
-      "formSubtext": "Uma regra contém condições e pistas visuais quando essas condições são atendidas. Escolha a expressão de dados para esta regra e adicione algumas condições.",
       "addCondition": "Adicionar condição",
       "conditionsTitle": "Condições",
-      "actionsTitle": "Ações",
       "colorLabel": "Cor",
       "iconLabel": "Ícone",
-      "invalidRanges": "Alcance inválido, min deve ser menor que o máximo, e os valores devem ser numéricos.",
       "labelField": "Etiqueta",
       "choiceGroupTrue": "Verdadeiro",
       "choiceGroupFalse": "Falso",
       "flyoutValuesTitle": "Valores",
       "flyoutValueTitle": "Valor",
-      "actionLabel": "Ação",
-      "meshColoringOption": "Coloração de malha",
-      "badgeOption": "Distintivo"
+      "badgeOption": "Distintivo",
+      "formSubTitle": "Escolha a expressão da propriedade que será avaliada e crie condições que determinem quais visuais são mostrados.",
+      "conditionsInfoIconText": "Configure o intervalo ou valores específicos que acionam um visual aplicado ao elemento.",
+      "visualLabel": "Tipo visual",
+      "rangeErrorMessage": "Alcance inválido.",
+      "elementColoringOption": "Coloração de elementos"
     },
     "conditions": "Condições",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Defina regras para aplicar cor a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
       "noData": "Você ainda não configurou nenhuma regra visual",
       "addRuleButtonText": "Adicionar regra",
       "editRule": "Editar regra",
       "removeRule": "Remover regra",
       "multipleBadges": "{{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} coloração de malha",
-      "unlabeled": "(sem rótulo)",
       "singleBadge": "1 crachá",
-      "singleMeshColoring": "1 coloração de malha"
+      "tabSubtitle": "Crie regras para aplicar visuais a elementos baseados em dados gêmeos.",
+      "singleElementColoring": "1 elemento de coloração",
+      "multipleElementColorings": "{{meshColoringCount}} coloração de elementos",
+      "unlabeledTag": "Unlabeled"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Adicionar séries temporizados",
           "edit": "Editar séries temporitais",
           "update": "Atualizar séries temporizes",
-          "remove": "Remover séries temporizados"
+          "remove": "Remover séries temporizados",
+          "unitPlaceholder": "por exemplo, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "Compartilhado",
             "independentLabel": "Independente"
           },
-          "quickTimeSpan": {
-            "label": "Período de tempo padrão",
-            "information": "Seleção padrão de intervalo de tempo em tempo local para o eixo x no gráfico"
+          "quickTimeRange": {
+            "label": "Faixa de tempo padrão",
+            "information": "Escolha um intervalo de tempo padrão para este gráfico"
           },
-          "aggregationType": {
-            "label": "Tipo de agregação",
-            "information": "Operação de agregação padrão quando o agrupamento de dados está ativo com base no número de pontos de dados no gráfico"
+          "aggregationMethod": {
+            "label": "Método de agregação",
+            "information": "Quando houver muitos pontos de dados para exibir, os valores serão agrupados no gráfico. Escolha o método de agregação desses agrupamentos."
           }
         }
-      }
+      },
+      "headerMenu": "Menu de widget do histórico de dados",
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "Ano passado"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nova ontologia",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "Sem modelos",
     "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério"
   }
+=======
+  "minLower": "Min",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

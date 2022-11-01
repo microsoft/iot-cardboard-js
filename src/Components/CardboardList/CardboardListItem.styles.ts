@@ -14,7 +14,7 @@ import {
 import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
-const classNames = {
+export const classNames = {
     alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,

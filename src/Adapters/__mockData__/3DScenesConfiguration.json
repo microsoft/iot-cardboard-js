@@ -527,6 +527,37 @@
                                     ],
                                     "units": "m/s"
                                 }
+                            },
+                            {
+                                "type": "Data history",
+                                "id": "b2cf0aa2415f4e029f27f957fb559db3",
+                                "widgetConfiguration": {
+                                    "connection": {
+                                        "adxClusterUrl": "https://mockKustoClusterName.westus2.kusto.windows.net",
+                                        "adxDatabaseName": "mockKustoDatabaseName",
+                                        "adxTableName": "mockKustoTableName"
+                                    },
+                                    "displayName": "InFlow and OutFlow Data History",
+                                    "timeSeries": [
+                                        {
+                                            "id": "d5eb9b1f51ce487897e3c5df3732bf73",
+                                            "expression": "PrimaryTwin.InFlow",
+                                            "unit": "cfs",
+                                            "label": "InFlow Trend"
+                                        },
+                                        {
+                                            "id": "b03980c3857e44a0bcf6390a82522ee7",
+                                            "expression": "PrimaryTwin.OutFlow",
+                                            "unit": "cfs",
+                                            "label": "OutFlow Trend"
+                                        }
+                                    ],
+                                    "chartOptions": {
+                                        "aggregationType": "avg",
+                                        "defaultQuickTimeSpanInMillis": 900000,
+                                        "yAxisType": "shared"
+                                    }
+                                }
                             }
                         ],
                         "objectIDs": {

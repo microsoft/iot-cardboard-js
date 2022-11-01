@@ -560,39 +560,38 @@
       "new": "Nouvelle règle visuelle",
       "edit": "Modifier la règle visuelle",
       "typePlaceholder": "Sélectionnez le type de la valeur",
-      "conditionsInfoContent": "Configurez la plage ou les valeurs spécifiques qui déclenchent une action visuelle relative à l’élément.",
       "newCondition": "Nouvelle condition",
       "editCondition": "Modifier la condition",
       "deleteCondition": "Supprimer la condition",
       "unlabeledCondition": "Sans étiquette",
-      "formSubtext": "Une règle contient des conditions et des repères visuels lorsque ces conditions sont remplies. Choisissez l’expression de données pour cette règle et ajoutez quelques conditions.",
       "addCondition": "Ajouter une condition",
       "conditionsTitle": "Conditions",
-      "actionsTitle": "Actions",
       "colorLabel": "Couleur",
       "iconLabel": "Icône",
-      "invalidRanges": "Plage non valide, min doit être inférieure à max et les valeurs doivent être numériques.",
       "labelField": "Étiquette",
       "choiceGroupTrue": "Vrai",
       "choiceGroupFalse": "Faux",
       "flyoutValuesTitle": "Valeurs",
       "flyoutValueTitle": "Valeur",
-      "actionLabel": "Action",
-      "meshColoringOption": "Coloration des mailles",
-      "badgeOption": "Insigne"
+      "badgeOption": "Insigne",
+      "formSubTitle": "Choisissez l’expression de propriété qui sera évaluée, puis créez des conditions qui déterminent quels éléments visuels sont affichés.",
+      "conditionsInfoIconText": "Configurez la plage ou les valeurs spécifiques qui déclenchent un visuel appliqué à l’élément.",
+      "visualLabel": "Type visuel",
+      "rangeErrorMessage": "Plage non valide.",
+      "elementColoringOption": "Coloration des éléments"
     },
     "conditions": "Conditions",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Définissez des règles pour appliquer la couleur à certaines conditions, par exemple, le rouge pour indiquer les températures élevées ou le vert pour une vitesse optimale.",
       "noData": "Vous n'avez pas encore configuré de règles visuelles",
       "addRuleButtonText": "Ajouter une règle",
       "editRule": "Modifier la règle",
       "removeRule": "Supprimer la règle",
       "multipleBadges": "Badges {{badgeCount}}",
-      "multipleMeshColorings": "{{meshColoringCount}} colorations de maillage",
-      "unlabeled": "(non étiqueté)",
       "singleBadge": "1 badge",
-      "singleMeshColoring": "1 coloration maillée"
+      "tabSubtitle": "Créez des règles pour appliquer des visuels à des éléments basés sur des données jumelles.",
+      "singleElementColoring": "1 coloration d’élément",
+      "multipleElementColorings": "Colorations des éléments {{meshColoringCount}}",
+      "unlabeledTag": "Sans étiquette"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Ajouter des séries chronologiques",
           "edit": "Modifier des séries chronologiques",
           "update": "Mettre à jour les séries chronologiques",
-          "remove": "Supprimer des séries chronologiques"
+          "remove": "Supprimer des séries chronologiques",
+          "unitPlaceholder": "p. ex. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "Partagé",
             "independentLabel": "Indépendant"
           },
-          "quickTimeSpan": {
-            "label": "Intervalle de temps par défaut",
-            "information": "Sélection de plage horaire par défaut en heure locale pour l’axe des x dans le graphique"
+          "quickTimeRange": {
+            "label": "Plage de temps par défaut",
+            "information": "Choisissez une plage de temps par défaut pour ce graphique"
           },
-          "aggregationType": {
-            "label": "Type d’agrégation",
-            "information": "Opération d’agrégation par défaut lorsque le regroupement de données est actif en fonction du nombre de points de données dans le graphique"
+          "aggregationMethod": {
+            "label": "Méthode d’agrégation",
+            "information": "Lorsqu’il y a trop de points de données à afficher, les valeurs sont regroupées dans le graphique. Choisissez la méthode d’agrégation pour ces regroupements."
           }
         }
-      }
+      },
+      "headerMenu": "Menu du widget Historique des données",
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "L’année dernière"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
     "defaultFileName": "Nouvelle ontologie",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "Aucun modèle",
     "noMatchingItemsMessage": "Aucun modèle ne correspond à ces critères"
   }
+=======
+  "minLower": "Min",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

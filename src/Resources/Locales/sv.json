@@ -560,39 +560,38 @@
       "new": "Ny visuell regel",
       "edit": "Redigera visuell regel",
       "typePlaceholder": "Välj typ för värdet",
-      "conditionsInfoContent": "Konfigurera intervallet eller specifika värden som utlöser en visuell åtgärd som relaterar till elementet.",
       "newCondition": "Nytt tillstånd",
       "editCondition": "Redigera villkor",
       "deleteCondition": "Ta bort villkor",
       "unlabeledCondition": "Omärkt",
-      "formSubtext": "En regel innehåller villkor och visuella ledtrådar när dessa villkor är uppfyllda. Välj datauttryck för den här regeln och lägg till några villkor.",
       "addCondition": "Lägg till villkor",
       "conditionsTitle": "Villkor",
-      "actionsTitle": "Åtgärder",
       "colorLabel": "Färg",
       "iconLabel": "Ikon",
-      "invalidRanges": "Ogiltigt intervall, min ska vara mindre än max och värdena ska vara numeriska.",
       "labelField": "Etikett",
       "choiceGroupTrue": "Sann",
       "choiceGroupFalse": "Falsk",
       "flyoutValuesTitle": "Värden",
       "flyoutValueTitle": "Värde",
-      "actionLabel": "Handling",
-      "meshColoringOption": "Mesh färgning",
-      "badgeOption": "Emblem"
+      "badgeOption": "Emblem",
+      "formSubTitle": "Välj det egenskapsuttryck som ska utvärderas och skapa sedan villkor som avgör vilka visuella objekt som visas.",
+      "conditionsInfoIconText": "Konfigurera intervallet eller specifika värden som utlöser ett visuellt objekt som tillämpas på elementet.",
+      "visualLabel": "Visuell typ",
+      "rangeErrorMessage": "Ogiltigt intervall.",
+      "elementColoringOption": "Element färgning"
     },
     "conditions": "Villkor",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Ställ in regler för att tillämpa färg på vissa förhållanden , till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
       "noData": "Du har inte konfigurerat några visuella regler ännu",
       "addRuleButtonText": "Lägg till regel",
       "editRule": "Redigera regel",
       "removeRule": "Ta bort regel",
       "multipleBadges": "{{badgeCount}} märken",
-      "multipleMeshColorings": "{{meshColoringCount}} nätfärgningar",
-      "unlabeled": "(omärkt)",
       "singleBadge": "1 märke",
-      "singleMeshColoring": "1 nätfärgning"
+      "tabSubtitle": "Skapa regler för att tillämpa visuella objekt på element baserat på tvillingdata.",
+      "singleElementColoring": "1 element färgning",
+      "multipleElementColorings": "{{meshColoringCount}} elementfärgningar",
+      "unlabeledTag": "Omärkt"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Lägg till tidsserier",
           "edit": "Redigera tidsserier",
           "update": "Uppdatera tidsserier",
-          "remove": "Ta bort tidsserier"
+          "remove": "Ta bort tidsserier",
+          "unitPlaceholder": "t.ex. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "Delad",
             "independentLabel": "Oberoende"
           },
-          "quickTimeSpan": {
+          "quickTimeRange": {
             "label": "Standardtidsintervall",
-            "information": "Standardval av tidsintervall i lokal tid för x-axeln i diagrammet"
+            "information": "Välj ett standardtidsintervall för det här diagrammet"
           },
-          "aggregationType": {
-            "label": "Typ av aggregering",
-            "information": "Standardåtgärd för aggregering när datagruppering är aktiv baserat på antalet datapunkter i diagrammet"
+          "aggregationMethod": {
+            "label": "Aggregeringsmetod",
+            "information": "När det finns för många datapunkter att visa grupperas värdena i diagrammet. Välj aggregeringsmetod för dessa grupperingar."
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenyn Datahistorik",
+      "openQuery": "Öppna frågan i Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "Fjor"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "Inga modeller",
     "noMatchingItemsMessage": "Inga modeller matchar det kriteriet"
   }
+=======
+  "minLower": "min",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

@@ -560,39 +560,38 @@
       "new": "Nieuwe visuele regel",
       "edit": "Visuele regel bewerken",
       "typePlaceholder": "Selecteer het type voor de waarde",
-      "conditionsInfoContent": "Configureer het bereik of de specifieke waarden die een visuele actie met betrekking tot het element activeren.",
       "newCondition": "Nieuwstaat",
       "editCondition": "Voorwaarde bewerken",
       "deleteCondition": "Voorwaarde verwijderen",
       "unlabeledCondition": "Niet-gelabeld",
-      "formSubtext": "Een regel bevat voorwaarden en visuele aanwijzingen wanneer aan die voorwaarden wordt voldaan. Kies de gegevensexpressie voor deze regel en voeg een paar voorwaarden toe.",
       "addCondition": "Voorwaarde toevoegen",
       "conditionsTitle": "Voorwaarden",
-      "actionsTitle": "Acties",
       "colorLabel": "Kleur",
       "iconLabel": "Pictogram",
-      "invalidRanges": "Ongeldig bereik, min moet kleiner zijn dan max en waarden moeten numeriek zijn.",
       "labelField": "Etiket",
       "choiceGroupTrue": "Waar",
       "choiceGroupFalse": "Vals",
       "flyoutValuesTitle": "Waarden",
       "flyoutValueTitle": "Waarde",
-      "actionLabel": "Actie",
-      "meshColoringOption": "Mesh kleuring",
-      "badgeOption": "Insigne"
+      "badgeOption": "Insigne",
+      "formSubTitle": "Kies de eigenschapsexpressie die wordt geëvalueerd en maak vervolgens voorwaarden die bepalen welke visuals worden weergegeven.",
+      "conditionsInfoIconText": "Configureer het bereik of de specifieke waarden die een visual activeren die op het element wordt toegepast.",
+      "visualLabel": "Visueel type",
+      "rangeErrorMessage": "Ongeldig bereik.",
+      "elementColoringOption": "Elementkleuring"
     },
     "conditions": "Voorwaarden",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Stel regels in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
       "noData": "U hebt nog geen Visual Rules geconfigureerd",
       "addRuleButtonText": "Regel toevoegen",
       "editRule": "Regel bewerken",
       "removeRule": "Regel verwijderen",
       "multipleBadges": "{{badgeCount}} badges",
-      "multipleMeshColorings": "{{meshColoringCount}} mesh-kleuren",
-      "unlabeled": "(niet gelabeld)",
       "singleBadge": "1 badge",
-      "singleMeshColoring": "1 mesh kleuring"
+      "tabSubtitle": "Maak regels voor het toepassen van visuals op elementen op basis van dubbele gegevens.",
+      "singleElementColoring": "1 element kleuring",
+      "multipleElementColorings": "{{meshColoringCount}} elementkleuringen",
+      "unlabeledTag": "Niet-gelabeld"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Tijdreeksen toevoegen",
           "edit": "Tijdreeksen bewerken",
           "update": "Tijdreeksen bijwerken",
-          "remove": "Tijdreeksen verwijderen"
+          "remove": "Tijdreeksen verwijderen",
+          "unitPlaceholder": "bv. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -658,16 +658,18 @@
             "sharedLabel": "Gedeeld",
             "independentLabel": "Onafhankelijk"
           },
-          "quickTimeSpan": {
-            "label": "Standaard tijdspanne",
-            "information": "Standaardtijdbereikselectie in lokale tijd voor de x-as in grafiek"
+          "quickTimeRange": {
+            "label": "Standaard tijdsbereik",
+            "information": "Een standaardtijdbereik voor deze grafiek kiezen"
           },
-          "aggregationType": {
-            "label": "Type aggregatie",
-            "information": "Standaardaggregatiebewerking wanneer gegevensgroepering actief is op basis van het aantal gegevenspunten in de grafiek"
+          "aggregationMethod": {
+            "label": "Aggregatiemethode",
+            "information": "Wanneer er te veel gegevenspunten zijn om weer te geven, worden waarden gegroepeerd in de grafiek. Kies de aggregatiemethode voor deze groeperingen."
           }
         }
-      }
+      },
+      "headerMenu": "Widgetmenu gegevensgeschiedenis",
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1310,6 +1312,7 @@
       "Last year": "Vorig jaar"
     }
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
     "defaultFileName": "Nieuwe ontologie",
@@ -1323,4 +1326,8 @@
     "noDataMessage": "Geen modellen",
     "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria"
   }
+=======
+  "minLower": "Min",
+  "maxLower": ".max"
+>>>>>>> origin/main
 }

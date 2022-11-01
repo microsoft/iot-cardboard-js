@@ -25,7 +25,9 @@
                         "id": "4cb0990d646a4bbea3e1102676e200fe",
                         "displayName": "tank",
                         "primaryTwinID": "SaltMachine_C1",
-                        "objectIDs": ["tankMesh"],
+                        "objectIDs": [
+                            "tankMesh"
+                        ],
                         "twinAliases": {
                             "temperatureTag": "PasteurizationMachine_A01"
                         },
@@ -36,7 +38,10 @@
                         "id": "0c785dde26664341b1f391a4e1b35180",
                         "displayName": "box1",
                         "primaryTwinID": "BoxA",
-                        "objectIDs": ["boxLid1Mesh", "boxBody1Mesh"]
+                        "objectIDs": [
+                            "boxLid1Mesh",
+                            "boxBody1Mesh"
+                        ]
                     }
                 ],
                 "behaviorIDs": [
@@ -82,21 +87,30 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf160",
-                                            "values": ["-Infinity", 200],
+                                            "values": [
+                                                "-Infinity",
+                                                200
+                                            ],
                                             "visual": {
                                                 "color": "#C32F27"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf161",
-                                            "values": [500, 800],
+                                            "values": [
+                                                500,
+                                                800
+                                            ],
                                             "visual": {
                                                 "color": "#FEE440"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf162",
-                                            "values": [800, 1000],
+                                            "values": [
+                                                800,
+                                                1000
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             }
@@ -116,14 +130,20 @@
                                     "valueRanges": [
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fcf149",
-                                            "values": [700, 900],
+                                            "values": [
+                                                700,
+                                                900
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             }
                                         },
                                         {
                                             "id": "0278cd377adbc30253b0fdb6b5fc3sak",
-                                            "values": [2000, 3000],
+                                            "values": [
+                                                2000,
+                                                3000
+                                            ],
                                             "visual": {
                                                 "color": "#26C485"
                                             }
@@ -212,16 +232,33 @@
                         "valueRanges": [
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fcf149",
-                                "values": [30, 35],
+                                "values": [
+                                    30,
+                                    35
+                                ],
                                 "visual": {
                                     "color": "#26C485"
                                 }
                             },
                             {
                                 "id": "0278cd377adbc30253b0fdb6b5fc3sak",
-                                "values": [0, 20],
+                                "values": [
+                                    0,
+                                    20
+                                ],
                                 "visual": {
                                     "color": "#FF0000"
+                                }
+                            },
+                            {
+                                "id": "0278cd377adbc30253b0fdb6b5fc3123",
+                                "values": [
+                                    21,
+                                    29
+                                ],
+                                "visual": {
+                                    "color": "#FF0000",
+                                    "iconName": "heart"
                                 }
                             }
                         ],
@@ -237,14 +274,20 @@
                         "valueRanges": [
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
-                                "values": [100, "Infinity"],
+                                "values": [
+                                    100,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "color": "#0000FF"
                                 }
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
-                                "values": ["-Infinity", 100],
+                                "values": [
+                                    "-Infinity",
+                                    100
+                                ],
                                 "visual": {
                                     "color": "#00FF00"
                                 }
@@ -263,7 +306,9 @@
                         "valueRanges": [
                             {
                                 "id": "d0d2edff7c80438fa529206848866i91",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "labelExpression": "Tire pressure too low!",
                                     "iconName": "heart",
@@ -280,11 +325,15 @@
             {
                 "id": "8b99ab46fabd45fab3adbaf88245a6b5",
                 "displayName": "Tank too hot",
-                "twinAliases": ["temperatureTag"],
+                "twinAliases": [
+                    "temperatureTag"
+                ],
                 "datasources": [
                     {
                         "type": "ElementTwinToObjectMappingDataSource",
-                        "elementIDs": ["4cb0990d646a4bbea3e1102676e200fe"]
+                        "elementIDs": [
+                            "4cb0990d646a4bbea3e1102676e200fe"
+                        ]
                     }
                 ],
                 "visuals": [
@@ -295,14 +344,20 @@
                         "valueRanges": [
                             {
                                 "id": "0278ed377adbc30153b0fdb6b5fcf167",
-                                "values": [100, "Infinity"],
+                                "values": [
+                                    100,
+                                    "Infinity"
+                                ],
                                 "visual": {
                                     "color": "#0000FF"
                                 }
                             },
                             {
                                 "id": "0278bd377adbc30254b0fdb6b5fcf169",
-                                "values": ["-Infinity", 100],
+                                "values": [
+                                    "-Infinity",
+                                    100
+                                ],
                                 "visual": {
                                     "color": "#00FF00"
                                 }
@@ -320,7 +375,9 @@
                         "valueRanges": [
                             {
                                 "id": "d0d2edff7c80438fa529206848866i91",
-                                "values": [true],
+                                "values": [
+                                    true
+                                ],
                                 "visual": {
                                     "labelExpression": "${PrimaryTwin.$dtId} is too hot!",
                                     "iconName": "heart",
@@ -339,13 +396,17 @@
             {
                 "id": "3511cc0c61394d0e857cde735ddb4e81",
                 "displayName": "TireStuff",
-                "behaviorIDs": ["bf1ec41d7886438d880c140fb1bb570a"],
+                "behaviorIDs": [
+                    "bf1ec41d7886438d880c140fb1bb570a"
+                ],
                 "extensionProperties": {}
             },
             {
                 "id": "a2912b78335c4e75a58ba72d987fefac",
                 "displayName": "HotStuff",
-                "behaviorIDs": ["8b99ab46fabd45fab3adbaf88245a6b5"],
+                "behaviorIDs": [
+                    "8b99ab46fabd45fab3adbaf88245a6b5"
+                ],
                 "extensionProperties": {}
             }
         ]
