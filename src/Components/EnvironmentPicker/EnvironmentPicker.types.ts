@@ -36,6 +36,7 @@ export type EnvironmentPickerProps = {
         adtInstances: Array<IADTInstance | string>
     ) => void;
     storage?: StorageContainer;
+    isDialogOpen?: boolean;
 } & (WithLocalStorage | WithoutLocalStorage);
 
 /** @deprecated This has been used for aligning the local storage format with ADT Explorer app. This will be removed soon with the new local storage format */
