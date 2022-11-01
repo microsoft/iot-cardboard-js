@@ -10,7 +10,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/public/RobotArms.glb"
+                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/RobotArms.glb"
                     }
                 ],
                 "elements": [
@@ -241,7 +241,7 @@
                 "assets": [
                     {
                         "type": "3DAsset",
-                        "url": "https://cardboardresources.blob.core.windows.net/public/Refinery.glb",
+                        "url": "https://iotcardboardjsresources.blob.core.windows.net/public/Refinery.glb",
                         "extensionProperties": {}
                     }
                 ],
