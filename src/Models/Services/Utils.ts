@@ -318,6 +318,15 @@ export function getSceneElementStatusColor(
     );
 }
 
+export function shouldShowConditionColor(
+    valueExpression: string,
+    valueRanges: unknown[],
+    twins: Record<string, DTwin>
+) {
+    const value = parseLinkedTwinExpression(valueExpression, twins);
+    return ViewerConfigUtility.getValueIsWithinRange(valueRanges, value);
+}
+
 export function buildDropdownOptionsFromStrings(
     properties: string[]
 ): IDropdownOption[] {

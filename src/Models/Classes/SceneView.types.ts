@@ -22,6 +22,7 @@ export class SceneVisual {
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
+    // TODO Remove ALERT naming conventions
     alertBadgeGroup?: SceneViewBadgeGroup[];
     transformedElementItems?: TransformedElementItem[];
 

@@ -1007,6 +1007,10 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
+    static getValueIsWithinRange(values: unknown[], value: number): boolean {
+        return value >= Number(values[0]) && value < Number(values[1]);
+    }
+
     static getMatchingRangeFromValue(
         ranges: IValueRange[],
         value: number
