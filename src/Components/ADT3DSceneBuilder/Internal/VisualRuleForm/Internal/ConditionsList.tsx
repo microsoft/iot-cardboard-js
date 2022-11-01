@@ -45,6 +45,9 @@ const defaultCalloutInfo: CalloutInfo = {
     selectedTarget: ''
 };
 
+const CONDITIONS_ITEM_ID_PREFIX = 'cb-visual-rule-conditions-list-item-';
+const CONDITIONS_ADD_BUTTON_ID = 'cb-visual-rule-add-condition-button';
+
 const ConditionsList: React.FC<IConditionsListProps> = (props) => {
     // Props
     const {
@@ -77,7 +80,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                 valueRangeType,
                 getNextColor(valueRanges, defaultSwatchColors)
             ),
-            selectedTarget: `#${LIST_KEY}`
+            selectedTarget: `#${CONDITIONS_ADD_BUTTON_ID}`
         });
     }, [valueRangeType]);
 
@@ -99,7 +102,9 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         selectedCondition: valueRanges.find(
                             (vr) => vr.id === conditionId
                         ),
-                        selectedTarget: `#${LIST_KEY}`
+                        selectedTarget: `#${
+                            CONDITIONS_ITEM_ID_PREFIX + conditionId
+                        }`
                     });
                 },
                 data: {
@@ -156,6 +161,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                 (condition) => {
                     const showBadgeIcon = hasBadge(condition.iconName);
                     return {
+                        id: CONDITIONS_ITEM_ID_PREFIX + condition.id,
                         item: condition,
                         ariaLabel: `Condition for ${condition.primaryText}`,
                         textPrimary: condition.primaryText,
@@ -174,7 +180,9 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                                 selectedCondition: valueRanges.find(
                                     (vr) => vr.id === condition.id
                                 ),
-                                selectedTarget: `#${LIST_KEY}`
+                                selectedTarget: `#${
+                                    CONDITIONS_ITEM_ID_PREFIX + condition.id
+                                }`
                             });
                         },
                         buttonProps: {
@@ -213,8 +221,8 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         items={conditions}
                     />
                     <ActionButton
-                        id={'visual-rule-add-condition'}
-                        data-testid={'visual-rule-add-condition'}
+                        id={CONDITIONS_ADD_BUTTON_ID}
+                        data-testid={CONDITIONS_ADD_BUTTON_ID}
                         styles={classNames.subComponentStyles.addButton?.()}
                         onClick={handleOpenNewConditionFlyout}
                     >
