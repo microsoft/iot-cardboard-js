@@ -7,7 +7,8 @@ import { HEADER_BUTTON_HEIGHT } from '../../../../Models/Constants/StyleConstant
 import {
     CONTROLS_BOTTOM_OFFSET,
     CONTROLS_LEFT_OFFSET,
-    CONTROLS_Z_INDEX
+    CONTROLS_Z_INDEX,
+    getControlBackgroundColor
 } from '../../../../Models/Constants/OatStyleConstants';
 
 export const classPrefix = `${CardboardClassNamePrefix}-graph-viewer-controls`;
@@ -69,6 +70,15 @@ export const getStyles = (
             }
         ],
         subComponentStyles: {
+            controlButton: {
+                subComponentStyles: {
+                    button: {
+                        rootChecked: {
+                            backgroundColor: getControlBackgroundColor(theme)
+                        }
+                    }
+                }
+            },
             controlsStack: {
                 root: {
                     '> .react-flow__controls': {

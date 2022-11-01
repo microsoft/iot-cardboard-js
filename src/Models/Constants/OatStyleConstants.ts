@@ -1,4 +1,4 @@
-import { ITheme } from '@fluentui/theme';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export const OAT_HEADER_HEIGHT = 76;
 
@@ -7,5 +7,5 @@ export const CONTROLS_BOTTOM_OFFSET = 30;
 export const CONTROLS_Z_INDEX = 6;
 export const LOADING_Z_INDEX = CONTROLS_Z_INDEX + 1;
 
-export const getControlBackgroundColor = (theme: ITheme): string =>
-    theme.palette.neutralLight;
+export const getControlBackgroundColor = (theme: IExtendedTheme): string =>
+    theme.semanticColors.bodyBackgroundChecked;

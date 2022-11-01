@@ -15,12 +15,13 @@ import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 import { Stack } from '@fluentui/react';
+import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
-    const { selectedTheme } = props;
+    const { locale, localeStrings, theme } = props;
 
     // hooks
 
@@ -42,22 +43,28 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
 
     return (
         <>
-            <div className={editorPageStyles.container}>
+            <BaseComponent
+                theme={theme}
+                locale={locale}
+                localeStrings={localeStrings}
+                containerClassName={editorPageStyles.container}
+                disableDefaultStyles={true}
+            >
                 <OATHeader />
                 <Stack horizontal className={editorPageStyles.component}>
                     <div className={editorPageStyles.viewerContainer}>
-                        <OATGraphViewerContent />
+                        <OATGraphViewerContent selectedTheme={theme} />
                     </div>
                     <div className={editorPageStyles.propertyEditorContainer}>
                         <OATPropertyEditor
-                            theme={selectedTheme}
+                            theme={theme}
                             languages={languages}
                         />
                     </div>
                 </Stack>
-            </div>
-            <OATErrorHandlingModal />
-            <OATConfirmDeleteModal />
+                <OATErrorHandlingModal />
+                <OATConfirmDeleteModal />
+            </BaseComponent>
         </>
     );
 };

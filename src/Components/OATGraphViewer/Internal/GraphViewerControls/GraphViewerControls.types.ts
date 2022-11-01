@@ -1,9 +1,6 @@
-import {
-    IStackStyles,
-    IStyle,
-    IStyleFunctionOrObject,
-    ITheme
-} from '@fluentui/react';
+import { IStackStyles, IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { IHeaderControlButtonStyles } from '../../../HeaderControlButton/HeaderControlButton.types';
 import { IHeaderControlGroupStyles } from '../../../HeaderControlGroup/HeaderControlGroup.types';
 
 export interface IGraphViewerControlsProps {
@@ -21,7 +18,7 @@ export interface IGraphViewerControlsProps {
 }
 
 export interface IGraphViewerControlsStyleProps {
-    theme: ITheme;
+    theme: IExtendedTheme;
 }
 export interface IGraphViewerControlsStyles {
     root: IStyle;
@@ -35,5 +32,6 @@ export interface IGraphViewerControlsStyles {
 
 export interface IGraphViewerControlsSubComponentStyles {
     controlsStack?: IStackStyles;
+    controlButton?: IHeaderControlButtonStyles;
     modelsListButtonGroup?: IHeaderControlGroupStyles;
 }

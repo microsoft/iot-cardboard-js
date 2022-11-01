@@ -1,10 +1,11 @@
 import {
     IStyleFunctionOrObject,
-    ITheme,
     IStyle,
     ISearchBoxStyles,
-    IStackStyles
+    IStackStyles,
+    IButtonStyles
 } from '@fluentui/react';
+import { IExtendedTheme } from '../../Theming/Theme.types';
 
 export interface IOATModelListProps {
     /**
@@ -17,7 +18,7 @@ export interface IOATModelListProps {
 }
 
 export interface IOATModelListStyleProps {
-    theme: ITheme;
+    theme: IExtendedTheme;
 }
 export interface IOATModelListStyles {
     root: IStyle;
@@ -31,6 +32,7 @@ export interface IOATModelListStyles {
 }
 
 export interface IOATModelListSubComponentStyles {
+    listItem?: IStyleFunctionOrObject<{ isSelected: boolean }, IButtonStyles>;
     rootStack: IStackStyles;
     searchbox?: ISearchBoxStyles;
 }

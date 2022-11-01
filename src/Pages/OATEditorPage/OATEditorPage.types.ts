@@ -1,12 +1,14 @@
-import { IOATNodePosition, Theme } from '../../Models/Constants';
+import { IOATNodePosition, Locale, Theme } from '../../Models/Constants';
 import {
     DtdlInterface,
     DtdlProperty
 } from '../../Models/Constants/dtdlInterfaces';
 
 export interface IOATEditorPageProps {
-    selectedTheme: Theme;
     disableStorage?: boolean;
+    locale: Locale;
+    localeStrings?: Record<string, any>;
+    theme: Theme;
 }
 
 export interface IOATError {

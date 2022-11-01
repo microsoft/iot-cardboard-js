@@ -17,6 +17,7 @@ import {
     getControlBackgroundColor,
     LOADING_Z_INDEX
 } from '../../Models/Constants/OatStyleConstants';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
@@ -128,7 +129,7 @@ const classNames = {
 };
 
 export const getGraphViewerStyles = () => {
-    const theme = useTheme();
+    const theme = useExtendedTheme();
     return mergeStyleSets({
         container: [
             classNames.container,
