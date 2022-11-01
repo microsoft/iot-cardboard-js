@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
+      "errors": {
+        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée."
+      }
     }
   },
   "sdkStrings": {

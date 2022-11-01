@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menu de widget do histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer"
+      "openQuery": "Consulta aberta no Azure Data Explorer",
+      "errors": {
+        "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada."
+      }
     }
   },
   "sdkStrings": {

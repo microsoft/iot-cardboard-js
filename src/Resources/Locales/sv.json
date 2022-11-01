@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
-      "openQuery": "Öppna frågan i Azure Data Explorer"
+      "openQuery": "Öppna frågan i Azure Data Explorer",
+      "errors": {
+        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras."
+      }
     }
   },
   "sdkStrings": {

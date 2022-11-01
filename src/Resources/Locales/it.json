@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menu widget Cronologia dati",
-      "openQuery": "Aprire query in Esplora dati di Azure"
+      "openQuery": "Aprire query in Esplora dati di Azure",
+      "errors": {
+        "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita."
+      }
     }
   },
   "sdkStrings": {

@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
-      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
+      "errors": {
+        "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden."
+      }
     }
   },
   "sdkStrings": {

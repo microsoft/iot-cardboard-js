@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
+      "errors": {
+        "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar."
+      }
     }
   },
   "sdkStrings": {

@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
+      "errors": {
+        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać."
+      }
     }
   },
   "sdkStrings": {

@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer"
+      "openQuery": "Query openen in Azure Data Explorer",
+      "errors": {
+        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd."
+      }
     }
   },
   "sdkStrings": {

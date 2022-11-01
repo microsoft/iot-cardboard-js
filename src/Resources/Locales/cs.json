@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
-      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat",
+      "errors": {
+        "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést."
+      }
     }
   },
   "sdkStrings": {

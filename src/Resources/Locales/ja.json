@@ -669,7 +669,10 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く"
+      "openQuery": "Azure データ エクスプローラーでクエリを開く",
+      "errors": {
+        "generalBadRequestMessage": "要求は無効であり、実行できません。"
+      }
     }
   },
   "sdkStrings": {
