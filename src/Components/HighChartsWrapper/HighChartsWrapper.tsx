@@ -98,8 +98,6 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     });
 
     //side-effects
-    useEffect(() => {}, []);
-
     useEffect(() => {
         if (!isLoading) {
             chartComponentRef.current?.chart?.hideLoading();
