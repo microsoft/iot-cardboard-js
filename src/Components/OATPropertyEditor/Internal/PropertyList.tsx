@@ -40,11 +40,10 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     // state
     const draggedPropertyItemRef = useRef(null);
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
-    const [lastPropertyFocused, setLastPropertyFocused] = useState(null);
-    const dragItem = useRef(null);
-    const dragNode = useRef(null);
+    const dragItemIndex = useRef<number>(-1);
+    const dragNode = useRef<HTMLElement | null>(null);
     const dragEnteredItem = useRef(null);
-    const addPropertyLabelRef = useRef(null);
+    const addPropertyLabelRef = useRef<HTMLDivElement>(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
     );
@@ -55,14 +54,14 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const [
         propertySelectorTriggerElementsBoundingBox,
         setPropertySelectorTriggerElementsBoundingBox
-    ] = useState(null);
+    ] = useState<DOMRect | null>(null);
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     // data
     const propertiesKeyName = getModelPropertyCollectionName(
-        selectedItem ? selectedItem['@type'] : null
+        selectedItem ? selectedItem['@type'] : ''
     );
 
     const onPropertyItemDropOnTemplateList = () => {
@@ -86,22 +85,25 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
-            oatPageState.selection
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            oatPageState.selection!
         );
         //  Replace entered item with dragged item
         // --> Remove dragged item from model and then place it on entered item's position
-        modelCopy[propertiesKeyName].splice(
-            dragEnteredItem.current,
-            0,
-            modelCopy[propertiesKeyName].splice(dragItem.current, 1)[0]
-        );
+        if (modelCopy) {
+            modelCopy[propertiesKeyName].splice(
+                dragEnteredItem.current,
+                0,
+                modelCopy[propertiesKeyName].splice(dragItemIndex.current, 1)[0]
+            );
+        }
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS,
             payload: { models: modelsCopy }
         });
 
-        dragNode.current.removeEventListener('dragend', onDragEnd);
-        dragItem.current = null;
+        dragNode.current?.removeEventListener('dragend', onDragEnd);
+        dragItemIndex.current = -1;
         dragNode.current = null;
         draggedPropertyItemRef.current = null;
         dispatch({
@@ -119,9 +121,9 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     };
 
     const onDragStart = (e, propertyIndex) => {
-        dragItem.current = propertyIndex;
+        dragItemIndex.current = propertyIndex;
         dragNode.current = e.target;
-        dragNode.current.addEventListener('dragend', onDragEnd);
+        dragNode.current?.addEventListener('dragend', onDragEnd);
         draggedPropertyItemRef.current = propertyIndex;
         //  Allows style to change after drag has started
         setTimeout(() => {
@@ -141,7 +143,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     };
 
     const getItemClassName = (propertyIndex) => {
-        if (propertyIndex === dragItem.current && draggingProperty) {
+        if (propertyIndex === dragItemIndex.current && draggingProperty) {
             return propertyInspectorStyles.propertyItemDragging;
         }
         if (propertyIndex === enteredItem && draggingTemplate) {
@@ -161,8 +163,13 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                return;
+            }
+
             if (index === undefined) {
                 modelCopy[propertiesKeyName][currentPropertyIndex].name = value;
             } else {
@@ -184,7 +191,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         execute(update, undoUpdate);
     };
 
-    const generateErrorMessage = (value, index) => {
+    const generateErrorMessage = (value: string, index?: number) => {
         if (value) {
             const find = selectedItem[propertiesKeyName].find(
                 (item) => item.name === value
@@ -198,17 +205,20 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                 ? `${t('OATPropertyEditor.errorRepeatedPropertyName')}`
                 : '';
         }
+        return '';
     };
 
-    const deleteItem = (index) => {
-        setLastPropertyFocused(null);
-
-        const deletion = (index) => {
+    const deleteItem = (index: number) => {
+        const deletion = (index: number) => {
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                return;
+            }
             modelCopy[propertiesKeyName].splice(index, 1);
             const dispatchDelete = () => {
                 oatPageDispatch({
@@ -232,7 +242,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         execute(() => deletion(index), undoDeletion);
     };
 
-    const definePropertySelectorPosition = (e, top = null) => {
+    const definePropertySelectorPosition = (e, top: number | null = null) => {
         if (e) {
             const boundingRect = e.target.getBoundingClientRect();
             setPropertySelectorPosition({
@@ -257,16 +267,14 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     const onPropertyBarMouseOver = (e) => {
         setPropertySelectorVisible(true);
-        setLastPropertyFocused(null);
         definePropertySelectorPosition(e);
     };
 
     const onAddPropertyLabelMouseOver = (e) => {
         setPropertySelectorVisible(true);
-        setLastPropertyFocused(null);
 
-        const buttonTop = addPropertyLabelRef.current.getBoundingClientRect()
-            .top;
+        const buttonTop =
+            addPropertyLabelRef.current?.getBoundingClientRect().top || 0;
         definePropertySelectorPosition(e, buttonTop);
     };
 
@@ -276,8 +284,13 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                return;
+            }
+
             const item = modelCopy[propertiesKeyName][index];
             modelCopy[propertiesKeyName].splice(index, 1);
             modelCopy[propertiesKeyName].splice(index + direction, 0, item);
@@ -335,35 +348,34 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                             <PropertyListItemNest
                                 key={i}
                                 index={i}
+                                definePropertySelectorPosition={
+                                    definePropertySelectorPosition
+                                }
+                                deleteItem={deleteItem}
+                                dispatch={dispatch}
                                 draggingProperty={draggingProperty}
+                                getErrorMessage={generateErrorMessage}
                                 getItemClassName={getNestItemClassName}
                                 getNestedItemClassName={getNestedItemClassName}
-                                getErrorMessage={generateErrorMessage}
-                                onPropertyDisplayNameChange={
-                                    onPropertyDisplayNameChange
-                                }
+                                item={item}
                                 onDragEnter={onDragEnter}
                                 onDragEnterExternalItem={
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                item={item}
-                                lastPropertyFocused={lastPropertyFocused}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                dispatch={dispatch}
-                                deleteItem={deleteItem}
-                                setPropertySelectorVisible={
-                                    setPropertySelectorVisible
-                                }
-                                propertySelectorTriggerElementsBoundingBox={
-                                    propertySelectorTriggerElementsBoundingBox
-                                }
-                                definePropertySelectorPosition={
-                                    definePropertySelectorPosition
-                                }
                                 onMove={moveItemOnPropertyList}
+                                onPropertyDisplayNameChange={
+                                    onPropertyDisplayNameChange
+                                }
                                 propertiesLength={
                                     selectedItem[propertiesKeyName].length
+                                }
+                                propertySelectorTriggerElementsBoundingBox={
+                                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                    propertySelectorTriggerElementsBoundingBox!
+                                }
+                                setPropertySelectorVisible={
+                                    setPropertySelectorVisible
                                 }
                             />
                         );
@@ -372,22 +384,21 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                             <PropertyListItem
                                 key={i}
                                 index={i}
+                                deleteItem={deleteItem}
+                                dispatch={dispatch}
                                 draggingProperty={draggingProperty}
-                                getItemClassName={getItemClassName}
                                 getErrorMessage={generateErrorMessage}
-                                onPropertyDisplayNameChange={
-                                    onPropertyDisplayNameChange
-                                }
+                                getItemClassName={getItemClassName}
+                                item={item}
                                 onDragEnter={onDragEnter}
                                 onDragEnterExternalItem={
                                     onDragEnterExternalItem
                                 }
                                 onDragStart={onDragStart}
-                                item={item}
-                                setLastPropertyFocused={setLastPropertyFocused}
-                                deleteItem={deleteItem}
-                                dispatch={dispatch}
                                 onMove={moveItemOnPropertyList}
+                                onPropertyDisplayNameChange={
+                                    onPropertyDisplayNameChange
+                                }
                                 propertiesLength={
                                     selectedItem[propertiesKeyName].length
                                 }
@@ -411,7 +422,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
             <PropertySelector
                 setPropertySelectorVisible={setPropertySelectorVisible}
-                lastPropertyFocused={lastPropertyFocused}
                 propertySelectorPosition={propertySelectorPosition}
                 className={
                     propertySelectorVisible

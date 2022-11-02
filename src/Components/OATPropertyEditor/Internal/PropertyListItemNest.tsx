@@ -6,7 +6,8 @@ import {
     getPropertyListItemIconWrapMoreStyles,
     getPropertyEditorTextFieldStyles
 } from '../OATPropertyEditor.styles';
-import { DTDLSchemaType } from '../../../Models/Classes/DTDL';
+import { DTDLProperty, DTDLSchemaType } from '../../../Models/Classes/DTDL';
+import { isDTDLEnum, isDTDLObject } from '../../../Models/Services/DtdlUtils';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
@@ -29,7 +30,10 @@ import {
 } from '../Utils';
 import { FormBody } from '../Shared/Constants';
 import { PropertyListItemNestProps } from './PropertyListItemNest.types';
-import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import {
+    logDebugConsole,
+    useOatPageContext
+} from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 
 export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
@@ -88,12 +92,14 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
+        model ? model['@type'] : ''
     );
 
     const showObjectPropertySelector = useMemo(() => {
         return (
-            item.schema['@type'] === DTDLSchemaType.Object &&
+            item &&
+            isDTDLObject(item) &&
+            item.schema.fields &&
             (item.schema.fields.length === 0 ||
                 (item.schema.fields.length > 0 && collapsed))
         );
@@ -105,13 +111,17 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
             payload: index
         });
-        if (!lastPropertyFocused) {
+        if (
+            !lastPropertyFocused ||
+            !lastPropertyFocused.item ||
+            !lastPropertyFocused.item.schema
+        ) {
             return;
         }
 
         switch (lastPropertyFocused.item.schema['@type']) {
             case DTDLSchemaType.Object:
-                setPropertySelectorVisible(true);
+                setPropertySelectorVisible?.(true);
                 return;
             case DTDLSchemaType.Enum:
                 dispatch({
@@ -133,7 +143,9 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             oatPageDispatch({
                 type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
                 payload: {
-                    templates: [...oatPageState.currentOntologyTemplates, item]
+                    templates: item
+                        ? [...oatPageState.currentOntologyTemplates, item]
+                        : [...oatPageState.currentOntologyTemplates]
                 }
             });
         };
@@ -150,6 +162,9 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
     const onDuplicate = () => {
         const duplicate = () => {
+            if (!item) {
+                return;
+            }
             const itemCopy = deepCopy(item);
             itemCopy.name = `${itemCopy.name}_${t('OATPropertyEditor.copy')}`;
             itemCopy.displayName = `${itemCopy.displayName}_${t(
@@ -162,8 +177,18 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                logDebugConsole(
+                    'warn',
+                    'Could not find target for the selected model. {selection}',
+                    oatPageState.selection
+                );
+                return;
+            }
+
             modelCopy[propertiesKeyName].push(itemCopy);
             oatPageDispatch({
                 type: OatPageContextActionType.SET_CURRENT_MODELS,
@@ -186,8 +211,18 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                logDebugConsole(
+                    'warn',
+                    'Could not find target for the selected model. {selection}',
+                    oatPageState.selection
+                );
+                return;
+            }
+
             if (
                 modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
@@ -235,8 +270,13 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
             const modelCopy = getTargetFromSelection(
                 modelsCopy,
-                oatPageState.selection
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                oatPageState.selection!
             );
+            if (!modelCopy) {
+                return;
+            }
+
             const collectionAttributeName =
                 modelCopy[propertiesKeyName][parentIndex].schema['@type'] ===
                 DTDLSchemaType.Enum
@@ -267,17 +307,17 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             });
         };
 
-        execute(() => onMove(nestedIndex, moveUp), undoOnMove);
+        execute(() => onMove?.(nestedIndex, moveUp), undoOnMove);
     };
 
     const onAddPropertyBarMouseOver = (e) => {
-        setLastPropertyFocused({
+        setLastPropertyFocused?.({
             item: item,
             index: index
         });
-        setPropertySelectorVisible(true);
+        setPropertySelectorVisible?.(true);
         addPropertyCallback();
-        definePropertySelectorPosition(e);
+        definePropertySelectorPosition?.(e);
     };
 
     const onInfoButtonClick = () => {
@@ -305,7 +345,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
                 setHover(true);
-                setLastPropertyFocused({
+                setLastPropertyFocused?.({
                     item: item,
                     index: index
                 });
@@ -318,23 +358,23 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                         propertySelectorTriggerElementsBoundingBox
                     )
                 ) {
-                    setPropertySelectorVisible(false);
+                    setPropertySelectorVisible?.(false);
                 }
             }}
         >
             <div
-                className={getItemClassName(index)}
+                className={getItemClassName?.(index)}
                 draggable
                 onDragStart={(e) => {
-                    onDragStart(e, index);
+                    onDragStart?.(e, index);
                 }}
                 onDragEnter={
                     draggingProperty
-                        ? (e) => onDragEnter(e, index)
-                        : () => onDragEnterExternalItem(index)
+                        ? (e) => onDragEnter?.(e, index)
+                        : () => onDragEnterExternalItem?.(index)
                 }
                 onFocus={() => {
-                    setLastPropertyFocused({
+                    setLastPropertyFocused?.({
                         item: item,
                         index: index
                     });
@@ -346,9 +386,9 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                 >
                     {!displayNameEditor && (
                         <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                            {item.displayName
+                            {item && item.displayName
                                 ? item.displayName
-                                : item.name
+                                : item && item.name
                                 ? item.name
                                 : ''}
                         </Text>
@@ -366,7 +406,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                                     type: SET_OAT_PROPERTY_EDITOR_CURRENT_PROPERTY_INDEX,
                                     payload: index
                                 });
-                                onPropertyDisplayNameChange(value, index);
+                                onPropertyDisplayNameChange?.(value, index);
                             }}
                             onGetErrorMessage={getErrorMessage}
                             onBlur={() => setDisplayNameEditor(false)}
@@ -377,10 +417,8 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                     >
                         {item.schema['@type']}
                     </Text>
-                    {(item.schema['@type'] === DTDLSchemaType.Object &&
-                        item.schema.fields.length > 0) ||
-                    (item.schema['@type'] === DTDLSchemaType.Enum &&
-                        item.schema.enumValues.length > 0) ? (
+                    {(isDTDLObject(item) && item.schema.fields.length > 0) ||
+                    (isDTDLEnum(item) && item.schema.enumValues.length > 0) ? (
                         <IconButton
                             iconProps={{
                                 iconName: collapsed
@@ -425,23 +463,25 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                                 )}
                                 onMoveUp={
                                     // Use function if item is not the first item in the list
-                                    index > 0 ? onMove : null
+                                    index > 0 ? onMove : () => undefined
                                 }
                                 onMoveDown={
                                     // Use function if item is not the last item in the list
-                                    index < propertiesLength - 1 ? onMove : null
+                                    index < propertiesLength - 1
+                                        ? onMove
+                                        : () => undefined
                                 }
                             />
                         )}
                     </IconButton>
                 </div>
                 {collapsed &&
-                    item.schema['@type'] === DTDLSchemaType.Object &&
+                    isDTDLObject(item) &&
                     item.schema.fields.length > 0 &&
                     item.schema.fields.map((field, i) => (
                         <PropertyListItemNested
                             key={i}
-                            item={field}
+                            item={field as DTDLProperty}
                             parentIndex={index}
                             index={i}
                             getItemClassName={getNestedItemClassName}
@@ -454,7 +494,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
                 {collapsed &&
                     item &&
-                    item.schema['@type'] === DTDLSchemaType.Enum &&
+                    isDTDLEnum(item) &&
                     item.schema.enumValues.length > 0 &&
                     item.schema.enumValues.map((collectionItem, i) => (
                         <PropertyListEnumItemNested
@@ -470,11 +510,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                     ))}
 
                 {collapsed && item.schema['@type'] === DTDLSchemaType.Map && (
-                    <PropertyListMapItemNested
-                        item={item}
-                        dispatch={dispatch}
-                        index={index}
-                    />
+                    <PropertyListMapItemNested item={item} index={index} />
                 )}
             </div>
             {showObjectPropertySelector && (

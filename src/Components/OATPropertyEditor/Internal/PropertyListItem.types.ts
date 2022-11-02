@@ -11,9 +11,9 @@ export type PropertyListItemProps = {
     onMove?: (index: number, moveUp: boolean) => void;
     propertiesLength?: number;
     onPropertyDisplayNameChange?: (value: string, index?: number) => void;
-    onDragEnter?: (event: any, item: any) => any;
+    onDragEnter?: (event: any, item: DTDLProperty) => any;
     onDragEnterExternalItem?: (index: number) => any;
-    onDragStart?: (event: any, item: any) => any;
+    onDragStart?: (event: any, item: DTDLProperty) => any;
     item?: DTDLProperty;
     setLastPropertyFocused?: React.Dispatch<React.SetStateAction<any>>;
 };
