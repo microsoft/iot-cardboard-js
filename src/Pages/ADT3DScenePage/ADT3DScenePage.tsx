@@ -3,7 +3,8 @@ import React, {
     useCallback,
     useEffect,
     useReducer,
-    useRef
+    useRef,
+    useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -84,6 +85,10 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     const { t } = useTranslation();
     const errorCallbackSetRef = useRef<boolean>(false);
     const { deeplinkDispatch, deeplinkState } = useDeeplinkContext();
+    const [
+        isEnvironmentPickerDialogOpen,
+        setIsEnvironmentPickerDialogOpen
+    ] = useState(false);
 
     const [state, dispatch] = useReducer(
         ADT3DScenePageReducer,
@@ -424,6 +429,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             ),
                             buttonAction: () => {
                                 errorCallbackSetRef.current = false;
+                                setIsEnvironmentPickerDialogOpen(true);
                             }
                         }
                     }
@@ -444,6 +450,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                             ),
                             buttonAction: () => {
                                 errorCallbackSetRef.current = false;
+                                setIsEnvironmentPickerDialogOpen(true);
                             }
                         }
                     }
@@ -615,6 +622,14 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                                                         ?.storage
                                                         ?.selectedItemLocalStorageKey
                                             })
+                                        }}
+                                        isDialogOpen={
+                                            isEnvironmentPickerDialogOpen
+                                        }
+                                        onDismiss={() => {
+                                            setIsEnvironmentPickerDialogOpen(
+                                                false
+                                            );
                                         }}
                                     />
                                 </div>
