@@ -91,7 +91,7 @@ export const getPropertyInspectorStyles = () => {
                 display: 'flex',
                 flexDirection: 'row',
                 height: '100%',
-                maxHeight: '80vh',
+                maxHeight: '70vh',
                 padding: 16,
                 width: PROPERTY_EDITOR_WIDTH
             } as IStyle
