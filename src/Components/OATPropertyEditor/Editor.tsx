@@ -22,10 +22,7 @@ import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
-import {
-    getModelPropertyCollectionName,
-    getTargetFromSelection
-} from './Utils';
+import { getModelPropertyCollectionName } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
@@ -38,9 +35,19 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
+import { getDebugLogger } from '../../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('Editor', debugLogging);
 
 const Editor: React.FC<IEditorProps> = (props) => {
-    const { editorDispatch, languages, editorState, selectedThemeName } = props;
+    const {
+        editorDispatch,
+        languages,
+        selectedItem,
+        editorState,
+        selectedThemeName
+    } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -58,42 +65,33 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const enteredPropertyRef = useRef(null);
 
     // data
-    const model = useMemo(
-        () =>
-            oatPageState.selection &&
-            getTargetFromSelection(
-                oatPageState.currentOntologyModels,
-                oatPageState.selection
-            ),
-        [oatPageState.currentOntologyModels, oatPageState.selection]
-    );
-
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : OAT_INTERFACE_TYPE
+        selectedItem ? selectedItem['@type'] : OAT_INTERFACE_TYPE
     );
 
     const propertyList = useMemo(() => {
         // Get contents excluding relationship items
         let propertyItems = [];
         if (
-            model &&
-            model[propertiesKeyName] &&
-            model[propertiesKeyName].length > 0
+            selectedItem &&
+            selectedItem[propertiesKeyName] &&
+            selectedItem[propertiesKeyName].length > 0
         ) {
             // Exclude relationships from propertyList
-            propertyItems = model[propertiesKeyName].filter(
+            propertyItems = selectedItem[propertiesKeyName].filter(
                 (property) => property['@type'] === 'Property'
             );
         }
         return propertyItems;
-    }, [model, propertiesKeyName]);
+    }, [selectedItem, propertiesKeyName]);
 
     const isSupportedModelType = useMemo(() => {
         return (
-            (model && model['@type'] === OAT_INTERFACE_TYPE) ||
-            (model && model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
+            (selectedItem && selectedItem['@type'] === OAT_INTERFACE_TYPE) ||
+            (selectedItem &&
+                selectedItem['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
         );
-    }, [model]);
+    }, [selectedItem]);
 
     // callbacks
     const onToggleTemplatesActive = () => {
@@ -136,8 +134,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
             case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
-                        onClose={onModalClose}
                         languages={languages}
+                        onClose={onModalClose}
+                        selectedItem={selectedItem}
                     />
                 );
             default:
@@ -145,6 +144,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
         }
     };
 
+    logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -161,6 +161,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                 <PropertiesModelSummary
                                     dispatch={editorDispatch}
                                     isSupportedModelType={isSupportedModelType}
+                                    selectedItem={selectedItem}
                                 />
                             </Stack.Item>
                             <Stack.Item>
@@ -206,11 +207,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             <Stack.Item grow styles={propertyListStackItem}>
                                 <PropertyList
                                     dispatch={editorDispatch}
-                                    state={editorState}
                                     enteredPropertyRef={enteredPropertyRef}
                                     enteredTemplateRef={enteredTemplateRef}
-                                    propertyList={propertyList}
                                     isSupportedModelType={isSupportedModelType}
+                                    propertyList={propertyList}
+                                    selectedItem={selectedItem}
+                                    state={editorState}
                                 />
                             </Stack.Item>
                         </Stack>

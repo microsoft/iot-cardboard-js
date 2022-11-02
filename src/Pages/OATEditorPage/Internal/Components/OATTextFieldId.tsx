@@ -51,6 +51,7 @@ const OATTextFieldId = ({
                 if (model['@type'] === OAT_RELATIONSHIP_HANDLE_NAME) {
                     const repeatedIdOnRelationship = models.find(
                         (queryModel) =>
+                            queryModel &&
                             queryModel.contents &&
                             queryModel.contents.find(
                                 (content) =>
@@ -67,6 +68,7 @@ const OATTextFieldId = ({
                     // Check current value is not used by another model as @id within models
                     const repeatedIdModel = models.find(
                         (queryModel) =>
+                            queryModel &&
                             queryModel['@id'] === value &&
                             queryModel['@id'] !== model['@id']
                     );

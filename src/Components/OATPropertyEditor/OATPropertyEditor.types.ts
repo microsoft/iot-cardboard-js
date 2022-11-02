@@ -1,9 +1,11 @@
 import { Theme } from '../../Models/Constants/Enums';
 import { IDropdownOption } from '@fluentui/react';
+import { DtdlInterface, DtdlInterfaceContent } from '../..';
 
 export type OATPropertyEditorProps = {
-    theme?: Theme;
     languages: IDropdownOption[];
+    selectedItem: DtdlInterface | DtdlInterfaceContent;
+    selectedThemeName?: Theme;
 };
 export interface IOATPropertyEditorState {
     currentPropertyIndex?: number;
