@@ -3,6 +3,7 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
     CONTROLS_SIDE_OFFSET,
+    CONTROLS_Z_INDEX,
     OAT_HEADER_HEIGHT
 } from '../../Models/Constants/OatStyleConstants';
 
@@ -57,7 +58,8 @@ export const getEditorPageStyles = () => {
         propertyEditorContainer: {
             position: 'absolute',
             right: CONTROLS_SIDE_OFFSET,
-            top: CONTROLS_BOTTOM_OFFSET
+            top: CONTROLS_BOTTOM_OFFSET,
+            zIndex: CONTROLS_Z_INDEX
         },
         errorHandlingWrapper: [
             classNames.errorHandlingWrapper,

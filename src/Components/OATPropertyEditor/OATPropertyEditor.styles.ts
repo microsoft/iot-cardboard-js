@@ -449,13 +449,12 @@ export const getPropertyInspectorStyles = () => {
         propertyItem: [
             classNames.propertyItem,
             {
+                alignItems: 'center',
+                cursor: 'grab',
                 display: 'grid',
                 gridTemplateColumns: '45% 35% 10% 10%',
-                width: '100%',
-                backgroundColor: theme.semanticColors.listBackground,
-                alignItems: 'center',
                 padding: '12px 0px',
-                cursor: 'grab',
+                width: '100%',
                 ':active': {
                     cursor: 'grabbing'
                 },
