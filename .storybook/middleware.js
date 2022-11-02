@@ -18,7 +18,7 @@ module.exports = function (app) {
     const isValidBlobHostUrl = (urlPrefix) =>
         /^[a-z0-9]{3,24}$/.test(urlPrefix);
 
-    const validHeaders = [
+    const validProxyRequestHeaders = [
         'Accept',
         'Accept-Encoding',
         'Accept-Language',
