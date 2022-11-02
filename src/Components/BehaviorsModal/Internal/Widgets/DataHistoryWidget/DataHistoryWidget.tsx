@@ -43,13 +43,13 @@ import QuickTimesDropdown, {
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {
-    ConnectionErrors,
     IDataHistoryWidgetProps,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
+import { DataHistoryWidgetErrorHandling } from './Internal/DataHistoryWidgetErrorHandling';
 
-const getClassNames = classNamesFunction<
+export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 >();
@@ -143,7 +143,9 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         [mode, widget.widgetConfiguration, data, twinIdPropertyMap]
     );
 
-    const classNames = getClassNames(styles, { theme: useTheme() });
+    const classNames = getDataHistoryWidgetClassNames(styles, {
+        theme: useTheme()
+    });
 
     const onRenderTitleOfQuickTimePickerItem = (
         options: IDropdownOption[]
@@ -219,16 +221,10 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     <div className={classNames.header}>
                         <span className={classNames.title}>{displayName}</span>
                     </div>
-                    <div className={classNames.errorContainer}>
-                        <span>
-                            {(errors[0].rawError as any).response?.data?.error
-                                .code === ConnectionErrors.General_BadRequest
-                                ? t(
-                                      'widgets.dataHistory.errors.generalBadRequestMessage'
-                                  )
-                                : errors[0].message}
-                        </span>
-                    </div>
+                    <DataHistoryWidgetErrorHandling
+                        errors={errors}
+                        styles={styles}
+                    />
                 </>
             ) : (
                 <>

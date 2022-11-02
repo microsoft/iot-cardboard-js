@@ -62,7 +62,7 @@ export const getStyles = ({
                 fontSize: FontSizes.size12,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
+                textAlign: 'center',
                 fontWeight: FontWeights.bold
             }
         ],

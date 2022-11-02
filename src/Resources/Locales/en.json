@@ -671,6 +671,8 @@
                 }
             },
             "errors": {
+                "genericNetwork": "Cluster url is invalid or network error occured and query cannot be executed.",
+                "genericBadRequest": "Bad request exception occured.",
                 "generalBadRequestMessage": "Request is invalid and cannot be executed."
             }
         },
