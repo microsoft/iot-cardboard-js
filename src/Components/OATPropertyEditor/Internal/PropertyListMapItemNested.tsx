@@ -39,7 +39,7 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
     );
 
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
+        model ? model['@type'] : ''
     );
 
     // callbacks
@@ -47,8 +47,12 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
         const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
-            oatPageState.selection
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            oatPageState.selection!
         );
+        if (!modelCopy) {
+            return;
+        }
         modelCopy[propertiesKeyName][index].schema.mapKey.name = value;
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS,
@@ -60,8 +64,12 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
         const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
         const modelCopy = getTargetFromSelection(
             modelsCopy,
-            oatPageState.selection
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            oatPageState.selection!
         );
+        if (!modelCopy) {
+            return;
+        }
         modelCopy[propertiesKeyName][index].schema.mapValue.name = value;
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_MODELS,
@@ -84,7 +92,8 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
                         styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapKey.name}
-                        onChange={(_ev, value) => updateMapKeyName(value)}
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        onChange={(_ev, value) => updateMapKeyName(value!)}
                     />
                     <Text>{item.schema.mapKey.schema}</Text>
                 </div>
@@ -96,7 +105,8 @@ export const PropertyListMapItemNested: React.FC<PropertyListMapItemNestedProps>
                         styles={textFieldStyles}
                         borderless
                         placeholder={item.schema.mapValue.name}
-                        onChange={(_ev, value) => updateMapValueName(value)}
+                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                        onChange={(_ev, value) => updateMapValueName(value!)}
                     />
                     <Text>{item.schema.mapValue.schema}</Text>
                 </div>
