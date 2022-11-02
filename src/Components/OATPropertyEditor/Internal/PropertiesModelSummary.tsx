@@ -29,7 +29,6 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     props
 ) => {
     const { dispatch, isSupportedModelType, selectedItem } = props;
-    console.log('***PropertiesModel', selectedItem);
 
     // hooks
     const { t } = useTranslation();

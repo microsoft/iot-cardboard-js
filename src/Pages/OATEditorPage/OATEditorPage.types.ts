@@ -8,7 +8,7 @@ export interface IOATEditorPageProps {
     disableStorage?: boolean;
     locale: Locale;
     localeStrings?: Record<string, any>;
-    theme: Theme;
+    selectedThemeName: Theme;
 }
 
 export interface IOATError {

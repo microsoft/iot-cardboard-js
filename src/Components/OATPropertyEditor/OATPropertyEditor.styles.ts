@@ -103,6 +103,7 @@ export const getPropertyInspectorStyles = () => {
                 '[role="tabpanel"]': {
                     height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
                 },
+                overflowX: 'hidden',
                 zIndex: '201'
             } as IStyle
         ],

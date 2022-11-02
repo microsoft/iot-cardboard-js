@@ -1,15 +1,69 @@
 import React from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
-import BaseComponent from '../BaseComponent/BaseComponent';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import i18n from '../../i18n';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
-import { getMockModelItem } from '../../Models/Context/OatPageContext/OatPageContext.mock';
+import {
+    getMockFile,
+    getMockModelItem
+} from '../../Models/Context/OatPageContext/OatPageContext.mock';
+import { ComponentStory } from '@storybook/react';
+import { IOatPageContextState } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import {
+    IStoryContext,
+    getDefaultStoryDecorator
+} from '../../Models/Services/StoryUtilities';
+
+const wrapperStyle: React.CSSProperties = {
+    width: 'auto',
+    height: '80vh',
+    padding: 8
+};
+
+type StoryProps = {
+    initialState?: Partial<IOatPageContextState>;
+};
+type SceneBuilderStory = ComponentStory<any>;
+const Template: SceneBuilderStory = (
+    args: StoryProps,
+    context: IStoryContext<any>
+) => {
+    const languages = getAvailableLanguages(i18n);
+    return (
+        <OatPageContextProvider
+            disableLocalStorage={true}
+            initialState={{
+                ontologyFiles: getMockFiles(),
+                currentOntologyId: 'something',
+                ...args?.initialState
+            }}
+        >
+            <CommandHistoryContextProvider>
+                <CommandHistoryContextProvider>
+                    <OATPropertyEditor
+                        languages={languages}
+                        selectedItem={getMockModel()}
+                        selectedThemeName={
+                            context.parameters.theme || context.globals.theme
+                        }
+                    />
+                </CommandHistoryContextProvider>
+            </CommandHistoryContextProvider>
+        </OatPageContextProvider>
+    );
+};
 
 export default {
     title: 'Components - OAT/OATPropertyEditor',
-    component: OATPropertyEditor
+    component: OATPropertyEditor,
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
+};
+
+const getMockFiles = () => {
+    const mockFile = getMockFile(0, '123', '234');
+    mockFile.data.models.unshift(getMockModel());
+    return [mockFile];
 };
 
 const getMockModel = () => {
@@ -25,20 +79,4 @@ const getMockModel = () => {
     return model;
 };
 
-export const Default = (_args, { globals: { theme, locale } }) => {
-    const languages = getAvailableLanguages(i18n);
-
-    return (
-        <BaseComponent locale={locale} theme={theme}>
-            <OatPageContextProvider>
-                <CommandHistoryContextProvider>
-                    <OATPropertyEditor
-                        languages={languages}
-                        selectedItem={getMockModel()}
-                        selectedThemeName={theme}
-                    />
-                </CommandHistoryContextProvider>
-            </OatPageContextProvider>
-        </BaseComponent>
-    );
-};
+export const Base = Template.bind({});
