@@ -133,6 +133,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const tooltipStyles = classNames.subComponentStyles.tooltip();
     const options: Highcharts.Options = {
         credits: { enabled: false },
+        rangeSelector: { enabled: false },
         time: {
             useUTC: false // by default, date is in local time
         },

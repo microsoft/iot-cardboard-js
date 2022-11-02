@@ -28,6 +28,8 @@
     "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
     "tryAgain": "Try again",
     "learnMore": "Learn more",
+    "showDetails": "Show details",
+    "hideDetails": "Hide details",
     "DataFetchFailed": "Data fetch failed",
     "more": "More",
     "search": "Search",
@@ -673,7 +675,8 @@
             "errors": {
                 "genericNetwork": "Cluster url is invalid or network error occured and query cannot be executed.",
                 "genericBadRequest": "Bad request exception occured.",
-                "generalBadRequestMessage": "Request is invalid and cannot be executed."
+                "generalBadRequestMessage": "Request is invalid and cannot be executed.",
+                "entityNotFound": "Database was not found."
             }
         },
         "notSupported": "This widget type is not currently supported"
