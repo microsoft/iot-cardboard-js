@@ -1,5 +1,9 @@
 import { DTDLProperty } from '../../../Models/Classes/DTDL';
-import { IAction } from '../../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    IAction
+} from '../../../Models/Constants';
 import { IOATPropertyEditorState } from '../OATPropertyEditor.types';
 
 export type PropertyListProps = {
@@ -7,6 +11,7 @@ export type PropertyListProps = {
     enteredPropertyRef: any;
     enteredTemplateRef: any;
     isSupportedModelType: boolean;
+    selectedItem: DtdlInterface | DtdlInterfaceContent;
     propertyList: DTDLProperty[];
     state: IOATPropertyEditorState;
 };

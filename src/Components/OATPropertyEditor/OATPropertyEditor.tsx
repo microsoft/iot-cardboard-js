@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { getDebugLogger } from '../../Models/Services/Utils';
 import Editor from './Editor';
 import {
     OATPropertyEditorReducer,
@@ -6,22 +7,27 @@ import {
 } from './OATPropertyEditor.state';
 import { OATPropertyEditorProps } from './OATPropertyEditor.types';
 
-const OATPropertyEditor = ({ theme, languages }: OATPropertyEditorProps) => {
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OATPropertyEditor', debugLogging);
+
+const OATPropertyEditor = (props: OATPropertyEditorProps) => {
+    const { selectedThemeName, languages, selectedItem } = props;
+
     // state
     const [localState, localDispatch] = useReducer(
         OATPropertyEditorReducer,
         defaultOATPropertyEditorState
     );
 
+    logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
     return (
-        <div style={{ width: 340, position: 'relative' }}>
-            <Editor
-                theme={theme}
-                dispatch={localDispatch}
-                state={localState}
-                languages={languages}
-            />
-        </div>
+        <Editor
+            editorDispatch={localDispatch}
+            editorState={localState}
+            languages={languages}
+            selectedItem={selectedItem}
+            selectedThemeName={selectedThemeName}
+        />
     );
 };
 

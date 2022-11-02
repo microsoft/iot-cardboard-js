@@ -13,10 +13,12 @@ import {
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_CALLOUT_OFFSET,
     CONTROLS_Z_INDEX,
     getControlBackgroundColor,
     LOADING_Z_INDEX
 } from '../../Models/Constants/OatStyleConstants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import {
     IOATGraphViewerStyleProps,
@@ -40,7 +42,11 @@ export const getStyles = (
         graphMiniMapContainer: [
             classNames2.minimapContainer,
             {
-                bottom: CONTROLS_BOTTOM_OFFSET + CONTROLS_BOTTOM_OFFSET, // extra offset so they don't overlap till we have room off to the right
+                bottom:
+                    CONTROLS_BOTTOM_OFFSET +
+                    HEADER_BUTTON_HEIGHT +
+                    CONTROLS_CALLOUT_OFFSET -
+                    10,
                 position: 'absolute',
                 right: 0,
                 '.react-flow__minimap': {
@@ -77,7 +83,7 @@ export const getStyles = (
                 calloutMain: {
                     backgroundColor: getControlBackgroundColor(theme),
                     overflow: 'hidden',
-                    padding: 20
+                    padding: 16
                 }
             }
         }

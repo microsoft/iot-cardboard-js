@@ -5,10 +5,24 @@ import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Interna
 import i18n from '../../i18n';
 import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
+import { getMockModelItem } from '../../Models/Context/OatPageContext/OatPageContext.mock';
 
 export default {
     title: 'Components - OAT/OATPropertyEditor',
     component: OATPropertyEditor
+};
+
+const getMockModel = () => {
+    const model = getMockModelItem('123');
+    model.contents = [
+        ...model.contents,
+        {
+            '@type': 'Property',
+            name: 'New_Property1',
+            schema: 'dateTime'
+        }
+    ];
+    return model;
 };
 
 export const Default = (_args, { globals: { theme, locale } }) => {
@@ -18,7 +32,11 @@ export const Default = (_args, { globals: { theme, locale } }) => {
         <BaseComponent locale={locale} theme={theme}>
             <OatPageContextProvider>
                 <CommandHistoryContextProvider>
-                    <OATPropertyEditor theme={theme} languages={languages} />
+                    <OATPropertyEditor
+                        languages={languages}
+                        selectedItem={getMockModel()}
+                        selectedThemeName={theme}
+                    />
                 </CommandHistoryContextProvider>
             </OatPageContextProvider>
         </BaseComponent>

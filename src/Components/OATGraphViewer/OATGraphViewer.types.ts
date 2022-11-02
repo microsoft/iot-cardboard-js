@@ -4,7 +4,6 @@ import {
     ICalloutContentStyles
 } from '@fluentui/react';
 import { SimulationNodeDatum } from 'd3-force';
-import { Theme } from '../../Models/Constants';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
 

@@ -13,9 +13,12 @@ import OATConfirmDeleteModal from './Internal/OATConfirmDeleteModal';
 import { getAvailableLanguages } from '../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import { IOATEditorPageProps } from './OATEditorPage.types';
-import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
-import { Stack } from '@fluentui/react';
+import {
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
+import { getTargetFromSelection } from '../../Components/OATPropertyEditor/Utils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
@@ -25,7 +28,8 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
 
     // hooks
 
-    // context
+    // contexts
+    const { oatPageState } = useOatPageContext();
 
     // data
     const languages = useMemo(() => {
@@ -37,6 +41,15 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
         );
         return languages;
     }, []);
+    const selectedModel = useMemo(
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
+    );
 
     // styles
     const editorPageStyles = getEditorPageStyles();
@@ -51,17 +64,22 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                 disableDefaultStyles={true}
             >
                 <OATHeader />
-                <Stack horizontal className={editorPageStyles.component}>
+                <div className={editorPageStyles.component}>
                     <div className={editorPageStyles.viewerContainer}>
-                        <OATGraphViewerContent selectedTheme={theme} />
+                        <OATGraphViewerContent />
                     </div>
-                    <div className={editorPageStyles.propertyEditorContainer}>
-                        <OATPropertyEditor
-                            theme={theme}
-                            languages={languages}
-                        />
-                    </div>
-                </Stack>
+                    {selectedModel && (
+                        <div
+                            className={editorPageStyles.propertyEditorContainer}
+                        >
+                            <OATPropertyEditor
+                                languages={languages}
+                                selectedItem={selectedModel}
+                                selectedThemeName={theme}
+                            />
+                        </div>
+                    )}
+                </div>
                 <OATErrorHandlingModal />
                 <OATConfirmDeleteModal />
             </BaseComponent>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Stack, Label, Text, IconButton } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -28,7 +28,8 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     props
 ) => {
-    const { dispatch, isSupportedModelType } = props;
+    const { dispatch, isSupportedModelType, selectedItem } = props;
+    console.log('***PropertiesModel', selectedItem);
 
     // hooks
     const { t } = useTranslation();
@@ -38,36 +39,28 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // data
-    const model = useMemo(
-        () =>
-            oatPageState.selection &&
-            getTargetFromSelection(
-                oatPageState.currentOntologyModels,
-                oatPageState.selection
-            ),
-        [oatPageState.currentOntologyModels, oatPageState.selection]
-    );
-
     const [displayName, setDisplayName] = useState(
-        model && model.displayName
-            ? getModelPropertyListItemName(model.displayName)
+        selectedItem && selectedItem.displayName
+            ? getModelPropertyListItemName(selectedItem.displayName)
             : ''
     );
-    const [name, setName] = useState(model ? model.name : '');
-    const [id, setId] = useState(model && model['@id'] ? model['@id'] : '');
+    const [name, setName] = useState(selectedItem ? selectedItem.name : '');
+    const [id, setId] = useState(
+        selectedItem && selectedItem['@id'] ? selectedItem['@id'] : ''
+    );
     const [idEditor, setIdEditor] = useState(false);
     const [nameEditor, setNameEditor] = useState(false);
     const [displayNameEditor, setDisplayNameEditor] = useState(false);
 
     useEffect(() => {
         setDisplayName(
-            model && model.displayName
-                ? getModelPropertyListItemName(model.displayName)
+            selectedItem && selectedItem.displayName
+                ? getModelPropertyListItemName(selectedItem.displayName)
                 : ''
         );
-        setName(model && model.name ? model.name : '');
-        setId(model && model['@id'] ? model['@id'] : '');
-    }, [model]);
+        setName(selectedItem && selectedItem.name ? selectedItem.name : '');
+        setId(selectedItem && selectedItem['@id'] ? selectedItem['@id'] : '');
+    }, [selectedItem]);
 
     const onIdCommit = (value) => {
         const commit = () => {
@@ -210,25 +203,26 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
         <Stack styles={generalPropertiesWrapStyles}>
             <div className={propertyInspectorStyles.rowSpaceBetween}>
                 <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {model && model['@type'] === OAT_INTERFACE_TYPE && (
-                    <IconButton
-                        styles={iconWrapStyles}
-                        iconProps={{ iconName: 'info' }}
-                        title={t('OATPropertyEditor.info')}
-                        onClick={onInfoButtonClick}
-                    />
-                )}
+                {selectedItem &&
+                    selectedItem['@type'] === OAT_INTERFACE_TYPE && (
+                        <IconButton
+                            styles={iconWrapStyles}
+                            iconProps={{ iconName: 'info' }}
+                            title={t('OATPropertyEditor.info')}
+                            onClick={onInfoButtonClick}
+                        />
+                    )}
             </div>
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('type')}</Text>
                 <Text className={propertyInspectorStyles.typeTextField}>
-                    {model ? model['@type'] : ''}
+                    {selectedItem ? selectedItem['@type'] : ''}
                 </Text>
             </div>
 
             <div className={propertyInspectorStyles.gridRow}>
                 <Text>{t('id')}</Text>
-                {!idEditor && model && (
+                {!idEditor && selectedItem && (
                     <Text
                         className={propertyInspectorStyles.typeTextField}
                         onDoubleClick={() => setIdEditor(true)}
@@ -236,13 +230,13 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                         {id}
                     </Text>
                 )}
-                {idEditor && model && (
+                {idEditor && selectedItem && (
                     <OATTextFieldId
                         placeholder={t('id')}
                         styles={textFieldStyles}
-                        disabled={!model}
+                        disabled={!selectedItem}
                         value={isSupportedModelType && id}
-                        model={model}
+                        model={selectedItem}
                         models={oatPageState.currentOntologyModels}
                         onCommit={onIdCommit}
                         borderless
@@ -250,10 +244,10 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                     />
                 )}
             </div>
-            {model && model.name && (
+            {selectedItem && selectedItem.name && (
                 <div className={propertyInspectorStyles.gridRow}>
                     <Text>{t('name')}</Text>
-                    {!nameEditor && model && (
+                    {!nameEditor && selectedItem && (
                         <Text
                             className={propertyInspectorStyles.typeTextField}
                             onDoubleClick={() => setNameEditor(true)}
@@ -261,16 +255,16 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                             {name}
                         </Text>
                     )}
-                    {nameEditor && model && (
+                    {nameEditor && selectedItem && (
                         <OATTextFieldName
                             placeholder={t('name')}
                             styles={textFieldStyles}
-                            disabled={!model}
+                            disabled={!selectedItem}
                             value={
                                 isSupportedModelType &&
                                 getModelPropertyListItemName(name)
                             }
-                            model={model}
+                            model={selectedItem}
                             models={oatPageState.currentOntologyModels}
                             onCommit={onNameCommit}
                             borderless
@@ -282,7 +276,7 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             {isSupportedModelType && (
                 <div className={propertyInspectorStyles.gridRow}>
                     <Text>{t('OATPropertyEditor.displayName')}</Text>
-                    {!displayNameEditor && model && (
+                    {!displayNameEditor && selectedItem && (
                         <Text
                             className={
                                 displayName.length > 0
@@ -296,15 +290,15 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
                                 : t('OATPropertyEditor.displayName')}
                         </Text>
                     )}
-                    {displayNameEditor && model && (
+                    {displayNameEditor && selectedItem && (
                         <OATTextFieldDisplayName
                             styles={textFieldStyles}
                             borderless
                             placeholder={t('OATPropertyEditor.displayName')}
-                            disabled={!model}
+                            disabled={!selectedItem}
                             value={isSupportedModelType && displayName}
                             onCommit={onDisplayNameCommit}
-                            model={model}
+                            model={selectedItem}
                             autoFocus
                         />
                     )}

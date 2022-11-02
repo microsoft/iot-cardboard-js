@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useMemo } from 'react';
+import React, { useRef, useState, useContext } from 'react';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { FontIcon, ActionButton, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         enteredPropertyRef,
         enteredTemplateRef,
         isSupportedModelType,
+        selectedItem,
         propertyList,
         state
     } = props;
@@ -60,18 +61,8 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const propertyInspectorStyles = getPropertyInspectorStyles();
 
     // data
-    const model = useMemo(
-        () =>
-            oatPageState.selection &&
-            getTargetFromSelection(
-                oatPageState.currentOntologyModels,
-                oatPageState.selection
-            ),
-        [oatPageState.currentOntologyModels, oatPageState.selection]
-    );
-
     const propertiesKeyName = getModelPropertyCollectionName(
-        model ? model['@type'] : null
+        selectedItem ? selectedItem['@type'] : null
     );
 
     const onPropertyItemDropOnTemplateList = () => {
@@ -79,7 +70,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
             ? deepCopy(oatPageState.currentOntologyTemplates)
             : [];
         newTemplate.push(
-            model[propertiesKeyName][draggedPropertyItemRef.current]
+            selectedItem[propertiesKeyName][draggedPropertyItemRef.current]
         );
         oatPageDispatch({
             type: OatPageContextActionType.SET_CURRENT_TEMPLATES,
@@ -195,7 +186,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     const generateErrorMessage = (value, index) => {
         if (value) {
-            const find = model[propertiesKeyName].find(
+            const find = selectedItem[propertiesKeyName].find(
                 (item) => item.name === value
             );
 
@@ -372,7 +363,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                                 }
                                 onMove={moveItemOnPropertyList}
                                 propertiesLength={
-                                    model[propertiesKeyName].length
+                                    selectedItem[propertiesKeyName].length
                                 }
                             />
                         );
@@ -398,7 +389,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                                 dispatch={dispatch}
                                 onMove={moveItemOnPropertyList}
                                 propertiesLength={
-                                    model[propertiesKeyName].length
+                                    selectedItem[propertiesKeyName].length
                                 }
                             />
                         );

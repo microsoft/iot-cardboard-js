@@ -1,6 +1,11 @@
 import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
-import { OAT_HEADER_HEIGHT } from '../../Models/Constants/OatStyleConstants';
+import {
+    CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_SIDE_OFFSET,
+    CONTROLS_Z_INDEX,
+    OAT_HEADER_HEIGHT
+} from '../../Models/Constants/OatStyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
 const classNames = {
@@ -19,7 +24,6 @@ const classNames = {
     confirmDeleteWrapperTitle: `${classPrefix}-confirm-delete-wrapper-title`
 };
 
-const PROPERTY_EDITOR_WIDTH = 340;
 export const getEditorPageStyles = () => {
     const theme = useTheme();
     return mergeStyleSets({
@@ -49,10 +53,13 @@ export const getEditorPageStyles = () => {
             } as IStyle
         ],
         viewerContainer: {
-            width: `calc(100% - ${PROPERTY_EDITOR_WIDTH}px)`
+            width: '100%'
         },
         propertyEditorContainer: {
-            width: PROPERTY_EDITOR_WIDTH
+            position: 'absolute',
+            right: CONTROLS_SIDE_OFFSET,
+            top: CONTROLS_BOTTOM_OFFSET,
+            zIndex: CONTROLS_Z_INDEX
         },
         errorHandlingWrapper: [
             classNames.errorHandlingWrapper,
