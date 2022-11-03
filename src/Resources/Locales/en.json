@@ -30,6 +30,8 @@
     "readerAccessOnlyErrorMessage": "You have read access for this blob. This means that you will be able to view the models, but will not be able to create or configure any scenes, elements, or behaviors.",
     "tryAgain": "Try again",
     "learnMore": "Learn more",
+    "showDetails": "Show details",
+    "hideDetails": "Hide details",
     "DataFetchFailed": "Data fetch failed",
     "more": "More",
     "search": "Search",
@@ -671,6 +673,13 @@
                         "information": "When there are too many datapoints to display, values will be grouped in the chart. Choose the aggregation method for these groupings."
                     }
                 }
+            },
+            "errors": {
+                "genericNetwork": "Cluster url is invalid or network error occured.",
+                "genericBadRequest": "Bad request exception occured.",
+                "generalBadRequestMessage": "Request is invalid and cannot be executed.",
+                "entityNotFound": "Database not found, failed to execute query.",
+                "forbidden": "Access is denied, you have missing permissions to query."
             }
         },
         "notSupported": "This widget type is not currently supported"
