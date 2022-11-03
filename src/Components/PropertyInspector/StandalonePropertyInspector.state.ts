@@ -225,6 +225,9 @@ const StandalonePropertyInspectorReducer = produce(
                         nodeToUnset.schema
                     );
                     nodeToUnset.isSet = false;
+                    if (nodeToUnset.schema === 'Array') {
+                        nodeToUnset.children = null;
+                    }
                     if (nodeToUnset.children) {
                         // Unsetting object should set all children values to default
                         nodeToUnset.children.forEach((child) => {
@@ -247,6 +250,117 @@ const StandalonePropertyInspectorReducer = produce(
             case spiActionType.SET_IS_TREE_COLLAPSED: {
                 const { isCollapsed } = action;
                 setIsTreeCollapsed(draft.propertyTreeNodes, isCollapsed);
+                break;
+            }
+            case spiActionType.ON_ADD_ARRAY_ITEM: {
+                console.log('adding');
+                // eslint-disable-next-line no-debugger
+                debugger;
+                const { arrayNode } = action;
+                // Construct empty tree node
+                const newTreeNode = PropertyInspectorModel.parsePropertyIntoNode(
+                    {
+                        isInherited: arrayNode.isInherited,
+                        isObjectChild: !!arrayNode.parentObjectPath,
+                        path: arrayNode.path,
+                        propertySourceObject: {},
+                        modelProperty: (arrayNode.mapDefinition.schema as any)
+                            .mapValue,
+                        isMapChild: false,
+                        isArrayItem: true,
+                        forceSet: true,
+                        schemas: arrayNode.mapSchemas
+                    }
+                );
+
+                newTreeNode.edited = true;
+
+                // Add new node to array and expand array node
+                const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayNode.path
+                );
+
+                if (Array.isArray(targetNode.children)) {
+                    targetNode.children = [...targetNode.children, newTreeNode];
+                } else {
+                    targetNode.children = [newTreeNode];
+                }
+
+                targetNode.isSet = true;
+                targetNode.isCollapsed = false;
+
+                if (newTreeNode?.children) {
+                    newTreeNode.isCollapsed = false;
+                }
+
+                setNodeEditedFlag(draft, arrayNode, targetNode);
+                break;
+            }
+            case spiActionType.ON_REMOVE_ARRAY_ITEM: {
+                const { arrayItemToRemove } = action;
+
+                const arrayNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayItemToRemove.path.slice(
+                        0,
+                        arrayItemToRemove.path.lastIndexOf('/')
+                    )
+                );
+
+                const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.originalPropertyTreeNodes,
+                    arrayItemToRemove.path.slice(
+                        0,
+                        arrayItemToRemove.path.lastIndexOf('/')
+                    )
+                );
+
+                const childToRemoveIdx = arrayNode.children.findIndex(
+                    (el) => el.path === arrayItemToRemove.path
+                );
+
+                if (childToRemoveIdx !== -1) {
+                    arrayNode.children.splice(childToRemoveIdx, 1);
+                }
+
+                // Remove all edit status flags for map children
+                Object.keys(draft.editStatus).forEach((key) => {
+                    if (key.startsWith(arrayNode.path)) {
+                        delete draft.editStatus[key];
+                    }
+                });
+
+                setNodeEditedFlag(draft, originalNode, arrayNode);
+
+                break;
+            }
+            case spiActionType.ON_CLEAR_ARRAY: {
+                console.log('clearing');
+                // eslint-disable-next-line no-debugger
+                debugger;
+                const { arrayNode } = action;
+                const arrayTreeNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayNode.path
+                );
+
+                const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.originalPropertyTreeNodes,
+                    arrayNode.path
+                );
+
+                arrayTreeNode.children.splice(0, arrayTreeNode.children.length);
+
+                // Remove all edit status flags for map children
+                Object.keys(draft.editStatus).forEach((key) => {
+                    if (key.startsWith(arrayTreeNode.path)) {
+                        delete draft.editStatus[key];
+                    }
+                });
+
+                setNodeEditedFlag(draft, originalNode, arrayTreeNode);
+
                 break;
             }
             default:
