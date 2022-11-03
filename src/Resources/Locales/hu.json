@@ -671,7 +671,11 @@
       "headerMenu": "Adatelőzmények widget menü",
       "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
       "errors": {
-        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre."
+        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
+        "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt, és a lekérdezés nem hajtható végre.",
+        "genericBadRequest": "Hibás kérelem kivétel történt.",
+        "entityNotFound": "Az adatbázis nem található.",
+        "forbidden": "Hiányzó hozzáférési engedélyek a lekérdezéshez"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "Az elmúlt 180 napban",
       "Last year": "Tavaly"
     }
-  }
+  },
+  "showDetails": "Mutasd a részleteket",
+  "hideDetails": "Részletek elrejtése"
 }

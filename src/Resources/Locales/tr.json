@@ -671,7 +671,11 @@
       "headerMenu": "Veri geçmişi widget menüsü",
       "openQuery": "Azure Veri Gezgini'nde sorgu açma",
       "errors": {
-        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez."
+        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
+        "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu ve sorgu yürütülemiyor.",
+        "genericBadRequest": "Hatalı istek özel durumu oluştu.",
+        "entityNotFound": "Veritabanı bulunamadı.",
+        "forbidden": "Sorgulamak için eksik erişim izinleri"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "Son 180 gün",
       "Last year": "Geçen yıl"
     }
-  }
+  },
+  "showDetails": "Ayrıntıları göster",
+  "hideDetails": "Ayrıntıları gizle"
 }

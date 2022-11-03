@@ -671,7 +671,11 @@
       "headerMenu": "データ履歴ウィジェットメニュー",
       "openQuery": "Azure データ エクスプローラーでクエリを開く",
       "errors": {
-        "generalBadRequestMessage": "要求は無効であり、実行できません。"
+        "generalBadRequestMessage": "要求は無効であり、実行できません。",
+        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生し、クエリを実行できません。",
+        "genericBadRequest": "不正な要求例外が発生しました。",
+        "entityNotFound": "データベースが見つかりませんでした。",
+        "forbidden": "クエリを実行するためのアクセス許可がありません"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "過去 180 日間",
       "Last year": "去年"
     }
-  }
+  },
+  "showDetails": "詳細を表示",
+  "hideDetails": "詳細を隠す"
 }

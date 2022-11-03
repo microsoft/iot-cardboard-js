@@ -671,7 +671,11 @@
       "headerMenu": "Menu du widget Historique des données",
       "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
       "errors": {
-        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée."
+        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+        "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite et la requête ne peut pas être exécutée.",
+        "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
+        "entityNotFound": "La base de données est introuvable.",
+        "forbidden": "Autorisations d’accès manquantes pour interroger"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "180 derniers jours",
       "Last year": "L’année dernière"
     }
-  }
+  },
+  "showDetails": "Afficher les détails",
+  "hideDetails": "Masquer les détails"
 }
