@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
-      "errors": {
-        "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
-        "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red y no se puede ejecutar la consulta.",
-        "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
-        "entityNotFound": "No se encontró la base de datos.",
-        "forbidden": "Acceso denegado, le faltan permisos para consultar."
-      }
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Año pasado"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Mostrar detalles",
-  "hideDetails": "Ocultar detalles"
-=======
   "minLower": "min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

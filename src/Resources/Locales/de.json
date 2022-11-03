@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Menü des Widgets \"Datenverlauf\"",
-      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen",
-      "errors": {
-        "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
-        "genericNetwork": "Die Cluster-URL ist ungültig, oder es ist ein Netzwerkfehler aufgetreten, und die Abfrage kann nicht ausgeführt werden.",
-        "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
-        "entityNotFound": "Datenbank wurde nicht gefunden.",
-        "forbidden": "Der Zugriff wird verweigert, Sie haben fehlende Berechtigungen zum Abfragen."
-      }
+      "openQuery": "Abfrage im Azure-Daten-Explorer öffnen"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Letztes Jahr"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Details anzeigen",
-  "hideDetails": "Details ausblenden"
-=======
   "minLower": "Min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

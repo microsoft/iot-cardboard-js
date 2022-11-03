@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
-      "errors": {
-        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
-        "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt, és a lekérdezés nem hajtható végre.",
-        "genericBadRequest": "Hibás kérelem kivétel történt.",
-        "entityNotFound": "Az adatbázis nem található.",
-        "forbidden": "A hozzáférés megtagadva, hiányoznak a lekérdezéshez szükséges engedélyek."
-      }
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Tavaly"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Mutasd a részleteket",
-  "hideDetails": "Részletek elrejtése"
-=======
   "minLower": "Min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer",
-      "errors": {
-        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
-        "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden en de query kan niet worden uitgevoerd.",
-        "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
-        "entityNotFound": "Database is niet gevonden.",
-        "forbidden": "Toegang wordt geweigerd, u hebt ontbrekende machtigingen om query's uit te voeren."
-      }
+      "openQuery": "Query openen in Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Vorig jaar"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Toon details",
-  "hideDetails": "Details verbergen"
-=======
   "minLower": "Min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

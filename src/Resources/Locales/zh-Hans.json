@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "“数据历史记录”小组件菜单",
-      "openQuery": "在 Azure 数据资源管理器中打开查询",
-      "errors": {
-        "generalBadRequestMessage": "请求无效，无法执行。",
-        "genericNetwork": "群集 URL 无效或发生网络错误，无法执行查询。",
-        "genericBadRequest": "发生错误请求异常。",
-        "entityNotFound": "找不到数据库。",
-        "forbidden": "访问被拒绝，您缺少查询权限。"
-      }
+      "openQuery": "在 Azure 数据资源管理器中打开查询"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "去年"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "显示详情",
-  "hideDetails": "隐藏详细信息"
-=======
   "minLower": "最小",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

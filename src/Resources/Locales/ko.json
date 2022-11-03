@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "데이터 기록 위젯 메뉴",
-      "openQuery": "Azure 데이터 탐색기에서 쿼리 열기",
-      "errors": {
-        "generalBadRequestMessage": "요청이 잘못되어 실행할 수 없습니다.",
-        "genericNetwork": "클러스터 URL이 잘못되었거나 네트워크 오류가 발생하여 쿼리를 실행할 수 없습니다.",
-        "genericBadRequest": "잘못된 요청 예외가 발생했습니다.",
-        "entityNotFound": "데이터베이스를 찾을 수 없습니다.",
-        "forbidden": "액세스가 거부되었으며 쿼리 권한이 없습니다."
-      }
+      "openQuery": "Azure 데이터 탐색기에서 쿼리 열기"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "작년"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "세부 정보 표시",
-  "hideDetails": "세부 정보 숨기기"
-=======
   "minLower": "분",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

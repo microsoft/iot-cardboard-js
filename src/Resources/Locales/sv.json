@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
-      "openQuery": "Öppna frågan i Azure Data Explorer",
-      "errors": {
-        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
-        "genericNetwork": "Kluster-URL:en är ogiltig eller nätverksfel inträffade och frågan kan inte köras.",
-        "genericBadRequest": "Undantag för felaktig begäran inträffade.",
-        "entityNotFound": "Databasen hittades inte.",
-        "forbidden": "Åtkomst nekas, du har saknade behörigheter att fråga."
-      }
+      "openQuery": "Öppna frågan i Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Fjor"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Visa detaljer",
-  "hideDetails": "Dölj detaljer"
-=======
   "minLower": "min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Menu widget Cronologia dati",
-      "openQuery": "Aprire query in Esplora dati di Azure",
-      "errors": {
-        "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
-        "genericNetwork": "L'URL del cluster non è valido o si è verificato un errore di rete e non è possibile eseguire la query.",
-        "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
-        "entityNotFound": "Impossibile trovare il database.",
-        "forbidden": "L'accesso è negato, mancano le autorizzazioni per eseguire query."
-      }
+      "openQuery": "Aprire query in Esplora dati di Azure"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Anno scorso"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Mostra dettagli",
-  "hideDetails": "Nascondi dettagli"
-=======
   "minLower": "Min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

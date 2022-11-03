@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く",
-      "errors": {
-        "generalBadRequestMessage": "要求は無効であり、実行できません。",
-        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生し、クエリを実行できません。",
-        "genericBadRequest": "不正な要求例外が発生しました。",
-        "entityNotFound": "データベースが見つかりませんでした。",
-        "forbidden": "アクセスが拒否され、クエリを実行するアクセス許可がありません。"
-      }
+      "openQuery": "Azure データ エクスプローラーでクエリを開く"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "去年"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "詳細を表示",
-  "hideDetails": "詳細を隠す"
-=======
   "minLower": "分",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

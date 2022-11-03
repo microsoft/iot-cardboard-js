@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Menu widget de histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer",
-      "errors": {
-        "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
-        "genericNetwork": "O url de cluster é inválido ou ocorreu um erro de rede e a consulta não pode ser executada.",
-        "genericBadRequest": "A exceção de mau pedido ocorreu.",
-        "entityNotFound": "A base de dados não foi encontrada.",
-        "forbidden": "O acesso é negado, tem permissões em falta para consulta."
-      }
+      "openQuery": "Consulta aberta no Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "No ano passado"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Mostrar detalhes",
-  "hideDetails": "Ocultar detalhes"
-=======
   "minLower": "min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

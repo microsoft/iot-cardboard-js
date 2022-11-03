@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
-      "errors": {
-        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
-        "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu ve sorgu yürütülemiyor.",
-        "genericBadRequest": "Hatalı istek özel durumu oluştu.",
-        "entityNotFound": "Veritabanı bulunamadı.",
-        "forbidden": "Erişim reddedildi, sorgulama izinleriniz eksik."
-      }
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "Geçen yıl"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Ayrıntıları göster",
-  "hideDetails": "Ayrıntıları gizle"
-=======
   "minLower": "min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

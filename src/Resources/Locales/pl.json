@@ -669,14 +669,7 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
-      "errors": {
-        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
-        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci i nie można wykonać kwerendy.",
-        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
-        "entityNotFound": "Nie znaleziono bazy danych.",
-        "forbidden": "Odmowa dostępu, brakuje uprawnień do wykonywania zapytań."
-      }
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
     }
   },
   "sdkStrings": {
@@ -1303,11 +1296,6 @@
       "Last year": "W ubiegłym roku"
     }
   },
-<<<<<<< HEAD
-  "showDetails": "Pokaż szczegóły",
-  "hideDetails": "Ukryj szczegóły"
-=======
   "minLower": "Min",
   "maxLower": ".max"
->>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }
