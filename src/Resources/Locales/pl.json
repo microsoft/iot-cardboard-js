@@ -671,7 +671,11 @@
       "headerMenu": "Menu widżetu Historia danych",
       "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
       "errors": {
-        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać."
+        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci i nie można wykonać kwerendy.",
+        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
+        "entityNotFound": "Nie znaleziono bazy danych.",
+        "forbidden": "Brak uprawnień dostępu do kwerendy"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "Ostatnie 180 dni",
       "Last year": "W ubiegłym roku"
     }
-  }
+  },
+  "showDetails": "Pokaż szczegóły",
+  "hideDetails": "Ukryj szczegóły"
 }

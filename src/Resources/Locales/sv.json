@@ -671,7 +671,11 @@
       "headerMenu": "Widgetmenyn Datahistorik",
       "openQuery": "Öppna frågan i Azure Data Explorer",
       "errors": {
-        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras."
+        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
+        "genericNetwork": "Kluster-URL:en är ogiltig eller nätverksfel inträffade och frågan kan inte köras.",
+        "genericBadRequest": "Undantag för felaktig begäran inträffade.",
+        "entityNotFound": "Databasen hittades inte.",
+        "forbidden": "Saknade åtkomstbehörigheter för att fråga"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "Senaste 180 dagarna",
       "Last year": "Fjor"
     }
-  }
+  },
+  "showDetails": "Visa detaljer",
+  "hideDetails": "Dölj detaljer"
 }

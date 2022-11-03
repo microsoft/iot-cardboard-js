@@ -671,7 +671,11 @@
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
       "openQuery": "Query openen in Azure Data Explorer",
       "errors": {
-        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd."
+        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
+        "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden en de query kan niet worden uitgevoerd.",
+        "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
+        "entityNotFound": "Database is niet gevonden.",
+        "forbidden": "Ontbrekende toegangsmachtigingen voor query's"
       }
     }
   },
@@ -1298,5 +1302,7 @@
       "Last 180 days": "Afgelopen 180 dagen",
       "Last year": "Vorig jaar"
     }
-  }
+  },
+  "showDetails": "Toon details",
+  "hideDetails": "Details verbergen"
 }
