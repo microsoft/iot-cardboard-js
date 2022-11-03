@@ -177,7 +177,8 @@ abstract class PropertyInspectorModel {
                       ),
                 parentObjectPath: isObjectChild && path,
                 isMapChild,
-                isRemovable: !isMapChild,
+                isArrayItem,
+                isRemovable: !(isMapChild || isArrayItem),
                 isSet:
                     (propertySourceObject !== undefined &&
                         (typeof propertySourceObject !== 'object' ||
@@ -240,7 +241,7 @@ abstract class PropertyInspectorModel {
                                             isObjectChild: true,
                                             isMapChild: false,
                                             schemas,
-                                            isArrayItem
+                                            isArrayItem: false
                                         }
                                     )
                                 ) ?? [],
@@ -257,7 +258,8 @@ abstract class PropertyInspectorModel {
                               ),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
-                        isRemovable: !isMapChild,
+                        isArrayItem,
+                        isRemovable: !(isMapChild || isArrayItem),
                         isInherited,
                         isSet:
                             (propertySourceObject !== undefined &&
@@ -312,8 +314,9 @@ abstract class PropertyInspectorModel {
                               ),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
+                        isArrayItem,
                         isInherited,
-                        isRemovable: !isMapChild,
+                        isRemovable: !(isMapChild || isArrayItem),
                         isSet:
                             (propertySourceObject !== undefined &&
                                 (typeof propertySourceObject !== 'object' ||
@@ -356,7 +359,8 @@ abstract class PropertyInspectorModel {
                         parentObjectPath: isObjectChild && path,
                         isInherited,
                         isMapChild,
-                        isRemovable: !isMapChild,
+                        isArrayItem,
+                        isRemovable: !(isMapChild || isArrayItem),
                         value: undefined,
                         isSet:
                             (propertySourceObject &&
@@ -427,7 +431,8 @@ abstract class PropertyInspectorModel {
                         parentObjectPath: isObjectChild && path,
                         isInherited,
                         isMapChild,
-                        isRemovable: !isMapChild,
+                        isArrayItem,
+                        isRemovable: !(isMapChild || isArrayItem),
                         value: undefined,
                         isSet:
                             (propertySourceObject !== undefined &&
@@ -651,6 +656,7 @@ abstract class PropertyInspectorModel {
                                                   value: {},
                                                   parentObjectPath: path,
                                                   isMapChild: false,
+                                                  isArrayItem: false,
                                                   isInherited,
                                                   isRemovable: false,
                                                   isMetadata: true
@@ -678,6 +684,7 @@ abstract class PropertyInspectorModel {
                                 isInherited,
                                 value: undefined,
                                 isMapChild: false,
+                                isArrayItem: false,
                                 isRemovable: false,
                                 readonly: true
                             };
@@ -745,6 +752,7 @@ abstract class PropertyInspectorModel {
                 value: undefined,
                 parentObjectPath: isObjectChild && path,
                 isMapChild: false,
+                isArrayItem: false,
                 isInherited,
                 isRemovable: false,
                 isMetadata: !isFloating,
@@ -763,6 +771,7 @@ abstract class PropertyInspectorModel {
                 type: DTDLType.Property,
                 parentObjectPath: isObjectChild && path,
                 isMapChild: false,
+                isArrayItem: false,
                 isInherited,
                 isRemovable: false,
                 isMetadata: !isFloating,

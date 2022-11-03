@@ -794,6 +794,9 @@
         "mapKeyPlaceholder": "Enter new map key",
         "addMapIconTitle": "Add map value",
         "removeMapValueIconTitle": "Remove map value",
+        "removeArrayItemIconTitle": "Remove item from list",
+        "addArrayItemIconTitle": "Add new item",
+        "clearArrayIconTitle": "Remove all items",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",
