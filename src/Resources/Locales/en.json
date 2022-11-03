@@ -677,7 +677,7 @@
                 "genericBadRequest": "Bad request exception occured.",
                 "generalBadRequestMessage": "Request is invalid and cannot be executed.",
                 "entityNotFound": "Database not found, failed to execute query.",
-                "forbidde": "Access is denied, you have missing permissions to query."
+                "forbidden": "Access is denied, you have missing permissions to query."
             }
         },
         "notSupported": "This widget type is not currently supported"
