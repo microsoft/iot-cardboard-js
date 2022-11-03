@@ -253,10 +253,8 @@ const StandalonePropertyInspectorReducer = produce(
                 break;
             }
             case spiActionType.ON_ADD_ARRAY_ITEM: {
-                console.log('adding');
-                // eslint-disable-next-line no-debugger
-                debugger;
                 const { arrayNode } = action;
+
                 // Construct empty tree node
                 const newTreeNode = PropertyInspectorModel.parsePropertyIntoNode(
                     {
@@ -264,8 +262,7 @@ const StandalonePropertyInspectorReducer = produce(
                         isObjectChild: !!arrayNode.parentObjectPath,
                         path: arrayNode.path,
                         propertySourceObject: {},
-                        modelProperty: (arrayNode.mapDefinition.schema as any)
-                            .mapValue,
+                        modelProperty: { schema: arrayNode.childSchema } as any,
                         isMapChild: false,
                         isArrayItem: true,
                         forceSet: true,
@@ -336,9 +333,6 @@ const StandalonePropertyInspectorReducer = produce(
                 break;
             }
             case spiActionType.ON_CLEAR_ARRAY: {
-                console.log('clearing');
-                // eslint-disable-next-line no-debugger
-                debugger;
                 const { arrayNode } = action;
                 const arrayTreeNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,

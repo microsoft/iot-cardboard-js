@@ -27,6 +27,7 @@ export interface PropertyTreeNode {
     isFloating?: boolean;
     mapDefinition?: DtdlProperty;
     mapSchemas?: DtdlInterfaceSchema[];
+    childSchema?: string;
 }
 
 type EnumPropertyData = {
