@@ -11,6 +11,9 @@ export enum spiActionType {
     ON_NODE_VALUE_CHANGED,
     ON_ADD_MAP_VALUE,
     ON_REMOVE_MAP_VALUE,
+    ON_REMOVE_ARRAY_ITEM,
+    ON_ADD_ARRAY_ITEM,
+    ON_CLEAR_ARRAY,
     ON_NODE_VALUE_UNSET,
     SET_IS_TREE_COLLAPSED
 }
@@ -40,6 +43,18 @@ type Action =
     | {
           type: spiActionType.ON_REMOVE_MAP_VALUE;
           mapChildToRemove: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_REMOVE_ARRAY_ITEM;
+          arrayItemToRemove: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_ADD_ARRAY_ITEM;
+          arrayNode: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_CLEAR_ARRAY;
+          arrayNode: PropertyTreeNode;
       }
     | {
           type: spiActionType.ON_NODE_VALUE_UNSET;

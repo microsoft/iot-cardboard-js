@@ -101,6 +101,25 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
             mapChildToRemove
         });
     };
+    const onRemoveArrayItem = (arrayItemToRemove: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.ON_REMOVE_ARRAY_ITEM,
+            arrayItemToRemove
+        });
+    };
+
+    const onAddArrayItem = (arrayNode: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.ON_ADD_ARRAY_ITEM,
+            arrayNode
+        });
+    };
+    const onClearArray = (arrayNode: PropertyTreeNode) => {
+        dispatch({
+            type: spiActionType.ON_CLEAR_ARRAY,
+            arrayNode
+        });
+    };
 
     const onNodeValueUnset = (node: PropertyTreeNode) => {
         dispatch({
@@ -185,6 +204,9 @@ const StandalonePropertyInspector: React.FC<StandalonePropertyInspectorProps> = 
                         onNodeValueUnset={onNodeValueUnset}
                         onAddMapValue={onAddMapValue}
                         onRemoveMapValue={onRemoveMapValue}
+                        onRemoveArrayItem={onRemoveArrayItem}
+                        onAddArrayItem={onAddArrayItem}
+                        onClearArray={onClearArray}
                         readonly={!!props.readonly}
                         isTreeEdited={Object.keys(state.editStatus).length > 0}
                     />
