@@ -675,7 +675,7 @@
         "genericNetwork": "Adresa URL clusteru je neplatná nebo došlo k chybě sítě a dotaz nelze provést.",
         "genericBadRequest": "Došlo k výjimce chybného požadavku.",
         "entityNotFound": "Databáze nebyla nalezena.",
-        "forbidde": "Přístup byl odepřen, chybí vám oprávnění k dotazování."
+        "forbidden": "Přístup byl odepřen, chybí vám oprávnění k dotazování."
       }
     }
   },

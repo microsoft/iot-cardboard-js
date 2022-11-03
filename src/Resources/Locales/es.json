@@ -675,7 +675,7 @@
         "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red y no se puede ejecutar la consulta.",
         "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
         "entityNotFound": "No se encontró la base de datos.",
-        "forbidde": "Acceso denegado, le faltan permisos para consultar."
+        "forbidden": "Acceso denegado, le faltan permisos para consultar."
       }
     }
   },

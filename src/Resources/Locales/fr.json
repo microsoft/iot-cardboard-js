@@ -675,7 +675,7 @@
         "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite et la requête ne peut pas être exécutée.",
         "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
         "entityNotFound": "La base de données est introuvable.",
-        "forbidde": "L’accès est refusé, vous avez des autorisations manquantes pour interroger."
+        "forbidden": "L’accès est refusé, vous avez des autorisations manquantes pour interroger."
       }
     }
   },
