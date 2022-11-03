@@ -38,5 +38,6 @@ export interface IDataHistoryWidgetSubComponentStyles {
 
 export enum ConnectionErrors {
     General_BadRequest = 'General_BadRequest',
-    BadRequest_EntityNotFound = 'BadRequest_EntityNotFound'
+    BadRequest_EntityNotFound = 'BadRequest_EntityNotFound',
+    Forbidden = 'Forbidden'
 }

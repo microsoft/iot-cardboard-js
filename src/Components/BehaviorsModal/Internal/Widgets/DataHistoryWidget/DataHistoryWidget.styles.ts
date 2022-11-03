@@ -56,15 +56,7 @@ export const getStyles = ({
         errorContainer: [
             classNames.errorContainer,
             {
-                flexGrow: 1,
-                padding: '0 8px 20px',
-                whiteSpace: 'normal',
-                fontSize: FontSizes.size12,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                fontWeight: FontWeights.bold
+                flexGrow: 1
             }
         ],
         chartContainer: [
