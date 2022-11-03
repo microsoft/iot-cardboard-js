@@ -350,7 +350,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
                         <div className={classNames.descriptionContainer}>
-                            {t('3dSceneBuilder.visualRuleForm.formSubtext')}
+                            {t('3dSceneBuilder.visualRuleForm.formSubtitle')}
                         </div>
                         <TextField
                             label={t('displayName')}
@@ -415,10 +415,10 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                         <TooltipCallout
                             content={{
                                 buttonAriaLabel: t(
-                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoIconText'
                                 ),
                                 calloutContent: t(
-                                    '3dSceneBuilder.visualRuleForm.conditionsInfoContent'
+                                    '3dSceneBuilder.visualRuleForm.conditionsInfoIconText'
                                 )
                             }}
                             styles={

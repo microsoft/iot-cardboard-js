@@ -560,39 +560,38 @@
       "new": "Новое визуальное правило",
       "edit": "Редактирование визуального правила",
       "typePlaceholder": "Выберите тип значения",
-      "conditionsInfoContent": "Настройте диапазон или определенные значения, которые инициируют визуальное действие, относящееся к элементу.",
       "newCondition": "Новое условие",
       "editCondition": "Изменить условие",
       "deleteCondition": "Условие удаления",
       "unlabeledCondition": "Без маркировки",
-      "formSubtext": "Правило содержит условия и визуальные подсказки при выполнении этих условий. Выберите выражение данных для этого правила и добавьте несколько условий.",
       "addCondition": "Добавить условие",
       "conditionsTitle": "Условия",
-      "actionsTitle": "Действия",
       "colorLabel": "Цвет",
       "iconLabel": "Икона",
-      "invalidRanges": "Недопустимый диапазон, min должен быть меньше max, а значения должны быть числовыми.",
       "labelField": "Ярлык",
       "choiceGroupTrue": "Истинный",
       "choiceGroupFalse": "Ложный",
       "flyoutValuesTitle": "Значения",
       "flyoutValueTitle": "Ценность",
-      "actionLabel": "Действие",
-      "meshColoringOption": "Окраска сетки",
-      "badgeOption": "Значок"
+      "badgeOption": "Значок",
+      "formSubTitle": "Выберите выражение свойства, которое будет вычисляться, а затем создайте условия, определяющие отображаемые визуальные элементы.",
+      "conditionsInfoIconText": "Настройте диапазон или определенные значения, которые запускают визуальный элемент, примененный к элементу.",
+      "visualLabel": "Визуальный тип",
+      "rangeErrorMessage": "Недопустимый диапазон.",
+      "elementColoringOption": "Элементная окраска"
     },
     "conditions": "Условия",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Установите правила для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",
       "noData": "Вы еще не настроили визуальные правила",
       "addRuleButtonText": "Добавить правило",
       "editRule": "Изменить правило",
       "removeRule": "Удалить правило",
       "multipleBadges": "{{badgeCount}} значки",
-      "multipleMeshColorings": "{{meshColoringCount}} раскраски сетки",
-      "unlabeled": "(без маркировки)",
       "singleBadge": "1 значок",
-      "singleMeshColoring": "1 сетка раскраска"
+      "tabSubtitle": "Создание правил применения визуальных элементов к элементам на основе двойных данных.",
+      "singleElementColoring": "Раскраска 1 элемента",
+      "multipleElementColorings": "Раскраски элементов {{meshColoringCount}}",
+      "unlabeledTag": "Без маркировки"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Добавление временных рядов",
           "edit": "Редактирование временных рядов",
           "update": "Обновление временных рядов",
-          "remove": "Удаление временных рядов"
+          "remove": "Удаление временных рядов",
+          "unitPlaceholder": "например, м, м², кг, с, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1303,6 +1303,11 @@
       "Last year": "В прошлом году"
     }
   },
+<<<<<<< HEAD
   "showDetails": "Показать подробности",
   "hideDetails": "Скрыть детали"
+=======
+  "minLower": "Мин",
+  "maxLower": ".max"
+>>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

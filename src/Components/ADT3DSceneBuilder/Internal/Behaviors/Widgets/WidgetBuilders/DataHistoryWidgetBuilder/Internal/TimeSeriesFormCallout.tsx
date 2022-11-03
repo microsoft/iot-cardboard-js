@@ -164,7 +164,9 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     onChange={handleLabelChange}
                 />
                 <TextField
-                    placeholder={'e.g. m, m², kg, s, °C'}
+                    placeholder={t(
+                        'widgets.dataHistory.form.timeSeries.unitPlaceholder'
+                    )}
                     label={t('widgets.dataHistory.form.timeSeries.unit')}
                     value={seriesToEdit?.unit}
                     onChange={handleUnitChange}

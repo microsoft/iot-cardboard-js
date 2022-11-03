@@ -560,39 +560,38 @@
       "new": "새로운 시각적 규칙",
       "edit": "시각적 규칙 편집",
       "typePlaceholder": "값의 유형을 선택합니다.",
-      "conditionsInfoContent": "요소와 관련된 시각적 작업을 트리거하는 범위 또는 특정 값을 구성합니다.",
       "newCondition": "새 조건",
       "editCondition": "조건 편집",
       "deleteCondition": "조건 삭제",
       "unlabeledCondition": "레이블이 지정되지 않은",
-      "formSubtext": "규칙에는 이러한 조건이 충족될 때 조건과 시각적 단서가 포함됩니다. 이 규칙의 데이터 표현식을 선택하고 몇 가지 조건을 추가합니다.",
       "addCondition": "조건 추가",
       "conditionsTitle": "여건",
-      "actionsTitle": "작업",
       "colorLabel": "색",
       "iconLabel": "아이콘",
-      "invalidRanges": "유효하지 않은 범위, 최소값은 최대보다 작아야 하며 값은 숫자여야 합니다.",
       "labelField": "레이블",
       "choiceGroupTrue": "참",
       "choiceGroupFalse": "거짓",
       "flyoutValuesTitle": "값",
       "flyoutValueTitle": "값",
-      "actionLabel": "행동",
-      "meshColoringOption": "메쉬 채색",
-      "badgeOption": "배지"
+      "badgeOption": "배지",
+      "formSubTitle": "평가할 속성 식을 선택한 다음, 표시할 시각적 개체를 결정하는 조건을 만듭니다.",
+      "conditionsInfoIconText": "요소에 적용된 시각적 개체를 트리거하는 범위 또는 특정 값을 구성합니다.",
+      "visualLabel": "시각적 유형",
+      "rangeErrorMessage": "범위가 잘못되었습니다.",
+      "elementColoringOption": "요소 채색"
     },
     "conditions": "여건",
     "behaviorVisualRulesTab": {
-      "tabDescription": "특정 조건에 색상을 적용하기 위한 규칙을 설정합니다(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색).",
       "noData": "아직 시각적 규칙을 구성하지 않았습니다.",
       "addRuleButtonText": "규칙 추가",
       "editRule": "규칙 편집",
       "removeRule": "규칙 제거",
       "multipleBadges": "{{badgeCount}} 배지",
-      "multipleMeshColorings": "{{meshColoringCount}} mesh colorings",
-      "unlabeled": "(레이블이 지정되지 않음)",
       "singleBadge": "배지 1개",
-      "singleMeshColoring": "1 메쉬 채색"
+      "tabSubtitle": "쌍 데이터를 기반으로 요소에 시각적 개체를 적용하기 위한 규칙을 만듭니다.",
+      "singleElementColoring": "1 요소 채색",
+      "multipleElementColorings": "{{meshColoringCount}} 요소 채색",
+      "unlabeledTag": "레이블이 지정되지 않은"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "시계열 추가",
           "edit": "시계열 편집",
           "update": "시계열 업데이트",
-          "remove": "시계열 제거"
+          "remove": "시계열 제거",
+          "unitPlaceholder": "예: m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1303,6 +1303,11 @@
       "Last year": "작년"
     }
   },
+<<<<<<< HEAD
   "showDetails": "세부 정보 표시",
   "hideDetails": "세부 정보 숨기기"
+=======
+  "minLower": "분",
+  "maxLower": ".max"
+>>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

@@ -16,12 +16,13 @@ import {
 } from 'highcharts';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { useTranslation } from 'react-i18next';
+import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
+import { useTranslation } from 'react-i18next';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 NoDataToDisplay(Highcharts);
-require('highcharts/modules/accessibility')(Highcharts);
+HighchartsAccessibility(Highcharts);
 
 const getClassNames = classNamesFunction<
     IHighChartsWrapperStyleProps,

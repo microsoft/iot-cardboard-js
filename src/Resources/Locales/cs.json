@@ -560,39 +560,38 @@
       "new": "Nové vizuální pravidlo",
       "edit": "Upravit vizuální pravidlo",
       "typePlaceholder": "Vyberte typ hodnoty",
-      "conditionsInfoContent": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které spouštějí vizuální akci týkající se prvku.",
       "newCondition": "Nový stav",
       "editCondition": "Upravit podmínku",
       "deleteCondition": "Odstranit podmínku",
       "unlabeledCondition": "Neoznačené",
-      "formSubtext": "Pravidlo obsahuje podmínky a vizuální podněty, pokud jsou tyto podmínky splněny. Zvolte datový výraz pro toto pravidlo a přidejte několik podmínek.",
       "addCondition": "Přidat podmínku",
       "conditionsTitle": "Podmínky",
-      "actionsTitle": "Akce",
       "colorLabel": "Barva",
       "iconLabel": "Ikona",
-      "invalidRanges": "Neplatný rozsah, min by měl být menší než max a hodnoty by měly být číselné.",
       "labelField": "Označit",
       "choiceGroupTrue": "Pravdivý",
       "choiceGroupFalse": "Falešný",
       "flyoutValuesTitle": "Hodnoty",
       "flyoutValueTitle": "Hodnota",
-      "actionLabel": "Akce",
-      "meshColoringOption": "Zbarvení sítě",
-      "badgeOption": "Odznak"
+      "badgeOption": "Odznak",
+      "formSubTitle": "Vyberte výraz vlastnosti, který bude vyhodnocen, a pak vytvořte podmínky, které určují, které vizuály se zobrazí.",
+      "conditionsInfoIconText": "Nakonfigurujte rozsah nebo konkrétní hodnoty, které aktivují vizuál aplikovaný na prvek.",
+      "visualLabel": "Vizuální typ",
+      "rangeErrorMessage": "Neplatný rozsah.",
+      "elementColoringOption": "Zbarvení prvků"
     },
     "conditions": "Podmínky",
     "behaviorVisualRulesTab": {
-      "tabDescription": "Nastavte pravidla pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
       "noData": "Ještě jste nenakonfigurovali žádná vizuální pravidla",
       "addRuleButtonText": "Přidat pravidlo",
       "editRule": "Upravit pravidlo",
       "removeRule": "Odebrat pravidlo",
       "multipleBadges": "{{badgeCount}} odznaky",
-      "multipleMeshColorings": "{{meshColoringCount}} zbarvení sítě",
-      "unlabeled": "(neoznačeno)",
       "singleBadge": "1 odznak",
-      "singleMeshColoring": "1 zbarvení ok"
+      "tabSubtitle": "Vytvořte pravidla pro použití vizuálů na prvky založené na datech dvojčat.",
+      "singleElementColoring": "1 prvek zbarvení",
+      "multipleElementColorings": "{{meshColoringCount}} zbarvení elementů",
+      "unlabeledTag": "Neoznačené"
     }
   },
   "widgets": {
@@ -649,7 +648,8 @@
           "add": "Přidání časových řad",
           "edit": "Úprava časových řad",
           "update": "Aktualizace časových řad",
-          "remove": "Odebrání časových řad"
+          "remove": "Odebrání časových řad",
+          "unitPlaceholder": "např. m, m², kg, s, °C"
         },
         "chartOptions": {
           "yAxisType": {
@@ -1303,6 +1303,11 @@
       "Last year": "Loni"
     }
   },
+<<<<<<< HEAD
   "showDetails": "Zobrazit podrobnosti",
   "hideDetails": "Skrýt detaily"
+=======
+  "minLower": "Min",
+  "maxLower": ".max"
+>>>>>>> 6f54a1023a46bc9fe77deca396f0abb4abfde6e5
 }

@@ -1,4 +1,4 @@
-import { FontSizes } from '@fluentui/react';
+import { FontSizes, FontWeights } from '@fluentui/react';
 import {
     IConditionsCalloutStyleProps,
     IConditionsCalloutStyles
@@ -25,7 +25,8 @@ export const getStyles = (
             classNames.title,
             {
                 fontSize: FontSizes.size16,
-                margin: 0
+                margin: 0,
+                fontWeight: FontWeights.semibold
             }
         ],
         subComponentStyles: {
