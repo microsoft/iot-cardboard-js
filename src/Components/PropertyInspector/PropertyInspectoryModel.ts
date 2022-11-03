@@ -432,6 +432,7 @@ abstract class PropertyInspectorModel {
                         isInherited,
                         isMapChild,
                         isArrayItem,
+                        childSchema: modelProperty.schema.elementSchema,
                         isRemovable: !(isMapChild || isArrayItem),
                         value: undefined,
                         isSet:

@@ -60,7 +60,7 @@ const TreeNodeArrayItemTool: React.FC<NodeProps> = ({ node }) => {
                 tabIndex={0}
                 className={'cb-property-tree-node-map-value-tool-icon'}
                 aria-label={t('propertyInspector.addArrayItemIconTitle')}
-                onClick={handleRemoveArrayItem}
+                onClick={handleAddArrayItem}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                         handleAddArrayItem();
