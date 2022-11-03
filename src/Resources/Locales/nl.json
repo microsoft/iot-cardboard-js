@@ -675,7 +675,7 @@
         "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden en de query kan niet worden uitgevoerd.",
         "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
         "entityNotFound": "Database is niet gevonden.",
-        "forbidden": "Ontbrekende toegangsmachtigingen voor query's"
+        "forbidde": "Toegang wordt geweigerd, u hebt ontbrekende machtigingen om query's uit te voeren."
       }
     }
   },

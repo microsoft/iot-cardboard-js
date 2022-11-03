@@ -675,7 +675,7 @@
         "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu ve sorgu yürütülemiyor.",
         "genericBadRequest": "Hatalı istek özel durumu oluştu.",
         "entityNotFound": "Veritabanı bulunamadı.",
-        "forbidden": "Sorgulamak için eksik erişim izinleri"
+        "forbidde": "Erişim reddedildi, sorgulama izinleriniz eksik."
       }
     }
   },
