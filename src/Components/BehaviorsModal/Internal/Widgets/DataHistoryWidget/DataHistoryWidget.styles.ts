@@ -56,7 +56,8 @@ export const getStyles = ({
         errorContainer: [
             classNames.errorContainer,
             {
-                flexGrow: 1
+                flexGrow: 1,
+                overflow: 'hidden'
             }
         ],
         chartContainer: [

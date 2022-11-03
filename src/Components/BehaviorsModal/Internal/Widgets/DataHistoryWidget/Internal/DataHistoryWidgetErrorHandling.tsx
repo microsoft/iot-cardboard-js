@@ -31,7 +31,7 @@ interface IDataHistoryWidgetErrorHandlingProps {
 }
 
 /** This component surfaces some of the error messages based on ADX connection information (cluster URL, database name, table name) or query string in the data history widget configuration.
- * See a full list of errors returned by ADX service requests here: https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/netfx/kusto-data-client-errors
+ * See a full list of errors returned by ADX service requests here: https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/netfx/kusto-data-client-errors and https://learn.microsoft.com/en-us/azure/data-explorer/error-codes
  */
 export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHandlingProps> = ({
     errors,
@@ -65,27 +65,26 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                     description = t(
                         'widgets.dataHistory.errors.generalBadRequestMessage'
                     );
+                    imgSrc = GenericErrorImg;
                     break;
                 case ConnectionErrors.BadRequest_EntityNotFound: // database error
                     description = t(
                         'widgets.dataHistory.errors.entityNotFound'
                     );
+                    imgSrc = ConnectionErrorImg;
                     break;
                 default:
                     description = t(
                         'widgets.dataHistory.errors.genericBadRequest'
                     );
+                    imgSrc = GenericErrorImg;
                     break;
             }
-            imgSrc = GenericErrorImg;
-            details = response.data?.error.innererror.message;
-        } else if (
-            requestStatus === 403 &&
-            response.data?.error.code === ConnectionErrors.Forbidden
-        ) {
+            details = response.data?.error.innererror?.message;
+        } else if (requestStatus === 403) {
             description = t('widgets.dataHistory.errors.forbidden');
             imgSrc = PermissionErrorImg;
-            details = response.data?.error.innererror.message;
+            details = response.data?.error.innererror?.message;
         } else {
             imgSrc = GenericErrorImg;
             description = t('widgets.dataHistory.errors.genericBadRequest');
@@ -107,7 +106,13 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 isDetailsCalloutVisible && (
                     <Callout
                         ariaDescribedBy={errorDetailsCalloutDescriptionId}
-                        styles={sharedCalloutStyles}
+                        styles={{
+                            ...sharedCalloutStyles,
+                            root: {
+                                ...(sharedCalloutStyles.root as any),
+                                fontSize: 12
+                            }
+                        }}
                         target={`#${errorDetailsCalloutId}`}
                         onDismiss={toggleIsDetailsCalloutVisible}
                         role="alert"
@@ -116,6 +121,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                             block
                             variant="small"
                             id={errorDetailsCalloutDescriptionId}
+                            style={{ maxHeight: 100, overflow: 'hidden auto' }}
                         >
                             {response?.data?.error.innererror?.message}
                         </Text>
@@ -142,26 +148,42 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 width={'compact'}
                 imageProps={{
                     src: errorObj.imgSrc,
-                    height: 76
+                    height: 56,
+                    styles: { root: { flexShrink: 0 } }
                 }}
                 linkProps={
-                    response?.data?.error.innererror?.message
+                    errorObj.details
                         ? {
                               id: errorDetailsCalloutId,
                               onClick: toggleIsDetailsCalloutVisible
                           }
-                        : undefined
+                        : {
+                              onClick: () => {
+                                  window.open(DOCUMENTATION_LINKS.dataHistory);
+                              }
+                          }
                 }
                 linkText={
-                    response?.data?.error.innererror?.message
+                    errorObj.details
                         ? isDetailsCalloutVisible
                             ? t('hideDetails')
                             : t('showDetails')
-                        : undefined
+                        : t('learnMore')
                 }
                 styles={{
-                    container: { height: 'auto', flexGrow: 1, paddingTop: 4 },
-                    descriptionContainer: { whiteSpace: 'normal' }
+                    container: { height: '100%', paddingTop: 0 },
+                    descriptionContainer: {
+                        whiteSpace: 'normal',
+                        maxWidth: 240,
+                        flexGrow: 1,
+                        overflow: 'hidden',
+                        span: {
+                            width: '100%',
+                            maxHeight: 40,
+                            display: 'block',
+                            overflowY: 'auto'
+                        }
+                    }
                 }}
             />
             {errorDetailsCallout}

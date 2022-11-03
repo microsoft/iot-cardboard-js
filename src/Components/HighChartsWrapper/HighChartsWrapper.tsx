@@ -199,7 +199,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         tooltip: {
             shared: true,
             useHTML: true,
-            style: tooltipStyles?.root
+            style: tooltipStyles?.root,
+            valueDecimals: 2,
+            xDateFormat: '%A, %b %e, %Y %H:%M:%S %p'
         },
         loading: {
             hideDuration: 1000,
@@ -217,7 +219,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             series: {
                 dataGrouping: {
                     enabled: true, // by default, notice that it is not forced considering we may want to see raw data when possible
-                    anchor: 'middle'
+                    anchor: 'middle',
+                    groupPixelWidth: 4
                 }
             }
         }
