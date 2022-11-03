@@ -675,7 +675,7 @@
         "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt, és a lekérdezés nem hajtható végre.",
         "genericBadRequest": "Hibás kérelem kivétel történt.",
         "entityNotFound": "Az adatbázis nem található.",
-        "forbidde": "A hozzáférés megtagadva, hiányoznak a lekérdezéshez szükséges engedélyek."
+        "forbidden": "A hozzáférés megtagadva, hiányoznak a lekérdezéshez szükséges engedélyek."
       }
     }
   },

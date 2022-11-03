@@ -675,7 +675,7 @@
         "genericNetwork": "L'URL del cluster non è valido o si è verificato un errore di rete e non è possibile eseguire la query.",
         "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
         "entityNotFound": "Impossibile trovare il database.",
-        "forbidde": "L'accesso è negato, mancano le autorizzazioni per eseguire query."
+        "forbidden": "L'accesso è negato, mancano le autorizzazioni per eseguire query."
       }
     }
   },
