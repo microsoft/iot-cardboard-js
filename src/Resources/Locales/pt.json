@@ -675,7 +675,7 @@
         "genericNetwork": "A url do cluster é inválida ou ocorreu erro de rede e a consulta não pode ser executada.",
         "genericBadRequest": "A exceção do pedido foi ocorrida.",
         "entityNotFound": "O banco de dados não foi encontrado.",
-        "forbidden": "Permissões de acesso perdidas para consulta"
+        "forbidde": "O acesso é negado, você tem permissões faltantes para consultar."
       }
     }
   },

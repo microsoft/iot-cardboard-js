@@ -675,7 +675,7 @@
         "genericNetwork": "群集 URL 无效或发生网络错误，无法执行查询。",
         "genericBadRequest": "发生错误请求异常。",
         "entityNotFound": "找不到数据库。",
-        "forbidden": "缺少查询访问权限"
+        "forbidde": "访问被拒绝，您缺少查询权限。"
       }
     }
   },

@@ -675,7 +675,7 @@
         "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci i nie można wykonać kwerendy.",
         "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
         "entityNotFound": "Nie znaleziono bazy danych.",
-        "forbidden": "Brak uprawnień dostępu do kwerendy"
+        "forbidde": "Odmowa dostępu, brakuje uprawnień do wykonywania zapytań."
       }
     }
   },

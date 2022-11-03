@@ -675,7 +675,7 @@
         "genericNetwork": "Die Cluster-URL ist ungültig, oder es ist ein Netzwerkfehler aufgetreten, und die Abfrage kann nicht ausgeführt werden.",
         "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
         "entityNotFound": "Datenbank wurde nicht gefunden.",
-        "forbidden": "Fehlende Zugriffsberechtigungen für die Abfrage"
+        "forbidde": "Der Zugriff wird verweigert, Sie haben fehlende Berechtigungen zum Abfragen."
       }
     }
   },
