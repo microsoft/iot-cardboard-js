@@ -10,7 +10,6 @@ const classNames = {
     root: `${classPrefix}-root`,
     header: `${classPrefix}-header`,
     title: `${classPrefix}-title`,
-    errorContainer: `${classPrefix}-error-container`,
     chartContainer: `${classPrefix}-chart-container`,
     menuButton: `${classPrefix}-menu-button`,
     menu: `${classPrefix}-menu`,
@@ -51,13 +50,6 @@ export const getStyles = ({
                 fontWeight: FontWeights.semibold,
                 paddingRight: 4,
                 width: 192
-            }
-        ],
-        errorContainer: [
-            classNames.errorContainer,
-            {
-                flexGrow: 1,
-                overflow: 'hidden'
             }
         ],
         chartContainer: [
@@ -114,6 +106,28 @@ export const getStyles = ({
                     lineHeight: '16px'
                 },
                 calloutWidth: 104
+            },
+            errorContainer: {
+                root: {
+                    flexGrow: 1,
+                    overflow: 'hidden'
+                },
+                image: {
+                    root: { flexShrink: 0 }
+                },
+                textContainer: { height: '100%', paddingTop: 0 },
+                descriptionContainer: {
+                    whiteSpace: 'normal',
+                    maxWidth: 240,
+                    flexGrow: 1,
+                    overflow: 'hidden',
+                    span: {
+                        width: '100%',
+                        maxHeight: 40,
+                        display: 'block',
+                        overflowY: 'auto'
+                    }
+                }
             }
         }
     };

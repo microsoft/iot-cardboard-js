@@ -17,11 +17,12 @@ import { getCardboardListCalloutStyles } from '../../../../../CardboardListCallo
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
 import { getDataHistoryWidgetClassNames } from '../DataHistoryWidget';
 import {
-    ConnectionErrors,
+    DataHistoryErrors,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from '../DataHistoryWidget.types';
 
+const IMG_HEIGHT = 56;
 interface IDataHistoryWidgetErrorHandlingProps {
     errors: Array<IComponentError>;
     styles?: IStyleFunctionOrObject<
@@ -30,7 +31,10 @@ interface IDataHistoryWidgetErrorHandlingProps {
     >;
 }
 
-/** This component surfaces some of the error messages based on ADX connection information (cluster URL, database name, table name) or query string in the data history widget configuration.
+/** This component surfaces some of the error messages based on:
+ * 1- ADX connection information (cluster URL, database name, table name) in the data history widget configuration
+ * 2- query string in the data history widget configuration
+ * 3- permission to query
  * See a full list of errors returned by ADX service requests here: https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/netfx/kusto-data-client-errors and https://learn.microsoft.com/en-us/azure/data-explorer/error-codes
  */
 export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHandlingProps> = ({
@@ -61,13 +65,13 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
             imgSrc = ConnectionErrorImg;
         } else if (requestStatus === 400) {
             switch (response.data?.error.code) {
-                case ConnectionErrors.General_BadRequest: // query error (including table name since it is part of query in the request payload)
+                case DataHistoryErrors.General_BadRequest: // query error (including table name since it is part of query in the request payload)
                     description = t(
                         'widgets.dataHistory.errors.generalBadRequestMessage'
                     );
                     imgSrc = GenericErrorImg;
                     break;
-                case ConnectionErrors.BadRequest_EntityNotFound: // database error
+                case DataHistoryErrors.BadRequest_EntityNotFound: // database error
                     description = t(
                         'widgets.dataHistory.errors.entityNotFound'
                     );
@@ -82,6 +86,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
             }
             details = response.data?.error.innererror?.message;
         } else if (requestStatus === 403) {
+            // permission error
             description = t('widgets.dataHistory.errors.forbidden');
             imgSrc = PermissionErrorImg;
             details = response.data?.error.innererror?.message;
@@ -140,7 +145,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
     }, [response?.data?.error.innererror?.message, isDetailsCalloutVisible]);
 
     return (
-        <div className={classNames.errorContainer}>
+        <div style={classNames.subComponentStyles.errorContainer().root}>
             <IllustrationMessage
                 headerText=""
                 descriptionText={errorObj.description}
@@ -148,8 +153,8 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 width={'compact'}
                 imageProps={{
                     src: errorObj.imgSrc,
-                    height: 56,
-                    styles: { root: { flexShrink: 0 } }
+                    height: IMG_HEIGHT,
+                    styles: classNames.subComponentStyles.errorContainer().image
                 }}
                 linkProps={
                     errorObj.details
@@ -171,19 +176,10 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                         : t('learnMore')
                 }
                 styles={{
-                    container: { height: '100%', paddingTop: 0 },
-                    descriptionContainer: {
-                        whiteSpace: 'normal',
-                        maxWidth: 240,
-                        flexGrow: 1,
-                        overflow: 'hidden',
-                        span: {
-                            width: '100%',
-                            maxHeight: 40,
-                            display: 'block',
-                            overflowY: 'auto'
-                        }
-                    }
+                    container: classNames.subComponentStyles.errorContainer()
+                        .textContainer,
+                    descriptionContainer: classNames.subComponentStyles.errorContainer()
+                        .descriptionContainer
                 }}
             />
             {errorDetailsCallout}
