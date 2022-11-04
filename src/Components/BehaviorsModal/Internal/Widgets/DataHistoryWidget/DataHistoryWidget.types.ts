@@ -45,7 +45,7 @@ export interface IDataHistoryWidgetSubComponentStyles {
     };
 }
 
-export enum DataHistoryErrors {
+export enum DataHistoryServiceErrorCodes {
     General_BadRequest = 'General_BadRequest',
     BadRequest_EntityNotFound = 'BadRequest_EntityNotFound',
     Forbidden = 'Forbidden'

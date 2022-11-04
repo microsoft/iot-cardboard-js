@@ -17,7 +17,7 @@ import { getCardboardListCalloutStyles } from '../../../../../CardboardListCallo
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
 import { getDataHistoryWidgetClassNames } from '../DataHistoryWidget';
 import {
-    DataHistoryErrors,
+    DataHistoryServiceErrorCodes,
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from '../DataHistoryWidget.types';
@@ -70,13 +70,13 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 break;
             case ComponentErrorType.BadRequestException: // status 400
                 switch (errorResponse.data.error.code) {
-                    case DataHistoryErrors.General_BadRequest: // query error (including table name since it is part of query in the request payload)
+                    case DataHistoryServiceErrorCodes.General_BadRequest: // query error (including table name since it is part of query in the request payload)
                         description = t(
                             'widgets.dataHistory.errors.generalBadRequestMessage'
                         );
                         imgSrc = GenericErrorImg;
                         break;
-                    case DataHistoryErrors.BadRequest_EntityNotFound: // database error
+                    case DataHistoryServiceErrorCodes.BadRequest_EntityNotFound: // database error
                         description = t(
                             'widgets.dataHistory.errors.entityNotFound'
                         );
