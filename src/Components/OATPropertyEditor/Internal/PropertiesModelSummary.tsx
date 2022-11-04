@@ -184,13 +184,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     };
 
     // side effects
-    // useEffect(() => {
-    //     setItemUniqueName(
-    //         selectedItem && selectedItem.displayName
-    //             ? getModelPropertyListItemName(selectedItem.displayName)
-    //             : ''
-    //     );
-    // }, [selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -205,11 +198,11 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         >
             {/* HEADER */}
             <div className={classNames.sectionHeaderContainer}>
-                <Stack>
+                <Stack tokens={{ childrenGap: 4 }}>
                     <h3 className={classNames.sectionTitle}>
                         {itemUniqueName}
                     </h3>
-                    <Text className={classNames.sectionSubtitle}>{itemId}</Text>
+                    <span className={classNames.sectionSubtitle}>{itemId}</span>
                 </Stack>
                 {selectedItem &&
                     selectedItem['@type'] === OAT_INTERFACE_TYPE && (

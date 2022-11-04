@@ -21,6 +21,8 @@ import {
     getDefaultStoryDecorator
 } from '../../Models/Services/StoryUtilities';
 import { getTargetFromSelection } from './Utils';
+import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -29,6 +31,8 @@ const wrapperStyle: React.CSSProperties = {
 };
 
 type StoryProps = {
+    files: IOATFile[];
+    selection: IOATSelection;
     initialState?: Partial<IOatPageContextState>;
 };
 type SceneBuilderStory = ComponentStory<any>;
@@ -36,16 +40,13 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     context: IStoryContext<any>
 ) => {
-    const files = getMockFiles();
     return (
         <OatPageContextProvider
             disableLocalStorage={true}
             initialState={{
-                ontologyFiles: files,
+                ontologyFiles: args.files,
                 currentOntologyId: 'something',
-                selection: {
-                    modelId: files[0].data.models[0]['@id']
-                },
+                selection: args.selection,
                 ...args?.initialState
             }}
         >
@@ -118,4 +119,12 @@ const getMockModel = () => {
     return model;
 };
 
-export const Base = Template.bind({});
+export const ModelSelected = Template.bind({});
+ModelSelected.args = (() => {
+    const files = getMockFiles();
+    const args: StoryProps = {
+        files: files,
+        selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();
