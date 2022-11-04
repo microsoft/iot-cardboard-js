@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
-    "valueSchema": "Värdeschema"
+    "valueSchema": "Värdeschema",
+    "modelId": "Modell-ID",
+    "path": "Stig",
+    "uniqueModelName": "Unikt modellnamn",
+    "version": "Version"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

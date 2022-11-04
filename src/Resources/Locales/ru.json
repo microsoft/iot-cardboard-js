@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
     "moveUp": "Придвигаться",
-    "valueSchema": "Схема значений"
+    "valueSchema": "Схема значений",
+    "modelId": "Идентификатор модели",
+    "path": "Путь",
+    "uniqueModelName": "Уникальное название модели",
+    "version": "Версия"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
