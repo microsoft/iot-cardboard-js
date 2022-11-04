@@ -184,10 +184,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 }}
                 onRenderTitle={onRenderTitleOfQuickTimePickerItem}
                 onRenderCaretDown={onRenderCaretDown}
-                calloutProps={{
-                    calloutWidth: classNames.subComponentStyles?.quickTimePicker?.()
-                        .calloutWidth
-                }}
             />
         );
     };

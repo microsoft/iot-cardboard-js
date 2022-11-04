@@ -31,7 +31,6 @@ const QuickTimesDropdown: React.FC<IQuickTimesDropdownProps> = (props) => {
         onRenderTitle,
         onRenderCaretDown,
         onChange,
-        calloutProps,
         styles
     } = props;
 
@@ -56,7 +55,7 @@ const QuickTimesDropdown: React.FC<IQuickTimesDropdownProps> = (props) => {
             onRenderLabel={onRenderLabel}
             onRenderTitle={onRenderTitle}
             onRenderCaretDown={onRenderCaretDown}
-            calloutProps={calloutProps}
+            dropdownWidth={'auto'}
         />
     );
 };

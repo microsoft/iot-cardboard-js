@@ -104,8 +104,7 @@ export const getStyles = ({
                 menuItemIcon: {
                     fontSize: FontSizes.size16,
                     lineHeight: '16px'
-                },
-                calloutWidth: 104
+                }
             },
             errorContainer: {
                 root: {

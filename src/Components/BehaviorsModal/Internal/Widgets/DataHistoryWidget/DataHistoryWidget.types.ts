@@ -36,7 +36,6 @@ export interface IDataHistoryWidgetSubComponentStyles {
     quickTimePicker: {
         dropdown?: IStyle;
         menuItemIcon?: CSSProperties;
-        calloutWidth?: number;
     };
     errorContainer: {
         root: CSSProperties;
