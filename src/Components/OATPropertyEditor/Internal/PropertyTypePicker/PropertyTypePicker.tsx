@@ -21,7 +21,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
-    const { styles } = props;
+    const { onSelect, styles } = props;
 
     // contexts
 
@@ -35,9 +35,15 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
         {
             text: 'Object',
             iconProps: { iconName: 'SplitObject' },
-            key: 'object'
+            key: 'object',
+            onClick: () => onSelect({ type: 'object' })
         },
-        { text: 'Map', data: { iconName: 'MapPin' }, key: 'map' },
+        {
+            text: 'Map',
+            data: { iconName: 'MapPin' },
+            key: 'map',
+            onClick: () => onSelect({ type: 'map' })
+        },
         {
             text: 'Primitive',
             itemType: ContextualMenuItemType.Header,
@@ -46,12 +52,14 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
         {
             text: 'DateTime',
             iconProps: { iconName: 'DateTime' },
-            key: 'datetime'
+            key: 'datetime',
+            onClick: () => onSelect({ type: 'datetime' })
         },
         {
             text: 'Integer',
             iconProps: { iconName: 'NumberField' },
-            key: 'integer'
+            key: 'integer',
+            onClick: () => onSelect({ type: 'integer' })
         },
         {
             text: 'Polygons',
@@ -61,12 +69,14 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
         {
             text: 'Point',
             iconProps: { iconName: 'AzureServiceEndpoint' },
-            key: 'point'
+            key: 'point',
+            onClick: () => onSelect({ type: 'point' })
         },
         {
             text: 'Multi-point',
             iconProps: { iconName: '12PointStar' },
-            key: 'multi-point'
+            key: 'multi-point',
+            onClick: () => onSelect({ type: 'multi-point' })
         }
     ];
 

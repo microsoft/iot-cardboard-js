@@ -11,9 +11,7 @@ import {
     SpinButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { getPropertyEditorTextFieldStyles } from '../OATPropertyEditor.styles';
 import { FormBody } from '../Shared/Constants';
-import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
 import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
 import {
@@ -21,7 +19,7 @@ import {
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getModelPropertyListItemName, getTargetFromSelection } from '../Utils';
+import { getModelPropertyListItemName } from '../Utils';
 import {
     IPropertiesModelSummaryProps,
     IPropertiesModelSummaryStyleProps,
@@ -49,7 +47,7 @@ const getClassNames = classNamesFunction<
 export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     props
 ) => {
-    const { dispatch, isSupportedModelType, selectedItem, styles } = props;
+    const { dispatch, selectedItem, styles } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -60,14 +58,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // data
     const parsedId = parseModelId(selectedItem['@id']);
-    const [itemUniqueName, setItemDisplayName] = useState(parsedId.name);
+    const [itemUniqueName, setItemUniqueName] = useState(parsedId.name);
     const [itemPath, setItemPath] = useState(parsedId.path);
     const [itemVersion, setItemVersion] = useState(parsedId.version);
 
     const [id, setItemId] = useState(
         selectedItem && selectedItem['@id'] ? selectedItem['@id'] : ''
     );
-    const [displayNameEditor, setDisplayNameEditor] = useState(false);
 
     const onIdCommit = useCallback(
         (value: string) => {
@@ -131,48 +128,48 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         ]
     );
 
-    const onDisplayNameChange = useCallback(
-        (value: string) => {
-            const commit = () => {
-                const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-                const itemReference = getTargetFromSelection(
-                    modelsCopy,
-                    oatPageState.selection
-                );
-                if (itemReference) {
-                    itemReference.displayName = value;
-                    oatPageDispatch({
-                        type: OatPageContextActionType.SET_CURRENT_MODELS,
-                        payload: { models: modelsCopy }
-                    });
-                } else {
-                    logDebugConsole(
-                        'warn',
-                        'Could not find the model to update {selection, models}',
-                        oatPageState.selection,
-                        modelsCopy
-                    );
-                }
-                setItemDisplayName(value);
-                setDisplayNameEditor(false);
-            };
+    // const onDisplayNameChange = useCallback(
+    //     (value: string) => {
+    //         const commit = () => {
+    //             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
+    //             const itemReference = getTargetFromSelection(
+    //                 modelsCopy,
+    //                 oatPageState.selection
+    //             );
+    //             if (itemReference) {
+    //                 itemReference.displayName = value;
+    //                 oatPageDispatch({
+    //                     type: OatPageContextActionType.SET_CURRENT_MODELS,
+    //                     payload: { models: modelsCopy }
+    //                 });
+    //             } else {
+    //                 logDebugConsole(
+    //                     'warn',
+    //                     'Could not find the model to update {selection, models}',
+    //                     oatPageState.selection,
+    //                     modelsCopy
+    //                 );
+    //             }
+    //             setItemDisplayName(value);
+    //             setDisplayName(false);
+    //         };
 
-            const undoCommit = () => {
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: oatPageState.currentOntologyModels }
-                });
-            };
+    //         const undoCommit = () => {
+    //             oatPageDispatch({
+    //                 type: OatPageContextActionType.SET_CURRENT_MODELS,
+    //                 payload: { models: oatPageState.currentOntologyModels }
+    //             });
+    //         };
 
-            execute(commit, undoCommit);
-        },
-        [
-            execute,
-            oatPageDispatch,
-            oatPageState.currentOntologyModels,
-            oatPageState.selection
-        ]
-    );
+    //         execute(commit, undoCommit);
+    //     },
+    //     [
+    //         execute,
+    //         oatPageDispatch,
+    //         oatPageState.currentOntologyModels,
+    //         oatPageState.selection
+    //     ]
+    // );
 
     const onInfoButtonClick = () => {
         dispatch({
@@ -187,7 +184,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // side effects
     useEffect(() => {
-        setItemDisplayName(
+        setItemUniqueName(
             selectedItem && selectedItem.displayName
                 ? getModelPropertyListItemName(selectedItem.displayName)
                 : ''
@@ -210,8 +207,8 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
 
+    logDebugConsole('debug', 'Render {item}', selectedItem);
     return (
         <Stack styles={classNames.subComponentStyles.rootStack}>
             {/* HEADER */}
@@ -260,7 +257,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 </Text>
                 <TextField
                     aria-labelledby={'oat-property-type'}
-                    onChange={(_ev, value) => onDisplayNameChange(value)}
+                    onChange={(_ev, value) => setItemUniqueName(value)}
                     styles={classNames.subComponentStyles.stringField}
                     value={itemUniqueName}
                 />
@@ -318,7 +315,7 @@ d
                     />
                 )}
             </div> */}
-            {isSupportedModelType && (
+            {/* {isSupportedModelType && (
                 <div className={classNames.row}>
                     <Text>{t('OATPropertyEditor.displayName')}</Text>
                     {!displayNameEditor && selectedItem && (
@@ -341,7 +338,7 @@ d
                         />
                     )}
                 </div>
-            )}
+            )} */}
         </Stack>
     );
 };

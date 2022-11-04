@@ -17,7 +17,6 @@ import { PropertyListProps } from './PropertyList.types';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { SET_OAT_PROPERTY_EDITOR_DRAGGING_PROPERTY } from '../../../Models/Constants/ActionTypes';
-import PropertyTypePicker from './PropertyTypePicker/PropertyTypePicker';
 
 export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const {
@@ -421,7 +420,6 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
                 </div>
             )}
 
-            <PropertyTypePicker />
             <PropertySelector
                 setPropertySelectorVisible={setPropertySelectorVisible}
                 propertySelectorPosition={propertySelectorPosition}
