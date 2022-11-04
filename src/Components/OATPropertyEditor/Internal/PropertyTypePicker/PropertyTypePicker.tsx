@@ -8,11 +8,9 @@ import { getStyles } from './PropertyTypePicker.styles';
 import {
     classNamesFunction,
     styled,
-    Dropdown,
-    Icon,
-    SelectableOptionMenuItemType,
-    Stack,
-    IDropdownOption
+    CommandButton,
+    IContextualMenuItem,
+    ContextualMenuItemType
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
@@ -23,51 +21,51 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
-    const { onSelect, styles } = props;
+    const { styles } = props;
 
     // contexts
 
     // state
-    const options: IDropdownOption<{ iconName: string }>[] = [
+    const menuOptions: IContextualMenuItem[] = [
         {
             text: 'Complex',
-            itemType: SelectableOptionMenuItemType.Header,
+            itemType: ContextualMenuItemType.Header,
             key: 'complex-header'
         },
         {
             text: 'Object',
-            data: { iconName: 'SplitObject' },
+            iconProps: { iconName: 'SplitObject' },
             key: 'object'
         },
         { text: 'Map', data: { iconName: 'MapPin' }, key: 'map' },
         {
             text: 'Primitive',
-            itemType: SelectableOptionMenuItemType.Header,
+            itemType: ContextualMenuItemType.Header,
             key: 'primitive-header'
         },
         {
             text: 'DateTime',
-            data: { iconName: 'DateTime' },
+            iconProps: { iconName: 'DateTime' },
             key: 'datetime'
         },
         {
             text: 'Integer',
-            data: { iconName: 'NumberField' },
+            iconProps: { iconName: 'NumberField' },
             key: 'integer'
         },
         {
             text: 'Polygons',
-            itemType: SelectableOptionMenuItemType.Header,
+            itemType: ContextualMenuItemType.Header,
             key: 'polygon-header'
         },
         {
             text: 'Point',
-            data: { iconName: 'AzureServiceEndpoint' },
+            iconProps: { iconName: 'AzureServiceEndpoint' },
             key: 'point'
         },
         {
             text: 'Multi-point',
-            data: { iconName: '12PointStar' },
+            iconProps: { iconName: '12PointStar' },
             key: 'multi-point'
         }
     ];
@@ -85,43 +83,13 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
     });
 
     return (
-        <Dropdown
-            dropdownWidth={'auto'}
-            selectedKey={-1} // keep from selecting any entries
-            onChange={(_ev, option) => onSelect(option)}
-            options={options}
-            onRenderCaretDown={() => null}
-            onRenderPlaceholder={() => {
-                return (
-                    <Stack horizontal tokens={{ childrenGap: 8 }}>
-                        <Icon iconName={'Add'} /> <span>{t('add')}</span>
-                    </Stack>
-                );
+        <CommandButton
+            text={t('add')}
+            iconProps={{ iconName: 'Add' }}
+            menuProps={{
+                items: menuOptions
             }}
-            onRenderOption={(props, defaultRenderer) => {
-                if (props.data?.iconName) {
-                    return (
-                        <Stack
-                            horizontal
-                            tokens={{ childrenGap: 8 }}
-                            styles={{
-                                root: {
-                                    padding: 8
-                                }
-                            }}
-                        >
-                            <Icon
-                                iconName={props.data.iconName}
-                                aria-hidden="true"
-                            />
-                            <span>{props.text}</span>
-                        </Stack>
-                    );
-                } else {
-                    return defaultRenderer(props);
-                }
-            }}
-            styles={classNames.subComponentStyles.dropdown}
+            styles={classNames.subComponentStyles.menu?.()}
         />
     );
 };

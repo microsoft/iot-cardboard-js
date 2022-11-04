@@ -1,8 +1,8 @@
 import {
     IStyle,
     IStyleFunctionOrObject,
-    IDropdownStyles,
-    IDropdownOption
+    IDropdownOption,
+    IContextualMenuStyles
 } from '@fluentui/react';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
@@ -33,5 +33,5 @@ export interface IPropertyTypePickerStyles {
 }
 
 export interface IPropertyTypePickerSubComponentStyles {
-    dropdown?: Partial<IDropdownStyles>;
+    menu?: Partial<IContextualMenuStyles>;
 }
