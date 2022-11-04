@@ -25,17 +25,20 @@ import {
     IPropertiesModelSummaryStyleProps,
     IPropertiesModelSummaryStyles
 } from './PropertiesModelSummary.types';
-import { OAT_INTERFACE_TYPE } from '../../../Models/Constants/Constants';
 import { buildModelId, parseModelId } from '../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
+import {
+    isDTDLModel,
+    isDTDLRelationship
+} from '../../../Models/Services/DtdlUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
-const INVALID_CHARACTERS: string[] = [' ', '-', '_'];
+const INVALID_CHARACTERS: string[] = [' ', '-', '_', '.', ';', '<', '>'];
 
 const getClassNames = classNamesFunction<
     IPropertiesModelSummaryStyleProps,
@@ -46,6 +49,11 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     props
 ) => {
     const { dispatch, selectedItem, styles } = props;
+    const isModelSelected = isDTDLModel(selectedItem);
+    const isRelationshipSelected = isDTDLRelationship(selectedItem);
+    const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
+        selectedItem
+    ]);
 
     // hooks
     const { t } = useTranslation();
@@ -55,21 +63,20 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
-        selectedItem
-    ]);
-    const [itemUniqueName, setItemUniqueName] = useState(parsedId.name);
-    const [itemPath, setItemPath] = useState(parsedId.path);
-    const [itemVersion, setItemVersion] = useState(parsedId.version);
+    const [modelUniqueName, setModelUniqueName] = useState(parsedId.name);
+    const [modelPath, setModelPath] = useState(parsedId.path);
+    const [modelVersion, setModelVersion] = useState(parsedId.version);
+
+    const [relationshipName] = useState(
+        isDTDLRelationship(selectedItem) ? selectedItem.name : ''
+    );
 
     // data
-    const isModelSelected = selectedItem['@type'] === OAT_INTERFACE_TYPE;
-    // const isRelationshipSelected = !isModelSelected;
     const itemId = buildModelId({
         namespace: parsedId.namespace,
-        modelName: itemUniqueName,
-        path: itemPath,
-        version: Number(itemVersion)
+        modelName: modelUniqueName,
+        path: modelPath,
+        version: Number(modelVersion)
     });
 
     // callbacks
@@ -116,12 +123,15 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         ]
     );
     const onChangeUniqueName = useCallback((_ev, value: string) => {
+        // generally banned characters
         INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
-        setItemUniqueName(value);
+        // specially banned for names
+        [':'].forEach((x) => (value = value.replaceAll(x, '')));
+        setModelUniqueName(value);
     }, []);
     const onChangePath = useCallback((_ev, value: string) => {
         INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
-        setItemPath(value);
+        setModelPath(value);
     }, []);
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
@@ -129,17 +139,17 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         ({ namespace, modelName, path, version }: IPartialModelId) => {
             const newId = buildModelId({
                 namespace: namespace || parsedId.namespace,
-                modelName: modelName || itemUniqueName,
-                path: path || itemPath,
-                version: Number(version || itemVersion)
+                modelName: modelName || modelUniqueName,
+                path: path || modelPath,
+                version: Number(version || modelVersion)
             });
             commitIdChange(newId);
         },
         [
             commitIdChange,
-            itemPath,
-            itemUniqueName,
-            itemVersion,
+            modelPath,
+            modelUniqueName,
+            modelVersion,
             parsedId.namespace
         ]
     );
@@ -205,7 +215,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         theme: useExtendedTheme()
     });
 
-    // logDebugConsole('debug', 'Render {item}', selectedItem);
+    logDebugConsole('debug', 'Render {item}', selectedItem);
     if (!selectedItem) {
         console.warn(
             '[PROPERTIES_MODEL_SUMMARY] No selected item provided, aborting render'
@@ -219,17 +229,29 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         >
             {/* HEADER */}
             <div className={classNames.sectionHeaderRoot}>
-                <Stack
-                    tokens={{ childrenGap: 4 }}
-                    className={classNames.sectionHeaderContainer}
-                >
-                    <h4 className={classNames.sectionTitle}>
-                        {itemUniqueName}
-                    </h4>
-                    <span className={classNames.sectionSubtitle} title={itemId}>
-                        {itemId}
-                    </span>
-                </Stack>
+                {isRelationshipSelected && (
+                    <div className={classNames.sectionHeaderContainer}>
+                        <h4 className={classNames.sectionTitle}>
+                            {relationshipName}
+                        </h4>
+                    </div>
+                )}
+                {isModelSelected && (
+                    <Stack
+                        tokens={{ childrenGap: 4 }}
+                        className={classNames.sectionHeaderContainer}
+                    >
+                        <h4 className={classNames.sectionTitle}>
+                            {modelUniqueName}
+                        </h4>
+                        <span
+                            className={classNames.sectionSubtitle}
+                            title={itemId}
+                        >
+                            {itemId}
+                        </span>
+                    </Stack>
+                )}
                 {isModelSelected && (
                     <IconButton
                         iconProps={{ iconName: 'info' }}
@@ -254,101 +276,62 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             </div>
             <Separator styles={classNames.subComponentStyles.separator} />
 
-            {/* ID SECTION */}
-            <div className={classNames.row}>
-                <Text id={'oat-property-type'} className={classNames.rowLabel}>
-                    {t('OATPropertyEditor.uniqueModelName')}
-                </Text>
-                <TextField
-                    aria-labelledby={'oat-property-type'}
-                    onBlur={() => commitIdChange(itemId)}
-                    onChange={onChangeUniqueName}
-                    styles={classNames.subComponentStyles.stringField}
-                    value={itemUniqueName}
-                />
-            </div>
-            <div className={classNames.row}>
-                <Text id={'oat-property-path'} className={classNames.rowLabel}>
-                    {t('OATPropertyEditor.path')}
-                </Text>
-                <TextField
-                    aria-labelledby={'oat-property-path'}
-                    onBlur={() => commitIdChange(itemId)}
-                    onChange={onChangePath}
-                    styles={classNames.subComponentStyles.stringField}
-                    value={itemPath}
-                />
-            </div>
-            <div className={classNames.row}>
-                <Text
-                    id={'oat-property-version'}
-                    className={classNames.rowLabel}
-                >
-                    {t('OATPropertyEditor.version')}
-                </Text>
-                <SpinButton
-                    aria-labelledby={'oat-property-version'}
-                    onChange={(_ev, value) => {
-                        // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
-                        forceUpdateId({ version: value });
-                        setItemVersion(value);
-                    }}
-                    styles={classNames.subComponentStyles.numericField}
-                    value={itemVersion}
-                />
-            </div>
-            <Separator styles={classNames.subComponentStyles.separator} />
-
-            {/* 
-d
-d
-d
-d
-d
-*/}
-            {/* <div className={classNames.row}>
-                <Text>{t('id')}</Text>
-                {!idEditor && selectedItem && (
-                    <Text onDoubleClick={() => setIdEditor(true)}>{id}</Text>
-                )}
-                {idEditor && selectedItem && (
-                    <OATTextFieldId
-                        placeholder={t('id')}
-                        styles={textFieldStyles}
-                        disabled={!selectedItem}
-                        value={isSupportedModelType && id}
-                        model={selectedItem}
-                        models={oatPageState.currentOntologyModels}
-                        onCommit={onIdCommit}
-                        borderless
-                        autoFocus
-                    />
-                )}
-            </div> */}
-            {/* {isSupportedModelType && (
-                <div className={classNames.row}>
-                    <Text>{t('OATPropertyEditor.displayName')}</Text>
-                    {!displayNameEditor && selectedItem && (
-                        <Text onDoubleClick={() => setDisplayNameEditor(true)}>
-                            {itemUniqueName !== ''
-                                ? itemUniqueName
-                                : t('OATPropertyEditor.displayName')}
+            {isModelSelected && (
+                <>
+                    {/* ID SECTION */}
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-property-type'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.uniqueModelName')}
                         </Text>
-                    )}
-                    {displayNameEditor && selectedItem && (
-                        <OATTextFieldDisplayName
-                            styles={textFieldStyles}
-                            borderless
-                            placeholder={t('OATPropertyEditor.displayName')}
-                            disabled={!selectedItem}
-                            value={isSupportedModelType && itemUniqueName}
-                            onCommit={onDisplayNameChange}
-                            model={selectedItem}
-                            autoFocus
+                        <TextField
+                            aria-labelledby={'oat-property-type'}
+                            onBlur={() => commitIdChange(itemId)}
+                            onChange={onChangeUniqueName}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={modelUniqueName}
                         />
-                    )}
-                </div>
-            )} */}
+                    </div>
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-property-path'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.path')}
+                        </Text>
+                        <TextField
+                            aria-labelledby={'oat-property-path'}
+                            onBlur={() => commitIdChange(itemId)}
+                            onChange={onChangePath}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={modelPath}
+                        />
+                    </div>
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-property-version'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.version')}
+                        </Text>
+                        <SpinButton
+                            aria-labelledby={'oat-property-version'}
+                            onChange={(_ev, value) => {
+                                // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
+                                forceUpdateId({ version: value });
+                                setModelVersion(value);
+                            }}
+                            styles={classNames.subComponentStyles.numericField}
+                            value={modelVersion}
+                        />
+                    </div>
+                    <Separator
+                        styles={classNames.subComponentStyles.separator}
+                    />
+                </>
+            )}
         </Stack>
     );
 };

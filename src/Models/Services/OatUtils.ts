@@ -205,7 +205,22 @@ export function buildModelId({
     return `${prefix}:${namespaceValue}:${uniqueName};${versionNumber}`;
 }
 
-export function parseModelId(id: string) {
+export function parseModelId(
+    id: string
+): {
+    namespace: string;
+    name: string;
+    path: string;
+    version: string;
+} {
+    if (!id) {
+        return {
+            name: '',
+            namespace: '',
+            path: '',
+            version: ''
+        };
+    }
     const getNamespace = (id: string) => {
         return id.substring(0, id.indexOf(':'));
     };

@@ -8,6 +8,7 @@ import {
     ISpinButtonStyles
 } from '@fluentui/react';
 import { DtdlInterface, DtdlInterfaceContent } from '../../..';
+import { DtdlRelationship } from '../../../Models/Constants';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { IExtendedTheme } from '../../../Theming/Theme.types';
 
@@ -21,7 +22,7 @@ export interface IPartialModelId {
 export type IPropertiesModelSummaryProps = {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     isSupportedModelType: boolean;
-    selectedItem: DtdlInterface | DtdlInterfaceContent;
+    selectedItem: DtdlInterface | DtdlInterfaceContent | DtdlRelationship;
 
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
