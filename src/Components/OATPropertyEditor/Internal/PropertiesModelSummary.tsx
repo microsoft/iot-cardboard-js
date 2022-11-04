@@ -12,7 +12,7 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { FormBody } from '../Shared/Constants';
-import { getDebugLogger } from '../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
@@ -34,6 +34,7 @@ import {
     isDTDLModel,
     isDTDLRelationship
 } from '../../../Models/Services/DtdlUtils';
+import { getTargetFromSelection } from '../Utils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -67,7 +68,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const [modelPath, setModelPath] = useState(parsedId.path);
     const [modelVersion, setModelVersion] = useState(parsedId.version);
 
-    const [relationshipName] = useState(
+    const [relationshipName, setRelationshipName] = useState(
         isDTDLRelationship(selectedItem) ? selectedItem.name : ''
     );
 
@@ -80,7 +81,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     });
 
     // callbacks
-    const commitIdChange = useCallback(
+    const commitModelIdChange = useCallback(
         (newId: string) => {
             const commit = () => {
                 const existingId = selectedItem['@id'];
@@ -122,6 +123,44 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             selectedItem
         ]
     );
+    const commitRelationshipNameChange = useCallback(
+        (newValue: string) => {
+            const commit = () => {
+                const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
+                const modelCopy = getTargetFromSelection(
+                    modelsCopy,
+                    oatPageState.selection
+                );
+                if (modelCopy && isDTDLRelationship(modelCopy)) {
+                    modelCopy.name = newValue;
+                    oatPageDispatch({
+                        type: OatPageContextActionType.SET_CURRENT_MODELS,
+                        payload: { models: modelsCopy }
+                    });
+                }
+                logDebugConsole(
+                    'debug',
+                    'Committed changes to name. {newValue}',
+                    newValue
+                );
+            };
+
+            const undoCommit = () => {
+                oatPageDispatch({
+                    type: OatPageContextActionType.SET_CURRENT_MODELS,
+                    payload: { models: oatPageState.currentOntologyModels }
+                });
+            };
+
+            execute(commit, undoCommit);
+        },
+        [
+            execute,
+            oatPageDispatch,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        ]
+    );
     const onChangeUniqueName = useCallback((_ev, value: string) => {
         // generally banned characters
         INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
@@ -133,6 +172,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
         setModelPath(value);
     }, []);
+    const onChangeRelationshipName = useCallback((_ev, value: string) => {
+        // generally banned characters
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        // specially banned for names
+        [':'].forEach((x) => (value = value.replaceAll(x, '')));
+        setRelationshipName(value);
+    }, []);
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
     const forceUpdateId = useCallback(
@@ -143,10 +189,10 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 path: path || modelPath,
                 version: Number(version || modelVersion)
             });
-            commitIdChange(newId);
+            commitModelIdChange(newId);
         },
         [
-            commitIdChange,
+            commitModelIdChange,
             modelPath,
             modelUniqueName,
             modelVersion,
@@ -276,19 +322,42 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             </div>
             <Separator styles={classNames.subComponentStyles.separator} />
 
+            {isRelationshipSelected && (
+                <>
+                    {/* NAME SECTION */}
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-relationship-name'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.name')}
+                        </Text>
+                        <TextField
+                            aria-labelledby={'oat-relationship-name'}
+                            onBlur={() =>
+                                commitRelationshipNameChange(relationshipName)
+                            }
+                            onChange={onChangeRelationshipName}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={relationshipName}
+                        />
+                    </div>
+                </>
+            )}
+
             {isModelSelected && (
                 <>
                     {/* ID SECTION */}
                     <div className={classNames.row}>
                         <Text
-                            id={'oat-property-type'}
+                            id={'oat-model-name'}
                             className={classNames.rowLabel}
                         >
                             {t('OATPropertyEditor.uniqueModelName')}
                         </Text>
                         <TextField
-                            aria-labelledby={'oat-property-type'}
-                            onBlur={() => commitIdChange(itemId)}
+                            aria-labelledby={'oat-model-name'}
+                            onBlur={() => commitModelIdChange(itemId)}
                             onChange={onChangeUniqueName}
                             styles={classNames.subComponentStyles.stringField}
                             value={modelUniqueName}
@@ -296,14 +365,14 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     </div>
                     <div className={classNames.row}>
                         <Text
-                            id={'oat-property-path'}
+                            id={'oat-model-path'}
                             className={classNames.rowLabel}
                         >
                             {t('OATPropertyEditor.path')}
                         </Text>
                         <TextField
-                            aria-labelledby={'oat-property-path'}
-                            onBlur={() => commitIdChange(itemId)}
+                            aria-labelledby={'oat-model-path'}
+                            onBlur={() => commitModelIdChange(itemId)}
                             onChange={onChangePath}
                             styles={classNames.subComponentStyles.stringField}
                             value={modelPath}
@@ -311,13 +380,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     </div>
                     <div className={classNames.row}>
                         <Text
-                            id={'oat-property-version'}
+                            id={'oat-model-version'}
                             className={classNames.rowLabel}
                         >
                             {t('OATPropertyEditor.version')}
                         </Text>
                         <SpinButton
-                            aria-labelledby={'oat-property-version'}
+                            aria-labelledby={'oat-model-version'}
                             onChange={(_ev, value) => {
                                 // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
                                 forceUpdateId({ version: value });
