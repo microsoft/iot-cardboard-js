@@ -1081,7 +1081,11 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
-    "writable": "Zapisovatelný"
+    "writable": "Zapisovatelný",
+    "modelId": "ID modelu",
+    "path": "Cesta",
+    "uniqueModelName": "Jedinečný název modelu",
+    "version": "Verze"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

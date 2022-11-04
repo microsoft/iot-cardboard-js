@@ -1201,7 +1201,11 @@
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
     "moveUp": "上升",
-    "valueSchema": "值架构"
+    "valueSchema": "值架构",
+    "modelId": "型号编号",
+    "path": "路径",
+    "uniqueModelName": "唯一的型号名称",
+    "version": "版本"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

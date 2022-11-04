@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Aggiungi all'elenco delle proprietà",
     "moveDown": "Retrocedere",
     "moveUp": "Promuovere",
-    "valueSchema": "Schema dei valori"
+    "valueSchema": "Schema dei valori",
+    "modelId": "ID modello",
+    "path": "Sentiero",
+    "uniqueModelName": "Nome univoco del modello",
+    "version": "Versione"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

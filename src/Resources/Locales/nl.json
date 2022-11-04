@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
-    "valueSchema": "Waardenschema"
+    "valueSchema": "Waardenschema",
+    "modelId": "Model-id",
+    "path": "Pad",
+    "uniqueModelName": "Unieke modelnaam",
+    "version": "Versie"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

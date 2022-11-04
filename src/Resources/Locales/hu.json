@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
     "moveUp": "Feljebb lépés",
-    "valueSchema": "Értékséma"
+    "valueSchema": "Értékséma",
+    "modelId": "Modell azonosítója",
+    "path": "Ösvény",
+    "uniqueModelName": "Egyedi modellnév",
+    "version": "Verzió"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Agregar a la lista de propiedades",
     "moveDown": "Desplazar hacia abajo",
     "moveUp": "Desplazar hacia arriba",
-    "valueSchema": "Esquema de valores"
+    "valueSchema": "Esquema de valores",
+    "modelId": "ID del modelo",
+    "path": "Camino",
+    "uniqueModelName": "Nombre único del modelo",
+    "version": "Versión"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

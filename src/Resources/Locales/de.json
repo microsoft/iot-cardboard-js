@@ -1201,7 +1201,11 @@
     "addToPropertyList": "Zur Eigenschaftsliste hinzufügen",
     "moveDown": "Nach unten verschieben",
     "moveUp": "Aufrücken",
-    "valueSchema": "Wertschema"
+    "valueSchema": "Wertschema",
+    "modelId": "Modell-ID",
+    "path": "Pfad",
+    "uniqueModelName": "Eindeutiger Modellname",
+    "version": "Version"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
