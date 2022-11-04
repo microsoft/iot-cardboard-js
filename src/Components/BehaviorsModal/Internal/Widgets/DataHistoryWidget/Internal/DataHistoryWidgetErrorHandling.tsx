@@ -13,7 +13,6 @@ import PermissionErrorImg from '../../../../../../Resources/Static/priviledgedAc
 import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DOCUMENTATION_LINKS } from '../../../../../../Models/Constants/Constants';
 import { IComponentError } from '../../../../../../Models/Constants/Interfaces';
-import { getCardboardListCalloutStyles } from '../../../../../CardboardListCallout/CardboardListCallout.styles';
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
 import { getDataHistoryWidgetClassNames } from '../DataHistoryWidget';
 import {
@@ -22,6 +21,7 @@ import {
     IDataHistoryWidgetStyles
 } from '../DataHistoryWidget.types';
 import { ComponentErrorType } from '../../../../../../Models/Constants';
+import { getCalloutStyles } from '../../../../../ADT3DSceneBuilder/Internal/Shared/LeftPanel.styles';
 
 const IMG_HEIGHT = 56;
 interface IDataHistoryWidgetErrorHandlingProps {
@@ -107,7 +107,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
 
     const theme = useTheme();
     const classNames = getDataHistoryWidgetClassNames(styles, { theme });
-    const sharedCalloutStyles = getCardboardListCalloutStyles(theme);
+    const sharedCalloutStyles = getCalloutStyles(theme);
 
     const errorDetailsCalloutId = useId('show-error-details-button');
     const errorDetailsCalloutDescriptionId = useId(
