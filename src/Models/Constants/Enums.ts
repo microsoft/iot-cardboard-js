@@ -57,7 +57,9 @@ export enum ComponentErrorType {
     InternalServerError = 'InternalServerError',
     CORSError = 'CORSError',
     NoContainerUrl = 'NoContainerUrl',
-    NoADTInstanceUrl = 'NoADTInstanceUrl'
+    NoADTInstanceUrl = 'NoADTInstanceUrl',
+    ConnectionError = 'ConnectionError',
+    BadRequestException = 'BadRequestException'
 }
 
 export enum ErrorImages {

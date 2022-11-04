@@ -21,6 +21,7 @@ import {
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from '../DataHistoryWidget.types';
+import { ComponentErrorType } from '../../../../../../Models/Constants';
 
 const IMG_HEIGHT = 56;
 interface IDataHistoryWidgetErrorHandlingProps {
@@ -35,7 +36,9 @@ interface IDataHistoryWidgetErrorHandlingProps {
  * 1- ADX connection information (cluster URL, database name, table name) in the data history widget configuration
  * 2- query string in the data history widget configuration
  * 3- permission to query
- * See a full list of errors returned by ADX service requests here: https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/netfx/kusto-data-client-errors and https://learn.microsoft.com/en-us/azure/data-explorer/error-codes
+ * See a full list of errors returned by ADX service requests here:
+ * https://learn.microsoft.com/en-us/azure/data-explorer/kusto/api/netfx/kusto-data-client-errors and
+ * https://learn.microsoft.com/en-us/azure/data-explorer/error-codes
  */
 export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHandlingProps> = ({
     errors,
@@ -47,9 +50,6 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
     ] = useBoolean(false);
     const { t } = useTranslation();
 
-    const requestStatus = (errors[0].rawError as any).request.status;
-    const response = (errors[0].rawError as any).response;
-
     const errorObj: {
         description: string;
         imgSrc: string;
@@ -59,43 +59,51 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
         let imgSrc = '';
         let details = '';
 
-        if (requestStatus === 0) {
-            // e.g. with network error of ERR_NAME_NOT_RESOLVED due to invalid request url (including cluster url error) or connection error
-            description = t('widgets.dataHistory.errors.genericNetwork');
-            imgSrc = ConnectionErrorImg;
-        } else if (requestStatus === 400) {
-            switch (response.data?.error.code) {
-                case DataHistoryErrors.General_BadRequest: // query error (including table name since it is part of query in the request payload)
-                    description = t(
-                        'widgets.dataHistory.errors.generalBadRequestMessage'
-                    );
-                    imgSrc = GenericErrorImg;
-                    break;
-                case DataHistoryErrors.BadRequest_EntityNotFound: // database error
-                    description = t(
-                        'widgets.dataHistory.errors.entityNotFound'
-                    );
-                    imgSrc = ConnectionErrorImg;
-                    break;
-                default:
-                    description = t(
-                        'widgets.dataHistory.errors.genericBadRequest'
-                    );
-                    imgSrc = GenericErrorImg;
-                    break;
-            }
-            details = response.data?.error.innererror?.message;
-        } else if (requestStatus === 403) {
-            // permission error
-            description = t('widgets.dataHistory.errors.forbidden');
-            imgSrc = PermissionErrorImg;
-            details = response.data?.error.innererror?.message;
-        } else {
-            imgSrc = GenericErrorImg;
-            description = t('widgets.dataHistory.errors.genericBadRequest');
+        const errorType = errors[0].type;
+        const errorResponse = (errors[0].rawError as any).response;
+
+        switch (errorType) {
+            case ComponentErrorType.ConnectionError: // status 0
+                // e.g. with network error of ERR_NAME_NOT_RESOLVED due to invalid request url (including cluster url error) or connection error
+                description = t('widgets.dataHistory.errors.genericNetwork');
+                imgSrc = ConnectionErrorImg;
+                break;
+            case ComponentErrorType.BadRequestException: // status 400
+                switch (errorResponse.data.error.code) {
+                    case DataHistoryErrors.General_BadRequest: // query error (including table name since it is part of query in the request payload)
+                        description = t(
+                            'widgets.dataHistory.errors.generalBadRequestMessage'
+                        );
+                        imgSrc = GenericErrorImg;
+                        break;
+                    case DataHistoryErrors.BadRequest_EntityNotFound: // database error
+                        description = t(
+                            'widgets.dataHistory.errors.entityNotFound'
+                        );
+                        imgSrc = ConnectionErrorImg;
+                        break;
+                    default:
+                        description = t(
+                            'widgets.dataHistory.errors.genericBadRequest'
+                        );
+                        imgSrc = GenericErrorImg;
+                        break;
+                }
+                details = errorResponse.data.error.innererror?.message;
+                break;
+            case ComponentErrorType.UnauthorizedAccess: // status 403
+                // permission error
+                description = t('widgets.dataHistory.errors.forbidden');
+                imgSrc = PermissionErrorImg;
+                details = errorResponse.data.error.innererror?.message;
+                break;
+            default:
+                description = t('widgets.dataHistory.errors.genericBadRequest');
+                imgSrc = GenericErrorImg;
+                break;
         }
         return { description, imgSrc, details };
-    }, [requestStatus, response]);
+    }, [errors]);
 
     const theme = useTheme();
     const classNames = getDataHistoryWidgetClassNames(styles, { theme });
@@ -106,7 +114,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
         'error-details-callout-description'
     );
     const errorDetailsCallout = useMemo(() => {
-        if (response?.data?.error.innererror?.message) {
+        if (errorObj.details) {
             return (
                 isDetailsCalloutVisible && (
                     <Callout
@@ -128,7 +136,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                             id={errorDetailsCalloutDescriptionId}
                             style={{ maxHeight: 100, overflow: 'hidden auto' }}
                         >
-                            {response?.data?.error.innererror?.message}
+                            {errorObj.details}
                         </Text>
                         <Link
                             target="_blank"
@@ -142,7 +150,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
         } else {
             return null;
         }
-    }, [response?.data?.error.innererror?.message, isDetailsCalloutVisible]);
+    }, [errorObj.details, isDetailsCalloutVisible]);
 
     return (
         <div style={classNames.subComponentStyles.errorContainer().root}>
