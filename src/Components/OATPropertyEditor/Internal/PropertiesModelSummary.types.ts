@@ -39,6 +39,8 @@ export interface IPropertiesModelSummaryStyles {
     row: IStyle;
     rowLabel: IStyle;
     sectionHeaderContainer: IStyle;
+    sectionTitle: IStyle;
+    sectionSubtitle: IStyle;
     /**
      * SubComponent styles.
      */

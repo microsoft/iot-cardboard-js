@@ -13,6 +13,12 @@ export const getStyles = (
 ): IPropertyTypePickerStyles => {
     return {
         root: [classNames.root],
-        subComponentStyles: {}
+        subComponentStyles: {
+            menu: {
+                root: {
+                    height: 30
+                }
+            }
+        }
     };
 };

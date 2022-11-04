@@ -199,10 +199,18 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 
     // logDebugConsole('debug', 'Render {item}', selectedItem);
     return (
-        <Stack styles={classNames.subComponentStyles.rootStack}>
+        <Stack
+            styles={classNames.subComponentStyles.rootStack}
+            tokens={{ childrenGap: 8 }}
+        >
             {/* HEADER */}
             <div className={classNames.sectionHeaderContainer}>
-                <h3>{`${t('OATPropertyEditor.general')}`}</h3>
+                <Stack>
+                    <h3 className={classNames.sectionTitle}>
+                        {itemUniqueName}
+                    </h3>
+                    <Text className={classNames.sectionSubtitle}>{itemId}</Text>
+                </Stack>
                 {selectedItem &&
                     selectedItem['@type'] === OAT_INTERFACE_TYPE && (
                         <IconButton
@@ -229,18 +237,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             <Separator styles={classNames.subComponentStyles.separator} />
 
             {/* ID SECTION */}
-            <div className={classNames.row}>
-                <Label id={'oat-item-id'} className={classNames.rowLabel}>
-                    {t('OATPropertyEditor.modelId')}
-                </Label>
-                <TextField
-                    aria-labelledby={'oat-item-id'}
-                    disabled
-                    styles={classNames.subComponentStyles.stringField}
-                    title={itemId}
-                    value={itemId}
-                />
-            </div>
             <div className={classNames.row}>
                 <Text id={'oat-property-type'} className={classNames.rowLabel}>
                     {t('OATPropertyEditor.uniqueModelName')}

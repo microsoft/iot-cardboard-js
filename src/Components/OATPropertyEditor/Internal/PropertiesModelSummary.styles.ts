@@ -22,13 +22,21 @@ export const getStyles = (
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                alignItems: 'center',
-                h3: {
-                    margin: 0,
-                    padding: 0,
-                    fontSize: FontSizes.size14,
-                    fontWeight: FontWeights.semibold
-                }
+                alignItems: 'center'
+            }
+        ],
+        sectionTitle: [
+            {
+                margin: 0,
+                padding: 0,
+                fontSize: FontSizes.size16,
+                fontWeight: FontWeights.semibold
+            }
+        ],
+        sectionSubtitle: [
+            {
+                fontSize: FontSizes.size12,
+                color: theme.semanticColors.disabledText
             }
         ],
         row: [
@@ -38,8 +46,7 @@ export const getStyles = (
                 display: 'grid',
                 gridTemplateColumns: '50% 50%',
                 justifyContent: 'center',
-                minHeight: '38px',
-                padding: '4px 0'
+                minHeight: '38px'
             }
         ],
         rowLabel: [
@@ -65,6 +72,7 @@ export const getStyles = (
             separator: {
                 root: {
                     padding: 0,
+                    height: 1,
                     ':before': {
                         backgroundColor: theme.palette.neutralLighter
                     }
