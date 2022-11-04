@@ -262,7 +262,10 @@ const StandalonePropertyInspectorReducer = produce(
                         isObjectChild: !!arrayNode.parentObjectPath,
                         path: arrayNode.path,
                         propertySourceObject: {},
-                        modelProperty: { schema: arrayNode.childSchema } as any,
+                        modelProperty: {
+                            name: arrayNode.children?.length || 0,
+                            schema: arrayNode.childSchema
+                        } as any,
                         isMapChild: false,
                         isArrayItem: true,
                         forceSet: true,
