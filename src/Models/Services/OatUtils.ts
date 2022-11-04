@@ -238,9 +238,49 @@ export function buildModelId(
     modelName: string,
     version?: number
 ): string {
+    const prefix = OAT_MODEL_ID_PREFIX;
+    const namespaceValue = namespace?.replace(/ /g, '');
+    const nameValue = modelName?.replace(/ /g, '');
     const versionNumber = isDefined(version) ? version : DEFAULT_VERSION_NUMBER;
-    return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
-        / /g,
-        ''
-    )}:${modelName?.replace(/ /g, '')};${versionNumber}`;
+    return `${prefix}:${namespaceValue}:${nameValue};${versionNumber}`;
+}
+
+export function parseModelId(id: string) {
+    const getNamespace = (id: string) => {
+        return id.substring(0, id.indexOf(':'));
+    };
+    const getPath = (id: string) => {
+        // if we still have any : then they must be part of the path or the separator
+        if (id.split(':').length > 0) {
+            return id.substring(0, id.lastIndexOf(':'));
+        }
+        return '';
+    };
+    const getName = (id: string) => {
+        return id.substring(0, id.lastIndexOf(';'));
+    };
+    const getVersion = (id: string) => {
+        return id.substring(id.indexOf(';') + 1, id.length);
+    };
+
+    const idWithoutPrefix = id.replace(`${OAT_MODEL_ID_PREFIX}:`, '');
+    const namespace = getNamespace(idWithoutPrefix);
+
+    const idWithoutNamespace = idWithoutPrefix.replace(`${namespace}:`, '');
+    const path = getPath(idWithoutNamespace);
+
+    const idWithoutPath = path
+        ? idWithoutNamespace.replace(`${path}:`, '')
+        : idWithoutNamespace;
+    const name = getName(idWithoutPath);
+
+    const idWithoutName = idWithoutPath.replace(`${name}:`, '');
+    const version = getVersion(idWithoutName);
+
+    return {
+        namespace: namespace,
+        name: name,
+        path: path,
+        version: version
+    };
 }

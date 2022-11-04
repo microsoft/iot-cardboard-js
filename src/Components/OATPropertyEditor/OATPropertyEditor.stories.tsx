@@ -30,12 +30,16 @@ const Template: SceneBuilderStory = (
     context: IStoryContext<any>
 ) => {
     const languages = getAvailableLanguages(i18n);
+    const files = getMockFiles();
     return (
         <OatPageContextProvider
             disableLocalStorage={true}
             initialState={{
-                ontologyFiles: getMockFiles(),
+                ontologyFiles: files,
                 currentOntologyId: 'something',
+                selection: {
+                    modelId: files[0].data.models[0]['@id']
+                },
                 ...args?.initialState
             }}
         >

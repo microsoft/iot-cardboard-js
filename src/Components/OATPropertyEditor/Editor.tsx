@@ -37,7 +37,7 @@ import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
 
 const Editor: React.FC<IEditorProps> = (props) => {

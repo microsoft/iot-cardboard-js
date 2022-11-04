@@ -35,7 +35,7 @@ const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
-const separation = 10;
+const separation = 50;
 
 const getPolygon = (vertexes: IOATNodePosition[]): string =>
     vertexes.map((v) => `${v.x},${v.y}`).join(' ');
