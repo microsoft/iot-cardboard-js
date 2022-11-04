@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
+      "errors": {
+        "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite.",
+        "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
+        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+        "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
+        "forbidden": "L’accès est refusé, vous avez des autorisations manquantes pour interroger."
+      }
     }
   },
   "sdkStrings": {
@@ -1297,5 +1304,7 @@
     }
   },
   "minLower": "Min",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "showDetails": "Afficher les détails",
+  "hideDetails": "Masquer les détails"
 }
