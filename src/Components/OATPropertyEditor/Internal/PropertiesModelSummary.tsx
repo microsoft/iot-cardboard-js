@@ -35,6 +35,8 @@ import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
+const INVALID_CHARACTERS: string[] = [' ', '-', '_'];
+
 const getClassNames = classNamesFunction<
     IPropertiesModelSummaryStyleProps,
     IPropertiesModelSummaryStyles
@@ -113,6 +115,14 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             selectedItem
         ]
     );
+    const onChangeUniqueName = useCallback((_ev, value: string) => {
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        setItemUniqueName(value);
+    }, []);
+    const onChangePath = useCallback((_ev, value: string) => {
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        setItemPath(value);
+    }, []);
 
     // needed primarly for the version spinner since it behaves differently and you don't have to set focus
     const forceUpdateId = useCallback(
@@ -213,9 +223,9 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     tokens={{ childrenGap: 4 }}
                     className={classNames.sectionHeaderContainer}
                 >
-                    <h3 className={classNames.sectionTitle}>
+                    <h4 className={classNames.sectionTitle}>
                         {itemUniqueName}
-                    </h3>
+                    </h4>
                     <span className={classNames.sectionSubtitle} title={itemId}>
                         {itemId}
                     </span>
@@ -252,7 +262,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 <TextField
                     aria-labelledby={'oat-property-type'}
                     onBlur={() => commitIdChange(itemId)}
-                    onChange={(_ev, value) => setItemUniqueName(value)}
+                    onChange={onChangeUniqueName}
                     styles={classNames.subComponentStyles.stringField}
                     value={itemUniqueName}
                 />
@@ -264,7 +274,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 <TextField
                     aria-labelledby={'oat-property-path'}
                     onBlur={() => commitIdChange(itemId)}
-                    onChange={(_ev, value) => setItemPath(value)}
+                    onChange={onChangePath}
                     styles={classNames.subComponentStyles.stringField}
                     value={itemPath}
                 />
