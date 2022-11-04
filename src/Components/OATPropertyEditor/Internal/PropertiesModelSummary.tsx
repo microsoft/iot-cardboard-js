@@ -32,7 +32,7 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -52,13 +52,17 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
-    // data
+    // state
     const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
         selectedItem
     ]);
     const [itemUniqueName, setItemUniqueName] = useState(parsedId.name);
     const [itemPath, setItemPath] = useState(parsedId.path);
     const [itemVersion, setItemVersion] = useState(parsedId.version);
+
+    // data
+    const isModelSelected = selectedItem['@type'] === OAT_INTERFACE_TYPE;
+    // const isRelationshipSelected = !isModelSelected;
     const itemId = buildModelId({
         namespace: parsedId.namespace,
         modelName: itemUniqueName,
@@ -66,6 +70,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         version: Number(itemVersion)
     });
 
+    // callbacks
     const commitIdChange = useCallback(
         (newId: string) => {
             const commit = () => {
@@ -191,28 +196,38 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     });
 
     // logDebugConsole('debug', 'Render {item}', selectedItem);
+    if (!selectedItem) {
+        console.warn(
+            '[PROPERTIES_MODEL_SUMMARY] No selected item provided, aborting render'
+        );
+        return null;
+    }
     return (
         <Stack
             styles={classNames.subComponentStyles.rootStack}
             tokens={{ childrenGap: 8 }}
         >
             {/* HEADER */}
-            <div className={classNames.sectionHeaderContainer}>
-                <Stack tokens={{ childrenGap: 4 }}>
+            <div className={classNames.sectionHeaderRoot}>
+                <Stack
+                    tokens={{ childrenGap: 4 }}
+                    className={classNames.sectionHeaderContainer}
+                >
                     <h3 className={classNames.sectionTitle}>
                         {itemUniqueName}
                     </h3>
-                    <span className={classNames.sectionSubtitle}>{itemId}</span>
+                    <span className={classNames.sectionSubtitle} title={itemId}>
+                        {itemId}
+                    </span>
                 </Stack>
-                {selectedItem &&
-                    selectedItem['@type'] === OAT_INTERFACE_TYPE && (
-                        <IconButton
-                            iconProps={{ iconName: 'info' }}
-                            onClick={onInfoButtonClick}
-                            styles={classNames.subComponentStyles.modalIconButton?.()}
-                            title={t('OATPropertyEditor.info')}
-                        />
-                    )}
+                {isModelSelected && (
+                    <IconButton
+                        iconProps={{ iconName: 'info' }}
+                        onClick={onInfoButtonClick}
+                        styles={classNames.subComponentStyles.modalIconButton?.()}
+                        title={t('OATPropertyEditor.info')}
+                    />
+                )}
             </div>
 
             {/* TYPE SECTION */}

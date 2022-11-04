@@ -38,6 +38,7 @@ export interface IPropertiesModelSummaryStyleProps {
 export interface IPropertiesModelSummaryStyles {
     row: IStyle;
     rowLabel: IStyle;
+    sectionHeaderRoot: IStyle;
     sectionHeaderContainer: IStyle;
     sectionTitle: IStyle;
     sectionSubtitle: IStyle;

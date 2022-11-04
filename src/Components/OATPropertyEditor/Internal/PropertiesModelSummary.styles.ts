@@ -7,7 +7,10 @@ import {
 
 const classPrefix = `${CardboardClassNamePrefix}-properties-model-summary`;
 const classNames = {
-    headerContainer: `${classPrefix}-header-container`,
+    sectionHeaderRoot: `${classPrefix}-header-root`,
+    sectionHeaderContainer: `${classPrefix}-header-container`,
+    sectionHeaderTitle: `${classPrefix}-header-title`,
+    sectionHeaderSubTitle: `${classPrefix}-header-subtitle`,
     rowLabel: `${classPrefix}-row-label`,
     row: `${classPrefix}-row`
 };
@@ -16,8 +19,8 @@ export const getStyles = (
 ): IPropertiesModelSummaryStyles => {
     const { theme } = props;
     return {
-        sectionHeaderContainer: [
-            classNames.headerContainer,
+        sectionHeaderRoot: [
+            classNames.sectionHeaderRoot,
             {
                 display: 'flex',
                 flexDirection: 'row',
@@ -25,7 +28,14 @@ export const getStyles = (
                 alignItems: 'center'
             }
         ],
+        sectionHeaderContainer: [
+            classNames.sectionHeaderContainer,
+            {
+                overflow: 'hidden'
+            }
+        ],
         sectionTitle: [
+            classNames.sectionHeaderTitle,
             {
                 margin: 0,
                 padding: 0,
@@ -34,9 +44,12 @@ export const getStyles = (
             }
         ],
         sectionSubtitle: [
+            classNames.sectionHeaderSubTitle,
             {
                 fontSize: FontSizes.size12,
-                color: theme.semanticColors.disabledText
+                color: theme.semanticColors.disabledText,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             }
         ],
         row: [
