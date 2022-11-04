@@ -220,6 +220,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     <PivotItem
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
+                        // remove pivot height - padding
+                        style={{ height: 'calc(70vh - 36px - 32px)' }}
                     >
                         {isSupportedModelType && (
                             <JSONEditor theme={selectedThemeName} />
