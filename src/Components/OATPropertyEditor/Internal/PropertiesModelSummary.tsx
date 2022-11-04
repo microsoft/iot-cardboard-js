@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useState, useCallback, useMemo } from 'react';
 import {
     Stack,
     Label,
@@ -12,25 +12,21 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { FormBody } from '../Shared/Constants';
-import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../Models/Services/Utils';
 
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getModelPropertyListItemName } from '../Utils';
 import {
+    IPartialModelId,
     IPropertiesModelSummaryProps,
     IPropertiesModelSummaryStyleProps,
     IPropertiesModelSummaryStyles
 } from './PropertiesModelSummary.types';
 import { OAT_INTERFACE_TYPE } from '../../../Models/Constants/Constants';
-import {
-    buildModelId,
-    parseModelId,
-    updateModelId
-} from '../../../Models/Services/OatUtils';
+import { buildModelId, parseModelId } from '../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { getStyles } from './PropertiesModelSummary.styles';
@@ -57,62 +53,47 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // data
-    const parsedId = parseModelId(selectedItem['@id']);
+    const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
+        selectedItem
+    ]);
     const [itemUniqueName, setItemUniqueName] = useState(parsedId.name);
     const [itemPath, setItemPath] = useState(parsedId.path);
     const [itemVersion, setItemVersion] = useState(parsedId.version);
+    const itemId = buildModelId({
+        namespace: parsedId.namespace,
+        modelName: itemUniqueName,
+        path: itemPath,
+        version: Number(itemVersion)
+    });
 
-    const [id, setItemId] = useState(
-        selectedItem && selectedItem['@id'] ? selectedItem['@id'] : ''
-    );
-
-    const onIdCommit = useCallback(
-        (value: string) => {
+    const commitIdChange = useCallback(
+        (newId: string) => {
             const commit = () => {
-                const {
-                    models: modelsCopy,
-                    positions: modelPositionsCopy
-                } = updateModelId(
-                    id,
-                    value,
-                    oatPageState.currentOntologyModels,
-                    oatPageState.currentOntologyModelPositions
+                const existingId = selectedItem['@id'];
+                logDebugConsole(
+                    'debug',
+                    '[START] Committing changes to id. {existingId, newId, initial models, initial positions}',
+                    existingId,
+                    newId
                 );
-
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                    payload: { positions: modelPositionsCopy }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
+                    type: OatPageContextActionType.UPDATE_MODEL_ID,
                     payload: {
-                        selection:
-                            oatPageState.selection &&
-                            oatPageState.selection.contentId
-                                ? deepCopy(oatPageState.selection)
-                                : { modelId: value }
+                        existingId: existingId,
+                        newId: newId
                     }
                 });
+                logDebugConsole('debug', '[END] Committing changes to id.');
             };
 
             const undoCommit = () => {
                 oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                    type: OatPageContextActionType.GENERAL_UNDO,
                     payload: {
-                        positions: oatPageState.currentOntologyModelPositions
+                        models: oatPageState.currentOntologyModels,
+                        positions: oatPageState.currentOntologyModelPositions,
+                        selection: oatPageState.selection
                     }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: oatPageState.currentOntologyModels }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                    payload: { selection: oatPageState.selection }
                 });
             };
 
@@ -120,11 +101,31 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         },
         [
             execute,
-            id,
             oatPageDispatch,
             oatPageState.currentOntologyModelPositions,
             oatPageState.currentOntologyModels,
-            oatPageState.selection
+            oatPageState.selection,
+            selectedItem
+        ]
+    );
+
+    // needed primarly for the version spinner since it behaves differently and you don't have to set focus
+    const forceUpdateId = useCallback(
+        ({ namespace, modelName, path, version }: IPartialModelId) => {
+            const newId = buildModelId({
+                namespace: namespace || parsedId.namespace,
+                modelName: modelName || itemUniqueName,
+                path: path || itemPath,
+                version: Number(version || itemVersion)
+            });
+            commitIdChange(newId);
+        },
+        [
+            commitIdChange,
+            itemPath,
+            itemUniqueName,
+            itemVersion,
+            parsedId.namespace
         ]
     );
 
@@ -183,32 +184,20 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     };
 
     // side effects
-    useEffect(() => {
-        setItemUniqueName(
-            selectedItem && selectedItem.displayName
-                ? getModelPropertyListItemName(selectedItem.displayName)
-                : ''
-        );
-        setItemId(
-            selectedItem && selectedItem['@id'] ? selectedItem['@id'] : ''
-        );
-    }, [selectedItem]);
-
-    useEffect(() => {
-        const id = buildModelId(
-            parsedId.namespace,
-            itemUniqueName,
-            Number(itemVersion)
-        );
-        setItemId(id);
-    }, [itemUniqueName, itemVersion, onIdCommit, parsedId.namespace]);
+    // useEffect(() => {
+    //     setItemUniqueName(
+    //         selectedItem && selectedItem.displayName
+    //             ? getModelPropertyListItemName(selectedItem.displayName)
+    //             : ''
+    //     );
+    // }, [selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
 
-    logDebugConsole('debug', 'Render {item}', selectedItem);
+    // logDebugConsole('debug', 'Render {item}', selectedItem);
     return (
         <Stack styles={classNames.subComponentStyles.rootStack}>
             {/* HEADER */}
@@ -248,7 +237,8 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     aria-labelledby={'oat-item-id'}
                     disabled
                     styles={classNames.subComponentStyles.stringField}
-                    value={id}
+                    title={itemId}
+                    value={itemId}
                 />
             </div>
             <div className={classNames.row}>
@@ -257,6 +247,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 </Text>
                 <TextField
                     aria-labelledby={'oat-property-type'}
+                    onBlur={() => commitIdChange(itemId)}
                     onChange={(_ev, value) => setItemUniqueName(value)}
                     styles={classNames.subComponentStyles.stringField}
                     value={itemUniqueName}
@@ -268,8 +259,9 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 </Text>
                 <TextField
                     aria-labelledby={'oat-property-path'}
-                    styles={classNames.subComponentStyles.stringField}
+                    onBlur={() => commitIdChange(itemId)}
                     onChange={(_ev, value) => setItemPath(value)}
+                    styles={classNames.subComponentStyles.stringField}
                     value={itemPath}
                 />
             </div>
@@ -282,8 +274,12 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 </Text>
                 <SpinButton
                     aria-labelledby={'oat-property-version'}
+                    onChange={(_ev, value) => {
+                        // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
+                        forceUpdateId({ version: value });
+                        setItemVersion(value);
+                    }}
                     styles={classNames.subComponentStyles.numericField}
-                    onChange={(_ev, value) => setItemVersion(value)}
                     value={itemVersion}
                 />
             </div>

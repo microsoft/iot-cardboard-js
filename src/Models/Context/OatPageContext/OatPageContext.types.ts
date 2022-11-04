@@ -63,12 +63,13 @@ export enum OatPageContextActionType {
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
     SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
     DELETE_MODEL = 'DELETE_MODEL',
-    DELETE_MODEL_UNDO = 'DELETE_MODEL_UNDO',
+    GENERAL_UNDO = 'GENERAL_UNDO',
     SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
     SET_CURRENT_MODELS_POSITIONS = 'SET_CURRENT_MODELS_POSITIONS',
     SET_CURRENT_NAMESPACE = 'SET_CURRENT_NAMESPACE',
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
+    UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     /** models that should get added to the graph */
@@ -120,7 +121,7 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.DELETE_MODEL_UNDO;
+          type: OatPageContextActionType.GENERAL_UNDO;
           payload: {
               models: DtdlInterface[];
               positions: IOATModelPosition[];
@@ -206,5 +207,12 @@ export type OatPageContextAction =
           type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE;
           payload: {
               isActive: boolean;
+          };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_MODEL_ID;
+          payload: {
+              existingId: string;
+              newId: string;
           };
       };

@@ -7,6 +7,8 @@ import {
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlRelationship,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
@@ -133,6 +135,54 @@ export const setSelectedModel = (
     } else {
         draft.selectedModelTarget = null;
     }
+};
+
+/** looks up all references of an existing model id and replaces it with the new id */
+export const updateModelId = (
+    oldId: string,
+    newId: string,
+    models: DtdlInterface[],
+    modelPositions: IOATModelPosition[]
+) => {
+    // Find the model position with the same id
+    const modelPosition = modelPositions.find((x) => x['@id'] === oldId);
+    if (modelPosition) {
+        modelPosition['@id'] = newId;
+    }
+
+    // Update models
+    const modelCopy = models.find((x) => x['@id'] === oldId);
+    if (modelCopy) {
+        modelCopy['@id'] = newId;
+    }
+
+    // Update contents
+    models.forEach((m) =>
+        m.contents.forEach((c) => {
+            const r = c as DtdlRelationship;
+            if (r && r.target === oldId) {
+                r.target = newId;
+            }
+            if (r && r['@id'] === oldId) {
+                r['@id'] = newId;
+            }
+
+            const p = c as DtdlInterfaceContent;
+            if (p && p.schema === oldId) {
+                p.schema = newId;
+            }
+
+            if (m.extends) {
+                const e = m.extends as string[];
+                const i = e.indexOf(oldId);
+                if (i >= 0) {
+                    e[i] = newId;
+                }
+            }
+        })
+    );
+
+    return { models: models, positions: modelPositions };
 };
 
 /** TODO: remove this helper when we move the project data into a sub object on the state */

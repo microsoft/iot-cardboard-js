@@ -13,7 +13,7 @@ import {
     getOntologiesFromStorage,
     getLastUsedProjectId
 } from '../../Services/OatUtils';
-import { createGUID, getDebugLogger } from '../../Services/Utils';
+import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
@@ -27,10 +27,11 @@ import {
     switchCurrentProject,
     convertStateToProject,
     deleteModelFromState,
-    setSelectedModel
+    setSelectedModel,
+    updateModelId
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -208,10 +209,28 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.DELETE_MODEL_UNDO: {
+            case OatPageContextActionType.GENERAL_UNDO: {
                 draft.currentOntologyModels = action.payload.models;
                 draft.currentOntologyModelPositions = action.payload.positions;
                 setSelectedModel(action.payload.selection, draft);
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.UPDATE_MODEL_ID: {
+                const { newId, existingId } = action.payload;
+                updateModelId(
+                    existingId,
+                    newId,
+                    draft.currentOntologyModels,
+                    draft.currentOntologyModelPositions
+                );
+
+                const newSelection =
+                    draft.selection && draft.selection.contentId
+                        ? deepCopy(draft.selection)
+                        : { modelId: newId };
+
+                setSelectedModel(newSelection, draft);
                 saveData(draft);
                 break;
             }

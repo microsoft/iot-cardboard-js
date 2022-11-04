@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import i18n from '../../i18n';
-import { OatPageContextProvider } from '../../Models/Context/OatPageContext/OatPageContext';
-import { getAvailableLanguages } from '../../Models/Services/OatUtils';
+import {
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
+import {
+    buildModelId,
+    getAvailableLanguages
+} from '../../Models/Services/OatUtils';
 import {
     getMockFile,
     getMockModelItem
@@ -14,6 +20,7 @@ import {
     IStoryContext,
     getDefaultStoryDecorator
 } from '../../Models/Services/StoryUtilities';
+import { getTargetFromSelection } from './Utils';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -29,7 +36,6 @@ const Template: SceneBuilderStory = (
     args: StoryProps,
     context: IStoryContext<any>
 ) => {
-    const languages = getAvailableLanguages(i18n);
     const files = getMockFiles();
     return (
         <OatPageContextProvider
@@ -45,16 +51,39 @@ const Template: SceneBuilderStory = (
         >
             <CommandHistoryContextProvider>
                 <CommandHistoryContextProvider>
-                    <OATPropertyEditor
-                        languages={languages}
-                        selectedItem={getMockModel()}
-                        selectedThemeName={
-                            context.parameters.theme || context.globals.theme
-                        }
-                    />
+                    <ComponentRenderer storyContext={context} />
                 </CommandHistoryContextProvider>
             </CommandHistoryContextProvider>
         </OatPageContextProvider>
+    );
+};
+
+interface IRendererProps {
+    storyContext: IStoryContext<any>;
+}
+const ComponentRenderer: React.FC<IRendererProps> = (props) => {
+    const { storyContext } = props;
+    const languages = getAvailableLanguages(i18n);
+
+    const { oatPageState } = useOatPageContext();
+    const selectedModel = useMemo(
+        () =>
+            oatPageState.selection &&
+            getTargetFromSelection(
+                oatPageState.currentOntologyModels,
+                oatPageState.selection
+            ),
+        [oatPageState.currentOntologyModels, oatPageState.selection]
+    );
+    console.log('Test: rendering with selected item', selectedModel);
+    return (
+        <OATPropertyEditor
+            languages={languages}
+            selectedItem={selectedModel}
+            selectedThemeName={
+                storyContext.parameters.theme || storyContext.globals.theme
+            }
+        />
     );
 };
 
@@ -71,7 +100,13 @@ const getMockFiles = () => {
 };
 
 const getMockModel = () => {
-    const model = getMockModelItem('123');
+    const modelId = buildModelId({
+        modelName: 'model' + 345,
+        namespace: 'testNamespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const model = getMockModelItem(modelId);
     model.contents = [
         ...model.contents,
         {

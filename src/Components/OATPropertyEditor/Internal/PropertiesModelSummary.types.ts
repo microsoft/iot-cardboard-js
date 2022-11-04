@@ -11,6 +11,13 @@ import { DtdlInterface, DtdlInterfaceContent } from '../../..';
 import { IAction } from '../../../Models/Constants/Interfaces';
 import { IExtendedTheme } from '../../../Theming/Theme.types';
 
+export interface IPartialModelId {
+    namespace?: string;
+    modelName?: string;
+    path?: string;
+    version?: string;
+}
+
 export type IPropertiesModelSummaryProps = {
     dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     isSupportedModelType: boolean;

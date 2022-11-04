@@ -64,6 +64,7 @@ export const getStyles = (
             },
             separator: {
                 root: {
+                    padding: 0,
                     ':before': {
                         backgroundColor: theme.palette.neutralLighter
                     }
