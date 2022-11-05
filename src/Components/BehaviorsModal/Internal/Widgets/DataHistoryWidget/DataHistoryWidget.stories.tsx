@@ -6,7 +6,10 @@ import { I3DScenesConfig } from '../../../../../Models/Types/Generated/3DScenesC
 import MockAdapter from '../../../../../Adapters/MockAdapter';
 import { getDefaultStoryDecorator } from '../../../../../Models/Services/StoryUtilities';
 import { useRuntimeSceneData } from '../../../../../Models/Hooks/useRuntimeSceneData';
-import { BehaviorModalMode } from '../../../../../Models/Constants';
+import {
+    BehaviorModalMode,
+    ComponentErrorType
+} from '../../../../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
@@ -54,4 +57,39 @@ export const DataHistoryWidgetInPreviewMode = Template.bind(
 DataHistoryWidgetInPreviewMode.args = {
     mode: BehaviorModalMode.preview,
     activeWidgetId: 'b2cf0aa2415f4e029f27f957fb559db2'
+};
+
+export const DataHistoryWidgetInViewMode = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetInViewMode.args = {
+    mode: BehaviorModalMode.viewer
+};
+
+export const DataHistoryWidgetWithConnectionError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithConnectionError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({ mockError: ComponentErrorType.ConnectionError })
+};
+
+export const DataHistoryWidgetWithBadRequestExceptionError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithBadRequestExceptionError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({
+        mockError: ComponentErrorType.BadRequestException
+    })
+};
+
+export const DataHistoryWidgetWithUnauthorizedAccessError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithUnauthorizedAccessError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({
+        mockError: ComponentErrorType.UnauthorizedAccess
+    })
 };

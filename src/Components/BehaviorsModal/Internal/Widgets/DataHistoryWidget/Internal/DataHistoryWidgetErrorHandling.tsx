@@ -54,7 +54,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 imgSrc = ConnectionErrorImg;
                 break;
             case ComponentErrorType.BadRequestException: // status 400
-                switch (errorResponse.data.error.code) {
+                switch (errorResponse?.data.error.code) {
                     case DataHistoryServiceErrorCodes.General_BadRequest: // query error (including table name since it is part of query in the request payload)
                         description = t(
                             'widgets.dataHistory.errors.generalBadRequestMessage'
@@ -74,13 +74,13 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                         imgSrc = GenericErrorImg;
                         break;
                 }
-                details = errorResponse.data.error.innererror?.message;
+                details = errorResponse?.data.error.innererror?.message;
                 break;
             case ComponentErrorType.UnauthorizedAccess: // status 403
                 // permission error
                 description = t('widgets.dataHistory.errors.forbidden');
                 imgSrc = PermissionErrorImg;
-                details = errorResponse.data.error.innererror?.message;
+                details = errorResponse?.data.error.innererror?.message;
                 break;
             default:
                 description = t('widgets.dataHistory.errors.genericBadRequest');
@@ -142,7 +142,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
             <IllustrationMessage
                 headerText=""
                 descriptionText={errorObj.description}
-                type={'error'}
+                type={'info'}
                 width={'compact'}
                 imageProps={{
                     src: errorObj.imgSrc,

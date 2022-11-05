@@ -109,16 +109,16 @@ export const getStyles = ({
             errorContainer: {
                 root: {
                     flexGrow: 1,
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    display: 'flex'
                 },
                 image: {
                     root: { flexShrink: 0 }
                 },
-                textContainer: { height: '100%', paddingTop: 0 },
+                textContainer: { flexGrow: 1, paddingTop: 0 },
                 descriptionContainer: {
                     whiteSpace: 'normal',
-                    maxWidth: 240,
-                    flexGrow: 1,
+                    maxWidth: 220,
                     overflow: 'hidden',
                     span: {
                         width: '100%',
