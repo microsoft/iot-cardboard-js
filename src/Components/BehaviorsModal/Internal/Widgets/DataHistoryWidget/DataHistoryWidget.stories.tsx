@@ -1,4 +1,5 @@
 import React from 'react';
+import { AxiosError } from 'axios';
 import { ComponentStory } from '@storybook/react';
 import BehaviorsModal, { IBehaviorsModalProps } from '../../../BehaviorsModal';
 import mockData from '../../../__mockData__/BehaviorsModalMockData.json';
@@ -10,11 +11,12 @@ import {
     BehaviorModalMode,
     ComponentErrorType
 } from '../../../../../Models/Constants';
+import { DataHistoryServiceErrorCodes } from './DataHistoryWidget.types';
 
 const wrapperStyle = { width: '100%', height: '600px' };
 
 export default {
-    title: 'Components/Behaviors Modal',
+    title: 'Components/Behaviors Modal/Data History',
     component: BehaviorsModal,
     decorators: [getDefaultStoryDecorator<IBehaviorsModalProps>(wrapperStyle)]
 };
@@ -66,21 +68,61 @@ DataHistoryWidgetInViewMode.args = {
     mode: BehaviorModalMode.viewer
 };
 
-export const DataHistoryWidgetWithConnectionError = Template.bind(
+export const DataHistoryWidgetWithClusterUrlError = Template.bind(
     {}
 ) as BehaviorsModalStory;
-DataHistoryWidgetWithConnectionError.args = {
-    mode: BehaviorModalMode.viewer,
-    adapter: new MockAdapter({ mockError: ComponentErrorType.ConnectionError })
-};
-
-export const DataHistoryWidgetWithBadRequestExceptionError = Template.bind(
-    {}
-) as BehaviorsModalStory;
-DataHistoryWidgetWithBadRequestExceptionError.args = {
+DataHistoryWidgetWithClusterUrlError.args = {
     mode: BehaviorModalMode.viewer,
     adapter: new MockAdapter({
-        mockError: ComponentErrorType.BadRequestException
+        mockError: { type: ComponentErrorType.ConnectionError }
+    })
+};
+
+export const DataHistoryWidgetWithDatabaseError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithDatabaseError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({
+        mockError: {
+            type: ComponentErrorType.BadRequestException,
+            rawError: {
+                response: {
+                    data: {
+                        error: {
+                            code:
+                                DataHistoryServiceErrorCodes.BadRequest_EntityNotFound
+                        }
+                    }
+                }
+            } as AxiosError
+        }
+    })
+};
+
+export const DataHistoryWidgetWithTableOrQueryError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithTableOrQueryError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({
+        mockError: {
+            type: ComponentErrorType.BadRequestException,
+            rawError: {
+                response: {
+                    data: {
+                        error: {
+                            code:
+                                DataHistoryServiceErrorCodes.General_BadRequest,
+                            innererror: {
+                                message:
+                                    "'where' operator: Failed to resolve table or column expression named 'mockKustoTableName'"
+                            }
+                        }
+                    }
+                }
+            } as AxiosError
+        }
     })
 };
 
@@ -90,6 +132,31 @@ export const DataHistoryWidgetWithUnauthorizedAccessError = Template.bind(
 DataHistoryWidgetWithUnauthorizedAccessError.args = {
     mode: BehaviorModalMode.viewer,
     adapter: new MockAdapter({
-        mockError: ComponentErrorType.UnauthorizedAccess
+        mockError: { type: ComponentErrorType.UnauthorizedAccess }
+    })
+};
+
+export const DataHistoryWidgetWithGenericError = Template.bind(
+    {}
+) as BehaviorsModalStory;
+DataHistoryWidgetWithGenericError.args = {
+    mode: BehaviorModalMode.viewer,
+    adapter: new MockAdapter({
+        mockError: {
+            type: ComponentErrorType.DataFetchFailed,
+            rawError: {
+                response: {
+                    data: {
+                        error: {
+                            code:
+                                DataHistoryServiceErrorCodes.General_BadRequest,
+                            innererror: {
+                                message: 'Generic error message details'
+                            }
+                        }
+                    }
+                }
+            } as AxiosError
+        }
     })
 };

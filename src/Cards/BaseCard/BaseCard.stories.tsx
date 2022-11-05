@@ -33,7 +33,7 @@ export const BasicCardNoData = (_args, { globals: { theme, locale } }) => (
 
 const useMockError = (errorType: ComponentErrorType) => {
     const adapter = new MockAdapter({
-        mockError: errorType
+        mockError: { type: errorType }
     });
     const id = 'errorTest';
     const properties = ['a', 'b', 'c'];

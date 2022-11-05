@@ -85,6 +85,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
             default:
                 description = t('widgets.dataHistory.errors.genericBadRequest');
                 imgSrc = GenericErrorImg;
+                details = errorResponse?.data?.error?.innererror?.message;
                 break;
         }
         return { description, imgSrc, details };
