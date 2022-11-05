@@ -217,10 +217,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                     <div className={classNames.header}>
                         <span className={classNames.title}>{displayName}</span>
                     </div>
-                    <DataHistoryWidgetErrorHandling
-                        errors={errors}
-                        styles={styles}
-                    />
+                    <DataHistoryWidgetErrorHandling errors={errors} />
                 </>
             ) : (
                 <>

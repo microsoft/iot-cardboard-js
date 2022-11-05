@@ -1,10 +1,4 @@
-import {
-    Callout,
-    IStyleFunctionOrObject,
-    Link,
-    Text,
-    useTheme
-} from '@fluentui/react';
+import { Callout, Link, Text, useTheme } from '@fluentui/react';
 import { useBoolean, useId } from '@fluentui/react-hooks';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -14,22 +8,14 @@ import GenericErrorImg from '../../../../../../Resources/Static/noResults.svg';
 import { DOCUMENTATION_LINKS } from '../../../../../../Models/Constants/Constants';
 import { IComponentError } from '../../../../../../Models/Constants/Interfaces';
 import IllustrationMessage from '../../../../../IllustrationMessage/IllustrationMessage';
-import { getDataHistoryWidgetClassNames } from '../DataHistoryWidget';
-import {
-    DataHistoryServiceErrorCodes,
-    IDataHistoryWidgetStyleProps,
-    IDataHistoryWidgetStyles
-} from '../DataHistoryWidget.types';
+import { DataHistoryServiceErrorCodes } from '../DataHistoryWidget.types';
 import { ComponentErrorType } from '../../../../../../Models/Constants';
 import { getCalloutStyles } from '../../../../../ADT3DSceneBuilder/Internal/Shared/LeftPanel.styles';
+import { getStyles } from '../DataHistoryWidget.styles';
 
 const IMG_HEIGHT = 56;
 interface IDataHistoryWidgetErrorHandlingProps {
     errors: Array<IComponentError>;
-    styles?: IStyleFunctionOrObject<
-        IDataHistoryWidgetStyleProps,
-        IDataHistoryWidgetStyles
-    >;
 }
 
 /** This component surfaces some of the error messages based on:
@@ -41,8 +27,7 @@ interface IDataHistoryWidgetErrorHandlingProps {
  * https://learn.microsoft.com/en-us/azure/data-explorer/error-codes
  */
 export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHandlingProps> = ({
-    errors,
-    styles
+    errors
 }) => {
     const [
         isDetailsCalloutVisible,
@@ -106,7 +91,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
     }, [errors]);
 
     const theme = useTheme();
-    const classNames = getDataHistoryWidgetClassNames(styles, { theme });
+    const classNames = getStyles({ theme }).subComponentStyles;
     const sharedCalloutStyles = getCalloutStyles(theme);
 
     const errorDetailsCalloutId = useId('show-error-details-button');
@@ -153,7 +138,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
     }, [errorObj.details, isDetailsCalloutVisible]);
 
     return (
-        <div style={classNames.subComponentStyles.errorContainer().root}>
+        <div style={classNames.errorContainer.root}>
             <IllustrationMessage
                 headerText=""
                 descriptionText={errorObj.description}
@@ -162,7 +147,7 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                 imageProps={{
                     src: errorObj.imgSrc,
                     height: IMG_HEIGHT,
-                    styles: classNames.subComponentStyles.errorContainer().image
+                    styles: classNames.errorContainer.image
                 }}
                 linkProps={
                     errorObj.details
@@ -184,10 +169,9 @@ export const DataHistoryWidgetErrorHandling: React.FC<IDataHistoryWidgetErrorHan
                         : t('learnMore')
                 }
                 styles={{
-                    container: classNames.subComponentStyles.errorContainer()
-                        .textContainer,
-                    descriptionContainer: classNames.subComponentStyles.errorContainer()
-                        .descriptionContainer
+                    container: classNames.errorContainer.textContainer,
+                    descriptionContainer:
+                        classNames.errorContainer.descriptionContainer
                 }}
             />
             {errorDetailsCallout}
