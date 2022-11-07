@@ -62,12 +62,13 @@ import {
     addComponentRelationship,
     addExtendsRelationship,
     addModelToGraph,
-    addNewModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
+    CONTEXT_CLASS_BASE,
     DEFAULT_NODE_POSITION,
     deleteModelFromGraph,
-    getSelectionFromNode
+    getSelectionFromNode,
+    updateModelInGraph
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
@@ -407,17 +408,19 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     x: evt.clientX - reactFlowBounds.left,
                     y: evt.clientY - reactFlowBounds.top
                 });
-                const newModel = getNextModel(
+                const newModelInfo = getNextModel(
                     oatPageState.currentOntologyModels,
                     oatPageState.currentOntologyNamespace,
                     t('OATCommon.defaultModelNamePrefix')
                 );
-                targetModel = addNewModelToGraph(
-                    newModel.id,
-                    newModel.name,
-                    position,
-                    elementsCopy
-                );
+                const newModel: DtdlInterface = {
+                    '@id': newModelInfo.id,
+                    '@context': CONTEXT_CLASS_BASE,
+                    '@type': OAT_INTERFACE_TYPE,
+                    displayName: newModelInfo.name,
+                    contents: []
+                };
+                targetModel = addModelToGraph(newModel, position, elementsCopy);
                 target = targetModel.id;
                 logDebugConsole(
                     'debug',
@@ -772,8 +775,11 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // update the graph when models are added/updated/deleted on state
     useEffect(() => {
-        const updatePayload = oatPageState.graphUpdates;
-        if (updatePayload && updatePayload.models.length > 0) {
+        const updatePayload = oatPageState.graphUpdatesToSync;
+        if (
+            updatePayload?.actionType !== 'None' &&
+            updatePayload.models.length > 0
+        ) {
             logDebugConsole(
                 'info',
                 '[START] Handle change to graph models. {actionType, models}',
@@ -781,7 +787,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 updatePayload.models
             );
 
-            const handleAdd = () => {
+            if (updatePayload.actionType === 'Add') {
+                // ADD MODELS
                 logDebugConsole('debug', 'Processing added models');
                 const onAddModels = () => {
                     const startPositionCoordinates = rfInstance.project({
@@ -805,13 +812,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 };
 
                 execute(onAddModels, undoAddModels);
-            };
-
-            const handleUpdate = () => {
-                logDebugConsole('debug', 'Processing updated models');
-            };
-
-            const handleDelete = () => {
+            } else if (updatePayload.actionType === 'Delete') {
+                // DELETE MODELS
                 logDebugConsole('debug', 'Processing deleted models');
                 const onDeleteModels = () => {
                     const elementsCopy = deepCopy(elements);
@@ -826,27 +828,31 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 };
 
                 execute(onDeleteModels, undoDeleteModels);
-            };
+            } else if (updatePayload.actionType === 'Update') {
+                // UPDATE EXISTING MODELS
+                logDebugConsole('debug', 'Processing updated models');
+                const onUpdateModels = () => {
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        updateModelInGraph(x.oldId, x.newModel, elementsCopy);
+                    });
+                    setElements(elementsCopy);
+                };
 
-            switch (updatePayload.actionType) {
-                case 'Add':
-                    handleAdd();
-                    break;
-                case 'Update':
-                    handleUpdate();
-                    break;
-                case 'Delete':
-                    handleDelete();
-                    break;
-                default:
-                    logDebugConsole(
-                        'warn',
-                        'No-op. Unexpected graph update scenario'
-                    );
-                    break;
+                const undoUpdateModels = () => {
+                    setElements(elements);
+                };
+
+                execute(onUpdateModels, undoUpdateModels);
+            } else {
+                // Should not happen
+                logDebugConsole(
+                    'warn',
+                    'No-op. Unexpected graph update scenario'
+                );
             }
             oatPageDispatch({
-                type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE
+                type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC
             });
             logDebugConsole('info', '[END] Handle change to graph models');
         }
@@ -858,7 +864,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyNamespace,
-        oatPageState.graphUpdates,
+        oatPageState.graphUpdatesToSync,
         rfInstance,
         t
     ]);
@@ -872,9 +878,10 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     logDebugConsole(
         'debug',
-        '[END] Render {models, positions}',
+        '[END] Render {models, positions, nodes}',
         oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyModelPositions
+        oatPageState.currentOntologyModelPositions,
+        elements
     );
 
     return (

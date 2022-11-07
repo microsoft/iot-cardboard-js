@@ -277,7 +277,7 @@ export const addModelToGraph = (
  */
 export const deleteModelFromGraph = (
     model: DtdlInterface,
-    elements: ElementNode[]
+    elements: (ElementNode | ElementEdge)[]
 ) => {
     const index = elements.findIndex((x) => x.id === model['@id']);
     if (index >= 0) {
@@ -287,28 +287,46 @@ export const deleteModelFromGraph = (
 };
 
 /**
- * Addsd a new model with default values to the graph
- * @param newModelId id for the new model
- * @param name Display name for the model
- * @param position position of the node
- * @param elements collection of existing elements
- * @returns new node that was added
+ * Finds a node in the graph for a model and updates the data to match the latest data
+ * @param oldId previous id
+ * @param newModel new model data
+ * @param elements existing graph nodes, updated in-place
+ * @returns the updated graph nodes
  */
-export const addNewModelToGraph = (
-    newModelId: string,
-    name: string,
-    position: ElementPosition,
+export const updateModelInGraph = (
+    oldId: string,
+    newModel: DtdlInterface,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const newNode = new ElementNode(newModelId, OAT_INTERFACE_TYPE, position, {
-        '@id': newModelId,
-        '@context': CONTEXT_CLASS_BASE,
-        '@type': OAT_INTERFACE_TYPE,
-        displayName: name,
-        contents: []
-    });
-    elements.push(newNode);
-    return newNode;
+    // find an update the node itself
+    const existingNode = elements.find((x) => x.id === oldId);
+    if (existingNode) {
+        existingNode.id = newModel['@id'];
+        existingNode.data = newModel;
+    } else {
+        logDebugConsole(
+            'warn',
+            'Could not find the node in the graph to update. {oldId, newModel, elements}',
+            oldId,
+            newModel,
+            elements
+        );
+    }
+    // grab relationships pointing to this node
+    const existingRelationships = elements.filter(
+        (x: ElementEdge) => x.type === 'Relationship' && x.source === oldId
+    );
+    if (existingRelationships?.length) {
+        // update all those existing relationships for this node
+        existingRelationships.forEach((x: ElementEdge) => {
+            // update the id to replace the old id with the new one
+            x.id = x.id.replace(oldId, existingNode.id);
+            // update the source to be the new id
+            x.source = existingNode.id;
+        });
+    }
+
+    return elements;
 };
 
 export const getSelectionIdentifier = (

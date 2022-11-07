@@ -206,7 +206,7 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModels,
                     draft.currentOntologyModelPositions
                 );
-                draft.graphUpdates = {
+                draft.graphUpdatesToSync = {
                     actionType: 'Delete',
                     models: [targetModel]
                 };
@@ -229,6 +229,20 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModelPositions
                 );
 
+                // const
+                draft.graphUpdatesToSync = {
+                    actionType: 'Update',
+                    models: [
+                        {
+                            newModel: draft.currentOntologyModels.find(
+                                (x) => x['@id'] === newId
+                            ),
+                            oldId: existingId
+                        }
+                    ]
+                };
+
+                // Note: not sure why the deep copy is here, but leaving it since it seemed intentional before the refactor
                 const newSelection =
                     draft.selection && draft.selection.contentId
                         ? deepCopy(draft.selection)
@@ -238,16 +252,12 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.GRAPH_SET_MODELS_TO_CHANGE: {
-                const { actionType, models } = action.payload;
-                draft.graphUpdates = {
-                    actionType: actionType,
-                    models: models || []
-                };
+            case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {
+                draft.graphUpdatesToSync = action.payload;
                 break;
             }
-            case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE: {
-                draft.graphUpdates = { actionType: 'None', models: [] };
+            case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
+                draft.graphUpdatesToSync = { actionType: 'None' };
                 break;
             }
             case OatPageContextActionType.SET_OAT_ERROR: {
@@ -333,7 +343,7 @@ const emptyState: IOatPageContextState = {
     confirmDeleteOpen: { open: false },
     error: null,
     modelsToImport: [],
-    graphUpdates: { actionType: 'None', models: [] },
+    graphUpdatesToSync: { actionType: 'None' },
     isJsonUploaderOpen: false,
     modified: false,
     selectedModelTarget: null,

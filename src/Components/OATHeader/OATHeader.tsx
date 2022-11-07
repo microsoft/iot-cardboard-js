@@ -85,7 +85,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             );
             // Populates fileNames and filePaths
             const populateMetadata = (
-                file: File,
+                file: File & { webkitRelativePath?: string },
                 fileContent: string,
                 metaDataCopy: IOATModelsMetadata[]
             ) => {
@@ -412,7 +412,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             contents: []
         };
         oatPageDispatch({
-            type: OatPageContextActionType.GRAPH_SET_MODELS_TO_CHANGE,
+            type: OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC,
             payload: {
                 actionType: 'Add',
                 models: [newModel]
