@@ -270,6 +270,23 @@ export const addModelToGraph = (
 };
 
 /**
+ * Removes a node to the graph with the given model data
+ * @param model model to remove from the graph
+ * @param elements collection of existing elements, will be updated in place
+ * @returns the updated list of elements
+ */
+export const deleteModelFromGraph = (
+    model: DtdlInterface,
+    elements: ElementNode[]
+) => {
+    const index = elements.findIndex((x) => x.id === model['@id']);
+    if (index >= 0) {
+        elements.splice(index, 1);
+    }
+    return elements;
+};
+
+/**
  * Addsd a new model with default values to the graph
  * @param newModelId id for the new model
  * @param name Display name for the model

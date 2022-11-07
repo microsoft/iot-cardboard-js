@@ -66,6 +66,7 @@ import {
     addTargetedRelationship,
     addUntargetedRelationship,
     DEFAULT_NODE_POSITION,
+    deleteModelFromGraph,
     getSelectionFromNode
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
@@ -92,7 +93,7 @@ import {
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -769,12 +770,12 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageState.modelsToImport
     ]);
 
-    // update the graph when models are added
+    // update the graph when models are added/updated/deleted on state
     useEffect(() => {
         const updatePayload = oatPageState.graphUpdates;
         if (updatePayload && updatePayload.models.length > 0) {
             logDebugConsole(
-                'debug',
+                'info',
                 '[START] Handle change to graph models. {actionType, models}',
                 updatePayload.actionType,
                 updatePayload.models
@@ -812,6 +813,19 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
             const handleDelete = () => {
                 logDebugConsole('debug', 'Processing deleted models');
+                const onDeleteModels = () => {
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        deleteModelFromGraph(x, elementsCopy);
+                    });
+                    setElements(elementsCopy);
+                };
+
+                const undoDeleteModels = () => {
+                    setElements(elements);
+                };
+
+                execute(onDeleteModels, undoDeleteModels);
             };
 
             switch (updatePayload.actionType) {
@@ -834,7 +848,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             oatPageDispatch({
                 type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE
             });
-            logDebugConsole('debug', '[END] Handle change to graph models');
+            logDebugConsole('info', '[END] Handle change to graph models');
         }
     }, [
         elements,

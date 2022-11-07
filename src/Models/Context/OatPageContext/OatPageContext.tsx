@@ -31,7 +31,7 @@ import {
     updateModelId
 } from './OatPageContextUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -206,6 +206,10 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModels,
                     draft.currentOntologyModelPositions
                 );
+                draft.graphUpdates = {
+                    actionType: 'Delete',
+                    models: [targetModel]
+                };
                 saveData(draft);
                 break;
             }

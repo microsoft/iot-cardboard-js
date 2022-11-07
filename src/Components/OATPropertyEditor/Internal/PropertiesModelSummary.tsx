@@ -36,7 +36,7 @@ import {
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
 const INVALID_CHARACTERS: string[] = [' ', '-', '_', '.', ';', '<', '>'];
