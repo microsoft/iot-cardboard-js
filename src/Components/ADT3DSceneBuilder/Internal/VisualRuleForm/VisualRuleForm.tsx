@@ -350,7 +350,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                 <div className={commonFormStyles.header}>
                     <Stack tokens={{ childrenGap: 12 }}>
                         <div className={classNames.descriptionContainer}>
-                            {t('3dSceneBuilder.visualRuleForm.formSubtitle')}
+                            {t('3dSceneBuilder.visualRuleForm.formSubTitle')}
                         </div>
                         <TextField
                             label={t('displayName')}
