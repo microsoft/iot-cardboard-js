@@ -412,8 +412,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             contents: []
         };
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD,
+            type: OatPageContextActionType.GRAPH_SET_MODELS_TO_CHANGE,
             payload: {
+                actionType: 'Add',
                 models: [newModel]
             }
         });

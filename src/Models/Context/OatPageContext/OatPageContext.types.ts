@@ -27,6 +27,7 @@ export interface IOatPageContext {
     oatPageDispatch: React.Dispatch<OatPageContextAction>;
 }
 
+type GraphAction = 'Add' | 'Update' | 'Delete' | 'None';
 /**
  * The state of the context
  */
@@ -41,7 +42,10 @@ export interface IOatPageContextState {
     currentOntologyTemplates: DTDLProperty[];
     error?: IOATError;
     modelsToImport?: any[];
-    modelsToAdd: DtdlInterface[];
+    graphUpdates: {
+        actionType: GraphAction;
+        models: DtdlInterface[];
+    };
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
     ontologyFiles: IOATFile[];
@@ -72,10 +76,10 @@ export enum OatPageContextActionType {
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
-    /** models that should get added to the graph */
-    SET_OAT_MODELS_TO_ADD = 'SET_OAT__MODELS_TO_ADD',
-    /** clear out the models that were added to the graph */
-    CLEAR_OAT_MODELS_TO_ADD = 'CLEAR_OAT__MODELS_TO_ADD',
+    /** models that should get changed on the graph */
+    GRAPH_SET_MODELS_TO_CHANGE = 'GRAPH_SET_MODELS_TO_CHANGE',
+    /** clear out the models that need to be reflected on the graph */
+    GRAPH_CLEAR_MODELS_TO_CHANGE = 'GRAPH_CLEAR_MODELS_TO_CHANGE',
     SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
     SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
@@ -157,13 +161,14 @@ export type OatPageContextAction =
           payload: ProjectData;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD;
+          type: OatPageContextActionType.GRAPH_SET_MODELS_TO_CHANGE;
           payload: {
+              actionType: GraphAction;
               models: DtdlInterface[];
           };
       }
     | {
-          type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD;
+          type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE;
       }
     | {
           type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;

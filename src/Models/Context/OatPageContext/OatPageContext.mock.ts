@@ -104,7 +104,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyTemplates: currentFile.templates,
         error: null,
         modelsToImport: [],
-        modelsToAdd: [],
+        graphUpdates: { actionType: 'None', models: [] },
         isJsonUploaderOpen: false,
         modified: false,
         ontologyFiles: files,

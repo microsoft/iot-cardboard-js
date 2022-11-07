@@ -234,13 +234,16 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.SET_OAT_MODELS_TO_ADD: {
-                const { models } = action.payload;
-                draft.modelsToAdd = models || [];
+            case OatPageContextActionType.GRAPH_SET_MODELS_TO_CHANGE: {
+                const { actionType, models } = action.payload;
+                draft.graphUpdates = {
+                    actionType: actionType,
+                    models: models || []
+                };
                 break;
             }
-            case OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD: {
-                draft.modelsToAdd = [];
+            case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE: {
+                draft.graphUpdates = { actionType: 'None', models: [] };
                 break;
             }
             case OatPageContextActionType.SET_OAT_ERROR: {
@@ -326,7 +329,7 @@ const emptyState: IOatPageContextState = {
     confirmDeleteOpen: { open: false },
     error: null,
     modelsToImport: [],
-    modelsToAdd: [],
+    graphUpdates: { actionType: 'None', models: [] },
     isJsonUploaderOpen: false,
     modified: false,
     selectedModelTarget: null,

@@ -771,35 +771,70 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // update the graph when models are added
     useEffect(() => {
-        if (oatPageState.modelsToAdd?.length > 0) {
-            logDebugConsole('debug', '[START] Handle change to Added models');
+        const updatePayload = oatPageState.graphUpdates;
+        if (updatePayload && updatePayload.models.length > 0) {
+            logDebugConsole(
+                'debug',
+                '[START] Handle change to graph models. {actionType, models}',
+                updatePayload.actionType,
+                updatePayload.models
+            );
 
-            const onAddModels = () => {
-                const startPositionCoordinates = rfInstance.project({
-                    x: newNodeLeft,
-                    y: 20
-                });
+            const handleAdd = () => {
+                logDebugConsole('debug', 'Processing added models');
+                const onAddModels = () => {
+                    const startPositionCoordinates = rfInstance.project({
+                        x: newNodeLeft,
+                        y: 20
+                    });
 
-                const elementsCopy = deepCopy(elements);
-                oatPageState.modelsToAdd.forEach((x) => {
-                    addModelToGraph(
-                        x,
-                        getNewNodePosition(startPositionCoordinates),
-                        elementsCopy
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        addModelToGraph(
+                            x,
+                            getNewNodePosition(startPositionCoordinates),
+                            elementsCopy
+                        );
+                    });
+                    setElements(elementsCopy);
+                };
+
+                const undoAddModels = () => {
+                    setElements(elements);
+                };
+
+                execute(onAddModels, undoAddModels);
+            };
+
+            const handleUpdate = () => {
+                logDebugConsole('debug', 'Processing updated models');
+            };
+
+            const handleDelete = () => {
+                logDebugConsole('debug', 'Processing deleted models');
+            };
+
+            switch (updatePayload.actionType) {
+                case 'Add':
+                    handleAdd();
+                    break;
+                case 'Update':
+                    handleUpdate();
+                    break;
+                case 'Delete':
+                    handleDelete();
+                    break;
+                default:
+                    logDebugConsole(
+                        'warn',
+                        'No-op. Unexpected graph update scenario'
                     );
-                });
-                setElements(elementsCopy);
-            };
-
-            const undoAddModels = () => {
-                setElements(elements);
-            };
-
-            execute(onAddModels, undoAddModels);
+                    break;
+            }
             oatPageDispatch({
-                type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD
+                type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_CHANGE
             });
-            logDebugConsole('debug', '[END] Handle change to Added models');
+            logDebugConsole('debug', '[END] Handle change to graph models');
         }
     }, [
         elements,
@@ -809,10 +844,12 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyNamespace,
-        oatPageState.modelsToAdd,
+        oatPageState.graphUpdates,
         rfInstance,
         t
     ]);
+
+    // updated model
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
