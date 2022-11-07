@@ -2,6 +2,7 @@ import { Node, Edge } from 'react-flow-renderer';
 import {
     OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
+    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_UNTARGETED_RELATIONSHIP_NAME
@@ -37,7 +38,7 @@ const getNextRelationshipIndex = (
                 // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
                 // (element as ElementEdge).source === sourceId &&
                 (element.data as DtdlRelationship).name ===
-                `${OAT_RELATIONSHIP_HANDLE_NAME}_${relationshipIndex}`
+                `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
         )
     ) {
         relationshipIndex++;
@@ -82,12 +83,13 @@ export const addTargetedRelationship = (
     // );
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
-        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
+        relationship.name ||
+        `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${nextRelIndex}`;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_RELATIONSHIP_HANDLE_NAME,
@@ -146,7 +148,7 @@ export const addUntargetedRelationship = (
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_UNTARGETED_RELATIONSHIP_NAME,
@@ -189,7 +191,7 @@ export const addComponentRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_COMPONENT_HANDLE_NAME,
@@ -226,7 +228,7 @@ export const addExtendsRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_EXTEND_HANDLE_NAME,
@@ -314,7 +316,8 @@ export const updateModelInGraph = (
     }
     // grab relationships pointing to this node
     const existingRelationships = elements.filter(
-        (x: ElementEdge) => x.type === 'Relationship' && x.source === oldId
+        (x: ElementEdge) =>
+            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE && x.source === oldId
     );
     if (existingRelationships?.length) {
         // update all those existing relationships for this node
