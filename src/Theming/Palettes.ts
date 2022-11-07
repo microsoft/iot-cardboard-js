@@ -1,6 +1,7 @@
-import { IPalette, ITheme } from '@fluentui/react';
+import { ITheme } from '@fluentui/react';
 import { IPickerOption } from '../Components/Pickers/Internal/Picker.base.types';
 import { Theme } from '../Models/Constants/Enums';
+import { IExtendedPartialPalette } from './Theme.types';
 
 export const getPrimaryButtonCustomOverrides = (
     themeSetting: Theme,
@@ -77,7 +78,7 @@ export const defaultSwatchIcons: IPickerOption[] = [
 ];
 
 // Palettes created from https://aka.ms/themedesigner
-export const fluentLightThemePalette: Partial<IPalette> = {
+export const fluentLightThemePalette: IExtendedPartialPalette = {
     themePrimary: '#0078d4',
     themeLighterAlt: '#eff6fc',
     themeLighter: '#deecf9',
@@ -99,10 +100,14 @@ export const fluentLightThemePalette: Partial<IPalette> = {
     neutralPrimary: '#323130',
     neutralDark: '#201f1e',
     black: '#000000',
-    white: '#ffffff'
+    white: '#ffffff',
+    // custom colors
+    glassyBackground75: '#faf9f8bf',
+    glassyBackground90: '#faf9f8e6',
+    glassyBorder: '#d3d3d3'
 };
 
-export const fluentDarkThemePalette: Partial<IPalette> = {
+export const fluentDarkThemePalette: IExtendedPartialPalette = {
     themePrimary: '#058bf2',
     themeLighterAlt: '#00060a',
     themeLighter: '#011627',
@@ -124,10 +129,14 @@ export const fluentDarkThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#0d0f0e'
+    white: '#0d0f0e',
+    // custom colors
+    glassyBackground75: '#040404bf',
+    glassyBackground90: '#040404e6',
+    glassyBorder: '#424242'
 };
 
-export const fluentExplorerThemePalette: Partial<IPalette> = {
+export const fluentExplorerThemePalette: IExtendedPartialPalette = {
     themePrimary: '#60aaff',
     themeLighterAlt: '#f9fcff',
     themeLighter: '#e6f2ff',
@@ -149,10 +158,14 @@ export const fluentExplorerThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#222222'
+    white: '#222222',
+    // custom colors
+    glassyBackground75: '#404040bf',
+    glassyBackground90: '#404040e6',
+    glassyBorder: '#777'
 };
 
-export const fluentKrakenThemePalette: Partial<IPalette> = {
+export const fluentKrakenThemePalette: IExtendedPartialPalette = {
     themePrimary: '#52baed',
     themeLighterAlt: '#030709',
     themeLighter: '#0d1e26',
@@ -174,5 +187,9 @@ export const fluentKrakenThemePalette: Partial<IPalette> = {
     neutralPrimary: '#ffffff',
     neutralDark: '#f4f4f4',
     black: '#f8f8f8',
-    white: '#16203c'
+    white: '#16203c',
+    // custom colors
+    glassyBackground75: '#1e2c53bf',
+    glassyBackground90: '#1e2c53e6',
+    glassyBorder: '#303d5c'
 };

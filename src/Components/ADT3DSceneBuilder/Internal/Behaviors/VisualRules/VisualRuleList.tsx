@@ -116,7 +116,7 @@ function getListItems(
     };
 
     function getIconStart(item: IVisualRule) {
-        const [meshCount, badgeCount] = getBadgesAndMeshesCount(item);
+        const [badgeCount, meshCount] = getBadgesAndMeshesCount(item);
         let icon;
         if (meshCount && badgeCount) {
             icon = () => (
