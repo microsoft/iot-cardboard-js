@@ -512,8 +512,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         },
         {
             key: 'manage',
-            text: 'Manage',
-            iconProps: { iconName: 'Edit' },
+            text: t('configure'),
+            iconProps: { iconName: 'Settings' },
             onClick: onManageFile,
             'data-testid': 'oat-header-ontology-menu-manage'
         }
