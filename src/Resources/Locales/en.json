@@ -675,11 +675,11 @@
                 }
             },
             "errors": {
-                "genericNetwork": "Cluster url is invalid or network error occured.",
+                "genericNetwork": "Cluster url is invalid or a network error occured.",
                 "genericBadRequest": "Bad request exception occured.",
                 "generalBadRequestMessage": "Request is invalid and cannot be executed.",
-                "entityNotFound": "Database not found, failed to execute query.",
-                "forbidden": "Access is denied, you have missing permissions to query."
+                "entityNotFound": "Database not found, failed to execute the query.",
+                "forbidde": "Access was denied, you do not have query permissions."
             }
         },
         "notSupported": "This widget type is not currently supported"
