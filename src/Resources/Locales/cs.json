@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Nabídka widgetu Historie dat",
-      "openQuery": "Otevřený dotaz v Azure Průzkumník dat"
+      "openQuery": "Otevřený dotaz v Azure Průzkumník dat",
+      "errors": {
+        "genericNetwork": "Adresa URL clusteru je neplatná nebo došlo k chybě sítě.",
+        "genericBadRequest": "Došlo k výjimce chybného požadavku.",
+        "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
+        "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
+        "forbidden": "Přístup byl odepřen, nemáte oprávnění k dotazu."
+      }
     }
   },
   "sdkStrings": {
@@ -1297,5 +1304,7 @@
     }
   },
   "minLower": "Min",
-  "maxLower": ".max"
+  "maxLower": ".max",
+  "showDetails": "Zobrazit podrobnosti",
+  "hideDetails": "Skrýt detaily"
 }
