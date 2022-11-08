@@ -41,6 +41,13 @@ export class SceneVisual {
     }
 }
 
+export interface RuntimeBadge {
+    id: string;
+    meshId: string;
+    color: string;
+    icon: string;
+}
+
 export interface SelectedMesh {
     id: string;
     material: Material;

@@ -3,6 +3,7 @@ import { hasBadge } from '../../Components/ADT3DSceneBuilder/Internal/VisualRule
 import { VisualType } from '../Classes/3DVConfig';
 import {
     CustomMeshItem,
+    RuntimeBadge,
     SceneViewBadge,
     SceneViewBadgeGroup,
     SceneVisual
@@ -110,12 +111,9 @@ export const useRuntimeSceneData = (
                         twinIds.add(sceneVisual.twins[twinId].$dtId);
                     }
 
-                    // const coloredMeshItems: Array<CustomMeshItem> = [];
                     sceneVisual.behaviors?.forEach((behavior) => {
                         behavior.visuals?.forEach((visual) => {
-                            if (
-                                visual.type !== VisualType.ExpressionRangeVisual
-                            ) {
+                            if (!ViewerConfigUtility.isVisualRule(visual)) {
                                 return;
                             }
 
@@ -187,7 +185,7 @@ export const useRuntimeSceneData = (
                             (ga) => ga.meshId === badge.sceneViewBadge.meshId
                         );
 
-                        // add to exsiting group
+                        // add to existing group
                         if (group) {
                             group.id += badge.sceneViewBadge.id;
                             group.badges.push(badge.sceneViewBadge);
@@ -444,17 +442,18 @@ function buildBadgeVisual(
     behavior: IBehavior,
     iconName: string,
     color: string
-) {
+): { sceneVisual: SceneVisual; sceneViewBadge: RuntimeBadge } {
     const meshId = sceneVisual.element.objectIDs?.[0];
 
-    const badge = {
-        sceneVisual: sceneVisual,
-        sceneViewBadge: {
-            id: behavior.id,
-            meshId: meshId,
-            color: color,
-            icon: iconName
-        }
+    const sceneViewBadge: RuntimeBadge = {
+        id: behavior.id,
+        meshId: meshId,
+        color: color,
+        icon: iconName
     };
-    return badge;
+
+    return {
+        sceneVisual: sceneVisual,
+        sceneViewBadge: sceneViewBadge
+    };
 }

@@ -326,7 +326,10 @@ export function shouldShowConditionColor(
     twins: Record<string, DTwin>
 ) {
     const value = parseLinkedTwinExpression(valueExpression, twins);
-    return ViewerConfigUtility.getValueIsWithinRange(valueRanges, value);
+    return ViewerConfigUtility.getValueIsWithinRange(
+        valueRanges as number[],
+        value
+    );
 }
 
 export function shouldShowBadge(
@@ -340,7 +343,7 @@ export function shouldShowBadge(
         return values.includes(evaluatedExpression);
     } else if (isNumericType(propertyType)) {
         return ViewerConfigUtility.getValueIsWithinRange(
-            values,
+            values as number[],
             evaluatedExpression as number
         );
     } else {
