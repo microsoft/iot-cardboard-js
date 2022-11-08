@@ -15,6 +15,7 @@ import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfig
 import { ComponentError } from '../Classes/Errors';
 import {
     I3DScenesConfig,
+    IDTDLPropertyType,
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
@@ -36,6 +37,7 @@ import {
     IConsoleLogFunction,
     TimeSeriesData
 } from '../Constants/Types';
+import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -325,6 +327,26 @@ export function shouldShowConditionColor(
 ) {
     const value = parseLinkedTwinExpression(valueExpression, twins);
     return ViewerConfigUtility.getValueIsWithinRange(valueRanges, value);
+}
+
+export function shouldShowBadge(
+    evaluatedExpression: number | string | boolean,
+    propertyType: IDTDLPropertyType,
+    values: (number | string | boolean)[]
+): boolean {
+    if (propertyType === 'boolean') {
+        return values[0] === evaluatedExpression;
+    } else if (propertyType === 'string') {
+        return values.includes(evaluatedExpression);
+    } else if (isNumericType(propertyType)) {
+        return ViewerConfigUtility.getValueIsWithinRange(
+            values,
+            evaluatedExpression as number
+        );
+    } else {
+        // Return false since other property types are not yet supported
+        return false;
+    }
 }
 
 export function buildDropdownOptionsFromStrings(

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { hasBadge } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/Internal/ConditionsCallout/ConditionCalloutUtility';
 import { VisualType } from '../Classes/3DVConfig';
 import {
     CustomMeshItem,
@@ -17,6 +18,7 @@ import {
     getDebugLogger,
     getSceneElementStatusColor,
     parseLinkedTwinExpression,
+    shouldShowBadge,
     shouldShowConditionColor
 } from '../Services/Utils';
 import {
@@ -118,11 +120,16 @@ export const useRuntimeSceneData = (
                             }
 
                             visual.valueRanges.forEach((condition) => {
-                                if (condition.visual.iconName) {
+                                if (hasBadge(condition.visual.iconName)) {
+                                    const evaluatedExpression = parseLinkedTwinExpression(
+                                        visual.valueExpression,
+                                        sceneVisual.twins
+                                    );
                                     if (
-                                        parseLinkedTwinExpression(
-                                            visual.valueExpression,
-                                            sceneVisual.twins
+                                        shouldShowBadge(
+                                            evaluatedExpression,
+                                            visual.valueRangeType,
+                                            condition.values as any
                                         )
                                     ) {
                                         const badge = buildBadgeVisual(
@@ -132,11 +139,6 @@ export const useRuntimeSceneData = (
                                             condition.visual.color
                                         );
                                         badgeVisuals.push(badge);
-                                        console.log(
-                                            'BADGE VISUAL',
-                                            badge,
-                                            sceneVisual
-                                        );
                                     }
                                 } else {
                                     if (
