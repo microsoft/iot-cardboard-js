@@ -40,6 +40,7 @@ export interface IPropertiesModelSummaryStyles {
     row: IStyle;
     rowLabel: IStyle;
     sectionHeaderRoot: IStyle;
+    sectionHeaderIcon: IStyle;
     sectionHeaderContainer: IStyle;
     sectionTitle: IStyle;
     sectionSubtitle: IStyle;

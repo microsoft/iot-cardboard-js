@@ -1,4 +1,10 @@
-import React, { useContext, useState, useCallback, useMemo } from 'react';
+import React, {
+    useContext,
+    useState,
+    useCallback,
+    useMemo,
+    useEffect
+} from 'react';
 import {
     Stack,
     Label,
@@ -8,7 +14,8 @@ import {
     TextField,
     classNamesFunction,
     styled,
-    SpinButton
+    SpinButton,
+    Icon
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { FormBody } from '../Shared/Constants';
@@ -64,13 +71,11 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
     // state
-    const [modelUniqueName, setModelUniqueName] = useState(parsedId.name);
-    const [modelPath, setModelPath] = useState(parsedId.path);
-    const [modelVersion, setModelVersion] = useState(parsedId.version);
+    const [modelUniqueName, setModelUniqueName] = useState('');
+    const [modelPath, setModelPath] = useState('');
+    const [modelVersion, setModelVersion] = useState('');
 
-    const [relationshipName, setRelationshipName] = useState(
-        isDTDLRelationship(selectedItem) ? selectedItem.name : ''
-    );
+    const [relationshipName, setRelationshipName] = useState('');
 
     // data
     const itemId = buildModelId({
@@ -255,6 +260,16 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     };
 
     // side effects
+    // when selected item changes, update all the states
+    useEffect(() => {
+        const parsedId = parseModelId(selectedItem['@id']);
+        setModelUniqueName(parsedId.name);
+        setModelPath(parsedId.path);
+        setModelVersion(parsedId.version);
+        setRelationshipName(
+            isDTDLRelationship(selectedItem) ? selectedItem.name : ''
+        );
+    }, [selectedItem]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -274,53 +289,54 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             tokens={{ childrenGap: 8 }}
         >
             {/* HEADER */}
-            <div className={classNames.sectionHeaderRoot}>
+            <Stack horizontal className={classNames.sectionHeaderRoot}>
+                {(isRelationshipSelected || isModelSelected) && (
+                    <Icon
+                        iconName={isRelationshipSelected ? 'Info' : 'Warning'}
+                        className={classNames.sectionHeaderIcon}
+                        aria-label={
+                            selectedItem ? selectedItem['@type'].toString() : ''
+                        }
+                    />
+                )}
                 {isRelationshipSelected && (
                     <div className={classNames.sectionHeaderContainer}>
-                        <h4 className={classNames.sectionTitle}>
+                        <h4
+                            className={classNames.sectionTitle}
+                            title={relationshipName}
+                        >
                             {relationshipName}
                         </h4>
                     </div>
                 )}
                 {isModelSelected && (
-                    <Stack
-                        tokens={{ childrenGap: 4 }}
-                        className={classNames.sectionHeaderContainer}
-                    >
-                        <h4 className={classNames.sectionTitle}>
-                            {modelUniqueName}
-                        </h4>
-                        <span
-                            className={classNames.sectionSubtitle}
-                            title={itemId}
+                    <>
+                        <Stack
+                            tokens={{ childrenGap: 4 }}
+                            className={classNames.sectionHeaderContainer}
                         >
-                            {itemId}
-                        </span>
-                    </Stack>
+                            <h4
+                                className={classNames.sectionTitle}
+                                title={modelUniqueName}
+                            >
+                                {modelUniqueName}
+                            </h4>
+                            <span
+                                className={classNames.sectionSubtitle}
+                                title={itemId}
+                            >
+                                {itemId}
+                            </span>
+                        </Stack>
+                        <IconButton
+                            iconProps={{ iconName: 'info' }}
+                            onClick={onInfoButtonClick}
+                            styles={classNames.subComponentStyles.modalIconButton?.()}
+                            title={t('OATPropertyEditor.info')}
+                        />
+                    </>
                 )}
-                {isModelSelected && (
-                    <IconButton
-                        iconProps={{ iconName: 'info' }}
-                        onClick={onInfoButtonClick}
-                        styles={classNames.subComponentStyles.modalIconButton?.()}
-                        title={t('OATPropertyEditor.info')}
-                    />
-                )}
-            </div>
-
-            {/* TYPE SECTION */}
-            <div className={classNames.row}>
-                <Label id={'oat-property-type'} className={classNames.rowLabel}>
-                    {t('type')}
-                </Label>
-                <TextField
-                    aria-labelledby={'oat-property-type'}
-                    disabled
-                    styles={classNames.subComponentStyles.stringField}
-                    value={selectedItem ? selectedItem['@type'].toString() : ''}
-                />
-            </div>
-            <Separator styles={classNames.subComponentStyles.separator} />
+            </Stack>
 
             {isRelationshipSelected && (
                 <>

@@ -24,14 +24,15 @@ export const getStyles = (
             {
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
                 alignItems: 'center'
             }
         ],
+        sectionHeaderIcon: [{ paddingRight: 8 }],
         sectionHeaderContainer: [
             classNames.sectionHeaderContainer,
             {
-                overflow: 'hidden'
+                overflow: 'hidden',
+                flex: 1
             }
         ],
         sectionTitle: [
@@ -40,7 +41,9 @@ export const getStyles = (
                 margin: 0,
                 padding: 0,
                 fontSize: FontSizes.size16,
-                fontWeight: FontWeights.semibold
+                fontWeight: FontWeights.semibold,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
             }
         ],
         sectionSubtitle: [
