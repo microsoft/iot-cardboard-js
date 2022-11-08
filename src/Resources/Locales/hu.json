@@ -675,7 +675,7 @@
         "genericBadRequest": "Hibás kérelem kivétel történt.",
         "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
         "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
-        "forbidde": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
+        "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
       }
     }
   },

@@ -675,7 +675,7 @@
         "genericBadRequest": "Si è verificata un'eccezione per richiesta non valida.",
         "generalBadRequestMessage": "La richiesta non è valida e non può essere eseguita.",
         "entityNotFound": "Database non trovato, impossibile eseguire la query.",
-        "forbidde": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
+        "forbidden": "L'accesso è stato negato, non si dispone delle autorizzazioni di query."
       }
     }
   },

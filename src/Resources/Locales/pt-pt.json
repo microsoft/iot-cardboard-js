@@ -675,7 +675,7 @@
         "genericBadRequest": "A exceção de mau pedido ocorreu.",
         "generalBadRequestMessage": "O pedido é inválido e não pode ser executado.",
         "entityNotFound": "A base de dados não foi encontrada, não executou a consulta.",
-        "forbidde": "O acesso foi negado, não tem permissões de consulta."
+        "forbidden": "O acesso foi negado, não tem permissões de consulta."
       }
     }
   },

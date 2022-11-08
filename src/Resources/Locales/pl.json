@@ -675,7 +675,7 @@
         "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
         "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
         "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
-        "forbidde": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+        "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
       }
     }
   },

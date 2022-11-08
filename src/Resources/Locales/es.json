@@ -675,7 +675,7 @@
         "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
         "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
         "entityNotFound": "No se encontró la base de datos, no se pudo ejecutar la consulta.",
-        "forbidde": "Se ha denegado el acceso, no tiene permisos de consulta."
+        "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
       }
     }
   },

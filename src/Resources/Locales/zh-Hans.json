@@ -675,7 +675,7 @@
         "genericBadRequest": "发生错误请求异常。",
         "generalBadRequestMessage": "请求无效，无法执行。",
         "entityNotFound": "找不到数据库，无法执行查询。",
-        "forbidde": "访问被拒绝，您没有查询权限。"
+        "forbidden": "访问被拒绝，您没有查询权限。"
       }
     }
   },
