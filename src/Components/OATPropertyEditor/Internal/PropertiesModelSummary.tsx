@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import {
     Stack,
-    Label,
     Text,
     IconButton,
     Separator,
@@ -88,6 +87,13 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     // callbacks
     const commitModelIdChange = useCallback(
         (newId: string) => {
+            if (newId === selectedItem['@id']) {
+                logDebugConsole(
+                    'warn',
+                    'Aborting model id update, values are the same'
+                );
+                return;
+            }
             const commit = () => {
                 const existingId = selectedItem['@id'];
                 logDebugConsole(
