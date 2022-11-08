@@ -295,7 +295,11 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                         aria-label={
                             selectedItem ? selectedItem['@type'].toString() : ''
                         }
-                        iconName={isRelationshipSelected ? 'Info' : 'Warning'}
+                        iconName={
+                            isRelationshipSelected
+                                ? 'Relationship'
+                                : 'CubeShape'
+                        }
                         className={classNames.sectionHeaderIcon}
                         title={
                             selectedItem ? selectedItem['@type'].toString() : ''
