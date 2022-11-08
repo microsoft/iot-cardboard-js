@@ -292,9 +292,12 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             <Stack horizontal className={classNames.sectionHeaderRoot}>
                 {(isRelationshipSelected || isModelSelected) && (
                     <Icon
+                        aria-label={
+                            selectedItem ? selectedItem['@type'].toString() : ''
+                        }
                         iconName={isRelationshipSelected ? 'Info' : 'Warning'}
                         className={classNames.sectionHeaderIcon}
-                        aria-label={
+                        title={
                             selectedItem ? selectedItem['@type'].toString() : ''
                         }
                     />

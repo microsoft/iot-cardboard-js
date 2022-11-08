@@ -314,18 +314,25 @@ export const updateModelInGraph = (
             elements
         );
     }
-    // grab relationships pointing to this node
+    // grab relationships pointing to/from this node
     const existingRelationships = elements.filter(
         (x: ElementEdge) =>
-            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE && x.source === oldId
+            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE &&
+            (x.source === oldId || x.target === oldId)
     );
     if (existingRelationships?.length) {
         // update all those existing relationships for this node
         existingRelationships.forEach((x: ElementEdge) => {
             // update the id to replace the old id with the new one
             x.id = x.id.replace(oldId, existingNode.id);
-            // update the source to be the new id
-            x.source = existingNode.id;
+            if (x.source === oldId) {
+                // update the source to be the new id
+                x.source = existingNode.id;
+            }
+            if (x.target === oldId) {
+                // update the target to be the new id
+                x.target = existingNode.id;
+            }
         });
     }
 
