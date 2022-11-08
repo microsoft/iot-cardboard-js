@@ -675,7 +675,7 @@
         "genericBadRequest": "Došlo k výjimce chybného požadavku.",
         "generalBadRequestMessage": "Požadavek je neplatný a nelze jej provést.",
         "entityNotFound": "Databáze nebyla nalezena, nepodařilo se spustit dotaz.",
-        "forbidden": "Přístup byl odepřen, chybí vám oprávnění k dotazování."
+        "forbidde": "Přístup byl odepřen, nemáte oprávnění k dotazu."
       }
     }
   },

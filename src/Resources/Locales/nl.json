@@ -675,7 +675,7 @@
         "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
         "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
         "entityNotFound": "Database niet gevonden, kan query niet uitvoeren.",
-        "forbidden": "Toegang wordt geweigerd, u hebt ontbrekende machtigingen om query's uit te voeren."
+        "forbidde": "Toegang is geweigerd, u hebt geen querymachtigingen."
       }
     }
   },
