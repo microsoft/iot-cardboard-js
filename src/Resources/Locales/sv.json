@@ -675,7 +675,7 @@
         "genericBadRequest": "Undantag för felaktig begäran inträffade.",
         "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
         "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
-        "forbidden": "Åtkomst nekas, du har saknade behörigheter att fråga."
+        "forbidde": "Åtkomst nekades, du har inte frågebehörighet."
       }
     }
   },

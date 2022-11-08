@@ -675,7 +675,7 @@
         "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
         "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
         "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
-        "forbidden": "L’accès est refusé, vous avez des autorisations manquantes pour interroger."
+        "forbidde": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
       }
     }
   },

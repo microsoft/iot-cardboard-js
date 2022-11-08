@@ -675,7 +675,7 @@
         "genericBadRequest": "Eine ungültige Anforderungsausnahme ist aufgetreten.",
         "generalBadRequestMessage": "Die Anforderung ist ungültig und kann nicht ausgeführt werden.",
         "entityNotFound": "Datenbank nicht gefunden, Abfrage konnte nicht ausgeführt werden.",
-        "forbidden": "Der Zugriff wird verweigert, Sie haben fehlende Berechtigungen zum Abfragen."
+        "forbidde": "Der Zugriff wurde verweigert, Sie verfügen nicht über Abfrageberechtigungen."
       }
     }
   },

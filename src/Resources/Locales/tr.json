@@ -675,7 +675,7 @@
         "genericBadRequest": "Hatalı istek özel durumu oluştu.",
         "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
         "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
-        "forbidden": "Erişim reddedildi, sorgulama izinleriniz eksik."
+        "forbidde": "Erişim reddedildi, sorgu izinleriniz yok."
       }
     }
   },
