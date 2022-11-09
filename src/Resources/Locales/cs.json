@@ -650,7 +650,7 @@
           "update": "Aktualizace časových řad",
           "remove": "Odebrání časových řad",
           "unitPlaceholder": "např. m, m², kg, s, °C",
-          "nonNumericWarning": "Poznámka: Nečíselné vlastnosti budou v době dotazu přetypovány na číselné a některé hodnoty mohou být vynechány"
+          "stringTimeSeriesWarning": "Poznámka: vlastnosti řetězce budou v době dotazu přetypovány na číselné a některé hodnoty mohou být vynechány"
         },
         "chartOptions": {
           "yAxisType": {

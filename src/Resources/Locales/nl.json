@@ -650,7 +650,7 @@
           "update": "Tijdreeksen bijwerken",
           "remove": "Tijdreeksen verwijderen",
           "unitPlaceholder": "bv. m, m², kg, s, °C",
-          "nonNumericWarning": "Opmerking: Niet-numerieke eigenschappen worden tijdens de query naar numeriek gegoten en kunnen ertoe leiden dat sommige waarden worden weggelaten"
+          "stringTimeSeriesWarning": "Opmerking: tekenreekseigenschappen worden tijdens de query naar numeriek gecast en kunnen ertoe leiden dat sommige waarden worden weggelaten"
         },
         "chartOptions": {
           "yAxisType": {

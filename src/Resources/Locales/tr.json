@@ -650,7 +650,7 @@
           "update": "Güncelleme zaman serisi",
           "remove": "Zaman serilerini kaldırma",
           "unitPlaceholder": "örneğin m, m², kg, s, °C",
-          "nonNumericWarning": "Not: Sayısal olmayan özellikler sorgu zamanında sayısala aktarılır ve bazı değerlerin atlanmasına neden olabilir"
+          "stringTimeSeriesWarning": "Not: dize özellikleri sorgu zamanında sayısala aktarılır ve bazı değerlerin atlanmasına neden olabilir"
         },
         "chartOptions": {
           "yAxisType": {

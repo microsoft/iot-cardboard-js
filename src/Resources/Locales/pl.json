@@ -650,7 +650,7 @@
           "update": "Seria czasowa aktualizacji",
           "remove": "Usuwanie szeregów czasowych",
           "unitPlaceholder": "np. m, m², kg, s, °C",
-          "nonNumericWarning": "Uwaga: Właściwości nieliczbowe będą rzutowane na wartości liczbowe w czasie wykonywania zapytania i mogą spowodować pominięcie niektórych wartości"
+          "stringTimeSeriesWarning": "Uwaga: właściwości ciągu znaków będą rzutowane na wartości liczbowe w czasie zapytania i mogą spowodować pominięcie niektórych wartości"
         },
         "chartOptions": {
           "yAxisType": {
