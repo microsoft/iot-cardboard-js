@@ -47,7 +47,8 @@ enum Mode {
 
 const defaultSeries: IDataHistoryBasicTimeSeries = {
     id: '',
-    expression: ''
+    expression: '',
+    propertyType: 'double'
 };
 
 // Allow numerics + string as users often use string properties as the lowest common denominator
@@ -161,14 +162,13 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                         expression: seriesToEdit?.expression
                     }}
                     description={
-                        seriesToEdit?.propertyType &&
                         !numericPropertyValueTypes.includes(
                             seriesToEdit.propertyType
                         )
                             ? t(
                                   'widgets.dataHistory.form.timeSeries.nonNumericWarning'
                               )
-                            : ''
+                            : undefined
                     }
                     onChange={handlePropertyChange}
                     allowedPropertyValueTypes={

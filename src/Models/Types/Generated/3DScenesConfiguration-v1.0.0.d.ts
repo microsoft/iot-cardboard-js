@@ -273,7 +273,7 @@ export interface IADXTimeSeriesConnection {
 export interface IDataHistoryBasicTimeSeries {
     id: string;
     expression: string;
-    propertyType?: IDTDLPropertyType;
+    propertyType: IDTDLPropertyType;
     unit?: string;
     label?: string;
 }

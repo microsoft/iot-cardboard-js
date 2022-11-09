@@ -281,7 +281,7 @@
                     "type": "string"
                 }
             },
-            "required": ["id", "expression"]
+            "required": ["id", "expression", "propertyType"]
         },
         "IDataHistoryTimeSeries": {
             "type": "array",
