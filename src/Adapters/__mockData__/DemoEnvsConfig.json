@@ -637,6 +637,7 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.HydraulicPressure",
+                                            "propertyType": "double",
                                             "unit": "kPa",
                                             "label": "Hydraulic Pressure Trend"
                                         }
@@ -792,6 +793,7 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.WindSpeed",
+                                            "propertyType": "double",
                                             "unit": "mph",
                                             "label": "Windspeed Trend"
                                         }
@@ -920,6 +922,7 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.CO2Level",
+                                            "propertyType": "double",
                                             "unit": "ppm",
                                             "label": "CO2 Level Trend"
                                         }

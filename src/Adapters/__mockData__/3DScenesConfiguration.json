@@ -550,12 +550,14 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.InFlow",
+                                            "propertyType": "double",
                                             "unit": "cfs",
                                             "label": "InFlow Trend"
                                         },
                                         {
                                             "id": "b03980c3857e44a0bcf6390a82522ee7",
                                             "expression": "PrimaryTwin.OutFlow",
+                                            "propertyType": "double",
                                             "unit": "cfs",
                                             "label": "OutFlow Trend"
                                         }
