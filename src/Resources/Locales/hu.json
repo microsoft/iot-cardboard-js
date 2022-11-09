@@ -649,7 +649,8 @@
           "edit": "Idősorok szerkesztése",
           "update": "Idősorok frissítése",
           "remove": "Idősorok eltávolítása",
-          "unitPlaceholder": "pl. m, m², kg, s, °C"
+          "unitPlaceholder": "pl. m, m², kg, s, °C",
+          "nonNumericWarning": "Megjegyzés: A nem numerikus tulajdonságok lekérdezéskor numerikusra lesznek átküldve, és egyes értékek kihagyását eredményezhetik"
         },
         "chartOptions": {
           "yAxisType": {

@@ -649,7 +649,8 @@
           "edit": "编辑时间序列",
           "update": "更新时间序列",
           "remove": "删除时间序列",
-          "unitPlaceholder": "例如 米， 平方米， 公斤， 秒， °C"
+          "unitPlaceholder": "例如 米， 平方米， 公斤， 秒， °C",
+          "nonNumericWarning": "注意：非数字属性将在查询时强制转换为数字，并可能导致省略某些值"
         },
         "chartOptions": {
           "yAxisType": {

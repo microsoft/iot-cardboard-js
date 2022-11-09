@@ -649,7 +649,8 @@
           "edit": "Edytowanie szeregów czasowych",
           "update": "Seria czasowa aktualizacji",
           "remove": "Usuwanie szeregów czasowych",
-          "unitPlaceholder": "np. m, m², kg, s, °C"
+          "unitPlaceholder": "np. m, m², kg, s, °C",
+          "nonNumericWarning": "Uwaga: Właściwości nieliczbowe będą rzutowane na wartości liczbowe w czasie wykonywania zapytania i mogą spowodować pominięcie niektórych wartości"
         },
         "chartOptions": {
           "yAxisType": {

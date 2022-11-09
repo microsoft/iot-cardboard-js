@@ -649,7 +649,8 @@
           "edit": "Redigera tidsserier",
           "update": "Uppdatera tidsserier",
           "remove": "Ta bort tidsserier",
-          "unitPlaceholder": "t.ex. m, m², kg, s, °C"
+          "unitPlaceholder": "t.ex. m, m², kg, s, °C",
+          "nonNumericWarning": "Icke-numeriska egenskaper kastas till numeriska vid frågetillfället och kan leda till att vissa värden utelämnas"
         },
         "chartOptions": {
           "yAxisType": {

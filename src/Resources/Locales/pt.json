@@ -649,7 +649,8 @@
           "edit": "Editar séries temporitais",
           "update": "Atualizar séries temporizes",
           "remove": "Remover séries temporizados",
-          "unitPlaceholder": "por exemplo, m², kg, s, °C"
+          "unitPlaceholder": "por exemplo, m², kg, s, °C",
+          "nonNumericWarning": "Nota: Propriedades não numéricas serão lançadas para numéricas na hora da consulta, podendo resultar em alguns valores sendo omitidos"
         },
         "chartOptions": {
           "yAxisType": {

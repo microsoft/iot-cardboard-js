@@ -649,7 +649,8 @@
           "edit": "Zeitreihen bearbeiten",
           "update": "Zeitreihen aktualisieren",
           "remove": "Zeitreihen entfernen",
-          "unitPlaceholder": "z.B. m, m², kg, s, °C"
+          "unitPlaceholder": "z.B. m, m², kg, s, °C",
+          "nonNumericWarning": "Hinweis: Nicht numerische Eigenschaften werden zur Abfragezeit in numerische umgewandelt und können dazu führen, dass einige Werte weggelassen werden."
         },
         "chartOptions": {
           "yAxisType": {

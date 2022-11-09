@@ -649,7 +649,8 @@
           "edit": "Modificare le serie temporali",
           "update": "Aggiornare le serie temporali",
           "remove": "Rimuovere serie temporali",
-          "unitPlaceholder": "ad esempio m, m², kg, s, °C"
+          "unitPlaceholder": "ad esempio m, m², kg, s, °C",
+          "nonNumericWarning": "Nota: le proprietà non numeriche verranno sottoposte a cast numerico in fase di query e potrebbero comportare l'omissione di alcuni valori"
         },
         "chartOptions": {
           "yAxisType": {
