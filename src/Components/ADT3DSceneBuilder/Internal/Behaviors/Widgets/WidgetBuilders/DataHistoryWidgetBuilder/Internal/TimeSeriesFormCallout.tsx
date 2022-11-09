@@ -162,11 +162,9 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                         expression: seriesToEdit?.expression
                     }}
                     description={
-                        !numericPropertyValueTypes.includes(
-                            seriesToEdit.propertyType
-                        )
+                        seriesToEdit.propertyType === 'string'
                             ? t(
-                                  'widgets.dataHistory.form.timeSeries.nonNumericWarning'
+                                  'widgets.dataHistory.form.timeSeries.stringTimeSeriesWarning'
                               )
                             : undefined
                     }
