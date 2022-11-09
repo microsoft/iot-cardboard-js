@@ -715,7 +715,7 @@
                 "values": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/$defs/ValueRangeValuesType"
+                        "$ref": "#/$defs/ValueRangeValueType"
                     },
                     "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]. String values are parsed as regular arrays [string1, string2, string3]"
                 },
@@ -728,7 +728,7 @@
             },
             "required": ["id", "values", "visual"]
         },
-        "ValueRangeValuesType": {
+        "ValueRangeValueType": {
             "anyOf": [
                 {
                     "type": "number"

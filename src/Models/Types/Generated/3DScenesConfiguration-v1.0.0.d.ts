@@ -17,7 +17,7 @@ export type IGroupID = string;
  * Expression which evaluates to a numeric value
  */
 export type IValueExpression = string;
-export type ValueRangeValuesType = number | string | boolean;
+export type ValueRangeValueType = number | string | boolean;
 export type IDTDLPropertyType =
     | 'boolean'
     | 'date'
@@ -187,7 +187,7 @@ export interface IValueRange {
     /**
      * min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]. String values are parsed as regular arrays [string1, string2, string3]
      */
-    values: ValueRangeValuesType[];
+    values: ValueRangeValueType[];
     visual: IValueRangeVisual;
     extensionProperties?: IExtensionProperties;
 }
