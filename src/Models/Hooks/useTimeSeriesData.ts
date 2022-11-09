@@ -150,7 +150,7 @@ const getBulkADXQueryFromTimeSeriesTwins = (
         twins?.forEach((twin, idx) => {
             query += `${connection.kustoTableName} | where TimeStamp > ago(${agoTimeInMillis}ms)`;
             query += ` | where Id == '${twin.twinId}' and Key == '${twin.twinPropertyName}'`;
-            query += ` | extend Value = todouble(${ADXTableColumns.Value})`;
+            query += ` | extend  ${ADXTableColumns.Value} = todouble(${ADXTableColumns.Value})`;
             query += ` | where isnotnull(${ADXTableColumns.Value})`;
             query += ' | order by TimeStamp asc';
             query += ` | project ${ADXTableColumns.TimeStamp}, ${ADXTableColumns.Id}, ${ADXTableColumns.Key}, ${ADXTableColumns.Value}`;
