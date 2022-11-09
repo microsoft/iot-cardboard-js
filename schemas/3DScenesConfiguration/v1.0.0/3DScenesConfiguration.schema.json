@@ -271,6 +271,9 @@
                 "expression": {
                     "type": "string"
                 },
+                "propertyType": {
+                    "type": "string"
+                },
                 "unit": {
                     "type": "string"
                 },

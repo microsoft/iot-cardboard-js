@@ -101,6 +101,8 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
             setSeriesToEdit(
                 produce((draft) => {
                     draft.expression = newPropertyExpression.expression;
+                    draft.propertyType =
+                        newPropertyExpression.property.propertyType;
                 })
             );
         },
@@ -172,6 +174,16 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     value={seriesToEdit?.label}
                     onChange={handleLabelChange}
                 />
+                {seriesToEdit?.propertyType &&
+                    !numericPropertyValueTypes.includes(
+                        seriesToEdit.propertyType
+                    ) && (
+                        <Text className={styles.description}>
+                            {t(
+                                'widgets.dataHistory.form.timeSeries.nonNumericWarning'
+                            )}
+                        </Text>
+                    )}
                 <TextField
                     placeholder={t(
                         'widgets.dataHistory.form.timeSeries.unitPlaceholder'
