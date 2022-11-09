@@ -1,4 +1,8 @@
-import { DtdlInterface, DtdlInterfaceContent } from '../../Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    OatRelationshipType
+} from '../../Constants';
 import {
     IOATSelection,
     IOATError,
@@ -9,6 +13,7 @@ import {
 import { DTDLProperty } from '../../Classes/DTDL';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { ElementPosition } from '../../../Components/OATGraphViewer/Internal/Classes/ElementPosition';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -94,6 +99,7 @@ export enum OatPageContextActionType {
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
+    ADD_RELATIONSHIP = 'ADD_RELATIONSHIP',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     /** models that should get changed on the graph */
@@ -237,4 +243,18 @@ export type OatPageContextAction =
               existingId: string;
               newId: string;
           };
+      }
+    | {
+          type: OatPageContextActionType.ADD_RELATIONSHIP;
+          payload:
+              | {
+                    sourceModelId: string;
+                    targetModelId: string | undefined;
+                    relationshipType: OatRelationshipType;
+                }
+              | {
+                    sourceModelId: string;
+                    relationshipType: 'Untargeted';
+                    position: ElementPosition;
+                };
       };

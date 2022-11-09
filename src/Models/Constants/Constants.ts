@@ -303,6 +303,7 @@ export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
 export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
 export const OAT_COMPONENT_HANDLE_NAME = 'Component';
 export const OAT_EXTEND_HANDLE_NAME = 'Extend';
+export type OatRelationshipType = 'Component' | 'Relationship' | 'Extend';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_GRAPH_RELATIONSHIP_NODE_TYPE = 'Relationship';
 export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';

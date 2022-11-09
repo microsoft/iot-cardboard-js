@@ -28,10 +28,11 @@ import {
     convertStateToProject,
     deleteModelFromState,
     setSelectedModel,
-    updateModelId
+    updateModelId,
+    addTargetedRelationship
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -250,6 +251,40 @@ export const OatPageContextReducer: (
 
                 setSelectedModel(newSelection, draft);
                 saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.ADD_RELATIONSHIP: {
+                logDebugConsole(
+                    'debug',
+                    `[START] Adding ${action.payload.relationshipType} relationship. {payload}`,
+                    action.payload
+                );
+                if (action.payload.relationshipType === 'Untargeted') {
+                    // const {
+                    //     sourceModelId,
+                    //     position
+                    // } = action.payload;
+                    // add the model to the graph
+                    // add the relationship
+                } else {
+                    const {
+                        relationshipType,
+                        sourceModelId,
+                        targetModelId
+                    } = action.payload;
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModelId,
+                        relationshipType
+                    );
+                }
+                logDebugConsole(
+                    'debug',
+                    `[END] Adding ${action.payload.relationshipType} relationship.`
+                );
+                saveData(draft);
+
                 break;
             }
             case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {

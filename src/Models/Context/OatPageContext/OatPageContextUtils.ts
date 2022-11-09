@@ -1,14 +1,19 @@
-import { getTargetFromSelection } from '../../../Components/OATPropertyEditor/Utils';
+import {
+    getDisplayName,
+    getTargetFromSelection
+} from '../../../Components/OATPropertyEditor/Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLComponent, DTDLRelationship, DTDLType } from '../../Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
+    OatRelationshipType,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
@@ -150,12 +155,13 @@ export const updateModelId = (
         modelPosition['@id'] = newId;
     }
 
-    // Update models
-    const modelCopy = models.find((x) => x['@id'] === oldId);
-    if (modelCopy) {
-        modelCopy['@id'] = newId;
+    // Update model
+    const modelReference = models.find((x) => x['@id'] === oldId);
+    if (modelReference) {
+        modelReference['@id'] = newId;
     }
 
+    console.log('***[BEFORE] Models', deepCopy(models));
     // Update contents
     models.forEach((m) =>
         m.contents.forEach((c) => {
@@ -182,7 +188,139 @@ export const updateModelId = (
         })
     );
 
+    console.log('***[AFTER] models', deepCopy(models));
+
     return { models: models, positions: modelPositions };
+};
+
+const getNewComponent = (
+    name: string,
+    targetModelId: string
+): DTDLComponent => {
+    const component = new DTDLComponent(
+        null, // id
+        name, // name
+        targetModelId //schema
+    );
+    // remove the property so it doesn't get stored
+    delete component['@id'];
+    return component;
+};
+const getNewRelationship = (
+    name: string,
+    targetModelId: string
+): DtdlInterfaceContent => {
+    const relationship = new DTDLRelationship(
+        null, // id
+        name, // name
+        null, // display name
+        null, // description
+        null, // comment
+        null, // writable
+        null, // properties
+        targetModelId // target
+    );
+    // remove the property so it doesn't get stored
+    delete relationship['@id'];
+    return relationship;
+};
+
+// const getNextRelationshipIndex = (
+//     _sourceId: string,
+//     elements: (ElementNode | ElementEdge)[]
+// ) => {
+//     let relationshipIndex = 0;
+//     while (
+//         elements.some(
+//             (element) =>
+//                 // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
+//                 // (element as ElementEdge).source === sourceId &&
+//                 (element.data as DtdlRelationship).name ===
+//                 `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
+//         )
+//     ) {
+//         relationshipIndex++;
+//     }
+//     return relationshipIndex;
+// };
+
+/** gets a unique name for the relationship (scoped to the target model) */
+const getNextComponentName = (
+    sourceModel: DtdlInterface,
+    targetModel: DtdlInterface
+) => {
+    let componentIndex = 0;
+    const name = getDisplayName(targetModel.displayName);
+    // loop the contents and look for other components with the same name, keep going till it's unique
+    while (
+        sourceModel.contents &&
+        sourceModel.contents.some(
+            (rel) =>
+                rel['@type'] === DTDLType.Component &&
+                rel.name === `${name}_${componentIndex}`
+        )
+    ) {
+        componentIndex++;
+    }
+    return `${name}_${componentIndex}`;
+};
+export const addTargetedRelationship = (
+    state: IOatPageContextState,
+    sourceModelId: string,
+    targetModelId: string,
+    relationshipType: OatRelationshipType
+) => {
+    let newModel: DtdlInterfaceContent;
+    // get the target model
+    const sourceModel = state.currentOntologyModels.find(
+        (x) => x['@id'] === sourceModelId
+    );
+    logDebugConsole(
+        'debug',
+        '[START] Add targeted relationship to model. {source, target, relationshipType, originalModel}',
+        sourceModelId,
+        targetModelId,
+        relationshipType,
+        deepCopy(sourceModel)
+    );
+    if (!sourceModel) {
+        console.error(
+            'Could not find source node for creating new relationship. {source, target}',
+            sourceModelId,
+            targetModelId
+        );
+        return;
+    }
+
+    if (
+        relationshipType === 'Component' ||
+        relationshipType === 'Relationship'
+    ) {
+        // component or relationship
+        const targetModel = state.currentOntologyModels.find(
+            (x) => x['@id'] === targetModelId
+        );
+        const modelName =
+            relationshipType === 'Component'
+                ? getNextComponentName(sourceModel, targetModel)
+                : ''; // TODO: Add relationship
+        newModel =
+            relationshipType === 'Component'
+                ? getNewComponent(modelName, targetModelId)
+                : getNewRelationship(modelName, targetModelId);
+        sourceModel.contents = [...sourceModel.contents, newModel];
+    } else {
+        // extends
+    }
+    logDebugConsole(
+        'debug',
+        '[END] Add targeted relationship to model. {source, target, relationshipType, finalModel}',
+        sourceModelId,
+        targetModelId,
+        relationshipType,
+        deepCopy(sourceModel)
+    );
+    return newModel;
 };
 
 /** TODO: remove this helper when we move the project data into a sub object on the state */

@@ -434,8 +434,9 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 const relationship = {
                     '@type': OAT_RELATIONSHIP_HANDLE_NAME,
                     name: null,
-                    target
+                    target: target
                 };
+                console.log('***Creating relationship', relationship);
                 addTargetedRelationship(source, relationship, elementsCopy);
             } else if (
                 currentHandleIdRef.current === OAT_COMPONENT_HANDLE_NAME
@@ -446,14 +447,23 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     schema: target
                 };
 
-                if (targetModel) {
-                    addComponentRelationship(
-                        source,
-                        component,
-                        targetModel.data.displayName,
-                        elementsCopy
-                    );
-                }
+                console.log('***Creating component', component);
+                // if (targetModel) {
+                //     addComponentRelationship(
+                //         source,
+                //         component,
+                //         targetModel.data.displayName,
+                //         elementsCopy
+                //     );
+                // }
+                oatPageDispatch({
+                    type: OatPageContextActionType.ADD_RELATIONSHIP,
+                    payload: {
+                        relationshipType: 'Component',
+                        sourceModelId: source,
+                        targetModelId: target
+                    }
+                });
             } else if (currentHandleIdRef.current === OAT_EXTEND_HANDLE_NAME) {
                 const existing = elementsCopy.filter(
                     (e) =>
@@ -480,7 +490,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 );
             }
 
-            setElements(elementsCopy);
+            // setElements(elementsCopy);
         };
 
         const undoAddition = () => {
@@ -636,18 +646,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         return nodes;
     }, [elements]);
 
-    useEffect(() => {
-        logDebugConsole(
-            'debug',
-            'Storing computed models. {model}',
-            modelsFromCurrentNodes
-        );
-        oatPageDispatch({
-            type: OatPageContextActionType.SET_CURRENT_MODELS,
-            payload: { models: modelsFromCurrentNodes }
-        });
-    }, [oatPageDispatch, modelsFromCurrentNodes]);
-
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: Node<any> | Edge<any>
@@ -723,7 +721,34 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         storeElementPositions(elements);
     }, [elements, storeElementPositions]);
 
-    // Update graph nodes and edges when the models are updated
+    useEffect(() => {
+        const potentialElements = getGraphNodesFromModels(
+            oatPageState.currentOntologyModels,
+            oatPageState.currentOntologyModelPositions
+        );
+
+        if (JSON.stringify(potentialElements) !== JSON.stringify(elements)) {
+            setElements(potentialElements);
+        }
+    }, [
+        elements,
+        getGraphNodesFromModels,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels
+    ]);
+    // useEffect(() => {
+    //     logDebugConsole(
+    //         'debug',
+    //         'Storing computed models. {model}',
+    //         modelsFromCurrentNodes
+    //     );
+    //     oatPageDispatch({
+    //         type: OatPageContextActionType.SET_CURRENT_MODELS,
+    //         payload: { models: modelsFromCurrentNodes }
+    //     });
+    // }, [oatPageDispatch, modelsFromCurrentNodes]);
+
+    // Rebuild the graph when the selected ontology changes
     const previousId = usePrevious(oatPageState.currentOntologyId);
     useEffect(() => {
         if (previousId !== oatPageState.currentOntologyId) {

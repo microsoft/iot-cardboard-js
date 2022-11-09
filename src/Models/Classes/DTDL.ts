@@ -632,9 +632,9 @@ export class DTDLComponent {
         id: string,
         name: string,
         schema: string,
-        comment: string,
-        description: string,
-        displayName: string
+        comment?: string,
+        description?: string,
+        displayName?: string
     ) {
         this['@type'] = DTDLType.Component;
         this['@id'] = id;

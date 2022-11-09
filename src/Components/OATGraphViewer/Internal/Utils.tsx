@@ -21,7 +21,7 @@ import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 
 export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
@@ -46,28 +46,28 @@ const getNextRelationshipIndex = (
     return relationshipIndex;
 };
 
-const getNextComponentIndex = (
-    sourceId: string,
-    targetName: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let componentIndex = 0;
-    const match = elements.find((element) => element.id === sourceId);
-    if (match) {
-        const int = match.data as DtdlInterface;
-        while (
-            int &&
-            int.contents.some(
-                (content) =>
-                    content['schema'] &&
-                    content.name === `${targetName}_${componentIndex}`
-            )
-        ) {
-            componentIndex++;
-        }
-    }
-    return componentIndex;
-};
+// const getNextComponentIndex = (
+//     sourceId: string,
+//     targetName: string,
+//     elements: (ElementNode | ElementEdge)[]
+// ) => {
+//     let componentIndex = 0;
+//     const match = elements.find((element) => element.id === sourceId);
+//     if (match) {
+//         const int = match.data as DtdlInterface;
+//         while (
+//             int &&
+//             int.contents.some(
+//                 (content) =>
+//                     content['schema'] &&
+//                     content.name === `${targetName}_${componentIndex}`
+//             )
+//         ) {
+//             componentIndex++;
+//         }
+//     }
+//     return componentIndex;
+// };
 
 export const addTargetedRelationship = (
     sourceId: string,
@@ -83,8 +83,7 @@ export const addTargetedRelationship = (
     // );
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
-        relationship.name ||
-        `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${nextRelIndex}`;
+        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
@@ -178,16 +177,15 @@ export const addComponentRelationship = (
     targetName: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    // logDebugConsole(
-    //     'debug',
-    //     '[START] addComponentRelationship. {source, component, target, elements}',
-    //     sourceId,
-    //     component,
-    //     targetName,
-    //     elements
-    // );
-    const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
-    const name = component.name || `${targetName}_${nextComIndex}`;
+    logDebugConsole(
+        'debug',
+        '[START] addComponentRelationship. {source, component, elements}',
+        sourceId,
+        component,
+        elements
+    );
+    // const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
+    const name = component.name; // || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
@@ -205,11 +203,12 @@ export const addComponentRelationship = (
     );
 
     elements.push(relationshipEdge);
-    // logDebugConsole(
-    //     'debug',
-    //     '[END] addComponentRelationship. {elements}',
-    //     elements
-    // );
+    logDebugConsole(
+        'debug',
+        '[END] addComponentRelationship. {edge, elements}',
+        relationshipEdge,
+        elements
+    );
     return relationshipEdge;
 };
 

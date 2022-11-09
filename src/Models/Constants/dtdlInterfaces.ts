@@ -41,6 +41,7 @@ export interface DtdlInterfaceContent {
     displayName?: string;
     writable?: boolean;
     schema?: string | Record<string, any>;
+    target?: string;
     [propertyName: string]: any;
 }
 
