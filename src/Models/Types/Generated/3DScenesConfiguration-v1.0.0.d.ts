@@ -5,8 +5,6 @@
  * and run json-schema-to-typescript to regenerate this file.
  */
 
-import { PropertyValueType } from "../../Constants";
-
 export type IElement = ITwinToObjectMapping | ICustomProperty;
 export type IDataSource = IElementTwinToObjectMappingDataSource | ICustomProperty;
 export type IVisual = IPopoverVisual | IExpressionRangeVisual;
@@ -275,7 +273,7 @@ export interface IADXTimeSeriesConnection {
 export interface IDataHistoryBasicTimeSeries {
     id: string;
     expression: string;
-    propertyType?: PropertyValueType;
+    propertyType?: IDTDLPropertyType;
     unit?: string;
     label?: string;
 }
