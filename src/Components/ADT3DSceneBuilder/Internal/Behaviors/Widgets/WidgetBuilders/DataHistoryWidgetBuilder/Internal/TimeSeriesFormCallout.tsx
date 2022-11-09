@@ -166,14 +166,6 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     }
                     required
                 />
-                <TextField
-                    placeholder={t(
-                        'widgets.dataHistory.form.timeSeries.labelPlaceholder'
-                    )}
-                    label={t('widgets.dataHistory.form.timeSeries.label')}
-                    value={seriesToEdit?.label}
-                    onChange={handleLabelChange}
-                />
                 {seriesToEdit?.propertyType &&
                     !numericPropertyValueTypes.includes(
                         seriesToEdit.propertyType
@@ -184,6 +176,14 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                             )}
                         </Text>
                     )}
+                <TextField
+                    placeholder={t(
+                        'widgets.dataHistory.form.timeSeries.labelPlaceholder'
+                    )}
+                    label={t('widgets.dataHistory.form.timeSeries.label')}
+                    value={seriesToEdit?.label}
+                    onChange={handleLabelChange}
+                />
                 <TextField
                     placeholder={t(
                         'widgets.dataHistory.form.timeSeries.unitPlaceholder'
