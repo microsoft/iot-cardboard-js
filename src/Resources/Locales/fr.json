@@ -972,7 +972,8 @@
       "namespaceDescription": "Exemple de nom de modèle : {{modelName}}",
       "namespacePlaceholder": "Entrez un espace de noms",
       "sampleModel": "exemple de modèle"
-    }
+    },
+    "configure": "Configurer"
   },
   "cameraControls": {
     "mouseControls": "Contrôles de la souris",

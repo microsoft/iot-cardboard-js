@@ -972,7 +972,8 @@
       "namespaceDescription": "Példa modellnévre: {{modelName}}",
       "namespacePlaceholder": "Névtér megadása",
       "sampleModel": "minta modell"
-    }
+    },
+    "configure": "Konfigurál"
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",

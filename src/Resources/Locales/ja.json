@@ -972,7 +972,8 @@
       "namespaceDescription": "モデル名の例: {{モデル名}}",
       "namespacePlaceholder": "名前空間を入力する",
       "sampleModel": "サンプルモデル"
-    }
+    },
+    "configure": "構成"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",

@@ -972,7 +972,8 @@
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
       "namespacePlaceholder": "Ввод пространства имен",
       "sampleModel": "Образец модели"
-    }
+    },
+    "configure": "Настроить"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",

@@ -972,7 +972,8 @@
       "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
       "namespacePlaceholder": "Een naamruimte invoeren",
       "sampleModel": "voorbeeldmodel"
-    }
+    },
+    "configure": "Configureren"
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
