@@ -271,6 +271,9 @@
                 "expression": {
                     "type": "string"
                 },
+                "propertyType": {
+                    "$ref": "#/$defs/IDTDLPropertyType"
+                },
                 "unit": {
                     "type": "string"
                 },
