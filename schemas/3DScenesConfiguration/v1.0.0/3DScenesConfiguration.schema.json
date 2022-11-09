@@ -272,7 +272,7 @@
                     "type": "string"
                 },
                 "propertyType": {
-                    "type": "string"
+                    "$ref": "#/$defs/IDTDLPropertyType"
                 },
                 "unit": {
                     "type": "string"
