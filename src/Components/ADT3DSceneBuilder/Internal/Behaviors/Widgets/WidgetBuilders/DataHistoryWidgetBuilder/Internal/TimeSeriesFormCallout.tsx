@@ -160,22 +160,22 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     propertyExpression={{
                         expression: seriesToEdit?.expression
                     }}
+                    description={
+                        seriesToEdit?.propertyType &&
+                        !numericPropertyValueTypes.includes(
+                            seriesToEdit.propertyType
+                        )
+                            ? t(
+                                  'widgets.dataHistory.form.timeSeries.nonNumericWarning'
+                              )
+                            : ''
+                    }
                     onChange={handlePropertyChange}
                     allowedPropertyValueTypes={
                         allowedTimeseriesPropertyValueTypes
                     }
                     required
                 />
-                {seriesToEdit?.propertyType &&
-                    !numericPropertyValueTypes.includes(
-                        seriesToEdit.propertyType
-                    ) && (
-                        <Text className={styles.description}>
-                            {t(
-                                'widgets.dataHistory.form.timeSeries.nonNumericWarning'
-                            )}
-                        </Text>
-                    )}
                 <TextField
                     placeholder={t(
                         'widgets.dataHistory.form.timeSeries.labelPlaceholder'
