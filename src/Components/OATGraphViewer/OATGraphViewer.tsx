@@ -93,6 +93,7 @@ import {
     getControlBackgroundColor
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { DTDLType } from '../../Models/Classes/DTDL';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -431,35 +432,28 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             }
 
             if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {
-                const relationship = {
-                    '@type': OAT_RELATIONSHIP_HANDLE_NAME,
-                    name: null,
-                    target: target
-                };
-                console.log('***Creating relationship', relationship);
-                addTargetedRelationship(source, relationship, elementsCopy);
-            } else if (
-                currentHandleIdRef.current === OAT_COMPONENT_HANDLE_NAME
-            ) {
-                const component = {
-                    '@type': OAT_COMPONENT_HANDLE_NAME,
-                    name: null,
-                    schema: target
-                };
-
-                console.log('***Creating component', component);
-                // if (targetModel) {
-                //     addComponentRelationship(
-                //         source,
-                //         component,
-                //         targetModel.data.displayName,
-                //         elementsCopy
-                //     );
-                // }
+                // const relationship = {
+                //     '@type': OAT_RELATIONSHIP_HANDLE_NAME,
+                //     name: null,
+                //     target: target
+                // };
+                // console.log('***Creating relationship', relationship);
+                // addTargetedRelationship(source, relationship, elementsCopy);
                 oatPageDispatch({
                     type: OatPageContextActionType.ADD_RELATIONSHIP,
                     payload: {
-                        relationshipType: 'Component',
+                        relationshipType: DTDLType.Relationship,
+                        sourceModelId: source,
+                        targetModelId: target
+                    }
+                });
+            } else if (
+                currentHandleIdRef.current === OAT_COMPONENT_HANDLE_NAME
+            ) {
+                oatPageDispatch({
+                    type: OatPageContextActionType.ADD_RELATIONSHIP,
+                    payload: {
+                        relationshipType: DTDLType.Component,
                         sourceModelId: source,
                         targetModelId: target
                     }

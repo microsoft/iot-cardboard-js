@@ -8,12 +8,17 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
-import { DTDLComponent, DTDLRelationship, DTDLType } from '../../Classes/DTDL';
+import {
+    DTDLType,
+    IDTDLComponent,
+    IDTDLRelationship
+} from '../../Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
     OatRelationshipType,
+    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
@@ -193,76 +198,54 @@ export const updateModelId = (
     return { models: models, positions: modelPositions };
 };
 
-const getNewComponent = (
-    name: string,
-    targetModelId: string
-): DTDLComponent => {
-    const component = new DTDLComponent(
-        null, // id
-        name, // name
-        targetModelId //schema
-    );
-    // remove the property so it doesn't get stored
-    delete component['@id'];
+const getNewComponent = (name: string, targetModelId: string) => {
+    const component: IDTDLComponent = {
+        '@type': DTDLType.Component,
+        name: name,
+        schema: targetModelId
+    };
     return component;
 };
-const getNewRelationship = (
-    name: string,
-    targetModelId: string
-): DtdlInterfaceContent => {
-    const relationship = new DTDLRelationship(
-        null, // id
-        name, // name
-        null, // display name
-        null, // description
-        null, // comment
-        null, // writable
-        null, // properties
-        targetModelId // target
-    );
-    // remove the property so it doesn't get stored
-    delete relationship['@id'];
+const getNewRelationship = (name: string, targetModelId: string) => {
+    const relationship: IDTDLRelationship = {
+        '@type': DTDLType.Relationship,
+        name: name,
+        target: targetModelId
+    };
     return relationship;
 };
+/** Loops the contents of a model to find the next available name */
+const getNextName = (
+    sourceModel: DtdlInterface,
+    namePrefix: string,
+    type: DTDLType
+) => {
+    let index = 0;
+    // loop the contents and look for other entries with the same name, keep going till it's unique
+    while (
+        sourceModel.contents &&
+        sourceModel.contents.some(
+            (rel) =>
+                rel['@type'] === type && rel.name === `${namePrefix}_${index}`
+        )
+    ) {
+        index++;
+    }
+    return `${namePrefix}_${index}`;
+};
 
-// const getNextRelationshipIndex = (
-//     _sourceId: string,
-//     elements: (ElementNode | ElementEdge)[]
-// ) => {
-//     let relationshipIndex = 0;
-//     while (
-//         elements.some(
-//             (element) =>
-//                 // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
-//                 // (element as ElementEdge).source === sourceId &&
-//                 (element.data as DtdlRelationship).name ===
-//                 `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
-//         )
-//     ) {
-//         relationshipIndex++;
-//     }
-//     return relationshipIndex;
-// };
+const getNextRelationshipName = (sourceModel: DtdlInterface) => {
+    const prefix = OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
+    return getNextName(sourceModel, prefix, DTDLType.Relationship);
+};
 
 /** gets a unique name for the relationship (scoped to the target model) */
 const getNextComponentName = (
     sourceModel: DtdlInterface,
     targetModel: DtdlInterface
 ) => {
-    let componentIndex = 0;
-    const name = getDisplayName(targetModel.displayName);
-    // loop the contents and look for other components with the same name, keep going till it's unique
-    while (
-        sourceModel.contents &&
-        sourceModel.contents.some(
-            (rel) =>
-                rel['@type'] === DTDLType.Component &&
-                rel.name === `${name}_${componentIndex}`
-        )
-    ) {
-        componentIndex++;
-    }
-    return `${name}_${componentIndex}`;
+    const prefix = getDisplayName(targetModel.displayName);
+    return getNextName(sourceModel, prefix, DTDLType.Component);
 };
 export const addTargetedRelationship = (
     state: IOatPageContextState,
@@ -293,8 +276,8 @@ export const addTargetedRelationship = (
     }
 
     if (
-        relationshipType === 'Component' ||
-        relationshipType === 'Relationship'
+        relationshipType === DTDLType.Component ||
+        relationshipType === DTDLType.Relationship
     ) {
         // component or relationship
         const targetModel = state.currentOntologyModels.find(
@@ -303,7 +286,7 @@ export const addTargetedRelationship = (
         const modelName =
             relationshipType === 'Component'
                 ? getNextComponentName(sourceModel, targetModel)
-                : ''; // TODO: Add relationship
+                : getNextRelationshipName(sourceModel);
         newModel =
             relationshipType === 'Component'
                 ? getNewComponent(modelName, targetModelId)

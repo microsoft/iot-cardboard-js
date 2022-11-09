@@ -12,7 +12,7 @@ import {
     IWidgetLibraryItem
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
-import { DTDLSchemaType } from '../../Models/Classes/DTDL';
+import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
 import IconBoolean from '../../Resources/Static/Boolean.svg';
 import IconData from '../../Resources/Static/Data.svg';
 import IconDatetime from '../../Resources/Static/Datetime.svg';
@@ -303,7 +303,10 @@ export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
 export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
 export const OAT_COMPONENT_HANDLE_NAME = 'Component';
 export const OAT_EXTEND_HANDLE_NAME = 'Extend';
-export type OatRelationshipType = 'Component' | 'Relationship' | 'Extend';
+export type OatRelationshipType =
+    | DTDLType.Component
+    | DTDLType.Relationship
+    | 'Extend';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_GRAPH_RELATIONSHIP_NODE_TYPE = 'Relationship';
 export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';
