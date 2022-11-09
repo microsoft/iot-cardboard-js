@@ -714,7 +714,10 @@
                 },
                 "values": {
                     "type": "array",
-                    "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]."
+                    "items": {
+                        "$ref": "#/$defs/ValueRangeValuesType"
+                    },
+                    "description": "min/max values are parsed as a two element array [min, max].  Boolean values are parsed as a single element array [true]. String values are parsed as regular arrays [string1, string2, string3]"
                 },
                 "visual": {
                     "$ref": "#/$defs/IValueRangeVisual"
@@ -724,6 +727,19 @@
                 }
             },
             "required": ["id", "values", "visual"]
+        },
+        "ValueRangeValuesType": {
+            "anyOf": [
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "boolean"
+                }
+            ]
         },
         "IValueRangeVisual": {
             "type": "object",

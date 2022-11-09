@@ -19,8 +19,7 @@ import {
     getDebugLogger,
     getSceneElementStatusColor,
     parseLinkedTwinExpression,
-    shouldShowBadge,
-    shouldShowConditionColor
+    shouldShowVisual
 } from '../Services/Utils';
 import {
     I3DScenesConfig,
@@ -118,18 +117,16 @@ export const useRuntimeSceneData = (
                             }
 
                             visual.valueRanges.forEach((condition) => {
-                                if (hasBadge(condition.visual.iconName)) {
-                                    const evaluatedExpression = parseLinkedTwinExpression(
+                                // Check if visual will be shown, then determine if it is a badge or coloring
+                                if (
+                                    shouldShowVisual(
+                                        visual.valueRangeType,
+                                        sceneVisual.twins,
                                         visual.valueExpression,
-                                        sceneVisual.twins
-                                    );
-                                    if (
-                                        shouldShowBadge(
-                                            evaluatedExpression,
-                                            visual.valueRangeType,
-                                            condition.values as any
-                                        )
-                                    ) {
+                                        condition.values
+                                    )
+                                ) {
+                                    if (hasBadge(condition.visual.iconName)) {
                                         const badge = buildBadgeVisual(
                                             sceneVisual,
                                             behavior,
@@ -137,15 +134,7 @@ export const useRuntimeSceneData = (
                                             condition.visual.color
                                         );
                                         badgeVisuals.push(badge);
-                                    }
-                                } else {
-                                    if (
-                                        shouldShowConditionColor(
-                                            visual.valueExpression,
-                                            condition.values,
-                                            sceneVisual.twins
-                                        )
-                                    ) {
+                                    } else {
                                         sceneVisual.element.objectIDs?.forEach(
                                             (meshId) => {
                                                 const coloredMesh: CustomMeshItem = {

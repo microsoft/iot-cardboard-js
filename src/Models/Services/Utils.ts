@@ -320,23 +320,16 @@ export function getSceneElementStatusColor(
     );
 }
 
-export function shouldShowConditionColor(
-    valueExpression: string,
-    valueRanges: unknown[],
-    twins: Record<string, DTwin>
-) {
-    const value = parseLinkedTwinExpression(valueExpression, twins);
-    return ViewerConfigUtility.getValueIsWithinRange(
-        valueRanges as number[],
-        value
-    );
-}
-
-export function shouldShowBadge(
-    evaluatedExpression: number | string | boolean,
+export function shouldShowVisual(
     propertyType: IDTDLPropertyType,
+    twins: Record<string, DTwin>,
+    valueExpression: string,
     values: (number | string | boolean)[]
 ): boolean {
+    const evaluatedExpression = parseLinkedTwinExpression(
+        valueExpression,
+        twins
+    );
     if (propertyType === 'boolean') {
         return values[0] === evaluatedExpression;
     } else if (propertyType === 'string') {

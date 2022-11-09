@@ -81,6 +81,9 @@ const ActionItem: React.FC<IActionItemProps> = (props) => {
         ) => {
             if (option) {
                 setSelectedOptionKey(option.key);
+                if (option.key === DROPDOWN_OPTIONS[0].key) {
+                    setActionSelectedValue('iconName', undefined);
+                }
             }
         },
         []
