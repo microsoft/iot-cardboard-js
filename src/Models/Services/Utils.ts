@@ -461,6 +461,30 @@ export async function parseModels(models: DtdlInterface[]) {
 }
 
 /**
+ * Sorts a list alphabetically ignoring casing
+ * @example listItems.sort(sortCaseInsensitiveAlphabetically())
+ * @returns Sort function to pass to `.sort()`
+ */
+export function sortCaseInsensitive(descending?: boolean) {
+    return (a: string, b: string) => {
+        let order = 0;
+        if (a && b && typeof a === 'string' && typeof b === 'string') {
+            order = a.toLowerCase() > b.toLowerCase() ? 1 : -1;
+        } else if (isDefined(a)) {
+            order = -1;
+        } else if (isDefined(b)) {
+            order = 1;
+        }
+
+        if (descending) {
+            order = order * -1;
+        }
+
+        return order;
+    };
+}
+
+/**
  * Sort function to order items from ascending or descending order, for boolean, numbers and strings. Case insensitive sort
  * NOTE: only works when property is one layer down
  * @param propertyName name of the property to sort on

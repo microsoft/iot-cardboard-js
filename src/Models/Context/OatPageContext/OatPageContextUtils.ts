@@ -26,7 +26,11 @@ import {
     storeLastUsedProjectId,
     storeOntologiesToStorage
 } from '../../Services/OatUtils';
-import { createGUID, deepCopy } from '../../Services/Utils';
+import {
+    createGUID,
+    deepCopy,
+    sortCaseInsensitive
+} from '../../Services/Utils';
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 
@@ -292,8 +296,11 @@ export const addTargetedRelationship = (
                 ? getNewComponent(modelName, targetModelId)
                 : getNewRelationship(modelName, targetModelId);
         sourceModel.contents = [...sourceModel.contents, newModel];
-    } else {
+    } else if (relationshipType === 'Extend') {
         // extends
+        const existing = new Set(sourceModel.extends);
+        existing.add(targetModelId);
+        sourceModel.extends = Array.from(existing).sort(sortCaseInsensitive());
     }
     logDebugConsole(
         'debug',

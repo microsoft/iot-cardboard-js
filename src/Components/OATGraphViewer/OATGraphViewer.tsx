@@ -52,11 +52,7 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    IOATNodePosition
-} from '../../Models/Constants';
+import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -105,7 +101,6 @@ const getClassNames = classNamesFunction<
 
 const nodeWidth = 300;
 const nodeHeight = 100;
-const maxInheritanceQuantity = 2;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
 
@@ -432,13 +427,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             }
 
             if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {
-                // const relationship = {
-                //     '@type': OAT_RELATIONSHIP_HANDLE_NAME,
-                //     name: null,
-                //     target: target
-                // };
-                // console.log('***Creating relationship', relationship);
-                // addTargetedRelationship(source, relationship, elementsCopy);
                 oatPageDispatch({
                     type: OatPageContextActionType.ADD_RELATIONSHIP,
                     payload: {
@@ -459,15 +447,14 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     }
                 });
             } else if (currentHandleIdRef.current === OAT_EXTEND_HANDLE_NAME) {
-                const existing = elementsCopy.filter(
-                    (e) =>
-                        e.type === OAT_EXTEND_HANDLE_NAME && e.source === source
-                );
-                if (existing.length > maxInheritanceQuantity) {
-                    triggerInheritanceLimitError();
-                } else {
-                    addExtendsRelationship(source, target, elementsCopy);
-                }
+                oatPageDispatch({
+                    type: OatPageContextActionType.ADD_RELATIONSHIP,
+                    payload: {
+                        relationshipType: 'Extend',
+                        sourceModelId: source,
+                        targetModelId: target
+                    }
+                });
             } else if (
                 currentHandleIdRef.current === OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
@@ -483,8 +470,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     elementsCopy
                 );
             }
-
-            // setElements(elementsCopy);
         };
 
         const undoAddition = () => {
@@ -523,122 +508,108 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         [oatPageDispatch]
     );
 
-    const triggerInheritanceLimitError = () => {
-        logDebugConsole(
-            'debug',
-            '[triggerInheritanceLimitError] Throwing error'
-        );
-        oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_ERROR,
-            payload: {
-                title: t('OATGraphViewer.errorReachedInheritanceLimit'),
-                message: t('OATGraphViewer.errorInheritance')
-            }
-        });
-    };
-
     /** recreate the models anytime elements change. These then get stored back to the context */
-    const modelsFromCurrentNodes = useMemo(() => {
-        logDebugConsole(
-            'debug',
-            '[START] get models from current graph. {nodes}',
-            elements
-        );
-        // Creates the json object in the DTDL standard based on the content of the nodes
-        const nodes: DtdlInterface[] = elements.reduce(
-            (
-                models: DtdlInterface[],
-                currentNode: IOatElementNode & { data: { name: string } }
-            ) => {
-                if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
-                    models.push(currentNode.data);
-                } else if (
-                    currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
-                ) {
-                    const sourceNode = models.find(
-                        (element) => element['@id'] === currentNode.source
-                    );
-                    if (
-                        sourceNode &&
-                        sourceNode.contents.every(
-                            (element) => element.target !== currentNode.target
-                        )
-                    ) {
-                        if (sourceNode.contents) {
-                            sourceNode.contents.push(currentNode.data);
-                        } else {
-                            sourceNode.contents = [currentNode.data];
-                        }
-                    }
-                } else if (
-                    currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
-                ) {
-                    const sourceNode = models.find(
-                        (element) => element['@id'] === currentNode.source
-                    );
-                    if (sourceNode) {
-                        sourceNode.extends = ensureIsArray(sourceNode.extends);
-                        if (!sourceNode.extends.includes(currentNode.target)) {
-                            sourceNode.extends.push(currentNode.target);
-                        }
-                    }
-                } else if (
-                    currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
-                ) {
-                    const sourceNode = models.find(
-                        (element) => element['@id'] === currentNode.source
-                    );
-                    const targetNode = elements.find(
-                        (element) => element.id === currentNode.target
-                    );
-                    if (
-                        sourceNode &&
-                        targetNode &&
-                        sourceNode.contents.every(
-                            (element) => element.name !== currentNode.data.name
-                        )
-                    ) {
-                        if (sourceNode.contents) {
-                            sourceNode.contents.push(currentNode.data);
-                        } else {
-                            sourceNode.contents = [currentNode.data];
-                        }
-                    }
-                } else if (
-                    currentNode.data['@type'] ===
-                    OAT_UNTARGETED_RELATIONSHIP_NAME
-                ) {
-                    const sourceNode = models.find(
-                        (element) => element['@id'] === currentNode.source
-                    );
-                    if (
-                        sourceNode &&
-                        sourceNode.contents.every(
-                            (element) => element.name !== currentNode.data.name
-                        )
-                    ) {
-                        const data: DtdlInterfaceContent = {
-                            ...currentNode.data,
-                            '@type': OAT_RELATIONSHIP_HANDLE_NAME
-                        };
-                        if (sourceNode.contents) {
-                            sourceNode.contents.push(data);
-                        } else {
-                            sourceNode.contents = [data];
-                        }
-                    }
-                }
-                return models;
-            },
-            []
-        );
-        logDebugConsole(
-            'debug',
-            '[END] get models from current graph. {models}',
-            nodes
-        );
-        return nodes;
-    }, [elements]);
+    // const modelsFromCurrentNodes = useMemo(() => {
+    //     logDebugConsole(
+    //         'debug',
+    //         '[START] get models from current graph. {nodes}',
+    //         elements
+    //     );
+    //     // Creates the json object in the DTDL standard based on the content of the nodes
+    //     const nodes: DtdlInterface[] = elements.reduce(
+    //         (
+    //             models: DtdlInterface[],
+    //             currentNode: IOatElementNode & { data: { name: string } }
+    //         ) => {
+    //             if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
+    //                 models.push(currentNode.data);
+    //             } else if (
+    //                 currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
+    //             ) {
+    //                 const sourceNode = models.find(
+    //                     (element) => element['@id'] === currentNode.source
+    //                 );
+    //                 if (
+    //                     sourceNode &&
+    //                     sourceNode.contents.every(
+    //                         (element) => element.target !== currentNode.target
+    //                     )
+    //                 ) {
+    //                     if (sourceNode.contents) {
+    //                         sourceNode.contents.push(currentNode.data);
+    //                     } else {
+    //                         sourceNode.contents = [currentNode.data];
+    //                     }
+    //                 }
+    //             } else if (
+    //                 currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
+    //             ) {
+    //                 const sourceNode = models.find(
+    //                     (element) => element['@id'] === currentNode.source
+    //                 );
+    //                 if (sourceNode) {
+    //                     sourceNode.extends = ensureIsArray(sourceNode.extends);
+    //                     if (!sourceNode.extends.includes(currentNode.target)) {
+    //                         sourceNode.extends.push(currentNode.target);
+    //                     }
+    //                 }
+    //             } else if (
+    //                 currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
+    //             ) {
+    //                 const sourceNode = models.find(
+    //                     (element) => element['@id'] === currentNode.source
+    //                 );
+    //                 const targetNode = elements.find(
+    //                     (element) => element.id === currentNode.target
+    //                 );
+    //                 if (
+    //                     sourceNode &&
+    //                     targetNode &&
+    //                     sourceNode.contents.every(
+    //                         (element) => element.name !== currentNode.data.name
+    //                     )
+    //                 ) {
+    //                     if (sourceNode.contents) {
+    //                         sourceNode.contents.push(currentNode.data);
+    //                     } else {
+    //                         sourceNode.contents = [currentNode.data];
+    //                     }
+    //                 }
+    //             } else if (
+    //                 currentNode.data['@type'] ===
+    //                 OAT_UNTARGETED_RELATIONSHIP_NAME
+    //             ) {
+    //                 const sourceNode = models.find(
+    //                     (element) => element['@id'] === currentNode.source
+    //                 );
+    //                 if (
+    //                     sourceNode &&
+    //                     sourceNode.contents.every(
+    //                         (element) => element.name !== currentNode.data.name
+    //                     )
+    //                 ) {
+    //                     const data: DtdlInterfaceContent = {
+    //                         ...currentNode.data,
+    //                         '@type': OAT_RELATIONSHIP_HANDLE_NAME
+    //                     };
+    //                     if (sourceNode.contents) {
+    //                         sourceNode.contents.push(data);
+    //                     } else {
+    //                         sourceNode.contents = [data];
+    //                     }
+    //                 }
+    //             }
+    //             return models;
+    //         },
+    //         []
+    //     );
+    //     logDebugConsole(
+    //         'debug',
+    //         '[END] get models from current graph. {models}',
+    //         nodes
+    //     );
+    //     return nodes;
+    // }, [elements]);
 
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
@@ -647,16 +618,14 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         if (!oatPageState.modified) {
             // Checks if a node is selected to display it in the property editor
             if (
-                modelsFromCurrentNodes &&
-                (!oatPageState.selection ||
-                    (node.type === OAT_INTERFACE_TYPE &&
-                        (node.data['@id'] !== oatPageState.selection.modelId ||
-                            oatPageState.selection.contentId)) ||
-                    (node.type !== OAT_INTERFACE_TYPE &&
-                        ((node as Edge<any>).source !==
-                            oatPageState.selection.modelId ||
-                            node.data.name !==
-                                oatPageState.selection.contentId))) // Prevent re-execute the same node
+                !oatPageState.selection ||
+                (node.type === OAT_INTERFACE_TYPE &&
+                    (node.data['@id'] !== oatPageState.selection.modelId ||
+                        oatPageState.selection.contentId)) ||
+                (node.type !== OAT_INTERFACE_TYPE &&
+                    ((node as Edge<any>).source !==
+                        oatPageState.selection.modelId ||
+                        node.data.name !== oatPageState.selection.contentId)) // Prevent re-execute the same node
             ) {
                 logDebugConsole('info', 'Element selected', node);
                 const onClick = () => {
