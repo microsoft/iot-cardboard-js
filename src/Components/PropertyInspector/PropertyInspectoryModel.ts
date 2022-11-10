@@ -44,14 +44,17 @@ abstract class PropertyInspectorModel {
                 dtdlPropertyTypesEnum.long
             ].includes(schema)
         ) {
-            return typeof propertySourceObject?.[propertyName] === 'number'
-                ? String(propertySourceObject[propertyName])
-                : PropertyInspectorModel.getEmptyValueForNode(schema);
+            const result =
+                typeof propertySourceObject?.[propertyName] === 'number'
+                    ? String(propertySourceObject[propertyName])
+                    : PropertyInspectorModel.getEmptyValueForNode(schema);
+
+            return result;
         } else {
-            return (
-                (propertySourceObject && propertySourceObject[propertyName]) ??
-                PropertyInspectorModel.getEmptyValueForNode(schema)
-            );
+            const result =
+                propertySourceObject?.[propertyName] ??
+                PropertyInspectorModel.getEmptyValueForNode(schema);
+            return result;
         }
     };
 
@@ -206,49 +209,40 @@ abstract class PropertyInspectorModel {
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Object,
                         children:
-                            modelProperty.schema?.fields
-                                ?.filter(
-                                    (field) =>
-                                        field?.['@type'] === 'Property' ||
-                                        (Array.isArray(field?.['@type']) &&
-                                            field?.['@type'].indexOf(
-                                                'Property'
-                                            ) > -1)
-                                )
-                                .map((field) =>
-                                    PropertyInspectorModel.parsePropertyIntoNode(
-                                        {
-                                            modelProperty: field,
-                                            propertySourceObject: mapInfo
-                                                ? propertySourceObject?.[
-                                                      mapInfo.key
-                                                  ] ?? isArrayItem
-                                                    ? propertySourceObject
-                                                    : {}
-                                                : propertySourceObject?.[
-                                                      modelProperty.name
-                                                  ] ?? isArrayItem
+                            modelProperty.schema?.fields?.map((field) => {
+                                const inlinepropertySourceObject = mapInfo
+                                    ? propertySourceObject?.[mapInfo.key]
+                                    : propertySourceObject?.[
+                                          modelProperty.name
+                                      ];
+                                const result = PropertyInspectorModel.parsePropertyIntoNode(
+                                    {
+                                        modelProperty: field,
+                                        propertySourceObject:
+                                            inlinepropertySourceObject ??
+                                            (isArrayItem
                                                 ? propertySourceObject
-                                                : {},
-                                            isInherited,
-                                            path: mapInfo
-                                                ? PropertyInspectorModel.buildPath(
-                                                      path,
-                                                      mapInfo.key
-                                                  )
-                                                : PropertyInspectorModel.buildPath(
-                                                      path,
-                                                      modelProperty.name ||
-                                                          field.name,
-                                                      modelProperty.index
-                                                  ),
-                                            isObjectChild: true,
-                                            isMapChild: false,
-                                            schemas,
-                                            isArrayItem: false
-                                        }
-                                    )
-                                ) ?? [],
+                                                : {}),
+                                        isInherited,
+                                        path: mapInfo
+                                            ? PropertyInspectorModel.buildPath(
+                                                  path,
+                                                  mapInfo.key
+                                              )
+                                            : PropertyInspectorModel.buildPath(
+                                                  path,
+                                                  modelProperty.name ||
+                                                      field.name,
+                                                  modelProperty.index
+                                              ),
+                                        isObjectChild: true,
+                                        isMapChild: false,
+                                        schemas,
+                                        isArrayItem: false
+                                    }
+                                );
+                                return result;
+                            }) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
                         path: mapInfo
