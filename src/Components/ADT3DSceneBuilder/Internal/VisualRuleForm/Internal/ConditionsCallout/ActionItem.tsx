@@ -9,6 +9,7 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../../../../i18n';
+import { hasBadge } from '../../../../../../Models/Services/Utils';
 import {
     defaultSwatchColors,
     defaultSwatchIcons
@@ -22,7 +23,6 @@ import {
     IActionItemStyles,
     IActionItemProps
 } from './ActionItem.types';
-import { hasBadge } from './ConditionCalloutUtility';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {

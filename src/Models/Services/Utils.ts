@@ -345,6 +345,10 @@ export function shouldShowVisual(
     }
 }
 
+export const hasBadge = (iconName?: string): boolean => {
+    return !!iconName;
+};
+
 export function buildDropdownOptionsFromStrings(
     properties: string[]
 ): IDropdownOption[] {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { hasBadge } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/Internal/ConditionsCallout/ConditionCalloutUtility';
 import { VisualType } from '../Classes/3DVConfig';
 import {
     CustomMeshItem,
@@ -18,6 +17,7 @@ import {
     deepCopy,
     getDebugLogger,
     getSceneElementStatusColor,
+    hasBadge,
     parseLinkedTwinExpression,
     shouldShowVisual
 } from '../Services/Utils';
