@@ -554,6 +554,7 @@ export const mockManyArraysTwin = {
     $dtId: 'TooManyArrays',
     $etag: 'W/"71d42ca5-dc5f-4851-b98a-ffe62af14f82"',
     productName: 'WidgetBucket',
+    booleans: [true, true, false, true, false, false],
     widgets: [
         {
             color: 'Puce',
@@ -640,13 +641,21 @@ export const mockManyArraysModels = [
                     '@type': 'Array',
                     elementSchema: 'dtmi:com:storybook:widget;1'
                 }
+            },
+            {
+                '@id': 'dtmi:com:storybook:array:booleans;1',
+                '@type': 'Property',
+                name: 'booleans',
+                schema: {
+                    '@type': 'Array',
+                    elementSchema: 'boolean'
+                }
             }
         ],
         schemas: [
             {
                 '@id': 'dtmi:com:storybook:widget;1',
                 '@type': 'Object',
-                displayName: 'Widget',
                 description: '',
                 fields: [
                     {
