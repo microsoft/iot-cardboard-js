@@ -34,7 +34,6 @@ import {
     convertModelToDtdl,
     getDirectoryPathFromDTMI,
     getFileNameFromDTMI,
-    getNextModel,
     safeJsonParse
 } from '../../Models/Services/OatUtils';
 import { getStyles } from './OATHeader.styles';
@@ -42,8 +41,7 @@ import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageCo
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import ManageOntologyModal from './internal/ManageOntologyModal/ManageOntologyModal';
 import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
-import { DtdlInterface, OAT_INTERFACE_TYPE } from '../../Models/Constants';
-import { CONTEXT_CLASS_BASE } from '../OATGraphViewer/Internal/Utils';
+import { DtdlInterface } from '../../Models/Constants';
 import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
 const debugLogging = false;
@@ -399,31 +397,10 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
     ]);
 
     const onAddModel = useCallback(() => {
-        const nextModel = getNextModel(
-            oatPageState.currentOntologyModels,
-            oatPageState.currentOntologyNamespace,
-            t('OATCommon.defaultModelNamePrefix')
-        );
-        const newModel: DtdlInterface = {
-            '@context': CONTEXT_CLASS_BASE,
-            '@id': nextModel.id,
-            '@type': OAT_INTERFACE_TYPE,
-            displayName: nextModel.name,
-            contents: []
-        };
         oatPageDispatch({
-            type: OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC,
-            payload: {
-                actionType: 'Add',
-                models: [newModel]
-            }
+            type: OatPageContextActionType.ADD_MODEL
         });
-    }, [
-        oatPageDispatch,
-        oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyNamespace,
-        t
-    ]);
+    }, [oatPageDispatch]);
 
     // Side effects
     // Set listener to undo/redo buttons on key press

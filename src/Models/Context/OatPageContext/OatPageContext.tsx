@@ -257,7 +257,7 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_MODEL: {
-                const defaultPosition: IOATNodePosition = {
+                const defaultPosition = action.payload?.position || {
                     x: DEFAULT_NODE_POSITION,
                     y: DEFAULT_NODE_POSITION
                 };

@@ -248,7 +248,7 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.ADD_MODEL;
-          payload: {
+          payload?: {
               position: IOATNodePosition;
           };
       }
