@@ -1113,9 +1113,7 @@
     "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
-    "runLayout": "실행 레이아웃",
-    "errorReachedInheritanceLimit": "상속 한도에 도달했습니다.",
-    "errorInheritance": "두 개 이상의 인터페이스에서 상속되지 않을 수 있습니다."
+    "runLayout": "실행 레이아웃"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",

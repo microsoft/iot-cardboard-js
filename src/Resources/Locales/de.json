@@ -1113,9 +1113,7 @@
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
-    "runLayout": "Layout ausführen",
-    "errorReachedInheritanceLimit": "Erreichte Erbschaftsgrenze",
-    "errorInheritance": "Kann nicht von mehr als zwei Schnittstellen erben"
+    "runLayout": "Layout ausführen"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",

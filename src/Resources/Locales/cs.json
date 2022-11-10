@@ -993,9 +993,7 @@
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
-    "errorNameLength": "Název nesmí přesáhnout 64 znaků",
-    "errorReachedInheritanceLimit": "Dosažený limit dědičnosti",
-    "errorInheritance": "Nesmí dědit z více než dvou rozhraní"
+    "errorNameLength": "Název nesmí přesáhnout 64 znaků"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",

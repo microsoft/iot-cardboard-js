@@ -1113,9 +1113,7 @@
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
-    "runLayout": "Lay-out uitvoeren",
-    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
-    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
+    "runLayout": "Lay-out uitvoeren"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

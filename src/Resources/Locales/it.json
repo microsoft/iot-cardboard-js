@@ -1113,9 +1113,7 @@
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
-    "runLayout": "Esegui layout",
-    "errorReachedInheritanceLimit": "Limite di ereditarietà raggiunto",
-    "errorInheritance": "Non può ereditare da più di due interfacce"
+    "runLayout": "Esegui layout"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
