@@ -1,4 +1,4 @@
-import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { IIconStyleProps, IIconStyles, IconButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropertyTreeContext } from '../PropertyTree';
@@ -37,42 +37,26 @@ const TreeNodeArrayItemTool: React.FC<NodeProps> = ({ node }) => {
 
     if (node.schema === 'Array') {
         const clearButton = (
-            <div
-                tabIndex={0}
-                className={'cb-property-tree-node-map-value-tool-icon'}
-                aria-label={t('propertyInspector.clearArrayIconTitle')}
+            <IconButton
+                className="cb-property-tree-node-map-value-tool-icon"
+                ariaLabel={t('propertyInspector.clearArrayIconTitle')}
                 onClick={handleClearArray}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleClearArray();
-                    }
+                iconProps={{
+                    iconName: 'Trash',
+                    styles: iconStyles
                 }}
-            >
-                <Icon
-                    title={t('propertyInspector.clearArrayIconTitle')}
-                    iconName={'Trash'}
-                    styles={iconStyles}
-                />
-            </div>
+            />
         );
         const addButton = (
-            <div
-                tabIndex={0}
+            <IconButton
                 className={'cb-property-tree-node-map-value-tool-icon'}
-                aria-label={t('propertyInspector.addArrayItemIconTitle')}
+                ariaLabel={t('propertyInspector.addArrayItemIconTitle')}
                 onClick={handleAddArrayItem}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleAddArrayItem();
-                    }
+                iconProps={{
+                    iconName: 'AddTo',
+                    styles: iconStyles
                 }}
-            >
-                <Icon
-                    title={t('propertyInspector.addArrayItemIconTitle')}
-                    iconName={'AddTo'}
-                    styles={iconStyles}
-                />
-            </div>
+            />
         );
         if (node.children?.length > 0) {
             return (
@@ -91,25 +75,15 @@ const TreeNodeArrayItemTool: React.FC<NodeProps> = ({ node }) => {
     }
     if (!node.isArrayItem) return null;
     return (
-        <>
-            <div
-                tabIndex={0}
-                className={'cb-property-tree-node-map-value-tool-icon'}
-                aria-label={t('propertyInspector.removeArrayItemIconTitle')}
-                onClick={handleRemoveArrayItem}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleRemoveArrayItem();
-                    }
-                }}
-            >
-                <Icon
-                    title={t('propertyInspector.removeArrayItemIconTitle')}
-                    iconName={'Trash'}
-                    styles={iconStyles}
-                />
-            </div>
-        </>
+        <IconButton
+            className={'cb-property-tree-node-map-value-tool-icon'}
+            ariaLabel={t('propertyInspector.removeArrayItemIconTitle')}
+            onClick={handleRemoveArrayItem}
+            iconProps={{
+                iconName: 'Trash',
+                styles: iconStyles
+            }}
+        />
     );
 };
 
