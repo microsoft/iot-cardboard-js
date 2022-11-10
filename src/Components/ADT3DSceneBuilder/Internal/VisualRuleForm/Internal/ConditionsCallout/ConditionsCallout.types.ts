@@ -7,7 +7,8 @@ import {
 } from '@fluentui/react';
 import {
     IDTDLPropertyType,
-    IValueRange
+    IValueRange,
+    ValueRangeValueType
 } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CalloutInfoType } from '../ConditionsList.types';
 
@@ -84,7 +85,7 @@ export type ConditionCalloutAction =
       }
     | {
           type: ConditionCalloutActionType.FORM_CONDITION_VALUES_SET;
-          payload: { values: unknown[] };
+          payload: { values: ValueRangeValueType[] };
       }
     | {
           type: ConditionCalloutActionType.FORM_CONDITION_COLOR_SET;
@@ -100,11 +101,11 @@ export type ConditionCalloutAction =
       }
     | {
           type: ConditionCalloutActionType.FORM_CONDITION_NUMERICAL_VALUES_SET;
-          payload: { values: unknown[] };
+          payload: { values: ValueRangeValueType[] };
       }
     | {
           type: ConditionCalloutActionType.FORM_CONDITION_SNAP_VALUE_TO_INFINITY;
-          payload: { values: unknown[] };
+          payload: { values: ValueRangeValueType[] };
       }
     | {
           type: ConditionCalloutActionType.FORM_CONDITION_SET_ARE_RANGES_VALID;
