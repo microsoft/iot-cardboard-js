@@ -86,8 +86,10 @@ abstract class PropertyInspectorModel {
         }
     };
 
-    static buildPath = (path, newRoute) => {
-        return `${path}/${newRoute}`;
+    static buildPath = (path, newRoute, index?: number) => {
+        return index === undefined
+            ? `${path}/${newRoute}`
+            : `${path}/${newRoute}[${index}]`;
     };
 
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
@@ -173,7 +175,8 @@ abstract class PropertyInspectorModel {
                     ? PropertyInspectorModel.buildPath(path, mapInfo.key)
                     : PropertyInspectorModel.buildPath(
                           path,
-                          modelProperty.name
+                          modelProperty.name,
+                          modelProperty.index
                       ),
                 parentObjectPath: isObjectChild && path,
                 isMapChild,
@@ -236,7 +239,8 @@ abstract class PropertyInspectorModel {
                                                 : PropertyInspectorModel.buildPath(
                                                       path,
                                                       modelProperty.name ||
-                                                          field.name
+                                                          field.name,
+                                                      modelProperty.index
                                                   ),
                                             isObjectChild: true,
                                             isMapChild: false,
@@ -254,7 +258,8 @@ abstract class PropertyInspectorModel {
                               )
                             : PropertyInspectorModel.buildPath(
                                   path,
-                                  modelProperty.name
+                                  modelProperty.name,
+                                  modelProperty.index
                               ),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
@@ -310,7 +315,8 @@ abstract class PropertyInspectorModel {
                               )
                             : PropertyInspectorModel.buildPath(
                                   path,
-                                  modelProperty.name
+                                  modelProperty.name,
+                                  modelProperty.index
                               ),
                         parentObjectPath: isObjectChild && path,
                         isMapChild,
@@ -354,7 +360,8 @@ abstract class PropertyInspectorModel {
                               )
                             : PropertyInspectorModel.buildPath(
                                   path,
-                                  modelProperty.name
+                                  modelProperty.name,
+                                  modelProperty.index
                               ),
                         parentObjectPath: isObjectChild && path,
                         isInherited,
@@ -383,7 +390,8 @@ abstract class PropertyInspectorModel {
                                                   .mapValue,
                                               path: PropertyInspectorModel.buildPath(
                                                   path,
-                                                  modelProperty.name
+                                                  modelProperty.name,
+                                                  modelProperty.index
                                               ),
                                               propertySourceObject: mapValue,
                                               mapInfo: { key },
@@ -413,7 +421,10 @@ abstract class PropertyInspectorModel {
                     return {
                         name: modelProperty.name,
                         displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
-                            modelProperty
+                            {
+                                name: modelProperty.name,
+                                ...modelProperty
+                            }
                         ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Array,
@@ -426,7 +437,8 @@ abstract class PropertyInspectorModel {
                               )
                             : PropertyInspectorModel.buildPath(
                                   path,
-                                  modelProperty.name
+                                  modelProperty.name,
+                                  modelProperty.index
                               ),
                         parentObjectPath: isObjectChild && path,
                         isInherited,
@@ -463,7 +475,8 @@ abstract class PropertyInspectorModel {
                                               isInherited,
                                               isObjectChild: true,
                                               modelProperty: {
-                                                  name: `${modelProperty.name}[${index}]`,
+                                                  index,
+                                                  name: `${modelProperty.name}`,
                                                   '@type':
                                                       modelProperty['@type'],
                                                   schema: itemSchema['@id'],
@@ -471,7 +484,8 @@ abstract class PropertyInspectorModel {
                                               },
                                               path: PropertyInspectorModel.buildPath(
                                                   path,
-                                                  modelProperty.name
+                                                  modelProperty.name,
+                                                  modelProperty.index
                                               ),
                                               propertySourceObject: arrayItem,
                                               isMapChild: false,
@@ -981,17 +995,19 @@ abstract class PropertyInspectorModel {
     static parsePropertyTreeDisplayName = (node: {
         name: string;
         [key: string]: any;
+        index?: number;
     }) => {
         const getStringOrNull = (valToTest) =>
             typeof valToTest === 'string' ? valToTest : null;
 
         const currentLanguage = i18n?.language;
-
-        return (
+        const unIndexedName =
             getStringOrNull(node?.displayName) ||
             getStringOrNull(node?.displayName?.[currentLanguage]) ||
-            node.name
-        );
+            node.name;
+        return node.index === undefined
+            ? unIndexedName
+            : `${unIndexedName}[${node.index}]`;
     };
 
     /** Sorts property tree nodes alphabetically based on name */
