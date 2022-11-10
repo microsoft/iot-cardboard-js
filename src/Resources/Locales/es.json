@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Menú del widget Historial de datos",
-      "openQuery": "Abrir consulta en el Explorador de datos de Azure"
+      "openQuery": "Abrir consulta en el Explorador de datos de Azure",
+      "errors": {
+        "genericNetwork": "La dirección URL del clúster no es válida o se ha producido un error de red.",
+        "genericBadRequest": "Se ha producido una excepción de solicitud incorrecta.",
+        "generalBadRequestMessage": "La solicitud no es válida y no se puede ejecutar.",
+        "entityNotFound": "No se encontró la base de datos, no se pudo ejecutar la consulta.",
+        "forbidden": "Se ha denegado el acceso, no tiene permisos de consulta."
+      }
     }
   },
   "sdkStrings": {
@@ -1317,6 +1324,8 @@
   },
   "minLower": "min",
   "maxLower": ".max",
+  "showDetails": "Mostrar detalles",
+  "hideDetails": "Ocultar detalles",
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nueva ontología",

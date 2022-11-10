@@ -1,5 +1,4 @@
 import {
-    ICalloutProps,
     IDropdownOption,
     IDropdownProps,
     IRenderFunction,
@@ -29,10 +28,6 @@ export interface IQuickTimesDropdownProps {
      * Optional custom renderer for the down caret
      */
     onRenderCaretDown?: IRenderFunction<IDropdownProps>;
-    /**
-     * Custom properties for the Callout used to render the option list.
-     */
-    calloutProps?: ICalloutProps;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

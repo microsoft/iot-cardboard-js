@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "データ履歴ウィジェットメニュー",
-      "openQuery": "Azure データ エクスプローラーでクエリを開く"
+      "openQuery": "Azure データ エクスプローラーでクエリを開く",
+      "errors": {
+        "genericNetwork": "クラスター URL が無効であるか、ネットワーク エラーが発生しました。",
+        "genericBadRequest": "不正な要求例外が発生しました。",
+        "generalBadRequestMessage": "要求は無効であり、実行できません。",
+        "entityNotFound": "データベースが見つかりません。クエリを実行できませんでした。",
+        "forbidden": "アクセスが拒否されました。クエリのアクセス許可がありません。"
+      }
     }
   },
   "sdkStrings": {
@@ -1317,6 +1324,8 @@
   },
   "minLower": "分",
   "maxLower": ".max",
+  "showDetails": "詳細を表示",
+  "hideDetails": "詳細を隠す",
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
     "defaultFileName": "新しいオントロジー",

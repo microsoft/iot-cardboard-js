@@ -123,11 +123,36 @@ export default class ADXAdapter
                 }
                 return new ADXTimeSeriesData(resultTimeSeriesData);
             } catch (err) {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: true,
-                    rawError: err
-                });
+                if (err?.request.status === 0) {
+                    adapterMethodSandbox.pushError({
+                        type: ComponentErrorType.ConnectionError,
+                        isCatastrophic: true,
+                        rawError: err
+                    });
+                } else {
+                    switch (err?.response?.status) {
+                        case 400:
+                            adapterMethodSandbox.pushError({
+                                type: ComponentErrorType.BadRequestException,
+                                isCatastrophic: true,
+                                rawError: err
+                            });
+                            break;
+                        case 403:
+                            adapterMethodSandbox.pushError({
+                                type: ComponentErrorType.UnauthorizedAccess,
+                                isCatastrophic: true,
+                                rawError: err
+                            });
+                            break;
+                        default:
+                            adapterMethodSandbox.pushError({
+                                type: ComponentErrorType.DataFetchFailed,
+                                isCatastrophic: true,
+                                rawError: err
+                            });
+                    }
+                }
                 return new ADXTimeSeriesData(null);
             }
         }, 'adx');

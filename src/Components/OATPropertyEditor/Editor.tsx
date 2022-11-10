@@ -29,7 +29,7 @@ import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
 
 const Editor: React.FC<IEditorProps> = (props) => {

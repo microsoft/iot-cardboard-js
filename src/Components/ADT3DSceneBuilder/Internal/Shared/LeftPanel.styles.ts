@@ -6,7 +6,8 @@ import {
     Theme,
     IPivotStyles,
     ISeparatorStyles,
-    IButtonStyles
+    IButtonStyles,
+    ICalloutContentStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants';
 import { leftPanelBuilderBlock } from '../../../../Resources/Styles/BaseStyles';
@@ -107,4 +108,18 @@ export const getActionButtonStyles = memoizeFunction(
             margin: 0
         }
     })
+);
+
+export const getCalloutStyles = memoizeFunction(
+    (theme: Theme) =>
+        ({
+            root: {
+                padding: '16px 20px 20px',
+                width: 300,
+                backgroundColor: theme.semanticColors.bodyBackground
+            },
+            calloutMain: {
+                backgroundColor: 'unset'
+            }
+        } as ICalloutContentStyles)
 );

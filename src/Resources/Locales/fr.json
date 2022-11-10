@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Menu du widget Historique des données",
-      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure"
+      "openQuery": "Ouvrir une requête dans l’Explorateur de données Azure",
+      "errors": {
+        "genericNetwork": "L’URL du cluster n’est pas valide ou une erreur réseau s’est produite.",
+        "genericBadRequest": "Une exception de demande incorrecte s’est produite.",
+        "generalBadRequestMessage": "La demande n’est pas valide et ne peut pas être exécutée.",
+        "entityNotFound": "Base de données introuvable, échec de l’exécution de la requête.",
+        "forbidden": "L’accès a été refusé, vous n’avez pas d’autorisations de requête."
+      }
     }
   },
   "sdkStrings": {
@@ -1317,6 +1324,8 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
+  "showDetails": "Afficher les détails",
+  "hideDetails": "Masquer les détails",
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
     "defaultFileName": "Nouvelle ontologie",

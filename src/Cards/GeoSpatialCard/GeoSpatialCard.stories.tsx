@@ -71,7 +71,7 @@ export const FailedToGetData = (
                 locale={locale}
                 adapter={
                     new MockAdapter({
-                        mockError: ComponentErrorType.DataFetchFailed
+                        mockError: { type: ComponentErrorType.DataFetchFailed }
                     })
                 }
             />

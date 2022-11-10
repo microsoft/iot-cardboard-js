@@ -52,14 +52,14 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
             return (
                 <div className={classNames.descriptionContainer}>
                     <Text styles={classNames.subComponentStyles.description}>
-                        {descriptionText}
-                    </Text>{' '}
-                    <Link
-                        styles={classNames.subComponentStyles.link}
-                        {...linkProps}
-                    >
-                        {linkText}
-                    </Link>
+                        {descriptionText}{' '}
+                        <Link
+                            styles={classNames.subComponentStyles.link}
+                            {...linkProps}
+                        >
+                            {linkText}
+                        </Link>
+                    </Text>
                 </div>
             );
         }

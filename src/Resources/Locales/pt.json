@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Menu de widget do histórico de dados",
-      "openQuery": "Consulta aberta no Azure Data Explorer"
+      "openQuery": "Consulta aberta no Azure Data Explorer",
+      "errors": {
+        "genericNetwork": "A url do cluster é inválida ou ocorreu um erro de rede.",
+        "genericBadRequest": "A exceção do pedido foi ocorrida.",
+        "generalBadRequestMessage": "A solicitação é inválida e não pode ser executada.",
+        "entityNotFound": "Banco de dados não encontrado, falhou em executar consulta.",
+        "forbidden": "O acesso foi negado, você não tem permissões de consulta."
+      }
     }
   },
   "sdkStrings": {
@@ -1317,6 +1324,8 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
+  "showDetails": "Mostrar detalhes",
+  "hideDetails": "Ocultar detalhes",
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nova ontologia",
