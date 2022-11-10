@@ -953,6 +953,7 @@
     "deleteAll": "Apagar tudo",
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
+    "files": "Ficheiros",
     "selectFile": "Selecione ficheiro",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: Modelo detém relações que não estão a ser importadas",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -962,23 +963,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    },
-    "importFolder": "Pasta de importação",
-    "importFile": "Arquivo de importação",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminar a ontologia",
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleEdit": "Edite a sua ontologia para dar estrutura ao seu gémeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre os totologias",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Insira um nome de ontologia",
-      "namespaceLabel": "Espaço de nome",
-      "namespaceDescription": "Nome do modelo exemplo: {{modelName}}",
-      "namespacePlaceholder": "Insira um espaço de nome",
-      "sampleModel": "modelo de amostra"
     }
   },
   "cameraControls": {
@@ -1321,22 +1305,6 @@
   },
   "minLower": "min",
   "maxLower": ".max",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "cópia",
-    "defaultFileName": "Nova ontologia",
-    "defaultModelNamePrefix": "Modelo"
-  },
-  "OATModelList": {
-    "searchModels": "Modelos de pesquisa",
-    "noDataMessage": "Sem modelos",
-    "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério",
-    "removeModelButtonText": "Remover modelo",
-    "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
-    "modelListToggleAriaLabelHide": "Lista de modelos de ocultação"
-  }
-=======
   "showDetails": "Mostrar detalhes",
   "hideDetails": "Ocultar detalhes"
->>>>>>> origin/main
 }

@@ -953,6 +953,7 @@
     "deleteAll": "Elimina tutto",
     "folderUpload": "Caricamento cartella",
     "fileUpload": "Caricamento file",
+    "files": "ﬁle",
     "selectFile": "Seleziona file",
     "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
@@ -962,23 +963,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Seleziona un'ontologia"
-    },
-    "importFolder": "Importa cartella",
-    "importFile": "Importa file",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminare ontologia",
-      "modalTitleCreate": "Nuova ontologia",
-      "modalTitleEdit": "Modifica ontologia",
-      "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleLinkText": "Scopri di più sulle ontologie",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Immettere un nome di ontologia",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Esempio di nome modello: {{modelName}}",
-      "namespacePlaceholder": "Immettere uno spazio dei nomi",
-      "sampleModel": "Modello di esempio"
     }
   },
   "cameraControls": {
@@ -1321,22 +1305,6 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copiare",
-    "defaultFileName": "Nuova ontologia",
-    "defaultModelNamePrefix": "Modello"
-  },
-  "OATModelList": {
-    "searchModels": "Cerca modelli",
-    "noDataMessage": "Nessun modello",
-    "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri",
-    "removeModelButtonText": "Rimuovi modello",
-    "modelListToggleAriaLabelShow": "Mostra elenco modelli",
-    "modelListToggleAriaLabelHide": "Nascondi elenco modelli"
-  }
-=======
   "showDetails": "Mostra dettagli",
   "hideDetails": "Nascondi dettagli"
->>>>>>> origin/main
 }
