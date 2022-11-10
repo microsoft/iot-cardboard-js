@@ -6,6 +6,7 @@ import {
     ADXTimeSeries,
     IADXAdapter,
     IADXConnection,
+    IComponentError,
     IDataHistoryWidgetTimeSeriesTwin
 } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
@@ -32,10 +33,12 @@ export const useTimeSeriesData = ({
     query: string;
     deeplink: string;
     data: Array<ADXTimeSeries>;
+    errors: Array<IComponentError>;
     fetchTimeSeriesData: () => void;
     isLoading: boolean;
 } => {
     const [data, setData] = useState<Array<ADXTimeSeries>>(null);
+    const [errors, setErrors] = useState<Array<IComponentError>>([]);
     const [query, setQuery] = useState('');
     const [deeplink, setDeeplink] = useState('');
     const [connectionToQuery, setConnectionToQuery] = useState<IADXConnection>(
@@ -68,7 +71,14 @@ export const useTimeSeriesData = ({
         } else {
             setData(null);
         }
-    }, [timeSeriesData?.adapterResult.result]);
+
+        if (timeSeriesData?.adapterResult.getErrors()) {
+            const errors: Array<IComponentError> = timeSeriesData?.adapterResult.getErrors();
+            setErrors(errors);
+        } else {
+            setErrors([]);
+        }
+    }, [timeSeriesData?.adapterResult]);
 
     useEffect(() => {
         if (connection) {
@@ -119,10 +129,11 @@ export const useTimeSeriesData = ({
             query,
             deeplink,
             data,
+            errors,
             fetchTimeSeriesData: fetchData,
             isLoading: timeSeriesData.isLoading
         };
-    }, [query, deeplink, data, fetchData, timeSeriesData.isLoading]);
+    }, [query, deeplink, data, errors, fetchData, timeSeriesData.isLoading]);
 };
 
 /** Constructs the bulk query based on the parsed time series twin information from data history widget

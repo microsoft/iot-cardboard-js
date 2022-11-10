@@ -223,10 +223,15 @@ export interface IMockAdapter {
     networkTimeoutMillis?: number;
 
     /** If set, MockAdapter will mock error of set type */
-    mockError?: ComponentErrorType;
+    mockError?: IMockError;
 
     /** Toggles seeding of random data (data remains constants between builds), defaults to true */
     isDataStatic?: boolean;
+}
+
+export interface IMockError {
+    type: ComponentErrorType;
+    rawError?: Error;
 }
 
 export interface IErrorInfo {

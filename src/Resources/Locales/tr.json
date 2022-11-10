@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Veri geçmişi widget menüsü",
-      "openQuery": "Azure Veri Gezgini'nde sorgu açma"
+      "openQuery": "Azure Veri Gezgini'nde sorgu açma",
+      "errors": {
+        "genericNetwork": "Küme URL'si geçersiz veya ağ hatası oluştu.",
+        "genericBadRequest": "Hatalı istek özel durumu oluştu.",
+        "generalBadRequestMessage": "İstek geçersizdir ve yürütülemez.",
+        "entityNotFound": "Veritabanı bulunamadı, sorgu yürütülemedi.",
+        "forbidden": "Erişim reddedildi, sorgu izinleriniz yok."
+      }
     }
   },
   "sdkStrings": {
@@ -1314,6 +1321,7 @@
   },
   "minLower": "min",
   "maxLower": ".max",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopya etmek",
     "defaultFileName": "Yeni ontoloji",
@@ -1327,4 +1335,8 @@
     "modelListToggleAriaLabelShow": "Model listesini göster",
     "modelListToggleAriaLabelHide": "Model listesini gizle"
   }
+=======
+  "showDetails": "Ayrıntıları göster",
+  "hideDetails": "Ayrıntıları gizle"
+>>>>>>> origin/main
 }

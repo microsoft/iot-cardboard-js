@@ -61,7 +61,7 @@ const QUICK_START_DOC = 'https://go.microsoft.com/fwlink/?linkid=2195592';
 const OVERVIEW_3D_SCENES = 'https://go.microsoft.com/fwlink/?linkid=2195695';
 const GITHUB_REPO = 'https://github.com/microsoft/iot-cardboard-js';
 const ADT_DATA_HISTORY_WITH_ADX =
-    'https://learn.microsoft.com/en-us/azure/digital-twins/concepts-data-history'; // TODO: have golink
+    'https://go.microsoft.com/fwlink/?linkid=2214431';
 export const DOCUMENTATION_LINKS = {
     overviewDoc: OVERVIEW_3D_SCENES,
     overviewDocSetupSection: `${OVERVIEW_3D_SCENES}#set-up`,

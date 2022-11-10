@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Widgetmenu gegevensgeschiedenis",
-      "openQuery": "Query openen in Azure Data Explorer"
+      "openQuery": "Query openen in Azure Data Explorer",
+      "errors": {
+        "genericNetwork": "Cluster-URL is ongeldig of er is een netwerkfout opgetreden.",
+        "genericBadRequest": "Er is een uitzondering voor een ongeldige aanvraag opgetreden.",
+        "generalBadRequestMessage": "Aanvraag is ongeldig en kan niet worden uitgevoerd.",
+        "entityNotFound": "Database niet gevonden, kan query niet uitvoeren.",
+        "forbidden": "Toegang is geweigerd, u hebt geen querymachtigingen."
+      }
     }
   },
   "sdkStrings": {
@@ -1314,6 +1321,7 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
     "defaultFileName": "Nieuwe ontologie",
@@ -1327,4 +1335,8 @@
     "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
     "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
   }
+=======
+  "showDetails": "Toon details",
+  "hideDetails": "Details verbergen"
+>>>>>>> origin/main
 }

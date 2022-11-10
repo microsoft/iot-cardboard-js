@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Widgetmenyn Datahistorik",
-      "openQuery": "Öppna frågan i Azure Data Explorer"
+      "openQuery": "Öppna frågan i Azure Data Explorer",
+      "errors": {
+        "genericNetwork": "Kluster-URL:en är ogiltig eller nätverksfel har inträffat.",
+        "genericBadRequest": "Undantag för felaktig begäran inträffade.",
+        "generalBadRequestMessage": "Begäran är ogiltig och kan inte utföras.",
+        "entityNotFound": "Databasen hittades inte, det gick inte att köra frågan.",
+        "forbidden": "Åtkomst nekades, du har inte frågebehörighet."
+      }
     }
   },
   "sdkStrings": {
@@ -1314,6 +1321,7 @@
   },
   "minLower": "min",
   "maxLower": ".max",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
@@ -1327,4 +1335,8 @@
     "modelListToggleAriaLabelShow": "Visa modelllista",
     "modelListToggleAriaLabelHide": "Dölj modelllista"
   }
+=======
+  "showDetails": "Visa detaljer",
+  "hideDetails": "Dölj detaljer"
+>>>>>>> origin/main
 }
