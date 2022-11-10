@@ -51,8 +51,7 @@ import {
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import {
     AzureResourceData,
-    AzureResourcesData,
-    AzureSubscriptionData
+    AzureResourcesData
 } from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
@@ -277,15 +276,9 @@ export interface IAzureResource {
     id: string;
     name: string;
     type: AzureResourceTypes;
-    [additionalProperty: string]: any;
     properties: Record<string, any>;
-    subscriptionName?: string; // additional property we add to keep track of the subscription name in resource information to show in the ResourcePicker dropdown
-}
-export interface IAzureSubscription
-    extends Omit<IAzureResource, 'type' | 'name' | 'properties'> {
-    subscriptionId: string;
-    tenantId: string;
-    displayName: string;
+    subscriptionName?: string;
+    [additionalProperty: string]: any;
 }
 
 export interface IAzureRoleAssignment extends IAzureResource {
@@ -540,7 +533,6 @@ export interface IADTAdapter
 }
 
 export interface IAzureManagementAdapter {
-    getSubscriptions: () => AdapterReturnType<AzureSubscriptionData>;
     getRoleAssignments: (
         resourceId: string,
         uniqueObjectId: string

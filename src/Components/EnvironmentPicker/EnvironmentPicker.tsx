@@ -618,6 +618,12 @@ const EnvironmentPicker = ({
                                                     .storageAccountInfo
                                                     .storageAccountToEdit,
                                                 defaultStorageAccountToContainersMappingsRef.current
+                                            ),
+                                            storageAccountBlobUrl: getResourceUrl(
+                                                environmentPickerState
+                                                    .storageAccountInfo
+                                                    .storageAccountToEdit,
+                                                AzureResourceTypes.StorageAccount
                                             )
                                         }
                                     }}

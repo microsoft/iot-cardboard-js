@@ -85,5 +85,6 @@ StorageContainers.args = {
     resourceType: AzureResourceTypes.StorageBlobContainer,
     requiredAccessRoles: RequiredAccessRoleGroupForStorageContainer,
     label: 'Storage blob containers',
-    displayField: AzureResourceDisplayFields.name
+    displayField: AzureResourceDisplayFields.name,
+    searchParams: { take: 500 }
 };

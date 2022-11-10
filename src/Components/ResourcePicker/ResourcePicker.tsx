@@ -113,12 +113,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     });
 
     const loadingLabelText = useMemo(() => {
-        switch (resourceType) {
-            case AzureResourceTypes.DigitalTwinInstance:
+        switch (resourceType.toLowerCase()) {
+            case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                 return t('resourcesPicker.loadingInstances');
-            case AzureResourceTypes.StorageBlobContainer:
+            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                 return t('resourcesPicker.loadingContainers');
-            case AzureResourceTypes.StorageAccount:
+            case AzureResourceTypes.StorageAccount.toLowerCase():
                 return t('resourcesPicker.loadingStorageAccounts');
             default:
                 return t('resourcesPicker.loadingResources');
@@ -128,12 +128,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
             if (displayField === AzureResourceDisplayFields.url) {
-                switch (resource.type) {
-                    case AzureResourceTypes.DigitalTwinInstance:
+                switch (resource.type.toLowerCase()) {
+                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                         return resource.properties.hostName
                             ? 'https://' + resource.properties.hostName
                             : null;
-                    case AzureResourceTypes.StorageAccount:
+                    case AzureResourceTypes.StorageAccount.toLowerCase():
                         return resource.properties.primaryEndpoints?.blob;
                     default:
                         return resource[
@@ -148,7 +148,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     );
 
     const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
-        // first sort by subscription name then by displayFieldValue within the same subscription
+        // first sort by resource group name then by displayFieldValue within the same resource group
         return r1.subscriptionName?.toLowerCase() >
             r2.subscriptionName?.toLowerCase()
             ? 1
@@ -267,14 +267,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const placeholder = () => {
         if (displayField === AzureResourceDisplayFields.url) {
-            switch (resourceType) {
-                case AzureResourceTypes.DigitalTwinInstance:
+            switch (resourceType.toLowerCase()) {
+                case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                     return t('resourcesPicker.environmentDropdownPlaceholder');
-                case AzureResourceTypes.StorageAccount:
+                case AzureResourceTypes.StorageAccount.toLowerCase():
                     return t(
                         'resourcesPicker.storageAccountDropdownPlaceholder'
                     );
-                case AzureResourceTypes.StorageBlobContainer:
+                case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                     return t('resourcesPicker.containerDropdownPlaceholder');
                 default:
                     return 'resourcesPicker.selectResourcePlaceholder';
@@ -349,16 +349,18 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     }, [selectedOption, options, displayField, resourceType]);
 
     useEffect(() => {
-        const additionalOptionsToAdd = additionalOptionsProp.filter(
-            (additionalOptionProp) =>
-                additionalOptions.findIndex((additionalOption) =>
-                    areResourceValuesEqual(
-                        additionalOption.text,
-                        additionalOptionProp,
-                        displayField
-                    )
-                ) === -1
-        );
+        const additionalOptionsToAdd =
+            additionalOptionsProp?.filter(
+                (additionalOptionProp) =>
+                    additionalOptionProp &&
+                    additionalOptions.findIndex((additionalOption) =>
+                        areResourceValuesEqual(
+                            additionalOption.text,
+                            additionalOptionProp,
+                            displayField
+                        )
+                    ) === -1
+            ) || [];
         setAdditionalOptions(
             additionalOptions.concat(
                 additionalOptionsToAdd.map((aO) => ({
@@ -393,12 +395,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             displayField === AzureResourceDisplayFields.url &&
             !isValidUrlStr(selectedOption.text, resourceType)
         ) {
-            switch (resourceType) {
-                case AzureResourceTypes.DigitalTwinInstance:
+            switch (resourceType.toLowerCase()) {
+                case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                     return t('resourcesPicker.errors.invalidEnvironmentUrl');
-                case AzureResourceTypes.StorageAccount:
+                case AzureResourceTypes.StorageAccount.toLowerCase():
                     return t('resourcesPicker.errors.invalidStorageAccountUrl');
-                case AzureResourceTypes.StorageBlobContainer:
+                case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                     return t('resourcesPicker.errors.invalidContainerUrl');
                 default:
                     return undefined;
@@ -611,14 +613,14 @@ const sanitizeOptionText = (
 const isValidUrlStr = (urlStr: string, resourceType: AzureResourceTypes) => {
     try {
         let endsWithValidSuffix = true;
-        switch (resourceType) {
-            case AzureResourceTypes.DigitalTwinInstance:
+        switch (resourceType.toLowerCase()) {
+            case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                 endsWithValidSuffix = ValidAdtHostSuffixes.some((suffix) =>
                     new URL(urlStr).hostname.endsWith(suffix)
                 );
                 break;
-            case AzureResourceTypes.StorageAccount:
-            case AzureResourceTypes.StorageBlobContainer:
+            case AzureResourceTypes.StorageAccount.toLowerCase():
+            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                 endsWithValidSuffix = ValidContainerHostSuffixes.some(
                     (suffix) => new URL(urlStr).hostname.endsWith(suffix)
                 );

@@ -15,7 +15,7 @@ export const MOCK_ADT_INSTANCE: IADTInstance = {
     },
     type: AzureResourceTypes.DigitalTwinInstance,
     location: 'westcentralus',
-    subscriptionName: 'testSubscription'
+    subscriptionName: 'testSubscriptionName'
 };
 export const MOCK_ADT_INSTANCE2: IADTInstance = {
     id:
@@ -25,8 +25,7 @@ export const MOCK_ADT_INSTANCE2: IADTInstance = {
         hostName: 'testADTInstance2.api.wcus.digitaltwins.azure.net'
     },
     type: AzureResourceTypes.DigitalTwinInstance,
-    location: 'westcentralus',
-    subscriptionName: 'testSubscription'
+    location: 'westcentralus'
 };
 export const MOCK_ADT_INSTANCE_URL =
     'https://testADTInstance.api.wcus.digitaltwins.azure.net';
@@ -40,7 +39,8 @@ export const MOCK_STORAGE_ACCOUNT: IAzureStorageAccount = {
             blob: 'https://teststorageaccount.blob.core.windows.net/'
         }
     },
-    type: AzureResourceTypes.StorageAccount
+    type: AzureResourceTypes.StorageAccount,
+    subscriptionName: 'testSubscriptionName'
 };
 export const MOCK_STORAGE_ACCOUNT2: IAzureStorageAccount = {
     id:
@@ -51,7 +51,8 @@ export const MOCK_STORAGE_ACCOUNT2: IAzureStorageAccount = {
             blob: 'https://teststorageaccount2.blob.core.windows.net/'
         }
     },
-    type: AzureResourceTypes.StorageAccount
+    type: AzureResourceTypes.StorageAccount,
+    subscriptionName: 'testSubscriptionName'
 };
 export const MOCK_STORAGE_ACCOUNT_URL =
     'https://teststorageaccount.blob.core.windows.net/';
@@ -64,7 +65,7 @@ export const MOCK_STORAGE_CONTAINER: IAzureStorageBlobContainer = {
     name: 'teststoragecontainer',
     properties: {},
     type: AzureResourceTypes.StorageBlobContainer,
-    subscriptionName: 'testSubscription'
+    subscriptionName: 'testSubscriptionName'
 };
 export const MOCK_STORAGE_CONTAINER2: IAzureStorageBlobContainer = {
     id:
@@ -72,7 +73,7 @@ export const MOCK_STORAGE_CONTAINER2: IAzureStorageBlobContainer = {
     name: 'teststoragecontainer2',
     properties: {},
     type: AzureResourceTypes.StorageBlobContainer,
-    subscriptionName: 'testSubscription'
+    subscriptionName: 'testSubscriptionName'
 };
 export const MOCK_STORAGE_CONTAINER_NAME = 'teststoragecontainer';
 export const MOCK_STORAGE_CONTAINER_NAME2 = 'teststoragecontainer2';

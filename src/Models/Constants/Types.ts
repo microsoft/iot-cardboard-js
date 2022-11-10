@@ -232,7 +232,6 @@ export type AdapterMethodParamsForGetAzureResources = {
     searchParams?: AzureResourceSearchParams;
     resourceProviderEndpoint?: string;
     userData?: {
-        tenantId: string;
         uniqueObjectId: string;
     };
 };
@@ -240,16 +239,48 @@ export type AdapterMethodParamsForGetAzureResources = {
 /** AzureResourceSearchParams is used for handling get resources requests in resource picker component.
  * @param take the number of resources to return to limit the number of following requests to check the permission against, but drawback of this approach is that the taken bucket of resources may not be the ones that user has required permissions
  * @param filter used to filter resources based on AzureResourceDisplayFields
- * @param additionalParams is for resource specific params (e.g storageAccountId for fetching StorageBlobContainer resource type) to limit the number of requests for performance
+ * @param additionalParams is for resource specific params (e.g storageAccountId or storageAccountBlobUrl for fetching StorageBlobContainer resource type via storage accounts) to limit the number of requests for performance
  */
 export type AzureResourceSearchParams = {
     take?: number;
     filter?: string;
     additionalParams?: {
         storageAccountId?: string;
+        storageAccountBlobUrl?: string;
         [key: string]: any;
     };
 };
+
+/** AzureResourceFetchParamsForResourceGraph consists of parameters used during fetching Azure resources via resource graphs REST API.
+ * @param type used to set where clause in resource graphy query payload
+ * @param skipToken continuation token for pagination in resource graph calls
+ * @param limit used in the query payload to set the number of data return in resource graph call
+ * @param query partial where clauses to add to the query payload for Resources table
+ *  */
+export type AzureResourceFetchParamsForResourceGraph = {
+    type: AzureResourceTypes;
+    skipToken?: string;
+    limit?: number;
+    query?: string;
+};
+
+/** AzureResourceFetchParamsForResourceProvider consists of parameters used during fetching Azure resources via resource provider service.
+ * @param url resource provider endpoint
+ * @param apiVersion api version to be used in request
+ * @param filter string is used in request parameter
+ * @param nextLink a full url which includes all the parameters necessary for the next page call if there is pagination in response
+ */
+export type AzureResourceFetchParamsForResourceProvider = {
+    url: string;
+    apiVersion: string;
+    filter?: string;
+    nextLink?: string;
+};
+
+/** AzureResourceFetchParams consists of parameters used during fetching Azure resources via resource graphs api or resource provider services. */
+export type AzureResourceFetchParams =
+    | AzureResourceFetchParamsForResourceGraph
+    | AzureResourceFetchParamsForResourceProvider;
 
 /** Used to identify an ADT instance by its id
  * @param id the resource id of the ADT instance

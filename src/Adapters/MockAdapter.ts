@@ -42,7 +42,6 @@ import {
     BlobStorageServiceCorsAllowedOrigins,
     BlobStorageServiceCorsAllowedMethods,
     BlobStorageServiceCorsAllowedHeaders,
-    IAzureSubscription,
     AzureResourceDisplayFields,
     AdapterMethodParamsForGetAzureResources,
     RequiredAccessRoleGroupForStorageContainer,
@@ -62,7 +61,6 @@ import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
-import mockSubscriptionData from './__mockData__/MockAdapterData/MockSubscriptionData.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import {
@@ -84,7 +82,6 @@ import {
     ITwinToObjectMapping
 } from '../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { DatasourceType, ElementType } from '../Models/Classes/3DVConfig';
-import { AzureSubscriptionData } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import { ADTAdapterPatchData } from '../Models/Classes/AdapterDataClasses/ADTAdapterData';
 import ExpandedADTModelData from '../Models/Classes/AdapterDataClasses/ExpandedADTModelData';
 import { applyPatch, Operation } from 'fast-json-patch';
@@ -775,23 +772,6 @@ export default class MockAdapter
         return this.mockADXConnectionInformation;
     };
 
-    async getSubscriptions() {
-        const mockSubscriptions: Array<IAzureSubscription> = mockSubscriptionData;
-        try {
-            await this.mockNetwork();
-
-            return new AdapterResult({
-                result: new AzureSubscriptionData(mockSubscriptions),
-                errorInfo: null
-            });
-        } catch (err) {
-            return new AdapterResult<AzureSubscriptionData>({
-                result: null,
-                errorInfo: { catastrophicError: err, errors: [err] }
-            });
-        }
-    }
-
     async getResources({
         resourceType
     }: AdapterMethodParamsForGetAzureResources) {
@@ -801,6 +781,7 @@ export default class MockAdapter
                 id:
                     '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container123',
                 type: AzureResourceTypes.StorageBlobContainer,
+                subscriptionName: 'subscription123',
                 properties: {
                     publicAccess: 'Container'
                 }
@@ -812,6 +793,7 @@ export default class MockAdapter
                 id:
                     '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123',
                 type: AzureResourceTypes.StorageAccount,
+                subscriptionName: 'subscription123',
                 properties: {
                     primaryEndpoints: {
                         blob: 'https://storageAccount123.blob.core.windows.net/'
@@ -825,6 +807,7 @@ export default class MockAdapter
                 id:
                     '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
                 type: AzureResourceTypes.DigitalTwinInstance,
+                subscriptionName: 'subscription123',
                 location: 'westus2',
                 properties: {
                     hostName:

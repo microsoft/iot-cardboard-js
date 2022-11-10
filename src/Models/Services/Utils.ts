@@ -628,11 +628,13 @@ export const getResourceUrl = (
         if (typeof resource === 'string') {
             // it means the option is manually entered using freeform
             if (resourceType) {
-                switch (resourceType) {
-                    case AzureResourceTypes.DigitalTwinInstance:
-                    case AzureResourceTypes.StorageAccount:
-                        return resource;
-                    case AzureResourceTypes.StorageBlobContainer: {
+                switch (resourceType.toLowerCase()) {
+                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                    case AzureResourceTypes.StorageAccount.toLowerCase():
+                        return resource.endsWith('/')
+                            ? resource
+                            : resource + '/';
+                    case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
                         const storageAccountEndpointUrl = getResourceUrl(
                             parentResource,
                             AzureResourceTypes.StorageAccount
@@ -655,14 +657,14 @@ export const getResourceUrl = (
             }
         } else {
             const resourceType = resource.type;
-            switch (resourceType) {
-                case AzureResourceTypes.DigitalTwinInstance:
+            switch (resourceType.toLowerCase()) {
+                case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                     return resource.properties?.hostName
-                        ? 'https://' + resource.properties.hostName
+                        ? 'https://' + resource.properties.hostName + '/'
                         : null;
-                case AzureResourceTypes.StorageAccount:
+                case AzureResourceTypes.StorageAccount.toLowerCase():
                     return resource.properties?.primaryEndpoints?.blob;
-                case AzureResourceTypes.StorageBlobContainer: {
+                case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
                     const storageAccountEndpointUrl = getResourceUrl(
                         parentResource,
                         AzureResourceTypes.StorageAccount
