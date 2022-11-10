@@ -415,31 +415,23 @@ abstract class PropertyInspectorModel {
                     return {
                         name: modelProperty.name,
                         displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
-                            {
-                                name: modelProperty.name,
-                                ...modelProperty
-                            }
+                            modelProperty
                         ),
                         role: NodeRole.parent,
                         schema: dtdlPropertyTypesEnum.Array,
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: mapInfo
-                            ? PropertyInspectorModel.buildPath(
-                                  path,
-                                  mapInfo.key
-                              )
-                            : PropertyInspectorModel.buildPath(
-                                  path,
-                                  modelProperty.name,
-                                  modelProperty.index
-                              ),
+                        path: PropertyInspectorModel.buildPath(
+                            path,
+                            modelProperty.name,
+                            modelProperty.index
+                        ),
                         parentObjectPath: isObjectChild && path,
                         isInherited,
                         isMapChild,
                         isArrayItem,
                         childSchema: modelProperty.schema.elementSchema,
-                        isRemovable: !(isMapChild || isArrayItem),
+                        isRemovable: !isArrayItem,
                         value: undefined,
                         isSet:
                             (propertySourceObject !== undefined &&

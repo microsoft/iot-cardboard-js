@@ -36,6 +36,7 @@ const TreeNodeArrayItemTool: React.FC<NodeProps> = ({ node }) => {
     }
 
     if (node.schema === 'Array') {
+        /* Add/Clear/Unset the array root */
         const clearButton = (
             <IconButton
                 className="cb-property-tree-node-map-value-tool-icon"
@@ -73,18 +74,20 @@ const TreeNodeArrayItemTool: React.FC<NodeProps> = ({ node }) => {
             </>
         );
     }
-    if (!node.isArrayItem) return null;
-    return (
-        <IconButton
-            className={'cb-property-tree-node-map-value-tool-icon'}
-            ariaLabel={t('propertyInspector.removeArrayItemIconTitle')}
-            onClick={handleRemoveArrayItem}
-            iconProps={{
-                iconName: 'Trash',
-                styles: iconStyles
-            }}
-        />
-    );
+    if (node.isArrayItem) {
+        /* remove individual array item */
+        return (
+            <IconButton
+                className={'cb-property-tree-node-map-value-tool-icon'}
+                ariaLabel={t('propertyInspector.removeArrayItemIconTitle')}
+                onClick={handleRemoveArrayItem}
+                iconProps={{
+                    iconName: 'Trash',
+                    styles: iconStyles
+                }}
+            />
+        );
+    }
 };
 
 export default TreeNodeArrayItemTool;

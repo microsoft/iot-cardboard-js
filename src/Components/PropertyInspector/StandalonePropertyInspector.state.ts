@@ -350,7 +350,7 @@ const StandalonePropertyInspectorReducer = produce(
 
                 arrayTreeNode.children.splice(0, arrayTreeNode.children.length);
 
-                // Remove all edit status flags for map children
+                // Remove all array items (and children) that have been flagged as edited when clearing the array root
                 Object.keys(draft.editStatus).forEach((key) => {
                     if (key.startsWith(arrayTreeNode.path)) {
                         delete draft.editStatus[key];

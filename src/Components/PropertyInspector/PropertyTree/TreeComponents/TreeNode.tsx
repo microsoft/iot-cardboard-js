@@ -25,12 +25,11 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 )}
                 <TreeNodeMapTool node={node} />
-                <TreeNodeArrayItemTool node={node} />
-                {
-                    node.schema !== 'Array' && (
-                        <TreeNodeSetUnset node={node} />
-                    ) /*putting the unset control within the array tooling */
-                }
+                {node.schema === 'Array' || node.isArrayItem ? (
+                    <TreeNodeArrayItemTool node={node} />
+                ) : (
+                    <TreeNodeSetUnset node={node} />
+                )}
             </div>
             {!node.isCollapsed && node.children && node.children.length > 0 && (
                 <Tree data={node.children} isChildTree={true} />

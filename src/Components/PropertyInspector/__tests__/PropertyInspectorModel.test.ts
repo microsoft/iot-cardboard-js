@@ -146,12 +146,12 @@ describe('Property nodes are parsed correctly', () => {
         expect(node.role).toBe(NodeRole.parent);
         expect(node.children).toHaveLength(3);
 
-        const mapValue = node?.children?.[0];
-        expect(mapValue.path).toBe('/testArray/testArray[0]');
+        const arrayValue = node?.children?.[0];
+        expect(arrayValue.path).toBe('/testArray/testArray[0]');
 
-        const mapValueChild = mapValue?.children?.[2];
-        expect(mapValueChild.path).toBe('/testArray/testArray[2]');
-        expect(mapValueChild.value).toBe('ghi');
+        const arrayValueChild = node?.children?.[2];
+        expect(arrayValueChild.path).toBe('/testArray/testArray[2]');
+        expect(arrayValueChild.value).toBe('ghi');
     });
 });
 
