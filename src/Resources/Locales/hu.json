@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Adatelőzmények widget menü",
-      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer"
+      "openQuery": "Lekérdezés megnyitása a Azure Data Explorer",
+      "errors": {
+        "genericNetwork": "A fürt URL-címe érvénytelen, vagy hálózati hiba történt.",
+        "genericBadRequest": "Hibás kérelem kivétel történt.",
+        "generalBadRequestMessage": "A kérelem érvénytelen, és nem hajtható végre.",
+        "entityNotFound": "Az adatbázis nem található, nem sikerült végrehajtani a lekérdezést.",
+        "forbidden": "A hozzáférés megtagadva lett, nincs lekérdezési engedélye."
+      }
     }
   },
   "sdkStrings": {
@@ -1319,6 +1326,8 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
+  "showDetails": "Mutasd a részleteket",
+  "hideDetails": "Részletek elrejtése",
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",
     "defaultFileName": "Új ontológia",

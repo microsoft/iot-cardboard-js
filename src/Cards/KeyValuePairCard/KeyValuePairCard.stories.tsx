@@ -47,7 +47,7 @@ export const MockError = (
             properties={properties}
             adapter={
                 new MockAdapter({
-                    mockError: ComponentErrorType.TokenRetrievalFailed
+                    mockError: { type: ComponentErrorType.TokenRetrievalFailed }
                 })
             }
         />

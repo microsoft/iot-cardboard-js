@@ -669,7 +669,14 @@
         }
       },
       "headerMenu": "Menu widżetu Historia danych",
-      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer"
+      "openQuery": "Otwieranie zapytania w usłudze Azure Data Explorer",
+      "errors": {
+        "genericNetwork": "Adres URL klastra jest nieprawidłowy lub wystąpił błąd sieci.",
+        "genericBadRequest": "Wystąpił wyjątek nieprawidłowego żądania.",
+        "generalBadRequestMessage": "Żądanie jest nieprawidłowe i nie można go wykonać.",
+        "entityNotFound": "Nie znaleziono bazy danych, nie można wykonać zapytania.",
+        "forbidden": "Odmowa dostępu, nie masz uprawnień do wykonywania zapytań."
+      }
     }
   },
   "sdkStrings": {
@@ -1319,6 +1326,8 @@
   },
   "minLower": "Min",
   "maxLower": ".max",
+  "showDetails": "Pokaż szczegóły",
+  "hideDetails": "Ukryj szczegóły",
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",

@@ -108,7 +108,8 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
             totalCount: 0,
             gaugeCount: 0,
             linkCount: 0,
-            propertyCount: 0
+            propertyCount: 0,
+            dataHistoryCount: 0
         }
     };
     visuals.forEach((visual) => {
@@ -125,6 +126,9 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
                         break;
                     case 'Value':
                         visualStats.widgets.propertyCount += 1;
+                        break;
+                    case 'Data history':
+                        visualStats.widgets.dataHistoryCount += 1;
                         break;
                 }
             });
@@ -153,6 +157,8 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
                     visualStats.widgets.linkCount,
                 [event.properties.countWidgetPropertyType]:
                     visualStats.widgets.propertyCount,
+                [event.properties.countWidgetDataHistoryType]:
+                    visualStats.widgets.dataHistoryCount,
                 [event.properties.countWidgets]: visualStats.widgets.totalCount,
                 [event.properties.parentSceneHash]: sceneHash
             },
