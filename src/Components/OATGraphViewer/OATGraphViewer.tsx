@@ -31,7 +31,8 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
-    OAT_COMPONENT_HANDLE_NAME
+    OAT_COMPONENT_HANDLE_NAME,
+    OatRelationshipType
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -60,7 +61,6 @@ import {
     addModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
-    CONTEXT_CLASS_BASE,
     DEFAULT_NODE_POSITION,
     deleteModelFromGraph,
     getSelectionFromNode,
@@ -75,7 +75,7 @@ import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
-import { ensureIsArray, getNextModel } from '../../Models/Services/OatUtils';
+import { ensureIsArray } from '../../Models/Services/OatUtils';
 import GraphLegend from './Internal/GraphLegend/GraphLegend';
 import {
     OatGraphContextProvider,
@@ -103,6 +103,11 @@ const nodeWidth = 300;
 const nodeHeight = 100;
 const newNodeLeft = 20;
 const newNodeOffset = 10;
+const typeMapping = new Map<string, OatRelationshipType>([
+    [OAT_COMPONENT_HANDLE_NAME, DTDLType.Component],
+    [OAT_RELATIONSHIP_HANDLE_NAME, DTDLType.Relationship],
+    [OAT_EXTEND_HANDLE_NAME, 'Extend']
+]);
 
 const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     const { styles } = props;
@@ -376,95 +381,68 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     const onConnectStop = (evt: GraphViewerConnectionEvent) => {
         const elementsCopy = deepCopy(elements);
-        const source = currentNodeIdRef.current;
+        const sourceModelId = currentNodeIdRef.current;
         logDebugConsole(
             'debug',
             '[END] Connection stopped. {event, elements, source}',
             evt,
             elementsCopy,
-            source
+            sourceModelId
         );
 
-        let target = (evt.path || []).find(
+        let targetModelId = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
         );
-        let targetModel = null;
-        if (target) {
-            target = target.dataset.id;
-            targetModel = elementsCopy.find((element) => element.id === target);
+        // let targetModel = null;
+        if (targetModelId) {
+            targetModelId = targetModelId.dataset.id;
+            // targetModel = elementsCopy.find(
+            //     (element) => element.id === targetModelId
+            // );
         }
 
         const addition = () => {
+            const type = typeMapping.get(currentHandleIdRef.current);
             if (
-                !target &&
-                currentHandleIdRef.current !== OAT_UNTARGETED_RELATIONSHIP_NAME
+                type === DTDLType.Component ||
+                type === DTDLType.Relationship ||
+                type === 'Extend'
             ) {
-                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
-                const position = rfInstance.project({
-                    x: evt.clientX - reactFlowBounds.left,
-                    y: evt.clientY - reactFlowBounds.top
-                });
-                const newModelInfo = getNextModel(
-                    oatPageState.currentOntologyModels,
-                    oatPageState.currentOntologyNamespace,
-                    t('OATCommon.defaultModelNamePrefix')
-                );
-                const newModel: DtdlInterface = {
-                    '@id': newModelInfo.id,
-                    '@context': CONTEXT_CLASS_BASE,
-                    '@type': OAT_INTERFACE_TYPE,
-                    displayName: newModelInfo.name,
-                    contents: []
-                };
-                targetModel = addModelToGraph(newModel, position, elementsCopy);
-                target = targetModel.id;
-                logDebugConsole(
-                    'debug',
-                    'No target node found. Creating new node. {model, allElements}',
-                    newModel,
-                    elementsCopy
-                );
-            }
-
-            if (currentHandleIdRef.current === OAT_RELATIONSHIP_HANDLE_NAME) {
-                oatPageDispatch({
-                    type: OatPageContextActionType.ADD_RELATIONSHIP,
-                    payload: {
-                        relationshipType: DTDLType.Relationship,
-                        sourceModelId: source,
-                        targetModelId: target
-                    }
-                });
-            } else if (
-                currentHandleIdRef.current === OAT_COMPONENT_HANDLE_NAME
-            ) {
-                oatPageDispatch({
-                    type: OatPageContextActionType.ADD_RELATIONSHIP,
-                    payload: {
-                        relationshipType: DTDLType.Component,
-                        sourceModelId: source,
-                        targetModelId: target
-                    }
-                });
-            } else if (currentHandleIdRef.current === OAT_EXTEND_HANDLE_NAME) {
-                oatPageDispatch({
-                    type: OatPageContextActionType.ADD_RELATIONSHIP,
-                    payload: {
-                        relationshipType: 'Extend',
-                        sourceModelId: source,
-                        targetModelId: target
-                    }
-                });
+                if (targetModelId) {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.ADD_RELATIONSHIP,
+                        payload: {
+                            relationshipType: type,
+                            sourceModelId: sourceModelId,
+                            targetModelId: targetModelId
+                        }
+                    });
+                } else {
+                    const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                    const position = rfInstance.project({
+                        x: evt.clientX - reactFlowBounds.left,
+                        y: evt.clientY - reactFlowBounds.top
+                    });
+                    oatPageDispatch({
+                        type:
+                            OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP,
+                        payload: {
+                            position: position,
+                            relationshipType: type,
+                            sourceModelId: sourceModelId
+                        }
+                    });
+                }
             } else if (
                 currentHandleIdRef.current === OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
                 const relationship = {
                     '@type': OAT_RELATIONSHIP_HANDLE_NAME,
                     name: null,
-                    target
+                    targetModelId
                 };
                 addUntargetedRelationship(
-                    source,
+                    sourceModelId,
                     relationship,
                     oatPageState.currentOntologyModelPositions,
                     elementsCopy

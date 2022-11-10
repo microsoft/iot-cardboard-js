@@ -3,8 +3,10 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
+import { DEFAULT_NODE_POSITION } from '../../../Components/OATGraphViewer/Internal/Utils';
 import i18n from '../../../i18n';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import { IOATNodePosition } from '../../Constants';
 import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
@@ -29,7 +31,8 @@ import {
     deleteModelFromState,
     setSelectedModel,
     updateModelId,
-    addTargetedRelationship
+    addTargetedRelationship,
+    addNewModelToState
 } from './OatPageContextUtils';
 
 const debugLogging = true;
@@ -253,35 +256,42 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.ADD_MODEL: {
+                const defaultPosition: IOATNodePosition = {
+                    x: DEFAULT_NODE_POSITION,
+                    y: DEFAULT_NODE_POSITION
+                };
+                addNewModelToState(draft, defaultPosition);
+                saveData(draft);
+                break;
+            }
             case OatPageContextActionType.ADD_RELATIONSHIP: {
-                logDebugConsole(
-                    'debug',
-                    `[START] Adding ${action.payload.relationshipType} relationship. {payload}`,
-                    action.payload
+                const {
+                    relationshipType,
+                    sourceModelId,
+                    targetModelId
+                } = action.payload;
+                addTargetedRelationship(
+                    draft,
+                    sourceModelId,
+                    targetModelId,
+                    relationshipType
                 );
-                if (action.payload.relationshipType === 'Untargeted') {
-                    // const {
-                    //     sourceModelId,
-                    //     position
-                    // } = action.payload;
-                    // add the model to the graph
-                    // add the relationship
-                } else {
-                    const {
-                        relationshipType,
-                        sourceModelId,
-                        targetModelId
-                    } = action.payload;
-                    addTargetedRelationship(
-                        draft,
-                        sourceModelId,
-                        targetModelId,
-                        relationshipType
-                    );
-                }
-                logDebugConsole(
-                    'debug',
-                    `[END] Adding ${action.payload.relationshipType} relationship.`
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP: {
+                const {
+                    position,
+                    relationshipType,
+                    sourceModelId
+                } = action.payload;
+                const targetModel = addNewModelToState(draft, position);
+                addTargetedRelationship(
+                    draft,
+                    sourceModelId,
+                    targetModel['@id'],
+                    relationshipType
                 );
                 saveData(draft);
 

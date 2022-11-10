@@ -1,6 +1,7 @@
 import {
     DtdlInterface,
     DtdlInterfaceContent,
+    IOATNodePosition,
     OatRelationshipType
 } from '../../Constants';
 import {
@@ -13,7 +14,6 @@ import {
 import { DTDLProperty } from '../../Classes/DTDL';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { ElementPosition } from '../../../Components/OATGraphViewer/Internal/Classes/ElementPosition';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -100,6 +100,8 @@ export enum OatPageContextActionType {
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
     ADD_RELATIONSHIP = 'ADD_RELATIONSHIP',
+    ADD_MODEL = 'ADD_MODEL',
+    ADD_MODEL_WITH_RELATIONSHIP = 'ADD_MODEL_WITH_RELATIONSHIP',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     /** models that should get changed on the graph */
@@ -245,16 +247,24 @@ export type OatPageContextAction =
           };
       }
     | {
+          type: OatPageContextActionType.ADD_MODEL;
+          payload: {
+              position: IOATNodePosition;
+          };
+      }
+    | {
           type: OatPageContextActionType.ADD_RELATIONSHIP;
-          payload:
-              | {
-                    sourceModelId: string;
-                    targetModelId: string | undefined;
-                    relationshipType: OatRelationshipType;
-                }
-              | {
-                    sourceModelId: string;
-                    relationshipType: 'Untargeted';
-                    position: ElementPosition;
-                };
+          payload: {
+              sourceModelId: string;
+              targetModelId: string;
+              relationshipType: OatRelationshipType;
+          };
+      }
+    | {
+          type: OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP;
+          payload: {
+              position: IOATNodePosition;
+              sourceModelId: string;
+              relationshipType: OatRelationshipType;
+          };
       };

@@ -1,3 +1,4 @@
+import i18n from '../../../i18n';
 import {
     getDisplayName,
     getTargetFromSelection
@@ -17,11 +18,14 @@ import {
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
+    IOATNodePosition,
     OatRelationshipType,
     OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OAT_INTERFACE_TYPE,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
+    buildModelId,
     convertDtdlInterfacesToModels,
     storeLastUsedProjectId,
     storeOntologiesToStorage
@@ -33,67 +37,85 @@ import {
 } from '../../Services/Utils';
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
+import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
 
-export function createProject(
-    name: string,
+//#region Add/remove models
+
+/**
+ * Looks at the existing models and generates a new name until it finds a unique name
+ * @param existingModels current set of models in the graph
+ * @param namespace the namespace for the current ontology
+ * @param defaultNamePrefix the name prefix for models (ex: "Model")
+ * @returns the id string for the new model
+ */
+const getNextModelInfo = (
+    existingModels: DtdlInterface[],
     namespace: string,
-    draft: IOatPageContextState
-) {
-    const id = createGUID();
-    const project = new ProjectData(
-        name,
-        namespace.replace(/ /g, ''),
-        [],
-        [],
-        [],
-        []
-    );
-    draft.ontologyFiles.push({ id: id, data: project });
-
-    saveData(draft);
-    switchCurrentProject(id, draft);
-
-    logDebugConsole(
-        'debug',
-        `Created new project with id: ${id}, {project}`,
-        project
-    );
-}
-
-export function switchCurrentProject(
-    projectId: string,
-    draft: IOatPageContextState
-) {
-    // do the swap
-    draft.currentOntologyId = projectId;
-    saveLastProjectId(draft.currentOntologyId);
-    const selectedFile = draft.ontologyFiles.find(
-        (x) => x.id === draft.currentOntologyId
-    );
-    if (selectedFile) {
-        const data = selectedFile.data;
-        const projectToOpen = new ProjectData(
-            data.projectName,
-            data.namespace,
-            convertDtdlInterfacesToModels(data.models),
-            data.modelPositions,
-            data.modelsMetadata,
-            data.templates
-        );
-        mapProjectOntoState(draft, projectToOpen);
-        logDebugConsole(
-            'debug',
-            `Switched to project: ${draft.currentOntologyProjectName} (${draft.currentOntologyId}). {project}`,
-            projectToOpen
-        );
-    } else {
-        logDebugConsole(
-            'warn',
-            `Project not found in storage. Unable to find the current project to ${draft.currentOntologyId}`
+    defaultNamePrefix: string
+) => {
+    // Identifies which is the next model Id on creating new nodes
+    let nextModelIdIndex = -1;
+    let nextModelId = '';
+    let index = 0;
+    while (index !== -1) {
+        nextModelIdIndex++;
+        nextModelId = buildModelId({
+            namespace,
+            modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
+        });
+        index = existingModels.findIndex(
+            (element) => element['@id'] === nextModelId
         );
     }
-}
 
+    const name = `${defaultNamePrefix}${nextModelIdIndex}`;
+    return { id: nextModelId, name: name };
+};
+const getNewModel = (id: string, modelName: string) => {
+    const model: DtdlInterface = {
+        '@context': CONTEXT_CLASS_BASE,
+        '@id': id,
+        '@type': OAT_INTERFACE_TYPE,
+        contents: [],
+        displayName: modelName
+    };
+
+    return model;
+};
+export const addNewModelToState = (
+    state: IOatPageContextState,
+    modelPosition: IOATNodePosition
+): DtdlInterface => {
+    const modelInfo = getNextModelInfo(
+        state.currentOntologyModels,
+        state.currentOntologyNamespace,
+        i18n.t('OATCommon.defaultModelNamePrefix')
+    );
+    const newModel: DtdlInterface = getNewModel(modelInfo.id, modelInfo.name);
+
+    // add to the models list
+    if (!state.currentOntologyModels) {
+        state.currentOntologyModels = [newModel];
+    } else {
+        state.currentOntologyModels.push(newModel);
+    }
+
+    const position: IOATModelPosition = {
+        '@id': newModel['@id'],
+        position: {
+            x: modelPosition.x || 0,
+            y: modelPosition.y || 0
+        }
+    };
+    // add to the positions list
+    if (!state.currentOntologyModelPositions) {
+        state.currentOntologyModelPositions = [position];
+    } else {
+        state.currentOntologyModelPositions.push(position);
+    }
+
+    return newModel;
+};
 /** deletes all references of a model from the graph including relationships */
 export const deleteModelFromState = (
     modelId: string,
@@ -136,6 +158,8 @@ export const deleteModelFromState = (
     return { models: models, positions: positions };
 };
 
+//#endregion
+
 export const setSelectedModel = (
     selection: IOATSelection,
     draft: IOatPageContextState
@@ -170,7 +194,6 @@ export const updateModelId = (
         modelReference['@id'] = newId;
     }
 
-    console.log('***[BEFORE] Models', deepCopy(models));
     // Update contents
     models.forEach((m) =>
         m.contents.forEach((c) => {
@@ -197,10 +220,10 @@ export const updateModelId = (
         })
     );
 
-    console.log('***[AFTER] models', deepCopy(models));
-
     return { models: models, positions: modelPositions };
 };
+
+//#region Creating new relationship
 
 const getNewComponent = (name: string, targetModelId: string) => {
     const component: IDTDLComponent = {
@@ -237,12 +260,10 @@ const getNextName = (
     }
     return `${namePrefix}_${index}`;
 };
-
 const getNextRelationshipName = (sourceModel: DtdlInterface) => {
     const prefix = OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
     return getNextName(sourceModel, prefix, DTDLType.Relationship);
 };
-
 /** gets a unique name for the relationship (scoped to the target model) */
 const getNextComponentName = (
     sourceModel: DtdlInterface,
@@ -313,6 +334,70 @@ export const addTargetedRelationship = (
     return newModel;
 };
 
+//#endregion
+
+//#region Project management
+
+export function createProject(
+    name: string,
+    namespace: string,
+    draft: IOatPageContextState
+) {
+    const id = createGUID();
+    const project = new ProjectData(
+        name,
+        namespace.replace(/ /g, ''),
+        [],
+        [],
+        [],
+        []
+    );
+    draft.ontologyFiles.push({ id: id, data: project });
+
+    saveData(draft);
+    switchCurrentProject(id, draft);
+
+    logDebugConsole(
+        'debug',
+        `Created new project with id: ${id}, {project}`,
+        project
+    );
+}
+
+export function switchCurrentProject(
+    projectId: string,
+    draft: IOatPageContextState
+) {
+    // do the swap
+    draft.currentOntologyId = projectId;
+    saveLastProjectId(draft.currentOntologyId);
+    const selectedFile = draft.ontologyFiles.find(
+        (x) => x.id === draft.currentOntologyId
+    );
+    if (selectedFile) {
+        const data = selectedFile.data;
+        const projectToOpen = new ProjectData(
+            data.projectName,
+            data.namespace,
+            convertDtdlInterfacesToModels(data.models),
+            data.modelPositions,
+            data.modelsMetadata,
+            data.templates
+        );
+        mapProjectOntoState(draft, projectToOpen);
+        logDebugConsole(
+            'debug',
+            `Switched to project: ${draft.currentOntologyProjectName} (${draft.currentOntologyId}). {project}`,
+            projectToOpen
+        );
+    } else {
+        logDebugConsole(
+            'warn',
+            `Project not found in storage. Unable to find the current project to ${draft.currentOntologyId}`
+        );
+    }
+}
+
 /** TODO: remove this helper when we move the project data into a sub object on the state */
 export function convertStateToProject(
     draft: IOatPageContextState
@@ -342,6 +427,10 @@ export function mapProjectOntoState(
     draft.currentOntologyProjectName = projectToOpen.projectName || '';
     draft.currentOntologyTemplates = projectToOpen.templates;
 }
+
+//#endregion
+
+//#region Local storage
 
 /** saves all the data to local storage */
 export function saveData(draft: IOatPageContextState): void {
@@ -390,3 +479,5 @@ export function saveOntologyFiles(files: IOATFile[]): void {
         );
     }
 }
+
+//#endregion

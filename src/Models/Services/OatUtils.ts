@@ -97,37 +97,6 @@ export const convertDtdlInterfaceToModel = (
 };
 
 /**
- * Looks at the existing models and generates a new name until it finds a unique name
- * @param existingModels current set of models in the graph
- * @param namespace the namespace for the current ontology
- * @param defaultNamePrefix the name prefix for models (ex: "Model")
- * @returns the id string for the new model
- */
-export const getNextModel = (
-    existingModels: DtdlInterface[],
-    namespace: string,
-    defaultNamePrefix: string
-) => {
-    // Identifies which is the next model Id on creating new nodes
-    let nextModelIdIndex = -1;
-    let nextModelId = '';
-    let index = 0;
-    while (index !== -1) {
-        nextModelIdIndex++;
-        nextModelId = buildModelId({
-            namespace,
-            modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
-        });
-        index = existingModels.findIndex(
-            (element) => element['@id'] === nextModelId
-        );
-    }
-
-    const name = `${defaultNamePrefix}${nextModelIdIndex}`;
-    return { id: nextModelId, name: name };
-};
-
-/**
  * Tries to parse a string to an object of type `T`. Returns null and eats any exception thrown in case of an error.
  * @param value string value to parse
  * @returns an object
