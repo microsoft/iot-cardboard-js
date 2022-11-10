@@ -162,7 +162,7 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                         expression: seriesToEdit?.expression
                     }}
                     description={
-                        seriesToEdit.propertyType === 'string'
+                        seriesToEdit?.propertyType === 'string'
                             ? t(
                                   'widgets.dataHistory.form.timeSeries.stringTimeSeriesWarning'
                               )
