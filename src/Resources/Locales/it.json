@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Selezione data/ora",
       "timePickerTitle": "Selezione tempo",
       "plainTextInput": "Input di testo normale"
-    }
+    },
+    "removeArrayItemIconTitle": "Rimuovi elemento dall'elenco",
+    "addArrayItemIconTitle": "Aggiungi nuovo elemento",
+    "clearArrayIconTitle": "Rimuovi tutti gli elementi"
   },
   "environmentPicker": {
     "editEnvironment": "Configurare l'ambiente delle scene 3D",

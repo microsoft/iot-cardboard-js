@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Selector de fecha y hora",
       "timePickerTitle": "Selector de tiempo",
       "plainTextInput": "Entrada de texto sin formato"
-    }
+    },
+    "removeArrayItemIconTitle": "Quitar elemento de la lista",
+    "addArrayItemIconTitle": "Agregar nuevo elemento",
+    "clearArrayIconTitle": "Quitar todos los elementos"
   },
   "environmentPicker": {
     "editEnvironment": "Configurar el entorno de escenas 3D",
