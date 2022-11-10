@@ -49,7 +49,8 @@ import {
     AdapterMethodParamsForSearchTwinsByQuery,
     IADXConnection,
     ADTResourceIdentifier,
-    ADXTimeSeries
+    ADXTimeSeries,
+    IMockError
 } from '../Models/Constants';
 import seedRandom from 'seedrandom';
 import {
@@ -105,7 +106,7 @@ export default class MockAdapter
         IPropertyInspectorAdapter,
         IModelledPropertyBuilderAdapter {
     private mockData = null;
-    private mockError = null;
+    private mockError: IMockError = null;
     public mockTwins: IADTTwin[] = null;
     public mockModels: DtdlInterface[] = null;
     private networkTimeoutMillis;
@@ -153,8 +154,9 @@ export default class MockAdapter
         if (this.mockError) {
             throw new ComponentError({
                 isCatastrophic: true,
-                type: this.mockError,
-                rawError: new Error('Mock error message')
+                type: this.mockError.type,
+                rawError:
+                    this.mockError.rawError || new Error('Mock error message')
             });
         }
     }

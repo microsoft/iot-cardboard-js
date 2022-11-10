@@ -47,8 +47,9 @@ import {
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 } from './DataHistoryWidget.types';
+import { DataHistoryWidgetErrorHandling } from './Internal/DataHistoryWidgetErrorHandling';
 
-const getClassNames = classNamesFunction<
+export const getDataHistoryWidgetClassNames = classNamesFunction<
     IDataHistoryWidgetStyleProps,
     IDataHistoryWidgetStyles
 >();
@@ -86,6 +87,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         query,
         deeplink,
         data,
+        errors,
         fetchTimeSeriesData,
         isLoading
     } = useTimeSeriesData({
@@ -141,7 +143,9 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
         [mode, widget.widgetConfiguration, data, twinIdPropertyMap]
     );
 
-    const classNames = getClassNames(styles, { theme: useTheme() });
+    const classNames = getDataHistoryWidgetClassNames(styles, {
+        theme: useTheme()
+    });
 
     const onRenderTitleOfQuickTimePickerItem = (
         options: IDropdownOption[]
@@ -180,10 +184,6 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
                 }}
                 onRenderTitle={onRenderTitleOfQuickTimePickerItem}
                 onRenderCaretDown={onRenderCaretDown}
-                calloutProps={{
-                    calloutWidth: classNames.subComponentStyles?.quickTimePicker?.()
-                        .calloutWidth
-                }}
             />
         );
     };
@@ -212,32 +212,43 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 
     return (
         <div className={classNames.root}>
-            <div className={classNames.header}>
-                <span className={classNames.title}>{displayName}</span>
-                {mode === BehaviorModalMode.viewer && (
-                    <>
-                        {renderQuickTimePickerItem()}
-                        <OverflowMenu {...menuProps} />
-                    </>
-                )}
-            </div>
+            {errors.length > 0 ? (
+                <>
+                    <div className={classNames.header}>
+                        <span className={classNames.title}>{displayName}</span>
+                    </div>
+                    <DataHistoryWidgetErrorHandling errors={errors} />
+                </>
+            ) : (
+                <>
+                    <div className={classNames.header}>
+                        <span className={classNames.title}>{displayName}</span>
+                        {mode === BehaviorModalMode.viewer && (
+                            <>
+                                {renderQuickTimePickerItem()}
+                                <OverflowMenu {...menuProps} />
+                            </>
+                        )}
+                    </div>
 
-            <div className={classNames.chartContainer}>
-                <HighChartsWrapper
-                    seriesData={highChartSeriesData}
-                    isLoading={isLoading}
-                    chartOptions={{
-                        titleAlign: 'left',
-                        legendLayout: 'vertical',
-                        legendPadding: 0,
-                        hasMultipleAxes:
-                            chartOptions.yAxisType === 'independent',
-                        dataGrouping: chartOptions.aggregationType,
-                        xMinInMillis: xMinDateInMillisRef.current,
-                        xMaxInMillis: xMaxDateInMillisRef.current
-                    }}
-                />
-            </div>
+                    <div className={classNames.chartContainer}>
+                        <HighChartsWrapper
+                            seriesData={highChartSeriesData}
+                            isLoading={isLoading}
+                            chartOptions={{
+                                titleAlign: 'left',
+                                legendLayout: 'vertical',
+                                legendPadding: 0,
+                                hasMultipleAxes:
+                                    chartOptions.yAxisType === 'independent',
+                                dataGrouping: chartOptions.aggregationType,
+                                xMinInMillis: xMinDateInMillisRef.current,
+                                xMaxInMillis: xMaxDateInMillisRef.current
+                            }}
+                        />
+                    </div>
+                </>
+            )}
         </div>
     );
 };

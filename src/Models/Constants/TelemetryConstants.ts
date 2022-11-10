@@ -107,6 +107,8 @@ export const TelemetryEvents = {
                         countWidgetGaugeType: 'countWidgetGaugeType',
                         countWidgetLinkType: 'countWidgetLinkType',
                         countWidgetPropertyType: 'countWidgetPropertyType',
+                        countWidgetDataHistoryType:
+                            'countWidgetDataHistoryType',
                         countVisuals: 'countVisuals',
                         countVisualBadgeType: 'countVisualBadgeType',
                         countVisualColorType: 'countVisualColorType',
