@@ -1306,5 +1306,8 @@
   "minLower": "Min",
   "maxLower": ".max",
   "showDetails": "Zobrazit podrobnosti",
-  "hideDetails": "Skrýt detaily"
+  "hideDetails": "Skrýt detaily",
+  "ColorPills": {
+    "unlabeled": "Neoznačené"
+  }
 }

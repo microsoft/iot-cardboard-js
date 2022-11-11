@@ -1306,5 +1306,8 @@
   "minLower": "最小",
   "maxLower": ".max",
   "showDetails": "显示详情",
-  "hideDetails": "隐藏详细信息"
+  "hideDetails": "隐藏详细信息",
+  "ColorPills": {
+    "unlabeled": "未标记"
+  }
 }

@@ -1306,5 +1306,8 @@
   "minLower": "Мин",
   "maxLower": ".max",
   "showDetails": "Показать подробности",
-  "hideDetails": "Скрыть детали"
+  "hideDetails": "Скрыть детали",
+  "ColorPills": {
+    "unlabeled": "Без маркировки"
+  }
 }
