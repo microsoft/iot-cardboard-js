@@ -99,6 +99,7 @@ export enum OatPageContextActionType {
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
+    UPDATE_MODEL_POSTIONS = 'UPDATE_MODEL_POSTIONS',
     ADD_RELATIONSHIP = 'ADD_RELATIONSHIP',
     ADD_MODEL = 'ADD_MODEL',
     ADD_MODEL_WITH_RELATIONSHIP = 'ADD_MODEL_WITH_RELATIONSHIP',
@@ -267,4 +268,8 @@ export type OatPageContextAction =
               sourceModelId: string;
               relationshipType: OatRelationshipType;
           };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_MODEL_POSTIONS;
+          payload: { models: IOATModelPosition[] };
       };

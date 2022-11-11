@@ -3,10 +3,8 @@
  */
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
-import { DEFAULT_NODE_POSITION } from '../../../Components/OATGraphViewer/Internal/Utils';
 import i18n from '../../../i18n';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import { IOATNodePosition } from '../../Constants';
 import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
@@ -256,12 +254,30 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
+            case OatPageContextActionType.UPDATE_MODEL_POSTIONS: {
+                action.payload.models.forEach((item) => {
+                    const currentPosition = draft.currentOntologyModelPositions.find(
+                        (x) => x['@id'] === item['@id']
+                    );
+                    if (currentPosition) {
+                        // update existing
+                        currentPosition.position.x = item.position.x;
+                        currentPosition.position.y = item.position.y;
+                    } else {
+                        // add new entry
+                        draft.currentOntologyModelPositions.push(item);
+                    }
+                });
+                saveData(draft);
+                break;
+            }
             case OatPageContextActionType.ADD_MODEL: {
-                const defaultPosition = action.payload?.position || {
-                    x: DEFAULT_NODE_POSITION,
-                    y: DEFAULT_NODE_POSITION
+                const newModel = addNewModelToState(draft);
+                // need to send this to the graph component to figure out the relative coordinates for the new model to use
+                draft.graphUpdatesToSync = {
+                    actionType: 'Add',
+                    models: [newModel]
                 };
-                addNewModelToState(draft, defaultPosition);
                 saveData(draft);
                 break;
             }

@@ -1,5 +1,6 @@
 import { Node, Edge } from 'react-flow-renderer';
 import {
+    IOATNodePosition,
     OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
@@ -21,53 +22,13 @@ import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 
 export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
 
-const getNextRelationshipIndex = (
-    _sourceId: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let relationshipIndex = 0;
-    while (
-        elements.some(
-            (element) =>
-                // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
-                // (element as ElementEdge).source === sourceId &&
-                (element.data as DtdlRelationship).name ===
-                `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
-        )
-    ) {
-        relationshipIndex++;
-    }
-    return relationshipIndex;
-};
-
-// const getNextComponentIndex = (
-//     sourceId: string,
-//     targetName: string,
-//     elements: (ElementNode | ElementEdge)[]
-// ) => {
-//     let componentIndex = 0;
-//     const match = elements.find((element) => element.id === sourceId);
-//     if (match) {
-//         const int = match.data as DtdlInterface;
-//         while (
-//             int &&
-//             int.contents.some(
-//                 (content) =>
-//                     content['schema'] &&
-//                     content.name === `${targetName}_${componentIndex}`
-//             )
-//         ) {
-//             componentIndex++;
-//         }
-//     }
-//     return componentIndex;
-// };
+//#region Add relationships
 
 export const addTargetedRelationship = (
     sourceId: string,
@@ -81,9 +42,7 @@ export const addTargetedRelationship = (
     //     relationship,
     //     elements
     // );
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
+    const name = relationship.name;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
@@ -124,9 +83,7 @@ export const addUntargetedRelationship = (
         modelPositions,
         elements
     );
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
+    const name = relationship.name;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
@@ -248,6 +205,10 @@ export const addExtendsRelationship = (
     return relationshipEdge;
 };
 
+//#endregion
+
+//#region Add/remove/edit models
+
 /**
  * Adds a node to the graph with the given model data
  * @param model model to bind to the new node
@@ -257,13 +218,16 @@ export const addExtendsRelationship = (
  */
 export const addModelToGraph = (
     model: DtdlInterface,
-    position: ElementPosition,
+    position: ElementPosition | undefined,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     const newNode = new ElementNode(
         model['@id'],
         OAT_INTERFACE_TYPE,
-        position,
+        position || {
+            x: DEFAULT_NODE_POSITION,
+            y: DEFAULT_NODE_POSITION
+        },
         model
     );
     elements.push(newNode);
@@ -336,6 +300,39 @@ export const updateModelInGraph = (
     }
 
     return elements;
+};
+
+//#endregion
+
+const NEW_NODE_OFFSET = 15;
+/**
+ * Gets the position of a node such that it does not sit directly on top of any other node.
+ * @param coordinates Coordinates to check to see if they are available
+ * @param positions positions of existing models on the graph
+ * @returns
+ */
+export const getNewNodePosition = (
+    coordinates: IOATNodePosition,
+    positions: IOATModelPosition[]
+): IOATNodePosition => {
+    // Find the amount of nodes at the same position
+    const nodesAtPosition = positions.filter(
+        (model) =>
+            model.position.x === coordinates.x &&
+            model.position.y === coordinates.y
+    );
+
+    // If there is no node at the same position, return the coordinates
+    if (nodesAtPosition.length === 0) {
+        return coordinates;
+    }
+    // Define the new coordinates
+    const newCoordinates = {
+        x: coordinates.x + nodesAtPosition.length * NEW_NODE_OFFSET,
+        y: coordinates.y + nodesAtPosition.length * NEW_NODE_OFFSET
+    };
+    // Prevent nodes with the same position
+    return getNewNodePosition(newCoordinates, positions);
 };
 
 export const getSelectionIdentifier = (

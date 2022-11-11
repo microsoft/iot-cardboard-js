@@ -84,7 +84,7 @@ const getNewModel = (id: string, modelName: string) => {
 };
 export const addNewModelToState = (
     state: IOatPageContextState,
-    modelPosition: IOATNodePosition
+    modelPosition?: IOATNodePosition
 ): DtdlInterface => {
     const modelInfo = getNextModelInfo(
         state.currentOntologyModels,
@@ -100,18 +100,18 @@ export const addNewModelToState = (
         state.currentOntologyModels.push(newModel);
     }
 
-    const position: IOATModelPosition = {
-        '@id': newModel['@id'],
-        position: {
-            x: modelPosition.x || 0,
-            y: modelPosition.y || 0
+    // position is not included on a new model add from header since we need to get the relative location from the graph
+    if (modelPosition) {
+        const position: IOATModelPosition = {
+            '@id': newModel['@id'],
+            position: modelPosition
+        };
+        // add to the positions list
+        if (!state.currentOntologyModelPositions) {
+            state.currentOntologyModelPositions = [position];
+        } else {
+            state.currentOntologyModelPositions.push(position);
         }
-    };
-    // add to the positions list
-    if (!state.currentOntologyModelPositions) {
-        state.currentOntologyModelPositions = [position];
-    } else {
-        state.currentOntologyModelPositions.push(position);
     }
 
     return newModel;

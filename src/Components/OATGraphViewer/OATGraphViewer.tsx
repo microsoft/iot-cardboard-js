@@ -40,7 +40,6 @@ import {
     getStyles
 } from './OATGraphViewer.styles';
 import { IOATNodeElement } from '../../Models/Constants/Interfaces';
-import { ElementNode } from './Internal/Classes/ElementNode';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
@@ -53,7 +52,7 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface, IOATNodePosition } from '../../Models/Constants';
+import { DtdlInterface } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -61,8 +60,8 @@ import {
     addModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
-    DEFAULT_NODE_POSITION,
     deleteModelFromGraph,
+    getNewNodePosition,
     getSelectionFromNode,
     updateModelInGraph
 } from './Internal/Utils';
@@ -90,6 +89,7 @@ import {
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { DTDLType } from '../../Models/Classes/DTDL';
+import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
@@ -101,8 +101,9 @@ const getClassNames = classNamesFunction<
 
 const nodeWidth = 300;
 const nodeHeight = 100;
-const newNodeLeft = 20;
-const newNodeOffset = 10;
+const newNodeTopOffset = 20;
+const newNodeLeft = 100;
+const newNodeLeftWithPanelOpen = 450;
 const typeMapping = new Map<string, OatRelationshipType>([
     [OAT_COMPONENT_HANDLE_NAME, DTDLType.Component],
     [OAT_RELATIONSHIP_HANDLE_NAME, DTDLType.Relationship],
@@ -137,6 +138,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
             // TODO: define a type here that actually works so it's not an any
             return models.reduce((elements, input) => {
+                // create the Component & Relationship edges
                 if (input.contents) {
                     // Get the relationships
                     input.contents.forEach((content) => {
@@ -183,6 +185,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     });
                 }
 
+                // create the Extend edges
                 if (input.extends) {
                     ensureIsArray(input.extends).forEach((extend) => {
                         const foundExtendTarget = models.find(
@@ -199,20 +202,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     });
                 }
 
+                // find the position
                 const mp = modelPositions.find(
                     (x) => x['@id'] === input['@id']
                 );
-                const newNode = new ElementNode(
-                    input['@id'],
-                    input['@type'],
-                    {
-                        x: mp ? mp.position.x : DEFAULT_NODE_POSITION,
-                        y: mp ? mp.position.y : DEFAULT_NODE_POSITION
-                    },
-                    input
-                );
 
-                elements.push(newNode);
+                // add to the graph
+                addModelToGraph(input, mp?.position, elements);
                 return elements;
             }, []);
         },
@@ -229,7 +225,9 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     );
     const currentNodeIdRef = useRef<string>(null);
     const currentHandleIdRef = useRef<string>(null);
-    const [rfInstance, setRfInstance] = useState(null);
+    const [rfInstance, setRfInstance] = useState<IReactFlowInstance | null>(
+        null
+    );
 
     const legendButtonId = useId('legend-button');
     const mapButtonId = useId('map-button');
@@ -294,6 +292,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             (node) => !element.source && node.id === element.id
                         );
 
+                        // give a random location to nodes without relationships
                         const newElement = { ...element };
                         if (node) {
                             newElement.position = {
@@ -338,36 +337,12 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     /** called when the graph mounts */
     const onLoadGraph = useCallback((_reactFlowInstance: any) => {
-        _reactFlowInstance.fitView();
-        _reactFlowInstance.zoomOut();
-        _reactFlowInstance.zoomOut();
-        setRfInstance(_reactFlowInstance);
+        const instance = _reactFlowInstance as IReactFlowInstance;
+        instance.fitView();
+        instance.zoomOut();
+        instance.zoomOut();
+        setRfInstance(instance);
     }, []);
-
-    const getNewNodePosition = useCallback(
-        (coordinates: IOATNodePosition) => {
-            // Find the amount of nodes at the same position
-            const nodesAtPosition = elements.filter(
-                (element) =>
-                    !element.source &&
-                    element.position.x === coordinates.x &&
-                    element.position.y === coordinates.y
-            );
-
-            // If there is no node at the same position, return the coordinates
-            if (nodesAtPosition.length === 0) {
-                return coordinates;
-            }
-            // Define the new coordinates
-            const newCoordinates = {
-                x: coordinates.x + nodesAtPosition.length * newNodeOffset,
-                y: coordinates.y + nodesAtPosition.length * newNodeOffset
-            };
-            // Prevent nodes with the same position
-            return getNewNodePosition(newCoordinates);
-        },
-        [elements]
-    );
 
     const onConnectStart = (
         _: React.MouseEvent<Element, MouseEvent>,
@@ -393,12 +368,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         let targetModelId = (evt.path || []).find(
             (element) => element.dataset && element.dataset.id
         );
-        // let targetModel = null;
         if (targetModelId) {
             targetModelId = targetModelId.dataset.id;
-            // targetModel = elementsCopy.find(
-            //     (element) => element.id === targetModelId
-            // );
         }
 
         const addition = () => {
@@ -486,109 +457,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         [oatPageDispatch]
     );
 
-    /** recreate the models anytime elements change. These then get stored back to the context */
-    // const modelsFromCurrentNodes = useMemo(() => {
-    //     logDebugConsole(
-    //         'debug',
-    //         '[START] get models from current graph. {nodes}',
-    //         elements
-    //     );
-    //     // Creates the json object in the DTDL standard based on the content of the nodes
-    //     const nodes: DtdlInterface[] = elements.reduce(
-    //         (
-    //             models: DtdlInterface[],
-    //             currentNode: IOatElementNode & { data: { name: string } }
-    //         ) => {
-    //             if (currentNode.data['@type'] === OAT_INTERFACE_TYPE) {
-    //                 models.push(currentNode.data);
-    //             } else if (
-    //                 currentNode.data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
-    //             ) {
-    //                 const sourceNode = models.find(
-    //                     (element) => element['@id'] === currentNode.source
-    //                 );
-    //                 if (
-    //                     sourceNode &&
-    //                     sourceNode.contents.every(
-    //                         (element) => element.target !== currentNode.target
-    //                     )
-    //                 ) {
-    //                     if (sourceNode.contents) {
-    //                         sourceNode.contents.push(currentNode.data);
-    //                     } else {
-    //                         sourceNode.contents = [currentNode.data];
-    //                     }
-    //                 }
-    //             } else if (
-    //                 currentNode.data['@type'] === OAT_EXTEND_HANDLE_NAME
-    //             ) {
-    //                 const sourceNode = models.find(
-    //                     (element) => element['@id'] === currentNode.source
-    //                 );
-    //                 if (sourceNode) {
-    //                     sourceNode.extends = ensureIsArray(sourceNode.extends);
-    //                     if (!sourceNode.extends.includes(currentNode.target)) {
-    //                         sourceNode.extends.push(currentNode.target);
-    //                     }
-    //                 }
-    //             } else if (
-    //                 currentNode.data['@type'] === OAT_COMPONENT_HANDLE_NAME
-    //             ) {
-    //                 const sourceNode = models.find(
-    //                     (element) => element['@id'] === currentNode.source
-    //                 );
-    //                 const targetNode = elements.find(
-    //                     (element) => element.id === currentNode.target
-    //                 );
-    //                 if (
-    //                     sourceNode &&
-    //                     targetNode &&
-    //                     sourceNode.contents.every(
-    //                         (element) => element.name !== currentNode.data.name
-    //                     )
-    //                 ) {
-    //                     if (sourceNode.contents) {
-    //                         sourceNode.contents.push(currentNode.data);
-    //                     } else {
-    //                         sourceNode.contents = [currentNode.data];
-    //                     }
-    //                 }
-    //             } else if (
-    //                 currentNode.data['@type'] ===
-    //                 OAT_UNTARGETED_RELATIONSHIP_NAME
-    //             ) {
-    //                 const sourceNode = models.find(
-    //                     (element) => element['@id'] === currentNode.source
-    //                 );
-    //                 if (
-    //                     sourceNode &&
-    //                     sourceNode.contents.every(
-    //                         (element) => element.name !== currentNode.data.name
-    //                     )
-    //                 ) {
-    //                     const data: DtdlInterfaceContent = {
-    //                         ...currentNode.data,
-    //                         '@type': OAT_RELATIONSHIP_HANDLE_NAME
-    //                     };
-    //                     if (sourceNode.contents) {
-    //                         sourceNode.contents.push(data);
-    //                     } else {
-    //                         sourceNode.contents = [data];
-    //                     }
-    //                 }
-    //             }
-    //             return models;
-    //         },
-    //         []
-    //     );
-    //     logDebugConsole(
-    //         'debug',
-    //         '[END] get models from current graph. {models}',
-    //         nodes
-    //     );
-    //     return nodes;
-    // }, [elements]);
-
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: Node<any> | Edge<any>
@@ -658,10 +526,8 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     };
 
     // side effects
-    useEffect(() => {
-        storeElementPositions(elements);
-    }, [elements, storeElementPositions]);
 
+    // sync changes from models & positions in state onto the graph
     useEffect(() => {
         const potentialElements = getGraphNodesFromModels(
             oatPageState.currentOntologyModels,
@@ -677,17 +543,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyModels
     ]);
-    // useEffect(() => {
-    //     logDebugConsole(
-    //         'debug',
-    //         'Storing computed models. {model}',
-    //         modelsFromCurrentNodes
-    //     );
-    //     oatPageDispatch({
-    //         type: OatPageContextActionType.SET_CURRENT_MODELS,
-    //         payload: { models: modelsFromCurrentNodes }
-    //     });
-    // }, [oatPageDispatch, modelsFromCurrentNodes]);
 
     // Rebuild the graph when the selected ontology changes
     const previousId = usePrevious(oatPageState.currentOntologyId);
@@ -757,26 +612,55 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 // ADD MODELS
                 logDebugConsole('debug', 'Processing added models');
                 const onAddModels = () => {
+                    // indent more to get out from behind the left panel when it's open
+                    const leftOffset = oatGraphState.isModelListVisible
+                        ? newNodeLeftWithPanelOpen
+                        : newNodeLeft;
                     const startPositionCoordinates = rfInstance.project({
-                        x: newNodeLeft,
-                        y: 20
+                        x: leftOffset,
+                        y: newNodeTopOffset
+                    });
+                    console.log(
+                        '***Offsets',
+                        leftOffset,
+                        startPositionCoordinates
+                    );
+                    const elementsCopy = deepCopy(elements);
+                    const newPositions: IOATModelPosition[] = [];
+                    const updatedPositions =
+                        oatPageState.currentOntologyModelPositions;
+                    updatePayload.models.forEach((x) => {
+                        const position: IOATModelPosition = {
+                            '@id': x['@id'],
+                            position: getNewNodePosition(
+                                startPositionCoordinates,
+                                updatedPositions
+                            )
+                        };
+                        // track updated positions so the newly added items are considered
+                        updatedPositions.push(position);
+                        newPositions.push(position);
                     });
 
-                    const elementsCopy = deepCopy(elements);
-                    updatePayload.models.forEach((x) => {
-                        addModelToGraph(
-                            x,
-                            getNewNodePosition(startPositionCoordinates),
-                            elementsCopy
-                        );
+                    // send back the computed position for the new node so we can store the relative position
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_MODEL_POSTIONS,
+                        payload: { models: newPositions }
                     });
                     setElements(elementsCopy);
                 };
-
                 const undoAddModels = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.GENERAL_UNDO,
+                        payload: {
+                            models: oatPageState.currentOntologyModels,
+                            positions:
+                                oatPageState.currentOntologyModelPositions,
+                            selection: oatPageState.selection
+                        }
+                    });
                     setElements(elements);
                 };
-
                 execute(onAddModels, undoAddModels);
             } else if (updatePayload.actionType === 'Delete') {
                 // DELETE MODELS
@@ -826,16 +710,16 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         elements,
         execute,
         getGraphNodesFromModels,
-        getNewNodePosition,
+        oatGraphState.isModelListVisible,
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels,
         oatPageState.currentOntologyNamespace,
         oatPageState.graphUpdatesToSync,
+        oatPageState.selection,
         rfInstance,
         t
     ]);
-
-    // updated model
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
@@ -881,19 +765,21 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             {t('OATGraphViewer.emptyGraph')}
                         </Label>
                     )}
-                    {oatGraphState.isModelListVisible && (
-                        <Callout
-                            directionalHint={DirectionalHint.bottomLeftEdge}
-                            gapSpace={CONTROLS_CALLOUT_OFFSET}
-                            isBeakVisible={false}
-                            styles={
-                                classNames.subComponentStyles.modelsListCallout
-                            }
-                            target={`#${modelListButtonId}`}
-                        >
-                            <OATModelList />
-                        </Callout>
-                    )}
+                    {oatGraphState.isModelListVisible &&
+                        !oatGraphState.isLoading && (
+                            <Callout
+                                directionalHint={DirectionalHint.bottomLeftEdge}
+                                gapSpace={CONTROLS_CALLOUT_OFFSET}
+                                isBeakVisible={false}
+                                styles={
+                                    classNames.subComponentStyles
+                                        .modelsListCallout
+                                }
+                                target={`#${modelListButtonId}`}
+                            >
+                                <OATModelList />
+                            </Callout>
+                        )}
 
                     <GraphViewerControls
                         legendButtonId={legendButtonId}
@@ -915,7 +801,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             />
                         </div>
                     )}
-                    {oatGraphState.isLegendVisible && (
+                    {oatGraphState.isLegendVisible && !oatGraphState.isLoading && (
                         <Callout
                             setInitialFocus={true}
                             styles={classNames.subComponentStyles.legendCallout}
