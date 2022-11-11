@@ -91,7 +91,7 @@ import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
