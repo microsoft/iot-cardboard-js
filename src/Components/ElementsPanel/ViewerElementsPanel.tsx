@@ -10,6 +10,13 @@ import {
     wrapTextInTemplateString,
     parseLinkedTwinExpression
 } from '../../Models/Services/Utils';
+import VisualRuleElementsList from './Internal/VisualRuleElementsList';
+import { LOCAL_STORAGE_KEYS } from '../../Models/Constants/Constants';
+
+const showVisualRulesFeature =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
+    ) === 'true';
 
 const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     panelItems,
@@ -80,14 +87,26 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                         value={filterTerm}
                         className={elementsPanelStyles.filterBox}
                     />
-                    <ElementList
-                        isLoading={isLoading}
-                        panelItems={filteredPanelItems}
-                        onItemClick={onItemClick}
-                        onItemHover={onItemHover}
-                        onItemBlur={onItemBlur}
-                        filterTerm={filterTerm}
-                    />
+                    {showVisualRulesFeature ? (
+                        <VisualRuleElementsList
+                            isLoading={isLoading}
+                            isModal={false}
+                            panelItems={filteredPanelItems}
+                            onItemClick={onItemClick}
+                            onItemHover={onItemHover}
+                            onItemBlur={onItemBlur}
+                            filterTerm={filterTerm}
+                        />
+                    ) : (
+                        <ElementList
+                            isLoading={isLoading}
+                            panelItems={filteredPanelItems}
+                            onItemClick={onItemClick}
+                            onItemHover={onItemHover}
+                            onItemBlur={onItemBlur}
+                            filterTerm={filterTerm}
+                        />
+                    )}
                 </div>
             </Draggable>
         </div>

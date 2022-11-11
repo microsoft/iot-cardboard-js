@@ -22,6 +22,7 @@ export interface IViewerElementsPanelProps {
 export interface IViewerElementsPanelListProps {
     isLoading: boolean;
     panelItems: Array<IViewerElementsPanelItem>;
+    isModal?: boolean; // TODO: Make this required when deprecated Elements list is removed
     filterTerm?: string;
     onItemClick: ElementsPanelCallback;
     onItemHover?: ElementsPanelCallback;

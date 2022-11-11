@@ -1,10 +1,12 @@
 import React from 'react';
+import { LOCAL_STORAGE_KEYS } from '../../Models/Constants/Constants';
 import {
     IBehavior,
     ITwinToObjectMapping,
     IVisual
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import ElementsList from '../ElementsPanel/Internal/ElementsList';
+import VisualRuleElementsList from '../ElementsPanel/Internal/VisualRuleElementsList';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import { getStyles } from './AlertModal.styles';
 
@@ -29,6 +31,11 @@ export interface IAlertModalProps {
     ) => void;
 }
 
+const showVisualRulesFeature =
+    localStorage.getItem(
+        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
+    ) === 'true';
+
 const AlertModal: React.FC<IAlertModalProps> = ({
     onClose,
     position,
@@ -45,13 +52,24 @@ const AlertModal: React.FC<IAlertModalProps> = ({
             className={styles.boundaryLayer + ' cb-base-fade-in'}
             onMouseLeave={onClose}
         >
-            <ElementsList
-                isLoading={false}
-                panelItems={alerts?.element ? [alerts] : []}
-                onItemClick={onItemClick}
-                onItemBlur={onItemBlur}
-                onItemHover={onItemHover}
-            />
+            {showVisualRulesFeature ? (
+                <VisualRuleElementsList
+                    isLoading={false}
+                    isModal={true}
+                    panelItems={alerts?.element ? [alerts] : []}
+                    onItemClick={onItemClick}
+                    onItemBlur={onItemBlur}
+                    onItemHover={onItemHover}
+                />
+            ) : (
+                <ElementsList
+                    isLoading={false}
+                    panelItems={alerts?.element ? [alerts] : []}
+                    onItemClick={onItemClick}
+                    onItemBlur={onItemBlur}
+                    onItemHover={onItemHover}
+                />
+            )}
         </div>
     );
 };
