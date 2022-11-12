@@ -871,7 +871,13 @@
     "adtInstanceUrl": "Azure Digital Twins-Instanz-URL",
     "descriptionForAdtInstance": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz, um mit der Erstellung von 3D-Szenen zu beginnen.",
     "descriptionForAdtInstanceAndCont": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz mit Ihrem Speichercontainer, um mit der Erstellung von 3D-Szenen zu beginnen.",
-    "noAdtInstance": "Keine ADT-Instanz hinzugefügt"
+    "noAdtInstance": "Keine ADT-Instanz hinzugefügt",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Azure Digital Twins-Datenleser\" (mindestens).",
+      "storageAccountMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Leser\" (mindestens).",
+      "storageContainerMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als \"Reader\" (mindestens) und entweder \"Storage Blob Data Owner\" oder \"Storage Blob Data Contributor\".",
+      "resourceNotFound": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modal schließen",

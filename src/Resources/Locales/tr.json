@@ -871,7 +871,13 @@
     "adtInstanceUrl": "Azure Digital Twins örneği URL'si",
     "descriptionForAdtInstance": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
     "descriptionForAdtInstanceAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
-    "noAdtInstance": "ADT örneği eklenmedi"
+    "noAdtInstance": "ADT örneği eklenmedi",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
+      "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
+      "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
+      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modal'ı kapat",

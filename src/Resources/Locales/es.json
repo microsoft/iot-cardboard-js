@@ -871,7 +871,13 @@
     "adtInstanceUrl": "Dirección URL de instancia de Azure Digital Twins",
     "descriptionForAdtInstance": "Vincule la instancia de Azure Digital Twins para comenzar a crear escenas 3D.",
     "descriptionForAdtInstanceAndCont": "Vincule la instancia de Azure Digital Twins y el contenedor de almacenamiento para comenzar a crear escenas 3D.",
-    "noAdtInstance": "No se ha agregado ninguna instancia de ADT"
+    "noAdtInstance": "No se ha agregado ninguna instancia de ADT",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como \"Lector de datos de Azure Digital Twins\" (como mínimo).",
+      "storageAccountMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como 'Lector' (como mínimo).",
+      "storageContainerMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como \"Lector\" (como mínimo) y \"Propietario de datos de blobs de almacenamiento\" o \"Colaborador de datos de blobs de almacenamiento\".",
+      "resourceNotFound": "No se ha encontrado ningún recurso de Azure con el valor especificado."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Cerrar modal",
