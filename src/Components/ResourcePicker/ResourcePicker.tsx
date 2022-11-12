@@ -114,7 +114,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     });
 
     const loadingLabelText = useMemo(() => {
-        switch (resourceType.toLowerCase()) {
+        switch (
+            resourceType.toLowerCase() // need to compare lowercase since for the resource types that we use Resource Graph api, it returns lowercased resource type in the response object
+        ) {
             case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                 return t('resourcesPicker.loadingInstances');
             case AzureResourceTypes.StorageBlobContainer.toLowerCase():
@@ -149,7 +151,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     );
 
     const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
-        // first sort by resource group name then by displayFieldValue within the same resource group
+        // first sort by subscription  name then by displayFieldValue within the same subscription
         return r1.subscriptionName?.toLowerCase() >
             r2.subscriptionName?.toLowerCase()
             ? 1

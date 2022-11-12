@@ -254,7 +254,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         }, 'azureManagement');
     }
 
-    /** Returns the Azure resource provided by its url string */
+    /** Returns the Azure resource provided by its url string with the help of Resource Graph api calls */
     async getResourceByUrl(urlString: string, type: AzureResourceTypes) {
         const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
 
@@ -277,6 +277,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                             "'";
                         break;
                     case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
+                        /** if it is Storage Container type resource:
+                         * (1) fetch the parent storage account using Resource Graph api,
+                         * (2) fetch containers using Storage Service provider endpoint
+                         * (3) find the container by its name among those containers
+                         *  */
                         urlObj = new URL(urlString);
                         query =
                             "properties.primaryEndpoints.blob == '" +
@@ -314,6 +319,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         AzureResourceTypes.StorageBlobContainer.toLowerCase() &&
                     query
                 ) {
+                    // if it other type like Digital Twin Instance or Storage Account type resource, use the Graph api with query parameter
                     const length1Resources: Array<IAzureResource> = await this.fetchAllResources(
                         adapterMethodSandbox,
                         token,

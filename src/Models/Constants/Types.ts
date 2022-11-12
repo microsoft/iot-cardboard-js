@@ -251,7 +251,7 @@ export type AzureResourceSearchParams = {
     };
 };
 
-/** AzureResourceFetchParamsForResourceGraph consists of parameters used during fetching Azure resources via resource graphs REST API.
+/** AzureResourceFetchParamsForResourceGraph consists of parameters used during fetching Azure resources via resource graphs REST API (e.g. for ADT Instances and Storage Accounts type resources).
  * @param type used to set where clause in resource graphy query payload
  * @param skipToken continuation token for pagination in resource graph calls
  * @param limit used in the query payload to set the number of data return in resource graph call
