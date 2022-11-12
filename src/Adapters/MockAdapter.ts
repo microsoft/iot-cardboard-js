@@ -935,7 +935,7 @@ export default class MockAdapter
                         this.hasRoleDefinitions(
                             resource.id,
                             params.requiredAccessRoles,
-                            params.getResourcesParams.userData.uniqueObjectId
+                            params.getResourcesParams.userData?.uniqueObjectId
                         )
                     )
                 );

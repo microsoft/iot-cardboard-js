@@ -517,7 +517,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                 resource.id,
                                 params.requiredAccessRoles,
                                 params.getResourcesParams.userData
-                                    .uniqueObjectId
+                                    ?.uniqueObjectId
                             )
                         )
                     );
