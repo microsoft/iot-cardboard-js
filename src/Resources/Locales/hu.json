@@ -871,7 +871,13 @@
     "adtInstanceUrl": "Azure Digital Twins példány URL-címe",
     "descriptionForAdtInstance": "Kapcsolja össze a Azure Digital Twins példányát a 3D-jelenetek építésének megkezdéséhez.",
     "descriptionForAdtInstanceAndCont": "Kapcsolja össze a Azure Digital Twins példányt és a tárolót a 3D-s jelenetek építésének megkezdéséhez.",
-    "noAdtInstance": "Nincs hozzáadva ADT-példány"
+    "noAdtInstance": "Nincs hozzáadva ADT-példány",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Hiányoznak az engedélyei. \"Legalább Azure Digital Twins adatolvasóként\" kell hozzáférnie.",
+      "storageAccountMissingPermissionMessage": "Hiányoznak az engedélyei. \"Olvasóként\" kell hozzáférnie (legalább).",
+      "storageContainerMissingPermissionMessage": "Hiányoznak az engedélyei. Hozzáférésre lesz szüksége \"Olvasóként\" (legalább), valamint \"Storage blobadatok tulajdonosaként\" vagy \"Storage blobadatok közreműködőjeként\".",
+      "resourceNotFound": "A megadott értékkel nem található Azure-erőforrás."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
