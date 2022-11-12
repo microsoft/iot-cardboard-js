@@ -47,7 +47,6 @@ import {
     RequiredAccessRoleGroupForStorageContainer,
     AdapterMethodParamsForSearchTwinsByQuery,
     IADXConnection,
-    ADTResourceIdentifier,
     ADXTimeSeries,
     IMockError
 } from '../Models/Constants';
@@ -65,6 +64,7 @@ import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesC
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import {
     AzureMissingRoleDefinitionsData,
+    AzureResourceData,
     AzureResourcesData
 } from '../Models/Classes/AdapterDataClasses/AzureManagementData';
 import {
@@ -92,7 +92,6 @@ import ADTInstanceTimeSeriesConnectionData from '../Models/Classes/AdapterDataCl
 import { handleMigrations } from './BlobAdapterUtility';
 import ADXTimeSeriesData from '../Models/Classes/AdapterDataClasses/ADXTimeSeriesData';
 
-const MAX_RESOURCE_TAKE_LIMIT = 5;
 export default class MockAdapter
     implements
         IKeyValuePairAdapter,
@@ -772,6 +771,63 @@ export default class MockAdapter
         return this.mockADXConnectionInformation;
     };
 
+    async getResourceByUrl(_urlString: string, type: AzureResourceTypes) {
+        switch (type.toLowerCase()) {
+            case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                return new AdapterResult<AzureResourceData>({
+                    result: new AzureResourceData({
+                        name: 'adtInstance123',
+                        id:
+                            '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
+                        type: AzureResourceTypes.DigitalTwinInstance,
+                        subscriptionName: 'subscription123',
+                        location: 'westus2',
+                        properties: {
+                            hostName:
+                                'adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
+                        }
+                    }),
+                    errorInfo: null
+                });
+            case AzureResourceTypes.StorageAccount.toLowerCase():
+                return new AdapterResult<AzureResourceData>({
+                    result: new AzureResourceData({
+                        name: 'storageAccount123',
+                        id:
+                            '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123',
+                        type: AzureResourceTypes.StorageAccount,
+                        subscriptionName: 'subscription123',
+                        properties: {
+                            primaryEndpoints: {
+                                blob:
+                                    'https://storageAccount123.blob.core.windows.net/'
+                            }
+                        }
+                    }),
+                    errorInfo: null
+                });
+            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
+                return new AdapterResult<AzureResourceData>({
+                    result: new AzureResourceData({
+                        name: 'container123',
+                        id:
+                            '/subscriptions/subscription123/resourceGroups/resourceGroup123/providers/Microsoft.Storage/storageAccounts/storageAccount123/blobServices/default/containers/container123',
+                        type: AzureResourceTypes.StorageBlobContainer,
+                        subscriptionName: 'subscription123',
+                        properties: {
+                            publicAccess: 'Container'
+                        }
+                    }),
+                    errorInfo: null
+                });
+            default:
+                return new AdapterResult<AzureResourceData>({
+                    result: new AzureResourceData(null),
+                    errorInfo: null
+                });
+        }
+    }
+
     async getResources({
         resourceType
     }: AdapterMethodParamsForGetAzureResources) {
@@ -838,6 +894,14 @@ export default class MockAdapter
         }
     }
 
+    async hasRoleDefinitions(
+        _resourceId: string,
+        _accessRolesToCheck: AzureAccessPermissionRoleGroups,
+        _uniqueObjectId?: string
+    ) {
+        return true;
+    }
+
     async getResourcesByPermissions(params: {
         getResourcesParams: AdapterMethodParamsForGetAzureResources;
         requiredAccessRoles: AzureAccessPermissionRoleGroups;
@@ -858,13 +922,30 @@ export default class MockAdapter
                         )
                     );
                 }
-                resources = resources.slice(
-                    0,
-                    params.getResourcesParams.searchParams?.take ||
-                        MAX_RESOURCE_TAKE_LIMIT
-                ); // take the first n number of resources to make sure the browser won't crash with making thousands of requests
+                if (params.getResourcesParams.searchParams?.take) {
+                    resources = resources.slice(
+                        0,
+                        params.getResourcesParams.searchParams?.take
+                    );
+                }
 
-                // no need to emulate hasRoleDefinitions
+                const resourcesWithPermissions: Array<IAzureResource> = [];
+                const hasRoleDefinitionsResults = await Promise.all(
+                    resources.map((resource) =>
+                        this.hasRoleDefinitions(
+                            resource.id,
+                            params.requiredAccessRoles,
+                            params.getResourcesParams.userData.uniqueObjectId
+                        )
+                    )
+                );
+                hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
+                    if (haveAccess) {
+                        const resourceWithPermission = resources[idx];
+                        resourcesWithPermissions.push(resourceWithPermission);
+                    }
+                });
+                resources = resourcesWithPermissions;
             }
 
             return new AdapterResult({
@@ -1005,9 +1086,7 @@ export default class MockAdapter
         }
     }
 
-    async getTimeSeriesConnectionInformation(
-        _adtInstanceIdentifier: ADTResourceIdentifier
-    ) {
+    async getTimeSeriesConnectionInformation(_adtUrl: string) {
         try {
             await this.mockNetwork();
 

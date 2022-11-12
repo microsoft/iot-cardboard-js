@@ -755,16 +755,6 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
     }
 };
 
-export const getHostNameFromUrl = (urlString: string) => {
-    try {
-        const urlObj = new URL(urlString);
-        return urlObj.hostname;
-    } catch (error) {
-        console.error('Failed getting hostname from url string', error.message);
-        return null;
-    }
-};
-
 export const removeProtocolPartFromUrl = (urlString: string) => {
     try {
         const urlObj = new URL(urlString);

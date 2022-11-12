@@ -282,26 +282,6 @@ export type AzureResourceFetchParams =
     | AzureResourceFetchParamsForResourceGraph
     | AzureResourceFetchParamsForResourceProvider;
 
-/** Used to identify an ADT instance by its id
- * @param id the resource id of the ADT instance
- */
-export type ADTResourceIdentifierWithId = {
-    id: string;
-};
-
-/** Used to identify an ADT instance by its hostName
- * @param hostName the hostName of the ADT instance
- */
-export type ADTResourceIdentifierWithHostname = {
-    hostName: string;
-};
-
-/** An identifier for an ADT instance, either id of hostName of the resource
- */
-export type ADTResourceIdentifier =
-    | ADTResourceIdentifierWithId
-    | ADTResourceIdentifierWithHostname;
-
 export type ADXTable = {
     Rows: Array<Array<string | number>>;
     Columns: Array<{

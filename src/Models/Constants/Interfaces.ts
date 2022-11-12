@@ -41,18 +41,14 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery,
-    ADTResourceIdentifier
+    AdapterMethodParamsForSearchTwinsByQuery
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import {
-    AzureResourceData,
-    AzureResourcesData
-} from '../Classes/AdapterDataClasses/AzureManagementData';
+import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetProperty } from '../Classes/Simulations/Asset';
@@ -539,8 +535,8 @@ export interface IAzureManagementAdapter {
     ) => AdapterReturnType<AzureResourcesData>;
     hasRoleDefinitions: (
         resourceId: string,
-        uniqueObjectId: string,
-        accessRolesToCheck: AzureAccessPermissionRoleGroups
+        accessRolesToCheck: AzureAccessPermissionRoleGroups,
+        uniqueObjectId: string
     ) => Promise<boolean>;
     getResources: (
         params: AdapterMethodParamsForGetAzureResources
@@ -555,9 +551,8 @@ export interface IAzureManagementAdapter {
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
     getTimeSeriesConnectionInformation: (
-        adtInstanceIdentifier: ADTResourceIdentifier
+        adtUrl: string
     ) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
-    getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 
 export interface IBlobAdapter {

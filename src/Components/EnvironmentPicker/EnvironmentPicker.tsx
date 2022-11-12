@@ -19,7 +19,8 @@ import React, {
     useEffect,
     useMemo,
     useReducer,
-    useRef
+    useRef,
+    useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -39,6 +40,7 @@ import {
     AzureResourceDisplayFields,
     AzureResourceTypes,
     IADTInstance,
+    IAzureResource,
     IAzureStorageAccount,
     IAzureStorageBlobContainer
 } from '../../Models/Constants';
@@ -69,6 +71,7 @@ import {
     setStorageAccountOptionsInLocalStorage,
     setStorageContainerOptionsInLocalStorage
 } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
+import produce from 'immer';
 
 const dialogStyles: Partial<IModalStyles> = {
     main: {
@@ -107,6 +110,14 @@ const EnvironmentPicker = ({
             setTrue: hideDialog
         }
     ] = useBoolean(!isDialogOpenProp);
+    const [
+        resourcePickerErrorMessages,
+        setResourcePickerErrorMessages
+    ] = useState({
+        adt: undefined,
+        storageAccount: undefined,
+        storageContainer: undefined
+    });
 
     const defaultStorageAccountToContainersMappingsRef = useRef<
         Array<StorageAccountToContainersMapping>
@@ -378,10 +389,115 @@ const EnvironmentPicker = ({
         return displayText || t('environmentPicker.noContainer');
     }, [t, storage.containerUrl]);
 
-    const handleOnAdtInstanceResourceChange = (
+    const checkPermissionsForResource = async (
+        // check permissions for the selected resource and update error messages accordingly
+        resource: IAzureResource | string,
+        type: AzureResourceTypes,
+        parentResource?: IAzureResource | string
+    ) => {
+        let fetchedResource: IAzureResource;
+        if (typeof resource === 'string') {
+            const getResourceResponse = await adapter.getResourceByUrl(
+                getResourceUrl(resource, type, parentResource),
+                type
+            );
+            fetchedResource = getResourceResponse.getData();
+        } else {
+            fetchedResource = resource;
+        }
+
+        if (fetchedResource) {
+            const haveAccess = await adapter.hasRoleDefinitions(
+                fetchedResource.id,
+                type.toLowerCase() ===
+                    AzureResourceTypes.DigitalTwinInstance.toLowerCase()
+                    ? RequiredAccessRoleGroupForADTInstance
+                    : type.toLowerCase() ===
+                      AzureResourceTypes.StorageAccount.toLowerCase()
+                    ? RequiredAccessRoleGroupForStorageAccount
+                    : RequiredAccessRoleGroupForStorageContainer
+            );
+
+            setResourcePickerErrorMessages(
+                produce((draft) => {
+                    switch (type.toLowerCase()) {
+                        case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                            draft.adt = haveAccess
+                                ? null
+                                : t(
+                                      'environmentPicker.errors.adtInstanceMissingPermissionMessage'
+                                  );
+                            break;
+                        case AzureResourceTypes.StorageAccount.toLowerCase():
+                            draft.storageAccount = haveAccess
+                                ? null
+                                : t(
+                                      'environmentPicker.errors.storageAccountMissingPermissionMessage'
+                                  );
+                            break;
+                        case AzureResourceTypes.StorageBlobContainer.toLowerCase():
+                            draft.storageContainer = haveAccess
+                                ? null
+                                : t(
+                                      'environmentPicker.errors.storageContainerMissingPermissionMessage'
+                                  );
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            );
+        } else {
+            setResourcePickerErrorMessages(
+                produce((draft) => {
+                    switch (type.toLowerCase()) {
+                        case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                            draft.adt = t(
+                                'environmentPicker.errors.resourceNotFound'
+                            );
+                            break;
+                        case AzureResourceTypes.StorageAccount.toLowerCase():
+                            draft.storageAccount = t(
+                                'environmentPicker.errors.resourceNotFound'
+                            );
+                            break;
+                        case AzureResourceTypes.StorageBlobContainer.toLowerCase():
+                            draft.storageContainer = t(
+                                'environmentPicker.errors.resourceNotFound'
+                            );
+                            break;
+                        default:
+                            break;
+                    }
+                })
+            );
+        }
+    };
+
+    const handleOnAdtInstanceResourceChange = async (
         resource: IADTInstance | string,
         resources: Array<IADTInstance | string>
     ) => {
+        if (
+            resource &&
+            (!areResourceValuesEqual(
+                getResourceUrl(
+                    environmentPickerState.adtInstanceInfo.adtInstanceToEdit,
+                    AzureResourceTypes.DigitalTwinInstance
+                ),
+                getResourceUrl(
+                    resource,
+                    AzureResourceTypes.DigitalTwinInstance
+                ),
+                AzureResourceDisplayFields.url
+            ) ||
+                resourcePickerErrorMessages.adt === undefined) // check permissions on mount for the default selected value as well
+        ) {
+            checkPermissionsForResource(
+                resource,
+                AzureResourceTypes.DigitalTwinInstance
+            );
+        }
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO,
             payload: {
@@ -393,10 +509,29 @@ const EnvironmentPicker = ({
         });
     };
 
-    const handleOnStorageAccountResourceChange = (
+    const handleOnStorageAccountResourceChange = async (
         resource: IAzureStorageAccount | string,
         resources: Array<IAzureStorageAccount | string>
     ) => {
+        if (
+            resource &&
+            (!areResourceValuesEqual(
+                getResourceUrl(
+                    environmentPickerState.storageAccountInfo
+                        .storageAccountToEdit,
+                    AzureResourceTypes.StorageAccount
+                ),
+                getResourceUrl(resource, AzureResourceTypes.StorageAccount),
+                AzureResourceDisplayFields.url
+            ) ||
+                resourcePickerErrorMessages.storageAccount === undefined) // check permissions on mount for the default selected value as well
+        ) {
+            checkPermissionsForResource(
+                resource,
+                AzureResourceTypes.StorageAccount
+            );
+        }
+
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_STORAGE_ACCOUNT_INFO,
             payload: {
@@ -453,10 +588,32 @@ const EnvironmentPicker = ({
         });
     };
 
-    const handleOnStorageContainerResourceChange = (
+    const handleOnStorageContainerResourceChange = async (
         resource: IAzureStorageBlobContainer | string,
         resources: Array<IAzureStorageBlobContainer | string>
     ) => {
+        if (
+            resource &&
+            (!areResourceValuesEqual(
+                getNameOfResource(
+                    environmentPickerState.containerInfo.containerToEdit,
+                    AzureResourceTypes.StorageBlobContainer
+                ),
+                getNameOfResource(
+                    resource,
+                    AzureResourceTypes.StorageBlobContainer
+                ),
+                AzureResourceDisplayFields.name
+            ) ||
+                resourcePickerErrorMessages.storageContainer === undefined) // check permissions on mount for the default selected value as well
+        ) {
+            checkPermissionsForResource(
+                resource,
+                AzureResourceTypes.StorageBlobContainer,
+                environmentPickerState.storageAccountInfo.storageAccountToEdit
+            );
+        }
+
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_CONTAINER_INFO,
             payload: {
@@ -531,9 +688,10 @@ const EnvironmentPicker = ({
                             resourceType={
                                 AzureResourceTypes.DigitalTwinInstance
                             }
-                            requiredAccessRoles={
-                                RequiredAccessRoleGroupForADTInstance
-                            }
+                            requiredAccessRoles={{
+                                enforced: [],
+                                interchangeables: []
+                            }}
                             shouldFetchResourcesOnMount={
                                 !hasFetchedResources.current.adtInstances
                             }
@@ -553,6 +711,7 @@ const EnvironmentPicker = ({
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
+                            errorMessage={resourcePickerErrorMessages.adt}
                             allowFreeform
                         />
                         {storage && (
@@ -563,9 +722,10 @@ const EnvironmentPicker = ({
                                     resourceType={
                                         AzureResourceTypes.StorageAccount
                                     }
-                                    requiredAccessRoles={
-                                        RequiredAccessRoleGroupForStorageAccount
-                                    }
+                                    requiredAccessRoles={{
+                                        enforced: [],
+                                        interchangeables: []
+                                    }}
                                     shouldFetchResourcesOnMount={
                                         !hasFetchedResources.current
                                             .storageAccounts
@@ -593,6 +753,9 @@ const EnvironmentPicker = ({
                                     onLoaded={
                                         handleOnStorageAccountResourcesLoaded
                                     }
+                                    errorMessage={
+                                        resourcePickerErrorMessages.storageAccount
+                                    }
                                     allowFreeform
                                 />
 
@@ -608,9 +771,10 @@ const EnvironmentPicker = ({
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
                                     }
-                                    requiredAccessRoles={
-                                        RequiredAccessRoleGroupForStorageContainer
-                                    }
+                                    requiredAccessRoles={{
+                                        enforced: [],
+                                        interchangeables: []
+                                    }}
                                     searchParams={{
                                         additionalParams: {
                                             storageAccountId: getStorageAccountId(
@@ -655,6 +819,9 @@ const EnvironmentPicker = ({
                                     onLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
+                                    errorMessage={
+                                        resourcePickerErrorMessages.storageContainer
+                                    }
                                     allowFreeform
                                 />
                             </>
@@ -682,7 +849,10 @@ const EnvironmentPicker = ({
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            storage
+                            resourcePickerErrorMessages.adt ||
+                            resourcePickerErrorMessages.storageAccount ||
+                            resourcePickerErrorMessages.storageContainer ||
+                            (storage
                                 ? !(
                                       environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
@@ -690,7 +860,7 @@ const EnvironmentPicker = ({
                                           .containerToEdit
                                   )
                                 : !environmentPickerState.adtInstanceInfo
-                                      .adtInstanceToEdit
+                                      .adtInstanceToEdit)
                         }
                     />
                 </DialogFooter>

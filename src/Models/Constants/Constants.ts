@@ -501,7 +501,11 @@ export const EnforcedStorageAccountAccessRoleIds: Array<AzureAccessPermissionRol
 export const InterchangeableStorageAccountAccessRoleIds: Array<
     Array<AzureAccessPermissionRoles>
 > = [
-    [AzureAccessPermissionRoles.Owner, AzureAccessPermissionRoles.Contributor]
+    [
+        AzureAccessPermissionRoles.Reader,
+        AzureAccessPermissionRoles.Owner,
+        AzureAccessPermissionRoles.Contributor
+    ]
 ];
 export const RequiredAccessRoleGroupForStorageAccount: AzureAccessPermissionRoleGroups = {
     enforced: EnforcedStorageAccountAccessRoleIds,

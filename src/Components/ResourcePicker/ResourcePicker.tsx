@@ -71,7 +71,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     additionalOptions: additionalOptionsProp,
     selectedOption: selectedOptionProp,
     allowFreeform = false,
-    disabled = false
+    disabled = false,
+    errorMessage
 }) => {
     const { t } = useTranslation();
     const classNames = getClassNames(styles, {
@@ -392,21 +393,31 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const inputError = useMemo(() => {
         if (
             selectedOption &&
-            displayField === AzureResourceDisplayFields.url &&
-            !isValidUrlStr(selectedOption.text, resourceType)
+            ((displayField === AzureResourceDisplayFields.url &&
+                !isValidUrlStr(selectedOption.text, resourceType)) ||
+                errorMessage)
         ) {
             switch (resourceType.toLowerCase()) {
                 case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                    return t('resourcesPicker.errors.invalidEnvironmentUrl');
+                    return (
+                        errorMessage ||
+                        t('resourcesPicker.errors.invalidEnvironmentUrl')
+                    );
                 case AzureResourceTypes.StorageAccount.toLowerCase():
-                    return t('resourcesPicker.errors.invalidStorageAccountUrl');
+                    return (
+                        errorMessage ||
+                        t('resourcesPicker.errors.invalidStorageAccountUrl')
+                    );
                 case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                    return t('resourcesPicker.errors.invalidContainerUrl');
+                    return (
+                        errorMessage ||
+                        t('resourcesPicker.errors.invalidContainerUrl')
+                    );
                 default:
                     return undefined;
             }
         }
-    }, [selectedOption, resourceType, t, displayField]);
+    }, [selectedOption, resourceType, t, displayField, errorMessage]);
 
     /** notify the change when:
      * 1- selected option is changed by its key (e.g. when option change in the dropdown or when the resource data fetched and merged with existing one)

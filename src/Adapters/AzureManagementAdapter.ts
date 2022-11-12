@@ -8,9 +8,6 @@ import {
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
 import {
     AdapterMethodParamsForGetAzureResources,
-    ADTResourceIdentifier,
-    ADTResourceIdentifierWithHostname,
-    ADTResourceIdentifierWithId,
     timeSeriesConnectionRefreshMaxAge,
     AzureAccessPermissionRoleGroups,
     AzureAccessPermissionRoles,
@@ -25,7 +22,6 @@ import {
     IAzureStorageAccount,
     IAzureStorageBlobContainer,
     IAzureTimeSeriesDatabaseConnection,
-    RequiredAccessRoleGroupForADTInstance,
     AzureResourceFetchParams,
     AzureResourceFetchParamsForResourceGraph,
     AzureResourceFetchParamsForResourceProvider
@@ -106,10 +102,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                           params.type
                       }' | where tenantId == '${this.tenantId}'${
                           params.query ? ' | where ' + params.query : ''
-                      } | join kind=leftouter (ResourceContainers | where type=='microsoft.resources/subscriptions' | project subscriptionName=name, subscriptionId) on subscriptionId 
-                        | project id, name, location, type, properties, tenantId, subscriptionId, subscriptionName, resourceGroup${
-                            params.limit ? ' | limit ' + params.limit : ''
-                        } | order by name asc`,
+                      } | join kind=leftouter (ResourceContainers | where type=='microsoft.resources/subscriptions' | project subscriptionName=name, subscriptionId) on subscriptionId | project id, name, location, type, properties, tenantId, subscriptionId, subscriptionName, resourceGroup${
+                          params.limit ? ' | limit ' + params.limit : ''
+                      } | order by name asc`,
                       options: {
                           $skipToken: params.skipToken
                       }
@@ -130,7 +125,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             }
 
             // If next link present, fetch next chunk
-            if (result.data?.$skipToken && result.data?.data?.length) {
+            if (result?.data?.$skipToken && result?.data?.data?.length) {
                 accumulator = await this.fetchAllResources(
                     adapterMethodSandbox,
                     token,
@@ -183,8 +178,8 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
      *  in their list of role assignments for a particular resource */
     async hasRoleDefinitions(
         resourceId: string,
-        uniqueObjectId: string,
-        accessRolesToCheck: AzureAccessPermissionRoleGroups
+        accessRolesToCheck: AzureAccessPermissionRoleGroups,
+        uniqueObjectId: string = this.uniqueObjectId
     ) {
         const userRoleAssignments = await this.getRoleAssignments(
             resourceId,
@@ -256,6 +251,87 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 }
             );
             return new AzureResourcesData(containers);
+        }, 'azureManagement');
+    }
+
+    /** Returns the Azure resource provided by its url string */
+    async getResourceByUrl(urlString: string, type: AzureResourceTypes) {
+        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
+
+        return await adapterMethodSandbox.safelyFetchData(async (token) => {
+            let resource: IAzureResource;
+            let query = '';
+            let urlObj: URL;
+            try {
+                switch (type.toLowerCase()) {
+                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                        urlObj = new URL(urlString);
+                        query =
+                            "properties.hostName == '" + urlObj.hostname + "'";
+                        break;
+                    case AzureResourceTypes.StorageAccount.toLowerCase():
+                        urlObj = new URL(urlString);
+                        query =
+                            "properties.primaryEndpoints.blob == '" +
+                            urlObj.href +
+                            "'";
+                        break;
+                    case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
+                        urlObj = new URL(urlString);
+                        query =
+                            "properties.primaryEndpoints.blob == '" +
+                            urlObj.origin +
+                            "/'";
+                        const storageAccounts: Array<IAzureResource> = await this.fetchAllResources(
+                            adapterMethodSandbox,
+                            token,
+                            {
+                                type: AzureResourceTypes.StorageAccount,
+                                query: query
+                            }
+                        );
+                        const resourcesResponse = await this.getContainersByStorageAccountId(
+                            storageAccounts[0].id
+                        );
+                        const containers: Array<IAzureResource> = resourcesResponse.getData();
+                        containers.forEach(
+                            (r) =>
+                                (r.subscriptionName =
+                                    storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
+                        );
+                        const container = containers.find(
+                            (c) => '/' + c.name === urlObj.pathname
+                        );
+                        resource = container;
+                        break;
+                    }
+                    default:
+                        break;
+                }
+
+                if (
+                    type.toLowerCase() !==
+                        AzureResourceTypes.StorageBlobContainer.toLowerCase() &&
+                    query
+                ) {
+                    const length1Resources: Array<IAzureResource> = await this.fetchAllResources(
+                        adapterMethodSandbox,
+                        token,
+                        {
+                            type,
+                            query
+                        }
+                    );
+                    resource = length1Resources[0];
+                }
+            } catch (error) {
+                console.error(
+                    'getResourceByUrl: Failed to fetch resource by url: ',
+                    error
+                );
+            }
+
+            return new AzureResourceData(resource);
         }, 'azureManagement');
     }
 
@@ -419,26 +495,38 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 );
                 const resources = resourcesResponse.getData();
 
-                const resourcesWithPermissions: Array<IAzureResource> = [];
-                logDebugConsole(
-                    'debug',
-                    `[START] Checking role assignments for those resources`
-                );
-                const hasRoleDefinitionsResults = await Promise.all(
-                    resources.map((resource) =>
-                        this.hasRoleDefinitions(
-                            resource.id,
-                            this.uniqueObjectId,
-                            params.requiredAccessRoles
+                let resourcesWithPermissions: Array<IAzureResource> = [];
+                if (
+                    params.requiredAccessRoles.enforced.length ||
+                    params.requiredAccessRoles.interchangeables.length
+                ) {
+                    // if there are role permissions to check against, start to role assignment check flow
+                    logDebugConsole(
+                        'debug',
+                        `[START] Checking role assignments for those resources`
+                    );
+                    const hasRoleDefinitionsResults = await Promise.all(
+                        resources.map((resource) =>
+                            this.hasRoleDefinitions(
+                                resource.id,
+                                params.requiredAccessRoles,
+                                params.getResourcesParams.userData
+                                    .uniqueObjectId
+                            )
                         )
-                    )
-                );
-                hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
-                    if (haveAccess) {
-                        const resourceWithPermission = resources[idx];
-                        resourcesWithPermissions.push(resourceWithPermission);
-                    }
-                });
+                    );
+                    hasRoleDefinitionsResults.forEach((haveAccess, idx) => {
+                        if (haveAccess) {
+                            const resourceWithPermission = resources[idx];
+                            resourcesWithPermissions.push(
+                                resourceWithPermission
+                            );
+                        }
+                    });
+                } else {
+                    resourcesWithPermissions = resources;
+                }
+
                 logDebugConsole(
                     'debug',
                     `[END] Number of resources for which the user has the required access permissions: `,
@@ -506,7 +594,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
     /** either pass id or hostName as adtInstanceIdentifier */
     async getTimeSeriesConnectionInformation(
-        adtInstanceIdentifier: ADTResourceIdentifier,
+        adtUrl: string,
         useCache = false,
         forceRefresh = false
     ) {
@@ -514,49 +602,21 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         const getDataMethod = () =>
             adapterMethodSandbox.safelyFetchData(async (token) => {
-                let adtInstance: IAzureResource;
-                if (adtInstanceIdentifier['hostName']) {
-                    logDebugConsole(
-                        'debug',
-                        '[START] Fetching ADT instance resource by hostName'
-                    );
-                    const digitalTwinInstances = await this.getResourcesByPermissions(
-                        {
-                            getResourcesParams: {
-                                resourceType:
-                                    AzureResourceTypes.DigitalTwinInstance
-                            },
-                            requiredAccessRoles: RequiredAccessRoleGroupForADTInstance
-                        }
-                    );
-                    const result = digitalTwinInstances.result.data;
-                    adtInstance = result.find(
-                        (d) =>
-                            d.properties.hostName ===
-                            (adtInstanceIdentifier as ADTResourceIdentifierWithHostname)
-                                .hostName
-                    );
-                    logDebugConsole(
-                        'debug',
-                        '[END] Fetching ADT instance resource by hostName. {adtInstance}',
-                        adtInstance
-                    );
-                } else if (adtInstanceIdentifier['id']) {
-                    logDebugConsole(
-                        'debug',
-                        '[START] Fetching ADT instance resource by id'
-                    );
-                    const digitalTwinInstance = await this.getResourceById(
-                        (adtInstanceIdentifier as ADTResourceIdentifierWithId)
-                            .id
-                    );
-                    adtInstance = digitalTwinInstance.result.data;
-                    logDebugConsole(
-                        'debug',
-                        '[END] Fetching ADT instance resource by id. {adtInstance}',
-                        adtInstance
-                    );
-                }
+                logDebugConsole(
+                    'debug',
+                    '[START] Fetching ADT instance resource by host url'
+                );
+                const adtInstanceResult = await this.getResourceByUrl(
+                    adtUrl,
+                    AzureResourceTypes.DigitalTwinInstance
+                );
+
+                const adtInstance: IAzureResource = adtInstanceResult.getData();
+                logDebugConsole(
+                    'debug',
+                    '[END] Fetching ADT instance resource by hostName. {adtInstance}',
+                    adtInstance
+                );
 
                 try {
                     logDebugConsole(
@@ -606,38 +666,12 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
 
         if (useCache) {
             return this.timeSeriesConnectionCache.getEntity(
-                `${
-                    adtInstanceIdentifier['hostName'] ||
-                    adtInstanceIdentifier['id']
-                }-adt_adx_connection_information`,
+                `${adtUrl}-adt_adx_connection_information`,
                 getDataMethod,
                 forceRefresh
             );
         } else {
             return getDataMethod();
         }
-    }
-
-    async getResourceById(resourceId: string) {
-        const adapterMethodSandbox = new AdapterMethodSandbox(this.authService);
-        return await adapterMethodSandbox.safelyFetchData(async (token) => {
-            const result = await axios({
-                method: 'get',
-                url: `https://management.azure.com${resourceId}`,
-                headers: {
-                    'Content-Type': 'application/json',
-                    authorization: 'Bearer ' + token
-                },
-                params: { 'api-version': '2022-05-31' }
-            }).catch((err) => {
-                adapterMethodSandbox.pushError({
-                    type: ComponentErrorType.DataFetchFailed,
-                    isCatastrophic: false,
-                    rawError: err
-                });
-                return null;
-            });
-            return new AzureResourceData(result?.data);
-        }, 'azureManagement');
     }
 }
