@@ -476,10 +476,10 @@ describe('Utils', () => {
             );
 
             expect(resourceUrl1).toBe(
-                'https://testADTInstance.api.wcus.digitaltwins.azure.net'
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net/'
             );
             expect(resourceUrl2).toBe(
-                'https://testADTInstance.api.wcus.digitaltwins.azure.net'
+                'https://testADTInstance.api.wcus.digitaltwins.azure.net/'
             );
             expect(resourceUrl3).toBe(
                 'https://teststorageaccount.blob.core.windows.net/'

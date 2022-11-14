@@ -60,6 +60,7 @@ import { SceneVisual } from '../Models/Classes/SceneView.types';
 import mockVConfig from './__mockData__/3DScenesConfiguration.json';
 import mockTwinData from './__mockData__/MockAdapterData/MockTwinData.json';
 import mockModelData from './__mockData__/MockAdapterData/MockModelData.json';
+import mockADTInstanceResourceGraphData from './__mockData__/MockAdapterData/MockResourceGraphDataForADTInstances.json';
 import ADTScenesConfigData from '../Models/Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Models/Classes/AdapterDataClasses/ADT3DViewerData';
 import {
@@ -857,20 +858,10 @@ export default class MockAdapter
                 }
             }
         ];
-        const mockADTInstanceResources: Array<IAzureResource> = [
-            {
-                name: 'adtInstance123',
-                id:
-                    '/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance123',
-                type: AzureResourceTypes.DigitalTwinInstance,
-                subscriptionName: 'subscription123',
-                location: 'westus2',
-                properties: {
-                    hostName:
-                        'adtInstance123.api.wus2.ss.azuredigitaltwins-test.net'
-                }
-            }
-        ];
+        const mockADTInstanceResources: Array<IAzureResource> = mockADTInstanceResourceGraphData.data.map(
+            (d) => d as IAzureResource
+        );
+        debugger;
         if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
             return new AdapterResult({
                 result: new AzureResourcesData(mockADTInstanceResources),
