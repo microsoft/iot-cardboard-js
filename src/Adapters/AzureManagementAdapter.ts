@@ -266,15 +266,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 switch (type.toLowerCase()) {
                     case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                         urlObj = new URL(urlString);
-                        query =
-                            "properties.hostName == '" + urlObj.hostname + "'";
+                        query = `properties.hostName == '${urlObj.hostname}'`;
                         break;
                     case AzureResourceTypes.StorageAccount.toLowerCase():
                         urlObj = new URL(urlString);
-                        query =
-                            "properties.primaryEndpoints.blob == '" +
-                            urlObj.href +
-                            "'";
+                        query = `properties.primaryEndpoints.blob == '${urlObj.href}'`;
                         break;
                     case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
                         /** if it is Storage Container type resource:
@@ -283,10 +279,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                          * (3) find the container by its name among those containers
                          *  */
                         urlObj = new URL(urlString);
-                        query =
-                            "properties.primaryEndpoints.blob == '" +
-                            urlObj.origin +
-                            "/'";
+                        query = `properties.primaryEndpoints.blob == '${urlObj.origin}/'`;
                         const storageAccounts: Array<IAzureResource> = await this.fetchAllResources(
                             adapterMethodSandbox,
                             token,
@@ -363,21 +356,16 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                         params.searchParams?.additionalParams
                             ?.storageAccountBlobUrl
                     ) {
+                        const query = params.searchParams?.additionalParams
+                            ?.storageAccountId
+                            ? `id == '${params.searchParams.additionalParams.storageAccountId}'`
+                            : `properties.primaryEndpoints.blob == '${params.searchParams.additionalParams.storageAccountBlobUrl}'`;
                         const storageAccounts: Array<IAzureStorageAccount> = await this.fetchAllResources(
                             adapterMethodSandbox,
                             token,
                             {
                                 type: AzureResourceTypes.StorageAccount,
-                                query: params.searchParams?.additionalParams
-                                    ?.storageAccountId
-                                    ? "id == '" +
-                                      params.searchParams?.additionalParams
-                                          ?.storageAccountId +
-                                      "'"
-                                    : "properties.primaryEndpoints.blob == '" +
-                                      params.searchParams?.additionalParams
-                                          ?.storageAccountBlobUrl +
-                                      "'"
+                                query
                             }
                         );
 
