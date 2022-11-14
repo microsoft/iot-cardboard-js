@@ -11,6 +11,7 @@ import { useId } from '@fluentui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDefaultVisualRuleCondition } from '../../../../../Models/Classes/3DVConfig';
+import { hasBadge } from '../../../../../Models/Services/Utils';
 import {
     IExpressionRangeType,
     IValueRange
@@ -22,7 +23,6 @@ import {
     getNextColor,
     transformValueRangesIntoConditions
 } from '../VisualRuleFormUtility';
-import { hasBadge } from './ConditionsCallout/ConditionCalloutUtility';
 import ConditionsCallout from './ConditionsCallout/ConditionsCallout';
 import { getStyles } from './ConditionsList.styles';
 import {

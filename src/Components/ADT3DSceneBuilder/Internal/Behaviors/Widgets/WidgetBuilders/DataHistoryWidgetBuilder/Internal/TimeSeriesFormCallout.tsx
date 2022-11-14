@@ -31,6 +31,7 @@ import {
     PropertyExpression
 } from '../../../../../../../ModelledPropertyBuilder/ModelledPropertyBuilder.types';
 import { createGUID } from '../../../../../../../../Models/Services/Utils';
+import { PropertyValueType } from '../../../../../../../../Models/Constants/Constants';
 
 interface IProp {
     calloutTarget: string;
@@ -46,8 +47,15 @@ enum Mode {
 
 const defaultSeries: IDataHistoryBasicTimeSeries = {
     id: '',
-    expression: ''
+    expression: '',
+    propertyType: 'double'
 };
+
+// Allow numerics + string as users often use string properties as the lowest common denominator
+const allowedTimeseriesPropertyValueTypes: Array<PropertyValueType> = [
+    'string',
+    ...numericPropertyValueTypes
+];
 
 /** This callout component consists form for time series authoring to show in line chart */
 const TimeSeriesFormCallout: React.FC<IProp> = ({
@@ -94,6 +102,8 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
             setSeriesToEdit(
                 produce((draft) => {
                     draft.expression = newPropertyExpression.expression;
+                    draft.propertyType =
+                        newPropertyExpression.property.propertyType;
                 })
             );
         },
@@ -151,8 +161,17 @@ const TimeSeriesFormCallout: React.FC<IProp> = ({
                     propertyExpression={{
                         expression: seriesToEdit?.expression
                     }}
+                    description={
+                        seriesToEdit?.propertyType === 'string'
+                            ? t(
+                                  'widgets.dataHistory.form.timeSeries.stringTimeSeriesWarning'
+                              )
+                            : undefined
+                    }
                     onChange={handlePropertyChange}
-                    allowedPropertyValueTypes={numericPropertyValueTypes}
+                    allowedPropertyValueTypes={
+                        allowedTimeseriesPropertyValueTypes
+                    }
                     required
                 />
                 <TextField

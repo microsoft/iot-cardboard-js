@@ -649,7 +649,8 @@
           "edit": "Úprava časových řad",
           "update": "Aktualizace časových řad",
           "remove": "Odebrání časových řad",
-          "unitPlaceholder": "např. m, m², kg, s, °C"
+          "unitPlaceholder": "např. m, m², kg, s, °C",
+          "stringTimeSeriesWarning": "Poznámka: vlastnosti řetězce budou v době dotazu přetypovány na číselné a některé hodnoty mohou být vynechány"
         },
         "chartOptions": {
           "yAxisType": {

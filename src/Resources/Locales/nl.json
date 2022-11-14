@@ -649,7 +649,8 @@
           "edit": "Tijdreeksen bewerken",
           "update": "Tijdreeksen bijwerken",
           "remove": "Tijdreeksen verwijderen",
-          "unitPlaceholder": "bv. m, m², kg, s, °C"
+          "unitPlaceholder": "bv. m, m², kg, s, °C",
+          "stringTimeSeriesWarning": "Opmerking: tekenreekseigenschappen worden tijdens de query naar numeriek gecast en kunnen ertoe leiden dat sommige waarden worden weggelaten"
         },
         "chartOptions": {
           "yAxisType": {
