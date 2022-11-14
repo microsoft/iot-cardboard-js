@@ -861,7 +861,6 @@ export default class MockAdapter
         const mockADTInstanceResources: Array<IAzureResource> = mockADTInstanceResourceGraphData.data.map(
             (d) => d as IAzureResource
         );
-        debugger;
         if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
             return new AdapterResult({
                 result: new AzureResourcesData(mockADTInstanceResources),
