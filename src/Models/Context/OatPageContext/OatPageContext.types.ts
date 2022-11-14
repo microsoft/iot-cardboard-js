@@ -255,11 +255,18 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.ADD_RELATIONSHIP;
-          payload: {
-              sourceModelId: string;
-              targetModelId: string;
-              relationshipType: OatRelationshipType;
-          };
+          payload:
+              | {
+                    type: 'Targeted';
+                    sourceModelId: string;
+                    targetModelId: string;
+                    relationshipType: OatRelationshipType;
+                }
+              | {
+                    type: 'Untargeted';
+                    sourceModelId: string;
+                    position: IOATNodePosition;
+                };
       }
     | {
           type: OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP;

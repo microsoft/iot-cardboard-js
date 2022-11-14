@@ -174,7 +174,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                     }
                                 } else {
                                     addUntargetedRelationship(
-                                        input['@id'],
+                                        input,
                                         content,
                                         modelPositions,
                                         elements
@@ -383,6 +383,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     oatPageDispatch({
                         type: OatPageContextActionType.ADD_RELATIONSHIP,
                         payload: {
+                            type: 'Targeted',
                             relationshipType: type,
                             sourceModelId: sourceModelId,
                             targetModelId: targetModelId
@@ -407,17 +408,19 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             } else if (
                 currentHandleIdRef.current === OAT_UNTARGETED_RELATIONSHIP_NAME
             ) {
-                const relationship = {
-                    '@type': OAT_RELATIONSHIP_HANDLE_NAME,
-                    name: null,
-                    targetModelId
-                };
-                addUntargetedRelationship(
-                    sourceModelId,
-                    relationship,
-                    oatPageState.currentOntologyModelPositions,
-                    elementsCopy
-                );
+                const reactFlowBounds = reactFlowWrapperRef.current.getBoundingClientRect();
+                const position = rfInstance.project({
+                    x: evt.clientX - reactFlowBounds.left,
+                    y: evt.clientY - reactFlowBounds.top
+                });
+                oatPageDispatch({
+                    type: OatPageContextActionType.ADD_RELATIONSHIP,
+                    payload: {
+                        type: 'Untargeted',
+                        sourceModelId: sourceModelId,
+                        position: position
+                    }
+                });
             }
         };
 

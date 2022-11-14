@@ -70,7 +70,7 @@ export const addTargetedRelationship = (
 };
 
 export const addUntargetedRelationship = (
-    sourceId: string,
+    sourceModel: DtdlInterface,
     relationship: DtdlInterfaceContent,
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
@@ -78,35 +78,37 @@ export const addUntargetedRelationship = (
     logDebugConsole(
         'debug',
         '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
-        sourceId,
+        sourceModel['@id'],
         relationship,
         modelPositions,
         elements
     );
     const name = relationship.name;
-    const id = relationship['@id'] || `${sourceId}_${name}`;
+    const id =
+        relationship['@id'] || // use the given id if present
+        `untargeted_${sourceModel['@id']}_${relationship.name}`; // generate a name from the relationship name
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
-        id,
-        OAT_INTERFACE_TYPE,
+        id, // id
+        OAT_INTERFACE_TYPE, // type
         {
             x: rp ? rp.position.x : DEFAULT_NODE_POSITION,
             y: rp ? rp.position.y : DEFAULT_NODE_POSITION
-        },
+        }, // position
         {
-            '@id': sourceId,
+            '@id': sourceModel['@id'],
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
             '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
-        }
+        } // data
     );
     const relationshipEdge = new ElementEdge(
-        id,
-        '',
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
-        '',
-        sourceId,
+        id, // id
+        '', // label
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE, // type
+        '', // marker end
+        sourceModel['@id'], // source
         OAT_UNTARGETED_RELATIONSHIP_NAME,
         id,
         OAT_UNTARGETED_RELATIONSHIP_NAME,
@@ -122,7 +124,9 @@ export const addUntargetedRelationship = (
     elements.push(relationshipEdge);
     logDebugConsole(
         'debug',
-        '[END] addUntargetedRelationship. {elements}',
+        '[END] addUntargetedRelationship. {node, edge, elements}',
+        newNode,
+        relationshipEdge,
         elements
     );
     return relationshipEdge;
@@ -134,13 +138,13 @@ export const addComponentRelationship = (
     targetName: string,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    logDebugConsole(
-        'debug',
-        '[START] addComponentRelationship. {source, component, elements}',
-        sourceId,
-        component,
-        elements
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     '[START] addComponentRelationship. {source, component, elements}',
+    //     sourceId,
+    //     component,
+    //     elements
+    // );
     // const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
     const name = component.name; // || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
@@ -160,12 +164,12 @@ export const addComponentRelationship = (
     );
 
     elements.push(relationshipEdge);
-    logDebugConsole(
-        'debug',
-        '[END] addComponentRelationship. {edge, elements}',
-        relationshipEdge,
-        elements
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     '[END] addComponentRelationship. {edge, elements}',
+    //     relationshipEdge,
+    //     elements
+    // );
     return relationshipEdge;
 };
 

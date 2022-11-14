@@ -30,7 +30,8 @@ import {
     setSelectedModel,
     updateModelId,
     addTargetedRelationship,
-    addNewModelToState
+    addNewModelToState,
+    addUntargetedRelationship
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -282,17 +283,22 @@ export const OatPageContextReducer: (
                 break;
             }
             case OatPageContextActionType.ADD_RELATIONSHIP: {
-                const {
-                    relationshipType,
-                    sourceModelId,
-                    targetModelId
-                } = action.payload;
-                addTargetedRelationship(
-                    draft,
-                    sourceModelId,
-                    targetModelId,
-                    relationshipType
-                );
+                if (action.payload.type === 'Targeted') {
+                    const {
+                        relationshipType,
+                        sourceModelId,
+                        targetModelId
+                    } = action.payload;
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModelId,
+                        relationshipType
+                    );
+                } else {
+                    const { sourceModelId } = action.payload;
+                    addUntargetedRelationship(draft, sourceModelId);
+                }
                 saveData(draft);
                 break;
             }

@@ -1,6 +1,6 @@
 import { i18n } from 'i18next';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { DTDLModel } from '../Classes/DTDL';
+import { DTDLModel, DTDLType } from '../Classes/DTDL';
 import {
     DtdlInterface,
     OAT_FILES_STORAGE_KEY,
@@ -140,6 +140,8 @@ export function convertModelToDtdl(model: DtdlInterface): DtdlInterface {
     return newModel;
 }
 
+//#region Model ID
+
 const DEFAULT_VERSION_NUMBER = 1;
 interface IBuildModelIdArgs {
     /** namespace for the current ontology */
@@ -228,3 +230,5 @@ export function parseModelId(
         version: version
     };
 }
+
+//#endregion

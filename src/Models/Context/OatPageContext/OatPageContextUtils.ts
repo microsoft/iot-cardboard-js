@@ -225,28 +225,12 @@ export const updateModelId = (
 
 //#region Creating new relationship
 
-const getNewComponent = (name: string, targetModelId: string) => {
-    const component: IDTDLComponent = {
-        '@type': DTDLType.Component,
-        name: name,
-        schema: targetModelId
-    };
-    return component;
-};
-const getNewRelationship = (name: string, targetModelId: string) => {
-    const relationship: IDTDLRelationship = {
-        '@type': DTDLType.Relationship,
-        name: name,
-        target: targetModelId
-    };
-    return relationship;
-};
 /** Loops the contents of a model to find the next available name */
-const getNextName = (
+function getNextName(
     sourceModel: DtdlInterface,
     namePrefix: string,
     type: DTDLType
-) => {
+) {
     let index = 0;
     // loop the contents and look for other entries with the same name, keep going till it's unique
     while (
@@ -259,7 +243,38 @@ const getNextName = (
         index++;
     }
     return `${namePrefix}_${index}`;
+}
+const getNewComponent = (name: string, targetModelId: string) => {
+    const component: IDTDLComponent = {
+        '@type': DTDLType.Component,
+        name: name,
+        schema: targetModelId
+    };
+    return component;
 };
+const getNewRelationship = (
+    args:
+        | {
+              type: 'Targeted';
+              name: string;
+              targetModelId: string;
+          }
+        | { type: 'Untargeted'; name: string }
+): IDTDLRelationship => {
+    if (args.type === 'Targeted') {
+        return {
+            '@type': DTDLType.Relationship,
+            name: args.name,
+            target: args.targetModelId
+        };
+    } else {
+        return {
+            '@type': DTDLType.Relationship,
+            name: args.name
+        };
+    }
+};
+
 const getNextRelationshipName = (sourceModel: DtdlInterface) => {
     const prefix = OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
     return getNextName(sourceModel, prefix, DTDLType.Relationship);
@@ -278,7 +293,6 @@ export const addTargetedRelationship = (
     targetModelId: string,
     relationshipType: OatRelationshipType
 ) => {
-    let newModel: DtdlInterfaceContent;
     // get the target model
     const sourceModel = state.currentOntologyModels.find(
         (x) => x['@id'] === sourceModelId
@@ -300,6 +314,7 @@ export const addTargetedRelationship = (
         return;
     }
 
+    let newRelationship: DtdlInterfaceContent | string;
     if (
         relationshipType === DTDLType.Component ||
         relationshipType === DTDLType.Relationship
@@ -312,16 +327,21 @@ export const addTargetedRelationship = (
             relationshipType === 'Component'
                 ? getNextComponentName(sourceModel, targetModel)
                 : getNextRelationshipName(sourceModel);
-        newModel =
+        newRelationship =
             relationshipType === 'Component'
                 ? getNewComponent(modelName, targetModelId)
-                : getNewRelationship(modelName, targetModelId);
-        sourceModel.contents = [...sourceModel.contents, newModel];
+                : getNewRelationship({
+                      type: 'Targeted',
+                      name: modelName,
+                      targetModelId
+                  });
+        sourceModel.contents = [...sourceModel.contents, newRelationship];
     } else if (relationshipType === 'Extend') {
         // extends
         const existing = new Set(sourceModel.extends);
         existing.add(targetModelId);
         sourceModel.extends = Array.from(existing).sort(sortCaseInsensitive());
+        newRelationship = targetModelId;
     }
     logDebugConsole(
         'debug',
@@ -331,7 +351,44 @@ export const addTargetedRelationship = (
         relationshipType,
         deepCopy(sourceModel)
     );
-    return newModel;
+    return newRelationship;
+};
+export const addUntargetedRelationship = (
+    state: IOatPageContextState,
+    sourceModelId: string
+) => {
+    // get the target model
+    const sourceModel = state.currentOntologyModels.find(
+        (x) => x['@id'] === sourceModelId
+    );
+    logDebugConsole(
+        'debug',
+        '[START] Add untargeted relationship to model. {source, originalModel}',
+        sourceModelId,
+        deepCopy(sourceModel)
+    );
+    if (!sourceModel) {
+        console.error(
+            'Could not find source node for creating new relationship. {source}',
+            sourceModelId
+        );
+        return;
+    }
+
+    const modelName = getNextRelationshipName(sourceModel);
+    const newRelationship = getNewRelationship({
+        type: 'Untargeted',
+        name: modelName
+    });
+    sourceModel.contents = [...sourceModel.contents, newRelationship];
+
+    logDebugConsole(
+        'debug',
+        '[END] Add untargeted relationship to model. {source, finalModel}',
+        sourceModelId,
+        deepCopy(sourceModel)
+    );
+    return newRelationship;
 };
 
 //#endregion
