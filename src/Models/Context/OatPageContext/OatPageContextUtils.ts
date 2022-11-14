@@ -22,6 +22,7 @@ import {
     OatRelationshipType,
     OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
     OAT_INTERFACE_TYPE,
+    OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
@@ -188,6 +189,14 @@ export const updateModelId = (
     if (modelPosition) {
         modelPosition['@id'] = newId;
     }
+
+    // update all the untargeted relationships
+    modelPositions.forEach((position) => {
+        // if it's an untargeted relationship
+        if (position['@id'].startsWith(OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX)) {
+            position['@id'] = position['@id'].replace(oldId, newId);
+        }
+    });
 
     // Update model
     const modelReference = models.find((x) => x['@id'] === oldId);

@@ -307,6 +307,7 @@ export type OatRelationshipType =
     | DTDLType.Component
     | DTDLType.Relationship
     | 'Extend';
+export const OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX = 'untargeted';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_GRAPH_RELATIONSHIP_NODE_TYPE = 'Relationship';
 export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';

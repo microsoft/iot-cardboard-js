@@ -7,7 +7,8 @@ import {
     OAT_LAST_PROJECT_STORAGE_KEY,
     OAT_MODEL_ID_PREFIX,
     OAT_INTERFACE_TYPE,
-    DtdlInterfaceContent
+    DtdlInterfaceContent,
+    OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
@@ -148,7 +149,7 @@ export function getUntargetedRelationshipNodeId(
 ): string {
     const id =
         relationship['@id'] || // use the given id if present
-        `untargeted_${sourceModelId}_${relationship.name}`; // generate a name from the relationship name
+        `${OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX}_${sourceModelId}_${relationship.name}`; // generate a name from the relationship name
     return id;
 }
 
