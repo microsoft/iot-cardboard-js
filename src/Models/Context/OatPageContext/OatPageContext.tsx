@@ -296,8 +296,8 @@ export const OatPageContextReducer: (
                         relationshipType
                     );
                 } else {
-                    const { sourceModelId } = action.payload;
-                    addUntargetedRelationship(draft, sourceModelId);
+                    const { sourceModelId, position } = action.payload;
+                    addUntargetedRelationship(draft, sourceModelId, position);
                 }
                 saveData(draft);
                 break;

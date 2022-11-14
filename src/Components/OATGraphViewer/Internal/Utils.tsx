@@ -13,6 +13,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship
 } from '../../../Models/Constants/dtdlInterfaces';
+import { getUntargetedRelationshipNodeId } from '../../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     IOATModelPosition,
@@ -84,9 +85,10 @@ export const addUntargetedRelationship = (
         elements
     );
     const name = relationship.name;
-    const id =
-        relationship['@id'] || // use the given id if present
-        `untargeted_${sourceModel['@id']}_${relationship.name}`; // generate a name from the relationship name
+    const id = getUntargetedRelationshipNodeId(
+        sourceModel['@id'],
+        relationship
+    );
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
         id, // id

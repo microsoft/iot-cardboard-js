@@ -27,6 +27,7 @@ import {
 import {
     buildModelId,
     convertDtdlInterfacesToModels,
+    getUntargetedRelationshipNodeId,
     storeLastUsedProjectId,
     storeOntologiesToStorage
 } from '../../Services/OatUtils';
@@ -355,7 +356,8 @@ export const addTargetedRelationship = (
 };
 export const addUntargetedRelationship = (
     state: IOatPageContextState,
-    sourceModelId: string
+    sourceModelId: string,
+    position: IOATNodePosition
 ) => {
     // get the target model
     const sourceModel = state.currentOntologyModels.find(
@@ -381,6 +383,21 @@ export const addUntargetedRelationship = (
         name: modelName
     });
     sourceModel.contents = [...sourceModel.contents, newRelationship];
+
+    // capture the location information where the user dropped it so that the virtual node gets positioned at that location
+    const nodeId = getUntargetedRelationshipNodeId(
+        sourceModelId,
+        newRelationship
+    );
+    const newPosition: IOATModelPosition = {
+        '@id': nodeId,
+        position: position
+    };
+    if (state.currentOntologyModelPositions) {
+        state.currentOntologyModelPositions.push(newPosition);
+    } else {
+        state.currentOntologyModelPositions = [newPosition];
+    }
 
     logDebugConsole(
         'debug',

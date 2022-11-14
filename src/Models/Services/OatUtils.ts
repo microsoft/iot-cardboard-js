@@ -1,12 +1,13 @@
 import { i18n } from 'i18next';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { DTDLModel, DTDLType } from '../Classes/DTDL';
+import { DTDLModel } from '../Classes/DTDL';
 import {
     DtdlInterface,
     OAT_FILES_STORAGE_KEY,
     OAT_LAST_PROJECT_STORAGE_KEY,
     OAT_MODEL_ID_PREFIX,
-    OAT_INTERFACE_TYPE
+    OAT_INTERFACE_TYPE,
+    DtdlInterfaceContent
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
@@ -138,6 +139,17 @@ export function convertModelToDtdl(model: DtdlInterface): DtdlInterface {
     });
     // console.log(`***Converted ${model['@id']}. {model}`, newModel);
     return newModel;
+}
+
+/** returns the id for the node of an untargeted relationship */
+export function getUntargetedRelationshipNodeId(
+    sourceModelId: string,
+    relationship: DtdlInterfaceContent
+): string {
+    const id =
+        relationship['@id'] || // use the given id if present
+        `untargeted_${sourceModelId}_${relationship.name}`; // generate a name from the relationship name
+    return id;
 }
 
 //#region Model ID
