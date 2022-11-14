@@ -1,17 +1,17 @@
-import {
-    DirectionalHint,
-    Icon,
-    TooltipDelay,
-    TooltipHost
-} from '@fluentui/react';
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import { Icon } from '@fluentui/react';
+import React, {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     wrapTextInTemplateString,
-    parseLinkedTwinExpression,
-    shouldShowVisual,
-    hasBadge
+    parseLinkedTwinExpression
 } from '../../../Models/Services/Utils';
 import {
     IBehavior,
@@ -20,11 +20,8 @@ import {
     IValueRangeVisual,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { VisualColorings } from '../../BehaviorsModal/Internal/BehaviorSection/BehaviorVisualRuleSection';
 import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
-import ColorPillsTooltip from '../../ColorPillsTooltip/ColorPillsTooltip';
-import { ColorPills } from '../../StatusPills/ColorPills';
 import {
     getElementsPanelAlertStyles,
     getElementsPanelStyles,
@@ -36,8 +33,19 @@ import {
     IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
 import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
-import { useId } from '@fluentui/react-hooks';
-import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
+import {
+    hasBadge,
+    shouldShowVisual
+} from '../../../Models/SharedUtils/VisualRuleUtils';
+import { VisualColorings } from '../../../Models/Constants/VisualRuleTypes';
+import ElementColoring from './ElementColoring';
+
+type ViewerElementsPanelCallback = (
+    rowId: string,
+    item: ITwinToObjectMapping,
+    panelItem: IViewerElementsPanelItem,
+    behavior?: IBehavior
+) => void;
 
 const VisualRuleElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
@@ -59,24 +67,64 @@ const VisualRuleElementsList: React.FC<IViewerElementsPanelListProps> = ({
         }
     }, [panelItems]);
 
+    // State
+    const [openCalloutRowId, setOpenCalloutRowId] = useState('');
+
+    // Callbacks
+    const onItemHoverExtend = useCallback(
+        (
+            rowId: string,
+            element: ITwinToObjectMapping,
+            panelItem: IViewerElementsPanelItem
+        ) => {
+            setOpenCalloutRowId(rowId);
+            if (onItemHover) {
+                onItemHover(element, panelItem);
+            }
+        },
+        [onItemHover]
+    );
+
+    const onItemBlurExtended = useCallback(
+        (
+            rowId: string,
+            element: ITwinToObjectMapping,
+            panelItem: IViewerElementsPanelItem
+        ) => {
+            setOpenCalloutRowId('');
+            if (onItemBlur) {
+                onItemBlur(element, panelItem);
+            }
+        },
+        [onItemBlur]
+    );
+
     const listItems = useMemo(
         () =>
             getListItems(
                 panelItems,
                 isModal,
+                openCalloutRowId,
                 onItemClick,
-                onItemHover,
-                onItemBlur
+                onItemHoverExtend,
+                onItemBlurExtended
             ),
-        [panelItems, onItemClick, onItemHover, onItemBlur]
+        [
+            panelItems,
+            onItemClick,
+            onItemHoverExtend,
+            onItemBlurExtended,
+            openCalloutRowId,
+            isModal
+        ]
     );
 
     return (
         <div className={elementsPanelStyles.list}>
             {isLoading && !isInitialDataLoaded.current ? (
-                <p style={{ padding: '0px 20px' }}>{t('loading')}</p>
+                <p className={elementsPanelStyles.message}>{t('loading')}</p>
             ) : panelItems.length === 0 ? (
-                <p style={{ padding: '0px 20px' }}>
+                <p className={elementsPanelStyles.message}>
                     {t('elementsPanel.noElements')}
                 </p>
             ) : (
@@ -93,9 +141,10 @@ const VisualRuleElementsList: React.FC<IViewerElementsPanelListProps> = ({
 function getListItems(
     panelItems: Array<IViewerElementsPanelItem>,
     isModal: boolean,
+    openCalloutRowId: string,
     onItemClick: ElementsPanelCallback,
-    onItemHover?: ElementsPanelCallback,
-    onItemBlur?: ElementsPanelCallback
+    onItemHover: ViewerElementsPanelCallback,
+    onItemBlur: ViewerElementsPanelCallback
 ): Array<ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>> {
     const sortedPanelItems = sortPanelItemsForDisplay(panelItems);
     const buttonStyles = getElementsPanelButtonSyles();
@@ -103,7 +152,7 @@ function getListItems(
         ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
-    sortedPanelItems.map((panelItem) => {
+    sortedPanelItems.forEach((panelItem) => {
         const element = panelItem.element;
         const elementColorings: Array<VisualColorings> = [];
         const badges: Array<{
@@ -114,7 +163,7 @@ function getListItems(
         }> = [];
         let visualRules: IExpressionRangeVisual[] = [];
 
-        panelItem.behaviors.map((b) => {
+        panelItem.behaviors.forEach((b) => {
             // Add all visual rules to an array
             visualRules = b.visuals.filter(ViewerConfigUtility.isVisualRule);
 
@@ -130,7 +179,7 @@ function getListItems(
                             condition.values
                         )
                     ) {
-                        if (hasBadge(condition.visual.iconName)) {
+                        if (hasBadge(condition)) {
                             badges.push({
                                 behavior: b,
                                 visual: condition.visual,
@@ -170,20 +219,17 @@ function getListItems(
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
-                ...(onItemHover && {
-                    onMouseEnter: () => onItemHover(element, panelItem),
-                    onFocus: () => onItemHover(element, panelItem)
-                }),
-                ...(onItemBlur && {
-                    onMouseLeave: () => onItemBlur(element, panelItem),
-                    onBlur: () => onItemBlur(element, panelItem)
-                })
+                onMouseEnter: () => onItemHover(rowId, element, panelItem),
+                onFocus: () => onItemHover(rowId, element, panelItem),
+                onMouseLeave: () => onItemBlur(rowId, element, panelItem),
+                onBlur: () => onItemBlur(rowId, element, panelItem)
             },
             iconStart: () => (
                 <ElementColoring
                     rowId={rowId}
                     colorings={elementColorings}
                     isModal={isModal}
+                    isCalloutOpen={rowId === openCalloutRowId}
                 />
             ),
             item: element,
@@ -193,12 +239,12 @@ function getListItems(
         };
         listItems.push(elementItemWithColorings);
 
-        badges.map((badge) => {
+        badges.forEach((badge) => {
             const badgeStyles = getElementsPanelAlertStyles(badge.visual.color);
             const onEnter =
-                onItemHover && (() => onItemHover(element, panelItem));
+                onItemHover && (() => onItemHover(rowId, element, panelItem));
             const onLeave =
-                onItemBlur && (() => onItemBlur(element, panelItem));
+                onItemBlur && (() => onItemBlur(rowId, element, panelItem));
             const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
                 ariaLabel: badge.visualRuleDisplayTitle,
                 buttonProps: {
@@ -224,51 +270,5 @@ function getListItems(
     });
     return listItems;
 }
-
-interface IElementColoringProps {
-    colorings: VisualColorings[];
-    isModal: boolean;
-    rowId: string;
-}
-
-const ElementColoring: React.FC<IElementColoringProps> = (props) => {
-    const tooltipId = useId('cb-element-coloring-header-tooltip');
-    const theme = useExtendedTheme();
-
-    if (!props.isModal) {
-        const tooltipContent = (colorings: VisualColorings[]) => {
-            return <ColorPillsTooltip visualColorings={colorings} />;
-        };
-
-        return (
-            <TooltipHost
-                id={tooltipId}
-                tooltipProps={{
-                    onRenderContent: () => tooltipContent(props.colorings),
-                    targetElement: document.getElementById(props.rowId)
-                }}
-                directionalHint={DirectionalHint.rightCenter}
-                delay={TooltipDelay.zero}
-                calloutProps={{
-                    isBeakVisible: false,
-                    gapSpace: 12,
-                    styles: {
-                        root: {
-                            background: theme.palette.glassyBackground75
-                        },
-                        calloutMain: {
-                            background: 'unset',
-                            paddingRight: 24
-                        }
-                    }
-                }}
-            >
-                <ColorPills visualColorings={props.colorings} width={'wide'} />
-            </TooltipHost>
-        );
-    } else {
-        return <ColorPills visualColorings={props.colorings} width={'wide'} />;
-    }
-};
 
 export default memo(VisualRuleElementsList);

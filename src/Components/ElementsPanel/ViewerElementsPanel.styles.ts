@@ -23,7 +23,8 @@ const classNames = {
     filterBox: `${classPrefix}-filterBox`,
     statusLine: `${classPrefix}-status-line`,
     alertCircle: `${classPrefix}-alert-circle`,
-    listItembutton: `${classPrefix}--list-item-button`
+    listItembutton: `${classPrefix}--list-item-button`,
+    message: `${classPrefix}-message`
 };
 
 const INITIAL_ELEMENTS_PANEL_TOP_OFFSET = 64;
@@ -107,7 +108,8 @@ export const getElementsPanelStyles = () => {
             {
                 background: 'transparent'
             } as IStyle
-        ]
+        ],
+        message: [classNames.message, { padding: '0px 20px' }]
     });
 };
 

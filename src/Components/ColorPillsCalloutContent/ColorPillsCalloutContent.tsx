@@ -1,33 +1,35 @@
 import React from 'react';
 import {
-    IColorPillsTooltipProps,
-    IColorPillsTooltipStyleProps,
-    IColorPillsTooltipStyles
-} from './ColorPillsTooltip.types';
-import { getColorPillsTooltipStyles } from './ColorPillsTooltip.styles';
-import { classNamesFunction, styled, Stack } from '@fluentui/react';
+    IColorPillsCalloutContentProps,
+    IColorPillsCalloutContentStyleProps,
+    IColorPillsCalloutContentStyles
+} from './ColorPillsCalloutContent.types';
+import { getColorPillsCalloutContentStyles } from './ColorPillsCalloutContent.styles';
+import { classNamesFunction, styled, Stack, Label } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
 const getClassNames = classNamesFunction<
-    IColorPillsTooltipStyleProps,
-    IColorPillsTooltipStyles
+    IColorPillsCalloutContentStyleProps,
+    IColorPillsCalloutContentStyles
 >();
 
-const ColorPillsTooltip: React.FC<IColorPillsTooltipProps> = (props) => {
+const ColorPillsCalloutContent: React.FC<IColorPillsCalloutContentProps> = (
+    props
+) => {
     const { visualColorings, styles } = props;
 
     // hooks
     const { t } = useTranslation();
-    const coloringIdPrefix = useId('cb-visual-coloring-callout');
+    const coloringIdPrefix = useId('cb-visual-coloring-callout-content');
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
 
-    const getLabel = (label: string) => {
+    const getLabel = (label: string | undefined) => {
         if (label && label.trim().length > 0) {
             return label;
         } else {
@@ -52,16 +54,15 @@ const ColorPillsTooltip: React.FC<IColorPillsTooltipProps> = (props) => {
                                         color: coloring.color
                                     }).root
                                 }
+                                aria-hidden={true}
                             ></div>
-                            <label
-                                className={
-                                    classNames.subComponentStyles.label({
-                                        isUnlabeled: !coloring.label
-                                    }).root
-                                }
+                            <Label
+                                styles={classNames.subComponentStyles.label({
+                                    isUnlabeled: !coloring.label
+                                })}
                             >
                                 {getLabel(coloring.label)}
-                            </label>
+                            </Label>
                         </Stack>
                     );
                 })}
@@ -71,7 +72,7 @@ const ColorPillsTooltip: React.FC<IColorPillsTooltipProps> = (props) => {
 };
 
 export default styled<
-    IColorPillsTooltipProps,
-    IColorPillsTooltipStyleProps,
-    IColorPillsTooltipStyles
->(ColorPillsTooltip, getColorPillsTooltipStyles);
+    IColorPillsCalloutContentProps,
+    IColorPillsCalloutContentStyleProps,
+    IColorPillsCalloutContentStyles
+>(ColorPillsCalloutContent, getColorPillsCalloutContentStyles);

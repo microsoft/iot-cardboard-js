@@ -1,17 +1,17 @@
 import { mergeStyleSets, FontSizes } from '@fluentui/react';
 import {
-    IColorPillsTooltipStyleProps,
-    IColorPillsTooltipStyles
-} from './ColorPillsTooltip.types';
+    IColorPillsCalloutContentStyleProps,
+    IColorPillsCalloutContentStyles
+} from './ColorPillsCalloutContent.types';
 
-export const classPrefix = 'cb-colorPillsTooltip';
+export const classPrefix = 'cb-ColorPillsCalloutContent';
 const classNames = {
     root: `${classPrefix}-root`,
     colorPill: `${classPrefix}-colorPill`
 };
-export const getColorPillsTooltipStyles = (
-    _props: IColorPillsTooltipStyleProps
-): IColorPillsTooltipStyles => {
+export const getColorPillsCalloutContentStyles = (
+    _props: IColorPillsCalloutContentStyleProps
+): IColorPillsCalloutContentStyles => {
     return {
         root: [
             classNames.root,

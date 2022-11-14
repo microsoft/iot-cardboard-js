@@ -1,9 +1,11 @@
 import {
     FontSizes,
+    ICalloutContentStyles,
     IStyle,
     memoizeFunction,
     mergeStyleSets
 } from '@fluentui/react';
+import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 import { behaviorsModalClassPrefix } from '../../BehaviorsModal.styles';
 
@@ -60,3 +62,17 @@ export const getStyles = memoizeFunction(() => {
         ]
     });
 });
+
+export const getCalloutStyles = (
+    theme: IExtendedTheme
+): Partial<ICalloutContentStyles> => {
+    return {
+        root: {
+            background: theme.palette.glassyBackground75
+        },
+        calloutMain: {
+            background: 'unset',
+            paddingRight: 24
+        }
+    };
+};

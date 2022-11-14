@@ -1,44 +1,23 @@
-import {
-    DirectionalHint,
-    Icon,
-    Stack,
-    TooltipDelay,
-    TooltipHost
-} from '@fluentui/react';
-import React, { useContext, useMemo } from 'react';
+import { Callout, DirectionalHint, Stack } from '@fluentui/react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import ViewerConfigUtility from '../../../../Models/Classes/ViewerConfigUtility';
-import { BehaviorModalMode } from '../../../../Models/Constants';
 import {
-    wrapTextInTemplateString,
-    parseLinkedTwinExpression,
-    stripTemplateStringsFromText,
     shouldShowVisual,
     hasBadge
-} from '../../../../Models/Services/Utils';
-import { IBehavior } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { getElementsPanelAlertStyles } from '../../../ElementsPanel/ViewerElementsPanel.styles';
-import { ColorPills } from '../../../StatusPills/ColorPills';
+} from '../../../../Models/SharedUtils/VisualRuleUtils';
+import ColorPills from '../../../ColorPills/ColorPills';
 import { BehaviorsModalContext } from '../../BehaviorsModal';
 import WidgetsContainer from '../Widgets/WidgetsContainer';
-import { getStyles } from './BehaviorSection.styles';
+import { getCalloutStyles, getStyles } from './BehaviorSection.styles';
 import { useId } from '@fluentui/react-hooks';
-import ColorPillsTooltip from '../../../ColorPillsTooltip/ColorPillsTooltip';
+import ColorPillsCalloutContent from '../../../ColorPillsCalloutContent/ColorPillsCalloutContent';
+import { IBehaviorsSectionProps } from './BehaviorSection.types';
+import BadgeBlock from './BadgeBlock';
+import {
+    VisualBadges,
+    VisualColorings
+} from '../../../../Models/Constants/VisualRuleTypes';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
-
-export interface IBehaviorsSectionProps {
-    behavior: IBehavior;
-}
-
-export interface VisualColorings {
-    color: string;
-    label?: string;
-}
-
-export interface VisualBadges {
-    color: string;
-    iconName: string;
-    labelExpression?: string;
-}
 
 const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
     behavior
@@ -46,8 +25,19 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
     const styles = getStyles();
     const { twins, mode } = useContext(BehaviorsModalContext);
     const badgeIdPrefix = useId('cb-visual-rule-badge');
-    const tooltipId = useId('cb-behavior-section-header-tooltip');
+    const stackId = useId('cb-behavior-section-header-tooltip');
     const theme = useExtendedTheme();
+
+    // State
+    const [isCalloutOpen, setIsCalloutOpen] = useState(false);
+
+    const onItemHover = useCallback(() => {
+        setIsCalloutOpen(true);
+    }, []);
+
+    const onItemBlur = useCallback(() => {
+        setIsCalloutOpen(false);
+    }, []);
 
     const { meshColorings, badges } = useMemo(() => {
         const rules =
@@ -61,10 +51,10 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
                         rule.valueRangeType,
                         twins,
                         rule.valueExpression,
-                        condition.values as any
+                        condition.values
                     )
                 ) {
-                    if (hasBadge(condition.visual.iconName)) {
+                    if (hasBadge(condition)) {
                         visualBadges.push({
                             color: condition.visual.color,
                             iconName: condition.visual.iconName,
@@ -90,48 +80,40 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
         [behavior]
     );
 
-    const tooltipContent = (colorings: VisualColorings[]) => {
-        return <ColorPillsTooltip visualColorings={colorings} />;
-    };
-
     return (
         <>
             <div className={styles.behaviorSection}>
-                <TooltipHost
-                    id={tooltipId}
-                    tooltipProps={{
-                        onRenderContent: () => tooltipContent(meshColorings)
-                    }}
-                    directionalHint={DirectionalHint.leftCenter}
-                    delay={TooltipDelay.zero}
-                    calloutProps={{
-                        isBeakVisible: false,
-                        gapSpace: 24,
-                        styles: {
-                            root: {
-                                background: theme.palette.glassyBackground75
-                            },
-                            calloutMain: {
-                                background: 'unset',
-                                paddingRight: 24
-                            }
-                        }
-                    }}
+                <Stack
+                    id={stackId}
+                    horizontal={true}
+                    verticalAlign={'center'}
+                    disableShrink={true}
+                    className={styles.behaviorHeader}
+                    onFocus={onItemHover}
+                    onMouseEnter={onItemHover}
+                    onBlur={onItemBlur}
+                    onMouseLeave={onItemBlur}
+                    tabIndex={0}
                 >
-                    <Stack
-                        aria-describedby={tooltipId}
-                        horizontal={true}
-                        verticalAlign={'center'}
-                        disableShrink={true}
-                        className={styles.behaviorHeader}
-                    >
-                        <ColorPills
-                            visualColorings={meshColorings}
-                            width={'compact'}
-                        />
-                        {behavior.displayName}
-                    </Stack>
-                </TooltipHost>
+                    <ColorPills
+                        visualColorings={meshColorings}
+                        width={'compact'}
+                    />
+                    {behavior.displayName}
+                    {isCalloutOpen && (
+                        <Callout
+                            target={`#${stackId}`}
+                            directionalHint={DirectionalHint.rightTopEdge}
+                            gapSpace={24}
+                            isBeakVisible={false}
+                            styles={getCalloutStyles(theme)}
+                        >
+                            <ColorPillsCalloutContent
+                                visualColorings={meshColorings}
+                            />
+                        </Callout>
+                    )}
+                </Stack>
                 {badges.map((bv, idx) => (
                     <BadgeBlock
                         badgeVisual={bv}
@@ -143,32 +125,6 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
                 )}
             </div>
         </>
-    );
-};
-
-const BadgeBlock: React.FC<{ badgeVisual: VisualBadges }> = ({
-    badgeVisual
-}) => {
-    const styles = getStyles();
-    const { color, iconName, labelExpression } = badgeVisual;
-
-    const badgeStyles = getElementsPanelAlertStyles(color);
-    const { twins, mode } = useContext(BehaviorsModalContext);
-
-    return (
-        <div className={styles.infoContainer}>
-            <div className={badgeStyles.alertCircle}>
-                <Icon iconName={iconName} />
-            </div>
-            <div className={styles.infoTextContainer}>
-                {mode === BehaviorModalMode.preview
-                    ? stripTemplateStringsFromText(labelExpression)
-                    : parseLinkedTwinExpression(
-                          wrapTextInTemplateString(labelExpression),
-                          twins
-                      )}
-            </div>
-        </div>
     );
 };
 

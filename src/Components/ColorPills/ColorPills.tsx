@@ -1,15 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { IColorPillsProps } from './StatusPills.types';
-import { getPillStyles, getStyles } from './StatusPills.styles';
-import { IStackTokens, Stack } from '@fluentui/react';
+import {
+    IColorPillsProps,
+    IColorPillsStyleProps,
+    IColorPillsStyles
+} from './ColorPills.types';
+import {
+    classNamesFunction,
+    IStackTokens,
+    Stack,
+    styled
+} from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { getColorPillsStyles } from './ColorPills.styles';
 
-export const ColorPills: React.FC<IColorPillsProps> = (props) => {
-    const { visualColorings, width } = props;
+const getClassNames = classNamesFunction<
+    IColorPillsStyleProps,
+    IColorPillsStyles
+>();
+
+const ColorPills: React.FC<IColorPillsProps> = (props) => {
+    const { visualColorings, width, styles } = props;
     const stackTokens: IStackTokens = { childrenGap: 2 };
-    const styles = getStyles(width);
     const alignment = width === 'wide' ? 'center' : 'start';
     const pillId = useId('cb-visual-rule-pills');
+
+    // styles
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme(),
+        width: props.width
+    });
+
     const [trimmedVisualColorings, setTrimmedVisualColorings] = useState(
         visualColorings && visualColorings.length > 3
             ? visualColorings.slice(0, 3)
@@ -40,24 +61,33 @@ export const ColorPills: React.FC<IColorPillsProps> = (props) => {
             horizontal={true}
             horizontalAlign={alignment}
             verticalAlign={'center'}
-            styles={{ root: styles.root }}
+            styles={{ root: classNames.root }}
         >
             {trimmedVisualColorings.map((vc, idx) => {
                 const { color } = vc;
-                const pillStyles = getPillStyles(color);
 
                 return (
                     <div
                         key={`${pillId}-${idx}`}
-                        className={pillStyles.statusColorPill}
+                        className={
+                            classNames.subComponentStyles.pillStyles({
+                                color: color
+                            }).root
+                        }
                     ></div>
                 );
             })}
             {extraVisualColoringCount > 0 && (
                 <span
-                    style={styles.extraValues}
+                    className={classNames.extraValues}
                 >{`+${extraVisualColoringCount}`}</span>
             )}
         </Stack>
     );
 };
+
+export default styled<
+    IColorPillsProps,
+    IColorPillsStyleProps,
+    IColorPillsStyles
+>(ColorPills, getColorPillsStyles);

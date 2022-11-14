@@ -1,16 +1,13 @@
 import {
+    ILabelStyles,
     IProcessedStyleSet,
     IStyle,
     IStyleFunctionOrObject
 } from '@fluentui/react';
+import { VisualColorings } from '../../Models/Constants/VisualRuleTypes';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 
-export interface VisualColorings {
-    color: string;
-    label?: string;
-}
-
-export interface IColorPillsTooltipProps {
+export interface IColorPillsCalloutContentProps {
     /**
      * Colors to be shown in pills format
      */
@@ -19,33 +16,30 @@ export interface IColorPillsTooltipProps {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        IColorPillsTooltipStyleProps,
-        IColorPillsTooltipStyles
+        IColorPillsCalloutContentStyleProps,
+        IColorPillsCalloutContentStyles
     >;
 }
 
-export interface IColorPillsTooltipStyleProps {
+export interface IColorPillsCalloutContentStyleProps {
     theme: IExtendedTheme;
 }
-export interface IColorPillsTooltipStyles {
+export interface IColorPillsCalloutContentStyles {
     root: IStyle;
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IColorPillsTooltipSubComponentStyles;
+    subComponentStyles?: IColorPillsCalloutContentSubComponentStyles;
 }
 
 interface ColorPillStyles {
     root: IStyle;
 }
 
-export interface IColorPillsTooltipSubComponentStyles {
+export interface IColorPillsCalloutContentSubComponentStyles {
     colorPill?: IStyleFunctionOrObject<
         { color: string },
         IProcessedStyleSet<ColorPillStyles>
     >;
-    label?: IStyleFunctionOrObject<
-        { isUnlabeled: boolean },
-        IProcessedStyleSet<ColorPillStyles>
-    >;
+    label?: IStyleFunctionOrObject<{ isUnlabeled: boolean }, ILabelStyles>;
 }
