@@ -649,7 +649,8 @@
           "edit": "Editar séries tempor feiras",
           "update": "Atualizar séries de tempo",
           "remove": "Remover séries de tempo",
-          "unitPlaceholder": "por exemplo, m², kg, s, °C"
+          "unitPlaceholder": "por exemplo, m², kg, s, °C",
+          "stringTimeSeriesWarning": "Nota: as propriedades das cordas serão lançadas para numérico no tempo de consulta, e podem resultar em alguns valores sendo omitidos"
         },
         "chartOptions": {
           "yAxisType": {
