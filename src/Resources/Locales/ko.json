@@ -649,7 +649,8 @@
           "edit": "시계열 편집",
           "update": "시계열 업데이트",
           "remove": "시계열 제거",
-          "unitPlaceholder": "예: m, m², kg, s, °C"
+          "unitPlaceholder": "예: m, m², kg, s, °C",
+          "stringTimeSeriesWarning": "참고: 문자열 속성은 쿼리 시 숫자로 캐스팅되며 일부 값이 생략될 수 있습니다."
         },
         "chartOptions": {
           "yAxisType": {

@@ -649,7 +649,8 @@
           "edit": "Editar series temporales",
           "update": "Actualizar series temporales",
           "remove": "Quitar series temporales",
-          "unitPlaceholder": "por ejemplo, m, m², kg, s, °C"
+          "unitPlaceholder": "por ejemplo, m, m², kg, s, °C",
+          "stringTimeSeriesWarning": "Nota: las propiedades de cadena se convertirán en numéricas en el momento de la consulta y pueden dar lugar a que se omitan algunos valores"
         },
         "chartOptions": {
           "yAxisType": {

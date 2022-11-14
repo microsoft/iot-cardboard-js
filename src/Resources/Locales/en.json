@@ -654,6 +654,7 @@
                     "labelPlaceholder": "Enter label to show in chart",
                     "add": "Add time series",
                     "edit": "Edit time series",
+                    "stringTimeSeriesWarning": "Note: string properties will be cast to numeric at query time, and may result in some values being omitted",
                     "update": "Update time series",
                     "remove": "Remove time series"
                 },

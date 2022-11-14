@@ -649,7 +649,8 @@
           "edit": "時系列の編集",
           "update": "時系列の更新",
           "remove": "時系列の削除",
-          "unitPlaceholder": "例:m、平方メートル、キログラム、秒、°C"
+          "unitPlaceholder": "例:m、平方メートル、キログラム、秒、°C",
+          "stringTimeSeriesWarning": "注:文字列プロパティはクエリ時に数値にキャストされ、一部の値が省略される可能性があります"
         },
         "chartOptions": {
           "yAxisType": {

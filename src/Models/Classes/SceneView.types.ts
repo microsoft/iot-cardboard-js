@@ -22,6 +22,7 @@ export class SceneVisual {
     behaviors: IBehavior[];
     twins: Record<string, DTwin>;
     coloredMeshItems?: CustomMeshItem[];
+    // TODO Remove ALERT naming conventions
     alertBadgeGroup?: SceneViewBadgeGroup[];
     transformedElementItems?: TransformedElementItem[];
 
@@ -38,6 +39,13 @@ export class SceneVisual {
         this.twins = twins;
         this.transformedElementItems = transformedElementItems;
     }
+}
+
+export interface RuntimeBadge {
+    id: string;
+    meshId: string;
+    color: string;
+    icon: string;
 }
 
 export interface SelectedMesh {

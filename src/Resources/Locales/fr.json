@@ -649,7 +649,8 @@
           "edit": "Modifier des séries chronologiques",
           "update": "Mettre à jour les séries chronologiques",
           "remove": "Supprimer des séries chronologiques",
-          "unitPlaceholder": "p. ex. m, m², kg, s, °C"
+          "unitPlaceholder": "p. ex. m, m², kg, s, °C",
+          "stringTimeSeriesWarning": "Remarque : les propriétés de chaîne seront converties en valeurs numériques au moment de la requête et peuvent entraîner l’omission de certaines valeurs."
         },
         "chartOptions": {
           "yAxisType": {
