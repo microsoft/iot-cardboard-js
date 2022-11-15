@@ -153,12 +153,14 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.Temperature",
+                                            "propertyType": "double",
                                             "unit": "F",
                                             "label": "Temperature Trend"
                                         },
                                         {
                                             "id": "b03980c3857e44a0bcf6390a82522ee7",
                                             "expression": "PrimaryTwin.InFlow",
+                                            "propertyType": "double",
                                             "unit": "cfs",
                                             "label": "Inflow Trend"
                                         }
@@ -309,12 +311,14 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.Temperature",
+                                            "propertyType": "double",
                                             "unit": "F",
                                             "label": "Temperature Trend"
                                         },
                                         {
                                             "id": "b03980c3857e44a0bcf6390a82522ee7",
                                             "expression": "PrimaryTwin.InFlow",
+                                            "propertyType": "double",
                                             "unit": "cfs",
                                             "label": "Inflow Trend"
                                         }
