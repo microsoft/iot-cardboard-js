@@ -1007,6 +1007,16 @@ abstract class ViewerConfigUtility {
         return color;
     }
 
+    /**
+     * Function that determines if value is within a certain value range
+     * @param values Range of values [min, max]
+     * @param value Value that is checked if within range
+     * @returns true if value is within range, false otherwise
+     */
+    static getValueIsWithinRange(values: number[], value: number): boolean {
+        return value >= Number(values[0]) && value < Number(values[1]);
+    }
+
     static getMatchingRangeFromValue(
         ranges: IValueRange[],
         value: number
