@@ -30,7 +30,8 @@ import {
     createGUID,
     getDebugLogger,
     getMissingRoleIdsFromRequired,
-    getRoleIdsFromRoleAssignments
+    getRoleIdsFromRoleAssignments,
+    getUrlFromString
 } from '../Models/Services/Utils';
 
 const debugLogging = false;
@@ -261,15 +262,14 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
         return await adapterMethodSandbox.safelyFetchData(async (token) => {
             let resource: IAzureResource;
             let query = '';
-            let urlObj: URL;
             try {
+                const urlObj = getUrlFromString(urlString);
                 switch (type.toLowerCase()) {
-                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                        urlObj = new URL(urlString);
+                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase(): {
                         query = `properties.hostName == '${urlObj.hostname}'`;
                         break;
+                    }
                     case AzureResourceTypes.StorageAccount.toLowerCase():
-                        urlObj = new URL(urlString);
                         query = `properties.primaryEndpoints.blob == '${urlObj.href}'`;
                         break;
                     case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
@@ -278,7 +278,6 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                          * (2) fetch containers using Storage Service provider endpoint
                          * (3) find the container by its name among those containers
                          *  */
-                        urlObj = new URL(urlString);
                         query = `properties.primaryEndpoints.blob == '${urlObj.origin}/'`;
                         const storageAccounts: Array<IAzureResource> = await this.fetchAllResources(
                             adapterMethodSandbox,

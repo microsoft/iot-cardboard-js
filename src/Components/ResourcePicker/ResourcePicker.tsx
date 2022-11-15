@@ -37,7 +37,11 @@ import {
     ValidContainerHostSuffixes
 } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
-import { areResourceValuesEqual, deepCopy } from '../../Models/Services/Utils';
+import {
+    areResourceValuesEqual,
+    deepCopy,
+    getUrlFromString
+} from '../../Models/Services/Utils';
 
 const comboBoxOptionStyles = {
     root: {
@@ -626,16 +630,17 @@ const sanitizeOptionText = (
 const isValidUrlStr = (urlStr: string, resourceType: AzureResourceTypes) => {
     try {
         let endsWithValidSuffix = true;
+        const urlObj = getUrlFromString(urlStr);
         switch (resourceType.toLowerCase()) {
             case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                 endsWithValidSuffix = ValidAdtHostSuffixes.some((suffix) =>
-                    new URL(urlStr).hostname.endsWith(suffix)
+                    urlObj.hostname.endsWith(suffix)
                 );
                 break;
             case AzureResourceTypes.StorageAccount.toLowerCase():
             case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                 endsWithValidSuffix = ValidContainerHostSuffixes.some(
-                    (suffix) => new URL(urlStr).hostname.endsWith(suffix)
+                    (suffix) => urlObj.hostname.endsWith(suffix)
                 );
                 break;
         }

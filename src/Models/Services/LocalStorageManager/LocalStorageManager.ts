@@ -26,7 +26,8 @@ import {
     areResourceValuesEqual,
     getContainerNameFromUrl,
     getNameOfResource,
-    getResourceUrl
+    getResourceUrl,
+    getUrlFromString
 } from '../Utils';
 import {
     EnvironmentConfigurationInLocalStorage,
@@ -62,18 +63,19 @@ export const getResourceFromEnvironmentItem = (
     type: AzureResourceTypes
 ): IAzureResource => {
     if (!item) return null;
+    const urlObj = getUrlFromString(item.url);
     return {
         id: item.id ?? null,
         name: getNameOfResource(item.url, type),
         ...(type === AzureResourceTypes.DigitalTwinInstance && {
             properties: {
-                hostName: new URL(item.url).hostname
+                hostName: urlObj?.hostname
             },
             location: ''
         }),
         ...(type === AzureResourceTypes.StorageAccount && {
             properties: {
-                primaryEndpoints: { blob: new URL(item.url).hostname }
+                primaryEndpoints: { blob: urlObj?.hostname }
             }
         }),
         type

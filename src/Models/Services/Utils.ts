@@ -720,13 +720,14 @@ export const getNameOfResource = (
                 return resource.name;
             } else {
                 if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
-                    if (new URL(resource)) {
+                    const urlObj = getUrlFromString(resource);
+                    if (urlObj) {
                         return resource.split('.')[0].split('://')[1]; // to respect casing in the name of the instance
                     } else {
                         return null;
                     }
                 } else if (resourceType === AzureResourceTypes.StorageAccount) {
-                    const urlObj = new URL(resource);
+                    const urlObj = getUrlFromString(resource);
                     return urlObj.hostname.split('.')[0];
                 } else if (
                     resourceType === AzureResourceTypes.StorageBlobContainer
@@ -747,7 +748,7 @@ export const getNameOfResource = (
 
 export const getContainerNameFromUrl = (containerUrl: string) => {
     try {
-        const containerUrlObj = new URL(containerUrl);
+        const containerUrlObj = getUrlFromString(containerUrl);
         return containerUrlObj.pathname.split('/')[1];
     } catch (error) {
         console.error(error.message);
@@ -757,10 +758,23 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
 
 export const removeProtocolPartFromUrl = (urlString: string) => {
     try {
-        const urlObj = new URL(urlString);
+        const urlObj = getUrlFromString(urlString);
         return urlObj.hostname + urlObj.pathname;
     } catch (error) {
         console.error('Failed remove protocol from url string', error.message);
+        return null;
+    }
+};
+
+export const getUrlFromString = (urlString: string): URL => {
+    try {
+        let urlStr = urlString;
+        if (!(urlStr.startsWith('https://') || urlStr.startsWith('http://'))) {
+            urlStr = 'https://' + urlStr;
+        }
+        return new URL(urlString);
+    } catch (error) {
+        console.error('Failed to get url from string', error.message);
         return null;
     }
 };
@@ -772,7 +786,7 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
 
     if (clusterUrl) {
         try {
-            const clusterUrlObj = new URL(clusterUrl);
+            const clusterUrlObj = getUrlFromString(clusterUrl);
             if (
                 clusterUrlObj.host.endsWith(CONNECTION_STRING_SUFFIX) &&
                 isValidADXClusterHostUrl(

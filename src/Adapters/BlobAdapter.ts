@@ -17,7 +17,8 @@ import {
 } from '../Models/Constants/Constants';
 import {
     validate3DConfigWithSchema,
-    getTimeStamp
+    getTimeStamp,
+    getUrlFromString
 } from '../Models/Services/Utils';
 import { XMLBuilder, XMLParser } from 'fast-xml-parser';
 import {
@@ -97,7 +98,7 @@ export default class BlobAdapter implements IBlobAdapter {
     setBlobContainerPath(blobContainerURL: string) {
         if (blobContainerURL) {
             try {
-                const url = new URL(blobContainerURL);
+                const url = getUrlFromString(blobContainerURL);
                 this.storageAccountHostName = url.hostname;
                 this.storageAccountName = url.hostname.split('.')[0];
                 this.containerName = url.pathname.split('/')[1];
