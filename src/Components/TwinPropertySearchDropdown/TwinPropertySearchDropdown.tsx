@@ -27,7 +27,8 @@ import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Typ
 import {
     getDebugLogger,
     getMarkedHtmlBySearch,
-    removeDuplicatesFromArray
+    removeDuplicatesFromArray,
+    sortAscendingOrDescending
 } from '../../Models/Services/Utils';
 import TooltipCallout from '../TooltipCallout/TooltipCallout';
 import { IADTTwin } from '../../Models/Constants';
@@ -139,6 +140,9 @@ const TwinPropertySearchDropdown = (
 
             // remove any duplicate entries
             options = removeDuplicatesFromArray(options, 'label');
+            //sort the options
+            options.sort(sortAscendingOrDescending('label'));
+
             setDropdownOptions(options || []);
 
             twinSearchContinuationToken.current =
