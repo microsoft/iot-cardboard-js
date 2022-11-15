@@ -1,35 +1,66 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Stack, Label, Text, IconButton } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
+import React, {
+    useContext,
+    useState,
+    useCallback,
+    useMemo,
+    useEffect
+} from 'react';
 import {
-    getPropertyInspectorStyles,
-    getGeneralPropertiesWrapStyles,
-    getPropertyEditorTextFieldStyles,
-    getIconWrapFitContentStyles
-} from '../OATPropertyEditor.styles';
+    Stack,
+    Text,
+    IconButton,
+    Separator,
+    TextField,
+    classNamesFunction,
+    styled,
+    SpinButton,
+    Icon
+} from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
 import { FormBody } from '../Shared/Constants';
-import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
-import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
-import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { deepCopy } from '../../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getModelPropertyListItemName, getTargetFromSelection } from '../Utils';
-import { PropertiesModelSummaryProps } from './PropertiesModelSummary.types';
-import { OAT_INTERFACE_TYPE } from '../../../Models/Constants/Constants';
-import { updateModelId } from '../../../Models/Services/OatUtils';
+import {
+    IPartialModelId,
+    IPropertiesModelSummaryProps,
+    IPropertiesModelSummaryStyleProps,
+    IPropertiesModelSummaryStyles
+} from './PropertiesModelSummary.types';
+import { buildModelId, parseModelId } from '../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { getStyles } from './PropertiesModelSummary.styles';
+import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
+import {
+    isDTDLModel,
+    isDTDLRelationship
+} from '../../../Models/Services/DtdlUtils';
+import { getTargetFromSelection } from '../Utils';
 
-export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
+
+const INVALID_CHARACTERS: string[] = [' ', '-', '_', '.', ';', '<', '>'];
+
+const getClassNames = classNamesFunction<
+    IPropertiesModelSummaryStyleProps,
+    IPropertiesModelSummaryStyles
+>();
+
+export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     props
 ) => {
-    const { dispatch, isSupportedModelType, selectedItem } = props;
-    console.log('***PropertiesModel', selectedItem);
+    const { dispatch, selectedItem, styles } = props;
+    const isModelSelected = isDTDLModel(selectedItem);
+    const isRelationshipSelected = isDTDLRelationship(selectedItem);
+    const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
+        selectedItem
+    ]);
 
     // hooks
     const { t } = useTranslation();
@@ -38,150 +69,190 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageDispatch, oatPageState } = useOatPageContext();
 
+    // state
+    const [modelUniqueName, setModelUniqueName] = useState('');
+    const [modelPath, setModelPath] = useState('');
+    const [modelVersion, setModelVersion] = useState('');
+
+    const [relationshipName, setRelationshipName] = useState('');
+
     // data
-    const [displayName, setDisplayName] = useState(
-        selectedItem && selectedItem.displayName
-            ? getModelPropertyListItemName(selectedItem.displayName)
-            : ''
+    const itemId = buildModelId({
+        namespace: parsedId.namespace,
+        modelName: modelUniqueName,
+        path: modelPath,
+        version: Number(modelVersion)
+    });
+
+    // callbacks
+    const commitModelIdChange = useCallback(
+        (newId: string) => {
+            if (newId === selectedItem['@id']) {
+                logDebugConsole(
+                    'warn',
+                    'Aborting model id update, values are the same'
+                );
+                return;
+            }
+            const commit = () => {
+                const existingId = selectedItem['@id'];
+                logDebugConsole(
+                    'debug',
+                    '[START] Committing changes to id. {existingId, newId, initial models, initial positions}',
+                    existingId,
+                    newId
+                );
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_MODEL_ID,
+                    payload: {
+                        existingId: existingId,
+                        newId: newId
+                    }
+                });
+                logDebugConsole('debug', '[END] Committing changes to id.');
+            };
+
+            const undoCommit = () => {
+                oatPageDispatch({
+                    type: OatPageContextActionType.GENERAL_UNDO,
+                    payload: {
+                        models: oatPageState.currentOntologyModels,
+                        positions: oatPageState.currentOntologyModelPositions,
+                        selection: oatPageState.selection
+                    }
+                });
+            };
+
+            execute(commit, undoCommit);
+        },
+        [
+            execute,
+            oatPageDispatch,
+            oatPageState.currentOntologyModelPositions,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection,
+            selectedItem
+        ]
     );
-    const [name, setName] = useState(selectedItem ? selectedItem.name : '');
-    const [id, setId] = useState(
-        selectedItem && selectedItem['@id'] ? selectedItem['@id'] : ''
-    );
-    const [idEditor, setIdEditor] = useState(false);
-    const [nameEditor, setNameEditor] = useState(false);
-    const [displayNameEditor, setDisplayNameEditor] = useState(false);
-
-    useEffect(() => {
-        setDisplayName(
-            selectedItem && selectedItem.displayName
-                ? getModelPropertyListItemName(selectedItem.displayName)
-                : ''
-        );
-        setName(selectedItem && selectedItem.name ? selectedItem.name : '');
-        setId(selectedItem && selectedItem['@id'] ? selectedItem['@id'] : '');
-    }, [selectedItem]);
-
-    const onIdCommit = (value) => {
-        const commit = () => {
-            const {
-                models: modelsCopy,
-                positions: modelPositionsCopy
-            } = updateModelId(
-                id,
-                value,
-                oatPageState.currentOntologyModels,
-                oatPageState.currentOntologyModelPositions
-            );
-
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                payload: { positions: modelPositionsCopy }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: modelsCopy }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: {
-                    selection:
-                        oatPageState.selection &&
-                        oatPageState.selection.contentId
-                            ? deepCopy(oatPageState.selection)
-                            : { modelId: value }
+    const commitRelationshipNameChange = useCallback(
+        (newValue: string) => {
+            const commit = () => {
+                const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
+                const modelCopy = getTargetFromSelection(
+                    modelsCopy,
+                    oatPageState.selection
+                );
+                if (modelCopy && isDTDLRelationship(modelCopy)) {
+                    modelCopy.name = newValue;
+                    oatPageDispatch({
+                        type: OatPageContextActionType.SET_CURRENT_MODELS,
+                        payload: { models: modelsCopy }
+                    });
                 }
-            });
+                logDebugConsole(
+                    'debug',
+                    'Committed changes to name. {newValue}',
+                    newValue
+                );
+            };
 
-            setId(value);
-            setIdEditor(false);
-        };
-
-        const undoCommit = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                payload: {
-                    positions: oatPageState.currentOntologyModelPositions
-                }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
-            });
-        };
-
-        execute(commit, undoCommit);
-    };
-
-    const onDisplayNameCommit = (value) => {
-        const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            const modelCopy = getTargetFromSelection(
-                modelsCopy,
-                oatPageState.selection
-            );
-            if (modelCopy) {
-                modelCopy.displayName = value;
+            const undoCommit = () => {
                 oatPageDispatch({
                     type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
+                    payload: { models: oatPageState.currentOntologyModels }
                 });
-            }
-            setDisplayName(value);
-            setDisplayNameEditor(false);
-        };
+            };
 
-        const undoCommit = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
+            execute(commit, undoCommit);
+        },
+        [
+            execute,
+            oatPageDispatch,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
+        ]
+    );
+    const onChangeUniqueName = useCallback((_ev, value: string) => {
+        // generally banned characters
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        // specially banned for names
+        [':'].forEach((x) => (value = value.replaceAll(x, '')));
+        setModelUniqueName(value);
+    }, []);
+    const onChangePath = useCallback((_ev, value: string) => {
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        setModelPath(value);
+    }, []);
+    const onChangeRelationshipName = useCallback((_ev, value: string) => {
+        // generally banned characters
+        INVALID_CHARACTERS.forEach((x) => (value = value.replaceAll(x, '')));
+        // specially banned for names
+        [':'].forEach((x) => (value = value.replaceAll(x, '')));
+        setRelationshipName(value);
+    }, []);
+
+    // needed primarly for the version spinner since it behaves differently and you don't have to set focus
+    const forceUpdateId = useCallback(
+        ({ namespace, modelName, path, version }: IPartialModelId) => {
+            const newId = buildModelId({
+                namespace: namespace || parsedId.namespace,
+                modelName: modelName || modelUniqueName,
+                path: path || modelPath,
+                version: Number(version || modelVersion)
             });
-        };
+            commitModelIdChange(newId);
+        },
+        [
+            commitModelIdChange,
+            modelPath,
+            modelUniqueName,
+            modelVersion,
+            parsedId.namespace
+        ]
+    );
 
-        execute(commit, undoCommit);
-    };
+    // const onDisplayNameChange = useCallback(
+    //     (value: string) => {
+    //         const commit = () => {
+    //             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
+    //             const itemReference = getTargetFromSelection(
+    //                 modelsCopy,
+    //                 oatPageState.selection
+    //             );
+    //             if (itemReference) {
+    //                 itemReference.displayName = value;
+    //                 oatPageDispatch({
+    //                     type: OatPageContextActionType.SET_CURRENT_MODELS,
+    //                     payload: { models: modelsCopy }
+    //                 });
+    //             } else {
+    //                 logDebugConsole(
+    //                     'warn',
+    //                     'Could not find the model to update {selection, models}',
+    //                     oatPageState.selection,
+    //                     modelsCopy
+    //                 );
+    //             }
+    //             setItemDisplayName(value);
+    //             setDisplayName(false);
+    //         };
 
-    const onNameCommit = (value) => {
-        const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            const modelCopy = getTargetFromSelection(
-                modelsCopy,
-                oatPageState.selection
-            );
-            if (modelCopy) {
-                modelCopy.name = value;
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
-                });
-                const selectionCopy = deepCopy(oatPageState.selection);
-                selectionCopy.contentId = name;
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                    payload: { selection: selectionCopy }
-                });
-            }
-            setName(value);
-            setNameEditor(false);
-        };
+    //         const undoCommit = () => {
+    //             oatPageDispatch({
+    //                 type: OatPageContextActionType.SET_CURRENT_MODELS,
+    //                 payload: { models: oatPageState.currentOntologyModels }
+    //             });
+    //         };
 
-        const undoCommit = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
-            });
-        };
-
-        execute(commit, undoCommit);
-    };
+    //         execute(commit, undoCommit);
+    //     },
+    //     [
+    //         execute,
+    //         oatPageDispatch,
+    //         oatPageState.currentOntologyModels,
+    //         oatPageState.selection
+    //     ]
+    // );
 
     const onInfoButtonClick = () => {
         dispatch({
@@ -193,119 +264,178 @@ export const PropertiesModelSummary: React.FC<PropertiesModelSummaryProps> = (
             payload: true
         });
     };
+
+    // side effects
+    // when selected item changes, update all the states
+    useEffect(() => {
+        const parsedId = parseModelId(selectedItem['@id']);
+        setModelUniqueName(parsedId.name);
+        setModelPath(parsedId.path);
+        setModelVersion(parsedId.version);
+        setRelationshipName(
+            isDTDLRelationship(selectedItem) ? selectedItem.name : ''
+        );
+    }, [selectedItem]);
+
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
-    const iconWrapStyles = getIconWrapFitContentStyles();
-    const generalPropertiesWrapStyles = getGeneralPropertiesWrapStyles();
-    const textFieldStyles = getPropertyEditorTextFieldStyles();
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
+    logDebugConsole('debug', 'Render {item}', selectedItem);
+    if (!selectedItem) {
+        console.warn(
+            '[PROPERTIES_MODEL_SUMMARY] No selected item provided, aborting render'
+        );
+        return null;
+    }
     return (
-        <Stack styles={generalPropertiesWrapStyles}>
-            <div className={propertyInspectorStyles.rowSpaceBetween}>
-                <Label>{`${t('OATPropertyEditor.general')}`}</Label>
-                {selectedItem &&
-                    selectedItem['@type'] === OAT_INTERFACE_TYPE && (
-                        <IconButton
-                            styles={iconWrapStyles}
-                            iconProps={{ iconName: 'info' }}
-                            title={t('OATPropertyEditor.info')}
-                            onClick={onInfoButtonClick}
-                        />
-                    )}
-            </div>
-            <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('type')}</Text>
-                <Text className={propertyInspectorStyles.typeTextField}>
-                    {selectedItem ? selectedItem['@type'] : ''}
-                </Text>
-            </div>
-
-            <div className={propertyInspectorStyles.gridRow}>
-                <Text>{t('id')}</Text>
-                {!idEditor && selectedItem && (
-                    <Text
-                        className={propertyInspectorStyles.typeTextField}
-                        onDoubleClick={() => setIdEditor(true)}
-                    >
-                        {id}
-                    </Text>
-                )}
-                {idEditor && selectedItem && (
-                    <OATTextFieldId
-                        placeholder={t('id')}
-                        styles={textFieldStyles}
-                        disabled={!selectedItem}
-                        value={isSupportedModelType && id}
-                        model={selectedItem}
-                        models={oatPageState.currentOntologyModels}
-                        onCommit={onIdCommit}
-                        borderless
-                        autoFocus
+        <Stack
+            styles={classNames.subComponentStyles.rootStack}
+            tokens={{ childrenGap: 8 }}
+        >
+            {/* HEADER */}
+            <Stack horizontal className={classNames.sectionHeaderRoot}>
+                {(isRelationshipSelected || isModelSelected) && (
+                    <Icon
+                        aria-label={
+                            selectedItem ? selectedItem['@type'].toString() : ''
+                        }
+                        iconName={
+                            isRelationshipSelected
+                                ? 'Relationship'
+                                : 'CubeShape'
+                        }
+                        className={classNames.sectionHeaderIcon}
+                        title={
+                            selectedItem ? selectedItem['@type'].toString() : ''
+                        }
                     />
                 )}
-            </div>
-            {selectedItem && selectedItem.name && (
-                <div className={propertyInspectorStyles.gridRow}>
-                    <Text>{t('name')}</Text>
-                    {!nameEditor && selectedItem && (
-                        <Text
-                            className={propertyInspectorStyles.typeTextField}
-                            onDoubleClick={() => setNameEditor(true)}
+                {isRelationshipSelected && (
+                    <div className={classNames.sectionHeaderContainer}>
+                        <h4
+                            className={classNames.sectionTitle}
+                            title={relationshipName}
                         >
-                            {name}
-                        </Text>
-                    )}
-                    {nameEditor && selectedItem && (
-                        <OATTextFieldName
-                            placeholder={t('name')}
-                            styles={textFieldStyles}
-                            disabled={!selectedItem}
-                            value={
-                                isSupportedModelType &&
-                                getModelPropertyListItemName(name)
-                            }
-                            model={selectedItem}
-                            models={oatPageState.currentOntologyModels}
-                            onCommit={onNameCommit}
-                            borderless
-                            autoFocus
+                            {relationshipName}
+                        </h4>
+                    </div>
+                )}
+                {isModelSelected && (
+                    <>
+                        <Stack
+                            tokens={{ childrenGap: 4 }}
+                            className={classNames.sectionHeaderContainer}
+                        >
+                            <h4
+                                className={classNames.sectionTitle}
+                                title={modelUniqueName}
+                            >
+                                {modelUniqueName}
+                            </h4>
+                            <span
+                                className={classNames.sectionSubtitle}
+                                title={itemId}
+                            >
+                                {itemId}
+                            </span>
+                        </Stack>
+                        <IconButton
+                            iconProps={{ iconName: 'info' }}
+                            onClick={onInfoButtonClick}
+                            styles={classNames.subComponentStyles.modalIconButton?.()}
+                            title={t('OATPropertyEditor.info')}
                         />
-                    )}
-                </div>
+                    </>
+                )}
+            </Stack>
+
+            {isRelationshipSelected && (
+                <>
+                    {/* NAME SECTION */}
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-relationship-name'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.name')}
+                        </Text>
+                        <TextField
+                            aria-labelledby={'oat-relationship-name'}
+                            onBlur={() =>
+                                commitRelationshipNameChange(relationshipName)
+                            }
+                            onChange={onChangeRelationshipName}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={relationshipName}
+                        />
+                    </div>
+                </>
             )}
-            {isSupportedModelType && (
-                <div className={propertyInspectorStyles.gridRow}>
-                    <Text>{t('OATPropertyEditor.displayName')}</Text>
-                    {!displayNameEditor && selectedItem && (
+
+            {isModelSelected && (
+                <>
+                    {/* ID SECTION */}
+                    <div className={classNames.row}>
                         <Text
-                            className={
-                                displayName.length > 0
-                                    ? propertyInspectorStyles.typeTextField
-                                    : propertyInspectorStyles.typeTextFieldPlaceholder
-                            }
-                            onDoubleClick={() => setDisplayNameEditor(true)}
+                            id={'oat-model-name'}
+                            className={classNames.rowLabel}
                         >
-                            {displayName !== ''
-                                ? displayName
-                                : t('OATPropertyEditor.displayName')}
+                            {t('OATPropertyEditor.uniqueModelName')}
                         </Text>
-                    )}
-                    {displayNameEditor && selectedItem && (
-                        <OATTextFieldDisplayName
-                            styles={textFieldStyles}
-                            borderless
-                            placeholder={t('OATPropertyEditor.displayName')}
-                            disabled={!selectedItem}
-                            value={isSupportedModelType && displayName}
-                            onCommit={onDisplayNameCommit}
-                            model={selectedItem}
-                            autoFocus
+                        <TextField
+                            aria-labelledby={'oat-model-name'}
+                            onBlur={() => commitModelIdChange(itemId)}
+                            onChange={onChangeUniqueName}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={modelUniqueName}
                         />
-                    )}
-                </div>
+                    </div>
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-model-path'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.path')}
+                        </Text>
+                        <TextField
+                            aria-labelledby={'oat-model-path'}
+                            onBlur={() => commitModelIdChange(itemId)}
+                            onChange={onChangePath}
+                            styles={classNames.subComponentStyles.stringField}
+                            value={modelPath}
+                        />
+                    </div>
+                    <div className={classNames.row}>
+                        <Text
+                            id={'oat-model-version'}
+                            className={classNames.rowLabel}
+                        >
+                            {t('OATPropertyEditor.version')}
+                        </Text>
+                        <SpinButton
+                            aria-labelledby={'oat-model-version'}
+                            onChange={(_ev, value) => {
+                                // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
+                                forceUpdateId({ version: value });
+                                setModelVersion(value);
+                            }}
+                            styles={classNames.subComponentStyles.numericField}
+                            value={modelVersion}
+                        />
+                    </div>
+                    <Separator
+                        styles={classNames.subComponentStyles.separator}
+                    />
+                </>
             )}
         </Stack>
     );
 };
 
-export default PropertiesModelSummary;
+export default styled<
+    IPropertiesModelSummaryProps,
+    IPropertiesModelSummaryStyleProps,
+    IPropertiesModelSummaryStyles
+>(PropertiesModelSummary, getStyles);

@@ -980,7 +980,8 @@
       "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
       "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
       "sampleModel": "przykładowy model"
-    }
+    },
+    "configure": "Konfigurować"
   },
   "cameraControls": {
     "mouseControls": "Sterowanie myszą",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "Dodaj do listy właściwości",
     "moveDown": "Przechodzenie w dół",
     "moveUp": "Przenieś się w górę",
-    "valueSchema": "Schemat wartości"
+    "valueSchema": "Schemat wartości",
+    "modelId": "Identyfikator modelu",
+    "path": "Ścieżka",
+    "uniqueModelName": "Unikalna nazwa modelu",
+    "version": "Wersja"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

@@ -980,7 +980,8 @@
       "namespaceDescription": "Пример имени модели: {{имя_модели}}",
       "namespacePlaceholder": "Ввод пространства имен",
       "sampleModel": "Образец модели"
-    }
+    },
+    "configure": "Настроить"
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
     "moveUp": "Придвигаться",
-    "valueSchema": "Схема значений"
+    "valueSchema": "Схема значений",
+    "modelId": "Идентификатор модели",
+    "path": "Путь",
+    "uniqueModelName": "Уникальное название модели",
+    "version": "Версия"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

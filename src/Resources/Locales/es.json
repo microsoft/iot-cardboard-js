@@ -980,7 +980,8 @@
       "namespaceDescription": "Nombre de modelo de ejemplo: {{modelName}}",
       "namespacePlaceholder": "Introduzca un espacio de nombres",
       "sampleModel": "modelo de muestra"
-    }
+    },
+    "configure": "Configurar"
   },
   "cameraControls": {
     "mouseControls": "Controles del ratón",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "Agregar a la lista de propiedades",
     "moveDown": "Desplazar hacia abajo",
     "moveUp": "Desplazar hacia arriba",
-    "valueSchema": "Esquema de valores"
+    "valueSchema": "Esquema de valores",
+    "modelId": "ID del modelo",
+    "path": "Camino",
+    "uniqueModelName": "Nombre único del modelo",
+    "version": "Versión"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

@@ -103,7 +103,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.DELETE_MODEL_UNDO,
+                type: OatPageContextActionType.GENERAL_UNDO,
                 payload: {
                     models: oatPageState.currentOntologyModels,
                     positions: oatPageState.currentOntologyModelPositions,

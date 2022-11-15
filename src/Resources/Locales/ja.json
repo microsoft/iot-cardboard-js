@@ -980,7 +980,8 @@
       "namespaceDescription": "モデル名の例: {{モデル名}}",
       "namespacePlaceholder": "名前空間を入力する",
       "sampleModel": "サンプルモデル"
-    }
+    },
+    "configure": "構成"
   },
   "cameraControls": {
     "mouseControls": "マウスコントロール",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
     "moveUp": "上へ移動",
-    "valueSchema": "値スキーマ"
+    "valueSchema": "値スキーマ",
+    "modelId": "モデル ID",
+    "path": "パス",
+    "uniqueModelName": "一意のモデル名",
+    "version": "バージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

@@ -88,6 +88,7 @@ export const getPropertyInspectorStyles = () => {
             classNames.container,
             {
                 backgroundColor: getControlBackgroundColor(theme),
+                borderRadius: theme.effects.roundedCorner2,
                 display: 'flex',
                 flexDirection: 'row',
                 height: '100%',
@@ -103,6 +104,7 @@ export const getPropertyInspectorStyles = () => {
                 '[role="tabpanel"]': {
                     height: `calc(100% - ${OATEditorPivotContentHeightAdjustment}px)`
                 },
+                overflowX: 'hidden',
                 zIndex: '201'
             } as IStyle
         ],
@@ -138,15 +140,6 @@ export const getPropertyInspectorStyles = () => {
                     backgroundColor:
                         theme.semanticColors.primaryButtonTextDisabled
                 }
-            } as IStyle
-        ],
-        gridRow: [
-            classNames.gridRow,
-            {
-                display: 'grid',
-                gridTemplateColumns: '50% 50%',
-                alignItems: 'center',
-                minHeight: '38px'
             } as IStyle
         ],
         gridRowPropertyHeading: [
@@ -704,14 +697,6 @@ export const getPropertyInspectorStyles = () => {
                 float: 'rigth'
             } as IStyle
         ],
-        typeTextField: [
-            classNames.typeTextField,
-            {
-                marginLeft: '10px',
-                height: '38px',
-                paddingTop: '12px'
-            } as IStyle
-        ],
         typeTextFieldPlaceholder: [
             classNames.typeTextFieldPlaceholder,
             {
@@ -748,28 +733,6 @@ export const getPropertyEditorTextFieldStyles = () => {
             marginRight: '10px'
         }
     };
-};
-
-/* Properties Model Summary */
-
-export const getGeneralPropertiesWrapStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            padding: '8px',
-            borderBottom: `1px solid ${theme.semanticColors.variantBorder}`
-        }
-    } as Partial<IStackStyles>;
-};
-
-export const getIconWrapFitContentStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            color: theme.semanticColors.menuIcon,
-            width: 'fit-content'
-        }
-    } as Partial<IButtonStyles>;
 };
 
 /* Property Selector */

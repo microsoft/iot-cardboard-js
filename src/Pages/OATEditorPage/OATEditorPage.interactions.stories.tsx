@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { within, userEvent } from '@storybook/testing-library';
+import { within, userEvent, screen } from '@storybook/testing-library';
 import OATEditorPage from './OATEditorPage';
 import {
     getDefaultStoryDecorator,
@@ -25,9 +25,10 @@ const Template: SceneBuilderStory = (
 ) => {
     return (
         <OATEditorPage
-            selectedTheme={
+            selectedThemeName={
                 context?.parameters?.theme || context?.globals?.theme
             }
+            locale={context?.parameters?.locale}
             disableStorage={true}
         />
     );
@@ -106,9 +107,7 @@ export const SelectModel = Template.bind({});
 SelectModel.play = async ({ canvasElement }) => {
     await AddModel.play({ canvasElement });
 
-    const canvas = within(canvasElement);
-
     // Clicks the button
-    const menu = await canvas.findByTestId('cardboard-list-item-model-list-0');
-    userEvent.click(menu);
+    const menu = await screen.findByTestId('cardboard-list-item-models-list-0');
+    menu.click();
 };

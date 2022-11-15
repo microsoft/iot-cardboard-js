@@ -160,7 +160,7 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
         <div
             className={propertyInspectorStyles.propertyListRelativeWrap}
             onMouseOver={() => {
-                setLastPropertyFocused({
+                setLastPropertyFocused?.({
                     item: item,
                     index: index
                 });
@@ -171,15 +171,15 @@ export const PropertyListItem: React.FC<PropertyListItemProps> = (props) => {
                 className={getItemClassName(index)}
                 draggable
                 onDragStart={(e) => {
-                    onDragStart(e, index);
+                    onDragStart?.(e, index);
                 }}
                 onDragEnter={
                     draggingProperty
-                        ? (e) => onDragEnter(e, index)
+                        ? (e) => onDragEnter?.(e, index)
                         : () => onDragEnterExternalItem(index)
                 }
                 onFocus={() =>
-                    setLastPropertyFocused({
+                    setLastPropertyFocused?.({
                         item: item,
                         index: index
                     })

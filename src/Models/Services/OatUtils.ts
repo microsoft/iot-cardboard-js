@@ -1,11 +1,8 @@
 import { i18n } from 'i18next';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel } from '../Classes/DTDL';
 import {
     DtdlInterface,
-    DtdlRelationship,
-    DtdlInterfaceContent,
     OAT_FILES_STORAGE_KEY,
     OAT_LAST_PROJECT_STORAGE_KEY,
     OAT_MODEL_ID_PREFIX,
@@ -44,57 +41,6 @@ export const getOntologiesFromStorage = (): IOATFile[] => {
 // Save files from local storage
 export const storeOntologiesToStorage = (files: IOATFile[]) => {
     localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
-};
-
-export const updateModelId = (
-    oldId: string,
-    newId: string,
-    models: DtdlInterface[],
-    modelPositions: IOATModelPosition[]
-) => {
-    // Update the modelPositions
-    const modelsPositionsCopy = deepCopy(modelPositions);
-
-    // Find the model position with the same id
-    const modelPosition = modelsPositionsCopy.find((x) => x['@id'] === oldId);
-    if (modelPosition) {
-        modelPosition['@id'] = newId;
-    }
-
-    // Update models
-    const modelsCopy = deepCopy(models);
-    const modelCopy = modelsCopy.find((x) => x['@id'] === oldId);
-    if (modelCopy) {
-        modelCopy['@id'] = newId;
-    }
-
-    // Update contents
-    modelsCopy.forEach((m) =>
-        m.contents.forEach((c) => {
-            const r = c as DtdlRelationship;
-            if (r && r.target === oldId) {
-                r.target = newId;
-            }
-            if (r && r['@id'] === oldId) {
-                r['@id'] = newId;
-            }
-
-            const p = c as DtdlInterfaceContent;
-            if (p && p.schema === oldId) {
-                p.schema = newId;
-            }
-
-            if (m.extends) {
-                const e = m.extends as string[];
-                const i = e.indexOf(oldId);
-                if (i >= 0) {
-                    e[i] = newId;
-                }
-            }
-        })
-    );
-
-    return { models: modelsCopy, positions: modelsPositionsCopy };
 };
 
 // Get fileName from DTMI
@@ -168,10 +114,10 @@ export const getNextModel = (
     let index = 0;
     while (index !== -1) {
         nextModelIdIndex++;
-        nextModelId = buildModelId(
+        nextModelId = buildModelId({
             namespace,
-            `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
-        );
+            modelName: `${defaultNamePrefix.toLowerCase()}${nextModelIdIndex}`
+        });
         index = existingModels.findIndex(
             (element) => element['@id'] === nextModelId
         );
@@ -226,21 +172,90 @@ export function convertModelToDtdl(model: DtdlInterface): DtdlInterface {
 }
 
 const DEFAULT_VERSION_NUMBER = 1;
+interface IBuildModelIdArgs {
+    /** namespace for the current ontology */
+    namespace: string;
+    /** name of the model */
+    modelName: string;
+    /** the sub path for the model (optional) */
+    path?: string;
+    /** version number for the model. If omitted, will use the default value */
+    version?: number;
+}
 /**
  * builds out the version id string for a model
- * @param namespace namespace for the current ontology
- * @param modelName name of the model
- * @param version version number for the model. If omitted, will use the default value
  * @returns string for the id of the model
  */
-export function buildModelId(
-    namespace: string,
-    modelName: string,
-    version?: number
-): string {
+export function buildModelId({
+    namespace,
+    modelName,
+    path,
+    version
+}: IBuildModelIdArgs): string {
+    const prefix = OAT_MODEL_ID_PREFIX;
+    const namespaceValue = namespace?.replace(/ /g, '');
+    const pathValue = path?.replace(/ /g, '');
+    const nameValue = modelName?.replace(/ /g, '');
     const versionNumber = isDefined(version) ? version : DEFAULT_VERSION_NUMBER;
-    return `${OAT_MODEL_ID_PREFIX}:${namespace?.replace(
-        / /g,
-        ''
-    )}:${modelName?.replace(/ /g, '')};${versionNumber}`;
+
+    let uniqueName = nameValue;
+    if (pathValue) {
+        uniqueName = pathValue + ':' + nameValue;
+    }
+    return `${prefix}:${namespaceValue}:${uniqueName};${versionNumber}`;
+}
+
+export function parseModelId(
+    id: string
+): {
+    namespace: string;
+    name: string;
+    path: string;
+    version: string;
+} {
+    if (!id) {
+        return {
+            name: '',
+            namespace: '',
+            path: '',
+            version: ''
+        };
+    }
+    const getNamespace = (id: string) => {
+        return id.substring(0, id.indexOf(':'));
+    };
+    const getPath = (id: string) => {
+        // if we still have any : then they must be part of the path or the separator
+        if (id.split(':').length > 0) {
+            return id.substring(0, id.lastIndexOf(':'));
+        }
+        return '';
+    };
+    const getName = (id: string) => {
+        return id.substring(0, id.lastIndexOf(';'));
+    };
+    const getVersion = (id: string) => {
+        return id.substring(id.indexOf(';') + 1, id.length);
+    };
+
+    const idWithoutPrefix = id.replace(`${OAT_MODEL_ID_PREFIX}:`, '');
+    const namespace = getNamespace(idWithoutPrefix);
+
+    const idWithoutNamespace = idWithoutPrefix.replace(`${namespace}:`, '');
+    const path = getPath(idWithoutNamespace);
+
+    const idWithoutPath = path
+        ? idWithoutNamespace.replace(`${path}:`, '')
+        : idWithoutNamespace;
+    const name = getName(idWithoutPath);
+
+    const idWithoutName = idWithoutPath.replace(`${name}:`, '');
+    const version = getVersion(idWithoutName);
+
+    return {
+        namespace: namespace,
+        name: name,
+        path: path,
+        version: version
+    };
 }

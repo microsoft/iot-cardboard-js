@@ -980,7 +980,8 @@
       "namespaceDescription": "Örnek model adı: {{modelName}}",
       "namespacePlaceholder": "Ad alanı girme",
       "sampleModel": "örnek Model"
-    }
+    },
+    "configure": "Yapılandırmak"
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
-    "valueSchema": "Değer Şeması"
+    "valueSchema": "Değer Şeması",
+    "modelId": "Model Kimliği",
+    "path": "Yol",
+    "uniqueModelName": "Benzersiz model adı",
+    "version": "Sürüm"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

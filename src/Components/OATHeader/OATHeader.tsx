@@ -85,7 +85,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             );
             // Populates fileNames and filePaths
             const populateMetadata = (
-                file: File,
+                file: File & { webkitRelativePath?: string },
                 fileContent: string,
                 metaDataCopy: IOATModelsMetadata[]
             ) => {
@@ -412,8 +412,9 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             contents: []
         };
         oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD,
+            type: OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC,
             payload: {
+                actionType: 'Add',
                 models: [newModel]
             }
         });
@@ -511,8 +512,8 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
         },
         {
             key: 'manage',
-            text: 'Manage',
-            iconProps: { iconName: 'Edit' },
+            text: t('OATHeader.configure'),
+            iconProps: { iconName: 'Settings' },
             onClick: onManageFile,
             'data-testid': 'oat-header-ontology-menu-manage'
         }

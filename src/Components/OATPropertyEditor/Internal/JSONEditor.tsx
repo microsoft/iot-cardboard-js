@@ -193,6 +193,11 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
                 }
                 beforeMount={setEditorTheme}
                 height={'95%'}
+                options={{
+                    minimap: {
+                        enabled: false
+                    }
+                }}
             />
             {oatPageState.modified && (
                 <>

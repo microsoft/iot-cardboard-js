@@ -52,6 +52,7 @@ const GraphLegend: React.FC<IGraphLegendProps> = (props) => {
                     verticalAlign={'center'}
                 >
                     <Toggle
+                        data-testid={'graph-legend-show-relationships-toggle'}
                         defaultChecked={oatGraphState.showRelationships}
                         onChange={() => {
                             oatGraphDispatch({
@@ -82,6 +83,7 @@ const GraphLegend: React.FC<IGraphLegendProps> = (props) => {
                     tokens={{ childrenGap: 8 }}
                 >
                     <Toggle
+                        data-testid={'graph-legend-show-inheritances-toggle'}
                         defaultChecked={oatGraphState.showInheritances}
                         label={t('OATGraphViewer.inheritances')}
                         inlineLabel
@@ -112,6 +114,7 @@ const GraphLegend: React.FC<IGraphLegendProps> = (props) => {
                     tokens={{ childrenGap: 8 }}
                 >
                     <Toggle
+                        data-testid={'graph-legend-show-components-toggle'}
                         defaultChecked={oatGraphState.showComponents}
                         label={t('OATGraphViewer.components')}
                         inlineLabel

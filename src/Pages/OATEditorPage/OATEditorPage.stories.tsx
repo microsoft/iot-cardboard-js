@@ -24,7 +24,9 @@ const Template: SceneBuilderStory = (
 ) => {
     return (
         <OATEditorPage
-            theme={context.parameters.theme || context.globals.theme}
+            selectedThemeName={
+                context.parameters.theme || context.globals.theme
+            }
             locale={context.globals.locale}
             localeStrings={context.globals.locale}
         />

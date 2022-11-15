@@ -24,7 +24,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATEditorPage', debugLogging);
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
-    const { locale, localeStrings, theme } = props;
+    const { locale, localeStrings, selectedThemeName } = props;
 
     // hooks
 
@@ -57,7 +57,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     return (
         <>
             <BaseComponent
-                theme={theme}
+                theme={selectedThemeName}
                 locale={locale}
                 localeStrings={localeStrings}
                 containerClassName={editorPageStyles.container}
@@ -75,7 +75,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                             <OATPropertyEditor
                                 languages={languages}
                                 selectedItem={selectedModel}
-                                selectedThemeName={theme}
+                                selectedThemeName={selectedThemeName}
                             />
                         </div>
                     )}

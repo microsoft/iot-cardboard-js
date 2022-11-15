@@ -12,7 +12,7 @@ import {
     OatGraphContextActionType
 } from './OatGraphContext.types';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('OatGraphContext', debugLogging);
 
 export const OatGraphContext = React.createContext<IOatGraphContext>(null);

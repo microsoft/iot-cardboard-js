@@ -27,6 +27,30 @@ export interface IOatPageContext {
     oatPageDispatch: React.Dispatch<OatPageContextAction>;
 }
 
+type GraphUpdatePayload =
+    | GraphUpdateNonePayload
+    | GraphUpdateAddPayload
+    | GraphUpdateUpdatePayload
+    | GraphUpdateDeletePayload;
+type GraphUpdateNonePayload = {
+    actionType: 'None';
+};
+type GraphUpdateAddPayload = {
+    actionType: 'Add';
+    models: DtdlInterface[];
+};
+type GraphUpdateUpdatePayload = {
+    actionType: 'Update';
+    models: {
+        oldId: string;
+        newModel: DtdlInterface;
+    }[];
+};
+type GraphUpdateDeletePayload = {
+    actionType: 'Delete';
+    models: DtdlInterface[];
+};
+
 /**
  * The state of the context
  */
@@ -41,7 +65,7 @@ export interface IOatPageContextState {
     currentOntologyTemplates: DTDLProperty[];
     error?: IOATError;
     modelsToImport?: any[];
-    modelsToAdd: DtdlInterface[];
+    graphUpdatesToSync: GraphUpdatePayload;
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
     ontologyFiles: IOATFile[];
@@ -63,18 +87,19 @@ export enum OatPageContextActionType {
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
     SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
     DELETE_MODEL = 'DELETE_MODEL',
-    DELETE_MODEL_UNDO = 'DELETE_MODEL_UNDO',
+    GENERAL_UNDO = 'GENERAL_UNDO',
     SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
     SET_CURRENT_MODELS_POSITIONS = 'SET_CURRENT_MODELS_POSITIONS',
     SET_CURRENT_NAMESPACE = 'SET_CURRENT_NAMESPACE',
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
+    UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
-    /** models that should get added to the graph */
-    SET_OAT_MODELS_TO_ADD = 'SET_OAT__MODELS_TO_ADD',
-    /** clear out the models that were added to the graph */
-    CLEAR_OAT_MODELS_TO_ADD = 'CLEAR_OAT__MODELS_TO_ADD',
+    /** models that should get changed on the graph */
+    GRAPH_SET_MODELS_TO_SYNC = 'GRAPH_SET_MODELS_TO_SYNC',
+    /** clear out the models that need to be reflected on the graph */
+    GRAPH_CLEAR_MODELS_TO_SYNC = 'GRAPH_CLEAR_MODELS_TO_SYNC',
     SET_OAT_MODIFIED = 'SET_OAT_MODIFIED',
     SET_OAT_SELECTED_MODEL = 'SET_OAT_SELECTED_MODEL',
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
@@ -120,7 +145,7 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.DELETE_MODEL_UNDO;
+          type: OatPageContextActionType.GENERAL_UNDO;
           payload: {
               models: DtdlInterface[];
               positions: IOATModelPosition[];
@@ -156,13 +181,11 @@ export type OatPageContextAction =
           payload: ProjectData;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_MODELS_TO_ADD;
-          payload: {
-              models: DtdlInterface[];
-          };
+          type: OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC;
+          payload: GraphUpdatePayload;
       }
     | {
-          type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD;
+          type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC;
       }
     | {
           type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN;
@@ -206,5 +229,12 @@ export type OatPageContextAction =
           type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE;
           payload: {
               isActive: boolean;
+          };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_MODEL_ID;
+          payload: {
+              existingId: string;
+              newId: string;
           };
       };

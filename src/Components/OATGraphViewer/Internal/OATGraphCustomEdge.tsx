@@ -35,7 +35,7 @@ const foreignObjectSizeExtendRelation = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
-const separation = 10;
+const separation = 50;
 
 const getPolygon = (vertexes: IOATNodePosition[]): string =>
     vertexes.map((v) => `${v.x},${v.y}`).join(' ');
@@ -168,6 +168,11 @@ const getMidPointForNode = (node: Node<any>): number[] => {
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const { id, data, markerEnd } = props;
 
+    const isExtendEdge = data['@type'] === OAT_EXTEND_HANDLE_NAME;
+    const isRelationshipEdge = data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
+    const isComponentEdge = data['@type'] === OAT_COMPONENT_HANDLE_NAME;
+    const isUntargetedEdge = data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME;
+
     // hooks
     const theme = useTheme();
     const nodes = useStoreState(
@@ -216,11 +221,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         () =>
             oatPageState.selection &&
             oatPageState.selection.modelId === source.id &&
-            ((data['@type'] === OAT_EXTEND_HANDLE_NAME &&
+            ((isExtendEdge &&
                 oatPageState.selection.contentId === data['@id']) ||
-                (data['@type'] !== OAT_EXTEND_HANDLE_NAME &&
+                (!isExtendEdge &&
                     oatPageState.selection.contentId === data.name)),
-        [data, oatPageState.selection, source]
+        [data, isExtendEdge, oatPageState.selection, source.id]
     );
 
     // side effects
@@ -279,11 +284,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 orientation
             );
             edgePathSourceX = polygonSourceX;
-            edgePathSourceY =
-                data['@type'] === OAT_COMPONENT_HANDLE_NAME
-                    ? polygonSourceY +
-                      offsetMedium * (sourceY > targetY ? -1 : 1)
-                    : polygonSourceY;
+            edgePathSourceY = isComponentEdge
+                ? polygonSourceY + offsetMedium * (sourceY > targetY ? -1 : 1)
+                : polygonSourceY;
         } else {
             newBase = sourceBase + adjustmentSourceX * baseVector;
             const newHypotenuse = newBase / Math.sin(betaAngle);
@@ -299,11 +302,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 heightVector,
                 orientation
             );
-            edgePathSourceX =
-                data['@type'] === OAT_COMPONENT_HANDLE_NAME
-                    ? polygonSourceX +
-                      offsetMedium * (adjustedSourceX > targetX ? -1 : 1)
-                    : polygonSourceX;
+            edgePathSourceX = isComponentEdge
+                ? polygonSourceX +
+                  offsetMedium * (adjustedSourceX > targetX ? -1 : 1)
+                : polygonSourceX;
             edgePathSourceY = polygonSourceY;
         }
         return {
@@ -363,9 +365,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             );
             edgePathTargetX = polygonTargetX;
             edgePathTargetY =
-                data['@type'] === OAT_EXTEND_HANDLE_NAME ||
-                data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-                data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME
+                isExtendEdge || isRelationshipEdge || isUntargetedEdge
                     ? polygonTargetY +
                       offsetMedium * (sourceY < targetY ? -1 : 1)
                     : polygonTargetY;
@@ -393,9 +393,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             );
 
             edgePathTargetX =
-                data['@type'] === OAT_EXTEND_HANDLE_NAME ||
-                data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-                data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME
+                isExtendEdge || isRelationshipEdge || isUntargetedEdge
                     ? polygonTargetX +
                       offsetMedium * (sourceX < targetX ? -1 : 1)
                     : polygonTargetX;
@@ -668,7 +666,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 d={edgePath}
                 onDoubleClick={onNameDoubleClick}
             />
-            {data['@type'] === OAT_EXTEND_HANDLE_NAME && showInheritances && (
+            {isExtendEdge && showInheritances && (
                 <path
                     id={id}
                     className={
@@ -681,22 +679,20 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     markerEnd={markerEnd}
                 />
             )}
-            {(data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-                data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) &&
-                showRelationships && (
-                    <path
-                        id={id}
-                        className={
-                            isSelected
-                                ? graphViewerStyles.selectedEdgePath
-                                : graphViewerStyles.edgePath
-                        }
-                        d={edgePath}
-                        onDoubleClick={onNameDoubleClick}
-                        markerEnd={markerEnd}
-                    />
-                )}
-            {data['@type'] === OAT_COMPONENT_HANDLE_NAME && showComponents && (
+            {(isRelationshipEdge || isUntargetedEdge) && showRelationships && (
+                <path
+                    id={id}
+                    className={
+                        isSelected
+                            ? graphViewerStyles.selectedEdgePath
+                            : graphViewerStyles.edgePath
+                    }
+                    d={edgePath}
+                    onDoubleClick={onNameDoubleClick}
+                    markerEnd={markerEnd}
+                />
+            )}
+            {isComponentEdge && showComponents && (
                 <path
                     id={id}
                     className={
@@ -712,13 +708,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             {nameEditor && (
                 <foreignObject
                     width={
-                        data['@type'] === OAT_EXTEND_HANDLE_NAME
+                        isExtendEdge
                             ? foreignObjectSizeExtendRelation
                             : foreignObjectSize
                     }
                     height={foreignObjectSize}
                     x={
-                        data['@type'] !== OAT_EXTEND_HANDLE_NAME
+                        !isExtendEdge
                             ? edgeCenterX - foreignObjectSize / 2
                             : edgeCenterX
                     }
@@ -728,7 +724,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     <div
                         className={graphViewerStyles.relationshipNameEditorBody}
                     >
-                        {data['@type'] !== OAT_EXTEND_HANDLE_NAME && (
+                        {!isExtendEdge && (
                             <OATTextFieldName
                                 styles={relationshipTextFieldStyles}
                                 value={nameText}
@@ -743,7 +739,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         >
                             <ActionButton
                                 className={
-                                    data['@type'] !== OAT_EXTEND_HANDLE_NAME
+                                    !isExtendEdge
                                         ? graphViewerStyles.edgeCancel
                                         : graphViewerStyles.extendCancel
                                 }
@@ -765,12 +761,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 </foreignObject>
             )}
             {!nameEditor &&
-                ((data['@type'] === OAT_EXTEND_HANDLE_NAME &&
-                    showInheritances) ||
-                    (data['@type'] === OAT_COMPONENT_HANDLE_NAME &&
-                        showComponents) ||
-                    ((data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-                        data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) &&
+                ((isExtendEdge && showInheritances) ||
+                    (isComponentEdge && showComponents) ||
+                    ((isRelationshipEdge || isUntargetedEdge) &&
                         showRelationships)) && (
                     <text>
                         <textPath
@@ -784,7 +777,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         </textPath>
                     </text>
                 )}
-            {data['@type'] === OAT_EXTEND_HANDLE_NAME && showInheritances && (
+            {isExtendEdge && showInheritances && (
                 <polygon
                     points={polygons.inheritancePolygon}
                     cx={polygons.polygonTargetX}
@@ -794,19 +787,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     className={graphViewerStyles.inheritanceShape}
                 />
             )}
-            {(data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-                data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME) &&
-                showRelationships && (
-                    <polygon
-                        points={polygons.relationshipPolygon}
-                        cx={polygons.polygonTargetX}
-                        cy={polygons.polygonTargetY}
-                        r={3}
-                        strokeWidth={1.5}
-                        className={graphViewerStyles.edgePath}
-                    />
-                )}
-            {data['@type'] === OAT_COMPONENT_HANDLE_NAME && showComponents && (
+            {(isRelationshipEdge || isUntargetedEdge) && showRelationships && (
+                <polygon
+                    points={polygons.relationshipPolygon}
+                    cx={polygons.polygonTargetX}
+                    cy={polygons.polygonTargetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={graphViewerStyles.edgePath}
+                />
+            )}
+            {isComponentEdge && showComponents && (
                 <polygon
                     points={polygons.componentPolygon}
                     cx={polygons.polygonSourceX}

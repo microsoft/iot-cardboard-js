@@ -132,11 +132,10 @@ const ManageOntologyModal: React.FC<IManageOntologyModalProps> = (props) => {
     }, [isOpen, mode, oatPageState.currentOntologyNamespace]);
 
     // data
-    const sampleModelId = buildModelId(
-        namespace || OAT_NAMESPACE_DEFAULT_VALUE,
-        t(LOC_KEYS.sampleModel),
-        1
-    );
+    const sampleModelId = buildModelId({
+        namespace: namespace || OAT_NAMESPACE_DEFAULT_VALUE,
+        modelName: t(LOC_KEYS.sampleModel)
+    });
 
     // styles
     const classNames = getClassNames(styles, {

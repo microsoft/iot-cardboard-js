@@ -7,6 +7,7 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import { buildModelId, parseModelId } from '../../Services/OatUtils';
 import { IOatPageContextState } from './OatPageContext.types';
 
 const getMockMetadataItem = (id: string): IOATModelsMetadata => {
@@ -28,9 +29,10 @@ const getMockPositionItem = (id: string): IOATModelPosition => {
 };
 
 export const getMockModelItem = (id: string): DTDLModel => {
+    const modelName = parseModelId(id).name;
     return new DTDLModel(
         id,
-        `model-${id}`,
+        modelName,
         'mock-description',
         'mock-comment',
         [],
@@ -58,15 +60,28 @@ export const getMockFile = (
     subId1: string,
     subId2: string
 ): IOATFile => {
+    const namespace = 'test-ontology-namespace-' + index;
+    const modelId1 = buildModelId({
+        modelName: 'model' + subId1,
+        namespace: namespace,
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const modelId2 = buildModelId({
+        modelName: 'model' + subId2,
+        namespace: namespace,
+        path: 'folder1:folder2',
+        version: 2
+    });
     return {
         id: 'test-ontology-' + index,
         data: new ProjectData(
             'test-ontology-name-' + index,
-            'test-ontology-namespace-' + index,
-            [getMockModelItem(subId1), getMockModelItem(subId2)],
-            [getMockPositionItem(subId1), getMockPositionItem(subId2)],
-            [getMockMetadataItem(subId1), getMockMetadataItem(subId2)],
-            [getMockTemplateItem('0'), getMockTemplateItem(subId2)]
+            namespace,
+            [getMockModelItem(modelId1), getMockModelItem(modelId2)],
+            [getMockPositionItem(modelId1), getMockPositionItem(modelId2)],
+            [getMockMetadataItem(modelId1), getMockMetadataItem(modelId2)],
+            [getMockTemplateItem(modelId1), getMockTemplateItem(modelId2)]
         )
     };
 };
@@ -89,7 +104,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyTemplates: currentFile.templates,
         error: null,
         modelsToImport: [],
-        modelsToAdd: [],
+        graphUpdatesToSync: { actionType: 'None', models: [] },
         isJsonUploaderOpen: false,
         modified: false,
         ontologyFiles: files,

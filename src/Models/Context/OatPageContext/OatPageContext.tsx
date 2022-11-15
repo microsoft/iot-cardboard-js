@@ -13,7 +13,7 @@ import {
     getOntologiesFromStorage,
     getLastUsedProjectId
 } from '../../Services/OatUtils';
-import { createGUID, getDebugLogger } from '../../Services/Utils';
+import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
     IOatPageContext,
     IOatPageContextProviderProps,
@@ -27,7 +27,8 @@ import {
     switchCurrentProject,
     convertStateToProject,
     deleteModelFromState,
-    setSelectedModel
+    setSelectedModel,
+    updateModelId
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -205,23 +206,58 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModels,
                     draft.currentOntologyModelPositions
                 );
+                draft.graphUpdatesToSync = {
+                    actionType: 'Delete',
+                    models: [targetModel]
+                };
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.DELETE_MODEL_UNDO: {
+            case OatPageContextActionType.GENERAL_UNDO: {
                 draft.currentOntologyModels = action.payload.models;
                 draft.currentOntologyModelPositions = action.payload.positions;
                 setSelectedModel(action.payload.selection, draft);
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.SET_OAT_MODELS_TO_ADD: {
-                const { models } = action.payload;
-                draft.modelsToAdd = models || [];
+            case OatPageContextActionType.UPDATE_MODEL_ID: {
+                const { newId, existingId } = action.payload;
+                updateModelId(
+                    existingId,
+                    newId,
+                    draft.currentOntologyModels,
+                    draft.currentOntologyModelPositions
+                );
+
+                // const
+                draft.graphUpdatesToSync = {
+                    actionType: 'Update',
+                    models: [
+                        {
+                            newModel: draft.currentOntologyModels.find(
+                                (x) => x['@id'] === newId
+                            ),
+                            oldId: existingId
+                        }
+                    ]
+                };
+
+                // Note: not sure why the deep copy is here, but leaving it since it seemed intentional before the refactor
+                const newSelection =
+                    draft.selection && draft.selection.contentId
+                        ? deepCopy(draft.selection)
+                        : { modelId: newId };
+
+                setSelectedModel(newSelection, draft);
+                saveData(draft);
                 break;
             }
-            case OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD: {
-                draft.modelsToAdd = [];
+            case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {
+                draft.graphUpdatesToSync = action.payload;
+                break;
+            }
+            case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
+                draft.graphUpdatesToSync = { actionType: 'None' };
                 break;
             }
             case OatPageContextActionType.SET_OAT_ERROR: {
@@ -307,7 +343,7 @@ const emptyState: IOatPageContextState = {
     confirmDeleteOpen: { open: false },
     error: null,
     modelsToImport: [],
-    modelsToAdd: [],
+    graphUpdatesToSync: { actionType: 'None' },
     isJsonUploaderOpen: false,
     modified: false,
     selectedModelTarget: null,

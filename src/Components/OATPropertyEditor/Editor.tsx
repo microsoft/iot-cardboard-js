@@ -1,13 +1,5 @@
 import React, { useRef, useMemo } from 'react';
-import {
-    FontIcon,
-    Stack,
-    Pivot,
-    PivotItem,
-    Label,
-    Text,
-    ActionButton
-} from '@fluentui/react';
+import { Stack, Pivot, PivotItem, Label } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
@@ -32,10 +24,10 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -53,7 +45,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { oatPageState } = useOatPageContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -94,12 +86,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
     }, [selectedItem]);
 
     // callbacks
-    const onToggleTemplatesActive = () => {
-        oatPageDispatch({
-            type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
-            payload: { isActive: !oatPageState.templatesActive }
-        });
-    };
+    // const onToggleTemplatesActive = () => {
+    //     oatPageDispatch({
+    //         type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
+    //         payload: { isActive: !oatPageState.templatesActive }
+    //     });
+    // };
 
     const onModalClose = () => {
         editorDispatch({
@@ -182,7 +174,15 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                                 ? `(${propertyList.length})`
                                                 : ''
                                         }`}</Label>
-                                        <ActionButton
+                                        <PropertyTypePicker
+                                            onSelect={(item) =>
+                                                alert(
+                                                    'To be implemented. Selected ' +
+                                                        item.type
+                                                )
+                                            }
+                                        />
+                                        {/* <ActionButton
                                             onClick={onToggleTemplatesActive}
                                             className={
                                                 propertyInspectorStyles.viewTemplatesCta
@@ -199,7 +199,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                                     'OATPropertyEditor.viewTemplates'
                                                 )}
                                             </Text>
-                                        </ActionButton>
+                                        </ActionButton> */}
                                     </Stack>
                                 </div>
                             </Stack.Item>
@@ -220,6 +220,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     <PivotItem
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
+                        // remove pivot height - padding
+                        style={{ height: 'calc(70vh - 36px - 32px)' }}
                     >
                         {isSupportedModelType && (
                             <JSONEditor theme={selectedThemeName} />

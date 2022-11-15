@@ -980,7 +980,8 @@
       "namespaceDescription": "모델 이름 예: {{모델 이름}}",
       "namespacePlaceholder": "네임스페이스 입력",
       "sampleModel": "샘플 모델"
-    }
+    },
+    "configure": "구성"
   },
   "cameraControls": {
     "mouseControls": "마우스 컨트롤",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "속성 목록에 추가",
     "moveDown": "아래로 이동",
     "moveUp": "위로 이동",
-    "valueSchema": "값 스키마"
+    "valueSchema": "값 스키마",
+    "modelId": "모델 아이디",
+    "path": "길",
+    "uniqueModelName": "고유한 모델 이름",
+    "version": "버전"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

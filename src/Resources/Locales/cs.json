@@ -980,7 +980,8 @@
       "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
       "namespacePlaceholder": "Zadejte obor názvů",
       "sampleModel": "Vzorový model"
-    }
+    },
+    "configure": "Konfigurovat"
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
@@ -1089,7 +1090,11 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
-    "writable": "Zapisovatelný"
+    "writable": "Zapisovatelný",
+    "modelId": "ID modelu",
+    "path": "Cesta",
+    "uniqueModelName": "Jedinečný název modelu",
+    "version": "Verze"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

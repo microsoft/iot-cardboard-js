@@ -2,6 +2,7 @@ import { Node, Edge } from 'react-flow-renderer';
 import {
     OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
+    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_UNTARGETED_RELATIONSHIP_NAME
@@ -37,7 +38,7 @@ const getNextRelationshipIndex = (
                 // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
                 // (element as ElementEdge).source === sourceId &&
                 (element.data as DtdlRelationship).name ===
-                `${OAT_RELATIONSHIP_HANDLE_NAME}_${relationshipIndex}`
+                `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
         )
     ) {
         relationshipIndex++;
@@ -82,12 +83,13 @@ export const addTargetedRelationship = (
     // );
     const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
     const name =
-        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
+        relationship.name ||
+        `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${nextRelIndex}`;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_RELATIONSHIP_HANDLE_NAME,
@@ -146,7 +148,7 @@ export const addUntargetedRelationship = (
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_UNTARGETED_RELATIONSHIP_NAME,
@@ -189,7 +191,7 @@ export const addComponentRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_COMPONENT_HANDLE_NAME,
@@ -226,7 +228,7 @@ export const addExtendsRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
-        OAT_RELATIONSHIP_HANDLE_NAME,
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
         '',
         sourceId,
         OAT_EXTEND_HANDLE_NAME,
@@ -270,28 +272,71 @@ export const addModelToGraph = (
 };
 
 /**
- * Addsd a new model with default values to the graph
- * @param newModelId id for the new model
- * @param name Display name for the model
- * @param position position of the node
- * @param elements collection of existing elements
- * @returns new node that was added
+ * Removes a node to the graph with the given model data
+ * @param model model to remove from the graph
+ * @param elements collection of existing elements, will be updated in place
+ * @returns the updated list of elements
  */
-export const addNewModelToGraph = (
-    newModelId: string,
-    name: string,
-    position: ElementPosition,
+export const deleteModelFromGraph = (
+    model: DtdlInterface,
     elements: (ElementNode | ElementEdge)[]
 ) => {
-    const newNode = new ElementNode(newModelId, OAT_INTERFACE_TYPE, position, {
-        '@id': newModelId,
-        '@context': CONTEXT_CLASS_BASE,
-        '@type': OAT_INTERFACE_TYPE,
-        displayName: name,
-        contents: []
-    });
-    elements.push(newNode);
-    return newNode;
+    const index = elements.findIndex((x) => x.id === model['@id']);
+    if (index >= 0) {
+        elements.splice(index, 1);
+    }
+    return elements;
+};
+
+/**
+ * Finds a node in the graph for a model and updates the data to match the latest data
+ * @param oldId previous id
+ * @param newModel new model data
+ * @param elements existing graph nodes, updated in-place
+ * @returns the updated graph nodes
+ */
+export const updateModelInGraph = (
+    oldId: string,
+    newModel: DtdlInterface,
+    elements: (ElementNode | ElementEdge)[]
+) => {
+    // find an update the node itself
+    const existingNode = elements.find((x) => x.id === oldId);
+    if (existingNode) {
+        existingNode.id = newModel['@id'];
+        existingNode.data = newModel;
+    } else {
+        logDebugConsole(
+            'warn',
+            'Could not find the node in the graph to update. {oldId, newModel, elements}',
+            oldId,
+            newModel,
+            elements
+        );
+    }
+    // grab relationships pointing to/from this node
+    const existingRelationships = elements.filter(
+        (x: ElementEdge) =>
+            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE &&
+            (x.source === oldId || x.target === oldId)
+    );
+    if (existingRelationships?.length) {
+        // update all those existing relationships for this node
+        existingRelationships.forEach((x: ElementEdge) => {
+            // update the id to replace the old id with the new one
+            x.id = x.id.replace(oldId, existingNode.id);
+            if (x.source === oldId) {
+                // update the source to be the new id
+                x.source = existingNode.id;
+            }
+            if (x.target === oldId) {
+                // update the target to be the new id
+                x.target = existingNode.id;
+            }
+        });
+    }
+
+    return elements;
 };
 
 export const getSelectionIdentifier = (

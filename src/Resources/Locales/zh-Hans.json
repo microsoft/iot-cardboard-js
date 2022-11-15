@@ -980,7 +980,8 @@
       "namespaceDescription": "示例模型名称：{{模型名称}}",
       "namespacePlaceholder": "输入命名空间",
       "sampleModel": "示例模型"
-    }
+    },
+    "configure": "配置"
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -1209,7 +1210,11 @@
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
     "moveUp": "上升",
-    "valueSchema": "值架构"
+    "valueSchema": "值架构",
+    "modelId": "型号编号",
+    "path": "路径",
+    "uniqueModelName": "唯一的型号名称",
+    "version": "版本"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

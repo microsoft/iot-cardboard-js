@@ -62,11 +62,13 @@ import {
     addComponentRelationship,
     addExtendsRelationship,
     addModelToGraph,
-    addNewModelToGraph,
     addTargetedRelationship,
     addUntargetedRelationship,
+    CONTEXT_CLASS_BASE,
     DEFAULT_NODE_POSITION,
-    getSelectionFromNode
+    deleteModelFromGraph,
+    getSelectionFromNode,
+    updateModelInGraph
 } from './Internal/Utils';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
@@ -92,7 +94,7 @@ import {
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -406,17 +408,19 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     x: evt.clientX - reactFlowBounds.left,
                     y: evt.clientY - reactFlowBounds.top
                 });
-                const newModel = getNextModel(
+                const newModelInfo = getNextModel(
                     oatPageState.currentOntologyModels,
                     oatPageState.currentOntologyNamespace,
                     t('OATCommon.defaultModelNamePrefix')
                 );
-                targetModel = addNewModelToGraph(
-                    newModel.id,
-                    newModel.name,
-                    position,
-                    elementsCopy
-                );
+                const newModel: DtdlInterface = {
+                    '@id': newModelInfo.id,
+                    '@context': CONTEXT_CLASS_BASE,
+                    '@type': OAT_INTERFACE_TYPE,
+                    displayName: newModelInfo.name,
+                    contents: []
+                };
+                targetModel = addModelToGraph(newModel, position, elementsCopy);
                 target = targetModel.id;
                 logDebugConsole(
                     'debug',
@@ -769,37 +773,88 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageState.modelsToImport
     ]);
 
-    // update the graph when models are added
+    // update the graph when models are added/updated/deleted on state
     useEffect(() => {
-        if (oatPageState.modelsToAdd?.length > 0) {
-            logDebugConsole('debug', '[START] Handle change to Added models');
+        const updatePayload = oatPageState.graphUpdatesToSync;
+        if (
+            updatePayload?.actionType !== 'None' &&
+            updatePayload.models.length > 0
+        ) {
+            logDebugConsole(
+                'info',
+                '[START] Handle change to graph models. {actionType, models}',
+                updatePayload.actionType,
+                updatePayload.models
+            );
 
-            const onAddModels = () => {
-                const startPositionCoordinates = rfInstance.project({
-                    x: newNodeLeft,
-                    y: 20
-                });
+            if (updatePayload.actionType === 'Add') {
+                // ADD MODELS
+                logDebugConsole('debug', 'Processing added models');
+                const onAddModels = () => {
+                    const startPositionCoordinates = rfInstance.project({
+                        x: newNodeLeft,
+                        y: 20
+                    });
 
-                const elementsCopy = deepCopy(elements);
-                oatPageState.modelsToAdd.forEach((x) => {
-                    addModelToGraph(
-                        x,
-                        getNewNodePosition(startPositionCoordinates),
-                        elementsCopy
-                    );
-                });
-                setElements(elementsCopy);
-            };
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        addModelToGraph(
+                            x,
+                            getNewNodePosition(startPositionCoordinates),
+                            elementsCopy
+                        );
+                    });
+                    setElements(elementsCopy);
+                };
 
-            const undoAddModels = () => {
-                setElements(elements);
-            };
+                const undoAddModels = () => {
+                    setElements(elements);
+                };
 
-            execute(onAddModels, undoAddModels);
+                execute(onAddModels, undoAddModels);
+            } else if (updatePayload.actionType === 'Delete') {
+                // DELETE MODELS
+                logDebugConsole('debug', 'Processing deleted models');
+                const onDeleteModels = () => {
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        deleteModelFromGraph(x, elementsCopy);
+                    });
+                    setElements(elementsCopy);
+                };
+
+                const undoDeleteModels = () => {
+                    setElements(elements);
+                };
+
+                execute(onDeleteModels, undoDeleteModels);
+            } else if (updatePayload.actionType === 'Update') {
+                // UPDATE EXISTING MODELS
+                logDebugConsole('debug', 'Processing updated models');
+                const onUpdateModels = () => {
+                    const elementsCopy = deepCopy(elements);
+                    updatePayload.models.forEach((x) => {
+                        updateModelInGraph(x.oldId, x.newModel, elementsCopy);
+                    });
+                    setElements(elementsCopy);
+                };
+
+                const undoUpdateModels = () => {
+                    setElements(elements);
+                };
+
+                execute(onUpdateModels, undoUpdateModels);
+            } else {
+                // Should not happen
+                logDebugConsole(
+                    'warn',
+                    'No-op. Unexpected graph update scenario'
+                );
+            }
             oatPageDispatch({
-                type: OatPageContextActionType.CLEAR_OAT_MODELS_TO_ADD
+                type: OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC
             });
-            logDebugConsole('debug', '[END] Handle change to Added models');
+            logDebugConsole('info', '[END] Handle change to graph models');
         }
     }, [
         elements,
@@ -809,10 +864,12 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         oatPageDispatch,
         oatPageState.currentOntologyModelPositions,
         oatPageState.currentOntologyNamespace,
-        oatPageState.modelsToAdd,
+        oatPageState.graphUpdatesToSync,
         rfInstance,
         t
     ]);
+
+    // updated model
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
@@ -821,9 +878,10 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     logDebugConsole(
         'debug',
-        '[END] Render {models, positions}',
+        '[END] Render {models, positions, nodes}',
         oatPageState.currentOntologyModels,
-        oatPageState.currentOntologyModelPositions
+        oatPageState.currentOntologyModelPositions,
+        elements
     );
 
     return (

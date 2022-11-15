@@ -81,7 +81,7 @@ SelectItem.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     // Finds the menu and opens it
-    const menu = await canvas.findByTestId('cardboard-list-item-model-list-1');
+    const menu = await canvas.findByTestId('cardboard-list-item-models-list-1');
     userEvent.click(menu);
 };
 
@@ -91,7 +91,7 @@ OpenItemMenu.play = async ({ canvasElement }) => {
 
     // Finds the menu and opens it
     const menu = await canvas.findByTestId(
-        'context-menu-model-list-1-moreMenu'
+        'context-menu-models-list-1-moreMenu'
     );
     userEvent.click(menu);
 };
