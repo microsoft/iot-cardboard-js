@@ -106,12 +106,16 @@ const VisualRuleElementsList: React.FC<IViewerElementsPanelListProps> = ({
                 isModal,
                 openCalloutRowId,
                 onItemClick,
+                onItemHover,
+                onItemBlur,
                 onItemHoverExtend,
                 onItemBlurExtended
             ),
         [
             panelItems,
             onItemClick,
+            onItemHover,
+            onItemBlur,
             onItemHoverExtend,
             onItemBlurExtended,
             openCalloutRowId,
@@ -143,8 +147,10 @@ function getListItems(
     isModal: boolean,
     openCalloutRowId: string,
     onItemClick: ElementsPanelCallback,
-    onItemHover: ViewerElementsPanelCallback,
-    onItemBlur: ViewerElementsPanelCallback
+    onItemHover: ElementsPanelCallback,
+    onItemBlur: ElementsPanelCallback,
+    onItemHoverExtended: ViewerElementsPanelCallback,
+    onItemBlurExtended: ViewerElementsPanelCallback
 ): Array<ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>> {
     const sortedPanelItems = sortPanelItemsForDisplay(panelItems);
     const buttonStyles = getElementsPanelButtonSyles();
@@ -219,10 +225,12 @@ function getListItems(
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
-                onMouseEnter: () => onItemHover(rowId, element, panelItem),
-                onFocus: () => onItemHover(rowId, element, panelItem),
-                onMouseLeave: () => onItemBlur(rowId, element, panelItem),
-                onBlur: () => onItemBlur(rowId, element, panelItem)
+                onMouseEnter: () =>
+                    onItemHoverExtended(rowId, element, panelItem),
+                onFocus: () => onItemHoverExtended(rowId, element, panelItem),
+                onMouseLeave: () =>
+                    onItemBlurExtended(rowId, element, panelItem),
+                onBlur: () => onItemBlurExtended(rowId, element, panelItem)
             },
             iconStart: () => (
                 <ElementColoring
@@ -242,9 +250,9 @@ function getListItems(
         badges.forEach((badge) => {
             const badgeStyles = getElementsPanelAlertStyles(badge.visual.color);
             const onEnter =
-                onItemHover && (() => onItemHover(rowId, element, panelItem));
+                onItemHover && (() => onItemHover(element, panelItem));
             const onLeave =
-                onItemBlur && (() => onItemBlur(rowId, element, panelItem));
+                onItemBlur && (() => onItemBlur(element, panelItem));
             const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
                 ariaLabel: badge.visualRuleDisplayTitle,
                 buttonProps: {

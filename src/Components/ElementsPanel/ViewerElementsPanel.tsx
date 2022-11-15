@@ -31,6 +31,28 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     const [filterTerm, setFilterTerm] = useState('');
     const nodeRef = React.useRef(null); // <Draggable> requires an explicit ref to avoid using findDOMNode
 
+    const getVisualRulesIncludingFilterTerm = (panelItem) => {
+        // Map all visuals from existing behaviors
+        const visuals = [].concat(...panelItem.behaviors.map((b) => b.visuals));
+        // Filter out widgets
+        const visualRules = visuals.filter(ViewerConfigUtility.isVisualRule);
+        // Check all conditions in case their label expressions contain the search term
+        const includedVisualRules = visualRules.filter(
+            (visualRule) =>
+                visualRule.valueRanges.filter((condition) => {
+                    return parseLinkedTwinExpression(
+                        wrapTextInTemplateString(
+                            condition.visual.labelExpression
+                        ),
+                        panelItem.twins
+                    )
+                        .toLowerCase()
+                        .includes(filterTerm.toLowerCase());
+                }).length > 0
+        );
+        return includedVisualRules.length;
+    };
+
     const filteredPanelItems = useMemo(
         () =>
             filterTerm
@@ -39,22 +61,7 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
                           panelItem.element.displayName
                               .toLowerCase()
                               .includes(filterTerm.toLowerCase()) ||
-                          []
-                              .concat(
-                                  ...panelItem.behaviors.map((b) => b.visuals)
-                              )
-                              .filter(ViewerConfigUtility.isAlertVisual)
-                              .filter((alertVisual) =>
-                                  parseLinkedTwinExpression(
-                                      wrapTextInTemplateString(
-                                          alertVisual.valueRanges[0].visual
-                                              .labelExpression
-                                      ),
-                                      panelItem.twins
-                                  )
-                                      .toLowerCase()
-                                      .includes(filterTerm.toLowerCase())
-                              ).length
+                          getVisualRulesIncludingFilterTerm(panelItem)
                   )
                 : panelItems,
         [filterTerm, panelItems]
