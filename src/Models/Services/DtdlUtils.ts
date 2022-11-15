@@ -15,6 +15,7 @@ import {
     OAT_INTERFACE_TYPE
 } from '../Constants';
 
+/** is the relationship a known DTDL relationship type */
 export const isDTDLRelationship = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
 ): object is DtdlRelationship => {
