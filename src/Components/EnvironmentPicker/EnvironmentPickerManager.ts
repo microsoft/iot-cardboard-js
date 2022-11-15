@@ -7,7 +7,8 @@ import {
 import {
     areResourceValuesEqual,
     getNameOfResource,
-    getResourceUrl
+    getResourceUrl,
+    getUrlFromString
 } from '../../Models/Services/Utils';
 import { StorageAccountToContainersMapping } from './EnvironmentPicker.types';
 
@@ -21,7 +22,7 @@ export const getContainerDisplayText = (
                 container,
                 AzureResourceTypes.StorageBlobContainer
             );
-            const urlObj = new URL(
+            const urlObj = getUrlFromString(
                 getResourceUrl(
                     storageAccount,
                     AzureResourceTypes.StorageAccount
@@ -56,15 +57,11 @@ export const getStorageAndContainerFromContainerUrl = (
     containerUrl: string
 ) => {
     try {
-        if (containerUrl) {
-            const urlObj = new URL(containerUrl);
-            return {
-                storageAccountUrl: urlObj.origin,
-                containerName: urlObj.pathname.split('/')[1]
-            };
-        } else {
-            return null;
-        }
+        const urlObj = getUrlFromString(containerUrl);
+        return {
+            storageAccountUrl: urlObj.origin,
+            containerName: urlObj.pathname.split('/')[1]
+        };
     } catch (error) {
         console.error(error.message);
         return null;
@@ -73,12 +70,8 @@ export const getStorageAndContainerFromContainerUrl = (
 
 export const getStorageAccountUrlFromContainerUrl = (containerUrl: string) => {
     try {
-        if (containerUrl) {
-            const urlObj = new URL(containerUrl);
-            return urlObj.origin;
-        } else {
-            return null;
-        }
+        const urlObj = getUrlFromString(containerUrl);
+        return urlObj.origin;
     } catch (error) {
         console.error(error.message);
         return null;

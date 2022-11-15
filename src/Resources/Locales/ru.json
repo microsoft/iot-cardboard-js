@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL-адрес экземпляра Azure Digital Twins",
     "descriptionForAdtInstance": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
     "descriptionForAdtInstanceAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
-    "noAdtInstance": "Экземпляр ADT не добавлен"
+    "noAdtInstance": "Экземпляр ADT не добавлен",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве средства чтения данных цифровых двойников Azure (как минимум).",
+      "storageAccountMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум).",
+      "storageContainerMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум) и «Владельца данных BLOB-объектов хранилища» или «Участника данных хранилища больших двоичных объектов».",
+      "resourceNotFound": "Ресурс Azure не найден с введенным значением."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Закрыть модальный",
