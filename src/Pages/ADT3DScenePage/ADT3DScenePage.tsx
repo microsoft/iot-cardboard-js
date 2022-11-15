@@ -54,8 +54,6 @@ import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import { SceneThemeContextProvider } from '../../Models/Context';
 import { DOCUMENTATION_LINKS } from '../../Models/Constants/Constants';
 import { setLocalStorageItem } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
-import { ADTResourceIdentifier } from '../../Models/Constants/Types';
-import { getHostNameFromUrl } from '../../Models/Services/Utils';
 
 export const ADT3DScenePageContext = createContext<IADT3DScenePageContext>(
     null
@@ -127,11 +125,9 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     });
 
     const connectionState = useAdapter({
-        adapterMethod: (params: {
-            adtInstanceIdentifier: ADTResourceIdentifier;
-        }) =>
+        adapterMethod: (params: { adtUrl: string }) =>
             adapter.getTimeSeriesConnectionInformation(
-                params.adtInstanceIdentifier,
+                params.adtUrl,
                 true,
                 true
             ),
@@ -250,9 +246,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
     // if the adx connection information is not in the environment context. fetch it and update the context
     useEffect(() => {
         connectionState.callAdapter({
-            adtInstanceIdentifier: deeplinkState.adtResourceId
-                ? { id: deeplinkState.adtResourceId }
-                : { hostName: getHostNameFromUrl(deeplinkState.adtUrl) }
+            adtUrl: deeplinkState.adtUrl
         });
         dispatch({
             type: ADT3DScenePageActionTypes.SET_ADX_CONNECTION_INFORMATION,

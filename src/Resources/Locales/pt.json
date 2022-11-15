@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL de exemplo de gêmeos digitais do Azure",
     "descriptionForAdtInstance": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
     "descriptionForAdtInstanceAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
-    "noAdtInstance": "Nenhuma instância do ADT adicionada"
+    "noAdtInstance": "Nenhuma instância do ADT adicionada",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Azure Digital Twins Data Reader' (no mínimo).",
+      "storageAccountMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo).",
+      "storageContainerMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo) e 'Storage Blob Data Owner' ou 'Storage Blob Data Contributor'.",
+      "resourceNotFound": "Não há nenhum recurso do Azure encontrado com o valor inserido."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",

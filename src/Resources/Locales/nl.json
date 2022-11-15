@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL van Azure Digital Twins-exemplaar",
     "descriptionForAdtInstance": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
     "descriptionForAdtInstanceAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
-    "noAdtInstance": "Geen ADT-instantie toegevoegd"
+    "noAdtInstance": "Geen ADT-instantie toegevoegd",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Azure Digital Twins Data Reader' (minimaal).",
+      "storageAccountMissingPermissionMessage": "U hebt ontbrekende machtigingen. Je hebt toegang nodig als 'Reader' (minimaal).",
+      "storageContainerMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Reader' (minimaal) en 'Storage Blob Data Owner' of 'Storage Blob Data Contributor'.",
+      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",

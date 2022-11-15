@@ -37,6 +37,7 @@ export interface IResourcePickerProps {
     searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
     shouldFetchResourcesOnMount?: boolean;
+    errorMessage?: string;
     styles?: IStyleFunctionOrObject<
         IResourcePickerStyleProps,
         IResourcePickerStyles

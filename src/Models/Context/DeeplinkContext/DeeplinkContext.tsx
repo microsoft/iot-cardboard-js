@@ -16,7 +16,8 @@ import {
     getDebugLogger,
     getNameOfResource,
     getResourceId,
-    getResourceUrl
+    getResourceUrl,
+    getUrlFromString
 } from '../../Services/Utils';
 import { useConsumerDeeplinkContext } from '../ConsumerDeeplinkContext/ConsumerDeeplinkContext';
 import {
@@ -259,7 +260,8 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
                           AzureResourceTypes.DigitalTwinInstance
                       ),
                       properties: {
-                          hostName: new URL(defaultState.adtUrl).hostname
+                          hostName: getUrlFromString(defaultState.adtUrl)
+                              ?.hostname
                       },
                       type: AzureResourceTypes.DigitalTwinInstance
                   } as IADTInstance)
