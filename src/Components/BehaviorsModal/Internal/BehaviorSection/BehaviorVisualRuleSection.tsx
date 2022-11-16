@@ -47,15 +47,8 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
         const visualBadges: VisualBadges[] = [];
         rules.forEach((rule) => {
             rule.valueRanges.forEach((condition) => {
-                if (
-                    shouldShowVisual(
-                        rule.valueRangeType,
-                        twins,
-                        rule.valueExpression,
-                        condition.values
-                    ) &&
-                    mode !== BehaviorModalMode.preview
-                ) {
+                if (mode === BehaviorModalMode.preview) {
+                    // Remove filtering if in preview mode
                     if (hasBadge(condition)) {
                         visualBadges.push({
                             color: condition.visual.color,
@@ -69,18 +62,27 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
                         });
                     }
                 } else {
-                    // Remove filtering if in preview mode
-                    if (hasBadge(condition)) {
-                        visualBadges.push({
-                            color: condition.visual.color,
-                            iconName: condition.visual.iconName,
-                            labelExpression: condition.visual.labelExpression
-                        });
-                    } else {
-                        visualColorings.push({
-                            color: condition.visual.color,
-                            label: condition.visual.labelExpression
-                        });
+                    if (
+                        shouldShowVisual(
+                            rule.valueRangeType,
+                            twins,
+                            rule.valueExpression,
+                            condition.values
+                        )
+                    ) {
+                        if (hasBadge(condition)) {
+                            visualBadges.push({
+                                color: condition.visual.color,
+                                iconName: condition.visual.iconName,
+                                labelExpression:
+                                    condition.visual.labelExpression
+                            });
+                        } else {
+                            visualColorings.push({
+                                color: condition.visual.color,
+                                label: condition.visual.labelExpression
+                            });
+                        }
                     }
                 }
             });
