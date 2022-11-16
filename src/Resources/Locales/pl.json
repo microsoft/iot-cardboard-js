@@ -1121,9 +1121,7 @@
     "errorRepeatedId": "Model o tym samym identyfikatorze już istnieje",
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
-    "runLayout": "Uruchom układ",
-    "errorReachedInheritanceLimit": "Osiągnięty limit dziedziczenia",
-    "errorInheritance": "Nie może dziedziczyć z więcej niż dwóch interfejsów"
+    "runLayout": "Uruchom układ"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",

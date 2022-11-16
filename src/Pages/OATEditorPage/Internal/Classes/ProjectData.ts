@@ -5,8 +5,8 @@ import {
 } from '../../OATEditorPage.types';
 
 export class ProjectData {
-    modelPositions: IOATModelPosition[];
     models: DTDLModel[];
+    modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
     namespace: string;
     projectDescription: string;

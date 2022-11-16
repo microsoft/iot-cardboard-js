@@ -4,18 +4,18 @@ import {
     DTDLMap,
     DTDLObject,
     DTDLProperty,
-    DTDLSchemaType
+    DTDLSchemaType,
+    DTDLType
 } from '../Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
-    OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
-    OAT_INTERFACE_TYPE,
-    OAT_RELATIONSHIP_HANDLE_NAME
+    OAT_INTERFACE_TYPE
 } from '../Constants';
 
+/** is the relationship a known DTDL relationship type */
 export const isDTDLRelationship = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
 ): object is DtdlRelationship => {
@@ -23,8 +23,8 @@ export const isDTDLRelationship = (
         return false;
     }
     return (
-        object['@type'] === OAT_RELATIONSHIP_HANDLE_NAME ||
-        object['@type'] === OAT_COMPONENT_HANDLE_NAME ||
+        object['@type'] === DTDLType.Relationship ||
+        object['@type'] === DTDLType.Component ||
         object['@type'] === OAT_EXTEND_HANDLE_NAME
     );
 };

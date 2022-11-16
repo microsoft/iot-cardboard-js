@@ -28,7 +28,10 @@ import {
     convertStateToProject,
     deleteModelFromState,
     setSelectedModel,
-    updateModelId
+    updateModelId,
+    addTargetedRelationship,
+    addNewModelToState,
+    addUntargetedRelationship
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -250,6 +253,70 @@ export const OatPageContextReducer: (
 
                 setSelectedModel(newSelection, draft);
                 saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.UPDATE_MODEL_POSTIONS: {
+                action.payload.models.forEach((item) => {
+                    const currentPosition = draft.currentOntologyModelPositions.find(
+                        (x) => x['@id'] === item['@id']
+                    );
+                    if (currentPosition) {
+                        // update existing
+                        currentPosition.position.x = item.position.x;
+                        currentPosition.position.y = item.position.y;
+                    } else {
+                        // add new entry
+                        draft.currentOntologyModelPositions.push(item);
+                    }
+                });
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.ADD_MODEL: {
+                const newModel = addNewModelToState(draft);
+                // need to send this to the graph component to figure out the relative coordinates for the new model to use
+                draft.graphUpdatesToSync = {
+                    actionType: 'Add',
+                    models: [newModel]
+                };
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.ADD_RELATIONSHIP: {
+                if (action.payload.type === 'Targeted') {
+                    const {
+                        relationshipType,
+                        sourceModelId,
+                        targetModelId
+                    } = action.payload;
+                    addTargetedRelationship(
+                        draft,
+                        sourceModelId,
+                        targetModelId,
+                        relationshipType
+                    );
+                } else {
+                    const { sourceModelId, position } = action.payload;
+                    addUntargetedRelationship(draft, sourceModelId, position);
+                }
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP: {
+                const {
+                    position,
+                    relationshipType,
+                    sourceModelId
+                } = action.payload;
+                const targetModel = addNewModelToState(draft, position);
+                addTargetedRelationship(
+                    draft,
+                    sourceModelId,
+                    targetModel['@id'],
+                    relationshipType
+                );
+                saveData(draft);
+
                 break;
             }
             case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {

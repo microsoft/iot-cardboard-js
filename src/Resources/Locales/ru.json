@@ -1121,9 +1121,7 @@
     "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
-    "runLayout": "Макет запуска",
-    "errorReachedInheritanceLimit": "Достигнут лимит наследования",
-    "errorInheritance": "Не может наследовать от более чем двух интерфейсов"
+    "runLayout": "Макет запуска"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",

@@ -395,7 +395,18 @@ export enum DTDLSchemaType {
     Object = 'Object'
 }
 
-export class DTDLModel {
+export interface IDTDLModel {
+    '@id': string;
+    '@type': string;
+    '@context': string;
+    comment?: string;
+    contents?: any[];
+    description?: string;
+    displayName?: string;
+    /** array of strings of ids that this model extends */
+    extends?: string[];
+}
+export class DTDLModel implements IDTDLModel {
     //TODO: add validations
     '@id': string;
     readonly ['@type']: string;
@@ -493,7 +504,18 @@ export class DTDLModel {
     }
 }
 
-export class DTDLProperty {
+export interface IDTDLProperty {
+    '@type': string;
+    '@id'?: string;
+    name: string;
+    schema: DTDLSchema;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+    unit?: string;
+    writable?: boolean;
+}
+export class DTDLProperty implements IDTDLProperty {
     readonly ['@type']: string;
     ['@id']?: string;
     name: string;
@@ -551,7 +573,20 @@ export class DTDLProperty {
     }
 }
 
-export class DTDLRelationship {
+export interface IDTDLRelationship {
+    ['@type']: string;
+    name: string;
+    ['@id']?: string;
+    maxMultiplicity?: number;
+    writable?: boolean;
+    target?: string;
+    readonly minMultiplicity?: number;
+    properties?: DTDLProperty[];
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLRelationship implements IDTDLRelationship {
     readonly ['@type']: string;
     name: string;
     ['@id']?: string;
@@ -619,7 +654,16 @@ export class DTDLRelationship {
     }
 }
 
-export class DTDLComponent {
+export interface IDTDLComponent {
+    '@type': string;
+    '@id'?: string;
+    name: string;
+    schema: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+}
+export class DTDLComponent implements IDTDLComponent {
     readonly ['@type']: string;
     ['@id']?: string;
     name: string;
@@ -632,9 +676,9 @@ export class DTDLComponent {
         id: string,
         name: string,
         schema: string,
-        comment: string,
-        description: string,
-        displayName: string
+        comment?: string,
+        description?: string,
+        displayName?: string
     ) {
         this['@type'] = DTDLType.Component;
         this['@id'] = id;

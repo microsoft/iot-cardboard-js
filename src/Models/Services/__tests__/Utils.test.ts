@@ -24,7 +24,8 @@ import {
     getNameOfResource,
     getResourceUrl,
     getRoleIdsFromRoleAssignments,
-    isDefined
+    isDefined,
+    sortCaseInsensitive
 } from '../Utils';
 
 afterEach(cleanup);
@@ -266,6 +267,56 @@ describe('Utils', () => {
             expect(result).toBeDefined();
             expect(result.value).toEqual(1);
             expect(result.displayStringKey).toEqual('duration.year');
+        });
+    });
+
+    describe('sortCaseInsensitive', () => {
+        test('sorts mixed case values correctly, b before a', () => {
+            // ARRANGE
+            const values = ['something', 'Everything'];
+
+            // ACT
+            values.sort(sortCaseInsensitive());
+            // ASSERT
+            expect(values[0]).toEqual('Everything');
+            expect(values[1]).toEqual('something');
+
+            // ACT
+            values.sort(sortCaseInsensitive(true));
+            expect(values[0]).toEqual('something');
+            expect(values[1]).toEqual('Everything');
+        });
+        test('sorts mixed case values correctly, a before b', () => {
+            // ARRANGE
+            const values = ['Everything', 'something'];
+
+            // ACT
+            values.sort(sortCaseInsensitive());
+            // ASSERT
+            expect(values[0]).toEqual('Everything');
+            expect(values[1]).toEqual('something');
+
+            // ACT
+            values.sort(sortCaseInsensitive(true));
+            // ASSERT
+            expect(values[0]).toEqual('something');
+            expect(values[1]).toEqual('Everything');
+        });
+        test('handles nulls', () => {
+            // ARRANGE
+            const values = [null, 'something'];
+
+            // ACT
+            values.sort(sortCaseInsensitive());
+            // ASSERT
+            expect(values[0]).toEqual('something');
+            expect(values[1]).toEqual(null);
+
+            // ACT
+            values.sort(sortCaseInsensitive(true));
+            // ASSERT
+            expect(values[0]).toEqual(null);
+            expect(values[1]).toEqual('something');
         });
     });
 

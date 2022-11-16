@@ -1,5 +1,6 @@
 import { Node, Edge } from 'react-flow-renderer';
 import {
+    IOATNodePosition,
     OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
     OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
@@ -12,6 +13,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship
 } from '../../../Models/Constants/dtdlInterfaces';
+import { getUntargetedRelationshipNodeId } from '../../../Models/Services/OatUtils';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import {
     IOATModelPosition,
@@ -27,47 +29,7 @@ const logDebugConsole = getDebugLogger('OatGraphViewerUtils', debugLogging);
 export const CONTEXT_CLASS_BASE = 'dtmi:dtdl:context;2';
 export const DEFAULT_NODE_POSITION = 25;
 
-const getNextRelationshipIndex = (
-    _sourceId: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let relationshipIndex = 0;
-    while (
-        elements.some(
-            (element) =>
-                // TODO: reenable this. Turned it off for now because the parser needs them to be unique across all the models (which isn't supposed to be the case)
-                // (element as ElementEdge).source === sourceId &&
-                (element.data as DtdlRelationship).name ===
-                `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${relationshipIndex}`
-        )
-    ) {
-        relationshipIndex++;
-    }
-    return relationshipIndex;
-};
-
-const getNextComponentIndex = (
-    sourceId: string,
-    targetName: string,
-    elements: (ElementNode | ElementEdge)[]
-) => {
-    let componentIndex = 0;
-    const match = elements.find((element) => element.id === sourceId);
-    if (match) {
-        const int = match.data as DtdlInterface;
-        while (
-            int &&
-            int.contents.some(
-                (content) =>
-                    content['schema'] &&
-                    content.name === `${targetName}_${componentIndex}`
-            )
-        ) {
-            componentIndex++;
-        }
-    }
-    return componentIndex;
-};
+//#region Add relationships
 
 export const addTargetedRelationship = (
     sourceId: string,
@@ -81,10 +43,7 @@ export const addTargetedRelationship = (
     //     relationship,
     //     elements
     // );
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name ||
-        `${OAT_GRAPH_RELATIONSHIP_NODE_TYPE}_${nextRelIndex}`;
+    const name = relationship.name;
     const id = relationship['@id'] || `${sourceId}_${name}`;
     const relationshipEdge = new ElementEdge(
         id,
@@ -112,7 +71,7 @@ export const addTargetedRelationship = (
 };
 
 export const addUntargetedRelationship = (
-    sourceId: string,
+    sourceModel: DtdlInterface,
     relationship: DtdlInterfaceContent,
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
@@ -120,37 +79,38 @@ export const addUntargetedRelationship = (
     logDebugConsole(
         'debug',
         '[START] addUntargetedRelationship. {source, relationship, positions, elements}',
-        sourceId,
+        sourceModel['@id'],
         relationship,
         modelPositions,
         elements
     );
-    const nextRelIndex = getNextRelationshipIndex(sourceId, elements);
-    const name =
-        relationship.name || `${OAT_RELATIONSHIP_HANDLE_NAME}_${nextRelIndex}`;
-    const id = relationship['@id'] || `${sourceId}_${name}`;
+    const name = relationship.name;
+    const id = getUntargetedRelationshipNodeId(
+        sourceModel['@id'],
+        relationship
+    );
     const rp = modelPositions.find((x) => x['@id'] === id);
     const newNode = new ElementNode(
-        id,
-        OAT_INTERFACE_TYPE,
+        id, // id
+        OAT_INTERFACE_TYPE, // type
         {
             x: rp ? rp.position.x : DEFAULT_NODE_POSITION,
             y: rp ? rp.position.y : DEFAULT_NODE_POSITION
-        },
+        }, // position
         {
-            '@id': sourceId,
+            '@id': sourceModel['@id'],
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
             '@context': CONTEXT_CLASS_BASE,
             displayName: '',
             contents: []
-        }
+        } // data
     );
     const relationshipEdge = new ElementEdge(
-        id,
-        '',
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
-        '',
-        sourceId,
+        id, // id
+        '', // label
+        OAT_GRAPH_RELATIONSHIP_NODE_TYPE, // type
+        '', // marker end
+        sourceModel['@id'], // source
         OAT_UNTARGETED_RELATIONSHIP_NAME,
         id,
         OAT_UNTARGETED_RELATIONSHIP_NAME,
@@ -166,7 +126,9 @@ export const addUntargetedRelationship = (
     elements.push(relationshipEdge);
     logDebugConsole(
         'debug',
-        '[END] addUntargetedRelationship. {elements}',
+        '[END] addUntargetedRelationship. {node, edge, elements}',
+        newNode,
+        relationshipEdge,
         elements
     );
     return relationshipEdge;
@@ -180,14 +142,13 @@ export const addComponentRelationship = (
 ) => {
     // logDebugConsole(
     //     'debug',
-    //     '[START] addComponentRelationship. {source, component, target, elements}',
+    //     '[START] addComponentRelationship. {source, component, elements}',
     //     sourceId,
     //     component,
-    //     targetName,
     //     elements
     // );
-    const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
-    const name = component.name || `${targetName}_${nextComIndex}`;
+    // const nextComIndex = getNextComponentIndex(sourceId, targetName, elements);
+    const name = component.name; // || `${targetName}_${nextComIndex}`;
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
@@ -207,7 +168,8 @@ export const addComponentRelationship = (
     elements.push(relationshipEdge);
     // logDebugConsole(
     //     'debug',
-    //     '[END] addComponentRelationship. {elements}',
+    //     '[END] addComponentRelationship. {edge, elements}',
+    //     relationshipEdge,
     //     elements
     // );
     return relationshipEdge;
@@ -249,6 +211,10 @@ export const addExtendsRelationship = (
     return relationshipEdge;
 };
 
+//#endregion
+
+//#region Add/remove/edit models
+
 /**
  * Adds a node to the graph with the given model data
  * @param model model to bind to the new node
@@ -258,13 +224,16 @@ export const addExtendsRelationship = (
  */
 export const addModelToGraph = (
     model: DtdlInterface,
-    position: ElementPosition,
+    position: ElementPosition | undefined,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     const newNode = new ElementNode(
         model['@id'],
         OAT_INTERFACE_TYPE,
-        position,
+        position || {
+            x: DEFAULT_NODE_POSITION,
+            y: DEFAULT_NODE_POSITION
+        },
         model
     );
     elements.push(newNode);
@@ -337,6 +306,39 @@ export const updateModelInGraph = (
     }
 
     return elements;
+};
+
+//#endregion
+
+const NEW_NODE_OFFSET = 15;
+/**
+ * Gets the position of a node such that it does not sit directly on top of any other node.
+ * @param coordinates Coordinates to check to see if they are available
+ * @param positions positions of existing models on the graph
+ * @returns
+ */
+export const getNewNodePosition = (
+    coordinates: IOATNodePosition,
+    positions: IOATModelPosition[]
+): IOATNodePosition => {
+    // Find the amount of nodes at the same position
+    const nodesAtPosition = positions.filter(
+        (model) =>
+            model.position.x === coordinates.x &&
+            model.position.y === coordinates.y
+    );
+
+    // If there is no node at the same position, return the coordinates
+    if (nodesAtPosition.length === 0) {
+        return coordinates;
+    }
+    // Define the new coordinates
+    const newCoordinates = {
+        x: coordinates.x + nodesAtPosition.length * NEW_NODE_OFFSET,
+        y: coordinates.y + nodesAtPosition.length * NEW_NODE_OFFSET
+    };
+    // Prevent nodes with the same position
+    return getNewNodePosition(newCoordinates, positions);
 };
 
 export const getSelectionIdentifier = (

@@ -1121,9 +1121,7 @@
     "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "runLayout": "Executar layout",
-    "errorReachedInheritanceLimit": "Limite de herança alcançado",
-    "errorInheritance": "Não pode herdar de mais de duas interfaces"
+    "runLayout": "Executar layout"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

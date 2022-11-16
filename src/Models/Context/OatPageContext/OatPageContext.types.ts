@@ -1,4 +1,9 @@
-import { DtdlInterface, DtdlInterfaceContent } from '../../Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    IOATNodePosition,
+    OatRelationshipType
+} from '../../Constants';
 import {
     IOATSelection,
     IOATError,
@@ -94,6 +99,10 @@ export enum OatPageContextActionType {
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
+    UPDATE_MODEL_POSTIONS = 'UPDATE_MODEL_POSTIONS',
+    ADD_RELATIONSHIP = 'ADD_RELATIONSHIP',
+    ADD_MODEL = 'ADD_MODEL',
+    ADD_MODEL_WITH_RELATIONSHIP = 'ADD_MODEL_WITH_RELATIONSHIP',
 
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     /** models that should get changed on the graph */
@@ -237,4 +246,37 @@ export type OatPageContextAction =
               existingId: string;
               newId: string;
           };
+      }
+    | {
+          type: OatPageContextActionType.ADD_MODEL;
+          payload?: {
+              position: IOATNodePosition;
+          };
+      }
+    | {
+          type: OatPageContextActionType.ADD_RELATIONSHIP;
+          payload:
+              | {
+                    type: 'Targeted';
+                    sourceModelId: string;
+                    targetModelId: string;
+                    relationshipType: OatRelationshipType;
+                }
+              | {
+                    type: 'Untargeted';
+                    sourceModelId: string;
+                    position: IOATNodePosition;
+                };
+      }
+    | {
+          type: OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP;
+          payload: {
+              position: IOATNodePosition;
+              sourceModelId: string;
+              relationshipType: OatRelationshipType;
+          };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_MODEL_POSTIONS;
+          payload: { models: IOATModelPosition[] };
       };

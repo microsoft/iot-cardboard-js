@@ -45,7 +45,7 @@ import { getTargetFromSelection } from '../Utils';
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
 
-const INVALID_CHARACTERS: string[] = [' ', '-', '_', '.', ';', '<', '>'];
+const INVALID_CHARACTERS: string[] = [' ', '-', '.', ';', '<', '>'];
 
 const getClassNames = classNamesFunction<
     IPropertiesModelSummaryStyleProps,
@@ -210,49 +210,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             parsedId.namespace
         ]
     );
-
-    // const onDisplayNameChange = useCallback(
-    //     (value: string) => {
-    //         const commit = () => {
-    //             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-    //             const itemReference = getTargetFromSelection(
-    //                 modelsCopy,
-    //                 oatPageState.selection
-    //             );
-    //             if (itemReference) {
-    //                 itemReference.displayName = value;
-    //                 oatPageDispatch({
-    //                     type: OatPageContextActionType.SET_CURRENT_MODELS,
-    //                     payload: { models: modelsCopy }
-    //                 });
-    //             } else {
-    //                 logDebugConsole(
-    //                     'warn',
-    //                     'Could not find the model to update {selection, models}',
-    //                     oatPageState.selection,
-    //                     modelsCopy
-    //                 );
-    //             }
-    //             setItemDisplayName(value);
-    //             setDisplayName(false);
-    //         };
-
-    //         const undoCommit = () => {
-    //             oatPageDispatch({
-    //                 type: OatPageContextActionType.SET_CURRENT_MODELS,
-    //                 payload: { models: oatPageState.currentOntologyModels }
-    //             });
-    //         };
-
-    //         execute(commit, undoCommit);
-    //     },
-    //     [
-    //         execute,
-    //         oatPageDispatch,
-    //         oatPageState.currentOntologyModels,
-    //         oatPageState.selection
-    //     ]
-    // );
 
     const onInfoButtonClick = () => {
         dispatch({

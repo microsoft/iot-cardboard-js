@@ -478,16 +478,41 @@ export async function parseModels(models: DtdlInterface[]) {
     );
     try {
         await modelParser.parse([JSON.stringify(models)]);
+        return '';
     } catch (err) {
         console.error('Error while parsing models {input, error}', models, err);
         if (err.name === 'ParsingException') {
             return err._parsingErrors
-                .map((e) => `${e.action} ${e.cause}`)
+                .map((e) => `${e.cause} ${e.action}`)
                 .join('\n');
         }
 
         return err.message;
     }
+}
+
+/**
+ * Sorts a list alphabetically ignoring casing
+ * @example listItems.sort(sortCaseInsensitiveAlphabetically())
+ * @returns Sort function to pass to `.sort()`
+ */
+export function sortCaseInsensitive(descending?: boolean) {
+    return (a: string, b: string) => {
+        let order = 0;
+        if (a && b && typeof a === 'string' && typeof b === 'string') {
+            order = a.toLowerCase() > b.toLowerCase() ? 1 : -1;
+        } else if (isDefined(a)) {
+            order = -1;
+        } else if (isDefined(b)) {
+            order = 1;
+        }
+
+        if (descending) {
+            order = order * -1;
+        }
+
+        return order;
+    };
 }
 
 /**

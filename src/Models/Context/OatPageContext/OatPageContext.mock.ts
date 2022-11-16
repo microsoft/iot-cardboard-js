@@ -32,7 +32,7 @@ export const getMockModelItem = (id: string): DTDLModel => {
     const modelName = parseModelId(id).name;
     return new DTDLModel(
         id,
-        modelName,
+        modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.
         'mock-description',
         'mock-comment',
         [],
@@ -104,7 +104,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyTemplates: currentFile.templates,
         error: null,
         modelsToImport: [],
-        graphUpdatesToSync: { actionType: 'None', models: [] },
+        graphUpdatesToSync: { actionType: 'None' },
         isJsonUploaderOpen: false,
         modified: false,
         ontologyFiles: files,
