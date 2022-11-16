@@ -10,6 +10,7 @@ import {
     getDebugLogger,
     isDefined
 } from '../Models/Services/Utils';
+import { hasBadge } from '../Models/SharedUtils/VisualRuleUtils';
 import {
     I3DScenesConfig,
     IBehavior,
@@ -132,10 +133,14 @@ function sendBehaviorTelemetry(behavior: IBehavior, sceneHash: string) {
                         break;
                 }
             });
-        } else if (ViewerConfigUtility.isStatusColorVisual(visual)) {
-            visualStats.colorCount += 1;
-        } else if (ViewerConfigUtility.isAlertVisual(visual)) {
-            visualStats.badgeCount += 1;
+        } else if (ViewerConfigUtility.isVisualRule(visual)) {
+            visual.valueRanges.forEach((condition) => {
+                if (hasBadge(condition)) {
+                    visualStats.badgeCount += 1;
+                } else {
+                    visualStats.colorCount += 1;
+                }
+            });
         }
     });
 

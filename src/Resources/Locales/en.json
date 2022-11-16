@@ -379,8 +379,6 @@
         "elements": "Elements",
         "element": "Element",
         "twinsTab": "Twins",
-        "alertsTab": "Alerts",
-        "statesTab": "Status",
         "visualRulesTab": "Visual rules",
         "visualRule": "Visual rule",
         "conditions": "Conditions",
@@ -441,23 +439,6 @@
         "actions": "Actions",
         "behaviorForm": {
             "formSubTitle": "Behaviors are visual cues that occur under specific conditions."
-        },
-        "behaviorAlertForm": {
-            "colorPickerLabel": "Color",
-            "expressionLabel": "Trigger expression",
-            "expressionPlaceholder": "Enter expression (eg PrimaryTwin.InFlow > 200)",
-            "iconPickerLabel": "Icon",
-            "tabDescription": "Alerts—icons accompanied by text—help draw attention to critical data conditions. Below, use expressions to trigger alerts in your visualization.",
-            "notificationLabel": "Scenario description",
-            "notificationLabelTooltip": "This text will give a consumer context when this badge is active.",
-            "notificationLabelDescriptionPart1": "Twin properties need to be surrounded with template string syntax.",
-            "notificationLabelDescriptionPart2": "E.g. ${PrimaryTwin.DisplayName} requires maintenance",
-            "notificationPlaceholder": "Enter a description"
-        },
-        "behaviorStatusForm": {
-            "tabDescription": "Select a property, then set ranges for applying color to certain conditions—for instance, red to indicate high temperatures, or green for optimal speed.",
-            "stateItemLabel": "State {{index}}",
-            "propertyExpressionTooltipContent": "Use a custom expression for more complex expressions that leverage multiple properties."
         },
         "behaviorWidgetsForm": {
             "addWidgetButtonText": "Add widget",

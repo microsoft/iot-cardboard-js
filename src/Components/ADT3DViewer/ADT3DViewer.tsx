@@ -28,7 +28,7 @@ import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.t
 import { DefaultViewerModeObjectColor } from '../../Models/Constants/Constants';
 import { createCustomMeshItems } from '../3DV/SceneView.Utils';
 import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
-import AlertModal from '../AlertModal/AlertModal';
+import VisualsModal from '../VisualsModal/VisualsModal';
 import ViewerConfigUtility from '../../Models/Classes/ViewerConfigUtility';
 import LayerDropdown, {
     DEFAULT_LAYER_ID
@@ -793,7 +793,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                 />
             )}
             {isAlertPopoverVisible && (
-                <AlertModal
+                <VisualsModal
                     alerts={alertPanelItems}
                     position={alertPopoverPosition}
                     onClose={() => {

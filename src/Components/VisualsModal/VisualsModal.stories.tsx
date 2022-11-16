@@ -3,15 +3,15 @@ import { I3DScenesConfig } from '../../Models/Types/Generated/3DScenesConfigurat
 import MockAdapter from '../../Adapters/MockAdapter';
 import { useRuntimeSceneData } from '../../Models/Hooks/useRuntimeSceneData';
 import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json';
-import AlertModal from './AlertModal';
+import VisualsModal from './VisualsModal';
 import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.types';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 
 const wrapperStyle = { width: 'auto', height: 'auto' };
 
 export default {
-    title: 'Components/AlertModal',
-    component: AlertModal,
+    title: 'Components/VisualsModal',
+    component: VisualsModal,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
@@ -33,7 +33,7 @@ export const SingleAlert = () => {
 
     return (
         <div style={wrapperStyle}>
-            <AlertModal
+            <VisualsModal
                 alerts={panelItems}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
@@ -63,7 +63,7 @@ export const MultipleAlerts = () => {
 
     return (
         <div style={wrapperStyle}>
-            <AlertModal
+            <VisualsModal
                 alerts={panelItems}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
@@ -78,7 +78,7 @@ export const MultipleAlerts = () => {
 export const NoAlerts = () => {
     return (
         <div style={wrapperStyle}>
-            <AlertModal
+            <VisualsModal
                 alerts={null}
                 position={{ left: 50, top: 50 }}
                 onClose={null}

@@ -4,9 +4,7 @@ export interface IValidityState {
 export type TabNames =
     | 'Root'
     | 'Twins'
-    | 'Alerts'
     | 'Elements'
-    | 'Status'
     | 'Widgets'
     | 'VisualRules';
 export interface IBehaviorFormState {

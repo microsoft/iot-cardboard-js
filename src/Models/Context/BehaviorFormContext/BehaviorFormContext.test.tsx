@@ -28,6 +28,7 @@ import {
 describe('BehaviorFormContext', () => {
     afterEach(cleanup);
     describe('Actions', () => {
+        // TODO: REMOVE
         describe('Alert visuals', () => {
             const getAlertVisual = (
                 expression: string
@@ -869,6 +870,7 @@ describe('BehaviorFormContext', () => {
             });
         });
 
+        // TODO: REMOVE
         describe('Status visuals', () => {
             const getStatusVisual = (
                 expression: string
@@ -1036,6 +1038,8 @@ describe('BehaviorFormContext', () => {
                 expect(status.length).toEqual(0);
             });
         });
+
+        // TODO: ADD VISUAL RULES OR UPDATE ABOVE TESTS
 
         describe('Widgets', () => {
             const getWidget = (id: string): IWidget => {
