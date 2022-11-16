@@ -1313,5 +1313,8 @@
   "minLower": "Min",
   "maxLower": ".max",
   "showDetails": "Toon details",
-  "hideDetails": "Details verbergen"
+  "hideDetails": "Details verbergen",
+  "colorPills": {
+    "unlabeled": "Niet-gelabeld"
+  }
 }

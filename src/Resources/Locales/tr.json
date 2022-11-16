@@ -1313,5 +1313,8 @@
   "minLower": "min",
   "maxLower": ".max",
   "showDetails": "Ayrıntıları göster",
-  "hideDetails": "Ayrıntıları gizle"
+  "hideDetails": "Ayrıntıları gizle",
+  "colorPills": {
+    "unlabeled": "Etiketlenmemiş"
+  }
 }

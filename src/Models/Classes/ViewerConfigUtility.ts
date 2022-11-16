@@ -1013,7 +1013,7 @@ abstract class ViewerConfigUtility {
      * @param value Value that is checked if within range
      * @returns true if value is within range, false otherwise
      */
-    static getValueIsWithinRange(values: number[], value: number): boolean {
+    static isValueWithinRange(values: number[], value: number): boolean {
         return value >= Number(values[0]) && value < Number(values[1]);
     }
 

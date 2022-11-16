@@ -1305,5 +1305,8 @@
             "Last 180 days": "Last 180 days",
             "Last year": "Last year"
         }
+    },
+    "colorPills": {
+        "unlabeled": "Unlabeled"
     }
 }

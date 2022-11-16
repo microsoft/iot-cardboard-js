@@ -9,6 +9,7 @@ import { Condition, ConditionType } from './Internal/ConditionsList.types';
 import i18n from '../../../../i18n';
 import { IPickerOption } from '../../../Pickers/Internal/Picker.base.types';
 import { TFunction } from 'react-i18next';
+import { hasBadge } from '../../../../Models/SharedUtils/VisualRuleUtils';
 
 /**
  * Looks at the state and determines whether anything has been changed
@@ -73,7 +74,8 @@ export const transformValueRangesIntoConditions = (
                 type: conditionType,
                 iconName: condition.visual.iconName,
                 color: condition.visual.color,
-                isUnlabeled: !hasLabel
+                isUnlabeled: !hasLabel,
+                hasBadge: hasBadge(condition)
             };
         });
     } else {

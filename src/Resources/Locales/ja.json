@@ -1313,5 +1313,8 @@
   "minLower": "分",
   "maxLower": ".max",
   "showDetails": "詳細を表示",
-  "hideDetails": "詳細を隠す"
+  "hideDetails": "詳細を隠す",
+  "colorPills": {
+    "unlabeled": "ラベル"
+  }
 }

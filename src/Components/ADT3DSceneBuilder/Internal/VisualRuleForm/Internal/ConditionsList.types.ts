@@ -21,9 +21,10 @@ export interface Condition {
     primaryText: string;
     secondaryText: string;
     type: ConditionType;
+    isUnlabeled: boolean;
+    hasBadge: boolean;
     iconName?: string;
     color?: string;
-    isUnlabeled?: boolean;
 }
 
 export enum CalloutInfoType {

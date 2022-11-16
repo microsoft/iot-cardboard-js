@@ -1313,5 +1313,8 @@
   "minLower": "min",
   "maxLower": ".max",
   "showDetails": "Visa detaljer",
-  "hideDetails": "Dölj detaljer"
+  "hideDetails": "Dölj detaljer",
+  "colorPills": {
+    "unlabeled": "Omärkt"
+  }
 }

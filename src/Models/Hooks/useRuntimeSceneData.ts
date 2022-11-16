@@ -17,10 +17,9 @@ import {
     deepCopy,
     getDebugLogger,
     getSceneElementStatusColor,
-    hasBadge,
-    parseLinkedTwinExpression,
-    shouldShowVisual
+    parseLinkedTwinExpression
 } from '../Services/Utils';
+import { hasBadge, shouldShowVisual } from '../SharedUtils/VisualRuleUtils';
 import {
     I3DScenesConfig,
     IBehavior,
@@ -126,7 +125,7 @@ export const useRuntimeSceneData = (
                                         condition.values
                                     )
                                 ) {
-                                    if (hasBadge(condition.visual.iconName)) {
+                                    if (hasBadge(condition)) {
                                         const badge = buildBadgeVisual(
                                             sceneVisual,
                                             behavior,

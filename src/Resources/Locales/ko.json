@@ -1313,5 +1313,8 @@
   "minLower": "분",
   "maxLower": ".max",
   "showDetails": "세부 정보 표시",
-  "hideDetails": "세부 정보 숨기기"
+  "hideDetails": "세부 정보 숨기기",
+  "colorPills": {
+    "unlabeled": "레이블 없음"
+  }
 }

@@ -10,13 +10,14 @@ const classNames = {
     title: `${classPrefix}-title`
 };
 export const getStyles = (
-    _props: IConditionSummaryStyleProps
+    props: IConditionSummaryStyleProps
 ): IConditionSummaryStyles => {
     return {
         invalidText: [
             classNames.invalidText,
             {
-                fontSize: FontSizes.size12
+                fontSize: FontSizes.size12,
+                color: props.theme.palette.errorTextLight
             }
         ],
         title: [

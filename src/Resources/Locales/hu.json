@@ -1313,5 +1313,8 @@
   "minLower": "Min",
   "maxLower": ".max",
   "showDetails": "Mutasd a részleteket",
-  "hideDetails": "Részletek elrejtése"
+  "hideDetails": "Részletek elrejtése",
+  "colorPills": {
+    "unlabeled": "Címkézetlen"
+  }
 }
