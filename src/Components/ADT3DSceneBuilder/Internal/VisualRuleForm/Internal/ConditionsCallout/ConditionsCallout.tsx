@@ -214,7 +214,7 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                     <Stack
                         horizontal={true}
                         horizontalAlign={'end'}
-                        tokens={{ childrenGap: 4 }}
+                        tokens={{ childrenGap: 8 }}
                     >
                         <PrimaryButton
                             text={t('save')}

@@ -30,10 +30,10 @@ const ColorPillsCalloutContent: React.FC<IColorPillsCalloutContentProps> = (
     });
 
     const getLabel = (label: string | undefined) => {
-        if (label && label.trim().length > 0) {
+        if (label?.trim().length > 0) {
             return label;
         } else {
-            return t('ColorPills.unlabeled');
+            return t('colorPills.unlabeled');
         }
     };
 

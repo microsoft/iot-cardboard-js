@@ -11,7 +11,8 @@ import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     wrapTextInTemplateString,
-    parseLinkedTwinExpression
+    parseLinkedTwinExpression,
+    sortAscendingOrDescending
 } from '../../../Models/Services/Utils';
 import {
     IBehavior,
@@ -209,15 +210,7 @@ function getListItems(
         });
 
         //sort the alert within its own group by name
-        badges.sort((a, b) =>
-            a.visualRuleDisplayTitle.localeCompare(
-                b.visualRuleDisplayTitle,
-                undefined,
-                {
-                    sensitivity: 'base'
-                }
-            )
-        );
+        badges.sort(sortAscendingOrDescending('visualRuleDisplayTitle'));
 
         const rowId = `cb-element-list-row-${element.id}`;
         const elementItemWithColorings: ICardboardGroupedListItem<ITwinToObjectMapping> = {

@@ -31,27 +31,17 @@ const ColorPills: React.FC<IColorPillsProps> = (props) => {
         width: props.width
     });
 
-    const [trimmedVisualColorings, setTrimmedVisualColorings] = useState(
-        visualColorings && visualColorings.length > 3
-            ? visualColorings.slice(0, 3)
-            : visualColorings
-    );
-    const [extraVisualColoringCount, setExtraVisualColoringCount] = useState(
-        visualColorings && visualColorings.length > 3
-            ? visualColorings.length - 3
-            : 0
-    );
+    const [trimmedVisualColorings, setTrimmedVisualColorings] = useState([]);
+    const [extraVisualColoringCount, setExtraVisualColoringCount] = useState(0);
 
     useEffect(() => {
         setTrimmedVisualColorings(
-            visualColorings && visualColorings.length > 3
+            visualColorings?.length > 3
                 ? visualColorings.slice(0, 3)
                 : visualColorings
         );
         setExtraVisualColoringCount(
-            visualColorings && visualColorings.length > 3
-                ? visualColorings.length - 3
-                : 0
+            visualColorings?.length > 3 ? visualColorings.length - 3 : 0
         );
     }, [visualColorings]);
 

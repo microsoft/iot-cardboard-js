@@ -33,7 +33,7 @@ const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
 
     const getVisualRulesIncludingFilterTerm = (panelItem) => {
         // Map all visuals from existing behaviors
-        const visuals = [].concat(...panelItem.behaviors.map((b) => b.visuals));
+        const visuals = [...panelItem.behaviors.map((b) => b.visuals)];
         // Filter out widgets
         const visualRules = visuals.filter(ViewerConfigUtility.isVisualRule);
         // Check all conditions in case their label expressions contain the search term

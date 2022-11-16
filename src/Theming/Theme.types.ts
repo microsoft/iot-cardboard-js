@@ -7,6 +7,8 @@ export interface CustomPalette {
     glassyBackground90: string;
     /** color for the border when using the glassy background */
     glassyBorder: string;
+    /** Error text color lighter than Fluent's */
+    errorTextLight: string;
 }
 /** Partial version of the theme with only overrides populated */
 export type IExtendedPartialPalette = Partial<IPalette> & CustomPalette;

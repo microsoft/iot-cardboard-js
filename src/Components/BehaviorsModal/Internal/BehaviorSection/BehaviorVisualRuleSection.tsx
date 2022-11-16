@@ -18,6 +18,7 @@ import {
     VisualColorings
 } from '../../../../Models/Constants/VisualRuleTypes';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { BehaviorModalMode } from '../../../../Models/Constants';
 
 const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
     behavior
@@ -52,8 +53,23 @@ const BehaviorVisualRuleSection: React.FC<IBehaviorsSectionProps> = ({
                         twins,
                         rule.valueExpression,
                         condition.values
-                    )
+                    ) &&
+                    mode !== BehaviorModalMode.preview
                 ) {
+                    if (hasBadge(condition)) {
+                        visualBadges.push({
+                            color: condition.visual.color,
+                            iconName: condition.visual.iconName,
+                            labelExpression: condition.visual.labelExpression
+                        });
+                    } else {
+                        visualColorings.push({
+                            color: condition.visual.color,
+                            label: condition.visual.labelExpression
+                        });
+                    }
+                } else {
+                    // Remove filtering if in preview mode
                     if (hasBadge(condition)) {
                         visualBadges.push({
                             color: condition.visual.color,

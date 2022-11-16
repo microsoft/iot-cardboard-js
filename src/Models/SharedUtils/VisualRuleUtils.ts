@@ -25,7 +25,7 @@ export function shouldShowVisual(
     } else if (propertyType === 'string') {
         return values.includes(evaluatedExpression);
     } else if (isNumericType(propertyType)) {
-        return ViewerConfigUtility.getValueIsWithinRange(
+        return ViewerConfigUtility.isValueWithinRange(
             values as number[],
             evaluatedExpression as number
         );
@@ -37,5 +37,5 @@ export function shouldShowVisual(
 
 /** Utility that returns if a Condition contains or not a badge icon */
 export const hasBadge = (condition: IValueRange): boolean => {
-    return !!(condition.visual && condition.visual.iconName);
+    return !!condition?.visual?.iconName;
 };

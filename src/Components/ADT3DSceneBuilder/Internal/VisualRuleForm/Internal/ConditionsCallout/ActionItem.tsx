@@ -6,7 +6,7 @@ import {
     styled,
     useTheme
 } from '@fluentui/react';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import i18n from '../../../../../../i18n';
 import {
@@ -63,15 +63,6 @@ const ActionItem: React.FC<IActionItemProps> = (props) => {
         iconName ? DROPDOWN_OPTIONS[1].key : DROPDOWN_OPTIONS[0].key
     );
 
-    // side-effects
-    useEffect(() => {
-        if (!iconName) {
-            setSelectedOptionKey(DROPDOWN_OPTIONS[0].key);
-        } else {
-            setSelectedOptionKey(DROPDOWN_OPTIONS[1].key);
-        }
-    }, [iconName]);
-
     // callbacks
     const handleOnDropdownChange = useCallback(
         (
@@ -80,8 +71,15 @@ const ActionItem: React.FC<IActionItemProps> = (props) => {
         ) => {
             if (option) {
                 setSelectedOptionKey(option.key);
+                // Revert icon choice in case of selecting mesh coloring
                 if (option.key === DROPDOWN_OPTIONS[0].key) {
                     setActionSelectedValue('iconName', undefined);
+                } else {
+                    // Set a default icon in case of selecting badge
+                    setActionSelectedValue(
+                        'iconName',
+                        defaultSwatchIcons[0].item
+                    );
                 }
             }
         },

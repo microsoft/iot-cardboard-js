@@ -1,5 +1,6 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { IDTDLPropertyType } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface IValueRangeValidation {
     minValid: boolean;
@@ -26,7 +27,7 @@ export interface IConditionSummaryProps {
 }
 
 export interface IConditionSummaryStyleProps {
-    theme: ITheme;
+    theme: IExtendedTheme;
 }
 export interface IConditionSummaryStyles {
     invalidText: IStyle;
