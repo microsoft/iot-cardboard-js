@@ -1314,7 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Показать подробности",
   "hideDetails": "Скрыть детали",
-  "ColorPills": {
+  "colorPills": {
     "unlabeled": "Без маркировки"
   }
 }

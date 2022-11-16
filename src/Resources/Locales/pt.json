@@ -1314,7 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Mostrar detalhes",
   "hideDetails": "Ocultar detalhes",
-  "ColorPills": {
+  "colorPills": {
     "unlabeled": "Unlabeled"
   }
 }

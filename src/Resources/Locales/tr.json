@@ -1314,7 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Ayrıntıları göster",
   "hideDetails": "Ayrıntıları gizle",
-  "ColorPills": {
+  "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   }
 }
