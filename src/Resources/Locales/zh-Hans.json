@@ -366,8 +366,6 @@
     "elements": "元素",
     "element": "元素",
     "twinsTab": "双胞胎",
-    "alertsTab": "警报",
-    "statesTab": "地位",
     "widgets": "部件",
     "widget": "控件",
     "behaviors": "行为",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "选择元素",
     "behaviorForm": {
       "formSubTitle": "行为是在特定条件下发生的视觉提示，例如，以特定间隔或数据阈值发生。"
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "颜色",
-      "expressionLabel": "触发器表达式",
-      "expressionPlaceholder": "输入表达式（例如 PrimaryTwin.InFlow > 200）",
-      "iconPickerLabel": "图标",
-      "tabDescription": "警报（带有文本的图标）有助于引起人们对关键数据条件的注意。下面，使用表达式在可视化效果中触发警报。",
-      "notificationLabel": "场景描述",
-      "notificationLabelTooltip": "此文本将在此锁屏提醒处于活动状态时提供使用者上下文。",
-      "notificationLabelDescriptionPart1": "孪生属性需要用模板字符串语法括起来。",
-      "notificationPlaceholder": "输入说明",
-      "notificationLabelDescriptionPart2": "例如，${PrimaryTwin.DisplayName} 需要维护"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "选择一个属性，然后设置将颜色应用于特定条件的范围，例如，红色表示高温，绿色表示最佳速度。",
-      "stateItemLabel": "状态 {{索引}}",
-      "propertyExpressionTooltipContent": "对利用多个属性的更复杂的表达式使用自定义表达式。"
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "添加微件",

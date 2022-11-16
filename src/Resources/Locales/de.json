@@ -366,8 +366,6 @@
     "elements": "Elemente",
     "element": "Element",
     "twinsTab": "Zwillinge",
-    "alertsTab": "Alarmsignale",
-    "statesTab": "Status",
     "widgets": "Widgets",
     "widget": "Widget",
     "behaviors": "Verhaltensweisen",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Auswählen eines Elements",
     "behaviorForm": {
       "formSubTitle": "Verhaltensweisen sind visuelle Hinweise, die unter bestimmten Bedingungen auftreten, z. B. in bestimmten Intervallen oder bei Datenschwellenwerten."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Farbe",
-      "expressionLabel": "Trigger-Ausdruck",
-      "expressionPlaceholder": "Geben Sie den Ausdruck ein (z. B. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ikone",
-      "tabDescription": "Warnungen – Symbole, die von Text begleitet werden – helfen, die Aufmerksamkeit auf kritische Datenzustände zu lenken. Verwenden Sie unten Ausdrücke, um Warnungen in Ihrer Visualisierung auszulösen.",
-      "notificationLabel": "Szenariobeschreibung",
-      "notificationLabelTooltip": "Dieser Text gibt einen Verbraucherkontext an, wenn dieses Badge aktiv ist.",
-      "notificationLabelDescriptionPart1": "Twin-Eigenschaften müssen mit Vorlagenzeichenfolgensyntax umgeben sein.",
-      "notificationPlaceholder": "Geben Sie eine Beschreibung ein",
-      "notificationLabelDescriptionPart2": "Z.B. ${PrimaryTwin.DisplayName} erfordert Wartung"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Wählen Sie eine Eigenschaft aus, und legen Sie dann Bereiche für die Anwendung von Farben auf bestimmte Bedingungen fest, z. B. Rot, um hohe Temperaturen anzuzeigen, oder Grün für optimale Geschwindigkeit.",
-      "stateItemLabel": "Status {{index}}",
-      "propertyExpressionTooltipContent": "Verwenden Sie einen benutzerdefinierten Ausdruck für komplexere Ausdrücke, die mehrere Eigenschaften nutzen."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget hinzufügen",

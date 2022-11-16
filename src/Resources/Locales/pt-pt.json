@@ -366,8 +366,6 @@
     "elements": "Elementos",
     "element": "Elemento",
     "twinsTab": "Gémeos",
-    "alertsTab": "Alertas",
-    "statesTab": "Estado",
     "widgets": "Widgets",
     "widget": "Widget",
     "behaviors": "Comportamentos",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Selecione um elemento",
     "behaviorForm": {
       "formSubTitle": "Os comportamentos são pistas visuais que ocorrem em condições específicas , por exemplo, em intervalos específicos, ou em limiares de dados."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Cor",
-      "expressionLabel": "Expressão do gatilho",
-      "expressionPlaceholder": "Introduzir expressão (por exemplo PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ícone",
-      "tabDescription": "Alertas — ícones acompanhados por texto — ajudam a chamar a atenção para as condições críticas dos dados. Abaixo, utilize expressões para desencadear alertas na sua visualização.",
-      "notificationLabel": "Descrição do cenário",
-      "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando este crachá estiver ativo.",
-      "notificationLabelDescriptionPart1": "As propriedades gémeas precisam de ser rodeadas com sintaxe de corda de modelo.",
-      "notificationPlaceholder": "Insira uma descrição",
-      "notificationLabelDescriptionPart2": "Por exemplo, ${PrimaryTwin.DisplayName} requer manutenção"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Selecione uma propriedade e, em seguida, desa ajuste gamas para aplicar a cor a determinadas condições - por exemplo, vermelho para indicar altas temperaturas, ou verde para uma velocidade ideal.",
-      "stateItemLabel": "Estado {{index}}",
-      "propertyExpressionTooltipContent": "Use uma expressão personalizada para expressões mais complexas que alavancam várias propriedades."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Adicionar widget",

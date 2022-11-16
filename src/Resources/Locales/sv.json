@@ -366,8 +366,6 @@
     "elements": "Element",
     "element": "Element",
     "twinsTab": "Tvillingar",
-    "alertsTab": "Varningar",
-    "statesTab": "Status",
     "widgets": "Widgets",
     "widget": "Manick",
     "behaviors": "Beteenden",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Välj ett element",
     "behaviorForm": {
       "formSubTitle": "Beteenden är visuella signaler som inträffar under specifika förhållanden, till exempel vid specifika intervall eller vid datatrösklar."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Färg",
-      "expressionLabel": "Utlösa uttryck",
-      "expressionPlaceholder": "Ange uttryck (t.ex. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ikon",
-      "tabDescription": "Varningar – ikoner som åtföljs av text – hjälper till att uppmärksamma kritiska dataförhållanden. Nedan använder du uttryck för att utlösa aviseringar i visualiseringen.",
-      "notificationLabel": "Beskrivning av scenario",
-      "notificationLabelTooltip": "Den här texten ger en konsumentkontext när det här märket är aktivt.",
-      "notificationLabelDescriptionPart1": "Tvillingegenskaper måste omges av mallsträngssyntax.",
-      "notificationPlaceholder": "Ange en beskrivning",
-      "notificationLabelDescriptionPart2": "T.ex. ${PrimaryTwin.DisplayName} kräver underhåll"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Välj en egenskap och ställ sedan in intervall för att tillämpa färg på vissa förhållanden, till exempel rött för att indikera höga temperaturer eller grönt för optimal hastighet.",
-      "stateItemLabel": "Tillstånd {{index}}",
-      "propertyExpressionTooltipContent": "Använd ett anpassat uttryck för mer komplexa uttryck som utnyttjar flera egenskaper."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Lägg till widget",

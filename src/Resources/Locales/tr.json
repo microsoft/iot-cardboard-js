@@ -366,8 +366,6 @@
     "elements": "Öğe",
     "element": "Öğe",
     "twinsTab": "İkizler",
-    "alertsTab": "Uyarı",
-    "statesTab": "Durum",
     "widgets": "Widget",
     "widget": "Widget",
     "behaviors": "Davranış",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Bir öğe seçin",
     "behaviorForm": {
       "formSubTitle": "Davranışlar, belirli koşullar altında (örneğin, belirli aralıklarla veya veri eşiklerinde) meydana gelen görsel ipuçlarıdır."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Renk",
-      "expressionLabel": "Tetikleyici ifadesi",
-      "expressionPlaceholder": "Enter ifadesi (örn. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "İkon",
-      "tabDescription": "Uyarılar (metin eşliğinde simgeler) kritik veri koşullarına dikkat çekmeye yardımcı olur. Aşağıda, görselleştirmenizdeki uyarıları tetiklemek için ifadeleri kullanın.",
-      "notificationLabel": "Senaryo açıklaması",
-      "notificationLabelTooltip": "Bu metin, bu rozet etkinken tüketiciye bir bağlam sağlayacaktır.",
-      "notificationLabelDescriptionPart1": "İkiz özelliklerin şablon dizesi sözdizimi ile çevrelenmesi gerekir.",
-      "notificationPlaceholder": "Bir açıklama girin",
-      "notificationLabelDescriptionPart2": "Örneğin, ${PrimaryTwin.DisplayName} bakım gerektirir"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Bir özellik seçin, sonra belirli koşullara renk uygulamak için aralıkları ayarlayın (örneğin, yüksek sıcaklıkları belirtmek için kırmızı veya optimum hız için yeşil).",
-      "stateItemLabel": "Durum {{index}}",
-      "propertyExpressionTooltipContent": "Birden çok özellikten yararlanan daha karmaşık ifadeler için özel bir ifade kullanın."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget ekle",

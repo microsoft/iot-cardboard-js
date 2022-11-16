@@ -366,8 +366,6 @@
     "elements": "Elementi",
     "element": "Elemento",
     "twinsTab": "Gemelli",
-    "alertsTab": "Avvisi",
-    "statesTab": "Stato",
     "widgets": "Widget",
     "widget": "Widget",
     "behaviors": "Comportamenti",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Seleziona un elemento",
     "behaviorForm": {
       "formSubTitle": "I comportamenti sono segnali visivi che si verificano in condizioni specifiche, ad esempio a intervalli specifici o a soglie di dati."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Colore",
-      "expressionLabel": "Espressione trigger",
-      "expressionPlaceholder": "Enter expression (es. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Icona",
-      "tabDescription": "Gli avvisi, ovvero icone accompagnate da testo, aiutano ad attirare l'attenzione sulle condizioni critiche dei dati. Di seguito, utilizzare le espressioni per attivare avvisi nella visualizzazione.",
-      "notificationLabel": "Descrizione dello scenario",
-      "notificationLabelTooltip": "Questo testo fornirà un contesto di consumo quando questo badge è attivo.",
-      "notificationLabelDescriptionPart1": "Le proprietà gemelle devono essere circondate dalla sintassi della stringa del modello.",
-      "notificationPlaceholder": "Inserisci una descrizione",
-      "notificationLabelDescriptionPart2": "Ad esempio, ${PrimaryTwin.DisplayName} richiede manutenzione"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Seleziona una proprietà, quindi imposta gli intervalli per l'applicazione del colore a determinate condizioni, ad esempio il rosso per indicare le alte temperature o il verde per la velocità ottimale.",
-      "stateItemLabel": "Stato {{index}}",
-      "propertyExpressionTooltipContent": "Utilizzare un'espressione personalizzata per espressioni più complesse che sfruttano più proprietà."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Aggiungi widget",

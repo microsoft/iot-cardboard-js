@@ -366,8 +366,6 @@
     "elements": "Азы",
     "element": "Элемент",
     "twinsTab": "Близнецы",
-    "alertsTab": "Оповещения",
-    "statesTab": "Статус",
     "widgets": "Виджеты",
     "widget": "Виджет",
     "behaviors": "Поведения",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Выбор элемента",
     "behaviorForm": {
       "formSubTitle": "Поведение — это визуальные подсказки, которые возникают при определенных условиях, например, через определенные промежутки времени или при пороговых значениях данных."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Цвет",
-      "expressionLabel": "Триггерное выражение",
-      "expressionPlaceholder": "Введите выражение (например, PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Икона",
-      "tabDescription": "Оповещения — значки, сопровождаемые текстом, — помогают привлечь внимание к критическим условиям данных. Ниже приведены выражения для запуска оповещений в визуализации.",
-      "notificationLabel": "Описание сценария",
-      "notificationLabelTooltip": "Этот текст дает потребительский контекст, когда этот индикатор событий активен.",
-      "notificationLabelDescriptionPart1": "Двойные свойства должны быть окружены синтаксисом строки шаблона.",
-      "notificationPlaceholder": "Введите описание",
-      "notificationLabelDescriptionPart2": "Например, ${PrimaryTwin.DisplayName} требует обслуживания"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Выберите свойство, затем задайте диапазоны для применения цвета к определенным условиям, например, красный для обозначения высоких температур или зеленый для оптимальной скорости.",
-      "stateItemLabel": "Состояние {{индекс}}",
-      "propertyExpressionTooltipContent": "Используйте пользовательское выражение для более сложных выражений, использующих несколько свойств."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Добавить виджет",

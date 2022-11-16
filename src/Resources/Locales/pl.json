@@ -366,8 +366,6 @@
     "elements": "Pierwiastki",
     "element": "Pierwiastek",
     "twinsTab": "Bliźnięta",
-    "alertsTab": "Alerty",
-    "statesTab": "Stan",
     "widgets": "Widżety",
     "widget": "Widżet",
     "behaviors": "Zachowania",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Zaznaczanie elementu",
     "behaviorForm": {
       "formSubTitle": "Zachowania to wskazówki wizualne, które występują w określonych warunkach — na przykład w określonych odstępach czasu lub na progach danych."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Kolor",
-      "expressionLabel": "Wyrażenie wyzwalacza",
-      "expressionPlaceholder": "Wprowadź wyrażenie (np. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ikona",
-      "tabDescription": "Alerty — ikony wraz z tekstem — pomagają zwrócić uwagę na krytyczne warunki danych. Poniżej użyj wyrażeń, aby wyzwolić alerty w wizualizacji.",
-      "notificationLabel": "Opis scenariusza",
-      "notificationLabelTooltip": "Ten tekst poda kontekst konsumenta, gdy ta plakietka jest aktywna.",
-      "notificationLabelDescriptionPart1": "Właściwości bliźniacze muszą być otoczone składnią ciągu szablonu.",
-      "notificationPlaceholder": "Wprowadź opis",
-      "notificationLabelDescriptionPart2": "Np. ${PrimaryTwin.DisplayName} wymaga konserwacji"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Wybierz właściwość, a następnie ustaw zakresy stosowania koloru do określonych warunków — na przykład czerwony, aby wskazać wysokie temperatury, lub zielony, aby uzyskać optymalną prędkość.",
-      "stateItemLabel": "Stan {{index}}",
-      "propertyExpressionTooltipContent": "Wyrażenie niestandardowe służy do bardziej złożonych wyrażeń wykorzystujących wiele właściwości."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Dodaj widżet",

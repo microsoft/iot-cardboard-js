@@ -366,8 +366,6 @@
     "elements": "Elementen",
     "element": "Element",
     "twinsTab": "Tweeling",
-    "alertsTab": "Waarschuwingen",
-    "statesTab": "Status",
     "widgets": "Widgets",
     "widget": "Widget",
     "behaviors": "Gedrag",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Selecteer een element",
     "behaviorForm": {
       "formSubTitle": "Gedragingen zijn visuele aanwijzingen die optreden onder specifieke omstandigheden, bijvoorbeeld met specifieke intervallen of bij gegevensdrempels."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Kleur",
-      "expressionLabel": "Triggerexpressie",
-      "expressionPlaceholder": "Expressie invoeren (bijv. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Pictogram",
-      "tabDescription": "Waarschuwingen , pictogrammen vergezeld van tekst, helpen de aandacht te vestigen op kritieke gegevenscondities. Gebruik hieronder expressies om waarschuwingen in uw visualisatie te activeren.",
-      "notificationLabel": "Beschrijving van het scenario",
-      "notificationLabelTooltip": "Deze tekst geeft een consument context wanneer deze badge actief is.",
-      "notificationLabelDescriptionPart1": "Dubbele eigenschappen moeten worden omgeven door syntaxis van sjabloonreeksen.",
-      "notificationPlaceholder": "Voer een beschrijving in",
-      "notificationLabelDescriptionPart2": "Bijvoorbeeld ${PrimaryTwin.DisplayName} vereist onderhoud"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Selecteer een eigenschap en stel vervolgens bereiken in voor het toepassen van kleur op bepaalde omstandigheden, bijvoorbeeld rood om hoge temperaturen aan te geven of groen voor optimale snelheid.",
-      "stateItemLabel": "Staat {{index}}",
-      "propertyExpressionTooltipContent": "Gebruik een aangepaste expressie voor complexere expressies die gebruikmaken van meerdere eigenschappen."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget toevoegen",

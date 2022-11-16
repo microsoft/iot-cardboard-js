@@ -366,8 +366,6 @@
     "elements": "Elementy",
     "element": "Element",
     "twinsTab": "Dvojčata",
-    "alertsTab": "Výstrahy",
-    "statesTab": "Stav",
     "widgets": "Widgety",
     "widget": "Věcička",
     "behaviors": "Chování",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Výběr prvku",
     "behaviorForm": {
       "formSubTitle": "Chování jsou vizuální podněty, ke kterým dochází za určitých podmínek – například v určitých intervalech nebo při prahových hodnotách dat."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Barva",
-      "expressionLabel": "Aktivační výraz",
-      "expressionPlaceholder": "Zadejte výraz (např. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ikona",
-      "tabDescription": "Výstrahy – ikony doprovázené textem – pomáhají upozornit na kritické podmínky dat. Níže použijte výrazy k aktivaci výstrah ve vizualizaci.",
-      "notificationLabel": "Popis scénáře",
-      "notificationLabelTooltip": "Tento text poskytne spotřebiteli kontext, když je tento odznak aktivní.",
-      "notificationLabelDescriptionPart1": "Vlastnosti dvojčat musí být obklopeny syntaxí řetězce šablony.",
-      "notificationPlaceholder": "Zadejte popis",
-      "notificationLabelDescriptionPart2": "Např. ${PrimaryTwin.DisplayName} vyžaduje údržbu"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Vyberte vlastnost a pak nastavte rozsahy pro použití barvy na určité podmínky – například červená pro označení vysokých teplot nebo zelená pro optimální rychlost.",
-      "stateItemLabel": "Stav {{index}}",
-      "propertyExpressionTooltipContent": "Použijte vlastní výraz pro složitější výrazy, které využívají více vlastností."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Přidat widget",

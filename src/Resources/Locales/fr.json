@@ -366,8 +366,6 @@
     "elements": "Éléments",
     "element": "Élément",
     "twinsTab": "Jumeaux",
-    "alertsTab": "Alertes",
-    "statesTab": "Statut",
     "widgets": "Widgets",
     "widget": "Widget",
     "behaviors": "Comportements",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Sélectionner un élément",
     "behaviorForm": {
       "formSubTitle": "Les comportements sont des indices visuels qui se produisent dans des conditions spécifiques, par exemple à des intervalles spécifiques ou à des seuils de données."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Couleur",
-      "expressionLabel": "Expression de déclenchement",
-      "expressionPlaceholder": "Entrez l’expression (par exemple PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Icône",
-      "tabDescription": "Les alertes,c’est-à-dire les icônes accompagnées de texte, aident à attirer l’attention sur les conditions critiques des données. Ci-dessous, utilisez des expressions pour déclencher des alertes dans votre visualisation.",
-      "notificationLabel": "Description du scénario",
-      "notificationLabelTooltip": "Ce texte donnera un contexte au consommateur lorsque ce badge est actif.",
-      "notificationLabelDescriptionPart1": "Les propriétés jumelles doivent être entourées d’une syntaxe de chaîne de modèle.",
-      "notificationPlaceholder": "Entrez une description",
-      "notificationLabelDescriptionPart2": "Par exemple, ${PrimaryTwin.DisplayName} nécessite une maintenance"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Sélectionnez une propriété, puis définissez des plages pour appliquer la couleur à certaines conditions, par exemple, rouge pour indiquer des températures élevées ou vert pour une vitesse optimale.",
-      "stateItemLabel": "État {{index}}",
-      "propertyExpressionTooltipContent": "Utilisez une expression personnalisée pour les expressions plus complexes qui exploitent plusieurs propriétés."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Ajouter un widget",
