@@ -41,7 +41,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
         );
         return languages;
     }, []);
-    const selectedModel = useMemo(
+    const selectedItem = useMemo(
         () =>
             oatPageState.selection &&
             getTargetFromSelection(
@@ -68,13 +68,13 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                     <div className={editorPageStyles.viewerContainer}>
                         <OATGraphViewerContent />
                     </div>
-                    {selectedModel && (
+                    {selectedItem && (
                         <div
                             className={editorPageStyles.propertyEditorContainer}
                         >
                             <OATPropertyEditor
                                 languages={languages}
-                                selectedItem={selectedModel}
+                                selectedItem={selectedItem}
                                 selectedThemeName={selectedThemeName}
                             />
                         </div>
