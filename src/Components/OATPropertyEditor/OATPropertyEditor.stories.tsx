@@ -27,7 +27,6 @@ import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { userEvent, within } from '@storybook/testing-library';
 import {
     DtdlInterfaceContent,
-    DtdlProperty,
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
