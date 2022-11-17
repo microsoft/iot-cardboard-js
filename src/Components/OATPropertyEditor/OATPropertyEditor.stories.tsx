@@ -25,6 +25,12 @@ import { getTargetFromSelection } from './Utils';
 import { IOATSelection } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { userEvent, within } from '@storybook/testing-library';
+import {
+    DtdlInterfaceContent,
+    DtdlProperty,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../Models/Constants';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -110,8 +116,28 @@ const getMockModel = () => {
         version: 2
     });
     const model = getMockModelItem(modelId);
+
+    const relationship: DtdlInterfaceContent = {
+        '@type': 'Relationship',
+        '@id': modelId + '_Relationship_0',
+        name: 'Relationship_0',
+        target: 'dtmi:testNamespace:model1;1',
+        properties: [
+            new DTDLProperty(
+                'property1',
+                'Length',
+                'double',
+                '',
+                '',
+                'Length',
+                '',
+                true
+            )
+        ]
+    };
     model.contents = [
         ...model.contents,
+        relationship,
         {
             '@type': 'Property',
             name: 'New_Property1',
@@ -121,12 +147,29 @@ const getMockModel = () => {
     return model;
 };
 
-export const ModelSelectedEditor = Template.bind({});
-ModelSelectedEditor.args = (() => {
+export const ModelSelectedEditorModel = Template.bind({});
+ModelSelectedEditorModel.args = (() => {
     const files = getMockFiles();
     const args: StoryProps = {
         files: files,
         selection: { modelId: files[0].data.models[0]['@id'] }
+    };
+    return args;
+})();
+
+export const ModelSelectedEditorRelationship = Template.bind({});
+ModelSelectedEditorRelationship.args = (() => {
+    const files = getMockFiles();
+    const firstModel = files[0].data.models[0];
+    const args: StoryProps = {
+        files: files,
+        selection: {
+            modelId: firstModel['@id'],
+            contentId: firstModel.contents.find(
+                (x: DtdlInterfaceContent) =>
+                    x['@type'] === OAT_RELATIONSHIP_HANDLE_NAME
+            )?.name
+        }
     };
     return args;
 })();
