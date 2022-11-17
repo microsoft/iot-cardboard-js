@@ -22,13 +22,13 @@ import {
     OatRelationshipType,
     OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
     OAT_INTERFACE_TYPE,
-    OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
 import {
     buildModelId,
     convertDtdlInterfacesToModels,
     getUntargetedRelationshipNodeId,
+    isUntargeted,
     storeLastUsedProjectId,
     storeOntologiesToStorage
 } from '../../Services/OatUtils';
@@ -193,7 +193,7 @@ export const updateModelId = (
     // update all the untargeted relationships
     modelPositions.forEach((position) => {
         // if it's an untargeted relationship
-        if (position['@id'].startsWith(OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX)) {
+        if (isUntargeted(position['@id'])) {
             position['@id'] = position['@id'].replace(oldId, newId);
         }
     });
