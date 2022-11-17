@@ -94,7 +94,7 @@ import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/O
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementNode } from './Internal/Classes/ElementNode';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
