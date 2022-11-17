@@ -101,15 +101,16 @@ const ModelPropertyHeader: React.FC<IModelPropertyHeaderProps> = (props) => {
                             {entityId}
                         </span>
                     </Stack>
-                    {onInfoButtonClick && (
-                        <IconButton
-                            iconProps={{ iconName: 'info' }}
-                            onClick={onInfoButtonClick}
-                            styles={classNames.subComponentStyles.modalIconButton?.()}
-                            title={t('OATPropertyEditor.info')}
-                        />
-                    )}
                 </>
+            )}
+            {onInfoButtonClick && (
+                <IconButton
+                    data-testid={'property-editor-details-modal-button'}
+                    iconProps={{ iconName: 'info' }}
+                    onClick={onInfoButtonClick}
+                    styles={classNames.subComponentStyles.modalIconButton?.()}
+                    title={t('OATPropertyEditor.details')}
+                />
             )}
         </Stack>
     );

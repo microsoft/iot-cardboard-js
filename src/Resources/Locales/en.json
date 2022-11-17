@@ -1039,6 +1039,7 @@
         "dateTime": "dateTime",
         "delete": "Delete",
         "description": "Description",
+        "details": "Details",
         "displayName": "Display Name",
         "double": "double",
         "duplicate": "Duplicate",

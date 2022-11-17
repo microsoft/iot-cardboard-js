@@ -28,6 +28,7 @@ import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import FormRootModelDetails from './Internal/FormRootModelDetails/FormRootModelDetails';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -63,7 +64,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
     const propertyList = useMemo(() => {
         // Get contents excluding relationship items
-        let propertyItems = [];
+        let propertyItems: DTDLProperty[] = [];
         if (
             selectedItem &&
             selectedItem[propertiesKeyName] &&
@@ -71,7 +72,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
         ) {
             // Exclude relationships from propertyList
             propertyItems = selectedItem[propertiesKeyName].filter(
-                (property) => property['@type'] === 'Property'
+                (property: DTDLProperty) => property['@type'] === 'Property'
             );
         }
         return propertyItems;
