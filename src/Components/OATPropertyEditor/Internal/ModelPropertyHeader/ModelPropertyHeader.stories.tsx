@@ -4,7 +4,7 @@ import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtili
 import ModelPropertyHeader from './ModelPropertyHeader';
 import { IModelPropertyHeaderProps } from './ModelPropertyHeader.types';
 import {
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE
 } from '../../../../Models/Constants';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
@@ -47,5 +47,5 @@ RelationshipHeader.args = {
         version: 2
     }),
     entityName: 'Relationship 5',
-    entityType: OAT_GRAPH_RELATIONSHIP_NODE_TYPE
+    entityType: OAT_GRAPH_REFERENCE_TYPE
 } as IModelPropertyHeaderProps;

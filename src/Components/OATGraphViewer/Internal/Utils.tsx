@@ -3,7 +3,7 @@ import {
     IOATNodePosition,
     OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME,
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_RELATIONSHIP_HANDLE_NAME,
     OAT_UNTARGETED_RELATIONSHIP_NAME
@@ -48,7 +48,7 @@ export const addTargetedRelationship = (
     const relationshipEdge = new ElementEdge(
         id,
         '',
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
         OAT_RELATIONSHIP_HANDLE_NAME,
@@ -108,7 +108,7 @@ export const addUntargetedRelationship = (
     const relationshipEdge = new ElementEdge(
         id, // id
         '', // label
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE, // type
+        OAT_GRAPH_REFERENCE_TYPE, // type
         '', // marker end
         sourceModel['@id'], // source
         OAT_UNTARGETED_RELATIONSHIP_NAME,
@@ -152,7 +152,7 @@ export const addComponentRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_COMPONENT_HANDLE_NAME}${component.schema}${name}`,
         '',
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
         OAT_COMPONENT_HANDLE_NAME,
@@ -190,7 +190,7 @@ export const addExtendsRelationship = (
     const relationshipEdge = new ElementEdge(
         `${sourceId}${OAT_EXTEND_HANDLE_NAME}${extend}`,
         '',
-        OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+        OAT_GRAPH_REFERENCE_TYPE,
         '',
         sourceId,
         OAT_EXTEND_HANDLE_NAME,
@@ -286,7 +286,7 @@ export const updateModelInGraph = (
     // grab relationships pointing to/from this node
     const existingRelationships = elements.filter(
         (x: ElementEdge) =>
-            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE &&
+            x.type === OAT_GRAPH_REFERENCE_TYPE &&
             (x.source === oldId || x.target === oldId)
     );
     if (existingRelationships?.length) {

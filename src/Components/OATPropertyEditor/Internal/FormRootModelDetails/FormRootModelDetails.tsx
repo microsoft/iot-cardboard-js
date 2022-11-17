@@ -44,6 +44,7 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './FormRootModelDetails.styles';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
+import { OAT_GRAPH_REFERENCE_TYPE } from '../../../../Models/Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -57,6 +58,8 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     props
 ) => {
     const { onClose, languages, selectedItem, styles } = props;
+    const isReferenceSelected =
+        selectedItem?.['@type'] === OAT_GRAPH_REFERENCE_TYPE;
 
     // hooks
     const { t } = useTranslation();

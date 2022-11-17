@@ -15,7 +15,7 @@ import {
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import {
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE
 } from '../../../../Models/Constants';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
@@ -36,8 +36,7 @@ const ModelPropertyHeader: React.FC<IModelPropertyHeaderProps> = (props) => {
         onInfoButtonClick,
         styles
     } = props;
-    const isRelationshipSelected =
-        entityType === OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
+    const isRelationshipSelected = entityType === OAT_GRAPH_REFERENCE_TYPE;
     const isModelSelected = entityType === OAT_INTERFACE_TYPE;
 
     // contexts

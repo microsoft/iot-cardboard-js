@@ -33,7 +33,7 @@ import {
     OAT_INTERFACE_TYPE,
     OAT_COMPONENT_HANDLE_NAME,
     OatRelationshipType,
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE
+    OAT_GRAPH_REFERENCE_TYPE
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -490,7 +490,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     // look for the relationship with the same id
                     const relationship = elements.find(
                         (x: ElementNode | ElementEdge) =>
-                            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE &&
+                            x.type === OAT_GRAPH_REFERENCE_TYPE &&
                             x.id === node.id
                     );
                     if (relationship) {

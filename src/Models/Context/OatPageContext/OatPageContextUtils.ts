@@ -20,7 +20,7 @@ import {
     DtdlRelationship,
     IOATNodePosition,
     OatRelationshipType,
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
@@ -286,7 +286,7 @@ const getNewRelationship = (
 };
 
 const getNextRelationshipName = (sourceModel: DtdlInterface) => {
-    const prefix = OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
+    const prefix = OAT_GRAPH_REFERENCE_TYPE;
     return getNextName(sourceModel, prefix, DTDLType.Relationship);
 };
 /** gets a unique name for the relationship (scoped to the target model) */
