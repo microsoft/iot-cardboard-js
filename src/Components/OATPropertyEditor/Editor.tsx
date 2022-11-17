@@ -24,9 +24,9 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
+import FormRootModelDetails from './Internal/FormRootModelDetails/FormRootModelDetails';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 
 const debugLogging = false;

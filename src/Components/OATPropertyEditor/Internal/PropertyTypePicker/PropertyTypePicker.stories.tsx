@@ -7,7 +7,7 @@ import { IPropertyTypePickerProps } from './PropertyTypePicker.types';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/PropertyTypePicker',
+    title: 'Components - OAT/PropertyTypePicker',
     component: PropertyTypePicker,
     decorators: [
         getDefaultStoryDecorator<IPropertyTypePickerProps>(wrapperStyle)

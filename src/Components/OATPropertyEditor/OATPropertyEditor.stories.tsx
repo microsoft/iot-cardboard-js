@@ -32,6 +32,12 @@ const wrapperStyle: React.CSSProperties = {
     padding: 8
 };
 
+export default {
+    title: 'Components - OAT/OATPropertyEditor',
+    component: OATPropertyEditor,
+    decorators: [getDefaultStoryDecorator(wrapperStyle)]
+};
+
 type StoryProps = {
     files: IOATFile[];
     selection: IOATSelection;
@@ -88,12 +94,6 @@ const ComponentRenderer: React.FC<IRendererProps> = (props) => {
             }
         />
     );
-};
-
-export default {
-    title: 'Components - OAT/OATPropertyEditor',
-    component: OATPropertyEditor,
-    decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
 const getMockFiles = () => {

@@ -39,9 +39,6 @@ export interface IPropertiesModelSummaryStyleProps {
 export interface IPropertiesModelSummaryStyles {
     row: IStyle;
     rowLabel: IStyle;
-    sectionHeaderRoot: IStyle;
-    sectionHeaderIcon: IStyle;
-    sectionHeaderContainer: IStyle;
     sectionTitle: IStyle;
     sectionSubtitle: IStyle;
     /**
@@ -51,7 +48,6 @@ export interface IPropertiesModelSummaryStyles {
 }
 
 export interface IPropertiesModelSummarySubComponentStyles {
-    modalIconButton?: Partial<IButtonStyles>;
     rootStack?: IStackStyles;
     separator?: Partial<ISeparatorStyles>;
     stringField?: Partial<ITextFieldStyles>;

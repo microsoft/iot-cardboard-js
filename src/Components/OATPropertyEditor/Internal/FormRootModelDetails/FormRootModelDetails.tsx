@@ -4,11 +4,13 @@ import {
     Text,
     ActionButton,
     FontIcon,
-    Label,
     ChoiceGroup,
     IconButton,
     Dropdown,
-    IChoiceGroupOption
+    IChoiceGroupOption,
+    classNamesFunction,
+    styled,
+    Stack
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
@@ -16,9 +18,9 @@ import {
     getPropertyInspectorStyles,
     getModalLabelStyles,
     getRadioGroupRowStyles
-} from '../OATPropertyEditor.styles';
-import { deepCopy } from '../../../Models/Services/Utils';
-import { MultiLanguageSelectionType } from '../../../Models/Constants/Enums';
+} from '../../OATPropertyEditor.styles';
+import { deepCopy } from '../../../../Models/Services/Utils';
+import { MultiLanguageSelectionType } from '../../../../Models/Constants/Enums';
 import {
     validateCommentChange,
     validateDescriptionChange,
@@ -30,24 +32,31 @@ import {
     setMultiLanguageSelectionsDisplayNameValue,
     getModelPropertyListItemName,
     getTargetFromSelection
-} from '../Utils';
-import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
-import { ModalFormRootModelProps } from './FormRootModelDetails.types';
+} from '../../Utils';
+import { CommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
-    getFileNameFromDTMI,
-    getDirectoryPathFromDTMI
-} from '../../../Models/Services/OatUtils';
-import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+    IFormRootModelDetailsStyleProps,
+    IFormRootModelDetailsStyles,
+    IModalFormRootModelProps
+} from './FormRootModelDetails.types';
+import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
+import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
+import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { getStyles } from './FormRootModelDetails.styles';
+import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
-export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
+const getClassNames = classNamesFunction<
+    IFormRootModelDetailsStyleProps,
+    IFormRootModelDetailsStyles
+>();
+
+export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     props
 ) => {
-    const { onClose, languages, selectedItem } = props;
+    const { onClose, languages, selectedItem, styles } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -95,8 +104,6 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
-    const [fileName, setFileName] = useState('');
-    const [directoryPath, setDirectoryPath] = useState('');
 
     // callbacks
     const onLanguageSelect = (
@@ -113,33 +120,6 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
         setLanguageSelectionDescription(option.key);
     };
 
-    const updateMetadata = () => {
-        if (oatPageState.currentOntologyModelMetadata) {
-            const metadataCopy = deepCopy(
-                oatPageState.currentOntologyModelMetadata
-            );
-            const newMetadata = {
-                '@id': selectedItem['@id'],
-                directoryPath,
-                fileName
-            };
-            // Check modelsMetadata for the existence of the model, if exists, update it, if not, add it
-            const modelIndex = metadataCopy.findIndex(
-                (modelMetadata: any) =>
-                    modelMetadata['@id'] === selectedItem['@id']
-            );
-            if (modelIndex !== -1) {
-                metadataCopy[modelIndex] = newMetadata;
-            } else {
-                metadataCopy.push(newMetadata);
-            }
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
-                payload: { metadata: metadataCopy }
-            });
-        }
-    };
-
     const onFormSubmit = () => {
         const update = () => {
             const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
@@ -154,7 +134,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                         ? displayName
                         : selectedItem.displayName
                     : multiLanguageSelectionsDisplayName
-                    ? multiLanguageSelectionsDisplayName
+                    ? (multiLanguageSelectionsDisplayName as string) // cast to avoid error, TODO: fix typing
                     : selectedItem.displayName;
             modelCopy.description =
                 languageSelectionDescription === singleLanguageOptionValue
@@ -162,7 +142,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                         ? description
                         : selectedItem.description
                     : multiLanguageSelectionsDescription
-                    ? multiLanguageSelectionsDescription
+                    ? (multiLanguageSelectionsDescription as string) // cast to avoid error, TODO: fix typing
                     : selectedItem.description;
             modelCopy['@id'] = id ? id : selectedItem['@id'];
 
@@ -171,7 +151,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                 payload: { models: modelsCopy }
             });
 
-            updateMetadata();
+            // updateMetadata();
             onClose();
         };
 
@@ -187,22 +167,6 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
         };
 
         execute(update, undoUpdate);
-    };
-
-    const lookUpStoredMetadata = () => {
-        // Check if there is metadata for the model, if so update fileName and directoryPath
-        if (oatPageState.currentOntologyModelMetadata) {
-            const modelMetadata = oatPageState.currentOntologyModelMetadata.find(
-                (modelMetadata: any) =>
-                    modelMetadata['@id'] === selectedItem['@id']
-            );
-            if (modelMetadata) {
-                setFileName(modelMetadata.fileName);
-                setDirectoryPath(modelMetadata.directoryPath);
-                return true;
-            }
-        }
-        return false;
     };
 
     // data
@@ -308,31 +272,29 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
         setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
     }, [multiLanguageSelectionsDescription]);
 
-    useEffect(() => {
-        if (id) {
-            const storedData = lookUpStoredMetadata();
-            if (storedData) {
-                return;
-            }
-
-            setFileName(getFileNameFromDTMI(id));
-            setDirectoryPath(getDirectoryPathFromDTMI(id));
-        }
-    }, [id]);
-
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
     const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
     return (
-        <>
-            <div className={propertyInspectorStyles.modalRowSpaceBetween}>
-                <Label>
-                    {selectedItem &&
+        <div className={classNames.root}>
+            <Stack
+                horizontal
+                className={propertyInspectorStyles.modalRowSpaceBetween}
+            >
+                <ModelPropertyHeader
+                    entityId={selectedItem?.['@id']}
+                    entityName={
+                        selectedItem &&
                         selectedItem.displayName &&
-                        getModelPropertyListItemName(selectedItem.displayName)}
-                </Label>
+                        getModelPropertyListItemName(selectedItem.displayName)
+                    }
+                    entityType={selectedItem['@type']?.toString() || ''}
+                />
                 <ActionButton onClick={onClose}>
                     <FontIcon
                         iconName={'ChromeClose'}
@@ -341,21 +303,7 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                         }
                     />
                 </ActionButton>
-            </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
-                    {t('OATPropertyEditor.id')}
-                </Text>
-                <OATTextFieldId
-                    placeholder={t('OATPropertyEditor.id')}
-                    value={id}
-                    model={selectedItem}
-                    models={oatPageState.currentOntologyModels}
-                    modalFormCommit
-                    onCommit={setId}
-                />
-            </div>
+            </Stack>
 
             <div className={propertyInspectorStyles.modalRow}>
                 <Text styles={columnLeftTextStyles}>
@@ -461,6 +409,10 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
             {languageSelection === multiLanguageOptionValue && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
+                        iconProps={{
+                            iconName: 'Add',
+                            className: propertyInspectorStyles.iconAddProperty
+                        }}
                         disabled={
                             isAMultiLanguageDisplayNameEmpty &&
                             multiLanguageSelectionsDisplayNames.length !== 0
@@ -484,13 +436,8 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                                 setIsAMultiLanguageDisplayNameEmpty(true);
                             }
                         }}
-                    >
-                        <FontIcon
-                            iconName={'Add'}
-                            className={propertyInspectorStyles.iconAddProperty}
-                        />
-                        <Text>{t('OATPropertyEditor.region')}</Text>
-                    </ActionButton>
+                        text={t('OATPropertyEditor.region')}
+                    />
                 </div>
             )}
 
@@ -656,27 +603,6 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                     value={comment}
                 />
             </div>
-
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>{'File Name'}</Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
-                    onChange={(_ev, value) => setFileName(value)}
-                    value={fileName}
-                />
-            </div>
-            <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>{'File Path'}</Text>
-                <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
-                    onChange={(_ev, value) => setDirectoryPath(value)}
-                    value={directoryPath}
-                />
-            </div>
             <div className={propertyInspectorStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}
@@ -693,8 +619,12 @@ export const FormRootModelDetails: React.FC<ModalFormRootModelProps> = (
                     onClick={onClose}
                 />
             </div>
-        </>
+        </div>
     );
 };
 
-export default FormRootModelDetails;
+export default styled<
+    IModalFormRootModelProps,
+    IFormRootModelDetailsStyleProps,
+    IFormRootModelDetailsStyles
+>(FormRootModelDetails, getStyles);

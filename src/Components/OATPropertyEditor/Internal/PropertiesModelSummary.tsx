@@ -8,13 +8,11 @@ import React, {
 import {
     Stack,
     Text,
-    IconButton,
     Separator,
     TextField,
     classNamesFunction,
     styled,
-    SpinButton,
-    Icon
+    SpinButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { FormBody } from '../Shared/Constants';
@@ -41,6 +39,7 @@ import {
     isDTDLRelationship
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
+import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -252,61 +251,20 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             tokens={{ childrenGap: 8 }}
         >
             {/* HEADER */}
-            <Stack horizontal className={classNames.sectionHeaderRoot}>
-                {(isRelationshipSelected || isModelSelected) && (
-                    <Icon
-                        aria-label={
-                            selectedItem ? selectedItem['@type'].toString() : ''
-                        }
-                        iconName={
-                            isRelationshipSelected
-                                ? 'Relationship'
-                                : 'CubeShape'
-                        }
-                        className={classNames.sectionHeaderIcon}
-                        title={
-                            selectedItem ? selectedItem['@type'].toString() : ''
-                        }
-                    />
-                )}
-                {isRelationshipSelected && (
-                    <div className={classNames.sectionHeaderContainer}>
-                        <h4
-                            className={classNames.sectionTitle}
-                            title={relationshipName}
-                        >
-                            {relationshipName}
-                        </h4>
-                    </div>
-                )}
-                {isModelSelected && (
-                    <>
-                        <Stack
-                            tokens={{ childrenGap: 4 }}
-                            className={classNames.sectionHeaderContainer}
-                        >
-                            <h4
-                                className={classNames.sectionTitle}
-                                title={modelUniqueName}
-                            >
-                                {modelUniqueName}
-                            </h4>
-                            <span
-                                className={classNames.sectionSubtitle}
-                                title={itemId}
-                            >
-                                {itemId}
-                            </span>
-                        </Stack>
-                        <IconButton
-                            iconProps={{ iconName: 'info' }}
-                            onClick={onInfoButtonClick}
-                            styles={classNames.subComponentStyles.modalIconButton?.()}
-                            title={t('OATPropertyEditor.info')}
-                        />
-                    </>
-                )}
-            </Stack>
+            <ModelPropertyHeader
+                entityId={itemId}
+                entityName={
+                    isModelSelected
+                        ? modelUniqueName
+                        : isRelationshipSelected
+                        ? relationshipName
+                        : ''
+                }
+                entityType={
+                    selectedItem ? selectedItem['@type'].toString() : ''
+                }
+                onInfoButtonClick={onInfoButtonClick}
+            />
 
             {isRelationshipSelected && (
                 <>
