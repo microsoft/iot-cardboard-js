@@ -39,6 +39,7 @@ const getBaseReactSelectStyles = (theme: ITheme): StylesConfig => {
 export const getReactSelectStyles = (
     theme: ITheme,
     params?: {
+        menu?: { marginTop?: number };
         menuList?: {
             isOnlyFirstRow: boolean;
             listMaxWidthLarge: number;
@@ -46,6 +47,7 @@ export const getReactSelectStyles = (
         };
     }
 ): StylesConfig => {
+    const menu = params?.menu;
     const menuList = params?.menuList;
     return {
         ...getBaseReactSelectStyles(theme),
@@ -70,6 +72,10 @@ export const getReactSelectStyles = (
             ...provided,
             color: `${theme.semanticColors.inputBorder} !important`,
             padding: '0px 4px'
+        }),
+        menu: (provided) => ({
+            ...provided,
+            marginTop: menu.marginTop
         }),
         menuList: (provided) => ({
             ...provided,

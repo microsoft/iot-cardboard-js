@@ -7,6 +7,7 @@ import React, {
     useState
 } from 'react';
 import {
+    IResourceOption,
     IResourcePickerProps,
     IResourcePickerStyleProps,
     IResourcePickerStyles
@@ -16,16 +17,12 @@ import {
     classNamesFunction,
     useTheme,
     styled,
-    Spinner,
-    SpinnerSize,
     MessageBarType,
     MessageBar,
-    IComboBoxOption,
-    VirtualizedComboBox,
     Icon,
-    SelectableOptionMenuItemType,
-    IRenderFunction,
-    IOnRenderComboBoxLabelProps
+    Stack,
+    Label,
+    Text
 } from '@fluentui/react';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
@@ -40,20 +37,23 @@ import { useTranslation } from 'react-i18next';
 import {
     areResourceValuesEqual,
     deepCopy,
+    getMarkedHtmlBySearch,
+    getResourceUrl,
     getUrlFromString
 } from '../../Models/Services/Utils';
+import CreatableSelect from 'react-select/creatable';
+import { getReactSelectStyles } from '../../Resources/Styles/ReactSelect.styles';
+import {
+    ActionMeta,
+    components,
+    createFilter,
+    InputActionMeta
+} from 'react-select';
 
-const comboBoxOptionStyles = {
-    root: {
-        width: '100%'
-    },
-    flexContainer: { span: { width: '100%' } }
-};
 const freeformOptionsHeaderText = '---';
-const freeformOptionsHeader = {
-    key: 'additional-options',
-    text: freeformOptionsHeaderText,
-    itemType: SelectableOptionMenuItemType.Header
+const freeformOptionsHeader: IResourceOption = {
+    label: freeformOptionsHeaderText,
+    options: []
 };
 const getClassNames = classNamesFunction<
     IResourcePickerStyleProps,
@@ -74,33 +74,25 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     onChange,
     additionalOptions: additionalOptionsProp,
     selectedOption: selectedOptionProp,
-    allowFreeform = false,
     disabled = false,
     errorMessage
 }) => {
     const { t } = useTranslation();
-    const classNames = getClassNames(styles, {
-        theme: useTheme()
-    });
 
+    const defaultSelectedOption: IResourceOption = selectedOptionProp
+        ? {
+              label: selectedOptionProp,
+              value: selectedOptionProp
+          }
+        : null;
     const [
         selectedOption,
         setSelectedOption
-    ] = useState<IComboBoxOption | null>(
-        selectedOptionProp
-            ? {
-                  key: selectedOptionProp,
-                  text: selectedOptionProp,
-                  styles: comboBoxOptionStyles
-              }
-            : null
-    );
+    ] = useState<IResourceOption | null>(defaultSelectedOption);
     const [additionalOptions, setAdditionalOptions] = useState<
-        Array<IComboBoxOption>
+        Array<IResourceOption>
     >([]);
-    const [selectedKey, setSelectedKey] = useState<string | number | null>(
-        selectedOptionProp
-    ); // resource id or the option text if manually entered option
+    const [searchValue, setSearchValue] = useState(selectedOptionProp ?? '');
     const [error, setError] = useState<IComponentError | null>(null);
     const resourcesRef = useRef<Array<IAzureResource>>([]);
 
@@ -135,23 +127,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const getDisplayFieldValue = useCallback(
         (resource: IAzureResource) => {
             if (displayField === AzureResourceDisplayFields.url) {
-                switch (resource.type.toLowerCase()) {
-                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                        return resource.properties.hostName
-                            ? 'https://' + resource.properties.hostName
-                            : null;
-                    case AzureResourceTypes.StorageAccount.toLowerCase():
-                        return resource.properties.primaryEndpoints?.blob;
-                    default:
-                        return resource[
-                            AzureResourceDisplayFields[displayField] // storage blob containers does not have url information in its resource properties, it is constructed based on the storage account blob url
-                        ];
-                }
+                return getResourceUrl(resource, resourceType);
             } else {
                 return resource[AzureResourceDisplayFields[displayField]];
             }
         },
-        [displayField]
+        [displayField, resourceType]
     );
 
     const sortResources = (r1: IAzureResource, r2: IAzureResource) => {
@@ -176,42 +157,42 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             .sort(sortResources);
 
         // after fetching resources, first start creating dropdown options with resources which have display values
-        const newOptions: Array<IComboBoxOption> = [];
-        let lastHeader;
+        const newOptions: Array<IResourceOption> = [];
+        let lastHeader: IResourceOption;
         filteredAndSortedResources.forEach((r) => {
-            if (r.subscriptionName && lastHeader !== r.subscriptionName) {
-                newOptions.push({
-                    key: r.subscriptionName,
-                    text: r.subscriptionName,
-                    itemType: SelectableOptionMenuItemType.Header
-                });
-                newOptions.push({
-                    key: r.id,
-                    text: getDisplayFieldValue(r),
-                    data: r,
-                    styles: comboBoxOptionStyles
-                } as IComboBoxOption);
-                lastHeader = r.subscriptionName;
+            if (
+                r.subscriptionName &&
+                lastHeader?.label !== r.subscriptionName
+            ) {
+                lastHeader = {
+                    label: r.subscriptionName,
+                    options: [
+                        {
+                            label: getDisplayFieldValue(r),
+                            value: r,
+                            type: 'option'
+                        } as IResourceOption
+                    ]
+                };
+                newOptions.push(lastHeader);
             } else {
-                newOptions.push({
-                    key: r.id,
-                    text:
+                lastHeader.options.push({
+                    label:
                         getDisplayFieldValue(r) ||
                         t('resourcesPicker.displayFieldNotFound', {
                             displayField:
                                 AzureResourceDisplayFields[displayField],
                             id: r.id
                         }),
-                    data: r,
-                    styles: comboBoxOptionStyles
-                } as IComboBoxOption);
+                    value: r
+                } as IResourceOption);
             }
         });
         return newOptions;
     }, [getDisplayFieldValue, displayField, t, resourcesRef.current]);
 
-    const options: Array<IComboBoxOption> = useMemo(() => {
-        let mergedOptions: Array<IComboBoxOption> = [];
+    const options: Array<IResourceOption> = useMemo(() => {
+        let mergedOptions: Array<IResourceOption> = [];
 
         // Step-1: Construct the options from fetched resources - if exists
         mergedOptions = mergedOptions.concat(optionsFromResources);
@@ -222,8 +203,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 (additionalOption) =>
                     optionsFromResources.findIndex((option) =>
                         areResourceValuesEqual(
-                            option.text,
-                            additionalOption.text,
+                            option.label,
+                            additionalOption.label,
                             displayField
                         )
                     ) === -1
@@ -233,7 +214,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     // add the freeform options header if the resources are fetched and exists
                     mergedOptions.push(freeformOptionsHeader);
                 }
-                mergedOptions = mergedOptions.concat(optionsToAdd);
+                freeformOptionsHeader.options.concat(optionsToAdd);
             }
         }
 
@@ -242,8 +223,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             const selectedOptionInMergedOptions = mergedOptions.find(
                 (mergedOption) =>
                     areResourceValuesEqual(
-                        mergedOption.text,
-                        selectedOption.text,
+                        mergedOption.label,
+                        selectedOption.label,
                         displayField
                     )
             );
@@ -251,18 +232,21 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 if (resourcesRef.current?.length > 0) {
                     const freeFromOptionsHeaderExist = mergedOptions?.find(
                         (option) =>
-                            option.itemType ===
-                                SelectableOptionMenuItemType.Header &&
-                            option.text === freeformOptionsHeaderText
+                            option.options &&
+                            option.label === freeformOptionsHeaderText
                     );
                     if (!freeFromOptionsHeaderExist) {
                         mergedOptions.push(freeformOptionsHeader);
                     }
                 }
-                mergedOptions.push(selectedOption);
+                freeformOptionsHeader.options.concat(selectedOption);
             }
         }
-        return mergedOptions;
+        return searchValue
+            ? mergedOptions.filter((group) =>
+                  group.options.some((o) => o.label.includes(searchValue))
+              )
+            : mergedOptions;
     }, [
         displayField,
         getDisplayFieldValue,
@@ -287,23 +271,16 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     return 'resourcesPicker.selectResourcePlaceholder';
             }
         } else {
-            if (options.length) {
-                return t('resourcesPicker.selectResourcePlaceholder');
-            } else {
-                return t('resourcesPicker.noOption');
-            }
+            return t('resourcesPicker.selectResourcePlaceholder');
         }
     };
 
     const getResourcesFromOptions = (
-        options: Array<IComboBoxOption>
+        options: Array<IResourceOption>
     ): Array<IAzureResource | string> => {
         return options
-            ?.filter(
-                (option) =>
-                    option.itemType !== SelectableOptionMenuItemType.Header
-            )
-            .map((option) => option.data || option.text);
+            ?.filter((option) => !option.options)
+            .map((option) => option.value);
     };
 
     useEffect(() => {
@@ -326,34 +303,22 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     useEffect(() => {
         if (selectedOptionProp) {
             const existingOption = options?.find((o) =>
-                areResourceValuesEqual(o.text, selectedOptionProp, displayField)
+                areResourceValuesEqual(
+                    o.label,
+                    selectedOptionProp,
+                    displayField
+                )
             );
             if (existingOption) {
                 setSelectedOption(existingOption);
             } else {
                 setSelectedOption({
-                    key: selectedOptionProp,
-                    text: selectedOptionProp,
-                    styles: comboBoxOptionStyles
+                    label: selectedOptionProp,
+                    value: selectedOptionProp
                 });
             }
         }
     }, [selectedOptionProp]);
-
-    useEffect(() => {
-        if (selectedOption) {
-            const selectedKey = options.find((option) =>
-                areResourceValuesEqual(
-                    option.text,
-                    selectedOption.text,
-                    displayField
-                )
-            )?.key;
-            setSelectedKey(selectedKey);
-        } else {
-            setSelectedKey(null);
-        }
-    }, [selectedOption, options, displayField, resourceType]);
 
     useEffect(() => {
         const additionalOptionsToAdd =
@@ -362,7 +327,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     additionalOptionProp &&
                     additionalOptions.findIndex((additionalOption) =>
                         areResourceValuesEqual(
-                            additionalOption.text,
+                            additionalOption.label,
                             additionalOptionProp,
                             displayField
                         )
@@ -370,11 +335,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             ) || [];
         setAdditionalOptions(
             additionalOptions.concat(
-                additionalOptionsToAdd.map((aO) => ({
-                    key: aO,
-                    text: aO,
-                    styles: comboBoxOptionStyles
-                }))
+                additionalOptionsToAdd.map(
+                    (aO) =>
+                        ({
+                            label: aO,
+                            value: aO,
+                            type: 'option'
+                        } as IResourceOption)
+                )
             )
         );
     }, [additionalOptionsProp, displayField]);
@@ -385,8 +353,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             const selectedOptionInOptions = optionsFromResources.find(
                 (option) =>
                     areResourceValuesEqual(
-                        option.text,
-                        selectedOption.text,
+                        option.label,
+                        selectedOption.label,
                         displayField
                     )
             );
@@ -400,7 +368,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (
             selectedOption &&
             ((displayField === AzureResourceDisplayFields.url &&
-                !isValidUrlStr(selectedOption.text, resourceType)) ||
+                !isValidUrlStr(selectedOption.label, resourceType)) ||
                 errorMessage)
         ) {
             switch (resourceType.toLowerCase()) {
@@ -431,109 +399,108 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
      */
     useEffect(() => {
         if (onChange) {
-            onChange(
-                selectedOption?.data || selectedOption?.text,
-                getResourcesFromOptions(options)
-            );
+            onChange(selectedOption?.value, getResourcesFromOptions(options));
         }
-    }, [selectedOption?.key, options.length]);
+    }, [selectedOption?.value, options.length]);
 
     const handleOnChange = useCallback(
-        (option, value) => {
-            /**
-             * when allowfreeform prop is enabled for the ComboBox fluent component, two mutually exclusive parameters are passed with onchange: option and value.
-             * 'option' is referring to an existing dropdown option whereas 'value' is the newly entered freeform value, so when we select from an
-             * existing option, option is not null and value is null; when we enter a new value using freeform, value is not null and option is null
-             */
-            if (option) {
-                setSelectedOption(option);
-            } else {
-                const newParsedOptionValue = sanitizeOptionText(
-                    value,
-                    displayField,
-                    resourceType
-                );
+        (
+            newValue: IResourceOption,
+            _actionMeta: ActionMeta<IResourceOption>
+        ) => {
+            setSelectedOption(newValue);
+            setSearchValue(newValue?.label);
+        },
+        []
+    );
 
-                if (
-                    displayField !== AzureResourceDisplayFields.url ||
-                    (displayField === AzureResourceDisplayFields.url &&
-                        isValidUrlStr(newParsedOptionValue, resourceType))
-                ) {
-                    const existingOption = options.find((option) =>
-                        areResourceValuesEqual(
-                            option.text,
-                            newParsedOptionValue,
-                            displayField
-                        )
+    const handleOnInputChange = useCallback(
+        (inputValue: string, actionMeta: InputActionMeta) => {
+            switch (actionMeta.action) {
+                case 'input-change':
+                    setSearchValue(inputValue);
+                    if (!inputValue && actionMeta.prevInputValue) {
+                        setSelectedOption(null);
+                    }
+                    break;
+                case 'menu-close':
+                case 'input-blur':
+                    // revert the text value back to the previously selected value instead of keeping the typed value
+                    setSearchValue(selectedOption?.label ?? '');
+                    break;
+                case 'set-value': {
+                    setSearchValue(inputValue);
+                    const newParsedOptionValue = sanitizeOptionText(
+                        inputValue,
+                        displayField,
+                        resourceType
                     );
-                    if (!existingOption) {
-                        const newOption = {
-                            key: newParsedOptionValue,
-                            text: newParsedOptionValue,
-                            styles: comboBoxOptionStyles
-                        };
-                        setAdditionalOptions(
-                            additionalOptions.concat(newOption)
+
+                    if (
+                        displayField !== AzureResourceDisplayFields.url ||
+                        (displayField === AzureResourceDisplayFields.url &&
+                            isValidUrlStr(newParsedOptionValue, resourceType))
+                    ) {
+                        const existingOption = options.find((option) =>
+                            areResourceValuesEqual(
+                                option.label,
+                                newParsedOptionValue,
+                                displayField
+                            )
                         );
-                        setSelectedOption(newOption);
-                    } else {
-                        setSelectedOption(existingOption);
+                        if (!existingOption) {
+                            const newOption: IResourceOption = {
+                                label: newParsedOptionValue,
+                                value: newParsedOptionValue
+                            };
+                            setAdditionalOptions(
+                                additionalOptions.concat(newOption)
+                            );
+                            setSelectedOption(newOption);
+                        } else {
+                            setSelectedOption(existingOption);
+                        }
                     }
                 }
             }
         },
-        [options, additionalOptions, displayField, onChange, resourceType]
+        [options, additionalOptions, displayField, resourceType]
     );
 
     const handleOnRemove = useCallback(
-        (option: IComboBoxOption) => {
+        (option: IResourceOption) => {
             const newAdditionOptions = deepCopy(additionalOptions);
             const optionIndexToRemove = additionalOptions.findIndex(
-                (aO) => aO.key === option.key
+                (aO) => aO.label === option.label
             );
             newAdditionOptions.splice(optionIndexToRemove, 1);
             setAdditionalOptions(newAdditionOptions);
 
-            if (option.key === selectedOption?.key) {
+            if (option.label === selectedOption?.label) {
                 setSelectedOption(null);
             }
         },
         [additionalOptions, selectedOption]
     );
 
-    const handleOnRender = useCallback(
-        (option: IComboBoxOption) => {
-            return (
-                <div className={classNames.comboBoxOptionWrapper}>
-                    <span className={classNames.comboBoxOptionText}>
-                        {option.text}
-                    </span>
-                    {option.itemType !== SelectableOptionMenuItemType.Header &&
-                        !resourcesState.isLoading &&
-                        resourcesState.adapterResult?.result?.data?.findIndex(
-                            (r) => r.id === option.key
-                        ) === -1 && (
-                            <Icon
-                                iconName="Delete"
-                                aria-hidden="true"
-                                title={t('resourcesPicker.removeFromList')}
-                                style={{ paddingLeft: 12 }}
-                                onClick={(event) => {
-                                    event.stopPropagation();
-                                    handleOnRemove(option);
-                                }}
-                            />
-                        )}
-                </div>
-            );
-        },
-        [classNames, resourcesState, handleOnRemove, t]
-    );
+    // styles
+    const theme = useTheme();
+    const classNames = getClassNames(styles, {
+        theme: theme
+    });
+    const reactSelectStyles = getReactSelectStyles(theme, {
+        menu: { marginTop: 0 }
+    });
 
-    const handleOnRenderLabel: IRenderFunction<IOnRenderComboBoxLabelProps> = useCallback(
+    const dropdownLabel: JSX.Element = useMemo(
         () => (
             <div className={classNames.labelContainer}>
-                <span className={classNames.label}>{label}</span>
+                <Label
+                    className={classNames.label}
+                    id={'resource-picker-dropdown-label'}
+                >
+                    {label}
+                </Label>
                 {error && (
                     <MessageBar
                         messageBarType={MessageBarType.error}
@@ -547,47 +514,96 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         {error.name}
                     </MessageBar>
                 )}
-                {resourcesState.isLoading && (
-                    <Spinner
-                        size={SpinnerSize.xSmall}
-                        label={loadingLabel ?? loadingLabelText}
-                        ariaLive="assertive"
-                        labelPosition="right"
-                    />
-                )}
             </div>
         ),
-        [
-            error,
-            classNames,
-            resourcesState,
-            label,
-            loadingLabel,
-            loadingLabelText,
-            t
-        ]
+        [error, classNames, resourcesState, label, loadingLabel, t]
     );
+
+    const CustomGroupHeading = (props) => (
+        <components.GroupHeading {...props}>
+            <div className={classNames.optionHeaderText}>
+                {props.data.label}
+            </div>
+        </components.GroupHeading>
+    );
+
+    const CustomOption = (props) => {
+        return (
+            <div className={classNames.optionWrapper}>
+                {props.data.__isNew__ ? (
+                    <components.Option {...props}>
+                        <div className={classNames.noMatchingOptionText}>
+                            {props.data.label}
+                        </div>
+                    </components.Option>
+                ) : (
+                    <components.Option {...props}>
+                        <div className={classNames.optionText}>
+                            {getMarkedHtmlBySearch(
+                                props.data.label,
+                                searchValue,
+                                true
+                            )}
+                        </div>
+                        {!resourcesState.isLoading &&
+                            resourcesState.adapterResult?.result?.data?.findIndex(
+                                (r) => r.id === props.data.value.id
+                            ) === -1 && (
+                                <Icon
+                                    iconName="Delete"
+                                    aria-hidden="true"
+                                    title={t('resourcesPicker.removeFromList')}
+                                    style={{ padding: '0 8px' }}
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        handleOnRemove(props.data);
+                                    }}
+                                />
+                            )}
+                    </components.Option>
+                )}
+            </div>
+        );
+    };
 
     return (
         <div className={classNames.root}>
-            <VirtualizedComboBox
-                styles={classNames.subComponentStyles.comboBox()}
-                placeholder={placeholder()}
-                label={label}
-                options={options}
-                selectedKey={selectedKey}
-                allowFreeform={allowFreeform}
-                autoComplete={'on'}
-                required
-                disabled={disabled}
-                errorMessage={inputError}
-                text={selectedOption?.text} // to show the selectedOption text even there is input error
-                onChange={(_e, option, _idx, value) => {
-                    handleOnChange(option, value);
-                }}
-                onRenderLabel={handleOnRenderLabel}
-                onRenderOption={handleOnRender}
-            />
+            <Stack tokens={{ childrenGap: 4 }}>
+                {label && <Stack horizontal>{dropdownLabel}</Stack>}
+                <CreatableSelect
+                    aria-labelledby="resource-picker-dropdown-label"
+                    styles={reactSelectStyles}
+                    options={options}
+                    inputValue={searchValue}
+                    value={selectedOption}
+                    defaultInputValue={searchValue ?? ''}
+                    placeholder={placeholder()}
+                    formatCreateLabel={(inputValue: string) =>
+                        `${t(
+                            'resourcesPicker.useNonExistingResource'
+                        )} "${inputValue}"`
+                    }
+                    noOptionsMessage={() => t('resourcesPicker.noOption')}
+                    isSearchable
+                    isClearable
+                    isLoading={resourcesState.isLoading}
+                    isDisabled={disabled}
+                    components={{
+                        Option: CustomOption,
+                        GroupHeading: CustomGroupHeading
+                    }}
+                    onChange={handleOnChange}
+                    onInputChange={handleOnInputChange}
+                    filterOption={createFilter({ ignoreAccents: false })}
+                    loadingMessage={() => loadingLabelText}
+                />
+
+                {inputError && (
+                    <Text className={classNames.errorText} variant={'small'}>
+                        {inputError}
+                    </Text>
+                )}
+            </Stack>
         </div>
     );
 };

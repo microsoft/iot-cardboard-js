@@ -68,8 +68,7 @@ ADTInstances.args = {
     onChange: (resource) => {
         console.log(typeof resource === 'string' ? resource : resource?.id);
     },
-    searchParams: { take: 500, filter: 'demo' },
-    allowFreeform: true
+    searchParams: { take: 500, filter: 'demo' }
 };
 
 export const StorageAccounts = Template.bind({}) as ResourcePickerStory;

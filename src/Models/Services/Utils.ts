@@ -114,8 +114,8 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
 };
 
 export const getMarkedHtmlBySearch = (
-    str,
-    searchTerm,
+    str: string,
+    searchTerm: string,
     isCaseSensitive = false
 ) => {
     try {

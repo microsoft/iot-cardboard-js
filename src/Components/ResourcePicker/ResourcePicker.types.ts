@@ -1,5 +1,4 @@
 import {
-    IComboBoxStyles,
     IMessageBarStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -22,7 +21,6 @@ import {
 export interface IResourcePickerProps {
     adapter: IAzureManagementAdapter | MockAdapter;
     additionalOptions?: Array<string>; // options that are entered by user which doesn't exist in the options list yet
-    allowFreeform?: boolean; // whether the ComboBox allows freeform user input, rather than restricting to the options of data fetch
     disabled?: boolean;
     displayField: AzureResourceDisplayFields; // which resource property to show as option text in the combobox
     label?: string;
@@ -44,16 +42,24 @@ export interface IResourcePickerProps {
     >;
 }
 
+export interface IResourceOption {
+    label: string;
+    value?: IAzureResource | string;
+    options?: Array<IResourceOption>; // if there are options array it means this options is header for grouped options
+}
+
 export interface IResourcePickerStyleProps {
     theme: ITheme;
 }
 export interface IResourcePickerStyles {
     root: IStyle;
-    comboBoxOptionWrapper: IStyle;
-    comboBoxOptionText: IStyle;
+    optionWrapper: IStyle;
+    optionText: IStyle;
+    optionHeaderText: IStyle;
+    noMatchingOptionText: IStyle;
     labelContainer: IStyle;
     label: IStyle;
-
+    errorText: IStyle;
     /**
      * SubComponent styles.
      */
@@ -62,5 +68,4 @@ export interface IResourcePickerStyles {
 
 export interface IResourcePickerSubComponentStyles {
     errorMessageBar: IMessageBarStyles;
-    comboBox: Partial<IComboBoxStyles>;
 }

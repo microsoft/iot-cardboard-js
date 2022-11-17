@@ -698,7 +698,6 @@ const EnvironmentPicker = ({
                 {environmentPickerState.firstTimeVisible && (
                     <div className="cb-environment-picker-dialog-form">
                         <ResourcePicker
-                            styles={comboBoxSubComponentStyles}
                             adapter={adapter}
                             resourceType={
                                 AzureResourceTypes.DigitalTwinInstance
@@ -727,12 +726,10 @@ const EnvironmentPicker = ({
                                 hasFetchedResources.current.adtInstances = true;
                             }}
                             errorMessage={resourcePickerErrorMessages.adt}
-                            allowFreeform
                         />
                         {storage && (
                             <>
                                 <ResourcePicker
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageAccount
@@ -771,7 +768,6 @@ const EnvironmentPicker = ({
                                     errorMessage={
                                         resourcePickerErrorMessages.storageAccount
                                     }
-                                    allowFreeform
                                 />
 
                                 <ResourcePicker
@@ -781,7 +777,6 @@ const EnvironmentPicker = ({
                                             .storageAccountToEdit,
                                         AzureResourceTypes.StorageAccount
                                     )}
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
@@ -837,7 +832,6 @@ const EnvironmentPicker = ({
                                     errorMessage={
                                         resourcePickerErrorMessages.storageContainer
                                     }
-                                    allowFreeform
                                 />
                             </>
                         )}
@@ -882,12 +876,6 @@ const EnvironmentPicker = ({
             </Dialog>
         </div>
     );
-};
-
-const comboBoxSubComponentStyles = {
-    subComponentStyles: {
-        comboBox: { callout: { width: 592 } }
-    }
 };
 
 export default memo(EnvironmentPicker);

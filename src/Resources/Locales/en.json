@@ -1249,6 +1249,7 @@
         "containerDropdownPlaceholder": "e.g. https://example.blob.core.windows.net/example",
         "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!",
         "removeFromList": "Remove from list",
+        "useNonExistingResource": "No exact match, use",
         "errors": {
             "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",
