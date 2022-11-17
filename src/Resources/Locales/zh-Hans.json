@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "选择资源",
     "environmentDropdownPlaceholder": "例如 https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "例如 https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "例如 https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "例如 https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "没有完全匹配，请使用"
   },
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",

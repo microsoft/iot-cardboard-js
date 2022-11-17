@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Erőforrás kiválasztása",
     "environmentDropdownPlaceholder": "pl. https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "pl. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "pl. https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "pl. https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Nincs pontos egyezés, használja"
   },
   "advancedSearch": {
     "toggleSelection": "Váltás az iker kiválasztásához",
