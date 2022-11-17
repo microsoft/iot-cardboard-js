@@ -12,6 +12,8 @@ import {
 } from '../Constants';
 import { deepCopy, isDefined } from './Utils';
 
+//#region Local storage
+
 /**
  * Stores the last used project to local storage
  * @param id id for the project
@@ -44,6 +46,8 @@ export const getOntologiesFromStorage = (): IOATFile[] => {
 export const storeOntologiesToStorage = (files: IOATFile[]) => {
     localStorage.setItem(OAT_FILES_STORAGE_KEY, JSON.stringify(files));
 };
+
+//#endregion
 
 // Get fileName from DTMI
 export const getFileNameFromDTMI = (dtmi: string) => {
@@ -151,6 +155,11 @@ export function getUntargetedRelationshipNodeId(
         relationship['@id'] || // use the given id if present
         `${OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX}_${sourceModelId}_${relationship.name}`; // generate a name from the relationship name
     return id;
+}
+
+/** looks at the id of a given entity and returns whether that is an untargeted entity */
+export function isUntargeted(id: string) {
+    return id?.startsWith(OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX);
 }
 
 //#region Model ID

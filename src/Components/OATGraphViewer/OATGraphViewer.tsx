@@ -32,7 +32,8 @@ import {
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
     OAT_COMPONENT_HANDLE_NAME,
-    OatRelationshipType
+    OatRelationshipType,
+    OAT_GRAPH_RELATIONSHIP_NODE_TYPE
 } from '../../Models/Constants/Constants';
 import {
     getGraphViewerStyles,
@@ -74,7 +75,7 @@ import {
     IOATGraphViewerStyleProps,
     IOATGraphViewerStyles
 } from './OATGraphViewer.types';
-import { ensureIsArray } from '../../Models/Services/OatUtils';
+import { ensureIsArray, isUntargeted } from '../../Models/Services/OatUtils';
 import GraphLegend from './Internal/GraphLegend/GraphLegend';
 import {
     OatGraphContextProvider,
@@ -90,8 +91,10 @@ import {
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { DTDLType } from '../../Models/Classes/DTDL';
 import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { ElementEdge } from './Internal/Classes/ElementEdge';
+import { ElementNode } from './Internal/Classes/ElementNode';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -217,6 +220,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
 
     // state
     const reactFlowWrapperRef = useRef<HTMLDivElement>(null);
+    // (ElementNode | ElementEdge)[]
     const [elements, setElements] = useState(
         getGraphNodesFromModels(
             oatPageState.currentOntologyModels,
@@ -466,17 +470,34 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     ) => {
         if (!oatPageState.modified) {
             // Checks if a node is selected to display it in the property editor
+            const isDifferentNodeFromCurrent =
+                node.type === OAT_INTERFACE_TYPE &&
+                (node.data['@id'] !== oatPageState.selection?.modelId ||
+                    oatPageState.selection?.contentId);
+            const isDifferentRelationshipFromCurrent =
+                node.type !== OAT_INTERFACE_TYPE &&
+                ((node as Edge<any>).source !==
+                    oatPageState.selection?.modelId ||
+                    node.data.name !== oatPageState.selection?.contentId);
             if (
                 !oatPageState.selection ||
-                (node.type === OAT_INTERFACE_TYPE &&
-                    (node.data['@id'] !== oatPageState.selection.modelId ||
-                        oatPageState.selection.contentId)) ||
-                (node.type !== OAT_INTERFACE_TYPE &&
-                    ((node as Edge<any>).source !==
-                        oatPageState.selection.modelId ||
-                        node.data.name !== oatPageState.selection.contentId)) // Prevent re-execute the same node
+                isDifferentNodeFromCurrent || // Prevent re-execute the same node
+                isDifferentRelationshipFromCurrent // Prevent re-execute the same node
             ) {
                 logDebugConsole('info', 'Element selected', node);
+                // select the relationship when an untargeted node is selected
+                if (isUntargeted(node.id) && node.type === OAT_INTERFACE_TYPE) {
+                    // look for the relationship with the same id
+                    const relationship = elements.find(
+                        (x: ElementNode | ElementEdge) =>
+                            x.type === OAT_GRAPH_RELATIONSHIP_NODE_TYPE &&
+                            x.id === node.id
+                    );
+                    if (relationship) {
+                        node = relationship;
+                    }
+                }
+
                 const onClick = () => {
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
