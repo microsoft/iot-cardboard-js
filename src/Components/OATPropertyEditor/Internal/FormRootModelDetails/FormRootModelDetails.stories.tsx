@@ -5,7 +5,10 @@ import { IModalFormRootModelProps } from './FormRootModelDetails.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { getMockModelItem } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
+import {
+    getMockModelItem,
+    getMockRelationship
+} from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 16 };
@@ -21,13 +24,6 @@ export default {
 type FormRootModelDetailsStory = ComponentStory<typeof FormRootModelDetails>;
 
 const Template: FormRootModelDetailsStory = (args) => {
-    const modelId1 = buildModelId({
-        modelName: 'model' + 5,
-        namespace: 'test-namespace',
-        path: 'folder1:folder2',
-        version: 2
-    });
-    const model = getMockModelItem(modelId1);
     return (
         <OatPageContextProvider>
             <CommandHistoryContextProvider>
@@ -36,7 +32,6 @@ const Template: FormRootModelDetailsStory = (args) => {
                     <FormRootModelDetails
                         languages={[]}
                         onClose={() => console.log('Close modal')}
-                        selectedItem={model}
                         {...args}
                     />
                 </div>
@@ -45,5 +40,32 @@ const Template: FormRootModelDetailsStory = (args) => {
     );
 };
 
-export const Base = Template.bind({}) as FormRootModelDetailsStory;
-Base.args = {} as IModalFormRootModelProps;
+export const Model = Template.bind({}) as FormRootModelDetailsStory;
+Model.args = (() => {
+    const modelId1 = buildModelId({
+        modelName: 'model' + 5,
+        namespace: 'test-namespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const model = getMockModelItem(modelId1);
+    return {
+        selectedItem: model
+    } as Partial<IModalFormRootModelProps>;
+})();
+
+export const RelationshipReference = Template.bind(
+    {}
+) as FormRootModelDetailsStory;
+RelationshipReference.args = (() => {
+    const modelId1 = buildModelId({
+        modelName: 'model' + 5,
+        namespace: 'test-namespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const model = getMockRelationship(modelId1);
+    return {
+        selectedItem: model
+    } as Partial<IModalFormRootModelProps>;
+})();

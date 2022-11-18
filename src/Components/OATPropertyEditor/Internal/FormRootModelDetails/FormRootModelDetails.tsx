@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import {
-    TextField,
-    Text,
     ActionButton,
-    FontIcon,
     ChoiceGroup,
-    IconButton,
-    Dropdown,
-    IChoiceGroupOption,
     classNamesFunction,
+    Dropdown,
+    FontIcon,
+    IChoiceGroupOption,
+    IconButton,
+    Label,
+    SpinButton,
+    Stack,
     styled,
-    Stack
+    Text,
+    TextField
 } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
-    getModalLabelStyles,
     getRadioGroupRowStyles
 } from '../../OATPropertyEditor.styles';
 import { deepCopy } from '../../../../Models/Services/Utils';
@@ -44,7 +45,10 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './FormRootModelDetails.styles';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
-import { OAT_GRAPH_REFERENCE_TYPE } from '../../../../Models/Constants';
+import {
+    isDTDLModel,
+    isDTDLReference
+} from '../../../../Models/Services/DtdlUtils';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -58,8 +62,8 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     props
 ) => {
     const { onClose, languages, selectedItem, styles } = props;
-    const isReferenceSelected =
-        selectedItem?.['@type'] === OAT_GRAPH_REFERENCE_TYPE;
+    const isModelSelected = isDTDLModel(selectedItem);
+    const isReferenceSelected = isDTDLReference(selectedItem);
 
     // hooks
     const { t } = useTranslation();
@@ -107,6 +111,9 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     const [commentError, setCommentError] = useState(null);
     const [descriptionError, setDescriptionError] = useState(null);
     const [displayNameError, setDisplayNameError] = useState(null);
+    const [minMultiplicity, setMinMultiplicity] = useState<string>(null);
+    const [maxMultiplicity, setMaxMultiplicity] = useState<string>(null);
+    const [writeable, setWriteable] = useState<boolean>(true);
 
     // callbacks
     const onLanguageSelect = (
@@ -171,6 +178,21 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
 
         execute(update, undoUpdate);
     };
+
+    const onValidateNumber = useCallback(
+        (currentValue: string, newValue: string) => {
+            if (!newValue || newValue.trim() === '') {
+                return null;
+            }
+
+            const number = Number(newValue.trim());
+            if (number) {
+                return newValue;
+            }
+            return currentValue;
+        },
+        []
+    );
 
     // data
     const options: IChoiceGroupOption[] = [
@@ -277,7 +299,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const columnLeftTextStyles = getModalLabelStyles();
     const radioGroupRowStyle = getRadioGroupRowStyles();
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
@@ -308,11 +329,13 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                 </ActionButton>
             </Stack>
 
+            {/* display name */}
             <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
+                <Label className={classNames.label} id={'display-name-label'}>
                     {t('OATPropertyEditor.displayName')}
-                </Text>
+                </Label>
                 <ChoiceGroup
+                    aria-labelledby={'display-name-label'}
                     selectedKey={languageSelection}
                     options={options}
                     onChange={onLanguageSelect}
@@ -320,12 +343,14 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                     styles={radioGroupRowStyle}
                 />
             </div>
-
             {languageSelection === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
-                        placeholder={t('OATPropertyEditor.displayName')}
+                        aria-aria-describedby={'display-name-label'}
+                        placeholder={t(
+                            'OATPropertyEditor.displayNamePlaceholder'
+                        )}
                         onChange={(e, v) =>
                             validateDisplayNameChange(
                                 v,
@@ -342,7 +367,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                     />
                 </div>
             )}
-
             {languageSelection === multiLanguageOptionValue &&
                 multiLanguageSelectionsDisplayNames.length > 0 &&
                 multiLanguageSelectionsDisplayNames.map((language, index) => (
@@ -372,6 +396,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                             }
                         />
                         <Dropdown
+                            id={`display-name-language-selector-${index}`}
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
@@ -385,7 +410,10 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                             defaultSelectedKey={language.key}
                         />
                         <TextField
-                            placeholder={t('OATPropertyEditor.displayName')}
+                            aria-aria-describedby={`display-name-label display-name-language-selector-${index}`}
+                            placeholder={t(
+                                'OATPropertyEditor.displayNamePlaceholder'
+                            )}
                             value={language.value}
                             onChange={(_ev, value) =>
                                 setMultiLanguageSelectionsDisplayNameValue(
@@ -408,7 +436,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         />
                     </div>
                 ))}
-
             {languageSelection === multiLanguageOptionValue && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
@@ -444,11 +471,13 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                 </div>
             )}
 
+            {/* description */}
             <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
+                <Label className={classNames.label} id={'description-label'}>
                     {t('OATPropertyEditor.description')}
-                </Text>
+                </Label>
                 <ChoiceGroup
+                    aria-labelledby={'description-label'}
                     selectedKey={languageSelectionDescription}
                     options={optionsDescription}
                     onChange={onLanguageSelectDescription}
@@ -456,11 +485,11 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                     styles={radioGroupRowStyle}
                 />
             </div>
-
             {languageSelectionDescription === singleLanguageOptionValue && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
+                        aria-labelledby={'description-label'}
                         multiline
                         rows={3}
                         placeholder={t(
@@ -482,7 +511,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                     />
                 </div>
             )}
-
             {languageSelectionDescription === multiLanguageOptionValue &&
                 multiLanguageSelectionsDescriptions.length > 0 &&
                 multiLanguageSelectionsDescriptions.map((language, index) => (
@@ -512,6 +540,8 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                             }
                         />
                         <Dropdown
+                            id={`description-language-selector-${index}`}
+                            aria-labelledby={'description-label'}
                             placeholder={t('OATPropertyEditor.region')}
                             options={languages}
                             onChange={(_ev, option) =>
@@ -525,6 +555,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                             defaultSelectedKey={language.key}
                         />
                         <TextField
+                            aria-describedby={`description-label description-language-selector-${index}`}
                             placeholder={t('OATPropertyEditor.description')}
                             value={language.value}
                             onChange={(_ev, value) =>
@@ -548,7 +579,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         />
                     </div>
                 ))}
-
             {languageSelectionDescription === multiLanguageOptionValue && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
@@ -585,14 +615,13 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                 </div>
             )}
 
+            {/* comment */}
             <div className={propertyInspectorStyles.modalRow}>
-                <Text styles={columnLeftTextStyles}>
+                <Label className={classNames.label}>
                     {t('OATPropertyEditor.comment')}
-                </Text>
+                </Label>
                 <TextField
-                    placeholder={t(
-                        'OATPropertyEditor.modalTextInputPlaceHolder'
-                    )}
+                    placeholder={t('OATPropertyEditor.commentPlaceholder')}
                     onChange={(_ev, value) =>
                         validateCommentChange(
                             value,
@@ -606,6 +635,50 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                     value={comment}
                 />
             </div>
+
+            {/* reference specific properties */}
+            {isReferenceSelected && (
+                <>
+                    <div className={propertyInspectorStyles.modalRow}>
+                        <Label
+                            id={'minMultiplicityLabel'}
+                            className={classNames.label}
+                        >
+                            {t('OATPropertyEditor.minMultiplicityLabel')}
+                        </Label>
+                        <SpinButton
+                            aria-labelledby={'minMultiplicityLabel'}
+                            onValidate={(value) =>
+                                onValidateNumber(minMultiplicity, value)
+                            }
+                            onChange={(_ev, value) => {
+                                setMinMultiplicity(value);
+                            }}
+                            value={minMultiplicity}
+                        />
+                    </div>
+                    <div className={propertyInspectorStyles.modalRow}>
+                        <Label
+                            id={'maxMultiplicityLabel'}
+                            className={classNames.label}
+                        >
+                            {t('OATPropertyEditor.maxMultiplicityLabel')}
+                        </Label>
+                        <SpinButton
+                            aria-labelledby={'maxMultiplicityLabel'}
+                            onValidate={(value) =>
+                                onValidateNumber(maxMultiplicity, value)
+                            }
+                            onChange={(_ev, value) => {
+                                setMaxMultiplicity(value);
+                            }}
+                            value={maxMultiplicity}
+                        />
+                    </div>
+                </>
+            )}
+
+            {/* footer */}
             <div className={propertyInspectorStyles.modalRowFlexEnd}>
                 <PrimaryButton
                     text={t('OATPropertyEditor.update')}

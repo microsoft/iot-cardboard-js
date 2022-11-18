@@ -36,7 +36,7 @@ import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
     isDTDLModel,
-    isDTDLRelationship
+    isDTDLReference
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
@@ -56,7 +56,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
 ) => {
     const { dispatch, selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
-    const isRelationshipSelected = isDTDLRelationship(selectedItem);
+    const isReferenceSelected = isDTDLReference(selectedItem);
     const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
         selectedItem
     ]);
@@ -141,7 +141,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     modelsCopy,
                     oatPageState.selection
                 );
-                if (modelCopy && isDTDLRelationship(modelCopy)) {
+                if (modelCopy && isDTDLReference(modelCopy)) {
                     modelCopy.name = newValue;
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_CURRENT_MODELS,
@@ -229,7 +229,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         setModelPath(parsedId.path);
         setModelVersion(parsedId.version);
         setRelationshipName(
-            isDTDLRelationship(selectedItem) ? selectedItem.name : ''
+            isDTDLReference(selectedItem) ? selectedItem.name : ''
         );
     }, [selectedItem]);
 
@@ -256,7 +256,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 entityName={
                     isModelSelected
                         ? modelUniqueName
-                        : isRelationshipSelected
+                        : isReferenceSelected
                         ? relationshipName
                         : ''
                 }
@@ -266,7 +266,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 onInfoButtonClick={onInfoButtonClick}
             />
 
-            {isRelationshipSelected && (
+            {isReferenceSelected && (
                 <>
                     {/* NAME SECTION */}
                     <div className={classNames.row}>

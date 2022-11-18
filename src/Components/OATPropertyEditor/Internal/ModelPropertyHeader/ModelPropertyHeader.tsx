@@ -14,11 +14,11 @@ import {
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
-import {
-    OAT_GRAPH_REFERENCE_TYPE,
-    OAT_INTERFACE_TYPE
-} from '../../../../Models/Constants';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
+import {
+    isDTDLModel,
+    isDTDLReference
+} from '../../../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('ModelPropertyHeader', debugLogging);
@@ -36,8 +36,8 @@ const ModelPropertyHeader: React.FC<IModelPropertyHeaderProps> = (props) => {
         onInfoButtonClick,
         styles
     } = props;
-    const isRelationshipSelected = entityType === OAT_GRAPH_REFERENCE_TYPE;
-    const isModelSelected = entityType === OAT_INTERFACE_TYPE;
+    const isModelSelected = isDTDLModel(entityType);
+    const isReferenceSelected = isDTDLReference(entityType);
 
     // contexts
 
@@ -64,17 +64,17 @@ const ModelPropertyHeader: React.FC<IModelPropertyHeaderProps> = (props) => {
     );
     return (
         <Stack horizontal className={classNames.sectionHeaderRoot}>
-            {(isRelationshipSelected || isModelSelected) && (
+            {(isReferenceSelected || isModelSelected) && (
                 <Icon
                     aria-label={entityType}
                     iconName={
-                        isRelationshipSelected ? 'Relationship' : 'CubeShape'
+                        isReferenceSelected ? 'Relationship' : 'CubeShape'
                     }
                     className={classNames.sectionHeaderIcon}
                     title={entityType}
                 />
             )}
-            {isRelationshipSelected && (
+            {isReferenceSelected && (
                 <div className={classNames.sectionHeaderContainer}>
                     <h4 className={classNames.sectionTitle} title={entityName}>
                         {entityName}

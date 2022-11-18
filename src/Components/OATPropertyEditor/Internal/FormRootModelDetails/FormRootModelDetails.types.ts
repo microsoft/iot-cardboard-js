@@ -27,6 +27,7 @@ export interface IFormRootModelDetailsStyleProps {
 }
 export interface IFormRootModelDetailsStyles {
     root: IStyle;
+    label: IStyle;
 
     /**
      * SubComponent styles.

@@ -7,6 +7,10 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import {
+    DtdlInterfaceContent,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../Constants';
 import { buildModelId, parseModelId } from '../../Services/OatUtils';
 import { IOatPageContextState } from './OatPageContext.types';
 
@@ -35,11 +39,22 @@ export const getMockModelItem = (id: string): DTDLModel => {
         modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.
         'mock-description',
         'mock-comment',
-        [],
-        [],
-        [],
-        []
+        [], // properties
+        [], // relationships
+        [], // components
+        [] // extends
     );
+};
+
+export const getMockRelationship = (
+    id: string,
+    partial?: Partial<DtdlInterfaceContent>
+): DtdlInterfaceContent => {
+    return {
+        '@type': OAT_RELATIONSHIP_HANDLE_NAME,
+        name: 'mock_relationship_' + id,
+        ...partial
+    };
 };
 
 const getMockTemplateItem = (id: string): DTDLProperty => {

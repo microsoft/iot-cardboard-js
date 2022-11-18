@@ -16,11 +16,18 @@ import {
 } from '../Constants';
 
 /** is the relationship a known DTDL relationship type */
-export const isDTDLRelationship = (
-    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
+export const isDTDLReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlRelationship => {
     if (!object) {
         return false;
+    }
+    if (typeof object === 'string') {
+        return (
+            object === DTDLType.Relationship ||
+            object === DTDLType.Component ||
+            object === OAT_EXTEND_HANDLE_NAME
+        );
     }
     return (
         object['@type'] === DTDLType.Relationship ||
@@ -30,11 +37,16 @@ export const isDTDLRelationship = (
 };
 
 export const isDTDLModel = (
-    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlInterface => {
     if (!object) {
         return false;
     }
+
+    if (typeof object === 'string') {
+        return object === OAT_INTERFACE_TYPE;
+    }
+
     return object['@type'] === OAT_INTERFACE_TYPE;
 };
 
