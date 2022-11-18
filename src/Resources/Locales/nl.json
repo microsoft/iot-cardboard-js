@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Selecteer een resource",
     "environmentDropdownPlaceholder": "bijv. https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Geen exacte overeenkomst, gebruik"
   },
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",

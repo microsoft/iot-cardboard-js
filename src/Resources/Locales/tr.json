@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Kaynak seçme",
     "environmentDropdownPlaceholder": "örneğin https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Tam eşleşme yok, kullanın"
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",

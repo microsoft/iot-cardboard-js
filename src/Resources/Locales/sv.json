@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Välj en resurs",
     "environmentDropdownPlaceholder": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Ingen exakt matchning, använd"
   },
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",

@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Výběr zdroje",
     "environmentDropdownPlaceholder": "např. https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "např. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "např. https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "např. https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Žádná přesná shoda, použijte"
   },
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",

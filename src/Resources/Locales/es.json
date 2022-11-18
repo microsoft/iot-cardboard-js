@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Seleccione un recurso",
     "environmentDropdownPlaceholder": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "No hay coincidencia exacta, use"
   },
   "advancedSearch": {
     "toggleSelection": "Cambiar a Seleccionar gemelo",

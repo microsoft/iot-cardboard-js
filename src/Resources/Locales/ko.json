@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "자원 선택",
     "environmentDropdownPlaceholder": "예: https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "예: https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "예: https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "예: https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "정확히 일치하지 않음, 사용"
   },
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",

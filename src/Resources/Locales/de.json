@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "Wählen Sie eine Ressource aus",
     "environmentDropdownPlaceholder": "z.B. https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "Keine genaue Übereinstimmung, verwenden Sie"
   },
   "advancedSearch": {
     "toggleSelection": "Zum Auswählen von Twin umschalten",

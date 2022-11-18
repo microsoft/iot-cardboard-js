@@ -1253,7 +1253,8 @@
     "selectResourcePlaceholder": "リソースの選択",
     "environmentDropdownPlaceholder": "例:https://example.api.wus2.digitaltwins.azure.net",
     "storageAccountDropdownPlaceholder": "例:https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "例:https://example.blob.core.windows.net/example"
+    "containerDropdownPlaceholder": "例:https://example.blob.core.windows.net/example",
+    "useNonExistingResource": "完全に一致しません。使用"
   },
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",
