@@ -1218,7 +1218,8 @@
     "details": "Bijzonderheden",
     "displayNamePlaceholder": "Een lokaliseerbare naam voor weergave",
     "maxMultiplicityLabel": "Maximale multipliciteit",
-    "minMultiplicityLabel": "Minimale veelheid"
+    "minMultiplicityLabel": "Minimale veelheid",
+    "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Model verwijderen",
     "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
     "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
-  }
+  },
+  "increaseBy1": "Waarde verhogen met 1",
+  "decreaseBy1": "Waarde verlagen met 1"
 }

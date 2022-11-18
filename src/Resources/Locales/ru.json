@@ -1218,7 +1218,8 @@
     "details": "Подробности",
     "displayNamePlaceholder": "Локализуемое имя для отображения",
     "maxMultiplicityLabel": "Максимальная кратность",
-    "minMultiplicityLabel": "Минимальная кратность"
+    "minMultiplicityLabel": "Минимальная кратность",
+    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Удалить модель",
     "modelListToggleAriaLabelShow": "Показать список моделей",
     "modelListToggleAriaLabelHide": "Скрыть список моделей"
-  }
+  },
+  "increaseBy1": "Увеличение значения на 1",
+  "decreaseBy1": "Уменьшение значения на 1"
 }

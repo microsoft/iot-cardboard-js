@@ -1098,7 +1098,8 @@
     "details": "Podrobnosti",
     "displayNamePlaceholder": "Lokalizovatelný název pro zobrazení",
     "maxMultiplicityLabel": "Maximální násobnost",
-    "minMultiplicityLabel": "Minimální násobnost"
+    "minMultiplicityLabel": "Minimální násobnost",
+    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Odebrat model",
     "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
-  }
+  },
+  "increaseBy1": "Zvýšení hodnoty o 1",
+  "decreaseBy1": "Snížení hodnoty o 1"
 }

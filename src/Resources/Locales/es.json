@@ -1218,7 +1218,8 @@
     "details": "Detalles",
     "displayNamePlaceholder": "Un nombre localizable para mostrar",
     "maxMultiplicityLabel": "Multiplicidad máxima",
-    "minMultiplicityLabel": "Multiplicidad mínima"
+    "minMultiplicityLabel": "Multiplicidad mínima",
+    "minMultiplicityMessage": "DTDL V2 solo admite una multiplicidad mínima de 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Eliminar modelo",
     "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
     "modelListToggleAriaLabelHide": "Ocultar lista de modelos"
-  }
+  },
+  "increaseBy1": "Aumentar el valor en 1",
+  "decreaseBy1": "Disminuir el valor en 1"
 }

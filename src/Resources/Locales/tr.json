@@ -1218,7 +1218,8 @@
     "details": "Şey",
     "displayNamePlaceholder": "Görüntüleme için yerelleştirilebilir bir ad",
     "maxMultiplicityLabel": "Maksimum çokluk",
-    "minMultiplicityLabel": "Minimum çokluk"
+    "minMultiplicityLabel": "Minimum çokluk",
+    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Modeli kaldır",
     "modelListToggleAriaLabelShow": "Model listesini göster",
     "modelListToggleAriaLabelHide": "Model listesini gizle"
-  }
+  },
+  "increaseBy1": "Değeri 1 artır",
+  "decreaseBy1": "Değeri 1 azalt"
 }

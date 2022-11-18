@@ -1218,7 +1218,8 @@
     "details": "細部",
     "displayNamePlaceholder": "表示用のローカライズ可能な名前",
     "maxMultiplicityLabel": "最大多重度",
-    "minMultiplicityLabel": "最小多重度"
+    "minMultiplicityLabel": "最小多重度",
+    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "モデルを削除",
     "modelListToggleAriaLabelShow": "モデル一覧を表示",
     "modelListToggleAriaLabelHide": "モデルリストを隠す"
-  }
+  },
+  "increaseBy1": "値を 1 増やす",
+  "decreaseBy1": "値を 1 ずつ減らす"
 }
