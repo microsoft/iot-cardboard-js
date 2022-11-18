@@ -19,7 +19,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship,
     IOATNodePosition,
-    OatRelationshipType,
+    OatReferenceType,
     OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_UNTARGETED_RELATIONSHIP_NAME
@@ -301,7 +301,7 @@ export const addTargetedRelationship = (
     state: IOatPageContextState,
     sourceModelId: string,
     targetModelId: string,
-    relationshipType: OatRelationshipType
+    relationshipType: OatReferenceType
 ) => {
     // get the target model
     const sourceModel = state.currentOntologyModels.find(

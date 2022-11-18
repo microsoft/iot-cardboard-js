@@ -303,7 +303,7 @@ export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
 export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
 export const OAT_COMPONENT_HANDLE_NAME = 'Component';
 export const OAT_EXTEND_HANDLE_NAME = 'Extend';
-export type OatRelationshipType =
+export type OatReferenceType =
     | DTDLType.Component
     | DTDLType.Relationship
     | 'Extend';

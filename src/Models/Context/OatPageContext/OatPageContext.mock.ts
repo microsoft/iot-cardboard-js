@@ -9,6 +9,7 @@ import {
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
 import {
     DtdlInterfaceContent,
+    OatReferenceType,
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Constants';
 import { buildModelId, parseModelId } from '../../Services/OatUtils';
@@ -46,12 +47,13 @@ export const getMockModelItem = (id: string): DTDLModel => {
     );
 };
 
-export const getMockRelationship = (
+export const getMockReference = (
     id: string,
+    type: OatReferenceType,
     partial?: Partial<DtdlInterfaceContent>
 ): DtdlInterfaceContent => {
     return {
-        '@type': OAT_RELATIONSHIP_HANDLE_NAME,
+        '@type': type,
         name: 'mock_relationship_' + id,
         ...partial
     };

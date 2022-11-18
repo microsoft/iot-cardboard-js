@@ -7,9 +7,10 @@ import { OatPageContextProvider } from '../../../../Models/Context/OatPageContex
 import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     getMockModelItem,
-    getMockRelationship
+    getMockReference
 } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
+import { DTDLType } from '../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 16 };
 
@@ -64,7 +65,23 @@ RelationshipReference.args = (() => {
         path: 'folder1:folder2',
         version: 2
     });
-    const model = getMockRelationship(modelId1);
+    const model = getMockReference(modelId1, DTDLType.Relationship);
+    return {
+        selectedItem: model
+    } as Partial<IModalFormRootModelProps>;
+})();
+
+export const ComponentReference = Template.bind(
+    {}
+) as FormRootModelDetailsStory;
+ComponentReference.args = (() => {
+    const modelId1 = buildModelId({
+        modelName: 'model' + 5,
+        namespace: 'test-namespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const model = getMockReference(modelId1, DTDLType.Component);
     return {
         selectedItem: model
     } as Partial<IModalFormRootModelProps>;

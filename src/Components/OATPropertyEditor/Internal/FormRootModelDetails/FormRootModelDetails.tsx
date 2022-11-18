@@ -49,6 +49,7 @@ import {
     isDTDLModel,
     isDTDLReference
 } from '../../../../Models/Services/DtdlUtils';
+import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../Models/Constants';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -64,6 +65,8 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     const { onClose, languages, selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
+    const isRelationshipReference =
+        selectedItem?.['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
 
     // hooks
     const { t } = useTranslation();
@@ -493,7 +496,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         multiline
                         rows={3}
                         placeholder={t(
-                            'OATPropertyEditor.modalTextInputPlaceHolderDescription'
+                            'OATPropertyEditor.descriptionPlaceholder'
                         )}
                         value={getModelPropertyListItemName(description)}
                         onChange={(_ev, value) =>
@@ -556,7 +559,9 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         />
                         <TextField
                             aria-describedby={`description-label description-language-selector-${index}`}
-                            placeholder={t('OATPropertyEditor.description')}
+                            placeholder={t(
+                                'OATPropertyEditor.descriptionPlaceholder'
+                            )}
                             value={language.value}
                             onChange={(_ev, value) =>
                                 validateMultiLanguageSelectionsDescriptionValueChange(
@@ -637,7 +642,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
             </div>
 
             {/* reference specific properties */}
-            {isReferenceSelected && (
+            {isReferenceSelected && isRelationshipReference && (
                 <>
                     <div className={propertyInspectorStyles.modalRow}>
                         <Label

@@ -1040,6 +1040,7 @@
         "dateTime": "dateTime",
         "delete": "Delete",
         "description": "Description",
+        "descriptionPlaceholder": "A localizable description to display",
         "details": "Details",
         "displayName": "Display Name",
         "displayNamePlaceholder": "A localizable name for display",

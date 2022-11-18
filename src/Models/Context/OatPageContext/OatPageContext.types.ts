@@ -2,7 +2,7 @@ import {
     DtdlInterface,
     DtdlInterfaceContent,
     IOATNodePosition,
-    OatRelationshipType
+    OatReferenceType
 } from '../../Constants';
 import {
     IOATSelection,
@@ -260,7 +260,7 @@ export type OatPageContextAction =
                     type: 'Targeted';
                     sourceModelId: string;
                     targetModelId: string;
-                    relationshipType: OatRelationshipType;
+                    relationshipType: OatReferenceType;
                 }
               | {
                     type: 'Untargeted';
@@ -273,7 +273,7 @@ export type OatPageContextAction =
           payload: {
               position: IOATNodePosition;
               sourceModelId: string;
-              relationshipType: OatRelationshipType;
+              relationshipType: OatReferenceType;
           };
       }
     | {
