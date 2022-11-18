@@ -3,7 +3,7 @@ import { ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import MockAdapter from '../../Adapters/MockAdapter';
 import ADT3DSceneBuilder from './ADT3DSceneBuilder';
-import { IStoryContext, sleep } from '../../Models/Services/StoryUtilities';
+import { IStoryContext } from '../../Models/Services/StoryUtilities';
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { deepCopy } from '../../Models/Services/Utils';
@@ -173,77 +173,77 @@ EditTwinAliasesTabAddAlias.play = async ({ canvasElement }) => {
     await userEvent.click(addTwinAliasButton);
 };
 
-export const EditStatusTab = Template.bind({});
-EditStatusTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks Status
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[2]);
-};
+// export const EditStatusTab = Template.bind({});
+// EditStatusTab.play = async ({ canvasElement }) => {
+//     await EditElementsTabSelectItem.play({ canvasElement });
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks Status
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[2]);
+// };
 
-export const EditStatusTabError = Template.bind({});
-EditStatusTabError.play = async ({ canvasElement }) => {
-    await EditStatusTab.play({ canvasElement });
-    const canvas = within(canvasElement);
-    // add a row into an invalid state
-    const addButton = await canvas.findByTestId('range-builder-add');
-    await userEvent.click(addButton);
-};
+// export const EditStatusTabError = Template.bind({});
+// EditStatusTabError.play = async ({ canvasElement }) => {
+//     await EditStatusTab.play({ canvasElement });
+//     const canvas = within(canvasElement);
+//     // add a row into an invalid state
+//     const addButton = await canvas.findByTestId('range-builder-add');
+//     await userEvent.click(addButton);
+// };
 
 // verify that switching tabs will persist state
-export const EditStatusTabSwitchTabs = Template.bind({});
-EditStatusTabSwitchTabs.play = async ({ canvasElement }) => {
-    await EditStatusTabError.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks the Elements
-    const elementsTab = (await canvas.findAllByRole('tab'))[0];
-    await userEvent.click(elementsTab);
-    // Finds the tabs and clicks the Status
-    const statusTab = (await canvas.findAllByRole('tab'))[2];
-    await userEvent.click(statusTab);
-};
+// export const EditStatusTabSwitchTabs = Template.bind({});
+// EditStatusTabSwitchTabs.play = async ({ canvasElement }) => {
+//     await EditStatusTabError.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks the Elements
+//     const elementsTab = (await canvas.findAllByRole('tab'))[0];
+//     await userEvent.click(elementsTab);
+//     // Finds the tabs and clicks the Status
+//     const statusTab = (await canvas.findAllByRole('tab'))[2];
+//     await userEvent.click(statusTab);
+// };
 
-export const EditStatusTabRemoveRange = Template.bind({});
-EditStatusTabRemoveRange.play = async ({ canvasElement }) => {
-    await EditStatusTab.play({ canvasElement });
-    const canvas = within(canvasElement);
-    const deleteButtons = await canvas.findAllByTestId(
-        'range-builder-row-delete'
-    );
-    await userEvent.click(deleteButtons[0]);
-    await userEvent.click(deleteButtons[1]);
-};
+// export const EditStatusTabRemoveRange = Template.bind({});
+// EditStatusTabRemoveRange.play = async ({ canvasElement }) => {
+//     await EditStatusTab.play({ canvasElement });
+//     const canvas = within(canvasElement);
+//     const deleteButtons = await canvas.findAllByTestId(
+//         'range-builder-row-delete'
+//     );
+//     await userEvent.click(deleteButtons[0]);
+//     await userEvent.click(deleteButtons[1]);
+// };
 
-export const EditStatusTabRemoveRangeSave = Template.bind({});
-EditStatusTabRemoveRangeSave.play = async ({ canvasElement }) => {
-    await EditStatusTabRemoveRange.play({ canvasElement });
-    const canvas = within(canvasElement);
-    // save
-    const saveButton = await canvas.findByTestId(
-        'behavior-form-primary-button'
-    );
-    await userEvent.click(saveButton);
+// export const EditStatusTabRemoveRangeSave = Template.bind({});
+// EditStatusTabRemoveRangeSave.play = async ({ canvasElement }) => {
+//     await EditStatusTabRemoveRange.play({ canvasElement });
+//     const canvas = within(canvasElement);
+//     // save
+//     const saveButton = await canvas.findByTestId(
+//         'behavior-form-primary-button'
+//     );
+//     await userEvent.click(saveButton);
 
-    await sleep(1);
+//     await sleep(1);
 
-    // navigate back to editing the same item and go to the status tab
-    await EditElementsTab.play({ canvasElement });
-    // Finds the tabs and clicks the Status
-    const statusTab = (await canvas.findAllByRole('tab'))[2];
-    await userEvent.click(statusTab);
-};
+//     // navigate back to editing the same item and go to the status tab
+//     await EditElementsTab.play({ canvasElement });
+//     // Finds the tabs and clicks the Status
+//     const statusTab = (await canvas.findAllByRole('tab'))[2];
+//     await userEvent.click(statusTab);
+// };
 
-export const EditAlertsTab = Template.bind({});
-EditAlertsTab.play = async ({ canvasElement }) => {
-    await EditElementsTabSelectItem.play({ canvasElement });
-    // click one of the items in the list
-    const canvas = within(canvasElement);
-    // Finds the tabs and clicks Alerts
-    const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[3]);
-};
+// export const EditAlertsTab = Template.bind({});
+// EditAlertsTab.play = async ({ canvasElement }) => {
+//     await EditElementsTabSelectItem.play({ canvasElement });
+//     // click one of the items in the list
+//     const canvas = within(canvasElement);
+//     // Finds the tabs and clicks Alerts
+//     const tab = await canvas.findAllByRole('tab');
+//     await userEvent.click(tab[3]);
+// };
 
 export const EditWidgetsTab = Template.bind({});
 EditWidgetsTab.play = async ({ canvasElement }) => {

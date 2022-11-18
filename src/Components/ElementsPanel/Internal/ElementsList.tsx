@@ -24,7 +24,7 @@ import {
 import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
 import {
-    getElementsPanelAlertStyles,
+    getElementsPanelBadgeStyles,
     getElementsPanelStyles,
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
@@ -241,22 +241,22 @@ function getListItems(
         listItems.push(elementItemWithColorings);
 
         badges.forEach((badge) => {
-            const badgeStyles = getElementsPanelAlertStyles(badge.visual.color);
+            const badgeStyles = getElementsPanelBadgeStyles(badge.visual.color);
             const onEnter =
                 onItemHover && (() => onItemHover(element, panelItem));
             const onLeave =
                 onItemBlur && (() => onItemBlur(element, panelItem));
-            const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
+            const badgeItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
                 ariaLabel: badge.visualRuleDisplayTitle,
                 buttonProps: {
-                    customStyles: buttonStyles.alertButton,
+                    customStyles: buttonStyles.badgeButton,
                     onMouseEnter: onEnter,
                     onFocus: onEnter,
                     onMouseLeave: onLeave,
                     onBlur: onLeave
                 },
                 iconStart: () => (
-                    <span className={badgeStyles.alertCircle}>
+                    <span className={badgeStyles.badgeCircle}>
                         <Icon iconName={badge.visual.iconName} />
                     </span>
                 ),
@@ -266,7 +266,7 @@ function getListItems(
                     onItemClick(badge.visualRule, panelItem, badge.behavior),
                 textPrimary: badge.visualRuleDisplayTitle
             };
-            listItems.push(alertItem);
+            listItems.push(badgeItem);
         });
     });
     return listItems;

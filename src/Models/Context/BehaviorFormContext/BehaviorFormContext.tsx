@@ -41,25 +41,6 @@ export const BehaviorFormContextReducer: (
             current(draft.behaviorToEdit)
         );
         switch (action.type) {
-            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE: {
-                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
-                    draft.behaviorToEdit.visuals,
-                    action.payload.visual,
-                    ViewerConfigUtility.isAlertVisual,
-                    logDebugConsole
-                );
-                break;
-            }
-            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE: {
-                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
-                    draft.behaviorToEdit.visuals,
-                    ViewerConfigUtility.isAlertVisual,
-                    logDebugConsole
-                );
-                break;
-            }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_ALIAS_ADD: {
                 const set = new Set<string>(draft.behaviorToEdit.twinAliases);
                 set.add(action.payload.alias);
@@ -120,39 +101,6 @@ export const BehaviorFormContextReducer: (
                 } else {
                     draft.behaviorSelectedLayerIds = deepCopy(initialLayers);
                 }
-                break;
-            }
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE: {
-                draft.behaviorToEdit.visuals = AddOrUpdateListItemByFilter(
-                    draft.behaviorToEdit.visuals,
-                    action.payload.visual,
-                    ViewerConfigUtility.isStatusColorVisual,
-                    logDebugConsole
-                );
-                break;
-            }
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES: {
-                const statusVisual = draft.behaviorToEdit.visuals?.find(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                if (!statusVisual) {
-                    logDebugConsole(
-                        'warn',
-                        'Unable to update value ranges. Status visual not found on behavior. {visuals}',
-                        current(draft.behaviorToEdit?.visuals)
-                    );
-                    break;
-                }
-                statusVisual.valueRanges = action.payload.ranges || [];
-                break;
-            }
-            // TODO: DEPRECATE THIS IN FAVOR OF VISUAL RULES
-            case BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE: {
-                draft.behaviorToEdit.visuals = RemoveItemsFromListByFilter(
-                    draft.behaviorToEdit.visuals,
-                    ViewerConfigUtility.isStatusColorVisual,
-                    logDebugConsole
-                );
                 break;
             }
             case BehaviorFormContextActionType.FORM_BEHAVIOR_WIDGET_ADD_OR_UPDATE: {

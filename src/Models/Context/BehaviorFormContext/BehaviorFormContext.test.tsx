@@ -1,10 +1,9 @@
 import React from 'react';
 import { cleanup, render } from '@testing-library/react';
 import {
-    defaultAlertVisual,
     defaultBehavior,
-    defaultStatusColorVisual,
     defaultGaugeWidget,
+    getDefaultVisualRule,
     VisualType
 } from '../../Classes/3DVConfig';
 import ViewerConfigUtility from '../../Classes/ViewerConfigUtility';
@@ -29,27 +28,28 @@ describe('BehaviorFormContext', () => {
     afterEach(cleanup);
     describe('Actions', () => {
         // TODO: REMOVE
-        describe('Alert visuals', () => {
-            const getAlertVisual = (
-                expression: string
+        describe('Visual rules', () => {
+            const getVisualRule = (
+                expression: string,
+                id?: string
             ): IExpressionRangeVisual => {
                 return {
-                    ...defaultAlertVisual,
+                    ...getDefaultVisualRule(id),
                     valueExpression: expression
                 };
             };
 
-            test('[Add/Update] - adds the alert to the list of visuals when no alert exists', () => {
+            test('[Add/Update] - adds the visual rule to the list of visuals when no rule exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = []; // no visuals
 
-                const alertExpression = 'myProperty > 1';
+                const visualRuleExpression = 'myProperty > 1';
                 const action: BehaviorFormContextAction = {
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
                     payload: {
-                        visual: getAlertVisual(alertExpression)
+                        visualRule: getVisualRule(visualRuleExpression)
                     }
                 };
 
@@ -57,26 +57,28 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const visualRules = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isVisualRule
                 );
-                expect(alerts.length).toEqual(1);
-                expect(alerts[0].valueExpression).toEqual(alertExpression);
+                expect(visualRules.length).toEqual(1);
+                expect(visualRules[0].valueExpression).toEqual(
+                    visualRuleExpression
+                );
             });
 
-            test('[Add/Update] - updates the alert in the list of visuals when an alert already exists', () => {
+            test('[Add/Update] - updates the visual rule in the list of visuals when a visual rule already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = [
-                    getAlertVisual('some expression')
-                ]; // add an alert to the list
+                    getVisualRule('some expression')
+                ]; // add a visual rule to the list
 
-                const alertExpression = 'myProperty > 1';
+                const visualRuleExpression = 'myProperty > 1';
                 const action: BehaviorFormContextAction = {
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_ADD_OR_UPDATE,
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_ADD_OR_UPDATE,
                     payload: {
-                        visual: getAlertVisual(alertExpression)
+                        visualRule: getVisualRule(visualRuleExpression)
                     }
                 };
 
@@ -84,53 +86,36 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const visualRules = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isVisualRule
                 );
-                expect(alerts.length).toEqual(1);
-                expect(alerts[0].valueExpression).toEqual(alertExpression);
+                expect(visualRules.length).toEqual(2);
+                expect(visualRules[1].valueExpression).toEqual(
+                    visualRuleExpression
+                );
             });
 
-            test('[Remove] - silently passes when trying to remove an alert when there is none on the behavior', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [];
-
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const alerts = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
-                );
-                expect(alerts.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the alert in the list of visuals if an alert already exists', () => {
+            test('[Remove] - removes the visual rule in the list of visuals if a visual rule already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
                 initialState.behaviorToEdit.visuals = [
-                    getAlertVisual('some expression')
+                    getVisualRule('some expression', 'mock_id')
                 ]; // add an alert to the list
 
                 const action: BehaviorFormContextAction = {
                     type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_ALERT_VISUAL_REMOVE
+                        BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE,
+                    payload: { visualRuleId: 'mock_id' }
                 };
 
                 // ACT
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const alerts = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isAlertVisual
+                const visualRules = result.behaviorToEdit.visuals.filter(
+                    ViewerConfigUtility.isVisualRule
                 );
-                expect(alerts.length).toEqual(0);
+                expect(visualRules.length).toEqual(0);
             });
         });
 
@@ -869,177 +854,6 @@ describe('BehaviorFormContext', () => {
                 );
             });
         });
-
-        // TODO: REMOVE
-        describe('Status visuals', () => {
-            const getStatusVisual = (
-                expression: string
-            ): IExpressionRangeVisual => {
-                return {
-                    ...defaultStatusColorVisual,
-                    valueExpression: expression
-                };
-            };
-
-            test('[Add/Update visual] - adds the status to the list of visuals when no status exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = []; // no visuals
-
-                const statusExpression = 'myProperty > 1';
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
-                    payload: {
-                        visual: getStatusVisual(statusExpression)
-                    }
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueExpression).toEqual(statusExpression);
-            });
-
-            test('[Add/Update visual] - updates the status in the list of visuals when a status already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add an status to the list
-
-                const statusExpression = 'myProperty > 1';
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE,
-                    payload: {
-                        visual: getStatusVisual(statusExpression)
-                    }
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueExpression).toEqual(statusExpression);
-            });
-
-            test('[Add/Update ranges] - silently passes when a status visual does not exist to update', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = []; // no visuals
-
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
-                    payload: {
-                        ranges: [
-                            {
-                                id: 'something',
-                                values: [100, 200],
-                                visual: { color: 'blue' }
-                            }
-                        ]
-                    }
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-
-            test('[Add/Update ranges] - sets the ranges to an existing visual', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add a status to the list
-
-                const RANGE_ID = 'myRangeId';
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_ADD_OR_UPDATE_RANGES,
-                    payload: {
-                        ranges: [
-                            {
-                                id: RANGE_ID,
-                                values: [100, 200],
-                                visual: { color: 'blue' }
-                            }
-                        ]
-                    }
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(1);
-                expect(status[0].valueRanges.length).toEqual(1);
-                expect(status[0].valueRanges[0].id).toEqual(RANGE_ID);
-            });
-
-            test('[Remove] - silently passes when trying to remove an status when there is none on the behavior', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [];
-
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-
-            test('[Remove] - removes the status in the list of visuals if a status already exists', () => {
-                // ARRANGE
-                const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [
-                    getStatusVisual('some expression')
-                ]; // add an status to the list
-
-                const action: BehaviorFormContextAction = {
-                    type:
-                        BehaviorFormContextActionType.FORM_BEHAVIOR_STATUS_VISUAL_REMOVE
-                };
-
-                // ACT
-                const result = BehaviorFormContextReducer(initialState, action);
-
-                // ASSERT
-                const status = result.behaviorToEdit.visuals.filter(
-                    ViewerConfigUtility.isStatusColorVisual
-                );
-                expect(status.length).toEqual(0);
-            });
-        });
-
-        // TODO: ADD VISUAL RULES OR UPDATE ABOVE TESTS
 
         describe('Widgets', () => {
             const getWidget = (id: string): IWidget => {
