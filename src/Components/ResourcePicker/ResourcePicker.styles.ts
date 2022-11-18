@@ -1,4 +1,9 @@
-import { FontSizes, IMessageBarStyles, IStyle } from '@fluentui/react';
+import {
+    FontSizes,
+    FontWeights,
+    IMessageBarStyles,
+    IStyle
+} from '@fluentui/react';
 import {
     IResourcePickerStyleProps,
     IResourcePickerStyles
@@ -7,7 +12,7 @@ import {
 export const classPrefix = 'cb-resourcepicker';
 const classNames = {
     root: `${classPrefix}-root`,
-    dropdownMenu: `${classPrefix}-dropdown-menu`,
+    menuList: `${classPrefix}-menu-list`,
     optionWrapper: `${classPrefix}-option-wrapper`,
     optionText: `${classPrefix}-option-text`,
     noMatchingOptionText: `${classPrefix}-no-matching-option-text`,
@@ -16,9 +21,9 @@ const classNames = {
     label: `${classPrefix}-label`,
     errorText: `${classPrefix}-error-text`
 };
-export const getStyles = (
-    props: IResourcePickerStyleProps
-): IResourcePickerStyles => {
+export const getStyles = ({
+    theme
+}: IResourcePickerStyleProps): IResourcePickerStyles => {
     const baseTextOptionStyles: IStyle = {
         overflow: 'hidden',
         textOverflow: 'ellipsis',
@@ -27,6 +32,17 @@ export const getStyles = (
     };
     return {
         root: [classNames.root],
+        menuList: [
+            classNames.menuList,
+            {
+                backgroundColor: theme.semanticColors.inputBackground,
+                height: 'auto !important',
+                minHeight: 32,
+                maxHeight: 300,
+                overflowY: 'auto',
+                overflowX: 'hidden'
+            }
+        ],
         optionWrapper: [
             classNames.optionWrapper,
             {
@@ -39,7 +55,9 @@ export const getStyles = (
         optionHeaderText: [
             classNames.optionHeaderText,
             {
-                color: `${props.theme.palette.themePrimary} !important`,
+                ...baseTextOptionStyles,
+                color: `${theme.palette.themePrimary} !important`,
+                fontWeight: FontWeights.semibold,
                 fontSize: FontSizes.size14,
                 cursor: 'default'
             }
@@ -48,7 +66,7 @@ export const getStyles = (
             classNames.noMatchingOptionText,
             {
                 ...baseTextOptionStyles,
-                color: props.theme.palette.neutralPrimaryAlt,
+                color: theme.palette.neutralPrimaryAlt,
                 fontStyle: 'italic'
             }
         ],
@@ -70,7 +88,7 @@ export const getStyles = (
                 fontSize: 14,
                 fontWeight: 600,
                 '::after': {
-                    color: props.theme.semanticColors.errorText,
+                    color: theme.semanticColors.errorText,
                     content: ' *',
                     paddingRight: 12
                 }
@@ -79,7 +97,7 @@ export const getStyles = (
         errorText: [
             classNames.errorText,
             {
-                color: props.theme.semanticColors.errorText
+                color: theme.semanticColors.errorText
             }
         ],
         subComponentStyles: {

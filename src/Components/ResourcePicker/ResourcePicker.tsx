@@ -24,6 +24,7 @@ import {
     Label,
     Text
 } from '@fluentui/react';
+import { FixedSizeList } from 'react-window';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import {
     AzureResourceDisplayFields,
@@ -53,7 +54,7 @@ import {
 const freeformOptionsHeaderText = '---';
 const freeformOptionsHeader: IResourceOption = {
     label: freeformOptionsHeaderText,
-    options: []
+    type: 'header'
 };
 const getClassNames = classNamesFunction<
     IResourcePickerStyleProps,
@@ -82,7 +83,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const defaultSelectedOption: IResourceOption = selectedOptionProp
         ? {
               label: selectedOptionProp,
-              value: selectedOptionProp
+              value: selectedOptionProp,
+              type: 'option'
           }
         : null;
     const [
@@ -158,25 +160,21 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
         // after fetching resources, first start creating dropdown options with resources which have display values
         const newOptions: Array<IResourceOption> = [];
-        let lastHeader: IResourceOption;
+        let lastHeader: string;
         filteredAndSortedResources.forEach((r) => {
-            if (
-                r.subscriptionName &&
-                lastHeader?.label !== r.subscriptionName
-            ) {
-                lastHeader = {
+            if (r.subscriptionName && lastHeader !== r.subscriptionName) {
+                newOptions.push({
                     label: r.subscriptionName,
-                    options: [
-                        {
-                            label: getDisplayFieldValue(r),
-                            value: r,
-                            type: 'option'
-                        } as IResourceOption
-                    ]
-                };
-                newOptions.push(lastHeader);
+                    type: 'header'
+                });
+                newOptions.push({
+                    label: getDisplayFieldValue(r),
+                    value: r,
+                    type: 'option'
+                });
+                lastHeader = r.subscriptionName;
             } else {
-                lastHeader.options.push({
+                newOptions.push({
                     label:
                         getDisplayFieldValue(r) ||
                         t('resourcesPicker.displayFieldNotFound', {
@@ -184,8 +182,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                                 AzureResourceDisplayFields[displayField],
                             id: r.id
                         }),
-                    value: r
-                } as IResourceOption);
+                    value: r,
+                    type: 'option'
+                });
             }
         });
         return newOptions;
@@ -214,7 +213,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     // add the freeform options header if the resources are fetched and exists
                     mergedOptions.push(freeformOptionsHeader);
                 }
-                freeformOptionsHeader.options.concat(optionsToAdd);
+                mergedOptions = mergedOptions.concat(optionsToAdd);
             }
         }
 
@@ -232,21 +231,17 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 if (resourcesRef.current?.length > 0) {
                     const freeFromOptionsHeaderExist = mergedOptions?.find(
                         (option) =>
-                            option.options &&
+                            option.type === 'header' &&
                             option.label === freeformOptionsHeaderText
                     );
                     if (!freeFromOptionsHeaderExist) {
                         mergedOptions.push(freeformOptionsHeader);
                     }
                 }
-                freeformOptionsHeader.options.concat(selectedOption);
+                mergedOptions = mergedOptions.concat(selectedOption);
             }
         }
-        return searchValue
-            ? mergedOptions.filter((group) =>
-                  group.options.some((o) => o.label.includes(searchValue))
-              )
-            : mergedOptions;
+        return mergedOptions;
     }, [
         displayField,
         getDisplayFieldValue,
@@ -260,13 +255,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (displayField === AzureResourceDisplayFields.url) {
             switch (resourceType.toLowerCase()) {
                 case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                    return t('resourcesPicker.environmentDropdownPlaceholder');
+                    return t('resourcesPicker.adtInstancePlaceholder');
                 case AzureResourceTypes.StorageAccount.toLowerCase():
-                    return t(
-                        'resourcesPicker.storageAccountDropdownPlaceholder'
-                    );
+                    return t('resourcesPicker.storageAccountPlaceholder');
                 case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                    return t('resourcesPicker.containerDropdownPlaceholder');
+                    return t('resourcesPicker.storageContainerPlaceholder');
                 default:
                     return 'resourcesPicker.selectResourcePlaceholder';
             }
@@ -279,7 +272,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         options: Array<IResourceOption>
     ): Array<IAzureResource | string> => {
         return options
-            ?.filter((option) => !option.options)
+            ?.filter((option) => option.type === 'option')
             .map((option) => option.value);
     };
 
@@ -314,9 +307,12 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             } else {
                 setSelectedOption({
                     label: selectedOptionProp,
-                    value: selectedOptionProp
+                    value: selectedOptionProp,
+                    type: 'option'
                 });
             }
+        } else {
+            setSelectedOption(null);
         }
     }, [selectedOptionProp]);
 
@@ -325,7 +321,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             additionalOptionsProp?.filter(
                 (additionalOptionProp) =>
                     additionalOptionProp &&
-                    additionalOptions.findIndex((additionalOption) =>
+                    options.findIndex((additionalOption) =>
                         areResourceValuesEqual(
                             additionalOption.label,
                             additionalOptionProp,
@@ -406,10 +402,47 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     const handleOnChange = useCallback(
         (
             newValue: IResourceOption,
-            _actionMeta: ActionMeta<IResourceOption>
+            actionMeta: ActionMeta<IResourceOption>
         ) => {
-            setSelectedOption(newValue);
             setSearchValue(newValue?.label);
+            if (actionMeta.action === 'create-option') {
+                const newParsedOptionValue = sanitizeOptionText(
+                    newValue.label,
+                    displayField,
+                    resourceType
+                );
+                const newOption: IResourceOption = {
+                    label: newParsedOptionValue,
+                    value: newParsedOptionValue,
+                    type: 'option'
+                };
+
+                if (
+                    displayField !== AzureResourceDisplayFields.url ||
+                    (displayField === AzureResourceDisplayFields.url &&
+                        isValidUrlStr(newParsedOptionValue, resourceType))
+                ) {
+                    const existingOption = options.find((option) =>
+                        areResourceValuesEqual(
+                            option.label,
+                            newParsedOptionValue,
+                            displayField
+                        )
+                    );
+                    if (!existingOption) {
+                        setAdditionalOptions(
+                            additionalOptions.concat(newOption)
+                        );
+                        setSelectedOption(newOption);
+                    } else {
+                        setSelectedOption(existingOption);
+                    }
+                } else {
+                    setSelectedOption(newOption);
+                }
+            } else {
+                setSelectedOption(newValue);
+            }
         },
         []
     );
@@ -428,40 +461,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     // revert the text value back to the previously selected value instead of keeping the typed value
                     setSearchValue(selectedOption?.label ?? '');
                     break;
-                case 'set-value': {
-                    setSearchValue(inputValue);
-                    const newParsedOptionValue = sanitizeOptionText(
-                        inputValue,
-                        displayField,
-                        resourceType
-                    );
-
-                    if (
-                        displayField !== AzureResourceDisplayFields.url ||
-                        (displayField === AzureResourceDisplayFields.url &&
-                            isValidUrlStr(newParsedOptionValue, resourceType))
-                    ) {
-                        const existingOption = options.find((option) =>
-                            areResourceValuesEqual(
-                                option.label,
-                                newParsedOptionValue,
-                                displayField
-                            )
-                        );
-                        if (!existingOption) {
-                            const newOption: IResourceOption = {
-                                label: newParsedOptionValue,
-                                value: newParsedOptionValue
-                            };
-                            setAdditionalOptions(
-                                additionalOptions.concat(newOption)
-                            );
-                            setSelectedOption(newOption);
-                        } else {
-                            setSelectedOption(existingOption);
-                        }
-                    }
-                }
             }
         },
         [options, additionalOptions, displayField, resourceType]
@@ -477,6 +476,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             setAdditionalOptions(newAdditionOptions);
 
             if (option.label === selectedOption?.label) {
+                setSearchValue(null);
                 setSelectedOption(null);
             }
         },
@@ -519,49 +519,74 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         [error, classNames, resourcesState, label, loadingLabel, t]
     );
 
-    const CustomGroupHeading = (props) => (
-        <components.GroupHeading {...props}>
-            <div className={classNames.optionHeaderText}>
-                {props.data.label}
-            </div>
-        </components.GroupHeading>
-    );
+    const CustomMenuList = (props) => {
+        const OPTION_HEIGHT = 32;
+        const { children, maxHeight } = props;
+
+        return options.length <= 1 ? (
+            <components.MenuList {...props} />
+        ) : (
+            <FixedSizeList
+                height={maxHeight}
+                itemCount={children.length}
+                itemSize={OPTION_HEIGHT}
+                className={classNames.menuList}
+            >
+                {({ index, style }) => (
+                    <div style={style}>{children[index]}</div>
+                )}
+            </FixedSizeList>
+        );
+    };
 
     const CustomOption = (props) => {
+        if (props.data.type === 'header') {
+            delete props.innerProps.onMouseMove;
+            delete props.innerProps.onMouseOver;
+        }
         return (
             <div className={classNames.optionWrapper}>
-                {props.data.__isNew__ ? (
-                    <components.Option {...props}>
-                        <div className={classNames.noMatchingOptionText}>
+                <components.Option
+                    {...props}
+                    isDisabled={props.data.type === 'header'}
+                >
+                    {props.data.__isNew__ ? (
+                        <span className={classNames.noMatchingOptionText}>
                             {props.data.label}
-                        </div>
-                    </components.Option>
-                ) : (
-                    <components.Option {...props}>
-                        <div className={classNames.optionText}>
-                            {getMarkedHtmlBySearch(
-                                props.data.label,
-                                searchValue,
-                                true
-                            )}
-                        </div>
-                        {!resourcesState.isLoading &&
-                            resourcesState.adapterResult?.result?.data?.findIndex(
-                                (r) => r.id === props.data.value.id
-                            ) === -1 && (
-                                <Icon
-                                    iconName="Delete"
-                                    aria-hidden="true"
-                                    title={t('resourcesPicker.removeFromList')}
-                                    style={{ padding: '0 8px' }}
-                                    onClick={(event) => {
-                                        event.stopPropagation();
-                                        handleOnRemove(props.data);
-                                    }}
-                                />
-                            )}
-                    </components.Option>
-                )}
+                        </span>
+                    ) : props.data.type === 'header' ? (
+                        <span className={classNames.optionHeaderText}>
+                            {props.data.label}
+                        </span>
+                    ) : (
+                        <>
+                            <div className={classNames.optionText}>
+                                {getMarkedHtmlBySearch(
+                                    props.data.label,
+                                    searchValue,
+                                    true
+                                )}
+                            </div>
+                            {!resourcesState.isLoading &&
+                                resourcesState.adapterResult?.result?.data?.findIndex(
+                                    (r) => r.id === props.data.value.id
+                                ) === -1 && (
+                                    <Icon
+                                        iconName="Delete"
+                                        aria-hidden="true"
+                                        title={t(
+                                            'resourcesPicker.removeFromList'
+                                        )}
+                                        style={{ padding: '0 8px' }}
+                                        onClick={(event) => {
+                                            event.stopPropagation();
+                                            handleOnRemove(props.data);
+                                        }}
+                                    />
+                                )}
+                        </>
+                    )}
+                </components.Option>
             </div>
         );
     };
@@ -573,9 +598,10 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 <CreatableSelect
                     aria-labelledby="resource-picker-dropdown-label"
                     styles={reactSelectStyles}
-                    options={options}
-                    inputValue={searchValue}
+                    options={resourcesState.isLoading ? [] : options}
+                    inputValue={searchValue ?? ''}
                     value={selectedOption}
+                    defaultValue={selectedOption ?? undefined}
                     defaultInputValue={searchValue ?? ''}
                     placeholder={placeholder()}
                     formatCreateLabel={(inputValue: string) =>
@@ -584,13 +610,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                         )} "${inputValue}"`
                     }
                     noOptionsMessage={() => t('resourcesPicker.noOption')}
-                    isSearchable
                     isClearable
+                    isSearchable
                     isLoading={resourcesState.isLoading}
                     isDisabled={disabled}
                     components={{
                         Option: CustomOption,
-                        GroupHeading: CustomGroupHeading
+                        MenuList: CustomMenuList
                     }}
                     onChange={handleOnChange}
                     onInputChange={handleOnInputChange}

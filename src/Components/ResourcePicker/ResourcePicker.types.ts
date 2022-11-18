@@ -45,7 +45,7 @@ export interface IResourcePickerProps {
 export interface IResourceOption {
     label: string;
     value?: IAzureResource | string;
-    options?: Array<IResourceOption>; // if there are options array it means this options is header for grouped options
+    type: 'option' | 'header'; // if it is header type option, there is no value
 }
 
 export interface IResourcePickerStyleProps {
@@ -53,6 +53,7 @@ export interface IResourcePickerStyleProps {
 }
 export interface IResourcePickerStyles {
     root: IStyle;
+    menuList: IStyle;
     optionWrapper: IStyle;
     optionText: IStyle;
     optionHeaderText: IStyle;

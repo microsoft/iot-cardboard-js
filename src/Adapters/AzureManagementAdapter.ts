@@ -377,7 +377,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                 (r.subscriptionName =
                                     storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
                         );
-                    } else {
+                    } else if (
+                        !params.searchParams?.isAdditionalSearchParamsRequired
+                    ) {
                         const storageAccounts: Array<IAzureStorageAccount> = await this.fetchAllResources(
                             adapterMethodSandbox,
                             token,

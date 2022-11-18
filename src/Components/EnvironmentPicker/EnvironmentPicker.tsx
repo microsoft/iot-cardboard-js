@@ -77,7 +77,12 @@ const dialogStyles: Partial<IModalStyles> = {
     main: {
         width: '640px !important',
         maxWidth: 'unset !important',
-        minHeight: 'fit-content'
+        minHeight: 'fit-content',
+        overflow: 'visible'
+    },
+    scrollableContent: {
+        overflow: 'visible',
+        '> div:first-child': { overflow: 'visible' }
     }
 };
 const modalProps: IModalProps = {
@@ -689,7 +694,9 @@ const EnvironmentPicker = ({
             <Dialog
                 hidden={false}
                 styles={{
-                    root: { display: !isDialogHidden ? 'flex' : 'none' }
+                    root: {
+                        display: !isDialogHidden ? 'flex' : 'none'
+                    }
                 }}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
@@ -786,22 +793,30 @@ const EnvironmentPicker = ({
                                         interchangeables: []
                                     }}
                                     searchParams={{
-                                        additionalParams: {
-                                            storageAccountId: getStorageAccountId(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                defaultStorageAccountToContainersMappingsRef.current
-                                            ),
-                                            storageAccountBlobUrl: getResourceUrl(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                AzureResourceTypes.StorageAccount
-                                            )
-                                        }
+                                        additionalParams: environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit
+                                            ? {
+                                                  storageAccountId: getStorageAccountId(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      defaultStorageAccountToContainersMappingsRef.current
+                                                  ),
+                                                  storageAccountBlobUrl: getResourceUrl(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      AzureResourceTypes.StorageAccount
+                                                  )
+                                              }
+                                            : undefined,
+                                        isAdditionalSearchParamsRequired: true
                                     }}
                                     shouldFetchResourcesOnMount={
+                                        environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit &&
                                         !hasFetchedResources.current
                                             .storageBlobContainers
                                     }
@@ -865,6 +880,8 @@ const EnvironmentPicker = ({
                                 ? !(
                                       environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
+                                      environmentPickerState.storageAccountInfo
+                                          .storageAccountToEdit &&
                                       environmentPickerState.containerInfo
                                           .containerToEdit
                                   )
