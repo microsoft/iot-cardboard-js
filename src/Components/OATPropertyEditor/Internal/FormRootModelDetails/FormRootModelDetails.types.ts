@@ -1,15 +1,14 @@
-import {
-    IChoiceGroupStyles,
-    IStyle,
-    IStyleFunctionOrObject
-} from '@fluentui/react';
+import { IStyleFunctionOrObject } from '@fluentui/react';
 import {
     DtdlInterface,
     DtdlInterfaceContent
 } from '../../../../Models/Constants/dtdlInterfaces';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { ICardboardModalStyles } from '../../../CardboardModal/CardboardModal.types';
+import { IFormRootModelDetailsContentStyles } from '../FormRootModelDetailsContent/FormRootModelDetailsContent.types';
 
 export type IModalFormRootModelProps = {
+    isOpen: boolean;
     onSubmit: (data: DtdlInterface | DtdlInterfaceContent) => void;
     onClose?: () => void;
     selectedItem: DtdlInterface | DtdlInterfaceContent;
@@ -26,10 +25,6 @@ export interface IFormRootModelDetailsStyleProps {
     theme: IExtendedTheme;
 }
 export interface IFormRootModelDetailsStyles {
-    root: IStyle;
-    label: IStyle;
-    labelWithTooltip: IStyle;
-
     /**
      * SubComponent styles.
      */
@@ -37,5 +32,6 @@ export interface IFormRootModelDetailsStyles {
 }
 
 export interface IFormRootModelDetailsSubComponentStyles {
-    writeableChoiceGroup?: IChoiceGroupStyles;
+    root?: ICardboardModalStyles;
+    content?: IFormRootModelDetailsContentStyles;
 }

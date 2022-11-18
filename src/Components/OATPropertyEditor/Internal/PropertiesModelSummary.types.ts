@@ -20,7 +20,6 @@ export interface IPartialModelId {
 }
 
 export type IPropertiesModelSummaryProps = {
-    dispatch: React.Dispatch<React.SetStateAction<IAction>>;
     isSupportedModelType: boolean;
     selectedItem: DtdlInterface | DtdlInterfaceContent | DtdlRelationship;
 

@@ -271,6 +271,9 @@ export const validateCommentChange = (value, setComment, setCommentError) => {
         setCommentError(true);
     }
 };
+export const isValidComment = (value: string) => {
+    return value.length <= OAT_COMMENT_LENGTH_LIMIT;
+};
 
 // Handle id change on forms
 export const validateIdChange = (

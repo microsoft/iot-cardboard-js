@@ -412,7 +412,7 @@ export class DTDLModel implements IDTDLModel {
     readonly ['@type']: string;
     readonly ['@context']: string;
     comment?: string;
-    contents?: any[];
+    contents: DtdlInterfaceContent[];
     description?: string;
     displayName?: string;
     /** array of strings of ids that this model extends */

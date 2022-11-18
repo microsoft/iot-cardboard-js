@@ -26,7 +26,6 @@ import {
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
-import FormRootModelDetails from './Internal/FormRootModelDetails/FormRootModelDetails';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
 
@@ -119,13 +118,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     <FormAddEnumItem
                         onClose={onModalClose}
                         state={editorState}
-                    />
-                );
-            case FormBody.rootModel:
-                return (
-                    <FormRootModelDetails
-                        onClose={onModalClose}
-                        selectedItem={selectedItem}
                     />
                 );
             default:
