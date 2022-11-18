@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Dies ist keine gültige URL (z. B. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Wählen Sie eine Ressource aus",
-    "environmentDropdownPlaceholder": "z.B. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "z.B. https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Keine genaue Übereinstimmung, verwenden Sie"
+    "useNonExistingResource": "Keine genaue Übereinstimmung, verwenden Sie",
+    "adtInstancePlaceholder": "Auswählen einer ADT-Instanz",
+    "storageAccountPlaceholder": "Auswählen eines Speicherkontos",
+    "storageContainerPlaceholder": "Wählen Sie einen Speichercontainer"
   },
   "advancedSearch": {
     "toggleSelection": "Zum Auswählen von Twin umschalten",

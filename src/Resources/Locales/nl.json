@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Selecteer een resource",
-    "environmentDropdownPlaceholder": "bijv. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Geen exacte overeenkomst, gebruik"
+    "useNonExistingResource": "Geen exacte overeenkomst, gebruik",
+    "adtInstancePlaceholder": "Een ADT-instantie selecteren",
+    "storageAccountPlaceholder": "Selecteer een opslagaccount",
+    "storageContainerPlaceholder": "Selecteer een opslagcontainer"
   },
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",

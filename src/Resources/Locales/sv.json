@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Detta är inte en giltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Välj en resurs",
-    "environmentDropdownPlaceholder": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Ingen exakt matchning, använd"
+    "useNonExistingResource": "Ingen exakt matchning, använd",
+    "adtInstancePlaceholder": "Välj en ADT-instans",
+    "storageAccountPlaceholder": "Välj ett lagringskonto",
+    "storageContainerPlaceholder": "Välj en lagringscontainer"
   },
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",

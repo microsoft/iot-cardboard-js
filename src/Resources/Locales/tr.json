@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Kaynak seçme",
-    "environmentDropdownPlaceholder": "örneğin https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Tam eşleşme yok, kullanın"
+    "useNonExistingResource": "Tam eşleşme yok, kullanın",
+    "adtInstancePlaceholder": "ADT örneği seçme",
+    "storageAccountPlaceholder": "Depolama Hesabı Seçme",
+    "storageContainerPlaceholder": "Bir Depolama Kabı Seçin"
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",

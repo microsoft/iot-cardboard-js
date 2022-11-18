@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
     },
     "selectResourcePlaceholder": "자원 선택",
-    "environmentDropdownPlaceholder": "예: https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "예: https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "예: https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "정확히 일치하지 않음, 사용"
+    "useNonExistingResource": "정확히 일치하지 않음, 사용",
+    "adtInstancePlaceholder": "ADT 인스턴스 선택",
+    "storageAccountPlaceholder": "저장소 계정 선택",
+    "storageContainerPlaceholder": "저장소 컨테이너 선택"
   },
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",

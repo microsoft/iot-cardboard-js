@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Выберите ресурс",
-    "environmentDropdownPlaceholder": "например, https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "например, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "например, https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Нет точного соответствия, используйте"
+    "useNonExistingResource": "Нет точного соответствия, используйте",
+    "adtInstancePlaceholder": "Выбор экземпляра ADT",
+    "storageAccountPlaceholder": "Выбор учетной записи хранения",
+    "storageContainerPlaceholder": "Выбор контейнера хранилища"
   },
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",
