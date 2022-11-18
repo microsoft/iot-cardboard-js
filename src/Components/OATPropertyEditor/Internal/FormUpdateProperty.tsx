@@ -52,7 +52,7 @@ const valueSchemaOptions: IDropdownOption[] = [
 export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
     props
 ) => {
-    const { dispatch, languages, onClose, state } = props;
+    const { dispatch, onClose, state } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -503,7 +503,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
+                            options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
                                 setMultiLanguageSelectionsDisplayNameKey(
                                     option.key,
@@ -683,7 +683,7 @@ export const FormUpdateProperty: React.FC<FormUpdatePropertyProps> = (
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
+                            options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
                                 setMultiLanguageSelectionsDescriptionKey(
                                     option.key,

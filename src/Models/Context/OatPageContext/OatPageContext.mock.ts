@@ -1,5 +1,6 @@
 /** File for exporting common testing utilities for the context */
 
+import i18n from '../../../i18n';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
@@ -7,12 +8,12 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import { DtdlInterfaceContent, OatReferenceType } from '../../Constants';
 import {
-    DtdlInterfaceContent,
-    OatReferenceType,
-    OAT_RELATIONSHIP_HANDLE_NAME
-} from '../../Constants';
-import { buildModelId, parseModelId } from '../../Services/OatUtils';
+    buildModelId,
+    getAvailableLanguages,
+    parseModelId
+} from '../../Services/OatUtils';
 import { IOatPageContextState } from './OatPageContext.types';
 
 const getMockMetadataItem = (id: string): IOATModelsMetadata => {
@@ -119,6 +120,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyNamespace: currentFile.namespace,
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
+        languageOptions: getAvailableLanguages(i18n),
         error: null,
         modelsToImport: [],
         graphUpdatesToSync: { actionType: 'None' },

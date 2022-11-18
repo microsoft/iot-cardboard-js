@@ -11,7 +11,8 @@ import {
 } from '../../Constants/Constants';
 import {
     getOntologiesFromStorage,
-    getLastUsedProjectId
+    getLastUsedProjectId,
+    getAvailableLanguages
 } from '../../Services/OatUtils';
 import { createGUID, deepCopy, getDebugLogger } from '../../Services/Utils';
 import {
@@ -408,6 +409,7 @@ const emptyState: IOatPageContextState = {
     currentOntologyTemplates: [],
     // other properties
     confirmDeleteOpen: { open: false },
+    languageOptions: [],
     error: null,
     modelsToImport: [],
     graphUpdatesToSync: { actionType: 'None' },
@@ -465,7 +467,7 @@ const getInitialState = (
         });
     }
 
-    const state = {
+    const state: IOatPageContextState = {
         ...initialState,
         // files
         ontologyFiles: files,
@@ -476,7 +478,8 @@ const getInitialState = (
         currentOntologyModels: project.models,
         currentOntologyNamespace: project.namespace,
         currentOntologyProjectName: project.projectName,
-        currentOntologyTemplates: project.templates
+        currentOntologyTemplates: project.templates,
+        languageOptions: getAvailableLanguages(i18n)
     };
 
     logDebugConsole(

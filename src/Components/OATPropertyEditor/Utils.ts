@@ -305,6 +305,7 @@ export const getTargetFromSelection = (
     models: DtdlInterface[],
     selection: IOATSelection
 ) => {
+    console.log('***Getting target from models', models, selection);
     const model = models.find((m) => m['@id'] === selection.modelId);
     if (!selection.contentId) {
         return model;

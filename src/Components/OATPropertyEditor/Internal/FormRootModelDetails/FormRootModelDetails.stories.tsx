@@ -1,18 +1,17 @@
 import React from 'react';
-import { ComponentStory } from '@storybook/react';
 import FormRootModelDetails from './FormRootModelDetails';
 import { IModalFormRootModelProps } from './FormRootModelDetails.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     getMockModelItem,
     getMockReference
 } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
 import { buildModelId } from '../../../../Models/Services/OatUtils';
 import { DTDLType } from '../../../../Models/Classes/DTDL';
+import { DtdlRelationship } from '../../../../Models/Constants';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 16 };
+const wrapperStyle = { width: '100%', height: '100%', padding: 16 };
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/FormRootModelDetails',
@@ -22,26 +21,26 @@ export default {
     ]
 };
 
-type FormRootModelDetailsStory = ComponentStory<typeof FormRootModelDetails>;
+type StoryProps = IModalFormRootModelProps;
 
-const Template: FormRootModelDetailsStory = (args) => {
+const Template = (args: StoryProps) => {
     return (
-        <OatPageContextProvider>
-            <CommandHistoryContextProvider>
-                {/* Would be a callout or something */}
-                <div style={{ width: 500 }}>
-                    <FormRootModelDetails
-                        languages={[]}
-                        onClose={() => console.log('Close modal')}
-                        {...args}
-                    />
-                </div>
-            </CommandHistoryContextProvider>
+        <OatPageContextProvider disableLocalStorage={true}>
+            {/* Would be a callout or something */}
+            <div style={{ width: 600 }}>
+                <FormRootModelDetails
+                    onClose={() => console.log('Close modal')}
+                    onSubmit={(value) =>
+                        console.log('Submit. {updatedItem}', value)
+                    }
+                    {...args}
+                />
+            </div>
         </OatPageContextProvider>
     );
 };
 
-export const Model = Template.bind({}) as FormRootModelDetailsStory;
+export const Model = Template.bind({});
 Model.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
@@ -51,29 +50,108 @@ Model.args = (() => {
     });
     const model = getMockModelItem(modelId1);
     return {
-        selectedItem: model
-    } as Partial<IModalFormRootModelProps>;
+        selectedItem: model,
+        stateModels: [model],
+        stateSelection: {
+            modelId: model['@id']
+        }
+    } as Partial<StoryProps>;
 })();
 
-export const RelationshipReference = Template.bind(
-    {}
-) as FormRootModelDetailsStory;
-RelationshipReference.args = (() => {
+export const RelationshipReferenceEmpty = Template.bind({});
+RelationshipReferenceEmpty.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
         namespace: 'test-namespace',
         path: 'folder1:folder2',
         version: 2
     });
-    const model = getMockReference(modelId1, DTDLType.Relationship);
+    const reference = getMockReference(
+        modelId1,
+        DTDLType.Relationship
+    ) as DtdlRelationship;
+    const model = getMockModelItem(modelId1);
+    model.contents.push([reference]);
     return {
-        selectedItem: model
-    } as Partial<IModalFormRootModelProps>;
+        selectedItem: reference,
+        stateModels: [model],
+        stateSelection: {
+            modelId: modelId1,
+            contentId: reference.name
+        }
+    } as Partial<StoryProps>;
 })();
 
-export const ComponentReference = Template.bind(
-    {}
-) as FormRootModelDetailsStory;
+export const RelationshipReferenceEdit = Template.bind({});
+RelationshipReferenceEdit.args = (() => {
+    const modelId1 = buildModelId({
+        modelName: 'model' + 5,
+        namespace: 'test-namespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const reference = getMockReference(
+        modelId1,
+        DTDLType.Relationship
+    ) as DtdlRelationship;
+    reference.description;
+    reference.comment = 'Some comment';
+    reference.minMultiplicity = 5;
+    reference.maxMultiplicity = 10;
+    reference.writable = true;
+
+    const model = getMockModelItem(modelId1);
+    model.contents.push([reference]);
+    return {
+        selectedItem: reference,
+        stateModels: [model],
+        stateSelection: {
+            modelId: modelId1,
+            contentId: reference.name
+        }
+    } as Partial<StoryProps>;
+})();
+
+export const RelationshipReferenceEditMultiLang = Template.bind({});
+RelationshipReferenceEditMultiLang.args = (() => {
+    const modelId1 = buildModelId({
+        modelName: 'model' + 5,
+        namespace: 'test-namespace',
+        path: 'folder1:folder2',
+        version: 2
+    });
+    const reference = getMockReference(
+        modelId1,
+        DTDLType.Relationship
+    ) as DtdlRelationship;
+    reference.displayName = {
+        cs: 'Czech display',
+        de: 'German display',
+        en: 'English display'
+    };
+    reference.description = {
+        cs: 'Czech description',
+        de: 'German description',
+        en: 'English description'
+    };
+    reference.comment = 'Some comment';
+    reference.minMultiplicity = 5;
+    reference.maxMultiplicity = 10;
+    reference.writable = true;
+
+    const model = getMockModelItem(modelId1);
+    model.contents.push([reference]);
+    return {
+        selectedItem: reference,
+        stateModels: [model],
+        stateSelection: {
+            modelId: modelId1,
+            contentId: reference.name
+        }
+    } as Partial<StoryProps>;
+})();
+
+export const ComponentReference = Template.bind({});
 ComponentReference.args = (() => {
     const modelId1 = buildModelId({
         modelName: 'model' + 5,
@@ -81,8 +159,16 @@ ComponentReference.args = (() => {
         path: 'folder1:folder2',
         version: 2
     });
-    const model = getMockReference(modelId1, DTDLType.Component);
+    const reference = getMockReference(modelId1, DTDLType.Component);
+
+    const model = getMockModelItem(modelId1);
+    model.contents.push([reference]);
     return {
-        selectedItem: model
-    } as Partial<IModalFormRootModelProps>;
+        selectedItem: reference,
+        stateModels: [model],
+        stateSelection: {
+            modelId: modelId1,
+            contentId: reference.name
+        }
+    } as Partial<StoryProps>;
 })();

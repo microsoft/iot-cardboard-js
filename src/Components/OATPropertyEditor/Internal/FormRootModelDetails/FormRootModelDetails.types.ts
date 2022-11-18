@@ -1,5 +1,5 @@
 import {
-    IDropdownOption,
+    IChoiceGroupStyles,
     IStyle,
     IStyleFunctionOrObject
 } from '@fluentui/react';
@@ -10,8 +10,8 @@ import {
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export type IModalFormRootModelProps = {
+    onSubmit: (data: DtdlInterface | DtdlInterfaceContent) => void;
     onClose?: () => void;
-    languages: IDropdownOption[];
     selectedItem: DtdlInterface | DtdlInterfaceContent;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -28,6 +28,7 @@ export interface IFormRootModelDetailsStyleProps {
 export interface IFormRootModelDetailsStyles {
     root: IStyle;
     label: IStyle;
+    labelWithTooltip: IStyle;
 
     /**
      * SubComponent styles.
@@ -35,5 +36,6 @@ export interface IFormRootModelDetailsStyles {
     subComponentStyles?: IFormRootModelDetailsSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IFormRootModelDetailsSubComponentStyles {}
+export interface IFormRootModelDetailsSubComponentStyles {
+    writeableChoiceGroup?: IChoiceGroupStyles;
+}

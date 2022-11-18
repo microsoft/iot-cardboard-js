@@ -32,7 +32,7 @@ import {
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
     OAT_COMPONENT_HANDLE_NAME,
-    OatRelationshipType,
+    OatReferenceType,
     OAT_GRAPH_REFERENCE_TYPE
 } from '../../Models/Constants/Constants';
 import {
@@ -94,7 +94,7 @@ import { IReactFlowInstance } from '../../Pages/OATEditorPage/Internal/Classes/O
 import { ElementEdge } from './Internal/Classes/ElementEdge';
 import { ElementNode } from './Internal/Classes/ElementNode';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphViewer', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -107,7 +107,7 @@ const nodeHeight = 100;
 const newNodeTopOffset = 20;
 const newNodeLeft = 100;
 const newNodeLeftWithPanelOpen = 450;
-const typeMapping = new Map<string, OatRelationshipType>([
+const typeMapping = new Map<string, OatReferenceType>([
     [OAT_COMPONENT_HANDLE_NAME, DTDLType.Component],
     [OAT_RELATIONSHIP_HANDLE_NAME, DTDLType.Relationship],
     [OAT_EXTEND_HANDLE_NAME, 'Extend']

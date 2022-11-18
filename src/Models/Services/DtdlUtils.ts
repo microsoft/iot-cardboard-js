@@ -4,6 +4,7 @@ import {
     DTDLMap,
     DTDLObject,
     DTDLProperty,
+    DTDLRelationship,
     DTDLSchemaType,
     DTDLType
 } from '../Classes/DTDL';
@@ -34,6 +35,12 @@ export const isDTDLReference = (
         object['@type'] === DTDLType.Component ||
         object['@type'] === OAT_EXTEND_HANDLE_NAME
     );
+};
+
+export const isDTDLRelationshipReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
+): object is DTDLRelationship => {
+    return object['@type'] === DTDLType.Relationship;
 };
 
 export const isDTDLModel = (

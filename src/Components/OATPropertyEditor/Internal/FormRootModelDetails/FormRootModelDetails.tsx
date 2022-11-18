@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     ActionButton,
     ChoiceGroup,
@@ -31,25 +31,26 @@ import {
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue,
-    getModelPropertyListItemName,
-    getTargetFromSelection
+    getModelPropertyListItemName
 } from '../../Utils';
-import { CommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     IFormRootModelDetailsStyleProps,
     IFormRootModelDetailsStyles,
     IModalFormRootModelProps
 } from './FormRootModelDetails.types';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './FormRootModelDetails.styles';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
 import {
-    isDTDLModel,
-    isDTDLReference
+    isDTDLReference,
+    isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../Models/Constants';
+import {
+    DtdlRelationship,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../../../Models/Constants';
+import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 
 const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
@@ -62,8 +63,8 @@ const getClassNames = classNamesFunction<
 export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     props
 ) => {
-    const { onClose, languages, selectedItem, styles } = props;
-    const isModelSelected = isDTDLModel(selectedItem);
+    const { onClose, onSubmit, selectedItem, styles } = props;
+    // const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
     const isRelationshipReference =
         selectedItem?.['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
@@ -72,37 +73,55 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     const { t } = useTranslation();
 
     // contexts
-    const { execute } = useContext(CommandHistoryContext);
-    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { oatPageState } = useOatPageContext();
 
     // data
 
     // state
-    const [comment, setComment] = useState('');
-    const [displayName, setDisplayName] = useState('');
-    const [description, setDescription] = useState('');
-    const [id, setId] = useState('');
-    const [languageSelection, setLanguageSelection] = useState('');
+    const [comment, setComment] = useState(selectedItem.comment);
+    const [displayName, setDisplayName] = useState(
+        getModelPropertyListItemName(selectedItem.displayName)
+    );
+    const [description, setDescription] = useState(selectedItem.description);
+    const [languageSelection, setLanguageSelection] = useState(
+        !selectedItem.displayName ||
+            typeof selectedItem.displayName === 'string'
+            ? singleLanguageOptionValue
+            : multiLanguageOptionValue
+    );
     const [
         languageSelectionDescription,
         setLanguageSelectionDescription
-    ] = useState('');
+    ] = useState(
+        !selectedItem.description ||
+            typeof selectedItem.description === 'string'
+            ? singleLanguageOptionValue
+            : multiLanguageOptionValue
+    );
     const [
         multiLanguageSelectionsDisplayName,
         setMultiLanguageSelectionsDisplayName
-    ] = useState({});
+    ] = useState(
+        selectedItem.displayName && typeof selectedItem.displayName === 'object'
+            ? selectedItem.displayName
+            : {}
+    );
     const [
-        multiLanguageSelectionsDisplayNames,
-        setMultiLanguageSelectionsDisplayNames
-    ] = useState([]);
+        multiLanguageSelectionsDescription,
+        setMultiLanguageSelectionsDescription
+    ] = useState(
+        selectedItem.description && typeof selectedItem.description === 'object'
+            ? selectedItem.description
+            : {}
+    );
     const [
         isAMultiLanguageDisplayNameEmpty,
         setIsAMultiLanguageDisplayNameEmpty
     ] = useState(true);
     const [
-        multiLanguageSelectionsDescription,
-        setMultiLanguageSelectionsDescription
-    ] = useState({});
+        multiLanguageSelectionsDisplayNames,
+        setMultiLanguageSelectionsDisplayNames
+    ] = useState([]);
     const [
         multiLanguageSelectionsDescriptions,
         setMultiLanguageSelectionsDescriptions
@@ -116,7 +135,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     const [displayNameError, setDisplayNameError] = useState(null);
     const [minMultiplicity, setMinMultiplicity] = useState<string>(null);
     const [maxMultiplicity, setMaxMultiplicity] = useState<string>(null);
-    const [writeable, setWriteable] = useState<boolean>(true);
+    const [writeable, setWriteable] = useState<boolean>(null);
 
     // callbacks
     const onLanguageSelect = (
@@ -134,52 +153,39 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     };
 
     const onFormSubmit = () => {
-        const update = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            const modelCopy = getTargetFromSelection(
-                modelsCopy,
-                oatPageState.selection
-            );
-            modelCopy.comment = comment ? comment : selectedItem.comment;
-            modelCopy.displayName =
-                languageSelection === singleLanguageOptionValue
+        const modelCopy = deepCopy(selectedItem);
+        modelCopy.comment = comment ? comment : selectedItem.comment;
+        modelCopy.displayName =
+            languageSelection === singleLanguageOptionValue
+                ? displayName
                     ? displayName
-                        ? displayName
-                        : selectedItem.displayName
-                    : multiLanguageSelectionsDisplayName
-                    ? (multiLanguageSelectionsDisplayName as string) // cast to avoid error, TODO: fix typing
-                    : selectedItem.displayName;
-            modelCopy.description =
-                languageSelectionDescription === singleLanguageOptionValue
+                    : selectedItem.displayName
+                : multiLanguageSelectionsDisplayName
+                ? multiLanguageSelectionsDisplayName
+                : selectedItem.displayName;
+        modelCopy.description =
+            languageSelectionDescription === singleLanguageOptionValue
+                ? description
                     ? description
-                        ? description
-                        : selectedItem.description
-                    : multiLanguageSelectionsDescription
-                    ? (multiLanguageSelectionsDescription as string) // cast to avoid error, TODO: fix typing
-                    : selectedItem.description;
-            modelCopy['@id'] = id ? id : selectedItem['@id'];
+                    : selectedItem.description
+                : multiLanguageSelectionsDescription
+                ? multiLanguageSelectionsDescription
+                : selectedItem.description;
+        if (
+            isDTDLRelationshipReference(selectedItem) &&
+            isDTDLRelationshipReference(modelCopy)
+        ) {
+            // if (!isNaN(Number(minMultiplicity))) {
+            //     modelCopy.minMultiplicity = Number(minMultiplicity);
+            // }
+            if (!isNaN(Number(maxMultiplicity))) {
+                modelCopy.maxMultiplicity = Number(maxMultiplicity);
+            }
+            modelCopy.writable = writeable;
+        }
 
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: modelsCopy }
-            });
-
-            // updateMetadata();
-            onClose();
-        };
-
-        const undoUpdate = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_METADATA,
-                payload: { metadata: oatPageState.currentOntologyModelMetadata }
-            });
-        };
-
-        execute(update, undoUpdate);
+        onSubmit(modelCopy);
+        onClose();
     };
 
     const onValidateNumber = useCallback(
@@ -189,7 +195,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
             }
 
             const number = Number(newValue.trim());
-            if (number) {
+            if (!isNaN(number)) {
                 return newValue;
             }
             return currentValue;
@@ -223,11 +229,11 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
     ];
 
     // side effects
+    // initialize all state variables when the selected item changes
     useEffect(() => {
         setComment(selectedItem.comment);
         setDisplayName(getModelPropertyListItemName(selectedItem.displayName));
         setDescription(selectedItem.description);
-        setId(selectedItem['@id']);
         setLanguageSelection(
             !selectedItem.displayName ||
                 typeof selectedItem.displayName === 'string'
@@ -252,7 +258,23 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                 ? selectedItem.description
                 : {}
         );
-    }, [selectedItem]);
+        setMinMultiplicity(
+            isRelationshipReference
+                ? String((selectedItem as DtdlRelationship).minMultiplicity) ??
+                      '0' // DTDL default
+                : null
+        );
+        setMaxMultiplicity(
+            isRelationshipReference
+                ? String((selectedItem as DtdlRelationship).maxMultiplicity)
+                : null
+        );
+        setWriteable(
+            isRelationshipReference
+                ? (selectedItem as DtdlRelationship).writable ?? false // DTDL default
+                : null
+        );
+    }, [isRelationshipReference, selectedItem]);
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
@@ -315,11 +337,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
             >
                 <ModelPropertyHeader
                     entityId={selectedItem?.['@id']}
-                    entityName={
-                        selectedItem &&
-                        selectedItem.displayName &&
-                        getModelPropertyListItemName(selectedItem.displayName)
-                    }
+                    entityName={displayName}
                     entityType={selectedItem['@type']?.toString() || ''}
                 />
                 <ActionButton onClick={onClose}>
@@ -401,7 +419,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         <Dropdown
                             id={`display-name-language-selector-${index}`}
                             placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
+                            options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
                                 setMultiLanguageSelectionsDisplayNameKey(
                                     option.key,
@@ -546,7 +564,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                             id={`description-language-selector-${index}`}
                             aria-labelledby={'description-label'}
                             placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
+                            options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
                                 setMultiLanguageSelectionsDescriptionKey(
                                     option.key,
@@ -645,14 +663,26 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
             {isReferenceSelected && isRelationshipReference && (
                 <>
                     <div className={propertyInspectorStyles.modalRow}>
-                        <Label
-                            id={'minMultiplicityLabel'}
-                            className={classNames.label}
-                        >
-                            {t('OATPropertyEditor.minMultiplicityLabel')}
-                        </Label>
+                        <div className={classNames.labelWithTooltip}>
+                            <Label id={'minMultiplicityLabel'}>
+                                {t('OATPropertyEditor.minMultiplicityLabel')}
+                            </Label>
+                            <TooltipCallout
+                                content={{
+                                    calloutContent: t(
+                                        'OATPropertyEditor.minMultiplicityMessage'
+                                    ),
+                                    buttonAriaLabel: t(
+                                        'OATPropertyEditor.minMultiplicityMessage'
+                                    )
+                                }}
+                            />
+                        </div>
                         <SpinButton
                             aria-labelledby={'minMultiplicityLabel'}
+                            decrementButtonAriaLabel={t('decreaseBy1')}
+                            incrementButtonAriaLabel={t('increaseBy1')}
+                            disabled // this is always 0 in V2 so just lock it for now
                             onValidate={(value) =>
                                 onValidateNumber(minMultiplicity, value)
                             }
@@ -671,13 +701,38 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
                         </Label>
                         <SpinButton
                             aria-labelledby={'maxMultiplicityLabel'}
+                            decrementButtonAriaLabel={t('decreaseBy1')}
+                            incrementButtonAriaLabel={t('increaseBy1')}
                             onValidate={(value) =>
                                 onValidateNumber(maxMultiplicity, value)
                             }
                             onChange={(_ev, value) => {
                                 setMaxMultiplicity(value);
                             }}
-                            value={maxMultiplicity}
+                            value={maxMultiplicity ?? ''}
+                        />
+                    </div>
+                    <div className={propertyInspectorStyles.modalRow}>
+                        <Label
+                            id={'writeableLabel'}
+                            className={classNames.label}
+                        >
+                            {t('OATPropertyEditor.writable')}
+                        </Label>
+                        <ChoiceGroup
+                            aria-labelledby={'writeableLabel'}
+                            selectedKey={String(writeable)}
+                            options={[
+                                { key: 'false', text: t('false') },
+                                { key: 'true', text: t('true') }
+                            ]}
+                            onChange={(_ev, value) =>
+                                setWriteable(JSON.parse(value.key))
+                            }
+                            styles={
+                                classNames.subComponentStyles
+                                    .writeableChoiceGroup
+                            }
                         />
                     </div>
                 </>

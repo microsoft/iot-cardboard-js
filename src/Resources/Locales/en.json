@@ -104,6 +104,8 @@
     "verify": "Verify",
     "success": "Success!",
     "to": "to",
+    "increaseBy1": "Increase value by 1",
+    "decreaseBy1": "Decrease value by 1",
     "errors": {
         "errorBoundary": "Error boundary",
         "unkownError": "Unknown error occurred",
@@ -1078,6 +1080,7 @@
         "mapValueName": "Map Value Name",
         "maxMultiplicityLabel": "Maximum multiplicity",
         "minMultiplicityLabel": "Minimum multiplicity",
+        "minMultiplicityMessage": "DTDL V2 only supports a minimum multiplicity of 0",
         "modalTextInputPlaceHolder": "This property...",
         "modalTextInputPlaceHolderDescription": "Line1",
         "modalTextInputPlaceHolderSemanticType": "current...",

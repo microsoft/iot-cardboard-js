@@ -14,6 +14,7 @@ import {
 import { DTDLProperty } from '../../Classes/DTDL';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { IDropdownOption } from '@fluentui/react';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -68,6 +69,7 @@ export interface IOatPageContextState {
     currentOntologyNamespace: string;
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
+    languageOptions: IDropdownOption[];
     error?: IOATError;
     modelsToImport?: any[];
     graphUpdatesToSync: GraphUpdatePayload;

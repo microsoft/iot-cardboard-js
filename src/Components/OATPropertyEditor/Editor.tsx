@@ -36,7 +36,6 @@ const logDebugConsole = getDebugLogger('Editor', debugLogging);
 const Editor: React.FC<IEditorProps> = (props) => {
     const {
         editorDispatch,
-        languages,
         selectedItem,
         editorState,
         selectedThemeName
@@ -111,7 +110,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 return (
                     <FormUpdateProperty
                         dispatch={editorDispatch}
-                        languages={languages}
                         onClose={onModalClose}
                         state={editorState}
                     />
@@ -119,7 +117,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
             case FormBody.enum:
                 return (
                     <FormAddEnumItem
-                        languages={languages}
                         onClose={onModalClose}
                         state={editorState}
                     />
@@ -127,7 +124,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
             case FormBody.rootModel:
                 return (
                     <FormRootModelDetails
-                        languages={languages}
                         onClose={onModalClose}
                         selectedItem={selectedItem}
                     />
