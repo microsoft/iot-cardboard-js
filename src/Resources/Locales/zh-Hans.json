@@ -1212,7 +1212,13 @@
     "modelId": "型号编号",
     "path": "路径",
     "uniqueModelName": "唯一的型号名称",
-    "version": "版本"
+    "version": "版本",
+    "commentPlaceholder": "模型作者注释",
+    "descriptionPlaceholder": "要显示的可本地化说明",
+    "details": "详",
+    "displayNamePlaceholder": "用于显示的可本地化名称",
+    "maxMultiplicityLabel": "最大多重性",
+    "minMultiplicityLabel": "最小多重性"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

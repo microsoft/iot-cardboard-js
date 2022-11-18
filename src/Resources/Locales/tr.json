@@ -1212,7 +1212,13 @@
     "modelId": "Model Kimliği",
     "path": "Yol",
     "uniqueModelName": "Benzersiz model adı",
-    "version": "Sürüm"
+    "version": "Sürüm",
+    "commentPlaceholder": "Model yazarları için yorum",
+    "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
+    "details": "Şey",
+    "displayNamePlaceholder": "Görüntüleme için yerelleştirilebilir bir ad",
+    "maxMultiplicityLabel": "Maksimum çokluk",
+    "minMultiplicityLabel": "Minimum çokluk"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

@@ -1212,7 +1212,13 @@
     "modelId": "Identyfikator modelu",
     "path": "Ścieżka",
     "uniqueModelName": "Unikalna nazwa modelu",
-    "version": "Wersja"
+    "version": "Wersja",
+    "commentPlaceholder": "Komentarz dla autorów modeli",
+    "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
+    "details": "Szczegóły",
+    "displayNamePlaceholder": "Lokalizowalna nazwa wyświetlania",
+    "maxMultiplicityLabel": "Maksymalna wielokrotność",
+    "minMultiplicityLabel": "Minimalna wielokrotność"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

@@ -1212,7 +1212,13 @@
     "modelId": "Modell azonosítója",
     "path": "Ösvény",
     "uniqueModelName": "Egyedi modellnév",
-    "version": "Verzió"
+    "version": "Verzió",
+    "commentPlaceholder": "Megjegyzés a modell szerzőinek",
+    "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
+    "details": "Részletek",
+    "displayNamePlaceholder": "Honosítható név a megjelenítéshez",
+    "maxMultiplicityLabel": "Maximális sokaság",
+    "minMultiplicityLabel": "Minimális szorzás"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

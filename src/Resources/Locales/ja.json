@@ -1212,7 +1212,13 @@
     "modelId": "モデル ID",
     "path": "パス",
     "uniqueModelName": "一意のモデル名",
-    "version": "バージョン"
+    "version": "バージョン",
+    "commentPlaceholder": "モデル作成者へのコメント",
+    "descriptionPlaceholder": "表示するローカライズ可能な説明",
+    "details": "細部",
+    "displayNamePlaceholder": "表示用のローカライズ可能な名前",
+    "maxMultiplicityLabel": "最大多重度",
+    "minMultiplicityLabel": "最小多重度"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

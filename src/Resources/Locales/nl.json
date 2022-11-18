@@ -1212,7 +1212,13 @@
     "modelId": "Model-id",
     "path": "Pad",
     "uniqueModelName": "Unieke modelnaam",
-    "version": "Versie"
+    "version": "Versie",
+    "commentPlaceholder": "Opmerking voor modelauteurs",
+    "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
+    "details": "Bijzonderheden",
+    "displayNamePlaceholder": "Een lokaliseerbare naam voor weergave",
+    "maxMultiplicityLabel": "Maximale multipliciteit",
+    "minMultiplicityLabel": "Minimale veelheid"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

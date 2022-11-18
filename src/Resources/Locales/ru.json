@@ -1212,7 +1212,13 @@
     "modelId": "Идентификатор модели",
     "path": "Путь",
     "uniqueModelName": "Уникальное название модели",
-    "version": "Версия"
+    "version": "Версия",
+    "commentPlaceholder": "Комментарий для авторов моделей",
+    "descriptionPlaceholder": "Локализуемое описание для отображения",
+    "details": "Подробности",
+    "displayNamePlaceholder": "Локализуемое имя для отображения",
+    "maxMultiplicityLabel": "Максимальная кратность",
+    "minMultiplicityLabel": "Минимальная кратность"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
