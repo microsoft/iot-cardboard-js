@@ -1212,7 +1212,13 @@
     "modelId": "Modell-ID",
     "path": "Stig",
     "uniqueModelName": "Unikt modellnamn",
-    "version": "Version"
+    "version": "Version",
+    "commentPlaceholder": "Kommentar för modellförfattare",
+    "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
+    "details": "Detaljer",
+    "displayNamePlaceholder": "Ett lokaliserbart namn för visning",
+    "maxMultiplicityLabel": "Maximal mångfald",
+    "minMultiplicityLabel": "Minsta mångfald"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

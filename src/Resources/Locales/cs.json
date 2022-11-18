@@ -1092,7 +1092,13 @@
     "modelId": "ID modelu",
     "path": "Cesta",
     "uniqueModelName": "Jedinečný název modelu",
-    "version": "Verze"
+    "version": "Verze",
+    "commentPlaceholder": "Komentář pro autory modelů",
+    "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
+    "details": "Podrobnosti",
+    "displayNamePlaceholder": "Lokalizovatelný název pro zobrazení",
+    "maxMultiplicityLabel": "Maximální násobnost",
+    "minMultiplicityLabel": "Minimální násobnost"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

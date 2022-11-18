@@ -1212,7 +1212,13 @@
     "modelId": "ID do modelo",
     "path": "Caminho",
     "uniqueModelName": "Nome de modelo único",
-    "version": "Versão"
+    "version": "Versão",
+    "commentPlaceholder": "Comentário para autores de modelos",
+    "descriptionPlaceholder": "Uma descrição lobreável para exibir",
+    "details": "Detalhes",
+    "displayNamePlaceholder": "Um nome loisável para exibição",
+    "maxMultiplicityLabel": "Multiplicidade máxima",
+    "minMultiplicityLabel": "Multiplicidade mínima"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

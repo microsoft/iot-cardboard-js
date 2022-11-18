@@ -1212,7 +1212,13 @@
     "modelId": "Modell-ID",
     "path": "Pfad",
     "uniqueModelName": "Eindeutiger Modellname",
-    "version": "Version"
+    "version": "Version",
+    "commentPlaceholder": "Kommentar für Modellautoren",
+    "descriptionPlaceholder": "Eine lokalisierbare Beschreibung zum Anzeigen",
+    "details": "Details",
+    "displayNamePlaceholder": "Ein lokalisierbarer Name für die Anzeige",
+    "maxMultiplicityLabel": "Maximale Vielfalt",
+    "minMultiplicityLabel": "Minimale Vielfalt"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
