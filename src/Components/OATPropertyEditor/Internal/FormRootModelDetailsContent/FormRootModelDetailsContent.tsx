@@ -4,13 +4,11 @@ import {
     ChoiceGroup,
     classNamesFunction,
     Dropdown,
-    FontIcon,
     IChoiceGroupOption,
     IconButton,
     Label,
     SpinButton,
     styled,
-    Text,
     TextField
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
@@ -18,18 +16,17 @@ import {
     getPropertyInspectorStyles,
     getRadioGroupRowStyles
 } from '../../OATPropertyEditor.styles';
-import { deepCopy } from '../../../../Models/Services/Utils';
 import { MultiLanguageSelectionType } from '../../../../Models/Constants/Enums';
 import {
     validateDescriptionChange,
-    validateDisplayNameChange,
     setMultiLanguageSelectionRemoval,
     setMultiLanguageSelectionsDescriptionKey,
     validateMultiLanguageSelectionsDescriptionValueChange,
     setMultiLanguageSelectionsDisplayNameKey,
     setMultiLanguageSelectionsDisplayNameValue,
     getModelPropertyListItemName,
-    isValidComment
+    isValidComment,
+    isValidDisplayName
 } from '../../Utils';
 import {
     IFormRootModelDetailsContentStyleProps,
@@ -47,8 +44,8 @@ import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../Models/Constants';
 import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
 
-const multiLanguageOptionValue = 'multiLanguage';
-const singleLanguageOptionValue = 'singleLanguage';
+const SINGLE_LANGUAGE_KEY = 'singleLanguage';
+const MULTI_LANGUAGE_KEY = 'multiLanguage';
 
 const getClassNames = classNamesFunction<
     IFormRootModelDetailsContentStyleProps,
@@ -76,38 +73,19 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     const [displayName, setDisplayName] = useState(
         getModelPropertyListItemName(selectedItem.displayName)
     );
-    const [description, setDescription] = useState(selectedItem.description);
-    const [languageSelection, setLanguageSelection] = useState(
-        !selectedItem.displayName ||
-            typeof selectedItem.displayName === 'string'
-            ? singleLanguageOptionValue
-            : multiLanguageOptionValue
-    );
     const [
-        languageSelectionDescription,
-        setLanguageSelectionDescription
-    ] = useState(
-        !selectedItem.description ||
-            typeof selectedItem.description === 'string'
-            ? singleLanguageOptionValue
-            : multiLanguageOptionValue
-    );
-    const [
-        multiLanguageSelectionsDisplayName,
-        setMultiLanguageSelectionsDisplayName
-    ] = useState(
+        isDisplayNameMultiLanguage,
+        setIsDisplayNameMultiLanguage
+    ] = useState<boolean>(
         selectedItem.displayName && typeof selectedItem.displayName === 'object'
-            ? selectedItem.displayName
-            : {}
     );
     const [
-        multiLanguageSelectionsDescription,
-        setMultiLanguageSelectionsDescription
-    ] = useState(
+        isDescriptionMultiLanguage,
+        setIsDescriptionMultiLanguage
+    ] = useState<boolean>(
         selectedItem.description && typeof selectedItem.description === 'object'
-            ? selectedItem.description
-            : {}
     );
+
     const [
         isAMultiLanguageDisplayNameEmpty,
         setIsAMultiLanguageDisplayNameEmpty
@@ -126,44 +104,30 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     ] = useState(true);
     const [hasCommentError, setHasCommentError] = useState<boolean>(false);
     const [descriptionError, setDescriptionError] = useState(null);
-    const [displayNameError, setDisplayNameError] = useState(null);
+    const [displayNameError, setHasDisplayNameError] = useState(null);
 
     // callbacks
-    const onLanguageSelect = (
-        ev: React.FormEvent<HTMLInputElement>,
-        option: IChoiceGroupOption
-    ): void => {
-        setLanguageSelection(option.key);
-    };
 
-    const onLanguageSelectDescription = (
-        ev: React.FormEvent<HTMLInputElement>,
-        option: IChoiceGroupOption
-    ): void => {
-        setLanguageSelectionDescription(option.key);
-    };
+    // const onFormSubmit = () => {
+    //     const modelCopy = deepCopy(selectedItem);
+    //     modelCopy.displayName = !isDisplayNameMultiLanguage
+    //         ? displayName
+    //             ? displayName
+    //             : selectedItem.displayName
+    //         : multiLanguageSelectionsDisplayName
+    //         ? multiLanguageSelectionsDisplayName
+    //         : selectedItem.displayName;
+    //     modelCopy.description =
+    //         languageSelectionDescription === SINGLE_LANGUAGE_KEY
+    //             ? description
+    //                 ? description
+    //                 : selectedItem.description
+    //             : multiLanguageSelectionsDescription
+    //             ? multiLanguageSelectionsDescription
+    //             : selectedItem.description;
 
-    const onFormSubmit = () => {
-        const modelCopy = deepCopy(selectedItem);
-        modelCopy.displayName =
-            languageSelection === singleLanguageOptionValue
-                ? displayName
-                    ? displayName
-                    : selectedItem.displayName
-                : multiLanguageSelectionsDisplayName
-                ? multiLanguageSelectionsDisplayName
-                : selectedItem.displayName;
-        modelCopy.description =
-            languageSelectionDescription === singleLanguageOptionValue
-                ? description
-                    ? description
-                    : selectedItem.description
-                : multiLanguageSelectionsDescription
-                ? multiLanguageSelectionsDescription
-                : selectedItem.description;
-
-        onUpdateItem(modelCopy);
-    };
+    //     onUpdateItem(modelCopy);
+    // };
 
     const onValidateNumber = useCallback(
         (currentValue: string, newValue: string) => {
@@ -181,26 +145,26 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     );
 
     // data
-    const options: IChoiceGroupOption[] = [
+    const displayNameMultiLangOptions: IChoiceGroupOption[] = [
         {
-            key: singleLanguageOptionValue,
+            key: SINGLE_LANGUAGE_KEY,
             text: t('OATPropertyEditor.singleLanguage'),
             disabled: multiLanguageSelectionsDisplayNames.length > 0
         },
         {
-            key: multiLanguageOptionValue,
+            key: MULTI_LANGUAGE_KEY,
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
 
-    const optionsDescription: IChoiceGroupOption[] = [
+    const descriptionMultiLangOptions: IChoiceGroupOption[] = [
         {
-            key: singleLanguageOptionValue,
+            key: SINGLE_LANGUAGE_KEY,
             text: t('OATPropertyEditor.singleLanguage'),
             disabled: multiLanguageSelectionsDescriptions.length > 0
         },
         {
-            key: multiLanguageOptionValue,
+            key: MULTI_LANGUAGE_KEY,
             text: t('OATPropertyEditor.multiLanguage')
         }
     ];
@@ -209,32 +173,15 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     // initialize all state variables when the selected item changes
     useEffect(() => {
         setDisplayName(getModelPropertyListItemName(selectedItem.displayName));
-        setDescription(selectedItem.description);
-        setLanguageSelection(
-            !selectedItem.displayName ||
-                typeof selectedItem.displayName === 'string'
-                ? singleLanguageOptionValue
-                : multiLanguageOptionValue
-        );
-        setLanguageSelectionDescription(
-            !selectedItem.description ||
-                typeof selectedItem.description === 'string'
-                ? singleLanguageOptionValue
-                : multiLanguageOptionValue
-        );
-        setMultiLanguageSelectionsDisplayName(
+        setIsDisplayNameMultiLanguage(
             selectedItem.displayName &&
                 typeof selectedItem.displayName === 'object'
-                ? selectedItem.displayName
-                : {}
         );
-        setMultiLanguageSelectionsDescription(
+        setIsDescriptionMultiLanguage(
             selectedItem.description &&
                 typeof selectedItem.description === 'object'
-                ? selectedItem.description
-                : {}
         );
-    }, [isRelationshipReference, selectedItem]);
+    }, [selectedItem]);
 
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
@@ -298,14 +245,22 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                 </Label>
                 <ChoiceGroup
                     aria-labelledby={'display-name-label'}
-                    selectedKey={languageSelection}
-                    options={options}
-                    onChange={onLanguageSelect}
+                    selectedKey={
+                        isDisplayNameMultiLanguage
+                            ? MULTI_LANGUAGE_KEY
+                            : SINGLE_LANGUAGE_KEY
+                    }
+                    options={displayNameMultiLangOptions}
+                    onChange={(_ev, option) =>
+                        setIsDisplayNameMultiLanguage(
+                            option.key === MULTI_LANGUAGE_KEY
+                        )
+                    }
                     required={true}
                     styles={radioGroupRowStyle}
                 />
             </div>
-            {languageSelection === singleLanguageOptionValue && (
+            {!isDisplayNameMultiLanguage && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
@@ -313,13 +268,19 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         placeholder={t(
                             'OATPropertyEditor.displayNamePlaceholder'
                         )}
-                        onChange={(e, v) =>
-                            validateDisplayNameChange(
-                                v,
-                                setDisplayName,
-                                setDisplayNameError
-                            )
-                        }
+                        onChange={(_e, value) => {
+                            if (isValidDisplayName(value)) {
+                                setHasDisplayNameError(false);
+                                onUpdateItem(
+                                    produce((draft) => {
+                                        draft.displayName = value;
+                                        return draft;
+                                    })
+                                );
+                            } else {
+                                setHasDisplayNameError(true);
+                            }
+                        }}
                         errorMessage={
                             displayNameError
                                 ? t('OATPropertyEditor.errorDisplayName')
@@ -329,7 +290,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                     />
                 </div>
             )}
-            {languageSelection === multiLanguageOptionValue &&
+            {isDisplayNameMultiLanguage &&
                 multiLanguageSelectionsDisplayNames.length > 0 &&
                 multiLanguageSelectionsDisplayNames.map((language, index) => (
                     <div
@@ -362,7 +323,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                             placeholder={t('OATPropertyEditor.region')}
                             options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
-                                options &&
+                                displayNameMultiLangOptions &&
                                 setMultiLanguageSelectionsDisplayNameKey(
                                     option.key,
                                     index,
@@ -386,7 +347,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                                     multiLanguageSelectionsDisplayNames,
                                     multiLanguageSelectionsDisplayName,
                                     setMultiLanguageSelectionsDisplayName,
-                                    setDisplayNameError
+                                    setHasDisplayNameError
                                 )
                             }
                             disabled={
@@ -400,7 +361,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         />
                     </div>
                 ))}
-            {languageSelection === multiLanguageOptionValue && (
+            {isDisplayNameMultiLanguage && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
                         iconProps={{
@@ -442,14 +403,22 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                 </Label>
                 <ChoiceGroup
                     aria-labelledby={'description-label'}
-                    selectedKey={languageSelectionDescription}
-                    options={optionsDescription}
-                    onChange={onLanguageSelectDescription}
+                    selectedKey={
+                        isDescriptionMultiLanguage
+                            ? MULTI_LANGUAGE_KEY
+                            : SINGLE_LANGUAGE_KEY
+                    }
+                    options={descriptionMultiLangOptions}
+                    onChange={(_ev, option) =>
+                        setIsDescriptionMultiLanguage(
+                            option.key === MULTI_LANGUAGE_KEY
+                        )
+                    }
                     required={true}
                     styles={radioGroupRowStyle}
                 />
             </div>
-            {languageSelectionDescription === singleLanguageOptionValue && (
+            {!isDescriptionMultiLanguage && (
                 <div className={propertyInspectorStyles.modalRow}>
                     <div></div> {/* Needed for gridTemplateColumns style  */}
                     <TextField
@@ -475,7 +444,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                     />
                 </div>
             )}
-            {languageSelectionDescription === multiLanguageOptionValue &&
+            {isDescriptionMultiLanguage &&
                 multiLanguageSelectionsDescriptions.length > 0 &&
                 multiLanguageSelectionsDescriptions.map((language, index) => (
                     <div
@@ -545,9 +514,13 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         />
                     </div>
                 ))}
-            {languageSelectionDescription === multiLanguageOptionValue && (
+            {isDescriptionMultiLanguage && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
+                        iconProps={{
+                            iconName: 'Add',
+                            className: propertyInspectorStyles.iconAddProperty
+                        }}
                         disabled={
                             isAMultiLanguageDescriptionEmpty &&
                             multiLanguageSelectionsDescriptions.length !== 0
@@ -571,13 +544,8 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                                 setIsAMultiLanguageDescriptionEmpty(true);
                             }
                         }}
-                    >
-                        <FontIcon
-                            iconName={'Add'}
-                            className={propertyInspectorStyles.iconAddProperty}
-                        />
-                        <Text>{t('OATPropertyEditor.region')}</Text>
-                    </ActionButton>
+                        text={t('OATPropertyEditor.region')}
+                    />
                 </div>
             )}
 
@@ -592,7 +560,10 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         if (isValidComment(value)) {
                             setHasCommentError(false);
                             onUpdateItem(
-                                produce((draft) => (draft.comment = value))
+                                produce((draft) => {
+                                    draft.comment = value;
+                                    return draft;
+                                })
                             );
                         } else {
                             setHasCommentError(true);
@@ -692,6 +663,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                                             draft.maxMultiplicity = Number(
                                                 value
                                             );
+                                            return draft;
                                         }
                                     })
                                 );
@@ -730,6 +702,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                                             draft.writable = JSON.parse(
                                                 value.key
                                             );
+                                            return draft;
                                         }
                                     })
                                 )
