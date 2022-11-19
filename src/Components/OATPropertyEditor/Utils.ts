@@ -247,6 +247,9 @@ export const validateDisplayNameChange = (
         setDisplayNameError(true);
     }
 };
+export const isValidDisplayName = (value: string) => {
+    return value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT;
+};
 
 // Handle description change on forms
 export const validateDescriptionChange = (
