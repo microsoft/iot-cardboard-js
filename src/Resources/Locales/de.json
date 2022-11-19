@@ -1218,7 +1218,8 @@
     "details": "Details",
     "displayNamePlaceholder": "Ein lokalisierbarer Name für die Anzeige",
     "maxMultiplicityLabel": "Maximale Vielfalt",
-    "minMultiplicityLabel": "Minimale Vielfalt"
+    "minMultiplicityLabel": "Minimale Vielfalt",
+    "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Modell entfernen",
     "modelListToggleAriaLabelShow": "Modellliste anzeigen",
     "modelListToggleAriaLabelHide": "Modellliste ausblenden"
-  }
+  },
+  "increaseBy1": "Wert um 1 erhöhen",
+  "decreaseBy1": "Wert um 1 verringern"
 }

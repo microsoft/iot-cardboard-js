@@ -1218,7 +1218,8 @@
     "details": "세부 정보",
     "displayNamePlaceholder": "표시할 지역화 가능한 이름",
     "maxMultiplicityLabel": "최대 다중성",
-    "minMultiplicityLabel": "최소 다중성"
+    "minMultiplicityLabel": "최소 다중성",
+    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다."
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "모델 제거",
     "modelListToggleAriaLabelShow": "모델 목록 표시",
     "modelListToggleAriaLabelHide": "모델 목록 숨기기"
-  }
+  },
+  "increaseBy1": "값을 1씩 늘립니다.",
+  "decreaseBy1": "값 감소 1"
 }

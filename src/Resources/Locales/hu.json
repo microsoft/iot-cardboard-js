@@ -1218,7 +1218,8 @@
     "details": "Részletek",
     "displayNamePlaceholder": "Honosítható név a megjelenítéshez",
     "maxMultiplicityLabel": "Maximális sokaság",
-    "minMultiplicityLabel": "Minimális szorzás"
+    "minMultiplicityLabel": "Minimális szorzás",
+    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1345,5 +1346,7 @@
     "removeModelButtonText": "Modell eltávolítása",
     "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
     "modelListToggleAriaLabelHide": "Modelllista elrejtése"
-  }
+  },
+  "increaseBy1": "Növelje az értéket 1-gyel",
+  "decreaseBy1": "Érték csökkentése 1-gyel"
 }
