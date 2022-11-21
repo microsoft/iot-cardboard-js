@@ -323,9 +323,29 @@ const StandalonePropertyInspectorReducer = produce(
 
                 if (childToRemoveIdx !== -1) {
                     arrayNode.children.splice(childToRemoveIdx, 1);
+                    for (
+                        let i = childToRemoveIdx;
+                        i < arrayNode.children.length;
+                        i++
+                    ) {
+                        const childNode = arrayNode.children[i];
+                        const displayName = childNode.displayName;
+                        childNode.displayName = displayName.replace(
+                            /\[\d+\]$/,
+                            `[${i}]`
+                        );
+
+                        const oldPath = childNode.path;
+                        const path = childNode.path.replace(
+                            /\[\d+\]$/,
+                            `[${i}]`
+                        );
+                        childNode.path = path;
+                        updateChildrenPaths(childNode, oldPath, path);
+                    }
                 }
 
-                // Remove all edit status flags for map children
+                // Remove all edit status flags for array children
                 Object.keys(draft.editStatus).forEach((key) => {
                     if (key.startsWith(arrayNode.path)) {
                         delete draft.editStatus[key];
@@ -427,6 +447,29 @@ const setNodeEditedFlag = (
         newNode.edited = false;
         delete draft.editStatus[editPath];
     }
+};
+
+/**
+ * Updates path and parentObject path of array items in hierarchy when a sibling item is removed
+ *
+ * @param node - the node to update
+ * @param oldPath - the previous path string
+ * @param path - the new path string
+ */
+const updateChildrenPaths = (
+    node: PropertyTreeNode,
+    oldPath: string,
+    path: string
+) => {
+    node.children?.forEach((child) => {
+        child.path = child.path.replace(oldPath, path);
+        child.parentObjectPath = child.parentObjectPath.replace(oldPath, path);
+        if (child.children) {
+            child.children.forEach((grandchild) => {
+                updateChildrenPaths(grandchild, oldPath, path);
+            });
+        }
+    });
 };
 
 /**
