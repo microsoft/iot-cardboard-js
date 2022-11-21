@@ -1246,7 +1246,7 @@
         "loadingStorageAccounts": "Loading storage accounts...",
         "adtInstancePlaceholder": "Select an ADT instance",
         "storageAccountPlaceholder": "Select a Storage account",
-        "storageContainerPlaceholde": "Select a Storage container",
+        "storageContainerPlaceholder": "Select a Storage container",
         "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!",
         "removeFromList": "Remove from list",
         "useNonExistingResource": "No exact match, use",
