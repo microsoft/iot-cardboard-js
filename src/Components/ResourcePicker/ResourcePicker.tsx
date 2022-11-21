@@ -252,19 +252,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     ]);
 
     const placeholder = () => {
-        if (displayField === AzureResourceDisplayFields.url) {
-            switch (resourceType.toLowerCase()) {
-                case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                    return t('resourcesPicker.adtInstancePlaceholder');
-                case AzureResourceTypes.StorageAccount.toLowerCase():
-                    return t('resourcesPicker.storageAccountPlaceholder');
-                case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                    return t('resourcesPicker.storageContainerPlaceholder');
-                default:
-                    return 'resourcesPicker.selectResourcePlaceholder';
-            }
-        } else {
-            return t('resourcesPicker.selectResourcePlaceholder');
+        switch (resourceType.toLowerCase()) {
+            case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                return t('resourcesPicker.adtInstancePlaceholder');
+            case AzureResourceTypes.StorageAccount.toLowerCase():
+                return t('resourcesPicker.storageAccountPlaceholder');
+            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
+                return t('resourcesPicker.storageContainerPlaceholder');
+            default:
+                return 'resourcesPicker.selectResourcePlaceholder';
         }
     };
 
@@ -591,6 +587,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         );
     };
 
+    const formatCreateLabel = (inputValue: string) =>
+        `${t('resourcesPicker.useNonExistingResource')} "${inputValue}"`;
+    const noOptionsMessage = () => t('resourcesPicker.noOption');
+    const loadingMessage = () => loadingLabelText;
+
     return (
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 4 }}>
@@ -604,12 +605,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     defaultValue={selectedOption ?? undefined}
                     defaultInputValue={searchValue ?? ''}
                     placeholder={placeholder()}
-                    formatCreateLabel={(inputValue: string) =>
-                        `${t(
-                            'resourcesPicker.useNonExistingResource'
-                        )} "${inputValue}"`
-                    }
-                    noOptionsMessage={() => t('resourcesPicker.noOption')}
+                    formatCreateLabel={formatCreateLabel}
+                    noOptionsMessage={noOptionsMessage}
                     isClearable
                     isSearchable
                     isLoading={resourcesState.isLoading}
@@ -621,9 +618,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     onChange={handleOnChange}
                     onInputChange={handleOnInputChange}
                     filterOption={createFilter({ ignoreAccents: false })}
-                    loadingMessage={() => loadingLabelText}
+                    loadingMessage={loadingMessage}
                 />
-
                 {inputError && (
                     <Text className={classNames.errorText} variant={'small'}>
                         {inputError}
