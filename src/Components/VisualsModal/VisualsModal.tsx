@@ -1,3 +1,4 @@
+import { css } from '@fluentui/react';
 import React from 'react';
 import {
     IBehavior,
@@ -42,7 +43,7 @@ const VisualsModal: React.FC<IVisualsModalProps> = ({
     return (
         <div
             style={{ top: position.top, left: position.left }}
-            className={styles.boundaryLayer + ' cb-base-fade-in'}
+            className={css(styles.boundaryLayer, 'cb-base-fade-in')}
             onMouseLeave={onClose}
         >
             <ElementsList
