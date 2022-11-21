@@ -69,7 +69,6 @@ const getClassNames = classNamesFunction<
 const INCLUDED_KEYS = [
     'boolean',
     'double',
-    'enum',
     'float',
     'integer',
     'long',
