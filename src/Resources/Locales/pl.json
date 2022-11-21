@@ -541,7 +541,6 @@
       "new": "Nowa reguła wizualna",
       "edit": "Edytowanie reguły wizualnej",
       "typePlaceholder": "Wybierz typ wartości",
-      "newCondition": "Nowy stan",
       "editCondition": "Edytuj warunek",
       "deleteCondition": "Usuń warunek",
       "unlabeledCondition": "Bez etykiety",

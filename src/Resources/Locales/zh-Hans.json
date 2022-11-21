@@ -541,7 +541,6 @@
       "new": "新的视觉对象规则",
       "edit": "编辑视觉对象规则",
       "typePlaceholder": "选择值的类型",
-      "newCondition": "新品条件",
       "editCondition": "编辑条件",
       "deleteCondition": "删除条件",
       "unlabeledCondition": "未标记",

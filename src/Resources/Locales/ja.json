@@ -541,7 +541,6 @@
       "new": "新しいビジュアル ルール",
       "edit": "ビジュアル ルールの編集",
       "typePlaceholder": "値のタイプを選択します。",
-      "newCondition": "新しい条件",
       "editCondition": "条件の編集",
       "deleteCondition": "条件の削除",
       "unlabeledCondition": "ラベル",
