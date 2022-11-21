@@ -68,11 +68,6 @@ enum BehaviorModalPivotKey {
     Properties = 'properties'
 }
 
-// const showVisualRulesFeature =
-//     localStorage.getItem(
-//         LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-//     ) === 'true';
-
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
     const {
         activeWidgetId,

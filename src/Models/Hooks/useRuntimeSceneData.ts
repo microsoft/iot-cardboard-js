@@ -20,10 +20,6 @@ import useAdapter from './useAdapter';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('useRuntimeSceneData', debugLogging);
-// const showVisualRulesFeature =
-//     localStorage.getItem(
-//         LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-//     ) === 'true' || false;
 
 export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,

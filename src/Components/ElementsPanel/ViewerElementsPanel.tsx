@@ -11,11 +11,6 @@ import {
 } from '../../Models/Services/Utils';
 import ElementsList from './Internal/ElementsList';
 
-// const showVisualRulesFeature =
-//     localStorage.getItem(
-//         LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-//     ) === 'true';
-
 const ViewerElementsPanel: React.FC<IViewerElementsPanelProps> = ({
     panelItems,
     isLoading = false,
