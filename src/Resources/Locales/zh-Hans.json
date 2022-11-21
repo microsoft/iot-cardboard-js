@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "这不是一个有效的URL（例如 https://<你的存储帐户名称>.blob.core.windows.net）"
     },
     "selectResourcePlaceholder": "选择资源",
-    "environmentDropdownPlaceholder": "例如 https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "例如 https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "例如 https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "没有完全匹配，请使用"
+    "useNonExistingResource": "没有完全匹配，请使用",
+    "adtInstancePlaceholder": "选择一个 ADT 实例",
+    "storageAccountPlaceholder": "选择存储帐户",
+    "storageContainerPlaceholder": "选择存储容器"
   },
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",

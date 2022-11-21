@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "これは有効な URL ではありません (例: https://<あなたのストレージアカウント名>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "リソースの選択",
-    "environmentDropdownPlaceholder": "例:https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "例:https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "例:https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "完全に一致しません。使用"
+    "useNonExistingResource": "完全に一致しません。使用",
+    "adtInstancePlaceholder": "ADT インスタンスを選択する",
+    "storageAccountPlaceholder": "ストレージ アカウントの選択",
+    "storageContainerPlaceholder": "ストレージコンテナの選択"
   },
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",

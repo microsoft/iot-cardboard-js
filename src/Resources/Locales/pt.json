@@ -1251,10 +1251,10 @@
       "invalidStorageAccountUrl": "Esta não é uma URL válida (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Selecione um recurso",
-    "environmentDropdownPlaceholder": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/example",
-    "useNonExistingResource": "Nenhuma correspondência exata, use"
+    "useNonExistingResource": "Nenhuma correspondência exata, use",
+    "adtInstancePlaceholder": "Selecionar uma instância do ADT",
+    "storageAccountPlaceholder": "Selecione uma conta de armazenamento",
+    "storageContainerPlaceholder": "Selecione um contêiner de armazenamento"
   },
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar gêmeos",
