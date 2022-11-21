@@ -27,7 +27,6 @@ import {
 describe('BehaviorFormContext', () => {
     afterEach(cleanup);
     describe('Actions', () => {
-        // TODO: REMOVE
         describe('Visual rules', () => {
             const getVisualRule = (
                 expression: string,
