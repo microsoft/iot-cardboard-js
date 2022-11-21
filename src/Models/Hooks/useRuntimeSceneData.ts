@@ -38,7 +38,7 @@ export const useRuntimeSceneData = (
     );
     const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
-    const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
+    const [sceneBadges, setSceneBadges] = useState<Array<SceneViewBadgeGroup>>(
         []
     );
 
@@ -208,7 +208,7 @@ export const useRuntimeSceneData = (
             setPollingInterval(computeInterval(twinIds.size, pollingConfig));
             setModelUrl(sceneData.adapterResult.result.data.modelUrl);
             setSceneVisuals(sceneVisuals);
-            setSceneAlerts(groupedBadges);
+            setSceneBadges(groupedBadges);
         }
     }, [
         pollingInterval,
@@ -221,7 +221,7 @@ export const useRuntimeSceneData = (
     return {
         modelUrl,
         sceneVisuals,
-        sceneAlerts,
+        sceneBadges,
         isLoading: sceneData.isLoading,
         triggerRuntimeRefetch: () =>
             sceneData.callAdapter({ isManualRefresh: true }),

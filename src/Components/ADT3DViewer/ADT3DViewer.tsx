@@ -80,7 +80,7 @@ const createBadge = (
     badgeGroup: SceneViewBadgeGroup,
     backgroundColor: IADTBackgroundColor,
     onBadgeGroupHover: (
-        alert: SceneViewBadgeGroup,
+        badge: SceneViewBadgeGroup,
         left: number,
         top: number
     ) => void
@@ -136,7 +136,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         nextRefreshTime,
         modelUrl,
         sceneVisuals,
-        sceneAlerts,
+        sceneBadges,
         triggerRuntimeRefetch
     } = useRuntimeSceneData(
         adapter,
@@ -185,15 +185,15 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         setBehaviorModalSceneVisuaElementlId
     ] = useState<string>(null);
 
-    const [isAlertPopoverVisible, setIsAlertPopoverVisible] = useState(false);
-    const [alertPopoverPosition, setAlertPopoverPosition] = useState({
+    const [isBadgePopoverVisible, setIsBadgePopoverVisible] = useState(false);
+    const [badgePopoverPosition, setBadgePopoverPosition] = useState({
         left: 0,
         top: 0
     });
 
     const [
-        alertPanelItems,
-        setAlertPanelItems
+        badgePanelItems,
+        setBadgePanelItems
     ] = useState<IViewerElementsPanelItem>(null);
 
     const [selectedVisual, setSelectedVisual] = useState<Partial<SceneVisual>>(
@@ -453,7 +453,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
             setZoomMeshesByElement(panelItem.element.id);
             setSelectedElementId(panelItem.element.id);
             showPopover(panelItem);
-            setIsAlertPopoverVisible(false);
+            setIsBadgePopoverVisible(false);
         },
         [setSelectedElementId, setZoomMeshesByElement, showPopover]
     );
@@ -545,11 +545,11 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
     }, [sceneVisuals, coloredMeshItemsProp]);
 
     useEffect(() => {
-        if (sceneAlerts) {
+        if (sceneBadges) {
             const markers: Marker[] = [];
-            sceneAlerts.forEach((alert) => {
+            sceneBadges.forEach((sceneBadge) => {
                 const badge = createBadge(
-                    alert,
+                    sceneBadge,
                     sceneThemeState.sceneBackground,
                     onBadgeGroupHover
                 );
@@ -560,7 +560,7 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         }
         // sceneThemeState.sceneBackground is a dependancy as we need to rerun this useEffect when
         // the background color changes to ensure we update the badge colors
-    }, [sceneAlerts, sceneThemeState.sceneBackground]);
+    }, [sceneBadges, sceneThemeState.sceneBackground]);
 
     // mesh callbacks
     const meshClick = (mesh: { id: string }, scene: any) => {
@@ -645,14 +645,14 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         left: number,
         top: number
     ) => {
-        setAlertPanelItems({
+        setBadgePanelItems({
             element: badgeGroup.element,
             behaviors: badgeGroup.behaviors,
             twins: badgeGroup.twins
         });
-        // Adding offsets to ensure the popover covers the alerts badges as per the designs
-        setAlertPopoverPosition({ left: left - 50, top: top - 30 });
-        setIsAlertPopoverVisible(true);
+        // Adding offsets to ensure the popover covers the badges as per the designs
+        setBadgePopoverPosition({ left: left - 50, top: top - 30 });
+        setIsBadgePopoverVisible(true);
     };
 
     // header callbacks
@@ -792,12 +792,12 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
                     twins={behaviorModalSceneVisual?.twins || {}}
                 />
             )}
-            {isAlertPopoverVisible && (
+            {isBadgePopoverVisible && (
                 <VisualsModal
-                    alerts={alertPanelItems}
-                    position={alertPopoverPosition}
+                    badges={badgePanelItems}
+                    position={badgePopoverPosition}
                     onClose={() => {
-                        setIsAlertPopoverVisible(false);
+                        setIsBadgePopoverVisible(false);
                     }}
                     onItemClick={onElementPanelItemClicked}
                     onItemHover={onElementPanelItemHovered}

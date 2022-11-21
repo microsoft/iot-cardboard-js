@@ -20,21 +20,21 @@ export const SingleAlert = () => {
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
 
-    const { sceneAlerts } = useRuntimeSceneData(adapter, sceneId, scenesConfig);
+    const { sceneBadges } = useRuntimeSceneData(adapter, sceneId, scenesConfig);
 
     const panelItems: IViewerElementsPanelItem = useMemo(
         () => ({
-            element: sceneAlerts[0]?.element,
-            behaviors: sceneAlerts[0]?.behaviors,
-            twins: sceneAlerts[0]?.twins
+            element: sceneBadges[0]?.element,
+            behaviors: sceneBadges[0]?.behaviors,
+            twins: sceneBadges[0]?.twins
         }),
-        [sceneAlerts]
+        [sceneBadges]
     );
 
     return (
         <div style={wrapperStyle}>
             <VisualsModal
-                alerts={panelItems}
+                badges={panelItems}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
                 onItemClick={null}
@@ -50,21 +50,21 @@ export const MultipleAlerts = () => {
     const sceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
     const adapter = new MockAdapter();
 
-    const { sceneAlerts } = useRuntimeSceneData(adapter, sceneId, scenesConfig);
+    const { sceneBadges } = useRuntimeSceneData(adapter, sceneId, scenesConfig);
 
     const panelItems: IViewerElementsPanelItem = useMemo(
         () => ({
-            element: sceneAlerts[1]?.element,
-            behaviors: sceneAlerts[1]?.behaviors,
-            twins: sceneAlerts[1]?.twins
+            element: sceneBadges[1]?.element,
+            behaviors: sceneBadges[1]?.behaviors,
+            twins: sceneBadges[1]?.twins
         }),
-        [sceneAlerts]
+        [sceneBadges]
     );
 
     return (
         <div style={wrapperStyle}>
             <VisualsModal
-                alerts={panelItems}
+                badges={panelItems}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
                 onItemClick={null}
@@ -79,7 +79,7 @@ export const NoAlerts = () => {
     return (
         <div style={wrapperStyle}>
             <VisualsModal
-                alerts={null}
+                badges={null}
                 position={{ left: 50, top: 50 }}
                 onClose={null}
                 onItemClick={null}

@@ -9,7 +9,7 @@ import { IViewerElementsPanelItem } from '../ElementsPanel/ViewerElementsPanel.t
 import { getStyles } from './VisualsModal.styles';
 
 export interface IVisualsModalProps {
-    alerts: IViewerElementsPanelItem;
+    badges: IViewerElementsPanelItem;
     onClose: () => any;
     position: { left: number; top: number };
     onItemClick: (
@@ -32,7 +32,7 @@ export interface IVisualsModalProps {
 const VisualsModal: React.FC<IVisualsModalProps> = ({
     onClose,
     position,
-    alerts,
+    badges,
     onItemClick,
     onItemBlur,
     onItemHover
@@ -48,7 +48,7 @@ const VisualsModal: React.FC<IVisualsModalProps> = ({
             <ElementsList
                 isLoading={false}
                 isModal={true}
-                panelItems={alerts?.element ? [alerts] : []}
+                panelItems={badges?.element ? [badges] : []}
                 onItemClick={onItemClick}
                 onItemBlur={onItemBlur}
                 onItemHover={onItemHover}
