@@ -19,15 +19,15 @@ export type IModalFormRootModelContentProps = {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        IFormRootModelDetailsContentStyleProps,
-        IFormRootModelDetailsContentStyles
+        IPropertyDetailsEditorModalContentStyleProps,
+        IPropertyDetailsEditorModalContentStyles
     >;
 };
 
-export interface IFormRootModelDetailsContentStyleProps {
+export interface IPropertyDetailsEditorModalContentStyleProps {
     theme: IExtendedTheme;
 }
-export interface IFormRootModelDetailsContentStyles {
+export interface IPropertyDetailsEditorModalContentStyles {
     root: IStyle;
     label: IStyle;
     labelWithTooltip: IStyle;
@@ -35,9 +35,9 @@ export interface IFormRootModelDetailsContentStyles {
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IFormRootModelDetailsContentSubComponentStyles;
+    subComponentStyles?: IPropertyDetailsEditorModalContentSubComponentStyles;
 }
 
-export interface IFormRootModelDetailsContentSubComponentStyles {
+export interface IPropertyDetailsEditorModalContentSubComponentStyles {
     writeableChoiceGroup?: IChoiceGroupStyles;
 }

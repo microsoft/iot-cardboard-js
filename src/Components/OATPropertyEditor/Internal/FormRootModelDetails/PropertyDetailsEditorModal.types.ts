@@ -5,7 +5,7 @@ import {
 } from '../../../../Models/Constants/dtdlInterfaces';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 import { ICardboardModalStyles } from '../../../CardboardModal/CardboardModal.types';
-import { IFormRootModelDetailsContentStyles } from '../FormRootModelDetailsContent/FormRootModelDetailsContent.types';
+import { IPropertyDetailsEditorModalContentStyles } from './Internal/FormRootModelDetailsContent/PropertyDetailsEditorModalContent.types';
 
 export type IModalFormRootModelProps = {
     isOpen: boolean;
@@ -16,22 +16,22 @@ export type IModalFormRootModelProps = {
      * Call to provide customized styling that will layer on top of the variant rules.
      */
     styles?: IStyleFunctionOrObject<
-        IFormRootModelDetailsStyleProps,
-        IFormRootModelDetailsStyles
+        IPropertyDetailsEditorModalStyleProps,
+        IPropertyDetailsEditorModalStyles
     >;
 };
 
-export interface IFormRootModelDetailsStyleProps {
+export interface IPropertyDetailsEditorModalStyleProps {
     theme: IExtendedTheme;
 }
-export interface IFormRootModelDetailsStyles {
+export interface IPropertyDetailsEditorModalStyles {
     /**
      * SubComponent styles.
      */
-    subComponentStyles?: IFormRootModelDetailsSubComponentStyles;
+    subComponentStyles?: IPropertyDetailsEditorModalSubComponentStyles;
 }
 
-export interface IFormRootModelDetailsSubComponentStyles {
+export interface IPropertyDetailsEditorModalSubComponentStyles {
     root?: ICardboardModalStyles;
-    content?: IFormRootModelDetailsContentStyles;
+    content?: IPropertyDetailsEditorModalContentStyles;
 }

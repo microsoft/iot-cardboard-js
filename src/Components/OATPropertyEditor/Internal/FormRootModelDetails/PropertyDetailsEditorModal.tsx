@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import CardboardModal from '../../../CardboardModal/CardboardModal';
-import FormRootModelDetailsContent from './Internal/FormRootModelDetailsContent/PropertyDetailsEditorModalContent';
 import {
-    IFormRootModelDetailsStyleProps,
-    IFormRootModelDetailsStyles,
+    IPropertyDetailsEditorModalStyleProps,
+    IPropertyDetailsEditorModalStyles,
     IModalFormRootModelProps
 } from './PropertyDetailsEditorModal.types';
+import PropertyDetailsEditorModalContent from './Internal/FormRootModelDetailsContent/PropertyDetailsEditorModalContent';
 import { getStyles } from './PropertyDetailsEditorModal.styles';
 import { useTranslation } from 'react-i18next';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
@@ -16,14 +16,17 @@ import { isDTDLReference } from '../../../../Models/Services/DtdlUtils';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 
 const debugLogging = false;
-const logDebugConsole = getDebugLogger('FormRootModelDetails', debugLogging);
+const logDebugConsole = getDebugLogger(
+    'PropertyDetailsEditorModal',
+    debugLogging
+);
 
 const getClassNames = classNamesFunction<
-    IFormRootModelDetailsStyleProps,
-    IFormRootModelDetailsStyles
+    IPropertyDetailsEditorModalStyleProps,
+    IPropertyDetailsEditorModalStyles
 >();
 
-export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
+export const PropertyDetailsEditorModal: React.FC<IModalFormRootModelProps> = (
     props
 ) => {
     const { isOpen, onClose, onSubmit, selectedItem, styles } = props;
@@ -86,7 +89,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
             }}
             styles={classNames.subComponentStyles.root}
         >
-            <FormRootModelDetailsContent
+            <PropertyDetailsEditorModalContent
                 onUpdateItem={setLocalDraft}
                 selectedItem={localDraft}
                 styles={classNames.subComponentStyles.content}
@@ -97,6 +100,6 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
 
 export default styled<
     IModalFormRootModelProps,
-    IFormRootModelDetailsStyleProps,
-    IFormRootModelDetailsStyles
->(FormRootModelDetails, getStyles);
+    IPropertyDetailsEditorModalStyleProps,
+    IPropertyDetailsEditorModalStyles
+>(PropertyDetailsEditorModal, getStyles);

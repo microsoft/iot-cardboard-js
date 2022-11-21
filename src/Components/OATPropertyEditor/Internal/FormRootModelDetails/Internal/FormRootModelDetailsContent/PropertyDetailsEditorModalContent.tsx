@@ -24,13 +24,13 @@ import {
     isValidDescription
 } from '../../../../Utils';
 import {
-    IFormRootModelDetailsContentStyleProps,
-    IFormRootModelDetailsContentStyles,
+    IPropertyDetailsEditorModalContentStyleProps,
+    IPropertyDetailsEditorModalContentStyles,
     IModalFormRootModelContentProps
-} from './FormRootModelDetailsContent.types';
+} from './PropertyDetailsEditorModalContent.types';
 import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
-import { getStyles } from './FormRootModelDetailsContent.styles';
+import { getStyles } from './PropertyDetailsEditorModalContent.styles';
 import {
     isDTDLReference,
     isDTDLRelationshipReference
@@ -46,16 +46,16 @@ const PLACEHOLDER_LANGUAGE = 'unset';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger(
-    'FormRootModelDetailsContent',
+    'PropertyDetailsEditorModalContent',
     debugLogging
 );
 
 const getClassNames = classNamesFunction<
-    IFormRootModelDetailsContentStyleProps,
-    IFormRootModelDetailsContentStyles
+    IPropertyDetailsEditorModalContentStyleProps,
+    IPropertyDetailsEditorModalContentStyles
 >();
 
-export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentProps> = (
+export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelContentProps> = (
     props
 ) => {
     const { onUpdateItem, selectedItem, styles } = props;
@@ -673,6 +673,6 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
 
 export default styled<
     IModalFormRootModelContentProps,
-    IFormRootModelDetailsContentStyleProps,
-    IFormRootModelDetailsContentStyles
->(FormRootModelDetailsContent, getStyles);
+    IPropertyDetailsEditorModalContentStyleProps,
+    IPropertyDetailsEditorModalContentStyles
+>(PropertyDetailsEditorModalContent, getStyles);

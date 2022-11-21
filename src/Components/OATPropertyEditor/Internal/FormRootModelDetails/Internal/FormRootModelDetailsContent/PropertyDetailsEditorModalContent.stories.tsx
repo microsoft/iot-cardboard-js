@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import FormRootModelDetailsContent from './PropertyDetailsEditorModalContent';
-import { IModalFormRootModelContentProps } from './FormRootModelDetailsContent.types';
+import PropertyDetailsEditorModalContent from './PropertyDetailsEditorModalContent';
+import { IModalFormRootModelContentProps } from './PropertyDetailsEditorModalContent.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import {
@@ -14,8 +14,9 @@ import { DtdlRelationship } from '../../../../../../Models/Constants';
 const wrapperStyle = { width: '100%', height: '100%', padding: 16 };
 
 export default {
-    title: 'Components - OAT/OATPropertyEditor/FormRootModelDetailsContent',
-    component: FormRootModelDetailsContent,
+    title:
+        'Components - OAT/OATPropertyEditor/PropertyDetailsEditorModalContent',
+    component: PropertyDetailsEditorModalContent,
     decorators: [
         getDefaultStoryDecorator<IModalFormRootModelContentProps>(wrapperStyle)
     ]
@@ -29,7 +30,7 @@ const Template = (args: StoryProps) => {
         <OatPageContextProvider disableLocalStorage={true}>
             {/* Would be a callout or something */}
             <div style={{ width: 600 }}>
-                <FormRootModelDetailsContent
+                <PropertyDetailsEditorModalContent
                     {...args}
                     selectedItem={localDraft}
                     onUpdateItem={(value) => {

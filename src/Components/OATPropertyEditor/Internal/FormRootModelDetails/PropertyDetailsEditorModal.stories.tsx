@@ -1,5 +1,5 @@
 import React from 'react';
-import FormRootModelDetails from './PropertyDetailsEditorModal';
+import PropertyDetailsEditorModal from './PropertyDetailsEditorModal';
 import { IModalFormRootModelProps } from './PropertyDetailsEditorModal.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
@@ -14,8 +14,8 @@ import { DTDLType } from '../../../../Models/Classes/DTDL';
 const wrapperStyle = { width: '100%', height: '100%', padding: 16 };
 
 export default {
-    title: 'Components - OAT/OATPropertyEditor/FormRootModelDetails',
-    component: FormRootModelDetails,
+    title: 'Components - OAT/OATPropertyEditor/PropertyDetailsEditorModal',
+    component: PropertyDetailsEditorModal,
     decorators: [
         getDefaultStoryDecorator<IModalFormRootModelProps>(wrapperStyle)
     ]
@@ -28,7 +28,7 @@ const Template = (args: StoryProps) => {
         <OatPageContextProvider disableLocalStorage={true}>
             {/* Would be a callout or something */}
             <div style={{ width: 600 }}>
-                <FormRootModelDetails
+                <PropertyDetailsEditorModal
                     isOpen={true}
                     onClose={() => console.log('Close modal')}
                     onSubmit={(value) =>

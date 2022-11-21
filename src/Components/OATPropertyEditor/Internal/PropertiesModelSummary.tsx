@@ -36,7 +36,7 @@ import {
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
-import FormRootModelDetails from './FormRootModelDetails/PropertyDetailsEditorModal';
+import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -348,7 +348,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 )}
             </Stack>
 
-            <FormRootModelDetails
+            <PropertyDetailsEditorModal
                 isOpen={isInfoModalOpen}
                 selectedItem={selectedItem}
                 onClose={setIsInfoModalOpenFalse}

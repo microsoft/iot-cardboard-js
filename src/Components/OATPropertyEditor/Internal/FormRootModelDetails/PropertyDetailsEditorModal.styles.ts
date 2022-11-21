@@ -1,11 +1,11 @@
 import {
-    IFormRootModelDetailsStyleProps,
-    IFormRootModelDetailsStyles
+    IPropertyDetailsEditorModalStyleProps,
+    IPropertyDetailsEditorModalStyles
 } from './PropertyDetailsEditorModal.types';
 
 export const getStyles = (
-    _props: IFormRootModelDetailsStyleProps
-): IFormRootModelDetailsStyles => {
+    _props: IPropertyDetailsEditorModalStyleProps
+): IPropertyDetailsEditorModalStyles => {
     return {
         subComponentStyles: {}
     };

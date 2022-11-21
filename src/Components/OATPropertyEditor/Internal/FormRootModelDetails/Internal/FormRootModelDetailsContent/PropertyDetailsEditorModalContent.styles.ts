@@ -1,8 +1,8 @@
 import { CardboardClassNamePrefix } from '../../../../../../Models/Constants/Constants';
 import {
-    IFormRootModelDetailsContentStyleProps,
-    IFormRootModelDetailsContentStyles
-} from './FormRootModelDetailsContent.types';
+    IPropertyDetailsEditorModalContentStyleProps,
+    IPropertyDetailsEditorModalContentStyles
+} from './PropertyDetailsEditorModalContent.types';
 
 export const classPrefix = `${CardboardClassNamePrefix}-form-root-model-details`;
 const classNames = {
@@ -12,8 +12,8 @@ const classNames = {
 };
 const LABEL_MARGIN = 20;
 export const getStyles = (
-    _props: IFormRootModelDetailsContentStyleProps
-): IFormRootModelDetailsContentStyles => {
+    _props: IPropertyDetailsEditorModalContentStyleProps
+): IPropertyDetailsEditorModalContentStyles => {
     return {
         root: [classNames.root, {}],
         label: [
