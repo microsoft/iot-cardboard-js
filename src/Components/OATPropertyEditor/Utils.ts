@@ -250,6 +250,9 @@ export const validateDisplayNameChange = (
 export const isValidDisplayName = (value: string) => {
     return value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT;
 };
+export const isValidDescription = (value: string) => {
+    return value.length <= OAT_DESCRIPTION_LENGTH_LIMIT;
+};
 
 // Handle description change on forms
 export const validateDescriptionChange = (
@@ -311,7 +314,7 @@ export const getTargetFromSelection = (
     models: DtdlInterface[],
     selection: IOATSelection
 ) => {
-    console.log('***Getting target from models', models, selection);
+    // console.log('***Getting target from models', models, selection);
     const model = models.find((m) => m['@id'] === selection.modelId);
     if (!selection.contentId) {
         return model;

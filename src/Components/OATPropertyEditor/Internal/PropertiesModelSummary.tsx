@@ -354,7 +354,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 onClose={setIsInfoModalOpenFalse}
                 onSubmit={() => {
                     alert('submit');
-                    setIsInfoModalOpenFalse;
+                    setIsInfoModalOpenFalse();
                 }}
             />
         </>

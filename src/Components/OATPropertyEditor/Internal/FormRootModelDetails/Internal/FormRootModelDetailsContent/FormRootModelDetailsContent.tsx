@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import {
     ActionButton,
     ChoiceGroup,
@@ -15,37 +15,40 @@ import { useTranslation } from 'react-i18next';
 import {
     getPropertyInspectorStyles,
     getRadioGroupRowStyles
-} from '../../OATPropertyEditor.styles';
-import { MultiLanguageSelectionType } from '../../../../Models/Constants/Enums';
+} from '../../../../OATPropertyEditor.styles';
 import {
-    validateDescriptionChange,
-    setMultiLanguageSelectionRemoval,
-    setMultiLanguageSelectionsDescriptionKey,
-    validateMultiLanguageSelectionsDescriptionValueChange,
-    setMultiLanguageSelectionsDisplayNameKey,
-    setMultiLanguageSelectionsDisplayNameValue,
     getModelPropertyListItemName,
     isValidComment,
-    isValidDisplayName
-} from '../../Utils';
+    isValidDisplayName,
+    getDisplayName,
+    isValidDescription
+} from '../../../../Utils';
 import {
     IFormRootModelDetailsContentStyleProps,
     IFormRootModelDetailsContentStyles,
     IModalFormRootModelContentProps
 } from './FormRootModelDetailsContent.types';
-import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
-import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
+import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
+import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './FormRootModelDetailsContent.styles';
 import {
     isDTDLReference,
     isDTDLRelationshipReference
-} from '../../../../Models/Services/DtdlUtils';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../Models/Constants';
-import TooltipCallout from '../../../TooltipCallout/TooltipCallout';
+} from '../../../../../../Models/Services/DtdlUtils';
+import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
+import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
+import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
+const PLACEHOLDER_LANGUAGE = 'unset';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger(
+    'FormRootModelDetailsContent',
+    debugLogging
+);
 
 const getClassNames = classNamesFunction<
     IFormRootModelDetailsContentStyleProps,
@@ -70,64 +73,40 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     // data
 
     // state
-    const [displayName, setDisplayName] = useState(
-        getModelPropertyListItemName(selectedItem.displayName)
-    );
-    const [
-        isDisplayNameMultiLanguage,
-        setIsDisplayNameMultiLanguage
-    ] = useState<boolean>(
-        selectedItem.displayName && typeof selectedItem.displayName === 'object'
-    );
-    const [
-        isDescriptionMultiLanguage,
-        setIsDescriptionMultiLanguage
-    ] = useState<boolean>(
-        selectedItem.description && typeof selectedItem.description === 'object'
-    );
+    const isDisplayNameMultiLanguage =
+        selectedItem.displayName &&
+        typeof selectedItem.displayName === 'object';
+    const isDescriptionMultiLanguage =
+        selectedItem.description &&
+        typeof selectedItem.description === 'object';
 
     const [
         isAMultiLanguageDisplayNameEmpty,
         setIsAMultiLanguageDisplayNameEmpty
     ] = useState(true);
-    const [
-        multiLanguageSelectionsDisplayNames,
-        setMultiLanguageSelectionsDisplayNames
-    ] = useState<{ key: string; value: string }[]>([]);
-    const [
-        multiLanguageSelectionsDescriptions,
-        setMultiLanguageSelectionsDescriptions
-    ] = useState<{ key: string; value: string }[]>([]);
+    const multiLanguageDisplayNames = useMemo(
+        () =>
+            typeof selectedItem.displayName === 'object'
+                ? Object.keys(selectedItem.displayName)
+                : [],
+        [selectedItem.displayName]
+    );
+    const multiLanguageDescriptions = useMemo(
+        () =>
+            typeof selectedItem.description === 'object'
+                ? Object.keys(selectedItem.description)
+                : [],
+        [selectedItem.description]
+    );
     const [
         isAMultiLanguageDescriptionEmpty,
         setIsAMultiLanguageDescriptionEmpty
     ] = useState(true);
     const [hasCommentError, setHasCommentError] = useState<boolean>(false);
-    const [descriptionError, setDescriptionError] = useState(null);
+    const [hasDescriptionError, setHasDescriptionError] = useState(null);
     const [displayNameError, setHasDisplayNameError] = useState(null);
 
     // callbacks
-
-    // const onFormSubmit = () => {
-    //     const modelCopy = deepCopy(selectedItem);
-    //     modelCopy.displayName = !isDisplayNameMultiLanguage
-    //         ? displayName
-    //             ? displayName
-    //             : selectedItem.displayName
-    //         : multiLanguageSelectionsDisplayName
-    //         ? multiLanguageSelectionsDisplayName
-    //         : selectedItem.displayName;
-    //     modelCopy.description =
-    //         languageSelectionDescription === SINGLE_LANGUAGE_KEY
-    //             ? description
-    //                 ? description
-    //                 : selectedItem.description
-    //             : multiLanguageSelectionsDescription
-    //             ? multiLanguageSelectionsDescription
-    //             : selectedItem.description;
-
-    //     onUpdateItem(modelCopy);
-    // };
 
     const onValidateNumber = useCallback(
         (currentValue: string, newValue: string) => {
@@ -149,7 +128,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
         {
             key: SINGLE_LANGUAGE_KEY,
             text: t('OATPropertyEditor.singleLanguage'),
-            disabled: multiLanguageSelectionsDisplayNames.length > 0
+            disabled: multiLanguageDisplayNames.length > 0
         },
         {
             key: MULTI_LANGUAGE_KEY,
@@ -161,7 +140,7 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
         {
             key: SINGLE_LANGUAGE_KEY,
             text: t('OATPropertyEditor.singleLanguage'),
-            disabled: multiLanguageSelectionsDescriptions.length > 0
+            disabled: multiLanguageDescriptions.length > 0
         },
         {
             key: MULTI_LANGUAGE_KEY,
@@ -170,64 +149,27 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     ];
 
     // side effects
-    // initialize all state variables when the selected item changes
-    useEffect(() => {
-        setDisplayName(getModelPropertyListItemName(selectedItem.displayName));
-        setIsDisplayNameMultiLanguage(
-            selectedItem.displayName &&
-                typeof selectedItem.displayName === 'object'
-        );
-        setIsDescriptionMultiLanguage(
-            selectedItem.description &&
-                typeof selectedItem.description === 'object'
-        );
-    }, [selectedItem]);
-
     // Update multiLanguageSelectionsDisplayNames on every new language change
     useEffect(() => {
-        // Create an array of the keys and values
-        const newMultiLanguageSelectionsDisplayNames = Object.keys(
-            multiLanguageSelectionsDisplayName
-        ).map((key) => {
-            return {
-                key,
-                value: multiLanguageSelectionsDisplayName[key]
-            };
-        });
-
-        setMultiLanguageSelectionsDisplayNames(
-            newMultiLanguageSelectionsDisplayNames
-        );
-
-        // Check if array of object includes empty values
-        const hasEmptyValues = newMultiLanguageSelectionsDisplayNames.some(
-            (item) => item.value === ''
-        );
-        setIsAMultiLanguageDisplayNameEmpty(hasEmptyValues);
-    }, [multiLanguageSelectionsDisplayName]);
+        if (typeof selectedItem.displayName === 'object') {
+            // Check if array of object includes empty values
+            const hasEmptyValues = multiLanguageDisplayNames.some(
+                (language) => selectedItem.displayName[language] === ''
+            );
+            setIsAMultiLanguageDisplayNameEmpty(hasEmptyValues);
+        }
+    }, [multiLanguageDisplayNames, selectedItem.displayName]);
 
     // Update multiLanguageSelectionsDescriptions on every new language change
     useEffect(() => {
-        // Create an array of the keys and values
-        const newMultiLanguageSelectionsDescriptions = Object.keys(
-            multiLanguageSelectionsDescription
-        ).map((key) => {
-            return {
-                key,
-                value: multiLanguageSelectionsDescription[key]
-            };
-        });
-
-        setMultiLanguageSelectionsDescriptions(
-            newMultiLanguageSelectionsDescriptions
-        );
-
-        // Check if array of object includes empty values
-        const hasEmptyValues = newMultiLanguageSelectionsDescriptions.some(
-            (item) => item.value === ''
-        );
-        setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
-    }, [multiLanguageSelectionsDescription]);
+        if (typeof selectedItem.description === 'object') {
+            // Check if array of object includes empty values
+            const hasEmptyValues = multiLanguageDescriptions.some(
+                (language) => selectedItem.description[language] === ''
+            );
+            setIsAMultiLanguageDescriptionEmpty(hasEmptyValues);
+        }
+    }, [multiLanguageDescriptions, selectedItem.description]);
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -235,6 +177,8 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme()
     });
+
+    logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
 
     return (
         <div className={classNames.root}>
@@ -251,11 +195,15 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                             : SINGLE_LANGUAGE_KEY
                     }
                     options={displayNameMultiLangOptions}
-                    onChange={(_ev, option) =>
-                        setIsDisplayNameMultiLanguage(
-                            option.key === MULTI_LANGUAGE_KEY
-                        )
-                    }
+                    onChange={(_ev, option) => {
+                        const isMultiLang = option.key === MULTI_LANGUAGE_KEY;
+                        onUpdateItem(
+                            produce((draft) => {
+                                draft.displayName = isMultiLang ? {} : '';
+                                return draft;
+                            })
+                        );
+                    }}
                     required={true}
                     styles={radioGroupRowStyle}
                 />
@@ -286,81 +234,90 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                                 ? t('OATPropertyEditor.errorDisplayName')
                                 : ''
                         }
-                        value={getModelPropertyListItemName(displayName)}
+                        value={getDisplayName(selectedItem.displayName)}
                     />
                 </div>
             )}
             {isDisplayNameMultiLanguage &&
-                multiLanguageSelectionsDisplayNames.length > 0 &&
-                multiLanguageSelectionsDisplayNames.map((language, index) => (
-                    <div
-                        key={index}
-                        className={
-                            propertyInspectorStyles.modalRowLanguageSelection
-                        }
-                    >
-                        <IconButton
-                            iconProps={{ iconName: 'Cancel' }}
-                            title={t('OATPropertyEditor.delete')}
-                            ariaLabel={t('OATPropertyEditor.delete')}
-                            onClick={() =>
-                                setMultiLanguageSelectionRemoval(
-                                    index,
-                                    MultiLanguageSelectionType.displayName,
-                                    multiLanguageSelectionsDisplayName,
-                                    multiLanguageSelectionsDisplayNames,
-                                    multiLanguageSelectionsDescription,
-                                    multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayNames,
-                                    setMultiLanguageSelectionsDescription,
-                                    setMultiLanguageSelectionsDescriptions
-                                )
+                multiLanguageDisplayNames.length > 0 &&
+                multiLanguageDisplayNames.map((language, index) => {
+                    return (
+                        <div
+                            key={index}
+                            className={
+                                propertyInspectorStyles.modalRowLanguageSelection
                             }
-                        />
-                        <Dropdown
-                            id={`display-name-language-selector-${index}`}
-                            placeholder={t('OATPropertyEditor.region')}
-                            options={oatPageState.languageOptions}
-                            onChange={(_ev, option) =>
-                                displayNameMultiLangOptions &&
-                                setMultiLanguageSelectionsDisplayNameKey(
-                                    option.key,
-                                    index,
-                                    multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName
-                                )
-                            }
-                            defaultSelectedKey={language.key}
-                        />
-                        <TextField
-                            aria-aria-describedby={`display-name-label display-name-language-selector-${index}`}
-                            placeholder={t(
-                                'OATPropertyEditor.displayNamePlaceholder'
-                            )}
-                            value={language.value}
-                            onChange={(_ev, value) =>
-                                value &&
-                                setMultiLanguageSelectionsDisplayNameValue(
-                                    value,
-                                    index,
-                                    multiLanguageSelectionsDisplayNames,
-                                    multiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayName,
-                                    setHasDisplayNameError
-                                )
-                            }
-                            disabled={
-                                !multiLanguageSelectionsDisplayNames[index].key
-                            }
-                            errorMessage={
-                                displayNameError
-                                    ? t('OATPropertyEditor.errorDisplayName')
-                                    : ''
-                            }
-                        />
-                    </div>
-                ))}
+                        >
+                            <IconButton
+                                iconProps={{ iconName: 'Cancel' }}
+                                title={t('OATPropertyEditor.delete')}
+                                ariaLabel={t('OATPropertyEditor.delete')}
+                                onClick={() => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            delete draft.displayName[language];
+                                            return draft;
+                                        })
+                                    );
+                                }}
+                            />
+                            <Dropdown
+                                id={`display-name-language-selector-${index}`}
+                                placeholder={t('OATPropertyEditor.region')}
+                                options={oatPageState.languageOptions}
+                                onChange={(_ev, option) => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            // if this was the first language, remove the placeholder
+                                            if (
+                                                language ===
+                                                PLACEHOLDER_LANGUAGE
+                                            ) {
+                                                delete draft.displayName[
+                                                    PLACEHOLDER_LANGUAGE
+                                                ];
+                                            }
+                                            draft.displayName[option.key] = '';
+                                            return draft;
+                                        })
+                                    );
+                                }}
+                                selectedKey={language}
+                            />
+                            <TextField
+                                aria-aria-describedby={`display-name-label display-name-language-selector-${index}`}
+                                placeholder={t(
+                                    'OATPropertyEditor.displayNamePlaceholder'
+                                )}
+                                value={selectedItem.displayName[language]}
+                                onChange={(_ev, value) => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            draft.displayName[language] = value;
+                                            console.log(
+                                                '***Setting. {key, displayName}',
+                                                language,
+                                                draft.displayName
+                                            );
+                                            return draft;
+                                        })
+                                    );
+                                }}
+                                disabled={
+                                    !language ||
+                                    language === PLACEHOLDER_LANGUAGE
+                                }
+                                errorMessage={
+                                    displayNameError
+                                        ? t(
+                                              'OATPropertyEditor.errorDisplayName'
+                                          )
+                                        : ''
+                                }
+                            />
+                        </div>
+                    );
+                })}
             {isDisplayNameMultiLanguage && (
                 <div className={propertyInspectorStyles.regionButton}>
                     <ActionButton
@@ -370,26 +327,16 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         }}
                         disabled={
                             isAMultiLanguageDisplayNameEmpty &&
-                            multiLanguageSelectionsDisplayNames.length !== 0
+                            multiLanguageDisplayNames.length !== 0
                         }
                         onClick={() => {
-                            const newMultiLanguageSelectionsDisplayNames = [
-                                ...multiLanguageSelectionsDisplayNames,
-                                {
-                                    key: '',
-                                    value: ''
-                                }
-                            ];
-
-                            setMultiLanguageSelectionsDisplayNames(
-                                newMultiLanguageSelectionsDisplayNames
+                            onUpdateItem(
+                                produce((draft) => {
+                                    draft.displayName[PLACEHOLDER_LANGUAGE] =
+                                        '';
+                                    return draft;
+                                })
                             );
-                            if (
-                                newMultiLanguageSelectionsDisplayNames.length >
-                                0
-                            ) {
-                                setIsAMultiLanguageDisplayNameEmpty(true);
-                            }
                         }}
                         text={t('OATPropertyEditor.region')}
                     />
@@ -409,11 +356,20 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                             : SINGLE_LANGUAGE_KEY
                     }
                     options={descriptionMultiLangOptions}
-                    onChange={(_ev, option) =>
-                        setIsDescriptionMultiLanguage(
-                            option.key === MULTI_LANGUAGE_KEY
-                        )
-                    }
+                    onChange={(_ev, option) => {
+                        const isMultiLang = option.key === MULTI_LANGUAGE_KEY;
+                        onUpdateItem(
+                            produce((draft) => {
+                                draft.description = isMultiLang ? {} : '';
+                                logDebugConsole(
+                                    'debug',
+                                    `Setting description name multi-lange to ${isMultiLang}. {displayName}`,
+                                    draft.description
+                                );
+                                return draft;
+                            })
+                        );
+                    }}
                     required={true}
                     styles={radioGroupRowStyle}
                 />
@@ -428,16 +384,24 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         placeholder={t(
                             'OATPropertyEditor.descriptionPlaceholder'
                         )}
-                        value={getModelPropertyListItemName(description)}
-                        onChange={(_ev, value) =>
-                            validateDescriptionChange(
-                                value,
-                                setDescription,
-                                setDescriptionError
-                            )
-                        }
+                        value={getModelPropertyListItemName(
+                            selectedItem.description
+                        )}
+                        onChange={(_ev, value) => {
+                            if (isValidDescription(value)) {
+                                setHasDescriptionError(false);
+                                onUpdateItem(
+                                    produce((draft) => {
+                                        draft.description = value;
+                                        return draft;
+                                    })
+                                );
+                            } else {
+                                setHasDescriptionError(true);
+                            }
+                        }}
                         errorMessage={
-                            descriptionError
+                            hasDescriptionError
                                 ? t('OATPropertyEditor.errorDescription')
                                 : ''
                         }
@@ -445,8 +409,8 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                 </div>
             )}
             {isDescriptionMultiLanguage &&
-                multiLanguageSelectionsDescriptions.length > 0 &&
-                multiLanguageSelectionsDescriptions.map((language, index) => (
+                multiLanguageDescriptions.length > 0 &&
+                multiLanguageDescriptions.map((language, index) => (
                     <div
                         key={index}
                         className={
@@ -457,57 +421,55 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                             iconProps={{ iconName: 'Cancel' }}
                             title={t('OATPropertyEditor.delete')}
                             ariaLabel={t('OATPropertyEditor.delete')}
-                            onClick={() =>
-                                setMultiLanguageSelectionRemoval(
-                                    index,
-                                    MultiLanguageSelectionType.description,
-                                    multiLanguageSelectionsDisplayName,
-                                    multiLanguageSelectionsDisplayNames,
-                                    multiLanguageSelectionsDescription,
-                                    multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDisplayName,
-                                    setMultiLanguageSelectionsDisplayNames,
-                                    setMultiLanguageSelectionsDescription,
-                                    setMultiLanguageSelectionsDescriptions
-                                )
-                            }
+                            onClick={() => {
+                                onUpdateItem(
+                                    produce((draft) => {
+                                        delete draft.description[language];
+                                        return draft;
+                                    })
+                                );
+                            }}
                         />
                         <Dropdown
                             id={`description-language-selector-${index}`}
                             aria-labelledby={'description-label'}
                             placeholder={t('OATPropertyEditor.region')}
                             options={oatPageState.languageOptions}
-                            onChange={(_ev, option) =>
-                                setMultiLanguageSelectionsDescriptionKey(
-                                    option.key,
-                                    index,
-                                    multiLanguageSelectionsDescription,
-                                    setMultiLanguageSelectionsDescription
-                                )
-                            }
-                            defaultSelectedKey={language.key}
+                            onChange={(_ev, option) => {
+                                onUpdateItem(
+                                    produce((draft) => {
+                                        // if this was the first language, remove the placeholder
+                                        if (language === PLACEHOLDER_LANGUAGE) {
+                                            delete draft.description[
+                                                PLACEHOLDER_LANGUAGE
+                                            ];
+                                        }
+                                        draft.description[option.key] = '';
+                                        return draft;
+                                    })
+                                );
+                            }}
+                            selectedKey={language}
                         />
                         <TextField
                             aria-describedby={`description-label description-language-selector-${index}`}
                             placeholder={t(
                                 'OATPropertyEditor.descriptionPlaceholder'
                             )}
-                            value={language.value}
-                            onChange={(_ev, value) =>
-                                validateMultiLanguageSelectionsDescriptionValueChange(
-                                    value,
-                                    index,
-                                    multiLanguageSelectionsDescription,
-                                    multiLanguageSelectionsDescriptions,
-                                    setMultiLanguageSelectionsDescription,
-                                    setDescriptionError
-                                )
-                            }
+                            value={selectedItem.description[language]}
+                            onChange={(_ev, value) => {
+                                onUpdateItem(
+                                    produce((draft) => {
+                                        draft.description[language] = value;
+                                        return draft;
+                                    })
+                                );
+                            }}
                             disabled={
-                                !multiLanguageSelectionsDescriptions[index].key
+                                !language || language === PLACEHOLDER_LANGUAGE
                             }
                             errorMessage={
-                                descriptionError
+                                hasDescriptionError
                                     ? t('OATPropertyEditor.errorDescription')
                                     : ''
                             }
@@ -523,26 +485,16 @@ export const FormRootModelDetailsContent: React.FC<IModalFormRootModelContentPro
                         }}
                         disabled={
                             isAMultiLanguageDescriptionEmpty &&
-                            multiLanguageSelectionsDescriptions.length !== 0
+                            multiLanguageDescriptions.length !== 0
                         }
                         onClick={() => {
-                            const newMultiLanguageSelectionsDescriptions = [
-                                ...multiLanguageSelectionsDescriptions,
-                                {
-                                    key: '',
-                                    value: ''
-                                }
-                            ];
-
-                            setMultiLanguageSelectionsDescriptions(
-                                newMultiLanguageSelectionsDescriptions
+                            onUpdateItem(
+                                produce((draft) => {
+                                    draft.description[PLACEHOLDER_LANGUAGE] =
+                                        '';
+                                    return draft;
+                                })
                             );
-                            if (
-                                newMultiLanguageSelectionsDescriptions.length >
-                                0
-                            ) {
-                                setIsAMultiLanguageDescriptionEmpty(true);
-                            }
                         }}
                         text={t('OATPropertyEditor.region')}
                     />

@@ -7,8 +7,8 @@ import { Dispatch, SetStateAction } from 'react';
 import {
     DtdlInterface,
     DtdlInterfaceContent
-} from '../../../../Models/Constants/dtdlInterfaces';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
+} from '../../../../../../Models/Constants/dtdlInterfaces';
+import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export type IModalFormRootModelContentProps = {
     onUpdateItem: Dispatch<

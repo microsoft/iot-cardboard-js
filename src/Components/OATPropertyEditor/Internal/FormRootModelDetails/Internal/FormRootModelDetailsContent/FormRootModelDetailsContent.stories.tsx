@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import FormRootModelDetailsContent from './FormRootModelDetailsContent';
 import { IModalFormRootModelContentProps } from './FormRootModelDetailsContent.types';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
-import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
+import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
+import { OatPageContextProvider } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import {
     getMockModelItem,
     getMockReference
-} from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
-import { buildModelId } from '../../../../Models/Services/OatUtils';
-import { DTDLType } from '../../../../Models/Classes/DTDL';
-import { DtdlRelationship } from '../../../../Models/Constants';
+} from '../../../../../../Models/Context/OatPageContext/OatPageContext.mock';
+import { buildModelId } from '../../../../../../Models/Services/OatUtils';
+import { DTDLType } from '../../../../../../Models/Classes/DTDL';
+import { DtdlRelationship } from '../../../../../../Models/Constants';
 
 const wrapperStyle = { width: '100%', height: '100%', padding: 16 };
 

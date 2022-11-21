@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import CardboardModal from '../../../CardboardModal/CardboardModal';
-import FormRootModelDetailsContent from '../FormRootModelDetailsContent/FormRootModelDetailsContent';
+import FormRootModelDetailsContent from './Internal/FormRootModelDetailsContent/FormRootModelDetailsContent';
 import {
     IFormRootModelDetailsStyleProps,
     IFormRootModelDetailsStyles,
@@ -13,6 +13,10 @@ import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
 import { getModelPropertyListItemName } from '../../Utils';
 import { isDTDLReference } from '../../../../Models/Services/DtdlUtils';
+import { getDebugLogger } from '../../../../Models/Services/Utils';
+
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('FormRootModelDetails', debugLogging);
 
 const getClassNames = classNamesFunction<
     IFormRootModelDetailsStyleProps,
@@ -40,6 +44,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
 
     // side effects
     useEffect(() => {
+        logDebugConsole('debug', 'Updating local draft. {item}', selectedItem);
         setLocalDraft(selectedItem);
     }, [selectedItem]);
 
@@ -48,17 +53,22 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
         theme: useExtendedTheme()
     });
 
+    logDebugConsole('debug', 'Render. {item}', localDraft);
     return (
         <CardboardModal
             isOpen={isOpen}
             footerPrimaryButtonProps={{
                 text: t('update'),
                 onClick: () => {
+                    logDebugConsole('info', 'Saving. {data}', localDraft);
                     onSubmit(localDraft);
                     onClose();
                 }
             }}
-            onDismiss={onClose}
+            onDismiss={() => {
+                onClose();
+                setLocalDraft(selectedItem);
+            }}
             title={() => {
                 return (
                     <ModelPropertyHeader
@@ -78,7 +88,7 @@ export const FormRootModelDetails: React.FC<IModalFormRootModelProps> = (
         >
             <FormRootModelDetailsContent
                 onUpdateItem={setLocalDraft}
-                selectedItem={selectedItem}
+                selectedItem={localDraft}
                 styles={classNames.subComponentStyles.content}
             />
         </CardboardModal>
