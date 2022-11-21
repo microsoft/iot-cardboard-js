@@ -36,7 +36,7 @@ import {
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
 import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
-import FormRootModelDetails from './FormRootModelDetails/FormRootModelDetails';
+import FormRootModelDetails from './FormRootModelDetails/PropertyDetailsEditorModal';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);

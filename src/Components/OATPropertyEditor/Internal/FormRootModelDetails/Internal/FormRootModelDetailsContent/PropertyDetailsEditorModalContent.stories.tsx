@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FormRootModelDetailsContent from './FormRootModelDetailsContent';
+import FormRootModelDetailsContent from './PropertyDetailsEditorModalContent';
 import { IModalFormRootModelContentProps } from './FormRootModelDetailsContent.types';
 import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../../../Models/Context/OatPageContext/OatPageContext';

@@ -1,7 +1,7 @@
 import {
     IFormRootModelDetailsStyleProps,
     IFormRootModelDetailsStyles
-} from './FormRootModelDetails.types';
+} from './PropertyDetailsEditorModal.types';
 
 export const getStyles = (
     _props: IFormRootModelDetailsStyleProps

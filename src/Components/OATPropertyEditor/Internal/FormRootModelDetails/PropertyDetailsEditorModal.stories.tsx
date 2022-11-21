@@ -1,6 +1,6 @@
 import React from 'react';
-import FormRootModelDetails from './FormRootModelDetails';
-import { IModalFormRootModelProps } from './FormRootModelDetails.types';
+import FormRootModelDetails from './PropertyDetailsEditorModal';
+import { IModalFormRootModelProps } from './PropertyDetailsEditorModal.types';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import {

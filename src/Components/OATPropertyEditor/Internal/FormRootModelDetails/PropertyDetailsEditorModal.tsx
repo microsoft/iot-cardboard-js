@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { classNamesFunction, styled } from '@fluentui/react';
 import CardboardModal from '../../../CardboardModal/CardboardModal';
-import FormRootModelDetailsContent from './Internal/FormRootModelDetailsContent/FormRootModelDetailsContent';
+import FormRootModelDetailsContent from './Internal/FormRootModelDetailsContent/PropertyDetailsEditorModalContent';
 import {
     IFormRootModelDetailsStyleProps,
     IFormRootModelDetailsStyles,
     IModalFormRootModelProps
-} from './FormRootModelDetails.types';
-import { getStyles } from './FormRootModelDetails.styles';
+} from './PropertyDetailsEditorModal.types';
+import { getStyles } from './PropertyDetailsEditorModal.styles';
 import { useTranslation } from 'react-i18next';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
