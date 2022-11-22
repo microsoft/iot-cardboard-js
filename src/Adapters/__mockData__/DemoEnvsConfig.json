@@ -540,10 +540,12 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.FailedPickupsLastHr",
+                        "displayName": "Failed pickups",
                         "valueRanges": [
                             {
                                 "values": [1, 3],
                                 "visual": {
+                                    "labelExpression": "Pickups missed warning",
                                     "color": "#F79824"
                                 },
                                 "id": "73490c2ed90b4f4444cf20e7196c7727"
@@ -551,6 +553,7 @@
                             {
                                 "values": [3, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "Pickups missed critical",
                                     "color": "#C32F27"
                                 },
                                 "id": "c98d9ac58bf64b99b6ba69038ab4ce63"
@@ -564,6 +567,7 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.PickupFailedAlert",
+                        "displayName": "Pickup failed alert",
                         "valueRanges": [
                             {
                                 "id": "8454f4dd37b20f6789dc39c57db7f3fe",
@@ -683,21 +687,24 @@
                             {
                                 "values": [0, 5],
                                 "visual": {
-                                    "color": "#33A1FD"
+                                    "color": "#33A1FD",
+                                    "labelExpression": "Healthy"
                                 },
                                 "id": "5e055c7d991fa5456f66e5aa2dac25a4"
                             },
                             {
                                 "values": [5, 10],
                                 "visual": {
-                                    "color": "#FEE440"
+                                    "color": "#FEE440",
+                                    "labelExpression": "Health Ok"
                                 },
                                 "id": "87ce16c212ed366fcaa5ad49868264d5"
                             },
                             {
                                 "values": [10, "Infinity"],
                                 "visual": {
-                                    "color": "#C32F27"
+                                    "color": "#C32F27",
+                                    "labelExpression": "Unhealthy"
                                 },
                                 "id": "ac3a82f8de0099186bf3f4d6b0c47cdd"
                             }
@@ -838,6 +845,7 @@
                             {
                                 "values": [0, 10],
                                 "visual": {
+                                    "labelExpression": "CO2 Low",
                                     "color": "#33A1FD"
                                 },
                                 "id": "df9e1c9a8f11438edec43615155aed37"
@@ -845,6 +853,7 @@
                             {
                                 "values": [10, 25],
                                 "visual": {
+                                    "labelExpression": "CO2 Ok",
                                     "color": "#FEE440"
                                 },
                                 "id": "8a87bd7f149669d37e5aa5e0e751cf42"
@@ -852,6 +861,7 @@
                             {
                                 "values": [25, 40],
                                 "visual": {
+                                    "labelExpression": "CO2 High",
                                     "color": "#F79824"
                                 },
                                 "id": "48b4b5bd48bdbd8f2a295789ae86bf0b"
@@ -859,6 +869,7 @@
                             {
                                 "values": [40, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "CO2 dangerously High",
                                     "color": "#C32F27"
                                 },
                                 "id": "983d0ee23b7b8bc13fbf0b30998f0fd1"
@@ -967,14 +978,16 @@
                             {
                                 "values": [0, 60],
                                 "visual": {
-                                    "color": "#33A1FD"
+                                    "color": "#33A1FD",
+                                    "labelExpression": "Low humidity"
                                 },
                                 "id": "0601d74edbdca2fb3f14f154c96876a0"
                             },
                             {
                                 "values": [60, "Infinity"],
                                 "visual": {
-                                    "color": "#26C485"
+                                    "color": "#26C485",
+                                    "labelExpression": "High humidity"
                                 },
                                 "id": "e88c6b298d889cb042a780333db37e27"
                             }
@@ -1033,6 +1046,7 @@
                             {
                                 "values": [240, 280],
                                 "visual": {
+                                    "labelExpression": "Dangerously low wattage",
                                     "color": "#C32F27"
                                 },
                                 "id": "464f93347c71059f308d82e6825b32fb"
@@ -1040,6 +1054,7 @@
                             {
                                 "values": [280, 320],
                                 "visual": {
+                                    "labelExpression": "Low wattage",
                                     "color": "#F79824"
                                 },
                                 "id": "e817fc189fa09e4a97fc23e9af67cb2f"
@@ -1047,6 +1062,7 @@
                             {
                                 "values": [320, 360],
                                 "visual": {
+                                    "labelExpression": "Regular wattage",
                                     "color": "#FEE440"
                                 },
                                 "id": "44ed2d729caa29322d92924e6a5c2d62"
@@ -1054,6 +1070,7 @@
                             {
                                 "values": [360, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "High wattage",
                                     "color": "#26C485"
                                 },
                                 "id": "8e30fc316324b9fc70d111df9531316f"
@@ -1148,6 +1165,7 @@
                             {
                                 "values": [0, 85],
                                 "visual": {
+                                    "labelExpression": "Water quality bad - copper corrosion",
                                     "color": "#F79824"
                                 },
                                 "id": "b3948c1c48a09e7d4182ba8441495640"
@@ -1155,6 +1173,7 @@
                             {
                                 "values": [85, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "Water quality Ok",
                                     "color": "#26C485"
                                 },
                                 "id": "2d55d1ebea871597539a57cacb83e4c7"
@@ -1303,6 +1322,7 @@
                             {
                                 "values": [70, 90],
                                 "visual": {
+                                    "labelExpression": "Tank full",
                                     "color": "#FEE440"
                                 },
                                 "id": "8f22d949459194380e892f0f78a2d9e9"
@@ -1310,6 +1330,7 @@
                             {
                                 "values": [90, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "Tank dangerously full",
                                     "color": "#C32F27"
                                 },
                                 "id": "6bb35adc585d341938923a14649ad208"
@@ -1409,6 +1430,7 @@
                             {
                                 "values": [0, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "Flow rate normal",
                                     "color": "#33A1FD"
                                 },
                                 "id": "2c0c903fb4ae85c17d007af4f0e53935"
@@ -1446,6 +1468,7 @@
                             {
                                 "values": [0, 7000],
                                 "visual": {
+                                    "labelExpression": "Low fuel consumption",
                                     "color": "#26C485"
                                 },
                                 "id": "7c5bd46ca3d98fc4de4aef7d0942bff0"
@@ -1453,6 +1476,7 @@
                             {
                                 "values": [7000, 7100],
                                 "visual": {
+                                    "labelExpression": "Regular fuel consumption",
                                     "color": "#F79824"
                                 },
                                 "id": "acf1678d7d6f06aef279930903ad922f"
@@ -1460,6 +1484,7 @@
                             {
                                 "values": [7100, "Infinity"],
                                 "visual": {
+                                    "labelExpression": "High fuel consumption",
                                     "color": "#C32F27"
                                 },
                                 "id": "c50c37b344449810ab79f53136da6692"

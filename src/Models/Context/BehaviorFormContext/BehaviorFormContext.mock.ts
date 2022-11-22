@@ -12,7 +12,9 @@ export const GET_MOCK_BEHAVIOR_FORM_PROVIDER_PROPS = (): IBehaviorFormContextPro
     } as IBehavior,
     behaviorSelectedLayerIds: []
 });
-export const GET_MOCK_BEHAVIOR_FORM_STATE = (): IBehaviorFormContextState => ({
+export const GET_MOCK_BEHAVIOR_FORM_STATE = (): IBehaviorFormContextState & {
+    behaviorToEdit: IBehavior;
+} => ({
     behaviorSelectedLayerIds: [],
     behaviorToEdit: {} as IBehavior,
     isDirty: false

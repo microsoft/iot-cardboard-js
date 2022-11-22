@@ -69,7 +69,6 @@ const getClassNames = classNamesFunction<
 const INCLUDED_KEYS = [
     'boolean',
     'double',
-    'enum',
     'float',
     'integer',
     'long',
@@ -196,7 +195,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
         config,
         sceneId,
         adapter,
-        state: { selectedElements, selectedBehavior }
+        state: { selectedElements }
     } = useContext(SceneBuilderContext);
 
     // Side-effects
@@ -365,7 +364,7 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
                             adapter={adapter}
                             excludeDtid={true}
                             twinIdParams={{
-                                behavior: selectedBehavior,
+                                behavior: behaviorFormState.behaviorToEdit,
                                 config,
                                 sceneId,
                                 selectedElements

@@ -12,8 +12,7 @@ import {
     ADT3DSceneConfigFileNameInBlobStore,
     BlobStorageServiceCorsAllowedHeaders,
     BlobStorageServiceCorsAllowedMethods,
-    BlobStorageServiceCorsAllowedOrigins,
-    LOCAL_STORAGE_KEYS
+    BlobStorageServiceCorsAllowedOrigins
 } from '../Models/Constants/Constants';
 import {
     validate3DConfigWithSchema,
@@ -30,10 +29,6 @@ import defaultConfig from './__mockData__/3DScenesConfiguration.default.json';
 import { ComponentError } from '../Models/Classes';
 import { handleMigrations, LogConfigFileTelemetry } from './BlobAdapterUtility';
 
-const showVisualRulesFeature =
-    localStorage.getItem(
-        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-    ) === 'true';
 export default class BlobAdapter implements IBlobAdapter {
     protected storageAccountName: string;
     protected storageAccountHostName: string;
@@ -141,10 +136,7 @@ export default class BlobAdapter implements IBlobAdapter {
 
             try {
                 const configBlob = await getConfigBlob();
-                if (showVisualRulesFeature) {
-                    // Handle any schema migrations to transform legacy data into valid data
-                    handleMigrations(configBlob.data);
-                }
+                handleMigrations(configBlob.data);
                 LogConfigFileTelemetry(configBlob.data); // fire and forget the telemetry logging
                 return configBlob;
             } catch (err) {
