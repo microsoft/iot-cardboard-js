@@ -1215,16 +1215,6 @@
     "moveDown": "Przechodzenie w dół",
     "moveUp": "Przenieś się w górę",
     "valueSchema": "Schemat wartości",
-<<<<<<< HEAD
-    "commentPlaceholder": "Komentarz dla autorów modeli",
-    "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
-    "details": "Szczegóły",
-    "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
-    "maxMultiplicityLabel": "Maksymalna wielokrotność",
-    "minMultiplicityLabel": "Minimalna wielokrotność",
-    "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
-=======
->>>>>>> origin/msnyder-oatstaging
     "modelId": "Identyfikator modelu",
     "path": "Ścieżka",
     "uniqueModelName": "Unikalna nazwa modelu",
@@ -1346,12 +1336,6 @@
   "colorPills": {
     "unlabeled": "Bez etykiety"
   },
-<<<<<<< HEAD
-  "clear": "Jasny",
-  "increaseBy1": "Zwiększ wartość o 1",
-  "decreaseBy1": "Zmniejsz wartość o 1",
-=======
->>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",

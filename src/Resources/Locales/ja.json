@@ -1215,16 +1215,6 @@
     "moveDown": "下へ移動",
     "moveUp": "上へ移動",
     "valueSchema": "値スキーマ",
-<<<<<<< HEAD
-    "commentPlaceholder": "モデル作成者へのコメント",
-    "descriptionPlaceholder": "表示するローカライズ可能な説明",
-    "details": "細部",
-    "displayNamePlaceholder": "表示するローカライズ可能な名前",
-    "maxMultiplicityLabel": "最大多重度",
-    "minMultiplicityLabel": "最小多重度",
-    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
-=======
->>>>>>> origin/msnyder-oatstaging
     "modelId": "モデル ID",
     "path": "パス",
     "uniqueModelName": "一意のモデル名",
@@ -1346,12 +1336,6 @@
   "colorPills": {
     "unlabeled": "ラベル"
   },
-<<<<<<< HEAD
-  "clear": "クリア",
-  "increaseBy1": "値を 1 増やす",
-  "decreaseBy1": "値を 1 ずつ減らす",
-=======
->>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
     "defaultFileName": "新しいオントロジー",

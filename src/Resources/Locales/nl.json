@@ -1215,16 +1215,6 @@
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
     "valueSchema": "Waardenschema",
-<<<<<<< HEAD
-    "commentPlaceholder": "Opmerking voor modelauteurs",
-    "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
-    "details": "Bijzonderheden",
-    "displayNamePlaceholder": "Een localiseerbare naam om weer te geven",
-    "maxMultiplicityLabel": "Maximale multipliciteit",
-    "minMultiplicityLabel": "Minimale veelheid",
-    "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
-=======
->>>>>>> origin/msnyder-oatstaging
     "modelId": "Model-id",
     "path": "Pad",
     "uniqueModelName": "Unieke modelnaam",
@@ -1346,12 +1336,6 @@
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
   },
-<<<<<<< HEAD
-  "clear": "Duidelijk",
-  "increaseBy1": "Waarde verhogen met 1",
-  "decreaseBy1": "Waarde verlagen met 1",
-=======
->>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
     "defaultFileName": "Nieuwe ontologie",

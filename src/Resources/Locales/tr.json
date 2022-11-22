@@ -1215,16 +1215,6 @@
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
     "valueSchema": "Değer Şeması",
-<<<<<<< HEAD
-    "commentPlaceholder": "Model yazarları için yorum",
-    "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
-    "details": "Şey",
-    "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad",
-    "maxMultiplicityLabel": "Maksimum çokluk",
-    "minMultiplicityLabel": "Minimum çokluk",
-    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
-=======
->>>>>>> origin/msnyder-oatstaging
     "modelId": "Model Kimliği",
     "path": "Yol",
     "uniqueModelName": "Benzersiz model adı",
@@ -1346,12 +1336,6 @@
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   },
-<<<<<<< HEAD
-  "clear": "Berrak",
-  "increaseBy1": "Değeri 1 artır",
-  "decreaseBy1": "Değeri 1 azalt",
-=======
->>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "kopya etmek",
     "defaultFileName": "Yeni ontoloji",

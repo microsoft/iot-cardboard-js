@@ -1215,16 +1215,6 @@
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
     "valueSchema": "Värdeschema",
-<<<<<<< HEAD
-    "commentPlaceholder": "Kommentar för modellförfattare",
-    "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
-    "details": "Detaljer",
-    "displayNamePlaceholder": "Ett lokaliserbart namn att visa",
-    "maxMultiplicityLabel": "Maximal mångfald",
-    "minMultiplicityLabel": "Minsta mångfald",
-    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
-=======
->>>>>>> origin/msnyder-oatstaging
     "modelId": "Modell-ID",
     "path": "Stig",
     "uniqueModelName": "Unikt modellnamn",
@@ -1346,12 +1336,6 @@
   "colorPills": {
     "unlabeled": "Omärkt"
   },
-<<<<<<< HEAD
-  "clear": "Klar",
-  "increaseBy1": "Öka värdet med 1",
-  "decreaseBy1": "Minska värdet med 1",
-=======
->>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
