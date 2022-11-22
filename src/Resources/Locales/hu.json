@@ -1215,6 +1215,7 @@
     "moveDown": "Lejjebb lépés",
     "moveUp": "Feljebb lépés",
     "valueSchema": "Értékséma",
+<<<<<<< HEAD
     "commentPlaceholder": "Megjegyzés a modell szerzőinek",
     "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
     "details": "Részletek",
@@ -1222,6 +1223,8 @@
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
+=======
+>>>>>>> origin/msnyder-oatstaging
     "modelId": "Modell azonosítója",
     "path": "Ösvény",
     "uniqueModelName": "Egyedi modellnév",
@@ -1343,9 +1346,12 @@
   "colorPills": {
     "unlabeled": "Címkézetlen"
   },
+<<<<<<< HEAD
   "clear": "Világos",
   "increaseBy1": "Növelje az értéket 1-gyel",
   "decreaseBy1": "Érték csökkentése 1-gyel",
+=======
+>>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",
     "defaultFileName": "Új ontológia",

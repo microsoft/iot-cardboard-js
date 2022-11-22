@@ -1095,6 +1095,7 @@
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
     "writable": "Zapisovatelný",
+<<<<<<< HEAD
     "commentPlaceholder": "Komentář pro autory modelů",
     "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
     "details": "Podrobnosti",
@@ -1102,6 +1103,8 @@
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
+=======
+>>>>>>> origin/msnyder-oatstaging
     "modelId": "ID modelu",
     "path": "Cesta",
     "uniqueModelName": "Jedinečný název modelu",
@@ -1343,9 +1346,12 @@
   "colorPills": {
     "unlabeled": "Neoznačené"
   },
+<<<<<<< HEAD
   "clear": "Jasný",
   "increaseBy1": "Zvýšení hodnoty o 1",
   "decreaseBy1": "Snížení hodnoty o 1",
+=======
+>>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",
     "defaultFileName": "Nová ontologie",

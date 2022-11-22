@@ -1215,6 +1215,7 @@
     "moveDown": "下移",
     "moveUp": "上升",
     "valueSchema": "值架构",
+<<<<<<< HEAD
     "commentPlaceholder": "模型作者注释",
     "descriptionPlaceholder": "要显示的可本地化说明",
     "details": "详",
@@ -1222,6 +1223,8 @@
     "maxMultiplicityLabel": "最大多重性",
     "minMultiplicityLabel": "最小多重性",
     "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
+=======
+>>>>>>> origin/msnyder-oatstaging
     "modelId": "型号编号",
     "path": "路径",
     "uniqueModelName": "唯一的型号名称",
@@ -1343,9 +1346,12 @@
   "colorPills": {
     "unlabeled": "未标记"
   },
+<<<<<<< HEAD
   "clear": "清楚",
   "increaseBy1": "将值增加 1",
   "decreaseBy1": "将值减少 1",
+=======
+>>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "复制",
     "defaultFileName": "新本体",

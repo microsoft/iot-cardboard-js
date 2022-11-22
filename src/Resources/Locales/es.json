@@ -1215,6 +1215,7 @@
     "moveDown": "Desplazar hacia abajo",
     "moveUp": "Desplazar hacia arriba",
     "valueSchema": "Esquema de valores",
+<<<<<<< HEAD
     "commentPlaceholder": "Comentario para autores de modelos",
     "descriptionPlaceholder": "Una descripción localizable para mostrar",
     "details": "Detalles",
@@ -1222,6 +1223,8 @@
     "maxMultiplicityLabel": "Multiplicidad máxima",
     "minMultiplicityLabel": "Multiplicidad mínima",
     "minMultiplicityMessage": "DTDL V2 solo admite una multiplicidad mínima de 0",
+=======
+>>>>>>> origin/msnyder-oatstaging
     "modelId": "ID del modelo",
     "path": "Camino",
     "uniqueModelName": "Nombre único del modelo",
@@ -1343,9 +1346,12 @@
   "colorPills": {
     "unlabeled": "Sin etiqueta"
   },
+<<<<<<< HEAD
   "clear": "Claro",
   "increaseBy1": "Aumentar el valor en 1",
   "decreaseBy1": "Disminuir el valor en 1",
+=======
+>>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nueva ontología",

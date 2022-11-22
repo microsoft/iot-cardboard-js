@@ -1215,6 +1215,7 @@
     "moveDown": "아래로 이동",
     "moveUp": "위로 이동",
     "valueSchema": "값 스키마",
+<<<<<<< HEAD
     "commentPlaceholder": "모델 작성자를 위한 설명",
     "descriptionPlaceholder": "표시할 지역화 가능한 설명",
     "details": "세부 정보",
@@ -1222,6 +1223,8 @@
     "maxMultiplicityLabel": "최대 다중성",
     "minMultiplicityLabel": "최소 다중성",
     "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
+=======
+>>>>>>> origin/msnyder-oatstaging
     "modelId": "모델 아이디",
     "path": "길",
     "uniqueModelName": "고유한 모델 이름",
@@ -1343,9 +1346,12 @@
   "colorPills": {
     "unlabeled": "레이블 없음"
   },
+<<<<<<< HEAD
   "clear": "맑다",
   "increaseBy1": "값을 1씩 늘립니다.",
   "decreaseBy1": "값 감소 1",
+=======
+>>>>>>> origin/msnyder-oatstaging
   "OATCommon": {
     "duplicateFileNameSuffix": "복사",
     "defaultFileName": "새 온톨로지",
