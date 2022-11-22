@@ -182,7 +182,12 @@ const TwinPropertySearchDropdown = (
             <components.Option {...props}></components.Option>
         ) : (
             <components.Option {...props}>
-                {getMarkedHtmlBySearch(props.data.label, searchValue, true)}
+                <div
+                    className={classNames.optionContainer}
+                    title={props.data.label}
+                >
+                    {getMarkedHtmlBySearch(props.data.label, searchValue, true)}
+                </div>
             </components.Option>
         );
     };

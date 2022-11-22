@@ -186,6 +186,17 @@ export const timeSeriesConnectionRefreshMaxAge = 3600000;
 export const PRIMARY_TWIN_NAME = 'PrimaryTwin';
 export const DTID_PROPERTY_NAME = '$dtId';
 
+// $dtId Model
+export const dtIdModel = {
+    fullPath: '.$dtId',
+    key: '.$dtId',
+    localPath: '$dtId',
+    name: '$dtId',
+    propertyType: 'string',
+    schema: null,
+    entity: null
+};
+
 export const ValidAdtHostSuffixes = [
     'digitaltwins.azure.net',
     'azuredigitaltwins-ppe.net',
