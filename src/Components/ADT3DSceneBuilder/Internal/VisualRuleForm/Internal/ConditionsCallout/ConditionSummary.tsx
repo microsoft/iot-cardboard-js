@@ -4,8 +4,7 @@ import {
     classNamesFunction,
     IChoiceGroupOption,
     Stack,
-    styled,
-    useTheme
+    styled
 } from '@fluentui/react';
 import CardboardMultiSelect from '../../../../../CardboardMultiSelect/CardboardMultiSelect';
 import BoundaryInput from './BoundaryInput';
@@ -19,6 +18,7 @@ import { BoundaryType } from './BoundaryInput.types';
 import { getStyles } from './ConditionSummary.styles';
 import i18n from '../../../../../../i18n';
 import { isNumericType } from '../../VisualRuleFormUtility';
+import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {
@@ -73,7 +73,7 @@ const ConditionSummary: React.FC<IConditionSummaryProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useTheme()
+        theme: useExtendedTheme()
     });
 
     const renderNumericalSummary = () => {

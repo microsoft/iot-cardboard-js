@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Url för Azure Digital Twins-instansen",
     "descriptionForAdtInstance": "Länka din Azure Digital Twins instans för att börja skapa 3D-scener.",
     "descriptionForAdtInstanceAndCont": "Länka din Azure Digital Twins instans och din lagringscontainer för att börja skapa 3D-scener.",
-    "noAdtInstance": "Ingen ADT-instans har lagts till"
+    "noAdtInstance": "Ingen ADT-instans har lagts till",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"Azure Digital Twins dataläsare\" (minst).",
+      "storageAccountMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"läsare\" (åtminstone).",
+      "storageContainerMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som \"läsare\" (minst) och antingen \"Storage Blob Data Owner\" eller \"Storage Blob Data Contributor\".",
+      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Stäng modal",
@@ -954,6 +960,7 @@
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
     "fileUpload": "Filuppladdning",
+    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
-    },
-    "importFolder": "Importera mapp",
-    "importFile": "Importera fil",
-    "ontology": "Ontologi",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ta bort ontologi",
-      "modalTitleCreate": "Ny ontologi",
-      "modalTitleEdit": "Redigera ontologi",
-      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
-      "modalSubTitleLinkText": "Läs mer om ontologier",
-      "nameLabel": "Namn",
-      "namePlaceholder": "Ange ett ontologinamn",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
-      "namespacePlaceholder": "Ange ett namnområde",
-      "sampleModel": "exempel modell"
-    },
-    "configure": "Konfigurera"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muskontroller",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
-    "runLayout": "Kör layout"
+    "runLayout": "Kör layout",
+    "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
+    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
+<<<<<<< HEAD
     "valueSchema": "Värdeschema",
     "modelId": "Modell-ID",
     "path": "Stig",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Minsta mångfald",
     "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
     "displayNamePlaceholder": "Ett lokaliserbart namn att visa"
+=======
+    "valueSchema": "Värdeschema"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Visa detaljer",
   "hideDetails": "Dölj detaljer",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Öka värdet med 1",
   "decreaseBy1": "Minska värdet med 1",
   "clear": "Klar"
+=======
+  "colorPills": {
+    "unlabeled": "Omärkt"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

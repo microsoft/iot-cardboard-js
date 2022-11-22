@@ -1,4 +1,4 @@
-import { mergeStyleSets } from '@fluentui/react';
+import { FontSizes, mergeStyleSets } from '@fluentui/react';
 import { StatusPillsContainerWidth } from './StatusPills.types';
 
 export const classPrefix = 'cb-statuspills';
@@ -26,7 +26,10 @@ export const getStyles = (width: StatusPillsContainerWidth) => {
     }
 
     return {
-        root: rootStyle
+        root: rootStyle,
+        extraValues: {
+            fontSize: FontSizes.size10
+        }
     };
 };
 

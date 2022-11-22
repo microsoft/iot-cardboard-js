@@ -5,6 +5,7 @@ import {
     ObjectInfo
 } from 'azure-iot-dtdl-parser';
 import {
+    dtIdModel,
     PRIMARY_TWIN_NAME,
     PropertyValueType
 } from '../../Models/Constants/Constants';
@@ -21,17 +22,6 @@ interface IBuildModelledPropertiesParams {
     aliasedTwinMap?: Record<string, string[]>;
     allowedPropertyValueTypes: Array<PropertyValueType>;
 }
-
-// $dtId Model
-const dtIdModel = {
-    fullPath: '.$dtId',
-    key: '.$dtId',
-    localPath: '$dtId',
-    name: '$dtId',
-    propertyType: 'string',
-    schema: null,
-    entity: null
-};
 
 /**
  * Builds internal data representation for modelled properties

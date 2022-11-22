@@ -41,19 +41,14 @@ import {
     AdapterMethodParamsForSearchADTTwins,
     AdapterMethodParamsForGetAzureResources,
     AzureAccessPermissionRoleGroups,
-    AdapterMethodParamsForSearchTwinsByQuery,
-    ADTResourceIdentifier
+    AdapterMethodParamsForSearchTwinsByQuery
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
-import {
-    AzureResourceData,
-    AzureResourcesData,
-    AzureSubscriptionData
-} from '../Classes/AdapterDataClasses/AzureManagementData';
+import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
 import ADTScenesConfigData from '../Classes/AdapterDataClasses/ADTScenesConfigData';
 import ADT3DViewerData from '../Classes/AdapterDataClasses/ADT3DViewerData';
 import { AssetProperty } from '../Classes/Simulations/Asset';
@@ -277,15 +272,9 @@ export interface IAzureResource {
     id: string;
     name: string;
     type: AzureResourceTypes;
-    [additionalProperty: string]: any;
     properties: Record<string, any>;
-    subscriptionName?: string; // additional property we add to keep track of the subscription name in resource information to show in the ResourcePicker dropdown
-}
-export interface IAzureSubscription
-    extends Omit<IAzureResource, 'type' | 'name' | 'properties'> {
-    subscriptionId: string;
-    tenantId: string;
-    displayName: string;
+    subscriptionName?: string;
+    [additionalProperty: string]: any;
 }
 
 export interface IAzureRoleAssignment extends IAzureResource {
@@ -540,15 +529,14 @@ export interface IADTAdapter
 }
 
 export interface IAzureManagementAdapter {
-    getSubscriptions: () => AdapterReturnType<AzureSubscriptionData>;
     getRoleAssignments: (
         resourceId: string,
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
     hasRoleDefinitions: (
         resourceId: string,
-        uniqueObjectId: string,
-        accessRolesToCheck: AzureAccessPermissionRoleGroups
+        accessRolesToCheck: AzureAccessPermissionRoleGroups,
+        uniqueObjectId: string
     ) => Promise<boolean>;
     getResources: (
         params: AdapterMethodParamsForGetAzureResources
@@ -563,9 +551,8 @@ export interface IAzureManagementAdapter {
         uniqueObjectId: string
     ) => AdapterReturnType<AzureResourcesData>;
     getTimeSeriesConnectionInformation: (
-        adtInstanceIdentifier: ADTResourceIdentifier
+        adtUrl: string
     ) => AdapterReturnType<ADTInstanceTimeSeriesConnectionData>;
-    getResourceById: (id: string) => AdapterReturnType<AzureResourceData>;
 }
 
 export interface IBlobAdapter {

@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins instance URL",
     "descriptionForAdtInstance": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
     "descriptionForAdtInstanceAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
-    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT"
+    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Chybí vám oprávnění. Přístup budete potřebovat jako čtečku dat digitálních vláken Azure (minimálně).",
+      "storageAccountMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako \"čtenář\" (minimálně).",
+      "storageContainerMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů blob úložiště, nebo přispěvatel dat objektů blob úložiště.",
+      "resourceNotFound": "Se zadanou hodnotou nebyl nalezen žádný prostředek Azure."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",
@@ -928,6 +934,7 @@
     "import": "Dovoz",
     "export": "Vývoz",
     "file": "Soubor",
+    "files": "Soubory",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Výběr ontologie"
-    },
-    "importFolder": "Složka pro import",
-    "importFile": "Importovat soubor",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Odstranit ontologii",
-      "modalTitleCreate": "Nová ontologie",
-      "modalTitleEdit": "Upravit ontologii",
-      "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
-      "modalSubTitleEdit": "Upravte svou ontologii tak, aby dala strukturu vašemu digitálnímu dvojčeti.",
-      "modalSubTitleLinkText": "Další informace o ontologiích",
-      "nameLabel": "Jméno",
-      "namePlaceholder": "Zadejte název ontologie",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
-      "namespacePlaceholder": "Zadejte obor názvů",
-      "sampleModel": "Vzorový model"
-    },
-    "configure": "Konfigurovat"
+    }
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
@@ -1001,7 +990,9 @@
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
-    "errorNameLength": "Název nesmí přesáhnout 64 znaků"
+    "errorNameLength": "Název nesmí přesáhnout 64 znaků",
+    "errorReachedInheritanceLimit": "Dosažený limit dědičnosti",
+    "errorInheritance": "Nesmí dědit z více než dvou rozhraní"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
@@ -1088,6 +1079,7 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
+<<<<<<< HEAD
     "writable": "Zapisovatelný",
     "modelId": "ID modelu",
     "path": "Cesta",
@@ -1100,6 +1092,9 @@
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
     "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit"
+=======
+    "writable": "Zapisovatelný"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Zobrazit podrobnosti",
   "hideDetails": "Skrýt detaily",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",
     "defaultFileName": "Nová ontologie",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Zvýšení hodnoty o 1",
   "decreaseBy1": "Snížení hodnoty o 1",
   "clear": "Jasný"
+=======
+  "colorPills": {
+    "unlabeled": "Neoznačené"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

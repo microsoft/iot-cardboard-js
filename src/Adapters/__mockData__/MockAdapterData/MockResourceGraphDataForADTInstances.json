@@ -1,0 +1,47 @@
+{
+    "totalRecords": 3,
+    "count": 3,
+    "resultTruncated": "false",
+    "facets": [],
+    "data": [
+        {
+            "name": "adtInstance1",
+            "id": "/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance1",
+            "type": "microsoft.digitalTwins/digitaltwinsinstances",
+            "tenantId": "tenantId123",
+            "subscriptionId": "subscription123",
+            "resourceGroup": "resourceGroup123",
+            "subscriptionName": "subscription123Name",
+            "location": "westus2",
+            "properties": {
+                "hostName": "adtInstance1.api.wus2.ss.azuredigitaltwins-test.net"
+            }
+        },
+        {
+            "name": "adtInstance2",
+            "id": "/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance2",
+            "type": "microsoft.digitalTwins/digitaltwinsinstances",
+            "tenantId": "tenantId123",
+            "subscriptionId": "subscription123",
+            "resourceGroup": "resourceGroup123",
+            "subscriptionName": "subscription123Name",
+            "location": "westus2",
+            "properties": {
+                "hostName": "adtInstance2.api.wus2.ss.azuredigitaltwins-test.net"
+            }
+        },
+        {
+            "name": "adtInstance3",
+            "id": "/subscriptions/subscription123/resourcegroups/resourceGroup123/providers/Microsoft.DigitalTwins/digitalTwinsInstances/adtInstance3",
+            "type": "microsoft.digitalTwins/digitaltwinsinstances",
+            "tenantId": "tenantId123",
+            "subscriptionId": "subscription123",
+            "resourceGroup": "resourceGroup123",
+            "subscriptionName": "subscription123Name",
+            "location": "westus2",
+            "properties": {
+                "hostName": "adtInstance3.api.wus2.ss.azuredigitaltwins-test.net"
+            }
+        }
+    ]
+}

@@ -2,6 +2,8 @@ import { InterfaceInfo } from 'azure-iot-dtdl-parser/dist/parser/interfaceInfo';
 import { ModelDict } from 'azure-iot-dtdl-parser/dist/parser/modelDict';
 import { useEffect, useState } from 'react';
 import {
+    dtIdModel,
+    DTID_PROPERTY_NAME,
     IModelledPropertyBuilderAdapter,
     PropertyValueType
 } from '../../Models/Constants';
@@ -44,6 +46,9 @@ const groupFlattenedModelProperties = (
     flattenedModelProperties: IFlattenedModelledPropertiesFormat
 ): IGroupedModelledPropertiesFormat => {
     const groupedProperties = {};
+    // Insert $dtid group and property
+    groupedProperties[DTID_PROPERTY_NAME] = [dtIdModel];
+
     Object.keys(flattenedModelProperties).map((key: string) => {
         flattenedModelProperties[key].map((property) => {
             const modelName = getPropertyModel(property.key);

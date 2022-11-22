@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins instance URL",
     "descriptionForAdtInstance": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
     "descriptionForAdtInstanceAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
-    "noAdtInstance": "未添加广告开发区实例"
+    "noAdtInstance": "未添加广告开发区实例",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "您缺少权限。你将需要作为“Azure 数字孪生数据读取器”进行访问（至少）。",
+      "storageAccountMissingPermissionMessage": "您缺少权限。您将需要以“读者”身份访问（至少）。",
+      "storageContainerMissingPermissionMessage": "您缺少权限。你将需要以“读取者”（至少）和“存储 Blob 数据所有者”或“存储 Blob 数据参与者”的身份进行访问。",
+      "resourceNotFound": "找不到具有输入值的 Azure 资源。"
+    }
   },
   "behaviorsModal": {
     "closeModal": "闭合模态",
@@ -954,6 +960,7 @@
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
+    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    },
-    "importFolder": "导入文件夹",
-    "importFile": "导入文件",
-    "ontology": "本体",
-    "manageOntologyModal": {
-      "deleteButtonText": "删除本体",
-      "modalTitleCreate": "新本体",
-      "modalTitleEdit": "编辑本体",
-      "modalSubTitleCreate": "创建一个新的本体，为数字孪生体提供结构。",
-      "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息",
-      "nameLabel": "名字",
-      "namePlaceholder": "输入本体名称",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型"
-    },
-    "configure": "配置"
+    }
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
-    "runLayout": "运行布局"
+    "runLayout": "运行布局",
+    "errorReachedInheritanceLimit": "已达到继承限制",
+    "errorInheritance": "不能从两个以上的接口继承"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
     "moveUp": "上升",
+<<<<<<< HEAD
     "valueSchema": "值架构",
     "modelId": "型号编号",
     "path": "路径",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "最小多重性",
     "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
     "displayNamePlaceholder": "要显示的可本地化名称"
+=======
+    "valueSchema": "值架构"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "显示详情",
   "hideDetails": "隐藏详细信息",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "复制",
     "defaultFileName": "新本体",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "将值增加 1",
   "decreaseBy1": "将值减少 1",
   "clear": "清楚"
+=======
+  "colorPills": {
+    "unlabeled": "未标记"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

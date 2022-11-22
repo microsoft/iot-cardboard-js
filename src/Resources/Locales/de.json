@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins-Instanz-URL",
     "descriptionForAdtInstance": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz, um mit der Erstellung von 3D-Szenen zu beginnen.",
     "descriptionForAdtInstanceAndCont": "Verknüpfen Sie Ihre Azure Digital Twins-Instanz mit Ihrem Speichercontainer, um mit der Erstellung von 3D-Szenen zu beginnen.",
-    "noAdtInstance": "Keine ADT-Instanz hinzugefügt"
+    "noAdtInstance": "Keine ADT-Instanz hinzugefügt",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Azure Digital Twins-Datenleser\" (mindestens).",
+      "storageAccountMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Leser\" (mindestens).",
+      "storageContainerMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als \"Reader\" (mindestens) und entweder \"Storage Blob Data Owner\" oder \"Storage Blob Data Contributor\".",
+      "resourceNotFound": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modal schließen",
@@ -954,6 +960,7 @@
     "deleteAll": "Alle löschen",
     "folderUpload": "Ordner-Upload",
     "fileUpload": "Datei-Upload",
+    "files": "Dateien",
     "selectFile": "Datei auswählen",
     "errorSingleFileHoldsRelationships": "Problem mit {{fileName}}: Das Modell enthält Beziehungen, die nicht importiert werden",
     "errorImportedModelAlreadyExists": "Problem mit {{modelId}}: Modell mit der gleichen @id bereits vorhanden",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Wählen Sie eine Ontologie"
-    },
-    "importFolder": "Ordner importieren",
-    "importFile": "Datei importieren",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Etologie löschen",
-      "modalTitleCreate": "Neue Ontologie",
-      "modalTitleEdit": "Initologie bearbeiten",
-      "modalSubTitleCreate": "Erstellen Sie eine neue Ontologie, um Ihrem digitalen Zwilling eine Struktur zu geben.",
-      "modalSubTitleEdit": "Bearbeiten Sie Ihre Ontologie, um Ihrem digitalen Zwilling Struktur zu geben.",
-      "modalSubTitleLinkText": "Erfahren Sie mehr über Ontologien",
-      "nameLabel": "Name",
-      "namePlaceholder": "Geben Sie einen Ontologienamen ein",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Beispielmodellname: {{modelName}}",
-      "namespacePlaceholder": "Eingeben eines Namespaces",
-      "sampleModel": "Beispielmodell"
-    },
-    "configure": "Konfigurieren"
+    }
   },
   "cameraControls": {
     "mouseControls": "Maus-Steuerelemente",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
-    "runLayout": "Layout ausführen"
+    "runLayout": "Layout ausführen",
+    "errorReachedInheritanceLimit": "Erreichte Erbschaftsgrenze",
+    "errorInheritance": "Kann nicht von mehr als zwei Schnittstellen erben"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Zur Eigenschaftsliste hinzufügen",
     "moveDown": "Nach unten verschieben",
     "moveUp": "Aufrücken",
+<<<<<<< HEAD
     "valueSchema": "Wertschema",
     "modelId": "Modell-ID",
     "path": "Pfad",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Minimale Vielfalt",
     "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0",
     "displayNamePlaceholder": "Ein lokalisierbarer Name, der angezeigt werden soll"
+=======
+    "valueSchema": "Wertschema"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Details anzeigen",
   "hideDetails": "Details ausblenden",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopieren",
     "defaultFileName": "Neue Ontologie",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Wert um 1 erhöhen",
   "decreaseBy1": "Wert um 1 verringern",
   "clear": "Klar"
+=======
+  "colorPills": {
+    "unlabeled": "Unbeschriftet"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

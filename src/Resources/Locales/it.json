@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL dell'istanza di Gemelli digitali di Azure",
     "descriptionForAdtInstance": "Collega l'istanza di Gemelli digitali di Azure per iniziare a creare scene 3D.",
     "descriptionForAdtInstanceAndCont": "Collega l'istanza di Gemelli digitali di Azure e il contenitore di archiviazione per iniziare a creare scene 3D.",
-    "noAdtInstance": "Nessuna istanza ADT aggiunta"
+    "noAdtInstance": "Nessuna istanza ADT aggiunta",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"lettore di dati Gemelli digitali di Azure\" (come minimo).",
+      "storageAccountMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Avrai bisogno di accedere come \"Lettore\" (come minimo).",
+      "storageContainerMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"Lettore\" (come minimo) e \"Proprietario dei dati BLOB di archiviazione\" o \"Collaboratore dei dati BLOB di archiviazione\".",
+      "resourceNotFound": "Non è stata trovata alcuna risorsa di Azure con il valore immesso."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Chiudi modale",
@@ -954,6 +960,7 @@
     "deleteAll": "Elimina tutto",
     "folderUpload": "Caricamento cartella",
     "fileUpload": "Caricamento file",
+    "files": "ﬁle",
     "selectFile": "Seleziona file",
     "errorSingleFileHoldsRelationships": "Problema con {{nomefile}}: il modello contiene relazioni che non vengono importate",
     "errorImportedModelAlreadyExists": "Problema con {{modelId}}: il modello con lo stesso @id esiste già",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Seleziona un'ontologia"
-    },
-    "importFolder": "Importa cartella",
-    "importFile": "Importa file",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Eliminare ontologia",
-      "modalTitleCreate": "Nuova ontologia",
-      "modalTitleEdit": "Modifica ontologia",
-      "modalSubTitleCreate": "Crea una nuova ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleEdit": "Modifica la tua ontologia per dare struttura al tuo gemello digitale.",
-      "modalSubTitleLinkText": "Scopri di più sulle ontologie",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Immettere un nome di ontologia",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Esempio di nome modello: {{modelName}}",
-      "namespacePlaceholder": "Immettere uno spazio dei nomi",
-      "sampleModel": "Modello di esempio"
-    },
-    "configure": "Configurare"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controlli del mouse",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
-    "runLayout": "Esegui layout"
+    "runLayout": "Esegui layout",
+    "errorReachedInheritanceLimit": "Limite di ereditarietà raggiunto",
+    "errorInheritance": "Non può ereditare da più di due interfacce"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Aggiungi all'elenco delle proprietà",
     "moveDown": "Retrocedere",
     "moveUp": "Promuovere",
+<<<<<<< HEAD
     "valueSchema": "Schema dei valori",
     "modelId": "ID modello",
     "path": "Sentiero",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Molteplicità minima",
     "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0",
     "displayNamePlaceholder": "Nome localizzabile da visualizzare"
+=======
+    "valueSchema": "Schema dei valori"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Mostra dettagli",
   "hideDetails": "Nascondi dettagli",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copiare",
     "defaultFileName": "Nuova ontologia",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Aumentare il valore di 1",
   "decreaseBy1": "Diminuire il valore di 1",
   "clear": "Chiaro"
+=======
+  "colorPills": {
+    "unlabeled": "Senza etichetta"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

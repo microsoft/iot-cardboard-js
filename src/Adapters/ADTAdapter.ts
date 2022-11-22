@@ -53,6 +53,7 @@ import { DtdlInterface } from '../Models/Constants/dtdlInterfaces';
 import {
     getDebugLogger,
     getModelContentType,
+    getUrlFromString,
     parseDTDLModelsAsync
 } from '../Models/Services/Utils';
 import { DTDLType } from '../Models/Classes/DTDL';
@@ -261,7 +262,7 @@ export default class ADTAdapter implements IADTAdapter {
                         // If next link present, fetch next chunk
                         if (adtModelsApiData.result.data.nextLink) {
                             try {
-                                const url = new URL(
+                                const url = getUrlFromString(
                                     adtModelsApiData.result.data.nextLink
                                 );
                                 const continuationToken = queryString.parse(

@@ -45,9 +45,9 @@ const ADTTwinsPage: React.FC<ADTTwinsPageProps> = ({
 
     const connectionState = useAdapter({
         adapterMethod: () =>
-            adapter.getTimeSeriesConnectionInformation({
-                hostName: adapter.getAdtHostUrl()
-            }),
+            adapter.getTimeSeriesConnectionInformation(
+                `https://${adapter.getAdtHostUrl()}`
+            ),
         refetchDependencies: [adapter]
     });
 

@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins példány URL-címe",
     "descriptionForAdtInstance": "Kapcsolja össze a Azure Digital Twins példányát a 3D-jelenetek építésének megkezdéséhez.",
     "descriptionForAdtInstanceAndCont": "Kapcsolja össze a Azure Digital Twins példányt és a tárolót a 3D-s jelenetek építésének megkezdéséhez.",
-    "noAdtInstance": "Nincs hozzáadva ADT-példány"
+    "noAdtInstance": "Nincs hozzáadva ADT-példány",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Hiányoznak az engedélyei. \"Legalább Azure Digital Twins adatolvasóként\" kell hozzáférnie.",
+      "storageAccountMissingPermissionMessage": "Hiányoznak az engedélyei. \"Olvasóként\" kell hozzáférnie (legalább).",
+      "storageContainerMissingPermissionMessage": "Hiányoznak az engedélyei. Hozzáférésre lesz szüksége \"Olvasóként\" (legalább), valamint \"Storage blobadatok tulajdonosaként\" vagy \"Storage blobadatok közreműködőjeként\".",
+      "resourceNotFound": "A megadott értékkel nem található Azure-erőforrás."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modális mód bezárása",
@@ -954,6 +960,7 @@
     "deleteAll": "Összes törlése",
     "folderUpload": "Mappa feltöltése",
     "fileUpload": "Fájlfeltöltés",
+    "files": "Fájlokat",
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontológia",
       "dropdownPlaceholder": "Válasszon ki egy ontológiát"
-    },
-    "importFolder": "Mappa importálása",
-    "importFile": "Fájl importálása",
-    "ontology": "Ontológia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontológia törlése",
-      "modalTitleCreate": "Új ontológia",
-      "modalTitleEdit": "Ontológia szerkesztése",
-      "modalSubTitleCreate": "Hozzon létre egy új ontológiát, hogy struktúrát adjon a digitiális ikertestvérének.",
-      "modalSubTitleEdit": "Szerkeszd az ontológiádat, hogy struktúrát adj a digitális ikertestvérednek.",
-      "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
-      "nameLabel": "Név",
-      "namePlaceholder": "Adjon meg egy ontológiai nevet",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Példa modellnévre: {{modelName}}",
-      "namespacePlaceholder": "Névtér megadása",
-      "sampleModel": "minta modell"
-    },
-    "configure": "Konfigurál"
+    }
   },
   "cameraControls": {
     "mouseControls": "Egérvezérlők",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
-    "runLayout": "Elrendezés futtatása"
+    "runLayout": "Elrendezés futtatása",
+    "errorReachedInheritanceLimit": "Elérte az öröklési korlátot",
+    "errorInheritance": "Kettőnél több interfésztől nem örökölhet"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
     "moveUp": "Feljebb lépés",
+<<<<<<< HEAD
     "valueSchema": "Értékséma",
     "modelId": "Modell azonosítója",
     "path": "Ösvény",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
     "displayNamePlaceholder": "Megjelenítendő honosítható név"
+=======
+    "valueSchema": "Értékséma"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Mutasd a részleteket",
   "hideDetails": "Részletek elrejtése",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "másolat",
     "defaultFileName": "Új ontológia",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Növelje az értéket 1-gyel",
   "decreaseBy1": "Érték csökkentése 1-gyel",
   "clear": "Világos"
+=======
+  "colorPills": {
+    "unlabeled": "Címkézetlen"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

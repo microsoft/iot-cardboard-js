@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL van Azure Digital Twins-exemplaar",
     "descriptionForAdtInstance": "Koppel uw Azure Digital Twins-exemplaar om te beginnen met het bouwen van 3D-scènes.",
     "descriptionForAdtInstanceAndCont": "Koppel uw Azure Digital Twins-exemplaar en uw opslagcontainer om te beginnen met het bouwen van 3D-scènes.",
-    "noAdtInstance": "Geen ADT-instantie toegevoegd"
+    "noAdtInstance": "Geen ADT-instantie toegevoegd",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Azure Digital Twins Data Reader' (minimaal).",
+      "storageAccountMissingPermissionMessage": "U hebt ontbrekende machtigingen. Je hebt toegang nodig als 'Reader' (minimaal).",
+      "storageContainerMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Reader' (minimaal) en 'Storage Blob Data Owner' of 'Storage Blob Data Contributor'.",
+      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modaal sluiten",
@@ -954,6 +960,7 @@
     "deleteAll": "Alles verwijderen",
     "folderUpload": "Map uploaden",
     "fileUpload": "Bestand uploaden",
+    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
-    },
-    "importFolder": "Map importeren",
-    "importFile": "Bestand importeren",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontologie verwijderen",
-      "modalTitleCreate": "Nieuwe ontologie",
-      "modalTitleEdit": "Ontologie bewerken",
-      "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleLinkText": "Meer informatie over ontologieën",
-      "nameLabel": "Naam",
-      "namePlaceholder": "Voer een ontologienaam in",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
-      "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel"
-    },
-    "configure": "Configureren"
+    }
   },
   "cameraControls": {
     "mouseControls": "Muisbediening",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
-    "runLayout": "Lay-out uitvoeren"
+    "runLayout": "Lay-out uitvoeren",
+    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
+    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
+<<<<<<< HEAD
     "valueSchema": "Waardenschema",
     "modelId": "Model-id",
     "path": "Pad",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Minimale veelheid",
     "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
     "displayNamePlaceholder": "Een localiseerbare naam om weer te geven"
+=======
+    "valueSchema": "Waardenschema"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Toon details",
   "hideDetails": "Details verbergen",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiëren",
     "defaultFileName": "Nieuwe ontologie",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Waarde verhogen met 1",
   "decreaseBy1": "Waarde verlagen met 1",
   "clear": "Duidelijk"
+=======
+  "colorPills": {
+    "unlabeled": "Niet-gelabeld"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

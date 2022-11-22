@@ -147,8 +147,8 @@ export const getDefaultVisualRuleCondition = (
     values: isNumericType(type) ? [0, 1] : type === 'boolean' ? [true] : [],
     visual: {
         color: color,
-        iconName: null,
-        labelExpression: null
+        iconName: undefined,
+        labelExpression: undefined
     }
 });
 

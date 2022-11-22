@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL-адрес экземпляра Azure Digital Twins",
     "descriptionForAdtInstance": "Свяжите экземпляр Azure Digital Twins, чтобы начать создавать 3D-сцены.",
     "descriptionForAdtInstanceAndCont": "Свяжите экземпляр Azure Digital Twins и контейнер хранилища, чтобы начать создание 3D-сцен.",
-    "noAdtInstance": "Экземпляр ADT не добавлен"
+    "noAdtInstance": "Экземпляр ADT не добавлен",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве средства чтения данных цифровых двойников Azure (как минимум).",
+      "storageAccountMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум).",
+      "storageContainerMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум) и «Владельца данных BLOB-объектов хранилища» или «Участника данных хранилища больших двоичных объектов».",
+      "resourceNotFound": "Ресурс Azure не найден с введенным значением."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Закрыть модальный",
@@ -954,6 +960,7 @@
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
+    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
-    },
-    "importFolder": "Папка импорта",
-    "importFile": "Импорт файла",
-    "ontology": "Онтология",
-    "manageOntologyModal": {
-      "deleteButtonText": "Удалить онтологию",
-      "modalTitleCreate": "Новая онтология",
-      "modalTitleEdit": "Редактирование онтологии",
-      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleLinkText": "Подробнее об онтологиях",
-      "nameLabel": "Имя",
-      "namePlaceholder": "Введите имя онтологии",
-      "namespaceLabel": "Пространство имен",
-      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
-      "namespacePlaceholder": "Ввод пространства имен",
-      "sampleModel": "Образец модели"
-    },
-    "configure": "Настроить"
+    }
   },
   "cameraControls": {
     "mouseControls": "Элементы управления мышью",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
-    "runLayout": "Макет запуска"
+    "runLayout": "Макет запуска",
+    "errorReachedInheritanceLimit": "Достигнут лимит наследования",
+    "errorInheritance": "Не может наследовать от более чем двух интерфейсов"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
     "moveUp": "Придвигаться",
+<<<<<<< HEAD
     "valueSchema": "Схема значений",
     "modelId": "Идентификатор модели",
     "path": "Путь",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Минимальная кратность",
     "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
     "displayNamePlaceholder": "Локализуемое имя для отображения"
+=======
+    "valueSchema": "Схема значений"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Показать подробности",
   "hideDetails": "Скрыть детали",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "копировать",
     "defaultFileName": "Новая онтология",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Увеличение значения на 1",
   "decreaseBy1": "Уменьшение значения на 1",
   "clear": "Ясный"
+=======
+  "colorPills": {
+    "unlabeled": "Без маркировки"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

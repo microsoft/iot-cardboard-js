@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL de exemplo de gêmeos digitais do Azure",
     "descriptionForAdtInstance": "Vincule sua instância de Gêmeos Digitais Azure para começar a construir cenas 3D.",
     "descriptionForAdtInstanceAndCont": "Vincule sua instância Azure Digital Twins e seu contêiner de armazenamento para começar a construir cenas 3D.",
-    "noAdtInstance": "Nenhuma instância do ADT adicionada"
+    "noAdtInstance": "Nenhuma instância do ADT adicionada",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Azure Digital Twins Data Reader' (no mínimo).",
+      "storageAccountMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo).",
+      "storageContainerMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo) e 'Storage Blob Data Owner' ou 'Storage Blob Data Contributor'.",
+      "resourceNotFound": "Não há nenhum recurso do Azure encontrado com o valor inserido."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Fechar modal",
@@ -954,6 +960,7 @@
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
+    "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    },
-    "importFolder": "Pasta de importação",
-    "importFile": "Arquivo de importação",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Excluir ontologia",
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre ontologias",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Digite um nome de ontologia",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Nome do modelo do exemplo: {{modelName}}",
-      "namespacePlaceholder": "Digite um namespace",
-      "sampleModel": "modelo de amostra"
-    },
-    "configure": "Configurar"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "runLayout": "Executar layout"
+    "runLayout": "Executar layout",
+    "errorReachedInheritanceLimit": "Limite de herança alcançado",
+    "errorInheritance": "Não pode herdar de mais de duas interfaces"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Adicionar à lista de propriedades",
     "moveDown": "Abaixe-se",
     "moveUp": "Mova-se para cima",
+<<<<<<< HEAD
     "valueSchema": "Esquema de valor",
     "modelId": "ID modelo",
     "path": "Caminho",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Multiplicidade mínima",
     "minMultiplicityMessage": "DTDL V2 suporta apenas uma multiplicidade mínima de 0",
     "displayNamePlaceholder": "Um nome localizável para exibição"
+=======
+    "valueSchema": "Esquema de valor"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Mostrar detalhes",
   "hideDetails": "Ocultar detalhes",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copiar",
     "defaultFileName": "Nova ontologia",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Aumentar o valor em 1",
   "decreaseBy1": "Diminuir o valor em 1",
   "clear": "Claro"
+=======
+  "colorPills": {
+    "unlabeled": "Unlabeled"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins örneği URL'si",
     "descriptionForAdtInstance": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi bağlayın.",
     "descriptionForAdtInstanceAndCont": "3B sahneler oluşturmaya başlamak için Azure Digital Twins örneğinizi ve depolama kapsayıcınızı bağlayın.",
-    "noAdtInstance": "ADT örneği eklenmedi"
+    "noAdtInstance": "ADT örneği eklenmedi",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
+      "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
+      "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
+      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Modal'ı kapat",
@@ -954,6 +960,7 @@
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
+    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -963,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    },
-    "importFolder": "Klasörü içe aktar",
-    "importFile": "Dosyayı içe aktar",
-    "ontology": "Ontoloji",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontolojiyi silme",
-      "modalTitleCreate": "Yeni ontoloji",
-      "modalTitleEdit": "Ontolojiyi düzenleme",
-      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
-      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
-      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
-      "nameLabel": "Ad",
-      "namePlaceholder": "Ontoloji adı girin",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Örnek model adı: {{modelName}}",
-      "namespacePlaceholder": "Ad alanı girme",
-      "sampleModel": "örnek Model"
-    },
-    "configure": "Yapılandırmak"
+    }
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1121,7 +1110,9 @@
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
-    "runLayout": "Çalıştırma Düzeni"
+    "runLayout": "Çalıştırma Düzeni",
+    "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
+    "errorInheritance": "İkiden fazla arabirimden devralamaz"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -1208,6 +1199,7 @@
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
+<<<<<<< HEAD
     "valueSchema": "Değer Şeması",
     "modelId": "Model Kimliği",
     "path": "Yol",
@@ -1220,6 +1212,9 @@
     "minMultiplicityLabel": "Minimum çokluk",
     "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
     "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad"
+=======
+    "valueSchema": "Değer Şeması"
+>>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1334,6 +1329,7 @@
   "maxLower": ".max",
   "showDetails": "Ayrıntıları göster",
   "hideDetails": "Ayrıntıları gizle",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopya etmek",
     "defaultFileName": "Yeni ontoloji",
@@ -1350,4 +1346,9 @@
   "increaseBy1": "Değeri 1 artır",
   "decreaseBy1": "Değeri 1 azalt",
   "clear": "Berrak"
+=======
+  "colorPills": {
+    "unlabeled": "Etiketlenmemiş"
+  }
+>>>>>>> origin/msnyder-oatstaging
 }

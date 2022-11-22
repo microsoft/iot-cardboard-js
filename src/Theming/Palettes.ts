@@ -104,7 +104,8 @@ export const fluentLightThemePalette: IExtendedPartialPalette = {
     // custom colors
     glassyBackground75: '#faf9f8bf',
     glassyBackground90: '#faf9f8e6',
-    glassyBorder: '#d3d3d3'
+    glassyBorder: '#d3d3d3',
+    errorTextLight: '#cb2431'
 };
 
 export const fluentDarkThemePalette: IExtendedPartialPalette = {
@@ -133,7 +134,8 @@ export const fluentDarkThemePalette: IExtendedPartialPalette = {
     // custom colors
     glassyBackground75: '#040404bf',
     glassyBackground90: '#040404e6',
-    glassyBorder: '#424242'
+    glassyBorder: '#424242',
+    errorTextLight: '#f85149'
 };
 
 export const fluentExplorerThemePalette: IExtendedPartialPalette = {
@@ -162,7 +164,8 @@ export const fluentExplorerThemePalette: IExtendedPartialPalette = {
     // custom colors
     glassyBackground75: '#404040bf',
     glassyBackground90: '#404040e6',
-    glassyBorder: '#777'
+    glassyBorder: '#777',
+    errorTextLight: '#f85149'
 };
 
 export const fluentKrakenThemePalette: IExtendedPartialPalette = {
@@ -191,5 +194,6 @@ export const fluentKrakenThemePalette: IExtendedPartialPalette = {
     // custom colors
     glassyBackground75: '#1e2c53bf',
     glassyBackground90: '#1e2c53e6',
-    glassyBorder: '#303d5c'
+    glassyBorder: '#303d5c',
+    errorTextLight: '#f85149'
 };
