@@ -11,7 +11,8 @@ const classNames = {
     root: `${classPrefix}-root`,
     dropdown: `${classPrefix}-dropdown`,
     label: `${classPrefix}-label`,
-    requiredIcon: `${classPrefix}-requiredIcon`
+    requiredIcon: `${classPrefix}-requiredIcon`,
+    optionContainer: `${classPrefix}-optionContainer`
 };
 
 export const getStyles = (
@@ -32,6 +33,11 @@ export const getStyles = (
                 }
             }
         ],
+        optionContainer: {
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden'
+        },
         subComponentStyles: {
             callout: {
                 root: {
