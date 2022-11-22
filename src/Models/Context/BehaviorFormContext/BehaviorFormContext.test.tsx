@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { cleanup, render } from '@testing-library/react';
 import {
@@ -29,11 +30,10 @@ describe('BehaviorFormContext', () => {
     describe('Actions', () => {
         describe('Visual rules', () => {
             const getVisualRule = (
-                expression: string,
-                id?: string
+                expression: string
             ): IExpressionRangeVisual => {
                 return {
-                    ...getDefaultVisualRule(id),
+                    ...getDefaultVisualRule(),
                     valueExpression: expression
                 };
             };
@@ -56,7 +56,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const visualRules = result.behaviorToEdit.visuals.filter(
+                const visualRules = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isVisualRule
                 );
                 expect(visualRules.length).toEqual(1);
@@ -85,7 +85,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const visualRules = result.behaviorToEdit.visuals.filter(
+                const visualRules = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isVisualRule
                 );
                 expect(visualRules.length).toEqual(2);
@@ -97,21 +97,20 @@ describe('BehaviorFormContext', () => {
             test('[Remove] - removes the visual rule in the list of visuals if a visual rule already exists', () => {
                 // ARRANGE
                 const initialState = GET_MOCK_BEHAVIOR_FORM_STATE();
-                initialState.behaviorToEdit.visuals = [
-                    getVisualRule('some expression', 'mock_id')
-                ]; // add an alert to the list
+                const visualRule = getVisualRule('some expression');
+                initialState.behaviorToEdit.visuals = [visualRule]; // add a visual rule to the list
 
                 const action: BehaviorFormContextAction = {
                     type:
                         BehaviorFormContextActionType.FORM_BEHAVIOR_VISUAL_RULE_REMOVE,
-                    payload: { visualRuleId: 'mock_id' }
+                    payload: { visualRuleId: visualRule.id as string }
                 };
 
                 // ACT
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const visualRules = result.behaviorToEdit.visuals.filter(
+                const visualRules = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isVisualRule
                 );
                 expect(visualRules.length).toEqual(0);
@@ -136,9 +135,9 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const allAliases = result.behaviorToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
+                const allAliases = result.behaviorToEdit!.twinAliases;
+                expect(allAliases!.length).toEqual(1);
+                const matchingAliases = allAliases!.filter(
                     (x) => x === aliasName
                 );
                 expect(matchingAliases.length).toEqual(1);
@@ -162,9 +161,9 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const allAliases = result.behaviorToEdit.twinAliases;
-                expect(allAliases.length).toEqual(2);
-                const matchingAliases = allAliases.filter(
+                const allAliases = result.behaviorToEdit!.twinAliases;
+                expect(allAliases!.length).toEqual(2);
+                const matchingAliases = allAliases!.filter(
                     (x) => x === aliasName
                 );
                 expect(matchingAliases.length).toEqual(1);
@@ -188,9 +187,9 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const allAliases = result.behaviorToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
+                const allAliases = result.behaviorToEdit!.twinAliases;
+                expect(allAliases!.length).toEqual(1);
+                const matchingAliases = allAliases!.filter(
                     (x) => x === aliasName
                 );
                 expect(matchingAliases.length).toEqual(1);
@@ -214,8 +213,8 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const allAliases = result.behaviorToEdit.twinAliases;
-                expect(allAliases.length).toEqual(0);
+                const allAliases = result.behaviorToEdit!.twinAliases;
+                expect(allAliases!.length).toEqual(0);
             });
 
             test('[Remove] - removes the alias in the list of twins when it exists', () => {
@@ -239,9 +238,9 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const allAliases = result.behaviorToEdit.twinAliases;
-                expect(allAliases.length).toEqual(1);
-                const matchingAliases = allAliases.filter(
+                const allAliases = result.behaviorToEdit!.twinAliases;
+                expect(allAliases!.length).toEqual(1);
+                const matchingAliases = allAliases!.filter(
                     (x) => x === aliasName
                 );
                 expect(matchingAliases.length).toEqual(0);
@@ -276,7 +275,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.behaviorToEdit.datasources.filter(
+                const dataSources = result.behaviorToEdit!.datasources.filter(
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource
                 );
                 expect(dataSources.length).toEqual(1);
@@ -306,7 +305,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.behaviorToEdit.datasources.filter(
+                const dataSources = result.behaviorToEdit!.datasources.filter(
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource
                 );
                 expect(dataSources.length).toEqual(1);
@@ -330,7 +329,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.behaviorToEdit.datasources.filter(
+                const dataSources = result.behaviorToEdit!.datasources.filter(
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource
                 );
                 expect(dataSources.length).toEqual(0);
@@ -352,7 +351,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const dataSources = result.behaviorToEdit.datasources.filter(
+                const dataSources = result.behaviorToEdit!.datasources.filter(
                     ViewerConfigUtility.isElementTwinToObjectMappingDataSource
                 );
                 expect(dataSources.length).toEqual(0);
@@ -378,7 +377,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                expect(result.behaviorToEdit.displayName).toEqual(name);
+                expect(result.behaviorToEdit!.displayName).toEqual(name);
             });
         });
 
@@ -548,7 +547,7 @@ describe('BehaviorFormContext', () => {
 
                 // ASSERT
                 // updates the name
-                expect(result1.behaviorToEdit.displayName).toEqual(
+                expect(result1.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name set
                 expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
@@ -557,13 +556,13 @@ describe('BehaviorFormContext', () => {
                 );
 
                 // removes the layer
-                expect(result2.behaviorToEdit.displayName).toEqual(
+                expect(result2.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name unchanged
                 expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
 
                 // resets back to the original values
-                expect(result3.behaviorToEdit.displayName).toEqual(
+                expect(result3.behaviorToEdit!.displayName).toEqual(
                     INITIAL_BEHAVIOR_NAME
                 ); // name reverted
                 expect(result3.behaviorSelectedLayerIds.length).toEqual(1); // layers reverted
@@ -641,7 +640,7 @@ describe('BehaviorFormContext', () => {
 
                 // ASSERT
                 // updates the name
-                expect(result1.behaviorToEdit.displayName).toEqual(
+                expect(result1.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name set
                 expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
@@ -650,13 +649,13 @@ describe('BehaviorFormContext', () => {
                 );
 
                 // removes the layer
-                expect(result2.behaviorToEdit.displayName).toEqual(
+                expect(result2.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name unchanged
                 expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
 
                 // resets back to the original values
-                expect(result3.behaviorToEdit.displayName).toEqual(
+                expect(result3.behaviorToEdit!.displayName).toEqual(
                     RESET_BEHAVIOR_NAME
                 ); // name set to provided payload
                 expect(result3.behaviorSelectedLayerIds.length).toEqual(1); // layers reverted to initial value
@@ -730,7 +729,7 @@ describe('BehaviorFormContext', () => {
 
                 // ASSERT
                 // updates the name
-                expect(result1.behaviorToEdit.displayName).toEqual(
+                expect(result1.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name set
                 expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
@@ -739,13 +738,13 @@ describe('BehaviorFormContext', () => {
                 );
 
                 // removes the layer
-                expect(result2.behaviorToEdit.displayName).toEqual(
+                expect(result2.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name unchanged
                 expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
 
                 // resets back to the original or payload values
-                expect(result3.behaviorToEdit.displayName).toEqual(
+                expect(result3.behaviorToEdit!.displayName).toEqual(
                     INITIAL_BEHAVIOR_NAME
                 ); // name set to initial value
                 expect(result3.behaviorSelectedLayerIds.length).toEqual(
@@ -827,7 +826,7 @@ describe('BehaviorFormContext', () => {
 
                 // ASSERT
                 // updates the name
-                expect(result1.behaviorToEdit.displayName).toEqual(
+                expect(result1.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name set
                 expect(result1.behaviorSelectedLayerIds.length).toEqual(1); // layers unchanged
@@ -836,13 +835,13 @@ describe('BehaviorFormContext', () => {
                 );
 
                 // removes the layer
-                expect(result2.behaviorToEdit.displayName).toEqual(
+                expect(result2.behaviorToEdit!.displayName).toEqual(
                     UPDATED_BEHAVIOR_NAME
                 ); // name unchanged
                 expect(result2.behaviorSelectedLayerIds.length).toEqual(0); // layer removed
 
                 // resets back to the payload values
-                expect(result3.behaviorToEdit.displayName).toEqual(
+                expect(result3.behaviorToEdit!.displayName).toEqual(
                     RESET_BEHAVIOR_NAME
                 ); // name set to provided payload
                 expect(result3.behaviorSelectedLayerIds.length).toEqual(
@@ -888,7 +887,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const popover = result.behaviorToEdit.visuals.filter(
+                const popover = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 );
                 expect(popover.length).toEqual(1);
@@ -916,7 +915,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const popover = result.behaviorToEdit.visuals.filter(
+                const popover = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 );
                 expect(popover.length).toEqual(1);
@@ -942,7 +941,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const popover = result.behaviorToEdit.visuals.filter(
+                const popover = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 );
                 expect(popover.length).toEqual(0);
@@ -966,7 +965,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const popover = result.behaviorToEdit.visuals.filter(
+                const popover = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 );
                 expect(popover.length).toEqual(0);
@@ -992,7 +991,7 @@ describe('BehaviorFormContext', () => {
                 const result = BehaviorFormContextReducer(initialState, action);
 
                 // ASSERT
-                const popover = result.behaviorToEdit.visuals.filter(
+                const popover = result.behaviorToEdit!.visuals.filter(
                     ViewerConfigUtility.isPopoverVisual
                 );
                 expect(popover.length).toEqual(1);

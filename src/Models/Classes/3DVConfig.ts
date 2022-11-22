@@ -93,8 +93,8 @@ export const defaultOnClickPopover: IPopoverVisual = {
     }
 };
 
-export const getDefaultVisualRule = (id?: string): IExpressionRangeVisual => ({
-    id: id ? id : createGUID(),
+export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
+    id: createGUID(),
     type: VisualType.ExpressionRangeVisual,
     valueExpression: '',
     valueRanges: [],
