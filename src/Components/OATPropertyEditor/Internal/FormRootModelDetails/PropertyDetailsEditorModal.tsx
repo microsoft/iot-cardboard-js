@@ -11,9 +11,9 @@ import { getStyles } from './PropertyDetailsEditorModal.styles';
 import { useTranslation } from 'react-i18next';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import ModelPropertyHeader from '../ModelPropertyHeader/ModelPropertyHeader';
-import { getModelPropertyListItemName } from '../../Utils';
 import { isDTDLReference } from '../../../../Models/Services/DtdlUtils';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
+import { getUniqueModelName } from '../../../../Models/Services/OatUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger(
@@ -79,9 +79,7 @@ export const PropertyDetailsEditorModal: React.FC<IModalFormRootModelProps> = (
                         entityName={
                             isDTDLReference(selectedItem)
                                 ? selectedItem.name
-                                : getModelPropertyListItemName(
-                                      selectedItem.displayName
-                                  )
+                                : getUniqueModelName(selectedItem)
                         }
                         entityType={selectedItem['@type']?.toString() || ''}
                     />

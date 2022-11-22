@@ -119,6 +119,13 @@ export const safeJsonParse = <T>(value: string): T | null => {
     }
 };
 
+export function getUniqueModelName(model: DtdlInterface): string {
+    if (!model) {
+        return '';
+    }
+    return parseModelId(model['@id']).name || '';
+}
+
 export function getAvailableLanguages(i18n: i18n) {
     return Object.keys(i18n.options.resources).map((language) => {
         return {
