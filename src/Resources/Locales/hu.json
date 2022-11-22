@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Modelllista elrejtése"
   },
   "increaseBy1": "Növelje az értéket 1-gyel",
-  "decreaseBy1": "Érték csökkentése 1-gyel"
+  "decreaseBy1": "Érték csökkentése 1-gyel",
+  "clear": "Világos"
 }

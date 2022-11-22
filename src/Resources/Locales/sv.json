@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Dölj modelllista"
   },
   "increaseBy1": "Öka värdet med 1",
-  "decreaseBy1": "Minska värdet med 1"
+  "decreaseBy1": "Minska värdet med 1",
+  "clear": "Klar"
 }

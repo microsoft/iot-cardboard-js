@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
   },
   "increaseBy1": "Zvýšení hodnoty o 1",
-  "decreaseBy1": "Snížení hodnoty o 1"
+  "decreaseBy1": "Snížení hodnoty o 1",
+  "clear": "Jasný"
 }

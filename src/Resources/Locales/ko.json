@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "모델 목록 숨기기"
   },
   "increaseBy1": "값을 1씩 늘립니다.",
-  "decreaseBy1": "값 감소 1"
+  "decreaseBy1": "값 감소 1",
+  "clear": "맑다"
 }

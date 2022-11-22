@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "モデルリストを隠す"
   },
   "increaseBy1": "値を 1 増やす",
-  "decreaseBy1": "値を 1 ずつ減らす"
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "clear": "クリア"
 }

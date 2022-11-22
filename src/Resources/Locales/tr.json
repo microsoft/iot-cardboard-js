@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Model listesini gizle"
   },
   "increaseBy1": "Değeri 1 artır",
-  "decreaseBy1": "Değeri 1 azalt"
+  "decreaseBy1": "Değeri 1 azalt",
+  "clear": "Berrak"
 }

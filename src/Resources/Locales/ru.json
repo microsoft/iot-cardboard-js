@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Скрыть список моделей"
   },
   "increaseBy1": "Увеличение значения на 1",
-  "decreaseBy1": "Уменьшение значения на 1"
+  "decreaseBy1": "Уменьшение значения на 1",
+  "clear": "Ясный"
 }

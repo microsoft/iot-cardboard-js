@@ -1348,5 +1348,6 @@
     "modelListToggleAriaLabelHide": "Masquer la liste des modèles"
   },
   "increaseBy1": "Augmenter la valeur de 1",
-  "decreaseBy1": "Diminuer la valeur de 1"
+  "decreaseBy1": "Diminuer la valeur de 1",
+  "clear": "Clair"
 }
