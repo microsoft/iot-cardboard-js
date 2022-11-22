@@ -352,9 +352,24 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 isOpen={isInfoModalOpen}
                 selectedItem={selectedItem}
                 onClose={setIsInfoModalOpenFalse}
-                onSubmit={() => {
-                    alert('submit');
+                onSubmit={(data) => {
                     setIsInfoModalOpenFalse();
+                    if (isDTDLModel(data)) {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.UPDATE_MODEL,
+                            payload: {
+                                model: data
+                            }
+                        });
+                    } else if (isDTDLReference(data)) {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.UPDATE_REFERENCE,
+                            payload: {
+                                modelId: oatPageState.selection?.modelId,
+                                reference: data
+                            }
+                        });
+                    }
                 }}
             />
         </>

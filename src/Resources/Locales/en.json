@@ -1045,7 +1045,7 @@
         "descriptionPlaceholder": "A localizable description to display",
         "details": "Details",
         "displayName": "Display Name",
-        "displayNamePlaceholder1": "A localizable name to display",
+        "displayNamePlaceholder": "A localizable name to display",
         "double": "double",
         "duplicate": "Duplicate",
         "duration": "duration",

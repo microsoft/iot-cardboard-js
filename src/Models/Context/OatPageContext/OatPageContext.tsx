@@ -32,7 +32,9 @@ import {
     updateModelId,
     addTargetedRelationship,
     addNewModelToState,
-    addUntargetedRelationship
+    addUntargetedRelationship,
+    getModelIndexById,
+    getModelById
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -222,6 +224,70 @@ export const OatPageContextReducer: (
                 draft.currentOntologyModelPositions = action.payload.positions;
                 setSelectedModel(action.payload.selection, draft);
                 saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.UPDATE_MODEL: {
+                const { model } = action.payload;
+                // find model
+                const index = getModelIndexById(
+                    draft.currentOntologyModels,
+                    model['@id']
+                );
+                if (index > -1) {
+                    logDebugConsole(
+                        'debug',
+                        'Updating model at index: ',
+                        index
+                    );
+                    // update value
+                    draft.currentOntologyModels[index] = deepCopy(model);
+                    saveData(draft);
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        'Did not find existing model to update with id ' +
+                            model['@id']
+                    );
+                }
+                break;
+            }
+            case OatPageContextActionType.UPDATE_REFERENCE: {
+                const { modelId, reference } = action.payload;
+                if (!modelId) {
+                    logDebugConsole(
+                        'warn',
+                        'Model id cannot be null. Unable to update reference. {reference}',
+                        reference
+                    );
+                    break;
+                }
+                // find model
+                const model = getModelById(
+                    draft.currentOntologyModels,
+                    modelId
+                );
+                if (model) {
+                    // find the reference
+                    const referenceIndex = model.contents.findIndex(
+                        (x) => x.name === reference.name
+                    );
+                    if (referenceIndex > -1) {
+                        // update value
+                        model.contents[referenceIndex] = deepCopy(reference);
+                        saveData(draft);
+                    } else {
+                        logDebugConsole(
+                            'warn',
+                            'Did not find existing reference to update on model with name ' +
+                                reference.name
+                        );
+                    }
+                } else {
+                    logDebugConsole(
+                        'warn',
+                        'Did not find existing model with id ' + modelId
+                    );
+                }
                 break;
             }
             case OatPageContextActionType.UPDATE_MODEL_ID: {

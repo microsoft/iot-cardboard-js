@@ -19,7 +19,7 @@ import {
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
-): object is DtdlRelationship => {
+): object is DtdlInterfaceContent => {
     if (!object) {
         return false;
     }
