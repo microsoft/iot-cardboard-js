@@ -1199,22 +1199,7 @@
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
     "moveUp": "上へ移動",
-<<<<<<< HEAD
-    "valueSchema": "値スキーマ",
-    "modelId": "モデル ID",
-    "path": "パス",
-    "uniqueModelName": "一意のモデル名",
-    "version": "バージョン",
-    "commentPlaceholder": "モデル作成者へのコメント",
-    "descriptionPlaceholder": "表示するローカライズ可能な説明",
-    "details": "細部",
-    "maxMultiplicityLabel": "最大多重度",
-    "minMultiplicityLabel": "最小多重度",
-    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
-    "displayNamePlaceholder": "表示するローカライズ可能な名前"
-=======
     "valueSchema": "値スキーマ"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "詳細を表示",
   "hideDetails": "詳細を隠す",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "写し",
-    "defaultFileName": "新しいオントロジー",
-    "defaultModelNamePrefix": "モデル"
-  },
-  "OATModelList": {
-    "searchModels": "モデルの検索",
-    "noDataMessage": "モデルなし",
-    "noMatchingItemsMessage": "その基準に一致するモデルはありません",
-    "removeModelButtonText": "モデルを削除",
-    "modelListToggleAriaLabelShow": "モデル一覧を表示",
-    "modelListToggleAriaLabelHide": "モデルリストを隠す"
-  },
-  "increaseBy1": "値を 1 増やす",
-  "decreaseBy1": "値を 1 ずつ減らす",
-  "clear": "クリア"
-=======
   "colorPills": {
     "unlabeled": "ラベル"
   }
->>>>>>> origin/msnyder-oatstaging
 }

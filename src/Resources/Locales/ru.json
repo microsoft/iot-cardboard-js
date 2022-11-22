@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
     "moveUp": "Придвигаться",
-<<<<<<< HEAD
-    "valueSchema": "Схема значений",
-    "modelId": "Идентификатор модели",
-    "path": "Путь",
-    "uniqueModelName": "Уникальное название модели",
-    "version": "Версия",
-    "commentPlaceholder": "Комментарий для авторов моделей",
-    "descriptionPlaceholder": "Локализуемое описание для отображения",
-    "details": "Подробности",
-    "maxMultiplicityLabel": "Максимальная кратность",
-    "minMultiplicityLabel": "Минимальная кратность",
-    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
-    "displayNamePlaceholder": "Локализуемое имя для отображения"
-=======
     "valueSchema": "Схема значений"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Показать подробности",
   "hideDetails": "Скрыть детали",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Новая онтология",
-    "defaultModelNamePrefix": "Модель"
-  },
-  "OATModelList": {
-    "searchModels": "Поиск моделей",
-    "noDataMessage": "Нет моделей",
-    "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
-    "removeModelButtonText": "Удалить модель",
-    "modelListToggleAriaLabelShow": "Показать список моделей",
-    "modelListToggleAriaLabelHide": "Скрыть список моделей"
-  },
-  "increaseBy1": "Увеличение значения на 1",
-  "decreaseBy1": "Уменьшение значения на 1",
-  "clear": "Ясный"
-=======
   "colorPills": {
     "unlabeled": "Без маркировки"
   }
->>>>>>> origin/msnyder-oatstaging
 }

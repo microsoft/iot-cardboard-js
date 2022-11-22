@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
-<<<<<<< HEAD
-    "valueSchema": "Değer Şeması",
-    "modelId": "Model Kimliği",
-    "path": "Yol",
-    "uniqueModelName": "Benzersiz model adı",
-    "version": "Sürüm",
-    "commentPlaceholder": "Model yazarları için yorum",
-    "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
-    "details": "Şey",
-    "maxMultiplicityLabel": "Maksimum çokluk",
-    "minMultiplicityLabel": "Minimum çokluk",
-    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
-    "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad"
-=======
     "valueSchema": "Değer Şeması"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Ayrıntıları göster",
   "hideDetails": "Ayrıntıları gizle",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopya etmek",
-    "defaultFileName": "Yeni ontoloji",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Modelleri ara",
-    "noDataMessage": "Model yok",
-    "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
-    "removeModelButtonText": "Modeli kaldır",
-    "modelListToggleAriaLabelShow": "Model listesini göster",
-    "modelListToggleAriaLabelHide": "Model listesini gizle"
-  },
-  "increaseBy1": "Değeri 1 artır",
-  "decreaseBy1": "Değeri 1 azalt",
-  "clear": "Berrak"
-=======
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   }
->>>>>>> origin/msnyder-oatstaging
 }

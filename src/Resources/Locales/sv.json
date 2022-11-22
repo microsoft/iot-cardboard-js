@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
-<<<<<<< HEAD
-    "valueSchema": "Värdeschema",
-    "modelId": "Modell-ID",
-    "path": "Stig",
-    "uniqueModelName": "Unikt modellnamn",
-    "version": "Version",
-    "commentPlaceholder": "Kommentar för modellförfattare",
-    "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
-    "details": "Detaljer",
-    "maxMultiplicityLabel": "Maximal mångfald",
-    "minMultiplicityLabel": "Minsta mångfald",
-    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
-    "displayNamePlaceholder": "Ett lokaliserbart namn att visa"
-=======
     "valueSchema": "Värdeschema"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Visa detaljer",
   "hideDetails": "Dölj detaljer",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopia",
-    "defaultFileName": "Ny ontologi",
-    "defaultModelNamePrefix": "Modell"
-  },
-  "OATModelList": {
-    "searchModels": "Sök modeller",
-    "noDataMessage": "Inga modeller",
-    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
-    "removeModelButtonText": "Ta bort modell",
-    "modelListToggleAriaLabelShow": "Visa modelllista",
-    "modelListToggleAriaLabelHide": "Dölj modelllista"
-  },
-  "increaseBy1": "Öka värdet med 1",
-  "decreaseBy1": "Minska värdet med 1",
-  "clear": "Klar"
-=======
   "colorPills": {
     "unlabeled": "Omärkt"
   }
->>>>>>> origin/msnyder-oatstaging
 }

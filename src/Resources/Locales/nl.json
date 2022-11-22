@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
-<<<<<<< HEAD
-    "valueSchema": "Waardenschema",
-    "modelId": "Model-id",
-    "path": "Pad",
-    "uniqueModelName": "Unieke modelnaam",
-    "version": "Versie",
-    "commentPlaceholder": "Opmerking voor modelauteurs",
-    "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
-    "details": "Bijzonderheden",
-    "maxMultiplicityLabel": "Maximale multipliciteit",
-    "minMultiplicityLabel": "Minimale veelheid",
-    "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
-    "displayNamePlaceholder": "Een localiseerbare naam om weer te geven"
-=======
     "valueSchema": "Waardenschema"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Toon details",
   "hideDetails": "Details verbergen",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName": "Nieuwe ontologie",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Modellen zoeken",
-    "noDataMessage": "Geen modellen",
-    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
-    "removeModelButtonText": "Model verwijderen",
-    "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
-    "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
-  },
-  "increaseBy1": "Waarde verhogen met 1",
-  "decreaseBy1": "Waarde verlagen met 1",
-  "clear": "Duidelijk"
-=======
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
   }
->>>>>>> origin/msnyder-oatstaging
 }

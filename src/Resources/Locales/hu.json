@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
     "moveUp": "Feljebb lépés",
-<<<<<<< HEAD
-    "valueSchema": "Értékséma",
-    "modelId": "Modell azonosítója",
-    "path": "Ösvény",
-    "uniqueModelName": "Egyedi modellnév",
-    "version": "Verzió",
-    "commentPlaceholder": "Megjegyzés a modell szerzőinek",
-    "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
-    "details": "Részletek",
-    "maxMultiplicityLabel": "Maximális sokaság",
-    "minMultiplicityLabel": "Minimális szorzás",
-    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
-    "displayNamePlaceholder": "Megjelenítendő honosítható név"
-=======
     "valueSchema": "Értékséma"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Mutasd a részleteket",
   "hideDetails": "Részletek elrejtése",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "másolat",
-    "defaultFileName": "Új ontológia",
-    "defaultModelNamePrefix": "Modell"
-  },
-  "OATModelList": {
-    "searchModels": "Keresési modellek",
-    "noDataMessage": "Nincs modell",
-    "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
-    "removeModelButtonText": "Modell eltávolítása",
-    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
-    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
-  },
-  "increaseBy1": "Növelje az értéket 1-gyel",
-  "decreaseBy1": "Érték csökkentése 1-gyel",
-  "clear": "Világos"
-=======
   "colorPills": {
     "unlabeled": "Címkézetlen"
   }
->>>>>>> origin/msnyder-oatstaging
 }

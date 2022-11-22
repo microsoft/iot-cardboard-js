@@ -1079,22 +1079,7 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
-<<<<<<< HEAD
-    "writable": "Zapisovatelný",
-    "modelId": "ID modelu",
-    "path": "Cesta",
-    "uniqueModelName": "Jedinečný název modelu",
-    "version": "Verze",
-    "commentPlaceholder": "Komentář pro autory modelů",
-    "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
-    "details": "Podrobnosti",
-    "maxMultiplicityLabel": "Maximální násobnost",
-    "minMultiplicityLabel": "Minimální násobnost",
-    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
-    "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit"
-=======
     "writable": "Zapisovatelný"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Zobrazit podrobnosti",
   "hideDetails": "Skrýt detaily",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopírovat",
-    "defaultFileName": "Nová ontologie",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Hledat modely",
-    "noDataMessage": "Žádné modely",
-    "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
-    "removeModelButtonText": "Odebrat model",
-    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
-    "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
-  },
-  "increaseBy1": "Zvýšení hodnoty o 1",
-  "decreaseBy1": "Snížení hodnoty o 1",
-  "clear": "Jasný"
-=======
   "colorPills": {
     "unlabeled": "Neoznačené"
   }
->>>>>>> origin/msnyder-oatstaging
 }

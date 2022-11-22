@@ -1199,22 +1199,7 @@
     "addToPropertyList": "Aggiungi all'elenco delle proprietà",
     "moveDown": "Retrocedere",
     "moveUp": "Promuovere",
-<<<<<<< HEAD
-    "valueSchema": "Schema dei valori",
-    "modelId": "ID modello",
-    "path": "Sentiero",
-    "uniqueModelName": "Nome univoco del modello",
-    "version": "Versione",
-    "commentPlaceholder": "Commento per gli autori dei modelli",
-    "descriptionPlaceholder": "Una descrizione localizzabile da visualizzare",
-    "details": "Dettagli",
-    "maxMultiplicityLabel": "Massima molteplicità",
-    "minMultiplicityLabel": "Molteplicità minima",
-    "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0",
-    "displayNamePlaceholder": "Nome localizzabile da visualizzare"
-=======
     "valueSchema": "Schema dei valori"
->>>>>>> origin/msnyder-oatstaging
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",
@@ -1329,26 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Mostra dettagli",
   "hideDetails": "Nascondi dettagli",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copiare",
-    "defaultFileName": "Nuova ontologia",
-    "defaultModelNamePrefix": "Modello"
-  },
-  "OATModelList": {
-    "searchModels": "Cerca modelli",
-    "noDataMessage": "Nessun modello",
-    "noMatchingItemsMessage": "Nessun modello corrisponde a tali criteri",
-    "removeModelButtonText": "Rimuovi modello",
-    "modelListToggleAriaLabelShow": "Mostra elenco modelli",
-    "modelListToggleAriaLabelHide": "Nascondi elenco modelli"
-  },
-  "increaseBy1": "Aumentare il valore di 1",
-  "decreaseBy1": "Diminuire il valore di 1",
-  "clear": "Chiaro"
-=======
   "colorPills": {
     "unlabeled": "Senza etichetta"
   }
->>>>>>> origin/msnyder-oatstaging
 }
