@@ -1218,7 +1218,14 @@
     "modelId": "型号编号",
     "path": "路径",
     "uniqueModelName": "唯一的型号名称",
-    "version": "版本"
+    "version": "版本",
+    "commentPlaceholder": "模型作者注释",
+    "descriptionPlaceholder": "要显示的可本地化说明",
+    "details": "详",
+    "displayNamePlaceholder": "要显示的可本地化名称",
+    "maxMultiplicityLabel": "最大多重性",
+    "minMultiplicityLabel": "最小多重性",
+    "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "删除模型",
     "modelListToggleAriaLabelShow": "显示型号列表",
     "modelListToggleAriaLabelHide": "隐藏模型列表"
-  }
+  },
+  "clear": "清楚",
+  "increaseBy1": "将值增加 1",
+  "decreaseBy1": "将值减少 1"
 }

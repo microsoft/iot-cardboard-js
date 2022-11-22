@@ -1218,7 +1218,14 @@
     "modelId": "Identyfikator modelu",
     "path": "Ścieżka",
     "uniqueModelName": "Unikalna nazwa modelu",
-    "version": "Wersja"
+    "version": "Wersja",
+    "commentPlaceholder": "Komentarz dla autorów modeli",
+    "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
+    "details": "Szczegóły",
+    "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
+    "maxMultiplicityLabel": "Maksymalna wielokrotność",
+    "minMultiplicityLabel": "Minimalna wielokrotność",
+    "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "Usuń model",
     "modelListToggleAriaLabelShow": "Pokaż listę modeli",
     "modelListToggleAriaLabelHide": "Ukryj listę modeli"
-  }
+  },
+  "clear": "Jasny",
+  "increaseBy1": "Zwiększ wartość o 1",
+  "decreaseBy1": "Zmniejsz wartość o 1"
 }

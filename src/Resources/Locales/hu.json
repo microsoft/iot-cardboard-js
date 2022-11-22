@@ -1218,7 +1218,14 @@
     "modelId": "Modell azonosítója",
     "path": "Ösvény",
     "uniqueModelName": "Egyedi modellnév",
-    "version": "Verzió"
+    "version": "Verzió",
+    "commentPlaceholder": "Megjegyzés a modell szerzőinek",
+    "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
+    "details": "Részletek",
+    "displayNamePlaceholder": "Megjelenítendő honosítható név",
+    "maxMultiplicityLabel": "Maximális sokaság",
+    "minMultiplicityLabel": "Minimális szorzás",
+    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "Modell eltávolítása",
     "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
     "modelListToggleAriaLabelHide": "Modelllista elrejtése"
-  }
+  },
+  "clear": "Világos",
+  "increaseBy1": "Növelje az értéket 1-gyel",
+  "decreaseBy1": "Érték csökkentése 1-gyel"
 }

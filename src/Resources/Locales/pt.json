@@ -1218,7 +1218,14 @@
     "modelId": "ID do modelo",
     "path": "Caminho",
     "uniqueModelName": "Nome exclusivo do modelo",
-    "version": "Versão"
+    "version": "Versão",
+    "commentPlaceholder": "Comentário para autores de modelos",
+    "descriptionPlaceholder": "Uma descrição localizável a ser exibida",
+    "details": "Detalhes",
+    "displayNamePlaceholder": "Um nome localizável para exibição",
+    "maxMultiplicityLabel": "Multiplicidade máxima",
+    "minMultiplicityLabel": "Multiplicidade mínima",
+    "minMultiplicityMessage": "DTDL V2 suporta apenas uma multiplicidade mínima de 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "Remover modelo",
     "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
     "modelListToggleAriaLabelHide": "Ocultar lista de modelos"
-  }
+  },
+  "clear": "Claro",
+  "increaseBy1": "Aumentar o valor em 1",
+  "decreaseBy1": "Diminuir o valor em 1"
 }

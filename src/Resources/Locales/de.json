@@ -1218,7 +1218,14 @@
     "modelId": "Modell-ID",
     "path": "Pfad",
     "uniqueModelName": "Eindeutiger Modellname",
-    "version": "Version"
+    "version": "Version",
+    "commentPlaceholder": "Kommentar für Modellautoren",
+    "descriptionPlaceholder": "Eine lokalisierbare Beschreibung zum Anzeigen",
+    "details": "Details",
+    "displayNamePlaceholder": "Ein lokalisierbarer Name, der angezeigt werden soll",
+    "maxMultiplicityLabel": "Maximale Vielfalt",
+    "minMultiplicityLabel": "Minimale Vielfalt",
+    "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "Modell entfernen",
     "modelListToggleAriaLabelShow": "Modellliste anzeigen",
     "modelListToggleAriaLabelHide": "Modellliste ausblenden"
-  }
+  },
+  "clear": "Klar",
+  "increaseBy1": "Wert um 1 erhöhen",
+  "decreaseBy1": "Wert um 1 verringern"
 }

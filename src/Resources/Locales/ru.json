@@ -1218,7 +1218,14 @@
     "modelId": "Идентификатор модели",
     "path": "Путь",
     "uniqueModelName": "Уникальное название модели",
-    "version": "Версия"
+    "version": "Версия",
+    "commentPlaceholder": "Комментарий для авторов моделей",
+    "descriptionPlaceholder": "Локализуемое описание для отображения",
+    "details": "Подробности",
+    "displayNamePlaceholder": "Локализуемое имя для отображения",
+    "maxMultiplicityLabel": "Максимальная кратность",
+    "minMultiplicityLabel": "Минимальная кратность",
+    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1348,5 +1355,8 @@
     "removeModelButtonText": "Удалить модель",
     "modelListToggleAriaLabelShow": "Показать список моделей",
     "modelListToggleAriaLabelHide": "Скрыть список моделей"
-  }
+  },
+  "clear": "Ясный",
+  "increaseBy1": "Увеличение значения на 1",
+  "decreaseBy1": "Уменьшение значения на 1"
 }
