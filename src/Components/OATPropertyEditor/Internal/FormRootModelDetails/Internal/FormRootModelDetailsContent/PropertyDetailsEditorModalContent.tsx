@@ -38,7 +38,10 @@ import {
 import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../../../../Models/Constants';
 import TooltipCallout from '../../../../../TooltipCallout/TooltipCallout';
 import produce from 'immer';
-import { getDebugLogger } from '../../../../../../Models/Services/Utils';
+import {
+    getDebugLogger,
+    isDefined
+} from '../../../../../../Models/Services/Utils';
 
 const SINGLE_LANGUAGE_KEY = 'singleLanguage';
 const MULTI_LANGUAGE_KEY = 'multiLanguage';
@@ -110,14 +113,17 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
 
     const onValidateNumber = useCallback(
         (currentValue: string, newValue: string) => {
-            if (!newValue || newValue.trim() === '') {
+            if (!isDefined(newValue) || newValue.trim() === '') {
+                console.log('***empty, return null');
                 return null;
             }
 
             const number = Number(newValue.trim());
             if (!isNaN(number)) {
+                console.log('***valid number');
                 return newValue;
             }
+            console.log('***invalid, return previous');
             return currentValue;
         },
         []
@@ -549,41 +555,69 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
                                 }}
                             />
                         </div>
-                        <SpinButton
-                            aria-labelledby={'minMultiplicityLabel'}
-                            decrementButtonAriaLabel={t('decreaseBy1')}
-                            incrementButtonAriaLabel={t('increaseBy1')}
-                            disabled // this is always 0 in V2 so just lock it for now
-                            onValidate={(value) =>
-                                onValidateNumber(
-                                    String(
+                        <div className={classNames.splitInputColumn}>
+                            <SpinButton
+                                aria-labelledby={'minMultiplicityLabel'}
+                                decrementButtonAriaLabel={t('decreaseBy1')}
+                                incrementButtonAriaLabel={t('increaseBy1')}
+                                min={0}
+                                disabled // this is always 0 in V2 so just lock it for now
+                                onValidate={(value) =>
+                                    onValidateNumber(
                                         isDTDLRelationshipReference(
                                             selectedItem
-                                        ) && selectedItem.minMultiplicity
-                                    ),
-                                    value
-                                )
-                            }
-                            onChange={(_ev, _value) => {
-                                onUpdateItem(
-                                    produce((draft) => {
-                                        if (
-                                            isDTDLRelationshipReference(draft)
-                                        ) {
-                                            // draft.minMultiplicity = Number(
-                                            //     value
-                                            // );
-                                        }
-                                    })
-                                );
-                            }}
-                            value={
-                                String(
+                                        ) &&
+                                            isDefined(
+                                                selectedItem.minMultiplicity
+                                            )
+                                            ? String(
+                                                  selectedItem.minMultiplicity
+                                              )
+                                            : '',
+                                        value
+                                    )
+                                }
+                                onChange={(_ev, _value) => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            if (
+                                                isDTDLRelationshipReference(
+                                                    draft
+                                                )
+                                            ) {
+                                                // draft.minMultiplicity = Number(
+                                                //     value
+                                                // );
+                                            }
+                                        })
+                                    );
+                                }}
+                                value={
                                     isDTDLRelationshipReference(selectedItem) &&
-                                        selectedItem.minMultiplicity
-                                ) ?? ''
-                            }
-                        />
+                                    isDefined(selectedItem.minMultiplicity)
+                                        ? String(selectedItem.minMultiplicity)
+                                        : ''
+                                }
+                            />
+                            <ActionButton
+                                text={t('clear')}
+                                disabled // this is always 0 in V2 so just lock it for now
+                                onClick={() => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            if (
+                                                isDTDLRelationshipReference(
+                                                    draft
+                                                )
+                                            ) {
+                                                // delete draft.minMultiplicity;
+                                                return draft;
+                                            }
+                                        })
+                                    );
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className={propertyInspectorStyles.modalRow}>
                         <Label
@@ -592,41 +626,68 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
                         >
                             {t('OATPropertyEditor.maxMultiplicityLabel')}
                         </Label>
-                        <SpinButton
-                            aria-labelledby={'maxMultiplicityLabel'}
-                            decrementButtonAriaLabel={t('decreaseBy1')}
-                            incrementButtonAriaLabel={t('increaseBy1')}
-                            onValidate={(value) =>
-                                onValidateNumber(
-                                    String(
+                        <div className={classNames.splitInputColumn}>
+                            <SpinButton
+                                aria-labelledby={'maxMultiplicityLabel'}
+                                decrementButtonAriaLabel={t('decreaseBy1')}
+                                incrementButtonAriaLabel={t('increaseBy1')}
+                                min={0}
+                                onValidate={(value) =>
+                                    onValidateNumber(
                                         isDTDLRelationshipReference(
                                             selectedItem
-                                        ) && selectedItem.maxMultiplicity
-                                    ),
-                                    value
-                                )
-                            }
-                            onChange={(_ev, value) => {
-                                onUpdateItem(
-                                    produce((draft) => {
-                                        if (
-                                            isDTDLRelationshipReference(draft)
-                                        ) {
-                                            draft.maxMultiplicity = Number(
-                                                value
-                                            );
-                                            return draft;
-                                        }
-                                    })
-                                );
-                            }}
-                            value={
-                                String(
+                                        ) &&
+                                            isDefined(
+                                                selectedItem.maxMultiplicity
+                                            )
+                                            ? String(
+                                                  selectedItem.maxMultiplicity
+                                              )
+                                            : '',
+                                        value
+                                    )
+                                }
+                                onChange={(_ev, value) => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            if (
+                                                isDTDLRelationshipReference(
+                                                    draft
+                                                )
+                                            ) {
+                                                draft.maxMultiplicity = Number(
+                                                    value
+                                                );
+                                                return draft;
+                                            }
+                                        })
+                                    );
+                                }}
+                                value={
                                     isDTDLRelationshipReference(selectedItem) &&
-                                        selectedItem.maxMultiplicity
-                                ) ?? ''
-                            }
-                        />
+                                    isDefined(selectedItem.maxMultiplicity)
+                                        ? String(selectedItem.maxMultiplicity)
+                                        : ''
+                                }
+                            />
+                            <ActionButton
+                                text={t('clear')}
+                                onClick={() => {
+                                    onUpdateItem(
+                                        produce((draft) => {
+                                            if (
+                                                isDTDLRelationshipReference(
+                                                    draft
+                                                )
+                                            ) {
+                                                delete draft.maxMultiplicity;
+                                                return draft;
+                                            }
+                                        })
+                                    );
+                                }}
+                            />
+                        </div>
                     </div>
                     <div className={propertyInspectorStyles.modalRow}>
                         <Label

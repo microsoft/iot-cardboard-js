@@ -71,6 +71,8 @@ RelationshipModal.args = (() => {
         modelId1,
         DTDLType.Relationship
     ) as DtdlRelationship;
+    reference.minMultiplicity = undefined;
+    reference.maxMultiplicity = undefined;
     reference.name = 'Reference 1';
     const model = getMockModelItem(modelId1);
     model.contents.push(reference);

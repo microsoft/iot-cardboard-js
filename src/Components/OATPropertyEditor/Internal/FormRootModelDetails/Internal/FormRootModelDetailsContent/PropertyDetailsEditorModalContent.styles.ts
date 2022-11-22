@@ -8,7 +8,8 @@ export const classPrefix = `${CardboardClassNamePrefix}-form-root-model-details`
 const classNames = {
     root: `${classPrefix}-root`,
     label: `${classPrefix}-label`,
-    labelWithCallout: `${classPrefix}-label-with-callout`
+    labelWithCallout: `${classPrefix}-label-with-callout`,
+    splitInput: `${classPrefix}-split-input`
 };
 const LABEL_MARGIN = 20;
 export const getStyles = (
@@ -29,6 +30,14 @@ export const getStyles = (
                 display: 'flex',
                 flexDirection: 'row',
                 marginRight: LABEL_MARGIN
+            }
+        ],
+        splitInputColumn: [
+            classNames.splitInput,
+            {
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'row'
             }
         ],
         subComponentStyles: {
