@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "最大多重度",
     "minMultiplicityLabel": "最小多重度",
     "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
-    "displayNamePlaceholder1": "表示するローカライズ可能な名前"
+    "displayNamePlaceholder": "表示するローカライズ可能な名前"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

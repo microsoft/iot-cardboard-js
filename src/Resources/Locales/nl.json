@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Maximale multipliciteit",
     "minMultiplicityLabel": "Minimale veelheid",
     "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
-    "displayNamePlaceholder1": "Een localiseerbare naam om weer te geven"
+    "displayNamePlaceholder": "Een localiseerbare naam om weer te geven"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

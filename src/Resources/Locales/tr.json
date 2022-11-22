@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Maksimum çokluk",
     "minMultiplicityLabel": "Minimum çokluk",
     "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
-    "displayNamePlaceholder1": "Görüntülenecek yerelleştirilebilir bir ad"
+    "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
     "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
-    "displayNamePlaceholder1": "Ett lokaliserbart namn att visa"
+    "displayNamePlaceholder": "Ett lokaliserbart namn att visa"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

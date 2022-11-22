@@ -1099,7 +1099,7 @@
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
-    "displayNamePlaceholder1": "Lokalizovatelný název, který se má zobrazit"
+    "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

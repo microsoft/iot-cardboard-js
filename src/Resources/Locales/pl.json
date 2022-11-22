@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Maksymalna wielokrotność",
     "minMultiplicityLabel": "Minimalna wielokrotność",
     "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
-    "displayNamePlaceholder1": "Lokalizowalna nazwa do wyświetlenia"
+    "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

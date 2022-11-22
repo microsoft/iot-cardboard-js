@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Maximale Vielfalt",
     "minMultiplicityLabel": "Minimale Vielfalt",
     "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0",
-    "displayNamePlaceholder1": "Ein lokalisierbarer Name, der angezeigt werden soll"
+    "displayNamePlaceholder": "Ein lokalisierbarer Name, der angezeigt werden soll"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

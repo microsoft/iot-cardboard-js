@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
     "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
-    "displayNamePlaceholder1": "Локализуемое имя для отображения"
+    "displayNamePlaceholder": "Локализуемое имя для отображения"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

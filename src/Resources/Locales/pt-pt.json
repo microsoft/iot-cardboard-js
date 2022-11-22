@@ -1219,7 +1219,7 @@
     "maxMultiplicityLabel": "Multiplicidade máxima",
     "minMultiplicityLabel": "Multiplicidade mínima",
     "minMultiplicityMessage": "DTDL V2 só suporta uma multiplicidade mínima de 0",
-    "displayNamePlaceholder1": "Um nome loisável para exibir"
+    "displayNamePlaceholder": "Um nome loisável para exibir"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
