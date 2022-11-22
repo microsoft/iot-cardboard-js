@@ -872,7 +872,13 @@
     "adtInstanceUrl": "URL de l’instance Azure Digital Twins",
     "descriptionForAdtInstance": "Liez votre instance Azure Digital Twins pour commencer à créer des scènes 3D.",
     "descriptionForAdtInstanceAndCont": "Liez votre instance Azure Digital Twins et votre conteneur de stockage pour commencer à créer des scènes 3D.",
-    "noAdtInstance": "Aucune instance ADT ajoutée"
+    "noAdtInstance": "Aucune instance ADT ajoutée",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur de données Azure Digital Twins » (au minimum).",
+      "storageAccountMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur » (au minimum).",
+      "storageContainerMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « Lecteur » (au minimum) et « Propriétaire des données d'objets blob de stockage » ou « Contributeur de données d'objets blob de stockage ».",
+      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Fermer modal",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "Afficher les détails",
   "hideDetails": "Masquer les détails",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
     "defaultFileName": "Nouvelle ontologie",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "Supprimer le modèle",
     "modelListToggleAriaLabelShow": "Afficher la liste des modèles",
     "modelListToggleAriaLabelHide": "Masquer la liste des modèles"
+=======
+  "colorPills": {
+    "unlabeled": "Sans étiquette"
+>>>>>>> origin/main
   }
 }

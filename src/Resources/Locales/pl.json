@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Adres URL wystąpienia usługi Azure Digital Twins",
     "descriptionForAdtInstance": "Połącz wystąpienie usługi Azure Digital Twins, aby rozpocząć tworzenie scen 3D.",
     "descriptionForAdtInstanceAndCont": "Połącz wystąpienie usługi Azure Digital Twins z kontenerem magazynu, aby rozpocząć tworzenie scen 3D.",
-    "noAdtInstance": "Nie dodano wystąpienia narzędzia ADT"
+    "noAdtInstance": "Nie dodano wystąpienia narzędzia ADT",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Masz brakujące uprawnienia. Dostęp będzie potrzebny jako \"Azure Digital Twins Data Reader\" (co najmniej).",
+      "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
+      "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Zamknij modal",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "Pokaż szczegóły",
   "hideDetails": "Ukryj szczegóły",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "Usuń model",
     "modelListToggleAriaLabelShow": "Pokaż listę modeli",
     "modelListToggleAriaLabelHide": "Ukryj listę modeli"
+=======
+  "colorPills": {
+    "unlabeled": "Bez etykiety"
+>>>>>>> origin/main
   }
 }

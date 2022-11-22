@@ -1372,6 +1372,7 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.TankLevel",
+                                            "propertyType": "double",
                                             "unit": "ft",
                                             "label": "Tank Level Trend"
                                         }
@@ -1545,6 +1546,7 @@
                                         {
                                             "id": "d5eb9b1f51ce487897e3c5df3732bf73",
                                             "expression": "PrimaryTwin.SpecificFuelConsumption",
+                                            "propertyType": "double",
                                             "unit": "gallons",
                                             "label": "Fuel Consumption Trend"
                                         }

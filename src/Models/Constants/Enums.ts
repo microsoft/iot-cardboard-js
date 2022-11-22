@@ -238,13 +238,18 @@ export enum MultiLanguageSelectionType {
     description = 'description'
 }
 
-/** expand as necessary, it is also used as provider endpoint based on the values: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types and https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers */
+/** expand as necessary, it is also used as provider endpoint based on the values:
+ * https://learn.microsoft.com/en-us/azure/governance/resource-graph/reference/supported-tables-resources#resources
+ * https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/resource-providers-and-types and
+ * https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-services-resource-providers
+ * */
 export enum AzureResourceTypes {
     DigitalTwinInstance = 'Microsoft.DigitalTwins/digitalTwinsInstances',
     StorageAccount = 'Microsoft.Storage/storageAccounts',
     StorageBlobContainer = 'Microsoft.Storage/storageAccounts/blobServices/containers',
     RoleAssignment = 'Microsoft.Authorization/roleAssignments',
-    TimeSeriesConnection = 'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections'
+    TimeSeriesConnection = 'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections',
+    ResourceGraphs = 'Microsoft.ResourceGraph/resources'
 }
 
 /** See details for the following roles here: https://docs.microsoft.com/en-us/azure/role-based-access-control/built-in-roles */
@@ -266,7 +271,8 @@ export enum AzureResourcesAPIVersions {
     'Microsoft.Storage/storageAccounts/blobServices/containers' = '2021-09-01',
     'Microsoft.Authorization/roleAssignments' = '2015-07-01',
     'Microsoft.Subscription' = '2020-01-01',
-    'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections' = '2022-05-31'
+    'Microsoft.DigitalTwins/digitalTwinsInstances/timeSeriesDatabaseConnections' = '2022-05-31',
+    'Microsoft.ResourceGraph/resources' = '2021-03-01'
 }
 
 /** list of Azure Resource properties to be used as display in combobox list UI */

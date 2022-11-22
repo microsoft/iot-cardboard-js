@@ -54,6 +54,7 @@ export interface ITwinPropertySearchDropdownStyles {
     dropdown: IStyle;
     label: IStyle;
     requiredIcon: IStyle;
+    optionContainer: IStyle;
     /**
      * SubComponent styles.
      */

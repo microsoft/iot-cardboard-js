@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Url för Azure Digital Twins-instansen",
     "descriptionForAdtInstance": "Länka din Azure Digital Twins instans för att börja skapa 3D-scener.",
     "descriptionForAdtInstanceAndCont": "Länka din Azure Digital Twins instans och din lagringscontainer för att börja skapa 3D-scener.",
-    "noAdtInstance": "Ingen ADT-instans har lagts till"
+    "noAdtInstance": "Ingen ADT-instans har lagts till",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"Azure Digital Twins dataläsare\" (minst).",
+      "storageAccountMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"läsare\" (åtminstone).",
+      "storageContainerMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som \"läsare\" (minst) och antingen \"Storage Blob Data Owner\" eller \"Storage Blob Data Contributor\".",
+      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Stäng modal",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "Visa detaljer",
   "hideDetails": "Dölj detaljer",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopia",
     "defaultFileName": "Ny ontologi",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "Ta bort modell",
     "modelListToggleAriaLabelShow": "Visa modelllista",
     "modelListToggleAriaLabelHide": "Dölj modelllista"
+=======
+  "colorPills": {
+    "unlabeled": "Omärkt"
+>>>>>>> origin/main
   }
 }

@@ -11,7 +11,6 @@ import { useId } from '@fluentui/react-hooks';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getDefaultVisualRuleCondition } from '../../../../../Models/Classes/3DVConfig';
-import { hasBadge } from '../../../../../Models/Services/Utils';
 import {
     IExpressionRangeType,
     IValueRange
@@ -162,7 +161,6 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
             );
             const viewModel: ICardboardListItem<Condition>[] = conditions.map(
                 (condition) => {
-                    const showBadgeIcon = hasBadge(condition.iconName);
                     return {
                         id: getListItemId(condition.id),
                         item: condition,
@@ -170,7 +168,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         textPrimary: condition.primaryText,
                         textSecondary: condition.secondaryText,
                         overflowMenuItems: getOverflowMenuItems(condition.id),
-                        iconStart: showBadgeIcon
+                        iconStart: condition.hasBadge
                             ? () =>
                                   renderBadge(
                                       condition.iconName,

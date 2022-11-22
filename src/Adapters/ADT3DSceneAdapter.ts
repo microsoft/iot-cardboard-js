@@ -8,7 +8,7 @@ import {
     ComponentErrorType
 } from '../Models/Constants/Enums';
 import { IAuthService, IAzureResource } from '../Models/Constants/Interfaces';
-import { applyMixins } from '../Models/Services/Utils';
+import { applyMixins, getUrlFromString } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
 import AzureManagementAdapter from './AzureManagementAdapter';
@@ -57,7 +57,7 @@ export default class ADT3DSceneAdapter {
 
         if (blobContainerUrl) {
             try {
-                const containerURL = new URL(blobContainerUrl);
+                const containerURL = getUrlFromString(blobContainerUrl);
                 this.storageAccountHostName = containerURL.hostname;
                 this.storageAccountName = containerURL.hostname.split('.')[0];
                 this.containerName = containerURL.pathname.split('/')[1];
@@ -82,7 +82,7 @@ export default class ADT3DSceneAdapter {
         let storageAccountName, containerName;
         if (containerUrlString) {
             try {
-                const containerURL = new URL(containerUrlString);
+                const containerURL = getUrlFromString(containerUrlString);
                 this.storageAccountName = containerURL.hostname.split('.')[0];
                 this.containerName = containerURL.pathname.split('/')[1];
             } catch (error) {

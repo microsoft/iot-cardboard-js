@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins instance URL",
     "descriptionForAdtInstance": "链接 Azure 数字孪生实例以开始构建 3D 场景。",
     "descriptionForAdtInstanceAndCont": "链接 Azure 数字孪生实例和存储容器，开始构建 3D 场景。",
-    "noAdtInstance": "未添加广告开发区实例"
+    "noAdtInstance": "未添加广告开发区实例",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "您缺少权限。你将需要作为“Azure 数字孪生数据读取器”进行访问（至少）。",
+      "storageAccountMissingPermissionMessage": "您缺少权限。您将需要以“读者”身份访问（至少）。",
+      "storageContainerMissingPermissionMessage": "您缺少权限。你将需要以“读取者”（至少）和“存储 Blob 数据所有者”或“存储 Blob 数据参与者”的身份进行访问。",
+      "resourceNotFound": "找不到具有输入值的 Azure 资源。"
+    }
   },
   "behaviorsModal": {
     "closeModal": "闭合模态",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "显示详情",
   "hideDetails": "隐藏详细信息",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "复制",
     "defaultFileName": "新本体",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "删除模型",
     "modelListToggleAriaLabelShow": "显示型号列表",
     "modelListToggleAriaLabelHide": "隐藏模型列表"
+=======
+  "colorPills": {
+    "unlabeled": "未标记"
+>>>>>>> origin/main
   }
 }

@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins instance URL",
     "descriptionForAdtInstance": "Propojte instanci Azure Digital Twins a začněte vytvářet 3D scény.",
     "descriptionForAdtInstanceAndCont": "Propojte instanci Azure Digital Twins s kontejnerem úložiště a začněte vytvářet 3D scény.",
-    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT"
+    "noAdtInstance": "Nebyla přidána žádná instance nástroje ADT",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "Chybí vám oprávnění. Přístup budete potřebovat jako čtečku dat digitálních vláken Azure (minimálně).",
+      "storageAccountMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako \"čtenář\" (minimálně).",
+      "storageContainerMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů blob úložiště, nebo přispěvatel dat objektů blob úložiště.",
+      "resourceNotFound": "Se zadanou hodnotou nebyl nalezen žádný prostředek Azure."
+    }
   },
   "behaviorsModal": {
     "closeModal": "Zavřít modální",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "Zobrazit podrobnosti",
   "hideDetails": "Skrýt detaily",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopírovat",
     "defaultFileName": "Nová ontologie",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "Odebrat model",
     "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
     "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
+=======
+  "colorPills": {
+    "unlabeled": "Neoznačené"
+>>>>>>> origin/main
   }
 }

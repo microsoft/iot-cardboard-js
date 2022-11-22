@@ -872,7 +872,13 @@
     "adtInstanceUrl": "Azure Digital Twins instance URL",
     "descriptionForAdtInstance": "Azure デジタル ツイン インスタンスをリンクして、3D シーンの構築を開始します。",
     "descriptionForAdtInstanceAndCont": "Azure Digital Twins インスタンスとストレージ コンテナーをリンクして、3D シーンの構築を開始します。",
-    "noAdtInstance": "ADT インスタンスは追加されていません"
+    "noAdtInstance": "ADT インスタンスは追加されていません",
+    "errors": {
+      "adtInstanceMissingPermissionMessage": "アクセス許可がありません。(少なくとも) \"Azure Digital Twins Data Reader\" としてアクセスする必要があります。",
+      "storageAccountMissingPermissionMessage": "アクセス許可がありません。「リーダー」として(少なくとも)アクセスする必要があります。",
+      "storageContainerMissingPermissionMessage": "アクセス許可がありません。\"閲覧者\" (少なくとも) および \"ストレージ BLOB データ所有者\" または \"ストレージ BLOB データ共同作成者\" としてアクセスする必要があります。",
+      "resourceNotFound": "入力された値を持つ Azure リソースが見つかりません。"
+    }
   },
   "behaviorsModal": {
     "closeModal": "モーダルを閉じる",
@@ -1327,6 +1333,7 @@
   "maxLower": ".max",
   "showDetails": "詳細を表示",
   "hideDetails": "詳細を隠す",
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
     "defaultFileName": "新しいオントロジー",
@@ -1339,5 +1346,9 @@
     "removeModelButtonText": "モデルを削除",
     "modelListToggleAriaLabelShow": "モデル一覧を表示",
     "modelListToggleAriaLabelHide": "モデルリストを隠す"
+=======
+  "colorPills": {
+    "unlabeled": "ラベル"
+>>>>>>> origin/main
   }
 }

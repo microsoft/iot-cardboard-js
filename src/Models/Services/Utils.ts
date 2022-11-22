@@ -15,7 +15,6 @@ import schema from '../../../schemas/3DScenesConfiguration/v1.0.0/3DScenesConfig
 import { ComponentError } from '../Classes/Errors';
 import {
     I3DScenesConfig,
-    IDTDLPropertyType,
     IValueRange
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
@@ -37,7 +36,6 @@ import {
     IConsoleLogFunction,
     TimeSeriesData
 } from '../Constants/Types';
-import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -319,35 +317,6 @@ export function getSceneElementStatusColor(
         value
     );
 }
-
-export function shouldShowVisual(
-    propertyType: IDTDLPropertyType,
-    twins: Record<string, DTwin>,
-    valueExpression: string,
-    values: (number | string | boolean)[]
-): boolean {
-    const evaluatedExpression = parseLinkedTwinExpression(
-        valueExpression,
-        twins
-    );
-    if (propertyType === 'boolean') {
-        return values[0] === evaluatedExpression;
-    } else if (propertyType === 'string') {
-        return values.includes(evaluatedExpression);
-    } else if (isNumericType(propertyType)) {
-        return ViewerConfigUtility.getValueIsWithinRange(
-            values as number[],
-            evaluatedExpression as number
-        );
-    } else {
-        // Return false since other property types are not yet supported
-        return false;
-    }
-}
-
-export const hasBadge = (iconName?: string): boolean => {
-    return !!iconName;
-};
 
 export function buildDropdownOptionsFromStrings(
     properties: string[]
@@ -685,11 +654,13 @@ export const getResourceUrl = (
         if (typeof resource === 'string') {
             // it means the option is manually entered using freeform
             if (resourceType) {
-                switch (resourceType) {
-                    case AzureResourceTypes.DigitalTwinInstance:
-                    case AzureResourceTypes.StorageAccount:
-                        return resource;
-                    case AzureResourceTypes.StorageBlobContainer: {
+                switch (resourceType.toLowerCase()) {
+                    case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
+                    case AzureResourceTypes.StorageAccount.toLowerCase():
+                        return resource.endsWith('/')
+                            ? resource
+                            : resource + '/';
+                    case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
                         const storageAccountEndpointUrl = getResourceUrl(
                             parentResource,
                             AzureResourceTypes.StorageAccount
@@ -712,14 +683,14 @@ export const getResourceUrl = (
             }
         } else {
             const resourceType = resource.type;
-            switch (resourceType) {
-                case AzureResourceTypes.DigitalTwinInstance:
+            switch (resourceType.toLowerCase()) {
+                case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                     return resource.properties?.hostName
-                        ? 'https://' + resource.properties.hostName
+                        ? 'https://' + resource.properties.hostName + '/'
                         : null;
-                case AzureResourceTypes.StorageAccount:
+                case AzureResourceTypes.StorageAccount.toLowerCase():
                     return resource.properties?.primaryEndpoints?.blob;
-                case AzureResourceTypes.StorageBlobContainer: {
+                case AzureResourceTypes.StorageBlobContainer.toLowerCase(): {
                     const storageAccountEndpointUrl = getResourceUrl(
                         parentResource,
                         AzureResourceTypes.StorageAccount
@@ -775,13 +746,14 @@ export const getNameOfResource = (
                 return resource.name;
             } else {
                 if (resourceType === AzureResourceTypes.DigitalTwinInstance) {
-                    if (new URL(resource)) {
+                    const urlObj = getUrlFromString(resource);
+                    if (urlObj) {
                         return resource.split('.')[0].split('://')[1]; // to respect casing in the name of the instance
                     } else {
                         return null;
                     }
                 } else if (resourceType === AzureResourceTypes.StorageAccount) {
-                    const urlObj = new URL(resource);
+                    const urlObj = getUrlFromString(resource);
                     return urlObj.hostname.split('.')[0];
                 } else if (
                     resourceType === AzureResourceTypes.StorageBlobContainer
@@ -802,7 +774,7 @@ export const getNameOfResource = (
 
 export const getContainerNameFromUrl = (containerUrl: string) => {
     try {
-        const containerUrlObj = new URL(containerUrl);
+        const containerUrlObj = getUrlFromString(containerUrl);
         return containerUrlObj.pathname.split('/')[1];
     } catch (error) {
         console.error(error.message);
@@ -810,22 +782,25 @@ export const getContainerNameFromUrl = (containerUrl: string) => {
     }
 };
 
-export const getHostNameFromUrl = (urlString: string) => {
+export const removeProtocolPartFromUrl = (urlString: string) => {
     try {
-        const urlObj = new URL(urlString);
-        return urlObj.hostname;
+        const urlObj = getUrlFromString(urlString);
+        return urlObj.hostname + urlObj.pathname;
     } catch (error) {
-        console.error('Failed getting hostname from url string', error.message);
+        console.error('Failed remove protocol from url string', error.message);
         return null;
     }
 };
 
-export const removeProtocolPartFromUrl = (urlString: string) => {
+export const getUrlFromString = (urlString: string): URL => {
     try {
-        const urlObj = new URL(urlString);
-        return urlObj.hostname + urlObj.pathname;
+        let urlStr = urlString;
+        if (!(urlStr.startsWith('https://') || urlStr.startsWith('http://'))) {
+            urlStr = 'https://' + urlStr;
+        }
+        return new URL(urlString);
     } catch (error) {
-        console.error('Failed remove protocol from url string', error.message);
+        console.error('Failed to get url from string', error.message);
         return null;
     }
 };
@@ -837,7 +812,7 @@ export const isValidADXClusterUrl = (clusterUrl: string): boolean => {
 
     if (clusterUrl) {
         try {
-            const clusterUrlObj = new URL(clusterUrl);
+            const clusterUrlObj = getUrlFromString(clusterUrl);
             if (
                 clusterUrlObj.host.endsWith(CONNECTION_STRING_SUFFIX) &&
                 isValidADXClusterHostUrl(
