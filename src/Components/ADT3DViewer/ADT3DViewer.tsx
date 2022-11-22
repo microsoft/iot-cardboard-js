@@ -410,7 +410,6 @@ const ADT3DViewerBase: React.FC<IADT3DViewerProps> = ({
         // first mount only when data is present
         // // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [scenesConfig, panelItems]);
-    //
 
     useEffect(() => {
         // if the zoom prop is provided, use that over the deeplink values
