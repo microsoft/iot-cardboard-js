@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "Kommentar för modellförfattare",
     "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
     "details": "Detaljer",
-    "displayNamePlaceholder": "Ett lokaliserbart namn för visning",
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
-    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0"
+    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
+    "displayNamePlaceholder1": "Ett lokaliserbart namn att visa"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

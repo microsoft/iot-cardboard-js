@@ -1096,10 +1096,10 @@
     "commentPlaceholder": "Komentář pro autory modelů",
     "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
     "details": "Podrobnosti",
-    "displayNamePlaceholder": "Lokalizovatelný název pro zobrazení",
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
-    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0"
+    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
+    "displayNamePlaceholder1": "Lokalizovatelný název, který se má zobrazit"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

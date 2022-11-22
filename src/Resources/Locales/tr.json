@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "Model yazarları için yorum",
     "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
     "details": "Şey",
-    "displayNamePlaceholder": "Görüntüleme için yerelleştirilebilir bir ad",
     "maxMultiplicityLabel": "Maksimum çokluk",
     "minMultiplicityLabel": "Minimum çokluk",
-    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler"
+    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
+    "displayNamePlaceholder1": "Görüntülenecek yerelleştirilebilir bir ad"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

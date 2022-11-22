@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "모델 작성자를 위한 설명",
     "descriptionPlaceholder": "표시할 지역화 가능한 설명",
     "details": "세부 정보",
-    "displayNamePlaceholder": "표시할 지역화 가능한 이름",
     "maxMultiplicityLabel": "최대 다중성",
     "minMultiplicityLabel": "최소 다중성",
-    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다."
+    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
+    "displayNamePlaceholder1": "표시할 지역화 가능한 이름"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "Commentaire pour les auteurs de modèles",
     "descriptionPlaceholder": "Une description localisable à afficher",
     "details": "Détails",
-    "displayNamePlaceholder": "Un nom localisable pour l’affichage",
     "maxMultiplicityLabel": "Multiplicité maximale",
     "minMultiplicityLabel": "Multiplicité minimale",
-    "minMultiplicityMessage": "DTDL V2 ne prend en charge qu’une multiplicité minimale de 0"
+    "minMultiplicityMessage": "DTDL V2 ne prend en charge qu’une multiplicité minimale de 0",
+    "displayNamePlaceholder1": "Un nom localisable à afficher"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",

@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "Megjegyzés a modell szerzőinek",
     "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
     "details": "Részletek",
-    "displayNamePlaceholder": "Honosítható név a megjelenítéshez",
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
-    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja"
+    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
+    "displayNamePlaceholder1": "Megjelenítendő honosítható név"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

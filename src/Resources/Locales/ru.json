@@ -1216,10 +1216,10 @@
     "commentPlaceholder": "Комментарий для авторов моделей",
     "descriptionPlaceholder": "Локализуемое описание для отображения",
     "details": "Подробности",
-    "displayNamePlaceholder": "Локализуемое имя для отображения",
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
-    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0"
+    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
+    "displayNamePlaceholder1": "Локализуемое имя для отображения"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
