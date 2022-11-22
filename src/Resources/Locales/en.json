@@ -1241,7 +1241,7 @@
         "selectResourcePlaceholder": "Select a resource",
         "noOption": "No resources found",
         "loadingResources": "Loading resources",
-        "loadingInstances": "Loading instances...",
+        "loadingAdtInstances": "Loading instances...",
         "loadingContainers": "Loading containers...",
         "loadingStorageAccounts": "Loading storage accounts...",
         "adtInstancePlaceholder": "Select an ADT instance",

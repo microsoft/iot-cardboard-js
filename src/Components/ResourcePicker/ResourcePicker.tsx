@@ -19,10 +19,10 @@ import {
     styled,
     MessageBarType,
     MessageBar,
-    Icon,
     Stack,
     Label,
-    Text
+    Text,
+    IconButton
 } from '@fluentui/react';
 import { FixedSizeList } from 'react-window';
 import useAdapter from '../../Models/Hooks/useAdapter';
@@ -44,12 +44,7 @@ import {
 } from '../../Models/Services/Utils';
 import CreatableSelect from 'react-select/creatable';
 import { getReactSelectStyles } from '../../Resources/Styles/ReactSelect.styles';
-import {
-    ActionMeta,
-    components,
-    createFilter,
-    InputActionMeta
-} from 'react-select';
+import { ActionMeta, components, InputActionMeta } from 'react-select';
 
 const freeformOptionsHeaderText = '---';
 const freeformOptionsHeader: IResourceOption = {
@@ -116,11 +111,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             resourceType.toLowerCase() // need to compare lowercase since for the resource types that we use Resource Graph api, it returns lowercased resource type in the response object
         ) {
             case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                return t('resourcesPicker.loadingInstances');
-            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                return t('resourcesPicker.loadingContainers');
+                return t('resourcesPicker.loadingAdtInstances');
             case AzureResourceTypes.StorageAccount.toLowerCase():
                 return t('resourcesPicker.loadingStorageAccounts');
+            case AzureResourceTypes.StorageBlobContainer.toLowerCase():
+                return t('resourcesPicker.loadingContainers');
             default:
                 return t('resourcesPicker.loadingResources');
         }
@@ -567,17 +562,20 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                                 resourcesState.adapterResult?.result?.data?.findIndex(
                                     (r) => r.id === props.data.value.id
                                 ) === -1 && (
-                                    <Icon
-                                        iconName="Delete"
-                                        aria-hidden="true"
-                                        title={t(
-                                            'resourcesPicker.removeFromList'
-                                        )}
-                                        style={{ padding: '0 8px' }}
+                                    <IconButton
+                                        iconProps={{
+                                            iconName: 'Delete'
+                                        }}
+                                        styles={{
+                                            root: { padding: '0 0 0 12px' }
+                                        }}
                                         onClick={(event) => {
                                             event.stopPropagation();
                                             handleOnRemove(props.data);
                                         }}
+                                        title={t(
+                                            'resourcesPicker.removeFromList'
+                                        )}
                                     />
                                 )}
                         </>
@@ -617,8 +615,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     }}
                     onChange={handleOnChange}
                     onInputChange={handleOnInputChange}
-                    filterOption={createFilter({ ignoreAccents: false })}
                     loadingMessage={loadingMessage}
+                    menuIsOpen
                 />
                 {inputError && (
                     <Text className={classNames.errorText} variant={'small'}>
