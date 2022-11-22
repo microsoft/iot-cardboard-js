@@ -934,6 +934,7 @@
     "import": "Dovoz",
     "export": "Vývoz",
     "file": "Soubor",
+    "files": "Soubory",
     "new": "Nový",
     "open": "Otevřený",
     "saveAs": "Uložit jako",
@@ -969,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Výběr ontologie"
-    },
-    "importFolder": "Složka pro import",
-    "importFile": "Importovat soubor",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Odstranit ontologii",
-      "modalTitleCreate": "Nová ontologie",
-      "modalTitleEdit": "Upravit ontologii",
-      "modalSubTitleCreate": "Vytvořte novou ontologii, která dá strukturu vašemu digitálnímu dvojčeti.",
-      "modalSubTitleEdit": "Upravte svou ontologii tak, aby dala strukturu vašemu digitálnímu dvojčeti.",
-      "modalSubTitleLinkText": "Další informace o ontologiích",
-      "nameLabel": "Jméno",
-      "namePlaceholder": "Zadejte název ontologie",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Příklad názvu modelu: {{modelName}}",
-      "namespacePlaceholder": "Zadejte obor názvů",
-      "sampleModel": "Vzorový model"
-    },
-    "configure": "Konfigurovat"
+    }
   },
   "OATGraphViewer": {
     "newModel": "Nový model",
@@ -1007,7 +990,9 @@
     "errorIdLength": "ID nesmí překročit 2048 znaků",
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
-    "errorNameLength": "Název nesmí přesáhnout 64 znaků"
+    "errorNameLength": "Název nesmí přesáhnout 64 znaků",
+    "errorReachedInheritanceLimit": "Dosažený limit dědičnosti",
+    "errorInheritance": "Nesmí dědit z více než dvou rozhraní"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
@@ -1094,11 +1079,7 @@
     "value": "Hodnota",
     "valueSchema": "Schéma hodnot",
     "viewTemplates": "Zobrazení šablon",
-    "writable": "Zapisovatelný",
-    "modelId": "ID modelu",
-    "path": "Cesta",
-    "uniqueModelName": "Jedinečný název modelu",
-    "version": "Verze"
+    "writable": "Zapisovatelný"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",
@@ -1333,22 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Zobrazit podrobnosti",
   "hideDetails": "Skrýt detaily",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopírovat",
-    "defaultFileName": "Nová ontologie",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Hledat modely",
-    "noDataMessage": "Žádné modely",
-    "noMatchingItemsMessage": "Žádný model nesplňuje tato kritéria",
-    "removeModelButtonText": "Odebrat model",
-    "modelListToggleAriaLabelShow": "Zobrazit seznam modelů",
-    "modelListToggleAriaLabelHide": "Skrýt seznam modelů"
-=======
   "colorPills": {
     "unlabeled": "Neoznačené"
->>>>>>> origin/main
   }
 }

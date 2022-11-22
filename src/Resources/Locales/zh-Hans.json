@@ -960,6 +960,7 @@
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
+    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -969,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    },
-    "importFolder": "导入文件夹",
-    "importFile": "导入文件",
-    "ontology": "本体",
-    "manageOntologyModal": {
-      "deleteButtonText": "删除本体",
-      "modalTitleCreate": "新本体",
-      "modalTitleEdit": "编辑本体",
-      "modalSubTitleCreate": "创建一个新的本体，为数字孪生体提供结构。",
-      "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息",
-      "nameLabel": "名字",
-      "namePlaceholder": "输入本体名称",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型"
-    },
-    "configure": "配置"
+    }
   },
   "cameraControls": {
     "mouseControls": "鼠标控制",
@@ -1127,7 +1110,9 @@
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
-    "runLayout": "运行布局"
+    "runLayout": "运行布局",
+    "errorReachedInheritanceLimit": "已达到继承限制",
+    "errorInheritance": "不能从两个以上的接口继承"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
@@ -1214,11 +1199,7 @@
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
     "moveUp": "上升",
-    "valueSchema": "值架构",
-    "modelId": "型号编号",
-    "path": "路径",
-    "uniqueModelName": "唯一的型号名称",
-    "version": "版本"
+    "valueSchema": "值架构"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1333,22 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "显示详情",
   "hideDetails": "隐藏详细信息",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "复制",
-    "defaultFileName": "新本体",
-    "defaultModelNamePrefix": "型"
-  },
-  "OATModelList": {
-    "searchModels": "搜索型号",
-    "noDataMessage": "无型号",
-    "noMatchingItemsMessage": "没有符合该标准的模型",
-    "removeModelButtonText": "删除模型",
-    "modelListToggleAriaLabelShow": "显示型号列表",
-    "modelListToggleAriaLabelHide": "隐藏模型列表"
-=======
   "colorPills": {
     "unlabeled": "未标记"
->>>>>>> origin/main
   }
 }

@@ -960,6 +960,7 @@
     "deleteAll": "Tümünü Sil",
     "folderUpload": "Klasör yükleme",
     "fileUpload": "Dosya yükleme",
+    "files": "Dosyaları",
     "selectFile": "Dosya seç",
     "errorSingleFileHoldsRelationships": "{{fileName}} ile ilgili sorun: Model, içe aktarılmayan ilişkileri tutuyor",
     "errorImportedModelAlreadyExists": "{{modelId}} ile ilgili sorun: Aynı @id sahip model zaten var",
@@ -969,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontoloji",
       "dropdownPlaceholder": "Bir ontoloji seçin"
-    },
-    "importFolder": "Klasörü içe aktar",
-    "importFile": "Dosyayı içe aktar",
-    "ontology": "Ontoloji",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontolojiyi silme",
-      "modalTitleCreate": "Yeni ontoloji",
-      "modalTitleEdit": "Ontolojiyi düzenleme",
-      "modalSubTitleCreate": "Sayısal ikizinize yapı kazandırmak için yeni bir ontoloji oluşturun.",
-      "modalSubTitleEdit": "Sayısal ikizinize yapı kazandırmak için ontolojinizi düzenleyin.",
-      "modalSubTitleLinkText": "Ontolojiler hakkında daha fazla bilgi edinin",
-      "nameLabel": "Ad",
-      "namePlaceholder": "Ontoloji adı girin",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Örnek model adı: {{modelName}}",
-      "namespacePlaceholder": "Ad alanı girme",
-      "sampleModel": "örnek Model"
-    },
-    "configure": "Yapılandırmak"
+    }
   },
   "cameraControls": {
     "mouseControls": "Fare Kontrolleri",
@@ -1127,7 +1110,9 @@
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
-    "runLayout": "Çalıştırma Düzeni"
+    "runLayout": "Çalıştırma Düzeni",
+    "errorReachedInheritanceLimit": "Ulaşılan devralma sınırı",
+    "errorInheritance": "İkiden fazla arabirimden devralamaz"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",
@@ -1214,11 +1199,7 @@
     "addToPropertyList": "Özellik listesine ekle",
     "moveDown": "Aşağı taşı",
     "moveUp": "Yukarı Taşı",
-    "valueSchema": "Değer Şeması",
-    "modelId": "Model Kimliği",
-    "path": "Yol",
-    "uniqueModelName": "Benzersiz model adı",
-    "version": "Sürüm"
+    "valueSchema": "Değer Şeması"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
@@ -1333,22 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Ayrıntıları göster",
   "hideDetails": "Ayrıntıları gizle",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopya etmek",
-    "defaultFileName": "Yeni ontoloji",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Modelleri ara",
-    "noDataMessage": "Model yok",
-    "noMatchingItemsMessage": "Bu ölçütlere uyan model yok",
-    "removeModelButtonText": "Modeli kaldır",
-    "modelListToggleAriaLabelShow": "Model listesini göster",
-    "modelListToggleAriaLabelHide": "Model listesini gizle"
-=======
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
->>>>>>> origin/main
   }
 }

@@ -960,6 +960,7 @@
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
+    "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -969,25 +970,7 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
-    },
-    "importFolder": "Pasta de importação",
-    "importFile": "Arquivo de importação",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Excluir ontologia",
-      "modalTitleCreate": "Nova ontologia",
-      "modalTitleEdit": "Editar ontologia",
-      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
-      "modalSubTitleLinkText": "Saiba mais sobre ontologias",
-      "nameLabel": "Nome",
-      "namePlaceholder": "Digite um nome de ontologia",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Nome do modelo do exemplo: {{modelName}}",
-      "namespacePlaceholder": "Digite um namespace",
-      "sampleModel": "modelo de amostra"
-    },
-    "configure": "Configurar"
+    }
   },
   "cameraControls": {
     "mouseControls": "Controles do mouse",
@@ -1127,7 +1110,9 @@
     "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "runLayout": "Executar layout"
+    "runLayout": "Executar layout",
+    "errorReachedInheritanceLimit": "Limite de herança alcançado",
+    "errorInheritance": "Não pode herdar de mais de duas interfaces"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",
@@ -1214,11 +1199,7 @@
     "addToPropertyList": "Adicionar à lista de propriedades",
     "moveDown": "Abaixe-se",
     "moveUp": "Mova-se para cima",
-    "valueSchema": "Esquema de valor",
-    "modelId": "ID modelo",
-    "path": "Caminho",
-    "uniqueModelName": "Nome do modelo único",
-    "version": "Versão"
+    "valueSchema": "Esquema de valor"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1333,22 +1314,7 @@
   "maxLower": ".max",
   "showDetails": "Mostrar detalhes",
   "hideDetails": "Ocultar detalhes",
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "copiar",
-    "defaultFileName": "Nova ontologia",
-    "defaultModelNamePrefix": "Modelo"
-  },
-  "OATModelList": {
-    "searchModels": "Modelos de pesquisa",
-    "noDataMessage": "Sem modelos",
-    "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério",
-    "removeModelButtonText": "Remover o modelo",
-    "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
-    "modelListToggleAriaLabelHide": "Ocultar lista de modelos"
-=======
   "colorPills": {
     "unlabeled": "Unlabeled"
->>>>>>> origin/main
   }
 }
