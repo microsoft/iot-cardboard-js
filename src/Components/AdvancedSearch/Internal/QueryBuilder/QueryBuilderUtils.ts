@@ -160,7 +160,7 @@ export const buildQuery = (querySnippets: QueryRowData[]) => {
     querySnippets.forEach((snippet, index) => {
         if (snippet.operatorData.operatorType === OperatorType.Function) {
             if (index !== 0) {
-                fullQuery = fullQuery.concat(snippet.combinator + ' ');
+                fullQuery = fullQuery.concat(`${snippet.combinator} `);
             }
             fullQuery = fullQuery.concat(
                 `${snippet.operatorData.operatorFunction(
