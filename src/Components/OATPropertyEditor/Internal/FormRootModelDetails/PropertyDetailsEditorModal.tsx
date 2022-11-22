@@ -15,7 +15,6 @@ import { isDTDLReference } from '../../../../Models/Services/DtdlUtils';
 import { getDebugLogger } from '../../../../Models/Services/Utils';
 import { getUniqueModelName } from '../../../../Models/Services/OatUtils';
 
-//
 const debugLogging = false;
 const logDebugConsole = getDebugLogger(
     'PropertyDetailsEditorModal',
