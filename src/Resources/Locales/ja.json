@@ -960,7 +960,6 @@
     "deleteAll": "すべて削除",
     "folderUpload": "フォルダのアップロード",
     "fileUpload": "ファイルのアップロード",
-    "files": "ファイル",
     "selectFile": "ファイルの選択",
     "errorSingleFileHoldsRelationships": "{{fileName}}の問題:モデルはインポートされていない関係を保持しています",
     "errorImportedModelAlreadyExists": "{{modelId}} の問題: 同じ@idを持つモデルが既に存在します",
@@ -970,6 +969,24 @@
     "fileOpenModal": {
       "dropdownLabel": "オントロジー",
       "dropdownPlaceholder": "オントロジーの選択"
+    },
+    "configure": "構成",
+    "importFile": "ファイルのインポート",
+    "importFolder": "インポートフォルダ",
+    "ontology": "オントロジー",
+    "manageOntologyModal": {
+      "deleteButtonText": "オントロジーの削除",
+      "modalTitleCreate": "新しいオントロジー",
+      "modalTitleEdit": "オントロジーの編集",
+      "modalSubTitleCreate": "新しいオントロジーを作成して、デジタルツインに構造を与えます。",
+      "modalSubTitleEdit": "オントロジーを編集して、デジタルツインに構造を与えます。",
+      "modalSubTitleLinkText": "オントロジーの詳細",
+      "nameLabel": "名前",
+      "namePlaceholder": "オントロジー名を入力する",
+      "namespaceLabel": "名前空間",
+      "namespaceDescription": "モデル名の例: {{モデル名}}",
+      "namespacePlaceholder": "名前空間を入力する",
+      "sampleModel": "サンプルモデル"
     }
   },
   "cameraControls": {
@@ -1110,9 +1127,7 @@
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
-    "runLayout": "実行レイアウト",
-    "errorReachedInheritanceLimit": "継承制限に達しました",
-    "errorInheritance": "3 つ以上のインターフェイスから継承することはできません。"
+    "runLayout": "実行レイアウト"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",
@@ -1199,7 +1214,18 @@
     "addToPropertyList": "プロパティリストに追加",
     "moveDown": "下へ移動",
     "moveUp": "上へ移動",
-    "valueSchema": "値スキーマ"
+    "valueSchema": "値スキーマ",
+    "commentPlaceholder": "モデル作成者へのコメント",
+    "descriptionPlaceholder": "表示するローカライズ可能な説明",
+    "details": "細部",
+    "displayNamePlaceholder": "表示するローカライズ可能な名前",
+    "maxMultiplicityLabel": "最大多重度",
+    "minMultiplicityLabel": "最小多重度",
+    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
+    "modelId": "モデル ID",
+    "path": "パス",
+    "uniqueModelName": "一意のモデル名",
+    "version": "バージョン"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",
@@ -1316,5 +1342,21 @@
   "hideDetails": "詳細を隠す",
   "colorPills": {
     "unlabeled": "ラベル"
+  },
+  "clear": "クリア",
+  "increaseBy1": "値を 1 増やす",
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "写し",
+    "defaultFileName": "新しいオントロジー",
+    "defaultModelNamePrefix": "モデル"
+  },
+  "OATModelList": {
+    "searchModels": "モデルの検索",
+    "noDataMessage": "モデルなし",
+    "noMatchingItemsMessage": "その基準に一致するモデルはありません",
+    "removeModelButtonText": "モデルを削除",
+    "modelListToggleAriaLabelShow": "モデル一覧を表示",
+    "modelListToggleAriaLabelHide": "モデルリストを隠す"
   }
 }

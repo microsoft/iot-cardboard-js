@@ -960,7 +960,6 @@
     "deleteAll": "모두 삭제",
     "folderUpload": "폴더 업로드",
     "fileUpload": "파일 업로드",
-    "files": "파일",
     "selectFile": "파일 선택",
     "errorSingleFileHoldsRelationships": "{{fileName}} 문제: 모델이 가져오지 않는 관계를 보유합니다.",
     "errorImportedModelAlreadyExists": "{{modelId}} 문제: 동일한 @id를 가진 모델이 이미 존재합니다.",
@@ -970,6 +969,24 @@
     "fileOpenModal": {
       "dropdownLabel": "존재론",
       "dropdownPlaceholder": "온톨로지 선택"
+    },
+    "configure": "구성",
+    "importFile": "파일 가져오기",
+    "importFolder": "폴더 가져오기",
+    "ontology": "존재론",
+    "manageOntologyModal": {
+      "deleteButtonText": "온톨로지 삭제",
+      "modalTitleCreate": "새 온톨로지",
+      "modalTitleEdit": "온톨로지 편집",
+      "modalSubTitleCreate": "새 온톨로지를 만들어 디지털 트윈에 구조를 부여합니다.",
+      "modalSubTitleEdit": "온톨로지를 편집하여 디지털 트윈에 구조를 제공합니다.",
+      "modalSubTitleLinkText": "온톨로지에 대해 자세히 알아보기",
+      "nameLabel": "이름",
+      "namePlaceholder": "온톨로지 이름 입력",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "모델 이름 예: {{모델 이름}}",
+      "namespacePlaceholder": "네임스페이스 입력",
+      "sampleModel": "샘플 모델"
     }
   },
   "cameraControls": {
@@ -1110,9 +1127,7 @@
     "errorRepeatedId": "동일한 ID를 가진 모델이 이미 존재합니다.",
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
-    "runLayout": "실행 레이아웃",
-    "errorReachedInheritanceLimit": "상속 한도에 도달했습니다.",
-    "errorInheritance": "두 개 이상의 인터페이스에서 상속되지 않을 수 있습니다."
+    "runLayout": "실행 레이아웃"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",
@@ -1199,7 +1214,18 @@
     "addToPropertyList": "속성 목록에 추가",
     "moveDown": "아래로 이동",
     "moveUp": "위로 이동",
-    "valueSchema": "값 스키마"
+    "valueSchema": "값 스키마",
+    "commentPlaceholder": "모델 작성자를 위한 설명",
+    "descriptionPlaceholder": "표시할 지역화 가능한 설명",
+    "details": "세부 정보",
+    "displayNamePlaceholder": "표시할 지역화 가능한 이름",
+    "maxMultiplicityLabel": "최대 다중성",
+    "minMultiplicityLabel": "최소 다중성",
+    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
+    "modelId": "모델 아이디",
+    "path": "길",
+    "uniqueModelName": "고유한 모델 이름",
+    "version": "버전"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
@@ -1316,5 +1342,21 @@
   "hideDetails": "세부 정보 숨기기",
   "colorPills": {
     "unlabeled": "레이블 없음"
+  },
+  "clear": "맑다",
+  "increaseBy1": "값을 1씩 늘립니다.",
+  "decreaseBy1": "값 감소 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "복사",
+    "defaultFileName": "새 온톨로지",
+    "defaultModelNamePrefix": "모델"
+  },
+  "OATModelList": {
+    "searchModels": "검색 모델",
+    "noDataMessage": "모델 없음",
+    "noMatchingItemsMessage": "해당 기준과 일치하는 모델이 없습니다.",
+    "removeModelButtonText": "모델 제거",
+    "modelListToggleAriaLabelShow": "모델 목록 표시",
+    "modelListToggleAriaLabelHide": "모델 목록 숨기기"
   }
 }

@@ -960,7 +960,6 @@
     "deleteAll": "Ta bort alla",
     "folderUpload": "Uppladdning av mapp",
     "fileUpload": "Filuppladdning",
-    "files": "ﬁler",
     "selectFile": "Välj fil",
     "errorSingleFileHoldsRelationships": "Problem med {{fileName}}: Modellen innehåller relationer som inte importeras",
     "errorImportedModelAlreadyExists": "Problem med {{modelId}}: Modell med samma @id redan finns",
@@ -970,6 +969,24 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologi",
       "dropdownPlaceholder": "Välj en ontologi"
+    },
+    "configure": "Konfigurera",
+    "importFile": "Importera fil",
+    "importFolder": "Importera mapp",
+    "ontology": "Ontologi",
+    "manageOntologyModal": {
+      "deleteButtonText": "Ta bort ontologi",
+      "modalTitleCreate": "Ny ontologi",
+      "modalTitleEdit": "Redigera ontologi",
+      "modalSubTitleCreate": "Skapa en ny ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleEdit": "Redigera din ontologi för att ge struktur till din digitala tvilling.",
+      "modalSubTitleLinkText": "Läs mer om ontologier",
+      "nameLabel": "Namn",
+      "namePlaceholder": "Ange ett ontologinamn",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Exempel på modellnamn: {{modelName}}",
+      "namespacePlaceholder": "Ange ett namnområde",
+      "sampleModel": "exempel modell"
     }
   },
   "cameraControls": {
@@ -1110,9 +1127,7 @@
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
-    "runLayout": "Kör layout",
-    "errorReachedInheritanceLimit": "Uppnådd arvsgräns",
-    "errorInheritance": "Får inte ärva från fler än två gränssnitt"
+    "runLayout": "Kör layout"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",
@@ -1199,7 +1214,18 @@
     "addToPropertyList": "Lägg till i egenskapslistan",
     "moveDown": "Flytta ner",
     "moveUp": "Flytta upp",
-    "valueSchema": "Värdeschema"
+    "valueSchema": "Värdeschema",
+    "commentPlaceholder": "Kommentar för modellförfattare",
+    "descriptionPlaceholder": "En lokaliserbar beskrivning att visa",
+    "details": "Detaljer",
+    "displayNamePlaceholder": "Ett lokaliserbart namn att visa",
+    "maxMultiplicityLabel": "Maximal mångfald",
+    "minMultiplicityLabel": "Minsta mångfald",
+    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
+    "modelId": "Modell-ID",
+    "path": "Stig",
+    "uniqueModelName": "Unikt modellnamn",
+    "version": "Version"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
@@ -1316,5 +1342,21 @@
   "hideDetails": "Dölj detaljer",
   "colorPills": {
     "unlabeled": "Omärkt"
+  },
+  "clear": "Klar",
+  "increaseBy1": "Öka värdet med 1",
+  "decreaseBy1": "Minska värdet med 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "kopia",
+    "defaultFileName": "Ny ontologi",
+    "defaultModelNamePrefix": "Modell"
+  },
+  "OATModelList": {
+    "searchModels": "Sök modeller",
+    "noDataMessage": "Inga modeller",
+    "noMatchingItemsMessage": "Inga modeller matchar det kriteriet",
+    "removeModelButtonText": "Ta bort modell",
+    "modelListToggleAriaLabelShow": "Visa modelllista",
+    "modelListToggleAriaLabelHide": "Dölj modelllista"
   }
 }
