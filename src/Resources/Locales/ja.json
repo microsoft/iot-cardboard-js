@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "リソースが見つかりません",
     "loadingResources": "リソースのロード",
-    "loadingInstances": "インスタンスを読み込んでいます...",
     "loadingContainers": "コンテナをロードしています...",
     "loadingStorageAccounts": "ストレージ アカウントを読み込んでいます...",
     "displayFieldNotFound": "'{{displayField}}' プロパティが '{{id}}' のリソースに見つかりません!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "完全に一致しません。使用",
     "adtInstancePlaceholder": "ADT インスタンスを選択する",
     "storageAccountPlaceholder": "ストレージ アカウントの選択",
-    "storageContainerPlaceholder": "ストレージコンテナの選択"
+    "storageContainerPlaceholder": "ストレージコンテナの選択",
+    "loadingAdtInstances": "インスタンスを読み込んでいます..."
   },
   "advancedSearch": {
     "toggleSelection": "ツインの選択に切り替えます",

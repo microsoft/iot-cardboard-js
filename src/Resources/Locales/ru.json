@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Ресурсы не найдены",
     "loadingResources": "Загрузка ресурсов",
-    "loadingInstances": "Загрузка экземпляров...",
     "loadingContainers": "Погрузка контейнеров...",
     "loadingStorageAccounts": "Загрузка учетных записей хранения...",
     "displayFieldNotFound": "Свойство '{{displayField}}' не найдено в ресурсе с идентификатором '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Нет точного соответствия, используйте",
     "adtInstancePlaceholder": "Выбор экземпляра ADT",
     "storageAccountPlaceholder": "Выбор учетной записи хранения",
-    "storageContainerPlaceholder": "Выбор контейнера хранилища"
+    "storageContainerPlaceholder": "Выбор контейнера хранилища",
+    "loadingAdtInstances": "Загрузка экземпляров..."
   },
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",

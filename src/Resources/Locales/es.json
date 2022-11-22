@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "No se han encontrado recursos",
     "loadingResources": "Carga de recursos",
-    "loadingInstances": "Cargando instancias...",
     "loadingContainers": "Cargando contenedores...",
     "loadingStorageAccounts": "Cargando cuentas de almacenamiento...",
     "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "No hay coincidencia exacta, use",
     "adtInstancePlaceholder": "Seleccione una instancia de ADT",
     "storageAccountPlaceholder": "Seleccione una cuenta de almacenamiento",
-    "storageContainerPlaceholder": "Seleccione un contenedor de almacenamiento"
+    "storageContainerPlaceholder": "Seleccione un contenedor de almacenamiento",
+    "loadingAdtInstances": "Cargando instancias..."
   },
   "advancedSearch": {
     "toggleSelection": "Cambiar a Seleccionar gemelo",

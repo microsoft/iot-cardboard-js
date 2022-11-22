@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Nessuna risorsa trovata",
     "loadingResources": "Caricamento delle risorse",
-    "loadingInstances": "Caricamento delle istanze...",
     "loadingContainers": "Carico container...",
     "loadingStorageAccounts": "Caricamento degli account di archiviazione...",
     "displayFieldNotFound": "La proprietà '{{displayField}}' non si trova nella risorsa con l'id '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Nessuna corrispondenza esatta, utilizzare",
     "adtInstancePlaceholder": "Selezionare un'istanza ADT",
     "storageAccountPlaceholder": "Selezionare un account di archiviazione",
-    "storageContainerPlaceholder": "Selezionare un contenitore di archiviazione"
+    "storageContainerPlaceholder": "Selezionare un contenitore di archiviazione",
+    "loadingAdtInstances": "Caricamento delle istanze..."
   },
   "advancedSearch": {
     "toggleSelection": "Attiva/disattiva selezione twin",

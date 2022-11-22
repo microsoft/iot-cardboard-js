@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Nie znaleziono zasobów",
     "loadingResources": "Ładowanie zasobów",
-    "loadingInstances": "Ładowanie instancji...",
     "loadingContainers": "Załadunek kontenerów...",
     "loadingStorageAccounts": "Ładowanie kont magazynu...",
     "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Brak dokładnego dopasowania, użyj",
     "adtInstancePlaceholder": "Wybieranie wystąpienia narzędzia ADT",
     "storageAccountPlaceholder": "Wybierz konto magazynuSelect a Storage Account",
-    "storageContainerPlaceholder": "Wybierz kontener pamięci masowej"
+    "storageContainerPlaceholder": "Wybierz kontener pamięci masowej",
+    "loadingAdtInstances": "Ładowanie instancji..."
   },
   "advancedSearch": {
     "toggleSelection": "Przełącz na Wybierz Twin",

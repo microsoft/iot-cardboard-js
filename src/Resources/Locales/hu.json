@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Nem található forrás",
     "loadingResources": "Erőforrások betöltése",
-    "loadingInstances": "Példányok betöltése...",
     "loadingContainers": "Konténerek betöltése...",
     "loadingStorageAccounts": "Tárfiókok betöltése...",
     "displayFieldNotFound": "'{{displayField}}' tulajdonság nem található meg az erőforrásban a '{{id}}' azonosítóval!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Nincs pontos egyezés, használja",
     "adtInstancePlaceholder": "ADT-példány kiválasztása",
     "storageAccountPlaceholder": "Tárfiók kiválasztása",
-    "storageContainerPlaceholder": "Válasszon ki egy tárolót Storage"
+    "storageContainerPlaceholder": "Válasszon ki egy tárolót Storage",
+    "loadingAdtInstances": "Példányok betöltése..."
   },
   "advancedSearch": {
     "toggleSelection": "Váltás az iker kiválasztásához",

@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Aucune ressource trouvée",
     "loadingResources": "Chargement des ressources",
-    "loadingInstances": "Chargement d’instances...",
     "loadingContainers": "Chargement des conteneurs...",
     "loadingStorageAccounts": "Chargement des comptes de stockage...",
     "displayFieldNotFound": "Propriété '{{displayField}}' introuvable dans la ressource avec l'id '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Pas de correspondance exacte, utilisez",
     "adtInstancePlaceholder": "Sélectionner une instance ADT",
     "storageAccountPlaceholder": "Sélectionner un compte de stockage",
-    "storageContainerPlaceholder": "Sélectionner un conteneur de stockage"
+    "storageContainerPlaceholder": "Sélectionner un conteneur de stockage",
+    "loadingAdtInstances": "Chargement des instances..."
   },
   "advancedSearch": {
     "toggleSelection": "Basculer pour sélectionner Twin",
