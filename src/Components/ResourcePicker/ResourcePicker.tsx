@@ -529,10 +529,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             (c) => c.props.data.label === value?.label
         );
         if (!selectProps.inputValue && selectedIdx !== -1) {
-            // set the initial offset is the selected value is in the options list and there is no input entered for filtering
-            initialOffset =
-                children.findIndex((c) => c.props.data.label === value.label) *
-                OPTION_HEIGHT;
+            /**
+             * Set the initial offset to the selected option in the options list if there is no input entered for filtering.
+             * Note that searchValue does not necessarily need to be equal to the input value in the react-select component;
+             * searchValue is only used to mark option which is initially equal to the selected option value,
+             * later equal to the input value of react-select component when filtering is active with user input
+             */
+            initialOffset = selectedIdx * OPTION_HEIGHT;
         }
 
         return options.length <= 1 ? (
