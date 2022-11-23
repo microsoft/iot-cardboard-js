@@ -403,7 +403,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             newValue: IResourceOption,
             actionMeta: ActionMeta<IResourceOption>
         ) => {
-            setSearchValue(newValue?.label);
+            setSearchValue(newValue?.label ?? '');
             if (actionMeta.action === 'create-option') {
                 const newParsedOptionValue = sanitizeOptionText(
                     newValue.label,
@@ -477,7 +477,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             setAdditionalOptions(newAdditionOptions);
 
             if (option.label === selectedOption?.label) {
-                setSearchValue(null);
+                setSearchValue('');
                 setSelectedOption(null);
             }
         },
@@ -522,7 +522,18 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const CustomMenuList = (props) => {
         const OPTION_HEIGHT = 32;
-        const { children, maxHeight } = props;
+        const { children, maxHeight, getValue, selectProps } = props;
+        const [value] = getValue();
+        let initialOffset = 0;
+        const selectedIdx = children.findIndex(
+            (c) => c.props.data.label === value?.label
+        );
+        if (!selectProps.inputValue && selectedIdx !== -1) {
+            // set the initial offset is the selected value is in the options list and there is no input entered for filtering
+            initialOffset =
+                children.findIndex((c) => c.props.data.label === value.label) *
+                OPTION_HEIGHT;
+        }
 
         return options.length <= 1 ? (
             <components.MenuList {...props} />
@@ -532,6 +543,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 itemCount={children.length}
                 itemSize={OPTION_HEIGHT}
                 className={classNames.menuList}
+                initialScrollOffset={initialOffset}
             >
                 {({ index, style }) => (
                     <div style={style}>{children[index]}</div>
@@ -600,6 +612,16 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         `${t('resourcesPicker.useNonExistingResource')} "${inputValue}"`;
     const noOptionsMessage = () => t('resourcesPicker.noOption');
     const loadingMessage = () => loadingLabelText;
+    const customFilter = (option: any, inputValue: string) => {
+        if (!inputValue) return true;
+        if (
+            (isResourceOption(option.data) &&
+                option.data.label.includes(inputValue)) ||
+            option.data.__isNew__
+        ) {
+            return true;
+        }
+    };
 
     return (
         <div className={classNames.root}>
@@ -608,17 +630,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 <CreatableSelect
                     aria-labelledby="resource-picker-dropdown-label"
                     styles={reactSelectStyles}
-                    options={
-                        resourcesState.isLoading
-                            ? []
-                            : searchValue
-                            ? options.filter(isResourceOption)
-                            : options
-                    }
-                    inputValue={searchValue ?? ''}
+                    options={resourcesState.isLoading ? [] : options}
                     value={selectedOption}
                     defaultValue={selectedOption ?? undefined}
-                    defaultInputValue={searchValue ?? ''}
                     placeholder={placeholder()}
                     formatCreateLabel={formatCreateLabel}
                     noOptionsMessage={noOptionsMessage}
@@ -633,6 +647,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     onChange={handleOnChange}
                     onInputChange={handleOnInputChange}
                     loadingMessage={loadingMessage}
+                    filterOption={customFilter}
                 />
                 {inputError && (
                     <Text className={classNames.errorText} variant={'small'}>
