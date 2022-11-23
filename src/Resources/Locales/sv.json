@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Inga resurser hittades",
     "loadingResources": "Läsa in resurser",
-    "loadingInstances": "Laddar instanser...",
     "loadingContainers": "Lastning av containrar...",
     "loadingStorageAccounts": "Läser in lagringskonton...",
     "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Ingen exakt matchning, använd",
     "adtInstancePlaceholder": "Välj en ADT-instans",
     "storageAccountPlaceholder": "Välj ett lagringskonto",
-    "storageContainerPlaceholder": "Välj en lagringscontainer"
+    "storageContainerPlaceholder": "Välj en lagringscontainer",
+    "loadingAdtInstances": "Laddar instanser..."
   },
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",

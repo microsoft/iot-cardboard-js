@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Nebyly nalezeny žádné zdroje",
     "loadingResources": "Načítání zdrojů",
-    "loadingInstances": "Načítání instancí...",
     "loadingContainers": "Nakládka kontejnerů...",
     "loadingStorageAccounts": "Načítání účtů úložiště...",
     "displayFieldNotFound": "Vlastnost '{{displayField}}' nebyla nalezena v prostředku s id '{{id}}'!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Žádná přesná shoda, použijte",
     "adtInstancePlaceholder": "Výběr instance nástroje ADT",
     "storageAccountPlaceholder": "Vyberte účet úložiště",
-    "storageContainerPlaceholder": "Výběr kontejneru úložiště"
+    "storageContainerPlaceholder": "Výběr kontejneru úložiště",
+    "loadingAdtInstances": "Načítání instancí..."
   },
   "advancedSearch": {
     "toggleSelection": "Přepnout na Vybrat dvojče",

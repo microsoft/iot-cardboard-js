@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "未找到资源",
     "loadingResources": "加载资源",
-    "loadingInstances": "正在加载实例...",
     "loadingContainers": "装载集装箱...",
     "loadingStorageAccounts": "正在加载存储帐户...",
     "displayFieldNotFound": "在 id 为 '{{id}}' 的资源中找不到 '{{displayField}}' 属性！",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "没有完全匹配，请使用",
     "adtInstancePlaceholder": "选择一个 ADT 实例",
     "storageAccountPlaceholder": "选择存储帐户",
-    "storageContainerPlaceholder": "选择存储容器"
+    "storageContainerPlaceholder": "选择存储容器",
+    "loadingAdtInstances": "正在加载实例..."
   },
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",

@@ -1240,7 +1240,6 @@
   "resourcesPicker": {
     "noOption": "Kaynak bulunamadı",
     "loadingResources": "Kaynakları yükleme",
-    "loadingInstances": "Bulut sunucuları yükleniyor...",
     "loadingContainers": "Konteynerler yükleniyor...",
     "loadingStorageAccounts": "Depolama hesapları yükleniyor...",
     "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!",
@@ -1254,7 +1253,8 @@
     "useNonExistingResource": "Tam eşleşme yok, kullanın",
     "adtInstancePlaceholder": "ADT örneği seçme",
     "storageAccountPlaceholder": "Depolama Hesabı Seçme",
-    "storageContainerPlaceholder": "Bir Depolama Kabı Seçin"
+    "storageContainerPlaceholder": "Bir Depolama Kabı Seçin",
+    "loadingAdtInstances": "Bulut sunucuları yükleniyor..."
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",
