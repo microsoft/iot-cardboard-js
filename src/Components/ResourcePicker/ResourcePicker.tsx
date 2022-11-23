@@ -8,9 +8,11 @@ import React, {
 } from 'react';
 import {
     IResourceOption,
+    IResourcePickerOption,
     IResourcePickerProps,
     IResourcePickerStyleProps,
-    IResourcePickerStyles
+    IResourcePickerStyles,
+    isResourceOption
 } from './ResourcePicker.types';
 import { getStyles } from './ResourcePicker.styles';
 import {
@@ -47,7 +49,7 @@ import { getReactSelectStyles } from '../../Resources/Styles/ReactSelect.styles'
 import { ActionMeta, components, InputActionMeta } from 'react-select';
 
 const freeformOptionsHeaderText = '---';
-const freeformOptionsHeader: IResourceOption = {
+const freeformOptionsHeader: IResourcePickerOption = {
     label: freeformOptionsHeaderText,
     type: 'header'
 };
@@ -154,7 +156,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             .sort(sortResources);
 
         // after fetching resources, first start creating dropdown options with resources which have display values
-        const newOptions: Array<IResourceOption> = [];
+        const newOptions: Array<IResourcePickerOption> = [];
         let lastHeader: string;
         filteredAndSortedResources.forEach((r) => {
             if (r.subscriptionName && lastHeader !== r.subscriptionName) {
@@ -185,17 +187,20 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         return newOptions;
     }, [getDisplayFieldValue, displayField, t, resourcesRef.current]);
 
-    const options: Array<IResourceOption> = useMemo(() => {
-        let mergedOptions: Array<IResourceOption> = [];
+    const options: Array<IResourcePickerOption> = useMemo(() => {
+        let mergedOptions: Array<IResourcePickerOption> = [];
 
         // Step-1: Construct the options from fetched resources - if exists
         mergedOptions = mergedOptions.concat(optionsFromResources);
 
         // Step-2: Append additonal options to the options if not already there
         if (additionalOptions) {
+            const resourcesOptions = optionsFromResources.filter(
+                isResourceOption
+            );
             const optionsToAdd = additionalOptions.filter(
                 (additionalOption) =>
-                    optionsFromResources.findIndex((option) =>
+                    resourcesOptions.findIndex((option) =>
                         areResourceValuesEqual(
                             option.label,
                             additionalOption.label,
@@ -226,7 +231,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 if (resourcesRef.current?.length > 0) {
                     const freeFromOptionsHeaderExist = mergedOptions?.find(
                         (option) =>
-                            option.type === 'header' &&
+                            !isResourceOption(option) &&
                             option.label === freeformOptionsHeaderText
                     );
                     if (!freeFromOptionsHeaderExist) {
@@ -260,11 +265,11 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     };
 
     const getResourcesFromOptions = (
-        options: Array<IResourceOption>
+        options: Array<IResourcePickerOption>
     ): Array<IAzureResource | string> => {
         return options
-            ?.filter((option) => option.type === 'option')
-            .map((option) => option.value);
+            ?.filter(isResourceOption)
+            .map((option: IResourceOption) => option.value);
     };
 
     useEffect(() => {
@@ -286,13 +291,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     useEffect(() => {
         if (selectedOptionProp) {
-            const existingOption = options?.find((o) =>
-                areResourceValuesEqual(
-                    o.label,
-                    selectedOptionProp,
-                    displayField
-                )
-            );
+            const existingOption = options
+                .filter(isResourceOption)
+                .find((o) =>
+                    areResourceValuesEqual(
+                        o.label,
+                        selectedOptionProp,
+                        displayField
+                    )
+                ) as IResourceOption;
             if (existingOption) {
                 setSelectedOption(existingOption);
             } else {
@@ -337,14 +344,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     // update the selected option with the one after fetching resources to include the 'data' field in the option
     useEffect(() => {
         if (selectedOption) {
-            const selectedOptionInOptions = optionsFromResources.find(
-                (option) =>
+            const selectedOptionInOptions = optionsFromResources
+                .filter(isResourceOption)
+                .find((option) =>
                     areResourceValuesEqual(
                         option.label,
                         selectedOption.label,
                         displayField
                     )
-            );
+                ) as IResourceOption;
             if (selectedOptionInOptions) {
                 setSelectedOption(selectedOptionInOptions);
             }
@@ -413,13 +421,15 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     (displayField === AzureResourceDisplayFields.url &&
                         isValidUrlStr(newParsedOptionValue, resourceType))
                 ) {
-                    const existingOption = options.find((option) =>
-                        areResourceValuesEqual(
-                            option.label,
-                            newParsedOptionValue,
-                            displayField
-                        )
-                    );
+                    const existingOption = options
+                        .filter(isResourceOption)
+                        .find((option) =>
+                            areResourceValuesEqual(
+                                option.label,
+                                newParsedOptionValue,
+                                displayField
+                            )
+                        ) as IResourceOption;
                     if (!existingOption) {
                         setAdditionalOptions(
                             additionalOptions.concat(newOption)
@@ -531,7 +541,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     };
 
     const CustomOption = (props) => {
-        if (props.data.type === 'header') {
+        if (!isResourceOption(props.data)) {
+            // disable mouse interactions if it is header type of option
             delete props.innerProps.onMouseMove;
             delete props.innerProps.onMouseOver;
         }
@@ -539,13 +550,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             <div className={classNames.optionWrapper}>
                 <components.Option
                     {...props}
-                    isDisabled={props.data.type === 'header'}
+                    isDisabled={!isResourceOption(props.data)}
                 >
                     {props.data.__isNew__ ? (
                         <span className={classNames.noMatchingOptionText}>
                             {props.data.label}
                         </span>
-                    ) : props.data.type === 'header' ? (
+                    ) : !isResourceOption(props.data) ? (
                         <span className={classNames.optionHeaderText}>
                             {props.data.label}
                         </span>
@@ -597,7 +608,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 <CreatableSelect
                     aria-labelledby="resource-picker-dropdown-label"
                     styles={reactSelectStyles}
-                    options={resourcesState.isLoading ? [] : options}
+                    options={
+                        resourcesState.isLoading
+                            ? []
+                            : searchValue
+                            ? options.filter(isResourceOption)
+                            : options
+                    }
                     inputValue={searchValue ?? ''}
                     value={selectedOption}
                     defaultValue={selectedOption ?? undefined}
@@ -616,7 +633,6 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     onChange={handleOnChange}
                     onInputChange={handleOnInputChange}
                     loadingMessage={loadingMessage}
-                    menuIsOpen
                 />
                 {inputError && (
                     <Text className={classNames.errorText} variant={'small'}>

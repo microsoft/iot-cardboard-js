@@ -811,7 +811,7 @@ const EnvironmentPicker = ({
                                                   )
                                               }
                                             : undefined,
-                                        isAdditionalSearchParamsRequired: true
+                                        isAdditionalParamsRequired: true
                                     }}
                                     shouldFetchResourcesOnMount={
                                         environmentPickerState

@@ -42,11 +42,25 @@ export interface IResourcePickerProps {
     >;
 }
 
-export interface IResourceOption {
+interface IResourceBaseOption {
     label: string;
-    value?: IAzureResource | string;
-    type: 'option' | 'header'; // if it is header type option, there is no value
 }
+
+interface IResourceHeaderOption extends IResourceBaseOption {
+    type: 'header';
+}
+export interface IResourceOption extends IResourceBaseOption {
+    value: IAzureResource | string;
+    type: 'option';
+}
+
+export type IResourcePickerOption = IResourceHeaderOption | IResourceOption;
+
+export const isResourceOption = (
+    option: IResourceHeaderOption | IResourceOption
+) => {
+    return (option as IResourceOption).type === 'option';
+};
 
 export interface IResourcePickerStyleProps {
     theme: ITheme;
