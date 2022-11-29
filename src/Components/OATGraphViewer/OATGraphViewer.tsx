@@ -262,6 +262,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 },
                 []
             );
+            // console.log('***NODES:', nodes);
 
             const links = inputElements.reduce((collection: any[], element) => {
                 if (element.source) {
@@ -272,6 +273,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 }
                 return collection;
             }, []);
+            // console.log('***LINKS:', links);
 
             forceSimulation(nodes)
                 .force(
@@ -296,9 +298,14 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             (node) => !element.source && node.id === element.id
                         );
 
-                        // give a random location to nodes without relationships
+                        // assign positions to model nodes
                         const newElement = { ...element };
                         if (node) {
+                            // console.log(
+                            //     '***[START] position node. {node, element}',
+                            //     node,
+                            //     newElement
+                            // );
                             newElement.position = {
                                 x:
                                     node.x -
@@ -306,10 +313,21 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                     Math.random() / 1000,
                                 y: node.y - nodeHeight / 2
                             };
+                            // console.log(
+                            //     '***[END] position node. {element}',
+                            //     newElement
+                            // );
                         }
 
                         return newElement;
                     });
+                    // console.log(
+                    //     '*** END. {original, newEls, nodes, links}',
+                    //     inputElements,
+                    //     newElements,
+                    //     nodes,
+                    //     links
+                    // );
 
                     const application = () => {
                         setElements(newElements);
