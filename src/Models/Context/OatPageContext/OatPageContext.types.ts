@@ -70,8 +70,8 @@ export interface IOatPageContextState {
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
     languageOptions: IDropdownOption[];
+    triggerGraphLayout: boolean;
     error?: IOATError;
-    modelsToImport?: any[];
     graphUpdatesToSync: GraphUpdatePayload;
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
@@ -117,13 +117,12 @@ export enum OatPageContextActionType {
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
     /** updates the model positions for the given models */
     UPDATE_MODEL_POSTIONS = 'UPDATE_MODEL_POSTIONS',
-    /** adds a new relationship to the model to the project */
-    ADD_RELATIONSHIP = 'ADD_RELATIONSHIP',
-    /** adds a new model to the project */
-    ADD_MODEL = 'ADD_MODEL',
-    /** adds a model and relationship to the project */
-    ADD_MODEL_WITH_RELATIONSHIP = 'ADD_MODEL_WITH_RELATIONSHIP',
+    IMPORT_MODELS = 'IMPORT_MODELS',
+    ADD_NEW_MODEL = 'ADD_NEW_MODEL',
+    ADD_NEW_RELATIONSHIP = 'ADD_NEW_RELATIONSHIP',
+    ADD_NEW_MODEL_WITH_RELATIONSHIP = 'ADD_NEW_MODEL_WITH_RELATIONSHIP',
 
+    CLEAR_GRAPH_LAYOUT = 'CLEAR_GRAPH_LAYOUT',
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
     /** models that should get changed on the graph */
     GRAPH_SET_MODELS_TO_SYNC = 'GRAPH_SET_MODELS_TO_SYNC',
@@ -134,7 +133,6 @@ export enum OatPageContextActionType {
     SET_OAT_TEMPLATES_ACTIVE = 'SET_OAT_TEMPLATES_ACTIVE',
     DELETE_PROJECT = 'SET_OAT_DELETE_PROJECT',
     SET_OAT_ERROR = 'SET_OAT_ERROR',
-    SET_OAT_IMPORT_MODELS = 'SET_OAT_IMPORT_MODELS',
     SET_OAT_IS_JSON_UPLOADER_OPEN = 'SET_OAT_IS_JSON_UPLOADER_OPEN'
 }
 
@@ -210,6 +208,9 @@ export type OatPageContextAction =
           payload: ProjectData;
       }
     | {
+          type: OatPageContextActionType.CLEAR_GRAPH_LAYOUT;
+      }
+    | {
           type: OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC;
           payload: GraphUpdatePayload;
       }
@@ -225,9 +226,9 @@ export type OatPageContextAction =
           payload: IOATError;
       }
     | {
-          type: OatPageContextActionType.SET_OAT_IMPORT_MODELS;
+          type: OatPageContextActionType.IMPORT_MODELS;
           payload: {
-              models: any[];
+              models: DtdlInterface[];
           };
       }
     | {
@@ -281,13 +282,13 @@ export type OatPageContextAction =
           };
       }
     | {
-          type: OatPageContextActionType.ADD_MODEL;
+          type: OatPageContextActionType.ADD_NEW_MODEL;
           payload?: {
               position: IOATNodePosition;
           };
       }
     | {
-          type: OatPageContextActionType.ADD_RELATIONSHIP;
+          type: OatPageContextActionType.ADD_NEW_RELATIONSHIP;
           payload:
               | {
                     type: 'Targeted';
@@ -302,7 +303,7 @@ export type OatPageContextAction =
                 };
       }
     | {
-          type: OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP;
+          type: OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP;
           payload: {
               position: IOATNodePosition;
               sourceModelId: string;

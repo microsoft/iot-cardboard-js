@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Ein Modell mit derselben ID ist bereits vorhanden",
     "errorDisplayNameLength": "Anzeigename darf 64 Zeichen nicht überschreiten",
     "errorRepeatedEdgeName": "Eine Beziehung mit demselben Namen existiert bereits",
-    "runLayout": "Layout ausführen"
+    "runLayout": "Layout ausführen",
+    "loadingText": "Layoutpositionen berechnen"
   },
   "OATPropertyEditor": {
     "displayName": "Anzeigename",

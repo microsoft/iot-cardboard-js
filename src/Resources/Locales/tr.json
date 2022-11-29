@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Aynı kimliğe sahip bir model zaten var",
     "errorDisplayNameLength": "Görünen Ad 64 karakteri aşamaz",
     "errorRepeatedEdgeName": "Aynı ada sahip bir ilişki zaten var",
-    "runLayout": "Çalıştırma Düzeni"
+    "runLayout": "Çalıştırma Düzeni",
+    "loadingText": "Bilgi işlem düzeni konumları"
   },
   "OATPropertyEditor": {
     "displayName": "Görünen Ad",

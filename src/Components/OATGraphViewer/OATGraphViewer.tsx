@@ -262,6 +262,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 },
                 []
             );
+            // console.log('***NODES:', nodes);
 
             const links = inputElements.reduce((collection: any[], element) => {
                 if (element.source) {
@@ -272,6 +273,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                 }
                 return collection;
             }, []);
+            // console.log('***LINKS:', links);
 
             forceSimulation(nodes)
                 .force(
@@ -296,9 +298,14 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                             (node) => !element.source && node.id === element.id
                         );
 
-                        // give a random location to nodes without relationships
+                        // assign positions to model nodes
                         const newElement = { ...element };
                         if (node) {
+                            // console.log(
+                            //     '***[START] position node. {node, element}',
+                            //     node,
+                            //     newElement
+                            // );
                             newElement.position = {
                                 x:
                                     node.x -
@@ -306,10 +313,21 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                     Math.random() / 1000,
                                 y: node.y - nodeHeight / 2
                             };
+                            // console.log(
+                            //     '***[END] position node. {element}',
+                            //     newElement
+                            // );
                         }
 
                         return newElement;
                     });
+                    // console.log(
+                    //     '*** END. {original, newEls, nodes, links}',
+                    //     inputElements,
+                    //     newElements,
+                    //     nodes,
+                    //     links
+                    // );
 
                     const application = () => {
                         setElements(newElements);
@@ -348,6 +366,11 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         setRfInstance(instance);
     }, []);
 
+    /** Forces the auto layout of the current elements on the graph */
+    const forceGraphLayout = useCallback(() => {
+        applyLayoutToElements(elements);
+    }, [applyLayoutToElements, elements]);
+
     const onConnectStart = (
         _: React.MouseEvent<Element, MouseEvent>,
         params: ConnectionParams
@@ -385,7 +408,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             ) {
                 if (targetModelId) {
                     oatPageDispatch({
-                        type: OatPageContextActionType.ADD_RELATIONSHIP,
+                        type: OatPageContextActionType.ADD_NEW_RELATIONSHIP,
                         payload: {
                             type: 'Targeted',
                             relationshipType: type,
@@ -401,7 +424,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     });
                     oatPageDispatch({
                         type:
-                            OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP,
+                            OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP,
                         payload: {
                             position: position,
                             relationshipType: type,
@@ -418,7 +441,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     y: evt.clientY - reactFlowBounds.top
                 });
                 oatPageDispatch({
-                    type: OatPageContextActionType.ADD_RELATIONSHIP,
+                    type: OatPageContextActionType.ADD_NEW_RELATIONSHIP,
                     payload: {
                         type: 'Untargeted',
                         sourceModelId: sourceModelId,
@@ -592,31 +615,15 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         previousId
     ]);
 
-    // update the graph when models are imported
+    // force layout when requested by global context
     useEffect(() => {
-        if (oatPageState.modelsToImport?.length > 0) {
-            logDebugConsole('debug', '[START] Handle change to Import models');
-            const potentialElements = getGraphNodesFromModels(
-                oatPageState.modelsToImport,
-                oatPageState.currentOntologyModelPositions
-            );
-            applyLayoutToElements(deepCopy(potentialElements));
+        if (oatPageState.triggerGraphLayout) {
+            forceGraphLayout();
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_IMPORT_MODELS,
-                payload: {
-                    models: []
-                }
+                type: OatPageContextActionType.CLEAR_GRAPH_LAYOUT
             });
-            logDebugConsole('debug', '[END] Handle change to Import models');
         }
-    }, [
-        applyLayoutToElements,
-        getGraphNodesFromModels,
-        oatGraphDispatch,
-        oatPageDispatch,
-        oatPageState.currentOntologyModelPositions,
-        oatPageState.modelsToImport
-    ]);
+    }, [forceGraphLayout, oatPageDispatch, oatPageState.triggerGraphLayout]);
 
     // update the graph when models are added/updated/deleted on state
     useEffect(() => {
@@ -766,7 +773,11 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             >
                 {oatGraphState.isLoading && (
                     <div className={graphViewerStyles.loadingOverlay}>
-                        <Spinner size={SpinnerSize.large} />
+                        <Spinner
+                            size={SpinnerSize.large}
+                            ariaLive={t('OATGraphViewer.loadingText')}
+                            label={t('OATGraphViewer.loadingText')}
+                        />
                     </div>
                 )}
 
@@ -809,9 +820,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                         legendButtonId={legendButtonId}
                         miniMapButtonId={mapButtonId}
                         modelListButtonId={modelListButtonId}
-                        onApplyAutoLayoutClick={() =>
-                            applyLayoutToElements(elements)
-                        }
+                        onApplyAutoLayoutClick={forceGraphLayout}
                     />
 
                     {oatGraphState.isMiniMapVisible && (
