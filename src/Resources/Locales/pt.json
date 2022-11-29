@@ -366,8 +366,6 @@
     "elements": "Elementos",
     "element": "Elemento",
     "twinsTab": "Gêmeos",
-    "alertsTab": "Alertas",
-    "statesTab": "Estado",
     "widgets": "Widgets",
     "widget": "Widget",
     "behaviors": "Comportamentos",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Selecione um elemento",
     "behaviorForm": {
       "formSubTitle": "Comportamentos são pistas visuais que ocorrem em condições específicas — por exemplo, em intervalos específicos ou em limiares de dados."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Cor",
-      "expressionLabel": "Expressão do gatilho",
-      "expressionPlaceholder": "Inserir expressão (por exemplo, PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ícone",
-      "tabDescription": "Alertas — ícones acompanhados de texto — ajudam a chamar a atenção para condições críticas de dados. Abaixo, use expressões para disparar alertas em sua visualização.",
-      "notificationLabel": "Descrição do cenário",
-      "notificationLabelTooltip": "Este texto dará um contexto ao consumidor quando esse crachá estiver ativo.",
-      "notificationLabelDescriptionPart1": "As propriedades gêmeas precisam ser cercadas com sintaxe de string de modelo.",
-      "notificationPlaceholder": "Digite uma descrição",
-      "notificationLabelDescriptionPart2": "Por exemplo, ${PrimaryTwin.DisplayName} requer manutenção"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Selecione uma propriedade e, em seguida, defina faixas para aplicar cores a determinadas condições — por exemplo, vermelho para indicar altas temperaturas ou verde para uma velocidade ideal.",
-      "stateItemLabel": "Estado {{índice}}",
-      "propertyExpressionTooltipContent": "Use uma expressão personalizada para expressões mais complexas que aproveitem várias propriedades."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Adicionar widget",
@@ -560,7 +541,6 @@
       "new": "Nova regra visual",
       "edit": "Editar regra visual",
       "typePlaceholder": "Selecione o tipo para o valor",
-      "newCondition": "Nova condição",
       "editCondition": "Condição de edição",
       "deleteCondition": "Exclua a condição",
       "unlabeledCondition": "Unlabeled",

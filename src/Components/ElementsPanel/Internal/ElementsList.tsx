@@ -1,22 +1,30 @@
 import { Icon } from '@fluentui/react';
-import React, { memo, useEffect, useMemo, useRef } from 'react';
+import React, {
+    memo,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import ViewerConfigUtility from '../../../Models/Classes/ViewerConfigUtility';
 import {
     wrapTextInTemplateString,
-    parseLinkedTwinExpression
+    parseLinkedTwinExpression,
+    sortAscendingOrDescending
 } from '../../../Models/Services/Utils';
 import {
     IBehavior,
     IExpressionRangeVisual,
     ITwinToObjectMapping,
+    IValueRangeVisual,
     IVisual
 } from '../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ICardboardGroupedListItem } from '../../CardboardList/CardboardGroupedList.types';
 import { CardboardList } from '../../CardboardList/CardboardList';
-import { StatusPills } from '../../StatusPills/StatusPills';
 import {
-    getElementsPanelAlertStyles,
+    getElementsPanelBadgeStyles,
     getElementsPanelStyles,
     getElementsPanelButtonSyles
 } from '../ViewerElementsPanel.styles';
@@ -26,9 +34,23 @@ import {
     IViewerElementsPanelListProps
 } from '../ViewerElementsPanel.types';
 import { sortPanelItemsForDisplay } from '../ViewerElementsPanel.Utils';
+import {
+    hasBadge,
+    shouldShowVisual
+} from '../../../Models/SharedUtils/VisualRuleUtils';
+import { VisualColorings } from '../../../Models/Constants/VisualRuleTypes';
+import ElementColoring from './ElementColoring';
+
+type ViewerElementsPanelCallback = (
+    rowId: string,
+    item: ITwinToObjectMapping,
+    panelItem: IViewerElementsPanelItem,
+    behavior?: IBehavior
+) => void;
 
 const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
     isLoading,
+    isModal,
     panelItems = [],
     filterTerm,
     onItemClick,
@@ -46,17 +68,68 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
         }
     }, [panelItems]);
 
+    // State
+    const [openCalloutRowId, setOpenCalloutRowId] = useState('');
+
+    // Callbacks
+    const onItemHoverExtend = useCallback(
+        (
+            rowId: string,
+            element: ITwinToObjectMapping,
+            panelItem: IViewerElementsPanelItem
+        ) => {
+            setOpenCalloutRowId(rowId);
+            if (onItemHover) {
+                onItemHover(element, panelItem);
+            }
+        },
+        [onItemHover]
+    );
+
+    const onItemBlurExtended = useCallback(
+        (
+            rowId: string,
+            element: ITwinToObjectMapping,
+            panelItem: IViewerElementsPanelItem
+        ) => {
+            setOpenCalloutRowId('');
+            if (onItemBlur) {
+                onItemBlur(element, panelItem);
+            }
+        },
+        [onItemBlur]
+    );
+
     const listItems = useMemo(
-        () => getListItems(panelItems, onItemClick, onItemHover, onItemBlur),
-        [panelItems, onItemClick, onItemHover, onItemBlur]
+        () =>
+            getListItems(
+                panelItems,
+                isModal,
+                openCalloutRowId,
+                onItemClick,
+                onItemHover,
+                onItemBlur,
+                onItemHoverExtend,
+                onItemBlurExtended
+            ),
+        [
+            panelItems,
+            onItemClick,
+            onItemHover,
+            onItemBlur,
+            onItemHoverExtend,
+            onItemBlurExtended,
+            openCalloutRowId,
+            isModal
+        ]
     );
 
     return (
         <div className={elementsPanelStyles.list}>
             {isLoading && !isInitialDataLoaded.current ? (
-                <p style={{ padding: '0px 20px' }}>{t('loading')}</p>
+                <p className={elementsPanelStyles.message}>{t('loading')}</p>
             ) : panelItems.length === 0 ? (
-                <p style={{ padding: '0px 20px' }}>
+                <p className={elementsPanelStyles.message}>
                     {t('elementsPanel.noElements')}
                 </p>
             ) : (
@@ -72,9 +145,13 @@ const ElementsList: React.FC<IViewerElementsPanelListProps> = ({
 
 function getListItems(
     panelItems: Array<IViewerElementsPanelItem>,
+    isModal: boolean,
+    openCalloutRowId: string,
     onItemClick: ElementsPanelCallback,
-    onItemHover?: ElementsPanelCallback,
-    onItemBlur?: ElementsPanelCallback
+    onItemHover: ElementsPanelCallback,
+    onItemBlur: ElementsPanelCallback,
+    onItemHoverExtended: ViewerElementsPanelCallback,
+    onItemBlurExtended: ViewerElementsPanelCallback
 ): Array<ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>> {
     const sortedPanelItems = sortPanelItemsForDisplay(panelItems);
     const buttonStyles = getElementsPanelButtonSyles();
@@ -82,145 +159,117 @@ function getListItems(
         ICardboardGroupedListItem<ITwinToObjectMapping | IVisual>
     > = [];
 
-    sortedPanelItems.map((panelItem) => {
+    sortedPanelItems.forEach((panelItem) => {
         const element = panelItem.element;
-        let statuses: Array<{
+        const elementColorings: Array<VisualColorings> = [];
+        const badges: Array<{
             behavior: IBehavior;
-            statusVisual: IExpressionRangeVisual;
+            visual: IValueRangeVisual;
+            visualRule: IExpressionRangeVisual;
+            visualRuleDisplayTitle: string;
         }> = [];
-        let alerts: Array<{
-            behavior: IBehavior;
-            alertVisual: IExpressionRangeVisual;
-            alertVisualDisplayTitle: string;
-        }> = [];
+        let visualRules: IExpressionRangeVisual[] = [];
 
-        panelItem.behaviors.map((b) => {
-            statuses = statuses.concat(
-                b.visuals.filter(ViewerConfigUtility.isStatusColorVisual).map(
-                    (statusVisual) =>
-                        ({
-                            behavior: b,
-                            statusVisual: statusVisual
-                        } as any)
-                )
-            );
-            alerts = alerts.concat(
-                b.visuals
-                    .filter(
-                        (visual) =>
-                            ViewerConfigUtility.isAlertVisual(visual) &&
-                            parseLinkedTwinExpression(
-                                visual.valueExpression,
-                                panelItem.twins
-                            )
-                    )
-                    .map(
-                        (alertVisual: IExpressionRangeVisual) =>
-                            ({
+        panelItem.behaviors.forEach((b) => {
+            // Add all visual rules to an array
+            visualRules = b.visuals.filter(ViewerConfigUtility.isVisualRule);
+
+            // Separate into their respective arrays
+            visualRules.forEach((vr) => {
+                vr.valueRanges.forEach((condition) => {
+                    // Check if visual will be shown and then determine if it is a badge or element coloring
+                    if (
+                        shouldShowVisual(
+                            vr.valueRangeType,
+                            panelItem.twins,
+                            vr.valueExpression,
+                            condition.values
+                        )
+                    ) {
+                        if (hasBadge(condition)) {
+                            badges.push({
                                 behavior: b,
-                                alertVisual: alertVisual,
-                                alertVisualDisplayTitle: parseLinkedTwinExpression(
+                                visual: condition.visual,
+                                visualRuleDisplayTitle: parseLinkedTwinExpression(
                                     wrapTextInTemplateString(
-                                        alertVisual.valueRanges[0].visual
-                                            .labelExpression
+                                        condition.visual.labelExpression
                                     ),
                                     panelItem.twins
-                                )
-                            } as any)
-                    )
-            );
+                                ),
+                                visualRule: vr
+                            });
+                        } else {
+                            elementColorings.push({
+                                color: condition.visual.color,
+                                label: condition.visual.labelExpression
+                            });
+                        }
+                    }
+                });
+            });
         });
 
         //sort the alert within its own group by name
-        alerts.sort((a, b) =>
-            a.alertVisualDisplayTitle.localeCompare(
-                b.alertVisualDisplayTitle,
-                undefined,
-                {
-                    sensitivity: 'base'
-                }
-            )
-        );
+        badges.sort(sortAscendingOrDescending('visualRuleDisplayTitle'));
 
-        const elementItemWithStatus: ICardboardGroupedListItem<ITwinToObjectMapping> = {
+        const rowId = `cb-element-list-row-${element.id}`;
+        const elementItemWithColorings: ICardboardGroupedListItem<ITwinToObjectMapping> = {
+            id: rowId,
             ariaLabel: element.displayName,
             buttonProps: {
                 customStyles: buttonStyles.elementButton,
-                ...(onItemHover && {
-                    onMouseEnter: () => onItemHover(element, panelItem),
-                    onFocus: () => onItemHover(element, panelItem)
-                }),
-                ...(onItemBlur && {
-                    onMouseLeave: () => onItemBlur(element, panelItem),
-                    onBlur: () => onItemBlur(element, panelItem)
-                })
+                onMouseEnter: () =>
+                    onItemHoverExtended(rowId, element, panelItem),
+                onFocus: () => onItemHoverExtended(rowId, element, panelItem),
+                onMouseLeave: () =>
+                    onItemBlurExtended(rowId, element, panelItem),
+                onBlur: () => onItemBlurExtended(rowId, element, panelItem)
             },
             iconStart: () => (
-                <ElementStatus statuses={statuses} panelItem={panelItem} />
+                <ElementColoring
+                    rowId={rowId}
+                    colorings={elementColorings}
+                    isModal={isModal}
+                    isCalloutOpen={rowId === openCalloutRowId}
+                />
             ),
             item: element,
             itemType: 'header',
             onClick: () => onItemClick(element, panelItem),
             textPrimary: element.displayName
         };
-        listItems.push(elementItemWithStatus);
+        listItems.push(elementItemWithColorings);
 
-        alerts.map((alert) => {
-            const alertStyles = getElementsPanelAlertStyles(
-                alert.alertVisual.valueRanges[0].visual.color
-            );
+        badges.forEach((badge) => {
+            const badgeStyles = getElementsPanelBadgeStyles(badge.visual.color);
             const onEnter =
                 onItemHover && (() => onItemHover(element, panelItem));
             const onLeave =
                 onItemBlur && (() => onItemBlur(element, panelItem));
-            const alertItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
-                ariaLabel: alert.alertVisualDisplayTitle,
+            const badgeItem: ICardboardGroupedListItem<IExpressionRangeVisual> = {
+                ariaLabel: badge.visualRuleDisplayTitle,
                 buttonProps: {
-                    customStyles: buttonStyles.alertButton,
+                    customStyles: buttonStyles.badgeButton,
                     onMouseEnter: onEnter,
                     onFocus: onEnter,
                     onMouseLeave: onLeave,
                     onBlur: onLeave
                 },
                 iconStart: () => (
-                    <span className={alertStyles.alertCircle}>
-                        <Icon
-                            iconName={
-                                alert.alertVisual.valueRanges[0].visual.iconName
-                            }
-                        />
+                    <span className={badgeStyles.badgeCircle}>
+                        <Icon iconName={badge.visual.iconName} />
                     </span>
                 ),
-                item: alert.alertVisual,
+                item: badge.visualRule,
                 itemType: 'item',
                 onClick: () =>
-                    onItemClick(alert.alertVisual, panelItem, alert.behavior),
-                textPrimary: alert.alertVisualDisplayTitle
+                    onItemClick(badge.visualRule, panelItem, badge.behavior),
+                textPrimary: badge.visualRuleDisplayTitle
             };
-            listItems.push(alertItem);
+            listItems.push(badgeItem);
         });
     });
-
     return listItems;
 }
-
-interface IElementStatusProps {
-    statuses: {
-        behavior: IBehavior;
-        statusVisual: IExpressionRangeVisual;
-    }[];
-    panelItem: IViewerElementsPanelItem;
-}
-const ElementStatus: React.FC<IElementStatusProps> = (props) => {
-    const { statuses, panelItem } = props;
-    const statusVisuals = statuses.map((s) => s.statusVisual);
-    return (
-        <StatusPills
-            statusVisuals={statusVisuals}
-            twins={panelItem.twins}
-            width={'wide'}
-        />
-    );
-};
 
 export default memo(ElementsList);

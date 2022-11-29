@@ -366,8 +366,6 @@
     "elements": "요소",
     "element": "요소",
     "twinsTab": "쌍둥이자리",
-    "alertsTab": "경고",
-    "statesTab": "상태",
     "widgets": "위젯",
     "widget": "위젯",
     "behaviors": "동작",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "요소 선택",
     "behaviorForm": {
       "formSubTitle": "동작은 특정 조건(예: 특정 간격 또는 데이터 임계값)에서 발생하는 시각적 단서입니다."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "색",
-      "expressionLabel": "트리거 표현식",
-      "expressionPlaceholder": "표현식을 입력하십시오 (예 : PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "아이콘",
-      "tabDescription": "텍스트와 함께 제공되는 아이콘인 경고는 중요한 데이터 조건에 주의를 기울이는 데 도움이 됩니다. 아래에서 표현식을 사용하여 시각화에서 경고를 트리거합니다.",
-      "notificationLabel": "시나리오 설명",
-      "notificationLabelTooltip": "이 텍스트는 이 배지가 활성 상태일 때 소비자 컨텍스트를 제공합니다.",
-      "notificationLabelDescriptionPart1": "트윈 속성은 템플릿 문자열 구문으로 둘러싸여야합니다.",
-      "notificationPlaceholder": "설명 입력",
-      "notificationLabelDescriptionPart2": "예를 들어 ${PrimaryTwin.DisplayName}에는 유지 관리가 필요합니다."
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "속성을 선택한 다음 특정 조건에 색상을 적용하기 위한 범위(예: 고온을 나타내려면 빨간색, 최적의 속도를 위해 녹색)를 설정합니다.",
-      "stateItemLabel": "상태 {{인덱스}}",
-      "propertyExpressionTooltipContent": "여러 속성을 활용하는 더 복잡한 식에 사용자 지정 식을 사용합니다."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "위젯 추가",
@@ -560,7 +541,6 @@
       "new": "새로운 시각적 규칙",
       "edit": "시각적 규칙 편집",
       "typePlaceholder": "값의 유형을 선택합니다.",
-      "newCondition": "새 조건",
       "editCondition": "조건 편집",
       "deleteCondition": "조건 삭제",
       "unlabeledCondition": "레이블이 지정되지 않은",

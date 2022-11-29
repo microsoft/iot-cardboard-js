@@ -15,8 +15,7 @@ import {
     BehaviorModalMode,
     DTwin,
     IADXAdapter,
-    IPropertyInspectorAdapter,
-    LOCAL_STORAGE_KEYS
+    IPropertyInspectorAdapter
 } from '../../Models/Constants';
 import {
     IBehavior,
@@ -32,7 +31,6 @@ import {
     getSeparatorStyles
 } from './BehaviorsModal.styles';
 import BehaviorSection from './Internal/BehaviorSection/BehaviorSection';
-import BehaviorVisualRuleSection from './Internal/BehaviorSection/BehaviorVisualRuleSection';
 
 export type IBehaviorsModalProps = IBehaviorsModalBaseProps &
     (ViewerModeProps | PreviewModeProps);
@@ -69,11 +67,6 @@ enum BehaviorModalPivotKey {
     State = 'state',
     Properties = 'properties'
 }
-
-const showVisualRulesFeature =
-    localStorage.getItem(
-        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-    ) === 'true';
 
 const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
     const {
@@ -188,15 +181,9 @@ const BehaviorsModal: React.FC<IBehaviorsModalProps> = (props) => {
                                 behaviors.map((behavior, idx) => {
                                     return (
                                         <div key={behavior.id}>
-                                            {showVisualRulesFeature ? (
-                                                <BehaviorVisualRuleSection
-                                                    behavior={behavior}
-                                                />
-                                            ) : (
-                                                <BehaviorSection
-                                                    behavior={behavior}
-                                                />
-                                            )}
+                                            <BehaviorSection
+                                                behavior={behavior}
+                                            />
                                             {idx < behaviors.length - 1 && (
                                                 <Separator
                                                     styles={(props) =>

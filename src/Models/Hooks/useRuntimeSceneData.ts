@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { VisualType } from '../Classes/3DVConfig';
 import {
     CustomMeshItem,
     RuntimeBadge,
@@ -8,32 +7,19 @@ import {
     SceneVisual
 } from '../Classes/SceneView.types';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
-import {
-    DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
-    LOCAL_STORAGE_KEYS
-} from '../Constants';
+import { DEFAULT_REFRESH_RATE_IN_MILLISECONDS } from '../Constants';
 import { IADT3DViewerAdapter } from '../Constants/Interfaces';
-import {
-    deepCopy,
-    getDebugLogger,
-    getSceneElementStatusColor,
-    parseLinkedTwinExpression
-} from '../Services/Utils';
+import { deepCopy, getDebugLogger } from '../Services/Utils';
 import { hasBadge, shouldShowVisual } from '../SharedUtils/VisualRuleUtils';
 import {
     I3DScenesConfig,
     IBehavior,
-    IExpressionRangeVisual,
     IPollingConfiguration
 } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 import useAdapter from './useAdapter';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('useRuntimeSceneData', debugLogging);
-const showVisualRulesFeature =
-    localStorage.getItem(
-        LOCAL_STORAGE_KEYS.FeatureFlags.VisualRules.showVisualRulesFeature
-    ) === 'true' || false;
 
 export const useRuntimeSceneData = (
     adapter: IADT3DViewerAdapter,
@@ -48,7 +34,7 @@ export const useRuntimeSceneData = (
     );
     const [lastRefreshTime, setLastRefreshTime] = useState<number>(null);
     const [sceneVisuals, setSceneVisuals] = useState<Array<SceneVisual>>([]);
-    const [sceneAlerts, setSceneAlerts] = useState<Array<SceneViewBadgeGroup>>(
+    const [sceneBadges, setSceneBadges] = useState<Array<SceneViewBadgeGroup>>(
         []
     );
 
@@ -72,92 +58,110 @@ export const useRuntimeSceneData = (
      * update the colored meshes ids based on run expressions in behaviors against the returned ADT twin property data
      *  */
     useEffect(() => {
-        // Keep old method intact in case flighting is turned off
-        if (showVisualRulesFeature) {
-            if (sceneData?.adapterResult?.result?.data) {
-                const sceneVisuals = deepCopy(
-                    sceneData.adapterResult.result.data.sceneVisuals
+        if (sceneData?.adapterResult?.result?.data) {
+            const sceneVisuals = deepCopy(
+                sceneData.adapterResult.result.data.sceneVisuals
+            );
+
+            if (selectedLayerIds) {
+                const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
+                    scenesConfig,
+                    [...selectedLayerIds],
+                    sceneId
                 );
 
-                if (selectedLayerIds) {
-                    const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
-                        scenesConfig,
-                        [...selectedLayerIds],
-                        sceneId
+                // Apply layer filtering to behaviors - splice out behaviors not in selected layers
+                sceneVisuals.forEach((sv) => {
+                    const filteredBehaviors = sv.behaviors.filter((b) =>
+                        behaviorIdsInSelectedLayers.includes(b.id)
                     );
+                    sv.behaviors = filteredBehaviors;
+                });
+            }
 
-                    // Apply layer filtering to behaviors - splice out behaviors not in selected layers
-                    sceneVisuals.forEach((sv) => {
-                        const filteredBehaviors = sv.behaviors.filter((b) =>
-                            behaviorIdsInSelectedLayers.includes(b.id)
-                        );
-                        sv.behaviors = filteredBehaviors;
-                    });
+            const twinIds = new Set<string>();
+            const badgeVisuals: Array<{
+                sceneVisual: SceneVisual;
+                sceneViewBadge: SceneViewBadge;
+            }> = [];
+            // for each scene visual retrieve the colored mesh ids and update it in the scene visual
+            // if they are triggered by the element's behaviors and currently active
+            sceneVisuals.forEach((sceneVisual) => {
+                sceneVisual.coloredMeshItems = [];
+
+                for (const twinId in sceneVisual.twins) {
+                    twinIds.add(sceneVisual.twins[twinId].$dtId);
                 }
 
-                const twinIds = new Set<string>();
-                const badgeVisuals: Array<{
-                    sceneVisual: SceneVisual;
-                    sceneViewBadge: SceneViewBadge;
-                }> = [];
-                // for each scene visual retrieve the colored mesh ids and update it in the scene visual
-                // if they are triggered by the element's behaviors and currently active
-                sceneVisuals.forEach((sceneVisual) => {
-                    sceneVisual.coloredMeshItems = [];
+                sceneVisual.behaviors?.forEach((behavior) => {
+                    behavior.visuals?.forEach((visual) => {
+                        if (!ViewerConfigUtility.isVisualRule(visual)) {
+                            return;
+                        }
 
-                    for (const twinId in sceneVisual.twins) {
-                        twinIds.add(sceneVisual.twins[twinId].$dtId);
-                    }
-
-                    sceneVisual.behaviors?.forEach((behavior) => {
-                        behavior.visuals?.forEach((visual) => {
-                            if (!ViewerConfigUtility.isVisualRule(visual)) {
-                                return;
-                            }
-
-                            visual.valueRanges.forEach((condition) => {
-                                // Check if visual will be shown, then determine if it is a badge or coloring
-                                if (
-                                    shouldShowVisual(
-                                        visual.valueRangeType,
-                                        sceneVisual.twins,
-                                        visual.valueExpression,
-                                        condition.values
-                                    )
-                                ) {
-                                    if (hasBadge(condition)) {
-                                        const badge = buildBadgeVisual(
-                                            sceneVisual,
-                                            behavior,
-                                            condition.visual.iconName,
-                                            condition.visual.color
-                                        );
-                                        badgeVisuals.push(badge);
-                                    } else {
-                                        sceneVisual.element.objectIDs?.forEach(
-                                            (meshId) => {
-                                                const coloredMesh: CustomMeshItem = {
-                                                    meshId: meshId,
-                                                    color:
-                                                        condition.visual.color
-                                                };
-                                                sceneVisual.coloredMeshItems.push(
-                                                    coloredMesh
-                                                );
-                                            }
-                                        );
-                                    }
+                        visual.valueRanges.forEach((condition) => {
+                            // Check if visual will be shown, then determine if it is a badge or coloring
+                            if (
+                                shouldShowVisual(
+                                    visual.valueRangeType,
+                                    sceneVisual.twins,
+                                    visual.valueExpression,
+                                    condition.values
+                                )
+                            ) {
+                                if (hasBadge(condition)) {
+                                    const badge = buildBadgeVisual(
+                                        sceneVisual,
+                                        behavior,
+                                        condition.visual.iconName,
+                                        condition.visual.color
+                                    );
+                                    badgeVisuals.push(badge);
+                                } else {
+                                    sceneVisual.element.objectIDs?.forEach(
+                                        (meshId) => {
+                                            const coloredMesh: CustomMeshItem = {
+                                                meshId: meshId,
+                                                color: condition.visual.color
+                                            };
+                                            sceneVisual.coloredMeshItems.push(
+                                                coloredMesh
+                                            );
+                                        }
+                                    );
                                 }
-                            });
+                            }
                         });
                     });
                 });
+            });
 
-                const groupedBadges: SceneViewBadgeGroup[] = [];
+            const groupedBadges: SceneViewBadgeGroup[] = [];
 
-                badgeVisuals.forEach((badge) => {
-                    // create first group
-                    if (groupedBadges.length === 0) {
+            badgeVisuals.forEach((badge) => {
+                // create first group
+                if (groupedBadges.length === 0) {
+                    groupedBadges.push({
+                        id:
+                            badge.sceneViewBadge.meshId +
+                            badge.sceneViewBadge.id,
+                        element: badge.sceneVisual.element,
+                        behaviors: badge.sceneVisual.behaviors,
+                        twins: badge.sceneVisual.twins,
+                        meshId: badge.sceneViewBadge.meshId,
+                        badges: [badge.sceneViewBadge]
+                    });
+                } else {
+                    const group = groupedBadges.find(
+                        (ga) => ga.meshId === badge.sceneViewBadge.meshId
+                    );
+
+                    // add to existing group
+                    if (group) {
+                        group.id += badge.sceneViewBadge.id;
+                        group.badges.push(badge.sceneViewBadge);
+                    } else {
+                        // create new group
                         groupedBadges.push({
                             id:
                                 badge.sceneViewBadge.meshId +
@@ -168,223 +172,39 @@ export const useRuntimeSceneData = (
                             meshId: badge.sceneViewBadge.meshId,
                             badges: [badge.sceneViewBadge]
                         });
-                    } else {
-                        const group = groupedBadges.find(
-                            (ga) => ga.meshId === badge.sceneViewBadge.meshId
-                        );
-
-                        // add to existing group
-                        if (group) {
-                            group.id += badge.sceneViewBadge.id;
-                            group.badges.push(badge.sceneViewBadge);
-                        } else {
-                            // create new group
-                            groupedBadges.push({
-                                id:
-                                    badge.sceneViewBadge.meshId +
-                                    badge.sceneViewBadge.id,
-                                element: badge.sceneVisual.element,
-                                behaviors: badge.sceneVisual.behaviors,
-                                twins: badge.sceneVisual.twins,
-                                meshId: badge.sceneViewBadge.meshId,
-                                badges: [badge.sceneViewBadge]
-                            });
-                        }
                     }
-                });
-
-                // fetch the config
-                const pollingConfig = ViewerConfigUtility.getPollingConfig(
-                    scenesConfig,
-                    sceneId
-                );
-
-                const computeInterval = (
-                    twinCount: number,
-                    pollingConfig: IPollingConfiguration
-                ) => {
-                    const fastestPossibleRefreshRateSeconds = twinCount * 100; // 10 twin/second
-                    const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
-                        ? Math.max(
-                              fastestPossibleRefreshRateSeconds,
-                              pollingConfig.minimumPollingFrequency
-                          )
-                        : fastestPossibleRefreshRateSeconds;
-                    logDebugConsole(
-                        'debug',
-                        `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
-                        pollingConfig
-                    );
-                    return actualRefreshRateSeconds;
-                };
-
-                setPollingInterval(
-                    computeInterval(twinIds.size, pollingConfig)
-                );
-                setModelUrl(sceneData.adapterResult.result.data.modelUrl);
-                setSceneVisuals(sceneVisuals);
-                // TODO: REMOVE Alert and Status naming convention
-                setSceneAlerts(groupedBadges);
-            }
-        } else {
-            if (sceneData?.adapterResult?.result?.data) {
-                const sceneVisuals = deepCopy(
-                    sceneData.adapterResult.result.data.sceneVisuals
-                );
-
-                if (selectedLayerIds) {
-                    const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
-                        scenesConfig,
-                        [...selectedLayerIds],
-                        sceneId
-                    );
-
-                    // Apply layer filtering to behaviors - splice out behaviors not in selected layers
-                    sceneVisuals.forEach((sv) => {
-                        const filteredBehaviors = sv.behaviors.filter((b) =>
-                            behaviorIdsInSelectedLayers.includes(b.id)
-                        );
-                        sv.behaviors = filteredBehaviors;
-                    });
                 }
+            });
 
-                const twinIds = new Set<string>();
-                const alerts: Array<{
-                    sceneVisual: SceneVisual;
-                    sceneViewBadge: SceneViewBadge;
-                }> = [];
-                // for each scene visual retrieve the colored mesh ids and update it in the scene visual
-                // if they are triggered by the element's behaviors and currently active
-                sceneVisuals.forEach((sceneVisual) => {
-                    sceneVisual.coloredMeshItems = [];
+            // fetch the config
+            const pollingConfig = ViewerConfigUtility.getPollingConfig(
+                scenesConfig,
+                sceneId
+            );
 
-                    for (const twinId in sceneVisual.twins) {
-                        twinIds.add(sceneVisual.twins[twinId].$dtId);
-                    }
-
-                    // const coloredMeshItems: Array<CustomMeshItem> = [];
-                    sceneVisual.behaviors?.forEach((behavior) => {
-                        behavior.visuals?.forEach((visual) => {
-                            if (
-                                visual.type !== VisualType.ExpressionRangeVisual
-                            ) {
-                                return;
-                            }
-
-                            // Status visual
-                            if (visual.expressionType === 'NumericRange') {
-                                const color = getSceneElementStatusColor(
-                                    visual.valueExpression,
-                                    visual.valueRanges,
-                                    sceneVisual.twins
-                                );
-                                if (color) {
-                                    sceneVisual.element.objectIDs?.forEach(
-                                        (meshId) => {
-                                            const coloredMesh: CustomMeshItem = {
-                                                meshId: meshId,
-                                                color: color
-                                            };
-                                            sceneVisual.coloredMeshItems.push(
-                                                coloredMesh
-                                            );
-                                        }
-                                    );
-                                }
-                            } else if (
-                                // Alert visual
-                                visual.expressionType === 'CategoricalValues'
-                            ) {
-                                if (
-                                    parseLinkedTwinExpression(
-                                        visual.valueExpression,
-                                        sceneVisual.twins
-                                    )
-                                ) {
-                                    const alert = buildAlert(
-                                        visual,
-                                        sceneVisual,
-                                        behavior
-                                    );
-                                    alerts.push(alert);
-                                }
-                            }
-                        });
-                    });
-                });
-
-                const groupedAlerts: SceneViewBadgeGroup[] = [];
-
-                alerts.forEach((alert) => {
-                    // create first group
-                    if (groupedAlerts.length === 0) {
-                        groupedAlerts.push({
-                            id:
-                                alert.sceneViewBadge.meshId +
-                                alert.sceneViewBadge.id,
-                            element: alert.sceneVisual.element,
-                            behaviors: alert.sceneVisual.behaviors,
-                            twins: alert.sceneVisual.twins,
-                            meshId: alert.sceneViewBadge.meshId,
-                            badges: [alert.sceneViewBadge]
-                        });
-                    } else {
-                        const group = groupedAlerts.find(
-                            (ga) => ga.meshId === alert.sceneViewBadge.meshId
-                        );
-
-                        // add to exsiting group
-                        if (group) {
-                            group.id += alert.sceneViewBadge.id;
-                            group.badges.push(alert.sceneViewBadge);
-                        } else {
-                            // create new group
-                            groupedAlerts.push({
-                                id:
-                                    alert.sceneViewBadge.meshId +
-                                    alert.sceneViewBadge.id,
-                                element: alert.sceneVisual.element,
-                                behaviors: alert.sceneVisual.behaviors,
-                                twins: alert.sceneVisual.twins,
-                                meshId: alert.sceneViewBadge.meshId,
-                                badges: [alert.sceneViewBadge]
-                            });
-                        }
-                    }
-                });
-
-                // fetch the config
-                const pollingConfig = ViewerConfigUtility.getPollingConfig(
-                    scenesConfig,
-                    sceneId
+            const computeInterval = (
+                twinCount: number,
+                pollingConfig: IPollingConfiguration
+            ) => {
+                const fastestPossibleRefreshRateSeconds = twinCount * 100; // 10 twin/second
+                const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
+                    ? Math.max(
+                          fastestPossibleRefreshRateSeconds,
+                          pollingConfig.minimumPollingFrequency
+                      )
+                    : fastestPossibleRefreshRateSeconds;
+                logDebugConsole(
+                    'debug',
+                    `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
+                    pollingConfig
                 );
+                return actualRefreshRateSeconds;
+            };
 
-                const computeInterval = (
-                    twinCount: number,
-                    pollingConfig: IPollingConfiguration
-                ) => {
-                    const fastestPossibleRefreshRateSeconds = twinCount * 100; // 10 twin/second
-                    const actualRefreshRateSeconds = pollingConfig.minimumPollingFrequency
-                        ? Math.max(
-                              fastestPossibleRefreshRateSeconds,
-                              pollingConfig.minimumPollingFrequency
-                          )
-                        : fastestPossibleRefreshRateSeconds;
-                    logDebugConsole(
-                        'debug',
-                        `Computing refresh rate. FastestPossible: ${fastestPossibleRefreshRateSeconds}. (Twins: ${twinCount}) Actual: ${actualRefreshRateSeconds}. Config: `,
-                        pollingConfig
-                    );
-                    return actualRefreshRateSeconds;
-                };
-
-                setPollingInterval(
-                    computeInterval(twinIds.size, pollingConfig)
-                );
-                setModelUrl(sceneData.adapterResult.result.data.modelUrl);
-                setSceneVisuals(sceneVisuals);
-                setSceneAlerts(groupedAlerts);
-            }
+            setPollingInterval(computeInterval(twinIds.size, pollingConfig));
+            setModelUrl(sceneData.adapterResult.result.data.modelUrl);
+            setSceneVisuals(sceneVisuals);
+            setSceneBadges(groupedBadges);
         }
     }, [
         pollingInterval,
@@ -397,7 +217,7 @@ export const useRuntimeSceneData = (
     return {
         modelUrl,
         sceneVisuals,
-        sceneAlerts,
+        sceneBadges,
         isLoading: sceneData.isLoading,
         triggerRuntimeRefetch: () =>
             sceneData.callAdapter({ isManualRefresh: true }),
@@ -405,26 +225,7 @@ export const useRuntimeSceneData = (
         nextRefreshTime: lastRefreshTime + pollingInterval
     };
 };
-function buildAlert(
-    visual: IExpressionRangeVisual,
-    sceneVisual: SceneVisual,
-    behavior: IBehavior
-) {
-    const color = visual.valueRanges[0].visual.color;
-    const meshId = sceneVisual.element.objectIDs?.[0];
-    const icon = visual.valueRanges[0].visual.iconName;
 
-    const alert = {
-        sceneVisual: sceneVisual,
-        sceneViewBadge: {
-            id: behavior.id,
-            meshId: meshId,
-            color: color,
-            icon: icon
-        }
-    };
-    return alert;
-}
 function buildBadgeVisual(
     sceneVisual: SceneVisual,
     behavior: IBehavior,

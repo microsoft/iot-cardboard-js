@@ -1,9 +1,4 @@
-import produce from 'immer';
 import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
-import {
-    defaultSwatchColors,
-    defaultSwatchIcons
-} from '../../Theming/Palettes';
 import { createGUID } from '../Services/Utils';
 import {
     IBehavior,
@@ -98,36 +93,6 @@ export const defaultOnClickPopover: IPopoverVisual = {
     }
 };
 
-export const defaultStatusColorVisual: IExpressionRangeVisual = {
-    type: VisualType.ExpressionRangeVisual,
-    expressionType: 'NumericRange',
-    valueExpression: '',
-    valueRanges: [],
-    objectIDs: {
-        expression: 'objectIDs'
-    }
-};
-
-export const defaultAlertVisual: IExpressionRangeVisual = {
-    type: VisualType.ExpressionRangeVisual,
-    expressionType: 'CategoricalValues',
-    valueExpression: '',
-    valueRanges: [
-        {
-            id: '',
-            values: [true],
-            visual: {
-                color: defaultSwatchColors[0].item,
-                iconName: defaultSwatchIcons[0].item,
-                labelExpression: ''
-            }
-        }
-    ],
-    objectIDs: {
-        expression: 'objectIDs'
-    }
-};
-
 export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
     id: createGUID(),
     type: VisualType.ExpressionRangeVisual,
@@ -151,13 +116,6 @@ export const getDefaultVisualRuleCondition = (
         labelExpression: undefined
     }
 });
-
-export const getDefaultAlertVisualWithId = () => {
-    const uniqueIdDefaultAlertVisual = produce(defaultAlertVisual, (draft) => {
-        draft.valueRanges[0].id = createGUID();
-    });
-    return uniqueIdDefaultAlertVisual;
-};
 
 export const defaultGaugeWidget: IGaugeWidget = {
     id: '',
