@@ -67,7 +67,7 @@ WidgetsList.play = async ({ canvasElement }) => {
     // click one of the items in the list
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[4]);
+    await userEvent.click(tab[3]);
 };
 
 export const WidgetsListEmpty = Template.bind({});
