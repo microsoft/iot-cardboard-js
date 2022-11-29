@@ -9,7 +9,7 @@ import { within, userEvent } from '@storybook/testing-library';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components - OAT/GraphLegend',
+    title: 'Components - OAT/OATGraphViewer/Internals/GraphLegend',
     component: GraphLegend,
     decorators: [getDefaultStoryDecorator<IGraphLegendProps>(wrapperStyle)]
 };

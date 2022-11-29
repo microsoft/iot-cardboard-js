@@ -9,7 +9,7 @@ import { ReactFlowProvider } from 'react-flow-renderer';
 const wrapperStyle = { width: '100%', height: '100px', padding: 8 };
 
 export default {
-    title: 'Components - OAT/GraphViewerControls',
+    title: 'Components - OAT/OATGraphViewer/Internals/GraphViewerControls',
     component: GraphViewerControls,
     decorators: [
         getDefaultStoryDecorator<IGraphViewerControlsProps>(wrapperStyle)
