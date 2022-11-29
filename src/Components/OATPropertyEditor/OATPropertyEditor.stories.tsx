@@ -1,21 +1,12 @@
 import React, { useMemo } from 'react';
 import OATPropertyEditor from './OATPropertyEditor';
 import { CommandHistoryContextProvider } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import i18n from '../../i18n';
-import {
-    OatPageContextProvider,
-    useOatPageContext
-} from '../../Models/Context/OatPageContext/OatPageContext';
-import {
-    buildModelId,
-    getAvailableLanguages
-} from '../../Models/Services/OatUtils';
+import { buildModelId } from '../../Models/Services/OatUtils';
 import {
     getMockFile,
     getMockModelItem
 } from '../../Models/Context/OatPageContext/OatPageContext.mock';
 import { ComponentStory } from '@storybook/react';
-import { IOatPageContextState } from '../../Models/Context/OatPageContext/OatPageContext.types';
 import {
     IStoryContext,
     getDefaultStoryDecorator,
@@ -30,6 +21,11 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
+import {
+    OatPageContextProvider,
+    useOatPageContext
+} from '../../Models/Context/OatPageContext/OatPageContext';
+import { IOatPageContextState } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const wrapperStyle: React.CSSProperties = {
     width: 'auto',
@@ -77,7 +73,6 @@ interface IRendererProps {
 }
 const ComponentRenderer: React.FC<IRendererProps> = (props) => {
     const { storyContext } = props;
-    const languages = getAvailableLanguages(i18n);
 
     const { oatPageState } = useOatPageContext();
     const selectedModel = useMemo(
@@ -92,7 +87,6 @@ const ComponentRenderer: React.FC<IRendererProps> = (props) => {
     console.log('Test: rendering with selected item', selectedModel);
     return (
         <OATPropertyEditor
-            languages={languages}
             selectedItem={selectedModel}
             selectedThemeName={
                 storyContext.parameters.theme || storyContext.globals.theme
