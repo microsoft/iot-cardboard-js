@@ -91,7 +91,7 @@ WidgetsFormEditLink.play = async ({ canvasElement }) => {
     await WidgetsListMore.play({ canvasElement, listItemIndex: 2 });
     const canvas = within(canvasElement);
     const overflowMenu = await canvas.findByTestId(
-        'context-menu-visualRules-in-behavior-0-moreMenu'
+        'context-menu-widgets-in-behavior-0-moreMenu'
     );
     userEvent.click(overflowMenu);
     // click the edit button in the overflow
