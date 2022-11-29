@@ -309,7 +309,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     type: 'option'
                 });
             }
+            setSearchValue(selectedOptionProp);
         } else {
+            setSearchValue('');
             setSelectedOption(null);
         }
     }, [selectedOptionProp]);
@@ -525,9 +527,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         const { children, maxHeight, getValue, selectProps } = props;
         const [value] = getValue();
         let initialOffset = 0;
-        const selectedIdx = children.findIndex(
-            (c) => c.props.data.label === value?.label
-        );
+        const selectedIdx =
+            children?.findIndex((c) => c.props.data.label === value?.label) ||
+            -1;
         if (!selectProps.inputValue && selectedIdx !== -1) {
             /**
              * Set the initial offset to the selected option in the options list if there is no input entered for filtering.
