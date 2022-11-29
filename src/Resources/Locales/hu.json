@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Már létezik egy azonos azonosítóval rendelkező modell",
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
-    "runLayout": "Elrendezés futtatása"
+    "runLayout": "Elrendezés futtatása",
+    "loadingText": "Elrendezési pozíciók számítása"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",

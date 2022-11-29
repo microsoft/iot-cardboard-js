@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "同じ ID のモデルが既に存在します",
     "errorDisplayNameLength": "表示名は 64 文字を超えてはなりません。",
     "errorRepeatedEdgeName": "同じ名前の関係が既に存在します",
-    "runLayout": "実行レイアウト"
+    "runLayout": "実行レイアウト",
+    "loadingText": "レイアウト位置の計算"
   },
   "OATPropertyEditor": {
     "displayName": "表示名",

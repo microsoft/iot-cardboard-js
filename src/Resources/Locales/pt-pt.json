@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Um modelo com o mesmo id já existe",
     "errorDisplayNameLength": "Display Name não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "runLayout": "Layout de execução"
+    "runLayout": "Layout de execução",
+    "loadingText": "Posições de layout de computação"
   },
   "OATPropertyEditor": {
     "displayName": "Nome do visor",

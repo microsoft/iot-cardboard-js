@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Er bestaat al een model met dezelfde id",
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
-    "runLayout": "Lay-out uitvoeren"
+    "runLayout": "Lay-out uitvoeren",
+    "loadingText": "Lay-outposities berekenen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",

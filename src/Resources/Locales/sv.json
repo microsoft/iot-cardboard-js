@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "En modell med samma id finns redan",
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
-    "runLayout": "Kör layout"
+    "runLayout": "Kör layout",
+    "loadingText": "Positioner för datorlayout"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

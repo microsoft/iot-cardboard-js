@@ -1127,7 +1127,8 @@
     "errorRepeatedId": "Модель с таким же идентификатором уже существует",
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
-    "runLayout": "Макет запуска"
+    "runLayout": "Макет запуска",
+    "loadingText": "Вычислительные позиции макета"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
