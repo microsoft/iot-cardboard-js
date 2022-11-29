@@ -22,7 +22,7 @@ export interface IViewerElementsPanelProps {
 export interface IViewerElementsPanelListProps {
     isLoading: boolean;
     panelItems: Array<IViewerElementsPanelItem>;
-    isModal?: boolean; // TODO: Make this required when deprecated Elements list is removed
+    isModal: boolean; // This is required to avoid rendering color callout on visuals modal
     filterTerm?: string;
     onItemClick: ElementsPanelCallback;
     onItemHover?: ElementsPanelCallback;

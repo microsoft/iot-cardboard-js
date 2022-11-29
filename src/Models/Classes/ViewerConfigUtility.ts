@@ -773,24 +773,6 @@ abstract class ViewerConfigUtility {
         return visual.type === VisualType.ExpressionRangeVisual;
     }
 
-    // @deprecated
-    static isStatusColorVisual(
-        visual: IVisual
-    ): visual is IExpressionRangeVisual {
-        return (
-            visual.type === VisualType.ExpressionRangeVisual &&
-            visual.expressionType === 'NumericRange'
-        );
-    }
-
-    // @deprecated
-    static isAlertVisual(visual: IVisual): visual is IExpressionRangeVisual {
-        return (
-            visual.type === VisualType.ExpressionRangeVisual &&
-            visual.expressionType === 'CategoricalValues'
-        );
-    }
-
     static getBehaviorsSegmentedByPresenceInScene(
         config: I3DScenesConfig,
         sceneId: string

@@ -22,7 +22,7 @@ const classNames = {
     title: `${classPrefix}-title`,
     filterBox: `${classPrefix}-filterBox`,
     statusLine: `${classPrefix}-status-line`,
-    alertCircle: `${classPrefix}-alert-circle`,
+    badgeCircle: `${classPrefix}-badge-circle`,
     listItembutton: `${classPrefix}--list-item-button`,
     message: `${classPrefix}-message`
 };
@@ -131,16 +131,16 @@ export const getElementsPanelStatusStyles = memoizeFunction(
     }
 );
 
-export const getElementsPanelAlertStyles = memoizeFunction(
-    (alertColor: string) => {
+export const getElementsPanelBadgeStyles = memoizeFunction(
+    (badgeColor: string) => {
         return mergeStyleSets({
-            alertCircle: [
-                classNames.alertCircle,
+            badgeCircle: [
+                classNames.badgeCircle,
                 {
                     width: 20,
                     height: 20,
                     borderRadius: 30,
-                    backgroundColor: alertColor,
+                    backgroundColor: badgeColor,
                     flexShrink: 0,
                     margin: `0 8px 0 10px`,
                     display: 'flex',
@@ -159,7 +159,7 @@ export const getElementsPanelButtonSyles = memoizeFunction(() => ({
             fontWeight: FontWeights.semibold
         }
     } as IButtonStyles,
-    alertButton: {
+    badgeButton: {
         root: {
             background: 'transparent'
         }

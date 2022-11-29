@@ -249,27 +249,40 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.OutFlow",
+                        "displayName": "Outflow rate visuals",
                         "valueRanges": [
                             {
                                 "values": [0, 100],
                                 "visual": {
-                                    "color": "#33A1FD"
+                                    "color": "#33A1FD",
+                                    "labelExpression": "Low OutFlow"
                                 },
-                                "id": "c824b3d61780fb5be6e782ca733dc393"
+                                "id": "c824b3d61780fb5be6e782ca733fe393"
                             },
                             {
                                 "values": [100, 200],
                                 "visual": {
-                                    "color": "#26C485"
+                                    "color": "#26C485",
+                                    "labelExpression": "Average OutFlow"
                                 },
                                 "id": "abf90f4206b683dc2a0eea53ec09c1e1"
                             },
                             {
                                 "values": [200, "Infinity"],
                                 "visual": {
-                                    "color": "#FEE440"
+                                    "color": "#FEE440",
+                                    "labelExpression": "High OutFlow"
                                 },
                                 "id": "d7b6d0f722e873e8904c471ee46a2b72"
+                            },
+                            {
+                                "values": [220, "Infinity"],
+                                "visual": {
+                                    "color": "#C32F27",
+                                    "iconName": "Warning",
+                                    "labelExpression": "Outflow rate too high"
+                                },
+                                "id": "c7b7d0g722t873g8904c471ee46a2b72"
                             }
                         ],
                         "objectIDs": {
@@ -298,25 +311,29 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.Temperature",
+                        "displayName": "Temperature range visuals",
                         "valueRanges": [
                             {
                                 "values": [0, 12],
                                 "visual": {
-                                    "color": "#33A1FD"
+                                    "color": "#33A1FD",
+                                    "labelExpression": "Low Temp"
                                 },
                                 "id": "2cfd5bb8df4a4da1b3a682f46b979f3e"
                             },
                             {
                                 "values": [12, 100],
                                 "visual": {
-                                    "color": "#26C485"
+                                    "color": "#26C485",
+                                    "labelExpression": "Average Temp"
                                 },
                                 "id": "b79e2d21d15f4e7a9d6f23d4d7760ddb"
                             },
                             {
                                 "values": [100, "Infinity"],
                                 "visual": {
-                                    "color": "#FEE440"
+                                    "color": "#FEE440",
+                                    "labelExpression": "High Temp"
                                 },
                                 "id": "d0d2edff7c80438fa529206848837ca2"
                             }
@@ -328,7 +345,8 @@
                     {
                         "type": "ExpressionRangeVisual",
                         "expressionType": "CategoricalValues",
-                        "valueExpression": "PrimaryTwin.Temperature > 15",
+                        "valueExpression": "PrimaryTwin.Temperature > 150",
+                        "displayName": "Temp hot warning",
                         "valueRanges": [
                             {
                                 "id": "d0d2edff7c80438fa529206848867r5s",
@@ -337,6 +355,26 @@
                                     "iconName": "Frigid",
                                     "color": "#d6940f",
                                     "labelExpression": "Temp too hot"
+                                }
+                            }
+                        ],
+                        "objectIDs": {
+                            "expression": "objectIDs"
+                        }
+                    },
+                    {
+                        "type": "ExpressionRangeVisual",
+                        "expressionType": "CategoricalValues",
+                        "valueExpression": "PrimaryTwin.Temperature < 15",
+                        "displayName": "Temp cold warning",
+                        "valueRanges": [
+                            {
+                                "id": "d0d2edff7c80438fa529206858867f4s",
+                                "values": [true],
+                                "visual": {
+                                    "iconName": "Frigid",
+                                    "color": "#33A1FD",
+                                    "labelExpression": "Temp too cold"
                                 }
                             }
                         ],
@@ -422,6 +460,7 @@
                         "type": "ExpressionRangeVisual",
                         "valueExpression": "PrimaryTwin.InFlow",
                         "expressionType": "NumericRange",
+                        "displayName": "InFlow visuals",
                         "valueRanges": [
                             {
                                 "values": [0, 20],
@@ -433,14 +472,16 @@
                             {
                                 "values": [20, 100],
                                 "visual": {
-                                    "color": "#26C485"
+                                    "color": "#26C485",
+                                    "labelExpression": "Average InFlow"
                                 },
                                 "id": "bc3cae743ff451d5fdc0f185e629dca1"
                             },
                             {
                                 "values": [100, 500],
                                 "visual": {
-                                    "color": "#d6940f"
+                                    "color": "#d6940f",
+                                    "labelExpression": "High InFlow"
                                 },
                                 "id": "7224b620aa83c649888dadc7c8fdf1fg"
                             }
@@ -453,6 +494,7 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.OutFlow > 120",
+                        "displayName": "OutFlow visuals",
                         "valueRanges": [
                             {
                                 "id": "0pd2edff7c80438fa5292068485u765h",

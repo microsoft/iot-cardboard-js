@@ -1,9 +1,9 @@
 import { IStyle, memoizeFunction, mergeStyleSets } from '@fluentui/react';
 
-export const alertModalClassPrefix = 'cb-alert-modal';
+export const visualsModalClassPrefix = 'cb-visuals-modal';
 const classNames = {
-    boundaryLayer: `${alertModalClassPrefix}-boundary-layer`,
-    modalContainer: `${alertModalClassPrefix}-modal-container`
+    boundaryLayer: `${visualsModalClassPrefix}-boundary-layer`,
+    modalContainer: `${visualsModalClassPrefix}-modal-container`
 };
 
 const modalBorderColor = 'var(--cb-color-modal-border)';

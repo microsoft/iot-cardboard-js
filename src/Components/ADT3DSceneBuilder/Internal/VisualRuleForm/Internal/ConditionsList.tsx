@@ -227,7 +227,7 @@ const ConditionsList: React.FC<IConditionsListProps> = (props) => {
                         styles={classNames.subComponentStyles.addButton?.()}
                         onClick={handleOpenNewConditionFlyout}
                     >
-                        {t('3dSceneBuilder.visualRuleForm.newCondition')}
+                        {t('3dSceneBuilder.visualRuleForm.addCondition')}
                     </ActionButton>
                 </Stack>
             </div>

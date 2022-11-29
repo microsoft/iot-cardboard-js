@@ -366,8 +366,6 @@
     "elements": "Elemek",
     "element": "Elem",
     "twinsTab": "Ikrek",
-    "alertsTab": "Figyelmeztetések",
-    "statesTab": "Állapot",
     "widgets": "Kütyü",
     "widget": "Widget",
     "behaviors": "Viselkedésmódok",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "Elem kijelölése",
     "behaviorForm": {
       "formSubTitle": "A viselkedés olyan vizuális jelek, amelyek meghatározott körülmények között fordulnak elő – például meghatározott időközönként vagy adatküszöbökben."
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "Szín",
-      "expressionLabel": "Eseményindító kifejezése",
-      "expressionPlaceholder": "Kifejezés megadása (pl. PrimaryTwin.InFlow > 200)",
-      "iconPickerLabel": "Ikon",
-      "tabDescription": "A figyelmeztetések – a szöveggel kísért ikonok – segítenek felhívni a figyelmet a kritikus adatfeltételekre. Az alábbiakban kifejezésekkel riasztásokat válthat ki a vizualizációban.",
-      "notificationLabel": "Forgatókönyv leírása",
-      "notificationLabelTooltip": "Ez a szöveg fogyasztói környezetet ad, amikor ez a jelvény aktív.",
-      "notificationLabelDescriptionPart1": "Az ikertulajdonságokat sablon karakterlánc szintaxissal kell körülvenni.",
-      "notificationPlaceholder": "Leírás megadása",
-      "notificationLabelDescriptionPart2": "Pl. ${PrimaryTwin.DisplayName} karbantartást igényel"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "Jelöljön ki egy tulajdonságot, majd állítsa be a szín bizonyos feltételekre való alkalmazásához szükséges tartományokat – például pirosat a magas hőmérséklet jelzéséhez, vagy zöldet az optimális sebességhez.",
-      "stateItemLabel": "Állapot {{index}}",
-      "propertyExpressionTooltipContent": "Használjon egyéni kifejezést összetettebb kifejezésekhez, amelyek több tulajdonságot használnak."
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "Widget hozzáadása",
@@ -560,7 +541,6 @@
       "new": "Új vizualizációs szabály",
       "edit": "Vizuális szabály szerkesztése",
       "typePlaceholder": "Válassza ki az érték típusát",
-      "newCondition": "Új feltétel",
       "editCondition": "Állapot szerkesztése",
       "deleteCondition": "Feltétel törlése",
       "unlabeledCondition": "Címkézetlen",

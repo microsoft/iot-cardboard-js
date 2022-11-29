@@ -366,8 +366,6 @@
     "elements": "元素",
     "element": "要素",
     "twinsTab": "双子",
-    "alertsTab": "アラート",
-    "statesTab": "地位",
     "widgets": "ウィジェット",
     "widget": "ウィジェット",
     "behaviors": "動作",
@@ -423,23 +421,6 @@
     "behaviorElementsDropdownPlaceholder": "要素の選択",
     "behaviorForm": {
       "formSubTitle": "ビヘイビアは、特定の条件 (特定の間隔やデータのしきい値など) で発生する視覚的な手がかりです。"
-    },
-    "behaviorAlertForm": {
-      "colorPickerLabel": "色",
-      "expressionLabel": "トリガー式",
-      "expressionPlaceholder": "式を入力する(例えば、プライマリツイン.InFlow > 200)",
-      "iconPickerLabel": "アイコン",
-      "tabDescription": "アラート (テキストが付いたアイコン) は、重要なデータ条件に注意を喚起するのに役立ちます。以下では、式を使用してビジュアライゼーションでアラートをトリガーします。",
-      "notificationLabel": "シナリオの説明",
-      "notificationLabelTooltip": "このテキストは、このバッジがアクティブなときにコンシューマーのコンテキストを提供します。",
-      "notificationLabelDescriptionPart1": "ツインプロパティは、テンプレート文字列構文で囲む必要があります。",
-      "notificationPlaceholder": "説明を入力する",
-      "notificationLabelDescriptionPart2": "たとえば、${PrimaryTwin.DisplayName} にはメンテナンスが必要です。"
-    },
-    "behaviorStatusForm": {
-      "tabDescription": "プロパティを選択し、特定の条件に色を適用する範囲を設定します。たとえば、高温を示す赤、最適な速度を示す緑などです。",
-      "stateItemLabel": "状態 {{インデックス}}",
-      "propertyExpressionTooltipContent": "カスタム式は、複数のプロパティを利用するより複雑な式に使用します。"
     },
     "behaviorWidgetsForm": {
       "addWidgetButtonText": "ウィジェットの追加",
@@ -560,7 +541,6 @@
       "new": "新しいビジュアル ルール",
       "edit": "ビジュアル ルールの編集",
       "typePlaceholder": "値のタイプを選択します。",
-      "newCondition": "新しい条件",
       "editCondition": "条件の編集",
       "deleteCondition": "条件の削除",
       "unlabeledCondition": "ラベル",
