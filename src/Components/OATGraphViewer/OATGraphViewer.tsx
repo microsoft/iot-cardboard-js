@@ -325,7 +325,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     //     '*** END. {original, newEls, nodes, links}',
                     //     inputElements,
                     //     newElements,
-                    //     nodes,
+                    //     nodes, 
                     //     links
                     // );
 
