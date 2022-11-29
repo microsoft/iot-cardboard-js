@@ -1107,7 +1107,8 @@
     "errorRepeatedId": "Um modelo com a mesma id já existe",
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
-    "runLayout": "Executar layout"
+    "runLayout": "Executar layout",
+    "loadingText": "Posições de layout de computação"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

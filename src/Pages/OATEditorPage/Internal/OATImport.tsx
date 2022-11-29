@@ -41,7 +41,7 @@ const OATImport: React.FC<OATImportProps> = (props) => {
                 items.push(newItem.content);
             }
             oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                type: OatPageContextActionType.IMPORT_MODELS,
                 payload: { models: items }
             });
             oatPageDispatch({

@@ -1107,7 +1107,8 @@
     "errorRepeatedId": "具有相同 ID 的模型已存在",
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
-    "runLayout": "运行布局"
+    "runLayout": "运行布局",
+    "loadingText": "计算布局位置"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

@@ -1107,7 +1107,8 @@
     "errorRepeatedId": "Esiste già un modello con lo stesso ID",
     "errorDisplayNameLength": "Il nome visualizzato non può superare i 64 caratteri",
     "errorRepeatedEdgeName": "Esiste già una relazione con lo stesso nome",
-    "runLayout": "Esegui layout"
+    "runLayout": "Esegui layout",
+    "loadingText": "Posizioni di layout di calcolo"
   },
   "OATPropertyEditor": {
     "displayName": "Nome visualizzato",

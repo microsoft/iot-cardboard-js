@@ -1005,7 +1005,8 @@
         "errorIdLength": "Id may not exceed 2048 characters",
         "errorIdValidDTMI": "Id must be a valid DTMI",
         "errorName": "Name may only contain the characters a-z, A-Z, 0-9, and underscore",
-        "errorNameLength": "Name may not exceed 64 characters"
+        "errorNameLength": "Name may not exceed 64 characters",
+        "loadingText": "Computing layout positions"
     },
     "OATPropertyEditor": {
         "addEnumValue": "Add enum value",

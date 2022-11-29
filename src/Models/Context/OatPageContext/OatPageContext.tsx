@@ -272,7 +272,26 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.ADD_MODEL: {
+            case OatPageContextActionType.IMPORT_MODELS: {
+                const { models } = action.payload;
+                if (models?.length > 0) {
+                    const newModels = deepCopy(draft.currentOntologyModels);
+                    models.forEach((modelToAdd) => {
+                        if (
+                            !draft.currentOntologyModels.find(
+                                (x) => x['@id'] === modelToAdd['@id']
+                            )
+                        ) {
+                            newModels.push(modelToAdd);
+                        }
+                    });
+                    draft.currentOntologyModels = newModels;
+                }
+                saveData(draft);
+                draft.triggerGraphLayout = true; // force a layout of the graph
+                break;
+            }
+            case OatPageContextActionType.ADD_NEW_MODEL: {
                 const newModel = addNewModelToState(draft);
                 // need to send this to the graph component to figure out the relative coordinates for the new model to use
                 draft.graphUpdatesToSync = {
@@ -282,7 +301,7 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.ADD_RELATIONSHIP: {
+            case OatPageContextActionType.ADD_NEW_RELATIONSHIP: {
                 if (action.payload.type === 'Targeted') {
                     const {
                         relationshipType,
@@ -302,7 +321,7 @@ export const OatPageContextReducer: (
                 saveData(draft);
                 break;
             }
-            case OatPageContextActionType.ADD_MODEL_WITH_RELATIONSHIP: {
+            case OatPageContextActionType.ADD_NEW_MODEL_WITH_RELATIONSHIP: {
                 const {
                     position,
                     relationshipType,
@@ -329,10 +348,6 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.SET_OAT_ERROR: {
                 draft.error = action.payload;
-                break;
-            }
-            case OatPageContextActionType.SET_OAT_IMPORT_MODELS: {
-                draft.modelsToImport = action.payload.models || [];
                 break;
             }
             case OatPageContextActionType.SET_OAT_IS_JSON_UPLOADER_OPEN: {
@@ -407,9 +422,9 @@ const emptyState: IOatPageContextState = {
     currentOntologyProjectName: '',
     currentOntologyTemplates: [],
     // other properties
+    triggerGraphLayout: false,
     confirmDeleteOpen: { open: false },
     error: null,
-    modelsToImport: [],
     graphUpdatesToSync: { actionType: 'None' },
     isJsonUploaderOpen: false,
     modified: false,

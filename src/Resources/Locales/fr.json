@@ -1107,7 +1107,8 @@
     "errorRepeatedId": "Un modèle avec le même ID existe déjà",
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
-    "runLayout": "Exécuter la mise en page"
+    "runLayout": "Exécuter la mise en page",
+    "loadingText": "Calcul des positions de mise en page"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",

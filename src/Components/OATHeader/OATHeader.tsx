@@ -44,7 +44,7 @@ import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 import { DtdlInterface } from '../../Models/Constants';
 import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -151,9 +151,11 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                     let modelsMetadataReference = null;
                     for (const current of files) {
                         const content = await current.text();
-                        const validJson = safeJsonParse(content);
+                        const validJson = safeJsonParse<DtdlInterface | null>(
+                            content
+                        );
                         if (validJson) {
-                            newModels.push(validJson as DtdlInterface);
+                            newModels.push(validJson);
                         } else {
                             filesErrors.push(
                                 t('OATHeader.errorFileInvalidJSON', {
@@ -215,8 +217,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                             modelsCopy
                         );
                         oatPageDispatch({
-                            type:
-                                OatPageContextActionType.SET_OAT_IMPORT_MODELS,
+                            type: OatPageContextActionType.IMPORT_MODELS,
                             payload: { models: modelsCopy }
                         });
                         oatPageDispatch({
@@ -398,7 +399,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
 
     const onAddModel = useCallback(() => {
         oatPageDispatch({
-            type: OatPageContextActionType.ADD_MODEL
+            type: OatPageContextActionType.ADD_NEW_MODEL
         });
     }, [oatPageDispatch]);
 
@@ -607,6 +608,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
             >
                 {/* file upload */}
                 <input
+                    title={t('OATHeader.importFile')}
                     type="file"
                     ref={uploadFileInputRef}
                     onChange={getUploadFileHandler(uploadFileInputRef.current)}
@@ -614,6 +616,7 @@ const OATHeader: React.FC<IOATHeaderProps> = (props) => {
                 />
                 {/* folder upload */}
                 <input
+                    title={t('OATHeader.importFolder')}
                     type="file"
                     ref={uploadFolderInputRef}
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
