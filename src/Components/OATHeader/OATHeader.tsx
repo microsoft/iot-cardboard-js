@@ -44,7 +44,7 @@ import OATConfirmDialog from '../OATConfirmDialog/OATConfirmDialog';
 import { DtdlInterface } from '../../Models/Constants';
 import { IOATModelsMetadata } from '../../Pages/OATEditorPage/OATEditorPage.types';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATHeader', debugLogging);
 
 const getClassNames = classNamesFunction<
