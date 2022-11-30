@@ -524,20 +524,22 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
 
     const CustomMenuList = (props) => {
         const OPTION_HEIGHT = 32;
-        const { children, maxHeight, getValue, selectProps } = props;
+        const { options, children, maxHeight, getValue, selectProps } = props;
         const [value] = getValue();
         let initialOffset = 0;
         const selectedIdx =
-            children?.findIndex((c) => c.props.data.label === value?.label) ||
-            -1;
+            options?.findIndex((o) => o.label === value?.label) || -1;
         if (!selectProps.inputValue && selectedIdx !== -1) {
-            /**
-             * Set the initial offset to the selected option in the options list if there is no input entered for filtering.
-             * Note that searchValue does not necessarily need to be equal to the input value in the react-select component;
-             * searchValue is only used to mark option which is initially equal to the selected option value,
-             * later equal to the input value of react-select component when filtering is active with user input
-             */
-            initialOffset = selectedIdx * OPTION_HEIGHT;
+            const offsetFromTop = selectedIdx * OPTION_HEIGHT;
+            if (offsetFromTop + OPTION_HEIGHT >= maxHeight) {
+                /**
+                 * Set the initial offset to the selected option in the options list if there is no input entered for filtering.
+                 * Note that searchValue does not necessarily need to be equal to the input value in the react-select component;
+                 * searchValue is only used to mark option which is initially equal to the selected option value,
+                 * later equal to the input value of react-select component when filtering is active with user input
+                 */
+                initialOffset = selectedIdx * OPTION_HEIGHT;
+            }
         }
 
         return options.length <= 1 ? (
