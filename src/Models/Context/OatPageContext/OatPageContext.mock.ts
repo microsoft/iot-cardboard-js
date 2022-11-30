@@ -1,5 +1,6 @@
 /** File for exporting common testing utilities for the context */
 
+import i18n from '../../../i18n';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
@@ -7,7 +8,12 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
-import { buildModelId, parseModelId } from '../../Services/OatUtils';
+import { DtdlInterfaceContent, OatReferenceType } from '../../Constants';
+import {
+    buildModelId,
+    getAvailableLanguages,
+    parseModelId
+} from '../../Services/OatUtils';
 import { IOatPageContextState } from './OatPageContext.types';
 
 const getMockMetadataItem = (id: string): IOATModelsMetadata => {
@@ -35,11 +41,23 @@ export const getMockModelItem = (id: string): DTDLModel => {
         modelName || `mock_name_${id}`, // simplify life for places in the tests we don't care about the actual parsing.
         'mock-description',
         'mock-comment',
-        [],
-        [],
-        [],
-        []
+        [], // properties
+        [], // relationships
+        [], // components
+        [] // extends
     );
+};
+
+export const getMockReference = (
+    id: string,
+    type: OatReferenceType,
+    partial?: Partial<DtdlInterfaceContent>
+): DtdlInterfaceContent => {
+    return {
+        '@type': type,
+        name: 'mock_relationship_' + id,
+        ...partial
+    };
 };
 
 const getMockTemplateItem = (id: string): DTDLProperty => {
@@ -102,6 +120,7 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyNamespace: currentFile.namespace,
         currentOntologyProjectName: currentFile.projectName,
         currentOntologyTemplates: currentFile.templates,
+        languageOptions: getAvailableLanguages(i18n),
         triggerGraphLayout: false,
         error: null,
         graphUpdatesToSync: { actionType: 'None' },

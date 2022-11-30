@@ -24,10 +24,10 @@ import {
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
-import FormRootModelDetails from './Internal/FormRootModelDetails';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
+import { DTDLProperty } from '../../Models/Classes/DTDL';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -35,7 +35,6 @@ const logDebugConsole = getDebugLogger('Editor', debugLogging);
 const Editor: React.FC<IEditorProps> = (props) => {
     const {
         editorDispatch,
-        languages,
         selectedItem,
         editorState,
         selectedThemeName
@@ -63,7 +62,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
     const propertyList = useMemo(() => {
         // Get contents excluding relationship items
-        let propertyItems = [];
+        let propertyItems: DTDLProperty[] = [];
         if (
             selectedItem &&
             selectedItem[propertiesKeyName] &&
@@ -71,7 +70,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
         ) {
             // Exclude relationships from propertyList
             propertyItems = selectedItem[propertiesKeyName].filter(
-                (property) => property['@type'] === 'Property'
+                (property: DTDLProperty) => property['@type'] === 'Property'
             );
         }
         return propertyItems;
@@ -110,7 +109,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 return (
                     <FormUpdateProperty
                         dispatch={editorDispatch}
-                        languages={languages}
                         onClose={onModalClose}
                         state={editorState}
                     />
@@ -118,17 +116,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
             case FormBody.enum:
                 return (
                     <FormAddEnumItem
-                        languages={languages}
                         onClose={onModalClose}
                         state={editorState}
-                    />
-                );
-            case FormBody.rootModel:
-                return (
-                    <FormRootModelDetails
-                        languages={languages}
-                        onClose={onModalClose}
-                        selectedItem={selectedItem}
                     />
                 );
             default:

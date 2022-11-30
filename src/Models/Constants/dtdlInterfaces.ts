@@ -4,8 +4,10 @@ export interface DtdlInterface {
     '@context': string | string[];
     comment?: string;
     contents?: DtdlInterfaceContent[];
-    description?: string;
-    displayName?: string;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    description?: string | Record<string, string>;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    displayName?: string | Record<string, string>;
     extends?: string | string[];
     schemas?: DtdlInterfaceSchema[];
 }
@@ -24,8 +26,10 @@ export interface DtdlRelationship {
     name: string;
     '@id'?: string;
     comment?: string;
-    description?: string;
-    displayName?: string;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    description?: string | Record<string, string>;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    displayName?: string | Record<string, string>;
     maxMultiplicity?: number;
     minMultiplicity?: number;
     properties?: DtdlProperty[];
@@ -37,8 +41,10 @@ export interface DtdlInterfaceContent {
     '@type': string | string[];
     name: string;
     comment?: string;
-    description?: string;
-    displayName?: string;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    description?: string | Record<string, string>;
+    // supports single or multiple languages. key is lang code, value is string for that lang
+    displayName?: string | Record<string, string>;
     writable?: boolean;
     schema?: string | Record<string, any>;
     target?: string;

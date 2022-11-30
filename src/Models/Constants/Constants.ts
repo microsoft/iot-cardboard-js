@@ -311,13 +311,13 @@ export const OAT_UNTARGETED_RELATIONSHIP_NAME = 'Untargeted';
 export const OAT_RELATIONSHIP_HANDLE_NAME = 'Relationship';
 export const OAT_COMPONENT_HANDLE_NAME = 'Component';
 export const OAT_EXTEND_HANDLE_NAME = 'Extend';
-export type OatRelationshipType =
+export type OatReferenceType =
     | DTDLType.Component
     | DTDLType.Relationship
     | 'Extend';
 export const OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX = 'untargeted';
 export const OAT_INTERFACE_TYPE = 'Interface';
-export const OAT_GRAPH_RELATIONSHIP_NODE_TYPE = 'Relationship';
+export const OAT_GRAPH_REFERENCE_TYPE = 'Relationship';
 export const OAT_NAMESPACE_DEFAULT_VALUE = 'com:example';
 export const OAT_MODEL_ID_PREFIX = 'dtmi';
 export const OAT_COMMENT_LENGTH_LIMIT = 512;

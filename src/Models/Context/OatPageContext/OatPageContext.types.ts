@@ -2,7 +2,7 @@ import {
     DtdlInterface,
     DtdlInterfaceContent,
     IOATNodePosition,
-    OatRelationshipType
+    OatReferenceType
 } from '../../Constants';
 import {
     IOATSelection,
@@ -14,6 +14,7 @@ import {
 import { DTDLProperty } from '../../Classes/DTDL';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { IDropdownOption } from '@fluentui/react';
 
 export interface IOatPageContextProviderProps {
     initialState?: Partial<IOatPageContextState>;
@@ -68,6 +69,7 @@ export interface IOatPageContextState {
     currentOntologyNamespace: string;
     currentOntologyProjectName: string;
     currentOntologyTemplates: DTDLProperty[];
+    languageOptions: IDropdownOption[];
     triggerGraphLayout: boolean;
     error?: IOATError;
     graphUpdatesToSync: GraphUpdatePayload;
@@ -88,17 +90,32 @@ export enum OatPageContextActionType {
     CREATE_PROJECT = 'CREATE_PROJECT',
     /** updates properties of an existing project */
     EDIT_PROJECT = 'EDIT_PROJECT',
+    /** creates a copy of the current project with a new id and switches to it */
     DUPLICATE_PROJECT = 'DUPLICATE_PROJECT',
+    /** Saves the current state and then sets the current active project to the given project id */
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
-    SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
+    /** removes the model and all references to that model from the state */
     DELETE_MODEL = 'DELETE_MODEL',
+    /** reverts the Models, positions & selection to the provided value */
     GENERAL_UNDO = 'GENERAL_UNDO',
+    /** replaces the models data in the current project with the provided value */
+    SET_CURRENT_MODELS = 'SET_CURRENT_MODELS',
+    /** replaces the metadata data in the current project with the provided value */
     SET_CURRENT_MODELS_METADATA = 'SET_CURRENT_MODELS_METADATA',
+    /** replaces the position data in the current project with the provided value */
     SET_CURRENT_MODELS_POSITIONS = 'SET_CURRENT_MODELS_POSITIONS',
+    /** updates the current project to use the updated namespace value */
     SET_CURRENT_NAMESPACE = 'SET_CURRENT_NAMESPACE',
+    /** updates the name on the current project to the given value */
     SET_CURRENT_PROJECT_NAME = 'SET_CURRENT_PROJECT_NAME',
     SET_CURRENT_TEMPLATES = 'SET_CURRENT_TEMPLATES',
+    /** Replace the details of an existing Model with a complete copy of updated data on the state. A model with the same ID must already exist on the state */
+    UPDATE_MODEL = 'UPDATE_MODEL',
+    /** Replace the details of a Relationship or Component with a complete copy of data on a given model id */
+    UPDATE_REFERENCE = 'UPDATE_REFERENCE',
+    /** updates all references to the old id to the new id */
     UPDATE_MODEL_ID = 'UPDATE_MODEL_ID',
+    /** updates the model positions for the given models */
     UPDATE_MODEL_POSTIONS = 'UPDATE_MODEL_POSTIONS',
     IMPORT_MODELS = 'IMPORT_MODELS',
     ADD_NEW_MODEL = 'ADD_NEW_MODEL',
@@ -252,6 +269,19 @@ export type OatPageContextAction =
           };
       }
     | {
+          type: OatPageContextActionType.UPDATE_MODEL;
+          payload: {
+              model: DtdlInterface;
+          };
+      }
+    | {
+          type: OatPageContextActionType.UPDATE_REFERENCE;
+          payload: {
+              modelId: string;
+              reference: DtdlInterfaceContent;
+          };
+      }
+    | {
           type: OatPageContextActionType.ADD_NEW_MODEL;
           payload?: {
               position: IOATNodePosition;
@@ -264,7 +294,7 @@ export type OatPageContextAction =
                     type: 'Targeted';
                     sourceModelId: string;
                     targetModelId: string;
-                    relationshipType: OatRelationshipType;
+                    relationshipType: OatReferenceType;
                 }
               | {
                     type: 'Untargeted';
@@ -277,7 +307,7 @@ export type OatPageContextAction =
           payload: {
               position: IOATNodePosition;
               sourceModelId: string;
-              relationshipType: OatRelationshipType;
+              relationshipType: OatReferenceType;
           };
       }
     | {

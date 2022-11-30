@@ -19,8 +19,8 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship,
     IOATNodePosition,
-    OatRelationshipType,
-    OAT_GRAPH_RELATIONSHIP_NODE_TYPE,
+    OatReferenceType,
+    OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE,
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../Constants';
@@ -162,6 +162,62 @@ export const deleteModelFromState = (
 
 //#endregion
 
+/**
+ * Looks up the index of a model in a collection of models and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getModelIndexById = (
+    models: DtdlInterface[],
+    modelId: string
+): number => {
+    if (models && modelId) {
+        return models.findIndex((x) => x['@id'] === modelId);
+    }
+    return -1;
+};
+
+/**
+ * Looks up a model in the collection by id and returns a reference
+ * Returns undefined if not found or arguments are invalid
+ */
+export const getModelById = (
+    models: DtdlInterface[],
+    modelId: string
+): DtdlInterface | undefined => {
+    if (models && modelId) {
+        return models.find((x) => x['@id'] === modelId);
+    }
+    return undefined;
+};
+
+/**
+ * Looks up the index of a reference in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getReferenceIndexByName = (
+    model: DtdlInterface,
+    referenceName: string
+): number => {
+    if (model && referenceName) {
+        return model.contents.findIndex((x) => x.name === referenceName);
+    }
+    return -1;
+};
+
+/**
+ * Looks up a reference in the contents of a model and returns the reference.
+ * Returns undefined if not found or arguments are invalid
+ */
+export const getReferenceByName = (
+    model: DtdlInterface,
+    referenceName: string
+): DtdlInterfaceContent | undefined => {
+    if (model && referenceName) {
+        return model.contents.find((x) => x.name === referenceName);
+    }
+    return undefined;
+};
+
 export const setSelectedModel = (
     selection: IOATSelection,
     draft: IOatPageContextState
@@ -286,7 +342,7 @@ const getNewRelationship = (
 };
 
 const getNextRelationshipName = (sourceModel: DtdlInterface) => {
-    const prefix = OAT_GRAPH_RELATIONSHIP_NODE_TYPE;
+    const prefix = OAT_GRAPH_REFERENCE_TYPE;
     return getNextName(sourceModel, prefix, DTDLType.Relationship);
 };
 /** gets a unique name for the relationship (scoped to the target model) */
@@ -301,7 +357,7 @@ export const addTargetedRelationship = (
     state: IOatPageContextState,
     sourceModelId: string,
     targetModelId: string,
-    relationshipType: OatRelationshipType
+    relationshipType: OatReferenceType
 ) => {
     // get the target model
     const sourceModel = state.currentOntologyModels.find(

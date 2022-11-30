@@ -19,22 +19,6 @@ export const getStyles = (
 ): IPropertiesModelSummaryStyles => {
     const { theme } = props;
     return {
-        sectionHeaderRoot: [
-            classNames.sectionHeaderRoot,
-            {
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center'
-            }
-        ],
-        sectionHeaderIcon: [{ paddingRight: 8 }],
-        sectionHeaderContainer: [
-            classNames.sectionHeaderContainer,
-            {
-                overflow: 'hidden',
-                flex: 1
-            }
-        ],
         sectionTitle: [
             classNames.sectionHeaderTitle,
             {
@@ -73,12 +57,6 @@ export const getStyles = (
             }
         ],
         subComponentStyles: {
-            modalIconButton: {
-                root: {
-                    color: theme.semanticColors.menuIcon,
-                    width: 'fit-content'
-                }
-            },
             rootStack: {
                 root: {
                     padding: '8px',

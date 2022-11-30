@@ -247,6 +247,12 @@ export const validateDisplayNameChange = (
         setDisplayNameError(true);
     }
 };
+export const isValidDisplayName = (value: string) => {
+    return value.length <= OAT_DISPLAY_NAME_LENGTH_LIMIT;
+};
+export const isValidDescription = (value: string) => {
+    return value.length <= OAT_DESCRIPTION_LENGTH_LIMIT;
+};
 
 // Handle description change on forms
 export const validateDescriptionChange = (
@@ -270,6 +276,9 @@ export const validateCommentChange = (value, setComment, setCommentError) => {
     } else {
         setCommentError(true);
     }
+};
+export const isValidComment = (value: string) => {
+    return value.length <= OAT_COMMENT_LENGTH_LIMIT;
 };
 
 // Handle id change on forms
@@ -305,6 +314,7 @@ export const getTargetFromSelection = (
     models: DtdlInterface[],
     selection: IOATSelection
 ) => {
+    // console.log('***Getting target from models', models, selection);
     const model = models.find((m) => m['@id'] === selection.modelId);
     if (!selection.contentId) {
         return model;

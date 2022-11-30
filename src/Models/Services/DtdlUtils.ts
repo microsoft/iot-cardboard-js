@@ -4,6 +4,7 @@ import {
     DTDLMap,
     DTDLObject,
     DTDLProperty,
+    DTDLRelationship,
     DTDLSchemaType,
     DTDLType
 } from '../Classes/DTDL';
@@ -16,11 +17,18 @@ import {
 } from '../Constants';
 
 /** is the relationship a known DTDL relationship type */
-export const isDTDLRelationship = (
-    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
-): object is DtdlRelationship => {
+export const isDTDLReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
+): object is DtdlInterfaceContent => {
     if (!object) {
         return false;
+    }
+    if (typeof object === 'string') {
+        return (
+            object === DTDLType.Relationship ||
+            object === DTDLType.Component ||
+            object === OAT_EXTEND_HANDLE_NAME
+        );
     }
     return (
         object['@type'] === DTDLType.Relationship ||
@@ -29,12 +37,23 @@ export const isDTDLRelationship = (
     );
 };
 
+export const isDTDLRelationshipReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
+): object is DTDLRelationship => {
+    return object['@type'] === DTDLType.Relationship;
+};
+
 export const isDTDLModel = (
-    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlInterface => {
     if (!object) {
         return false;
     }
+
+    if (typeof object === 'string') {
+        return object === OAT_INTERFACE_TYPE;
+    }
+
     return object['@type'] === OAT_INTERFACE_TYPE;
 };
 

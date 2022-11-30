@@ -41,7 +41,7 @@ const multiLanguageOptionValue = 'multiLanguage';
 const singleLanguageOptionValue = 'singleLanguage';
 
 export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
-    const { onClose, state, languages } = props;
+    const { onClose, state } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -325,7 +325,7 @@ export const FormAddEnumItem: React.FC<ModalFormAddEnumItemProps> = (props) => {
                         />
                         <Dropdown
                             placeholder={t('OATPropertyEditor.region')}
-                            options={languages}
+                            options={oatPageState.languageOptions}
                             onChange={(_ev, option) =>
                                 setMultiLanguageSelectionsDescriptionKey(
                                     option.key,

@@ -95,7 +95,7 @@ NewWidgetsTab.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[4]);
+    await userEvent.click(tab[3]);
 };
 
 export const EditElementsTab = Template.bind({});
@@ -154,8 +154,13 @@ EditVisualRuleTab.play = async ({ canvasElement }) => {
 export const EditVisualRuleTabRemoveRule = Template.bind({});
 EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
     await EditVisualRuleTab.play({ canvasElement });
+    const canvas = within(canvasElement);
+    const overflowMenu = await canvas.findByTestId(
+        'context-menu-visualRules-in-behavior-0-moreMenu'
+    );
+    userEvent.click(overflowMenu);
     const deleteButton = await findOverflowMenuItem('removeRuleOverflow');
-    await clickOverFlowMenuItem(deleteButton);
+    clickOverFlowMenuItem(deleteButton);
 };
 
 export const EditWidgetsTab = Template.bind({});
@@ -165,5 +170,5 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[4]);
+    await userEvent.click(tab[3]);
 };

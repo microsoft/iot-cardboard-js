@@ -401,8 +401,8 @@ export interface IDTDLModel {
     '@context': string;
     comment?: string;
     contents?: any[];
-    description?: string;
-    displayName?: string;
+    description?: string | Record<string, string>;
+    displayName?: string | Record<string, string>;
     /** array of strings of ids that this model extends */
     extends?: string[];
 }
@@ -412,16 +412,16 @@ export class DTDLModel implements IDTDLModel {
     readonly ['@type']: string;
     readonly ['@context']: string;
     comment?: string;
-    contents?: any[];
-    description?: string;
-    displayName?: string;
+    contents: DtdlInterfaceContent[];
+    description?: string | Record<string, string>;
+    displayName?: string | Record<string, string>;
     /** array of strings of ids that this model extends */
     extends?: string[];
 
     constructor(
         id: string,
-        displayName: string,
-        description: string,
+        displayName: string | Record<string, string>,
+        description: string | Record<string, string>,
         comment: string,
         properties: DtdlInterfaceContent[],
         relationships: DtdlInterfaceContent[],

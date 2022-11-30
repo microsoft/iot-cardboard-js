@@ -8,22 +8,16 @@ import React, {
 import {
     Stack,
     Text,
-    IconButton,
     Separator,
     TextField,
     classNamesFunction,
     styled,
-    SpinButton,
-    Icon
+    SpinButton
 } from '@fluentui/react';
+import { useBoolean } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
-import { FormBody } from '../Shared/Constants';
 import { deepCopy, getDebugLogger } from '../../../Models/Services/Utils';
 
-import {
-    SET_OAT_PROPERTY_MODAL_BODY,
-    SET_OAT_PROPERTY_MODAL_OPEN
-} from '../../../Models/Constants/ActionTypes';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import {
     IPartialModelId,
@@ -38,9 +32,11 @@ import { getStyles } from './PropertiesModelSummary.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import {
     isDTDLModel,
-    isDTDLRelationship
+    isDTDLReference
 } from '../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../Utils';
+import ModelPropertyHeader from './ModelPropertyHeader/ModelPropertyHeader';
+import PropertyDetailsEditorModal from './FormRootModelDetails/PropertyDetailsEditorModal';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertiesModelSummary', debugLogging);
@@ -55,9 +51,9 @@ const getClassNames = classNamesFunction<
 export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     props
 ) => {
-    const { dispatch, selectedItem, styles } = props;
+    const { selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
-    const isRelationshipSelected = isDTDLRelationship(selectedItem);
+    const isReferenceSelected = isDTDLReference(selectedItem);
     const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
         selectedItem
     ]);
@@ -73,6 +69,10 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const [modelUniqueName, setModelUniqueName] = useState('');
     const [modelPath, setModelPath] = useState('');
     const [modelVersion, setModelVersion] = useState('');
+    const [
+        isInfoModalOpen,
+        { setFalse: setIsInfoModalOpenFalse, setTrue: setIsInfoModalOpenTrue }
+    ] = useBoolean(false);
 
     const [relationshipName, setRelationshipName] = useState('');
 
@@ -142,7 +142,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                     modelsCopy,
                     oatPageState.selection
                 );
-                if (modelCopy && isDTDLRelationship(modelCopy)) {
+                if (modelCopy && isDTDLReference(modelCopy)) {
                     modelCopy.name = newValue;
                     oatPageDispatch({
                         type: OatPageContextActionType.SET_CURRENT_MODELS,
@@ -211,17 +211,6 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         ]
     );
 
-    const onInfoButtonClick = () => {
-        dispatch({
-            type: SET_OAT_PROPERTY_MODAL_BODY,
-            payload: FormBody.rootModel
-        });
-        dispatch({
-            type: SET_OAT_PROPERTY_MODAL_OPEN,
-            payload: true
-        });
-    };
-
     // side effects
     // when selected item changes, update all the states
     useEffect(() => {
@@ -230,7 +219,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         setModelPath(parsedId.path);
         setModelVersion(parsedId.version);
         setRelationshipName(
-            isDTDLRelationship(selectedItem) ? selectedItem.name : ''
+            isDTDLReference(selectedItem) ? selectedItem.name : ''
         );
     }, [selectedItem]);
 
@@ -247,147 +236,143 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
         return null;
     }
     return (
-        <Stack
-            styles={classNames.subComponentStyles.rootStack}
-            tokens={{ childrenGap: 8 }}
-        >
-            {/* HEADER */}
-            <Stack horizontal className={classNames.sectionHeaderRoot}>
-                {(isRelationshipSelected || isModelSelected) && (
-                    <Icon
-                        aria-label={
-                            selectedItem ? selectedItem['@type'].toString() : ''
-                        }
-                        iconName={
-                            isRelationshipSelected
-                                ? 'Relationship'
-                                : 'CubeShape'
-                        }
-                        className={classNames.sectionHeaderIcon}
-                        title={
-                            selectedItem ? selectedItem['@type'].toString() : ''
-                        }
-                    />
+        <>
+            <Stack
+                styles={classNames.subComponentStyles.rootStack}
+                tokens={{ childrenGap: 8 }}
+            >
+                {/* HEADER */}
+                <ModelPropertyHeader
+                    entityId={itemId}
+                    entityName={
+                        isModelSelected
+                            ? modelUniqueName
+                            : isReferenceSelected
+                            ? relationshipName
+                            : ''
+                    }
+                    entityType={
+                        selectedItem ? selectedItem['@type'].toString() : ''
+                    }
+                    onInfoButtonClick={setIsInfoModalOpenTrue}
+                />
+
+                {isReferenceSelected && (
+                    <>
+                        {/* NAME SECTION */}
+                        <div className={classNames.row}>
+                            <Text
+                                id={'oat-relationship-name'}
+                                className={classNames.rowLabel}
+                            >
+                                {t('OATPropertyEditor.name')}
+                            </Text>
+                            <TextField
+                                aria-labelledby={'oat-relationship-name'}
+                                onBlur={() =>
+                                    commitRelationshipNameChange(
+                                        relationshipName
+                                    )
+                                }
+                                onChange={onChangeRelationshipName}
+                                styles={
+                                    classNames.subComponentStyles.stringField
+                                }
+                                value={relationshipName}
+                            />
+                        </div>
+                    </>
                 )}
-                {isRelationshipSelected && (
-                    <div className={classNames.sectionHeaderContainer}>
-                        <h4
-                            className={classNames.sectionTitle}
-                            title={relationshipName}
-                        >
-                            {relationshipName}
-                        </h4>
-                    </div>
-                )}
+
                 {isModelSelected && (
                     <>
-                        <Stack
-                            tokens={{ childrenGap: 4 }}
-                            className={classNames.sectionHeaderContainer}
-                        >
-                            <h4
-                                className={classNames.sectionTitle}
-                                title={modelUniqueName}
+                        {/* ID SECTION */}
+                        <div className={classNames.row}>
+                            <Text
+                                id={'oat-model-name'}
+                                className={classNames.rowLabel}
                             >
-                                {modelUniqueName}
-                            </h4>
-                            <span
-                                className={classNames.sectionSubtitle}
-                                title={itemId}
+                                {t('OATPropertyEditor.uniqueModelName')}
+                            </Text>
+                            <TextField
+                                aria-labelledby={'oat-model-name'}
+                                onBlur={() => commitModelIdChange(itemId)}
+                                onChange={onChangeUniqueName}
+                                styles={
+                                    classNames.subComponentStyles.stringField
+                                }
+                                value={modelUniqueName}
+                            />
+                        </div>
+                        <div className={classNames.row}>
+                            <Text
+                                id={'oat-model-path'}
+                                className={classNames.rowLabel}
                             >
-                                {itemId}
-                            </span>
-                        </Stack>
-                        <IconButton
-                            iconProps={{ iconName: 'info' }}
-                            onClick={onInfoButtonClick}
-                            styles={classNames.subComponentStyles.modalIconButton?.()}
-                            title={t('OATPropertyEditor.info')}
+                                {t('OATPropertyEditor.path')}
+                            </Text>
+                            <TextField
+                                aria-labelledby={'oat-model-path'}
+                                onBlur={() => commitModelIdChange(itemId)}
+                                onChange={onChangePath}
+                                styles={
+                                    classNames.subComponentStyles.stringField
+                                }
+                                value={modelPath}
+                            />
+                        </div>
+                        <div className={classNames.row}>
+                            <Text
+                                id={'oat-model-version'}
+                                className={classNames.rowLabel}
+                            >
+                                {t('OATPropertyEditor.version')}
+                            </Text>
+                            <SpinButton
+                                aria-labelledby={'oat-model-version'}
+                                onChange={(_ev, value) => {
+                                    // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
+                                    forceUpdateId({ version: value });
+                                    setModelVersion(value);
+                                }}
+                                styles={
+                                    classNames.subComponentStyles.numericField
+                                }
+                                value={modelVersion}
+                            />
+                        </div>
+                        <Separator
+                            styles={classNames.subComponentStyles.separator}
                         />
                     </>
                 )}
             </Stack>
 
-            {isRelationshipSelected && (
-                <>
-                    {/* NAME SECTION */}
-                    <div className={classNames.row}>
-                        <Text
-                            id={'oat-relationship-name'}
-                            className={classNames.rowLabel}
-                        >
-                            {t('OATPropertyEditor.name')}
-                        </Text>
-                        <TextField
-                            aria-labelledby={'oat-relationship-name'}
-                            onBlur={() =>
-                                commitRelationshipNameChange(relationshipName)
+            <PropertyDetailsEditorModal
+                isOpen={isInfoModalOpen}
+                selectedItem={selectedItem}
+                onClose={setIsInfoModalOpenFalse}
+                onSubmit={(data) => {
+                    setIsInfoModalOpenFalse();
+                    if (isDTDLModel(data)) {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.UPDATE_MODEL,
+                            payload: {
+                                model: data
                             }
-                            onChange={onChangeRelationshipName}
-                            styles={classNames.subComponentStyles.stringField}
-                            value={relationshipName}
-                        />
-                    </div>
-                </>
-            )}
-
-            {isModelSelected && (
-                <>
-                    {/* ID SECTION */}
-                    <div className={classNames.row}>
-                        <Text
-                            id={'oat-model-name'}
-                            className={classNames.rowLabel}
-                        >
-                            {t('OATPropertyEditor.uniqueModelName')}
-                        </Text>
-                        <TextField
-                            aria-labelledby={'oat-model-name'}
-                            onBlur={() => commitModelIdChange(itemId)}
-                            onChange={onChangeUniqueName}
-                            styles={classNames.subComponentStyles.stringField}
-                            value={modelUniqueName}
-                        />
-                    </div>
-                    <div className={classNames.row}>
-                        <Text
-                            id={'oat-model-path'}
-                            className={classNames.rowLabel}
-                        >
-                            {t('OATPropertyEditor.path')}
-                        </Text>
-                        <TextField
-                            aria-labelledby={'oat-model-path'}
-                            onBlur={() => commitModelIdChange(itemId)}
-                            onChange={onChangePath}
-                            styles={classNames.subComponentStyles.stringField}
-                            value={modelPath}
-                        />
-                    </div>
-                    <div className={classNames.row}>
-                        <Text
-                            id={'oat-model-version'}
-                            className={classNames.rowLabel}
-                        >
-                            {t('OATPropertyEditor.version')}
-                        </Text>
-                        <SpinButton
-                            aria-labelledby={'oat-model-version'}
-                            onChange={(_ev, value) => {
-                                // special handling because this only fires when focus is lost OR when you click the increment/decrement buttons
-                                forceUpdateId({ version: value });
-                                setModelVersion(value);
-                            }}
-                            styles={classNames.subComponentStyles.numericField}
-                            value={modelVersion}
-                        />
-                    </div>
-                    <Separator
-                        styles={classNames.subComponentStyles.separator}
-                    />
-                </>
-            )}
-        </Stack>
+                        });
+                    } else if (isDTDLReference(data)) {
+                        oatPageDispatch({
+                            type: OatPageContextActionType.UPDATE_REFERENCE,
+                            payload: {
+                                modelId: oatPageState.selection?.modelId,
+                                reference: data
+                            }
+                        });
+                    }
+                }}
+            />
+        </>
     );
 };
 
