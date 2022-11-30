@@ -447,7 +447,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 setSelectedOption(newValue);
             }
         },
-        []
+        [additionalOptions]
     );
 
     const handleOnInputChange = useCallback(
