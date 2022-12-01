@@ -70,7 +70,15 @@ const Editor: React.FC<IEditorProps> = (props) => {
         ) {
             // Exclude relationships from propertyList
             propertyItems = selectedItem[propertiesKeyName].filter(
-                (property: DTDLProperty) => property['@type'] === 'Property'
+                (property: DTDLProperty) => {
+                    if (typeof property['@type'] !== 'string') {
+                        return (property['@type'] as string[]).includes(
+                            'Property'
+                        );
+                    } else {
+                        return property['@type'] === 'Property';
+                    }
+                }
             );
         }
         return propertyItems;
@@ -163,14 +171,16 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                                 ? `(${propertyList.length})`
                                                 : ''
                                         }`}</Label>
-                                        <PropertyTypePicker
-                                            onSelect={(item) =>
-                                                alert(
-                                                    'To be implemented. Selected ' +
-                                                        item.type
-                                                )
-                                            }
-                                        />
+                                        {isSupportedModelType && (
+                                            <PropertyTypePicker
+                                                onSelect={(item) =>
+                                                    alert(
+                                                        'To be implemented. Selected ' +
+                                                            item.type
+                                                    )
+                                                }
+                                            />
+                                        )}
                                         {/* <ActionButton
                                             onClick={onToggleTemplatesActive}
                                             className={
