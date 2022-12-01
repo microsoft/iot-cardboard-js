@@ -1086,7 +1086,8 @@
     "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit",
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
-    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0"
+    "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
+    "date": "rande"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

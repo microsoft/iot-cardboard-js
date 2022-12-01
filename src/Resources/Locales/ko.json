@@ -1206,7 +1206,8 @@
     "displayNamePlaceholder": "표시할 지역화 가능한 이름",
     "maxMultiplicityLabel": "최대 다중성",
     "minMultiplicityLabel": "최소 다중성",
-    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다."
+    "minMultiplicityMessage": "DTDL V2는 최소 복합성 0만 지원합니다.",
+    "date": "날짜"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
