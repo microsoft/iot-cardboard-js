@@ -13,14 +13,11 @@ import {
     defaultElementTwinAlias,
     IElementTwinAliasItem
 } from '../../../../../Models/Classes/3DVConfig';
-import {
-    DTID_PROPERTY_NAME,
-    TwinAliasFormMode
-} from '../../../../../Models/Constants';
+import { TwinAliasFormMode } from '../../../../../Models/Constants';
 import { useElementFormContext } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext';
 import { ElementFormContextActionType } from '../../../../../Models/Context/ElementsFormContext/ElementFormContext.types';
 import TooltipCallout from '../../../../TooltipCallout/TooltipCallout';
-import TwinPropertySearchDropdown from '../../../../TwinPropertySearchDropdown/TwinPropertySearchDropdown';
+import TwinSearch from '../../../../TwinSearch/TwinSearch';
 import { SceneBuilderContext } from '../../../ADT3DSceneBuilder';
 import PanelFooter from '../../Shared/PanelFooter';
 import { getPanelFormStyles } from '../../Shared/PanelForms.styles';
@@ -132,7 +129,7 @@ const ElementTwinAliasForm: React.FC = () => {
                         }
                     }}
                 />
-                <TwinPropertySearchDropdown
+                {/* <TwinPropertySearchDropdown
                     key={'aliased-twin'}
                     adapter={adapter}
                     label={t('twinId')}
@@ -143,6 +140,25 @@ const ElementTwinAliasForm: React.FC = () => {
                     initialSelectedValue={formData.twinId}
                     searchPropertyName={DTID_PROPERTY_NAME}
                     styles={{ root: { paddingTop: 16 } }}
+                /> */}
+                <TwinSearch
+                    adapter={adapter}
+                    dropdownLabel={t('twinId')}
+                    dropdownLabelIconName={'Shapes'}
+                    handleSelectTwinId={handleTwinSelect}
+                    initialSelectedValue={formData.twinId}
+                    isInspectorDisabled={!formData.twinId}
+                    twinId={formData.twinId}
+                    styles={{
+                        subComponentStyles: {
+                            twinPropertySearchDropdown: {
+                                root: {
+                                    width: '100%',
+                                    paddingBottom: 16
+                                }
+                            }
+                        }
+                    }}
                 />
             </div>
             <PanelFooter>
