@@ -11,6 +11,7 @@ import {
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { deepCopy } from '../../Models/Services/Utils';
+import { sleep } from '../AutoComplete/AutoComplete';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/BehaviorForm',
@@ -95,7 +96,7 @@ NewWidgetsTab.play = async ({ canvasElement }) => {
 
     const canvas = within(canvasElement);
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[4]);
+    await userEvent.click(tab[3]);
 };
 
 export const EditElementsTab = Template.bind({});
@@ -154,6 +155,14 @@ EditVisualRuleTab.play = async ({ canvasElement }) => {
 export const EditVisualRuleTabRemoveRule = Template.bind({});
 EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
     await EditVisualRuleTab.play({ canvasElement });
+    // Open overflow menu
+    const canvas = within(canvasElement);
+    const moreMenu = await canvas.findByTestId(
+        'context-menu-visualRules-in-behavior-0-moreMenu'
+    );
+    await userEvent.click(moreMenu);
+    await sleep(1);
+
     const deleteButton = await findOverflowMenuItem('removeRuleOverflow');
     await clickOverFlowMenuItem(deleteButton);
 };
@@ -165,5 +174,5 @@ EditWidgetsTab.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     // Finds the tabs and clicks the first one
     const tab = await canvas.findAllByRole('tab');
-    await userEvent.click(tab[4]);
+    await userEvent.click(tab[3]);
 };

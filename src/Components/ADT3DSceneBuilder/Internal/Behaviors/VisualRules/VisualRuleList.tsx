@@ -100,6 +100,7 @@ function getListItems(
         return [
             {
                 key: 'edit',
+                id: 'editRuleOverflow',
                 'data-testid': 'editRuleOverflow',
                 text: t('3dSceneBuilder.behaviorVisualRulesTab.editRule'),
                 iconProps: { iconName: 'Edit' },
@@ -107,6 +108,7 @@ function getListItems(
             },
             {
                 key: 'remove',
+                id: 'removeRuleOverflow',
                 'data-testid': 'removeRuleOverflow',
                 text: t('3dSceneBuilder.behaviorVisualRulesTab.removeRule'),
                 iconProps: { iconName: 'Delete' },
