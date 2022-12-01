@@ -2,12 +2,13 @@ import {
     IPropertyIconStyleProps,
     IPropertyIconStyles
 } from './PropertyIcon.types';
-import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
+import { CardboardClassNamePrefix } from '../../../../../../../../Models/Constants/Constants';
 
 export const classPrefix = `${CardboardClassNamePrefix}-property-icon`;
 const classNames = {
     root: `${classPrefix}-root`,
-    icon: `${classPrefix}-icon`
+    iconCustom: `${classPrefix}-icon-custom`,
+    iconFluent: `${classPrefix}-icon-fluent`
 };
 export const getStyles = (
     props: IPropertyIconStyleProps
@@ -21,8 +22,8 @@ export const getStyles = (
                 alignItems: 'center'
             }
         ],
-        icon: [
-            classNames.icon,
+        customIcon: [
+            classNames.iconCustom,
             {
                 path: {
                     fill: theme.semanticColors.bodyText
@@ -38,6 +39,7 @@ export const getStyles = (
                 }
             }
         ],
+        fluentIcon: [classNames.iconFluent, { padding: 6 }],
         subComponentStyles: {}
     };
 };

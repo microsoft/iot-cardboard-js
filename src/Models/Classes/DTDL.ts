@@ -372,6 +372,12 @@ export const DTDLSemanticTypes = [
     }
 ];
 
+/** the names for the schemas */
+export type DTDLSchemaTypes =
+    | DTDLPrimitiveSchema
+    | DTDLGeospatialSchema
+    | DTDLSchemaType;
+/** the actual schema types that a DTDL item can have */
 export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
 
 export type DTDLPrimitiveSchema =
@@ -386,7 +392,15 @@ export type DTDLPrimitiveSchema =
     | 'string'
     | 'time';
 
-export type DTDLComplexSchema = DTDLArray | DTDLEnum | DTDLMap | DTDLObject;
+export type DTDLGeospatialSchema =
+    | 'linestring'
+    | 'multiLinestring'
+    | 'multiPoint'
+    | 'multiPolygon'
+    | 'point'
+    | 'polygon';
+
+export type DTDLComplexSchema = IDTDLArray | IDTDLEnum | IDTDLMap | IDTDLObject;
 
 export enum DTDLSchemaType {
     Enum = 'Enum',
@@ -706,8 +720,16 @@ export class DTDLComponent implements IDTDLComponent {
     }
 }
 
-export class DTDLArray {
-    readonly ['@type']: DTDLSchemaType;
+export interface IDTDLArray {
+    ['@type']: DTDLSchemaType.Array;
+    elementSchema: DTDLSchema;
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLArray implements IDTDLArray {
+    readonly ['@type']: DTDLSchemaType.Array;
     elementSchema: DTDLSchema;
     ['@id']?: string;
     displayName?: string;
@@ -744,8 +766,17 @@ export class DTDLArray {
     }
 }
 
-export class DTDLMap {
-    readonly ['@type']: DTDLSchemaType;
+export interface IDTDLMap {
+    ['@type']: DTDLSchemaType.Map;
+    mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
+    mapValue: Record<string, any>;
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLMap implements IDTDLMap {
+    readonly ['@type']: DTDLSchemaType.Map;
     mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
     mapValue: Record<string, any>;
     ['@id']?: string;
@@ -786,8 +817,16 @@ export class DTDLMap {
     }
 }
 
-export class DTDLObject {
-    readonly ['@type']: DTDLSchemaType;
+export interface IDTDLObject {
+    ['@type']: DTDLSchemaType.Object;
+    fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLObject implements IDTDLObject {
+    readonly ['@type']: DTDLSchemaType.Object;
     fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
     ['@id']?: string;
     displayName?: string;
@@ -824,8 +863,16 @@ export class DTDLObject {
     }
 }
 
+export interface IDTDLEnum {
+    ['@type']: DTDLSchemaType.Enum;
+    enumValues: DTDLEnumValue[];
+    valueSchema: 'integer' | 'string';
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+}
 export class DTDLEnum {
-    readonly ['@type']: string = 'Enum';
+    readonly ['@type']: DTDLSchemaType.Enum;
     enumValues: DTDLEnumValue[];
     valueSchema: 'integer' | 'string';
     ['@id']?: string;
@@ -837,9 +884,9 @@ export class DTDLEnum {
         id: string,
         enumValues: DTDLEnumValue[],
         valueSchema: 'integer' | 'string' | undefined,
-        displayName: string,
-        description: string,
-        comment: string
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@type'] = DTDLSchemaType.Enum;
         this['@id'] = id;
@@ -868,7 +915,15 @@ export class DTDLEnum {
     }
 }
 
-export class DTDLEnumValue {
+export interface IDTDLEnumValue {
+    ['@id']: string;
+    name: string;
+    enumValue: number | string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLEnumValue implements IDTDLEnumValue {
     ['@id']: string;
     name: string;
     enumValue: number | string;

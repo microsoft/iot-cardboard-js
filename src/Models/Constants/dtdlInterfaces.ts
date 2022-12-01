@@ -21,14 +21,37 @@ export interface DtdlInterfaceSchema {
     [schemaProperty: string]: any;
 }
 
-export interface DtdlRelationship {
-    '@type': 'Relationship';
-    name: string;
+export type DtdlReference = DtdlComponent | DtdlRelationship;
+
+export interface DtdlComponent {
+    /** This must be "Component". */
+    '@type': 'Component';
+    /** An identifer for the Component. If no @id is provided, one will be assigned automatically. */
     '@id'?: string;
+    /** A comment for model authors. */
     comment?: string;
-    // supports single or multiple languages. key is lang code, value is string for that lang
+    /** supports single or multiple languages. key is lang code, value is string for that lang */
     description?: string | Record<string, string>;
-    // supports single or multiple languages. key is lang code, value is string for that lang
+    /** supports single or multiple languages. key is lang code, value is string for that lang */
+    displayName?: string | Record<string, string>;
+    /** The programming name of the element. */
+    name: string;
+    /** The data type of the Component, which is an instance of Interface. */
+    schema: DtdlInterface;
+}
+
+export interface DtdlRelationship {
+    /** This must be "Relationship". */
+    '@type': 'Relationship';
+    /** The programming name of the element. */
+    name: string;
+    /** An identifer for the Component. If no @id is provided, one will be assigned automatically. */
+    '@id'?: string;
+    /** A comment for model authors. */
+    comment?: string;
+    /** supports single or multiple languages. key is lang code, value is string for that lang */
+    description?: string | Record<string, string>;
+    /** supports single or multiple languages. key is lang code, value is string for that lang */
     displayName?: string | Record<string, string>;
     maxMultiplicity?: number;
     minMultiplicity?: number;

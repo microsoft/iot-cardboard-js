@@ -201,6 +201,14 @@ export type CardboardIconNames =
     | 'SpeedHigh'
     | 'View';
 
+export type OatIconNames =
+    | 'SplitObject'
+    | 'MapPin'
+    | 'DateTime'
+    | 'NumberField'
+    | 'AzureServiceEndpoint'
+    | '12PointStar';
+
 export enum DurationUnits {
     milliseconds = 0,
     seconds = 1,

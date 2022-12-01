@@ -28,6 +28,7 @@ import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { isDTDLProperty } from '../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -68,18 +69,10 @@ const Editor: React.FC<IEditorProps> = (props) => {
             selectedItem[propertiesKeyName] &&
             selectedItem[propertiesKeyName].length > 0
         ) {
-            // Exclude relationships from propertyList
-            propertyItems = selectedItem[propertiesKeyName].filter(
-                (property: DTDLProperty) => {
-                    if (typeof property['@type'] !== 'string') {
-                        return (property['@type'] as string[]).includes(
-                            'Property'
-                        );
-                    } else {
-                        return property['@type'] === 'Property';
-                    }
-                }
-            );
+            // Exclude relationships from propertyList. Handle DTDL V3 where type can be an array for Semantic types
+            propertyItems = selectedItem[
+                propertiesKeyName
+            ].filter((property: DTDLProperty) => isDTDLProperty(property));
         }
         return propertyItems;
     }, [selectedItem, propertiesKeyName]);
@@ -148,7 +141,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         <Stack styles={propertyListPivotColumnContent}>
                             <Stack.Item>
                                 <PropertiesModelSummary
-                                    dispatch={editorDispatch}
                                     isSupportedModelType={isSupportedModelType}
                                     selectedItem={selectedItem}
                                 />

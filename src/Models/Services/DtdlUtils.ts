@@ -9,8 +9,10 @@ import {
     DTDLType
 } from '../Classes/DTDL';
 import {
+    DtdlComponent,
     DtdlInterface,
     DtdlInterfaceContent,
+    DtdlReference,
     DtdlRelationship,
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE
@@ -19,28 +21,43 @@ import {
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
-): object is DtdlInterfaceContent => {
+): object is DtdlReference => {
     if (!object) {
         return false;
     }
     if (typeof object === 'string') {
         return (
-            object === DTDLType.Relationship ||
-            object === DTDLType.Component ||
-            object === OAT_EXTEND_HANDLE_NAME
+            object === DTDLType.Relationship || object === DTDLType.Component
         );
     }
     return (
         object['@type'] === DTDLType.Relationship ||
-        object['@type'] === DTDLType.Component ||
-        object['@type'] === OAT_EXTEND_HANDLE_NAME
+        object['@type'] === DTDLType.Component
     );
+};
+
+export const isDTDLExtendReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
+): object is string => {
+    if (!object) {
+        return false;
+    }
+    if (typeof object === 'string') {
+        return object === OAT_EXTEND_HANDLE_NAME;
+    }
+    return object['@type'] === OAT_EXTEND_HANDLE_NAME;
 };
 
 export const isDTDLRelationshipReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DTDLRelationship => {
     return object['@type'] === DTDLType.Relationship;
+};
+
+export const isDTDLComponentReference = (
+    object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
+): object is DtdlComponent => {
+    return object['@type'] === DTDLType.Component;
 };
 
 export const isDTDLModel = (
@@ -64,6 +81,16 @@ export const isDTDLObject = (
         return false;
     }
     return object.schema['@type'] === DTDLSchemaType.Object;
+};
+
+export const isDTDLProperty = (
+    property: DTDLProperty
+): property is DTDLProperty => {
+    if (typeof property['@type'] !== 'string') {
+        return (property['@type'] as string[]).includes('Property');
+    } else {
+        return property['@type'] === 'Property';
+    }
 };
 
 export const isDTDLArray = (

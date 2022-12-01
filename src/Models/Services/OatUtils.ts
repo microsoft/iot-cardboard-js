@@ -261,3 +261,11 @@ export function parseModelId(
 }
 
 //#endregion
+
+export function getSchemaType(schema: string | Record<string, any>): string {
+    if (typeof schema === 'object') {
+        return schema['@type'];
+    } else {
+        return schema;
+    }
+}

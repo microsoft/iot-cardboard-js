@@ -1,19 +1,14 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     IPropertyTypePickerProps,
     IPropertyTypePickerStyleProps,
     IPropertyTypePickerStyles
 } from './PropertyTypePicker.types';
 import { getStyles } from './PropertyTypePicker.styles';
-import {
-    classNamesFunction,
-    styled,
-    CommandButton,
-    IContextualMenuItem,
-    ContextualMenuItemType
-} from '@fluentui/react';
+import { classNamesFunction, styled, CommandButton } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import { getSchemaTypeMenuOptions } from '../../../../Models/Constants/OatConstants';
 
 const getClassNames = classNamesFunction<
     IPropertyTypePickerStyleProps,
@@ -26,59 +21,9 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
     // contexts
 
     // state
-    const menuOptions: IContextualMenuItem[] = [
-        {
-            text: 'Complex',
-            itemType: ContextualMenuItemType.Header,
-            key: 'complex-header'
-        },
-        {
-            text: 'Object',
-            iconProps: { iconName: 'SplitObject' },
-            key: 'object',
-            onClick: () => onSelect({ type: 'object' })
-        },
-        {
-            text: 'Map',
-            data: { iconName: 'MapPin' },
-            key: 'map',
-            onClick: () => onSelect({ type: 'map' })
-        },
-        {
-            text: 'Primitive',
-            itemType: ContextualMenuItemType.Header,
-            key: 'primitive-header'
-        },
-        {
-            text: 'DateTime',
-            iconProps: { iconName: 'DateTime' },
-            key: 'datetime',
-            onClick: () => onSelect({ type: 'datetime' })
-        },
-        {
-            text: 'Integer',
-            iconProps: { iconName: 'NumberField' },
-            key: 'integer',
-            onClick: () => onSelect({ type: 'integer' })
-        },
-        {
-            text: 'Polygons',
-            itemType: ContextualMenuItemType.Header,
-            key: 'polygon-header'
-        },
-        {
-            text: 'Point',
-            iconProps: { iconName: 'AzureServiceEndpoint' },
-            key: 'point',
-            onClick: () => onSelect({ type: 'point' })
-        },
-        {
-            text: 'Multi-point',
-            iconProps: { iconName: '12PointStar' },
-            key: 'multi-point',
-            onClick: () => onSelect({ type: 'multi-point' })
-        }
-    ];
+    const menuOptions = useMemo(() => getSchemaTypeMenuOptions(onSelect), [
+        onSelect
+    ]);
 
     // hooks
     const { t } = useTranslation();

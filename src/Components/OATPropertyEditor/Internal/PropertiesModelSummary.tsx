@@ -134,7 +134,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
             selectedItem
         ]
     );
-    const commitRelationshipNameChange = useCallback(
+    const commitReferenceNameChange = useCallback(
         (newValue: string) => {
             const commit = () => {
                 const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
@@ -270,9 +270,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                             <TextField
                                 aria-labelledby={'oat-relationship-name'}
                                 onBlur={() =>
-                                    commitRelationshipNameChange(
-                                        relationshipName
-                                    )
+                                    commitReferenceNameChange(relationshipName)
                                 }
                                 onChange={onChangeRelationshipName}
                                 styles={

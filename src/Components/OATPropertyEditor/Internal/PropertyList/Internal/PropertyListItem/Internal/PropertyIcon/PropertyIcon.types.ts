@@ -1,6 +1,6 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { DTDLSchema } from '../../../../Models/Classes/DTDL';
-import { IExtendedTheme } from '../../../../Theming/Theme.types';
+import { DTDLSchema } from '../../../../../../../../Models/Classes/DTDL';
+import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
 
 export interface IPropertyIconProps {
     schema: DTDLSchema;
@@ -18,7 +18,8 @@ export interface IPropertyIconStyleProps {
 }
 export interface IPropertyIconStyles {
     root: IStyle;
-    icon: IStyle;
+    fluentIcon: IStyle;
+    customIcon: IStyle;
 
     /**
      * SubComponent styles.

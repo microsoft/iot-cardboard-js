@@ -1027,6 +1027,7 @@
         "complex": "Complex",
         "copy": "copy",
         "data": "data",
+        "date": "date",
         "dateTime": "dateTime",
         "delete": "Delete",
         "description": "Description",
