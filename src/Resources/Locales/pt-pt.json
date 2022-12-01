@@ -1220,7 +1220,6 @@
   "resourcesPicker": {
     "noOption": "Nenhum recursos encontrado",
     "loadingResources": "Recursos de carregamento",
-    "loadingInstances": "A carregar casos...",
     "loadingContainers": "Contentores de carga...",
     "loadingStorageAccounts": "A carregar contas de armazenamento...",
     "displayFieldNotFound": "Propriedade '{{displayField}} não encontrada no recurso com o id '{{id}}}'!",
@@ -1231,9 +1230,11 @@
       "invalidStorageAccountUrl": "Este não é um URL válido (por exemplo, https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Selecione um recurso",
-    "environmentDropdownPlaceholder": "por exemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "por exemplo, https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Sem correspondência exata, use",
+    "adtInstancePlaceholder": "Selecione uma instância ADT",
+    "storageAccountPlaceholder": "Selecione uma conta de armazenamento",
+    "storageContainerPlaceholder": "Selecione um recipiente de armazenamento",
+    "loadingAdtInstances": "A carregar casos..."
   },
   "advancedSearch": {
     "toggleSelection": "Alternar para Selecionar Twin",

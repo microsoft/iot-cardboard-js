@@ -1220,7 +1220,6 @@
   "resourcesPicker": {
     "noOption": "Kaynak bulunamadı",
     "loadingResources": "Kaynakları yükleme",
-    "loadingInstances": "Bulut sunucuları yükleniyor...",
     "loadingContainers": "Konteynerler yükleniyor...",
     "loadingStorageAccounts": "Depolama hesapları yükleniyor...",
     "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!",
@@ -1231,9 +1230,11 @@
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Kaynak seçme",
-    "environmentDropdownPlaceholder": "örneğin https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Tam eşleşme yok, kullanın",
+    "adtInstancePlaceholder": "ADT örneği seçme",
+    "storageAccountPlaceholder": "Depolama Hesabı Seçme",
+    "storageContainerPlaceholder": "Bir Depolama Kabı Seçin",
+    "loadingAdtInstances": "Bulut sunucuları yükleniyor..."
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",

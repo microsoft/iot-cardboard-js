@@ -1220,7 +1220,6 @@
   "resourcesPicker": {
     "noOption": "리소스를 찾을 수 없음",
     "loadingResources": "리소스 로드",
-    "loadingInstances": "인스턴스 로드 중...",
     "loadingContainers": "컨테이너 적재 중...",
     "loadingStorageAccounts": "저장소 계정 로드 중...",
     "displayFieldNotFound": "'{{displayField}}' 속성이 ID가 '{{id}}'인 리소스에서 찾을 수 없습니다!",
@@ -1231,9 +1230,11 @@
       "invalidStorageAccountUrl": "유효한 URL(예: https://<yourStorageAccountName>.blob.core.windows.net)이 아닙니다."
     },
     "selectResourcePlaceholder": "자원 선택",
-    "environmentDropdownPlaceholder": "예: https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "예: https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "예: https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "정확히 일치하지 않음, 사용",
+    "adtInstancePlaceholder": "ADT 인스턴스 선택",
+    "storageAccountPlaceholder": "저장소 계정 선택",
+    "storageContainerPlaceholder": "저장소 컨테이너 선택",
+    "loadingAdtInstances": "인스턴스 로드 중..."
   },
   "advancedSearch": {
     "toggleSelection": "트윈 선택으로 전환",

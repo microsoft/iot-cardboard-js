@@ -77,7 +77,12 @@ const dialogStyles: Partial<IModalStyles> = {
     main: {
         width: '640px !important',
         maxWidth: 'unset !important',
-        minHeight: 'fit-content'
+        minHeight: 'fit-content',
+        overflow: 'visible'
+    },
+    scrollableContent: {
+        overflow: 'visible',
+        '> div:first-child': { overflow: 'visible' }
     }
 };
 const modalProps: IModalProps = {
@@ -689,7 +694,9 @@ const EnvironmentPicker = ({
             <Dialog
                 hidden={false}
                 styles={{
-                    root: { display: !isDialogHidden ? 'flex' : 'none' }
+                    root: {
+                        display: !isDialogHidden ? 'flex' : 'none'
+                    }
                 }}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
@@ -698,7 +705,6 @@ const EnvironmentPicker = ({
                 {environmentPickerState.firstTimeVisible && (
                     <div className="cb-environment-picker-dialog-form">
                         <ResourcePicker
-                            styles={comboBoxSubComponentStyles}
                             adapter={adapter}
                             resourceType={
                                 AzureResourceTypes.DigitalTwinInstance
@@ -727,12 +733,10 @@ const EnvironmentPicker = ({
                                 hasFetchedResources.current.adtInstances = true;
                             }}
                             errorMessage={resourcePickerErrorMessages.adt}
-                            allowFreeform
                         />
                         {storage && (
                             <>
                                 <ResourcePicker
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageAccount
@@ -771,7 +775,6 @@ const EnvironmentPicker = ({
                                     errorMessage={
                                         resourcePickerErrorMessages.storageAccount
                                     }
-                                    allowFreeform
                                 />
 
                                 <ResourcePicker
@@ -781,7 +784,6 @@ const EnvironmentPicker = ({
                                             .storageAccountToEdit,
                                         AzureResourceTypes.StorageAccount
                                     )}
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
@@ -791,22 +793,30 @@ const EnvironmentPicker = ({
                                         interchangeables: []
                                     }}
                                     searchParams={{
-                                        additionalParams: {
-                                            storageAccountId: getStorageAccountId(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                defaultStorageAccountToContainersMappingsRef.current
-                                            ),
-                                            storageAccountBlobUrl: getResourceUrl(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                AzureResourceTypes.StorageAccount
-                                            )
-                                        }
+                                        additionalParams: environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit
+                                            ? {
+                                                  storageAccountId: getStorageAccountId(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      defaultStorageAccountToContainersMappingsRef.current
+                                                  ),
+                                                  storageAccountBlobUrl: getResourceUrl(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      AzureResourceTypes.StorageAccount
+                                                  )
+                                              }
+                                            : undefined,
+                                        isAdditionalParamsRequired: true
                                     }}
                                     shouldFetchResourcesOnMount={
+                                        environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit &&
                                         !hasFetchedResources.current
                                             .storageBlobContainers
                                     }
@@ -837,7 +847,6 @@ const EnvironmentPicker = ({
                                     errorMessage={
                                         resourcePickerErrorMessages.storageContainer
                                     }
-                                    allowFreeform
                                 />
                             </>
                         )}
@@ -871,6 +880,8 @@ const EnvironmentPicker = ({
                                 ? !(
                                       environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
+                                      environmentPickerState.storageAccountInfo
+                                          .storageAccountToEdit &&
                                       environmentPickerState.containerInfo
                                           .containerToEdit
                                   )
@@ -882,12 +893,6 @@ const EnvironmentPicker = ({
             </Dialog>
         </div>
     );
-};
-
-const comboBoxSubComponentStyles = {
-    subComponentStyles: {
-        comboBox: { callout: { width: 592 } }
-    }
 };
 
 export default memo(EnvironmentPicker);
