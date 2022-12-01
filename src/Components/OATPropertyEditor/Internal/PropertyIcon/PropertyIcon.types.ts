@@ -1,9 +1,9 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { DTDLSchemaTypes } from '../../../../Models/Classes/DTDL';
+import { DTDLSchema } from '../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IPropertyIconProps {
-    type: DTDLSchemaTypes | string;
+    schema: DTDLSchema;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

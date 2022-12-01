@@ -14,7 +14,13 @@ export const getStyles = (
 ): IPropertyIconStyles => {
     const { theme } = props;
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                display: 'flex',
+                alignItems: 'center'
+            }
+        ],
         icon: [
             classNames.icon,
             {

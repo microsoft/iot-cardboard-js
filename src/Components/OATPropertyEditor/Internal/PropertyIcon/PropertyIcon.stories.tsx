@@ -19,7 +19,7 @@ const Template: PropertyIconStory = () => {
     const items: JSX.Element[] = [];
     // ignore this warning since it's just a test
     for (const entry of PROPERTY_ICON_DATA.entries()) {
-        items.push(<PropertyIcon type={entry[0]} />);
+        items.push(<PropertyIcon schema={entry[0]} />);
     }
 
     return <>{items.map((x) => x)}</>;

@@ -10,6 +10,7 @@ import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
 import { PROPERTY_ICON_DATA } from '../../../../Models/Constants/OatConstants';
+import { getSchemaType } from '../../../../Models/Services/OatUtils';
 
 const getClassNames = classNamesFunction<
     IPropertyIconStyleProps,
@@ -17,7 +18,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyIcon: React.FC<IPropertyIconProps> = (props) => {
-    const { type, styles } = props;
+    const { schema, styles } = props;
 
     // contexts
 
@@ -32,12 +33,12 @@ const PropertyIcon: React.FC<IPropertyIconProps> = (props) => {
 
     // data
     const { iconSource, iconTitle } = useMemo(() => {
-        const iconData = PROPERTY_ICON_DATA.get(type);
+        const iconData = PROPERTY_ICON_DATA.get(getSchemaType(schema));
         return {
             iconSource: iconData?.icon,
             iconTitle: iconData?.title ? t(iconData.title) : ''
         };
-    }, [t, type]);
+    }, [t, schema]);
 
     // styles
     const classNames = getClassNames(styles, {
