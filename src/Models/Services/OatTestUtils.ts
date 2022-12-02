@@ -5,7 +5,8 @@ import {
     DTDLEnumValue,
     DTDLObject,
     DTDLMap,
-    DTDLArray
+    DTDLArray,
+    DTDLObjectField
 } from '../Classes/DTDL';
 
 interface IMockPropertyBaseArgs {
@@ -45,7 +46,6 @@ export const getMockProperty = (
             'id1',
             'test ' + type + ' property name',
             new DTDLEnum(
-                'id1',
                 items,
                 args.enumType,
                 'test display name',
@@ -64,7 +64,50 @@ export const getMockProperty = (
             'test ' + type + ' property name',
             new DTDLObject(
                 'test object 1',
-                [],
+                [
+                    {
+                        name: 'double property 1 name',
+                        schema: 'double'
+                    },
+                    {
+                        name: 'string property 2 name',
+                        schema: 'string'
+                    },
+                    {
+                        name: 'mega object property name',
+                        schema: new DTDLObject('', [
+                            new DTDLObjectField('name 1', 'string'),
+                            new DTDLObjectField(
+                                'object 1',
+                                new DTDLObject('', [
+                                    new DTDLObjectField('prop 1', 'string'),
+                                    new DTDLObjectField('prop 2', 'string'),
+                                    new DTDLObjectField('prop 3', 'string')
+                                ])
+                            ),
+                            new DTDLObjectField(
+                                'my double array',
+                                new DTDLArray('', 'double')
+                            ),
+                            new DTDLObjectField(
+                                'enum 2',
+                                new DTDLEnum(
+                                    [
+                                        new DTDLEnumValue('enum val 1', 1),
+                                        new DTDLEnumValue('enum val 2', 2),
+                                        new DTDLEnumValue('enum val 3', 3)
+                                    ],
+                                    'integer'
+                                )
+                            ),
+                            new DTDLObjectField('name 3', 'string')
+                        ])
+                    },
+                    {
+                        name: 'long property 2 name',
+                        schema: 'long'
+                    }
+                ],
                 'test object display name',
                 'test object description',
                 'test object comment'

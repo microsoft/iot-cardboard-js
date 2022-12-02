@@ -819,7 +819,7 @@ export class DTDLMap implements IDTDLMap {
 
 export interface IDTDLObject {
     ['@type']: DTDLSchemaType.Object;
-    fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
+    fields: IDTDLObjectField[];
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -827,7 +827,7 @@ export interface IDTDLObject {
 }
 export class DTDLObject implements IDTDLObject {
     readonly ['@type']: DTDLSchemaType.Object;
-    fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
+    fields: IDTDLObjectField[];
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -835,7 +835,7 @@ export class DTDLObject implements IDTDLObject {
 
     constructor(
         id: string,
-        fields: Array<Record<string, any>>,
+        fields: IDTDLObjectField[],
         displayName?: string,
         description?: string,
         comment?: string
@@ -863,6 +863,39 @@ export class DTDLObject implements IDTDLObject {
     }
 }
 
+export interface IDTDLObjectField {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+}
+export class DTDLObjectField implements IDTDLObjectField {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string
+    ) {
+        this.name = name;
+        this.schema = schema;
+        this['@id'] = id;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+}
+
 export interface IDTDLEnum {
     ['@type']: DTDLSchemaType.Enum;
     enumValues: DTDLEnumValue[];
@@ -881,9 +914,9 @@ export class DTDLEnum {
     comment?: string;
 
     constructor(
-        id: string,
         enumValues: DTDLEnumValue[],
         valueSchema: 'integer' | 'string' | undefined,
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -898,16 +931,16 @@ export class DTDLEnum {
     }
 
     static getBlank() {
-        return new DTDLEnum('', [], 'integer', '', '', '');
+        return new DTDLEnum([], 'integer', '', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLEnum(
-            obj['@id'],
             obj.enumValues.map((eV) =>
                 DTDLEnumValue.fromObject(eV, obj.valueSchema)
             ),
             obj.valueSchema,
+            obj['@id'],
             obj.displayName,
             obj.unit,
             obj.writable
@@ -916,7 +949,7 @@ export class DTDLEnum {
 }
 
 export interface IDTDLEnumValue {
-    ['@id']: string;
+    ['@id']?: string;
     name: string;
     enumValue: number | string;
     displayName?: string;
@@ -924,7 +957,7 @@ export interface IDTDLEnumValue {
     comment?: string;
 }
 export class DTDLEnumValue implements IDTDLEnumValue {
-    ['@id']: string;
+    ['@id']?: string;
     name: string;
     enumValue: number | string;
     displayName?: string;
@@ -932,12 +965,12 @@ export class DTDLEnumValue implements IDTDLEnumValue {
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
         enumValue: number | string,
-        displayName: string,
-        description: string,
-        comment: string
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@id'] = id;
         this.name = name;
@@ -953,11 +986,11 @@ export class DTDLEnumValue implements IDTDLEnumValue {
 
     static fromObject(obj: any, valueSchema: 'integer' | 'string') {
         return new DTDLEnumValue(
-            obj['@id'],
             obj.name,
             valueSchema === 'integer'
                 ? Number.parseInt(obj.enumValue)
                 : obj.enumValue,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment

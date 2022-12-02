@@ -5,6 +5,7 @@ import {
     DTDLObject,
     DTDLProperty,
     DTDLRelationship,
+    DTDLSchema,
     DTDLSchemaType,
     DTDLType
 } from '../Classes/DTDL';
@@ -58,6 +59,14 @@ export const isDTDLComponentReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlComponent => {
     return object['@type'] === DTDLType.Component;
+};
+
+export const isComplexSchemaType = (schema: DTDLSchema): boolean => {
+    if (typeof schema === 'object') {
+        return true;
+    } else {
+        return false;
+    }
 };
 
 export const isDTDLModel = (

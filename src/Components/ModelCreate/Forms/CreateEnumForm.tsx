@@ -74,9 +74,9 @@ const CreateEnumForm: React.FC<CreateEnumFormProps> = ({
 
     const onClickCreate = () => {
         const newEnum = new DTDLEnum(
-            id,
             enumValues,
             valueSchema.key === 'integer' ? 'integer' : 'string',
+            id,
             displayName,
             description,
             comment
