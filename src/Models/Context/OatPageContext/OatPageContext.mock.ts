@@ -62,9 +62,9 @@ export const getMockReference = (
 
 const getMockTemplateItem = (id: string): DTDLProperty => {
     return new DTDLProperty(
-        id,
         `template-${id}`,
         'string',
+        id,
         `template-comment-${id}`,
         `description-${id.substring(2)}`,
         `template-name-${id}`,

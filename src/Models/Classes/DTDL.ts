@@ -541,14 +541,14 @@ export class DTDLProperty implements IDTDLProperty {
     writable?: boolean;
 
     constructor(
-        id: string,
         name: string,
         schema: DTDLSchema,
-        comment: string,
-        description: string,
-        displayName: string,
-        unit: string,
-        writable: boolean
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string,
+        unit?: string,
+        writable?: boolean
     ) {
         this['@type'] = 'Property';
         this['@id'] = id;
@@ -562,12 +562,11 @@ export class DTDLProperty implements IDTDLProperty {
     }
 
     static getBlank() {
-        return new DTDLProperty('', '', 'double', '', '', '', '', false);
+        return new DTDLProperty('', 'double', '', '', '', '', '', false);
     }
 
     static fromObject(obj: IADTProperty): DTDLProperty {
         return new DTDLProperty(
-            obj['@id'],
             obj.name,
             typeof obj.schema === 'string'
                 ? (obj.schema as DTDLPrimitiveSchema)
@@ -578,6 +577,7 @@ export class DTDLProperty implements IDTDLProperty {
                 : obj.schema['@type'] === DTDLSchemaType.Map
                 ? DTDLMap.fromObject(obj.schema)
                 : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
             obj.comment,
             obj.description,
             obj.displayName,

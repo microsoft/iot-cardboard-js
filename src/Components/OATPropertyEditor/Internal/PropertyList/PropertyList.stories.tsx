@@ -40,13 +40,13 @@ Base.args = {
         getMockProperty({ type: 'double' }),
         getMockProperty({ type: 'duration' }),
         getMockProperty({ type: 'Object' }),
+        getMockProperty({ type: 'Object' }),
         getMockProperty({ type: 'Enum', enumType: 'integer' }),
         getMockProperty({ type: 'Map' }),
         getMockProperty({ type: 'Array', itemSchema: 'double' }),
         getMockProperty({
             type: 'Array',
             itemSchema: new DTDLEnum(
-                'child enum 1',
                 [
                     {
                         '@id': 'test id 1',

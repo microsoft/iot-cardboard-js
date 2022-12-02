@@ -149,7 +149,6 @@ ComplexArrayEnum.args = {
     propertyItem: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLEnum(
-            'child enum 1',
             [
                 {
                     '@id': 'test id 1',

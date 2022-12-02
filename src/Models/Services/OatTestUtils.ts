@@ -43,7 +43,6 @@ export const getMockProperty = (
             }
         ];
         return new DTDLProperty(
-            'id1',
             'test ' + type + ' property name',
             new DTDLEnum(
                 items,
@@ -52,6 +51,7 @@ export const getMockProperty = (
                 'test description',
                 'test comment'
             ),
+            'id1',
             'test comment',
             'test description',
             'test display name',
@@ -60,7 +60,6 @@ export const getMockProperty = (
         );
     } else if (type === 'Object') {
         return new DTDLProperty(
-            'id1',
             'test ' + type + ' property name',
             new DTDLObject(
                 'test object 1',
@@ -112,6 +111,7 @@ export const getMockProperty = (
                 'test object description',
                 'test object comment'
             ),
+            'id1',
             'test comment',
             'test description',
             'test display name',
@@ -120,7 +120,6 @@ export const getMockProperty = (
         );
     } else if (type === 'Map') {
         return new DTDLProperty(
-            'id1',
             'test ' + type + ' property name',
             new DTDLMap(
                 'test map 1',
@@ -130,6 +129,7 @@ export const getMockProperty = (
                 'test description',
                 'test comment'
             ),
+            'id1',
             'test comment',
             'test description',
             'test display name',
@@ -138,7 +138,6 @@ export const getMockProperty = (
         );
     } else if (type === 'Array') {
         return new DTDLProperty(
-            'id1',
             'test ' + type + ' property name',
             new DTDLArray(
                 'test array 1',
@@ -147,6 +146,7 @@ export const getMockProperty = (
                 'test array description',
                 'test array comment'
             ),
+            'id1',
             'test comment',
             'test description',
             'test display name',
@@ -155,9 +155,9 @@ export const getMockProperty = (
         );
     } else {
         return new DTDLProperty(
-            'id1',
             'test ' + type + ' property name',
             type,
+            'id1',
             'test comment',
             'test description',
             'test display name',

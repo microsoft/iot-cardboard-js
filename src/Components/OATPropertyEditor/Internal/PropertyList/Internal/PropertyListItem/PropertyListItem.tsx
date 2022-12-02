@@ -17,15 +17,15 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
-    isDTDLArray,
-    isDTDLEnum,
+    isComplexSchemaProperty,
+    isComplexSchemaType,
     isDTDLModel,
-    isDTDLObject,
     isDTDLRelationshipReference
 } from '../../../../../../Models/Services/DtdlUtils';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
+import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
@@ -36,7 +36,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
-    const { propertyItem, propertyIndex, parentEntity, styles } = props;
+    const { propertyItem, propertyIndex, parentEntity, level, styles } = props;
 
     // contexts
     const { oatPageDispatch } = useOatPageContext();
@@ -46,10 +46,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // data
     const isNestedType = useMemo(
-        () =>
-            isDTDLArray(propertyItem) ||
-            isDTDLEnum(propertyItem) ||
-            isDTDLObject(propertyItem),
+        () => isComplexSchemaType(propertyItem.schema),
         [propertyItem]
     );
     const overflowMenuItems = [];
@@ -95,6 +92,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
+        level: level ?? 1,
         theme: useExtendedTheme()
     });
 
@@ -106,53 +104,62 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     );
 
     return (
-        <Stack
-            horizontal
-            className={classNames.root}
-            tokens={{ childrenGap: 4 }}
-        >
-            {isNestedType && (
-                <IconButton
-                    iconProps={{
-                        iconName: isExpanded ? 'ChevronDown' : 'ChevronRight'
+        <Stack>
+            <Stack
+                horizontal
+                className={classNames.root}
+                tokens={{ childrenGap: 4 }}
+            >
+                {isNestedType && (
+                    <IconButton
+                        iconProps={{
+                            iconName: isExpanded
+                                ? 'ChevronDown'
+                                : 'ChevronRight'
+                        }}
+                        title={isExpanded ? 'Collapse' : 'Expand'}
+                        onClick={toggleIsExpanded}
+                        styles={classNames.subComponentStyles.expandButton?.()}
+                    />
+                )}
+                <Stack.Item grow>
+                    <TextField
+                        onRenderInput={(props, defaultRenderer) => {
+                            return (
+                                <>
+                                    <PropertyIcon
+                                        schema={propertyItem.schema}
+                                    />
+                                    {defaultRenderer(props)}
+                                </>
+                            );
+                        }}
+                        onChange={onChangeName}
+                        value={propertyItem.name}
+                        styles={classNames.subComponentStyles.nameTextField}
+                    />
+                </Stack.Item>
+                {/* show/hide on hover/focus */}
+                {isNestedType && (
+                    <IconButton
+                        iconProps={{ iconName: 'Add' }}
+                        title={'Add child property'}
+                        onClick={onAddChild}
+                        className={classNames.addChildButton}
+                    />
+                )}
+                {!isNestedType && <span className={classNames.buttonSpacer} />}
+                <OverflowMenu
+                    index={propertyIndex}
+                    menuKey={'property-list'}
+                    menuProps={{
+                        items: overflowMenuItems
                     }}
-                    title={isExpanded ? 'Collapse' : 'Expand'}
-                    onClick={toggleIsExpanded}
-                    styles={classNames.subComponentStyles.expandButton?.()}
                 />
+            </Stack>
+            {isExpanded && isComplexSchemaProperty(propertyItem) && (
+                <PropertyListItemChildHost propertyItem={propertyItem} />
             )}
-            <Stack.Item grow>
-                <TextField
-                    onRenderInput={(props, defaultRenderer) => {
-                        return (
-                            <>
-                                <PropertyIcon schema={propertyItem.schema} />
-                                {defaultRenderer(props)}
-                            </>
-                        );
-                    }}
-                    onChange={onChangeName}
-                    value={propertyItem.name}
-                    styles={classNames.subComponentStyles.nameTextField}
-                />
-            </Stack.Item>
-            {/* show/hide on hover/focus */}
-            {isNestedType && (
-                <IconButton
-                    iconProps={{ iconName: 'Add' }}
-                    title={'Add child property'}
-                    onClick={onAddChild}
-                    className={classNames.addChildButton}
-                />
-            )}
-            {!isNestedType && <span className={classNames.buttonSpacer} />}
-            <OverflowMenu
-                index={propertyIndex}
-                menuKey={'property-list'}
-                menuProps={{
-                    items: overflowMenuItems
-                }}
-            />
         </Stack>
     );
 };

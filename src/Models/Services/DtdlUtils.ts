@@ -1,5 +1,6 @@
 import {
     DTDLArray,
+    DTDLComplexSchema,
     DTDLEnum,
     DTDLMap,
     DTDLObject,
@@ -59,6 +60,12 @@ export const isDTDLComponentReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlComponent => {
     return object['@type'] === DTDLType.Component;
+};
+
+export const isComplexSchemaProperty = (
+    property: DTDLProperty
+): property is DTDLProperty & { schema: DTDLComplexSchema } => {
+    return isComplexSchemaType(property.schema);
 };
 
 export const isComplexSchemaType = (schema: DTDLSchema): boolean => {

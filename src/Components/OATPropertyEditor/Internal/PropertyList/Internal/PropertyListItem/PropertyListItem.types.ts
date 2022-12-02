@@ -18,6 +18,8 @@ export interface IPropertyListItemProps {
     propertyItem: DTDLProperty;
     /** the parent of the property */
     parentEntity: DtdlInterface | DtdlInterfaceContent;
+    /** Level in the nesting tree. index of 1 is not nested */
+    level?: number;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -28,6 +30,7 @@ export interface IPropertyListItemProps {
 }
 
 export interface IPropertyListItemStyleProps {
+    level: number;
     theme: IExtendedTheme;
 }
 export interface IPropertyListItemStyles {
