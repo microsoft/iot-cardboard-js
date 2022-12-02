@@ -5,8 +5,9 @@ import {
     IPropertyListItemEnumChildStyles
 } from './PropertyListItemEnumChild.types';
 import { getStyles } from './PropertyListItemEnumChild.styles';
-import { classNamesFunction, styled } from '@fluentui/react';
+import { classNamesFunction, Icon, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
+import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemEnumChildStyleProps,
@@ -35,7 +36,8 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
 
     return (
         <div className={classNames.root}>
-            <span>Type: {enumType}, </span>
+            <PropertyIcon schema={enumType} />
+            <span>Name: {item.name}</span>
             <span>Value: {item.enumValue}</span>
         </div>
     );

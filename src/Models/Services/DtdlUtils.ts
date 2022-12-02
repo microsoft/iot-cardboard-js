@@ -68,6 +68,12 @@ export const isComplexSchemaProperty = (
     return isComplexSchemaType(property.schema);
 };
 
+export const hasComplexSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLComplexSchema } => {
+    return isComplexSchemaType(property.schema);
+};
+
 export const isComplexSchemaType = (schema: DTDLSchema): boolean => {
     if (typeof schema === 'object') {
         return true;

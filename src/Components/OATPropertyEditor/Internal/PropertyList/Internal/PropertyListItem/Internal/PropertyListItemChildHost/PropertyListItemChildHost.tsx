@@ -8,12 +8,16 @@ import { getStyles } from './PropertyListItemChildHost.styles';
 import { classNamesFunction, List, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../Models/Hooks/useExtendedTheme';
 import {
+    hasComplexSchemaType,
+    isComplexSchemaType,
     isDTDLArray,
     isDTDLEnum,
     isDTDLMap,
     isDTDLObject
 } from '../../../../../../../../Models/Services/DtdlUtils';
 import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/PropertyListItemEnumChild';
+import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
+import PropertyListItemObjectChild from './Internal/PropertyListItemObjectChild/PropertyListItemObjectChild';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemChildHostStyleProps,
@@ -43,23 +47,35 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     return (
         <div className={classNames.root}>
             {isDTDLEnum(propertyItem) ? (
-                <>
+                <List
+                    items={propertyItem.schema.enumValues}
+                    onRenderCell={(item) => (
+                        <PropertyListItemEnumChild
+                            item={item}
+                            enumType={propertyItem.schema.valueSchema}
+                        />
+                    )}
+                />
+            ) : isDTDLArray(propertyItem) ? (
+                typeof propertyItem.schema.elementSchema === 'object' ? (
                     <List
-                        items={propertyItem.schema.enumValues}
+                        items={[]} // TODO: figure out what to loop here
                         onRenderCell={(item) => (
-                            <PropertyListItemEnumChild
-                                item={item}
-                                enumType={propertyItem.schema.valueSchema}
-                            />
+                            <PropertyListItemArrayChild item={item} />
                         )}
                     />
-                </>
-            ) : isDTDLArray(propertyItem) ? (
-                <>Array</>
+                ) : (
+                    <div>Primitive: {propertyItem.schema.elementSchema}</div>
+                )
             ) : isDTDLMap(propertyItem) ? (
                 <>Map</>
             ) : isDTDLObject(propertyItem) ? (
-                <>Object</>
+                <List
+                    items={propertyItem.schema.fields}
+                    onRenderCell={(item) => (
+                        <PropertyListItemObjectChild item={item} />
+                    )}
+                />
             ) : (
                 <div>unknown</div>
             )}

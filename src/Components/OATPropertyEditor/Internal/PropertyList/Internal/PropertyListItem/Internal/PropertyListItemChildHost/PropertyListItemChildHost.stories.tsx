@@ -30,13 +30,23 @@ EnumProperty.args = {
     propertyItem: getMockProperty({ type: 'Enum', enumType: 'integer' })
 } as IPropertyListItemChildHostProps;
 
-export const ArrayProperty = Template.bind(
+export const ArrayPropertyComplex = Template.bind(
     {}
 ) as PropertyListItemChildHostStory;
-ArrayProperty.args = {
+ArrayPropertyComplex.args = {
     propertyItem: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLArray('', new DTDLArray('', 'double'))
+    })
+} as IPropertyListItemChildHostProps;
+
+export const ArrayPropertyPrimitive = Template.bind(
+    {}
+) as PropertyListItemChildHostStory;
+ArrayPropertyPrimitive.args = {
+    propertyItem: getMockProperty({
+        type: 'Array',
+        itemSchema: 'double'
     })
 } as IPropertyListItemChildHostProps;
 
