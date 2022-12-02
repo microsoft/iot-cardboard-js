@@ -1206,7 +1206,8 @@
     "displayNamePlaceholder": "Megjelenítendő honosítható név",
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
-    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja"
+    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
+    "date": "dátum"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
