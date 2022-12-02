@@ -5,6 +5,8 @@ import PropertyListItemChildHost from './PropertyListItemChildHost';
 import { IPropertyListItemChildHostProps } from './PropertyListItemChildHost.types';
 import { getMockProperty } from '../../../../../../../../Models/Services/OatTestUtils';
 import { DTDLArray } from '../../../../../../../../Models/Classes/DTDL';
+import { OatPageContextProvider } from '../../../../../../../../Models/Context/OatPageContext/OatPageContext';
+import { getMockFile } from '../../../../../../../../Models/Context/OatPageContext/OatPageContext.mock';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -22,7 +24,16 @@ type PropertyListItemChildHostStory = ComponentStory<
 >;
 
 const Template: PropertyListItemChildHostStory = (args) => {
-    return <PropertyListItemChildHost {...args} />;
+    return (
+        <OatPageContextProvider
+            disableLocalStorage={true}
+            initialState={{
+                ontologyFiles: [getMockFile(0, '123', '234')]
+            }}
+        >
+            <PropertyListItemChildHost {...args} />
+        </OatPageContextProvider>
+    );
 };
 
 export const EnumProperty = Template.bind({}) as PropertyListItemChildHostStory;

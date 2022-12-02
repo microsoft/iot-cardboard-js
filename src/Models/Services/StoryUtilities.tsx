@@ -25,8 +25,9 @@ export type IStoryContext<T> = StoryContext<
  * @returns Decorator for the story to wrap the control being tested.
  */
 export function getDefaultStoryDecorator<T>(cardStyle: CSSProperties) {
-    const styles = {
+    const styles: CSSProperties = {
         width: '300px',
+        overflowY: 'auto',
         ...cardStyle
     };
     return (Story, context: IStoryContext<T>) => (

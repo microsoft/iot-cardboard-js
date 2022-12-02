@@ -8,7 +8,7 @@ import { getMockFile } from '../../../../Models/Context/OatPageContext/OatPageCo
 import { getMockProperty } from '../../../../Models/Services/OatTestUtils';
 import { DTDLEnum } from '../../../../Models/Classes/DTDL';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '900px', padding: 8 };
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/PropertyList',

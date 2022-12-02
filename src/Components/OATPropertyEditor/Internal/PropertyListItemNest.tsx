@@ -7,7 +7,10 @@ import {
     getPropertyEditorTextFieldStyles
 } from '../OATPropertyEditor.styles';
 import { DTDLProperty, DTDLSchemaType } from '../../../Models/Classes/DTDL';
-import { isDTDLEnum, isDTDLObject } from '../../../Models/Services/DtdlUtils';
+import {
+    isDTDLEnumProperty,
+    isDTDLObject
+} from '../../../Models/Services/DtdlUtils';
 import AddPropertyBar from './AddPropertyBar';
 import PropertyListItemNested from './PropertyListItemNested';
 import PropertyListEnumItemNested from './PropertyListEnumItemNested';
@@ -418,7 +421,8 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
                         {item.schema['@type']}
                     </Text>
                     {(isDTDLObject(item) && item.schema.fields.length > 0) ||
-                    (isDTDLEnum(item) && item.schema.enumValues.length > 0) ? (
+                    (isDTDLEnumProperty(item) &&
+                        item.schema.enumValues.length > 0) ? (
                         <IconButton
                             iconProps={{
                                 iconName: collapsed
@@ -494,7 +498,7 @@ export const PropertyListItemNest: React.FC<PropertyListItemNestProps> = (
 
                 {collapsed &&
                     item &&
-                    isDTDLEnum(item) &&
+                    isDTDLEnumProperty(item) &&
                     item.schema.enumValues.length > 0 &&
                     item.schema.enumValues.map((collectionItem, i) => (
                         <PropertyListEnumItemNested

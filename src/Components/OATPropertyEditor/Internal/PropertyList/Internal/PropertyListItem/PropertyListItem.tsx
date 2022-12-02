@@ -17,7 +17,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
-    isComplexSchemaProperty,
+    hasComplexSchemaType,
     isComplexSchemaType,
     isDTDLModel,
     isDTDLRelationshipReference
@@ -26,6 +26,7 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
+import { name } from '@babylonjs/gui';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
@@ -50,6 +51,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         [propertyItem]
     );
     const overflowMenuItems = [];
+    const itemLevel = level ?? 1; // default to level 1 (not nested)
 
     // hooks
 
@@ -92,15 +94,16 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        level: level ?? 1,
+        level: itemLevel,
         theme: useExtendedTheme()
     });
 
     logDebugConsole(
         'debug',
-        'Render. {property, isNested, name}',
+        'Render. {property, isNested, level}',
         propertyItem,
-        isNestedType
+        isNestedType,
+        level
     );
 
     return (
@@ -157,8 +160,11 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                     }}
                 />
             </Stack>
-            {isExpanded && isComplexSchemaProperty(propertyItem) && (
-                <PropertyListItemChildHost propertyItem={propertyItem} />
+            {isExpanded && hasComplexSchemaType(propertyItem) && (
+                <PropertyListItemChildHost
+                    level={itemLevel}
+                    propertyItem={propertyItem}
+                />
             )}
         </Stack>
     );

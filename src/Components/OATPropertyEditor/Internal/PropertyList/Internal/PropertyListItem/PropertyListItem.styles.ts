@@ -13,11 +13,13 @@ export const getStyles = (
     props: IPropertyListItemStyleProps
 ): IPropertyListItemStyles => {
     const { theme } = props;
+    const indentedLevels = props.level - 1;
     return {
         root: [
             classNames.root,
             {
-                padding: '4px 0px'
+                padding: '4px 0px',
+                marginLeft: `${indentedLevels * 64}px`
                 // ':hover .cb-property-list-item-add-child-button, :focus-within .cb-property-list-item-add-child-button': {
                 //     opacity: 1
                 // }

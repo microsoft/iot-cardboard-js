@@ -74,6 +74,42 @@ export const hasComplexSchemaType = <T extends { schema: DTDLSchema }>(
     return isComplexSchemaType(property.schema);
 };
 
+export const hasArraySchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLArray } => {
+    return (
+        hasComplexSchemaType(property) &&
+        property.schema['@type'] === DTDLSchemaType.Array
+    );
+};
+
+export const hasMapSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLMap } => {
+    return (
+        hasComplexSchemaType(property) &&
+        property.schema['@type'] === DTDLSchemaType.Map
+    );
+};
+
+export const hasObjectSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLObject } => {
+    return (
+        hasComplexSchemaType(property) &&
+        property.schema['@type'] === DTDLSchemaType.Object
+    );
+};
+
+export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
+    property: T
+): property is T & { schema: DTDLEnum } => {
+    return (
+        hasComplexSchemaType(property) &&
+        property.schema['@type'] === DTDLSchemaType.Enum
+    );
+};
+
 export const isComplexSchemaType = (schema: DTDLSchema): boolean => {
     if (typeof schema === 'object') {
         return true;

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
     IPropertyListItemChildHostProps,
     IPropertyListItemChildHostStyleProps,
@@ -8,12 +8,10 @@ import { getStyles } from './PropertyListItemChildHost.styles';
 import { classNamesFunction, List, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../Models/Hooks/useExtendedTheme';
 import {
-    hasComplexSchemaType,
-    isComplexSchemaType,
-    isDTDLArray,
-    isDTDLEnum,
-    isDTDLMap,
-    isDTDLObject
+    hasArraySchemaType,
+    hasEnumSchemaType,
+    hasMapSchemaType,
+    hasObjectSchemaType
 } from '../../../../../../../../Models/Services/DtdlUtils';
 import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/PropertyListItemEnumChild';
 import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
@@ -27,7 +25,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     props
 ) => {
-    const { propertyItem, styles } = props;
+    const { level, propertyItem, styles } = props;
 
     // contexts
 
@@ -46,7 +44,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
 
     return (
         <div className={classNames.root}>
-            {isDTDLEnum(propertyItem) ? (
+            {hasEnumSchemaType(propertyItem) ? (
                 <List
                     items={propertyItem.schema.enumValues}
                     onRenderCell={(item) => (
@@ -56,7 +54,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                         />
                     )}
                 />
-            ) : isDTDLArray(propertyItem) ? (
+            ) : hasArraySchemaType(propertyItem) ? (
                 typeof propertyItem.schema.elementSchema === 'object' ? (
                     <List
                         items={[]} // TODO: figure out what to loop here
@@ -67,17 +65,20 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                 ) : (
                     <div>Primitive: {propertyItem.schema.elementSchema}</div>
                 )
-            ) : isDTDLMap(propertyItem) ? (
+            ) : hasMapSchemaType(propertyItem) ? (
                 <>Map</>
-            ) : isDTDLObject(propertyItem) ? (
+            ) : hasObjectSchemaType(propertyItem) ? (
                 <List
                     items={propertyItem.schema.fields}
                     onRenderCell={(item) => (
-                        <PropertyListItemObjectChild item={item} />
+                        <PropertyListItemObjectChild
+                            level={level}
+                            item={item}
+                        />
                     )}
                 />
             ) : (
-                <div>unknown</div>
+                <div>unknown schema</div>
             )}
         </div>
     );

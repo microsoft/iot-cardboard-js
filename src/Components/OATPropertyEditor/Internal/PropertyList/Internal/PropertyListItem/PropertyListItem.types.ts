@@ -4,7 +4,7 @@ import {
     IStyleFunctionOrObject,
     ITextFieldStyles
 } from '@fluentui/react';
-import { DTDLProperty } from '../../../../../../Models/Classes/DTDL';
+import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import {
     DtdlInterface,
     DtdlInterfaceContent
@@ -14,8 +14,8 @@ import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 export interface IPropertyListItemProps {
     /** index of this property in the collection of properties on the parent */
     propertyIndex: number;
-    /** the property item itself */
-    propertyItem: DTDLProperty;
+    /** the item itself */
+    propertyItem: { name: string; schema: DTDLSchema };
     /** the parent of the property */
     parentEntity: DtdlInterface | DtdlInterfaceContent;
     /** Level in the nesting tree. index of 1 is not nested */
