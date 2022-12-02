@@ -129,18 +129,6 @@ const ElementTwinAliasForm: React.FC = () => {
                         }
                     }}
                 />
-                {/* <TwinPropertySearchDropdown
-                    key={'aliased-twin'}
-                    adapter={adapter}
-                    label={t('twinId')}
-                    labelIconName="Shapes"
-                    onChange={(selectedTwinId: string) => {
-                        handleTwinSelect(selectedTwinId);
-                    }}
-                    initialSelectedValue={formData.twinId}
-                    searchPropertyName={DTID_PROPERTY_NAME}
-                    styles={{ root: { paddingTop: 16 } }}
-                /> */}
                 <TwinSearch
                     adapter={adapter}
                     dropdownLabel={t('twinId')}
