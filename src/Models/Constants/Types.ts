@@ -202,12 +202,16 @@ export type CardboardIconNames =
     | 'View';
 
 export type OatIconNames =
-    | 'SplitObject'
-    | 'MapPin'
+    | 'BufferTimeBefore'
+    | 'BulletedList2'
+    | 'Calendar'
+    | 'Clock'
+    | 'Code'
+    | 'CubeShape'
     | 'DateTime'
-    | 'NumberField'
-    | 'AzureServiceEndpoint'
-    | '12PointStar';
+    | 'GroupList'
+    | 'TextField'
+    | 'ToggleRight';
 
 export enum DurationUnits {
     milliseconds = 0,

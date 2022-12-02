@@ -14,8 +14,6 @@ import {
 } from '@fluentui/react';
 import { useBoolean } from '@fluentui/react-hooks';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
-import { SCHEMA_ICON_MAP } from '../../../../../../Models/Constants/OatConstants';
-import { getSchemaType } from '../../../../../../Models/Services/OatUtils';
 import { useOatPageContext } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {

@@ -11,87 +11,64 @@ import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
 import { OatIconNames } from './Types';
 import { DTDLSchemaTypes, DTDLSchemaType } from '../Classes/DTDL';
-
-export const SCHEMA_ICON_MAP = new Map<
-    | 'Object'
-    | 'Map'
-    | 'dateTime'
-    | 'integer'
-    | 'point'
-    | 'multi-point'
-    | string,
-    OatIconNames
->([
-    ['Object', 'SplitObject'],
-    ['Map', 'MapPin'],
-    ['dateTime', 'DateTime'],
-    ['integer', 'NumberField'],
-    ['point', 'AzureServiceEndpoint'],
-    ['multi-point', '12PointStar']
-]);
+import i18n from '../../i18n';
 
 export const getSchemaTypeMenuOptions = (
     callback: (args: { type: string }) => void
 ) => {
-    const menuOptions: IContextualMenuItem[] = [
-        {
-            text: 'Complex',
-            itemType: ContextualMenuItemType.Header,
-            key: 'complex-header'
-        },
-        {
-            text: 'Object',
-            iconProps: { iconName: SCHEMA_ICON_MAP.get('Object') },
-            key: 'Object',
-            onClick: () => callback({ type: 'Object' })
-        },
-        {
-            text: 'Map',
-            data: { iconName: SCHEMA_ICON_MAP.get('Map') },
-            key: 'Map',
-            onClick: () => callback({ type: 'Map' })
-        },
-        {
-            text: 'Primitive',
-            itemType: ContextualMenuItemType.Header,
-            key: 'primitive-header'
-        },
-        {
-            text: 'DateTime',
-            iconProps: { iconName: SCHEMA_ICON_MAP.get('dateTime') },
-            key: 'datetime',
-            onClick: () => callback({ type: 'datetime' })
-        },
-        {
-            text: 'Integer',
-            iconProps: { iconName: SCHEMA_ICON_MAP.get('integer') },
-            key: 'integer',
-            onClick: () => callback({ type: 'integer' })
-        },
-        {
-            text: 'Polygons',
-            itemType: ContextualMenuItemType.Header,
-            key: 'polygon-header'
-        },
-        {
-            text: 'Point',
-            iconProps: { iconName: SCHEMA_ICON_MAP.get('point') },
-            key: 'point',
-            onClick: () => callback({ type: 'point' })
-        },
-        {
-            text: 'Multi-point',
-            iconProps: { iconName: SCHEMA_ICON_MAP.get('multi-point') },
-            key: 'multi-point',
-            onClick: () => callback({ type: 'multi-point' })
+    const menuOptions: IContextualMenuItem[] = [];
+
+    // sort the items into the groups
+    const primitiveGroup: IContextualMenuItem[] = [];
+    const complexGroup: IContextualMenuItem[] = [];
+    const geospatialGroup: IContextualMenuItem[] = [];
+    PROPERTY_ICON_DATA.forEach((x) => {
+        const item: IContextualMenuItem = {
+            text: i18n.t(x.title),
+            key: x.schema,
+            onClick: () => callback({ type: x.schema })
+        };
+        switch (x.category) {
+            case 'complex':
+                complexGroup.push(item);
+                break;
+            case 'geospatial':
+                geospatialGroup.push(item);
+                break;
+            case 'primitive':
+                primitiveGroup.push(item);
+                break;
         }
-    ];
+    });
+
+    // combine the groups under each header
+    menuOptions.push({
+        text: 'Complex',
+        itemType: ContextualMenuItemType.Header,
+        key: 'complex-header'
+    });
+    menuOptions.push(...complexGroup);
+
+    menuOptions.push({
+        text: 'Primitive',
+        itemType: ContextualMenuItemType.Header,
+        key: 'primitive-header'
+    });
+    menuOptions.push(...primitiveGroup);
+
+    menuOptions.push({
+        text: 'Geospatial',
+        itemType: ContextualMenuItemType.Header,
+        key: 'geo-spatial-header'
+    });
+    menuOptions.push(...geospatialGroup);
     return menuOptions;
 };
 
 type IIconData = {
     category: 'primitive' | 'complex' | 'geospatial';
     title: string;
+    schema: DTDLSchemaTypes;
 } & (IIconDataFluent | IIconDataCustom);
 interface IIconDataCustom {
     source: 'Custom';
@@ -99,7 +76,7 @@ interface IIconDataCustom {
 }
 interface IIconDataFluent {
     source: 'Fluent';
-    iconName: string;
+    iconName: OatIconNames;
 }
 export const PROPERTY_ICON_DATA: Map<
     DTDLSchemaTypes | string,
@@ -108,6 +85,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'boolean',
         {
+            schema: 'boolean',
             title: 'OATPropertyEditor.boolean',
             iconName: 'ToggleRight',
             category: 'primitive',
@@ -117,6 +95,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'integer',
         {
+            schema: 'integer',
             title: 'OATPropertyEditor.integer',
             icon: IconInteger,
             category: 'primitive',
@@ -126,6 +105,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'double',
         {
+            schema: 'double',
             title: 'OATPropertyEditor.double',
             icon: IconDouble,
             category: 'primitive',
@@ -135,6 +115,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'float',
         {
+            schema: 'float',
             title: 'OATPropertyEditor.float',
             icon: IconFloat,
             category: 'primitive',
@@ -144,6 +125,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'long',
         {
+            schema: 'long',
             title: 'OATPropertyEditor.long',
             icon: IconLong,
             category: 'primitive',
@@ -153,6 +135,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'date',
         {
+            schema: 'date',
             title: 'OATPropertyEditor.date',
             iconName: 'Calendar',
             category: 'primitive',
@@ -162,6 +145,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'dateTime',
         {
+            schema: 'dateTime',
             title: 'OATPropertyEditor.dateTime',
             iconName: 'DateTime',
             category: 'primitive',
@@ -171,6 +155,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'duration',
         {
+            schema: 'duration',
             title: 'OATPropertyEditor.duration',
             iconName: 'BufferTimeBefore',
             category: 'primitive',
@@ -180,6 +165,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'string',
         {
+            schema: 'string',
             title: 'OATPropertyEditor.string',
             iconName: 'TextField',
             category: 'primitive',
@@ -189,6 +175,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'time',
         {
+            schema: 'time',
             title: 'OATPropertyEditor.time',
             iconName: 'Clock',
             category: 'primitive',
@@ -198,6 +185,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         DTDLSchemaType.Object,
         {
+            schema: DTDLSchemaType.Object,
             title: 'OATPropertyEditor.object',
             iconName: 'CubeShape',
             category: 'complex',
@@ -207,6 +195,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         DTDLSchemaType.Array,
         {
+            schema: DTDLSchemaType.Array,
             title: 'OATPropertyEditor.array',
             iconName: 'GroupList',
             category: 'complex',
@@ -216,6 +205,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         DTDLSchemaType.Map,
         {
+            schema: DTDLSchemaType.Map,
             title: 'OATPropertyEditor.map',
             iconName: 'Code',
             category: 'complex',
@@ -225,6 +215,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         DTDLSchemaType.Enum,
         {
+            schema: DTDLSchemaType.Enum,
             title: 'OATPropertyEditor.enum',
             iconName: 'BulletedList2',
             category: 'complex',
@@ -234,6 +225,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'linestring',
         {
+            schema: 'linestring',
             title: 'OATPropertyEditor.linestring',
             icon: IconLineString,
             category: 'geospatial',
@@ -243,6 +235,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'multiLinestring',
         {
+            schema: 'multiLinestring',
             title: 'OATPropertyEditor.multiLinestring',
             icon: IconMultiLineString,
             category: 'geospatial',
@@ -252,6 +245,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'point',
         {
+            schema: 'point',
             title: 'OATPropertyEditor.point',
             icon: IconPoint,
             category: 'geospatial',
@@ -261,6 +255,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'multiPoint',
         {
+            schema: 'multiPoint',
             title: 'OATPropertyEditor.multiPoint',
             icon: IconMultiPoint,
             category: 'geospatial',
@@ -270,6 +265,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'polygon',
         {
+            schema: 'polygon',
             title: 'OATPropertyEditor.polygon',
             icon: IconPolygon,
             category: 'geospatial',
@@ -279,6 +275,7 @@ export const PROPERTY_ICON_DATA: Map<
     [
         'multiPolygon',
         {
+            schema: 'multiPolygon',
             title: 'OATPropertyEditor.multiPolygon',
             icon: IconMultiPolygon,
             category: 'geospatial',

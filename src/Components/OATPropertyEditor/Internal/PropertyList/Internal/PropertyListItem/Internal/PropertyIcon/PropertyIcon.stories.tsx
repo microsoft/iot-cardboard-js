@@ -22,23 +22,23 @@ const Template: PropertyIconStory = () => {
     const { t } = useTranslation();
     const items: JSX.Element[] = [];
     // ignore this warning since it's just a test
-    for (const entry of PROPERTY_ICON_DATA.entries()) {
+    PROPERTY_ICON_DATA.forEach((property) => {
         items.push(
             <Stack
                 horizontal
                 verticalAlign="center"
                 tokens={{ childrenGap: 4 }}
             >
-                <PropertyIcon schema={entry[0]} />
+                <PropertyIcon schema={property.schema} />
                 <Text
                     variant="medium"
                     styles={{ root: { fontStyle: 'italic' } }}
                 >
-                    {t(entry[1].title)}
+                    {t(property.title)}
                 </Text>
             </Stack>
         );
-    }
+    });
 
     return <>{items.map((x) => x)}</>;
 };
