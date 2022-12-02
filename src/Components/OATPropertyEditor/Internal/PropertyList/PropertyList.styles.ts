@@ -12,7 +12,12 @@ export const getStyles = (
     _props: IPropertyListStyleProps
 ): IPropertyListStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                marginLeft: 32 // leave room for the chevrons
+            }
+        ],
         subComponentStyles: {}
     };
 };

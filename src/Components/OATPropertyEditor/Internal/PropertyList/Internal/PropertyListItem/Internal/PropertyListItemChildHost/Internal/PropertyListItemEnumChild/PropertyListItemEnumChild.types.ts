@@ -5,6 +5,8 @@ import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.type
 export interface IPropertyListItemEnumChildProps {
     item: DTDLEnumValue;
     enumType: 'integer' | 'string';
+    /** Level in the nesting tree. index of 1 is not nested */
+    level: number;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

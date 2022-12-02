@@ -12,14 +12,18 @@ const classNames = {
 export const getStyles = (
     props: IPropertyListItemStyleProps
 ): IPropertyListItemStyles => {
-    const { theme } = props;
+    const { hasChildren, theme } = props;
     const indentedLevels = props.level - 1;
+    let indentation = 32 * indentedLevels;
+    if (hasChildren) {
+        indentation -= 36; // remove the space for it's own chevron
+    }
     return {
         root: [
             classNames.root,
             {
                 padding: '4px 0px',
-                marginLeft: `${indentedLevels * 64}px`
+                marginLeft: `${indentation}px`
                 // ':hover .cb-property-list-item-add-child-button, :focus-within .cb-property-list-item-add-child-button': {
                 //     opacity: 1
                 // }

@@ -37,29 +37,32 @@ const Template: PropertyListItemObjectChildStory = (args) => {
             }}
         >
             <PropertyListItem
-                parentEntity={{} as any}
-                propertyIndex={0}
-                propertyItem={{ name: 'Reference parent', schema: 'boolean' }}
+                level={1}
+                propertyIndexKey={0}
+                item={{
+                    name: 'Reference parent',
+                    schema: new DTDLObject('', [])
+                }}
                 styles={{
                     root: {
                         marginLeft: 32 // spacing for the chevron
                     }
                 }}
             />
-            <PropertyListItemObjectChild {...args} />
+            <PropertyListItemObjectChild {...args} level={1} />
         </OatPageContextProvider>
     );
 };
 
 export const Primitive = Template.bind({}) as PropertyListItemObjectChildStory;
 Primitive.args = {
-    level: 1,
+    level: 1, // ignored
     item: new DTDLObjectField('field name 1', 'double')
 } as IPropertyListItemObjectChildProps;
 
 export const Complex = Template.bind({}) as PropertyListItemObjectChildStory;
 Complex.args = {
-    level: 1,
+    level: 1, // ignored
     item: new DTDLObjectField(
         'field name 1',
         new DTDLObject('', [new DTDLObjectField('field 1', 'double')])

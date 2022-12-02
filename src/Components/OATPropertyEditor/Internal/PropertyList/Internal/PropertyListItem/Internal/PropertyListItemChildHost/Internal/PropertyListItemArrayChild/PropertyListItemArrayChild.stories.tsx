@@ -5,6 +5,11 @@ import PropertyListItemArrayChild from './PropertyListItemArrayChild';
 import { IPropertyListItemArrayChildProps } from './PropertyListItemArrayChild.types';
 import { OatPageContextProvider } from '../../../../../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { getMockFile } from '../../../../../../../../../../Models/Context/OatPageContext/OatPageContext.mock';
+import {
+    DTDLArray,
+    DTDLObject,
+    DTDLObjectField
+} from '../../../../../../../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -34,7 +39,18 @@ const Template: PropertyListItemArrayChildStory = (args) => {
     );
 };
 
-export const Base = Template.bind({}) as PropertyListItemArrayChildStory;
-Base.args = {
+export const Primitive = Template.bind({}) as PropertyListItemArrayChildStory;
+Primitive.args = {
     item: 'boolean'
+} as IPropertyListItemArrayChildProps;
+
+export const Complex = Template.bind({}) as PropertyListItemArrayChildStory;
+Complex.args = {
+    item: new DTDLArray(
+        '',
+        new DTDLObject('', [
+            new DTDLObjectField('property 1', 'boolean'),
+            new DTDLObjectField('property 2', 'string')
+        ])
+    )
 } as IPropertyListItemArrayChildProps;

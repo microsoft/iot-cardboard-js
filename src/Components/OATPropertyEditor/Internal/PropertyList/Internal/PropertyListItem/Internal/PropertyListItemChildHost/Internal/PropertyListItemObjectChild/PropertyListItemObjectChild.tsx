@@ -17,7 +17,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> = (
     props
 ) => {
-    const { item, level, styles } = props;
+    const { indexKey, item, level, styles } = props;
 
     // contexts
 
@@ -36,19 +36,11 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
 
     return (
         <div className={classNames.root}>
-            {/* {hasComplexSchemaType(item) ? ( */}
             <PropertyListItem
-                parentEntity={{} as any}
-                propertyIndex={1} // TODO pass this through if needed
+                indexKey={indexKey}
                 level={level + 1}
-                propertyItem={item}
+                item={item}
             />
-            {/* ) : (
-                <>
-                    <PropertyIcon schema={item.schema} />
-                    <span>{item.name}</span>
-                </>
-            )} */}
         </div>
     );
 };

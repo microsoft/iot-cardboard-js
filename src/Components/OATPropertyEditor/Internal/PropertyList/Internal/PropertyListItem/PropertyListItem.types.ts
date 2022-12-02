@@ -5,19 +5,13 @@ import {
     ITextFieldStyles
 } from '@fluentui/react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent
-} from '../../../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface IPropertyListItemProps {
-    /** index of this property in the collection of properties on the parent */
-    propertyIndex: number;
+    /** Index of parent in the list. Key used for test automation for the row */
+    indexKey: string;
     /** the item itself */
-    propertyItem: { name: string; schema: DTDLSchema };
-    /** the parent of the property */
-    parentEntity: DtdlInterface | DtdlInterfaceContent;
+    item: { name: string; schema: DTDLSchema };
     /** Level in the nesting tree. index of 1 is not nested */
     level?: number;
     /**
@@ -31,6 +25,7 @@ export interface IPropertyListItemProps {
 
 export interface IPropertyListItemStyleProps {
     level: number;
+    hasChildren: boolean;
     theme: IExtendedTheme;
 }
 export interface IPropertyListItemStyles {

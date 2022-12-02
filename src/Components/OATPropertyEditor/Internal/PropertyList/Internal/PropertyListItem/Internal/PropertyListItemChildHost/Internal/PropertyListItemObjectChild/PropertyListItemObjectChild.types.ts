@@ -3,6 +3,8 @@ import { DTDLObjectField } from '../../../../../../../../../../Models/Classes/DT
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
 
 export interface IPropertyListItemObjectChildProps {
+    /** key used for test automation for the row */
+    indexKey: string;
     item: DTDLObjectField;
     /** Level in the nesting tree. index of 1 is not nested */
     level: number;

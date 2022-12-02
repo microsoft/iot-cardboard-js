@@ -46,8 +46,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     onRenderCell={(item, index) => {
                         return (
                             <PropertyListItem
-                                propertyIndex={index}
-                                propertyItem={item}
+                                indexKey={String(index)}
+                                item={item}
                                 parentEntity={parentEntity}
                             />
                         );

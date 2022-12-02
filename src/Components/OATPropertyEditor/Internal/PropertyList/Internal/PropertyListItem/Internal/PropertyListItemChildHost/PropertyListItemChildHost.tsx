@@ -25,7 +25,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     props
 ) => {
-    const { level, propertyItem, styles } = props;
+    const { indexKey, level, propertyItem, styles } = props;
 
     // contexts
 
@@ -49,29 +49,25 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     items={propertyItem.schema.enumValues}
                     onRenderCell={(item) => (
                         <PropertyListItemEnumChild
-                            item={item}
                             enumType={propertyItem.schema.valueSchema}
+                            item={item}
+                            level={level}
                         />
                     )}
                 />
             ) : hasArraySchemaType(propertyItem) ? (
-                typeof propertyItem.schema.elementSchema === 'object' ? (
-                    <List
-                        items={[]} // TODO: figure out what to loop here
-                        onRenderCell={(item) => (
-                            <PropertyListItemArrayChild item={item} />
-                        )}
-                    />
-                ) : (
-                    <div>Primitive: {propertyItem.schema.elementSchema}</div>
-                )
+                <PropertyListItemArrayChild
+                    item={propertyItem.schema.elementSchema}
+                    level={level}
+                />
             ) : hasMapSchemaType(propertyItem) ? (
                 <>Map</>
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
                     items={propertyItem.schema.fields}
-                    onRenderCell={(item) => (
+                    onRenderCell={(item, index) => (
                         <PropertyListItemObjectChild
+                            indexKey={`${indexKey}.${index}`}
                             level={level}
                             item={item}
                         />

@@ -4,7 +4,6 @@ import { getDefaultStoryDecorator } from '../../../../../../../../Models/Service
 import PropertyListItemChildHost from './PropertyListItemChildHost';
 import { IPropertyListItemChildHostProps } from './PropertyListItemChildHost.types';
 import { getMockProperty } from '../../../../../../../../Models/Services/OatTestUtils';
-import { DTDLArray } from '../../../../../../../../Models/Classes/DTDL';
 import { OatPageContextProvider } from '../../../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { getMockFile } from '../../../../../../../../Models/Context/OatPageContext/OatPageContext.mock';
 
@@ -38,23 +37,17 @@ const Template: PropertyListItemChildHostStory = (args) => {
 
 export const EnumProperty = Template.bind({}) as PropertyListItemChildHostStory;
 EnumProperty.args = {
+    indexKey: '0',
+    level: 1,
     propertyItem: getMockProperty({ type: 'Enum', enumType: 'integer' })
 } as IPropertyListItemChildHostProps;
 
-export const ArrayPropertyComplex = Template.bind(
+export const ArrayProperty = Template.bind(
     {}
 ) as PropertyListItemChildHostStory;
-ArrayPropertyComplex.args = {
-    propertyItem: getMockProperty({
-        type: 'Array',
-        itemSchema: new DTDLArray('', new DTDLArray('', 'double'))
-    })
-} as IPropertyListItemChildHostProps;
-
-export const ArrayPropertyPrimitive = Template.bind(
-    {}
-) as PropertyListItemChildHostStory;
-ArrayPropertyPrimitive.args = {
+ArrayProperty.args = {
+    indexKey: '0',
+    level: 1,
     propertyItem: getMockProperty({
         type: 'Array',
         itemSchema: 'double'
@@ -65,10 +58,14 @@ export const ObjectProperty = Template.bind(
     {}
 ) as PropertyListItemChildHostStory;
 ObjectProperty.args = {
+    indexKey: '0',
+    level: 1,
     propertyItem: getMockProperty({ type: 'Object' })
 } as IPropertyListItemChildHostProps;
 
 export const MapProperty = Template.bind({}) as PropertyListItemChildHostStory;
 MapProperty.args = {
+    indexKey: '0',
+    level: 1,
     propertyItem: getMockProperty({ type: 'Map' })
 } as IPropertyListItemChildHostProps;

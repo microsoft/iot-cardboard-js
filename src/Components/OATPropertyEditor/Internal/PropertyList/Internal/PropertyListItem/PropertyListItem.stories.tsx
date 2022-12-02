@@ -24,7 +24,7 @@ type PropertyListItemStory = ComponentStory<typeof PropertyListItem>;
 
 const DEFAULT_ARGS = {
     parentEntity: {},
-    propertyIndex: 0
+    indexKey: '0'
 };
 const Template: PropertyListItemStory = (args) => {
     return (
@@ -42,91 +42,91 @@ const Template: PropertyListItemStory = (args) => {
 export const PrimitiveBoolean = Template.bind({}) as PropertyListItemStory;
 PrimitiveBoolean.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'boolean' })
+    item: getMockProperty({ type: 'boolean' })
 } as IPropertyListItemProps;
 
 export const PrimitiveDate = Template.bind({}) as PropertyListItemStory;
 PrimitiveDate.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'date' })
+    item: getMockProperty({ type: 'date' })
 } as IPropertyListItemProps;
 
 export const PrimitiveDouble = Template.bind({}) as PropertyListItemStory;
 PrimitiveDouble.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'double' })
+    item: getMockProperty({ type: 'double' })
 } as IPropertyListItemProps;
 
 export const PrimitiveDuration = Template.bind({}) as PropertyListItemStory;
 PrimitiveDuration.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'duration' })
+    item: getMockProperty({ type: 'duration' })
 } as IPropertyListItemProps;
 
 export const PrimitiveFloat = Template.bind({}) as PropertyListItemStory;
 PrimitiveFloat.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'float' })
+    item: getMockProperty({ type: 'float' })
 } as IPropertyListItemProps;
 
 export const PrimitiveInteger = Template.bind({}) as PropertyListItemStory;
 PrimitiveInteger.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'integer' })
+    item: getMockProperty({ type: 'integer' })
 } as IPropertyListItemProps;
 
 export const PrimitiveLong = Template.bind({}) as PropertyListItemStory;
 PrimitiveLong.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'long' })
+    item: getMockProperty({ type: 'long' })
 } as IPropertyListItemProps;
 
 export const PrimitiveString = Template.bind({}) as PropertyListItemStory;
 PrimitiveString.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'string' })
+    item: getMockProperty({ type: 'string' })
 } as IPropertyListItemProps;
 
 export const PrimitiveTime = Template.bind({}) as PropertyListItemStory;
 PrimitiveTime.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'time' })
+    item: getMockProperty({ type: 'time' })
 } as IPropertyListItemProps;
 
 export const ComplexObject = Template.bind({}) as PropertyListItemStory;
 ComplexObject.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'Object' })
+    item: getMockProperty({ type: 'Object' })
 } as IPropertyListItemProps;
 
 export const ComplexEnumInteger = Template.bind({}) as PropertyListItemStory;
 ComplexEnumInteger.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'Enum', enumType: 'integer' })
+    item: getMockProperty({ type: 'Enum', enumType: 'integer' })
 } as IPropertyListItemProps;
 
 export const ComplexEnumString = Template.bind({}) as PropertyListItemStory;
 ComplexEnumString.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'Enum', enumType: 'string' })
+    item: getMockProperty({ type: 'Enum', enumType: 'string' })
 } as IPropertyListItemProps;
 
 export const ComplexMap = Template.bind({}) as PropertyListItemStory;
 ComplexMap.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'Map' })
+    item: getMockProperty({ type: 'Map' })
 } as IPropertyListItemProps;
 
 export const ComplexArrayPrimitive = Template.bind({}) as PropertyListItemStory;
 ComplexArrayPrimitive.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({ type: 'Array', itemSchema: 'double' })
+    item: getMockProperty({ type: 'Array', itemSchema: 'double' })
 } as IPropertyListItemProps;
 
 export const ComplexArrayObjects = Template.bind({}) as PropertyListItemStory;
 ComplexArrayObjects.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({
+    item: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLObject('child object 1', [
             // TODO: add fields
@@ -137,7 +137,7 @@ ComplexArrayObjects.args = {
 export const ComplexArrayMaps = Template.bind({}) as PropertyListItemStory;
 ComplexArrayMaps.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({
+    item: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLMap('child map 1', {}, {})
     })
@@ -146,7 +146,7 @@ ComplexArrayMaps.args = {
 export const ComplexArrayEnum = Template.bind({}) as PropertyListItemStory;
 ComplexArrayEnum.args = {
     ...DEFAULT_ARGS,
-    propertyItem: getMockProperty({
+    item: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLEnum(
             [

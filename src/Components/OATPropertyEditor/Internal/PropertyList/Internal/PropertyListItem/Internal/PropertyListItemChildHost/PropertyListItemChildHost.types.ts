@@ -6,6 +6,8 @@ export interface IPropertyListItemChildHostProps {
     propertyItem: { name: string; schema: DTDLComplexSchema };
     /** Level in the nesting tree. index of 1 is not nested */
     level: number;
+    /** Index of parent in the list. Key used for test automation for the row */
+    indexKey: string;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

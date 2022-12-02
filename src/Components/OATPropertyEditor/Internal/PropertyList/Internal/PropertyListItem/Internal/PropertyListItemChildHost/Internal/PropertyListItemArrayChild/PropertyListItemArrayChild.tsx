@@ -16,7 +16,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
     props
 ) => {
-    const { styles } = props;
+    const { item, styles } = props;
 
     // contexts
 
@@ -34,7 +34,9 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
     });
 
     return (
-        <div className={classNames.root}>Hello PropertyListItemArrayChild!</div>
+        <div className={classNames.root}>
+            {typeof item === 'object' ? 'Complex' : 'Primitive'}
+        </div>
     );
 };
 
