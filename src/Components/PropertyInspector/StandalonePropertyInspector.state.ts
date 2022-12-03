@@ -303,18 +303,12 @@ const StandalonePropertyInspectorReducer = produce(
 
                 const arrayNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.propertyTreeNodes,
-                    arrayItemToRemove.path.slice(
-                        0,
-                        arrayItemToRemove.path.lastIndexOf('/')
-                    )
+                    arrayItemToRemove.parentObjectPath
                 );
 
                 const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
                     draft.originalPropertyTreeNodes,
-                    arrayItemToRemove.path.slice(
-                        0,
-                        arrayItemToRemove.path.lastIndexOf('/')
-                    )
+                    arrayItemToRemove.parentObjectPath
                 );
 
                 const childToRemoveIdx = arrayNode.children.findIndex(

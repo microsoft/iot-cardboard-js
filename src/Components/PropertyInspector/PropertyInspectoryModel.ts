@@ -92,7 +92,9 @@ abstract class PropertyInspectorModel {
     static buildPath = (path, newRoute, index?: number) => {
         return index === undefined
             ? `${path}/${newRoute}`
-            : `${path}/${newRoute}[${index}]`;
+            : newRoute !== undefined
+            ? `${path}/${newRoute}[${index}]`
+            : `${path}[${index}]`;
     };
 
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
@@ -178,10 +180,10 @@ abstract class PropertyInspectorModel {
                     ? PropertyInspectorModel.buildPath(path, mapInfo.key)
                     : PropertyInspectorModel.buildPath(
                           path,
-                          modelProperty.name,
+                          !isArrayItem ? modelProperty.name : undefined,
                           modelProperty.index
                       ),
-                parentObjectPath: isObjectChild && path,
+                parentObjectPath: (isObjectChild || isArrayItem) && path,
                 isMapChild,
                 isArrayItem,
                 isRemovable: !(isMapChild || isArrayItem),
@@ -459,7 +461,7 @@ abstract class PropertyInspectorModel {
                                       const childItem = PropertyInspectorModel.parsePropertyIntoNode(
                                           {
                                               isInherited,
-                                              isObjectChild: true,
+                                              isObjectChild: false,
                                               modelProperty: {
                                                   index,
                                                   name: `${modelProperty.name}`,
@@ -1046,7 +1048,15 @@ abstract class PropertyInspectorModel {
         tree.forEach((node) => {
             if (node.isSet) {
                 if (node.children) {
-                    newJson[node.name] = {};
+                    if (node.schema === 'Array') {
+                        newJson[node.name] = [];
+                        return PropertyInspectorModel.parseDataFromPropertyTree(
+                            node.children,
+                            newJson[node.name]
+                        );
+                    } else {
+                        newJson[node.name] = {};
+                    }
                     newJson[
                         node.name
                     ] = PropertyInspectorModel.parseDataFromPropertyTree(
@@ -1072,8 +1082,11 @@ abstract class PropertyInspectorModel {
                             console.error(err);
                         }
                     }
-
-                    newJson[node.name] = finalValue;
+                    if (node.isArrayItem && Array.isArray(newJson)) {
+                        newJson.push(finalValue);
+                    } else {
+                        newJson[node.name] = finalValue;
+                    }
                 }
             }
         });
