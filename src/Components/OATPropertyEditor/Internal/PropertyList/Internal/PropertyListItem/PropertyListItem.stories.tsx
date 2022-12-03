@@ -9,10 +9,16 @@ import { getMockProperty } from '../../../../../../Models/Services/OatTestUtils'
 import {
     DTDLEnum,
     DTDLMap,
-    DTDLObject
+    DTDLObject,
+    DTDLObjectField
 } from '../../../../../../Models/Classes/DTDL';
 
-const wrapperStyle = { width: '300px', height: '100px', padding: 8 };
+const wrapperStyle = {
+    width: '300px',
+    height: '400px',
+    padding: 8,
+    marginLeft: 32
+};
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/PropertyList/PropertyListItem',
@@ -128,8 +134,9 @@ ComplexArrayObjects.args = {
     ...DEFAULT_ARGS,
     item: getMockProperty({
         type: 'Array',
-        itemSchema: new DTDLObject('child object 1', [
-            // TODO: add fields
+        itemSchema: new DTDLObject('', [
+            new DTDLObjectField('field 1', 'double'),
+            new DTDLObjectField('field 2', 'date')
         ])
     })
 } as IPropertyListItemProps;

@@ -32,7 +32,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
-    const { item, indexKey, level, styles } = props;
+    const { disableInput, item, indexKey, level, styles } = props;
 
     // contexts
 
@@ -91,11 +91,10 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     logDebugConsole(
         'debug',
-        'Render. {property, isNested, level, indexKey}',
+        'Render. {property, level, isNested}',
         item,
-        isNestedType,
         level,
-        indexKey
+        isNestedType
     );
 
     return (
@@ -119,10 +118,17 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 )}
                 <Stack.Item grow>
                     <TextField
+                        disabled={disableInput}
                         onRenderInput={(props, defaultRenderer) => {
                             return (
                                 <>
-                                    <PropertyIcon schema={item.schema} />
+                                    <PropertyIcon
+                                        schema={item.schema}
+                                        styles={
+                                            classNames.subComponentStyles
+                                                .inputIcon
+                                        }
+                                    />
                                     {defaultRenderer(props)}
                                 </>
                             );

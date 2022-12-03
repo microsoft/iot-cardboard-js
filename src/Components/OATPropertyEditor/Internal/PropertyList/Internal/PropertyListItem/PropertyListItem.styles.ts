@@ -48,11 +48,16 @@ export const getStyles = (
                 },
                 field: {
                     // paddingRight: 8,
-                    paddingLeft: 0
+                    paddingLeft: 4
                 }
                 // icon: {
                 //     left: 8
                 // }
+            },
+            inputIcon: {
+                root: {
+                    paddingLeft: 4
+                }
             }
         }
     };

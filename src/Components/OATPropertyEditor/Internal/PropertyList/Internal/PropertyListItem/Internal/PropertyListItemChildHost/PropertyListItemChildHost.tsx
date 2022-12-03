@@ -47,16 +47,18 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
             {hasEnumSchemaType(propertyItem) ? (
                 <List
                     items={propertyItem.schema.enumValues}
-                    onRenderCell={(item) => (
+                    onRenderCell={(item, index) => (
                         <PropertyListItemEnumChild
-                            enumType={propertyItem.schema.valueSchema}
+                            indexKey={`${indexKey}.${index}`}
                             item={item}
+                            enumType={propertyItem.schema.valueSchema}
                             level={level}
                         />
                     )}
                 />
             ) : hasArraySchemaType(propertyItem) ? (
                 <PropertyListItemArrayChild
+                    indexKey={`${indexKey}.0`}
                     item={propertyItem.schema.elementSchema}
                     level={level}
                 />

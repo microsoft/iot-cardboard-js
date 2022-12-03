@@ -6,7 +6,11 @@ import { IPropertyListProps } from './PropertyList.types';
 import { OatPageContextProvider } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { getMockFile } from '../../../../Models/Context/OatPageContext/OatPageContext.mock';
 import { getMockProperty } from '../../../../Models/Services/OatTestUtils';
-import { DTDLEnum } from '../../../../Models/Classes/DTDL';
+import {
+    DTDLEnum,
+    DTDLObject,
+    DTDLObjectField
+} from '../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '900px', padding: 8 };
 
@@ -44,6 +48,13 @@ Base.args = {
         getMockProperty({ type: 'Enum', enumType: 'integer' }),
         getMockProperty({ type: 'Map' }),
         getMockProperty({ type: 'Array', itemSchema: 'double' }),
+        getMockProperty({
+            type: 'Array',
+            itemSchema: new DTDLObject('', [
+                new DTDLObjectField('field 1', 'double'),
+                new DTDLObjectField('field 2', 'date')
+            ])
+        }),
         getMockProperty({
             type: 'Array',
             itemSchema: new DTDLEnum(

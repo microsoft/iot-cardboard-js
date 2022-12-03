@@ -1,5 +1,6 @@
 import {
     IButtonStyles,
+    IIconStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITextFieldStyles
@@ -14,6 +15,8 @@ export interface IPropertyListItemProps {
     item: { name: string; schema: DTDLSchema };
     /** Level in the nesting tree. index of 1 is not nested */
     level?: number;
+    /** disables the input field */
+    disableInput?: boolean;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -42,4 +45,5 @@ export interface IPropertyListItemStyles {
 export interface IPropertyListItemSubComponentStyles {
     nameTextField?: Partial<ITextFieldStyles>;
     expandButton?: Partial<IButtonStyles>;
+    inputIcon?: Partial<IIconStyles>;
 }

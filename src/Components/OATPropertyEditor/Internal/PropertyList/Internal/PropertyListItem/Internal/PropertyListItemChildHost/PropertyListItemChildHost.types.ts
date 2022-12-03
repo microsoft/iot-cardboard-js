@@ -2,12 +2,16 @@ import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLComplexSchema } from '../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
 
-export interface IPropertyListItemChildHostProps {
-    propertyItem: { name: string; schema: DTDLComplexSchema };
+export interface IPropertyListItemChildBaseProps {
     /** Level in the nesting tree. index of 1 is not nested */
     level: number;
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
+}
+
+export interface IPropertyListItemChildHostProps
+    extends IPropertyListItemChildBaseProps {
+    propertyItem: { name: string; schema: DTDLComplexSchema };
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

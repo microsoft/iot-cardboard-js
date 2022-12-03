@@ -1,12 +1,12 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLEnumValue } from '../../../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
+import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
-export interface IPropertyListItemEnumChildProps {
+export interface IPropertyListItemEnumChildProps
+    extends IPropertyListItemChildBaseProps {
     item: DTDLEnumValue;
     enumType: 'integer' | 'string';
-    /** Level in the nesting tree. index of 1 is not nested */
-    level: number;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

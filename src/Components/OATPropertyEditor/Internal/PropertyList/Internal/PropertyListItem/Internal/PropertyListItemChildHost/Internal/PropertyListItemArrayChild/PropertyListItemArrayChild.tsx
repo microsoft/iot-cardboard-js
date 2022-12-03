@@ -7,6 +7,7 @@ import {
 import { getStyles } from './PropertyListItemArrayChild.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
+import PropertyListItem from '../../../../PropertyListItem';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemArrayChildStyleProps,
@@ -16,7 +17,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
     props
 ) => {
-    const { item, styles } = props;
+    const { indexKey, item, level, styles } = props;
 
     // contexts
 
@@ -35,7 +36,15 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
 
     return (
         <div className={classNames.root}>
-            {typeof item === 'object' ? 'Complex' : 'Primitive'}
+            <PropertyListItem
+                indexKey={indexKey}
+                level={level + 1}
+                item={{
+                    name: 'Disable me',
+                    schema: item
+                }}
+                disableInput={true}
+            />
         </div>
     );
 };

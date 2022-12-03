@@ -1,11 +1,11 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLSchema } from '../../../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
+import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
-export interface IPropertyListItemArrayChildProps {
+export interface IPropertyListItemArrayChildProps
+    extends IPropertyListItemChildBaseProps {
     item: DTDLSchema;
-    /** Level in the nesting tree. index of 1 is not nested */
-    level: number;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

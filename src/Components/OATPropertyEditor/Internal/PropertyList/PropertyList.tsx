@@ -21,7 +21,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyList: React.FC<IPropertyListProps> = (props) => {
-    const { parentEntity, properties, styles } = props;
+    const { properties, styles } = props;
 
     // contexts
 
@@ -48,7 +48,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                             <PropertyListItem
                                 indexKey={String(index)}
                                 item={item}
-                                parentEntity={parentEntity}
                             />
                         );
                     }}

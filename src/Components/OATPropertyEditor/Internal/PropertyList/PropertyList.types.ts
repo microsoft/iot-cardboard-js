@@ -1,13 +1,8 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLProperty } from '../../../../Models/Classes/DTDL';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent
-} from '../../../../Models/Constants';
 import { IExtendedTheme } from '../../../../Theming/Theme.types';
 
 export interface IPropertyListProps {
-    parentEntity: DtdlInterface | DtdlInterfaceContent;
     properties: DTDLProperty[];
     arePropertiesSupported: boolean;
     /**
