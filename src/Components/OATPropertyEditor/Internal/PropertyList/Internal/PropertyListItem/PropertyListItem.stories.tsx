@@ -16,8 +16,7 @@ import {
 const wrapperStyle = {
     width: '300px',
     height: '400px',
-    padding: 8,
-    marginLeft: 32
+    padding: 8
 };
 
 export default {
@@ -34,14 +33,16 @@ const DEFAULT_ARGS = {
 };
 const Template: PropertyListItemStory = (args) => {
     return (
-        <OatPageContextProvider
-            disableLocalStorage={true}
-            initialState={{
-                ontologyFiles: [getMockFile(0, '123', '234')]
-            }}
-        >
-            <PropertyListItem {...args} />
-        </OatPageContextProvider>
+        <div style={{ marginLeft: 32 }}>
+            <OatPageContextProvider
+                disableLocalStorage={true}
+                initialState={{
+                    ontologyFiles: [getMockFile(0, '123', '234')]
+                }}
+            >
+                <PropertyListItem {...args} />
+            </OatPageContextProvider>
+        </div>
     );
 };
 

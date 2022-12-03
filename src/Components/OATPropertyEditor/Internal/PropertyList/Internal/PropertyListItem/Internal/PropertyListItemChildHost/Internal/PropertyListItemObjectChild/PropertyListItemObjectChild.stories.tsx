@@ -38,7 +38,7 @@ const Template: PropertyListItemObjectChildStory = (args) => {
         >
             <PropertyListItem
                 level={1}
-                propertyIndexKey={0}
+                indexKey={'0'}
                 item={{
                     name: 'Reference parent',
                     schema: new DTDLObject('', [])
