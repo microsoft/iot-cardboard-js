@@ -119,6 +119,11 @@ const ConditionsCallout: React.FC<IConditionsCalloutProps> = (props) => {
                     payload: { values: newValues }
                 });
             } else {
+                // If user types infinity or -infinity handle that case (JSON parsing turns numerical infinities to null)
+                if (newValues[0] === Infinity || newValues[0] === -Infinity) {
+                    newValues[0] = String(newValues[0]);
+                }
+
                 const rangeValues = conditionCalloutState.conditionToEdit
                     ?.values
                     ? deepCopy(conditionCalloutState.conditionToEdit.values)
