@@ -584,8 +584,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                             <div className={classNames.optionText}>
                                 {getMarkedHtmlBySearch(
                                     props.data.label,
-                                    searchValue,
-                                    true
+                                    searchValue
                                 )}
                             </div>
                             {!resourcesState.isLoading &&
@@ -623,7 +622,9 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
         if (!inputValue) return true;
         if (
             (isResourceOption(option.data) &&
-                option.data.label.includes(inputValue)) ||
+                option.data.label
+                    ?.toLowerCase()
+                    .includes(inputValue?.toLowerCase())) ||
             option.data.__isNew__
         ) {
             return true;
