@@ -23,7 +23,8 @@ import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
 
-const debugLogging = true;
+const debugLogging = false;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -89,13 +90,13 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         theme: useExtendedTheme()
     });
 
-    logDebugConsole(
-        'debug',
-        'Render. {property, level, isNested}',
-        item,
-        level,
-        isNestedType
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     'Render. {property, level, isNested}',
+    //     item,
+    //     level,
+    //     isNestedType
+    // );
 
     return (
         <Stack>
