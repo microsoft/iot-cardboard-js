@@ -139,7 +139,8 @@ describe('Property nodes are parsed correctly', () => {
             path: '',
             propertySourceObject: {
                 testArray: ['abc', 'def', 'ghi']
-            }
+            },
+            isArrayItem: true
         });
 
         expect(node.name).toBe('testArray');
@@ -147,10 +148,10 @@ describe('Property nodes are parsed correctly', () => {
         expect(node.children).toHaveLength(3);
 
         const arrayValue = node?.children?.[0];
-        expect(arrayValue.path).toBe('/testArray/testArray[0]');
+        expect(arrayValue.path).toBe('/testArray[0]');
 
         const arrayValueChild = node?.children?.[2];
-        expect(arrayValueChild.path).toBe('/testArray/testArray[2]');
+        expect(arrayValueChild.path).toBe('/testArray[2]');
         expect(arrayValueChild.value).toBe('ghi');
     });
 });
