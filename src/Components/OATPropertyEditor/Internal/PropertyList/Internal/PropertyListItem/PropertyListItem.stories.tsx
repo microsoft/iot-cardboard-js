@@ -9,6 +9,8 @@ import { getMockProperty } from '../../../../../../Models/Services/OatTestUtils'
 import {
     DTDLEnum,
     DTDLMap,
+    DTDLMapKey,
+    DTDLMapValue,
     DTDLObject,
     DTDLObjectField
 } from '../../../../../../Models/Classes/DTDL';
@@ -127,10 +129,16 @@ ComplexEnumString.args = {
     })()
 } as IPropertyListItemProps;
 
-export const ComplexMap = Template.bind({}) as PropertyListItemStory;
-ComplexMap.args = {
+export const ComplexMapOfPrimitive = Template.bind({}) as PropertyListItemStory;
+ComplexMapOfPrimitive.args = {
     ...DEFAULT_ARGS,
-    item: getMockProperty({ type: 'Map' })
+    item: getMockProperty({ type: 'Map', valueType: 'Primitive' })
+} as IPropertyListItemProps;
+
+export const ComplexMapOfObject = Template.bind({}) as PropertyListItemStory;
+ComplexMapOfObject.args = {
+    ...DEFAULT_ARGS,
+    item: getMockProperty({ type: 'Map', valueType: 'Complex' })
 } as IPropertyListItemProps;
 
 export const ComplexArrayPrimitive = Template.bind({}) as PropertyListItemStory;
@@ -156,7 +164,11 @@ ComplexArrayMaps.args = {
     ...DEFAULT_ARGS,
     item: getMockProperty({
         type: 'Array',
-        itemSchema: new DTDLMap('child map 1', {}, {})
+        itemSchema: new DTDLMap(
+            'child map 1',
+            new DTDLMapKey('map key 1'),
+            new DTDLMapValue('map value 1', 'string')
+        )
     })
 } as IPropertyListItemProps;
 

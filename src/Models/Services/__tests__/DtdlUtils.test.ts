@@ -3,6 +3,8 @@ import {
     DTDLArray,
     DTDLEnum,
     DTDLMap,
+    DTDLMapKey,
+    DTDLMapValue,
     DTDLObject,
     DTDLProperty
 } from '../../Classes/DTDL';
@@ -44,7 +46,14 @@ describe('DtdlUtils', () => {
         });
         test('map is complex', () => {
             // ARRANGE
-            const property = new DTDLProperty('', new DTDLMap('', {}, {}));
+            const property = new DTDLProperty(
+                '',
+                new DTDLMap(
+                    '',
+                    new DTDLMapKey('key 1'),
+                    new DTDLMapValue('value 1', 'string')
+                )
+            );
 
             // ACT
             const result = isComplexSchemaProperty(property);

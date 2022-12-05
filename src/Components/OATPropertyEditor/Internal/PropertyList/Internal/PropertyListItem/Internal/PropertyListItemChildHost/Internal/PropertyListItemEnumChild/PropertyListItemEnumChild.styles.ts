@@ -32,17 +32,20 @@ export const getStyles = (
         ],
         name: [
             {
-                borderRight: `1px solid ${theme.palette.neutralLighter}`,
                 paddingRight: 8
             }
         ],
-        value: [],
+        value: [
+            {
+                color: theme.semanticColors.disabledBodyText
+            }
+        ],
         subComponentStyles: {
             icon: {
                 root: {
-                    border: '1px solid white',
+                    border: `1px solid ${theme.semanticColors.inputBorder}`,
                     borderRadius: theme.effects.roundedCorner4,
-                    marginRight: 4
+                    marginRight: 8
                 }
             }
         }

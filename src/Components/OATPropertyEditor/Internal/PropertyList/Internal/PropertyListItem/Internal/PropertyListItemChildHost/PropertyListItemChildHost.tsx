@@ -16,6 +16,7 @@ import {
 import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/PropertyListItemEnumChild';
 import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
 import PropertyListItemObjectChild from './Internal/PropertyListItemObjectChild/PropertyListItemObjectChild';
+import PropertyListItemMapChild from './Internal/PropertyListItemMapChild/PropertyListItemMapChild';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemChildHostStyleProps,
@@ -63,7 +64,11 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     level={level}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
-                <>Map</>
+                <PropertyListItemMapChild
+                    indexKey={`${indexKey}.0`}
+                    item={propertyItem.schema}
+                    level={level}
+                />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
                     items={propertyItem.schema.fields}

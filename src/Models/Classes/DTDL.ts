@@ -766,10 +766,124 @@ export class DTDLArray implements IDTDLArray {
     }
 }
 
+export interface IDTDLMapKey {
+    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
+    name: string;
+    /** The data type of the map's key */
+    schema: DTDLSchema;
+    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
+    ['@id']?: string;
+    /** A comment for model authors */
+    comment?: string;
+    /** A localizable description for display */
+    description?: string;
+    /** A localizable name for display */
+    displayName?: string;
+}
+export class DTDLMapKey implements IDTDLMapKey {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = 'string';
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapKey('', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapKey(
+            obj.name,
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
+export interface IDTDLMapValue {
+    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
+    name: string;
+    /** The data type of the map's values */
+    schema: DTDLSchema;
+    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
+    ['@id']?: string;
+    /** A comment for model authors */
+    comment?: string;
+    /** A localizable description for display */
+    description?: string;
+    /** A localizable name for display */
+    displayName?: string;
+}
+export class DTDLMapValue implements IDTDLMapKey {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = schema;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapValue('', 'double', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapValue(
+            obj.name,
+            typeof obj.schema === 'string'
+                ? (obj.schema as DTDLPrimitiveSchema)
+                : obj.schema['@type'] === DTDLSchemaType.Array
+                ? DTDLArray.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Enum
+                ? DTDLEnum.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Map
+                ? DTDLMap.fromObject(obj.schema)
+                : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
 export interface IDTDLMap {
     ['@type']: DTDLSchemaType.Map;
-    mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
-    mapValue: Record<string, any>;
+    mapKey: IDTDLMapKey;
+    mapValue: IDTDLMapValue;
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -777,8 +891,8 @@ export interface IDTDLMap {
 }
 export class DTDLMap implements IDTDLMap {
     readonly ['@type']: DTDLSchemaType.Map;
-    mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
-    mapValue: Record<string, any>;
+    mapKey: IDTDLMapKey;
+    mapValue: IDTDLMapValue;
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -786,8 +900,8 @@ export class DTDLMap implements IDTDLMap {
 
     constructor(
         id: string,
-        mapKey: Record<string, any>,
-        mapValue: Record<string, any>,
+        mapKey: IDTDLMapKey,
+        mapValue: IDTDLMapValue,
         displayName?: string,
         description?: string,
         comment?: string
@@ -802,7 +916,13 @@ export class DTDLMap implements IDTDLMap {
     }
 
     static getBlank() {
-        return new DTDLMap('', {}, {}, '', '');
+        return new DTDLMap(
+            '',
+            DTDLMapKey.getBlank(),
+            DTDLMapValue.getBlank(),
+            '',
+            ''
+        );
     }
 
     static fromObject(obj: any) {

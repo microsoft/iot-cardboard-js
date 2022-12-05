@@ -46,7 +46,8 @@ Base.args = {
         getMockProperty({ type: 'Object' }),
         getMockProperty({ type: 'Object' }),
         getMockProperty({ type: 'Enum', enumType: 'integer' }),
-        getMockProperty({ type: 'Map' }),
+        getMockProperty({ type: 'Map', valueType: 'Primitive' }),
+        getMockProperty({ type: 'Map', valueType: 'Complex' }),
         getMockProperty({ type: 'Array', itemSchema: 'double' }),
         getMockProperty({
             type: 'Array',

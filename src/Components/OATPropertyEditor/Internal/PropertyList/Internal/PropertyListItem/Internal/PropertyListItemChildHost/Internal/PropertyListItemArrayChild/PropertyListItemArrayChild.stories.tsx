@@ -41,11 +41,13 @@ const Template: PropertyListItemArrayChildStory = (args) => {
 
 export const Primitive = Template.bind({}) as PropertyListItemArrayChildStory;
 Primitive.args = {
+    level: 1,
     item: 'boolean'
 } as IPropertyListItemArrayChildProps;
 
 export const Complex = Template.bind({}) as PropertyListItemArrayChildStory;
 Complex.args = {
+    level: 1,
     item: new DTDLArray(
         '',
         new DTDLObject('', [

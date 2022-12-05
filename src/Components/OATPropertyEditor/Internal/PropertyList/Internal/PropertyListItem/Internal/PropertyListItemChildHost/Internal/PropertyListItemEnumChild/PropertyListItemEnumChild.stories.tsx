@@ -42,12 +42,14 @@ const Template: PropertyListItemEnumChildStory = (args) => {
 
 export const Integer = Template.bind({}) as PropertyListItemEnumChildStory;
 Integer.args = {
+    level: 1,
     enumType: 'integer',
     item: new DTDLEnumValue('enum name 1', 2)
 } as IPropertyListItemEnumChildProps;
 
 export const String = Template.bind({}) as PropertyListItemEnumChildStory;
 String.args = {
+    level: 1,
     enumType: 'string',
     item: new DTDLEnumValue('enum name 1', 'my value')
 } as IPropertyListItemEnumChildProps;
