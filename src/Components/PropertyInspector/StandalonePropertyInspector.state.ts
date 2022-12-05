@@ -259,7 +259,7 @@ const StandalonePropertyInspectorReducer = produce(
                 const newTreeNode = PropertyInspectorModel.parsePropertyIntoNode(
                     {
                         isInherited: arrayNode.isInherited,
-                        isObjectChild: !!arrayNode.parentObjectPath,
+                        isObjectChild: false,
                         path: arrayNode.path,
                         propertySourceObject: {},
                         modelProperty: {
@@ -339,9 +339,9 @@ const StandalonePropertyInspectorReducer = produce(
                     }
                 }
 
-                // Remove all edit status flags for array children
+                // Remove all edit status flags for array ITEM's children
                 Object.keys(draft.editStatus).forEach((key) => {
-                    if (key.startsWith(arrayNode.path)) {
+                    if (key.startsWith(arrayItemToRemove.path)) {
                         delete draft.editStatus[key];
                     }
                 });

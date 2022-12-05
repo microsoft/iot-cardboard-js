@@ -89,12 +89,12 @@ abstract class PropertyInspectorModel {
         }
     };
 
-    static buildPath = (path, newRoute, index?: number) => {
-        return index === undefined
-            ? `${path}/${newRoute}`
-            : newRoute !== undefined
-            ? `${path}/${newRoute}[${index}]`
-            : `${path}[${index}]`;
+    static buildArrayPath = (path: string, index: number) => {
+        return `${path}[${index}]`;
+    };
+
+    static buildPath = (path, newRoute) => {
+        return `${path}/${newRoute}`;
     };
 
     /** Parses all primitive and complex DTDL property types into PropertyTreeNode.
@@ -176,12 +176,14 @@ abstract class PropertyInspectorModel {
                     modelProperty.schema as dtdlPropertyTypesEnum
                     // here is where we are passing the primative values
                 ),
-                path: mapInfo
-                    ? PropertyInspectorModel.buildPath(path, mapInfo.key)
+                path: isArrayItem
+                    ? PropertyInspectorModel.buildArrayPath(
+                          path,
+                          modelProperty.index
+                      )
                     : PropertyInspectorModel.buildPath(
                           path,
-                          !isArrayItem ? modelProperty.name : undefined,
-                          modelProperty.index
+                          mapInfo ? mapInfo.key : modelProperty.name
                       ),
                 parentObjectPath: (isObjectChild || isArrayItem) && path,
                 isMapChild,
@@ -201,6 +203,16 @@ abstract class PropertyInspectorModel {
                     PropertyInspectorModel.conformSyntax(
                         modelProperty.schema?.fields
                     );
+                    // eslint-disable-next-line no-case-declarations
+                    const itemPath = isArrayItem
+                        ? PropertyInspectorModel.buildArrayPath(
+                              path,
+                              modelProperty.index
+                          )
+                        : PropertyInspectorModel.buildPath(
+                              path,
+                              mapInfo ? mapInfo.key : modelProperty.name
+                          );
                     return {
                         name: mapInfo ? mapInfo.key : modelProperty.name,
                         displayName: mapInfo
@@ -226,17 +238,7 @@ abstract class PropertyInspectorModel {
                                                 ? propertySourceObject
                                                 : {}),
                                         isInherited,
-                                        path: mapInfo
-                                            ? PropertyInspectorModel.buildPath(
-                                                  path,
-                                                  mapInfo.key
-                                              )
-                                            : PropertyInspectorModel.buildPath(
-                                                  path,
-                                                  modelProperty.name ||
-                                                      field.name,
-                                                  modelProperty.index
-                                              ),
+                                        path: itemPath,
                                         isObjectChild: true,
                                         isMapChild: false,
                                         schemas,
@@ -247,17 +249,9 @@ abstract class PropertyInspectorModel {
                             }) ?? [],
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: mapInfo
-                            ? PropertyInspectorModel.buildPath(
-                                  path,
-                                  mapInfo.key
-                              )
-                            : PropertyInspectorModel.buildPath(
-                                  path,
-                                  modelProperty.name,
-                                  modelProperty.index
-                              ),
-                        parentObjectPath: isObjectChild && path,
+                        path: itemPath,
+                        parentObjectPath:
+                            (isObjectChild || isArrayItem) && path,
                         isMapChild,
                         isArrayItem,
                         isRemovable: !(isMapChild || isArrayItem),
@@ -304,17 +298,12 @@ abstract class PropertyInspectorModel {
                                     })
                                 )
                             } ?? null,
-                        path: mapInfo
-                            ? PropertyInspectorModel.buildPath(
-                                  path,
-                                  mapInfo.key
-                              )
-                            : PropertyInspectorModel.buildPath(
-                                  path,
-                                  modelProperty.name,
-                                  modelProperty.index
-                              ),
-                        parentObjectPath: isObjectChild && path,
+                        path: PropertyInspectorModel.buildPath(
+                            path,
+                            mapInfo ? mapInfo.key : modelProperty.name
+                        ),
+                        parentObjectPath:
+                            (isObjectChild || isArrayItem) && path,
                         isMapChild,
                         isArrayItem,
                         isInherited,
@@ -349,17 +338,17 @@ abstract class PropertyInspectorModel {
                         schema: dtdlPropertyTypesEnum.Map,
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: mapInfo
-                            ? PropertyInspectorModel.buildPath(
+                        path: isArrayItem
+                            ? PropertyInspectorModel.buildArrayPath(
                                   path,
-                                  mapInfo.key
+                                  modelProperty.index
                               )
                             : PropertyInspectorModel.buildPath(
                                   path,
-                                  modelProperty.name,
-                                  modelProperty.index
+                                  mapInfo ? mapInfo.key : modelProperty.name
                               ),
-                        parentObjectPath: isObjectChild && path,
+                        parentObjectPath:
+                            (isObjectChild || isArrayItem) && path,
                         isInherited,
                         isMapChild,
                         isArrayItem,
@@ -386,8 +375,7 @@ abstract class PropertyInspectorModel {
                                                   .mapValue,
                                               path: PropertyInspectorModel.buildPath(
                                                   path,
-                                                  modelProperty.name,
-                                                  modelProperty.index
+                                                  modelProperty.name
                                               ),
                                               propertySourceObject: mapValue,
                                               mapInfo: { key },
@@ -414,6 +402,10 @@ abstract class PropertyInspectorModel {
                             ((modelProperty.schema as any).elementSchema ||
                                 modelProperty.schema)
                     );
+                    const arrayItemPath = PropertyInspectorModel.buildPath(
+                        path,
+                        modelProperty.name
+                    );
                     return {
                         name: modelProperty.name,
                         displayName: PropertyInspectorModel.parsePropertyTreeDisplayName(
@@ -423,12 +415,9 @@ abstract class PropertyInspectorModel {
                         schema: dtdlPropertyTypesEnum.Array,
                         isCollapsed: true,
                         type: DTDLType.Property,
-                        path: PropertyInspectorModel.buildPath(
-                            path,
-                            modelProperty.name,
-                            modelProperty.index
-                        ),
-                        parentObjectPath: isObjectChild && path,
+                        path: arrayItemPath,
+                        parentObjectPath:
+                            (isObjectChild || isArrayItem) && path,
                         isInherited,
                         isMapChild,
                         isArrayItem,
@@ -470,11 +459,7 @@ abstract class PropertyInspectorModel {
                                                   schema: itemSchema['@id'],
                                                   ...itemSchema
                                               },
-                                              path: PropertyInspectorModel.buildPath(
-                                                  path,
-                                                  modelProperty.name,
-                                                  modelProperty.index
-                                              ),
+                                              path: arrayItemPath,
                                               propertySourceObject: arrayItem,
                                               isMapChild: false,
                                               forceSet: true,
@@ -1039,6 +1024,43 @@ abstract class PropertyInspectorModel {
         }
         return null;
     };
+    static parseArrayDataFromPropertyTree = (treeItems: PropertyTreeNode[]) => {
+        const itemArray = treeItems.map((treeItem) => {
+            if (treeItem.children) {
+                //complex object
+                return PropertyInspectorModel.parseDataFromPropertyTree(
+                    treeItem?.children || [treeItem]
+                );
+            } else {
+                // simple value
+                return PropertyInspectorModel.parseFinalValueFromPropertyTreeItem(
+                    treeItem
+                );
+            }
+        });
+        return itemArray;
+    };
+
+    static parseFinalValueFromPropertyTreeItem = (node: PropertyTreeNode) => {
+        // Transform numeric values from strings to numbers
+        if (
+            [
+                dtdlPropertyTypesEnum.integer,
+                dtdlPropertyTypesEnum.float,
+                dtdlPropertyTypesEnum.double,
+                dtdlPropertyTypesEnum.long,
+                dtdlPropertyTypesEnum
+            ].includes(node.schema)
+        ) {
+            try {
+                return Number(node.value);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        return node.value;
+    };
 
     /** Transforms property tree nodes into JSON, retaining values only*/
     static parseDataFromPropertyTree = (
@@ -1049,39 +1071,24 @@ abstract class PropertyInspectorModel {
             if (node.isSet) {
                 if (node.children) {
                     if (node.schema === 'Array') {
-                        newJson[node.name] = [];
-                        return PropertyInspectorModel.parseDataFromPropertyTree(
+                        newJson[
+                            node.name
+                        ] = PropertyInspectorModel.parseArrayDataFromPropertyTree(
+                            node.children
+                        );
+                    } else {
+                        newJson[
+                            node.name
+                        ] = PropertyInspectorModel.parseDataFromPropertyTree(
                             node.children,
                             newJson[node.name]
                         );
-                    } else {
-                        newJson[node.name] = {};
                     }
-                    newJson[
-                        node.name
-                    ] = PropertyInspectorModel.parseDataFromPropertyTree(
-                        node.children,
-                        newJson[node.name]
-                    );
                 } else {
-                    let finalValue = node.value;
+                    const finalValue = PropertyInspectorModel.parseFinalValueFromPropertyTreeItem(
+                        node
+                    );
 
-                    // Transform numeric values from strings to numbers
-                    if (
-                        [
-                            dtdlPropertyTypesEnum.integer,
-                            dtdlPropertyTypesEnum.float,
-                            dtdlPropertyTypesEnum.double,
-                            dtdlPropertyTypesEnum.long,
-                            dtdlPropertyTypesEnum
-                        ].includes(node.schema)
-                    ) {
-                        try {
-                            finalValue = Number(node.value);
-                        } catch (err) {
-                            console.error(err);
-                        }
-                    }
                     if (node.isArrayItem && Array.isArray(newJson)) {
                         newJson.push(finalValue);
                     } else {

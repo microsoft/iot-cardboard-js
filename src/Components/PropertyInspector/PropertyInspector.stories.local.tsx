@@ -43,8 +43,10 @@ export const AdtTwin = (args, { globals: { theme, locale } }) => {
 AdtTwin.argTypes = {
     twinId: {
         control: { type: 'text' },
-        //        defaultValue: 'PasteurizationMachine_A01'
-        defaultValue: 'ezArray' //revert this
+        defaultValue: 'PasteurizationMachine_A01'
+        // Array testing
+        // defaultValue: 'widget1' //revert this
+        // defaultValue: 'ezArray' //revert this
     }
 };
 
