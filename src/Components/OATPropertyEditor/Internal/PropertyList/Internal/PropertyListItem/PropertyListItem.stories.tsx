@@ -14,7 +14,7 @@ import {
 } from '../../../../../../Models/Classes/DTDL';
 
 const wrapperStyle = {
-    width: '300px',
+    width: '400px',
     height: '400px',
     padding: 8
 };
@@ -109,13 +109,22 @@ ComplexObject.args = {
 export const ComplexEnumInteger = Template.bind({}) as PropertyListItemStory;
 ComplexEnumInteger.args = {
     ...DEFAULT_ARGS,
-    item: getMockProperty({ type: 'Enum', enumType: 'integer' })
+    item: (() => {
+        const value = getMockProperty({ type: 'Enum', enumType: 'integer' });
+        (value.schema as DTDLEnum).enumValues[1].name = 'longer name 2';
+        return value;
+    })()
 } as IPropertyListItemProps;
 
 export const ComplexEnumString = Template.bind({}) as PropertyListItemStory;
 ComplexEnumString.args = {
     ...DEFAULT_ARGS,
-    item: getMockProperty({ type: 'Enum', enumType: 'string' })
+    item: (() => {
+        const value = getMockProperty({ type: 'Enum', enumType: 'string' });
+        (value.schema as DTDLEnum).enumValues[1].name = 'longer name 2';
+        (value.schema as DTDLEnum).enumValues[2].enumValue = 'longer value 3';
+        return value;
+    })()
 } as IPropertyListItemProps;
 
 export const ComplexMap = Template.bind({}) as PropertyListItemStory;

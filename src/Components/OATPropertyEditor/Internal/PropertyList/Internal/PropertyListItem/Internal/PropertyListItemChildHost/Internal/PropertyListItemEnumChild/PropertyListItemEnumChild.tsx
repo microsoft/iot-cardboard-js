@@ -5,7 +5,7 @@ import {
     IPropertyListItemEnumChildStyles
 } from './PropertyListItemEnumChild.types';
 import { getStyles } from './PropertyListItemEnumChild.styles';
-import { classNamesFunction, Stack, styled } from '@fluentui/react';
+import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
 
@@ -17,7 +17,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
     props
 ) => {
-    const { enumType, item, styles } = props;
+    const { enumType, item, level, styles } = props;
 
     // contexts
 
@@ -31,14 +31,20 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
 
     // styles
     const classNames = getClassNames(styles, {
-        theme: useExtendedTheme()
+        theme: useExtendedTheme(),
+        level: level + 1
     });
 
     return (
         <Stack horizontal className={classNames.root}>
-            <PropertyIcon schema={enumType} />
-            <span>Name: {item.name}</span>
-            <span>Value: {item.enumValue}</span>
+            <PropertyIcon
+                schema={enumType}
+                styles={classNames.subComponentStyles.icon}
+            />
+            <div className={classNames.container}>
+                <span className={classNames.name}>{item.name}:</span>
+                <span className={classNames.value}>{item.enumValue}</span>
+            </div>
         </Stack>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../../../../../../../Models/Services/StoryUtilities';
 import PropertyListItemEnumChild from './PropertyListItemEnumChild';
@@ -7,7 +7,12 @@ import { DTDLEnumValue } from '../../../../../../../../../../Models/Classes/DTDL
 import { OatPageContextProvider } from '../../../../../../../../../../Models/Context/OatPageContext/OatPageContext';
 import { getMockFile } from '../../../../../../../../../../Models/Context/OatPageContext/OatPageContext.mock';
 
-const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
+const wrapperStyle: CSSProperties = {
+    width: '300px',
+    height: '200px',
+    padding: 8,
+    overflowY: 'hidden'
+};
 
 export default {
     title:
@@ -35,8 +40,14 @@ const Template: PropertyListItemEnumChildStory = (args) => {
     );
 };
 
-export const Base = Template.bind({}) as PropertyListItemEnumChildStory;
-Base.args = {
+export const Integer = Template.bind({}) as PropertyListItemEnumChildStory;
+Integer.args = {
     enumType: 'integer',
     item: new DTDLEnumValue('enum name 1', 2)
+} as IPropertyListItemEnumChildProps;
+
+export const String = Template.bind({}) as PropertyListItemEnumChildStory;
+String.args = {
+    enumType: 'string',
+    item: new DTDLEnumValue('enum name 1', 'my value')
 } as IPropertyListItemEnumChildProps;

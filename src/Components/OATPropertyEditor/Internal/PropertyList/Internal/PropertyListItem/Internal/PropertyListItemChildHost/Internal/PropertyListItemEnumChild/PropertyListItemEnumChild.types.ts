@@ -1,6 +1,7 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
 import { DTDLEnumValue } from '../../../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
+import { IPropertyIconStyles } from '../../../PropertyIcon/PropertyIcon.types';
 import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
 export interface IPropertyListItemEnumChildProps
@@ -18,9 +19,13 @@ export interface IPropertyListItemEnumChildProps
 
 export interface IPropertyListItemEnumChildStyleProps {
     theme: IExtendedTheme;
+    level: number;
 }
 export interface IPropertyListItemEnumChildStyles {
     root: IStyle;
+    container: IStyle;
+    name: IStyle;
+    value: IStyle;
 
     /**
      * SubComponent styles.
@@ -28,5 +33,6 @@ export interface IPropertyListItemEnumChildStyles {
     subComponentStyles?: IPropertyListItemEnumChildSubComponentStyles;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IPropertyListItemEnumChildSubComponentStyles {}
+export interface IPropertyListItemEnumChildSubComponentStyles {
+    icon?: Partial<IPropertyIconStyles>;
+}

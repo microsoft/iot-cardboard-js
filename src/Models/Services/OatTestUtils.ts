@@ -23,12 +23,11 @@ interface IMockPropertyArrayArgs {
 export const getMockProperty = (
     args: IMockPropertyBaseArgs | IMockPropertyEnumArgs | IMockPropertyArrayArgs
 ): DTDLProperty => {
-    const { type } = args;
-    if (type === 'Enum') {
+    if (args.type === 'Enum') {
         const items: DTDLEnumValue[] = [
             {
                 '@id': 'test id 1',
-                name: 'test item 1',
+                name: 'test item 1 with a longer name',
                 enumValue: args.enumType === 'integer' ? 1 : 'value 1'
             },
             {
@@ -38,12 +37,12 @@ export const getMockProperty = (
             },
             {
                 '@id': 'test id 3',
-                name: 'test item 3',
-                enumValue: args.enumType === 'integer' ? 3 : 'value 3'
+                name: 'test long name 3',
+                enumValue: args.enumType === 'integer' ? 3 : 'value is longer 3'
             }
         ];
         return new DTDLProperty(
-            'test ' + type + ' property name',
+            'test ' + args.type + ' property name',
             new DTDLEnum(
                 items,
                 args.enumType,
@@ -58,9 +57,9 @@ export const getMockProperty = (
             '',
             true
         );
-    } else if (type === 'Object') {
+    } else if (args.type === 'Object') {
         return new DTDLProperty(
-            'test ' + type + ' property name',
+            'test ' + args.type + ' property name',
             new DTDLObject(
                 'test object 1',
                 [
@@ -118,9 +117,9 @@ export const getMockProperty = (
             '',
             true
         );
-    } else if (type === 'Map') {
+    } else if (args.type === 'Map') {
         return new DTDLProperty(
-            'test ' + type + ' property name',
+            'test ' + args.type + ' property name',
             new DTDLMap(
                 'test map 1',
                 {},
@@ -136,9 +135,9 @@ export const getMockProperty = (
             '',
             true
         );
-    } else if (type === 'Array') {
+    } else if (args.type === 'Array') {
         return new DTDLProperty(
-            'test ' + type + ' property name',
+            'test ' + args.type + ' property name',
             new DTDLArray(
                 'test array 1',
                 args.itemSchema,
@@ -155,8 +154,8 @@ export const getMockProperty = (
         );
     } else {
         return new DTDLProperty(
-            'test ' + type + ' property name',
-            type,
+            'test ' + args.type + ' property name',
+            args.type,
             'id1',
             'test comment',
             'test description',
