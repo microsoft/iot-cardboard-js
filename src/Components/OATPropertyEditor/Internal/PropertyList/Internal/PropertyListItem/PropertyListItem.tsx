@@ -96,7 +96,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        hasChildren: isNestedType,
+        hasChildren: supportsAddingChildren,
         level: itemLevel,
         theme: useExtendedTheme()
     });
