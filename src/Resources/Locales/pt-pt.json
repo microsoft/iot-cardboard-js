@@ -1208,7 +1208,10 @@
     "minMultiplicityLabel": "Multiplicidade mínima",
     "minMultiplicityMessage": "DTDL V2 só suporta uma multiplicidade mínima de 0",
     "date": "data",
-    "expand": "Expandir"
+    "expand": "Expandir",
+    "PropertyListItem": {
+      "arrayItemLabel": "itens"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",

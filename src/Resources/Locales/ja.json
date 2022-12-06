@@ -1208,7 +1208,10 @@
     "minMultiplicityLabel": "最小多重度",
     "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
     "date": "日付",
-    "expand": "膨らむ"
+    "expand": "膨らむ",
+    "PropertyListItem": {
+      "arrayItemLabel": "項目"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

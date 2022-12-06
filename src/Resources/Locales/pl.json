@@ -1208,7 +1208,10 @@
     "minMultiplicityLabel": "Minimalna wielokrotność",
     "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
     "date": "data",
-    "expand": "Rozszerzać"
+    "expand": "Rozszerzać",
+    "PropertyListItem": {
+      "arrayItemLabel": "Elementy"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

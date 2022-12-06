@@ -1208,7 +1208,10 @@
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
     "date": "dátum",
-    "expand": "Kibővít"
+    "expand": "Kibővít",
+    "PropertyListItem": {
+      "arrayItemLabel": "Elemek"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
