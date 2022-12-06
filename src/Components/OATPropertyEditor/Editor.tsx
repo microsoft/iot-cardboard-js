@@ -128,7 +128,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     };
 
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
-    const useNewList = true;
+    const useNewList = false;
     return (
         <>
             <div className={propertyInspectorStyles.root}>
