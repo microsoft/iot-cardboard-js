@@ -857,7 +857,8 @@
       "adtInstanceMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur de données Azure Digital Twins » (au minimum).",
       "storageAccountMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur » (au minimum).",
       "storageContainerMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « Lecteur » (au minimum) et « Propriétaire des données d'objets blob de stockage » ou « Contributeur de données d'objets blob de stockage ».",
-      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée."
+      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée.",
+      "resourceNotVerified": "Nous ne pouvons pas vérifier que cette ressource existe."
     }
   },
   "behaviorsModal": {

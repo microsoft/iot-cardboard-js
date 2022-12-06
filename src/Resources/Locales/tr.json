@@ -857,7 +857,8 @@
       "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
       "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
       "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
-      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı."
+      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı.",
+      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz."
     }
   },
   "behaviorsModal": {
