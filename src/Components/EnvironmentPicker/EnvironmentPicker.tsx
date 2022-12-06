@@ -72,6 +72,9 @@ import {
     setStorageContainerOptionsInLocalStorage
 } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 import produce from 'immer';
+import AdapterResult from '../../Models/Classes/AdapterResult';
+import { AzureResourceData } from '../../Models/Classes/AdapterDataClasses/AzureManagementData';
+import { ResourcePickerError } from '../ResourcePicker/ResourcePicker.types';
 
 const dialogStyles: Partial<IModalStyles> = {
     main: {
@@ -118,7 +121,11 @@ const EnvironmentPicker = ({
     const [
         resourcePickerErrorMessages,
         setResourcePickerErrorMessages
-    ] = useState({
+    ] = useState<{
+        adt: ResourcePickerError;
+        storageAccount: ResourcePickerError;
+        storageContainer: ResourcePickerError;
+    }>({
         adt: undefined,
         storageAccount: undefined,
         storageContainer: undefined
@@ -401,8 +408,9 @@ const EnvironmentPicker = ({
         parentResource?: IAzureResource | string
     ) => {
         let fetchedResource: IAzureResource;
+        let getResourceResponse: AdapterResult<AzureResourceData>;
         if (typeof resource === 'string') {
-            const getResourceResponse = await adapter.getResourceByUrl(
+            getResourceResponse = await adapter.getResourceByUrl(
                 getResourceUrl(resource, type, parentResource),
                 type
             );
@@ -427,25 +435,34 @@ const EnvironmentPicker = ({
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                            draft.adt = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.adtInstanceMissingPermissionMessage'
-                                  );
+                            draft.adt = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.adtInstanceMissingPermissionMessage'
+                                      ),
+                                isSevere: true
+                            };
                             break;
                         case AzureResourceTypes.StorageAccount.toLowerCase():
-                            draft.storageAccount = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.storageAccountMissingPermissionMessage'
-                                  );
+                            draft.storageAccount = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.storageAccountMissingPermissionMessage'
+                                      ),
+                                isSevere: true
+                            };
                             break;
                         case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                            draft.storageContainer = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.storageContainerMissingPermissionMessage'
-                                  );
+                            draft.storageContainer = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.storageContainerMissingPermissionMessage'
+                                      ),
+                                isSevere: true
+                            };
                             break;
                         default:
                             break;
@@ -453,23 +470,25 @@ const EnvironmentPicker = ({
                 })
             );
         } else {
+            const error: ResourcePickerError = {
+                message: getResourceResponse?.getCatastrophicError()
+                    ? t('environmentPicker.errors.resourceNotVerified')
+                    : t('environmentPicker.errors.resourceNotFound'),
+                isSevere: getResourceResponse?.getCatastrophicError() // if getResourceResponse has a catastrophic error it might be due to user dont have permissions to make ARM API call, then do not mark it as severe message
+                    ? false
+                    : true
+            };
             setResourcePickerErrorMessages(
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                            draft.adt = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.adt = error;
                             break;
                         case AzureResourceTypes.StorageAccount.toLowerCase():
-                            draft.storageAccount = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.storageAccount = error;
                             break;
                         case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                            draft.storageContainer = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.storageContainer = error;
                             break;
                         default:
                             break;
@@ -732,7 +751,7 @@ const EnvironmentPicker = ({
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
-                            errorMessage={resourcePickerErrorMessages.adt}
+                            error={resourcePickerErrorMessages.adt}
                         />
                         {storage && (
                             <>
@@ -772,7 +791,7 @@ const EnvironmentPicker = ({
                                     onLoaded={
                                         handleOnStorageAccountResourcesLoaded
                                     }
-                                    errorMessage={
+                                    error={
                                         resourcePickerErrorMessages.storageAccount
                                     }
                                 />
@@ -844,7 +863,7 @@ const EnvironmentPicker = ({
                                     onLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
-                                    errorMessage={
+                                    error={
                                         resourcePickerErrorMessages.storageContainer
                                     }
                                 />
@@ -873,10 +892,7 @@ const EnvironmentPicker = ({
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            resourcePickerErrorMessages.adt ||
-                            resourcePickerErrorMessages.storageAccount ||
-                            resourcePickerErrorMessages.storageContainer ||
-                            (storage
+                            storage
                                 ? !(
                                       environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
@@ -886,7 +902,7 @@ const EnvironmentPicker = ({
                                           .containerToEdit
                                   )
                                 : !environmentPickerState.adtInstanceInfo
-                                      .adtInstanceToEdit)
+                                      .adtInstanceToEdit
                         }
                     />
                 </DialogFooter>

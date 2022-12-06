@@ -19,7 +19,8 @@ const classNames = {
     optionHeaderText: `${classPrefix}-option-header-text`,
     labelContainer: `${classPrefix}-label-container`,
     label: `${classPrefix}-label`,
-    errorText: `${classPrefix}-error-text`
+    errorText: `${classPrefix}-error-text`,
+    warningText: `${classPrefix}-warning-text`
 };
 export const getStyles = ({
     theme
@@ -100,6 +101,12 @@ export const getStyles = ({
                 color: theme.semanticColors.errorText
             }
         ],
+        warningText: [
+            classNames.warningText,
+            {
+                color: theme.palette.orangeLighter
+            }
+        ],
         subComponentStyles: {
             errorMessageBar: {
                 root: {
@@ -107,14 +114,15 @@ export const getStyles = ({
                     minHeight: 'unset'
                 },
                 content: {
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    margin: '0 4px'
                 },
                 dismissal: {
                     padding: 0,
                     width: 10,
                     height: 10
                 },
-                iconContainer: { margin: '0px 12px', padding: '1px 4px 0' },
+                iconContainer: { margin: 0, padding: '1px 4px 0' },
                 text: { margin: 0, paddingLeft: '8px' }
             } as IMessageBarStyles
         }

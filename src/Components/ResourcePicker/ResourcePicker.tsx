@@ -73,7 +73,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
     additionalOptions: additionalOptionsProp,
     selectedOption: selectedOptionProp,
     disabled = false,
-    errorMessage
+    error: errorProp
 }) => {
     const { t } = useTranslation();
 
@@ -366,29 +366,29 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
             selectedOption &&
             ((displayField === AzureResourceDisplayFields.url &&
                 !isValidUrlStr(selectedOption.label, resourceType)) ||
-                errorMessage)
+                errorProp?.message)
         ) {
             switch (resourceType.toLowerCase()) {
                 case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
                     return (
-                        errorMessage ||
+                        errorProp?.message ||
                         t('resourcesPicker.errors.invalidEnvironmentUrl')
                     );
                 case AzureResourceTypes.StorageAccount.toLowerCase():
                     return (
-                        errorMessage ||
+                        errorProp?.message ||
                         t('resourcesPicker.errors.invalidStorageAccountUrl')
                     );
                 case AzureResourceTypes.StorageBlobContainer.toLowerCase():
                     return (
-                        errorMessage ||
+                        errorProp?.message ||
                         t('resourcesPicker.errors.invalidContainerUrl')
                     );
                 default:
                     return undefined;
             }
         }
-    }, [selectedOption, resourceType, t, displayField, errorMessage]);
+    }, [selectedOption, resourceType, t, displayField, errorProp]);
 
     /** notify the change when:
      * 1- selected option is changed by its key (e.g. when option change in the dropdown or when the resource data fetched and merged with existing one)
@@ -658,7 +658,14 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     filterOption={customFilter}
                 />
                 {inputError && (
-                    <Text className={classNames.errorText} variant={'small'}>
+                    <Text
+                        className={
+                            errorProp && !errorProp.isSevere
+                                ? classNames.warningText
+                                : classNames.errorText
+                        }
+                        variant={'small'}
+                    >
                         {inputError}
                     </Text>
                 )}

@@ -35,7 +35,7 @@ export interface IResourcePickerProps {
     searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
     shouldFetchResourcesOnMount?: boolean;
-    errorMessage?: string;
+    error?: ResourcePickerError;
     styles?: IStyleFunctionOrObject<
         IResourcePickerStyleProps,
         IResourcePickerStyles
@@ -62,6 +62,11 @@ export const isResourceOption = (
     return (option as IResourceOption).type === 'option';
 };
 
+export type ResourcePickerError = {
+    message: string;
+    isSevere: boolean;
+};
+
 export interface IResourcePickerStyleProps {
     theme: ITheme;
 }
@@ -75,6 +80,7 @@ export interface IResourcePickerStyles {
     labelContainer: IStyle;
     label: IStyle;
     errorText: IStyle;
+    warningText: IStyle;
     /**
      * SubComponent styles.
      */
