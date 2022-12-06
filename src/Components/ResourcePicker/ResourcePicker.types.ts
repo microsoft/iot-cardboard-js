@@ -64,7 +64,7 @@ export const isResourceOption = (
 
 export type ResourcePickerError = {
     message: string;
-    isSevere: boolean;
+    isCatastrophic: boolean;
 };
 
 export interface IResourcePickerStyleProps {

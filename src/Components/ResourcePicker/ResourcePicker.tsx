@@ -660,7 +660,7 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                 {inputError && (
                     <Text
                         className={
-                            errorProp && !errorProp.isSevere
+                            errorProp && !errorProp.isCatastrophic
                                 ? classNames.warningText
                                 : classNames.errorText
                         }

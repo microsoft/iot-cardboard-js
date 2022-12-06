@@ -68,7 +68,7 @@ ADTInstancesWithError.args = {
     selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
     error: {
         message: 'Example error message',
-        isSevere: false
+        isCatastrophic: false
     }
 };
 
@@ -87,6 +87,6 @@ ADTInstancesWithSevereError.args = {
     selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
     error: {
         message: 'Example severe error message',
-        isSevere: true
+        isCatastrophic: true
     }
 };

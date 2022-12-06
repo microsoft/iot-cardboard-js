@@ -438,7 +438,7 @@ const EnvironmentPicker = ({
                                     : t(
                                           'environmentPicker.errors.adtInstanceMissingPermissionMessage'
                                       ),
-                                isSevere: true
+                                isCatastrophic: true
                             };
                             break;
                         case AzureResourceTypes.StorageAccount.toLowerCase():
@@ -448,7 +448,7 @@ const EnvironmentPicker = ({
                                     : t(
                                           'environmentPicker.errors.storageAccountMissingPermissionMessage'
                                       ),
-                                isSevere: true
+                                isCatastrophic: true
                             };
                             break;
                         case AzureResourceTypes.StorageBlobContainer.toLowerCase():
@@ -458,7 +458,7 @@ const EnvironmentPicker = ({
                                     : t(
                                           'environmentPicker.errors.storageContainerMissingPermissionMessage'
                                       ),
-                                isSevere: true
+                                isCatastrophic: true
                             };
                             break;
                         default:
@@ -471,7 +471,7 @@ const EnvironmentPicker = ({
                 message: getResourceResponse?.getCatastrophicError()
                     ? t('environmentPicker.errors.resourceNotVerified')
                     : t('environmentPicker.errors.resourceNotFound'),
-                isSevere: getResourceResponse?.getCatastrophicError() // if getResourceResponse has a catastrophic error it might be due to user dont have permissions to make ARM API call, then do not mark it as severe message
+                isCatastrophic: getResourceResponse?.getCatastrophicError() // although the error is catastrophic here it is not blocking, if getResourceResponse has a catastrophic error it might be due to user dont have permissions to make ARM API call, then do not mark it as severe message
                     ? false
                     : true
             };
