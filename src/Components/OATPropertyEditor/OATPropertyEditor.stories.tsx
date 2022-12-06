@@ -117,9 +117,9 @@ const getMockModel = () => {
         target: 'dtmi:testNamespace:model1;1',
         properties: [
             new DTDLProperty(
-                'property1',
                 'Length',
                 'double',
+                'property1',
                 '',
                 '',
                 'Length',

@@ -19,7 +19,7 @@ export interface IOverflowMenuProps {
     /** class name for the root */
     className?: string;
     /** index of the item in the list */
-    index: number;
+    index: number | string;
     /** unique identifier for the menu in a list of elements */
     menuKey: string;
     /** overrides for the default menu props, including the list items to include */

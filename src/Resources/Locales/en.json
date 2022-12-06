@@ -1027,6 +1027,7 @@
         "complex": "Complex",
         "copy": "copy",
         "data": "data",
+        "date": "date",
         "dateTime": "dateTime",
         "delete": "Delete",
         "description": "Description",
@@ -1053,6 +1054,7 @@
         "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
+        "expand": "Expand",
         "warningId": "Having a value for ID is not recommended for properties.",
         "float": "float",
         "general": "General",
@@ -1107,7 +1109,10 @@
         "valueSchema": "Value Schema",
         "version": "Version",
         "viewTemplates": "View Templates",
-        "writable": "Writable"
+        "writable": "Writable",
+        "PropertyListItem": {
+            "arrayItemLabel": "items"
+        }
     },
     "ErrorHandlingWrapper": {
         "errorMessage": "Error message",

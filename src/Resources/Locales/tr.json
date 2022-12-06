@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad",
     "maxMultiplicityLabel": "Maksimum çokluk",
     "minMultiplicityLabel": "Minimum çokluk",
-    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler"
+    "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
+    "date": "tarih",
+    "expand": "Genişletmek",
+    "PropertyListItem": {
+      "arrayItemLabel": "eşya"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

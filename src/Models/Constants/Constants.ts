@@ -13,25 +13,16 @@ import {
 } from '../Classes/3DVConfig';
 import i18n from '../../i18n';
 import { DTDLSchemaType, DTDLType } from '../../Models/Classes/DTDL';
-import IconBoolean from '../../Resources/Static/Boolean.svg';
-import IconData from '../../Resources/Static/Data.svg';
-import IconDatetime from '../../Resources/Static/Datetime.svg';
 import IconDouble from '../../Resources/Static/Double.svg';
-import IconDuration from '../../Resources/Static/duration.svg';
-import IconEnum from '../../Resources/Static/Enum.svg';
 import IconFloat from '../../Resources/Static/Float.svg';
 import IconInteger from '../../Resources/Static/Integer.svg';
 import IconLineString from '../../Resources/Static/linestring.svg';
 import IconLong from '../../Resources/Static/long.svg';
-import IconMap from '../../Resources/Static/map.svg';
 import IconMultiPoint from '../../Resources/Static/multipoint.svg';
 import IconMultiLineString from '../../Resources/Static/multilinestring.svg';
 import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
-import IconObject from '../../Resources/Static/object.svg';
 import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
-import IconString from '../../Resources/Static/string.svg';
-import IconTime from '../../Resources/Static/time.svg';
 import { FontSizes } from '@fluentui/react';
 
 // make sure models in the ADT instance have these definitions and twins have these properties for process graphics card
@@ -398,27 +389,22 @@ export const propertySelectorData = {
             {
                 name: 'dateTime',
                 title: 'OATPropertyEditor.dateTime',
-                icon: IconDatetime
+                icon: ''
             },
             {
                 name: 'duration',
                 title: 'OATPropertyEditor.duration',
-                icon: IconDuration
+                icon: ''
             },
             {
                 name: 'boolean',
                 title: 'OATPropertyEditor.boolean',
-                icon: IconBoolean
+                icon: ''
             },
             {
                 name: 'string',
                 title: 'OATPropertyEditor.string',
-                icon: IconString
-            },
-            {
-                name: 'data',
-                title: 'OATPropertyEditor.data',
-                icon: IconData
+                icon: ''
             },
             {
                 name: 'long',
@@ -443,26 +429,26 @@ export const propertySelectorData = {
             {
                 name: 'time',
                 title: 'OATPropertyEditor.time',
-                icon: IconTime
+                icon: ''
             }
         ],
         complex: [
             {
                 name: DTDLSchemaType.Object,
                 title: 'OATPropertyEditor.object',
-                icon: IconObject,
+                icon: '',
                 complex: true
             },
             {
                 name: DTDLSchemaType.Map,
                 title: 'OATPropertyEditor.map',
-                icon: IconMap,
+                icon: '',
                 complex: true
             },
             {
                 name: DTDLSchemaType.Enum,
                 title: 'OATPropertyEditor.enum',
-                icon: IconEnum,
+                icon: '',
                 complex: true
             }
         ],

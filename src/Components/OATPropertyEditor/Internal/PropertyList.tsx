@@ -42,7 +42,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
     const [enteredItem, setEnteredItem] = useState(enteredPropertyRef.current);
     const dragItemIndex = useRef<number>(-1);
     const dragNode = useRef<HTMLElement | null>(null);
-    const dragEnteredItem = useRef(null);
+    const dragEnteredItem = useRef<number | null>(null);
     const addPropertyLabelRef = useRef<HTMLDivElement>(null);
     const [propertySelectorVisible, setPropertySelectorVisible] = useState(
         false
@@ -91,10 +91,13 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         //  Replace entered item with dragged item
         // --> Remove dragged item from model and then place it on entered item's position
         if (modelCopy) {
-            modelCopy[propertiesKeyName].splice(
+            (modelCopy[propertiesKeyName] as []).splice(
                 dragEnteredItem.current,
                 0,
-                modelCopy[propertiesKeyName].splice(dragItemIndex.current, 1)[0]
+                (modelCopy[propertiesKeyName] as []).splice(
+                    dragItemIndex.current,
+                    1
+                )[0]
             );
         }
         oatPageDispatch({
@@ -113,14 +116,14 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         enteredTemplateRef.current = null;
     };
 
-    const onDragEnter = (e, i) => {
+    const onDragEnter = (e: any, i: number) => {
         if (e.target !== dragNode.current) {
             //  Entered item is not the same as dragged node
             dragEnteredItem.current = i;
         }
     };
 
-    const onDragStart = (e, propertyIndex) => {
+    const onDragStart = (e: any, propertyIndex: number) => {
         dragItemIndex.current = propertyIndex;
         dragNode.current = e.target;
         dragNode.current?.addEventListener('dragend', onDragEnd);
@@ -142,7 +145,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
         return propertyInspectorStyles.propertyItemNested;
     };
 
-    const getItemClassName = (propertyIndex) => {
+    const getItemClassName = (propertyIndex: number) => {
         if (propertyIndex === dragItemIndex.current && draggingProperty) {
             return propertyInspectorStyles.propertyItemDragging;
         }
@@ -312,7 +315,7 @@ export const PropertyList: React.FC<PropertyListProps> = (props) => {
 
     return (
         <div className={propertyInspectorStyles.propertiesWrap}>
-            {isSupportedModelType && propertyList && propertyList.length === 0 && (
+            {isSupportedModelType && propertyList?.length === 0 && (
                 <div
                     className={propertyInspectorStyles.addPropertyMessageWrap}
                     onMouseOver={(e) => {

@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "Ett lokaliserbart namn att visa",
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
-    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0"
+    "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
+    "date": "datum",
+    "expand": "Expandera",
+    "PropertyListItem": {
+      "arrayItemLabel": "Objekt"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

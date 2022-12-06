@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
     IPropertyTypePickerProps,
     IPropertyTypePickerStyleProps,
@@ -9,11 +9,13 @@ import {
     classNamesFunction,
     styled,
     CommandButton,
-    IContextualMenuItem,
-    ContextualMenuItemType
+    Stack
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import { useTranslation } from 'react-i18next';
+import { getSchemaTypeMenuOptions } from '../../../../Models/Constants/OatConstants';
+import PropertyIcon from '../PropertyList/Internal/PropertyListItem/Internal/PropertyIcon/PropertyIcon';
+import { DTDLSchema } from '../../../../Models/Classes/DTDL';
 
 const getClassNames = classNamesFunction<
     IPropertyTypePickerStyleProps,
@@ -26,59 +28,9 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
     // contexts
 
     // state
-    const menuOptions: IContextualMenuItem[] = [
-        {
-            text: 'Complex',
-            itemType: ContextualMenuItemType.Header,
-            key: 'complex-header'
-        },
-        {
-            text: 'Object',
-            iconProps: { iconName: 'SplitObject' },
-            key: 'object',
-            onClick: () => onSelect({ type: 'object' })
-        },
-        {
-            text: 'Map',
-            data: { iconName: 'MapPin' },
-            key: 'map',
-            onClick: () => onSelect({ type: 'map' })
-        },
-        {
-            text: 'Primitive',
-            itemType: ContextualMenuItemType.Header,
-            key: 'primitive-header'
-        },
-        {
-            text: 'DateTime',
-            iconProps: { iconName: 'DateTime' },
-            key: 'datetime',
-            onClick: () => onSelect({ type: 'datetime' })
-        },
-        {
-            text: 'Integer',
-            iconProps: { iconName: 'NumberField' },
-            key: 'integer',
-            onClick: () => onSelect({ type: 'integer' })
-        },
-        {
-            text: 'Polygons',
-            itemType: ContextualMenuItemType.Header,
-            key: 'polygon-header'
-        },
-        {
-            text: 'Point',
-            iconProps: { iconName: 'AzureServiceEndpoint' },
-            key: 'point',
-            onClick: () => onSelect({ type: 'point' })
-        },
-        {
-            text: 'Multi-point',
-            iconProps: { iconName: '12PointStar' },
-            key: 'multi-point',
-            onClick: () => onSelect({ type: 'multi-point' })
-        }
-    ];
+    const menuOptions = useMemo(() => getSchemaTypeMenuOptions(onSelect), [
+        onSelect
+    ]);
 
     // hooks
     const { t } = useTranslation();
@@ -97,7 +49,17 @@ const PropertyTypePicker: React.FC<IPropertyTypePickerProps> = (props) => {
             text={t('add')}
             iconProps={{ iconName: 'Add' }}
             menuProps={{
-                items: menuOptions
+                items: menuOptions,
+                contextualMenuItemAs: (props) => {
+                    return (
+                        <Stack horizontal verticalAlign="center">
+                            <PropertyIcon
+                                schema={props.item.key as DTDLSchema}
+                            />
+                            {props.item.text}
+                        </Stack>
+                    );
+                }
             }}
             styles={classNames.subComponentStyles.menu?.()}
         />

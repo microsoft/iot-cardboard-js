@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "表示するローカライズ可能な名前",
     "maxMultiplicityLabel": "最大多重度",
     "minMultiplicityLabel": "最小多重度",
-    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。"
+    "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
+    "date": "日付",
+    "expand": "膨らむ",
+    "PropertyListItem": {
+      "arrayItemLabel": "項目"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

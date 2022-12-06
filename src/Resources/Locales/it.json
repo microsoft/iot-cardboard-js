@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "Nome localizzabile da visualizzare",
     "maxMultiplicityLabel": "Massima molteplicità",
     "minMultiplicityLabel": "Molteplicità minima",
-    "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0"
+    "minMultiplicityMessage": "DTDL V2 supporta solo una molteplicità minima di 0",
+    "date": "dattero",
+    "expand": "Espandere",
+    "PropertyListItem": {
+      "arrayItemLabel": "Elementi"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Messaggio di errore",

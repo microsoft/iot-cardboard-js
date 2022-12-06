@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "要显示的可本地化名称",
     "maxMultiplicityLabel": "最大多重性",
     "minMultiplicityLabel": "最小多重性",
-    "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0"
+    "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
+    "date": "日期",
+    "expand": "扩大",
+    "PropertyListItem": {
+      "arrayItemLabel": "项目"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

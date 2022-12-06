@@ -372,6 +372,12 @@ export const DTDLSemanticTypes = [
     }
 ];
 
+/** the names for the schemas */
+export type DTDLSchemaTypes =
+    | DTDLPrimitiveSchema
+    | DTDLGeospatialSchema
+    | DTDLSchemaType;
+/** the actual schema types that a DTDL item can have */
 export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
 
 export type DTDLPrimitiveSchema =
@@ -386,7 +392,15 @@ export type DTDLPrimitiveSchema =
     | 'string'
     | 'time';
 
-export type DTDLComplexSchema = DTDLArray | DTDLEnum | DTDLMap | DTDLObject;
+export type DTDLGeospatialSchema =
+    | 'linestring'
+    | 'multiLinestring'
+    | 'multiPoint'
+    | 'multiPolygon'
+    | 'point'
+    | 'polygon';
+
+export type DTDLComplexSchema = IDTDLArray | IDTDLEnum | IDTDLMap | IDTDLObject;
 
 export enum DTDLSchemaType {
     Enum = 'Enum',
@@ -527,14 +541,14 @@ export class DTDLProperty implements IDTDLProperty {
     writable?: boolean;
 
     constructor(
-        id: string,
         name: string,
         schema: DTDLSchema,
-        comment: string,
-        description: string,
-        displayName: string,
-        unit: string,
-        writable: boolean
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string,
+        unit?: string,
+        writable?: boolean
     ) {
         this['@type'] = 'Property';
         this['@id'] = id;
@@ -548,12 +562,11 @@ export class DTDLProperty implements IDTDLProperty {
     }
 
     static getBlank() {
-        return new DTDLProperty('', '', 'double', '', '', '', '', false);
+        return new DTDLProperty('', 'double', '', '', '', '', '', false);
     }
 
     static fromObject(obj: IADTProperty): DTDLProperty {
         return new DTDLProperty(
-            obj['@id'],
             obj.name,
             typeof obj.schema === 'string'
                 ? (obj.schema as DTDLPrimitiveSchema)
@@ -564,6 +577,7 @@ export class DTDLProperty implements IDTDLProperty {
                 : obj.schema['@type'] === DTDLSchemaType.Map
                 ? DTDLMap.fromObject(obj.schema)
                 : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
             obj.comment,
             obj.description,
             obj.displayName,
@@ -706,8 +720,16 @@ export class DTDLComponent implements IDTDLComponent {
     }
 }
 
-export class DTDLArray {
-    readonly ['@type']: DTDLSchemaType;
+export interface IDTDLArray {
+    ['@type']: DTDLSchemaType.Array;
+    elementSchema: DTDLSchema;
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLArray implements IDTDLArray {
+    readonly ['@type']: DTDLSchemaType.Array;
     elementSchema: DTDLSchema;
     ['@id']?: string;
     displayName?: string;
@@ -744,10 +766,133 @@ export class DTDLArray {
     }
 }
 
-export class DTDLMap {
-    readonly ['@type']: DTDLSchemaType;
-    mapKey: Record<string, any>; //TODO: Create type/interface for mapKey and mapValue
-    mapValue: Record<string, any>;
+export interface IDTDLMapKey {
+    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
+    name: string;
+    /** The data type of the map's key */
+    schema: DTDLSchema;
+    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
+    ['@id']?: string;
+    /** A comment for model authors */
+    comment?: string;
+    /** A localizable description for display */
+    description?: string;
+    /** A localizable name for display */
+    displayName?: string;
+}
+export class DTDLMapKey implements IDTDLMapKey {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = 'string';
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapKey('', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapKey(
+            obj.name,
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
+export interface IDTDLMapValue {
+    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
+    name: string;
+    /** The data type of the map's values */
+    schema: DTDLSchema;
+    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
+    ['@id']?: string;
+    /** A comment for model authors */
+    comment?: string;
+    /** A localizable description for display */
+    description?: string;
+    /** A localizable name for display */
+    displayName?: string;
+}
+export class DTDLMapValue implements IDTDLMapKey {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
+    ) {
+        this['@id'] = id;
+        this.name = name;
+        this.schema = schema;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+
+    static getBlank() {
+        return new DTDLMapValue('', 'double', '', '', '', '');
+    }
+
+    static fromObject(obj: any) {
+        return new DTDLMapValue(
+            obj.name,
+            typeof obj.schema === 'string'
+                ? (obj.schema as DTDLPrimitiveSchema)
+                : obj.schema['@type'] === DTDLSchemaType.Array
+                ? DTDLArray.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Enum
+                ? DTDLEnum.fromObject(obj.schema)
+                : obj.schema['@type'] === DTDLSchemaType.Map
+                ? DTDLMap.fromObject(obj.schema)
+                : DTDLObject.fromObject(obj.schema),
+            obj['@id'],
+            obj.displayName,
+            obj.description,
+            obj.comment
+        );
+    }
+}
+
+export interface IDTDLMap {
+    ['@type']: DTDLSchemaType.Map;
+    mapKey: IDTDLMapKey;
+    mapValue: IDTDLMapValue;
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLMap implements IDTDLMap {
+    readonly ['@type']: DTDLSchemaType.Map;
+    mapKey: IDTDLMapKey;
+    mapValue: IDTDLMapValue;
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -755,8 +900,8 @@ export class DTDLMap {
 
     constructor(
         id: string,
-        mapKey: Record<string, any>,
-        mapValue: Record<string, any>,
+        mapKey: IDTDLMapKey,
+        mapValue: IDTDLMapValue,
         displayName?: string,
         description?: string,
         comment?: string
@@ -771,7 +916,13 @@ export class DTDLMap {
     }
 
     static getBlank() {
-        return new DTDLMap('', {}, {}, '', '');
+        return new DTDLMap(
+            '',
+            DTDLMapKey.getBlank(),
+            DTDLMapValue.getBlank(),
+            '',
+            ''
+        );
     }
 
     static fromObject(obj: any) {
@@ -786,9 +937,17 @@ export class DTDLMap {
     }
 }
 
-export class DTDLObject {
-    readonly ['@type']: DTDLSchemaType;
-    fields: Array<Record<string, any>>; //TODO: Create type/interface for fields
+export interface IDTDLObject {
+    ['@type']: DTDLSchemaType.Object;
+    fields: IDTDLObjectField[];
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLObject implements IDTDLObject {
+    readonly ['@type']: DTDLSchemaType.Object;
+    fields: IDTDLObjectField[];
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -796,7 +955,7 @@ export class DTDLObject {
 
     constructor(
         id: string,
-        fields: Array<Record<string, any>>,
+        fields: IDTDLObjectField[],
         displayName?: string,
         description?: string,
         comment?: string
@@ -824,8 +983,49 @@ export class DTDLObject {
     }
 }
 
+export interface IDTDLObjectField {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+}
+export class DTDLObjectField implements IDTDLObjectField {
+    name: string;
+    schema: DTDLSchema;
+    ['@id']?: string;
+    comment?: string;
+    description?: string;
+    displayName?: string;
+
+    constructor(
+        name: string,
+        schema: DTDLSchema,
+        id?: string,
+        comment?: string,
+        description?: string,
+        displayName?: string
+    ) {
+        this.name = name;
+        this.schema = schema;
+        this['@id'] = id;
+        this.displayName = displayName;
+        this.description = description;
+        this.comment = comment;
+    }
+}
+
+export interface IDTDLEnum {
+    ['@type']: DTDLSchemaType.Enum;
+    enumValues: DTDLEnumValue[];
+    valueSchema: 'integer' | 'string';
+    ['@id']?: string;
+    displayName?: string;
+    description?: string;
+}
 export class DTDLEnum {
-    readonly ['@type']: string = 'Enum';
+    readonly ['@type']: DTDLSchemaType.Enum;
     enumValues: DTDLEnumValue[];
     valueSchema: 'integer' | 'string';
     ['@id']?: string;
@@ -834,12 +1034,12 @@ export class DTDLEnum {
     comment?: string;
 
     constructor(
-        id: string,
         enumValues: DTDLEnumValue[],
         valueSchema: 'integer' | 'string' | undefined,
-        displayName: string,
-        description: string,
-        comment: string
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@type'] = DTDLSchemaType.Enum;
         this['@id'] = id;
@@ -851,16 +1051,16 @@ export class DTDLEnum {
     }
 
     static getBlank() {
-        return new DTDLEnum('', [], 'integer', '', '', '');
+        return new DTDLEnum([], 'integer', '', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLEnum(
-            obj['@id'],
             obj.enumValues.map((eV) =>
                 DTDLEnumValue.fromObject(eV, obj.valueSchema)
             ),
             obj.valueSchema,
+            obj['@id'],
             obj.displayName,
             obj.unit,
             obj.writable
@@ -868,8 +1068,16 @@ export class DTDLEnum {
     }
 }
 
-export class DTDLEnumValue {
-    ['@id']: string;
+export interface IDTDLEnumValue {
+    ['@id']?: string;
+    name: string;
+    enumValue: number | string;
+    displayName?: string;
+    description?: string;
+    comment?: string;
+}
+export class DTDLEnumValue implements IDTDLEnumValue {
+    ['@id']?: string;
     name: string;
     enumValue: number | string;
     displayName?: string;
@@ -877,12 +1085,12 @@ export class DTDLEnumValue {
     comment?: string;
 
     constructor(
-        id: string,
         name: string,
         enumValue: number | string,
-        displayName: string,
-        description: string,
-        comment: string
+        id?: string,
+        displayName?: string,
+        description?: string,
+        comment?: string
     ) {
         this['@id'] = id;
         this.name = name;
@@ -898,11 +1106,11 @@ export class DTDLEnumValue {
 
     static fromObject(obj: any, valueSchema: 'integer' | 'string') {
         return new DTDLEnumValue(
-            obj['@id'],
             obj.name,
             valueSchema === 'integer'
                 ? Number.parseInt(obj.enumValue)
                 : obj.enumValue,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment

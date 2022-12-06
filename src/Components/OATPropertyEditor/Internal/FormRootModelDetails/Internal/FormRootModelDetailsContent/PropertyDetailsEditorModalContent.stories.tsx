@@ -15,7 +15,7 @@ const wrapperStyle = { width: '100%', height: '100%', padding: 16 };
 
 export default {
     title:
-        'Components - OAT/OATPropertyEditor/PropertyDetailsEditorModalContent',
+        'Components - OAT/OATPropertyEditor/PropertyDetailsEditorModal/PropertyDetailsEditorModalContent',
     component: PropertyDetailsEditorModalContent,
     decorators: [
         getDefaultStoryDecorator<IModalFormRootModelContentProps>(wrapperStyle)

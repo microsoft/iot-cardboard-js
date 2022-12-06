@@ -6,7 +6,8 @@ import {
     getPropertyListPivotColumnContentStyles,
     getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
-import PropertyList from './Internal/PropertyList';
+import PropertyListOld from './Internal/PropertyList';
+import PropertyList from './Internal/PropertyList/PropertyList';
 import JSONEditor from './Internal/JSONEditor';
 import TemplateColumn from './Internal/TemplateColumn';
 import PropertiesModelSummary from './Internal/PropertiesModelSummary';
@@ -28,6 +29,7 @@ import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { isDTDLProperty } from '../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -68,10 +70,10 @@ const Editor: React.FC<IEditorProps> = (props) => {
             selectedItem[propertiesKeyName] &&
             selectedItem[propertiesKeyName].length > 0
         ) {
-            // Exclude relationships from propertyList
-            propertyItems = selectedItem[propertiesKeyName].filter(
-                (property: DTDLProperty) => property['@type'] === 'Property'
-            );
+            // Exclude relationships from propertyList. Handle DTDL V3 where type can be an array for Semantic types
+            propertyItems = selectedItem[
+                propertiesKeyName
+            ].filter((property: DTDLProperty) => isDTDLProperty(property));
         }
         return propertyItems;
     }, [selectedItem, propertiesKeyName]);
@@ -126,6 +128,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     };
 
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
+    const useNewList = false;
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -140,7 +143,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         <Stack styles={propertyListPivotColumnContent}>
                             <Stack.Item>
                                 <PropertiesModelSummary
-                                    dispatch={editorDispatch}
                                     isSupportedModelType={isSupportedModelType}
                                     selectedItem={selectedItem}
                                 />
@@ -163,14 +165,16 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                                 ? `(${propertyList.length})`
                                                 : ''
                                         }`}</Label>
-                                        <PropertyTypePicker
-                                            onSelect={(item) =>
-                                                alert(
-                                                    'To be implemented. Selected ' +
-                                                        item.type
-                                                )
-                                            }
-                                        />
+                                        {isSupportedModelType && (
+                                            <PropertyTypePicker
+                                                onSelect={(item) =>
+                                                    alert(
+                                                        'To be implemented. Selected ' +
+                                                            item.type
+                                                    )
+                                                }
+                                            />
+                                        )}
                                         {/* <ActionButton
                                             onClick={onToggleTemplatesActive}
                                             className={
@@ -194,15 +198,24 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             </Stack.Item>
 
                             <Stack.Item grow styles={propertyListStackItem}>
-                                <PropertyList
-                                    dispatch={editorDispatch}
-                                    enteredPropertyRef={enteredPropertyRef}
-                                    enteredTemplateRef={enteredTemplateRef}
-                                    isSupportedModelType={isSupportedModelType}
-                                    propertyList={propertyList}
-                                    selectedItem={selectedItem}
-                                    state={editorState}
-                                />
+                                {useNewList ? (
+                                    <PropertyList
+                                        arePropertiesSupported={true}
+                                        properties={propertyList}
+                                    />
+                                ) : (
+                                    <PropertyListOld
+                                        dispatch={editorDispatch}
+                                        enteredPropertyRef={enteredPropertyRef}
+                                        enteredTemplateRef={enteredTemplateRef}
+                                        isSupportedModelType={
+                                            isSupportedModelType
+                                        }
+                                        propertyList={propertyList}
+                                        selectedItem={selectedItem}
+                                        state={editorState}
+                                    />
+                                )}
                             </Stack.Item>
                         </Stack>
                     </PivotItem>

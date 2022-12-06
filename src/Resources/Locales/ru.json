@@ -1206,7 +1206,12 @@
     "displayNamePlaceholder": "Локализуемое имя для отображения",
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
-    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0"
+    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
+    "date": "дата",
+    "expand": "Расширять",
+    "PropertyListItem": {
+      "arrayItemLabel": "Элементы"
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
