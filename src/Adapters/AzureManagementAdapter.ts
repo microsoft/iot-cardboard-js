@@ -323,8 +323,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     resource = length1Resources[0];
                 }
             } catch (error) {
-                logDebugConsole(
-                    'error',
+                console.error(
                     'getResourceByUrl: Failed to fetch resource by url: ',
                     error
                 );
