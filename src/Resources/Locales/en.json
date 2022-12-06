@@ -1054,6 +1054,7 @@
         "errorRepeatedId": "A model with the same ID already exists",
         "errorRepeatedName": "A model with the same name already exists",
         "errorRepeatedPropertyName": "A property with the same name already exists",
+        "expand": "Expand",
         "warningId": "Having a value for ID is not recommended for properties.",
         "float": "float",
         "general": "General",

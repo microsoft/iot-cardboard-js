@@ -12,7 +12,7 @@ import {
     DTDLObjectField
 } from '../../../../Models/Classes/DTDL';
 
-const wrapperStyle = { width: '100%', height: '900px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '1000px', padding: 8 };
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/PropertyList',

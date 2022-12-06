@@ -6,7 +6,8 @@ import {
     getPropertyListPivotColumnContentStyles,
     getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
-import PropertyList from './Internal/PropertyList';
+import PropertyListOld from './Internal/PropertyList';
+import PropertyList from './Internal/PropertyList/PropertyList';
 import JSONEditor from './Internal/JSONEditor';
 import TemplateColumn from './Internal/TemplateColumn';
 import PropertiesModelSummary from './Internal/PropertiesModelSummary';
@@ -127,6 +128,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     };
 
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
+    const useNewList = false;
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -196,15 +198,24 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             </Stack.Item>
 
                             <Stack.Item grow styles={propertyListStackItem}>
-                                <PropertyList
-                                    dispatch={editorDispatch}
-                                    enteredPropertyRef={enteredPropertyRef}
-                                    enteredTemplateRef={enteredTemplateRef}
-                                    isSupportedModelType={isSupportedModelType}
-                                    propertyList={propertyList}
-                                    selectedItem={selectedItem}
-                                    state={editorState}
-                                />
+                                {useNewList ? (
+                                    <PropertyList
+                                        arePropertiesSupported={true}
+                                        properties={propertyList}
+                                    />
+                                ) : (
+                                    <PropertyListOld
+                                        dispatch={editorDispatch}
+                                        enteredPropertyRef={enteredPropertyRef}
+                                        enteredTemplateRef={enteredTemplateRef}
+                                        isSupportedModelType={
+                                            isSupportedModelType
+                                        }
+                                        propertyList={propertyList}
+                                        selectedItem={selectedItem}
+                                        state={editorState}
+                                    />
+                                )}
                             </Stack.Item>
                         </Stack>
                     </PivotItem>

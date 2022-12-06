@@ -22,6 +22,8 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
+import { DTDLSchemaType } from '../../../../../../Models/Classes/DTDL';
+import { useTranslation } from 'react-i18next';
 
 const debugLogging = false;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,10 +46,19 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const isNestedType = useMemo(() => isComplexSchemaType(item.schema), [
         item
     ]);
+    const supportsAddingChildren = useMemo(
+        () =>
+            typeof item.schema === 'object' &&
+            [DTDLSchemaType.Enum, DTDLSchemaType.Object].includes(
+                item.schema['@type']
+            ),
+        [item]
+    );
     const overflowMenuItems = [];
     const itemLevel = level ?? 1; // default to level 1 (not nested)
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
     const onAddChild = useCallback(() => {
@@ -105,14 +116,18 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 className={classNames.root}
                 tokens={{ childrenGap: 4 }}
             >
-                {isNestedType && (
+                {supportsAddingChildren && (
                     <IconButton
                         iconProps={{
                             iconName: isExpanded
                                 ? 'ChevronDown'
                                 : 'ChevronRight'
                         }}
-                        title={isExpanded ? 'Collapse' : 'Expand'}
+                        title={
+                            isExpanded
+                                ? t('OATPropertyEditor.collapse')
+                                : t('OATPropertyEditorexpand')
+                        }
                         onClick={toggleIsExpanded}
                         styles={classNames.subComponentStyles.expandButton?.()}
                     />

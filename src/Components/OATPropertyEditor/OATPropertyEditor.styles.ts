@@ -787,6 +787,7 @@ export const getPropertyListPivotColumnContentStyles = () => {
 export const getPropertyListStackItemStyles = () => {
     return {
         root: {
+            // marginLeft: 8,
             overflowY: 'auto',
             '::-webkit-scrollbar': {
                 width: '0px',

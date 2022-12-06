@@ -15,7 +15,7 @@ export const getStyles = (
         root: [
             classNames.root,
             {
-                marginLeft: 32 // leave room for the chevrons
+                marginLeft: 42 // leave room for the chevrons
             }
         ],
         subComponentStyles: {}
