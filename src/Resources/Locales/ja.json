@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "最大多重度",
     "minMultiplicityLabel": "最小多重度",
     "minMultiplicityMessage": "DTDL V2 では、最小多重度 0 のみがサポートされます。",
-    "date": "日付"
+    "date": "日付",
+    "expand": "膨らむ"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

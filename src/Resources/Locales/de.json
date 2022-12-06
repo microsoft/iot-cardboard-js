@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Maximale Vielfalt",
     "minMultiplicityLabel": "Minimale Vielfalt",
     "minMultiplicityMessage": "DTDL V2 unterstützt nur eine minimale Multiplizität von 0",
-    "date": "Datum"
+    "date": "Datum",
+    "expand": "Erweitern"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

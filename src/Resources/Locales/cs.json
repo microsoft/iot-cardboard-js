@@ -1087,7 +1087,8 @@
     "maxMultiplicityLabel": "Maximální násobnost",
     "minMultiplicityLabel": "Minimální násobnost",
     "minMultiplicityMessage": "DTDL V2 podporuje pouze minimální násobnost 0",
-    "date": "rande"
+    "date": "rande",
+    "expand": "Expandovat"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

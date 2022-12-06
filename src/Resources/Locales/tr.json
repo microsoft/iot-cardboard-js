@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Maksimum çokluk",
     "minMultiplicityLabel": "Minimum çokluk",
     "minMultiplicityMessage": "DTDL V2 yalnızca minimum 0 çokluğunu destekler",
-    "date": "tarih"
+    "date": "tarih",
+    "expand": "Genişletmek"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Maximale multipliciteit",
     "minMultiplicityLabel": "Minimale veelheid",
     "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
-    "date": "datum"
+    "date": "datum",
+    "expand": "Uitbreiden"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

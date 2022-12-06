@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Maximális sokaság",
     "minMultiplicityLabel": "Minimális szorzás",
     "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
-    "date": "dátum"
+    "date": "dátum",
+    "expand": "Kibővít"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

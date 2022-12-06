@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Максимальная кратность",
     "minMultiplicityLabel": "Минимальная кратность",
     "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
-    "date": "дата"
+    "date": "дата",
+    "expand": "Расширять"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

@@ -1207,7 +1207,8 @@
     "maxMultiplicityLabel": "Maximal mångfald",
     "minMultiplicityLabel": "Minsta mångfald",
     "minMultiplicityMessage": "DTDL V2 stöder endast en minsta mångfald på 0",
-    "date": "datum"
+    "date": "datum",
+    "expand": "Expandera"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",
