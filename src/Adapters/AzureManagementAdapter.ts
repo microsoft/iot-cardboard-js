@@ -327,6 +327,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     'getResourceByUrl: Failed to fetch resource by url: ',
                     error
                 );
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: error
+                });
             }
 
             return new AzureResourceData(resource);
