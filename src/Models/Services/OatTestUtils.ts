@@ -102,7 +102,7 @@ export const getMockProperty = (
                                 new DTDLEnum(
                                     [
                                         new DTDLEnumValue('enum val 1', 1),
-                                        new DTDLEnumValue('enum val 2', 2),
+                                        new DTDLEnumValue('enum value 2', 200),
                                         new DTDLEnumValue('enum val 3', 3)
                                     ],
                                     'integer'

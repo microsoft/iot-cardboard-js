@@ -8,6 +8,7 @@ import { getStyles } from './PropertyListItemArrayChild.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyListItem from '../../../../PropertyListItem';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemArrayChildStyleProps,
@@ -24,6 +25,7 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
     // state
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
 
@@ -40,7 +42,9 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
                 indexKey={indexKey}
                 level={level + 1}
                 item={{
-                    name: 'Disable me',
+                    name: t(
+                        'OATPropertyEditor.PropertyListItem.arrayItemLabel'
+                    ),
                     schema: item
                 }}
                 disableInput={true}

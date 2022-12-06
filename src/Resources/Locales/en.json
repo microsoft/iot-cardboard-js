@@ -1109,7 +1109,10 @@
         "valueSchema": "Value Schema",
         "version": "Version",
         "viewTemplates": "View Templates",
-        "writable": "Writable"
+        "writable": "Writable",
+        "PropertyListItem": {
+            "arrayItemLabel": "items"
+        }
     },
     "ErrorHandlingWrapper": {
         "errorMessage": "Error message",
