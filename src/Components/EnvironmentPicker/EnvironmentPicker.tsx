@@ -118,10 +118,7 @@ const EnvironmentPicker = ({
             setTrue: hideDialog
         }
     ] = useBoolean(!isDialogOpenProp);
-    const [
-        resourcePickerErrorMessages,
-        setResourcePickerErrorMessages
-    ] = useState<{
+    const [resourcePickerErrors, setResourcePickerErrors] = useState<{
         adt: ResourcePickerError;
         storageAccount: ResourcePickerError;
         storageContainer: ResourcePickerError;
@@ -431,7 +428,7 @@ const EnvironmentPicker = ({
                     : RequiredAccessRoleGroupForStorageContainer
             );
 
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
@@ -478,7 +475,7 @@ const EnvironmentPicker = ({
                     ? false
                     : true
             };
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
@@ -515,9 +512,9 @@ const EnvironmentPicker = ({
                 ),
                 AzureResourceDisplayFields.url
             ) ||
-                resourcePickerErrorMessages.adt === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.adt === undefined) // check permissions on mount for the default selected value as well
         ) {
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     draft.adt = null;
                 })
@@ -553,9 +550,9 @@ const EnvironmentPicker = ({
                 getResourceUrl(resource, AzureResourceTypes.StorageAccount),
                 AzureResourceDisplayFields.url
             ) ||
-                resourcePickerErrorMessages.storageAccount === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.storageAccount === undefined) // check permissions on mount for the default selected value as well
         ) {
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     draft.storageAccount = null;
                 })
@@ -639,9 +636,9 @@ const EnvironmentPicker = ({
                 ),
                 AzureResourceDisplayFields.name
             ) ||
-                resourcePickerErrorMessages.storageContainer === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.storageContainer === undefined) // check permissions on mount for the default selected value as well
         ) {
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     draft.storageContainer = null;
                 })
@@ -751,7 +748,7 @@ const EnvironmentPicker = ({
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
-                            error={resourcePickerErrorMessages.adt}
+                            error={resourcePickerErrors.adt}
                         />
                         {storage && (
                             <>
@@ -791,9 +788,7 @@ const EnvironmentPicker = ({
                                     onLoaded={
                                         handleOnStorageAccountResourcesLoaded
                                     }
-                                    error={
-                                        resourcePickerErrorMessages.storageAccount
-                                    }
+                                    error={resourcePickerErrors.storageAccount}
                                 />
 
                                 <ResourcePicker
@@ -864,7 +859,7 @@ const EnvironmentPicker = ({
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
                                     error={
-                                        resourcePickerErrorMessages.storageContainer
+                                        resourcePickerErrors.storageContainer
                                     }
                                 />
                             </>
