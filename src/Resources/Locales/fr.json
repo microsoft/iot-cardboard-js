@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur » (au minimum).",
       "storageContainerMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « Lecteur » (au minimum) et « Propriétaire des données d'objets blob de stockage » ou « Contributeur de données d'objets blob de stockage ».",
       "resourceNotVerified": "Nous ne pouvons pas vérifier que cette ressource existe.",
-      "resourceNotFoun": "Aucune ressource Azure n’a été trouvée avec la valeur entrée pour ce client."
+      "resourceNotFound": "Aucune ressource Azure n’a été trouvée avec la valeur entrée pour ce client."
     }
   },
   "behaviorsModal": {

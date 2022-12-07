@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "Hiányoznak az engedélyei. \"Olvasóként\" kell hozzáférnie (legalább).",
       "storageContainerMissingPermissionMessage": "Hiányoznak az engedélyei. Hozzáférésre lesz szüksége \"Olvasóként\" (legalább), valamint \"Storage blobadatok tulajdonosaként\" vagy \"Storage blobadatok közreműködőjeként\".",
       "resourceNotVerified": "Nem tudjuk ellenőrizni, hogy ez az erőforrás létezik-e.",
-      "resourceNotFoun": "Nem található Azure-erőforrás a bérlőhöz megadott értékkel."
+      "resourceNotFound": "Nem található Azure-erőforrás a bérlőhöz megadott értékkel."
     }
   },
   "behaviorsModal": {
