@@ -1,0 +1,255 @@
+[
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            "-Infinity",
+            "Infinity"
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            99000000000000,
+            100000000000000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            998456543234,
+            1000000000000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            -1890000,
+            10000000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            999300.4451,
+            1000000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            977.432245,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            99.234,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            9.6755432,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            0.000000001,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            0.0000001,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            0.001,
+            1000
+          ],
+          "visual": {
+            "color": "#C32F27"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  }
+]

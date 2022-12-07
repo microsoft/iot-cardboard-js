@@ -36,6 +36,7 @@ import {
     IConsoleLogFunction,
     TimeSeriesData
 } from '../Constants/Types';
+import * as d3 from 'd3';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -827,3 +828,30 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
         })).sort((a, b) => (a.timestamp as number) - (b.timestamp as number));
     });
 };
+
+export function formatNumber(val: number) {
+    if (Math.abs(val) < 1000000) {
+        if (Math.abs(val) < 0.000001) {
+            // display as scientific notation if greater than 100 thousandths
+            return d3.format('.1n')(val);
+        } else {
+            //values between [0.000001, 999,999.999] are formatted in this else statement
+            let formatted = d3.format(',.3r')(val); // format value to have 3 sig figs and add commas if necessary
+            if (formatted.indexOf('.') != -1) {
+                // if it's a decimal value, remove the trailing zeroes
+                let lastChar = formatted[formatted.length - 1];
+                while (lastChar == '0') {
+                    formatted = formatted.slice(0, -1);
+                    lastChar = formatted[formatted.length - 1];
+                }
+                if (lastChar == '.') formatted = formatted.slice(0, -1);
+            }
+            return formatted;
+        }
+    } else if (Math.abs(val) >= 1000000 && Math.abs(val) < 1000000000)
+        return d3.format('.3s')(val);
+    // suffix of M for millions
+    else if (Math.abs(val) >= 1000000000 && Math.abs(val) < 1000000000000)
+        return d3.format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
+    return d3.format('.1n')(val); // scientific for everything else
+}

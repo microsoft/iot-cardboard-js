@@ -6,6 +6,7 @@ import { getStyles } from './GaugeWidget.styles';
 import GaugeChart from 'react-gauge-chart';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { BehaviorModalMode } from '../../../../../Models/Constants';
+import { formatNumber } from '../../../../../Models/Services/Utils';
 
 interface IProp {
     widget: IGaugeWidget;
@@ -17,6 +18,7 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
+    let format = '';
     try {
         if (mode === BehaviorModalMode.preview) {
             // In preview mode, gauge uses min value range as value
@@ -32,12 +34,11 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
             if (!value) {
                 value = 0;
             }
-            value = Math.floor(value);
         }
     } catch {
         value = 0;
     }
-
+    format = formatNumber(value);
     const { valueRanges } = widget.widgetConfiguration;
 
     // Get active color from value range -- if value not in defined range
@@ -58,8 +59,8 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
         <div className={styles.gaugeInfoContainer}>
             <div className={styles.gaugeInfoLabel}>{label}</div>
             <div className={styles.gaugeInfoValueContainer}>
-                <div className={styles.gaugeInfoValue} title={String(value)}>
-                    {value}
+                <div className={styles.gaugeInfoValue} title={format}>
+                    {format}
                 </div>
                 <div className={styles.gaugeInfoUnits} title={String(units)}>
                     {units}
