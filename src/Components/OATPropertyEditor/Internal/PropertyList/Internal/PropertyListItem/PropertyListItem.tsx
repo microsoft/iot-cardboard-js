@@ -15,6 +15,7 @@ import {
 import { useBoolean } from '@fluentui/react-hooks';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import {
+    addChildToSchema,
     hasComplexSchemaType,
     isComplexSchemaType
 } from '../../../../../../Models/Services/DtdlUtils';
@@ -35,7 +36,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
-    const { disableInput, item, indexKey, level, styles } = props;
+    const { disableInput, item, indexKey, level, onUpdateItem, styles } = props;
 
     // contexts
 
@@ -62,8 +63,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // callbacks
     const onAddChild = useCallback(() => {
-        //
-    }, []);
+        onUpdateItem(addChildToSchema({ parentSchema: item.schema }));
+    }, [item.schema, onUpdateItem]);
     const onChangeName = useCallback((_ev, _value: string) => {
         // if (isDTDLModel(parentEntity)) {
         //     // update for model
@@ -126,7 +127,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                         title={
                             isExpanded
                                 ? t('OATPropertyEditor.collapse')
-                                : t('OATPropertyEditorexpand')
+                                : t('OATPropertyEditor.expand')
                         }
                         onClick={toggleIsExpanded}
                         styles={classNames.subComponentStyles.expandButton?.()}

@@ -2,13 +2,15 @@ import {
     DTDLArray,
     DTDLComplexSchema,
     DTDLEnum,
+    DTDLEnumValue,
     DTDLMap,
     DTDLObject,
     DTDLProperty,
     DTDLRelationship,
     DTDLSchema,
     DTDLSchemaType,
-    DTDLType
+    DTDLType,
+    IDTDLEnum
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -176,4 +178,38 @@ export const isDTDLEnum = (
         return false;
     }
     return object.schema['@type'] === DTDLSchemaType.Enum;
+};
+
+interface IAddChildArgs {
+    parentSchema: DTDLSchema;
+}
+/**
+ * Adds a new default child item to the schema based on the type of schema.
+ * Schema is updated by reference and also returned
+ * */
+export const addChildToSchema = (args: IAddChildArgs) => {
+    const { parentSchema } = args;
+    // children are only supported on objects
+    if (!parentSchema || typeof parentSchema !== 'object') {
+        return;
+    }
+    switch (parentSchema['@type']) {
+        case DTDLSchemaType.Enum:
+            addItemToEnum(parentSchema);
+            break;
+        case DTDLSchemaType.Map:
+            break;
+        case DTDLSchemaType.Object:
+            break;
+    }
+    return parentSchema;
+};
+
+const addItemToEnum = (schema: IDTDLEnum) => {
+    if (!schema.enumValues) {
+        schema.enumValues = [];
+    }
+    const defaultName = `new name_${schema.enumValues.length}`;
+    const defaultValue = schema.valueSchema === 'integer' ? 0 : '';
+    schema.enumValues.push(new DTDLEnumValue(defaultName, defaultValue));
 };

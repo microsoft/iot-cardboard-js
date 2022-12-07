@@ -31,7 +31,10 @@ type PropertyListItemStory = ComponentStory<typeof PropertyListItem>;
 
 const DEFAULT_ARGS = {
     parentEntity: {},
-    indexKey: '0'
+    indexKey: '0',
+    onUpdateItem: () => {
+        //
+    }
 };
 const Template: PropertyListItemStory = (args) => {
     return (

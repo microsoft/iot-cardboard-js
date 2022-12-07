@@ -14,6 +14,11 @@ import {
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../Models/Hooks/useExtendedTheme';
 import PropertyListItem from './Internal/PropertyListItem/PropertyListItem';
+import { DTDLSchema } from '../../../../Models/Classes/DTDL';
+import { getDebugLogger } from '../../../../Models/Services/Utils';
+
+const debugLogging = true;
+const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
 
 const getClassNames = classNamesFunction<
     IPropertyListStyleProps,
@@ -44,10 +49,19 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 <List
                     items={properties}
                     onRenderCell={(item, index) => {
+                        const onUpdateItem = (schema: DTDLSchema) => {
+                            logDebugConsole(
+                                'info',
+                                'Updating item with data. {item,data}',
+                                item,
+                                schema
+                            );
+                        };
                         return (
                             <PropertyListItem
                                 indexKey={String(index)}
                                 item={item}
+                                onUpdateItem={onUpdateItem}
                             />
                         );
                     }}
