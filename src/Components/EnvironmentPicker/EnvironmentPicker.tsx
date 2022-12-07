@@ -72,12 +72,20 @@ import {
     setStorageContainerOptionsInLocalStorage
 } from '../../Models/Services/LocalStorageManager/LocalStorageManager';
 import produce from 'immer';
+import AdapterResult from '../../Models/Classes/AdapterResult';
+import { AzureResourceData } from '../../Models/Classes/AdapterDataClasses/AzureManagementData';
+import { ResourcePickerError } from '../ResourcePicker/ResourcePicker.types';
 
 const dialogStyles: Partial<IModalStyles> = {
     main: {
         width: '640px !important',
         maxWidth: 'unset !important',
-        minHeight: 'fit-content'
+        minHeight: 'fit-content',
+        overflow: 'visible'
+    },
+    scrollableContent: {
+        overflow: 'visible',
+        '> div:first-child': { overflow: 'visible' }
     }
 };
 const modalProps: IModalProps = {
@@ -110,10 +118,11 @@ const EnvironmentPicker = ({
             setTrue: hideDialog
         }
     ] = useBoolean(!isDialogOpenProp);
-    const [
-        resourcePickerErrorMessages,
-        setResourcePickerErrorMessages
-    ] = useState({
+    const [resourcePickerErrors, setResourcePickerErrors] = useState<{
+        adt: ResourcePickerError;
+        storageAccount: ResourcePickerError;
+        storageContainer: ResourcePickerError;
+    }>({
         adt: undefined,
         storageAccount: undefined,
         storageContainer: undefined
@@ -396,8 +405,9 @@ const EnvironmentPicker = ({
         parentResource?: IAzureResource | string
     ) => {
         let fetchedResource: IAzureResource;
+        let getResourceResponse: AdapterResult<AzureResourceData>;
         if (typeof resource === 'string') {
-            const getResourceResponse = await adapter.getResourceByUrl(
+            getResourceResponse = await adapter.getResourceByUrl(
                 getResourceUrl(resource, type, parentResource),
                 type
             );
@@ -418,29 +428,38 @@ const EnvironmentPicker = ({
                     : RequiredAccessRoleGroupForStorageContainer
             );
 
-            setResourcePickerErrorMessages(
+            setResourcePickerErrors(
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                            draft.adt = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.adtInstanceMissingPermissionMessage'
-                                  );
+                            draft.adt = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.adtInstanceMissingPermissionMessage'
+                                      ),
+                                isCatastrophic: true
+                            };
                             break;
                         case AzureResourceTypes.StorageAccount.toLowerCase():
-                            draft.storageAccount = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.storageAccountMissingPermissionMessage'
-                                  );
+                            draft.storageAccount = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.storageAccountMissingPermissionMessage'
+                                      ),
+                                isCatastrophic: true
+                            };
                             break;
                         case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                            draft.storageContainer = haveAccess
-                                ? null
-                                : t(
-                                      'environmentPicker.errors.storageContainerMissingPermissionMessage'
-                                  );
+                            draft.storageContainer = {
+                                message: haveAccess
+                                    ? null
+                                    : t(
+                                          'environmentPicker.errors.storageContainerMissingPermissionMessage'
+                                      ),
+                                isCatastrophic: true
+                            };
                             break;
                         default:
                             break;
@@ -448,23 +467,25 @@ const EnvironmentPicker = ({
                 })
             );
         } else {
-            setResourcePickerErrorMessages(
+            const error: ResourcePickerError = {
+                message: getResourceResponse?.getCatastrophicError()
+                    ? t('environmentPicker.errors.resourceNotVerified')
+                    : t('environmentPicker.errors.resourceNotFound'),
+                isCatastrophic: getResourceResponse?.getCatastrophicError() // although the error is catastrophic here it is not blocking, if getResourceResponse has a catastrophic error it might be due to user dont have permissions to make ARM API call, then do not mark it as severe message
+                    ? false
+                    : true
+            };
+            setResourcePickerErrors(
                 produce((draft) => {
                     switch (type.toLowerCase()) {
                         case AzureResourceTypes.DigitalTwinInstance.toLowerCase():
-                            draft.adt = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.adt = error;
                             break;
                         case AzureResourceTypes.StorageAccount.toLowerCase():
-                            draft.storageAccount = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.storageAccount = error;
                             break;
                         case AzureResourceTypes.StorageBlobContainer.toLowerCase():
-                            draft.storageContainer = t(
-                                'environmentPicker.errors.resourceNotFound'
-                            );
+                            draft.storageContainer = error;
                             break;
                         default:
                             break;
@@ -478,11 +499,6 @@ const EnvironmentPicker = ({
         resource: IADTInstance | string,
         resources: Array<IADTInstance | string>
     ) => {
-        setResourcePickerErrorMessages(
-            produce((draft) => {
-                draft.adt = null;
-            })
-        ); // set the error state for permissions to null for default state before checking permission for the next changed resource
         if (
             resource &&
             (!areResourceValuesEqual(
@@ -496,8 +512,13 @@ const EnvironmentPicker = ({
                 ),
                 AzureResourceDisplayFields.url
             ) ||
-                resourcePickerErrorMessages.adt === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.adt === undefined) // check permissions on mount for the default selected value as well
         ) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.adt = null;
+                })
+            ); // set the error state for permissions to null for default state before checking permission for the next changed resource
             checkPermissionsForResource(
                 resource,
                 AzureResourceTypes.DigitalTwinInstance
@@ -518,11 +539,6 @@ const EnvironmentPicker = ({
         resource: IAzureStorageAccount | string,
         resources: Array<IAzureStorageAccount | string>
     ) => {
-        setResourcePickerErrorMessages(
-            produce((draft) => {
-                draft.storageAccount = null;
-            })
-        ); // set the error state for permissions to null for default state before checking permission for the next changed resource
         if (
             resource &&
             (!areResourceValuesEqual(
@@ -534,8 +550,13 @@ const EnvironmentPicker = ({
                 getResourceUrl(resource, AzureResourceTypes.StorageAccount),
                 AzureResourceDisplayFields.url
             ) ||
-                resourcePickerErrorMessages.storageAccount === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.storageAccount === undefined) // check permissions on mount for the default selected value as well
         ) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.storageAccount = null;
+                })
+            ); // set the error state for permissions to null for default state before checking permission for the next changed resource
             checkPermissionsForResource(
                 resource,
                 AzureResourceTypes.StorageAccount
@@ -602,11 +623,6 @@ const EnvironmentPicker = ({
         resource: IAzureStorageBlobContainer | string,
         resources: Array<IAzureStorageBlobContainer | string>
     ) => {
-        setResourcePickerErrorMessages(
-            produce((draft) => {
-                draft.storageContainer = null;
-            })
-        ); // set the error state for permissions to null for default state before checking permission for the next changed resource
         if (
             resource &&
             (!areResourceValuesEqual(
@@ -620,8 +636,13 @@ const EnvironmentPicker = ({
                 ),
                 AzureResourceDisplayFields.name
             ) ||
-                resourcePickerErrorMessages.storageContainer === undefined) // check permissions on mount for the default selected value as well
+                resourcePickerErrors.storageContainer === undefined) // check permissions on mount for the default selected value as well
         ) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.storageContainer = null;
+                })
+            ); // set the error state for permissions to null for default state before checking permission for the next changed resource
             checkPermissionsForResource(
                 resource,
                 AzureResourceTypes.StorageBlobContainer,
@@ -689,7 +710,9 @@ const EnvironmentPicker = ({
             <Dialog
                 hidden={false}
                 styles={{
-                    root: { display: !isDialogHidden ? 'flex' : 'none' }
+                    root: {
+                        display: !isDialogHidden ? 'flex' : 'none'
+                    }
                 }}
                 onDismiss={handleOnDismiss}
                 dialogContentProps={dialogContentProps}
@@ -698,7 +721,6 @@ const EnvironmentPicker = ({
                 {environmentPickerState.firstTimeVisible && (
                     <div className="cb-environment-picker-dialog-form">
                         <ResourcePicker
-                            styles={comboBoxSubComponentStyles}
                             adapter={adapter}
                             resourceType={
                                 AzureResourceTypes.DigitalTwinInstance
@@ -726,13 +748,11 @@ const EnvironmentPicker = ({
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
-                            errorMessage={resourcePickerErrorMessages.adt}
-                            allowFreeform
+                            error={resourcePickerErrors.adt}
                         />
                         {storage && (
                             <>
                                 <ResourcePicker
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageAccount
@@ -768,10 +788,7 @@ const EnvironmentPicker = ({
                                     onLoaded={
                                         handleOnStorageAccountResourcesLoaded
                                     }
-                                    errorMessage={
-                                        resourcePickerErrorMessages.storageAccount
-                                    }
-                                    allowFreeform
+                                    error={resourcePickerErrors.storageAccount}
                                 />
 
                                 <ResourcePicker
@@ -781,7 +798,6 @@ const EnvironmentPicker = ({
                                             .storageAccountToEdit,
                                         AzureResourceTypes.StorageAccount
                                     )}
-                                    styles={comboBoxSubComponentStyles}
                                     adapter={adapter}
                                     resourceType={
                                         AzureResourceTypes.StorageBlobContainer
@@ -791,22 +807,30 @@ const EnvironmentPicker = ({
                                         interchangeables: []
                                     }}
                                     searchParams={{
-                                        additionalParams: {
-                                            storageAccountId: getStorageAccountId(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                defaultStorageAccountToContainersMappingsRef.current
-                                            ),
-                                            storageAccountBlobUrl: getResourceUrl(
-                                                environmentPickerState
-                                                    .storageAccountInfo
-                                                    .storageAccountToEdit,
-                                                AzureResourceTypes.StorageAccount
-                                            )
-                                        }
+                                        additionalParams: environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit
+                                            ? {
+                                                  storageAccountId: getStorageAccountId(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      defaultStorageAccountToContainersMappingsRef.current
+                                                  ),
+                                                  storageAccountBlobUrl: getResourceUrl(
+                                                      environmentPickerState
+                                                          .storageAccountInfo
+                                                          .storageAccountToEdit,
+                                                      AzureResourceTypes.StorageAccount
+                                                  )
+                                              }
+                                            : undefined,
+                                        isAdditionalParamsRequired: true
                                     }}
                                     shouldFetchResourcesOnMount={
+                                        environmentPickerState
+                                            .storageAccountInfo
+                                            .storageAccountToEdit &&
                                         !hasFetchedResources.current
                                             .storageBlobContainers
                                     }
@@ -834,10 +858,9 @@ const EnvironmentPicker = ({
                                     onLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
-                                    errorMessage={
-                                        resourcePickerErrorMessages.storageContainer
+                                    error={
+                                        resourcePickerErrors.storageContainer
                                     }
-                                    allowFreeform
                                 />
                             </>
                         )}
@@ -864,30 +887,23 @@ const EnvironmentPicker = ({
                         onClick={handleOnSave}
                         text={t('save')}
                         disabled={
-                            resourcePickerErrorMessages.adt ||
-                            resourcePickerErrorMessages.storageAccount ||
-                            resourcePickerErrorMessages.storageContainer ||
-                            (storage
+                            storage
                                 ? !(
                                       environmentPickerState.adtInstanceInfo
                                           .adtInstanceToEdit &&
+                                      environmentPickerState.storageAccountInfo
+                                          .storageAccountToEdit &&
                                       environmentPickerState.containerInfo
                                           .containerToEdit
                                   )
                                 : !environmentPickerState.adtInstanceInfo
-                                      .adtInstanceToEdit)
+                                      .adtInstanceToEdit
                         }
                     />
                 </DialogFooter>
             </Dialog>
         </div>
     );
-};
-
-const comboBoxSubComponentStyles = {
-    subComponentStyles: {
-        comboBox: { callout: { width: 592 } }
-    }
 };
 
 export default memo(EnvironmentPicker);

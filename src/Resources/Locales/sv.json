@@ -857,7 +857,8 @@
       "adtInstanceMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"Azure Digital Twins dataläsare\" (minst).",
       "storageAccountMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"läsare\" (åtminstone).",
       "storageContainerMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som \"läsare\" (minst) och antingen \"Storage Blob Data Owner\" eller \"Storage Blob Data Contributor\".",
-      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet."
+      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet.",
+      "resourceNotVerified": "Vi kan inte verifiera att den här resursen finns."
     }
   },
   "behaviorsModal": {
@@ -1220,7 +1221,6 @@
   "resourcesPicker": {
     "noOption": "Inga resurser hittades",
     "loadingResources": "Läsa in resurser",
-    "loadingInstances": "Laddar instanser...",
     "loadingContainers": "Lastning av containrar...",
     "loadingStorageAccounts": "Läser in lagringskonton...",
     "displayFieldNotFound": "Egenskapen '{{displayField}}' hittades inte i resursen med id '{{id}}'!",
@@ -1231,9 +1231,11 @@
       "invalidStorageAccountUrl": "Detta är inte en giltig URL (t.ex. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Välj en resurs",
-    "environmentDropdownPlaceholder": "t.ex. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "t.ex. https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Ingen exakt matchning, använd",
+    "adtInstancePlaceholder": "Välj en ADT-instans",
+    "storageAccountPlaceholder": "Välj ett lagringskonto",
+    "storageContainerPlaceholder": "Välj en lagringscontainer",
+    "loadingAdtInstances": "Laddar instanser..."
   },
   "advancedSearch": {
     "toggleSelection": "Växla till Välj tvilling",

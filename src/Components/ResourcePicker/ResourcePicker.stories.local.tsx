@@ -47,7 +47,8 @@ const Template: ResourcePickerStory = (args) => {
                     additionalParams: {
                         storageAccountId:
                             authenticationParameters.storage.accountId
-                    }
+                    },
+                    isAdditionalParamsRequired: true
                 }
             })}
         />
@@ -68,8 +69,10 @@ ADTInstances.args = {
     onChange: (resource) => {
         console.log(typeof resource === 'string' ? resource : resource?.id);
     },
-    searchParams: { take: 500, filter: 'demo' },
-    allowFreeform: true
+    searchParams: {
+        take: 500,
+        filter: 'demo'
+    }
 };
 
 export const StorageAccounts = Template.bind({}) as ResourcePickerStory;
@@ -86,5 +89,5 @@ StorageContainers.args = {
     requiredAccessRoles: RequiredAccessRoleGroupForStorageContainer,
     label: 'Storage blob containers',
     displayField: AzureResourceDisplayFields.name,
-    searchParams: { take: 500 }
+    searchParams: { take: 1000 }
 };

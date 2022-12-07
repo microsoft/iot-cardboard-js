@@ -327,6 +327,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     'getResourceByUrl: Failed to fetch resource by url: ',
                     error
                 );
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: error
+                });
             }
 
             return new AzureResourceData(resource);
@@ -377,7 +382,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                 (r.subscriptionName =
                                     storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
                         );
-                    } else {
+                    } else if (
+                        !params.searchParams?.isAdditionalParamsRequired
+                    ) {
                         const storageAccounts: Array<IAzureStorageAccount> = await this.fetchAllResources(
                             adapterMethodSandbox,
                             token,

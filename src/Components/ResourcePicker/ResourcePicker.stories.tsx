@@ -54,3 +54,39 @@ StorageContainers.args = {
     label: 'Storage blob containers',
     displayField: AzureResourceDisplayFields.name
 };
+
+export const ADTInstancesWithError = Template.bind({}) as ResourcePickerStory;
+ADTInstancesWithError.args = {
+    resourceType: AzureResourceTypes.DigitalTwinInstance,
+    requiredAccessRoles: RequiredAccessRoleGroupForADTInstance,
+    label: 'ADT instances',
+    displayField: AzureResourceDisplayFields.url,
+    additionalOptions: [
+        'https://example1.api.wcus.digitaltwins.azure.net',
+        'https://example2.api.wus.digitaltwins.azure.net'
+    ],
+    selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
+    error: {
+        message: 'Example error message',
+        isCatastrophic: false
+    }
+};
+
+export const ADTInstancesWithSevereError = Template.bind(
+    {}
+) as ResourcePickerStory;
+ADTInstancesWithSevereError.args = {
+    resourceType: AzureResourceTypes.DigitalTwinInstance,
+    requiredAccessRoles: RequiredAccessRoleGroupForADTInstance,
+    label: 'ADT instances',
+    displayField: AzureResourceDisplayFields.url,
+    additionalOptions: [
+        'https://example1.api.wcus.digitaltwins.azure.net',
+        'https://example2.api.wus.digitaltwins.azure.net'
+    ],
+    selectedOption: 'https://example1.api.wcus.digitaltwins.azure.net',
+    error: {
+        message: 'Example severe error message',
+        isCatastrophic: true
+    }
+};

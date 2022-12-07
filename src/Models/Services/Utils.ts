@@ -113,27 +113,31 @@ export const createSeededGUID = (seededRandomNumGen: () => number) => {
 };
 
 export const getMarkedHtmlBySearch = (
-    str,
-    searchTerm,
+    str: string,
+    searchTerm: string,
     isCaseSensitive = false
 ) => {
     try {
-        const regexp = new RegExp(searchTerm, isCaseSensitive ? 'g' : 'gi');
-        const matches = str.match(regexp);
-        return str
-            .split(regexp)
-            .map((s, i) =>
-                React.createElement('span', { key: i }, [
-                    s,
-                    i < matches?.length
-                        ? React.createElement(
-                              'mark',
-                              { key: `marked_${i}` },
-                              matches[i]
-                          )
-                        : null
-                ])
-            );
+        if (searchTerm) {
+            const regexp = new RegExp(searchTerm, isCaseSensitive ? 'g' : 'gi');
+            const matches = str.match(regexp);
+            return str
+                .split(regexp)
+                .map((s, i) =>
+                    React.createElement('span', { key: i }, [
+                        s,
+                        i < matches?.length
+                            ? React.createElement(
+                                  'mark',
+                                  { key: `marked_${i}` },
+                                  matches[i]
+                              )
+                            : null
+                    ])
+                );
+        } else {
+            return React.createElement('span', {}, [str]);
+        }
     } catch (e) {
         return str;
     }
