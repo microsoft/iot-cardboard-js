@@ -857,8 +857,8 @@
       "adtInstanceMissingPermissionMessage": "Chybí vám oprávnění. Přístup budete potřebovat jako čtečku dat digitálních vláken Azure (minimálně).",
       "storageAccountMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako \"čtenář\" (minimálně).",
       "storageContainerMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů blob úložiště, nebo přispěvatel dat objektů blob úložiště.",
-      "resourceNotFound": "Se zadanou hodnotou nebyl nalezen žádný prostředek Azure.",
-      "resourceNotVerified": "Nemůžeme ověřit, zda tento zdroj existuje."
+      "resourceNotVerified": "Nemůžeme ověřit, zda tento zdroj existuje.",
+      "resourceNotFoun": "Neexistuje žádný prostředek Azure nalezený se zadanou hodnotou pro tohoto tenanta."
     }
   },
   "behaviorsModal": {
