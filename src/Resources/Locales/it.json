@@ -857,8 +857,8 @@
       "adtInstanceMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"lettore di dati Gemelli digitali di Azure\" (come minimo).",
       "storageAccountMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Avrai bisogno di accedere come \"Lettore\" (come minimo).",
       "storageContainerMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"Lettore\" (come minimo) e \"Proprietario dei dati BLOB di archiviazione\" o \"Collaboratore dei dati BLOB di archiviazione\".",
-      "resourceNotFound": "Non è stata trovata alcuna risorsa di Azure con il valore immesso.",
-      "resourceNotVerified": "Non possiamo verificare che questa risorsa esista."
+      "resourceNotVerified": "Non possiamo verificare che questa risorsa esista.",
+      "resourceNotFoun": "Non è stata trovata alcuna risorsa di Azure con il valore immesso per questo tenant."
     }
   },
   "behaviorsModal": {
