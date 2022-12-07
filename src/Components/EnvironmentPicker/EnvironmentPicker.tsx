@@ -367,7 +367,7 @@ const EnvironmentPicker = ({
                 type: EnvironmentPickerActionType.RESET_ITEMS_ON_DISMISS,
                 payload: {
                     selectedEnvironmentUrl: adtInstanceUrl,
-                    selectedContainerUrl: storage.containerUrl,
+                    selectedContainerUrl: storage?.containerUrl,
                     storageAccountToContainersMappings:
                         defaultStorageAccountToContainersMappingsRef.current,
                     resetContainersCallback: () => {
@@ -380,7 +380,12 @@ const EnvironmentPicker = ({
         if (onDismiss) {
             onDismiss();
         }
-    }, [toggleIsDialogHidden, onDismiss, adtInstanceUrl, storage.containerUrl]);
+    }, [
+        toggleIsDialogHidden,
+        onDismiss,
+        adtInstanceUrl,
+        storage?.containerUrl
+    ]);
 
     const adtInstanceDisplayText = useMemo(() => {
         const displayText = getNameOfResource(
@@ -392,11 +397,11 @@ const EnvironmentPicker = ({
 
     const containerDisplayText = useMemo(() => {
         const displayText = getContainerDisplayText(
-            getContainerNameFromUrl(storage.containerUrl),
-            getStorageAccountUrlFromContainerUrl(storage.containerUrl)
+            getContainerNameFromUrl(storage?.containerUrl),
+            getStorageAccountUrlFromContainerUrl(storage?.containerUrl)
         );
         return displayText || t('environmentPicker.noContainer');
-    }, [t, storage.containerUrl]);
+    }, [t, storage?.containerUrl]);
 
     const checkPermissionsForResource = async (
         // check permissions for the selected resource and update error messages accordingly
