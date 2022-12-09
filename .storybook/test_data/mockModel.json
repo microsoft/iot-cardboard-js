@@ -510,50 +510,5 @@
             }
         ],
         "@context": ["dtmi:dtdl:context;2"]
-    },
-    {
-        "@id": "dtmi:com:azure:batteryInformation;1",
-        "@type": "Object",
-        "displayName": "Battery information",
-        "description": "Information about a battery",
-        "fields": [
-            {
-                "@type": "Telemetry",
-                "name": "batteryTemp",
-                "displayName": "Battery temperature",
-                "schema": "double"
-            },
-            {
-                "@type": "Property",
-                "@id": "dtmi:com:cocrowle:batterydead;1",
-                "name": "BatteryDeadState",
-                "schema": "boolean",
-                "comment": "",
-                "description": "Battery state",
-                "displayName": "Battery dead",
-                "writable": true
-            },
-            {
-                "@type": "Property",
-                "@id": "dtmi:com:cocrowle:batteryLevel;1",
-                "name": "BatteryLevel",
-                "schema": "double",
-                "comment": "",
-                "description": "Current Battery Level",
-                "displayName": "Battery level",
-                "writable": true
-            },
-            {
-                "@type": ["Property", "Energy"],
-                "@id": "dtmi:com:cocrowle:batterycapacity;1",
-                "name": "BatteryCapacity",
-                "schema": "float",
-                "comment": "",
-                "description": "Capacity of the car battery",
-                "displayName": "Battery capacity",
-                "unit": "kilowattHour",
-                "writable": true
-            }
-        ]
     }
 ]
