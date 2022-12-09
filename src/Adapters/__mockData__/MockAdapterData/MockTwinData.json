@@ -1,803 +1,261 @@
 [
     {
-        "$dtId": "A0b462d2-6849-4e41-abfe-cf480dd32e0c",
+        "$dtId": "PasteurizationMachine_A01",
         "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 1,
-        "HydraulicPressure": 22.1,
-        "PickupFailedAlert": true,
-        "PickupFailedBoxID": "Box1254",
+        "InFlow": 100,
+        "OutFlow": 250,
+        "Temperature": 50,
+        "PercentFull": 0,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:PasteurizationMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2177591Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2177591Z" },
+            "Temperature": { "lastUpdateTime": "2022-04-05T21:26:00.2177591Z" },
+            "PercentFull": { "lastUpdateTime": "2022-04-05T21:26:00.2177591Z" }
         }
     },
     {
-        "$dtId": "Arm2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 0,
-        "HydraulicPressure": 42.5,
-        "PickupFailedAlert": false,
-        "PickupFailedBoxID": "",
+        "$dtId": "PasteurizationMachine_A02",
+        "$etag": "W/\"2b413213-2e7f-4d54-a1c2-99ebe5f72b28\"",
+        "InFlow": 200,
+        "OutFlow": 50,
+        "Temperature": 150,
+        "PercentFull": 0,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:PasteurizationMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2855397Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2855397Z" },
+            "Temperature": { "lastUpdateTime": "2022-04-05T21:26:00.2855397Z" },
+            "PercentFull": { "lastUpdateTime": "2022-04-05T21:26:00.2855397Z" }
         }
     },
     {
-        "$dtId": "Arm3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 2,
-        "HydraulicPressure": 2.4,
-        "PickupFailedAlert": true,
-        "PickupFailedBoxID": "Box451",
+        "$dtId": "PasteurizationMachine_A03",
+        "$etag": "W/\"bfbc113a-c30e-499b-997c-1ba6c66f99ff\"",
+        "InFlow": 300,
+        "OutFlow": 150,
+        "Temperature": 250,
+        "PercentFull": 0.4,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:PasteurizationMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2995665Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.2995665Z" },
+            "Temperature": { "lastUpdateTime": "2022-04-05T21:26:00.2995665Z" },
+            "PercentFull": { "lastUpdateTime": "2022-04-05T21:26:00.2995665Z" }
         }
     },
     {
-        "$dtId": "Arm4",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 0,
-        "HydraulicPressure": 90.2,
-        "PickupFailedAlert": false,
-        "PickupFailedBoxID": "",
+        "$dtId": "PasteurizationMachine_A04",
+        "$etag": "W/\"e53c3363-39fe-4c86-86d8-7e7fc90d26ba\"",
+        "InFlow": 20,
+        "OutFlow": 80,
+        "Temperature": 110,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:PasteurizationMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3072095Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3072095Z" },
+            "Temperature": { "lastUpdateTime": "2022-04-05T21:26:00.3072095Z" },
+            "PercentFull": { "lastUpdateTime": "2022-04-05T21:26:00.3072095Z" }
         }
     },
     {
-        "$dtId": "Arm5",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 4,
-        "HydraulicPressure": 61.8,
-        "PickupFailedAlert": true,
-        "PickupFailedBoxID": "Box781",
+        "$dtId": "SaltMachine_C2",
+        "$etag": "W/\"20abc0bc-e353-4226-8e02-eba829be1f06\"",
+        "InFlow": 20,
+        "OutFlow": 250,
+        "Temperature": 16,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:SaltMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3434344Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3434344Z" }
         }
     },
     {
-        "$dtId": "Arm6",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FailedPickupsLastHr": 1,
-        "HydraulicPressure": 33.2,
-        "PickupFailedAlert": false,
-        "PickupFailedBoxID": "",
+        "$dtId": "SaltMachine_C0",
+        "$etag": "W/\"8a660279-100d-433e-a057-c7bf0ba3d095\"",
+        "InFlow": 200,
+        "OutFlow": 100,
+        "Temperature": 0,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:RobotArm;1",
-            "FailedPickupsLastHr": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HydraulicPressure": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedAlert": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "PickupFailedBoxID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:SaltMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3461146Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3461146Z" }
         }
     },
     {
-        "$dtId": "Windmill1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 14,
-        "HealthScore": 1,
-        "OEE": 88,
+        "$dtId": "SaltMachine_C1",
+        "$etag": "W/\"cb3ff2f2-3936-47bc-8363-16b841f4deb9\"",
+        "InFlow": 80,
+        "OutFlow": 100,
+        "Temperature": 20,
         "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
+            "$model": "dtmi:assetGen:SaltMachine;1",
+            "InFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3623119Z" },
+            "OutFlow": { "lastUpdateTime": "2022-04-05T21:26:00.3623119Z" }
         }
     },
     {
-        "$dtId": "Windmill2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 14,
-        "HealthScore": 10,
-        "OEE": 92,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "Xenia",
+        "$etag": "W/\"1ffb8c03-a41b-4074-b485-9d5104667333\"",
+        "$metadata": { "$model": "dtmi:assetGen:MaintenancePersonnel;1" }
     },
     {
-        "$dtId": "Windmill3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 12,
-        "HealthScore": 8,
-        "OEE": 14,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "Amy",
+        "$etag": "W/\"05630052-f14f-43b4-bfd2-e8d7b96ae6da\"",
+        "$metadata": { "$model": "dtmi:assetGen:MaintenancePersonnel;1" }
     },
     {
-        "$dtId": "Windmill4",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 17,
-        "HealthScore": 6,
-        "OEE": 55,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "Phillip",
+        "$etag": "W/\"722b80b2-eb88-4af7-afe7-bd8d31293d99\"",
+        "$metadata": { "$model": "dtmi:assetGen:MaintenancePersonnel;1" }
     },
     {
-        "$dtId": "Windmill5",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 16,
-        "HealthScore": 1,
-        "OEE": 94,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "John",
+        "$etag": "W/\"3155680e-9da4-412c-a743-9890f060e0bb\"",
+        "$metadata": { "$model": "dtmi:assetGen:MaintenancePersonnel;1" }
     },
     {
-        "$dtId": "Windmill6",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 14,
-        "HealthScore": 1,
-        "OEE": 81,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "OsloFactory",
+        "$etag": "W/\"738acfc4-4ecf-431e-ad28-4cc92cc21ce6\"",
+        "$metadata": { "$model": "dtmi:assetGen:Factory;1" }
     },
     {
-        "$dtId": "Windmill7",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 11,
-        "HealthScore": 2,
-        "OEE": 76,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "StockholmFactory",
+        "$etag": "W/\"e13e4d52-eaba-4a27-b587-dea2f557c273\"",
+        "$metadata": { "$model": "dtmi:assetGen:Factory;1" }
     },
     {
-        "$dtId": "Windmill8",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WindSpeed": 13,
-        "HealthScore": 10,
-        "OEE": 95,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Windmill;1",
-            "WindSpeed": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "HealthScore": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "OEE": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "Norway",
+        "$etag": "W/\"c23fa67e-6ee7-4862-96ad-25ad62f56778\"",
+        "$metadata": { "$model": "dtmi:assetGen:Country;1" }
     },
     {
-        "$dtId": "KiboLab",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 8,
-        "Temperature": 10,
-        "Humidity": 64,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
+        "$dtId": "Sweden",
+        "$etag": "W/\"5709203e-7248-4c78-aa9d-0b43d4170c3c\"",
+        "$metadata": { "$model": "dtmi:assetGen:Country;1" }
     },
     {
-        "$dtId": "ColumbusLab",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 8,
-        "Temperature": 10,
-        "Humidity": 35,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+        "$dtId": "Tesla",
+        "$etag": "W/\"2603b3a5-94e9-405b-9247-f08c48790258\"",
+        "CarPackage": "Basic",
+        "chargeHistory": {
+            "Seattle": {
+                "city": "Seattle",
+                "cost": 15.07,
+                "amountCharged": 20,
+                "chargeEvent": {
+                    "start": "CHARGE_START"
+                }
             }
-        }
-    },
-    {
-        "$dtId": "HarmonyModule",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 8,
-        "Temperature": 81,
-        "Humidity": 85,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+        },
+        "alternateName": "Sla",
+        "BatteryCapacity": 75,
+        "BatteryLevel": 85,
+        "CarName": "Model Y",
+        "ChargeStartTime": "12:42:50",
+        "DateActivated": "2020-10-15",
+        "dateCreated": "2020-08-01T10:42:08",
+        "description": "Tesla Model Y",
+        "LastDriven": "2022-05-01T12:45:00",
+        "Mileage": 15000,
+        "name": "Model Y",
+        "SaleNumber": 10182711,
+        "WheelInformation": {
+            "leftFrontPressure": 43,
+            "rightFrontPressure": 46,
+            "leftRearPressure": 44,
+            "rightRearPressure": 47,
+            "tireSpecification": {
+                "tireModel": "Standard",
+                "tireWidth": 19
             }
-        }
-    },
-    {
-        "$dtId": "DestinyLab",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 48,
-        "Temperature": 10,
-        "Humidity": 35,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+        },
+        "address": {
+            "addressCountry": "King",
+            "addressLocality": "En",
+            "addressRegion": "WA",
+            "postalCode": "98102",
+            "postOfficeBoxNumber": "10281",
+            "streetAddress": "101 1st Ave",
+            "$metadata": {
+                "addressCountry": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "addressLocality": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "addressRegion": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "postalCode": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "postOfficeBoxNumber": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "streetAddress": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                }
             }
-        }
-    },
-    {
-        "$dtId": "ZaryaBlock",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 8,
-        "Temperature": 10,
-        "Humidity": 35,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+        },
+        "location": {
+            "coordinates": "-101, 302",
+            "type": "Point",
+            "$metadata": {
+                "coordinates": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                },
+                "type": {
+                    "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
+                }
             }
-        }
-    },
-    {
-        "$dtId": "ZvezdaModule",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 24,
-        "Temperature": 10,
-        "Humidity": 77,
+        },
         "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "$model": "dtmi:com:cocrowle:teslamodely;1",
+            "CarPackage": {
+                "lastUpdateTime": "2022-04-26T00:57:54.2897135Z"
             },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "chargeHistory": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "TranquilityModule",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "CO2Level": 66,
-        "Temperature": 10,
-        "Humidity": 35,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSModule;1",
-            "CO2Level": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "alternateName": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "Temperature": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "BatteryCapacity": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "Humidity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 340,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 255,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 390,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel4",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 390,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel5",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 365,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel6",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 390,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel7",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 286,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "MainPanel8",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 390,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "RearPanel1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 252,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "RearPanel2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "Wattage": 390,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:ISSSolarPanel;1",
-            "Wattage": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Exchanger1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WaterConductivity": 390,
-        "SteelCorrosion": 68,
-        "CopperCorrosion": 92,
-        "BatchID": "Batch129",
-        "ProcessStep": "Gelling",
-        "TimeRemaining": 150,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Exchanger;1",
-            "WaterConductivity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "BatteryLevel": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "SteelCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "CarName": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "CopperCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "ChargeStartTime": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "DateActivated": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "dateCreated": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "TimeRemaining": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Exchanger2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WaterConductivity": 390,
-        "SteelCorrosion": 68,
-        "CopperCorrosion": 77,
-        "BatchID": "Batch129",
-        "ProcessStep": "Gelling",
-        "TimeRemaining": 150,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Exchanger;1",
-            "WaterConductivity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "description": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "SteelCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "LastDriven": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "CopperCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "Mileage": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "name": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "SaleNumber": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             },
-            "TimeRemaining": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Exchanger3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WaterConductivity": 390,
-        "SteelCorrosion": 68,
-        "CopperCorrosion": 92,
-        "BatchID": "Batch129",
-        "ProcessStep": "Gelling",
-        "TimeRemaining": 150,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Exchanger;1",
-            "WaterConductivity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "SteelCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "CopperCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "TimeRemaining": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Exchanger4",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "WaterConductivity": 390,
-        "SteelCorrosion": 68,
-        "CopperCorrosion": 92,
-        "BatchID": "Batch129",
-        "ProcessStep": "Gelling",
-        "TimeRemaining": 150,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:Exchanger;1",
-            "WaterConductivity": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "SteelCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "CopperCorrosion": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "TimeRemaining": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "StorageTanks1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "TankLevel": 40,
-        "BatchID": "Batch129",
-        "ProcessStep": "Filling",
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:StorageTanks;1",
-            "TankLevel": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "StorageTanks2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "TankLevel": 92,
-        "BatchID": "Batch129",
-        "ProcessStep": "Filling",
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:StorageTanks;1",
-            "TankLevel": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "StorageTanks3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "TankLevel": 76,
-        "BatchID": "Batch129",
-        "ProcessStep": "Filling",
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:StorageTanks;1",
-            "TankLevel": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "BatchID": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            },
-            "ProcessStep": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "TransferPipe",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "FlowRate": 80,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:TransferPipe;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Tank1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 6912,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Tank2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 7214,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Tank3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 6912,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Tank4",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 6912,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Distillation1",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 6912,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Distillation2",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 7042,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
-            }
-        }
-    },
-    {
-        "$dtId": "Distillation3",
-        "$etag": "W/\"f30dedf4-033f-43e5-a532-47ae137f1035\"",
-        "SpecificFuelConsumption": 6912,
-        "$metadata": {
-            "$model": "dtmi:scenesdemo:RefineryAsset;1",
-            "FlowRate": {
-                "lastUpdateTime": "2022-04-05T21:26:00.2177591Z"
+            "WheelInformation": {
+                "lastUpdateTime": "2022-05-02T17:43:10.2761079Z"
             }
         }
     }
