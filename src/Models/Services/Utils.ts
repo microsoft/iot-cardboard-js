@@ -36,7 +36,7 @@ import {
     IConsoleLogFunction,
     TimeSeriesData
 } from '../Constants/Types';
-import * as d3 from 'd3';
+import { format } from 'd3-format';
 
 let ajv: Ajv = null;
 const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
@@ -833,14 +833,21 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
     });
 };
 
+/**
+ * Takes a number and returns a string representing the formatted number
+ * @param val, number that is to be formatted
+ * @returns a string representation of the number
+ * represents infinitesimally small or large numbers in scientific notation
+ * represents tens, hundreds, and thousands with 3 sig figs w/ commas when necessary
+ * represents million and billion values with M or B suffixes
+ */
 export function formatNumber(val: number) {
     if (Math.abs(val) < 1000000) {
         if (Math.abs(val) < 0.000001) {
-            // display as scientific notation if greater than 100 thousandths
-            return d3.format('.1n')(val);
+            return format('.1n')(val);
         } else {
             //values between [0.000001, 999,999.999] are formatted in this else statement
-            let formatted = d3.format(',.3r')(val); // format value to have 3 sig figs and add commas if necessary
+            let formatted = format(',.3r')(val); // format value to have 3 sig figs and add commas if necessary
             if (formatted.indexOf('.') != -1) {
                 // if it's a decimal value, remove the trailing zeroes
                 let lastChar = formatted[formatted.length - 1];
@@ -853,9 +860,9 @@ export function formatNumber(val: number) {
             return formatted;
         }
     } else if (Math.abs(val) >= 1000000 && Math.abs(val) < 1000000000)
-        return d3.format('.3s')(val);
+        return format('.3s')(val);
     // suffix of M for millions
     else if (Math.abs(val) >= 1000000000 && Math.abs(val) < 1000000000000)
-        return d3.format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
-    return d3.format('.1n')(val); // scientific for everything else
+        return format('.3s')(val).slice(0, -1) + 'B'; // suffix of B for billions
+    return format('.1n')(val); // scientific for everything else
 }

@@ -18,7 +18,7 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
     const label = widget.widgetConfiguration.label;
     const units = widget.widgetConfiguration.units || '';
     let value = 0;
-    let format = '';
+    let formatedValue = '';
     try {
         if (mode === BehaviorModalMode.preview) {
             // In preview mode, gauge uses min value range as value
@@ -38,7 +38,7 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
     } catch {
         value = 0;
     }
-    format = formatNumber(value);
+    formatedValue = formatNumber(value);
     const { valueRanges } = widget.widgetConfiguration;
 
     // Get active color from value range -- if value not in defined range
@@ -59,8 +59,8 @@ const GaugeWidget: React.FC<IProp> = ({ widget }) => {
         <div className={styles.gaugeInfoContainer}>
             <div className={styles.gaugeInfoLabel}>{label}</div>
             <div className={styles.gaugeInfoValueContainer}>
-                <div className={styles.gaugeInfoValue} title={format}>
-                    {format}
+                <div className={styles.gaugeInfoValue} title={formatedValue}>
+                    {formatedValue}
                 </div>
                 <div className={styles.gaugeInfoUnits} title={String(units)}>
                     {units}
