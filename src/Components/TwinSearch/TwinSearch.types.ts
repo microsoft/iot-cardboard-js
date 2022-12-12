@@ -1,13 +1,13 @@
 import { IButtonStyles, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
-import ADTAdapter from '../../Adapters/ADTAdapter';
 import MockAdapter from '../../Adapters/MockAdapter';
+import { IADTAdapter } from '../../Models/Constants/Interfaces';
 import { IPropertyInspectorCalloutStyles } from '../PropertyInspector/PropertyInspectorCallout/PropertyInspectorCallout.types';
 import { ITwinPropertySearchDropdownStyles } from '../TwinPropertySearchDropdown/TwinPropertySearchDropdown.types';
 
 export interface ITwinSearchProps {
-    adapter: ADTAdapter | MockAdapter;
-    handleSelectTwinId: (selectedTwinId: string) => void;
-    initialSelectedValue: string;
+    adapter: IADTAdapter | MockAdapter;
+    onSelectTwinId: (selectedTwinId: string) => void;
+    initialSelectedValue?: string;
     isInspectorDisabled: boolean;
     twinId: string;
     disableDropdownDescription?: boolean;

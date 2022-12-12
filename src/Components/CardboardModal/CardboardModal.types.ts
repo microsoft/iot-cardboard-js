@@ -24,7 +24,7 @@ export interface ICardboardModalProps {
         linkProps?: ILinkProps;
     };
     /** click handle for the primary footer button */
-    footerPrimaryButtonProps: IButtonProps;
+    footerPrimaryButtonProps?: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
     /** additional props to pass to the modal for customization */
@@ -33,7 +33,7 @@ export interface ICardboardModalProps {
         'isOpen' | 'titleAriaId' | 'onDismiss' | 'styles'
     >;
     /** on dismiss of the dialog (either close or cancel) */
-    onDismiss: () => void;
+    onDismiss?: () => void;
     /** sub title text */
     subTitle?: string | (() => React.ReactNode);
     /** title text */

@@ -128,10 +128,12 @@ const CardboardModal: React.FC<ICardboardModalProps> = (props) => {
                                 onClick={onDismiss}
                                 styles={classNames.subComponentStyles.cancelButton?.()}
                             />
-                            <PrimaryButton
-                                {...footerPrimaryButtonProps}
-                                styles={classNames.subComponentStyles.primaryButton?.()}
-                            />
+                            {footerPrimaryButtonProps && (
+                                <PrimaryButton
+                                    {...footerPrimaryButtonProps}
+                                    styles={classNames.subComponentStyles.primaryButton?.()}
+                                />
+                            )}
                         </Stack>
                     </Stack>
                 </div>

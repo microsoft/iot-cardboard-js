@@ -20,7 +20,7 @@ export const getStyles = (
 ): ITwinPropertySearchDropdownStyles => {
     const { theme } = props;
     return {
-        root: [classNames.root],
+        root: [classNames.root, { flexGrow: 1 }],
         dropdown: [classNames.dropdown],
         label: [classNames.label, { alignItems: 'center', display: 'flex' }],
         requiredIcon: [

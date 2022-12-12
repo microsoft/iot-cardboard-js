@@ -18,15 +18,15 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
     IADXConnection,
-    IDataHistoryWidgetTimeSeriesTwin,
+    IDataHistoryTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
+import { transformADXTimeSeriesToHighChartsSeries } from '../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -259,7 +259,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 const getTwinIdPropertyMap = (
     timeSeries: IDataHistoryTimeSeries,
     twins: Record<string, DTwin>
-): Array<IDataHistoryWidgetTimeSeriesTwin> =>
+): Array<IDataHistoryTimeSeriesTwin> =>
     twins
         ? timeSeries.map((ts) => {
               const splittedArray = ts.expression?.split('.'); // expression is in [PrimaryTwin.Temperature] or [PrimaryTwin.Status.Temperature] nested propery format
@@ -275,28 +275,6 @@ const getTwinIdPropertyMap = (
               }
           })
         : null;
-
-/** Gets fetched adx time series data and data history widget time series to twin mapping information
- * to get the labels if defined for each series, and converts it into high chart series data to render in chart
- */
-const transformADXTimeSeriesToHighChartsSeries = (
-    adxTimeSeries: Array<ADXTimeSeries>,
-    twinIdPropertyMap: Array<IDataHistoryWidgetTimeSeriesTwin>
-): Array<IHighChartSeriesData> =>
-    adxTimeSeries && twinIdPropertyMap
-        ? adxTimeSeries.map(
-              (series) =>
-                  ({
-                      name:
-                          twinIdPropertyMap.find(
-                              (map) =>
-                                  map.twinId === series.id &&
-                                  map.twinPropertyName === series.key
-                          )?.label || series.id + ' ' + series.key, // this is the label for series to show in chart
-                      data: series.data
-                  } as IHighChartSeriesData)
-          )
-        : [];
 
 /** Generate placeholder mock data for timeseries to show in chart in preview mode
  */
