@@ -850,7 +850,7 @@ export function formatNumber(val: number) {
             }
             return formatted;
         } else {
-            //values between [0.000001, 999,999.999] are formatted in this else statement
+            //values between [0.00001, 999,999.999] are formatted in this else statement
             let formatted = format(',.3r')(val); // format value to have 3 sig figs and add commas if necessary
             if (formatted.indexOf('.') != -1) {
                 // if it's a decimal value, remove the trailing zeroes
