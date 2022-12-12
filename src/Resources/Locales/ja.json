@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "日時ピッカー",
       "timePickerTitle": "タイムピッカー",
       "plainTextInput": "プレーンテキスト入力"
-    }
+    },
+    "removeArrayItemIconTitle": "リストからアイテムを削除する",
+    "addArrayItemIconTitle": "新しいアイテムを追加する",
+    "clearArrayIconTitle": "すべてのアイテムを削除する"
   },
   "environmentPicker": {
     "editEnvironment": "3D シーン環境の構成",

@@ -1,4 +1,4 @@
-import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { IconButton, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropertyTreeContext } from '../PropertyTree';
@@ -15,19 +15,15 @@ const PickerIcon: React.FC<{
         }
     });
     return (
-        <div
-            tabIndex={0}
-            aria-label={title}
+        <IconButton
+            ariaLabel={title}
             className="cb-property-tree-node-datetime-picker-icon-container"
             onClick={onClick}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    onClick();
-                }
+            iconProps={{
+                iconName: iconName,
+                styles: iconStyles
             }}
-        >
-            <Icon iconName={iconName} styles={iconStyles} title={title} />
-        </div>
+        />
     );
 };
 

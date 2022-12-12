@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Sélecteur Datetime",
       "timePickerTitle": "Sélecteur de temps",
       "plainTextInput": "Saisie de texte brut"
-    }
+    },
+    "removeArrayItemIconTitle": "Supprimer un élément de la liste",
+    "addArrayItemIconTitle": "Ajouter un nouvel élément",
+    "clearArrayIconTitle": "Supprimer tous les éléments"
   },
   "environmentPicker": {
     "editEnvironment": "Configurer l’environnement 3D Scenes",

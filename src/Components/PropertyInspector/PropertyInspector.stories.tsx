@@ -2,7 +2,9 @@ import React from 'react';
 import {
     mockTwin,
     mockRelationship,
-    mockExpandedModels
+    mockExpandedModels,
+    mockManyArraysModels,
+    mockManyArraysTwin
 } from './__mockdata__/mockData';
 import mockExpandedModel from './__mockdata__/TeslaExampleModels.json';
 import StandalonePropertyInspector from './StandalonePropertyInspector';
@@ -41,6 +43,21 @@ export const SmallContainer = (_args, { globals: { theme, locale } }) => (
                 twin: mockTwin,
                 expandedModels: mockExpandedModels as DtdlInterface[],
                 rootModel: mockExpandedModels[0] as DtdlInterface
+            }}
+            onCommitChanges={(patch) => console.log(patch)}
+            theme={theme}
+            locale={locale}
+        />
+    </div>
+);
+
+export const ManyArrays = (_args, { globals: { theme, locale } }) => (
+    <div style={{ width: 500, height: 600 }}>
+        <StandalonePropertyInspector
+            inputData={{
+                twin: mockManyArraysTwin,
+                expandedModels: mockManyArraysModels as DtdlInterface[],
+                rootModel: mockManyArraysModels[0] as DtdlInterface
             }}
             onCommitChanges={(patch) => console.log(patch)}
             theme={theme}

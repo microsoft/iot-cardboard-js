@@ -15,6 +15,9 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
     onNodeValueUnset,
     onAddMapValue,
     onRemoveMapValue,
+    onAddArrayItem,
+    onRemoveArrayItem,
+    onClearArray,
     readonly = false
 }) => {
     return (
@@ -26,6 +29,9 @@ const PropertyTree: React.FC<PropertyTreeProps> = ({
                 onNodeValueUnset,
                 onAddMapValue,
                 onRemoveMapValue,
+                onAddArrayItem,
+                onRemoveArrayItem,
+                onClearArray,
                 readonly
             }}
         >
@@ -45,7 +51,7 @@ export const Tree: React.FC<TreeProps> = ({ data, isChildTree = false }) => {
         >
             {data.map((node) => {
                 return (
-                    <li className="cb-property-tree-list-item" key={node.name}>
+                    <li className="cb-property-tree-list-item" key={node.path}>
                         <TreeNode node={node} />
                     </li>
                 );

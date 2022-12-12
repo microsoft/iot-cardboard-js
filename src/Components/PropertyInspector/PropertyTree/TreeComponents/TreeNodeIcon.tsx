@@ -88,6 +88,7 @@ const TreeNodeIcon: React.FC<NodeProps> = ({ node }) => {
                 iconTitle = t('propertyInspector.propertyTypes.map');
                 break;
             case dtdlPropertyTypesEnum.Array:
+                iconName = 'GroupList';
                 iconTitle = t('propertyInspector.propertyTypes.array');
                 break;
         }
