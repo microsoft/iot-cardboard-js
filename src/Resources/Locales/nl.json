@@ -1298,5 +1298,21 @@
   "hideDetails": "Details verbergen",
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
+  },
+  "dataHistoryExplorer": {
+    "title": "Gegevensgeschiedenisverkenner",
+    "builder": {
+      "title": "Dubbele eigenschappen",
+      "description": "Om historized eigenschappen binnen deze tweeling of met andere tweelingen te vergelijken, voegt u ze hieronder toe.",
+      "timeSeriesTwin": {
+        "edit": "Tijdreeks tweeling bewerken",
+        "remove": "Verwijder tijdreeks tweeling",
+        "property": "Eigenschap"
+      }
+    },
+    "viewer": {
+      "chart": "Zeekaart",
+      "table": "Tafel"
+    }
   }
 }

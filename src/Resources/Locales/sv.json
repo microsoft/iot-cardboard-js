@@ -1298,5 +1298,21 @@
   "hideDetails": "Dölj detaljer",
   "colorPills": {
     "unlabeled": "Omärkt"
+  },
+  "dataHistoryExplorer": {
+    "title": "Utforskaren för datahistorik",
+    "builder": {
+      "title": "Tvillingegenskaper",
+      "description": "För att jämföra historiserade egenskaper inom denna tvilling eller med andra tvillingar, lägg till dem nedan.",
+      "timeSeriesTwin": {
+        "edit": "Redigera tidsserietvilling",
+        "remove": "Ta bort tidsserietvilling",
+        "property": "Egenskap"
+      }
+    },
+    "viewer": {
+      "chart": "Diagram",
+      "table": "Bord"
+    }
   }
 }

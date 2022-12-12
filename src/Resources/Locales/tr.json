@@ -1298,5 +1298,21 @@
   "hideDetails": "Ayrıntıları gizle",
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
+  },
+  "dataHistoryExplorer": {
+    "title": "Veri geçmişi gezgini",
+    "builder": {
+      "title": "İkiz özellikler",
+      "description": "Bu ikizdeki veya diğer ikizlerdeki geçmiş mülkleri karşılaştırmak için bunları aşağıya ekleyin.",
+      "timeSeriesTwin": {
+        "edit": "Zaman serisi ikizini düzenle",
+        "remove": "Zaman serisi ikizini kaldır",
+        "property": "Mülk"
+      }
+    },
+    "viewer": {
+      "chart": "Grafik",
+      "table": "Masa"
+    }
   }
 }

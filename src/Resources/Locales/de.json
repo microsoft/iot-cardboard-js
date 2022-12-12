@@ -1298,5 +1298,21 @@
   "hideDetails": "Details ausblenden",
   "colorPills": {
     "unlabeled": "Unbeschriftet"
+  },
+  "dataHistoryExplorer": {
+    "title": "Datenverlaufs-Explorer",
+    "builder": {
+      "title": "Twin-Immobilien",
+      "description": "Um historisierte Eigenschaften innerhalb dieses Zwillings oder mit anderen Zwillingen zu vergleichen, fügen Sie sie unten hinzu.",
+      "timeSeriesTwin": {
+        "edit": "Zeitreihen-Zwilling bearbeiten",
+        "remove": "Zeitreihen-Zwilling entfernen",
+        "property": "Eigentum"
+      }
+    },
+    "viewer": {
+      "chart": "Diagramm",
+      "table": "Tisch"
+    }
   }
 }

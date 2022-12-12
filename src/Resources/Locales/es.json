@@ -1298,5 +1298,21 @@
   "hideDetails": "Ocultar detalles",
   "colorPills": {
     "unlabeled": "Sin etiqueta"
+  },
+  "dataHistoryExplorer": {
+    "title": "Explorador del historial de datos",
+    "builder": {
+      "title": "Propiedades gemelas",
+      "description": "Para comparar propiedades históricas dentro de este gemelo o con otros gemelos, agréguelos a continuación.",
+      "timeSeriesTwin": {
+        "edit": "Editar serie temporal gemela",
+        "remove": "Quitar gemelo de serie temporal",
+        "property": "Propiedad"
+      }
+    },
+    "viewer": {
+      "chart": "Gráfico",
+      "table": "Mesa"
+    }
   }
 }
