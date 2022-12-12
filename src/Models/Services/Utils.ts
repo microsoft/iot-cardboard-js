@@ -843,8 +843,12 @@ export const getMockTimeSeriesDataArrayInLocalTime = (
  */
 export function formatNumber(val: number) {
     if (Math.abs(val) < 1000000) {
-        if (Math.abs(val) < 0.000001) {
-            return format('.1n')(val);
+        let formatted = format('.1e')(val);
+        if (Math.abs(val) < 0.00001) {
+            if (Math.abs(val) == 0) {
+                formatted = format('.1n')(val);
+            }
+            return formatted;
         } else {
             //values between [0.000001, 999,999.999] are formatted in this else statement
             let formatted = format(',.3r')(val); // format value to have 3 sig figs and add commas if necessary
