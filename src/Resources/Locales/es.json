@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como 'Lector' (como mínimo).",
       "storageContainerMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como \"Lector\" (como mínimo) y \"Propietario de datos de blobs de almacenamiento\" o \"Colaborador de datos de blobs de almacenamiento\".",
       "resourceNotVerified": "No podemos verificar que este recurso exista.",
-      "resourceNotFound": "No se encontró ningún recurso de Azure con el valor especificado para este inquilino."
+      "resourceNotFoun": "No se ha encontrado ningún recurso de Azure con el valor especificado."
     }
   },
   "behaviorsModal": {
