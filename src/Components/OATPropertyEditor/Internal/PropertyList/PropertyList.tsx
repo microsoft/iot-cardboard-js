@@ -44,11 +44,11 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
     // callbacks
 
-    const getUpdateCallback = (property: DTDLProperty) => {
+    const getSchemaUpdateCallback = (property: DTDLProperty) => {
         const onUpdateItem = (schema: DTDLSchema) => {
             logDebugConsole(
                 'info',
-                'Updating item with data. {selectedItem, property, data}',
+                'Updating schema with data. {selectedItem, property, data}',
                 selectedItem,
                 property,
                 schema
@@ -64,6 +64,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 if (originalPropertyIndex > -1) {
                     selectedItem.contents[originalPropertyIndex] = propertyCopy;
 
+                    // TODO: add to Undo stack
                     oatPageDispatch({
                         type: OatPageContextActionType.UPDATE_MODEL,
                         payload: {
@@ -77,6 +78,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     );
                 }
             } else if (isDTDLReference(selectedItem)) {
+                // TODO: add to Undo stack
                 oatPageDispatch({
                     type: OatPageContextActionType.UPDATE_REFERENCE,
                     payload: {
@@ -111,7 +113,9 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                 <PropertyListItem
                                     indexKey={String(index)}
                                     item={property}
-                                    onUpdateSchema={getUpdateCallback(property)}
+                                    onUpdateSchema={getSchemaUpdateCallback(
+                                        property
+                                    )}
                                 />
                             );
                         }}
