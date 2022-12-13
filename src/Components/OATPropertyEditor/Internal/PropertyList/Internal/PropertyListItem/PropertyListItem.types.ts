@@ -18,7 +18,9 @@ export interface IPropertyListItemProps {
     /** disables the input field */
     disableInput?: boolean;
     /** callback to store an updated version of the schema */
-    onUpdateItem: (schema: DTDLSchema) => void;
+    onUpdateSchema: (schema: DTDLSchema) => void;
+    /** callback to store an updated version of the schema */
+    // onUpdateProperty: (item: DTDLSchema) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

@@ -28,7 +28,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     props
 ) => {
-    const { indexKey, level, onUpdateItem, propertyItem, styles } = props;
+    const { indexKey, level, onUpdateSchema, propertyItem, styles } = props;
 
     // contexts
 
@@ -68,7 +68,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             item={item}
                             enumType={propertyItem.schema.valueSchema}
                             level={level}
-                            onUpdateItem={onUpdateItem}
+                            onUpdateSchema={onUpdateSchema}
                         />
                     )}
                 />
@@ -77,14 +77,14 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema.elementSchema}
                     level={level}
-                    onUpdateItem={onUpdateItem}
+                    onUpdateSchema={onUpdateSchema}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
                 <PropertyListItemMapChild
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
-                    onUpdateItem={onUpdateItem}
+                    onUpdateSchema={onUpdateSchema}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
@@ -94,7 +94,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             indexKey={`${indexKey}.${index}`}
                             item={item}
                             level={level}
-                            onUpdateItem={(schema) => {
+                            onUpdateSchema={(schema) => {
                                 // update the schema for the field
                                 const itemCopy = deepCopy(item);
                                 itemCopy.schema = schema;
@@ -104,7 +104,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 );
                                 schemaCopy.fields[index] = itemCopy;
                                 // send updated schema to parent
-                                onUpdateItem(schemaCopy);
+                                onUpdateSchema(schemaCopy);
                             }}
                         />
                     )}

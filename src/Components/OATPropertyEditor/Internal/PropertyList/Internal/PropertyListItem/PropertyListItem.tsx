@@ -37,7 +37,14 @@ const getClassNames = classNamesFunction<
 >();
 
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
-    const { disableInput, item, indexKey, level, onUpdateItem, styles } = props;
+    const {
+        disableInput,
+        item,
+        indexKey,
+        level,
+        onUpdateSchema,
+        styles
+    } = props;
 
     // contexts
 
@@ -67,11 +74,12 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // callbacks
     const onAddChild = useCallback(() => {
-        console.log('***Adding child', onUpdateItem);
         setExpandedTrue();
-        onUpdateItem(addChildToSchema({ parentSchema: item.schema }));
-    }, [item.schema, onUpdateItem, setExpandedTrue]);
-    const onChangeName = useCallback((_ev, _value: string) => {
+        onUpdateSchema(addChildToSchema({ parentSchema: item.schema }));
+    }, [item.schema, onUpdateSchema, setExpandedTrue]);
+    const onChangeName = useCallback((_ev, value: string) => {
+        // item.name = value;
+        // onUpdateSchema();
         // if (isDTDLModel(parentEntity)) {
         //     // update for model
         //     const updatedContents = [...parentEntity.contents];
@@ -189,7 +197,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <PropertyListItemChildHost
                     indexKey={indexKey}
                     level={itemLevel}
-                    onUpdateItem={onUpdateItem}
+                    onUpdateSchema={onUpdateSchema}
                     propertyItem={item}
                 />
             )}

@@ -111,7 +111,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                 <PropertyListItem
                                     indexKey={String(index)}
                                     item={property}
-                                    onUpdateItem={getUpdateCallback(property)}
+                                    onUpdateSchema={getUpdateCallback(property)}
                                 />
                             );
                         }}
