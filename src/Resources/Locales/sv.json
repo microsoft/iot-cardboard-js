@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"Azure Digital Twins dataläsare\" (minst).",
       "storageAccountMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"läsare\" (åtminstone).",
       "storageContainerMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som \"läsare\" (minst) och antingen \"Storage Blob Data Owner\" eller \"Storage Blob Data Contributor\".",
-      "resourceNotVerified": "Vi kan inte verifiera att den här resursen finns.",
-      "resourceNotFoun": "Det finns ingen Azure-resurs med det angivna värdet."
+      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet.",
+      "resourceNotVerified": "Vi kan inte verifiera att den här resursen finns."
     }
   },
   "behaviorsModal": {

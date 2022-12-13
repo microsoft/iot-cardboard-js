@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "권한이 없습니다. 'Azure 디지털 트윈 데이터 판독기'(최소한)로 액세스해야 합니다.",
       "storageAccountMissingPermissionMessage": "권한이 없습니다. '독자'(최소한)로 액세스해야 합니다.",
       "storageContainerMissingPermissionMessage": "권한이 없습니다. '읽기 권한자'(최소한) 및 '저장소 Blob 데이터 소유자' 또는 '저장소 Blob 데이터 참가자'로 액세스해야 합니다.",
-      "resourceNotVerified": "이 리소스가 존재하는지 확인할 수 없습니다.",
-      "resourceNotFoun": "입력한 값으로 Azure 리소스를 찾을 수 없습니다."
+      "resourceNotFound": "입력한 값으로 Azure 리소스를 찾을 수 없습니다.",
+      "resourceNotVerified": "이 리소스가 존재하는지 확인할 수 없습니다."
     }
   },
   "behaviorsModal": {

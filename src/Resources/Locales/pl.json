@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Masz brakujące uprawnienia. Dostęp będzie potrzebny jako \"Azure Digital Twins Data Reader\" (co najmniej).",
       "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
       "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
-      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje.",
-      "resourceNotFoun": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością."
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością.",
+      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje."
     }
   },
   "behaviorsModal": {
