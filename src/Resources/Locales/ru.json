@@ -1210,7 +1210,10 @@
     "date": "дата",
     "expand": "Расширять",
     "PropertyListItem": {
-      "arrayItemLabel": "Элементы"
+      "arrayItemLabel": "Элементы",
+      "defaultEnumNamePrefix": "enum_key_{{индекс}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{индекс}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{индекс}}"
     }
   },
   "ErrorHandlingWrapper": {

@@ -1210,7 +1210,10 @@
     "date": "날짜",
     "expand": "넓히다",
     "PropertyListItem": {
-      "arrayItemLabel": "항목"
+      "arrayItemLabel": "항목",
+      "defaultEnumNamePrefix": "enum_key_{{색인}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{색인}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{색인}}"
     }
   },
   "ErrorHandlingWrapper": {
