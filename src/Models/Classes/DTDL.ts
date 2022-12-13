@@ -1,11 +1,4 @@
-import {
-    DtdlComponent,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship,
-    IADTModelDefinition,
-    IADTProperty
-} from '../Constants';
+import { DtdlInterfaceContent, IADTProperty } from '../Constants';
 
 export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
 

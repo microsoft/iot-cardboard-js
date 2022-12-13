@@ -39,7 +39,8 @@ export const EnumProperty = Template.bind({}) as PropertyListItemChildHostStory;
 EnumProperty.args = {
     indexKey: '0',
     level: 1,
-    propertyItem: getMockProperty({ type: 'Enum', enumType: 'integer' })
+    propertyItem: getMockProperty({ type: 'Enum', enumType: 'integer' }),
+    onUpdateItem: () => undefined
 } as IPropertyListItemChildHostProps;
 
 export const ArrayProperty = Template.bind(
@@ -51,7 +52,8 @@ ArrayProperty.args = {
     propertyItem: getMockProperty({
         type: 'Array',
         itemSchema: 'double'
-    })
+    }),
+    onUpdateItem: () => undefined
 } as IPropertyListItemChildHostProps;
 
 export const ObjectProperty = Template.bind(
@@ -60,12 +62,26 @@ export const ObjectProperty = Template.bind(
 ObjectProperty.args = {
     indexKey: '0',
     level: 1,
-    propertyItem: getMockProperty({ type: 'Object' })
+    propertyItem: getMockProperty({ type: 'Object', complexity: 'complex' }),
+    onUpdateItem: () => undefined
 } as IPropertyListItemChildHostProps;
 
-export const MapProperty = Template.bind({}) as PropertyListItemChildHostStory;
-MapProperty.args = {
+export const MapPropertyPrimitive = Template.bind(
+    {}
+) as PropertyListItemChildHostStory;
+MapPropertyPrimitive.args = {
     indexKey: '0',
     level: 1,
-    propertyItem: getMockProperty({ type: 'Map' })
+    propertyItem: getMockProperty({ type: 'Map', valueType: 'Primitive' }),
+    onUpdateItem: () => undefined
+} as IPropertyListItemChildHostProps;
+
+export const MapPropertyComplex = Template.bind(
+    {}
+) as PropertyListItemChildHostStory;
+MapPropertyComplex.args = {
+    indexKey: '0',
+    level: 1,
+    propertyItem: getMockProperty({ type: 'Map', valueType: 'Complex' }),
+    onUpdateItem: () => undefined
 } as IPropertyListItemChildHostProps;

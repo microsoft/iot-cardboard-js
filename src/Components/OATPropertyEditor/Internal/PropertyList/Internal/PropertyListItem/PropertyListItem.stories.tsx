@@ -108,7 +108,7 @@ PrimitiveTime.args = {
 export const ComplexObject = Template.bind({}) as PropertyListItemStory;
 ComplexObject.args = {
     ...DEFAULT_ARGS,
-    item: getMockProperty({ type: 'Object' })
+    item: getMockProperty({ type: 'Object', complexity: 'complex' })
 } as IPropertyListItemProps;
 
 export const ComplexEnumInteger = Template.bind({}) as PropertyListItemStory;
