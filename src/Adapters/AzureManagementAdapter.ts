@@ -99,9 +99,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             },
             data: isResourceGraphCall(params)
                 ? {
-                      query: `Resources | where type =~ '${
-                          params.type
-                      }' | where tenantId == '${this.tenantId}'${
+                      query: `Resources | where type =~ '${params.type}'${
                           params.query ? ' | where ' + params.query : ''
                       } | join kind=leftouter (ResourceContainers | where type=='microsoft.resources/subscriptions' | project subscriptionName=name, subscriptionId) on subscriptionId | project id, name, location, type, properties, tenantId, subscriptionId, subscriptionName, resourceGroup${
                           params.limit ? ' | limit ' + params.limit : ''
