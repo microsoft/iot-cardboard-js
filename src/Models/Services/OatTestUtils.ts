@@ -13,18 +13,22 @@ import {
 
 interface IMockPropertyBaseArgs {
     type: DTDLSchema | 'Object';
+    discriminator?: number;
 }
 interface IMockPropertyEnumArgs {
     type: 'Enum';
     enumType: 'string' | 'integer';
+    discriminator?: number;
 }
 interface IMockPropertyMapArgs {
     type: 'Map';
     valueType: 'Complex' | 'Primitive';
+    discriminator?: number;
 }
 interface IMockPropertyArrayArgs {
     type: 'Array';
     itemSchema: DTDLSchema;
+    discriminator?: number;
 }
 export const getMockProperty = (
     args:
@@ -52,7 +56,10 @@ export const getMockProperty = (
             }
         ];
         return new DTDLProperty(
-            'test ' + args.type + ' property name',
+            'test ' +
+                args.type +
+                ' property name' +
+                (args.discriminator ? `-${args.discriminator}` : ''),
             new DTDLEnum(
                 items,
                 args.enumType,
@@ -69,7 +76,10 @@ export const getMockProperty = (
         );
     } else if (args.type === 'Object') {
         return new DTDLProperty(
-            'test ' + args.type + ' property name',
+            'test ' +
+                args.type +
+                ' property name' +
+                (args.discriminator ? `-${args.discriminator}` : ''),
             new DTDLObject(
                 'test object 1',
                 [
@@ -82,7 +92,11 @@ export const getMockProperty = (
                         schema: 'string'
                     },
                     {
-                        name: 'mega object property name',
+                        name:
+                            'mega object property name' +
+                            (args.discriminator
+                                ? `-${args.discriminator + 1}`
+                                : ''),
                         schema: new DTDLObject('', [
                             new DTDLObjectField('name 1', 'string'),
                             new DTDLObjectField(
@@ -154,10 +168,19 @@ export const getMockProperty = (
                 new DTDLMapValue('value 1', 'string')
             );
         }
-        return new DTDLProperty('test ' + args.type + ' property name', schema);
+        return new DTDLProperty(
+            'test ' +
+                args.type +
+                ' property name' +
+                (args.discriminator ? `-${args.discriminator}` : ''),
+            schema
+        );
     } else if (args.type === 'Array') {
         return new DTDLProperty(
-            'test ' + args.type + ' property name',
+            'test ' +
+                args.type +
+                ' property name' +
+                (args.discriminator ? `-${args.discriminator}` : ''),
             new DTDLArray(
                 'test array 1',
                 args.itemSchema,
@@ -174,7 +197,9 @@ export const getMockProperty = (
         );
     } else {
         return new DTDLProperty(
-            'test ' + args.type + ' property name',
+            'test ' + args.type + ' property name' + args.discriminator
+                ? `-${args.discriminator}`
+                : '',
             args.type,
             'id1',
             'test comment',

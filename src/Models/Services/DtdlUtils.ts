@@ -6,12 +6,14 @@ import {
     DTDLEnumValue,
     DTDLMap,
     DTDLObject,
+    DTDLObjectField,
     DTDLProperty,
     DTDLRelationship,
     DTDLSchema,
     DTDLSchemaType,
     DTDLType,
-    IDTDLEnum
+    IDTDLEnum,
+    IDTDLObject
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -201,6 +203,7 @@ export const addChildToSchema = (args: IAddChildArgs) => {
         case DTDLSchemaType.Map:
             break;
         case DTDLSchemaType.Object:
+            addPropertyToObject(parentSchema);
             break;
     }
     return parentSchema;
@@ -218,4 +221,16 @@ const addItemToEnum = (schema: IDTDLEnum) => {
     const defaultValue =
         schema.valueSchema === 'integer' ? index : String(index);
     schema.enumValues.push(new DTDLEnumValue(defaultName, defaultValue));
+};
+
+const addPropertyToObject = (schema: IDTDLObject) => {
+    if (!schema?.fields) {
+        schema.fields = [];
+    }
+    const index = schema.fields.length + 1;
+    const defaultName = i18n.t(
+        'OATPropertyEditor.PropertyListItem.defaultObjectPropertyNamePrefix',
+        { index: index }
+    );
+    schema.fields.push(new DTDLObjectField(defaultName, 'string'));
 };

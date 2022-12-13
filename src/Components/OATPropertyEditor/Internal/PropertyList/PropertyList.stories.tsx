@@ -118,18 +118,35 @@ ComplexModel.args = {
         getMockProperty({ type: 'date' }),
         getMockProperty({ type: 'double' }),
         getMockProperty({ type: 'duration' }),
-        getMockProperty({ type: 'Object' }),
-        getMockProperty({ type: 'Object' }),
-        getMockProperty({ type: 'Enum', enumType: 'integer' }),
-        getMockProperty({ type: 'Map', valueType: 'Primitive' }),
-        getMockProperty({ type: 'Map', valueType: 'Complex' }),
-        getMockProperty({ type: 'Array', itemSchema: 'double' }),
+        getMockProperty({ type: 'Object', discriminator: 1 }),
+        getMockProperty({ type: 'Object', discriminator: 2 }),
+        getMockProperty({
+            type: 'Enum',
+            enumType: 'integer',
+            discriminator: 1
+        }),
+        getMockProperty({
+            type: 'Map',
+            valueType: 'Primitive',
+            discriminator: 1
+        }),
+        getMockProperty({
+            type: 'Map',
+            valueType: 'Complex',
+            discriminator: 2
+        }),
+        getMockProperty({
+            type: 'Array',
+            itemSchema: 'double',
+            discriminator: 1
+        }),
         getMockProperty({
             type: 'Array',
             itemSchema: new DTDLObject('', [
                 new DTDLObjectField('field 1', 'double'),
                 new DTDLObjectField('field 2', 'date')
-            ])
+            ]),
+            discriminator: 2
         }),
         getMockProperty({
             type: 'Array',
@@ -152,7 +169,8 @@ ComplexModel.args = {
                     }
                 ],
                 'string'
-            )
+            ),
+            discriminator: 3
         })
     ])
 } as StoryArgs;
@@ -175,7 +193,8 @@ SimpleModel.args = {
                 new DTDLObjectField('field 1', 'double'),
                 new DTDLObjectField('field 2', 'date')
             ])
-        })
+        }),
+        getMockProperty({ type: 'Object', discriminator: 1 })
     ])
 } as StoryArgs;
 

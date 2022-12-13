@@ -1112,7 +1112,9 @@
         "writable": "Writable",
         "PropertyListItem": {
             "arrayItemLabel": "items",
-            "defaultEnumNamePrefix": "enum_key_{{index}}"
+            "defaultEnumNamePrefix": "enum_key_{{index}}",
+            "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
+            "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
         }
     },
     "ErrorHandlingWrapper": {

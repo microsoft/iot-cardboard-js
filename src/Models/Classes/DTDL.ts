@@ -980,7 +980,7 @@ export class DTDLObject implements IDTDLObject {
     }
 
     static fromObject(obj: any) {
-        return new DTDLMap(
+        return new DTDLObject(
             obj['@id'],
             obj.fields,
             obj.displayName,

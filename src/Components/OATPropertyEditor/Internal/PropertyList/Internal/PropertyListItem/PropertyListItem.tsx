@@ -104,13 +104,14 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         theme: useExtendedTheme()
     });
 
-    // logDebugConsole(
-    //     'debug',
-    //     'Render. {property, level, isNested}',
-    //     item,
-    //     level,
-    //     isNestedType,
-    // );
+    logDebugConsole(
+        'debug',
+        'Render. {property, level, isNested, canAddChildren}',
+        item,
+        level,
+        isNestedType,
+        supportsAddingChildren
+    );
 
     return (
         <Stack>
