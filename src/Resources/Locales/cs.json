@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako \"čtenář\" (minimálně).",
       "storageContainerMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů blob úložiště, nebo přispěvatel dat objektů blob úložiště.",
       "resourceNotVerified": "Nemůžeme ověřit, zda tento zdroj existuje.",
-      "resourceNotFound": "Neexistuje žádný prostředek Azure nalezený se zadanou hodnotou pro tohoto tenanta."
+      "resourceNotFoun": "Se zadanou hodnotou nebyl nalezen žádný prostředek Azure."
     }
   },
   "behaviorsModal": {
