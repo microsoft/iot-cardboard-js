@@ -101,7 +101,6 @@ const TemplateContents = () => {
                 oatPageState.selection
             )
         );
-    console.log('***Render story contents', selectedItem);
     return selectedItem ? (
         <PropertyList
             selectedItem={selectedItem}

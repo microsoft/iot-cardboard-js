@@ -31,12 +31,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { oatPageState } = useOatPageContext();
 
     // data
-    console.log('***render {selected}', oatPageState.currentOntologyModels);
     const selectedItem = useMemo(() => {
-        console.log(
-            '***Updating selected item',
-            oatPageState.currentOntologyModels
-        );
         return (
             oatPageState.selection &&
             getTargetFromSelection(
