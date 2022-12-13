@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Leser\" (mindestens).",
       "storageContainerMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als \"Reader\" (mindestens) und entweder \"Storage Blob Data Owner\" oder \"Storage Blob Data Contributor\".",
       "resourceNotVerified": "Wir können nicht überprüfen, ob diese Ressource existiert.",
-      "resourceNotFoun": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden."
+      "resourceNotFound": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden."
     }
   },
   "behaviorsModal": {

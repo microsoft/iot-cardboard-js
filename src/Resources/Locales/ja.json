@@ -858,7 +858,7 @@
       "storageAccountMissingPermissionMessage": "アクセス許可がありません。「リーダー」として(少なくとも)アクセスする必要があります。",
       "storageContainerMissingPermissionMessage": "アクセス許可がありません。\"閲覧者\" (少なくとも) および \"ストレージ BLOB データ所有者\" または \"ストレージ BLOB データ共同作成者\" としてアクセスする必要があります。",
       "resourceNotVerified": "このリソースが存在することを確認できません。",
-      "resourceNotFoun": "入力された値を持つ Azure リソースが見つかりません。"
+      "resourceNotFound": "入力された値を持つ Azure リソースが見つかりません。"
     }
   },
   "behaviorsModal": {
