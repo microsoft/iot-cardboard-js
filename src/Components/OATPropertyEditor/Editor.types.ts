@@ -8,4 +8,6 @@ export type IEditorProps = {
     editorState?: IOATPropertyEditorState;
     selectedItem: DtdlInterface | DtdlInterfaceContent;
     selectedThemeName?: Theme;
+    /** the id of the parent model (if relationship is selected, else undefined) */
+    parentModelId: string | undefined;
 };

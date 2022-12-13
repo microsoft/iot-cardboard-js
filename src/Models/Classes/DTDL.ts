@@ -1,5 +1,8 @@
 import {
+    DtdlComponent,
     DtdlInterfaceContent,
+    DtdlProperty,
+    DtdlRelationship,
     IADTModelDefinition,
     IADTProperty
 } from '../Constants';
@@ -434,13 +437,13 @@ export class DTDLModel implements IDTDLModel {
 
     constructor(
         id: string,
-        displayName: string | Record<string, string>,
-        description: string | Record<string, string>,
-        comment: string,
-        properties: DtdlInterfaceContent[],
-        relationships: DtdlInterfaceContent[],
-        components: DtdlInterfaceContent[],
-        extendRelationships: string[]
+        displayName?: string | Record<string, string>,
+        description?: string | Record<string, string>,
+        comment?: string,
+        properties?: DtdlInterfaceContent[],
+        relationships?: DtdlInterfaceContent[],
+        components?: DtdlInterfaceContent[],
+        extendRelationships?: string[]
     ) {
         this['@type'] = DTDLType.Interface;
         this['@context'] = CURRENT_CONTEXT_VERSION;
@@ -460,7 +463,7 @@ export class DTDLModel implements IDTDLModel {
         return new DTDLModel('', '', '', '', [], [], [], []);
     }
 
-    static fromObject(obj: IADTModelDefinition): DTDLModel {
+    static fromObject(obj: any): DTDLModel {
         return new DTDLModel(
             obj['@id'],
             obj.displayName,
@@ -480,17 +483,21 @@ export class DTDLModel implements IDTDLModel {
     }
 
     get properties() {
-        return this.contents.filter((c) => c['@type'] === DTDLType.Property);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Property
+        ) as DTDLProperty[];
     }
 
     get relationships() {
         return this.contents.filter(
             (c) => c['@type'] === DTDLType.Relationship
-        );
+        ) as DTDLRelationship[];
     }
 
     get components() {
-        return this.contents.filter((c) => c['@type'] === DTDLType.Component);
+        return this.contents.filter(
+            (c) => c['@type'] === DTDLType.Component
+        ) as DTDLComponent[];
     }
 
     trimmedCopy() {

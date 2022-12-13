@@ -26,7 +26,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     props
 ) => {
-    const { indexKey, level, propertyItem, styles } = props;
+    const { indexKey, level, onUpdateItem, propertyItem, styles } = props;
 
     // contexts
 
@@ -54,6 +54,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             item={item}
                             enumType={propertyItem.schema.valueSchema}
                             level={level}
+                            onUpdateItem={onUpdateItem}
                         />
                     )}
                 />
@@ -62,12 +63,14 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema.elementSchema}
                     level={level}
+                    onUpdateItem={onUpdateItem}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
                 <PropertyListItemMapChild
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
+                    onUpdateItem={onUpdateItem}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
@@ -75,8 +78,9 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     onRenderCell={(item, index) => (
                         <PropertyListItemObjectChild
                             indexKey={`${indexKey}.${index}`}
-                            level={level}
                             item={item}
+                            level={level}
+                            onUpdateItem={onUpdateItem}
                         />
                     )}
                 />

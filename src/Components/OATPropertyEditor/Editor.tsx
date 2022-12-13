@@ -20,16 +20,17 @@ import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
 import { IEditorProps } from './Editor.types';
-import {
-    OAT_INTERFACE_TYPE,
-    OAT_RELATIONSHIP_HANDLE_NAME
-} from '../../Models/Constants/Constants';
+import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
 import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { isDTDLProperty } from '../../Models/Services/DtdlUtils';
+import {
+    isDTDLModel,
+    isDTDLProperty,
+    isDTDLReference
+} from '../../Models/Services/DtdlUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -39,7 +40,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
         editorDispatch,
         selectedItem,
         editorState,
-        selectedThemeName
+        selectedThemeName,
+        parentModelId
     } = props;
 
     // hooks
@@ -78,13 +80,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
         return propertyItems;
     }, [selectedItem, propertiesKeyName]);
 
-    const isSupportedModelType = useMemo(() => {
-        return (
-            (selectedItem && selectedItem['@type'] === OAT_INTERFACE_TYPE) ||
-            (selectedItem &&
-                selectedItem['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
-        );
-    }, [selectedItem]);
+    const isSupportedModelType = useMemo(() => isDTDLModel(selectedItem), [
+        selectedItem
+    ]);
 
     // callbacks
     // const onToggleTemplatesActive = () => {
@@ -198,23 +196,33 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             </Stack.Item>
 
                             <Stack.Item grow styles={propertyListStackItem}>
-                                {useNewList ? (
-                                    <PropertyList
-                                        arePropertiesSupported={true}
-                                        properties={propertyList}
-                                    />
+                                {isDTDLReference(selectedItem) ||
+                                isDTDLModel(selectedItem) ? (
+                                    useNewList ? (
+                                        <PropertyList
+                                            selectedItem={selectedItem}
+                                            properties={propertyList}
+                                            parentModelId={parentModelId}
+                                        />
+                                    ) : (
+                                        <PropertyListOld
+                                            dispatch={editorDispatch}
+                                            enteredPropertyRef={
+                                                enteredPropertyRef
+                                            }
+                                            enteredTemplateRef={
+                                                enteredTemplateRef
+                                            }
+                                            isSupportedModelType={
+                                                isSupportedModelType
+                                            }
+                                            propertyList={propertyList}
+                                            selectedItem={selectedItem}
+                                            state={editorState}
+                                        />
+                                    )
                                 ) : (
-                                    <PropertyListOld
-                                        dispatch={editorDispatch}
-                                        enteredPropertyRef={enteredPropertyRef}
-                                        enteredTemplateRef={enteredTemplateRef}
-                                        isSupportedModelType={
-                                            isSupportedModelType
-                                        }
-                                        propertyList={propertyList}
-                                        selectedItem={selectedItem}
-                                        state={editorState}
-                                    />
+                                    'Property list not supported'
                                 )}
                             </Stack.Item>
                         </Stack>

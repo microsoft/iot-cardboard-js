@@ -5,7 +5,7 @@ import {
     IPropertyListItemEnumChildStyles
 } from './PropertyListItemEnumChild.types';
 import { getStyles } from './PropertyListItemEnumChild.styles';
-import { classNamesFunction, Separator, Stack, styled } from '@fluentui/react';
+import { classNamesFunction, Stack, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
 

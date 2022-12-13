@@ -1,5 +1,8 @@
 import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
-import { DTDLComplexSchema } from '../../../../../../../../Models/Classes/DTDL';
+import {
+    DTDLComplexSchema,
+    DTDLSchema
+} from '../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
 
 export interface IPropertyListItemChildBaseProps {
@@ -7,11 +10,15 @@ export interface IPropertyListItemChildBaseProps {
     level: number;
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
+    /** callback to store an updated version of the schema */
+    onUpdateItem: (schema: DTDLSchema) => void;
 }
 
 export interface IPropertyListItemChildHostProps
     extends IPropertyListItemChildBaseProps {
     propertyItem: { name: string; schema: DTDLComplexSchema };
+    /** callback to store an updated version of the schema */
+    onUpdateItem: (schema: DTDLSchema) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

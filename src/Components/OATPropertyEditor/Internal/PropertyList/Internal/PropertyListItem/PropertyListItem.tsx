@@ -17,6 +17,7 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import {
     addChildToSchema,
     hasComplexSchemaType,
+    hasEnumSchemaType,
     isComplexSchemaType
 } from '../../../../../../Models/Services/DtdlUtils';
 import { getDebugLogger } from '../../../../../../Models/Services/Utils';
@@ -26,7 +27,7 @@ import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/Prop
 import { DTDLSchemaType } from '../../../../../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
 
-const debugLogging = false;
+const debugLogging = true;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
 
@@ -63,6 +64,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // callbacks
     const onAddChild = useCallback(() => {
+        console.log('***Adding child', onUpdateItem);
         onUpdateItem(addChildToSchema({ parentSchema: item.schema }));
     }, [item.schema, onUpdateItem]);
     const onChangeName = useCallback((_ev, _value: string) => {
@@ -97,7 +99,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // styles
     const classNames = getClassNames(styles, {
-        hasChildren: supportsAddingChildren,
+        hasChildren: isNestedType,
         level: itemLevel,
         theme: useExtendedTheme()
     });
@@ -107,7 +109,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     //     'Render. {property, level, isNested}',
     //     item,
     //     level,
-    //     isNestedType
+    //     isNestedType,
     // );
 
     return (
@@ -117,7 +119,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 className={classNames.root}
                 tokens={{ childrenGap: 4 }}
             >
-                {supportsAddingChildren && (
+                {isNestedType && (
                     <IconButton
                         iconProps={{
                             iconName: isExpanded
@@ -155,16 +157,21 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                         styles={classNames.subComponentStyles.nameTextField}
                     />
                 </Stack.Item>
-                {/* show/hide on hover/focus */}
-                {isNestedType && (
+                {supportsAddingChildren && (
                     <IconButton
                         iconProps={{ iconName: 'Add' }}
-                        title={'Add child property'}
+                        title={
+                            hasEnumSchemaType(item)
+                                ? t('OATPropertyEditor.addEnumValue')
+                                : t('OATPropertyEditor.addProperty')
+                        }
                         onClick={onAddChild}
                         className={classNames.addChildButton}
                     />
                 )}
-                {!isNestedType && <span className={classNames.buttonSpacer} />}
+                {!supportsAddingChildren && (
+                    <span className={classNames.buttonSpacer} />
+                )}
                 <OverflowMenu
                     index={indexKey}
                     menuKey={'property-list'}
@@ -177,6 +184,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <PropertyListItemChildHost
                     indexKey={indexKey}
                     level={itemLevel}
+                    onUpdateItem={onUpdateItem}
                     propertyItem={item}
                 />
             )}
