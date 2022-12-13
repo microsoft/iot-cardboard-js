@@ -1111,7 +1111,8 @@
         "viewTemplates": "View Templates",
         "writable": "Writable",
         "PropertyListItem": {
-            "arrayItemLabel": "items"
+            "arrayItemLabel": "items",
+            "defaultEnumNamePrefix": "enum_key_{{index}}"
         }
     },
     "ErrorHandlingWrapper": {

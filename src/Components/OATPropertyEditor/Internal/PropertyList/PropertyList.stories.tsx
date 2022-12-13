@@ -161,6 +161,14 @@ export const SimpleModel = Template.bind({});
 SimpleModel.args = {
     selectedItem: getMockModel([
         getMockProperty({ type: 'Enum', enumType: 'integer' }),
+        (() => {
+            const property = getMockProperty({
+                type: 'Enum',
+                enumType: 'string'
+            });
+            property.name = 'test string Enum';
+            return property;
+        })(),
         getMockProperty({
             type: 'Array',
             itemSchema: new DTDLObject('', [

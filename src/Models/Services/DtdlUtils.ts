@@ -1,3 +1,4 @@
+import i18n from '../../i18n';
 import {
     DTDLArray,
     DTDLComplexSchema,
@@ -209,7 +210,12 @@ const addItemToEnum = (schema: IDTDLEnum) => {
     if (!schema.enumValues) {
         schema.enumValues = [];
     }
-    const defaultName = `new name_${schema.enumValues.length}`;
-    const defaultValue = schema.valueSchema === 'integer' ? 0 : '';
+    const index = schema.enumValues.length + 1;
+    const defaultName = i18n.t(
+        'OATPropertyEditor.PropertyListItem.defaultEnumNamePrefix',
+        { index: index }
+    );
+    const defaultValue =
+        schema.valueSchema === 'integer' ? index : String(index);
     schema.enumValues.push(new DTDLEnumValue(defaultName, defaultValue));
 };
