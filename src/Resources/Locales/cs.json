@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Výběr času a data",
       "timePickerTitle": "Výběr času",
       "plainTextInput": "Zadávání prostého textu"
-    }
+    },
+    "removeArrayItemIconTitle": "Odebrat položku ze seznamu",
+    "addArrayItemIconTitle": "Přidat novou položku",
+    "clearArrayIconTitle": "Odebrání všech položek"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurace prostředí 3D scén",

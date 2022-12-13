@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Datetime-plockare",
       "timePickerTitle": "Tidsplockare",
       "plainTextInput": "Inmatning av oformaterad text"
-    }
+    },
+    "removeArrayItemIconTitle": "Ta bort objekt från listan",
+    "addArrayItemIconTitle": "Lägg till nytt objekt",
+    "clearArrayIconTitle": "Ta bort alla objekt"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurera 3D-scenmiljö",

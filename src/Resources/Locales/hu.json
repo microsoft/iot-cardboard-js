@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Datetime választó",
       "timePickerTitle": "Időválasztó",
       "plainTextInput": "Egyszerű szövegbevitel"
-    }
+    },
+    "removeArrayItemIconTitle": "Elem eltávolítása a listáról",
+    "addArrayItemIconTitle": "Új elem hozzáadása",
+    "clearArrayIconTitle": "Az összes elem eltávolítása"
   },
   "environmentPicker": {
     "editEnvironment": "3D jelenetek környezetének konfigurálása",

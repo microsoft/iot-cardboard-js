@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Tarih saati seçici",
       "timePickerTitle": "Zaman seçici",
       "plainTextInput": "Düz metin girişi"
-    }
+    },
+    "removeArrayItemIconTitle": "Öğeyi listeden kaldır",
+    "addArrayItemIconTitle": "Yeni öğe ekle",
+    "clearArrayIconTitle": "Tüm öğeleri kaldır"
   },
   "environmentPicker": {
     "editEnvironment": "3B Sahneler ortamını yapılandırma",

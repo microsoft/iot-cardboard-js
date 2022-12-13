@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Apanhador de datas",
       "timePickerTitle": "Apanhador de tempo",
       "plainTextInput": "Entrada de texto simples"
-    }
+    },
+    "removeArrayItemIconTitle": "Remover o item da lista",
+    "addArrayItemIconTitle": "Adicionar novo item",
+    "clearArrayIconTitle": "Remover todos os itens"
   },
   "environmentPicker": {
     "editEnvironment": "Configurar ambiente de cenas 3D",

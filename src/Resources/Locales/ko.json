@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "날짜 시간 선택기",
       "timePickerTitle": "시간 선택기",
       "plainTextInput": "일반 텍스트 입력"
-    }
+    },
+    "removeArrayItemIconTitle": "목록에서 항목 제거",
+    "addArrayItemIconTitle": "새 항목 추가",
+    "clearArrayIconTitle": "모든 항목 제거"
   },
   "environmentPicker": {
     "editEnvironment": "3D 장면 환경 구성",

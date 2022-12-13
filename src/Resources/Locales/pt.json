@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Catador de datação",
       "timePickerTitle": "Catador de tempo",
       "plainTextInput": "Entrada de texto simples"
-    }
+    },
+    "removeArrayItemIconTitle": "Remover item da lista",
+    "addArrayItemIconTitle": "Adicionar novo item",
+    "clearArrayIconTitle": "Remova todos os itens"
   },
   "environmentPicker": {
     "editEnvironment": "Configure o ambiente de cenas 3D",

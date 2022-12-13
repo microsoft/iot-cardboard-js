@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Средство выбора даты и времени",
       "timePickerTitle": "Выбор времени",
       "plainTextInput": "Ввод обычного текста"
-    }
+    },
+    "removeArrayItemIconTitle": "Удалить элемент из списка",
+    "addArrayItemIconTitle": "Добавить новый элемент",
+    "clearArrayIconTitle": "Удалить все элементы"
   },
   "environmentPicker": {
     "editEnvironment": "Настройка среды 3D-сцен",

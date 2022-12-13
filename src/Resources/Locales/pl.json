@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Selektor daty i godziny",
       "timePickerTitle": "Selektor czasu",
       "plainTextInput": "Wprowadzanie zwykłego tekstu"
-    }
+    },
+    "removeArrayItemIconTitle": "Usuń element z listy",
+    "addArrayItemIconTitle": "Dodaj nowy element",
+    "clearArrayIconTitle": "Usuń wszystkie elementy"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",

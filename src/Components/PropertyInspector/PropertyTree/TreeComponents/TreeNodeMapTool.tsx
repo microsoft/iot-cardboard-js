@@ -1,4 +1,4 @@
-import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { IconButton, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropertyTreeContext } from '../PropertyTree';
@@ -21,23 +21,15 @@ const TreeNodeMapTool: React.FC<NodeProps> = ({ node }) => {
     };
 
     return (
-        <div
-            tabIndex={0}
-            className={'cb-property-tree-node-map-value-tool-icon'}
-            aria-label={t('propertyInspector.removeMapValueIconTitle')}
+        <IconButton
+            className="cb-property-tree-node-map-value-tool-icon"
+            ariaLabel={t('propertyInspector.removeMapValueIconTitle')}
             onClick={handleRemoveMapValue}
-            onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                    handleRemoveMapValue();
-                }
+            iconProps={{
+                iconName: 'Trash',
+                styles: iconStyles
             }}
-        >
-            <Icon
-                title={t('propertyInspector.removeMapValueIconTitle')}
-                iconName={'Trash'}
-                styles={iconStyles}
-            />
-        </div>
+        />
     );
 };
 

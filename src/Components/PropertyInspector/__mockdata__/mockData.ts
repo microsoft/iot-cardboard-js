@@ -502,3 +502,189 @@ export const mockExpandedModels = [
         '@context': ['dtmi:dtdl:context;2']
     }
 ];
+
+export const mockManyArraysTwin = {
+    $metadata: {
+        $model: 'dtmi:com:storybook:manyArrays;1',
+        productName: {
+            lastUpdateTime: '2021-08-09T20:51:23.7045803Z'
+        }
+    },
+    $dtId: 'TooManyArrays',
+    $etag: 'W/"71d42ca5-dc5f-4851-b98a-ffe62af14f82"',
+    productName: 'WidgetBucket',
+    booleans: [true, true, false, true, false, false],
+    widgets: [
+        {
+            color: 'Puce',
+            sprockets: [
+                {
+                    diameter: 10,
+                    gears: [
+                        {
+                            ratio: 8,
+                            teeth: 20
+                        },
+                        {
+                            ratio: 16,
+                            teeth: 40
+                        },
+                        {
+                            ratio: 24,
+                            teeth: 60
+                        },
+                        {
+                            ratio: 32,
+                            teeth: 80
+                        }
+                    ]
+                },
+                {
+                    diameter: 20,
+                    gears: []
+                },
+                {
+                    diameter: 30,
+                    gears: []
+                },
+                {
+                    diameter: 40,
+                    gears: []
+                }
+            ]
+        },
+        {
+            color: 'Chartreuse',
+            sprockets: [
+                {
+                    diameter: 5,
+                    gears: []
+                },
+                {
+                    diameter: 15,
+                    gears: []
+                },
+                {
+                    diameter: 25,
+                    gears: []
+                }
+            ]
+        },
+        {
+            color: 'Heliotrope',
+            sprockets: []
+        }
+    ]
+};
+
+export const mockManyArraysModels = [
+    {
+        '@type': 'Interface',
+        '@context': 'dtmi:dtdl:context;3',
+        '@id': 'dtmi:com:storybook:manyArrays;1',
+        displayName: 'Too Many Arrays',
+        description: 'Arrays all the way down',
+        comment: '',
+        contents: [
+            {
+                '@id': 'dtmi:com:storybook:arrays:productName;1',
+                '@type': 'Property',
+                name: 'productName',
+                schema: 'string'
+            },
+            {
+                '@id': 'dtmi:com:storybook:arrays:widgets;1',
+                '@type': 'Property',
+                name: 'widgets',
+                schema: {
+                    '@type': 'Array',
+                    elementSchema: 'dtmi:com:storybook:widget;1'
+                }
+            },
+            {
+                '@id': 'dtmi:com:storybook:array:booleans;1',
+                '@type': 'Property',
+                name: 'booleans',
+                schema: {
+                    '@type': 'Array',
+                    elementSchema: 'boolean'
+                }
+            }
+        ],
+        schemas: [
+            {
+                '@id': 'dtmi:com:storybook:widget;1',
+                '@type': 'Object',
+                description: '',
+                fields: [
+                    {
+                        '@id': 'dtmi:com:storybook:arrays:widget:color;1',
+                        '@type': 'Property',
+                        name: 'color',
+                        schema: 'string'
+                    },
+                    {
+                        '@id': 'dtmi:com:storybook:arrays:sprockets;1',
+                        '@type': 'Property',
+                        name: 'sprockets',
+                        schema: {
+                            '@type': 'Array',
+                            elementSchema: 'dtmi:com:storybook:sprocket;1'
+                        }
+                    }
+                ]
+            },
+            {
+                '@id': 'dtmi:com:storybook:sprocket;1',
+                '@type': 'Object',
+                displayName: 'Sprocket',
+                description: 'Widgets have sprockets',
+                fields: [
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:storybook:sprocket:diameter;1',
+                        name: 'diameter',
+                        schema: 'double',
+                        unit: 'millimetre'
+                    },
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:storybook:sprocket:gears;1',
+                        name: 'gears',
+                        schema: {
+                            '@type': 'Array',
+                            elementSchema: 'dtmi:com:storybook:gear;1'
+                        }
+                    },
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:storybook:sprocket:thickness;1',
+                        name: 'thickness',
+                        schema: 'double',
+                        unit: 'millimetre'
+                    }
+                ]
+            },
+            {
+                '@id': 'dtmi:com:storybook:gear;1',
+                '@type': 'Object',
+                displayName: 'Gear',
+                description: 'Sprockets have gears',
+                fields: [
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:storybook:gear:ratio;1',
+                        name: 'ratio',
+                        schema: 'double'
+                    },
+                    {
+                        '@type': 'Property',
+                        '@id': 'dtmi:com:storybook:gear:teeth;1',
+                        name: 'teeth',
+                        schema: 'integer'
+                    }
+                ]
+            }
+        ]
+    }
+];

@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Datumkiezer",
       "timePickerTitle": "Tijdkiezer",
       "plainTextInput": "Tekstinvoer zonder opmaak"
-    }
+    },
+    "removeArrayItemIconTitle": "Item uit lijst verwijderen",
+    "addArrayItemIconTitle": "Nieuw item toevoegen",
+    "clearArrayIconTitle": "Alle items verwijderen"
   },
   "environmentPicker": {
     "editEnvironment": "3D-scèneomgeving configureren",
