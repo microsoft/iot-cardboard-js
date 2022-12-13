@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     IPropertyListItemChildHostProps,
     IPropertyListItemChildHostStyleProps,
@@ -17,6 +17,8 @@ import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/Prop
 import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
 import PropertyListItemObjectChild from './Internal/PropertyListItemObjectChild/PropertyListItemObjectChild';
 import PropertyListItemMapChild from './Internal/PropertyListItemMapChild/PropertyListItemMapChild';
+import { DTDLSchema } from '../../../../../../../../Models/Classes/DTDL';
+import { deepCopy } from '../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemChildHostStyleProps,
@@ -35,6 +37,18 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     // hooks
 
     // callbacks
+    // const localUpdate = useCallback(
+    //     (schema: DTDLSchema) => {
+    //         console.log('***Local update, {item, schema}', item, schema);
+    //         // find the item
+    //         // propogate the update
+    //         debugger;
+    //         const itemCopy = deepCopy(item);
+    //         itemCopy.schema = deepCopy(schema);
+    //         onUpdateItem();
+    //     },
+    //     [item, onUpdateItem]
+    // );
 
     // side effects
 
@@ -80,7 +94,18 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             indexKey={`${indexKey}.${index}`}
                             item={item}
                             level={level}
-                            onUpdateItem={onUpdateItem}
+                            onUpdateItem={(schema) => {
+                                // update the schema for the field
+                                const itemCopy = deepCopy(item);
+                                itemCopy.schema = schema;
+                                // update the field on the parent
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                schemaCopy.fields[index] = itemCopy;
+                                // send updated schema to parent
+                                onUpdateItem(schemaCopy);
+                            }}
                         />
                     )}
                 />

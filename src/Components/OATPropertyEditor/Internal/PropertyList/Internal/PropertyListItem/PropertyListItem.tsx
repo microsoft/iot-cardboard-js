@@ -42,7 +42,10 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     // contexts
 
     // state
-    const [isExpanded, { toggle: toggleIsExpanded }] = useBoolean(true);
+    const [
+        isExpanded,
+        { toggle: toggleIsExpanded, setTrue: setExpandedTrue }
+    ] = useBoolean(true);
 
     // data
     const isNestedType = useMemo(() => isComplexSchemaType(item.schema), [
@@ -65,8 +68,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     // callbacks
     const onAddChild = useCallback(() => {
         console.log('***Adding child', onUpdateItem);
+        setExpandedTrue();
         onUpdateItem(addChildToSchema({ parentSchema: item.schema }));
-    }, [item.schema, onUpdateItem]);
+    }, [item.schema, onUpdateItem, setExpandedTrue]);
     const onChangeName = useCallback((_ev, _value: string) => {
         // if (isDTDLModel(parentEntity)) {
         //     // update for model
@@ -104,14 +108,14 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         theme: useExtendedTheme()
     });
 
-    logDebugConsole(
-        'debug',
-        'Render. {property, level, isNested, canAddChildren}',
-        item,
-        level,
-        isNestedType,
-        supportsAddingChildren
-    );
+    // logDebugConsole(
+    //     'debug',
+    //     'Render. {property, level, isNested, canAddChildren}',
+    //     item,
+    //     level,
+    //     isNestedType,
+    //     supportsAddingChildren
+    // );
 
     return (
         <Stack>
