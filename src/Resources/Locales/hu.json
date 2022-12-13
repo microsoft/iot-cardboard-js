@@ -1210,7 +1210,10 @@
     "date": "dátum",
     "expand": "Kibővít",
     "PropertyListItem": {
-      "arrayItemLabel": "Elemek"
+      "arrayItemLabel": "Elemek",
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

@@ -1210,7 +1210,10 @@
     "date": "data",
     "expand": "Expandir",
     "PropertyListItem": {
-      "arrayItemLabel": "Itens"
+      "arrayItemLabel": "Itens",
+      "defaultEnumNamePrefix": "enum_key_{{índice}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{índice}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}"
     }
   },
   "ErrorHandlingWrapper": {

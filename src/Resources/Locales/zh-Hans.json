@@ -1210,7 +1210,10 @@
     "date": "日期",
     "expand": "扩大",
     "PropertyListItem": {
-      "arrayItemLabel": "项目"
+      "arrayItemLabel": "项目",
+      "defaultEnumNamePrefix": "enum_key_{{索引}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{索引}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{索引}}"
     }
   },
   "ErrorHandlingWrapper": {

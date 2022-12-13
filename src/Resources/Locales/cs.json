@@ -1090,7 +1090,10 @@
     "date": "rande",
     "expand": "Expandovat",
     "PropertyListItem": {
-      "arrayItemLabel": "položky"
+      "arrayItemLabel": "položky",
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

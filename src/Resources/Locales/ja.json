@@ -1210,7 +1210,10 @@
     "date": "日付",
     "expand": "膨らむ",
     "PropertyListItem": {
-      "arrayItemLabel": "項目"
+      "arrayItemLabel": "項目",
+      "defaultEnumNamePrefix": "enum_key_{{インデックス}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{インデックス}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{インデックス}}"
     }
   },
   "ErrorHandlingWrapper": {

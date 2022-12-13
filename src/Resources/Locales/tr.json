@@ -1210,7 +1210,10 @@
     "date": "tarih",
     "expand": "Genişletmek",
     "PropertyListItem": {
-      "arrayItemLabel": "eşya"
+      "arrayItemLabel": "eşya",
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

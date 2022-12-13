@@ -1210,7 +1210,10 @@
     "date": "dattero",
     "expand": "Espandere",
     "PropertyListItem": {
-      "arrayItemLabel": "Elementi"
+      "arrayItemLabel": "Elementi",
+      "defaultEnumNamePrefix": "enum_key_{{indice}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{indice}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{indice}}"
     }
   },
   "ErrorHandlingWrapper": {

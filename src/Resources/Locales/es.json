@@ -1210,7 +1210,10 @@
     "date": "fecha",
     "expand": "Expandir",
     "PropertyListItem": {
-      "arrayItemLabel": "Artículos"
+      "arrayItemLabel": "Artículos",
+      "defaultEnumNamePrefix": "enum_key_{{índice}}",
+      "defaultObjectPropertyNamePrefix": "property_name_{{índice}}",
+      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}"
     }
   },
   "ErrorHandlingWrapper": {
