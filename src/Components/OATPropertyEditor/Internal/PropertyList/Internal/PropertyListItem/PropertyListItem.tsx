@@ -25,8 +25,13 @@ import { getDebugLogger } from '../../../../../../Models/Services/Utils';
 import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
-import { DTDLSchemaType } from '../../../../../../Models/Classes/DTDL';
+import {
+    DTDLSchema,
+    DTDLSchemaType,
+    DTDLSchemaTypes
+} from '../../../../../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
+import { getSchemaTypeMenuOptions } from '../../../../../../Models/Constants/OatConstants';
 
 const debugLogging = true;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -108,9 +113,12 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         //     });
         // }
     }, []);
-    const onChangeSchemaType = useCallback(() => {
-        //
-    }, []);
+    const onChangeSchemaType = useCallback(
+        (args: { type: DTDLSchemaTypes }) => {
+            alert(`Not implemented. Change to type ${args.type}`);
+        },
+        []
+    );
 
     // side effects
 
@@ -128,7 +136,17 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             text: 'Edit property type',
             iconProps: { iconName: 'Edit' },
             subMenuProps: {
-                items: []
+                items: getSchemaTypeMenuOptions(onChangeSchemaType),
+                styles: {
+                    subComponentStyles: {
+                        menuItem: {
+                            '.ms-ContextualMenu-link': {
+                                display: 'flex',
+                                alignItems: 'center'
+                            }
+                        }
+                    }
+                }
             }
         },
         {
@@ -149,7 +167,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             }
         },
         {
-            key: 'move-up',
+            key: 'move-down',
             text: 'Move down',
             disabled: isLastItem,
             iconProps: { iconName: 'Down' },

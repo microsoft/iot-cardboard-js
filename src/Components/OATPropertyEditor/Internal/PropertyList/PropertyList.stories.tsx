@@ -28,7 +28,7 @@ import { getTargetFromSelection } from '../../Utils';
 import { getSelectionIdentifier } from '../../../OATGraphViewer/Internal/Utils';
 import { userEvent, within } from '@storybook/testing-library';
 
-const wrapperStyle = { width: '400px', height: '1000px', padding: 8 };
+const wrapperStyle = { width: '500px', height: '1000px', padding: 8 };
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/PropertyList',
