@@ -4,6 +4,7 @@ import {
     DTDLSchema
 } from '../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../Theming/Theme.types';
+import { IOnUpdateNameCallback } from '../../PropertyListItem.types';
 
 export interface IPropertyListItemChildBaseProps {
     /** Level in the nesting tree. index of 1 is not nested */
@@ -15,7 +16,7 @@ export interface IPropertyListItemChildBaseProps {
     /** callback to move an item up or down in the list */
     onReorderItem: (direction: 'Up' | 'Down') => void;
     /** callback to update the name of an item */
-    onUpdateName: (name: string) => void;
+    onUpdateName: IOnUpdateNameCallback;
 }
 
 export interface IPropertyListItemChildHostProps

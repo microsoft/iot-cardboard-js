@@ -75,8 +75,24 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             item={item}
                             enumType={propertyItem.schema.valueSchema}
                             level={level}
-                            onUpdateSchema={onUpdateSchema}
-                            onUpdateName={onUpdateName}
+                            onUpdateKey={(key) => {
+                                // update the schema for the item
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                schemaCopy.enumValues[index].name = key;
+                                // send updated schema to parent
+                                onUpdateSchema(schemaCopy);
+                            }}
+                            onUpdateValue={(value) => {
+                                // update the schema for the item
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                schemaCopy.enumValues[index].enumValue = value;
+                                // send updated schema to parent
+                                onUpdateSchema(schemaCopy);
+                            }}
                             onReorderItem={onReorderItem}
                         />
                     )}

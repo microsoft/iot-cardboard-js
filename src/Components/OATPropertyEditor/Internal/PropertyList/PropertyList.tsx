@@ -23,6 +23,10 @@ import {
     isDTDLReference,
     isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
+import {
+    IOnUpdateNameCallback,
+    IOnUpdateNameCallbackArgs
+} from './Internal/PropertyListItem/PropertyListItem.types';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -91,6 +95,22 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return onUpdateItem;
     };
+    const getReorderItemCallback = (_property: DTDLProperty) => {
+        const onReorder = () => {
+            alert('not implemented');
+        };
+
+        return onReorder;
+    };
+    const getUpdateNameCallback = (_property: DTDLProperty) => {
+        const updateName: IOnUpdateNameCallback = (
+            args: IOnUpdateNameCallbackArgs
+        ) => {
+            alert('not implemented. Update Name: ' + args.name);
+        };
+
+        return updateName;
+    };
 
     // side effects
 
@@ -118,12 +138,12 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                     onUpdateSchema={getSchemaUpdateCallback(
                                         property
                                     )}
-                                    onReorderItem={() => {
-                                        alert('not implemented');
-                                    }}
-                                    onUpdateName={() => {
-                                        alert('not implemented');
-                                    }}
+                                    onReorderItem={getReorderItemCallback(
+                                        property
+                                    )}
+                                    onUpdateName={getUpdateNameCallback(
+                                        property
+                                    )}
                                 />
                             );
                         }}

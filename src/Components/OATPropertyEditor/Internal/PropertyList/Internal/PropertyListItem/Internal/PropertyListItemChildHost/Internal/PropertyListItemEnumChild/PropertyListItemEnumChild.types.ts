@@ -1,13 +1,23 @@
-import { IStyle, IStyleFunctionOrObject } from '@fluentui/react';
+import {
+    ISpinButtonStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITextFieldStyles
+} from '@fluentui/react';
 import { DTDLEnumValue } from '../../../../../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.types';
 import { IPropertyIconStyles } from '../../../PropertyIcon/PropertyIcon.types';
 import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
 export interface IPropertyListItemEnumChildProps
-    extends IPropertyListItemChildBaseProps {
+    extends Omit<
+        IPropertyListItemChildBaseProps,
+        'onUpdateSchema' | 'onUpdateName'
+    > {
     item: DTDLEnumValue;
     enumType: 'integer' | 'string';
+    onUpdateKey: (key: string) => void;
+    onUpdateValue: (value: string | number) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -24,8 +34,6 @@ export interface IPropertyListItemEnumChildStyleProps {
 export interface IPropertyListItemEnumChildStyles {
     root: IStyle;
     container: IStyle;
-    name: IStyle;
-    value: IStyle;
 
     /**
      * SubComponent styles.
@@ -35,4 +43,7 @@ export interface IPropertyListItemEnumChildStyles {
 
 export interface IPropertyListItemEnumChildSubComponentStyles {
     icon?: Partial<IPropertyIconStyles>;
+    keyField?: Partial<ITextFieldStyles>;
+    valueTextField?: Partial<ITextFieldStyles>;
+    valueNumberField?: Partial<ISpinButtonStyles>;
 }

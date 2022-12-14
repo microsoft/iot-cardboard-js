@@ -5,8 +5,15 @@ import {
     IStyleFunctionOrObject,
     ITextFieldStyles
 } from '@fluentui/react';
+import React from 'react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
+
+export type IOnUpdateNameCallbackArgs = {
+    /** the name to store on the item */
+    name: string;
+};
+export type IOnUpdateNameCallback = (args: IOnUpdateNameCallbackArgs) => void;
 
 export interface IPropertyListItemProps {
     /** is the first item in the list */
@@ -24,7 +31,8 @@ export interface IPropertyListItemProps {
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;
     onReorderItem: (direction: 'Up' | 'Down') => void;
-    onUpdateName: (name: string) => void;
+    onUpdateName: IOnUpdateNameCallback;
+    // onRenderNameField?: () => React.ReactNode;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

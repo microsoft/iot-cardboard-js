@@ -88,6 +88,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const onChangeSchemaType = useCallback(
         (args: { type: DTDLSchemaTypes }) => {
             alert(`Not implemented. Change to type ${args.type}`);
+            // TODO: initialize schema and then send to parent
             // onUpdateSchema(item.schema);
         },
         []
@@ -95,7 +96,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     const onChangeName = useCallback(
         (_ev, value: string) => {
-            onUpdateName(value);
+            onUpdateName({ name: value });
             // item.name = value;
             // onUpdateSchema();
             // if (isDTDLModel(parentEntity)) {

@@ -26,18 +26,6 @@ export const getStyles = (
         container: [
             {
                 display: 'flex'
-                // justifyContent: 'space-between',
-                // width: '100%'
-            }
-        ],
-        name: [
-            {
-                paddingRight: 8
-            }
-        ],
-        value: [
-            {
-                color: theme.semanticColors.disabledBodyText
             }
         ],
         subComponentStyles: {
@@ -46,6 +34,23 @@ export const getStyles = (
                     border: `1px solid ${theme.semanticColors.inputBorder}`,
                     borderRadius: theme.effects.roundedCorner4,
                     marginRight: 8
+                }
+            },
+            keyField: {
+                root: {
+                    flex: 1.15
+                }
+            },
+            valueTextField: {
+                root: {
+                    flex: 0.85,
+                    marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
+                }
+            },
+            valueNumberField: {
+                root: {
+                    flex: 0.85,
+                    marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
                 }
             }
         }
