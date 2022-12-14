@@ -118,6 +118,12 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                     onUpdateSchema={getSchemaUpdateCallback(
                                         property
                                     )}
+                                    onReorderItem={() => {
+                                        alert('not implemented');
+                                    }}
+                                    onUpdateName={() => {
+                                        alert('not implemented');
+                                    }}
                                 />
                             );
                         }}

@@ -12,6 +12,10 @@ export interface IPropertyListItemChildBaseProps {
     indexKey: string;
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;
+    /** callback to move an item up or down in the list */
+    onReorderItem: (direction: 'Up' | 'Down') => void;
+    /** callback to update the name of an item */
+    onUpdateName: (name: string) => void;
 }
 
 export interface IPropertyListItemChildHostProps

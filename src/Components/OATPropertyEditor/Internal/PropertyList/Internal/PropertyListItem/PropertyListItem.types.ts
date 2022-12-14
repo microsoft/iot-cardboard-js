@@ -23,8 +23,8 @@ export interface IPropertyListItemProps {
     disableInput?: boolean;
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;
-    /** callback to store an updated version of the schema */
-    // onUpdateProperty: (item: DTDLSchema) => void;
+    onReorderItem: (direction: 'Up' | 'Down') => void;
+    onUpdateName: (name: string) => void;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

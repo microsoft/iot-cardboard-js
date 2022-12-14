@@ -24,6 +24,8 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
         item,
         level,
         onUpdateSchema,
+        onReorderItem,
+        onUpdateName,
         styles
     } = props;
 
@@ -51,6 +53,8 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
                 item={item}
                 level={level + 1}
                 onUpdateSchema={onUpdateSchema}
+                onUpdateName={onUpdateName}
+                onReorderItem={onReorderItem}
             />
         </div>
     );

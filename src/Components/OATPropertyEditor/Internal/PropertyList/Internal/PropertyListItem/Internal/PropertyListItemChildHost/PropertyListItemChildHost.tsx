@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import {
     IPropertyListItemChildHostProps,
     IPropertyListItemChildHostStyleProps,
@@ -17,7 +17,6 @@ import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/Prop
 import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
 import PropertyListItemObjectChild from './Internal/PropertyListItemObjectChild/PropertyListItemObjectChild';
 import PropertyListItemMapChild from './Internal/PropertyListItemMapChild/PropertyListItemMapChild';
-import { DTDLSchema } from '../../../../../../../../Models/Classes/DTDL';
 import { deepCopy } from '../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
@@ -28,7 +27,15 @@ const getClassNames = classNamesFunction<
 const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     props
 ) => {
-    const { indexKey, level, onUpdateSchema, propertyItem, styles } = props;
+    const {
+        indexKey,
+        level,
+        onUpdateSchema,
+        onReorderItem,
+        onUpdateName,
+        propertyItem,
+        styles
+    } = props;
 
     // contexts
 
@@ -69,6 +76,8 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             enumType={propertyItem.schema.valueSchema}
                             level={level}
                             onUpdateSchema={onUpdateSchema}
+                            onUpdateName={onUpdateName}
+                            onReorderItem={onReorderItem}
                         />
                     )}
                 />
@@ -78,6 +87,8 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     item={propertyItem.schema.elementSchema}
                     level={level}
                     onUpdateSchema={onUpdateSchema}
+                    onUpdateName={onUpdateName}
+                    onReorderItem={onReorderItem}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
                 <PropertyListItemMapChild
@@ -85,6 +96,8 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     item={propertyItem.schema}
                     level={level}
                     onUpdateSchema={onUpdateSchema}
+                    onUpdateName={onUpdateName}
+                    onReorderItem={onReorderItem}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
                 <List
@@ -110,6 +123,8 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // send updated schema to parent
                                 onUpdateSchema(schemaCopy);
                             }}
+                            onUpdateName={onUpdateName}
+                            onReorderItem={onReorderItem}
                         />
                     )}
                 />

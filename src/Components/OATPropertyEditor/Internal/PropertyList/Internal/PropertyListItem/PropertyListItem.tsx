@@ -26,7 +26,6 @@ import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
 import {
-    DTDLSchema,
     DTDLSchemaType,
     DTDLSchemaTypes
 } from '../../../../../../Models/Classes/DTDL';
@@ -50,7 +49,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         isFirstItem,
         isLastItem,
         level,
+        onUpdateName,
         onUpdateSchema,
+        onReorderItem,
         styles
     } = props;
 
@@ -84,41 +85,61 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         setExpandedTrue();
         onUpdateSchema(addChildToSchema({ parentSchema: item.schema }));
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
-    const onChangeName = useCallback((_ev, _value: string) => {
-        // item.name = value;
-        // onUpdateSchema();
-        // if (isDTDLModel(parentEntity)) {
-        //     // update for model
-        //     const updatedContents = [...parentEntity.contents];
-        //     updatedContents[propertyIndex].name = value;
-        //     oatPageDispatch({
-        //         type: OatPageContextActionType.UPDATE_MODEL,
-        //         payload: {
-        //             model: {
-        //                 ...parentEntity,
-        //                 contents: updatedContents
-        //             }
-        //         }
-        //     });
-        // } else if (isDTDLRelationshipReference(parentEntity)) {
-        //     // update for relationships (NOTE: components don't have properties)
-        //     const updatedProperty = parentEntity.properties[propertyIndex];
-        //     updatedProperty.name = value;
-        //     oatPageDispatch({
-        //         type: OatPageContextActionType.UPDATE_REFERENCE,
-        //         payload: {
-        //             modelId: parentEntity['@id'],
-        //             reference: updatedProperty
-        //         }
-        //     });
-        // }
-    }, []);
     const onChangeSchemaType = useCallback(
         (args: { type: DTDLSchemaTypes }) => {
             alert(`Not implemented. Change to type ${args.type}`);
+            // onUpdateSchema(item.schema);
         },
         []
     );
+
+    const onChangeName = useCallback(
+        (_ev, value: string) => {
+            onUpdateName(value);
+            // item.name = value;
+            // onUpdateSchema();
+            // if (isDTDLModel(parentEntity)) {
+            //     // update for model
+            //     const updatedContents = [...parentEntity.contents];
+            //     updatedContents[propertyIndex].name = value;
+            //     oatPageDispatch({
+            //         type: OatPageContextActionType.UPDATE_MODEL,
+            //         payload: {
+            //             model: {
+            //                 ...parentEntity,
+            //                 contents: updatedContents
+            //             }
+            //         }
+            //     });
+            // } else if (isDTDLRelationshipReference(parentEntity)) {
+            //     // update for relationships (NOTE: components don't have properties)
+            //     const updatedProperty = parentEntity.properties[propertyIndex];
+            //     updatedProperty.name = value;
+            //     oatPageDispatch({
+            //         type: OatPageContextActionType.UPDATE_REFERENCE,
+            //         payload: {
+            //             modelId: parentEntity['@id'],
+            //             reference: updatedProperty
+            //         }
+            //     });
+            // }
+        },
+        [onUpdateName]
+    );
+
+    const onMoveUp = useCallback(() => {
+        onReorderItem('Up');
+    }, [onReorderItem]);
+    const onMoveDown = useCallback(() => {
+        onReorderItem('Down');
+    }, [onReorderItem]);
+
+    const onCopy = useCallback(() => {
+        alert('Not implemented');
+    }, []);
+    const onDelete = useCallback(() => {
+        alert('Not implemented');
+    }, []);
 
     // side effects
 
@@ -162,34 +183,26 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             text: 'Move up',
             disabled: isFirstItem,
             iconProps: { iconName: 'Up' },
-            onClick: () => {
-                alert('Not implemented');
-            }
+            onClick: onMoveUp
         },
         {
             key: 'move-down',
             text: 'Move down',
             disabled: isLastItem,
             iconProps: { iconName: 'Down' },
-            onClick: () => {
-                alert('Not implemented');
-            }
+            onClick: onMoveDown
         },
         {
             key: 'duplicate',
             text: 'Duplicate',
             iconProps: { iconName: 'Copy' },
-            onClick: () => {
-                alert('Not implemented');
-            }
+            onClick: onCopy
         },
         {
             key: 'remove',
             text: 'Remove',
             iconProps: { iconName: 'Delete' },
-            onClick: () => {
-                alert('Not implemented');
-            }
+            onClick: onDelete
         }
     ];
 
@@ -274,8 +287,10 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <PropertyListItemChildHost
                     indexKey={indexKey}
                     level={itemLevel}
-                    onUpdateSchema={onUpdateSchema}
                     propertyItem={item}
+                    onUpdateName={onUpdateName}
+                    onUpdateSchema={onUpdateSchema}
+                    onReorderItem={onReorderItem}
                 />
             )}
         </Stack>
