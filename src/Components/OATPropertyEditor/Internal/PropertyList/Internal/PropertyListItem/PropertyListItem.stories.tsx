@@ -1,6 +1,9 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
-import { getDefaultStoryDecorator } from '../../../../../../Models/Services/StoryUtilities';
+import {
+    getDefaultStoryDecorator,
+    sleep
+} from '../../../../../../Models/Services/StoryUtilities';
 import PropertyListItem from './PropertyListItem';
 import { IPropertyListItemProps } from './PropertyListItem.types';
 import { OatPageContextProvider } from '../../../../../../Models/Context/OatPageContext/OatPageContext';
@@ -14,6 +17,7 @@ import {
     DTDLObject,
     DTDLObjectField
 } from '../../../../../../Models/Classes/DTDL';
+import { userEvent, within } from '@storybook/testing-library';
 
 const wrapperStyle = {
     width: '400px',
@@ -29,12 +33,16 @@ export default {
 
 type PropertyListItemStory = ComponentStory<typeof PropertyListItem>;
 
-const DEFAULT_ARGS = {
-    parentEntity: {},
+const DEFAULT_ARGS: Partial<IPropertyListItemProps> = {
     indexKey: '0',
-    onUpdateItem: () => {
+    isFirstItem: false,
+    isLastItem: false,
+    onUpdateSchema: () => {
         //
     }
+    // onUpdateItem: () => {
+    //     //
+    // }
 };
 const Template: PropertyListItemStory = (args) => {
     return (
@@ -49,6 +57,20 @@ const Template: PropertyListItemStory = (args) => {
             </OatPageContextProvider>
         </div>
     );
+};
+
+export const OpenMenu = Template.bind({}) as PropertyListItemStory;
+OpenMenu.args = {
+    ...DEFAULT_ARGS,
+    item: getMockProperty({ type: 'boolean' })
+} as IPropertyListItemProps;
+OpenMenu.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-0-moreMenu'
+    );
+    userEvent.click(tab);
+    await sleep(10);
 };
 
 export const PrimitiveBoolean = Template.bind({}) as PropertyListItemStory;

@@ -8,6 +8,7 @@ import { getStyles } from './PropertyListItem.styles';
 import {
     classNamesFunction,
     IconButton,
+    IContextualMenuItem,
     Stack,
     styled,
     TextField
@@ -39,8 +40,10 @@ const getClassNames = classNamesFunction<
 const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const {
         disableInput,
-        item,
         indexKey,
+        item,
+        isFirstItem,
+        isLastItem,
         level,
         onUpdateSchema,
         styles
@@ -66,7 +69,6 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             ),
         [item]
     );
-    const overflowMenuItems = [];
     const itemLevel = level ?? 1; // default to level 1 (not nested)
 
     // hooks
@@ -77,7 +79,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         setExpandedTrue();
         onUpdateSchema(addChildToSchema({ parentSchema: item.schema }));
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
-    const onChangeName = useCallback((_ev, value: string) => {
+    const onChangeName = useCallback((_ev, _value: string) => {
         // item.name = value;
         // onUpdateSchema();
         // if (isDTDLModel(parentEntity)) {
@@ -106,6 +108,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         //     });
         // }
     }, []);
+    const onChangeSchemaType = useCallback(() => {
+        //
+    }, []);
 
     // side effects
 
@@ -115,6 +120,60 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         level: itemLevel,
         theme: useExtendedTheme()
     });
+
+    // data
+    const overflowMenuItems: IContextualMenuItem[] = [
+        {
+            key: 'change-property-type',
+            text: 'Edit property type',
+            iconProps: { iconName: 'Edit' },
+            subMenuProps: {
+                items: []
+            }
+        },
+        {
+            key: 'change-metadata-type',
+            text: 'Edit metadata',
+            iconProps: { iconName: 'DocumentManagement' },
+            onClick: () => {
+                //
+            }
+        },
+        {
+            key: 'move-up',
+            text: 'Move up',
+            disabled: isFirstItem,
+            iconProps: { iconName: 'Up' },
+            onClick: () => {
+                alert('Not implemented');
+            }
+        },
+        {
+            key: 'move-up',
+            text: 'Move down',
+            disabled: isLastItem,
+            iconProps: { iconName: 'Down' },
+            onClick: () => {
+                alert('Not implemented');
+            }
+        },
+        {
+            key: 'duplicate',
+            text: 'Duplicate',
+            iconProps: { iconName: 'Copy' },
+            onClick: () => {
+                alert('Not implemented');
+            }
+        },
+        {
+            key: 'remove',
+            text: 'Remove',
+            iconProps: { iconName: 'Delete' },
+            onClick: () => {
+                alert('Not implemented');
+            }
+        }
+    ];
 
     // logDebugConsole(
     //     'debug',

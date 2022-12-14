@@ -9,6 +9,10 @@ import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 
 export interface IPropertyListItemProps {
+    /** is the first item in the list */
+    isFirstItem: boolean;
+    /** is the last item in list */
+    isLastItem: boolean;
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
     /** the item itself */

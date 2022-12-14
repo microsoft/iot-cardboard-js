@@ -92,6 +92,10 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     onRenderCell={(item, index) => (
                         <PropertyListItemObjectChild
                             indexKey={`${indexKey}.${index}`}
+                            isFirstItem={index === 0}
+                            isLastItem={
+                                index === propertyItem.schema.fields.length - 1
+                            }
                             item={item}
                             level={level}
                             onUpdateSchema={(schema) => {

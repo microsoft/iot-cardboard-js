@@ -1,5 +1,8 @@
 import React from 'react';
-import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
+import {
+    getDefaultStoryDecorator,
+    sleep
+} from '../../../../Models/Services/StoryUtilities';
 import PropertyList from './PropertyList';
 import { IPropertyListProps } from './PropertyList.types';
 import {
@@ -23,8 +26,9 @@ import {
 } from '../../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../../Utils';
 import { getSelectionIdentifier } from '../../../OATGraphViewer/Internal/Utils';
+import { userEvent, within } from '@storybook/testing-library';
 
-const wrapperStyle = { width: '100%', height: '1000px', padding: 8 };
+const wrapperStyle = { width: '400px', height: '1000px', padding: 8 };
 
 export default {
     title: 'Components - OAT/OATPropertyEditor/PropertyList',
@@ -223,3 +227,14 @@ Relationship.args = {
         })
     ])
 } as StoryArgs;
+
+export const OpenMenu = Template.bind({});
+OpenMenu.args = SimpleModel.args as StoryArgs;
+OpenMenu.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-0-moreMenu'
+    );
+    userEvent.click(tab);
+    await sleep(10);
+};

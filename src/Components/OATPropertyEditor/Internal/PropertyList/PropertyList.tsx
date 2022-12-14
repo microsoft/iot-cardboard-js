@@ -111,6 +111,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                         onRenderCell={(property, index) => {
                             return (
                                 <PropertyListItem
+                                    isFirstItem={index === 0}
+                                    isLastItem={index === properties.length - 1}
                                     indexKey={String(index)}
                                     item={property}
                                     onUpdateSchema={getSchemaUpdateCallback(
