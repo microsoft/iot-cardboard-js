@@ -22,7 +22,8 @@ import {
 import { DtdlInterface, DtdlRelationship } from '../../../../Models/Constants';
 import {
     isDTDLModel,
-    isDTDLReference
+    isDTDLReference,
+    isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
 import { getTargetFromSelection } from '../../Utils';
 import { getSelectionIdentifier } from '../../../OATGraphViewer/Internal/Utils';
@@ -76,19 +77,21 @@ const getMockRelationship = (properties: DTDLProperty[]) => {
 const Template = (args: StoryArgs) => {
     const file = getMockOntology(args.selectedItem);
     const selectedItem = file.data.models[0];
+    const selection = isDTDLReference(args.selectedItem)
+        ? {
+              modelId: selectedItem['@id'],
+              contentId: getSelectionIdentifier(args.selectedItem)
+          }
+        : { modelId: selectedItem['@id'] };
 
+    console.log('***Selection', selection);
     return (
         <OatPageContextProvider
             disableLocalStorage={true}
             initialState={{
                 ontologyFiles: [file],
                 currentOntologyId: 'something',
-                selection: isDTDLReference(selectedItem)
-                    ? {
-                          modelId: selectedItem['@id'],
-                          contentId: getSelectionIdentifier(selectedItem)
-                      }
-                    : { modelId: selectedItem['@id'] }
+                selection: selection
             }}
         >
             <TemplateContents />
@@ -97,19 +100,21 @@ const Template = (args: StoryArgs) => {
 };
 const TemplateContents = () => {
     const { oatPageState } = useOatPageContext();
-    const selectedItem =
+    const selectionTarget =
         oatPageState.selection &&
-        DTDLModel.fromObject(
-            getTargetFromSelection(
-                oatPageState.currentOntologyModels,
-                oatPageState.selection
-            )
+        getTargetFromSelection(
+            oatPageState.currentOntologyModels,
+            oatPageState.selection
         );
-    return selectedItem ? (
+    const selectedItem = isDTDLRelationshipReference(selectionTarget)
+        ? DTDLRelationship.fromObject(selectionTarget)
+        : DTDLModel.fromObject(selectionTarget);
+    console.log('***Render contents, {selectedItem}', selectedItem);
+    return selectionTarget ? (
         <PropertyList
             selectedItem={selectedItem}
             properties={selectedItem.properties}
-            parentModelId={selectedItem['@id']}
+            parentModelId={selectionTarget['@id']}
         />
     ) : (
         <>No selected item to render</>

@@ -139,7 +139,25 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // send updated schema to parent
                                 onUpdateSchema(schemaCopy);
                             }}
-                            onUpdateName={onUpdateName}
+                            onUpdateName={(args) => {
+                                // decouple the schema object
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                // grab the field
+                                const fieldCopy = deepCopy(
+                                    schemaCopy.fields[index]
+                                );
+                                // update the field
+                                fieldCopy.name = args.name;
+                                schemaCopy.fields[index] = fieldCopy;
+                                console.log(
+                                    '***Update name in child. {schemaCopy}',
+                                    schemaCopy
+                                );
+                                // dispatch the child update
+                                onUpdateSchema(schemaCopy);
+                            }}
                             onReorderItem={onReorderItem}
                         />
                     )}

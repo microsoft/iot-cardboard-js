@@ -5,7 +5,6 @@ import {
     IStyleFunctionOrObject,
     ITextFieldStyles
 } from '@fluentui/react';
-import React from 'react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
 

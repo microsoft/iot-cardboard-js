@@ -40,6 +40,7 @@ import {
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
+import { isDTDLReference } from '../../Services/DtdlUtils';
 
 //#region Add/remove models
 
@@ -185,7 +186,8 @@ export const getModelById = (
     modelId: string
 ): DtdlInterface | undefined => {
     if (models && modelId) {
-        return models.find((x) => x['@id'] === modelId);
+        const index = getModelIndexById(models, modelId);
+        return models[index];
     }
     return undefined;
 };
@@ -199,7 +201,9 @@ export const getReferenceIndexByName = (
     referenceName: string
 ): number => {
     if (model && referenceName) {
-        return model.contents.findIndex((x) => x.name === referenceName);
+        return model.contents.findIndex(
+            (x) => x.name === referenceName && isDTDLReference(x)
+        );
     }
     return -1;
 };
@@ -213,7 +217,8 @@ export const getReferenceByName = (
     referenceName: string
 ): DtdlInterfaceContent | undefined => {
     if (model && referenceName) {
-        return model.contents.find((x) => x.name === referenceName);
+        const index = getReferenceIndexByName(model, referenceName);
+        return model[index];
     }
     return undefined;
 };

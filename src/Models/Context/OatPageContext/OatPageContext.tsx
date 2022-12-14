@@ -9,6 +9,7 @@ import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
 } from '../../Constants/Constants';
+import { isDTDLReference } from '../../Services/DtdlUtils';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -34,10 +35,11 @@ import {
     addNewModelToState,
     addUntargetedRelationship,
     getModelIndexById,
-    getModelById
+    getModelById,
+    getReferenceIndexByName
 } from './OatPageContextUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);
@@ -268,8 +270,9 @@ export const OatPageContextReducer: (
                 );
                 if (model) {
                     // find the reference
-                    const referenceIndex = model.contents.findIndex(
-                        (x) => x.name === reference.name
+                    const referenceIndex = getReferenceIndexByName(
+                        model,
+                        reference.name
                     );
                     if (referenceIndex > -1) {
                         // update value

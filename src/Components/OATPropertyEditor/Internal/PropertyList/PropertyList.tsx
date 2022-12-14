@@ -102,11 +102,41 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return onReorder;
     };
-    const getUpdateNameCallback = (_property: DTDLProperty) => {
+    const getUpdateNameCallback = (
+        _property: DTDLProperty,
+        propertyIndex: number
+    ) => {
         const updateName: IOnUpdateNameCallback = (
             args: IOnUpdateNameCallbackArgs
         ) => {
-            alert('not implemented. Update Name: ' + args.name);
+            if (isDTDLModel(selectedItem)) {
+                // update for model
+                const updatedContents = [...selectedItem.contents];
+                updatedContents[propertyIndex].name = args.name;
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_MODEL,
+                    payload: {
+                        model: {
+                            ...selectedItem,
+                            contents: updatedContents
+                        }
+                    }
+                });
+            } else if (isDTDLRelationshipReference(selectedItem)) {
+                // // update for relationships (NOTE: components don't have properties)
+                // const updatedProperty = parentEntity.properties[propertyIndex];
+                // updatedProperty.name = value;
+                // oatPageDispatch({
+                //     type: OatPageContextActionType.UPDATE_REFERENCE,
+                //     payload: {
+                //         modelId: parentEntity['@id'],
+                //         reference: updatedProperty
+                //     }
+                // });
+                alert(
+                    'not implemented. Update relationship Name: ' + args.name
+                );
+            }
         };
 
         return updateName;
@@ -142,7 +172,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property
                                     )}
                                     onUpdateName={getUpdateNameCallback(
-                                        property
+                                        property,
+                                        index
                                     )}
                                 />
                             );
