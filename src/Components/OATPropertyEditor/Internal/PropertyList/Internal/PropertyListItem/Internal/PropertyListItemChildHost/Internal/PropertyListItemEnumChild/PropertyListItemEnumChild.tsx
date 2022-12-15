@@ -60,6 +60,9 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                     value={name}
                     onChange={(_ev, value) => setName(value)}
                     onBlur={() => onUpdateKey(name)}
+                    placeholder={t(
+                        'OATPropertyEditor.PropertyListItem.enumKeyPlaceholder'
+                    )}
                     styles={classNames.subComponentStyles.keyField}
                 />
                 {enumType === 'integer' ? (
