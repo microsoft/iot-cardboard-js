@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Artículos",
       "defaultEnumNamePrefix": "enum_key_{{índice}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{índice}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}",
+      "enumKeyPlaceholder": "Tecla Enter",
+      "enumValuePlaceholder": "Introduzca el valor"
     }
   },
   "ErrorHandlingWrapper": {

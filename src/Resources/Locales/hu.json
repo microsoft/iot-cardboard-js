@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Elemek",
       "defaultEnumNamePrefix": "enum_key_{{index}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
+      "enumKeyPlaceholder": "Enter billentyű",
+      "enumValuePlaceholder": "Érték megadása"
     }
   },
   "ErrorHandlingWrapper": {

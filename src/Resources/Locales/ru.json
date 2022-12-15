@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Элементы",
       "defaultEnumNamePrefix": "enum_key_{{индекс}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{индекс}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{индекс}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{индекс}}",
+      "enumKeyPlaceholder": "Введите ключ",
+      "enumValuePlaceholder": "Введите значение"
     }
   },
   "ErrorHandlingWrapper": {

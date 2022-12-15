@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Elementy",
       "defaultEnumNamePrefix": "enum_key_{{index}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
+      "enumKeyPlaceholder": "Wprowadź klucz",
+      "enumValuePlaceholder": "Wprowadź wartość"
     }
   },
   "ErrorHandlingWrapper": {

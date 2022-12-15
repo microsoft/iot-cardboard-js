@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "項目",
       "defaultEnumNamePrefix": "enum_key_{{インデックス}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{インデックス}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{インデックス}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{インデックス}}",
+      "enumKeyPlaceholder": "キーを入力してください",
+      "enumValuePlaceholder": "値を入力"
     }
   },
   "ErrorHandlingWrapper": {

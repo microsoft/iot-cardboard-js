@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Elementi",
       "defaultEnumNamePrefix": "enum_key_{{indice}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{indice}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{indice}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{indice}}",
+      "enumKeyPlaceholder": "Tasto d’invio",
+      "enumValuePlaceholder": "Inserisci il valore"
     }
   },
   "ErrorHandlingWrapper": {

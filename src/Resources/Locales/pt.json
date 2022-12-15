@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "Itens",
       "defaultEnumNamePrefix": "enum_key_{{índice}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{índice}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}",
+      "enumKeyPlaceholder": "Digite a chave",
+      "enumValuePlaceholder": "Insira o valor"
     }
   },
   "ErrorHandlingWrapper": {

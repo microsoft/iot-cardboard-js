@@ -1213,7 +1213,9 @@
       "arrayItemLabel": "항목",
       "defaultEnumNamePrefix": "enum_key_{{색인}}",
       "defaultObjectPropertyNamePrefix": "property_name_{{색인}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{색인}}"
+      "defaultObjectPropertyValuePrefix": "property_value_{{색인}}",
+      "enumKeyPlaceholder": "엔터 키",
+      "enumValuePlaceholder": "값 입력"
     }
   },
   "ErrorHandlingWrapper": {
