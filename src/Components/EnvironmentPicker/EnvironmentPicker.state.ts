@@ -171,7 +171,8 @@ export const EnvironmentPickerReducer: (
                         resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                     }
 
-                    draft.storageAccountInfo.storageAccountToEdit = selectedStorageAccount;
+                    draft.storageAccountInfo.storageAccountToEdit =
+                        selectedStorageAccount || selectedStorageAccountUrl;
                 } else {
                     draft.storageAccountInfo.storageAccountToEdit = null;
                     draft.containerInfo.containers = [];
