@@ -39,18 +39,27 @@ export const getStyles = (
             keyField: {
                 root: {
                     flex: 1.15
+                },
+                fieldGroup: {
+                    backgroundColor: 'transparent'
                 }
             },
             valueTextField: {
                 root: {
                     flex: 0.85,
                     marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
+                },
+                fieldGroup: {
+                    backgroundColor: 'transparent'
                 }
             },
             valueNumberField: {
                 root: {
                     flex: 0.85,
                     marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
+                },
+                input: {
+                    backgroundColor: 'transparent'
                 }
             }
         }

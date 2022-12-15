@@ -14,6 +14,7 @@ import {
 } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
+import { useTranslation } from 'react-i18next';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemEnumChildStyleProps,
@@ -32,6 +33,7 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
     const [value, setValue] = useState(item.enumValue);
 
     // hooks
+    const { t } = useTranslation();
 
     // callbacks
 
@@ -71,6 +73,9 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                         value={value as string}
                         onChange={(_ev, value) => setValue(value)}
                         onBlur={() => onUpdateValue(value)}
+                        placeholder={t(
+                            'OATPropertyEditor.PropertyListItem.enumValuePlaceholder'
+                        )}
                         styles={classNames.subComponentStyles.valueTextField}
                     />
                 )}
