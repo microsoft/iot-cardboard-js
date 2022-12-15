@@ -84,7 +84,6 @@ const Template = (args: StoryArgs) => {
           }
         : { modelId: selectedItem['@id'] };
 
-    console.log('***Selection', selection);
     return (
         <OatPageContextProvider
             disableLocalStorage={true}
@@ -109,7 +108,7 @@ const TemplateContents = () => {
     const selectedItem = isDTDLRelationshipReference(selectionTarget)
         ? DTDLRelationship.fromObject(selectionTarget)
         : DTDLModel.fromObject(selectionTarget);
-    console.log('***Render contents, {selectedItem}', selectedItem);
+
     return selectionTarget ? (
         <PropertyList
             selectedItem={selectedItem}

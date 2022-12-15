@@ -151,10 +151,6 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // update the field
                                 fieldCopy.name = args.name;
                                 schemaCopy.fields[index] = fieldCopy;
-                                console.log(
-                                    '***Update name in child. {schemaCopy}',
-                                    schemaCopy
-                                );
                                 // dispatch the child update
                                 onUpdateSchema(schemaCopy);
                             }}

@@ -114,16 +114,13 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
     const onValidateNumber = useCallback(
         (currentValue: string, newValue: string) => {
             if (!isDefined(newValue) || newValue.trim() === '') {
-                console.log('***empty, return null');
                 return null;
             }
 
             const number = Number(newValue.trim());
             if (!isNaN(number)) {
-                console.log('***valid number');
                 return newValue;
             }
-            console.log('***invalid, return previous');
             return currentValue;
         },
         []
@@ -300,11 +297,6 @@ export const PropertyDetailsEditorModalContent: React.FC<IModalFormRootModelCont
                                     onUpdateItem(
                                         produce((draft) => {
                                             draft.displayName[language] = value;
-                                            console.log(
-                                                '***Setting. {key, displayName}',
-                                                language,
-                                                draft.displayName
-                                            );
                                             return draft;
                                         })
                                     );

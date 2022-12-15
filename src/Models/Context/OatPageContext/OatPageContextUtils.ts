@@ -552,7 +552,6 @@ export function convertStateToProject(
         Array.from(draft.currentOntologyModelMetadata),
         Array.from(draft.currentOntologyTemplates)
     );
-    // console.log('***Converted project', project, current(draft));
 
     return project;
 }

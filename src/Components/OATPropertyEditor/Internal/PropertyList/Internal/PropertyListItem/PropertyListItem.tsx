@@ -96,7 +96,6 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     const onChangeName = useCallback(
         (_ev, value: string) => {
-            console.log('***Update name. {item, value}', item, value);
             onUpdateName({ name: value });
             // item.name = value;
             // onUpdateSchema();

@@ -53,7 +53,7 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface } from '../../Models/Constants';
+import { DtdlInterface, DtdlRelationship } from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -161,29 +161,31 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                 }
                                 break;
                             }
-                            case OAT_RELATIONSHIP_HANDLE_NAME:
-                                if (content.target) {
+                            case OAT_RELATIONSHIP_HANDLE_NAME: {
+                                const relationship = content as DtdlRelationship;
+                                if (relationship.target) {
                                     const foundRelationshipTarget = models.find(
                                         (model) =>
-                                            model['@id'] === content.target
+                                            model['@id'] === relationship.target
                                     );
 
                                     if (foundRelationshipTarget) {
                                         addTargetedRelationship(
                                             input['@id'],
-                                            content,
+                                            relationship,
                                             elements
                                         );
                                     }
                                 } else {
                                     addUntargetedRelationship(
                                         input,
-                                        content,
+                                        relationship,
                                         modelPositions,
                                         elements
                                     );
                                 }
                                 break;
+                            }
                         }
                     });
                 }
@@ -651,11 +653,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                         x: leftOffset,
                         y: newNodeTopOffset
                     });
-                    console.log(
-                        '***Offsets',
-                        leftOffset,
-                        startPositionCoordinates
-                    );
                     const elementsCopy = deepCopy(elements);
                     const newPositions: IOATModelPosition[] = [];
                     const updatedPositions =
