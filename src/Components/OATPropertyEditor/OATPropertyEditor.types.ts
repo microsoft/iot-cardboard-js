@@ -1,5 +1,4 @@
 import { Theme } from '../../Models/Constants/Enums';
-import { DtdlInterface, DtdlInterfaceContent } from '../../Models/Constants';
 
 export type OATPropertyEditorProps = {
     selectedItem: DtdlInterface | DtdlInterfaceContent;
