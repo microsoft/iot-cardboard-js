@@ -139,7 +139,9 @@ export const deleteModelFromState = (
                 // remove from relationship list of all models
                 m.contents = m.contents.filter(
                     (content) =>
-                        content.target !== modelId && content.schema !== modelId
+                        (!('target' in content) ||
+                            content.target !== modelId) &&
+                        (!('schema' in content) || content.schema !== modelId)
                 );
                 // remove from extends list for all models
                 if (m.extends) {
