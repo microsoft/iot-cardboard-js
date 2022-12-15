@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IPropertyListItemEnumChildProps,
     IPropertyListItemEnumChildStyleProps,
@@ -38,6 +38,12 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
     // callbacks
 
     // side effects
+    useEffect(() => {
+        setName(item.name);
+    }, [item.name]);
+    useEffect(() => {
+        setValue(item.enumValue);
+    }, [item.enumValue]);
 
     // styles
     const classNames = getClassNames(styles, {
@@ -59,7 +65,12 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                 <TextField
                     value={name}
                     onChange={(_ev, value) => setName(value)}
-                    onBlur={() => onUpdateKey(name)}
+                    onBlur={() => {
+                        // only trigger an update if the value really changed. Otherwise it fires every time you leave the field
+                        if (name !== item.name) {
+                            onUpdateKey(name);
+                        }
+                    }}
                     placeholder={t(
                         'OATPropertyEditor.PropertyListItem.enumKeyPlaceholder'
                     )}
@@ -75,7 +86,11 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                     <TextField
                         value={value as string}
                         onChange={(_ev, value) => setValue(value)}
-                        onBlur={() => onUpdateValue(value)}
+                        onBlur={() => {
+                            if (value !== item.enumValue) {
+                                onUpdateValue(value);
+                            }
+                        }}
                         placeholder={t(
                             'OATPropertyEditor.PropertyListItem.enumValuePlaceholder'
                         )}
