@@ -97,35 +97,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     const onChangeName = useCallback(
         (_ev, value: string) => {
             onUpdateName({ name: value });
-            // item.name = value;
-            // onUpdateSchema();
-            // if (isDTDLModel(parentEntity)) {
-            //     // update for model
-            //     const updatedContents = [...parentEntity.contents];
-            //     updatedContents[propertyIndex].name = value;
-            //     oatPageDispatch({
-            //         type: OatPageContextActionType.UPDATE_MODEL,
-            //         payload: {
-            //             model: {
-            //                 ...parentEntity,
-            //                 contents: updatedContents
-            //             }
-            //         }
-            //     });
-            // } else if (isDTDLRelationshipReference(parentEntity)) {
-            //     // update for relationships (NOTE: components don't have properties)
-            //     const updatedProperty = parentEntity.properties[propertyIndex];
-            //     updatedProperty.name = value;
-            //     oatPageDispatch({
-            //         type: OatPageContextActionType.UPDATE_REFERENCE,
-            //         payload: {
-            //             modelId: parentEntity['@id'],
-            //             reference: updatedProperty
-            //         }
-            //     });
-            // }
         },
-        [item, onUpdateName]
+        [onUpdateName]
     );
 
     const onMoveUp = useCallback(() => {

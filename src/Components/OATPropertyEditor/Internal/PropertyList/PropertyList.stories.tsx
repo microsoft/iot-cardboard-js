@@ -158,7 +158,7 @@ ComplexModel.args = {
         }),
         getMockProperty({
             type: 'Array',
-            itemSchema: new DTDLObject('', [
+            itemSchema: new DTDLObject([
                 new DTDLObjectField('field 1', 'double'),
                 new DTDLObjectField('field 2', 'date')
             ]),
@@ -205,7 +205,7 @@ SimpleModel.args = {
         })(),
         getMockProperty({
             type: 'Array',
-            itemSchema: new DTDLObject('', [
+            itemSchema: new DTDLObject([
                 new DTDLObjectField('field 1', 'double'),
                 new DTDLObjectField('field 2', 'date')
             ])
@@ -224,7 +224,7 @@ Relationship.args = {
         getMockProperty({ type: 'Enum', enumType: 'integer' }),
         getMockProperty({
             type: 'Array',
-            itemSchema: new DTDLObject('', [
+            itemSchema: new DTDLObject([
                 new DTDLObjectField('field 1', 'double'),
                 new DTDLObjectField('field 2', 'date')
             ])

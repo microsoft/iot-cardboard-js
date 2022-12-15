@@ -177,7 +177,7 @@ ComplexArrayObjects.args = {
     ...DEFAULT_ARGS,
     item: getMockProperty({
         type: 'Array',
-        itemSchema: new DTDLObject('', [
+        itemSchema: new DTDLObject([
             new DTDLObjectField('field 1', 'double'),
             new DTDLObjectField('field 2', 'date')
         ])

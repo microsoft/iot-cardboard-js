@@ -36,7 +36,7 @@ describe('DtdlUtils', () => {
         });
         test('object is complex', () => {
             // ARRANGE
-            const property = new DTDLProperty('', new DTDLObject('', []));
+            const property = new DTDLProperty('', new DTDLObject([]));
 
             // ACT
             const result = isComplexSchemaProperty(property);

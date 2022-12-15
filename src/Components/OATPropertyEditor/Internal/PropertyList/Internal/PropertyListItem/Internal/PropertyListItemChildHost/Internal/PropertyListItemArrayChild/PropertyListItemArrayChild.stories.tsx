@@ -50,9 +50,12 @@ Complex.args = {
     level: 1,
     item: new DTDLArray(
         '',
-        new DTDLObject('', [
-            new DTDLObjectField('property 1', 'boolean'),
-            new DTDLObjectField('property 2', 'string')
-        ])
+        new DTDLObject(
+            [
+                new DTDLObjectField('property 1', 'boolean'),
+                new DTDLObjectField('property 2', 'string')
+            ],
+            ''
+        )
     )
 } as IPropertyListItemArrayChildProps;

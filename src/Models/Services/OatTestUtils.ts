@@ -82,7 +82,6 @@ export const getMockProperty = (
         let schema: DTDLObject;
         if (args.complexity === 'complex') {
             schema = new DTDLObject(
-                'test object 1',
                 [
                     {
                         name: 'double property 1 name',
@@ -94,11 +93,11 @@ export const getMockProperty = (
                     },
                     {
                         name: 'mega object property name' + discriminator,
-                        schema: new DTDLObject('', [
+                        schema: new DTDLObject([
                             new DTDLObjectField('name 1', 'string'),
                             new DTDLObjectField(
                                 'object 1',
-                                new DTDLObject('', [
+                                new DTDLObject([
                                     new DTDLObjectField('prop 1', 'string'),
                                     new DTDLObjectField('prop 2', 'string'),
                                     new DTDLObjectField('prop 3', 'string')
@@ -133,7 +132,6 @@ export const getMockProperty = (
             );
         } else {
             schema = new DTDLObject(
-                'test object 1',
                 [
                     {
                         name: 'double property 1 name',
@@ -141,7 +139,7 @@ export const getMockProperty = (
                     },
                     {
                         name: 'mega object property name' + discriminator,
-                        schema: new DTDLObject('', [
+                        schema: new DTDLObject([
                             new DTDLObjectField('name 1', 'string'),
                             new DTDLObjectField(
                                 'enum 2',
@@ -185,11 +183,11 @@ export const getMockProperty = (
                 new DTDLMapKey('map key 1'),
                 new DTDLMapValue(
                     'value 1',
-                    new DTDLObject('', [
+                    new DTDLObject([
                         new DTDLObjectField('prop 1', 'double'),
                         new DTDLObjectField(
                             'prop 2',
-                            new DTDLObject('', [
+                            new DTDLObject([
                                 new DTDLObjectField('my double', 'double')
                             ])
                         ),

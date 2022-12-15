@@ -60,13 +60,11 @@ Complex.args = {
         new DTDLMapKey('map key 1'),
         new DTDLMapValue(
             'value 1',
-            new DTDLObject('', [
+            new DTDLObject([
                 new DTDLObjectField('prop 1', 'double'),
                 new DTDLObjectField(
                     'prop 2',
-                    new DTDLObject('', [
-                        new DTDLObjectField('my double', 'double')
-                    ])
+                    new DTDLObject([new DTDLObjectField('my double', 'double')])
                 ),
                 new DTDLObjectField('prop 3', 'string')
             ])

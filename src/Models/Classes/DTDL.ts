@@ -874,8 +874,8 @@ export class DTDLObject implements DtdlObject {
     comment?: string;
 
     constructor(
-        id: string,
         fields: DtdlObjectField[],
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -889,7 +889,7 @@ export class DTDLObject implements DtdlObject {
     }
 
     static getBlank() {
-        return new DTDLObject('', [], '', '', '');
+        return new DTDLObject([], '', '', '', '');
     }
 
     static fromObject(obj: any) {

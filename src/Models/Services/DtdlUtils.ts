@@ -11,9 +11,7 @@ import {
     DTDLRelationship,
     DTDLSchema,
     DTDLSchemaType,
-    DTDLType,
-    DtdlEnum,
-    DtdlObject
+    DTDLType
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -22,7 +20,9 @@ import {
     DtdlReference,
     DtdlRelationship,
     OAT_EXTEND_HANDLE_NAME,
-    OAT_INTERFACE_TYPE
+    OAT_INTERFACE_TYPE,
+    DtdlEnum,
+    DtdlObject
 } from '../Constants';
 
 /** is the relationship a known DTDL relationship type */
@@ -183,6 +183,8 @@ export const isDTDLEnum = (
     return object.schema['@type'] === DTDLSchemaType.Enum;
 };
 
+// #region Add child to complex schemas
+
 interface IAddChildArgs {
     parentSchema: DTDLSchema;
 }
@@ -234,3 +236,15 @@ const addPropertyToObject = (schema: DtdlObject) => {
     );
     schema.fields.push(new DTDLObjectField(defaultName, 'string'));
 };
+
+// #endregion
+
+// #region Initialize schemas
+
+const getDefaultObjectSchema = (): DTDLObject => {
+    const object = new DTDLObject([]);
+
+    return object;
+};
+
+// #endregion

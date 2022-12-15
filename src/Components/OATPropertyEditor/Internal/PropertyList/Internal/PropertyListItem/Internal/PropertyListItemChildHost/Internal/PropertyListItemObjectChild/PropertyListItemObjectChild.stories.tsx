@@ -41,8 +41,13 @@ const Template: PropertyListItemObjectChildStory = (args) => {
                 indexKey={'0'}
                 item={{
                     name: 'Reference parent',
-                    schema: new DTDLObject('', [])
+                    schema: new DTDLObject([])
                 }}
+                isFirstItem={false}
+                isLastItem={false}
+                onReorderItem={() => undefined}
+                onUpdateName={() => undefined}
+                onUpdateSchema={() => undefined}
                 styles={{
                     root: {
                         marginLeft: 32 // spacing for the chevron
@@ -65,6 +70,6 @@ Complex.args = {
     level: 1, // ignored
     item: new DTDLObjectField(
         'field name 1',
-        new DTDLObject('', [new DTDLObjectField('field 1', 'double')])
+        new DTDLObject([new DTDLObjectField('field 1', 'double')])
     )
 } as IPropertyListItemObjectChildProps;
