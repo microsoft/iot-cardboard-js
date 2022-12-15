@@ -1,10 +1,10 @@
 import { cleanup } from '@testing-library/react-hooks';
+import { DTDLType } from '../../../Classes/DTDL';
 import {
-    DTDLType,
-    IDTDLComponent,
-    IDTDLRelationship
-} from '../../../Classes/DTDL';
-import { OAT_RELATIONSHIP_HANDLE_NAME } from '../../../Constants';
+    DtdlComponent,
+    DtdlRelationship,
+    OAT_RELATIONSHIP_HANDLE_NAME
+} from '../../../Constants';
 import {
     getMockModelItem,
     GET_MOCK_OAT_CONTEXT_STATE
@@ -22,7 +22,7 @@ describe('OatPageContextUtils', () => {
             return state.currentOntologyModels.find((x) => x['@id'] === id);
         };
         const getMockComponent = (name: string, targetModelId: string) => {
-            const component: IDTDLComponent = {
+            const component: DtdlComponent = {
                 '@type': DTDLType.Component,
                 name: name,
                 schema: targetModelId
@@ -30,7 +30,7 @@ describe('OatPageContextUtils', () => {
             return component;
         };
         const getMockRelationship = (name: string, targetModelId: string) => {
-            const relationship: IDTDLRelationship = {
+            const relationship: DtdlRelationship = {
                 '@type': DTDLType.Relationship,
                 name: name,
                 target: targetModelId
@@ -71,7 +71,7 @@ describe('OatPageContextUtils', () => {
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop();
+            const lastComponent = updatedModel.contents.pop() as DtdlComponent;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual('mock_name_targetId1_0');
             expect(lastComponent.schema).toEqual(targetModelId);
@@ -109,7 +109,7 @@ describe('OatPageContextUtils', () => {
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop();
+            const lastComponent = updatedModel.contents.pop() as DtdlComponent;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual('mock_name_targetId1_1');
             expect(lastComponent.schema).toEqual(targetModelId);
@@ -145,7 +145,7 @@ describe('OatPageContextUtils', () => {
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastRelationship = updatedModel.contents.pop();
+            const lastRelationship = updatedModel.contents.pop() as DtdlRelationship;
             expect(lastRelationship).toBeDefined();
             expect(lastRelationship.name).toEqual(
                 OAT_RELATIONSHIP_HANDLE_NAME + '_0'
@@ -189,7 +189,7 @@ describe('OatPageContextUtils', () => {
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop();
+            const lastComponent = updatedModel.contents.pop() as DtdlRelationship;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual(
                 OAT_RELATIONSHIP_HANDLE_NAME + '_1'

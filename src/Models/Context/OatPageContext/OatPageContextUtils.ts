@@ -9,12 +9,9 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLSchema, DTDLType } from '../../Classes/DTDL';
 import {
-    DTDLType,
-    IDTDLComponent,
-    IDTDLRelationship
-} from '../../Classes/DTDL';
-import {
+    DtdlComponent,
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
@@ -277,8 +274,8 @@ export const updateModelId = (
             }
 
             const p = c as DtdlInterfaceContent;
-            if (p && p.schema === oldId) {
-                p.schema = newId;
+            if (p && 'schema' in p && p.schema === oldId) {
+                p.schema = newId as DTDLSchema;
             }
 
             if (m.extends) {
@@ -316,7 +313,7 @@ function getNextName(
     return `${namePrefix}_${index}`;
 }
 const getNewComponent = (name: string, targetModelId: string) => {
-    const component: IDTDLComponent = {
+    const component: DtdlComponent = {
         '@type': DTDLType.Component,
         name: name,
         schema: targetModelId
@@ -331,7 +328,7 @@ const getNewRelationship = (
               targetModelId: string;
           }
         | { type: 'Untargeted'; name: string }
-): IDTDLRelationship => {
+): DtdlRelationship => {
     if (args.type === 'Targeted') {
         return {
             '@type': DTDLType.Relationship,
@@ -399,7 +396,7 @@ export const addTargetedRelationship = (
                 ? getNextComponentName(sourceModel, targetModel)
                 : getNextRelationshipName(sourceModel);
         newRelationship =
-            relationshipType === 'Component'
+            relationshipType === DTDLType.Component
                 ? getNewComponent(modelName, targetModelId)
                 : getNewRelationship({
                       type: 'Targeted',

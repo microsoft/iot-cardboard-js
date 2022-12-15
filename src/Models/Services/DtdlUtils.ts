@@ -12,8 +12,8 @@ import {
     DTDLSchema,
     DTDLSchemaType,
     DTDLType,
-    IDTDLEnum,
-    IDTDLObject
+    DtdlEnum,
+    DtdlObject
 } from '../Classes/DTDL';
 import {
     DtdlComponent,
@@ -209,7 +209,7 @@ export const addChildToSchema = (args: IAddChildArgs) => {
     return parentSchema;
 };
 
-const addItemToEnum = (schema: IDTDLEnum) => {
+const addItemToEnum = (schema: DtdlEnum) => {
     if (!schema.enumValues) {
         schema.enumValues = [];
     }
@@ -223,7 +223,7 @@ const addItemToEnum = (schema: IDTDLEnum) => {
     schema.enumValues.push(new DTDLEnumValue(defaultName, defaultValue));
 };
 
-const addPropertyToObject = (schema: IDTDLObject) => {
+const addPropertyToObject = (schema: DtdlObject) => {
     if (!schema?.fields) {
         schema.fields = [];
     }

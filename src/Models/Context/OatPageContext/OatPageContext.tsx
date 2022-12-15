@@ -9,7 +9,6 @@ import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
 } from '../../Constants/Constants';
-import { isDTDLReference } from '../../Services/DtdlUtils';
 import {
     getOntologiesFromStorage,
     getLastUsedProjectId,
@@ -39,7 +38,7 @@ import {
     getReferenceIndexByName
 } from './OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 export const logDebugConsole = getDebugLogger('OatPageContext', debugLogging);
 
 export const OatPageContext = React.createContext<IOatPageContext>(null);

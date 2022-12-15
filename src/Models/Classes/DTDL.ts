@@ -1,4 +1,20 @@
-import { DtdlInterfaceContent, IADTProperty } from '../Constants';
+import {
+    DtdlArray,
+    DtdlComponent,
+    DtdlEnum,
+    DtdlEnumValue,
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlInterfaceSchema,
+    DtdlMap,
+    DtdlMapKey,
+    DtdlMapValue,
+    DtdlObject,
+    DtdlObjectField,
+    DtdlProperty,
+    DtdlRelationship,
+    IADTProperty
+} from '../Constants';
 
 export const CURRENT_CONTEXT_VERSION = 'dtmi:dtdl:context;2';
 
@@ -375,7 +391,6 @@ export type DTDLSchemaTypes =
     | DTDLSchemaType;
 /** the actual schema types that a DTDL item can have */
 export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
-
 export type DTDLPrimitiveSchema =
     | 'boolean'
     | 'date'
@@ -396,7 +411,7 @@ export type DTDLGeospatialSchema =
     | 'point'
     | 'polygon';
 
-export type DTDLComplexSchema = IDTDLArray | IDTDLEnum | IDTDLMap | IDTDLObject;
+export type DTDLComplexSchema = DtdlArray | DtdlEnum | DtdlMap | DtdlObject;
 
 export enum DTDLSchemaType {
     Enum = 'Enum',
@@ -405,18 +420,7 @@ export enum DTDLSchemaType {
     Object = 'Object'
 }
 
-export interface IDTDLModel {
-    '@id': string;
-    '@type': string;
-    '@context': string;
-    comment?: string;
-    contents?: any[];
-    description?: string | Record<string, string>;
-    displayName?: string | Record<string, string>;
-    /** array of strings of ids that this model extends */
-    extends?: string[];
-}
-export class DTDLModel implements IDTDLModel {
+export class DTDLModel implements DtdlInterface {
     //TODO: add validations
     '@id': string;
     readonly ['@type']: string;
@@ -427,6 +431,7 @@ export class DTDLModel implements IDTDLModel {
     displayName?: string | Record<string, string>;
     /** array of strings of ids that this model extends */
     extends?: string[];
+    schemas?: DtdlInterfaceSchema[];
 
     constructor(
         id: string,
@@ -436,7 +441,8 @@ export class DTDLModel implements IDTDLModel {
         properties?: DtdlInterfaceContent[],
         relationships?: DtdlInterfaceContent[],
         components?: DtdlInterfaceContent[],
-        extendRelationships?: string[]
+        extendRelationships?: string[],
+        schemas?: DtdlInterfaceSchema[]
     ) {
         this['@type'] = DTDLType.Interface;
         this['@context'] = CURRENT_CONTEXT_VERSION;
@@ -450,6 +456,7 @@ export class DTDLModel implements IDTDLModel {
             ...(components ?? [])
         ];
         this.extends = [...(extendRelationships ?? [])];
+        this.schemas = [...(schemas ?? [])];
     }
 
     static getBlank(): DTDLModel {
@@ -518,18 +525,7 @@ export class DTDLModel implements IDTDLModel {
     }
 }
 
-export interface IDTDLProperty {
-    '@type': string;
-    '@id'?: string;
-    name: string;
-    schema: DTDLSchema;
-    comment?: string;
-    description?: string;
-    displayName?: string;
-    unit?: string;
-    writable?: boolean;
-}
-export class DTDLProperty implements IDTDLProperty {
+export class DTDLProperty implements DtdlProperty {
     readonly ['@type']: string;
     ['@id']?: string;
     name: string;
@@ -587,21 +583,8 @@ export class DTDLProperty implements IDTDLProperty {
     }
 }
 
-export interface IDTDLRelationship {
-    ['@type']: string;
-    name: string;
-    ['@id']?: string;
-    maxMultiplicity?: number;
-    writable?: boolean;
-    target?: string;
-    readonly minMultiplicity?: number;
-    properties?: DTDLProperty[];
-    displayName?: string;
-    description?: string;
-    comment?: string;
-}
-export class DTDLRelationship implements IDTDLRelationship {
-    readonly ['@type']: string;
+export class DTDLRelationship implements DtdlRelationship {
+    readonly ['@type']: DTDLType.Relationship;
     name: string;
     ['@id']?: string;
     maxMultiplicity?: number;
@@ -624,7 +607,7 @@ export class DTDLRelationship implements IDTDLRelationship {
         target: string | null = null,
         maxMultiplicity: number | null = null
     ) {
-        this['@type'] = 'Relationship';
+        this['@type'] = DTDLType.Relationship;
         this['@id'] = id;
         this.name = name;
         this.displayName = displayName;
@@ -668,17 +651,8 @@ export class DTDLRelationship implements IDTDLRelationship {
     }
 }
 
-export interface IDTDLComponent {
-    '@type': string;
-    '@id'?: string;
-    name: string;
-    schema: string;
-    comment?: string;
-    description?: string;
-    displayName?: string;
-}
-export class DTDLComponent implements IDTDLComponent {
-    readonly ['@type']: string;
+export class DTDLComponent implements DtdlComponent {
+    readonly ['@type']: DTDLType.Component;
     ['@id']?: string;
     name: string;
     schema: string;
@@ -719,16 +693,7 @@ export class DTDLComponent implements IDTDLComponent {
         );
     }
 }
-
-export interface IDTDLArray {
-    ['@type']: DTDLSchemaType.Array;
-    elementSchema: DTDLSchema;
-    ['@id']?: string;
-    displayName?: string;
-    description?: string;
-    comment?: string;
-}
-export class DTDLArray implements IDTDLArray {
+export class DTDLArray implements DtdlArray {
     readonly ['@type']: DTDLSchemaType.Array;
     elementSchema: DTDLSchema;
     ['@id']?: string;
@@ -766,21 +731,7 @@ export class DTDLArray implements IDTDLArray {
     }
 }
 
-export interface IDTDLMapKey {
-    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
-    name: string;
-    /** The data type of the map's key */
-    schema: DTDLSchema;
-    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
-    ['@id']?: string;
-    /** A comment for model authors */
-    comment?: string;
-    /** A localizable description for display */
-    description?: string;
-    /** A localizable name for display */
-    displayName?: string;
-}
-export class DTDLMapKey implements IDTDLMapKey {
+export class DTDLMapKey implements DtdlMapKey {
     name: string;
     schema: DTDLSchema;
     ['@id']?: string;
@@ -818,21 +769,7 @@ export class DTDLMapKey implements IDTDLMapKey {
     }
 }
 
-export interface IDTDLMapValue {
-    /** The "programming" name of the map's value. The name may only contain the characters a-z, A-Z, 0-9, and underscore, and must match this regular expression `^[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?$.` */
-    name: string;
-    /** The data type of the map's values */
-    schema: DTDLSchema;
-    /** The ID of the map key. If no @id is provided, the digital twin interface processor will assign one. */
-    ['@id']?: string;
-    /** A comment for model authors */
-    comment?: string;
-    /** A localizable description for display */
-    description?: string;
-    /** A localizable name for display */
-    displayName?: string;
-}
-export class DTDLMapValue implements IDTDLMapKey {
+export class DTDLMapValue implements DtdlMapValue {
     name: string;
     schema: DTDLSchema;
     ['@id']?: string;
@@ -880,19 +817,10 @@ export class DTDLMapValue implements IDTDLMapKey {
     }
 }
 
-export interface IDTDLMap {
-    ['@type']: DTDLSchemaType.Map;
-    mapKey: IDTDLMapKey;
-    mapValue: IDTDLMapValue;
-    ['@id']?: string;
-    displayName?: string;
-    description?: string;
-    comment?: string;
-}
-export class DTDLMap implements IDTDLMap {
+export class DTDLMap implements DtdlMap {
     readonly ['@type']: DTDLSchemaType.Map;
-    mapKey: IDTDLMapKey;
-    mapValue: IDTDLMapValue;
+    mapKey: DtdlMapKey;
+    mapValue: DtdlMapValue;
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -900,8 +828,8 @@ export class DTDLMap implements IDTDLMap {
 
     constructor(
         id: string,
-        mapKey: IDTDLMapKey,
-        mapValue: IDTDLMapValue,
+        mapKey: DtdlMapKey,
+        mapValue: DtdlMapValue,
         displayName?: string,
         description?: string,
         comment?: string
@@ -937,17 +865,9 @@ export class DTDLMap implements IDTDLMap {
     }
 }
 
-export interface IDTDLObject {
-    ['@type']: DTDLSchemaType.Object;
-    fields: IDTDLObjectField[];
-    ['@id']?: string;
-    displayName?: string;
-    description?: string;
-    comment?: string;
-}
-export class DTDLObject implements IDTDLObject {
+export class DTDLObject implements DtdlObject {
     readonly ['@type']: DTDLSchemaType.Object;
-    fields: IDTDLObjectField[];
+    fields: DtdlObjectField[];
     ['@id']?: string;
     displayName?: string;
     description?: string;
@@ -955,7 +875,7 @@ export class DTDLObject implements IDTDLObject {
 
     constructor(
         id: string,
-        fields: IDTDLObjectField[],
+        fields: DtdlObjectField[],
         displayName?: string,
         description?: string,
         comment?: string
@@ -983,15 +903,7 @@ export class DTDLObject implements IDTDLObject {
     }
 }
 
-export interface IDTDLObjectField {
-    name: string;
-    schema: DTDLSchema;
-    ['@id']?: string;
-    comment?: string;
-    description?: string;
-    displayName?: string;
-}
-export class DTDLObjectField implements IDTDLObjectField {
+export class DTDLObjectField implements DtdlObjectField {
     name: string;
     schema: DTDLSchema;
     ['@id']?: string;
@@ -1016,15 +928,7 @@ export class DTDLObjectField implements IDTDLObjectField {
     }
 }
 
-export interface IDTDLEnum {
-    ['@type']: DTDLSchemaType.Enum;
-    enumValues: DTDLEnumValue[];
-    valueSchema: 'integer' | 'string';
-    ['@id']?: string;
-    displayName?: string;
-    description?: string;
-}
-export class DTDLEnum {
+export class DTDLEnum implements DtdlEnum {
     readonly ['@type']: DTDLSchemaType.Enum;
     enumValues: DTDLEnumValue[];
     valueSchema: 'integer' | 'string';
@@ -1068,15 +972,7 @@ export class DTDLEnum {
     }
 }
 
-export interface IDTDLEnumValue {
-    ['@id']?: string;
-    name: string;
-    enumValue: number | string;
-    displayName?: string;
-    description?: string;
-    comment?: string;
-}
-export class DTDLEnumValue implements IDTDLEnumValue {
+export class DTDLEnumValue implements DtdlEnumValue {
     ['@id']?: string;
     name: string;
     enumValue: number | string;
