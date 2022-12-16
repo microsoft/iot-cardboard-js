@@ -11,6 +11,7 @@ import {
     DTDLRelationship,
     DTDLSchema,
     DTDLSchemaType,
+    DTDLSchemaTypes,
     DTDLType
 } from '../Classes/DTDL';
 import {
@@ -115,7 +116,9 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     );
 };
 
-export const isComplexSchemaType = (schema: DTDLSchema): boolean => {
+export const isComplexSchemaType = (
+    schema: DTDLSchema
+): schema is DTDLComplexSchema => {
     if (typeof schema === 'object') {
         return true;
     } else {
@@ -240,6 +243,43 @@ const addPropertyToObject = (schema: DtdlObject) => {
 // #endregion
 
 // #region Initialize schemas
+
+export const getDefaultSchemaByType = (type: DTDLSchemaTypes) => {
+    let schema: DTDLSchema;
+
+    // check for complex types
+    const complexTypes: DTDLSchemaTypes[] = [
+        DTDLSchemaType.Array,
+        DTDLSchemaType.Enum,
+        DTDLSchemaType.Map,
+        DTDLSchemaType.Object
+    ];
+    if (complexTypes.includes(type)) {
+        switch (type) {
+            case DTDLSchemaType.Array: {
+                schema = null;
+                break;
+            }
+            case DTDLSchemaType.Enum: {
+                schema = null;
+                break;
+            }
+            case DTDLSchemaType.Map: {
+                schema = null;
+                break;
+            }
+            case DTDLSchemaType.Object: {
+                schema = getDefaultObjectSchema();
+                break;
+            }
+        }
+    } else {
+        //
+    }
+
+    console.log('***getDefaultSchemaByType. {type, schema}', type, schema);
+    return schema;
+};
 
 const getDefaultObjectSchema = (): DTDLObject => {
     const object = new DTDLObject([]);

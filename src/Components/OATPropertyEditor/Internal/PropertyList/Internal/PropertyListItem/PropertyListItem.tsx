@@ -17,6 +17,7 @@ import { useBoolean } from '@fluentui/react-hooks';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
 import {
     addChildToSchema,
+    getDefaultSchemaByType,
     hasComplexSchemaType,
     hasEnumSchemaType,
     isComplexSchemaType
@@ -87,11 +88,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
     const onChangeSchemaType = useCallback(
         (args: { type: DTDLSchemaTypes }) => {
-            alert(`Not implemented. Change to type ${args.type}`);
-            // TODO: initialize schema and then send to parent
-            // onUpdateSchema(item.schema);
+            onUpdateSchema(getDefaultSchemaByType(args.type));
         },
-        []
+        [onUpdateSchema]
     );
 
     const onChangeName = useCallback(
