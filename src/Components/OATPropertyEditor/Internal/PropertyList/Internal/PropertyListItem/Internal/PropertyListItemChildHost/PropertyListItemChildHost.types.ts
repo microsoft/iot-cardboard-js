@@ -11,12 +11,16 @@ export interface IPropertyListItemChildBaseProps {
     level: number;
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
+    /** callback to create a copy of the selected item */
+    onDuplicate: () => void;
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;
     /** callback to move an item up or down in the list */
     onReorderItem: (direction: 'Up' | 'Down') => void;
     /** callback to update the name of an item */
     onUpdateName: IOnUpdateNameCallback;
+    /** callback to remove teh item from the parent */
+    onRemove: () => void;
 }
 
 export interface IPropertyListItemChildHostProps

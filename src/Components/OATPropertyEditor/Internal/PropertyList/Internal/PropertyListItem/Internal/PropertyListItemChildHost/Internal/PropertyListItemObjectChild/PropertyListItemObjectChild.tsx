@@ -23,9 +23,11 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
         isLastItem,
         item,
         level,
+        onDuplicate,
         onUpdateSchema,
         onReorderItem,
         onUpdateName,
+        onRemove,
         styles
     } = props;
 
@@ -52,9 +54,11 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
                 isLastItem={isLastItem}
                 item={item}
                 level={level + 1}
+                onCopy={onDuplicate}
                 onUpdateSchema={onUpdateSchema}
                 onUpdateName={onUpdateName}
                 onReorderItem={onReorderItem}
+                onRemove={onRemove}
             />
         </div>
     );

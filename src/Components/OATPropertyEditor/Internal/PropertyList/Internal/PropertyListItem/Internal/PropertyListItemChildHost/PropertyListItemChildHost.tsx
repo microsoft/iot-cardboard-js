@@ -30,9 +30,11 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     const {
         indexKey,
         level,
+        onDuplicate,
         onUpdateSchema,
         onReorderItem,
         onUpdateName,
+        onRemove,
         propertyItem,
         styles
     } = props;
@@ -94,6 +96,8 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 onUpdateSchema(schemaCopy);
                             }}
                             onReorderItem={onReorderItem}
+                            onDuplicate={onDuplicate}
+                            onRemove={onRemove}
                         />
                     )}
                 />
@@ -102,8 +106,10 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema.elementSchema}
                     level={level}
+                    onDuplicate={onDuplicate}
                     onUpdateSchema={onUpdateSchema}
                     onUpdateName={onUpdateName}
+                    onRemove={onRemove}
                     onReorderItem={onReorderItem}
                 />
             ) : hasMapSchemaType(propertyItem) ? (
@@ -111,8 +117,10 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     indexKey={`${indexKey}.0`}
                     item={propertyItem.schema}
                     level={level}
+                    onDuplicate={onDuplicate}
                     onUpdateSchema={onUpdateSchema}
                     onUpdateName={onUpdateName}
+                    onRemove={onRemove}
                     onReorderItem={onReorderItem}
                 />
             ) : hasObjectSchemaType(propertyItem) ? (
@@ -127,6 +135,7 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                             }
                             item={item}
                             level={level}
+                            onDuplicate={onDuplicate}
                             onUpdateSchema={(schema) => {
                                 // update the schema for the field
                                 const itemCopy = deepCopy(item);
@@ -151,6 +160,16 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // update the field
                                 fieldCopy.name = args.name;
                                 schemaCopy.fields[index] = fieldCopy;
+                                // dispatch the child update
+                                onUpdateSchema(schemaCopy);
+                            }}
+                            onRemove={() => {
+                                // decouple the schema object
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                // remove the field
+                                schemaCopy.fields.splice(index, 1);
                                 // dispatch the child update
                                 onUpdateSchema(schemaCopy);
                             }}

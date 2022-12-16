@@ -18,15 +18,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
     props
 ) => {
-    const {
-        indexKey,
-        item,
-        level,
-        onReorderItem,
-        onUpdateName,
-        onUpdateSchema,
-        styles
-    } = props;
+    const { indexKey, item, level, onUpdateSchema, styles } = props;
 
     // contexts
 
@@ -56,9 +48,11 @@ const PropertyListItemArrayChild: React.FC<IPropertyListItemArrayChildProps> = (
                     schema: item
                 }}
                 disableInput={true}
-                onReorderItem={onReorderItem}
-                onUpdateName={onUpdateName}
+                onCopy={undefined}
+                onReorderItem={undefined}
+                onUpdateName={undefined}
                 onUpdateSchema={onUpdateSchema}
+                onRemove={undefined}
                 isFirstItem={true}
                 isLastItem={true}
             />

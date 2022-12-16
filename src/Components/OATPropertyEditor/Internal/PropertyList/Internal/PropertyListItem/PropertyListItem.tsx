@@ -34,7 +34,6 @@ import { useTranslation } from 'react-i18next';
 import { getSchemaTypeMenuOptions } from '../../../../../../Models/Constants/OatConstants';
 
 const debugLogging = true;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -50,8 +49,10 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         isFirstItem,
         isLastItem,
         level,
+        onCopy,
         onUpdateName,
         onUpdateSchema,
+        onRemove,
         onReorderItem,
         styles
     } = props;
@@ -88,7 +89,14 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
     const onChangeSchemaType = useCallback(
         (args: { schema: DTDLSchemaTypes }) => {
-            onUpdateSchema(getDefaultSchemaByType(args.schema));
+            const newSchema = getDefaultSchemaByType(args.schema);
+            logDebugConsole(
+                'debug',
+                'Change schema to type {type, newSchema}',
+                args.schema,
+                newSchema
+            );
+            onUpdateSchema(newSchema);
         },
         [onUpdateSchema]
     );
@@ -107,13 +115,6 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         onReorderItem('Down');
     }, [onReorderItem]);
 
-    const onCopy = useCallback(() => {
-        alert('Not implemented');
-    }, []);
-    const onDelete = useCallback(() => {
-        alert('Not implemented');
-    }, []);
-
     // side effects
 
     // styles
@@ -128,6 +129,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         {
             key: 'change-property-type',
             text: 'Edit property type',
+            disabled: !onUpdateSchema,
             iconProps: { iconName: 'Edit' },
             subMenuProps: {
                 items: getSchemaTypeMenuOptions(onChangeSchemaType),
@@ -146,6 +148,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         {
             key: 'change-metadata-type',
             text: 'Edit metadata',
+            disabled: true,
             iconProps: { iconName: 'DocumentManagement' },
             onClick: () => {
                 //
@@ -168,14 +171,16 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         {
             key: 'duplicate',
             text: 'Duplicate',
+            disabled: !onCopy,
             iconProps: { iconName: 'Copy' },
             onClick: onCopy
         },
         {
             key: 'remove',
             text: 'Remove',
+            disabled: !onRemove,
             iconProps: { iconName: 'Delete' },
-            onClick: onDelete
+            onClick: onRemove
         }
     ];
 
@@ -261,6 +266,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                     indexKey={indexKey}
                     level={itemLevel}
                     propertyItem={item}
+                    onDuplicate={onCopy}
+                    onRemove={onRemove}
                     onUpdateName={onUpdateName}
                     onUpdateSchema={onUpdateSchema}
                     onReorderItem={onReorderItem}

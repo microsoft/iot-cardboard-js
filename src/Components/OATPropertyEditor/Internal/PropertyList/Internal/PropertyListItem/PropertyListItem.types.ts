@@ -28,9 +28,11 @@ export interface IPropertyListItemProps {
     /** disables the input field */
     disableInput?: boolean;
     /** callback to store an updated version of the schema */
-    onUpdateSchema: (schema: DTDLSchema) => void;
-    onReorderItem: (direction: 'Up' | 'Down') => void;
+    onCopy: () => void | undefined;
+    onUpdateSchema: (schema: DTDLSchema) => void | undefined;
+    onReorderItem: (direction: 'Up' | 'Down') => void | undefined;
     onUpdateName: IOnUpdateNameCallback;
+    onRemove: () => void | undefined;
     // onRenderNameField?: () => React.ReactNode;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.

@@ -50,7 +50,6 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // callbacks
 
     const getSchemaUpdateCallback = (property: DTDLProperty) => {
-        // console.log('***Createing callback', property);
         const onUpdateItem = (schema: DTDLSchema) => {
             logDebugConsole(
                 'info',
@@ -70,6 +69,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 if (originalPropertyIndex > -1) {
                     selectedItem.contents[originalPropertyIndex] = propertyCopy;
 
+                    // TODO: Add history tracking
                     // const updateModel = () => {
                     console.log('***Apply update');
                     oatPageDispatch({
@@ -163,6 +163,85 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return updateName;
     };
+    const getRemoveCallback = (property: DTDLProperty, index: number) => {
+        const onRemove = () => {
+            logDebugConsole(
+                'info',
+                'Removing item. {selectedItem, property, data}',
+                selectedItem,
+                property
+            );
+            if (isDTDLModel(selectedItem)) {
+                const selectedItemCopy = deepCopy(selectedItem);
+                selectedItemCopy.contents.splice(index, 1);
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_MODEL,
+                    payload: {
+                        model: selectedItemCopy
+                    }
+                });
+            } else if (isDTDLRelationshipReference(selectedItem)) {
+                const selectedItemCopy = deepCopy(selectedItem);
+                selectedItemCopy.properties.splice(index, 1);
+                // TODO: add to Undo stack
+                oatPageDispatch({
+                    type: OatPageContextActionType.UPDATE_REFERENCE,
+                    payload: {
+                        modelId: parentModelId,
+                        reference: selectedItem
+                    }
+                });
+            }
+        };
+
+        return onRemove;
+    };
+    const getCopyCallback = (_property: DTDLProperty) => {
+        // console.log('***Createing callback', property);
+        const onUpdateItem = () => {
+            // logDebugConsole(
+            //     'info',
+            //     'Removing item. {selectedItem, property, data}',
+            //     selectedItem,
+            //     property,
+            //     schema
+            // );
+            // const propertyCopy = deepCopy(property);
+            // propertyCopy.schema = deepCopy(schema);
+            // if (isDTDLModel(selectedItem)) {
+            //     const originalPropertyIndex = selectedItem.contents.findIndex(
+            //         (x) => x.name === property.name
+            //     );
+            //     if (originalPropertyIndex > -1) {
+            //         selectedItem.contents[originalPropertyIndex] = propertyCopy;
+            //         // TODO: Add history tracking
+            //         console.log('***Apply update');
+            //         oatPageDispatch({
+            //             type: OatPageContextActionType.UPDATE_MODEL,
+            //             payload: {
+            //                 model: selectedItem
+            //             }
+            //         });
+            //     } else {
+            //         console.warn(
+            //             `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
+            //             selectedItem
+            //         );
+            //     }
+            // } else if (isDTDLReference(selectedItem)) {
+            //     // TODO: add to Undo stack
+            //     oatPageDispatch({
+            //         type: OatPageContextActionType.UPDATE_REFERENCE,
+            //         payload: {
+            //             modelId: parentModelId,
+            //             reference: selectedItem
+            //         }
+            //     });
+            // }
+        };
+
+        return onUpdateItem;
+    };
 
     // side effects
 
@@ -189,6 +268,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                     isLastItem={index === properties.length - 1}
                                     indexKey={String(index)}
                                     item={property}
+                                    onCopy={getCopyCallback(property)}
                                     onUpdateSchema={getSchemaUpdateCallback(
                                         property
                                     )}
@@ -196,6 +276,10 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property
                                     )}
                                     onUpdateName={getUpdateNameCallback(
+                                        property,
+                                        index
+                                    )}
+                                    onRemove={getRemoveCallback(
                                         property,
                                         index
                                     )}
