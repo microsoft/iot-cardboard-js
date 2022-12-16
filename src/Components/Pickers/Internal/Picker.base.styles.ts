@@ -6,6 +6,7 @@ const classNames = {
     button: `${classPrefix}-button`
 };
 export const getStyles = (_props: IPickerBaseStyleProps): IPickerBaseStyles => {
+    const { theme } = _props;
     return {
         root: [classNames.root],
         button: [],
@@ -26,8 +27,7 @@ export const getStyles = (_props: IPickerBaseStyleProps): IPickerBaseStyles => {
                             borderStyle: 'solid',
                             borderWidth: 0,
                             ':hover': {
-                                backgroundColor:
-                                    'var(--cb-color-card-contrast)',
+                                backgroundColor: `${theme.semanticColors.bodyBackgroundHovered}`,
                                 '::before': {
                                     boxShadow: 'none'
                                 },
