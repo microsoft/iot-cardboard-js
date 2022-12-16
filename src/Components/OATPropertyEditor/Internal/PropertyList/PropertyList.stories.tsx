@@ -28,6 +28,7 @@ import {
 import { getTargetFromSelection } from '../../Utils';
 import { getSelectionIdentifier } from '../../../OATGraphViewer/Internal/Utils';
 import { userEvent, within } from '@storybook/testing-library';
+import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const wrapperStyle = { width: '500px', height: '1000px', padding: 8 };
 
@@ -93,7 +94,9 @@ const Template = (args: StoryArgs) => {
                 selection: selection
             }}
         >
-            <TemplateContents />
+            <CommandHistoryContextProvider>
+                <TemplateContents />
+            </CommandHistoryContextProvider>
         </OatPageContextProvider>
     );
 };

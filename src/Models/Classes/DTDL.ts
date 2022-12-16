@@ -702,8 +702,8 @@ export class DTDLArray implements DtdlArray {
     comment?: string;
 
     constructor(
-        id: string,
         elementSchema: DTDLSchema,
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -717,13 +717,13 @@ export class DTDLArray implements DtdlArray {
     }
 
     static getBlank() {
-        return new DTDLArray('', 'double', '', '', '');
+        return new DTDLArray('string', '', '', '', '');
     }
 
     static fromObject(obj: any) {
         return new DTDLArray(
-            obj['@id'],
             obj.elementSchema,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment
@@ -794,7 +794,7 @@ export class DTDLMapValue implements DtdlMapValue {
     }
 
     static getBlank() {
-        return new DTDLMapValue('', 'double', '', '', '', '');
+        return new DTDLMapValue('', 'string', '', '', '', '');
     }
 
     static fromObject(obj: any) {
@@ -827,9 +827,9 @@ export class DTDLMap implements DtdlMap {
     comment?: string;
 
     constructor(
-        id: string,
         mapKey: DtdlMapKey,
         mapValue: DtdlMapValue,
+        id?: string,
         displayName?: string,
         description?: string,
         comment?: string
@@ -845,9 +845,9 @@ export class DTDLMap implements DtdlMap {
 
     static getBlank() {
         return new DTDLMap(
-            '',
             DTDLMapKey.getBlank(),
             DTDLMapValue.getBlank(),
+            '',
             '',
             ''
         );
@@ -855,9 +855,9 @@ export class DTDLMap implements DtdlMap {
 
     static fromObject(obj: any) {
         return new DTDLMap(
-            obj['@id'],
             obj.mapKey,
             obj.mapValue,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment
@@ -894,8 +894,8 @@ export class DTDLObject implements DtdlObject {
 
     static fromObject(obj: any) {
         return new DTDLObject(
-            obj['@id'],
             obj.fields,
+            obj['@id'],
             obj.displayName,
             obj.description,
             obj.comment

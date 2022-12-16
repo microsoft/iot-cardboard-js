@@ -5,6 +5,8 @@ import {
     DTDLEnum,
     DTDLEnumValue,
     DTDLMap,
+    DTDLMapKey,
+    DTDLMapValue,
     DTDLObject,
     DTDLObjectField,
     DTDLProperty,
@@ -205,8 +207,6 @@ export const addChildToSchema = (args: IAddChildArgs) => {
         case DTDLSchemaType.Enum:
             addItemToEnum(parentSchema);
             break;
-        case DTDLSchemaType.Map:
-            break;
         case DTDLSchemaType.Object:
             addPropertyToObject(parentSchema);
             break;
@@ -219,13 +219,7 @@ const addItemToEnum = (schema: DtdlEnum) => {
         schema.enumValues = [];
     }
     const index = schema.enumValues.length + 1;
-    const defaultName = i18n.t(
-        'OATPropertyEditor.SchemaDefaults.defaultEnumNamePrefix',
-        { index: index }
-    );
-    const defaultValue =
-        schema.valueSchema === 'integer' ? index : String(index);
-    schema.enumValues.push(new DTDLEnumValue(defaultName, defaultValue));
+    schema.enumValues.push(getDefaultEnumValue(schema.valueSchema, index));
 };
 
 const addPropertyToObject = (schema: DtdlObject) => {
@@ -233,11 +227,7 @@ const addPropertyToObject = (schema: DtdlObject) => {
         schema.fields = [];
     }
     const index = schema.fields.length + 1;
-    const defaultName = i18n.t(
-        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyNamePrefix',
-        { index: index }
-    );
-    schema.fields.push(new DTDLObjectField(defaultName, 'string'));
+    schema.fields.push(getDefaultObjectField(index));
 };
 
 // #endregion
@@ -269,15 +259,15 @@ export const getDefaultSchemaByType = (
     if (complexTypes.includes(schemaType)) {
         switch (schemaType) {
             case DTDLSchemaType.Array: {
-                schema = null;
+                schema = getDefaultArraySchema();
                 break;
             }
             case DTDLSchemaType.Enum: {
-                schema = null;
+                schema = getDefaultEnumSchema();
                 break;
             }
             case DTDLSchemaType.Map: {
-                schema = null;
+                schema = getDefaultMapSchema();
                 break;
             }
             case DTDLSchemaType.Object: {
@@ -297,14 +287,58 @@ export const getDefaultSchemaByType = (
     return schema;
 };
 
-const getDefaultObjectSchema = (): DTDLObject => {
-    const fieldName = i18n.t(
-        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyNamePrefix',
+const getDefaultArraySchema = (): DTDLArray => {
+    const object = new DTDLArray('string');
+
+    return object;
+};
+
+const getDefaultEnumValue = (
+    valueSchema: 'string' | 'integer',
+    index: number
+) => {
+    const defaultName = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultEnumName',
         { index: 0 }
     );
-    const defaultField = new DTDLObjectField(fieldName, 'string');
-    const object = new DTDLObject([defaultField]);
+    const defaultValue = valueSchema === 'integer' ? index : String(index);
 
+    return new DTDLEnumValue(defaultName, defaultValue);
+};
+const getDefaultEnumSchema = (): DTDLEnum => {
+    const object = new DTDLEnum([getDefaultEnumValue('string', 0)], 'string');
+
+    return object;
+};
+
+const getDefaultMapKey = (index: number): DTDLMapKey => {
+    const name = i18n.t('OATPropertyEditor.SchemaDefaults.defaultMapKeyName', {
+        index: index
+    });
+    return new DTDLMapKey(name);
+};
+const getDefaultMapValue = (index: number): DTDLMapValue => {
+    const value = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultMapValueName',
+        { index: index }
+    );
+    return new DTDLMapValue(value, 'string');
+};
+const getDefaultMapSchema = (): DTDLMap => {
+    const object = new DTDLMap(getDefaultMapKey(0), getDefaultMapValue(0));
+
+    return object;
+};
+
+const getDefaultObjectField = (index: number): DTDLObjectField => {
+    const fieldName = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyName',
+        { index: index }
+    );
+    return new DTDLObjectField(fieldName, 'string');
+};
+const getDefaultObjectSchema = (): DTDLObject => {
+    const object = new DTDLObject([getDefaultObjectField(0)]);
     return object;
 };
 

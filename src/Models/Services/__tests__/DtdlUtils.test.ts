@@ -16,7 +16,7 @@ describe('DtdlUtils', () => {
     describe('isComplexSchemaProperty', () => {
         test('array is complex', () => {
             // ARRANGE
-            const property = new DTDLProperty('', new DTDLArray('', 'integer'));
+            const property = new DTDLProperty('', new DTDLArray('integer'));
 
             // ACT
             const result = isComplexSchemaProperty(property);
@@ -49,9 +49,9 @@ describe('DtdlUtils', () => {
             const property = new DTDLProperty(
                 '',
                 new DTDLMap(
-                    '',
                     new DTDLMapKey('key 1'),
-                    new DTDLMapValue('value 1', 'string')
+                    new DTDLMapValue('value 1', 'string'),
+                    ''
                 )
             );
 

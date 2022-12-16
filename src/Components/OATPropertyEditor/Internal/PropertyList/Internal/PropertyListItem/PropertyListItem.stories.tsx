@@ -190,9 +190,9 @@ ComplexArrayMaps.args = {
     item: getMockProperty({
         type: 'Array',
         itemSchema: new DTDLMap(
-            'child map 1',
             new DTDLMapKey('map key 1'),
-            new DTDLMapValue('map value 1', 'string')
+            new DTDLMapValue('map value 1', 'string'),
+            'child map 1'
         )
     })
 } as IPropertyListItemProps;

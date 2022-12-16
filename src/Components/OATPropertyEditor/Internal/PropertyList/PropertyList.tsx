@@ -51,7 +51,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // callbacks
 
     const getSchemaUpdateCallback = (property: DTDLProperty) => {
-        console.log('***Createing callback', property);
+        // console.log('***Createing callback', property);
         const onUpdateItem = (schema: DTDLSchema) => {
             logDebugConsole(
                 'info',
@@ -175,6 +175,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     // only models and Relationship references support properties
     const arePropertiesSupported =
         isDTDLModel(selectedItem) || isDTDLRelationshipReference(selectedItem);
+
+    logDebugConsole('debug', 'Render property list. {properties}', properties);
     return (
         <div className={classNames.root}>
             {arePropertiesSupported ? (

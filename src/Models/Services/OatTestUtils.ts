@@ -105,7 +105,7 @@ export const getMockProperty = (
                             ),
                             new DTDLObjectField(
                                 'my double array',
-                                new DTDLArray('', 'double')
+                                new DTDLArray('double')
                             ),
                             new DTDLObjectField(
                                 'enum 2',
@@ -179,7 +179,6 @@ export const getMockProperty = (
         let schema: DTDLSchema;
         if (args.valueType === 'Complex') {
             schema = new DTDLMap(
-                'test map 1',
                 new DTDLMapKey('map key 1'),
                 new DTDLMapValue(
                     'value 1',
@@ -193,13 +192,14 @@ export const getMockProperty = (
                         ),
                         new DTDLObjectField('prop 3', 'string')
                     ])
-                )
+                ),
+                'test map 1'
             );
         } else {
             schema = new DTDLMap(
-                'test map 1',
                 new DTDLMapKey('map key 1'),
-                new DTDLMapValue('value 1', 'string')
+                new DTDLMapValue('value 1', 'string'),
+                'test map 1'
             );
         }
         return new DTDLProperty(
@@ -210,8 +210,8 @@ export const getMockProperty = (
         return new DTDLProperty(
             'test ' + args.type + ' property name' + discriminator,
             new DTDLArray(
-                'test array 1',
                 args.itemSchema,
+                'test array 1',
                 'test array display name',
                 'test array description',
                 'test array comment'
