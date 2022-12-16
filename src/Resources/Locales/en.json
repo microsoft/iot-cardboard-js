@@ -1029,6 +1029,7 @@
         "data": "data",
         "date": "date",
         "dateTime": "dateTime",
+        "defaultPropertyName": "new property {{index}}",
         "delete": "Delete",
         "description": "Description",
         "descriptionPlaceholder": "A localizable description to display",
@@ -1110,11 +1111,12 @@
         "version": "Version",
         "viewTemplates": "View Templates",
         "writable": "Writable",
+        "SchemaDefaults": {
+            "defaultEnumNamePrefix": "enum_key_{{index}}",
+            "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
+        },
         "PropertyListItem": {
             "arrayItemLabel": "items",
-            "defaultEnumNamePrefix": "enum_key_{{index}}",
-            "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-            "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
             "enumKeyPlaceholder": "Enter key",
             "enumValuePlaceholder": "Enter value"
         }

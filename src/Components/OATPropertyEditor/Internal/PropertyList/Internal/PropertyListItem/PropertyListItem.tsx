@@ -87,8 +87,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         onUpdateSchema(addChildToSchema({ parentSchema: item.schema }));
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
     const onChangeSchemaType = useCallback(
-        (args: { type: DTDLSchemaTypes }) => {
-            onUpdateSchema(getDefaultSchemaByType(args.type));
+        (args: { schema: DTDLSchemaTypes }) => {
+            onUpdateSchema(getDefaultSchemaByType(args.schema));
         },
         [onUpdateSchema]
     );

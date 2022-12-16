@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { Stack, Pivot, PivotItem, Label } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -23,14 +23,18 @@ import { IEditorProps } from './Editor.types';
 import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
-import { getDebugLogger } from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { DTDLProperty, DTDLSchemaTypes } from '../../Models/Classes/DTDL';
 import {
+    getDefaultProperty,
     isDTDLModel,
     isDTDLProperty,
     isDTDLReference
 } from '../../Models/Services/DtdlUtils';
+import { useCommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { DtdlProperty } from '../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -48,7 +52,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageState } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { execute } = useCommandHistoryContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -125,6 +130,70 @@ const Editor: React.FC<IEditorProps> = (props) => {
         }
     };
 
+    const onAddType = useCallback(
+        (data: { schema: DTDLSchemaTypes }) => {
+            logDebugConsole(
+                'info',
+                'Updating schema with data. {selectedItem, property, data}',
+                selectedItem,
+                data
+            );
+
+            const selectedItemCopy = deepCopy(selectedItem);
+            (selectedItemCopy[propertiesKeyName] as DtdlProperty[]).push(
+                getDefaultProperty(
+                    data.schema,
+                    selectedItemCopy[propertiesKeyName].length
+                )
+            );
+
+            if (isDTDLModel(selectedItemCopy)) {
+                const updateModel = () => {
+                    console.log('***Apply update');
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_MODEL,
+                        payload: {
+                            model: selectedItemCopy
+                        }
+                    });
+                };
+
+                const undoUpdate = () => {
+                    console.log(
+                        '***Undo update',
+                        oatPageState.currentOntologyModels
+                    );
+                    oatPageDispatch({
+                        type: OatPageContextActionType.GENERAL_UNDO,
+                        payload: {
+                            models: oatPageState.currentOntologyModels,
+                            positions:
+                                oatPageState.currentOntologyModelPositions,
+                            selection: oatPageState.selection
+                        }
+                    });
+                };
+
+                execute(updateModel, undoUpdate);
+            } else if (isDTDLReference(selectedItem)) {
+                // TODO: add to Undo stack
+                // oatPageDispatch({
+                //     type: OatPageContextActionType.UPDATE_REFERENCE,
+                //     payload: {
+                //         modelId: parentModelId,
+                //         reference: selectedItem
+                //     }
+                // });
+            }
+        },
+        [
+            oatPageState.currentOntologyModelPositions,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection,
+            selectedItem
+        ]
+    );
+
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
     const useNewList = true;
     return (
@@ -165,12 +234,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                         }`}</Label>
                                         {isSupportedModelType && (
                                             <PropertyTypePicker
-                                                onSelect={(item) =>
-                                                    alert(
-                                                        'To be implemented. Selected ' +
-                                                            item.type
-                                                    )
-                                                }
+                                                onSelect={onAddType}
                                             />
                                         )}
                                         {/* <ActionButton

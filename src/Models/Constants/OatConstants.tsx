@@ -16,7 +16,7 @@ import i18n from '../../i18n';
 import PropertyIcon from '../../Components/OATPropertyEditor/Internal/PropertyList/Internal/PropertyListItem/Internal/PropertyIcon/PropertyIcon';
 
 export const getSchemaTypeMenuOptions = (
-    callback: (args: { type: DTDLSchemaTypes }) => void
+    callback: (args: { schema: DTDLSchemaTypes }) => void
 ) => {
     const menuOptions: IContextualMenuItem[] = [];
 
@@ -28,7 +28,7 @@ export const getSchemaTypeMenuOptions = (
         const item: IContextualMenuItem = {
             text: i18n.t(x.title),
             key: x.schema,
-            onClick: () => callback({ type: x.schema }),
+            onClick: () => callback({ schema: x.schema }),
             iconProps: { iconName: x.schema }, // needed to trigger icon render, but value not used
             onRenderIcon: () => {
                 return <PropertyIcon schema={x.schema as DTDLSchema} />;

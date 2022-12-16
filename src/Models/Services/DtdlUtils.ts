@@ -220,7 +220,7 @@ const addItemToEnum = (schema: DtdlEnum) => {
     }
     const index = schema.enumValues.length + 1;
     const defaultName = i18n.t(
-        'OATPropertyEditor.PropertyListItem.defaultEnumNamePrefix',
+        'OATPropertyEditor.SchemaDefaults.defaultEnumNamePrefix',
         { index: index }
     );
     const defaultValue =
@@ -234,7 +234,7 @@ const addPropertyToObject = (schema: DtdlObject) => {
     }
     const index = schema.fields.length + 1;
     const defaultName = i18n.t(
-        'OATPropertyEditor.PropertyListItem.defaultObjectPropertyNamePrefix',
+        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyNamePrefix',
         { index: index }
     );
     schema.fields.push(new DTDLObjectField(defaultName, 'string'));
@@ -244,7 +244,19 @@ const addPropertyToObject = (schema: DtdlObject) => {
 
 // #region Initialize schemas
 
-export const getDefaultSchemaByType = (type: DTDLSchemaTypes) => {
+export const getDefaultProperty = (
+    schemaType: DTDLSchemaTypes,
+    index: number
+): DTDLProperty => {
+    const name = i18n.t('OATPropertyEditor.defaultPropertyName', {
+        index: index
+    });
+    return new DTDLProperty(name, getDefaultSchemaByType(schemaType));
+};
+
+export const getDefaultSchemaByType = (
+    schemaType: DTDLSchemaTypes
+): DTDLSchema => {
     let schema: DTDLSchema;
 
     // check for complex types
@@ -254,8 +266,8 @@ export const getDefaultSchemaByType = (type: DTDLSchemaTypes) => {
         DTDLSchemaType.Map,
         DTDLSchemaType.Object
     ];
-    if (complexTypes.includes(type)) {
-        switch (type) {
+    if (complexTypes.includes(schemaType)) {
+        switch (schemaType) {
             case DTDLSchemaType.Array: {
                 schema = null;
                 break;
@@ -277,12 +289,21 @@ export const getDefaultSchemaByType = (type: DTDLSchemaTypes) => {
         //
     }
 
-    console.log('***getDefaultSchemaByType. {type, schema}', type, schema);
+    console.log(
+        '***getDefaultSchemaByType. {type, schema}',
+        schemaType,
+        schema
+    );
     return schema;
 };
 
 const getDefaultObjectSchema = (): DTDLObject => {
-    const object = new DTDLObject([]);
+    const fieldName = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyNamePrefix',
+        { index: 0 }
+    );
+    const defaultField = new DTDLObjectField(fieldName, 'string');
+    const object = new DTDLObject([defaultField]);
 
     return object;
 };
