@@ -81,7 +81,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                         });
                     };
 
-                    const undoAddition = () => {
+                    const undoUpdate = () => {
                         console.log(
                             '***Undo update',
                             oatPageState.currentOntologyModels
@@ -97,7 +97,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                         });
                     };
 
-                    execute(updateModel, undoAddition);
+                    execute(updateModel, undoUpdate);
                 } else {
                     console.warn(
                         `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
