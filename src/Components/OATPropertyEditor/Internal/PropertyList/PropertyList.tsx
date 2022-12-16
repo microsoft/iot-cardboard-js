@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     IPropertyListProps,
     IPropertyListStyleProps,
@@ -27,6 +27,7 @@ import {
     IOnUpdateNameCallback,
     IOnUpdateNameCallbackArgs
 } from './Internal/PropertyListItem/PropertyListItem.types';
+import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -49,6 +50,32 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
     // callbacks
 
+    const updateModel = useCallback(
+        (model: DtdlInterface) => {
+            // TODO: Add history tracking
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_MODEL,
+                payload: {
+                    model: model
+                }
+            });
+        },
+        [oatPageDispatch]
+    );
+    const updateRelationship = useCallback(
+        (reference: DtdlReference) => {
+            // TODO: Add history tracking
+            oatPageDispatch({
+                type: OatPageContextActionType.UPDATE_REFERENCE,
+                payload: {
+                    modelId: parentModelId,
+                    reference: reference
+                }
+            });
+        },
+        [oatPageDispatch, parentModelId]
+    );
+
     const getSchemaUpdateCallback = (property: DTDLProperty) => {
         const onUpdateItem = (schema: DTDLSchema) => {
             logDebugConsole(
@@ -69,34 +96,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 if (originalPropertyIndex > -1) {
                     selectedItem.contents[originalPropertyIndex] = propertyCopy;
 
-                    // TODO: Add history tracking
-                    // const updateModel = () => {
-                    console.log('***Apply update');
-                    oatPageDispatch({
-                        type: OatPageContextActionType.UPDATE_MODEL,
-                        payload: {
-                            model: selectedItem
-                        }
-                    });
-                    // };
-
-                    // const undoUpdate = () => {
-                    //     console.log(
-                    //         '***Undo update',
-                    //         oatPageState.currentOntologyModels
-                    //     );
-                    //     oatPageDispatch({
-                    //         type: OatPageContextActionType.GENERAL_UNDO,
-                    //         payload: {
-                    //             models: oatPageState.currentOntologyModels,
-                    //             positions:
-                    //                 oatPageState.currentOntologyModelPositions,
-                    //             selection: oatPageState.selection
-                    //         }
-                    //     });
-                    // };
-
-                    // execute(updateModel, undoUpdate);
+                    updateModel(selectedItem);
                 } else {
                     console.warn(
                         `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
@@ -104,14 +104,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                     );
                 }
             } else if (isDTDLReference(selectedItem)) {
-                // TODO: add to Undo stack
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_REFERENCE,
-                    payload: {
-                        modelId: parentModelId,
-                        reference: selectedItem
-                    }
-                });
+                alert('not implemented. Update relationship Name: ' + schema);
+                // updateRelationship(selectedItem);
             }
         };
 
@@ -119,7 +113,11 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     };
     const getReorderItemCallback = (_property: DTDLProperty) => {
         const onReorder = () => {
-            alert('not implemented');
+            if (isDTDLModel(selectedItem)) {
+                deepCopy;
+            } else if (isDTDLRelationshipReference(selectedItem)) {
+                //
+            }
         };
 
         return onReorder;
@@ -148,13 +146,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 // // update for relationships (NOTE: components don't have properties)
                 // const updatedProperty = parentEntity.properties[propertyIndex];
                 // updatedProperty.name = value;
-                // oatPageDispatch({
-                //     type: OatPageContextActionType.UPDATE_REFERENCE,
-                //     payload: {
-                //         modelId: parentEntity['@id'],
-                //         reference: updatedProperty
-                //     }
-                // });
+                // updateRelationship(updatedProperty);
                 alert(
                     'not implemented. Update relationship Name: ' + args.name
                 );
@@ -174,70 +166,20 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             if (isDTDLModel(selectedItem)) {
                 const selectedItemCopy = deepCopy(selectedItem);
                 selectedItemCopy.contents.splice(index, 1);
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_MODEL,
-                    payload: {
-                        model: selectedItemCopy
-                    }
-                });
+                updateModel(selectedItemCopy);
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 const selectedItemCopy = deepCopy(selectedItem);
                 selectedItemCopy.properties.splice(index, 1);
                 // TODO: add to Undo stack
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_REFERENCE,
-                    payload: {
-                        modelId: parentModelId,
-                        reference: selectedItem
-                    }
-                });
+                updateRelationship(selectedItem);
             }
         };
 
         return onRemove;
     };
     const getCopyCallback = (_property: DTDLProperty) => {
-        // console.log('***Createing callback', property);
         const onUpdateItem = () => {
-            // logDebugConsole(
-            //     'info',
-            //     'Removing item. {selectedItem, property, data}',
-            //     selectedItem,
-            //     property,
-            //     schema
-            // );
-            // const propertyCopy = deepCopy(property);
-            // propertyCopy.schema = deepCopy(schema);
-            // if (isDTDLModel(selectedItem)) {
-            //     const originalPropertyIndex = selectedItem.contents.findIndex(
-            //         (x) => x.name === property.name
-            //     );
-            //     if (originalPropertyIndex > -1) {
-            //         selectedItem.contents[originalPropertyIndex] = propertyCopy;
-            //         // TODO: Add history tracking
-            //         console.log('***Apply update');
-            //         oatPageDispatch({
-            //             type: OatPageContextActionType.UPDATE_MODEL,
-            //             payload: {
-            //                 model: selectedItem
-            //             }
-            //         });
-            //     } else {
-            //         console.warn(
-            //             `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
-            //             selectedItem
-            //         );
-            //     }
-            // } else if (isDTDLReference(selectedItem)) {
-            //     // TODO: add to Undo stack
-            //     oatPageDispatch({
-            //         type: OatPageContextActionType.UPDATE_REFERENCE,
-            //         payload: {
-            //             modelId: parentModelId,
-            //             reference: selectedItem
-            //         }
-            //     });
-            // }
+            alert('not implemented');
         };
 
         return onUpdateItem;

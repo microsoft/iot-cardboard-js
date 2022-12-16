@@ -27,6 +27,7 @@ import {
     DtdlEnum,
     DtdlObject
 } from '../Constants';
+import { isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -249,14 +250,7 @@ export const getDefaultSchemaByType = (
 ): DTDLSchema => {
     let schema: DTDLSchema;
 
-    // check for complex types
-    const complexTypes: DTDLSchemaTypes[] = [
-        DTDLSchemaType.Array,
-        DTDLSchemaType.Enum,
-        DTDLSchemaType.Map,
-        DTDLSchemaType.Object
-    ];
-    if (complexTypes.includes(schemaType)) {
+    if (isValueInEnum(DTDLSchemaType, schemaType)) {
         switch (schemaType) {
             case DTDLSchemaType.Array: {
                 schema = getDefaultArraySchema();
@@ -276,14 +270,9 @@ export const getDefaultSchemaByType = (
             }
         }
     } else {
-        //
+        schema = schemaType as DTDLSchema;
     }
 
-    console.log(
-        '***getDefaultSchemaByType. {type, schema}',
-        schemaType,
-        schema
-    );
     return schema;
 };
 

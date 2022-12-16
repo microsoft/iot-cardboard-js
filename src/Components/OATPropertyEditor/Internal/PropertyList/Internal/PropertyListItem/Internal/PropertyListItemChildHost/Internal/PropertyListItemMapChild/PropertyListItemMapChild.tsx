@@ -18,7 +18,7 @@ const getClassNames = classNamesFunction<
 const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
     props
 ) => {
-    const { item, indexKey, level, styles, onUpdateSchema } = props;
+    const { item, indexKey, level, styles } = props;
 
     // contexts
 

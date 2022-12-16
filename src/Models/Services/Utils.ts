@@ -66,6 +66,14 @@ export const validate3DConfigWithSchema = (
     }
 };
 
+/**
+ * checks whether the provided value is one of the values in the provided enum type
+ * @example isValueInEnum(DTDLSchemaType, schemaType)
+ */
+export const isValueInEnum = (enumType: any, value: any) => {
+    return !!(<any>Object).values(enumType).includes(value);
+};
+
 export const createGUID = (isWithDashes = false) => {
     let id: string = v4();
     if (!isWithDashes) {

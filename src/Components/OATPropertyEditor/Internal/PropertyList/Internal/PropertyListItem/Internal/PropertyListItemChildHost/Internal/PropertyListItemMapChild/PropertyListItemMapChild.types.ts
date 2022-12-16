@@ -4,7 +4,14 @@ import { IExtendedTheme } from '../../../../../../../../../../Theming/Theme.type
 import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost.types';
 
 export interface IPropertyListItemMapChildProps
-    extends IPropertyListItemChildBaseProps {
+    extends Omit<
+        IPropertyListItemChildBaseProps,
+        | 'onUpdateSchema'
+        | 'onDuplicate'
+        | 'onReorderItem'
+        | 'onUpdateName'
+        | 'onRemove'
+    > {
     item: DTDLMap;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
