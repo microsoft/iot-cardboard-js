@@ -27,7 +27,6 @@ import {
     IOnUpdateNameCallback,
     IOnUpdateNameCallbackArgs
 } from './Internal/PropertyListItem/PropertyListItem.types';
-import { useCommandHistoryContext } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -41,8 +40,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
     const { parentModelId, properties, selectedItem, styles } = props;
 
     // contexts
-    const { oatPageDispatch, oatPageState } = useOatPageContext();
-    const { execute } = useCommandHistoryContext();
+    const { oatPageDispatch } = useOatPageContext();
+    // const { execute } = useCommandHistoryContext();
 
     // state
 
@@ -71,33 +70,33 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 if (originalPropertyIndex > -1) {
                     selectedItem.contents[originalPropertyIndex] = propertyCopy;
 
-                    const updateModel = () => {
-                        console.log('***Apply update');
-                        oatPageDispatch({
-                            type: OatPageContextActionType.UPDATE_MODEL,
-                            payload: {
-                                model: selectedItem
-                            }
-                        });
-                    };
+                    // const updateModel = () => {
+                    console.log('***Apply update');
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_MODEL,
+                        payload: {
+                            model: selectedItem
+                        }
+                    });
+                    // };
 
-                    const undoUpdate = () => {
-                        console.log(
-                            '***Undo update',
-                            oatPageState.currentOntologyModels
-                        );
-                        oatPageDispatch({
-                            type: OatPageContextActionType.GENERAL_UNDO,
-                            payload: {
-                                models: oatPageState.currentOntologyModels,
-                                positions:
-                                    oatPageState.currentOntologyModelPositions,
-                                selection: oatPageState.selection
-                            }
-                        });
-                    };
+                    // const undoUpdate = () => {
+                    //     console.log(
+                    //         '***Undo update',
+                    //         oatPageState.currentOntologyModels
+                    //     );
+                    //     oatPageDispatch({
+                    //         type: OatPageContextActionType.GENERAL_UNDO,
+                    //         payload: {
+                    //             models: oatPageState.currentOntologyModels,
+                    //             positions:
+                    //                 oatPageState.currentOntologyModelPositions,
+                    //             selection: oatPageState.selection
+                    //         }
+                    //     });
+                    // };
 
-                    execute(updateModel, undoUpdate);
+                    // execute(updateModel, undoUpdate);
                 } else {
                     console.warn(
                         `Unable to find property with name (${property.name}) to update on the selected model. {selectedModel}`,
