@@ -1216,8 +1216,11 @@
     },
     "defaultPropertyName": "новое свойство {{index}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{индекс}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{индекс}}"
+      "defaultEnumName": "enum_key_{{индекс}}",
+      "defaultMapName": "enum_key_{{индекс}}",
+      "defaultObjectPropertyName": "field_name_{{индекс}}",
+      "defaultMapKeyName": "map_key_{{индекс}}",
+      "defaultMapValueName": "map_value_{{индекс}}"
     }
   },
   "ErrorHandlingWrapper": {

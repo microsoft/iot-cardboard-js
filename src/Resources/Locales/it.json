@@ -1216,8 +1216,11 @@
     },
     "defaultPropertyName": "Nuova proprietà {{index}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{indice}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{indice}}"
+      "defaultEnumName": "enum_key_{{indice}}",
+      "defaultMapName": "enum_key_{{indice}}",
+      "defaultObjectPropertyName": "field_name_{{indice}}",
+      "defaultMapKeyName": "map_key_{{indice}}",
+      "defaultMapValueName": "map_value_{{indice}}"
     }
   },
   "ErrorHandlingWrapper": {

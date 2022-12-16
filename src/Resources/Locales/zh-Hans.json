@@ -1216,8 +1216,11 @@
     },
     "defaultPropertyName": "新属性 {{索引}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{索引}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{索引}}"
+      "defaultEnumName": "enum_key_{{索引}}",
+      "defaultMapName": "enum_key_{{索引}}",
+      "defaultObjectPropertyName": "field_name_{{索引}}",
+      "defaultMapKeyName": "map_key_{{索引}}",
+      "defaultMapValueName": "map_value_{{索引}}"
     }
   },
   "ErrorHandlingWrapper": {

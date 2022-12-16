@@ -1096,8 +1096,11 @@
     },
     "defaultPropertyName": "nová vlastnost {{index}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

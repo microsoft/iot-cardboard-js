@@ -1216,8 +1216,11 @@
     },
     "defaultPropertyName": "新しいプロパティ {{インデックス}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{インデックス}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{インデックス}}"
+      "defaultEnumName": "enum_key_{{インデックス}}",
+      "defaultMapName": "enum_key_{{インデックス}}",
+      "defaultObjectPropertyName": "field_name_{{インデックス}}",
+      "defaultMapKeyName": "map_key_{{インデックス}}",
+      "defaultMapValueName": "map_value_{{インデックス}}"
     }
   },
   "ErrorHandlingWrapper": {

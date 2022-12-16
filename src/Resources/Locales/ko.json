@@ -1216,8 +1216,11 @@
     },
     "defaultPropertyName": "새 속성 {{인덱스}}",
     "SchemaDefaults": {
-      "defaultEnumNamePrefix": "enum_key_{{색인}}",
-      "defaultObjectPropertyNamePrefix": "field_name_{{색인}}"
+      "defaultEnumName": "enum_key_{{색인}}",
+      "defaultMapName": "enum_key_{{색인}}",
+      "defaultObjectPropertyName": "field_name_{{색인}}",
+      "defaultMapKeyName": "map_key_{{색인}}",
+      "defaultMapValueName": "map_value_{{색인}}"
     }
   },
   "ErrorHandlingWrapper": {
