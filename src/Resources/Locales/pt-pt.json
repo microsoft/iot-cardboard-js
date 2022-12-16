@@ -1211,11 +1211,13 @@
     "expand": "Expandir",
     "PropertyListItem": {
       "arrayItemLabel": "itens",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Introduzir tecla",
       "enumValuePlaceholder": "Valor de insira"
+    },
+    "defaultPropertyName": "nova propriedade {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

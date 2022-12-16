@@ -1211,11 +1211,13 @@
     "expand": "Rozszerzać",
     "PropertyListItem": {
       "arrayItemLabel": "Elementy",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Wprowadź klucz",
       "enumValuePlaceholder": "Wprowadź wartość"
+    },
+    "defaultPropertyName": "nowa właściwość {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

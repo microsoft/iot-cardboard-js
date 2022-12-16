@@ -1211,11 +1211,13 @@
     "expand": "Расширять",
     "PropertyListItem": {
       "arrayItemLabel": "Элементы",
-      "defaultEnumNamePrefix": "enum_key_{{индекс}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{индекс}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{индекс}}",
       "enumKeyPlaceholder": "Введите ключ",
       "enumValuePlaceholder": "Введите значение"
+    },
+    "defaultPropertyName": "новое свойство {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{индекс}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{индекс}}"
     }
   },
   "ErrorHandlingWrapper": {

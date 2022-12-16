@@ -1211,11 +1211,13 @@
     "expand": "Kibővít",
     "PropertyListItem": {
       "arrayItemLabel": "Elemek",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Enter billentyű",
       "enumValuePlaceholder": "Érték megadása"
+    },
+    "defaultPropertyName": "új tulajdonság {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

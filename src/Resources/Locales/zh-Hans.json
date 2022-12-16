@@ -1211,11 +1211,13 @@
     "expand": "扩大",
     "PropertyListItem": {
       "arrayItemLabel": "项目",
-      "defaultEnumNamePrefix": "enum_key_{{索引}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{索引}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{索引}}",
       "enumKeyPlaceholder": "回车键",
       "enumValuePlaceholder": "输入值"
+    },
+    "defaultPropertyName": "新属性 {{索引}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{索引}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{索引}}"
     }
   },
   "ErrorHandlingWrapper": {

@@ -1211,11 +1211,13 @@
     "expand": "Expandera",
     "PropertyListItem": {
       "arrayItemLabel": "Objekt",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Ange nyckel",
       "enumValuePlaceholder": "Ange värde"
+    },
+    "defaultPropertyName": "ny egenskap {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

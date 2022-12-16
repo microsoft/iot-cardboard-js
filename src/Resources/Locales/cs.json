@@ -1091,11 +1091,13 @@
     "expand": "Expandovat",
     "PropertyListItem": {
       "arrayItemLabel": "položky",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Klávesa Enter",
       "enumValuePlaceholder": "Zadejte hodnotu"
+    },
+    "defaultPropertyName": "nová vlastnost {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {

@@ -1211,11 +1211,13 @@
     "expand": "Expandir",
     "PropertyListItem": {
       "arrayItemLabel": "Itens",
-      "defaultEnumNamePrefix": "enum_key_{{índice}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{índice}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{índice}}",
       "enumKeyPlaceholder": "Digite a chave",
       "enumValuePlaceholder": "Insira o valor"
+    },
+    "defaultPropertyName": "nova propriedade {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{índice}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{índice}}"
     }
   },
   "ErrorHandlingWrapper": {

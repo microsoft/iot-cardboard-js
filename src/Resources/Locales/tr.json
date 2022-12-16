@@ -1211,11 +1211,13 @@
     "expand": "Genişletmek",
     "PropertyListItem": {
       "arrayItemLabel": "eşya",
-      "defaultEnumNamePrefix": "enum_key_{{index}}",
-      "defaultObjectPropertyNamePrefix": "property_name_{{index}}",
-      "defaultObjectPropertyValuePrefix": "property_value_{{index}}",
       "enumKeyPlaceholder": "Enter tuşu",
       "enumValuePlaceholder": "Değer girin"
+    },
+    "defaultPropertyName": "new property {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumNamePrefix": "enum_key_{{index}}",
+      "defaultObjectPropertyNamePrefix": "field_name_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
