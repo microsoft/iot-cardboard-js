@@ -25,13 +25,18 @@ export const getStyles = (
         ],
         header: [
             classNames.header,
-            { fontWeight: FontWeights.bold, fontSize: FontSizes.size14 }
+            {
+                fontWeight: FontWeights.bold,
+                fontSize: FontSizes.size16,
+                marginTop: '0 !important'
+            }
         ],
         description: [
             classNames.description,
             {
                 color: props.theme.palette.neutralSecondary,
-                fontSize: FontSizes.medium
+                fontSize: FontSizes.medium,
+                marginTop: '0 !important'
             }
         ],
         twinPropertyList: [classNames.twinPropertyList, { flexGrow: 1 }],
