@@ -948,5 +948,5 @@ export interface IDataHistoryTimeSeriesTwin {
     chartProps?: {
         color?: string;
         isTwinPropertyTypeCastedToNumber?: boolean;
-    }
+    };
 }
