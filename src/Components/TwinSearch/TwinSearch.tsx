@@ -33,7 +33,7 @@ const TwinSearch: React.FC<ITwinSearchProps> = (props) => {
         dropdownDescription,
         dropdownLabel,
         dropdownLabelIconName,
-        handleSelectTwinId,
+        onSelectTwinId,
         initialSelectedValue,
         isInspectorDisabled,
         twinId,
@@ -59,10 +59,10 @@ const TwinSearch: React.FC<ITwinSearchProps> = (props) => {
         (selectedTwinId: string) => {
             if (propertyDropdownRef.current && selectedTwinId.length) {
                 propertyDropdownRef.current.setValue(selectedTwinId);
-                handleSelectTwinId(selectedTwinId);
+                onSelectTwinId(selectedTwinId);
             }
         },
-        [handleSelectTwinId]
+        [onSelectTwinId]
     );
 
     // side effects
@@ -98,7 +98,7 @@ const TwinSearch: React.FC<ITwinSearchProps> = (props) => {
                     }}
                     initialSelectedValue={initialSelectedValue}
                     searchPropertyName={DTID_PROPERTY_NAME}
-                    onChange={handleSelectTwinId}
+                    onChange={onSelectTwinId}
                     styles={
                         classNames.subComponentStyles.twinPropertySearchDropdown
                     }

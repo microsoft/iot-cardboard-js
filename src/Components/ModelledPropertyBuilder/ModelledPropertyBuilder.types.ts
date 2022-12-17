@@ -108,6 +108,9 @@ export interface ModelledPropertyBuilderProps {
      * Exlcude dtid from property picker dropdown
      */
     excludeDtid?: boolean;
+
+    /** if the component is disabled for interaction */
+    isDisabled?: boolean;
 }
 
 export interface IModelledProperty {

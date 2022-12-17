@@ -1293,5 +1293,22 @@
     },
     "colorPills": {
         "unlabeled": "Unlabeled"
+    },
+    "dataHistoryExplorer": {
+        "title": "Data history explorer",
+        "builder": {
+            "title": "Twin properties",
+            "description": "To compare historized properties within this twin or with other twins, add them below.",
+            "timeSeriesTwin": {
+                "edit": "Edit time series twin",
+                "remove": "Remove time series twin",
+                "property": "Property",
+                "propertyTypeCastLabel": "Cast property type to number"
+            }
+        },
+        "viewer": {
+            "chart": "Chart",
+            "table": "Table"
+        }
     }
 }

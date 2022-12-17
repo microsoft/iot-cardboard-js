@@ -26,7 +26,7 @@ const Template: TwinSearchStory = (args) => {
         <TwinSearch
             {...args}
             adapter={new MockAdapter()}
-            handleSelectTwinId={handleSelectTwinId}
+            onSelectTwinId={handleSelectTwinId}
             twinId={selectedTwinId}
             isInspectorDisabled={!selectedTwinId}
         />

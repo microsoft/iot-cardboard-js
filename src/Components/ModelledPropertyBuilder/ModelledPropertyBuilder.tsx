@@ -60,6 +60,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
     allowedPropertyValueTypes = defaultAllowedPropertyValueTypes,
     onChange,
     required = false,
+    isDisabled = false,
     enableNoneDropdownOption = false,
     dropdownTestId = 'cb-modelled-property-dropdown-test-id',
     intellisensePlaceholder,
@@ -304,6 +305,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     selectedKey={propertyExpression.expression}
                     dropdownTestId={dropdownTestId}
                     isLoading={isLoading}
+                    isDisabled={isDisabled}
                 />
             )}
             {internalMode === 'INTELLISENSE' && (
@@ -314,6 +316,7 @@ const ModelledPropertyBuilder: React.FC<ModelledPropertyBuilderProps> = ({
                     aliasNames={aliasNames}
                     getPropertyNames={getIntellisenseProperty}
                     isLoading={isLoading}
+                    isDisabled={isDisabled}
                 />
             )}
             {description && (

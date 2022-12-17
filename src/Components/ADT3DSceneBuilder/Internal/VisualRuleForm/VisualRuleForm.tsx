@@ -22,7 +22,10 @@ import React, {
     useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getDefaultVisualRule } from '../../../../Models/Classes/3DVConfig';
+import {
+    getDefaultVisualRule,
+    isNumericType
+} from '../../../../Models/Classes/3DVConfig';
 import { DTDLPropertyIconographyMap } from '../../../../Models/Constants/Constants';
 import { useBehaviorFormContext } from '../../../../Models/Context/BehaviorFormContext/BehaviorFormContext';
 import {
@@ -60,7 +63,6 @@ import {
     IVisualRuleFormStyles,
     IVisualRuleFormStylesProps
 } from './VisualRuleForm.types';
-import { isNumericType } from './VisualRuleFormUtility';
 
 const getClassNames = classNamesFunction<
     IVisualRuleFormStylesProps,

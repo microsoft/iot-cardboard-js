@@ -133,7 +133,7 @@ const ElementTwinAliasForm: React.FC = () => {
                     adapter={adapter}
                     dropdownLabel={t('twinId')}
                     dropdownLabelIconName={'Shapes'}
-                    handleSelectTwinId={handleTwinSelect}
+                    onSelectTwinId={handleTwinSelect}
                     initialSelectedValue={formData.twinId}
                     isInspectorDisabled={!formData.twinId}
                     twinId={formData.twinId}
