@@ -71,12 +71,17 @@ export const ADXData = (
                 properties={twinProperties}
                 adapter={
                     new ADXAdapter(
-                        authenticationParameters.adx.clusterUrl,
-                        authenticationParameters.adx.databaseName,
-                        authenticationParameters.adx.tableName,
                         new MsalAuthService(
                             authenticationParameters.adx.aadParameters
-                        )
+                        ),
+                        {
+                            kustoClusterUrl:
+                                authenticationParameters.adx.clusterUrl,
+                            kustoDatabaseName:
+                                authenticationParameters.adx.databaseName,
+                            kustoTableName:
+                                authenticationParameters.adx.tableName
+                        }
                     )
                 }
             />

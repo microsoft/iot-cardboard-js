@@ -5,11 +5,12 @@ import {
 } from '../Models/Classes/AdapterDataClasses/ADTModelData';
 import ADTTwinData from '../Models/Classes/AdapterDataClasses/ADTTwinData';
 import AdapterEntityCache from '../Models/Classes/AdapterEntityCache';
+import AdapterResult from '../Models/Classes/AdapterResult';
 import {
     modelRefreshMaxAge,
     timeSeriesConnectionRefreshMaxAge
 } from '../Models/Constants/Constants';
-import { IAuthService } from '../Models/Constants/Interfaces';
+import { IADXConnection, IAuthService } from '../Models/Constants/Interfaces';
 import { applyMixins } from '../Models/Services/Utils';
 import ADTAdapter from './ADTAdapter';
 import ADXAdapter from './ADXAdapter';
@@ -19,11 +20,13 @@ export default class ADTDataHistoryAdapter {
     constructor(
         authService: IAuthService,
         adtHostUrl: string,
+        adxConnectionInformation?: IADXConnection,
         tenantId?: string,
         uniqueObjectId?: string,
         adtProxyServerPath = '/proxy/adt'
     ) {
         this.adtHostUrl = adtHostUrl;
+        this.adxConnectionInformation = adxConnectionInformation;
         this.authService = this.adxAuthService = authService;
         this.tenantId = tenantId;
         this.uniqueObjectId = uniqueObjectId;
@@ -43,12 +46,33 @@ export default class ADTDataHistoryAdapter {
         // Fetch & cache models on mount (makes first use of models faster as models should already be cached)
         this.getAllAdtModels();
     }
+
+    updateADXConnectionInformation = async () => {
+        if (this.adtHostUrl) {
+            const connectionInformation = await this.getTimeSeriesConnectionInformation(
+                this.adtHostUrl,
+                true,
+                true
+            );
+            this.adxConnectionInformation = connectionInformation.getData();
+            return connectionInformation;
+        } else {
+            return new AdapterResult<ADTInstanceTimeSeriesConnectionData>({
+                result: null,
+                errorInfo: null
+            });
+        }
+    };
 }
 
 export default interface ADTDataHistoryAdapter
     extends ADTAdapter,
         ADXAdapter,
-        AzureManagementAdapter {}
+        AzureManagementAdapter {
+    updateADXConnectionInformation: () => Promise<
+        AdapterResult<ADTInstanceTimeSeriesConnectionData>
+    >;
+}
 applyMixins(ADTDataHistoryAdapter, [
     ADTAdapter,
     ADXAdapter,

@@ -1296,6 +1296,7 @@
     },
     "dataHistoryExplorer": {
         "title": "Data history explorer",
+        "loadingConnectionLabel": "Loading time series connection information...",
         "builder": {
             "title": "Twin properties",
             "description": "To compare historized properties within this twin or with other twins, add them below.",

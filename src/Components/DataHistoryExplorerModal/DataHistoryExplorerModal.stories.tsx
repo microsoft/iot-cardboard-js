@@ -26,5 +26,8 @@ const Template: DataHistoryExplorerModalStory = (args) => {
 export const Mock = Template.bind({}) as DataHistoryExplorerModalStory;
 Mock.args = {
     adapter: new MockAdapter(),
-    isOpen: true
+    isOpen: true,
+    onDismiss: () => {
+        console.log('Dismiss!');
+    }
 } as IDataHistoryExplorerModalProps;

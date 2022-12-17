@@ -1155,4 +1155,29 @@ export default class MockAdapter
             });
         }
     }
+
+    async updateADXConnectionInformation() {
+        try {
+            await this.mockNetwork();
+            const mockConnectionInformation: IADXConnection = {
+                kustoClusterUrl:
+                    'https://mockKustoClusterName.westus2.kusto.windows.net',
+                kustoDatabaseName: 'mockKustoDatabaseName',
+                kustoTableName: 'mockKustoTableName'
+            };
+            this.setADXConnectionInformation(mockConnectionInformation);
+
+            return new AdapterResult({
+                result: new ADTInstanceTimeSeriesConnectionData(
+                    mockConnectionInformation
+                ),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
 }

@@ -47,7 +47,8 @@ export const getStyles = (
             { flexGrow: 1, overflow: 'hidden' }
         ],
         subComponentStyles: {
-            builder: { root: { width: 240 } }
+            builder: { root: { width: 240 } },
+            viewer: { root: { flexGrow: 1 } }
         }
     };
 };

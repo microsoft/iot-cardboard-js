@@ -288,3 +288,19 @@ export enum ADXTableColumns {
     Key = 'Key', // twin property
     Value = 'Value' // value of twin property at that time
 }
+
+export enum QuickTimeSpanKey {
+    Last15Mins = 'Last 15 mins',
+    Last30Mins = 'Last 30 mins',
+    LastHour = 'Last hour',
+    Last3Hours = 'Last 3 hours',
+    Last6Hours = 'Last 6 hours',
+    Last12Hours = 'Last 12 hours',
+    Last24Hours = 'Last 24 hours',
+    Last7Days = 'Last 7 days',
+    Last30Days = 'Last 30 days',
+    Last60Days = 'Last 60 days',
+    Last90Days = 'Last 90 days',
+    Last180Days = 'Last 180 days',
+    LastYear = 'Last year'
+}

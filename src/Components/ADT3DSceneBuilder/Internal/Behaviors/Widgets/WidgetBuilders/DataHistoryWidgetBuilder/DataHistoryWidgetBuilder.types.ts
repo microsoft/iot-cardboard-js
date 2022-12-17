@@ -1,15 +1,6 @@
+import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import {
-    IChoiceGroupOption,
-    IDropdownOption,
-    IStyle,
-    IStyleFunctionOrObject,
-    ITheme
-} from '@fluentui/react';
-import { TFunction } from 'i18next';
-import {
-    IDataHistoryAggregationType,
     IDataHistoryChartOptions,
-    IDataHistoryChartYAxisType,
     IDataHistoryWidget
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { IWidgetBuilderFormDataProps } from '../../../../../ADT3DSceneBuilder.types';
@@ -36,38 +27,3 @@ export interface IDataHistoryWidgetBuilderStyles {
 
 /** Existing chart options for data history widget in the 3D config schema */
 export type ChartOptionKeys = keyof IDataHistoryChartOptions;
-
-export const getYAxisTypeOptions = (
-    t: TFunction
-): Array<IChoiceGroupOption> => {
-    return [
-        {
-            key: 'shared' as IDataHistoryChartYAxisType,
-            text: t(
-                'widgets.dataHistory.form.chartOptions.yAxisType.sharedLabel'
-            )
-        },
-        {
-            key: 'independent' as IDataHistoryChartYAxisType,
-            text: t(
-                'widgets.dataHistory.form.chartOptions.yAxisType.independentLabel'
-            )
-        }
-    ];
-};
-
-/** No translation needed for these options */
-export const AggregationTypeOptions: Array<IDropdownOption> = [
-    {
-        key: 'avg' as IDataHistoryAggregationType,
-        text: 'avg'
-    },
-    {
-        key: 'min' as IDataHistoryAggregationType,
-        text: 'min'
-    },
-    {
-        key: 'max' as IDataHistoryAggregationType,
-        text: 'max'
-    }
-];

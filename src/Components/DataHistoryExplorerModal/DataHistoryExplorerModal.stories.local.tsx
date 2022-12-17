@@ -41,4 +41,9 @@ const Template: DataHistoryExplorerModalStory = (args) => {
 };
 
 export const ADT = Template.bind({}) as DataHistoryExplorerModalStory;
-ADT.args = { isOpen: true } as IDataHistoryExplorerModalProps;
+ADT.args = {
+    isOpen: true,
+    onDismiss: () => {
+        console.log('Dismiss!');
+    }
+} as IDataHistoryExplorerModalProps;

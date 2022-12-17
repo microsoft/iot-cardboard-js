@@ -3,6 +3,7 @@ import { MockAdapter } from '../../Adapters';
 import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
+import { ITimeSeriesViewerStyles } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
 
 export interface IDataHistoryExplorerProps {
     adapter: ADTDataHistoryAdapter | MockAdapter;
@@ -35,7 +36,7 @@ export interface IDataHistoryExplorerStyles {
 export interface IDataHistoryExplorerSubComponentStyles {
     modal?: Partial<ICardboardModalStyles>;
     builder?: ITimeSeriesBuilderStyles;
-    // viewer?: ITimeSeriesViewerStyles;
+    viewer?: ITimeSeriesViewerStyles;
 }
 
 export interface IDataHistoryExplorerContext {

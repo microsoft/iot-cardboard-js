@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     IDataHistoryExplorerContext,
     IDataHistoryExplorerProps,
@@ -11,11 +11,15 @@ import {
     useTheme,
     styled,
     Stack,
-    FontIcon
+    FontIcon,
+    Spinner,
+    SpinnerSize
 } from '@fluentui/react';
 import TimeSeriesBuilder from './Internal/TimeSeriesBuilder/TimeSeriesBuilder';
 import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
+import TimeSeriesViewer from './Internal/TimeSeriesViewer/TimeSeriesViewer';
+import useAdapter from '../../Models/Hooks/useAdapter';
 
 export const DataHistoryExplorerContext = React.createContext<IDataHistoryExplorerContext>(
     null
@@ -29,19 +33,44 @@ const getClassNames = classNamesFunction<
 const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     const { adapter, hasTitle = true, styles } = props;
 
-    // hooks
-    const { t } = useTranslation();
-
     // state
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [timeSeriesTwins, setTimeSeriesTwins] = useState<
         Array<IDataHistoryTimeSeriesTwin>
     >([]);
+    const [, setConnection] = useState(adapter.getADXConnectionInformation());
+
+    // hooks
+    const { t } = useTranslation();
+    const updateConnectionAdapterData = useAdapter({
+        adapterMethod: () => adapter.updateADXConnectionInformation(),
+        isAdapterCalledOnMount: false,
+        refetchDependencies: [adapter]
+    });
 
     // styles
     const classNames = getClassNames(styles, {
         theme: useTheme()
     });
+
+    //side-effects
+    useEffect(() => {
+        if (
+            !adapter.getADXConnectionInformation() &&
+            !updateConnectionAdapterData.isLoading
+        ) {
+            updateConnectionAdapterData.callAdapter();
+        }
+    }, []);
+    useEffect(() => {
+        if (updateConnectionAdapterData?.adapterResult?.result) {
+            if (!updateConnectionAdapterData?.adapterResult.hasNoData()) {
+                const connectionData = updateConnectionAdapterData.adapterResult.getData();
+                setConnection(connectionData);
+            } else {
+                setConnection(null);
+            }
+        }
+    }, [updateConnectionAdapterData?.adapterResult.result]);
 
     return (
         <DataHistoryExplorerContext.Provider
@@ -72,10 +101,22 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         }
                         styles={classNames.subComponentStyles.builder}
                     />
-                    {/* <TimeSeriesViewer
-                    timeSeriesTwinList={timeSeriesTwins}
-                    styles={classNames.subComponentStyles.viewer}
-                /> */}
+                    {updateConnectionAdapterData.isLoading ? (
+                        <Spinner
+                            styles={{ root: { flexGrow: 1 } }}
+                            size={SpinnerSize.large}
+                            label={t(
+                                'dataHistoryExplorer.loadingConnectionLabel'
+                            )}
+                            ariaLive="assertive"
+                            labelPosition="top"
+                        />
+                    ) : (
+                        <TimeSeriesViewer
+                            timeSeriesTwinList={timeSeriesTwins}
+                            styles={classNames.subComponentStyles.viewer}
+                        />
+                    )}
                 </Stack>
             </div>
         </DataHistoryExplorerContext.Provider>
