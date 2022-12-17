@@ -1301,5 +1301,22 @@
   "hideDetails": "隐藏详细信息",
   "colorPills": {
     "unlabeled": "未标记"
+  },
+  "dataHistoryExplorer": {
+    "title": "数据历史记录浏览器",
+    "builder": {
+      "title": "孪生属性",
+      "description": "若要比较此孪生体中或与其他孪生体中的历史化属性，请在下面添加它们。",
+      "timeSeriesTwin": {
+        "edit": "编辑时序孪生体",
+        "remove": "删除时序孪生体",
+        "property": "财产",
+        "propertyTypeCastLabel": "将属性类型转换为数字"
+      }
+    },
+    "viewer": {
+      "chart": "图表",
+      "table": "桌子"
+    }
   }
 }

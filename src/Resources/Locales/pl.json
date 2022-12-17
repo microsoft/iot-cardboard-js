@@ -1301,5 +1301,22 @@
   "hideDetails": "Ukryj szczegóły",
   "colorPills": {
     "unlabeled": "Bez etykiety"
+  },
+  "dataHistoryExplorer": {
+    "title": "Eksplorator historii danych",
+    "builder": {
+      "title": "Bliźniacze właściwości",
+      "description": "Aby porównać historyczne właściwości w obrębie tego bliźniaka lub z innymi bliźniakami, dodaj je poniżej.",
+      "timeSeriesTwin": {
+        "edit": "Edytuj bliźniacze szeregi czasowe",
+        "remove": "Usuwanie bliźniaczej serii czasowej",
+        "property": "Własność",
+        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer"
+      }
+    },
+    "viewer": {
+      "chart": "Wykres",
+      "table": "Stół"
+    }
   }
 }

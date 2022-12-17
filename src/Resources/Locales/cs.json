@@ -1301,5 +1301,22 @@
   "hideDetails": "Skrýt detaily",
   "colorPills": {
     "unlabeled": "Neoznačené"
+  },
+  "dataHistoryExplorer": {
+    "title": "Průzkumník historie dat",
+    "builder": {
+      "title": "Vlastnosti dvojčat",
+      "description": "Chcete-li porovnat historizované vlastnosti v rámci tohoto dvojčete nebo s jinými dvojčaty, přidejte je níže.",
+      "timeSeriesTwin": {
+        "edit": "Úprava dvojčete časové řady",
+        "remove": "Odebrání dvojčete časové řady",
+        "property": "Vlastnost",
+        "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo"
+      }
+    },
+    "viewer": {
+      "chart": "Graf",
+      "table": "Stůl"
+    }
   }
 }
