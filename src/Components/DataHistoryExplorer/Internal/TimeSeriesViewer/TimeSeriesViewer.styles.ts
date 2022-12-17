@@ -41,7 +41,7 @@ export const getStyles = (
                     }
                 }
             },
-            chartWrapper: { root: { overflow: 'hidden' } }
+            chartWrapper: { root: { overflow: 'hidden', padding: '12px 0' } }
         }
     };
 };
