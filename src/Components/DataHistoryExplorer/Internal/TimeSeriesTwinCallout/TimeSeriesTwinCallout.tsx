@@ -136,7 +136,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         isBeakVisible={false}
                     >
                         <Stack tokens={{ childrenGap: 12 }}>
-                            <Stack tokens={{ childrenGap: 8 }}>
+                            <Stack tokens={{ childrenGap: 4 }}>
                                 <TwinSearch
                                     adapter={adapter}
                                     onSelectTwinId={handleTwinIdChange}

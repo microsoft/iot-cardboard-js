@@ -125,7 +125,9 @@ export const CardboardListItem = <T extends unknown>(
                         (typeof iconStart.name === 'string' ? (
                             <FontIcon
                                 iconName={iconStart.name}
-                                style={{ color: iconStart.color }}
+                                style={{
+                                    color: (iconStart as any).color
+                                }}
                                 className={classNames.icon}
                             />
                         ) : (

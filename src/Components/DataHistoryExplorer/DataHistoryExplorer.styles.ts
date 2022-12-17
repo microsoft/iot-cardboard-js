@@ -28,7 +28,7 @@ export const getStyles = (
                 display: 'flex',
                 alignItems: 'baseline',
                 width: `100%`,
-                paddingBottom: 20
+                paddingBottom: 24
             }
         ],
         title: [
