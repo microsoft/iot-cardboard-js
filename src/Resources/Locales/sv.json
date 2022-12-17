@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Diagram",
       "table": "Bord"
-    }
+    },
+    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
   }
 }

@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Gráfico",
       "table": "Mesa"
-    }
+    },
+    "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
   }
 }

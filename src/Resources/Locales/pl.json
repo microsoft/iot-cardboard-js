@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Wykres",
       "table": "Stół"
-    }
+    },
+    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
   }
 }

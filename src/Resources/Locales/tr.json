@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Grafik",
       "table": "Masa"
-    }
+    },
+    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
   }
 }

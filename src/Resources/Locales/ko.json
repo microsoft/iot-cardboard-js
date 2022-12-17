@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "차트",
       "table": "테이블"
-    }
+    },
+    "loadingConnectionLabel": "시계열 연결 정보 로드 중..."
   }
 }

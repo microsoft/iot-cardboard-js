@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "图表",
       "table": "桌子"
-    }
+    },
+    "loadingConnectionLabel": "正在加载时间序列连接信息..."
   }
 }

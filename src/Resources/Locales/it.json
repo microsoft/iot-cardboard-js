@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Tabella",
       "table": "Tavolo"
-    }
+    },
+    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
   }
 }

@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Diagramm",
       "table": "Tisch"
-    }
+    },
+    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
   }
 }

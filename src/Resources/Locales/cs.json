@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Graf",
       "table": "Stůl"
-    }
+    },
+    "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
   }
 }

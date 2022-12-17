@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Diagram",
       "table": "Asztal"
-    }
+    },
+    "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
   }
 }

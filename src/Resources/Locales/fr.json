@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Graphique",
       "table": "Table"
-    }
+    },
+    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
   }
 }

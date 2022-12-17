@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "Gráfico",
       "table": "Tabela"
-    }
+    },
+    "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
   }
 }

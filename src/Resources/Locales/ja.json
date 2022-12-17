@@ -1317,6 +1317,7 @@
     "viewer": {
       "chart": "チャート",
       "table": "テーブル"
-    }
+    },
+    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
   }
 }
