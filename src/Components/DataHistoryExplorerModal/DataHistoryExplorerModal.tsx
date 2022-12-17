@@ -15,7 +15,7 @@ import CardboardModal from '../CardboardModal/CardboardModal';
 import { useTranslation } from 'react-i18next';
 import DataHistoryExplorer from '../DataHistoryExplorer/DataHistoryExplorer';
 
-const CONTENT_MAX_HEIGHT = 515;
+const CONTENT_MAX_HEIGHT = 560;
 const contentStackTokens: IStackTokens = {
     maxHeight: CONTENT_MAX_HEIGHT
 };
