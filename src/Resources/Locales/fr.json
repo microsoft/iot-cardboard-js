@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Graphique",
-      "table": "Table"
+      "table": "Table",
+      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
     },
     "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
   }

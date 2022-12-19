@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Diagramm",
-      "table": "Tisch"
+      "table": "Tisch",
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
     },
     "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
   }

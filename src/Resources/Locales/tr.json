@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Grafik",
-      "table": "Masa"
+      "table": "Masa",
+      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
     },
     "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
   }
