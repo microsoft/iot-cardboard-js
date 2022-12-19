@@ -25,13 +25,12 @@ import {
     Dropdown
 } from '@fluentui/react';
 import { useTimeSeriesData } from '../../../../Models/Hooks/useTimeSeriesData';
-import QuickTimesDropdown, {
-    getQuickTimeSpanKeyByValue
-} from '../../../QuickTimesDropdown/QuickTimesDropdown';
+import QuickTimesDropdown from '../../../QuickTimesDropdown/QuickTimesDropdown';
 import HighChartsWrapper from '../../../HighChartsWrapper/HighChartsWrapper';
 import { IHighChartSeriesData } from '../../../HighChartsWrapper/HighChartsWrapper.types';
 import { useTranslation } from 'react-i18next';
 import {
+    getQuickTimeSpanKeyByValue,
     getYAxisTypeOptions,
     transformADXTimeSeriesToHighChartsSeries
 } from '../../../../Models/SharedUtils/DataHistoryUtils';
@@ -48,6 +47,8 @@ import {
 import { usePrevious } from '@fluentui/react-hooks';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import produce from 'immer';
+import GenericErrorImg from '../../../../Resources/Static/noResults.svg';
+import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 
 enum ViewerPivot {
     Chart = 'Chart',
@@ -201,71 +202,93 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     headerText={t('dataHistoryExplorer.viewer.chart')}
                     itemKey={ViewerPivot.Chart}
                 >
-                    <Stack
-                        horizontal
-                        tokens={{ childrenGap: 8 }}
-                        className={classNames.commandWrapper}
-                    >
-                        <QuickTimesDropdown
-                            defaultSelectedKey={getQuickTimeSpanKeyByValue(
-                                selectedQuickTimeSpanInMillis
+                    {timeSeriesTwinList.length === 0 ? (
+                        <IllustrationMessage
+                            descriptionText={t(
+                                'dataHistoryExplorer.viewer.noSeriesDescription'
                             )}
-                            onChange={(_env, option) =>
-                                handleQuickTimesChange(option.data)
-                            }
-                            onRenderTitle={handleOnRenderQuickTimeTitle}
-                            hasLabel={false}
+                            type={'info'}
+                            width={'compact'}
+                            imageProps={{
+                                src: GenericErrorImg,
+                                height: 172
+                            }}
+                            styles={{ container: { flexGrow: 1 } }}
                         />
-                        <Dropdown
-                            styles={{ root: { width: 88 } }}
-                            className={classNames.command}
-                            selectedKey={chartOptions.aggregationType}
-                            onChange={(_env, option) =>
-                                handleChartOptionChange(
-                                    'aggregationType',
-                                    option.key as IDataHistoryAggregationType
-                                )
-                            }
-                            options={AggregationTypeDropdownOptions}
-                            onRenderTitle={handleOnRenderAggregationTypeTitle}
-                        />
-                        <Dropdown
-                            styles={{ root: { width: 140 } }}
-                            className={classNames.command}
-                            selectedKey={chartOptions.yAxisType}
-                            onChange={(_env, option) =>
-                                handleChartOptionChange(
-                                    'yAxisType',
-                                    option.key as IDataHistoryChartYAxisType
-                                )
-                            }
-                            options={getYAxisTypeOptions(t)}
-                            onRenderTitle={handleOnRenderYAxisTypeTitle}
-                        />
-                    </Stack>
-                    <HighChartsWrapper
-                        styles={classNames.subComponentStyles.chartWrapper}
-                        seriesData={highChartSeriesData}
-                        isLoading={isLoading}
-                        chartOptions={{
-                            titleAlign: 'left',
-                            legendLayout: 'vertical',
-                            legendPadding: 0,
-                            hasMultipleAxes:
-                                chartOptions.yAxisType === 'independent',
-                            dataGrouping: chartOptions.aggregationType,
-                            xMinInMillis: xMinDateInMillisRef.current,
-                            xMaxInMillis: xMaxDateInMillisRef.current
-                        }}
-                    />
-                    <ActionButton
-                        iconProps={{ iconName: 'OpenInNewWindow' }}
-                        onClick={() => {
-                            window.open(deeplink, '_blank');
-                        }}
-                    >
-                        {t('widgets.dataHistory.openQuery')}
-                    </ActionButton>
+                    ) : (
+                        <>
+                            <Stack
+                                horizontal
+                                tokens={{ childrenGap: 8 }}
+                                className={classNames.commandWrapper}
+                            >
+                                <QuickTimesDropdown
+                                    defaultSelectedKey={getQuickTimeSpanKeyByValue(
+                                        selectedQuickTimeSpanInMillis
+                                    )}
+                                    onChange={(_env, option) =>
+                                        handleQuickTimesChange(option.data)
+                                    }
+                                    onRenderTitle={handleOnRenderQuickTimeTitle}
+                                    hasLabel={false}
+                                />
+                                <Dropdown
+                                    styles={{ root: { width: 88 } }}
+                                    className={classNames.command}
+                                    selectedKey={chartOptions.aggregationType}
+                                    onChange={(_env, option) =>
+                                        handleChartOptionChange(
+                                            'aggregationType',
+                                            option.key as IDataHistoryAggregationType
+                                        )
+                                    }
+                                    options={AggregationTypeDropdownOptions}
+                                    onRenderTitle={
+                                        handleOnRenderAggregationTypeTitle
+                                    }
+                                />
+                                <Dropdown
+                                    styles={{ root: { width: 140 } }}
+                                    className={classNames.command}
+                                    selectedKey={chartOptions.yAxisType}
+                                    onChange={(_env, option) =>
+                                        handleChartOptionChange(
+                                            'yAxisType',
+                                            option.key as IDataHistoryChartYAxisType
+                                        )
+                                    }
+                                    options={getYAxisTypeOptions(t)}
+                                    onRenderTitle={handleOnRenderYAxisTypeTitle}
+                                />
+                            </Stack>
+                            <HighChartsWrapper
+                                styles={
+                                    classNames.subComponentStyles.chartWrapper
+                                }
+                                seriesData={highChartSeriesData}
+                                isLoading={isLoading}
+                                chartOptions={{
+                                    titleAlign: 'left',
+                                    legendLayout: 'vertical',
+                                    legendPadding: 0,
+                                    hasMultipleAxes:
+                                        chartOptions.yAxisType ===
+                                        'independent',
+                                    dataGrouping: chartOptions.aggregationType,
+                                    xMinInMillis: xMinDateInMillisRef.current,
+                                    xMaxInMillis: xMaxDateInMillisRef.current
+                                }}
+                            />
+                            <ActionButton
+                                iconProps={{ iconName: 'OpenInNewWindow' }}
+                                onClick={() => {
+                                    window.open(deeplink, '_blank');
+                                }}
+                            >
+                                {t('widgets.dataHistory.openQuery')}
+                            </ActionButton>
+                        </>
+                    )}
                 </PivotItem>
                 <PivotItem
                     headerText={t('dataHistoryExplorer.viewer.table')}

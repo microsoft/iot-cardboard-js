@@ -27,6 +27,7 @@ import {
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
+import { getQuickTimeSpanKeyByValue } from '../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -37,9 +38,7 @@ import {
     IOverflowMenuProps,
     OverflowMenu
 } from '../../../../OverflowMenu/OverflowMenu';
-import QuickTimesDropdown, {
-    getQuickTimeSpanKeyByValue
-} from '../../../../QuickTimesDropdown/QuickTimesDropdown';
+import QuickTimesDropdown from '../../../../QuickTimesDropdown/QuickTimesDropdown';
 import { BehaviorsModalContext } from '../../../BehaviorsModal';
 import { getStyles } from './DataHistoryWidget.styles';
 import {

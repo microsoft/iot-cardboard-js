@@ -1,6 +1,8 @@
 import Highcharts, { ColorString } from 'highcharts';
 import { TFunction } from 'react-i18next';
 import { IHighChartSeriesData } from '../../Components/HighChartsWrapper/HighChartsWrapper.types';
+import { QuickTimeSpans } from '../Constants/Constants';
+import { QuickTimeSpanKey } from '../Constants/Enums';
 import { IDataHistoryTimeSeriesTwin } from '../Constants/Interfaces';
 import { ADXTimeSeries } from '../Constants/Types';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -47,4 +49,16 @@ export const getYAxisTypeOptions = (t: TFunction) => {
             )
         }
     ];
+};
+
+/** Returns QuickTimeSpanKey from given millisecond */
+export const getQuickTimeSpanKeyByValue = (
+    millis: number
+): QuickTimeSpanKey => {
+    let key: QuickTimeSpanKey;
+    const idx = Object.values(QuickTimeSpans).indexOf(millis);
+    if (idx !== -1) {
+        key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
+    }
+    return key;
 };

@@ -1309,7 +1309,8 @@
         },
         "viewer": {
             "chart": "Chart",
-            "table": "Table"
+            "table": "Table",
+            "noSeriesDescription": "To view data history for this twin, select a property to view."
         }
     }
 }
