@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "图表",
-      "table": "桌子"
+      "table": "桌子",
+      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
     },
     "loadingConnectionLabel": "正在加载时间序列连接信息..."
   }

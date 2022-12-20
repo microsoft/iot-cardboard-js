@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Graf",
-      "table": "Stůl"
+      "table": "Stůl",
+      "noSeriesDescription": "Chcete-li zobrazit historii dat pro toto dvojče, vyberte vlastnost, kterou chcete zobrazit."
     },
     "loadingConnectionLabel": "Informace o připojení časové řady načítání..."
   }

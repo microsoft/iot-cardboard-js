@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Zeekaart",
-      "table": "Tafel"
+      "table": "Tafel",
+      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
     },
     "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
   }

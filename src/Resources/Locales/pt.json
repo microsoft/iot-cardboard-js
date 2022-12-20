@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Gráfico",
-      "table": "Mesa"
+      "table": "Mesa",
+      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
     },
     "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
   }

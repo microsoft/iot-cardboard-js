@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Wykres",
-      "table": "Stół"
+      "table": "Stół",
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
   }

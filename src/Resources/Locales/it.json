@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Tabella",
-      "table": "Tavolo"
+      "table": "Tavolo",
+      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
     },
     "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
   }

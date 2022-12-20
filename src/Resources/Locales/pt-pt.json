@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Gráfico",
-      "table": "Tabela"
+      "table": "Tabela",
+      "noSeriesDescription": "Para ver o histórico de dados deste twin, selecione uma propriedade para visualizar."
     },
     "loadingConnectionLabel": "Informação de ligação de séries de tempo..."
   }

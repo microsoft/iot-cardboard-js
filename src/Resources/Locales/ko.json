@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "차트",
-      "table": "테이블"
+      "table": "테이블",
+      "noSeriesDescription": "이 쌍에 대한 데이터 기록을 보려면 보려는 속성을 선택합니다."
     },
     "loadingConnectionLabel": "시계열 연결 정보 로드 중..."
   }

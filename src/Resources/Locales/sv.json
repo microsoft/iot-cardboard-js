@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Bord"
+      "table": "Bord",
+      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
     },
     "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
   }

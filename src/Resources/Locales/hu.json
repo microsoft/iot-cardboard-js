@@ -1316,7 +1316,8 @@
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Asztal"
+      "table": "Asztal",
+      "noSeriesDescription": "Az ikereszköz adatelőzményeinek megtekintéséhez válassza ki a megtekinteni kívánt tulajdonságot."
     },
     "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
   }
