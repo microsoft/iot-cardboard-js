@@ -5,8 +5,8 @@ const classNames = {
     root: `${classPrefix}-root`,
     button: `${classPrefix}-button`
 };
-export const getStyles = (_props: IPickerBaseStyleProps): IPickerBaseStyles => {
-    const { theme } = _props;
+export const getStyles = (props: IPickerBaseStyleProps): IPickerBaseStyles => {
+    const { theme } = props;
     return {
         root: [classNames.root],
         button: [],
