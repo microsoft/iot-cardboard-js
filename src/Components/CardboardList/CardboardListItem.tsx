@@ -120,21 +120,22 @@ export const CardboardListItem = <T extends unknown>(
                             />
                         </>
                     )}
-                    {typeof iconStart === 'function' && iconStart(item)}
-                    {showStartIcon &&
-                        (typeof iconStart.name === 'string' ? (
-                            <FontIcon
-                                iconName={iconStart.name}
-                                style={
-                                    iconStart.color && {
-                                        color: iconStart.color
-                                    }
-                                }
-                                className={classNames.icon}
-                            />
-                        ) : (
-                            iconStart.name
-                        ))}
+                    {typeof iconStart === 'function'
+                        ? iconStart(item)
+                        : showStartIcon &&
+                          (typeof iconStart.name === 'string' ? (
+                              <FontIcon
+                                  iconName={iconStart.name}
+                                  style={
+                                      iconStart.color && {
+                                          color: iconStart.color
+                                      }
+                                  }
+                                  className={classNames.icon}
+                              />
+                          ) : (
+                              iconStart.name
+                          ))}
                     <div className={classNames.textContainer}>
                         <div
                             className={classNames.primaryText}
