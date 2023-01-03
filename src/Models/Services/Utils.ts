@@ -777,7 +777,7 @@ export const getUrlFromString = (urlString: string): URL => {
         if (!(urlStr.startsWith('https://') || urlStr.startsWith('http://'))) {
             urlStr = 'https://' + urlStr;
         }
-        return new URL(urlString);
+        return new URL(urlStr);
     } catch (error) {
         console.error('Failed to get url from string', error.message);
         return null;
