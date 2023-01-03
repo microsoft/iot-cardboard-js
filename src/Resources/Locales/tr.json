@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Tarih saati seçici",
       "timePickerTitle": "Zaman seçici",
       "plainTextInput": "Düz metin girişi"
-    }
+    },
+    "removeArrayItemIconTitle": "Öğeyi listeden kaldır",
+    "addArrayItemIconTitle": "Yeni öğe ekle",
+    "clearArrayIconTitle": "Tüm öğeleri kaldır"
   },
   "environmentPicker": {
     "editEnvironment": "3B Sahneler ortamını yapılandırma",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
       "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
       "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
-      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı."
+      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı.",
+      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz."
     }
   },
   "behaviorsModal": {
@@ -1252,7 +1256,6 @@
   "resourcesPicker": {
     "noOption": "Kaynak bulunamadı",
     "loadingResources": "Kaynakları yükleme",
-    "loadingInstances": "Bulut sunucuları yükleniyor...",
     "loadingContainers": "Konteynerler yükleniyor...",
     "loadingStorageAccounts": "Depolama hesapları yükleniyor...",
     "displayFieldNotFound": "'{{displayField}}' özelliği, '{{id}}' kimliğine sahip kaynakta bulunamadı!",
@@ -1263,9 +1266,11 @@
       "invalidStorageAccountUrl": "Bu geçerli bir URL değil (ör. https://<DepolamaHesabıadınız>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Kaynak seçme",
-    "environmentDropdownPlaceholder": "örneğin https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "örneğin https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Tam eşleşme yok, kullanın",
+    "adtInstancePlaceholder": "ADT örneği seçme",
+    "storageAccountPlaceholder": "Depolama Hesabı Seçme",
+    "storageContainerPlaceholder": "Bir Depolama Kabı Seçin",
+    "loadingAdtInstances": "Bulut sunucuları yükleniyor..."
   },
   "advancedSearch": {
     "toggleSelection": "İkiz Seç",

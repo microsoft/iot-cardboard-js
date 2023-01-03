@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Datumkiezer",
       "timePickerTitle": "Tijdkiezer",
       "plainTextInput": "Tekstinvoer zonder opmaak"
-    }
+    },
+    "removeArrayItemIconTitle": "Item uit lijst verwijderen",
+    "addArrayItemIconTitle": "Nieuw item toevoegen",
+    "clearArrayIconTitle": "Alle items verwijderen"
   },
   "environmentPicker": {
     "editEnvironment": "3D-scèneomgeving configureren",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Azure Digital Twins Data Reader' (minimaal).",
       "storageAccountMissingPermissionMessage": "U hebt ontbrekende machtigingen. Je hebt toegang nodig als 'Reader' (minimaal).",
       "storageContainerMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Reader' (minimaal) en 'Storage Blob Data Owner' of 'Storage Blob Data Contributor'.",
-      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde."
+      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde.",
+      "resourceNotVerified": "We kunnen niet controleren of deze bron bestaat."
     }
   },
   "behaviorsModal": {
@@ -1252,7 +1256,6 @@
   "resourcesPicker": {
     "noOption": "Geen bronnen gevonden",
     "loadingResources": "Bronnen laden",
-    "loadingInstances": "Instanties laden...",
     "loadingContainers": "Containers laden...",
     "loadingStorageAccounts": "Opslagaccounts laden...",
     "displayFieldNotFound": "'{{displayField}}' eigenschap niet gevonden in de resource met de id '{{id}}'!",
@@ -1263,9 +1266,11 @@
       "invalidStorageAccountUrl": "Dit is geen geldige URL (bijv. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Selecteer een resource",
-    "environmentDropdownPlaceholder": "bijv. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "bijv. https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Geen exacte overeenkomst, gebruik",
+    "adtInstancePlaceholder": "Een ADT-instantie selecteren",
+    "storageAccountPlaceholder": "Selecteer een opslagaccount",
+    "storageContainerPlaceholder": "Selecteer een opslagcontainer",
+    "loadingAdtInstances": "Instanties worden geladen..."
   },
   "advancedSearch": {
     "toggleSelection": "Schakel in om Twin te selecteren",

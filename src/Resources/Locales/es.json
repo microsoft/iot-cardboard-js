@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Selector de fecha y hora",
       "timePickerTitle": "Selector de tiempo",
       "plainTextInput": "Entrada de texto sin formato"
-    }
+    },
+    "removeArrayItemIconTitle": "Quitar elemento de la lista",
+    "addArrayItemIconTitle": "Agregar nuevo elemento",
+    "clearArrayIconTitle": "Quitar todos los elementos"
   },
   "environmentPicker": {
     "editEnvironment": "Configurar el entorno de escenas 3D",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como \"Lector de datos de Azure Digital Twins\" (como mínimo).",
       "storageAccountMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como 'Lector' (como mínimo).",
       "storageContainerMissingPermissionMessage": "Le faltan permisos. Necesitará acceso como \"Lector\" (como mínimo) y \"Propietario de datos de blobs de almacenamiento\" o \"Colaborador de datos de blobs de almacenamiento\".",
-      "resourceNotFound": "No se ha encontrado ningún recurso de Azure con el valor especificado."
+      "resourceNotFound": "No se ha encontrado ningún recurso de Azure con el valor especificado.",
+      "resourceNotVerified": "No podemos verificar que este recurso exista."
     }
   },
   "behaviorsModal": {
@@ -1252,7 +1256,6 @@
   "resourcesPicker": {
     "noOption": "No se han encontrado recursos",
     "loadingResources": "Carga de recursos",
-    "loadingInstances": "Cargando instancias...",
     "loadingContainers": "Cargando contenedores...",
     "loadingStorageAccounts": "Cargando cuentas de almacenamiento...",
     "displayFieldNotFound": "'{{displayField}}' propiedad no encontrada en el recurso con el identificador '{{id}}'!",
@@ -1263,9 +1266,11 @@
       "invalidStorageAccountUrl": "Esta no es una URL válida (por ejemplo, https://<suStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Seleccione un recurso",
-    "environmentDropdownPlaceholder": "por ejemplo, https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "por ejemplo, https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "No hay coincidencia exacta, use",
+    "adtInstancePlaceholder": "Seleccione una instancia de ADT",
+    "storageAccountPlaceholder": "Seleccione una cuenta de almacenamiento",
+    "storageContainerPlaceholder": "Seleccione un contenedor de almacenamiento",
+    "loadingAdtInstances": "Cargando instancias..."
   },
   "advancedSearch": {
     "toggleSelection": "Cambiar a Seleccionar gemelo",
