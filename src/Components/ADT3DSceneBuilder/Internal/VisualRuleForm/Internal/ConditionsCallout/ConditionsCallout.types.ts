@@ -71,11 +71,7 @@ export enum ConditionCalloutActionType {
     FORM_CONDITION_VALUES_SET = 'FORM_CONDITION_VALUES_SET',
     FORM_CONDITION_COLOR_SET = 'FORM_CONDITION_COLOR_SET',
     FORM_CONDITION_ICON_SET = 'FORM_CONDITION_ICON_SET',
-    INITIALIZE_CONDITION = 'INITIALIZE_CONDITION',
-    /** Numerical values handling */
-    FORM_CONDITION_NUMERICAL_VALUES_SET = 'FORM_CONDITION_NUMERICAL_VALUES_SET',
-    FORM_CONDITION_SNAP_VALUE_TO_INFINITY = 'FORM_CONDITION_SNAP_VALUE_TO_INFINITY',
-    FORM_CONDITION_SET_ARE_RANGES_VALID = 'FORM_CONDITION_SET_ARE_RANGES_VALID'
+    INITIALIZE_CONDITION = 'INITIALIZE_CONDITION'
 }
 
 export type ConditionCalloutAction =
@@ -98,16 +94,4 @@ export type ConditionCalloutAction =
     | {
           type: ConditionCalloutActionType.INITIALIZE_CONDITION;
           payload: { valueRange: IValueRange };
-      }
-    | {
-          type: ConditionCalloutActionType.FORM_CONDITION_NUMERICAL_VALUES_SET;
-          payload: { values: ValueRangeValueType[] };
-      }
-    | {
-          type: ConditionCalloutActionType.FORM_CONDITION_SNAP_VALUE_TO_INFINITY;
-          payload: { values: ValueRangeValueType[] };
-      }
-    | {
-          type: ConditionCalloutActionType.FORM_CONDITION_SET_ARE_RANGES_VALID;
-          payload: { min: string; max: string };
       };

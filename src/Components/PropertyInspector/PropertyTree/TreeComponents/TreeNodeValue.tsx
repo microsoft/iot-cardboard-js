@@ -4,7 +4,12 @@ import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps, PropertyTreeNode } from '../PropertyTree.types';
 import '../PropertyTree.scss';
 import { useTranslation } from 'react-i18next';
-import { Checkbox, Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
+import {
+    Checkbox,
+    IconButton,
+    IIconStyleProps,
+    IIconStyles
+} from '@fluentui/react';
 import { DateTimeValue } from './TreeNodeDateTimeValue';
 
 const TreeNodeValue: React.FC<NodeProps> = ({ node }) => {
@@ -334,25 +339,17 @@ const MapProperty: React.FC<{ node: PropertyTreeNode; readonly: boolean }> = ({
                     e.key === 'Enter' ? handleAddMapValue() : null
                 }
             ></input>
-            <div
-                tabIndex={0}
-                aria-label={t('propertyInspector.addMapIconTitle')}
+            <IconButton
+                ariaLabel={t('propertyInspector.addMapIconTitle')}
                 className={`cb-property-tree-node-map-add-icon-container${
                     isAddMapValueDisabled ? ' cb-add-map-disabled' : ''
                 }`}
                 onClick={handleAddMapValue}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        handleAddMapValue();
-                    }
+                iconProps={{
+                    iconName: 'AddTo',
+                    styles: iconStyles
                 }}
-            >
-                <Icon
-                    title={t('propertyInspector.addMapIconTitle')}
-                    iconName={'AddTo'}
-                    styles={iconStyles}
-                />
-            </div>
+            />
         </div>
     );
 };

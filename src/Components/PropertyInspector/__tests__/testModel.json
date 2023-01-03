@@ -1,7 +1,7 @@
 [
     {
         "@type": "Interface",
-        "@context": "dtmi:dtdl:context;2",
+        "@context": "dtmi:dtdl:context;3",
         "@id": "dtmi:com:test:testmodel;1",
         "extends": "dtmi:com:test:testBaseModel;1",
         "displayName": "Test model",

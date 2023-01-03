@@ -7,6 +7,7 @@ import TreeNodeValue from './TreeNodeValue';
 import TreeNodeSetUnset from './TreeNodeSetUnset';
 import { useTranslation } from 'react-i18next';
 import TreeNodeMapTool from './TreeNodeMapTool';
+import TreeNodeArrayItemTool from './TreeNodeArrayItemTool';
 
 const TreeNode: React.FC<NodeProps> = ({ node }) => {
     const { t } = useTranslation();
@@ -24,7 +25,11 @@ const TreeNode: React.FC<NodeProps> = ({ node }) => {
                     </div>
                 )}
                 <TreeNodeMapTool node={node} />
-                <TreeNodeSetUnset node={node} />
+                {node.schema === 'Array' || node.isArrayItem ? (
+                    <TreeNodeArrayItemTool node={node} />
+                ) : (
+                    <TreeNodeSetUnset node={node} />
+                )}
             </div>
             {!node.isCollapsed && node.children && node.children.length > 0 && (
                 <Tree data={node.children} isChildTree={true} />

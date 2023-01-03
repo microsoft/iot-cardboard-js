@@ -112,7 +112,6 @@ export const EnvironmentPickerReducer: (
                             selectedStorageAccountUrl
                         );
                     }
-                    draft.storageAccountInfo.storageAccountToEdit = selectedStorageAccount;
 
                     //reset values for containers
                     const selectedContainerName = getContainerNameFromUrl(
@@ -171,6 +170,9 @@ export const EnvironmentPickerReducer: (
                         draft.containerInfo.containerToEdit = null;
                         resetContainersCallback(); // to trigger fetch on mount for container picker with storage account change
                     }
+
+                    draft.storageAccountInfo.storageAccountToEdit =
+                        selectedStorageAccount || selectedStorageAccountUrl;
                 } else {
                     draft.storageAccountInfo.storageAccountToEdit = null;
                     draft.containerInfo.containers = [];

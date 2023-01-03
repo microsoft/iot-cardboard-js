@@ -727,7 +727,15 @@ const ADT3DScenePage: React.FC<IADT3DScenePageProps> = (props) => {
         <DeeplinkContextProvider
             initialState={{
                 adtUrl: adtHostUrl ? `https://${adtHostUrl}` : '',
-                storageUrl: adapter.getBlobContainerURL()
+                storageUrl: adapter.getBlobContainerURL(),
+                isLocalStorageEnabled: {
+                    adt:
+                        props.environmentPickerOptions?.adt
+                            ?.isLocalStorageEnabled,
+                    storage:
+                        props.environmentPickerOptions?.storage
+                            ?.isLocalStorageEnabled
+                }
             }}
         >
             <SceneThemeContextProvider>

@@ -172,8 +172,8 @@ describe('EnvironmentPicker', () => {
             expect(
                 result.storageAccountInfo.storageAccountToEdit
             ).toMatchObject(MOCK_STORAGE_ACCOUNT);
-            expect(result.containerInfo.containerToEdit).toMatchObject(
-                MOCK_STORAGE_CONTAINER
+            expect(result.containerInfo.containerToEdit).toEqual(
+                MOCK_STORAGE_CONTAINER.name
             );
         });
 

@@ -11,6 +11,9 @@ export enum spiActionType {
     ON_NODE_VALUE_CHANGED,
     ON_ADD_MAP_VALUE,
     ON_REMOVE_MAP_VALUE,
+    ON_REMOVE_ARRAY_ITEM,
+    ON_ADD_ARRAY_ITEM,
+    ON_CLEAR_ARRAY,
     ON_NODE_VALUE_UNSET,
     SET_IS_TREE_COLLAPSED
 }
@@ -40,6 +43,18 @@ type Action =
     | {
           type: spiActionType.ON_REMOVE_MAP_VALUE;
           mapChildToRemove: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_REMOVE_ARRAY_ITEM;
+          arrayItemToRemove: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_ADD_ARRAY_ITEM;
+          arrayNode: PropertyTreeNode;
+      }
+    | {
+          type: spiActionType.ON_CLEAR_ARRAY;
+          arrayNode: PropertyTreeNode;
       }
     | {
           type: spiActionType.ON_NODE_VALUE_UNSET;
@@ -210,6 +225,9 @@ const StandalonePropertyInspectorReducer = produce(
                         nodeToUnset.schema
                     );
                     nodeToUnset.isSet = false;
+                    if (nodeToUnset.schema === 'Array') {
+                        nodeToUnset.children = null;
+                    }
                     if (nodeToUnset.children) {
                         // Unsetting object should set all children values to default
                         nodeToUnset.children.forEach((child) => {
@@ -232,6 +250,129 @@ const StandalonePropertyInspectorReducer = produce(
             case spiActionType.SET_IS_TREE_COLLAPSED: {
                 const { isCollapsed } = action;
                 setIsTreeCollapsed(draft.propertyTreeNodes, isCollapsed);
+                break;
+            }
+            case spiActionType.ON_ADD_ARRAY_ITEM: {
+                const { arrayNode } = action;
+
+                // Construct empty tree node
+                const newTreeNode = PropertyInspectorModel.parsePropertyIntoNode(
+                    {
+                        isInherited: arrayNode.isInherited,
+                        isObjectChild: false,
+                        path: arrayNode.path,
+                        propertySourceObject: {},
+                        modelProperty: {
+                            index: arrayNode.children?.length ?? 0,
+                            name: arrayNode.name,
+                            schema: arrayNode.childSchema
+                        } as any,
+                        isMapChild: false,
+                        isArrayItem: true,
+                        forceSet: true,
+                        schemas: arrayNode.mapSchemas
+                    }
+                );
+
+                newTreeNode.edited = true;
+
+                // Add new node to array and expand array node
+                const targetNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayNode.path
+                );
+
+                if (Array.isArray(targetNode.children)) {
+                    targetNode.children = [...targetNode.children, newTreeNode];
+                } else {
+                    targetNode.children = [newTreeNode];
+                }
+
+                targetNode.isSet = true;
+                targetNode.isCollapsed = false;
+
+                if (newTreeNode?.children) {
+                    newTreeNode.isCollapsed = false;
+                }
+
+                setNodeEditedFlag(draft, arrayNode, targetNode);
+                break;
+            }
+            case spiActionType.ON_REMOVE_ARRAY_ITEM: {
+                const { arrayItemToRemove } = action;
+
+                const arrayNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayItemToRemove.parentObjectPath
+                );
+
+                const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.originalPropertyTreeNodes,
+                    arrayItemToRemove.parentObjectPath
+                );
+
+                const childToRemoveIdx = arrayNode.children.findIndex(
+                    (el) => el.path === arrayItemToRemove.path
+                );
+
+                if (childToRemoveIdx !== -1) {
+                    arrayNode.children.splice(childToRemoveIdx, 1);
+                    for (
+                        let i = childToRemoveIdx;
+                        i < arrayNode.children.length;
+                        i++
+                    ) {
+                        const childNode = arrayNode.children[i];
+                        const displayName = childNode.displayName;
+                        childNode.displayName = displayName.replace(
+                            /\[\d+\]$/,
+                            `[${i}]`
+                        );
+
+                        const oldPath = childNode.path;
+                        const path = childNode.path.replace(
+                            /\[\d+\]$/,
+                            `[${i}]`
+                        );
+                        childNode.path = path;
+                        updateChildrenPaths(childNode, oldPath, path);
+                    }
+                }
+
+                // Remove all edit status flags for array ITEM's children
+                Object.keys(draft.editStatus).forEach((key) => {
+                    if (key.startsWith(arrayItemToRemove.path)) {
+                        delete draft.editStatus[key];
+                    }
+                });
+
+                setNodeEditedFlag(draft, originalNode, arrayNode);
+
+                break;
+            }
+            case spiActionType.ON_CLEAR_ARRAY: {
+                const { arrayNode } = action;
+                const arrayTreeNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.propertyTreeNodes,
+                    arrayNode.path
+                );
+
+                const originalNode = PropertyInspectorModel.findPropertyTreeNodeRefRecursively(
+                    draft.originalPropertyTreeNodes,
+                    arrayNode.path
+                );
+
+                arrayTreeNode.children.splice(0, arrayTreeNode.children.length);
+
+                // Remove all array items (and children) that have been flagged as edited when clearing the array root
+                Object.keys(draft.editStatus).forEach((key) => {
+                    if (key.startsWith(arrayTreeNode.path)) {
+                        delete draft.editStatus[key];
+                    }
+                });
+
+                setNodeEditedFlag(draft, originalNode, arrayTreeNode);
+
                 break;
             }
             default:
@@ -300,6 +441,29 @@ const setNodeEditedFlag = (
         newNode.edited = false;
         delete draft.editStatus[editPath];
     }
+};
+
+/**
+ * Updates path and parentObject path of array items in hierarchy when a sibling item is removed
+ *
+ * @param node - the node to update
+ * @param oldPath - the previous path string
+ * @param path - the new path string
+ */
+const updateChildrenPaths = (
+    node: PropertyTreeNode,
+    oldPath: string,
+    path: string
+) => {
+    node.children?.forEach((child) => {
+        child.path = child.path.replace(oldPath, path);
+        child.parentObjectPath = child.parentObjectPath.replace(oldPath, path);
+        if (child.children) {
+            child.children.forEach((grandchild) => {
+                updateChildrenPaths(grandchild, oldPath, path);
+            });
+        }
+    });
 };
 
 /**

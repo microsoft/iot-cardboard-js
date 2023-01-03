@@ -1,5 +1,4 @@
 import {
-    IComboBoxStyles,
     IMessageBarStyles,
     IStyle,
     IStyleFunctionOrObject,
@@ -22,7 +21,6 @@ import {
 export interface IResourcePickerProps {
     adapter: IAzureManagementAdapter | MockAdapter;
     additionalOptions?: Array<string>; // options that are entered by user which doesn't exist in the options list yet
-    allowFreeform?: boolean; // whether the ComboBox allows freeform user input, rather than restricting to the options of data fetch
     disabled?: boolean;
     displayField: AzureResourceDisplayFields; // which resource property to show as option text in the combobox
     label?: string;
@@ -37,23 +35,52 @@ export interface IResourcePickerProps {
     searchParams?: AzureResourceSearchParams;
     selectedOption?: string;
     shouldFetchResourcesOnMount?: boolean;
-    errorMessage?: string;
+    error?: ResourcePickerError;
     styles?: IStyleFunctionOrObject<
         IResourcePickerStyleProps,
         IResourcePickerStyles
     >;
 }
 
+interface IResourceBaseOption {
+    label: string;
+}
+
+interface IResourceHeaderOption extends IResourceBaseOption {
+    type: 'header';
+}
+export interface IResourceOption extends IResourceBaseOption {
+    value: IAzureResource | string;
+    type: 'option';
+}
+
+export type IResourcePickerOption = IResourceHeaderOption | IResourceOption;
+
+export const isResourceOption = (
+    option: IResourceHeaderOption | IResourceOption
+) => {
+    return (option as IResourceOption).type === 'option';
+};
+
+export type ResourcePickerError = {
+    message: string;
+    isCatastrophic: boolean;
+};
+
 export interface IResourcePickerStyleProps {
     theme: ITheme;
 }
 export interface IResourcePickerStyles {
     root: IStyle;
-    comboBoxOptionWrapper: IStyle;
-    comboBoxOptionText: IStyle;
+    menuList: IStyle;
+    optionWrapper: IStyle;
+    optionText: IStyle;
+    optionHeaderText: IStyle;
+    noMatchingOptionText: IStyle;
     labelContainer: IStyle;
     label: IStyle;
-
+    errorText: IStyle;
+    warningText: IStyle;
     /**
      * SubComponent styles.
      */
@@ -62,5 +89,4 @@ export interface IResourcePickerStyles {
 
 export interface IResourcePickerSubComponentStyles {
     errorMessageBar: IMessageBarStyles;
-    comboBox: Partial<IComboBoxStyles>;
 }

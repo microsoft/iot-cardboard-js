@@ -4,7 +4,7 @@ import { DTDLType } from '../../../../Models/Classes/DTDL';
 import { PropertyTreeContext } from '../PropertyTree';
 import { NodeProps } from '../PropertyTree.types';
 import '../PropertyTree.scss';
-import { Icon, IIconStyleProps, IIconStyles } from '@fluentui/react';
+import { IconButton, IIconStyleProps, IIconStyles } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 
 const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
@@ -27,24 +27,18 @@ const TreeNodeSetUnset: React.FC<NodeProps> = ({ node }) => {
         } else {
             return (
                 !readonly && (
-                    <div
-                        tabIndex={0}
+                    <IconButton
                         className="cb-property-tree-node-set-unset-icon"
                         onClick={(e) => {
                             e.stopPropagation();
                             onNodeValueUnset(node);
                         }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                e.stopPropagation();
-                                onNodeValueUnset(node);
-                            }
+                        ariaLabel={t('propertyInspector.unsetProperty')}
+                        iconProps={{
+                            iconName: 'Cancel',
+                            styles: iconStyles
                         }}
-                        aria-label={t('propertyInspector.unsetProperty')}
-                        title={t('propertyInspector.unsetProperty')}
-                    >
-                        <Icon iconName={'Cancel'} styles={iconStyles} />
-                    </div>
+                    />
                 )
             );
         }

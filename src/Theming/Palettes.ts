@@ -123,7 +123,7 @@ export const fluentDarkThemePalette: IExtendedPartialPalette = {
     neutralLight: '#0c0e0d',
     neutralQuaternaryAlt: '#0b0d0c',
     neutralQuaternary: '#0b0c0c',
-    neutralTertiaryAlt: '#0a0c0b',
+    neutralTertiaryAlt: '#5e5e5e',
     neutralTertiary: '#c8c8c8',
     neutralSecondary: '#d0d0d0',
     neutralPrimaryAlt: '#dadada',
