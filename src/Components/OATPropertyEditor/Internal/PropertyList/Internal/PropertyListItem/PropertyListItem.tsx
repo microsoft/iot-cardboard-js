@@ -101,19 +101,25 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         [onUpdateSchema]
     );
 
-    const onChangeName = useCallback(
-        (_ev, value: string) => {
-            onUpdateName({ name: value });
-        },
-        [onUpdateName]
-    );
+    const onChangeName = onUpdateName
+        ? useCallback(
+              (_ev, value: string) => {
+                  onUpdateName({ name: value });
+              },
+              [onUpdateName]
+          )
+        : undefined;
 
-    const onMoveUp = useCallback(() => {
-        onReorderItem('Up');
-    }, [onReorderItem]);
-    const onMoveDown = useCallback(() => {
-        onReorderItem('Down');
-    }, [onReorderItem]);
+    const onMoveUp = onReorderItem
+        ? useCallback(() => {
+              onReorderItem('Up');
+          }, [onReorderItem])
+        : undefined;
+    const onMoveDown = onReorderItem
+        ? useCallback(() => {
+              onReorderItem('Down');
+          }, [onReorderItem])
+        : undefined;
 
     // side effects
 

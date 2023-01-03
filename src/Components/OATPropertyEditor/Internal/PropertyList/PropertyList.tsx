@@ -20,6 +20,7 @@ import { useOatPageContext } from '../../../../Models/Context/OatPageContext/Oat
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
     isDTDLModel,
+    isDTDLProperty,
     isDTDLReference,
     isDTDLRelationshipReference
 } from '../../../../Models/Services/DtdlUtils';
@@ -27,7 +28,14 @@ import {
     IOnUpdateNameCallback,
     IOnUpdateNameCallbackArgs
 } from './Internal/PropertyListItem/PropertyListItem.types';
-import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
+import {
+    DtdlInterface,
+    DtdlInterfaceContent,
+    DtdlReference,
+    OAT_INTERFACE_TYPE
+} from '../../../../Models/Constants';
+import { getModelPropertyCollectionName } from '../../Utils';
+import { getModelIndexById } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -62,7 +70,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         },
         [oatPageDispatch]
     );
-    const updateRelationship = useCallback(
+    const updateReference = useCallback(
         (reference: DtdlReference) => {
             // TODO: Add history tracking
             oatPageDispatch({
@@ -111,12 +119,37 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return onUpdateItem;
     };
-    const getReorderItemCallback = (_property: DTDLProperty) => {
-        const onReorder = () => {
-            if (isDTDLModel(selectedItem)) {
-                deepCopy;
-            } else if (isDTDLRelationshipReference(selectedItem)) {
-                //
+    const getReorderItemCallback = (
+        property: DTDLProperty,
+        propertyIndex: number
+    ) => {
+        const onReorder = (direction: 'Up' | 'Down') => {
+            const moveItemInCollection = (items: DtdlInterfaceContent[]) => {
+                if (direction === 'Up') {
+                    alert('Reorder up not implemented');
+                } else {
+                    const itemsAfter = items.filter((item, index) => {
+                        index > propertyIndex;
+                    });
+                    const newIndex =
+                        itemsAfter.findIndex((x) => isDTDLProperty(x)) + 1;
+                    const indexInOriginalList =
+                        items.length - itemsAfter.length + newIndex;
+
+                    // insert the item and the new position
+                    items.splice(newIndex + 1, 0, property);
+                    // remove the old item
+                    items.splice(propertyIndex, 1);
+                }
+            };
+
+            const selectedItemCopy = deepCopy(selectedItem);
+            if (isDTDLModel(selectedItemCopy)) {
+                moveItemInCollection(selectedItemCopy.contents);
+                updateModel(selectedItemCopy);
+            } else if (isDTDLRelationshipReference(selectedItemCopy)) {
+                moveItemInCollection(selectedItemCopy.properties);
+                updateReference(selectedItemCopy);
             }
         };
 
@@ -171,7 +204,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 const selectedItemCopy = deepCopy(selectedItem);
                 selectedItemCopy.properties.splice(index, 1);
                 // TODO: add to Undo stack
-                updateRelationship(selectedItem);
+                updateReference(selectedItem);
             }
         };
 

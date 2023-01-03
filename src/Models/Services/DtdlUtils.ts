@@ -153,7 +153,7 @@ export const isDTDLObject = (
 };
 
 export const isDTDLProperty = (
-    property: DTDLProperty
+    property: DtdlInterfaceContent
 ): property is DTDLProperty => {
     if (typeof property['@type'] !== 'string') {
         return (property['@type'] as string[]).includes('Property');
