@@ -26,7 +26,7 @@ export const getStyles = (
         header: [
             classNames.header,
             {
-                fontWeight: FontWeights.bold,
+                fontWeight: FontWeights.semibold,
                 fontSize: FontSizes.size16,
                 marginTop: '0 !important'
             }

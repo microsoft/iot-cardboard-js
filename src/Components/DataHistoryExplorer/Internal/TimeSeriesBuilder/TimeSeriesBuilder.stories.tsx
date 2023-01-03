@@ -9,7 +9,7 @@ import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 const wrapperStyle = { width: '400px', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/TimeSeriesBuilder',
+    title: 'Components/DataHistoryExplorer/Internal/TimeSeriesBuilder',
     component: TimeSeriesBuilder,
     decorators: [
         getDefaultStoryDecorator<ITimeSeriesBuilderProps>(wrapperStyle)

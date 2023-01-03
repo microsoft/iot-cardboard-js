@@ -10,7 +10,7 @@ import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 const wrapperStyle = { width: '200px', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/TimeSeriesTwinCallout',
+    title: 'Components/DataHistoryExplorer/Internal/TimeSeriesTwinCallout/Mock',
     component: TimeSeriesTwinCallout,
     decorators: [
         getDefaultStoryDecorator<ITimeSeriesTwinCalloutProps>(wrapperStyle)
@@ -28,15 +28,27 @@ const Template: TimeSeriesTwinCalloutStory = (args) => {
                 text="Target button"
                 id="mock-time-series-twin-callout-target"
             />
-            <TimeSeriesTwinCallout {...args} />
+            <TimeSeriesTwinCallout
+                {...args}
+                target={'mock-time-series-twin-callout-target'}
+            />
         </DataHistoryExplorerContext.Provider>
     );
 };
 
-export const Mock = Template.bind({}) as TimeSeriesTwinCalloutStory;
-Mock.args = {
-    target: 'mock-time-series-twin-callout-target',
+export const New = Template.bind({}) as TimeSeriesTwinCalloutStory;
+New.args = {
     onPrimaryActionClick(timeSeriesTwin) {
         console.log(timeSeriesTwin);
+    }
+} as ITimeSeriesTwinCalloutProps;
+
+export const Edit = Template.bind({}) as TimeSeriesTwinCalloutStory;
+Edit.args = {
+    timeSeriesTwin: {
+        twinId: 'PasteurizationMachine_A01',
+        twinPropertyName: 'InFlow',
+        twinPropertyType: 'double',
+        label: 'PasteurizationMachine_A01 InFlow'
     }
 } as ITimeSeriesTwinCalloutProps;

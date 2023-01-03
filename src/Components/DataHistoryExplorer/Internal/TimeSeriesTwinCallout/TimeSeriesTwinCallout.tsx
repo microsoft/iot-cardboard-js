@@ -133,10 +133,9 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         styles={classNames.subComponentStyles.callout}
                         onDismiss={onDismiss}
                         directionalHint={DirectionalHint.bottomCenter}
-                        isBeakVisible={false}
                     >
                         <Stack tokens={{ childrenGap: 12 }}>
-                            <Stack tokens={{ childrenGap: 4 }}>
+                            <Stack tokens={{ childrenGap: 8 }}>
                                 <TwinSearch
                                     adapter={adapter}
                                     onSelectTwinId={handleTwinIdChange}
@@ -183,7 +182,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                                             }
                                             defaultChecked={
                                                 timeSeriesTwinToEdit.chartProps
-                                                    .isTwinPropertyTypeCastedToNumber
+                                                    ?.isTwinPropertyTypeCastedToNumber
                                             }
                                             label={t(
                                                 'dataHistoryExplorer.builder.timeSeriesTwin.propertyTypeCastLabel'

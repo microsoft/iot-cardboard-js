@@ -1,5 +1,4 @@
 import React from 'react';
-import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
@@ -10,23 +9,20 @@ import DataHistoryExplorerModal from './DataHistoryExplorerModal';
 const wrapperStyle = { width: '100%', height: '300px', padding: 8 };
 
 export default {
-    title: 'Components/DataHistoryExplorerModal',
+    title: 'Components/DataHistoryExplorer/Modal',
     component: DataHistoryExplorerModal,
     decorators: [
         getDefaultStoryDecorator<IDataHistoryExplorerModalProps>(wrapperStyle)
     ]
 };
 
-type DataHistoryExplorerModalStory = ComponentStory<
-    typeof DataHistoryExplorerModal
->;
-
-const Template: DataHistoryExplorerModalStory = (args) => {
+export const ADT = (args) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <DataHistoryExplorerModal
+            {...args}
             adapter={
                 new ADTDataHistoryAdapter(
                     new MsalAuthService(
@@ -35,10 +31,7 @@ const Template: DataHistoryExplorerModalStory = (args) => {
                     authenticationParameters.adt.hostUrl
                 )
             }
-            {...args}
+            isOpen={true}
         />
     );
 };
-
-export const ADT = Template.bind({}) as DataHistoryExplorerModalStory;
-ADT.args = { isOpen: true } as IDataHistoryExplorerModalProps;

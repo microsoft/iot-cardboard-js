@@ -33,10 +33,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
     const { t } = useTranslation();
 
     // state
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [timeSeriesTwins, setTimeSeriesTwins] = useState<
-        Array<IDataHistoryTimeSeriesTwin>
-    >([]);
+    const [, setTimeSeriesTwins] = useState<Array<IDataHistoryTimeSeriesTwin>>(
+        []
+    );
 
     // styles
     const classNames = getClassNames(styles, {
