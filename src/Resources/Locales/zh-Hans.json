@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "日期时间选取器",
       "timePickerTitle": "时间选取器",
       "plainTextInput": "纯文本输入"
-    }
+    },
+    "removeArrayItemIconTitle": "从列表中删除项目",
+    "addArrayItemIconTitle": "添加新项目",
+    "clearArrayIconTitle": "删除所有项目"
   },
   "environmentPicker": {
     "editEnvironment": "配置 3D 场景环境",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "您缺少权限。你将需要作为“Azure 数字孪生数据读取器”进行访问（至少）。",
       "storageAccountMissingPermissionMessage": "您缺少权限。您将需要以“读者”身份访问（至少）。",
       "storageContainerMissingPermissionMessage": "您缺少权限。你将需要以“读取者”（至少）和“存储 Blob 数据所有者”或“存储 Blob 数据参与者”的身份进行访问。",
-      "resourceNotFound": "找不到具有输入值的 Azure 资源。"
+      "resourceNotFound": "找不到具有输入值的 Azure 资源。",
+      "resourceNotVerified": "我们无法验证此资源是否存在。"
     }
   },
   "behaviorsModal": {
@@ -1262,7 +1266,6 @@
   "resourcesPicker": {
     "noOption": "未找到资源",
     "loadingResources": "加载资源",
-    "loadingInstances": "正在加载实例...",
     "loadingContainers": "装载集装箱...",
     "loadingStorageAccounts": "正在加载存储帐户...",
     "displayFieldNotFound": "在 id 为 '{{id}}' 的资源中找不到 '{{displayField}}' 属性！",
@@ -1273,9 +1276,11 @@
       "invalidStorageAccountUrl": "这不是一个有效的URL（例如 https://<你的存储帐户名称>.blob.core.windows.net）"
     },
     "selectResourcePlaceholder": "选择资源",
-    "environmentDropdownPlaceholder": "例如 https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "例如 https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "例如 https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "没有完全匹配，请使用",
+    "adtInstancePlaceholder": "选择一个 ADT 实例",
+    "storageAccountPlaceholder": "选择存储帐户",
+    "storageContainerPlaceholder": "选择存储容器",
+    "loadingAdtInstances": "正在加载实例..."
   },
   "advancedSearch": {
     "toggleSelection": "切换为选择双胞胎",

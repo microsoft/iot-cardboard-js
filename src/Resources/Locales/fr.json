@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Sélecteur Datetime",
       "timePickerTitle": "Sélecteur de temps",
       "plainTextInput": "Saisie de texte brut"
-    }
+    },
+    "removeArrayItemIconTitle": "Supprimer un élément de la liste",
+    "addArrayItemIconTitle": "Ajouter un nouvel élément",
+    "clearArrayIconTitle": "Supprimer tous les éléments"
   },
   "environmentPicker": {
     "editEnvironment": "Configurer l’environnement 3D Scenes",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur de données Azure Digital Twins » (au minimum).",
       "storageAccountMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur » (au minimum).",
       "storageContainerMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « Lecteur » (au minimum) et « Propriétaire des données d'objets blob de stockage » ou « Contributeur de données d'objets blob de stockage ».",
-      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée."
+      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée.",
+      "resourceNotVerified": "Nous ne pouvons pas vérifier que cette ressource existe."
     }
   },
   "behaviorsModal": {
@@ -1262,7 +1266,6 @@
   "resourcesPicker": {
     "noOption": "Aucune ressource trouvée",
     "loadingResources": "Chargement des ressources",
-    "loadingInstances": "Chargement d’instances...",
     "loadingContainers": "Chargement des conteneurs...",
     "loadingStorageAccounts": "Chargement des comptes de stockage...",
     "displayFieldNotFound": "Propriété '{{displayField}}' introuvable dans la ressource avec l'id '{{id}}'!",
@@ -1273,9 +1276,11 @@
       "invalidStorageAccountUrl": "Il ne s’agit pas d’une URL valide (par exemple, https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Sélectionner une ressource",
-    "environmentDropdownPlaceholder": "p. ex. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "p. ex. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "p. ex. https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Pas de correspondance exacte, utilisez",
+    "adtInstancePlaceholder": "Sélectionner une instance ADT",
+    "storageAccountPlaceholder": "Sélectionner un compte de stockage",
+    "storageContainerPlaceholder": "Sélectionner un conteneur de stockage",
+    "loadingAdtInstances": "Chargement des instances..."
   },
   "advancedSearch": {
     "toggleSelection": "Basculer pour sélectionner Twin",

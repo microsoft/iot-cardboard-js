@@ -68,32 +68,37 @@ export const DeeplinkContextReducer: (
                         AzureResourceTypes.DigitalTwinInstance
                     ) || '';
                 draft.adtResourceId = getResourceId(action.payload.adtInstance);
-                if (typeof action.payload.adtInstance === 'string') {
-                    // try to get the selected item from options in local storage if previously fetched
-                    const itemInLocalStorage = getAdtInstanceOptionsFromLocalStorage()?.find(
-                        (option) =>
-                            areResourceValuesEqual(
-                                draft.adtUrl,
-                                option.url,
-                                AzureResourceDisplayFields.url
-                            )
-                    );
-                    if (itemInLocalStorage) {
-                        draft.adtResourceId = itemInLocalStorage.id;
-                        const resourceFromItem = getResourceFromEnvironmentItem(
-                            itemInLocalStorage,
-                            AzureResourceTypes.DigitalTwinInstance
-                        ) as IADTInstance;
-                        setSelectedAdtInstanceInLocalStorage(resourceFromItem);
+                if (draft.isLocalStorageEnabled?.adt) {
+                    if (typeof action.payload.adtInstance === 'string') {
+                        // try to get the selected item from options in local storage if previously fetched
+                        const itemInLocalStorage = getAdtInstanceOptionsFromLocalStorage()?.find(
+                            (option) =>
+                                areResourceValuesEqual(
+                                    draft.adtUrl,
+                                    option.url,
+                                    AzureResourceDisplayFields.url
+                                )
+                        );
+                        if (itemInLocalStorage) {
+                            draft.adtResourceId = itemInLocalStorage.id;
+                            const resourceFromItem = getResourceFromEnvironmentItem(
+                                itemInLocalStorage,
+                                AzureResourceTypes.DigitalTwinInstance
+                            ) as IADTInstance;
+
+                            setSelectedAdtInstanceInLocalStorage(
+                                resourceFromItem
+                            );
+                        } else {
+                            setSelectedAdtInstanceInLocalStorage(
+                                action.payload.adtInstance
+                            );
+                        }
                     } else {
                         setSelectedAdtInstanceInLocalStorage(
                             action.payload.adtInstance
                         );
                     }
-                } else {
-                    setSelectedAdtInstanceInLocalStorage(
-                        action.payload.adtInstance
-                    );
                 }
                 break;
             }
@@ -123,13 +128,15 @@ export const DeeplinkContextReducer: (
                         AzureResourceTypes.StorageBlobContainer,
                         action.payload.storageAccount
                     ) || '';
-                setSelectedStorageAccountInLocalStorage(
-                    action.payload.storageAccount
-                );
-                setSelectedStorageContainerInLocalStorage(
-                    action.payload.storageContainer,
-                    action.payload.storageAccount
-                );
+                if (draft.isLocalStorageEnabled?.storage) {
+                    setSelectedStorageAccountInLocalStorage(
+                        action.payload.storageAccount
+                    );
+                    setSelectedStorageContainerInLocalStorage(
+                        action.payload.storageContainer,
+                        action.payload.storageAccount
+                    );
+                }
                 break;
             }
         }
@@ -201,7 +208,11 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
             parsed.storageUrl ||
             initialState.storageUrl ||
             selectedStorageContainerInLocalStorage?.url ||
-            ''
+            '',
+        isLocalStorageEnabled: {
+            adt: initialState.isLocalStorageEnabled?.adt,
+            storage: initialState.isLocalStorageEnabled?.storage
+        }
     };
 
     const [deeplinkState, deeplinkDispatch] = useReducer(
@@ -246,32 +257,37 @@ export const DeeplinkContextProvider: React.FC<IDeeplinkContextProviderProps> = 
     }, [deeplinkState.sceneId]);
 
     useEffect(() => {
-        // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
-        setSelectedAdtInstanceInLocalStorage(
-            defaultState.adtResourceId
-                ? ({
-                      id: defaultState.adtResourceId
-                          ? defaultState.adtResourceId
-                          : null,
-                      name: getNameOfResource(
-                          defaultState.adtUrl,
-                          AzureResourceTypes.DigitalTwinInstance
-                      ),
-                      properties: {
-                          hostName: getUrlFromString(defaultState.adtUrl)
-                              ?.hostname
-                      },
-                      type: AzureResourceTypes.DigitalTwinInstance
-                  } as IADTInstance)
-                : defaultState.adtUrl
-        );
-        setSelectedStorageAccountInLocalStorage(
-            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
-        );
-        setSelectedStorageContainerInLocalStorage(
-            getContainerNameFromUrl(defaultState.storageUrl),
-            getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
-        );
+        if (deeplinkState.isLocalStorageEnabled?.adt) {
+            // initially update the local storage with selected values (in case the value is coming from parsed or initial state)
+            setSelectedAdtInstanceInLocalStorage(
+                defaultState.adtResourceId
+                    ? ({
+                          id: defaultState.adtResourceId
+                              ? defaultState.adtResourceId
+                              : null,
+                          name: getNameOfResource(
+                              defaultState.adtUrl,
+                              AzureResourceTypes.DigitalTwinInstance
+                          ),
+                          properties: {
+                              hostName: getUrlFromString(defaultState.adtUrl)
+                                  ?.hostname
+                          },
+                          type: AzureResourceTypes.DigitalTwinInstance
+                      } as IADTInstance)
+                    : defaultState.adtUrl
+            );
+        }
+
+        if (deeplinkState.isLocalStorageEnabled?.storage) {
+            setSelectedStorageAccountInLocalStorage(
+                getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+            );
+            setSelectedStorageContainerInLocalStorage(
+                getContainerNameFromUrl(defaultState.storageUrl),
+                getStorageAccountUrlFromContainerUrl(defaultState.storageUrl)
+            );
+        }
     }, []);
 
     return (

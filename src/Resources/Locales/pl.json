@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Selektor daty i godziny",
       "timePickerTitle": "Selektor czasu",
       "plainTextInput": "Wprowadzanie zwykłego tekstu"
-    }
+    },
+    "removeArrayItemIconTitle": "Usuń element z listy",
+    "addArrayItemIconTitle": "Dodaj nowy element",
+    "clearArrayIconTitle": "Usuń wszystkie elementy"
   },
   "environmentPicker": {
     "editEnvironment": "Konfigurowanie środowiska Sceny 3D",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Masz brakujące uprawnienia. Dostęp będzie potrzebny jako \"Azure Digital Twins Data Reader\" (co najmniej).",
       "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
       "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
-      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością."
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością.",
+      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje."
     }
   },
   "behaviorsModal": {
@@ -1262,7 +1266,6 @@
   "resourcesPicker": {
     "noOption": "Nie znaleziono zasobów",
     "loadingResources": "Ładowanie zasobów",
-    "loadingInstances": "Ładowanie instancji...",
     "loadingContainers": "Załadunek kontenerów...",
     "loadingStorageAccounts": "Ładowanie kont magazynu...",
     "displayFieldNotFound": "Nie znaleziono właściwości '{{displayField}}' w zasobie o identyfikatorze '{{id}}'!",
@@ -1273,9 +1276,11 @@
       "invalidStorageAccountUrl": "To nie jest prawidłowy adres URL (np. https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Wybieranie zasobu",
-    "environmentDropdownPlaceholder": "np. https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "np. https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "np. https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Brak dokładnego dopasowania, użyj",
+    "adtInstancePlaceholder": "Wybieranie wystąpienia narzędzia ADT",
+    "storageAccountPlaceholder": "Wybierz konto magazynuSelect a Storage Account",
+    "storageContainerPlaceholder": "Wybierz kontener pamięci masowej",
+    "loadingAdtInstances": "Ładowanie instancji..."
   },
   "advancedSearch": {
     "toggleSelection": "Przełącz na Wybierz Twin",

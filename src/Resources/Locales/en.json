@@ -787,6 +787,9 @@
         "mapKeyPlaceholder": "Enter new map key",
         "addMapIconTitle": "Add map value",
         "removeMapValueIconTitle": "Remove map value",
+        "removeArrayItemIconTitle": "Remove item from list",
+        "addArrayItemIconTitle": "Add new item",
+        "clearArrayIconTitle": "Remove all items",
         "propertyTypes": {
             "boolean": "Boolean",
             "date": "Date",
@@ -865,7 +868,8 @@
             "adtInstanceMissingPermissionMessage": "You have missing permissions. You will need access as a 'Azure Digital Twins Data Reader' (at a minimum).",
             "storageAccountMissingPermissionMessage": "You have missing permissions. You will need access as a 'Reader' (at a minimum).",
             "storageContainerMissingPermissionMessage": "You have missing permissions. You will need access as a 'Reader' (at a minimum) and either 'Storage Blob Data Owner' or 'Storage Blob Data Contributor'.",
-            "resourceNotFound": "There is no Azure resource found with the entered value."
+            "resourceNotFound": "There is no Azure resource found with the entered value.",
+            "resourceNotVerified": "We can not verify that this resource exists."
         }
     },
     "behaviorsModal": {
@@ -1279,14 +1283,15 @@
         "selectResourcePlaceholder": "Select a resource",
         "noOption": "No resources found",
         "loadingResources": "Loading resources",
-        "loadingInstances": "Loading instances...",
+        "loadingAdtInstances": "Loading instances...",
         "loadingContainers": "Loading containers...",
         "loadingStorageAccounts": "Loading storage accounts...",
-        "environmentDropdownPlaceholder": "e.g. https://example.api.wus2.digitaltwins.azure.net",
-        "storageAccountDropdownPlaceholder": "e.g. https://example.blob.core.windows.net/",
-        "containerDropdownPlaceholder": "e.g. https://example.blob.core.windows.net/example",
+        "adtInstancePlaceholder": "Select an ADT instance",
+        "storageAccountPlaceholder": "Select a Storage account",
+        "storageContainerPlaceholder": "Select a Storage container",
         "displayFieldNotFound": "'{{displayField}}' property not found in the resource with the id '{{id}}'!",
         "removeFromList": "Remove from list",
+        "useNonExistingResource": "No exact match, use",
         "errors": {
             "invalidEnvironmentUrl": "This is not a valid URL (e.g. https://<yourADTInstanceResourceName>.api.wcus.digitaltwins.azure.net)",
             "invalidContainerUrl": "This is not a valid URL (e.g. https://<yourStorageAccountName>.blob.core.windows.net/<yourContainerName>)",

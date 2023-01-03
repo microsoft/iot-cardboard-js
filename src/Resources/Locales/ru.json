@@ -837,7 +837,10 @@
       "dateTimePickerTitle": "Средство выбора даты и времени",
       "timePickerTitle": "Выбор времени",
       "plainTextInput": "Ввод обычного текста"
-    }
+    },
+    "removeArrayItemIconTitle": "Удалить элемент из списка",
+    "addArrayItemIconTitle": "Добавить новый элемент",
+    "clearArrayIconTitle": "Удалить все элементы"
   },
   "environmentPicker": {
     "editEnvironment": "Настройка среды 3D-сцен",
@@ -857,7 +860,8 @@
       "adtInstanceMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве средства чтения данных цифровых двойников Azure (как минимум).",
       "storageAccountMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум).",
       "storageContainerMissingPermissionMessage": "У вас отсутствуют разрешения. Вам понадобится доступ в качестве «Читателя» (как минимум) и «Владельца данных BLOB-объектов хранилища» или «Участника данных хранилища больших двоичных объектов».",
-      "resourceNotFound": "Ресурс Azure не найден с введенным значением."
+      "resourceNotFound": "Ресурс Azure не найден с введенным значением.",
+      "resourceNotVerified": "Мы не можем проверить, что этот ресурс существует."
     }
   },
   "behaviorsModal": {
@@ -1262,7 +1266,6 @@
   "resourcesPicker": {
     "noOption": "Ресурсы не найдены",
     "loadingResources": "Загрузка ресурсов",
-    "loadingInstances": "Загрузка экземпляров...",
     "loadingContainers": "Погрузка контейнеров...",
     "loadingStorageAccounts": "Загрузка учетных записей хранения...",
     "displayFieldNotFound": "Свойство '{{displayField}}' не найдено в ресурсе с идентификатором '{{id}}'!",
@@ -1273,9 +1276,11 @@
       "invalidStorageAccountUrl": "Это недопустимый URL-адрес (например, https://<yourStorageAccountName>.blob.core.windows.net)"
     },
     "selectResourcePlaceholder": "Выберите ресурс",
-    "environmentDropdownPlaceholder": "например, https://example.api.wus2.digitaltwins.azure.net",
-    "storageAccountDropdownPlaceholder": "например, https://example.blob.core.windows.net/",
-    "containerDropdownPlaceholder": "например, https://example.blob.core.windows.net/example"
+    "useNonExistingResource": "Нет точного соответствия, используйте",
+    "adtInstancePlaceholder": "Выбор экземпляра ADT",
+    "storageAccountPlaceholder": "Выбор учетной записи хранения",
+    "storageContainerPlaceholder": "Выбор контейнера хранилища",
+    "loadingAdtInstances": "Загрузка экземпляров..."
   },
   "advancedSearch": {
     "toggleSelection": "Переключение на выбор Twin",

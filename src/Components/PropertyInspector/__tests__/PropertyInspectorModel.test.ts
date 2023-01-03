@@ -120,6 +120,40 @@ describe('Property nodes are parsed correctly', () => {
         expect(mapValueChild.path).toBe('/testMap/testValue/testString');
         expect(mapValueChild.value).toBe('abc');
     });
+
+    test('Array nodes are parsed correctly', () => {
+        const testModel = {
+            '@type': 'Property',
+            name: 'testArray',
+            schema: {
+                '@type': 'Array',
+                elementSchema: 'string'
+            }
+        };
+
+        const node = PropertyInspectorModel.parsePropertyIntoNode({
+            isInherited: false,
+            isMapChild: false,
+            isObjectChild: false,
+            modelProperty: testModel,
+            path: '',
+            propertySourceObject: {
+                testArray: ['abc', 'def', 'ghi']
+            },
+            isArrayItem: true
+        });
+
+        expect(node.name).toBe('testArray');
+        expect(node.role).toBe(NodeRole.parent);
+        expect(node.children).toHaveLength(3);
+
+        const arrayValue = node?.children?.[0];
+        expect(arrayValue.path).toBe('/testArray[0]');
+
+        const arrayValueChild = node?.children?.[2];
+        expect(arrayValueChild.path).toBe('/testArray[2]');
+        expect(arrayValueChild.value).toBe('ghi');
+    });
 });
 
 let propertyInspectorTwinNodes = null;

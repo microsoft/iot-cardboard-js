@@ -5,10 +5,7 @@ import {
     getDefaultStoryDecorator,
     waitForFirstRender
 } from '../../../Models/Services/StoryUtilities';
-import {
-    defaultSwatchColors,
-    defaultSwatchIcons
-} from '../../../Theming/Palettes';
+import { defaultSwatchColors } from '../../../Theming/Palettes';
 import IconPicker from '../IconSelectButton/IconPicker';
 import ColorPicker from './ColorPicker';
 
@@ -24,7 +21,7 @@ export default {
 
 type TemplateStory = ComponentStory<typeof IconPicker>;
 const Template: TemplateStory = (args) => {
-    const [selectedColor, setSelectedColor] = useState(defaultSwatchIcons[0]);
+    const [selectedColor, setSelectedColor] = useState(defaultSwatchColors[0]);
     return (
         <ColorPicker
             items={defaultSwatchColors}

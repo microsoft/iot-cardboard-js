@@ -11,6 +11,7 @@ import {
 import { IADT3DSceneBuilderCardProps } from './ADT3DSceneBuilder.types';
 import trucksMockVConfig from '../../Adapters/__mockData__/TruckAndMachinesConfig.json';
 import { deepCopy } from '../../Models/Services/Utils';
+import { sleep } from '../AutoComplete/AutoComplete';
 
 export default {
     title: 'Components/ADT3DSceneBuilder/BehaviorForm',
@@ -154,11 +155,14 @@ EditVisualRuleTab.play = async ({ canvasElement }) => {
 export const EditVisualRuleTabRemoveRule = Template.bind({});
 EditVisualRuleTabRemoveRule.play = async ({ canvasElement }) => {
     await EditVisualRuleTab.play({ canvasElement });
+    // Open overflow menu
     const canvas = within(canvasElement);
-    const overflowMenu = await canvas.findByTestId(
+    const moreMenu = await canvas.findByTestId(
         'context-menu-visualRules-in-behavior-0-moreMenu'
     );
-    userEvent.click(overflowMenu);
+    userEvent.click(moreMenu);
+    await sleep(1);
+
     const deleteButton = await findOverflowMenuItem('removeRuleOverflow');
     clickOverFlowMenuItem(deleteButton);
 };

@@ -99,9 +99,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
             },
             data: isResourceGraphCall(params)
                 ? {
-                      query: `Resources | where type =~ '${
-                          params.type
-                      }' | where tenantId == '${this.tenantId}'${
+                      query: `Resources | where type =~ '${params.type}'${
                           params.query ? ' | where ' + params.query : ''
                       } | join kind=leftouter (ResourceContainers | where type=='microsoft.resources/subscriptions' | project subscriptionName=name, subscriptionId) on subscriptionId | project id, name, location, type, properties, tenantId, subscriptionId, subscriptionName, resourceGroup${
                           params.limit ? ' | limit ' + params.limit : ''
@@ -266,7 +264,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 const urlObj = getUrlFromString(urlString);
                 switch (type.toLowerCase()) {
                     case AzureResourceTypes.DigitalTwinInstance.toLowerCase(): {
-                        query = `properties.hostName == '${urlObj.hostname}'`;
+                        query = `properties.hostName =~ '${urlObj.hostname}'`;
                         break;
                     }
                     case AzureResourceTypes.StorageAccount.toLowerCase():
@@ -327,6 +325,11 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                     'getResourceByUrl: Failed to fetch resource by url: ',
                     error
                 );
+                adapterMethodSandbox.pushError({
+                    type: ComponentErrorType.DataFetchFailed,
+                    isCatastrophic: true,
+                    rawError: error
+                });
             }
 
             return new AzureResourceData(resource);
@@ -377,7 +380,9 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                                 (r.subscriptionName =
                                     storageAccounts[0].subscriptionName) // add the subscription name from storage account since /containers service call does not include it in response
                         );
-                    } else {
+                    } else if (
+                        !params.searchParams?.isAdditionalParamsRequired
+                    ) {
                         const storageAccounts: Array<IAzureStorageAccount> = await this.fetchAllResources(
                             adapterMethodSandbox,
                             token,

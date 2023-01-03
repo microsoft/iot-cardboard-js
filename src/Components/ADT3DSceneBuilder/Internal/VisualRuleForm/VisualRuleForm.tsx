@@ -11,6 +11,7 @@ import {
     TextField,
     useTheme
 } from '@fluentui/react';
+import produce from 'immer';
 import React, {
     useCallback,
     useContext,
@@ -204,15 +205,19 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             visualRuleFormState.visualRuleToEdit.valueRanges &&
             visualRuleFormState.visualRuleToEdit.valueRanges.length >= 1
         ) {
-            setValidityMap((validityMap) => {
-                validityMap.set('conditions', { isValid: true });
-                return validityMap;
-            });
+            setValidityMap(
+                produce((validityMap) => {
+                    validityMap.set('conditions', { isValid: true });
+                    return validityMap;
+                })
+            );
         } else {
-            setValidityMap((validityMap) => {
-                validityMap.set('conditions', { isValid: false });
-                return validityMap;
-            });
+            setValidityMap(
+                produce((validityMap) => {
+                    validityMap.set('conditions', { isValid: false });
+                    return validityMap;
+                })
+            );
         }
     }, [visualRuleFormState.visualRuleToEdit.valueRanges]);
 
@@ -223,10 +228,12 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
             name: string
         ) => {
             const isValid = name?.trim().length > 0;
-            setValidityMap((validityMap) => {
-                validityMap.set('displayName', { isValid: isValid });
-                return validityMap;
-            });
+            setValidityMap(
+                produce((validityMap) => {
+                    validityMap.set('displayName', { isValid: isValid });
+                    return validityMap;
+                })
+            );
             visualRuleFormDispatch({
                 type:
                     VisualRuleFormActionType.FORM_VISUAL_RULE_DISPLAY_NAME_SET,
@@ -239,10 +246,12 @@ const VisualRuleForm: React.FC<IVisualRuleFormProps> = (props) => {
     const onPropertyChange = useCallback(
         (propertyExpression: PropertyExpression) => {
             const isValid = propertyExpression.expression?.trim().length > 0;
-            setValidityMap((validityMap) => {
-                validityMap.set('expression', { isValid: isValid });
-                return validityMap;
-            });
+            setValidityMap(
+                produce((validityMap) => {
+                    validityMap.set('expression', { isValid: isValid });
+                    return validityMap;
+                })
+            );
             visualRuleFormDispatch({
                 type: VisualRuleFormActionType.FORM_VISUAL_RULE_EXPRESSION_SET,
                 payload: { expression: propertyExpression.expression }

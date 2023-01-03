@@ -105,6 +105,7 @@ export interface DtdlProperty {
     displayName?: string;
     unit?: string;
     writable?: boolean;
+    index?: number;
 }
 
 export interface DtdlArray {

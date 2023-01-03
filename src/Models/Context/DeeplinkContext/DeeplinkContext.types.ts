@@ -37,6 +37,7 @@ export interface IDeeplinkContextState {
     selectedElementId: string;
     selectedLayerIds: string[];
     storageUrl: string;
+    isLocalStorageEnabled?: { adt: boolean; storage: boolean };
 }
 
 /** The object serialized to create the deeplink URL */

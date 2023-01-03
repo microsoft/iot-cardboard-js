@@ -255,15 +255,25 @@ export type AdapterMethodParamsForGetAzureResources = {
  * @param take the number of resources to return to limit the number of following requests to check the permission against, but drawback of this approach is that the taken bucket of resources may not be the ones that user has required permissions
  * @param filter used to filter resources based on AzureResourceDisplayFields
  * @param additionalParams is for resource specific params (e.g storageAccountId or storageAccountBlobUrl for fetching StorageBlobContainer resource type via storage accounts) to limit the number of requests for performance
+ * @param isAdditionalParamsRequired is used as a secondary gate to enforce the presence of additionaParams to make getResources call which might take long time
  */
-export type AzureResourceSearchParams = {
-    take?: number;
-    filter?: string;
-    additionalParams?: {
+export type AzureResourceSearchParams = { take?: number; filter?: string } & (
+    | AzureResourceSearchParamsWithAdditionalParams
+    | AzureResourceSearchParamsWithoutAdditionalParams
+);
+
+export type AzureResourceSearchParamsWithAdditionalParams = {
+    isAdditionalParamsRequired: true;
+    additionalParams: {
         storageAccountId?: string;
         storageAccountBlobUrl?: string;
         [key: string]: any;
     };
+};
+
+export type AzureResourceSearchParamsWithoutAdditionalParams = {
+    isAdditionalParamsRequired?: false;
+    additionalParams?: never;
 };
 
 /** AzureResourceFetchParamsForResourceGraph consists of parameters used during fetching Azure resources via resource graphs REST API (e.g. for ADT Instances and Storage Accounts type resources).
