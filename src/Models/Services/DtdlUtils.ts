@@ -341,12 +341,6 @@ export const movePropertyInCollection = (
     propertyIndex: number,
     items: DtdlInterfaceContent[]
 ) => {
-    console.log(
-        `***moving item ${direction} {property, index, items}`,
-        property,
-        propertyIndex,
-        items
-    );
     if (direction === 'Up') {
         if (propertyIndex === 0) {
             console.warn('Cannot move item up. Already first item in list');
@@ -357,7 +351,6 @@ export const movePropertyInCollection = (
         let previousPropertyIndex = -1;
         items.forEach((x, index) => {
             if (isDTDLProperty(x) && index < propertyIndex) {
-                console.log('***updating previous index to ' + index);
                 previousPropertyIndex = index;
             }
         });
@@ -386,7 +379,6 @@ export const movePropertyInCollection = (
                 isDTDLProperty(x) &&
                 index > propertyIndex
             ) {
-                console.log('***updating index to ' + index, x);
                 nextPropertyIndex = index;
                 return;
             }
@@ -398,16 +390,10 @@ export const movePropertyInCollection = (
         }
         const indexInOriginalList = nextPropertyIndex + 1;
 
-        console.log(
-            '***splicing in at index ' + indexInOriginalList,
-            nextPropertyIndex
-        );
         // insert the item at the new position
         items.splice(indexInOriginalList, 0, property);
-        console.log('***spliced in', items);
         // remove the old item
         items.splice(propertyIndex, 1);
-        console.log('***removed old at index ' + propertyIndex, items);
         return items;
     }
 };
