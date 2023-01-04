@@ -30,7 +30,8 @@ import {
     getDefaultProperty,
     isDTDLModel,
     isDTDLProperty,
-    isDTDLReference
+    isDTDLReference,
+    isDTDLRelationshipReference
 } from '../../Models/Services/DtdlUtils';
 import { useCommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
@@ -85,9 +86,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
         return propertyItems;
     }, [selectedItem, propertiesKeyName]);
 
-    const isSupportedModelType = useMemo(() => isDTDLModel(selectedItem), [
-        selectedItem
-    ]);
+    const isSupportedModelType = useMemo(
+        () =>
+            isDTDLModel(selectedItem) ||
+            isDTDLRelationshipReference(selectedItem),
+        [selectedItem]
+    );
 
     // callbacks
     // const onToggleTemplatesActive = () => {
@@ -140,6 +144,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
             );
 
             const selectedItemCopy = deepCopy(selectedItem);
+            if (!selectedItemCopy[propertiesKeyName]) {
+                selectedItemCopy[propertiesKeyName] = [];
+            }
             (selectedItemCopy[propertiesKeyName] as DtdlProperty[]).push(
                 getDefaultProperty(
                     data.schema,
@@ -149,7 +156,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
             if (isDTDLModel(selectedItemCopy)) {
                 const updateModel = () => {
-                    console.log('***Apply update');
                     oatPageDispatch({
                         type: OatPageContextActionType.UPDATE_MODEL,
                         payload: {
@@ -159,10 +165,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 };
 
                 const undoUpdate = () => {
-                    console.log(
-                        '***Undo update',
-                        oatPageState.currentOntologyModels
-                    );
                     oatPageDispatch({
                         type: OatPageContextActionType.GENERAL_UNDO,
                         payload: {
@@ -175,21 +177,45 @@ const Editor: React.FC<IEditorProps> = (props) => {
                 };
 
                 execute(updateModel, undoUpdate);
-            } else if (isDTDLReference(selectedItem)) {
-                // TODO: add to Undo stack
-                // oatPageDispatch({
-                //     type: OatPageContextActionType.UPDATE_REFERENCE,
-                //     payload: {
-                //         modelId: parentModelId,
-                //         reference: selectedItem
-                //     }
-                // });
+            } else if (isDTDLReference(selectedItemCopy)) {
+                console.log(
+                    '***UPdtaing reference',
+                    selectedItemCopy,
+                    parentModelId
+                );
+                const updateModel = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_REFERENCE,
+                        payload: {
+                            modelId: parentModelId,
+                            reference: selectedItemCopy
+                        }
+                    });
+                };
+
+                const undoUpdate = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.GENERAL_UNDO,
+                        payload: {
+                            models: oatPageState.currentOntologyModels,
+                            positions:
+                                oatPageState.currentOntologyModelPositions,
+                            selection: oatPageState.selection
+                        }
+                    });
+                };
+
+                execute(updateModel, undoUpdate);
             }
         },
         [
+            execute,
+            oatPageDispatch,
             oatPageState.currentOntologyModelPositions,
             oatPageState.currentOntologyModels,
             oatPageState.selection,
+            parentModelId,
+            propertiesKeyName,
             selectedItem
         ]
     );
