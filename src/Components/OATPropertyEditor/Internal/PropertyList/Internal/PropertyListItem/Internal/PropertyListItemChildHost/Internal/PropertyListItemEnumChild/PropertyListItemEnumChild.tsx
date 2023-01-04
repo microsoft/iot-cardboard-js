@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
     IPropertyListItemEnumChildProps,
     IPropertyListItemEnumChildStyleProps,
@@ -7,6 +7,7 @@ import {
 import { getStyles } from './PropertyListItemEnumChild.styles';
 import {
     classNamesFunction,
+    IContextualMenuItem,
     SpinButton,
     Stack,
     styled,
@@ -15,6 +16,7 @@ import {
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyIcon from '../../../PropertyIcon/PropertyIcon';
 import { useTranslation } from 'react-i18next';
+import { OverflowMenu } from '../../../../../../../../../OverflowMenu/OverflowMenu';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemEnumChildStyleProps,
@@ -24,7 +26,19 @@ const getClassNames = classNamesFunction<
 const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
     props
 ) => {
-    const { enumType, item, level, onUpdateKey, onUpdateValue, styles } = props;
+    const {
+        enumType,
+        indexKey,
+        isFirstItem,
+        isLastItem,
+        item,
+        level,
+        onUpdateKey,
+        onUpdateValue,
+        onReorderItem,
+        onRemove,
+        styles
+    } = props;
 
     // contexts
 
@@ -37,6 +51,17 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
 
     // callbacks
 
+    const onMoveUp = onReorderItem
+        ? useCallback(() => {
+              onReorderItem('Up');
+          }, [onReorderItem])
+        : undefined;
+    const onMoveDown = onReorderItem
+        ? useCallback(() => {
+              onReorderItem('Down');
+          }, [onReorderItem])
+        : undefined;
+
     // side effects
     useEffect(() => {
         setName(item.name);
@@ -45,6 +70,34 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
         setValue(item.enumValue);
     }, [item.enumValue]);
 
+    // data
+    const overflowMenuItems: IContextualMenuItem[] = useMemo(
+        () => [
+            {
+                key: 'move-up',
+                text: 'Move up',
+                disabled: isFirstItem,
+                iconProps: { iconName: 'Up' },
+                onClick: onMoveUp
+            },
+            {
+                key: 'move-down',
+                text: 'Move down',
+                disabled: isLastItem,
+                iconProps: { iconName: 'Down' },
+                onClick: onMoveDown
+            },
+            {
+                key: 'remove',
+                text: 'Remove',
+                disabled: !onRemove,
+                iconProps: { iconName: 'Delete' },
+                onClick: onRemove
+            }
+        ],
+        [isFirstItem, isLastItem, onMoveDown, onMoveUp, onRemove]
+    );
+
     // styles
     const classNames = getClassNames(styles, {
         theme: useExtendedTheme(),
@@ -52,7 +105,11 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
     });
 
     return (
-        <Stack horizontal className={classNames.root}>
+        <Stack
+            horizontal
+            className={classNames.root}
+            tokens={{ childrenGap: 4 }}
+        >
             <PropertyIcon
                 schema={enumType}
                 styles={classNames.subComponentStyles.icon}
@@ -60,7 +117,7 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
             <Stack
                 className={classNames.container}
                 horizontal
-                tokens={{ childrenGap: 8 }}
+                tokens={{ childrenGap: 4 }}
             >
                 <TextField
                     value={name}
@@ -98,6 +155,15 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                     />
                 )}
             </Stack>
+            <span className={classNames.buttonSpacer} />
+            <OverflowMenu
+                index={indexKey}
+                isFocusable={true}
+                menuKey={'enum-child-values-list'}
+                menuProps={{
+                    items: overflowMenuItems
+                }}
+            />
         </Stack>
     );
 };

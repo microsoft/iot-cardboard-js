@@ -35,7 +35,6 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
         level,
         onDuplicate,
         onUpdateSchema,
-        onRemove,
         propertyItem,
         styles
     } = props;
@@ -75,6 +74,11 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                     onRenderCell={(item, index) => (
                         <PropertyListItemEnumChild
                             indexKey={`${indexKey}.${index}`}
+                            isFirstItem={index === 0}
+                            isLastItem={
+                                index ===
+                                propertyItem.schema.enumValues.length - 1
+                            }
                             item={item}
                             enumType={propertyItem.schema.valueSchema}
                             level={level}
@@ -110,8 +114,16 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // dispatch the child update
                                 onUpdateSchema(schemaCopy);
                             }}
-                            onDuplicate={onDuplicate}
-                            onRemove={onRemove}
+                            onRemove={() => {
+                                // decouple the schema object
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                // remove the field
+                                schemaCopy.enumValues.splice(index, 1);
+                                // dispatch the child update
+                                onUpdateSchema(schemaCopy);
+                            }}
                         />
                     )}
                 />

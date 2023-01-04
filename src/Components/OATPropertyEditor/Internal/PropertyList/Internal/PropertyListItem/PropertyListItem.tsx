@@ -131,64 +131,76 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     });
 
     // data
-    const overflowMenuItems: IContextualMenuItem[] = [
-        {
-            key: 'change-property-type',
-            text: 'Edit property type',
-            disabled: !onUpdateSchema,
-            iconProps: { iconName: 'Edit' },
-            subMenuProps: {
-                items: getSchemaTypeMenuOptions(onChangeSchemaType),
-                styles: {
-                    subComponentStyles: {
-                        menuItem: {
-                            '.ms-ContextualMenu-link': {
-                                display: 'flex',
-                                alignItems: 'center'
+    const overflowMenuItems: IContextualMenuItem[] = useMemo(
+        () => [
+            {
+                key: 'change-property-type',
+                text: 'Edit property type',
+                disabled: !onUpdateSchema,
+                iconProps: { iconName: 'Edit' },
+                subMenuProps: {
+                    items: getSchemaTypeMenuOptions(onChangeSchemaType),
+                    styles: {
+                        subComponentStyles: {
+                            menuItem: {
+                                '.ms-ContextualMenu-link': {
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }
                             }
                         }
                     }
                 }
+            },
+            {
+                key: 'change-metadata-type',
+                text: 'Edit metadata',
+                disabled: true,
+                iconProps: { iconName: 'DocumentManagement' },
+                onClick: () => {
+                    //
+                }
+            },
+            {
+                key: 'move-up',
+                text: 'Move up',
+                disabled: isFirstItem,
+                iconProps: { iconName: 'Up' },
+                onClick: onMoveUp
+            },
+            {
+                key: 'move-down',
+                text: 'Move down',
+                disabled: isLastItem,
+                iconProps: { iconName: 'Down' },
+                onClick: onMoveDown
+            },
+            {
+                key: 'duplicate',
+                text: 'Duplicate',
+                disabled: !onCopy,
+                iconProps: { iconName: 'Copy' },
+                onClick: onCopy
+            },
+            {
+                key: 'remove',
+                text: 'Remove',
+                disabled: !onRemove,
+                iconProps: { iconName: 'Delete' },
+                onClick: onRemove
             }
-        },
-        {
-            key: 'change-metadata-type',
-            text: 'Edit metadata',
-            disabled: true,
-            iconProps: { iconName: 'DocumentManagement' },
-            onClick: () => {
-                //
-            }
-        },
-        {
-            key: 'move-up',
-            text: 'Move up',
-            disabled: isFirstItem,
-            iconProps: { iconName: 'Up' },
-            onClick: onMoveUp
-        },
-        {
-            key: 'move-down',
-            text: 'Move down',
-            disabled: isLastItem,
-            iconProps: { iconName: 'Down' },
-            onClick: onMoveDown
-        },
-        {
-            key: 'duplicate',
-            text: 'Duplicate',
-            disabled: !onCopy,
-            iconProps: { iconName: 'Copy' },
-            onClick: onCopy
-        },
-        {
-            key: 'remove',
-            text: 'Remove',
-            disabled: !onRemove,
-            iconProps: { iconName: 'Delete' },
-            onClick: onRemove
-        }
-    ];
+        ],
+        [
+            isFirstItem,
+            isLastItem,
+            onChangeSchemaType,
+            onCopy,
+            onMoveDown,
+            onMoveUp,
+            onRemove,
+            onUpdateSchema
+        ]
+    );
 
     // logDebugConsole(
     //     'debug',
@@ -261,6 +273,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 )}
                 <OverflowMenu
                     index={indexKey}
+                    isFocusable={true}
                     menuKey={'property-list'}
                     menuProps={{
                         items: overflowMenuItems
@@ -273,7 +286,6 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                     level={itemLevel}
                     propertyItem={item}
                     onDuplicate={onCopy}
-                    onRemove={onRemove}
                     onUpdateSchema={onUpdateSchema}
                 />
             )}

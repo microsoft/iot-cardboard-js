@@ -12,10 +12,14 @@ import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost
 export interface IPropertyListItemEnumChildProps
     extends Omit<
         IPropertyListItemChildBaseProps,
-        'onUpdateSchema' | 'onUpdateName'
+        'onUpdateSchema' | 'onUpdateName' | 'onDuplicate'
     > {
-    item: DTDLEnumValue;
     enumType: 'integer' | 'string';
+    /** is the first item in the list */
+    isFirstItem: boolean;
+    /** is the last item in list */
+    isLastItem: boolean;
+    item: DTDLEnumValue;
     onUpdateKey: (key: string) => void;
     onUpdateValue: (value: string | number) => void;
     /**
@@ -33,6 +37,7 @@ export interface IPropertyListItemEnumChildStyleProps {
 }
 export interface IPropertyListItemEnumChildStyles {
     root: IStyle;
+    buttonSpacer: IStyle;
     container: IStyle;
 
     /**

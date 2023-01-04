@@ -20,7 +20,7 @@ export const getStyles = (
             {
                 alignItems: 'center',
                 marginLeft: `${indentation}px`,
-                marginTop: 4
+                padding: '4px 0px'
             }
         ],
         container: [
@@ -28,12 +28,15 @@ export const getStyles = (
                 display: 'flex'
             }
         ],
+        buttonSpacer: [{ width: 32, flexShrink: '0 !important' }],
         subComponentStyles: {
             icon: {
                 root: {
                     border: `1px solid ${theme.semanticColors.inputBorder}`,
-                    borderRadius: theme.effects.roundedCorner4,
-                    marginRight: 8
+                    borderRadius: theme.effects.roundedCorner4
+                },
+                fluentIcon: {
+                    padding: 8
                 }
             },
             keyField: {
@@ -46,8 +49,8 @@ export const getStyles = (
             },
             valueTextField: {
                 root: {
-                    flex: 0.85,
-                    marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
+                    flex: 0.85
+                    // marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
                 },
                 fieldGroup: {
                     backgroundColor: 'transparent'
@@ -55,8 +58,8 @@ export const getStyles = (
             },
             valueNumberField: {
                 root: {
-                    flex: 0.85,
-                    marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
+                    flex: 0.85
+                    // marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
                 },
                 input: {
                     backgroundColor: 'transparent'
