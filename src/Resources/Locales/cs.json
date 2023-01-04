@@ -1096,7 +1096,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "položky",
       "enumKeyPlaceholder": "Klávesa Enter",
-      "enumValuePlaceholder": "Zadejte hodnotu"
+      "enumValuePlaceholder": "Zadejte hodnotu",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Upravit typ vlastnosti",
+        "changeChildTypeLabelForArray": "Změna typu položky pole",
+        "changeChildTypeLabelForEnum": "Změna typu výčtu",
+        "editMetadataLabel": "Upravit metadata"
+      }
     },
     "defaultPropertyName": "nová vlastnost {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Jasný",
   "increaseBy1": "Zvýšení hodnoty o 1",
-  "decreaseBy1": "Snížení hodnoty o 1"
+  "decreaseBy1": "Snížení hodnoty o 1",
+  "duplicate": "Duplikát",
+  "moveUp": "Povýšit",
+  "moveDown": "Posunout dolů"
 }

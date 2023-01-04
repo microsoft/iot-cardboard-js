@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "항목",
       "enumKeyPlaceholder": "엔터 키",
-      "enumValuePlaceholder": "값 입력"
+      "enumValuePlaceholder": "값 입력",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "속성 유형 편집",
+        "changeChildTypeLabelForArray": "배열 항목 유형 변경",
+        "changeChildTypeLabelForEnum": "열거형 값 형식 변경",
+        "editMetadataLabel": "메타데이터 편집"
+      }
     },
     "defaultPropertyName": "새 속성 {{인덱스}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "맑다",
   "increaseBy1": "값을 1씩 늘립니다.",
-  "decreaseBy1": "값 감소 1"
+  "decreaseBy1": "값 감소 1",
+  "duplicate": "복사하다",
+  "moveUp": "위로 이동",
+  "moveDown": "아래로 이동"
 }

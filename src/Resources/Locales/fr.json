@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "Articles",
       "enumKeyPlaceholder": "Entrée clé",
-      "enumValuePlaceholder": "Entrez la valeur"
+      "enumValuePlaceholder": "Entrez la valeur",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Modifier le type de propriété",
+        "changeChildTypeLabelForArray": "Modifier le type d’élément de tableau",
+        "changeChildTypeLabelForEnum": "Modifier le type de valeur énumération",
+        "editMetadataLabel": "Modifier les métadonnées"
+      }
     },
     "defaultPropertyName": "Nouvelle propriété {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Clair",
   "increaseBy1": "Augmenter la valeur de 1",
-  "decreaseBy1": "Diminuer la valeur de 1"
+  "decreaseBy1": "Diminuer la valeur de 1",
+  "duplicate": "Dupliquer",
+  "moveUp": "Monter",
+  "moveDown": "Descendre"
 }
