@@ -1311,7 +1311,8 @@
         "edit": "Tijdreeks tweeling bewerken",
         "remove": "Verwijder tijdreeks tweeling",
         "property": "Eigenschap",
-        "propertyTypeCastLabel": "Eigenschapstype casten naar nummer"
+        "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
+        "add": "Tijdreekstweeling toevoegen"
       }
     },
     "viewer": {

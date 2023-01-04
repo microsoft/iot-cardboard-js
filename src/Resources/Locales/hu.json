@@ -1311,7 +1311,8 @@
         "edit": "Iker idősor szerkesztése",
         "remove": "Iker idősor eltávolítása",
         "property": "Ingatlan",
-        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra"
+        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
+        "add": "Iker idősor hozzáadása"
       }
     },
     "viewer": {

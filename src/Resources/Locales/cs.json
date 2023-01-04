@@ -1311,7 +1311,8 @@
         "edit": "Úprava dvojčete časové řady",
         "remove": "Odebrání dvojčete časové řady",
         "property": "Vlastnost",
-        "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo"
+        "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
+        "add": "Přidání dvojčete časové řady"
       }
     },
     "viewer": {

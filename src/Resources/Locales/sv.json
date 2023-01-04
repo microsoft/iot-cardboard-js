@@ -1311,7 +1311,8 @@
         "edit": "Redigera tidsserietvilling",
         "remove": "Ta bort tidsserietvilling",
         "property": "Egenskap",
-        "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer"
+        "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
+        "add": "Lägga till tidsserietvilling"
       }
     },
     "viewer": {

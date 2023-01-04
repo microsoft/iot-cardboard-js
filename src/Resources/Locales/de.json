@@ -1311,7 +1311,8 @@
         "edit": "Zeitreihen-Zwilling bearbeiten",
         "remove": "Zeitreihen-Zwilling entfernen",
         "property": "Eigentum",
-        "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln"
+        "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
+        "add": "Zeitreihen-Zwilling hinzufügen"
       }
     },
     "viewer": {

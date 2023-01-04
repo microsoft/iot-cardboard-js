@@ -1311,7 +1311,8 @@
         "edit": "Edytuj bliźniacze szeregi czasowe",
         "remove": "Usuwanie bliźniaczej serii czasowej",
         "property": "Własność",
-        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer"
+        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
+        "add": "Dodawanie bliźniaczej serii czasowej"
       }
     },
     "viewer": {

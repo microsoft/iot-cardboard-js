@@ -1311,7 +1311,8 @@
         "edit": "時系列ツインの編集",
         "remove": "時系列ツインを削除する",
         "property": "財産",
-        "propertyTypeCastLabel": "プロパティの型を数値にキャスト"
+        "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
+        "add": "時系列ツインの追加"
       }
     },
     "viewer": {

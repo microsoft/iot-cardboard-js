@@ -1311,7 +1311,8 @@
         "edit": "Editar série de tempo gémea",
         "remove": "Remover série de tempo gémea",
         "property": "Propriedade",
-        "propertyTypeCastLabel": "Tipo de propriedade de elenco para número"
+        "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
+        "add": "Adicionar série de tempo gémea"
       }
     },
     "viewer": {

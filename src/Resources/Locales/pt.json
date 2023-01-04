@@ -1311,7 +1311,8 @@
         "edit": "Editar série temporal gêmea",
         "remove": "Remover gêmeos de séries temporais",
         "property": "Propriedade",
-        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número"
+        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
+        "add": "Adicionar gêmeo de série temporal"
       }
     },
     "viewer": {

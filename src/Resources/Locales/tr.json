@@ -1311,7 +1311,8 @@
         "edit": "Zaman serisi ikizini düzenle",
         "remove": "Zaman serisi ikizini kaldır",
         "property": "Mülk",
-        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla"
+        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
+        "add": "İkiz zaman serisi ekleme"
       }
     },
     "viewer": {
