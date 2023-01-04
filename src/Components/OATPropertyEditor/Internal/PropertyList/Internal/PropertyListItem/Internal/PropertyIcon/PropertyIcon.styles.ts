@@ -25,6 +25,8 @@ export const getStyles = (
         customIcon: [
             classNames.iconCustom,
             {
+                height: 30,
+                width: 30,
                 path: {
                     fill: theme.semanticColors.bodyText
                 },

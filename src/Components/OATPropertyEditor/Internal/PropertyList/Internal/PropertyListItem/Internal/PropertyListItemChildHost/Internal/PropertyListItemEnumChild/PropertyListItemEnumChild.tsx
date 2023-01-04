@@ -114,47 +114,41 @@ const PropertyListItemEnumChild: React.FC<IPropertyListItemEnumChildProps> = (
                 schema={enumType}
                 styles={classNames.subComponentStyles.icon}
             />
-            <Stack
-                className={classNames.container}
-                horizontal
-                tokens={{ childrenGap: 4 }}
-            >
+            <TextField
+                value={name}
+                onChange={(_ev, value) => setName(value)}
+                onBlur={() => {
+                    // only trigger an update if the value really changed. Otherwise it fires every time you leave the field
+                    if (name !== item.name) {
+                        onUpdateKey(name);
+                    }
+                }}
+                placeholder={t(
+                    'OATPropertyEditor.PropertyListItem.enumKeyPlaceholder'
+                )}
+                styles={classNames.subComponentStyles.keyField}
+            />
+            {enumType === 'integer' ? (
+                <SpinButton
+                    value={String(item.enumValue)}
+                    onChange={(_ev, value) => onUpdateValue(Number(value))}
+                    styles={classNames.subComponentStyles.valueNumberField}
+                />
+            ) : (
                 <TextField
-                    value={name}
-                    onChange={(_ev, value) => setName(value)}
+                    value={value as string}
+                    onChange={(_ev, value) => setValue(value)}
                     onBlur={() => {
-                        // only trigger an update if the value really changed. Otherwise it fires every time you leave the field
-                        if (name !== item.name) {
-                            onUpdateKey(name);
+                        if (value !== item.enumValue) {
+                            onUpdateValue(value);
                         }
                     }}
                     placeholder={t(
-                        'OATPropertyEditor.PropertyListItem.enumKeyPlaceholder'
+                        'OATPropertyEditor.PropertyListItem.enumValuePlaceholder'
                     )}
-                    styles={classNames.subComponentStyles.keyField}
+                    styles={classNames.subComponentStyles.valueTextField}
                 />
-                {enumType === 'integer' ? (
-                    <SpinButton
-                        value={String(item.enumValue)}
-                        onChange={(_ev, value) => onUpdateValue(Number(value))}
-                        styles={classNames.subComponentStyles.valueNumberField}
-                    />
-                ) : (
-                    <TextField
-                        value={value as string}
-                        onChange={(_ev, value) => setValue(value)}
-                        onBlur={() => {
-                            if (value !== item.enumValue) {
-                                onUpdateValue(value);
-                            }
-                        }}
-                        placeholder={t(
-                            'OATPropertyEditor.PropertyListItem.enumValuePlaceholder'
-                        )}
-                        styles={classNames.subComponentStyles.valueTextField}
-                    />
-                )}
-            </Stack>
+            )}
             <span className={classNames.buttonSpacer} />
             <OverflowMenu
                 index={indexKey}

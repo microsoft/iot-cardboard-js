@@ -141,7 +141,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         const options: IContextualMenuItem[] = [
             {
                 key: 'change-property-type',
-                text: 'Edit property type',
+                text: t(
+                    'OATPropertyEditor.PropertyListItem.ContextMenu.changePropertyTypeLabel'
+                ),
                 disabled: !onUpdateSchema,
                 iconProps: { iconName: 'Edit' },
                 subMenuProps: {
@@ -169,7 +171,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 schemaCopy.elementSchema = getDefaultSchemaByType(args.schema);
                 onUpdateSchema(schemaCopy);
             };
-            const text = 'Change array item type';
+            const text = t(
+                'OATPropertyEditor.PropertyListItem.ContextMenu.changeChildTypeLabelForArray'
+            );
             const subItems: IContextualMenuItem[] = getSchemaTypeMenuOptions(
                 onChange
             );
@@ -196,18 +200,20 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                     styles={classNames.subComponentStyles.childTypeSubMenuIcon}
                 />
             );
-            const text = 'Change enum value type';
+            const text = t(
+                'OATPropertyEditor.PropertyListItem.ContextMenu.changeChildTypeLabelForEnum'
+            );
             const subItems: IContextualMenuItem[] = [
                 {
                     key: 'integer',
-                    text: 'integer',
+                    text: t('OATPropertyEditor.integer'),
                     iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
                     onRenderIcon: () => onRenderIcon('integer'),
                     onClick: () => onChange('integer')
                 },
                 {
                     key: 'string',
-                    text: 'string',
+                    text: t('OATPropertyEditor.string'),
                     iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
                     onRenderIcon: () => onRenderIcon('string'),
                     onClick: () => onChange('string')
@@ -225,7 +231,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         options.push(
             {
                 key: 'change-metadata-type',
-                text: 'Edit metadata',
+                text: t(
+                    'OATPropertyEditor.PropertyListItem.ContextMenu.editMetadataLabel'
+                ),
                 disabled: true,
                 iconProps: { iconName: 'DocumentManagement' },
                 onClick: () => {
@@ -234,28 +242,28 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             },
             {
                 key: 'move-up',
-                text: 'Move up',
+                text: t('moveUp'),
                 disabled: isFirstItem,
                 iconProps: { iconName: 'Up' },
                 onClick: onMoveUp
             },
             {
                 key: 'move-down',
-                text: 'Move down',
+                text: t('moveDown'),
                 disabled: isLastItem,
                 iconProps: { iconName: 'Down' },
                 onClick: onMoveDown
             },
             {
                 key: 'duplicate',
-                text: 'Duplicate',
+                text: t('duplicate'),
                 disabled: !onCopy,
                 iconProps: { iconName: 'Copy' },
                 onClick: onCopy
             },
             {
                 key: 'remove',
-                text: 'Remove',
+                text: t('remove'),
                 disabled: !onRemove,
                 iconProps: { iconName: 'Delete' },
                 onClick: onRemove
@@ -272,7 +280,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
         onMoveDown,
         onMoveUp,
         onRemove,
-        onUpdateSchema
+        onUpdateSchema,
+        t
     ]);
 
     // logDebugConsole(
