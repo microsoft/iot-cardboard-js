@@ -34,7 +34,7 @@ import {
     getPropertyIndexOnRelationshipByName
 } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
 
 const getClassNames = classNamesFunction<
