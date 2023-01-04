@@ -339,12 +339,11 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                                 value={modelVersion}
                             />
                         </div>
-                        <Separator
-                            styles={classNames.subComponentStyles.separator}
-                        />
                     </>
                 )}
             </Stack>
+
+            <Separator styles={classNames.subComponentStyles.separator} />
 
             <PropertyDetailsEditorModal
                 isOpen={isInfoModalOpen}
