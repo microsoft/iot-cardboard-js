@@ -17,7 +17,10 @@ import PropertyListItemEnumChild from './Internal/PropertyListItemEnumChild/Prop
 import PropertyListItemArrayChild from './Internal/PropertyListItemArrayChild/PropertyListItemArrayChild';
 import PropertyListItemObjectChild from './Internal/PropertyListItemObjectChild/PropertyListItemObjectChild';
 import PropertyListItemMapChild from './Internal/PropertyListItemMapChild/PropertyListItemMapChild';
-import { deepCopy } from '../../../../../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    moveItemInCollection
+} from '../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemChildHostStyleProps,
@@ -32,8 +35,6 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
         level,
         onDuplicate,
         onUpdateSchema,
-        onReorderItem,
-        onUpdateName,
         onRemove,
         propertyItem,
         styles
@@ -95,7 +96,20 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // send updated schema to parent
                                 onUpdateSchema(schemaCopy);
                             }}
-                            onReorderItem={onReorderItem}
+                            onReorderItem={(direction) => {
+                                // decouple the schema object
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                // move the field
+                                moveItemInCollection(
+                                    direction,
+                                    index,
+                                    schemaCopy.enumValues
+                                );
+                                // dispatch the child update
+                                onUpdateSchema(schemaCopy);
+                            }}
                             onDuplicate={onDuplicate}
                             onRemove={onRemove}
                         />
@@ -164,7 +178,20 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
                                 // dispatch the child update
                                 onUpdateSchema(schemaCopy);
                             }}
-                            onReorderItem={onReorderItem}
+                            onReorderItem={(direction) => {
+                                // decouple the schema object
+                                const schemaCopy = deepCopy(
+                                    propertyItem.schema
+                                );
+                                // move the field
+                                moveItemInCollection(
+                                    direction,
+                                    index,
+                                    schemaCopy.fields
+                                );
+                                // dispatch the child update
+                                onUpdateSchema(schemaCopy);
+                            }}
                         />
                     )}
                 />

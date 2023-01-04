@@ -274,9 +274,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                     propertyItem={item}
                     onDuplicate={onCopy}
                     onRemove={onRemove}
-                    onUpdateName={onUpdateName}
                     onUpdateSchema={onUpdateSchema}
-                    onReorderItem={onReorderItem}
                 />
             )}
         </Stack>

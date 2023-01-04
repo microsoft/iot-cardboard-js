@@ -24,7 +24,10 @@ export interface IPropertyListItemChildBaseProps {
 }
 
 export interface IPropertyListItemChildHostProps
-    extends IPropertyListItemChildBaseProps {
+    extends Omit<
+        IPropertyListItemChildBaseProps,
+        'onReorderItem' | 'onUpdateName'
+    > {
     propertyItem: { name: string; schema: DTDLComplexSchema };
     /** callback to store an updated version of the schema */
     onUpdateSchema: (schema: DTDLSchema) => void;

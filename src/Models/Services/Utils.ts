@@ -528,6 +528,46 @@ export function sortAscendingOrDescending<T>(
 }
 
 /**
+ * Modifies the collection in-place to shift an item up or down in the collection.
+ * @param direction Direction to move the item
+ * @param itemIndex index of the item to move
+ * @param items collection of items
+ * @returns reference to the original collection
+ */
+export const moveItemInCollection = <T>(
+    direction: 'Up' | 'Down',
+    itemIndex: number,
+    items: T[]
+): T[] => {
+    const item = items[itemIndex];
+
+    if (direction === 'Up') {
+        if (itemIndex === 0) {
+            console.warn('Cannot move item up. Already first item in list');
+            // early return if the first item in the list
+            return items;
+        }
+
+        // insert the item at the new position
+        items.splice(itemIndex - 1, 0, item);
+        // remove the old item
+        items.splice(itemIndex + 1, 1);
+        return items;
+    } else {
+        if (itemIndex === items.length - 1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if the last item in the list
+            return items;
+        }
+        // insert the item at the new position
+        items.splice(itemIndex + 2, 0, item);
+        // remove the old item
+        items.splice(itemIndex, 1);
+        return items;
+    }
+};
+
+/**
  * remove duplicate objects from an array
  * @param array array of objects to operate on
  * @param key key of the property to use as the discriminator

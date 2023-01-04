@@ -27,7 +27,7 @@ import {
     DtdlEnum,
     DtdlObject
 } from '../Constants';
-import { deepCopy, isValueInEnum } from './Utils';
+import { isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -335,6 +335,11 @@ const getDefaultObjectSchema = (): DTDLObject => {
 
 // #region Modifying collection
 
+/**
+ * Moves a property up or down within the collection.
+ * Modifications are made in-place. The collection is returned for testing purposes
+ * It takes into account that non-property objects might be in the collection and will not be shown in the UI so it looks to position the item before or after the next valid property in the collection.
+ */
 export const movePropertyInCollection = (
     direction: 'Up' | 'Down',
     property: DTDLProperty,
