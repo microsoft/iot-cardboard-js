@@ -21,7 +21,6 @@ import { OatPageContextActionType } from '../../../../Models/Context/OatPageCont
 import {
     copyDTDLProperty,
     isDTDLModel,
-    isDTDLReference,
     isDTDLRelationshipReference,
     movePropertyInCollection
 } from '../../../../Models/Services/DtdlUtils';
@@ -168,23 +167,18 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                 // update for model
                 const updatedContents = [...selectedItem.contents];
                 updatedContents[propertyIndex].name = args.name;
-                oatPageDispatch({
-                    type: OatPageContextActionType.UPDATE_MODEL,
-                    payload: {
-                        model: {
-                            ...selectedItem,
-                            contents: updatedContents
-                        }
-                    }
+                updateModel({
+                    ...selectedItem,
+                    contents: updatedContents
                 });
             } else if (isDTDLRelationshipReference(selectedItem)) {
-                // // update for relationships (NOTE: components don't have properties)
-                // const updatedProperty = parentEntity.properties[propertyIndex];
-                // updatedProperty.name = value;
-                // updateRelationship(updatedProperty);
-                alert(
-                    'not implemented. Update relationship Name: ' + args.name
-                );
+                // update for relationships
+                const updatedProperties = [...selectedItem.properties];
+                updatedProperties[propertyIndex].name = args.name;
+                updateReference({
+                    ...selectedItem,
+                    properties: updatedProperties
+                });
             }
         };
 
