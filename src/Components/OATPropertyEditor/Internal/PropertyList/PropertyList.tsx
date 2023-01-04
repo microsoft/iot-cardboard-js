@@ -30,7 +30,7 @@ import {
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
 
 const getClassNames = classNamesFunction<
