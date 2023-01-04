@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "Elemek",
       "enumKeyPlaceholder": "Enter billentyű",
-      "enumValuePlaceholder": "Érték megadása"
+      "enumValuePlaceholder": "Érték megadása",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Tulajdonságtípus szerkesztése",
+        "changeChildTypeLabelForArray": "Tömbelem típusának módosítása",
+        "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
+        "editMetadataLabel": "Metaadatok szerkesztése"
+      }
     },
     "defaultPropertyName": "új tulajdonság {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Világos",
   "increaseBy1": "Növelje az értéket 1-gyel",
-  "decreaseBy1": "Érték csökkentése 1-gyel"
+  "decreaseBy1": "Érték csökkentése 1-gyel",
+  "duplicate": "Ismétlődő",
+  "moveUp": "Feljebb lépés",
+  "moveDown": "Lejjebb lépés"
 }

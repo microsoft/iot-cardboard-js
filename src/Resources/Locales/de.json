@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "Artikel",
       "enumKeyPlaceholder": "Eingabetaste",
-      "enumValuePlaceholder": "Wert eingeben"
+      "enumValuePlaceholder": "Wert eingeben",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Eigenschaftstyp bearbeiten",
+        "changeChildTypeLabelForArray": "Ändern des Arrayelementtyps",
+        "changeChildTypeLabelForEnum": "Ändern des Enumerationswerttyps",
+        "editMetadataLabel": "Metadaten bearbeiten"
+      }
     },
     "defaultPropertyName": "Neue Eigenschaft {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Klar",
   "increaseBy1": "Wert um 1 erhöhen",
-  "decreaseBy1": "Wert um 1 verringern"
+  "decreaseBy1": "Wert um 1 verringern",
+  "duplicate": "Duplikat",
+  "moveUp": "Aufrücken",
+  "moveDown": "Nach unten"
 }

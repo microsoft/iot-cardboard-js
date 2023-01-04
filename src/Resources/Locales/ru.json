@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "Элементы",
       "enumKeyPlaceholder": "Введите ключ",
-      "enumValuePlaceholder": "Введите значение"
+      "enumValuePlaceholder": "Введите значение",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Изменение типа свойства",
+        "changeChildTypeLabelForArray": "Изменение типа элемента массива",
+        "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
+        "editMetadataLabel": "Редактирование метаданных"
+      }
     },
     "defaultPropertyName": "новое свойство {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Ясный",
   "increaseBy1": "Увеличение значения на 1",
-  "decreaseBy1": "Уменьшение значения на 1"
+  "decreaseBy1": "Уменьшение значения на 1",
+  "duplicate": "Дублировать",
+  "moveUp": "Придвигаться",
+  "moveDown": "Перемещение вниз"
 }

@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "Items",
       "enumKeyPlaceholder": "Enter-toets",
-      "enumValuePlaceholder": "Waarde invoeren"
+      "enumValuePlaceholder": "Waarde invoeren",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Type eigenschap bewerken",
+        "changeChildTypeLabelForArray": "Type array-item wijzigen",
+        "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
+        "editMetadataLabel": "Metagegevens bewerken"
+      }
     },
     "defaultPropertyName": "nieuwe eigenschap {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Duidelijk",
   "increaseBy1": "Waarde verhogen met 1",
-  "decreaseBy1": "Waarde verlagen met 1"
+  "decreaseBy1": "Waarde verlagen met 1",
+  "duplicate": "Duplicaat",
+  "moveUp": "Overgaan",
+  "moveDown": "Naar beneden gaan"
 }

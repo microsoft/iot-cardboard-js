@@ -1216,7 +1216,13 @@
     "PropertyListItem": {
       "arrayItemLabel": "eşya",
       "enumKeyPlaceholder": "Enter tuşu",
-      "enumValuePlaceholder": "Değer girin"
+      "enumValuePlaceholder": "Değer girin",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Özellik türünü düzenle",
+        "changeChildTypeLabelForArray": "Dizi öğesi türünü değiştirme",
+        "changeChildTypeLabelForEnum": "Enum değer türünü değiştirme",
+        "editMetadataLabel": "Meta verileri düzenleme"
+      }
     },
     "defaultPropertyName": "new property {{index}}",
     "SchemaDefaults": {
@@ -1359,5 +1365,8 @@
   },
   "clear": "Berrak",
   "increaseBy1": "Değeri 1 artır",
-  "decreaseBy1": "Değeri 1 azalt"
+  "decreaseBy1": "Değeri 1 azalt",
+  "duplicate": "Yinelenen",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı"
 }
