@@ -20,7 +20,8 @@ export const getStyles = (
             {
                 borderRight: `1px solid ${props.theme.palette.neutralLight}`,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                height: '100%'
             }
         ],
         header: [

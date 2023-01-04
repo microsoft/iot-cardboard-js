@@ -29,7 +29,7 @@ export const classNames = {
     separator: `${classPrefix}-separator`
 };
 export const getStyles = memoizeFunction(
-    (theme: Theme, isMenuOpen: boolean) => {
+    (theme: Theme, isMenuOpen: boolean, iconColor?: string) => {
         const ellipseStyles = {
             overflow: 'hidden',
             whiteSpace: 'nowrap',
@@ -53,7 +53,10 @@ export const getStyles = memoizeFunction(
                 classNames.icon,
                 {
                     marginRight: 8,
-                    fontSize: StyleConstants.icons.size16
+                    fontSize: StyleConstants.icons.size16,
+                    ...(iconColor && {
+                        color: iconColor
+                    })
                 } as IStyle
             ],
             iconButton: [

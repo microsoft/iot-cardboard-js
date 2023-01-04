@@ -14,7 +14,8 @@ import {
     Stack,
     PrimaryButton,
     TextField,
-    Toggle
+    Toggle,
+    DefaultButton
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
@@ -132,7 +133,7 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         target={`#${target}`}
                         styles={classNames.subComponentStyles.callout}
                         onDismiss={onDismiss}
-                        directionalHint={DirectionalHint.bottomCenter}
+                        directionalHint={DirectionalHint.rightCenter}
                     >
                         <Stack tokens={{ childrenGap: 12 }}>
                             <Stack tokens={{ childrenGap: 8 }}>
@@ -208,8 +209,16 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                                 horizontalAlign={'end'}
                                 tokens={{ childrenGap: 8 }}
                             >
+                                <DefaultButton
+                                    text={t('cancel')}
+                                    onClick={onDismiss}
+                                />
                                 <PrimaryButton
-                                    text={t('add')}
+                                    text={
+                                        timeSeriesTwin
+                                            ? t('update')
+                                            : t('create')
+                                    }
                                     onClick={() =>
                                         onPrimaryActionClick(
                                             timeSeriesTwinToEdit

@@ -30,13 +30,26 @@ const getClassNames = classNamesFunction<
     ITimeSeriesBuilderStyles
 >();
 
+const ROOT_LOC = 'dataHistoryExplorer.builder';
+const LOC_KEYS = {
+    title: `${ROOT_LOC}.title`,
+    description: `${ROOT_LOC}.description`,
+    addTwin: `${ROOT_LOC}.timeSeriesTwin.add`,
+    editTwin: `${ROOT_LOC}.timeSeriesTwin.edit`,
+    removeTwin: `${ROOT_LOC}.timeSeriesTwin.remove`
+};
+
 const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
-    const { onTimeSeriesTwinListChange, styles } = props;
+    const {
+        onTimeSeriesTwinListChange,
+        timeSeriesTwins: timeSeriesTwinsProp = [],
+        styles
+    } = props;
 
     // state
     const [timeSeriesTwins, setTimeSeriesTwins] = useState<
         Array<IDataHistoryTimeSeriesTwin>
-    >([]);
+    >(timeSeriesTwinsProp);
     const [
         isTimeSeriesTwinCalloutVisible,
         setIsTimeSeriesTwinCalloutVisible
@@ -119,11 +132,9 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
     return (
         <div className={classNames.root}>
             <Stack tokens={{ childrenGap: 8 }}>
-                <h2 className={classNames.header}>
-                    {t('dataHistoryExplorer.builder.title')}
-                </h2>
+                <h4 className={classNames.header}>{t(LOC_KEYS.title)}</h4>
                 <span className={classNames.description}>
-                    {t('dataHistoryExplorer.builder.description')}
+                    {t(LOC_KEYS.description)}
                 </span>
             </Stack>
             <Separator />
@@ -137,7 +148,7 @@ const TimeSeriesBuilder: React.FC<ITimeSeriesBuilderProps> = (props) => {
                 iconProps={{ iconName: 'Add' }}
                 onClick={handleAddNew}
             >
-                {t('addNew')}
+                {t(LOC_KEYS.addTwin)}
             </ActionButton>
             {isTimeSeriesTwinCalloutVisible && (
                 <TimeSeriesTwinCallout
@@ -181,7 +192,7 @@ const getTimeSeriesTwinListItems = (
             {
                 key: 'edit',
                 iconProps: { iconName: 'Edit' },
-                text: t('dataHistoryExplorer.builder.timeSeriesTwin.edit'),
+                text: t(LOC_KEYS.editTwin),
                 onClick: () => {
                     onEditClick(item.twinId);
                 }
@@ -191,7 +202,7 @@ const getTimeSeriesTwinListItems = (
                 iconProps: {
                     iconName: 'Delete'
                 },
-                text: t('dataHistoryExplorer.builder.timeSeriesTwin.remove'),
+                text: t(LOC_KEYS.removeTwin),
                 onClick: () => {
                     onRemoveClick(item.twinId);
                 }
@@ -204,9 +215,13 @@ const getTimeSeriesTwinListItems = (
             ariaLabel: timeSeriesTwin.label,
             iconStart: {
                 name:
-                    DTDLPropertyIconographyMap[timeSeriesTwin.twinPropertyType]
-                        ?.icon,
-                color: timeSeriesTwin.chartProps.color
+                    DTDLPropertyIconographyMap[
+                        timeSeriesTwin.chartProps
+                            ?.isTwinPropertyTypeCastedToNumber
+                            ? 'double'
+                            : timeSeriesTwin.twinPropertyType
+                    ]?.icon,
+                color: timeSeriesTwin.chartProps?.color
             },
             id: TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX + timeSeriesTwin.twinId,
             item: timeSeriesTwin,

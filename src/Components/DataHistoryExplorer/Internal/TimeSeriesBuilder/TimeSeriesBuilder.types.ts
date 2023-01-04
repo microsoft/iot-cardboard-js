@@ -7,6 +7,7 @@ export const TIME_SERIES_TWIN_LIST_ITEM_ID_PREFIX =
     'cb-data-history-explorer-series';
 
 export interface ITimeSeriesBuilderProps {
+    timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
     onTimeSeriesTwinListChange?: (
         timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>
     ) => void;

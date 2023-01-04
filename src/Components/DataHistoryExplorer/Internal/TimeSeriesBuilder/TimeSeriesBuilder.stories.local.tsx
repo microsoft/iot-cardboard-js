@@ -1,5 +1,4 @@
 import React from 'react';
-import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../../../Models/Services/StoryUtilities';
 import TimeSeriesBuilder from './TimeSeriesBuilder';
 import { ITimeSeriesBuilderProps } from './TimeSeriesBuilder.types';
@@ -18,9 +17,7 @@ export default {
     ]
 };
 
-type TimeSeriesBuilderStory = ComponentStory<typeof TimeSeriesBuilder>;
-
-const Template: TimeSeriesBuilderStory = (args) => {
+export const ADT = () => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
@@ -35,14 +32,11 @@ const Template: TimeSeriesBuilderStory = (args) => {
                 )
             }}
         >
-            <TimeSeriesBuilder {...args} />
+            <TimeSeriesBuilder
+                onTimeSeriesTwinListChange={(timeSeriesTwinList) => {
+                    console.log(timeSeriesTwinList);
+                }}
+            />
         </DataHistoryExplorerContext.Provider>
     );
 };
-
-export const ADT = Template.bind({}) as TimeSeriesBuilderStory;
-ADT.args = {
-    onTimeSeriesTwinListChange(timeSeriesTwinList) {
-        console.log(timeSeriesTwinList);
-    }
-} as ITimeSeriesBuilderProps;
