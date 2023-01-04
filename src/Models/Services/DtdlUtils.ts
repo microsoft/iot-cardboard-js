@@ -27,7 +27,7 @@ import {
     DtdlEnum,
     DtdlObject
 } from '../Constants';
-import { isValueInEnum } from './Utils';
+import { deepCopy, isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -329,6 +329,87 @@ const getDefaultObjectField = (index: number): DTDLObjectField => {
 const getDefaultObjectSchema = (): DTDLObject => {
     const object = new DTDLObject([getDefaultObjectField(0)]);
     return object;
+};
+
+// #endregion
+
+// #region Modifying collection
+
+export const movePropertyInCollection = (
+    direction: 'Up' | 'Down',
+    property: DTDLProperty,
+    propertyIndex: number,
+    items: DtdlInterfaceContent[]
+) => {
+    console.log(
+        `***moving item ${direction} {property, index, items}`,
+        property,
+        propertyIndex,
+        items
+    );
+    if (direction === 'Up') {
+        if (propertyIndex === 0) {
+            console.warn('Cannot move item up. Already first item in list');
+            // early return if the first item in the list
+            return items;
+        }
+        // loop through and find the index of the last property before the one being moved
+        let previousPropertyIndex = -1;
+        items.forEach((x, index) => {
+            if (isDTDLProperty(x) && index < propertyIndex) {
+                console.log('***updating previous index to ' + index);
+                previousPropertyIndex = index;
+            }
+        });
+        if (previousPropertyIndex === -1) {
+            console.warn('Cannot move item up. No items before it.');
+            // early return if there's nothing above this to move above
+            return items;
+        }
+
+        // insert the item at the new position
+        items.splice(previousPropertyIndex, 0, property);
+        // remove the old item
+        items.splice(propertyIndex + 1, 1);
+        return items;
+    } else {
+        if (propertyIndex === items.length - 1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if the last item in the list
+            return items;
+        }
+        // loop through and find the index of the next property after the one being moved
+        let nextPropertyIndex = -1;
+        items.forEach((x, index) => {
+            if (
+                nextPropertyIndex === -1 && // only find the first one
+                isDTDLProperty(x) &&
+                index > propertyIndex
+            ) {
+                console.log('***updating index to ' + index, x);
+                nextPropertyIndex = index;
+                return;
+            }
+        });
+        if (nextPropertyIndex === -1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if there's nothing below this to move after
+            return items;
+        }
+        const indexInOriginalList = nextPropertyIndex + 1;
+
+        console.log(
+            '***splicing in at index ' + indexInOriginalList,
+            nextPropertyIndex
+        );
+        // insert the item at the new position
+        items.splice(indexInOriginalList, 0, property);
+        console.log('***spliced in', items);
+        // remove the old item
+        items.splice(propertyIndex, 1);
+        console.log('***removed old at index ' + propertyIndex, items);
+        return items;
+    }
 };
 
 // #endregion

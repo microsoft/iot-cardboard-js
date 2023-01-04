@@ -20,22 +20,15 @@ import { useOatPageContext } from '../../../../Models/Context/OatPageContext/Oat
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
     isDTDLModel,
-    isDTDLProperty,
     isDTDLReference,
-    isDTDLRelationshipReference
+    isDTDLRelationshipReference,
+    movePropertyInCollection
 } from '../../../../Models/Services/DtdlUtils';
 import {
     IOnUpdateNameCallback,
     IOnUpdateNameCallbackArgs
 } from './Internal/PropertyListItem/PropertyListItem.types';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlReference,
-    OAT_INTERFACE_TYPE
-} from '../../../../Models/Constants';
-import { getModelPropertyCollectionName } from '../../Utils';
-import { getModelIndexById } from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
+import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
@@ -124,31 +117,26 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         propertyIndex: number
     ) => {
         const onReorder = (direction: 'Up' | 'Down') => {
-            const moveItemInCollection = (items: DtdlInterfaceContent[]) => {
-                if (direction === 'Up') {
-                    alert('Reorder up not implemented');
-                } else {
-                    const itemsAfter = items.filter((item, index) => {
-                        index > propertyIndex;
-                    });
-                    const newIndex =
-                        itemsAfter.findIndex((x) => isDTDLProperty(x)) + 1;
-                    const indexInOriginalList =
-                        items.length - itemsAfter.length + newIndex;
-
-                    // insert the item and the new position
-                    items.splice(newIndex + 1, 0, property);
-                    // remove the old item
-                    items.splice(propertyIndex, 1);
-                }
-            };
-
             const selectedItemCopy = deepCopy(selectedItem);
             if (isDTDLModel(selectedItemCopy)) {
-                moveItemInCollection(selectedItemCopy.contents);
+                console.log(`***Start {selectedItem}`, selectedItemCopy);
+                movePropertyInCollection(
+                    direction,
+                    property,
+                    propertyIndex,
+                    selectedItemCopy.contents
+                );
+                console.log(`***END {selectedItem}`, selectedItemCopy);
                 updateModel(selectedItemCopy);
             } else if (isDTDLRelationshipReference(selectedItemCopy)) {
-                moveItemInCollection(selectedItemCopy.properties);
+                console.log(`***Start {selectedItem}`, selectedItemCopy);
+                movePropertyInCollection(
+                    direction,
+                    property,
+                    propertyIndex,
+                    selectedItemCopy.properties
+                );
+                console.log(`***END {selectedItem}`, selectedItemCopy);
                 updateReference(selectedItemCopy);
             }
         };
@@ -248,7 +236,8 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property
                                     )}
                                     onReorderItem={getReorderItemCallback(
-                                        property
+                                        property,
+                                        index
                                     )}
                                     onUpdateName={getUpdateNameCallback(
                                         property,
