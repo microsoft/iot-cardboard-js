@@ -96,12 +96,12 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
             propertyCopy.schema = deepCopy(schema);
 
             if (isDTDLModel(selectedItem)) {
-                const originalPropertyIndex = selectedItem.contents.findIndex(
-                    (x) => x.name === property.name
+                const originalPropertyIndex = getPropertyIndexOnModelByName(
+                    selectedItem,
+                    property.name
                 );
                 if (originalPropertyIndex > -1) {
                     selectedItem.contents[originalPropertyIndex] = propertyCopy;
-
                     updateModel(selectedItem);
                 } else {
                     console.warn(
@@ -109,9 +109,22 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                         selectedItem
                     );
                 }
-            } else if (isDTDLReference(selectedItem)) {
-                alert('not implemented. Update relationship Name: ' + schema);
-                // updateRelationship(selectedItem);
+            } else if (isDTDLRelationshipReference(selectedItem)) {
+                const originalPropertyIndex = getPropertyIndexOnRelationshipByName(
+                    selectedItem,
+                    property.name
+                );
+                if (originalPropertyIndex > -1) {
+                    selectedItem.properties[
+                        originalPropertyIndex
+                    ] = propertyCopy;
+                    updateReference(selectedItem);
+                } else {
+                    console.warn(
+                        `Unable to find property with name (${property.name}) to update on the selected relationship. {selectedRelationship}`,
+                        selectedItem
+                    );
+                }
             }
         };
 

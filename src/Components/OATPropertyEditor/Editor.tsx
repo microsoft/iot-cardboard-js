@@ -178,11 +178,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
 
                 execute(updateModel, undoUpdate);
             } else if (isDTDLReference(selectedItemCopy)) {
-                console.log(
-                    '***UPdtaing reference',
-                    selectedItemCopy,
-                    parentModelId
-                );
                 const updateModel = () => {
                     oatPageDispatch({
                         type: OatPageContextActionType.UPDATE_REFERENCE,
