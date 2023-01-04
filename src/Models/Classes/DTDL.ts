@@ -390,7 +390,10 @@ export type DTDLSchemaTypes =
     | DTDLGeospatialSchema
     | DTDLSchemaType;
 /** the actual schema types that a DTDL item can have */
-export type DTDLSchema = DTDLPrimitiveSchema | DTDLComplexSchema;
+export type DTDLSchema =
+    | DTDLPrimitiveSchema
+    | DTDLGeospatialSchema
+    | DTDLComplexSchema;
 export type DTDLPrimitiveSchema =
     | 'boolean'
     | 'date'

@@ -178,11 +178,13 @@ export interface DtdlObjectField {
 export interface DtdlEnum {
     ['@type']: DTDLSchemaType.Enum;
     enumValues: DtdlEnumValue[];
-    valueSchema: 'integer' | 'string';
+    valueSchema: DtdlEnumValueSchema;
     ['@id']?: string;
     displayName?: string;
     description?: string;
 }
+
+export type DtdlEnumValueSchema = 'integer' | 'string';
 
 export interface DtdlEnumValue {
     ['@id']?: string;

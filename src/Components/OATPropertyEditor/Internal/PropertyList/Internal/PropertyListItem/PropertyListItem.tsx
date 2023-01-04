@@ -18,11 +18,16 @@ import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedThem
 import {
     addChildToSchema,
     getDefaultSchemaByType,
+    hasArraySchemaType,
     hasComplexSchemaType,
     hasEnumSchemaType,
-    isComplexSchemaType
+    isComplexSchemaType,
+    updateEnumValueSchema
 } from '../../../../../../Models/Services/DtdlUtils';
-import { getDebugLogger } from '../../../../../../Models/Services/Utils';
+import {
+    deepCopy,
+    getDebugLogger
+} from '../../../../../../Models/Services/Utils';
 import { OverflowMenu } from '../../../../../OverflowMenu/OverflowMenu';
 import PropertyIcon from './Internal/PropertyIcon/PropertyIcon';
 import PropertyListItemChildHost from './Internal/PropertyListItemChildHost/PropertyListItemChildHost';
@@ -32,6 +37,7 @@ import {
 } from '../../../../../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
 import { getSchemaTypeMenuOptions } from '../../../../../../Models/Constants/OatConstants';
+import { DtdlEnumValueSchema } from '../../../../../..';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
@@ -131,8 +137,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
     });
 
     // data
-    const overflowMenuItems: IContextualMenuItem[] = useMemo(
-        () => [
+    const overflowMenuItems: IContextualMenuItem[] = useMemo(() => {
+        const options: IContextualMenuItem[] = [
             {
                 key: 'change-property-type',
                 text: 'Edit property type',
@@ -151,7 +157,72 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                         }
                     }
                 }
-            },
+            }
+        ];
+        if (hasArraySchemaType(item)) {
+            const onChange = (args: { schema: DTDLSchemaTypes }) => {
+                // early abort if the type didn't actually change
+                if (args.schema === item.schema.elementSchema) {
+                    return;
+                }
+                const schemaCopy = deepCopy(item.schema);
+                schemaCopy.elementSchema = getDefaultSchemaByType(args.schema);
+                onUpdateSchema(schemaCopy);
+            };
+            const text = 'Change array item type';
+            const subItems: IContextualMenuItem[] = getSchemaTypeMenuOptions(
+                onChange
+            );
+            options.push({
+                key: 'change-child-type',
+                text: text,
+                iconProps: { iconName: '' }, // TODO: find the right icon
+                subMenuProps: {
+                    items: subItems
+                }
+            });
+        } else if (hasEnumSchemaType(item)) {
+            const onChange = (enumSchema: DtdlEnumValueSchema) => {
+                // early abort if the type didn't actually change
+                if (enumSchema === item.schema.valueSchema) {
+                    return;
+                }
+                const updatedItem = updateEnumValueSchema(item, enumSchema);
+                onUpdateSchema(updatedItem.schema);
+            };
+            const onRenderIcon = (schema: DtdlEnumValueSchema) => (
+                <PropertyIcon
+                    schema={schema}
+                    styles={classNames.subComponentStyles.childTypeSubMenuIcon}
+                />
+            );
+            const text = 'Change enum value type';
+            const subItems: IContextualMenuItem[] = [
+                {
+                    key: 'integer',
+                    text: 'integer',
+                    iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
+                    onRenderIcon: () => onRenderIcon('integer'),
+                    onClick: () => onChange('integer')
+                },
+                {
+                    key: 'string',
+                    text: 'string',
+                    iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
+                    onRenderIcon: () => onRenderIcon('string'),
+                    onClick: () => onChange('string')
+                }
+            ];
+            options.push({
+                key: 'change-child-type',
+                text: text,
+                iconProps: { iconName: '' }, // TODO: find the right icon
+                subMenuProps: {
+                    items: subItems
+                }
+            });
+        }
+        options.push(
             {
                 key: 'change-metadata-type',
                 text: 'Edit metadata',
@@ -189,18 +260,20 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 iconProps: { iconName: 'Delete' },
                 onClick: onRemove
             }
-        ],
-        [
-            isFirstItem,
-            isLastItem,
-            onChangeSchemaType,
-            onCopy,
-            onMoveDown,
-            onMoveUp,
-            onRemove,
-            onUpdateSchema
-        ]
-    );
+        );
+        return options;
+    }, [
+        classNames.subComponentStyles.childTypeSubMenuIcon,
+        isFirstItem,
+        isLastItem,
+        item,
+        onChangeSchemaType,
+        onCopy,
+        onMoveDown,
+        onMoveUp,
+        onRemove,
+        onUpdateSchema
+    ]);
 
     // logDebugConsole(
     //     'debug',

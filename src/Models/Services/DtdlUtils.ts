@@ -26,7 +26,7 @@ import {
     OAT_INTERFACE_TYPE,
     DtdlEnum,
     DtdlObject,
-    DtdlProperty
+    DtdlEnumValueSchema
 } from '../Constants';
 import { deepCopy, isValueInEnum } from './Utils';
 
@@ -209,6 +209,34 @@ export const copyDTDLProperty = (
     copy['@id'] = undefined;
     copy.name = nextName;
     return copy;
+};
+
+export const updateEnumValueSchema = (
+    item: { schema: DtdlEnum },
+    newEnumSchema: DtdlEnumValueSchema
+) => {
+    // early abort if the type didn't actually change
+    if (newEnumSchema === item.schema.valueSchema) {
+        return item;
+    }
+
+    // create copies
+    const itemCopy = deepCopy(item);
+    // update the schema definition
+    itemCopy.schema.valueSchema = newEnumSchema;
+
+    // update all existing values to the new schema type
+    if (itemCopy.schema.enumValues?.length > 0) {
+        itemCopy.schema.enumValues.forEach((item) => {
+            if (newEnumSchema === 'integer') {
+                item.enumValue = Number(item.enumValue);
+            } else if (newEnumSchema === 'string') {
+                item.enumValue = String(item.enumValue);
+            }
+        });
+    }
+
+    return itemCopy;
 };
 
 // #region Add child to complex schemas

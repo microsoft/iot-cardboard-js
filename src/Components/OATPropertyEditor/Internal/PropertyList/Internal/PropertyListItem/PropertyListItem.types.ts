@@ -7,6 +7,7 @@ import {
 } from '@fluentui/react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
+import { IPropertyIconStyles } from './Internal/PropertyIcon/PropertyIcon.types';
 
 export type IOnUpdateNameCallbackArgs = {
     /** the name to store on the item */
@@ -63,4 +64,5 @@ export interface IPropertyListItemSubComponentStyles {
     nameTextField?: Partial<ITextFieldStyles>;
     expandButton?: Partial<IButtonStyles>;
     inputIcon?: Partial<IIconStyles>;
+    childTypeSubMenuIcon?: Partial<IPropertyIconStyles>;
 }
