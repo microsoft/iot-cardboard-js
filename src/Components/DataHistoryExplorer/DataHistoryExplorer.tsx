@@ -71,10 +71,6 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                         }
                         styles={classNames.subComponentStyles.builder}
                     />
-                    {/* <TimeSeriesViewer
-                    timeSeriesTwinList={timeSeriesTwins}
-                    styles={classNames.subComponentStyles.viewer}
-                /> */}
                 </Stack>
             </div>
         </DataHistoryExplorerContext.Provider>

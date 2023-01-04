@@ -217,7 +217,7 @@ const TwinPropertySearchDropdown = (
                     ref={twinSuggestionListWrapperRef}
                     onScroll={handleOnScroll}
                 >
-                    <components.MenuList {...(props as any)} />
+                    {props.children}
                 </div>
             </Callout>
         );
