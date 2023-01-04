@@ -119,24 +119,20 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
         const onReorder = (direction: 'Up' | 'Down') => {
             const selectedItemCopy = deepCopy(selectedItem);
             if (isDTDLModel(selectedItemCopy)) {
-                console.log(`***Start {selectedItem}`, selectedItemCopy);
                 movePropertyInCollection(
                     direction,
                     property,
                     propertyIndex,
                     selectedItemCopy.contents
                 );
-                console.log(`***END {selectedItem}`, selectedItemCopy);
                 updateModel(selectedItemCopy);
             } else if (isDTDLRelationshipReference(selectedItemCopy)) {
-                console.log(`***Start {selectedItem}`, selectedItemCopy);
                 movePropertyInCollection(
                     direction,
                     property,
                     propertyIndex,
                     selectedItemCopy.properties
                 );
-                console.log(`***END {selectedItem}`, selectedItemCopy);
                 updateReference(selectedItemCopy);
             }
         };
