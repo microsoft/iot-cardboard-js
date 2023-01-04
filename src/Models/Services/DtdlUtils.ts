@@ -25,9 +25,10 @@ import {
     OAT_EXTEND_HANDLE_NAME,
     OAT_INTERFACE_TYPE,
     DtdlEnum,
-    DtdlObject
+    DtdlObject,
+    DtdlProperty
 } from '../Constants';
-import { isValueInEnum } from './Utils';
+import { deepCopy, isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -187,6 +188,27 @@ export const isDTDLEnum = (
         return false;
     }
     return object.schema['@type'] === DTDLSchemaType.Enum;
+};
+
+export const copyDTDLProperty = (
+    property: DTDLProperty,
+    contents: DtdlInterfaceContent[]
+): DTDLProperty => {
+    let nextName = property.name + '_' + i18n.t('Copy').toLowerCase();
+    let nextNameIndex = 0;
+    let nameAlreadyExists = contents.some((x) => x.name === nextName);
+    while (nameAlreadyExists) {
+        nextNameIndex++;
+        const testName = `${nextName}_${nextNameIndex}`;
+        nameAlreadyExists = contents.some((x) => x.name === testName);
+        if (!nameAlreadyExists) {
+            nextName = testName;
+        }
+    }
+    const copy = deepCopy(property);
+    copy['@id'] = undefined;
+    copy.name = nextName;
+    return copy;
 };
 
 // #region Add child to complex schemas

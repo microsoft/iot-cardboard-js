@@ -37,7 +37,7 @@ import {
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
-import { isDTDLReference } from '../../Services/DtdlUtils';
+import { isDTDLProperty, isDTDLReference } from '../../Services/DtdlUtils';
 
 //#region Add/remove models
 
@@ -220,6 +220,38 @@ export const getReferenceByName = (
         return model[index];
     }
     return undefined;
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getPropertyIndexOnModelByName = (
+    model: DtdlInterface,
+    referenceName: string
+): number => {
+    if (model && referenceName) {
+        return model.contents.findIndex(
+            (x) => x.name === referenceName && isDTDLProperty(x)
+        );
+    }
+    return -1;
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getPropertyIndexOnRelationshipByName = (
+    relationship: DtdlRelationship,
+    referenceName: string
+): number => {
+    if (relationship && referenceName) {
+        return relationship.properties.findIndex(
+            (x) => x.name === referenceName && isDTDLProperty(x)
+        );
+    }
+    return -1;
 };
 
 export const setSelectedModel = (

@@ -19,6 +19,7 @@ import { deepCopy, getDebugLogger } from '../../../../Models/Services/Utils';
 import { useOatPageContext } from '../../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../../Models/Context/OatPageContext/OatPageContext.types';
 import {
+    copyDTDLProperty,
     isDTDLModel,
     isDTDLReference,
     isDTDLRelationshipReference,
@@ -29,8 +30,12 @@ import {
     IOnUpdateNameCallbackArgs
 } from './Internal/PropertyListItem/PropertyListItem.types';
 import { DtdlInterface, DtdlReference } from '../../../../Models/Constants';
+import {
+    getPropertyIndexOnModelByName,
+    getPropertyIndexOnRelationshipByName
+} from '../../../../Models/Context/OatPageContext/OatPageContextUtils';
 
-const debugLogging = false;
+const debugLogging = true;
 const logDebugConsole = getDebugLogger('PropertyList', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -172,21 +177,41 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return updateName;
     };
-    const getRemoveCallback = (property: DTDLProperty, index: number) => {
+    const getRemoveCallback = (property: DTDLProperty) => {
         const onRemove = () => {
             logDebugConsole(
                 'info',
-                'Removing item. {selectedItem, property, data}',
+                '[START] Removing item. {selectedItem, property}',
                 selectedItem,
                 property
             );
             if (isDTDLModel(selectedItem)) {
                 const selectedItemCopy = deepCopy(selectedItem);
+                const index = getPropertyIndexOnModelByName(
+                    selectedItemCopy,
+                    property.name
+                );
                 selectedItemCopy.contents.splice(index, 1);
+                logDebugConsole(
+                    'info',
+                    '[END] Removing item. {selectedItem, property}',
+                    selectedItemCopy,
+                    property
+                );
                 updateModel(selectedItemCopy);
             } else if (isDTDLRelationshipReference(selectedItem)) {
                 const selectedItemCopy = deepCopy(selectedItem);
+                const index = getPropertyIndexOnRelationshipByName(
+                    selectedItemCopy,
+                    property.name
+                );
                 selectedItemCopy.properties.splice(index, 1);
+                logDebugConsole(
+                    'info',
+                    '[END] Removing item. {selectedItem, property}',
+                    selectedItemCopy,
+                    property
+                );
                 // TODO: add to Undo stack
                 updateReference(selectedItem);
             }
@@ -194,9 +219,44 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
 
         return onRemove;
     };
-    const getCopyCallback = (_property: DTDLProperty) => {
+    const getCopyCallback = (property: DTDLProperty) => {
         const onUpdateItem = () => {
-            alert('not implemented');
+            logDebugConsole(
+                'info',
+                '[START] Duplicate item. {selectedItem, property}',
+                selectedItem,
+                property
+            );
+            if (isDTDLModel(selectedItem)) {
+                const selectedItemCopy = deepCopy(selectedItem);
+                const propertyCopy = copyDTDLProperty(
+                    property,
+                    selectedItem.contents
+                );
+                selectedItemCopy.contents.push(propertyCopy);
+                logDebugConsole(
+                    'info',
+                    '[END] Duplicate item. {selectedItem, property}',
+                    selectedItemCopy,
+                    property
+                );
+                updateModel(selectedItemCopy);
+            } else if (isDTDLRelationshipReference(selectedItem)) {
+                const selectedItemCopy = deepCopy(selectedItem);
+                const propertyCopy = copyDTDLProperty(
+                    property,
+                    selectedItem.properties
+                );
+                selectedItemCopy.properties.push(propertyCopy);
+                logDebugConsole(
+                    'info',
+                    '[END] Duplicate item. {selectedItem, property}',
+                    selectedItemCopy,
+                    property
+                );
+                // TODO: add to Undo stack
+                updateReference(selectedItem);
+            }
         };
 
         return onUpdateItem;
@@ -239,10 +299,7 @@ const PropertyList: React.FC<IPropertyListProps> = (props) => {
                                         property,
                                         index
                                     )}
-                                    onRemove={getRemoveCallback(
-                                        property,
-                                        index
-                                    )}
+                                    onRemove={getRemoveCallback(property)}
                                 />
                             );
                         }}
