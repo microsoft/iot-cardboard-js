@@ -44,9 +44,6 @@ export const getStyles = (
                     backgroundColor: theme.semanticColors.inputBackground,
                     boxShadow: theme.effects.elevation16,
                     width: props.menuWidth
-                },
-                calloutMain: {
-                    overflow: 'hidden'
                 }
             }
         }
