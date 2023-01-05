@@ -40,9 +40,6 @@ const DEFAULT_ARGS: Partial<IPropertyListItemProps> = {
     onUpdateSchema: () => {
         //
     }
-    // onUpdateItem: () => {
-    //     //
-    // }
 };
 const Template: PropertyListItemStory = (args) => {
     return (

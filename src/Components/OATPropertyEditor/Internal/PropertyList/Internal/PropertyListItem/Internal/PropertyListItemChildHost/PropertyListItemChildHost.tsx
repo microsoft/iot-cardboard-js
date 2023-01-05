@@ -46,18 +46,6 @@ const PropertyListItemChildHost: React.FC<IPropertyListItemChildHostProps> = (
     // hooks
 
     // callbacks
-    // const localUpdate = useCallback(
-    //     (schema: DTDLSchema) => {
-    //         console.log('***Local update, {item, schema}', item, schema);
-    //         // find the item
-    //         // propogate the update
-    //         debugger;
-    //         const itemCopy = deepCopy(item);
-    //         itemCopy.schema = deepCopy(schema);
-    //         onUpdateItem();
-    //     },
-    //     [item, onUpdateItem]
-    // );
 
     // side effects
 

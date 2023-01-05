@@ -34,7 +34,6 @@ export interface IPropertyListItemProps {
     onReorderItem: (direction: 'Up' | 'Down') => void | undefined;
     onUpdateName: IOnUpdateNameCallback;
     onRemove: () => void | undefined;
-    // onRenderNameField?: () => React.ReactNode;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

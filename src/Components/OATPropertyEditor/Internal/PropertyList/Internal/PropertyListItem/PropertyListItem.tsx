@@ -144,6 +144,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 text: t(
                     'OATPropertyEditor.PropertyListItem.ContextMenu.changePropertyTypeLabel'
                 ),
+                id: 'change-property-type-button',
                 disabled: !onUpdateSchema,
                 iconProps: { iconName: 'Edit' },
                 subMenuProps: {
@@ -181,6 +182,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 key: 'change-child-type',
                 text: text,
                 iconProps: { iconName: '' }, // TODO: find the right icon
+                id: 'change-child-type',
                 subMenuProps: {
                     items: subItems
                 }
@@ -207,6 +209,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 {
                     key: 'integer',
                     text: t('OATPropertyEditor.integer'),
+                    'data-testid': 'property-item-menu-child-type-integer',
                     iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
                     onRenderIcon: () => onRenderIcon('integer'),
                     onClick: () => onChange('integer')
@@ -214,6 +217,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 {
                     key: 'string',
                     text: t('OATPropertyEditor.string'),
+                    'data-testid': 'property-item-menu-child-type-string',
                     iconProps: { iconName: 'anything' }, // needed to trigger icon render, but value not used
                     onRenderIcon: () => onRenderIcon('string'),
                     onClick: () => onChange('string')
@@ -221,7 +225,9 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             ];
             options.push({
                 key: 'change-child-type',
+                'data-testid': 'property-item-menu-change-child-type',
                 text: text,
+                id: 'change-child-type-button',
                 iconProps: { iconName: '' }, // TODO: find the right icon
                 subMenuProps: {
                     items: subItems
@@ -234,6 +240,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 text: t(
                     'OATPropertyEditor.PropertyListItem.ContextMenu.editMetadataLabel'
                 ),
+                id: 'change-metadata-button',
+                'data-testid': 'property-item-menu-edit-metadata',
                 disabled: true,
                 iconProps: { iconName: 'DocumentManagement' },
                 onClick: () => {
@@ -243,6 +251,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             {
                 key: 'move-up',
                 text: t('moveUp'),
+                id: 'move-up-button',
+                'data-testid': 'property-item-menu-move-up',
                 disabled: isFirstItem,
                 iconProps: { iconName: 'Up' },
                 onClick: onMoveUp
@@ -250,6 +260,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             {
                 key: 'move-down',
                 text: t('moveDown'),
+                id: 'move-down-button',
+                'data-testid': 'property-item-menu-move-down',
                 disabled: isLastItem,
                 iconProps: { iconName: 'Down' },
                 onClick: onMoveDown
@@ -257,6 +269,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             {
                 key: 'duplicate',
                 text: t('duplicate'),
+                id: 'duplicate-button',
+                'data-testid': 'property-item-menu-duplicate',
                 disabled: !onCopy,
                 iconProps: { iconName: 'Copy' },
                 onClick: onCopy
@@ -264,6 +278,8 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
             {
                 key: 'remove',
                 text: t('remove'),
+                id: 'remove-button',
+                'data-testid': 'property-item-menu-remove',
                 disabled: !onRemove,
                 iconProps: { iconName: 'Delete' },
                 onClick: onRemove

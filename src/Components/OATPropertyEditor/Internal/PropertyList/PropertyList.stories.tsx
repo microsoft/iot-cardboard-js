@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    clickContextMenuItem,
     getDefaultStoryDecorator,
     sleep
 } from '../../../../Models/Services/StoryUtilities';
@@ -240,8 +241,56 @@ OpenMenu.args = SimpleModel.args as StoryArgs;
 OpenMenu.play = async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const tab = await canvas.findByTestId(
-        'context-menu-property-list-0-moreMenu'
+        'context-menu-property-list-1-moreMenu'
     );
     userEvent.click(tab);
+    await sleep(10);
+};
+
+export const MoveUp = Template.bind({});
+MoveUp.args = SimpleModel.args as StoryArgs;
+MoveUp.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-1-moreMenu'
+    );
+    userEvent.click(tab);
+    await clickContextMenuItem('property-item-menu-move-up');
+    await sleep(10);
+};
+
+export const MoveDown = Template.bind({});
+MoveDown.args = SimpleModel.args as StoryArgs;
+MoveDown.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-1-moreMenu'
+    );
+    userEvent.click(tab);
+    await clickContextMenuItem('property-item-menu-move-down');
+    await sleep(10);
+};
+
+export const Duplicate = Template.bind({});
+Duplicate.args = SimpleModel.args as StoryArgs;
+Duplicate.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-1-moreMenu'
+    );
+    userEvent.click(tab);
+    await clickContextMenuItem('property-item-menu-duplicate');
+    await sleep(10);
+};
+
+export const Remove = Template.bind({});
+Remove.args = SimpleModel.args as StoryArgs;
+Remove.play = async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const tab = await canvas.findByTestId(
+        'context-menu-property-list-1-moreMenu'
+    );
+    userEvent.click(tab);
+    await clickContextMenuItem('property-item-menu-remove');
     await sleep(10);
 };
