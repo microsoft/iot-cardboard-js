@@ -21,6 +21,9 @@ export const getStyles = (
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     margin: '4px 0 0 0'
+                },
+                label: {
+                    fontWeight: 'normal'
                 }
             }
         }
