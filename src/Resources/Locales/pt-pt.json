@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Tem permissões que faltam. Você precisará de acesso como um 'Azure Digital Twins Data Reader' (no mínimo).",
       "storageAccountMissingPermissionMessage": "Tem permissões que faltam. Você precisará de acesso como um 'Reader' (no mínimo).",
       "storageContainerMissingPermissionMessage": "Tem permissões que faltam. Necessitará de acesso como 'Reader' (no mínimo) e 'Storage Blob Data Owner' ou 'Storage Blob Data Contributor'.",
-      "resourceNotFound": "Não existe nenhum recurso Azure encontrado com o valor introduzido.",
-      "resourceNotVerified": "Não podemos verificar se este recurso existe."
+      "resourceNotVerified": "Não podemos verificar se este recurso existe.",
+      "resourceNotFoundt": "Não existe nenhum recurso Azure encontrado com o valor introduzido no diretório selecionado."
     }
   },
   "behaviorsModal": {
