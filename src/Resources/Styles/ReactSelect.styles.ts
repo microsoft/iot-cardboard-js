@@ -75,7 +75,7 @@ export const getReactSelectStyles = (
         }),
         menu: (provided) => ({
             ...provided,
-            marginTop: menu.marginTop
+            marginTop: menu?.marginTop
         }),
         menuList: (provided) => ({
             ...provided,
