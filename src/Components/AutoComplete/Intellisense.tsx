@@ -14,6 +14,7 @@ export interface IIntellisenseProps {
     getPropertyNames?: GetPropertyNamesFunc;
     onChange: (value: string) => void;
     isLoading?: boolean;
+    isDisabled?: boolean;
 }
 
 export const separators = '+*&|(^/-).><={} \n';
@@ -64,7 +65,8 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
     defaultValue,
     getPropertyNames,
     onChange,
-    isLoading = false
+    isLoading = false,
+    isDisabled = false
 }) => {
     const [value, setValue] = useState(defaultValue || '');
 
@@ -227,6 +229,7 @@ export const Intellisense: React.FC<IIntellisenseProps> = ({
                 }}
                 {...autoCompleteProps}
                 isLoading={isLoading}
+                isDisabled={isDisabled}
             />
         </div>
     );

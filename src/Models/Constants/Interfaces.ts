@@ -45,7 +45,8 @@ import {
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName
+    ADTModel_ImgSrc_PropertyName,
+    PropertyValueType
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -939,8 +940,13 @@ export interface IBlobServiceCorsRule {
     MaxAgeInSeconds: number;
 }
 
-export interface IDataHistoryWidgetTimeSeriesTwin {
+export interface IDataHistoryTimeSeriesTwin {
     label?: string;
     twinId: string;
     twinPropertyName: string;
+    twinPropertyType: PropertyValueType;
+    chartProps?: {
+        color?: string;
+        isTwinPropertyTypeCastedToNumber?: boolean;
+    };
 }

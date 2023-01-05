@@ -22,7 +22,7 @@ import {
     BehaviorModalMode,
     DTwin,
     IADXConnection,
-    IDataHistoryWidgetTimeSeriesTwin,
+    IDataHistoryTimeSeriesTwin,
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
@@ -259,7 +259,7 @@ const DataHistoryWidget: React.FC<IDataHistoryWidgetProps> = ({
 const getTwinIdPropertyMap = (
     timeSeries: IDataHistoryTimeSeries,
     twins: Record<string, DTwin>
-): Array<IDataHistoryWidgetTimeSeriesTwin> =>
+): Array<IDataHistoryTimeSeriesTwin> =>
     twins
         ? timeSeries.map((ts) => {
               const splittedArray = ts.expression?.split('.'); // expression is in [PrimaryTwin.Temperature] or [PrimaryTwin.Status.Temperature] nested propery format
@@ -269,7 +269,8 @@ const getTwinIdPropertyMap = (
                       return {
                           label: ts.label,
                           twinId: twins[alias]?.$dtId,
-                          twinPropertyName: propertyPath.join('.')
+                          twinPropertyName: propertyPath.join('.'),
+                          twinPropertyType: ts.propertyType
                       };
                   }
               }
@@ -281,7 +282,7 @@ const getTwinIdPropertyMap = (
  */
 const transformADXTimeSeriesToHighChartsSeries = (
     adxTimeSeries: Array<ADXTimeSeries>,
-    twinIdPropertyMap: Array<IDataHistoryWidgetTimeSeriesTwin>
+    twinIdPropertyMap: Array<IDataHistoryTimeSeriesTwin>
 ): Array<IHighChartSeriesData> =>
     adxTimeSeries && twinIdPropertyMap
         ? adxTimeSeries.map(

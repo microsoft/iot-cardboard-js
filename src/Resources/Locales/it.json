@@ -1301,5 +1301,23 @@
   "hideDetails": "Nascondi dettagli",
   "colorPills": {
     "unlabeled": "Senza etichetta"
+  },
+  "dataHistoryExplorer": {
+    "title": "Esplora cronologia dati",
+    "builder": {
+      "title": "Proprietà gemelle",
+      "description": "Per confrontare le proprietà storiche all'interno di questo gemello o con altri gemelli, aggiungili di seguito.",
+      "timeSeriesTwin": {
+        "edit": "Modifica serie temporali gemella",
+        "remove": "Rimuovere la serie temporale gemella",
+        "property": "Proprietà",
+        "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
+        "add": "Aggiungi serie temporali gemella"
+      }
+    },
+    "viewer": {
+      "chart": "Tabella",
+      "table": "Tavolo"
+    }
   }
 }

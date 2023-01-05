@@ -1301,5 +1301,23 @@
   "hideDetails": "Részletek elrejtése",
   "colorPills": {
     "unlabeled": "Címkézetlen"
+  },
+  "dataHistoryExplorer": {
+    "title": "Adatelőzmény-kezelő",
+    "builder": {
+      "title": "Iker tulajdonságok",
+      "description": "Ha össze szeretné hasonlítani a historizált tulajdonságokat ezen az ikeren belül vagy más ikrekkel, adja hozzá őket alább.",
+      "timeSeriesTwin": {
+        "edit": "Iker idősor szerkesztése",
+        "remove": "Iker idősor eltávolítása",
+        "property": "Ingatlan",
+        "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
+        "add": "Iker idősor hozzáadása"
+      }
+    },
+    "viewer": {
+      "chart": "Diagram",
+      "table": "Asztal"
+    }
   }
 }

@@ -7,7 +7,7 @@ import {
     IADXAdapter,
     IADXConnection,
     IComponentError,
-    IDataHistoryWidgetTimeSeriesTwin
+    IDataHistoryTimeSeriesTwin
 } from '../Constants';
 import { getDebugLogger } from '../Services/Utils';
 import useAdapter from './useAdapter';
@@ -19,7 +19,7 @@ interface IProp {
     adapter?: IADXAdapter | MockAdapter;
     connection: IADXConnection;
     quickTimeSpanInMillis: number;
-    twins: Array<IDataHistoryWidgetTimeSeriesTwin>;
+    twins: Array<IDataHistoryTimeSeriesTwin>;
     pollingInterval?: number;
 }
 
@@ -140,7 +140,7 @@ export const useTimeSeriesData = ({
  * to be sent against ADX query using the connection data
  */
 const getBulkADXQueryFromTimeSeriesTwins = (
-    twins: Array<IDataHistoryWidgetTimeSeriesTwin>,
+    twins: Array<IDataHistoryTimeSeriesTwin>,
     agoTimeInMillis: number,
     connection: IADXConnection
 ): string => {

@@ -1301,5 +1301,23 @@
   "hideDetails": "Masquer les détails",
   "colorPills": {
     "unlabeled": "Sans étiquette"
+  },
+  "dataHistoryExplorer": {
+    "title": "Explorateur d’historique des données",
+    "builder": {
+      "title": "Propriétés jumelles",
+      "description": "Pour comparer les propriétés historiques au sein de ce jumeau ou avec d’autres jumeaux, ajoutez-les ci-dessous.",
+      "timeSeriesTwin": {
+        "edit": "Modifier les séries chronologiques jumelles",
+        "remove": "Supprimer le jumeau de série chronologique",
+        "property": "Propriété",
+        "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
+        "add": "Ajouter un jumeau de série chronologique"
+      }
+    },
+    "viewer": {
+      "chart": "Graphique",
+      "table": "Table"
+    }
   }
 }
