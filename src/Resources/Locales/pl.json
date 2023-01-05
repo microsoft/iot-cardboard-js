@@ -861,7 +861,7 @@
       "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
       "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
       "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje.",
-      "resourceNotFoundt": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością w wybranym katalogu."
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością w wybranym katalogu."
     }
   },
   "behaviorsModal": {

@@ -861,7 +861,7 @@
       "storageAccountMissingPermissionMessage": "您缺少权限。您将需要以“读者”身份访问（至少）。",
       "storageContainerMissingPermissionMessage": "您缺少权限。你将需要以“读取者”（至少）和“存储 Blob 数据所有者”或“存储 Blob 数据参与者”的身份进行访问。",
       "resourceNotVerified": "我们无法验证此资源是否存在。",
-      "resourceNotFoundt": "在所选目录中找不到具有输入值的 Azure 资源。"
+      "resourceNotFound": "在所选目录中找不到具有输入值的 Azure 资源。"
     }
   },
   "behaviorsModal": {

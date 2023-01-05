@@ -861,7 +861,7 @@
       "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
       "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
       "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz.",
-      "resourceNotFoundt": "Seçilen dizinde girilen değerle Azure kaynağı bulunamadı."
+      "resourceNotFound": "Seçilen dizinde girilen değerle Azure kaynağı bulunamadı."
     }
   },
   "behaviorsModal": {

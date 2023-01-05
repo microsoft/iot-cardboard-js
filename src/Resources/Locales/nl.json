@@ -861,7 +861,7 @@
       "storageAccountMissingPermissionMessage": "U hebt ontbrekende machtigingen. Je hebt toegang nodig als 'Reader' (minimaal).",
       "storageContainerMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Reader' (minimaal) en 'Storage Blob Data Owner' of 'Storage Blob Data Contributor'.",
       "resourceNotVerified": "We kunnen niet controleren of deze bron bestaat.",
-      "resourceNotFoundt": "Er is geen Azure-resource gevonden met de ingevoerde waarde in de geselecteerde map."
+      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde in de geselecteerde map."
     }
   },
   "behaviorsModal": {
