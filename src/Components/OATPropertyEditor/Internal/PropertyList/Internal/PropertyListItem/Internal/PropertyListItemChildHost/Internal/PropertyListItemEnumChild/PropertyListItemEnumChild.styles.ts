@@ -50,7 +50,6 @@ export const getStyles = (
             valueTextField: {
                 root: {
                     flex: 0.85
-                    // marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
                 },
                 fieldGroup: {
                     backgroundColor: 'transparent'
@@ -59,7 +58,6 @@ export const getStyles = (
             valueNumberField: {
                 root: {
                     flex: 0.85
-                    // marginRight: '72px' // 32px*2 for buttons + 4px*2 for spacing
                 },
                 input: {
                     backgroundColor: 'transparent'
