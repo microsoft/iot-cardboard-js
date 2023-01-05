@@ -335,6 +335,7 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
                 <Stack.Item grow>
                     <TextField
                         disabled={disableInput}
+                        readOnly={!onChangeName}
                         onRenderInput={(props, defaultRenderer) => {
                             return (
                                 <>
