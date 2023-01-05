@@ -6,7 +6,6 @@ import {
     getPropertyListPivotColumnContentStyles,
     getPropertyListStackItemStyles
 } from './OATPropertyEditor.styles';
-import PropertyListOld from './Internal/PropertyList';
 import PropertyList from './Internal/PropertyList/PropertyList';
 import JSONEditor from './Internal/JSONEditor';
 import TemplateColumn from './Internal/TemplateColumn';
@@ -216,7 +215,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
     );
 
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
-    const useNewList = true;
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -283,29 +281,11 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             <Stack.Item grow styles={propertyListStackItem}>
                                 {isDTDLReference(selectedItem) ||
                                 isDTDLModel(selectedItem) ? (
-                                    useNewList ? (
-                                        <PropertyList
-                                            selectedItem={selectedItem}
-                                            properties={propertyList}
-                                            parentModelId={parentModelId}
-                                        />
-                                    ) : (
-                                        <PropertyListOld
-                                            dispatch={editorDispatch}
-                                            enteredPropertyRef={
-                                                enteredPropertyRef
-                                            }
-                                            enteredTemplateRef={
-                                                enteredTemplateRef
-                                            }
-                                            isSupportedModelType={
-                                                isSupportedModelType
-                                            }
-                                            propertyList={propertyList}
-                                            selectedItem={selectedItem}
-                                            state={editorState}
-                                        />
-                                    )
+                                    <PropertyList
+                                        selectedItem={selectedItem}
+                                        properties={propertyList}
+                                        parentModelId={parentModelId}
+                                    />
                                 ) : (
                                     'Property list not supported'
                                 )}

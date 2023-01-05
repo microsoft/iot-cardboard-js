@@ -39,7 +39,7 @@ import { useTranslation } from 'react-i18next';
 import { getSchemaTypeMenuOptions } from '../../../../../../Models/Constants/OatConstants';
 import { DtdlEnumValueSchema } from '../../../../../..';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('PropertyListItem', debugLogging);
 
 const getClassNames = classNamesFunction<
@@ -90,9 +90,11 @@ const PropertyListItem: React.FC<IPropertyListItemProps> = (props) => {
 
     // callbacks
     const onAddChild = useCallback(() => {
+        logDebugConsole('debug', 'Adding child. {parentSchema}', item.schema);
         setExpandedTrue();
         onUpdateSchema(addChildToSchema({ parentSchema: item.schema }));
     }, [item.schema, onUpdateSchema, setExpandedTrue]);
+
     const onChangeSchemaType = useCallback(
         (args: { schema: DTDLSchemaTypes }) => {
             const newSchema = getDefaultSchemaByType(args.schema);
