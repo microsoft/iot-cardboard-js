@@ -48,6 +48,8 @@ const Template: PropertyListItemObjectChildStory = (args) => {
                 onReorderItem={() => undefined}
                 onUpdateName={() => undefined}
                 onUpdateSchema={() => undefined}
+                onCopy={() => undefined}
+                onRemove={() => undefined}
                 styles={{
                     root: {
                         marginLeft: 32 // spacing for the chevron

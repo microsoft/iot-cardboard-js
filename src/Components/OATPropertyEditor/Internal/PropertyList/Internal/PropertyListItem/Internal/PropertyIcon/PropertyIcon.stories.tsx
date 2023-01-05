@@ -6,6 +6,7 @@ import { IPropertyIconProps } from './PropertyIcon.types';
 import { PROPERTY_ICON_DATA } from '../../../../../../../../Models/Constants/OatConstants';
 import { Stack, Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { DTDLSchema } from '../../../../../../../../Models/Classes/DTDL';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -29,7 +30,7 @@ const Template: PropertyIconStory = () => {
                 verticalAlign="center"
                 tokens={{ childrenGap: 4 }}
             >
-                <PropertyIcon schema={property.schema} />
+                <PropertyIcon schema={property.schema as DTDLSchema} />
                 <Text
                     variant="medium"
                     styles={{ root: { fontStyle: 'italic' } }}

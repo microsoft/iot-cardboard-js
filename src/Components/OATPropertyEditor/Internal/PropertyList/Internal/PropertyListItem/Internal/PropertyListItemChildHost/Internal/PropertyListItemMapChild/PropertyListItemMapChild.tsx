@@ -8,7 +8,6 @@ import { getStyles } from './PropertyListItemMapChild.styles';
 import { classNamesFunction, styled } from '@fluentui/react';
 import { useExtendedTheme } from '../../../../../../../../../../Models/Hooks/useExtendedTheme';
 import PropertyListItem from '../../../../PropertyListItem';
-import { deepCopy } from '../../../../../../../../../../Models/Services/Utils';
 
 const getClassNames = classNamesFunction<
     IPropertyListItemMapChildStyleProps,
