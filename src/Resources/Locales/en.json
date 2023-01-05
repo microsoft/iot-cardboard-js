@@ -66,8 +66,11 @@
     "update": "Update",
     "cancel": "Cancel",
     "delete": "Delete",
+    "duplicate": "Duplicate",
     "edit": "Edit",
     "connect": "Connect",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
     "editTwin": "Edit twin",
     "confirmDeletion": "Confirm deletion",
     "confirmDeletionDesc": "Are you sure? You can't undo this action.",
@@ -1033,6 +1036,7 @@
         "data": "data",
         "date": "date",
         "dateTime": "dateTime",
+        "defaultPropertyName": "new property {{index}}",
         "delete": "Delete",
         "description": "Description",
         "descriptionPlaceholder": "A localizable description to display",
@@ -1114,8 +1118,23 @@
         "version": "Version",
         "viewTemplates": "View Templates",
         "writable": "Writable",
+        "SchemaDefaults": {
+            "defaultEnumName": "enum_key_{{index}}",
+            "defaultMapName": "enum_key_{{index}}",
+            "defaultObjectPropertyName": "field_name_{{index}}",
+            "defaultMapKeyName": "map_key_{{index}}",
+            "defaultMapValueName": "map_value_{{index}}"
+        },
         "PropertyListItem": {
-            "arrayItemLabel": "items"
+            "arrayItemLabel": "items",
+            "enumKeyPlaceholder": "Enter key",
+            "enumValuePlaceholder": "Enter value",
+            "ContextMenu": {
+                "changePropertyTypeLabel": "Edit property type",
+                "changeChildTypeLabelForArray": "Change array item type",
+                "changeChildTypeLabelForEnum": "Change enum value type",
+                "editMetadataLabel": "Edit metadata"
+            }
         }
     },
     "ErrorHandlingWrapper": {

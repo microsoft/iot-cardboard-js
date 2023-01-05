@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useCallback } from 'react';
 import { Stack, Pivot, PivotItem, Label } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -20,16 +20,22 @@ import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
 import { IEditorProps } from './Editor.types';
-import {
-    OAT_INTERFACE_TYPE,
-    OAT_RELATIONSHIP_HANDLE_NAME
-} from '../../Models/Constants/Constants';
+import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
-import { getDebugLogger } from '../../Models/Services/Utils';
+import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
 import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
-import { isDTDLProperty } from '../../Models/Services/DtdlUtils';
+import { DTDLProperty, DTDLSchemaTypes } from '../../Models/Classes/DTDL';
+import {
+    getDefaultProperty,
+    isDTDLModel,
+    isDTDLProperty,
+    isDTDLReference,
+    isDTDLRelationshipReference
+} from '../../Models/Services/DtdlUtils';
+import { useCommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { DtdlProperty } from '../../Models/Constants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -39,14 +45,16 @@ const Editor: React.FC<IEditorProps> = (props) => {
         editorDispatch,
         selectedItem,
         editorState,
-        selectedThemeName
+        selectedThemeName,
+        parentModelId
     } = props;
 
     // hooks
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageState } = useOatPageContext();
+    const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { execute } = useCommandHistoryContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -78,13 +86,12 @@ const Editor: React.FC<IEditorProps> = (props) => {
         return propertyItems;
     }, [selectedItem, propertiesKeyName]);
 
-    const isSupportedModelType = useMemo(() => {
-        return (
-            (selectedItem && selectedItem['@type'] === OAT_INTERFACE_TYPE) ||
-            (selectedItem &&
-                selectedItem['@type'] === OAT_RELATIONSHIP_HANDLE_NAME)
-        );
-    }, [selectedItem]);
+    const isSupportedModelType = useMemo(
+        () =>
+            isDTDLModel(selectedItem) ||
+            isDTDLRelationshipReference(selectedItem),
+        [selectedItem]
+    );
 
     // callbacks
     // const onToggleTemplatesActive = () => {
@@ -127,8 +134,89 @@ const Editor: React.FC<IEditorProps> = (props) => {
         }
     };
 
+    const onAddType = useCallback(
+        (data: { schema: DTDLSchemaTypes }) => {
+            logDebugConsole(
+                'info',
+                'Updating schema with data. {selectedItem, property, data}',
+                selectedItem,
+                data
+            );
+
+            const selectedItemCopy = deepCopy(selectedItem);
+            if (!selectedItemCopy[propertiesKeyName]) {
+                selectedItemCopy[propertiesKeyName] = [];
+            }
+            (selectedItemCopy[propertiesKeyName] as DtdlProperty[]).push(
+                getDefaultProperty(
+                    data.schema,
+                    selectedItemCopy[propertiesKeyName].length
+                )
+            );
+
+            if (isDTDLModel(selectedItemCopy)) {
+                const updateModel = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_MODEL,
+                        payload: {
+                            model: selectedItemCopy
+                        }
+                    });
+                };
+
+                const undoUpdate = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.GENERAL_UNDO,
+                        payload: {
+                            models: oatPageState.currentOntologyModels,
+                            positions:
+                                oatPageState.currentOntologyModelPositions,
+                            selection: oatPageState.selection
+                        }
+                    });
+                };
+
+                execute(updateModel, undoUpdate);
+            } else if (isDTDLReference(selectedItemCopy)) {
+                const updateModel = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.UPDATE_REFERENCE,
+                        payload: {
+                            modelId: parentModelId,
+                            reference: selectedItemCopy
+                        }
+                    });
+                };
+
+                const undoUpdate = () => {
+                    oatPageDispatch({
+                        type: OatPageContextActionType.GENERAL_UNDO,
+                        payload: {
+                            models: oatPageState.currentOntologyModels,
+                            positions:
+                                oatPageState.currentOntologyModelPositions,
+                            selection: oatPageState.selection
+                        }
+                    });
+                };
+
+                execute(updateModel, undoUpdate);
+            }
+        },
+        [
+            execute,
+            oatPageDispatch,
+            oatPageState.currentOntologyModelPositions,
+            oatPageState.currentOntologyModels,
+            oatPageState.selection,
+            parentModelId,
+            propertiesKeyName,
+            selectedItem
+        ]
+    );
+
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
-    const useNewList = false;
+    const useNewList = true;
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -167,12 +255,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                                         }`}</Label>
                                         {isSupportedModelType && (
                                             <PropertyTypePicker
-                                                onSelect={(item) =>
-                                                    alert(
-                                                        'To be implemented. Selected ' +
-                                                            item.type
-                                                    )
-                                                }
+                                                onSelect={onAddType}
                                             />
                                         )}
                                         {/* <ActionButton
@@ -198,23 +281,33 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             </Stack.Item>
 
                             <Stack.Item grow styles={propertyListStackItem}>
-                                {useNewList ? (
-                                    <PropertyList
-                                        arePropertiesSupported={true}
-                                        properties={propertyList}
-                                    />
+                                {isDTDLReference(selectedItem) ||
+                                isDTDLModel(selectedItem) ? (
+                                    useNewList ? (
+                                        <PropertyList
+                                            selectedItem={selectedItem}
+                                            properties={propertyList}
+                                            parentModelId={parentModelId}
+                                        />
+                                    ) : (
+                                        <PropertyListOld
+                                            dispatch={editorDispatch}
+                                            enteredPropertyRef={
+                                                enteredPropertyRef
+                                            }
+                                            enteredTemplateRef={
+                                                enteredTemplateRef
+                                            }
+                                            isSupportedModelType={
+                                                isSupportedModelType
+                                            }
+                                            propertyList={propertyList}
+                                            selectedItem={selectedItem}
+                                            state={editorState}
+                                        />
+                                    )
                                 ) : (
-                                    <PropertyListOld
-                                        dispatch={editorDispatch}
-                                        enteredPropertyRef={enteredPropertyRef}
-                                        enteredTemplateRef={enteredTemplateRef}
-                                        isSupportedModelType={
-                                            isSupportedModelType
-                                        }
-                                        propertyList={propertyList}
-                                        selectedItem={selectedItem}
-                                        state={editorState}
-                                    />
+                                    'Property list not supported'
                                 )}
                             </Stack.Item>
                         </Stack>

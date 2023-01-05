@@ -79,7 +79,7 @@ const classNames = {
     regionButton: `${classPrefix}-region-button`
 };
 
-const OATEditorPivotContentHeightAdjustment = 82;
+const OATEditorPivotContentHeightAdjustment = 36;
 
 export const getPropertyInspectorStyles = () => {
     const theme = useExtendedTheme();

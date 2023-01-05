@@ -67,6 +67,14 @@ export const validate3DConfigWithSchema = (
     }
 };
 
+/**
+ * checks whether the provided value is one of the values in the provided enum type
+ * @example isValueInEnum(DTDLSchemaType, schemaType)
+ */
+export const isValueInEnum = (enumType: any, value: any) => {
+    return !!(<any>Object).values(enumType).includes(value);
+};
+
 export const createGUID = (isWithDashes = false) => {
     let id: string = v4();
     if (!isWithDashes) {
@@ -518,6 +526,46 @@ export function sortAscendingOrDescending<T>(
         return order;
     };
 }
+
+/**
+ * Modifies the collection in-place to shift an item up or down in the collection.
+ * @param direction Direction to move the item
+ * @param itemIndex index of the item to move
+ * @param items collection of items
+ * @returns reference to the original collection
+ */
+export const moveItemInCollection = <T>(
+    direction: 'Up' | 'Down',
+    itemIndex: number,
+    items: T[]
+): T[] => {
+    const item = items[itemIndex];
+
+    if (direction === 'Up') {
+        if (itemIndex === 0) {
+            console.warn('Cannot move item up. Already first item in list');
+            // early return if the first item in the list
+            return items;
+        }
+
+        // insert the item at the new position
+        items.splice(itemIndex - 1, 0, item);
+        // remove the old item
+        items.splice(itemIndex + 1, 1);
+        return items;
+    } else {
+        if (itemIndex === items.length - 1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if the last item in the list
+            return items;
+        }
+        // insert the item at the new position
+        items.splice(itemIndex + 2, 0, item);
+        // remove the old item
+        items.splice(itemIndex, 1);
+        return items;
+    }
+};
 
 /**
  * remove duplicate objects from an array

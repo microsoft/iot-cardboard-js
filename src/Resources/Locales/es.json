@@ -1214,7 +1214,23 @@
     "date": "fecha",
     "expand": "Expandir",
     "PropertyListItem": {
-      "arrayItemLabel": "Artículos"
+      "arrayItemLabel": "Artículos",
+      "enumKeyPlaceholder": "Tecla Enter",
+      "enumValuePlaceholder": "Introduzca el valor",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Editar tipo de propiedad",
+        "changeChildTypeLabelForArray": "Cambiar el tipo de elemento de matriz",
+        "changeChildTypeLabelForEnum": "Cambiar el tipo de valor de enumeración",
+        "editMetadataLabel": "Editar metadatos"
+      }
+    },
+    "defaultPropertyName": "Nueva propiedad {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{índice}}",
+      "defaultMapName": "enum_key_{{índice}}",
+      "defaultObjectPropertyName": "field_name_{{índice}}",
+      "defaultMapKeyName": "map_key_{{índice}}",
+      "defaultMapValueName": "map_value_{{índice}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Claro",
   "increaseBy1": "Aumentar el valor en 1",
-  "decreaseBy1": "Disminuir el valor en 1"
+  "decreaseBy1": "Disminuir el valor en 1",
+  "duplicate": "Duplicado",
+  "moveUp": "Desplazar hacia arriba",
+  "moveDown": "Desplazar hacia abajo"
 }

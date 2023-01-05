@@ -1,3 +1,4 @@
+import React from 'react';
 import { ContextualMenuItemType, IContextualMenuItem } from '@fluentui/react';
 import IconDouble from '../../Resources/Static/Double.svg';
 import IconFloat from '../../Resources/Static/Float.svg';
@@ -10,11 +11,12 @@ import IconMultiPolygon from '../../Resources/Static/multipolygon.svg';
 import IconPoint from '../../Resources/Static/point.svg';
 import IconPolygon from '../../Resources/Static/polygon.svg';
 import { OatIconNames } from './Types';
-import { DTDLSchemaTypes, DTDLSchemaType } from '../Classes/DTDL';
+import { DTDLSchemaTypes, DTDLSchemaType, DTDLSchema } from '../Classes/DTDL';
 import i18n from '../../i18n';
+import PropertyIcon from '../../Components/OATPropertyEditor/Internal/PropertyList/Internal/PropertyListItem/Internal/PropertyIcon/PropertyIcon';
 
 export const getSchemaTypeMenuOptions = (
-    callback: (args: { type: string }) => void
+    callback: (args: { schema: DTDLSchemaTypes }) => void
 ) => {
     const menuOptions: IContextualMenuItem[] = [];
 
@@ -26,7 +28,15 @@ export const getSchemaTypeMenuOptions = (
         const item: IContextualMenuItem = {
             text: i18n.t(x.title),
             key: x.schema,
-            onClick: () => callback({ type: x.schema })
+            onClick: () => callback({ schema: x.schema }),
+            iconProps: { iconName: x.schema }, // needed to trigger icon render, but value not used
+            onRenderIcon: () => {
+                return <PropertyIcon schema={x.schema as DTDLSchema} />;
+            },
+            style: {
+                display: 'flex',
+                alignItems: 'center'
+            }
         };
         switch (x.category) {
             case 'complex':

@@ -44,9 +44,9 @@ const Template: PropertyListItemMapChildStory = (args) => {
 export const Primitive = Template.bind({}) as PropertyListItemMapChildStory;
 Primitive.args = {
     item: new DTDLMap(
-        '',
         new DTDLMapKey('key name'),
-        new DTDLMapValue('value 1', 'double')
+        new DTDLMapValue('value 1', 'double'),
+        ''
     ),
     indexKey: '',
     level: 1
@@ -56,20 +56,18 @@ export const Complex = Template.bind({}) as PropertyListItemMapChildStory;
 Complex.args = {
     level: 1,
     item: new DTDLMap(
-        'test map 1',
         new DTDLMapKey('map key 1'),
         new DTDLMapValue(
             'value 1',
-            new DTDLObject('', [
+            new DTDLObject([
                 new DTDLObjectField('prop 1', 'double'),
                 new DTDLObjectField(
                     'prop 2',
-                    new DTDLObject('', [
-                        new DTDLObjectField('my double', 'double')
-                    ])
+                    new DTDLObject([new DTDLObjectField('my double', 'double')])
                 ),
                 new DTDLObjectField('prop 3', 'string')
             ])
-        )
+        ),
+        'test map 1'
     )
 } as IPropertyListItemMapChildProps;

@@ -40,11 +40,25 @@ const PropertyListItemMapChild: React.FC<IPropertyListItemMapChildProps> = (
                 indexKey={`${indexKey}.0`}
                 item={item.mapKey}
                 level={level + 1}
+                isFirstItem={true}
+                isLastItem={true}
+                onCopy={undefined}
+                onRemove={undefined}
+                onReorderItem={undefined}
+                onUpdateName={undefined}
+                onUpdateSchema={undefined}
             />
             <PropertyListItem
                 indexKey={`${indexKey}.0`}
                 item={item.mapValue}
                 level={level + 1}
+                isFirstItem={true}
+                isLastItem={true}
+                onCopy={undefined}
+                onRemove={undefined}
+                onReorderItem={undefined}
+                onUpdateName={undefined}
+                onUpdateSchema={undefined}
             />
         </div>
     );

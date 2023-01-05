@@ -1214,7 +1214,23 @@
     "date": "datum",
     "expand": "Uitbreiden",
     "PropertyListItem": {
-      "arrayItemLabel": "Items"
+      "arrayItemLabel": "Items",
+      "enumKeyPlaceholder": "Enter-toets",
+      "enumValuePlaceholder": "Waarde invoeren",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Type eigenschap bewerken",
+        "changeChildTypeLabelForArray": "Type array-item wijzigen",
+        "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
+        "editMetadataLabel": "Metagegevens bewerken"
+      }
+    },
+    "defaultPropertyName": "nieuwe eigenschap {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Duidelijk",
   "increaseBy1": "Waarde verhogen met 1",
-  "decreaseBy1": "Waarde verlagen met 1"
+  "decreaseBy1": "Waarde verlagen met 1",
+  "duplicate": "Duplicaat",
+  "moveUp": "Overgaan",
+  "moveDown": "Naar beneden gaan"
 }

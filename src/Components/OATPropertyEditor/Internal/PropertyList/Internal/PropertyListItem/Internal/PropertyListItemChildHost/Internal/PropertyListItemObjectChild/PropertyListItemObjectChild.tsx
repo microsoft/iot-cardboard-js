@@ -17,7 +17,19 @@ const getClassNames = classNamesFunction<
 const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> = (
     props
 ) => {
-    const { indexKey, item, level, styles } = props;
+    const {
+        indexKey,
+        isFirstItem,
+        isLastItem,
+        item,
+        level,
+        onDuplicate,
+        onUpdateSchema,
+        onReorderItem,
+        onUpdateName,
+        onRemove,
+        styles
+    } = props;
 
     // contexts
 
@@ -38,8 +50,15 @@ const PropertyListItemObjectChild: React.FC<IPropertyListItemObjectChildProps> =
         <div className={classNames.root}>
             <PropertyListItem
                 indexKey={indexKey}
-                level={level + 1}
+                isFirstItem={isFirstItem}
+                isLastItem={isLastItem}
                 item={item}
+                level={level + 1}
+                onCopy={onDuplicate}
+                onUpdateSchema={onUpdateSchema}
+                onUpdateName={onUpdateName}
+                onReorderItem={onReorderItem}
+                onRemove={onRemove}
             />
         </div>
     );

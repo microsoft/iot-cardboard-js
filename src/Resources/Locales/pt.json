@@ -1214,7 +1214,23 @@
     "date": "data",
     "expand": "Expandir",
     "PropertyListItem": {
-      "arrayItemLabel": "Itens"
+      "arrayItemLabel": "Itens",
+      "enumKeyPlaceholder": "Digite a chave",
+      "enumValuePlaceholder": "Insira o valor",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Editar tipo de propriedade",
+        "changeChildTypeLabelForArray": "Alterar o tipo de item de matriz",
+        "changeChildTypeLabelForEnum": "Alterar o tipo de valor de enum",
+        "editMetadataLabel": "Editar metadados"
+      }
+    },
+    "defaultPropertyName": "nova propriedade {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{índice}}",
+      "defaultMapName": "enum_key_{{índice}}",
+      "defaultObjectPropertyName": "field_name_{{índice}}",
+      "defaultMapKeyName": "map_key_{{índice}}",
+      "defaultMapValueName": "map_value_{{índice}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Claro",
   "increaseBy1": "Aumentar o valor em 1",
-  "decreaseBy1": "Diminuir o valor em 1"
+  "decreaseBy1": "Diminuir o valor em 1",
+  "duplicate": "Duplicar",
+  "moveUp": "Mover para cima",
+  "moveDown": "Mover para baixo"
 }

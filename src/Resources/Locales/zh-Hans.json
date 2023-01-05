@@ -1214,7 +1214,23 @@
     "date": "日期",
     "expand": "扩大",
     "PropertyListItem": {
-      "arrayItemLabel": "项目"
+      "arrayItemLabel": "项目",
+      "enumKeyPlaceholder": "回车键",
+      "enumValuePlaceholder": "输入值",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "编辑属性类型",
+        "changeChildTypeLabelForArray": "更改数组项类型",
+        "changeChildTypeLabelForEnum": "更改枚举值类型",
+        "editMetadataLabel": "编辑元数据"
+      }
+    },
+    "defaultPropertyName": "新属性 {{索引}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{索引}}",
+      "defaultMapName": "enum_key_{{索引}}",
+      "defaultObjectPropertyName": "field_name_{{索引}}",
+      "defaultMapKeyName": "map_key_{{索引}}",
+      "defaultMapValueName": "map_value_{{索引}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "清楚",
   "increaseBy1": "将值增加 1",
-  "decreaseBy1": "将值减少 1"
+  "decreaseBy1": "将值减少 1",
+  "duplicate": "重复",
+  "moveUp": "上升",
+  "moveDown": "下移"
 }

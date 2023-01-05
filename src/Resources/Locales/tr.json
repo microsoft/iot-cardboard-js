@@ -1214,7 +1214,23 @@
     "date": "tarih",
     "expand": "Genişletmek",
     "PropertyListItem": {
-      "arrayItemLabel": "eşya"
+      "arrayItemLabel": "eşya",
+      "enumKeyPlaceholder": "Enter tuşu",
+      "enumValuePlaceholder": "Değer girin",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Özellik türünü düzenle",
+        "changeChildTypeLabelForArray": "Dizi öğesi türünü değiştirme",
+        "changeChildTypeLabelForEnum": "Enum değer türünü değiştirme",
+        "editMetadataLabel": "Meta verileri düzenleme"
+      }
+    },
+    "defaultPropertyName": "new property {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Berrak",
   "increaseBy1": "Değeri 1 artır",
-  "decreaseBy1": "Değeri 1 azalt"
+  "decreaseBy1": "Değeri 1 azalt",
+  "duplicate": "Yinelenen",
+  "moveUp": "Yukarı taşı",
+  "moveDown": "Aşağı taşı"
 }

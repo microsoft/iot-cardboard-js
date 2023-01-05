@@ -121,14 +121,17 @@ export const selectDropDownMenuItem = async (
  * @param canvas the test canvas
  * @param testId test id for the element
  */
-export const clickContextMenuItem = async (
-    canvas: IStorybookCanvas,
-    testId: string
-) => {
+export const clickContextMenuItem = async (testId: string) => {
     // not using storybook helper to work around issue where pointer events are not allowed
     const dropdown = await findCalloutItemByTestId(testId);
     const item = document.getElementById(dropdown.id);
-    item.click();
+    if (!item) {
+        console.error(
+            '[TEST FAILURE] Did not find an element with id ' + dropdown?.id
+        );
+    } else {
+        item.click();
+    }
 };
 
 export const clickOverFlowMenuItem = async (element: HTMLElement) => {

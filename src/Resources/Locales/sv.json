@@ -1214,7 +1214,23 @@
     "date": "datum",
     "expand": "Expandera",
     "PropertyListItem": {
-      "arrayItemLabel": "Objekt"
+      "arrayItemLabel": "Objekt",
+      "enumKeyPlaceholder": "Ange nyckel",
+      "enumValuePlaceholder": "Ange värde",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Redigera egenskapstyp",
+        "changeChildTypeLabelForArray": "Ändra matrisobjekttyp",
+        "changeChildTypeLabelForEnum": "Ändra uppräkningsvärdetyp",
+        "editMetadataLabel": "Redigera metadata"
+      }
+    },
+    "defaultPropertyName": "ny egenskap {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Klar",
   "increaseBy1": "Öka värdet med 1",
-  "decreaseBy1": "Minska värdet med 1"
+  "decreaseBy1": "Minska värdet med 1",
+  "duplicate": "Duplicera",
+  "moveUp": "Flytta upp",
+  "moveDown": "Flytta ner"
 }

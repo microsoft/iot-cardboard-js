@@ -20,32 +20,47 @@ export const getStyles = (
             {
                 alignItems: 'center',
                 marginLeft: `${indentation}px`,
-                marginTop: 4
+                padding: '4px 0px'
             }
         ],
         container: [
             {
                 display: 'flex'
-                // justifyContent: 'space-between',
-                // width: '100%'
             }
         ],
-        name: [
-            {
-                paddingRight: 8
-            }
-        ],
-        value: [
-            {
-                color: theme.semanticColors.disabledBodyText
-            }
-        ],
+        buttonSpacer: [{ width: 32, flexShrink: '0 !important' }],
         subComponentStyles: {
             icon: {
                 root: {
                     border: `1px solid ${theme.semanticColors.inputBorder}`,
-                    borderRadius: theme.effects.roundedCorner4,
-                    marginRight: 8
+                    borderRadius: theme.effects.roundedCorner4
+                },
+                fluentIcon: {
+                    padding: 8
+                }
+            },
+            keyField: {
+                root: {
+                    flex: 1.15
+                },
+                fieldGroup: {
+                    backgroundColor: 'transparent'
+                }
+            },
+            valueTextField: {
+                root: {
+                    flex: 0.85
+                },
+                fieldGroup: {
+                    backgroundColor: 'transparent'
+                }
+            },
+            valueNumberField: {
+                root: {
+                    flex: 0.85
+                },
+                input: {
+                    backgroundColor: 'transparent'
                 }
             }
         }

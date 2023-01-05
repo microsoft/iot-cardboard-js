@@ -209,9 +209,12 @@ export type OatIconNames =
     | 'Code'
     | 'CubeShape'
     | 'DateTime'
+    | 'DocumentManagement'
+    | 'Down'
     | 'GroupList'
     | 'TextField'
-    | 'ToggleRight';
+    | 'ToggleRight'
+    | 'Up';
 
 export enum DurationUnits {
     milliseconds = 0,

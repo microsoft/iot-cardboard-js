@@ -1214,7 +1214,23 @@
     "date": "dattero",
     "expand": "Espandere",
     "PropertyListItem": {
-      "arrayItemLabel": "Elementi"
+      "arrayItemLabel": "Elementi",
+      "enumKeyPlaceholder": "Tasto d’invio",
+      "enumValuePlaceholder": "Inserisci il valore",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Modificare il tipo di proprietà",
+        "changeChildTypeLabelForArray": "Modificare il tipo di elemento della matrice",
+        "changeChildTypeLabelForEnum": "Modificare il tipo di valore di enumerazione",
+        "editMetadataLabel": "Modificare i metadati"
+      }
+    },
+    "defaultPropertyName": "Nuova proprietà {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{indice}}",
+      "defaultMapName": "enum_key_{{indice}}",
+      "defaultObjectPropertyName": "field_name_{{indice}}",
+      "defaultMapKeyName": "map_key_{{indice}}",
+      "defaultMapValueName": "map_value_{{indice}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Chiaro",
   "increaseBy1": "Aumentare il valore di 1",
-  "decreaseBy1": "Diminuire il valore di 1"
+  "decreaseBy1": "Diminuire il valore di 1",
+  "duplicate": "Duplicare",
+  "moveUp": "Promuovere",
+  "moveDown": "Retrocedere"
 }

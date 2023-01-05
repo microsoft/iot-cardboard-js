@@ -1214,7 +1214,23 @@
     "date": "日付",
     "expand": "膨らむ",
     "PropertyListItem": {
-      "arrayItemLabel": "項目"
+      "arrayItemLabel": "項目",
+      "enumKeyPlaceholder": "キーを入力してください",
+      "enumValuePlaceholder": "値を入力",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "プロパティタイプの編集",
+        "changeChildTypeLabelForArray": "配列項目タイプの変更",
+        "changeChildTypeLabelForEnum": "列挙値の型を変更する",
+        "editMetadataLabel": "メタデータの編集"
+      }
+    },
+    "defaultPropertyName": "新しいプロパティ {{インデックス}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{インデックス}}",
+      "defaultMapName": "enum_key_{{インデックス}}",
+      "defaultObjectPropertyName": "field_name_{{インデックス}}",
+      "defaultMapKeyName": "map_key_{{インデックス}}",
+      "defaultMapValueName": "map_value_{{インデックス}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "クリア",
   "increaseBy1": "値を 1 増やす",
-  "decreaseBy1": "値を 1 ずつ減らす"
+  "decreaseBy1": "値を 1 ずつ減らす",
+  "duplicate": "デュプリケート",
+  "moveUp": "上へ移動",
+  "moveDown": "下へ移動"
 }

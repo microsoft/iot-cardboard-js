@@ -1094,7 +1094,23 @@
     "date": "rande",
     "expand": "Expandovat",
     "PropertyListItem": {
-      "arrayItemLabel": "položky"
+      "arrayItemLabel": "položky",
+      "enumKeyPlaceholder": "Klávesa Enter",
+      "enumValuePlaceholder": "Zadejte hodnotu",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Upravit typ vlastnosti",
+        "changeChildTypeLabelForArray": "Změna typu položky pole",
+        "changeChildTypeLabelForEnum": "Změna typu výčtu",
+        "editMetadataLabel": "Upravit metadata"
+      }
+    },
+    "defaultPropertyName": "nová vlastnost {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Jasný",
   "increaseBy1": "Zvýšení hodnoty o 1",
-  "decreaseBy1": "Snížení hodnoty o 1"
+  "decreaseBy1": "Snížení hodnoty o 1",
+  "duplicate": "Duplikát",
+  "moveUp": "Povýšit",
+  "moveDown": "Posunout dolů"
 }

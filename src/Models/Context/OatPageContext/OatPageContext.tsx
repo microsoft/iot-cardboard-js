@@ -34,7 +34,8 @@ import {
     addNewModelToState,
     addUntargetedRelationship,
     getModelIndexById,
-    getModelById
+    getModelById,
+    getReferenceIndexByName
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -268,8 +269,9 @@ export const OatPageContextReducer: (
                 );
                 if (model) {
                     // find the reference
-                    const referenceIndex = model.contents.findIndex(
-                        (x) => x.name === reference.name
+                    const referenceIndex = getReferenceIndexByName(
+                        model,
+                        reference.name
                     );
                     if (referenceIndex > -1) {
                         // update value

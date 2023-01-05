@@ -1214,7 +1214,23 @@
     "date": "Datum",
     "expand": "Erweitern",
     "PropertyListItem": {
-      "arrayItemLabel": "Artikel"
+      "arrayItemLabel": "Artikel",
+      "enumKeyPlaceholder": "Eingabetaste",
+      "enumValuePlaceholder": "Wert eingeben",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Eigenschaftstyp bearbeiten",
+        "changeChildTypeLabelForArray": "Ändern des Arrayelementtyps",
+        "changeChildTypeLabelForEnum": "Ändern des Enumerationswerttyps",
+        "editMetadataLabel": "Metadaten bearbeiten"
+      }
+    },
+    "defaultPropertyName": "Neue Eigenschaft {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Klar",
   "increaseBy1": "Wert um 1 erhöhen",
-  "decreaseBy1": "Wert um 1 verringern"
+  "decreaseBy1": "Wert um 1 verringern",
+  "duplicate": "Duplikat",
+  "moveUp": "Aufrücken",
+  "moveDown": "Nach unten"
 }

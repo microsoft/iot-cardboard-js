@@ -6,6 +6,10 @@ import { IPropertyListItemChildBaseProps } from '../../PropertyListItemChildHost
 export interface IPropertyListItemObjectChildProps
     extends IPropertyListItemChildBaseProps {
     item: DTDLObjectField;
+    /** is the first item in the list */
+    isFirstItem: boolean;
+    /** is the last item in list */
+    isLastItem: boolean;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */

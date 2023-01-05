@@ -1214,7 +1214,23 @@
     "date": "дата",
     "expand": "Расширять",
     "PropertyListItem": {
-      "arrayItemLabel": "Элементы"
+      "arrayItemLabel": "Элементы",
+      "enumKeyPlaceholder": "Введите ключ",
+      "enumValuePlaceholder": "Введите значение",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Изменение типа свойства",
+        "changeChildTypeLabelForArray": "Изменение типа элемента массива",
+        "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
+        "editMetadataLabel": "Редактирование метаданных"
+      }
+    },
+    "defaultPropertyName": "новое свойство {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{индекс}}",
+      "defaultMapName": "enum_key_{{индекс}}",
+      "defaultObjectPropertyName": "field_name_{{индекс}}",
+      "defaultMapKeyName": "map_key_{{индекс}}",
+      "defaultMapValueName": "map_value_{{индекс}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Ясный",
   "increaseBy1": "Увеличение значения на 1",
-  "decreaseBy1": "Уменьшение значения на 1"
+  "decreaseBy1": "Уменьшение значения на 1",
+  "duplicate": "Дублировать",
+  "moveUp": "Придвигаться",
+  "moveDown": "Перемещение вниз"
 }

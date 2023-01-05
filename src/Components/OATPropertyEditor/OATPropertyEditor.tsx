@@ -11,7 +11,7 @@ const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATPropertyEditor', debugLogging);
 
 const OATPropertyEditor = (props: OATPropertyEditorProps) => {
-    const { selectedThemeName, selectedItem } = props;
+    const { selectedThemeName, selectedItem, parentModelId } = props;
 
     // state
     const [localState, localDispatch] = useReducer(
@@ -24,6 +24,7 @@ const OATPropertyEditor = (props: OATPropertyEditorProps) => {
         <Editor
             editorDispatch={localDispatch}
             editorState={localState}
+            parentModelId={parentModelId}
             selectedItem={selectedItem}
             selectedThemeName={selectedThemeName}
         />

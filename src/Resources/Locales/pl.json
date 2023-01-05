@@ -1214,7 +1214,23 @@
     "date": "data",
     "expand": "Rozszerzać",
     "PropertyListItem": {
-      "arrayItemLabel": "Elementy"
+      "arrayItemLabel": "Elementy",
+      "enumKeyPlaceholder": "Wprowadź klucz",
+      "enumValuePlaceholder": "Wprowadź wartość",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Edytuj typ właściwości",
+        "changeChildTypeLabelForArray": "Zmienianie typu elementu tablicy",
+        "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
+        "editMetadataLabel": "Edytowanie metadanych"
+      }
+    },
+    "defaultPropertyName": "nowa właściwość {{index}}",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{index}}",
+      "defaultMapName": "enum_key_{{index}}",
+      "defaultObjectPropertyName": "field_name_{{index}}",
+      "defaultMapKeyName": "map_key_{{index}}",
+      "defaultMapValueName": "map_value_{{index}}"
     }
   },
   "ErrorHandlingWrapper": {
@@ -1349,5 +1365,8 @@
   },
   "clear": "Jasny",
   "increaseBy1": "Zwiększ wartość o 1",
-  "decreaseBy1": "Zmniejsz wartość o 1"
+  "decreaseBy1": "Zmniejsz wartość o 1",
+  "duplicate": "Duplikat",
+  "moveUp": "Przejdź w górę",
+  "moveDown": "Przenieś w dół"
 }

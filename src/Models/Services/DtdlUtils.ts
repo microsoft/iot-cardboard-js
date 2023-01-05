@@ -1,13 +1,19 @@
+import i18n from '../../i18n';
 import {
     DTDLArray,
     DTDLComplexSchema,
     DTDLEnum,
+    DTDLEnumValue,
     DTDLMap,
+    DTDLMapKey,
+    DTDLMapValue,
     DTDLObject,
+    DTDLObjectField,
     DTDLProperty,
     DTDLRelationship,
     DTDLSchema,
     DTDLSchemaType,
+    DTDLSchemaTypes,
     DTDLType
 } from '../Classes/DTDL';
 import {
@@ -17,8 +23,12 @@ import {
     DtdlReference,
     DtdlRelationship,
     OAT_EXTEND_HANDLE_NAME,
-    OAT_INTERFACE_TYPE
+    OAT_INTERFACE_TYPE,
+    DtdlEnum,
+    DtdlObject,
+    DtdlEnumValueSchema
 } from '../Constants';
+import { deepCopy, isValueInEnum } from './Utils';
 
 /** is the relationship a known DTDL relationship type */
 export const isDTDLReference = (
@@ -110,7 +120,9 @@ export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     );
 };
 
-export const isComplexSchemaType = (schema: DTDLSchema): boolean => {
+export const isComplexSchemaType = (
+    schema: DTDLSchema
+): schema is DTDLComplexSchema => {
     if (typeof schema === 'object') {
         return true;
     } else {
@@ -142,7 +154,7 @@ export const isDTDLObject = (
 };
 
 export const isDTDLProperty = (
-    property: DTDLProperty
+    property: DtdlInterfaceContent
 ): property is DTDLProperty => {
     if (typeof property['@type'] !== 'string') {
         return (property['@type'] as string[]).includes('Property');
@@ -177,3 +189,268 @@ export const isDTDLEnum = (
     }
     return object.schema['@type'] === DTDLSchemaType.Enum;
 };
+
+export const copyDTDLProperty = (
+    property: DTDLProperty,
+    contents: DtdlInterfaceContent[]
+): DTDLProperty => {
+    let nextName = property.name + '_' + i18n.t('Copy').toLowerCase();
+    let nextNameIndex = 0;
+    let nameAlreadyExists = contents.some((x) => x.name === nextName);
+    while (nameAlreadyExists) {
+        nextNameIndex++;
+        const testName = `${nextName}_${nextNameIndex}`;
+        nameAlreadyExists = contents.some((x) => x.name === testName);
+        if (!nameAlreadyExists) {
+            nextName = testName;
+        }
+    }
+    const copy = deepCopy(property);
+    copy['@id'] = undefined;
+    copy.name = nextName;
+    return copy;
+};
+
+export const updateEnumValueSchema = (
+    item: { schema: DtdlEnum },
+    newEnumSchema: DtdlEnumValueSchema
+) => {
+    // early abort if the type didn't actually change
+    if (newEnumSchema === item.schema.valueSchema) {
+        return item;
+    }
+
+    // create copies
+    const itemCopy = deepCopy(item);
+    // update the schema definition
+    itemCopy.schema.valueSchema = newEnumSchema;
+
+    // update all existing values to the new schema type
+    if (itemCopy.schema.enumValues?.length > 0) {
+        itemCopy.schema.enumValues.forEach((item) => {
+            if (newEnumSchema === 'integer') {
+                item.enumValue = Number(item.enumValue);
+            } else if (newEnumSchema === 'string') {
+                item.enumValue = String(item.enumValue);
+            }
+        });
+    }
+
+    return itemCopy;
+};
+
+// #region Add child to complex schemas
+
+interface IAddChildArgs {
+    parentSchema: DTDLSchema;
+}
+/**
+ * Adds a new default child item to the schema based on the type of schema.
+ * Schema is updated by reference and also returned
+ * */
+export const addChildToSchema = (args: IAddChildArgs) => {
+    const { parentSchema } = args;
+    // children are only supported on objects
+    if (!parentSchema || typeof parentSchema !== 'object') {
+        return;
+    }
+    switch (parentSchema['@type']) {
+        case DTDLSchemaType.Enum:
+            addItemToEnum(parentSchema);
+            break;
+        case DTDLSchemaType.Object:
+            addPropertyToObject(parentSchema);
+            break;
+    }
+    return parentSchema;
+};
+
+const addItemToEnum = (schema: DtdlEnum) => {
+    if (!schema.enumValues) {
+        schema.enumValues = [];
+    }
+    const index = schema.enumValues.length + 1;
+    schema.enumValues.push(getDefaultEnumValue(schema.valueSchema, index));
+};
+
+const addPropertyToObject = (schema: DtdlObject) => {
+    if (!schema?.fields) {
+        schema.fields = [];
+    }
+    const index = schema.fields.length + 1;
+    schema.fields.push(getDefaultObjectField(index));
+};
+
+// #endregion
+
+// #region Initialize schemas
+
+export const getDefaultProperty = (
+    schemaType: DTDLSchemaTypes,
+    index: number
+): DTDLProperty => {
+    const name = i18n.t('OATPropertyEditor.defaultPropertyName', {
+        index: index
+    });
+    return new DTDLProperty(name, getDefaultSchemaByType(schemaType));
+};
+
+export const getDefaultSchemaByType = (
+    schemaType: DTDLSchemaTypes
+): DTDLSchema => {
+    let schema: DTDLSchema;
+
+    if (isValueInEnum(DTDLSchemaType, schemaType)) {
+        switch (schemaType) {
+            case DTDLSchemaType.Array: {
+                schema = getDefaultArraySchema();
+                break;
+            }
+            case DTDLSchemaType.Enum: {
+                schema = getDefaultEnumSchema();
+                break;
+            }
+            case DTDLSchemaType.Map: {
+                schema = getDefaultMapSchema();
+                break;
+            }
+            case DTDLSchemaType.Object: {
+                schema = getDefaultObjectSchema();
+                break;
+            }
+        }
+    } else {
+        schema = schemaType as DTDLSchema;
+    }
+
+    return schema;
+};
+
+const getDefaultArraySchema = (): DTDLArray => {
+    const object = new DTDLArray('string');
+
+    return object;
+};
+
+const getDefaultEnumValue = (
+    valueSchema: 'string' | 'integer',
+    index: number
+) => {
+    const defaultName = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultEnumName',
+        { index: 0 }
+    );
+    const defaultValue = valueSchema === 'integer' ? index : String(index);
+
+    return new DTDLEnumValue(defaultName, defaultValue);
+};
+const getDefaultEnumSchema = (): DTDLEnum => {
+    const object = new DTDLEnum([getDefaultEnumValue('string', 0)], 'string');
+
+    return object;
+};
+
+const getDefaultMapKey = (index: number): DTDLMapKey => {
+    const name = i18n.t('OATPropertyEditor.SchemaDefaults.defaultMapKeyName', {
+        index: index
+    });
+    return new DTDLMapKey(name);
+};
+const getDefaultMapValue = (index: number): DTDLMapValue => {
+    const value = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultMapValueName',
+        { index: index }
+    );
+    return new DTDLMapValue(value, 'string');
+};
+const getDefaultMapSchema = (): DTDLMap => {
+    const object = new DTDLMap(getDefaultMapKey(0), getDefaultMapValue(0));
+
+    return object;
+};
+
+const getDefaultObjectField = (index: number): DTDLObjectField => {
+    const fieldName = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultObjectPropertyName',
+        { index: index }
+    );
+    return new DTDLObjectField(fieldName, 'string');
+};
+const getDefaultObjectSchema = (): DTDLObject => {
+    const object = new DTDLObject([getDefaultObjectField(0)]);
+    return object;
+};
+
+// #endregion
+
+// #region Modifying collection
+
+/**
+ * Moves a property up or down within the collection.
+ * Modifications are made in-place. The collection is returned for testing purposes
+ * It takes into account that non-property objects might be in the collection and will not be shown in the UI so it looks to position the item before or after the next valid property in the collection.
+ */
+export const movePropertyInCollection = (
+    direction: 'Up' | 'Down',
+    property: DTDLProperty,
+    propertyIndex: number,
+    items: DtdlInterfaceContent[]
+) => {
+    if (direction === 'Up') {
+        if (propertyIndex === 0) {
+            console.warn('Cannot move item up. Already first item in list');
+            // early return if the first item in the list
+            return items;
+        }
+        // loop through and find the index of the last property before the one being moved
+        let previousPropertyIndex = -1;
+        items.forEach((x, index) => {
+            if (isDTDLProperty(x) && index < propertyIndex) {
+                previousPropertyIndex = index;
+            }
+        });
+        if (previousPropertyIndex === -1) {
+            console.warn('Cannot move item up. No items before it.');
+            // early return if there's nothing above this to move above
+            return items;
+        }
+
+        // insert the item at the new position
+        items.splice(previousPropertyIndex, 0, property);
+        // remove the old item
+        items.splice(propertyIndex + 1, 1);
+        return items;
+    } else {
+        if (propertyIndex === items.length - 1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if the last item in the list
+            return items;
+        }
+        // loop through and find the index of the next property after the one being moved
+        let nextPropertyIndex = -1;
+        items.forEach((x, index) => {
+            if (
+                nextPropertyIndex === -1 && // only find the first one
+                isDTDLProperty(x) &&
+                index > propertyIndex
+            ) {
+                nextPropertyIndex = index;
+                return;
+            }
+        });
+        if (nextPropertyIndex === -1) {
+            console.warn('Cannot move item down. Already last item in list');
+            // early return if there's nothing below this to move after
+            return items;
+        }
+        const indexInOriginalList = nextPropertyIndex + 1;
+
+        // insert the item at the new position
+        items.splice(indexInOriginalList, 0, property);
+        // remove the old item
+        items.splice(propertyIndex, 1);
+        return items;
+    }
+};
+
+// #endregion

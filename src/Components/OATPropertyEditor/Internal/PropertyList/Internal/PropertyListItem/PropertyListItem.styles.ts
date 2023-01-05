@@ -43,6 +43,12 @@ export const getStyles = (
                 root: {
                     paddingLeft: 4
                 }
+            },
+            childTypeSubMenuIcon: {
+                fluentIcon: {
+                    paddingTop: 0,
+                    paddingBottom: 0
+                }
             }
         }
     };

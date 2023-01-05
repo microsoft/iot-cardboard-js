@@ -7,8 +7,19 @@ import {
 } from '@fluentui/react';
 import { DTDLSchema } from '../../../../../../Models/Classes/DTDL';
 import { IExtendedTheme } from '../../../../../../Theming/Theme.types';
+import { IPropertyIconStyles } from './Internal/PropertyIcon/PropertyIcon.types';
+
+export type IOnUpdateNameCallbackArgs = {
+    /** the name to store on the item */
+    name: string;
+};
+export type IOnUpdateNameCallback = (args: IOnUpdateNameCallbackArgs) => void;
 
 export interface IPropertyListItemProps {
+    /** is the first item in the list */
+    isFirstItem: boolean;
+    /** is the last item in list */
+    isLastItem: boolean;
     /** Index of parent in the list. Key used for test automation for the row */
     indexKey: string;
     /** the item itself */
@@ -17,6 +28,12 @@ export interface IPropertyListItemProps {
     level?: number;
     /** disables the input field */
     disableInput?: boolean;
+    /** callback to store an updated version of the schema */
+    onCopy: () => void | undefined;
+    onUpdateSchema: (schema: DTDLSchema) => void | undefined;
+    onReorderItem: (direction: 'Up' | 'Down') => void | undefined;
+    onUpdateName: IOnUpdateNameCallback;
+    onRemove: () => void | undefined;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
@@ -46,4 +63,5 @@ export interface IPropertyListItemSubComponentStyles {
     nameTextField?: Partial<ITextFieldStyles>;
     expandButton?: Partial<IButtonStyles>;
     inputIcon?: Partial<IIconStyles>;
+    childTypeSubMenuIcon?: Partial<IPropertyIconStyles>;
 }

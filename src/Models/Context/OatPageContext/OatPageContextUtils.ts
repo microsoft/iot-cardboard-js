@@ -9,12 +9,9 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { DTDLSchema, DTDLType } from '../../Classes/DTDL';
 import {
-    DTDLType,
-    IDTDLComponent,
-    IDTDLRelationship
-} from '../../Classes/DTDL';
-import {
+    DtdlComponent,
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship,
@@ -40,6 +37,7 @@ import {
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
+import { isDTDLProperty, isDTDLReference } from '../../Services/DtdlUtils';
 
 //#region Add/remove models
 
@@ -141,7 +139,9 @@ export const deleteModelFromState = (
                 // remove from relationship list of all models
                 m.contents = m.contents.filter(
                     (content) =>
-                        content.target !== modelId && content.schema !== modelId
+                        (!('target' in content) ||
+                            content.target !== modelId) &&
+                        (!('schema' in content) || content.schema !== modelId)
                 );
                 // remove from extends list for all models
                 if (m.extends) {
@@ -185,7 +185,8 @@ export const getModelById = (
     modelId: string
 ): DtdlInterface | undefined => {
     if (models && modelId) {
-        return models.find((x) => x['@id'] === modelId);
+        const index = getModelIndexById(models, modelId);
+        return models[index];
     }
     return undefined;
 };
@@ -199,7 +200,9 @@ export const getReferenceIndexByName = (
     referenceName: string
 ): number => {
     if (model && referenceName) {
-        return model.contents.findIndex((x) => x.name === referenceName);
+        return model.contents.findIndex(
+            (x) => x.name === referenceName && isDTDLReference(x)
+        );
     }
     return -1;
 };
@@ -213,9 +216,42 @@ export const getReferenceByName = (
     referenceName: string
 ): DtdlInterfaceContent | undefined => {
     if (model && referenceName) {
-        return model.contents.find((x) => x.name === referenceName);
+        const index = getReferenceIndexByName(model, referenceName);
+        return model[index];
     }
     return undefined;
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getPropertyIndexOnModelByName = (
+    model: DtdlInterface,
+    referenceName: string
+): number => {
+    if (model && referenceName) {
+        return model.contents.findIndex(
+            (x) => x.name === referenceName && isDTDLProperty(x)
+        );
+    }
+    return -1;
+};
+
+/**
+ * Looks up the index of a property in the contents of a model and returns the index.
+ * Returns -1 if not found or if arguments are invalid
+ */
+export const getPropertyIndexOnRelationshipByName = (
+    relationship: DtdlRelationship,
+    referenceName: string
+): number => {
+    if (relationship && referenceName) {
+        return relationship.properties.findIndex(
+            (x) => x.name === referenceName && isDTDLProperty(x)
+        );
+    }
+    return -1;
 };
 
 export const setSelectedModel = (
@@ -272,8 +308,8 @@ export const updateModelId = (
             }
 
             const p = c as DtdlInterfaceContent;
-            if (p && p.schema === oldId) {
-                p.schema = newId;
+            if (p && 'schema' in p && p.schema === oldId) {
+                p.schema = newId as DTDLSchema;
             }
 
             if (m.extends) {
@@ -311,7 +347,7 @@ function getNextName(
     return `${namePrefix}_${index}`;
 }
 const getNewComponent = (name: string, targetModelId: string) => {
-    const component: IDTDLComponent = {
+    const component: DtdlComponent = {
         '@type': DTDLType.Component,
         name: name,
         schema: targetModelId
@@ -326,7 +362,7 @@ const getNewRelationship = (
               targetModelId: string;
           }
         | { type: 'Untargeted'; name: string }
-): IDTDLRelationship => {
+): DtdlRelationship => {
     if (args.type === 'Targeted') {
         return {
             '@type': DTDLType.Relationship,
@@ -394,7 +430,7 @@ export const addTargetedRelationship = (
                 ? getNextComponentName(sourceModel, targetModel)
                 : getNextRelationshipName(sourceModel);
         newRelationship =
-            relationshipType === 'Component'
+            relationshipType === DTDLType.Component
                 ? getNewComponent(modelName, targetModelId)
                 : getNewRelationship({
                       type: 'Targeted',
@@ -550,7 +586,6 @@ export function convertStateToProject(
         Array.from(draft.currentOntologyModelMetadata),
         Array.from(draft.currentOntologyTemplates)
     );
-    // console.log('***Converted project', project, current(draft));
 
     return project;
 }
