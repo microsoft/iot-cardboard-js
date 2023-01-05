@@ -20,7 +20,12 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { components, MenuListProps, MenuProps } from 'react-select';
+import {
+    components,
+    MenuListProps,
+    MenuProps,
+    mergeStyles
+} from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
@@ -98,7 +103,18 @@ const TwinPropertySearchDropdown = (
         menuWidth: dropdownWidth
     });
     const selectStyles = useMemo(
-        () => inputStyles || getReactSelectStyles(theme),
+        () =>
+            mergeStyles(
+                getReactSelectStyles(theme, {
+                    menu: {
+                        position: 'relative',
+                        top: '0',
+                        marginBottom: 0,
+                        height: '100%'
+                    }
+                }),
+                inputStyles
+            ),
         [theme, inputStyles]
     );
 
@@ -159,7 +175,6 @@ const TwinPropertySearchDropdown = (
     }, [twinSuggestionListRef.current]);
 
     const handleOnScroll = (event) => {
-        debugger;
         const divElement = event.currentTarget as HTMLDivElement;
         if (
             divElement.scrollHeight - divElement.scrollTop <=
@@ -203,10 +218,7 @@ const TwinPropertySearchDropdown = (
                 styles={classNames.subComponentStyles.callout}
                 target={`#${selectId}`}
             >
-                <components.Menu
-                    {...(props as any)}
-                    style={{ position: 'relative' }}
-                />
+                <components.Menu {...(props as any)} />
             </Callout>
         );
     };
@@ -225,10 +237,13 @@ const TwinPropertySearchDropdown = (
         }, [twinSuggestionListWrapperRef]);
 
         return (
-            <components.MenuList
-                {...(props as any)}
+            <div
+                style={{ height: '100%' }}
+                ref={twinSuggestionListWrapperRef}
                 onScroll={handleOnScroll}
-            />
+            >
+                <components.MenuList {...(props as any)} />
+            </div>
         );
     };
 
@@ -373,7 +388,6 @@ const TwinPropertySearchDropdown = (
                     isSearchable
                     isClearable
                     styles={selectStyles}
-                    menuIsOpen
                 />
                 {descriptionText && (
                     <Text

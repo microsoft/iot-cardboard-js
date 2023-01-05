@@ -39,7 +39,13 @@ const getBaseReactSelectStyles = (theme: ITheme): StylesConfig => {
 export const getReactSelectStyles = (
     theme: ITheme,
     params?: {
-        menu?: { marginTop?: number };
+        menu?: {
+            marginTop?: number;
+            marginBottom?: number;
+            position?: 'static' | 'relative' | 'absolute' | 'sticky' | 'fixed';
+            top?: string;
+            height?: string;
+        };
         menuList?: {
             isOnlyFirstRow: boolean;
             listMaxWidthLarge: number;
@@ -75,18 +81,22 @@ export const getReactSelectStyles = (
         }),
         menu: (provided) => ({
             ...provided,
-            marginTop: menu?.marginTop
+            marginTop: menu?.marginTop,
+            marginBottom: menu?.marginBottom,
+            position: menu?.position || provided.position,
+            top: menu?.top || provided.top,
+            height: menu?.height || provided.height
         }),
         menuList: (provided) => ({
             ...provided,
             backgroundColor: theme.semanticColors.inputBackground,
             color: theme.semanticColors.inputPlaceholderText,
             maxHeight: '300px',
-            maxWidth: menuList
-                ? menuList.isOnlyFirstRow
-                    ? menuList.listMaxWidthLarge
-                    : menuList.listMaxWidthCompact
-                : provided.maxWidth,
+            height: '100%',
+            maxWidth:
+                (menuList?.isOnlyFirstRow
+                    ? menuList?.listMaxWidthLarge
+                    : menuList?.listMaxWidthCompact) || provided.maxWidth,
             overflowY: 'auto',
             padding: 0,
             position: 'relative',
@@ -113,7 +123,7 @@ export const getReactSelectStyles = (
             textOverflow: 'ellipsis',
             div: {
                 // counter the menulist selector added to fix the loading message
-                color: theme.semanticColors.inputText
+                color: `${theme.semanticColors.inputText} !important`
             },
             ':active': {
                 backgroundColor: theme.semanticColors.listItemBackgroundHovered // emulate fluent behavior and keep the hover state when clicked
