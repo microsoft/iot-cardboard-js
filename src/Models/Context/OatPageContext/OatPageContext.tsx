@@ -240,10 +240,6 @@ export const OatPageContextReducer: (
                     referenceType: referenceType,
                     nameOrTarget: nameOrTarget
                 });
-                // draft.graphUpdatesToSync = {
-                //     actionType: 'Delete',
-                //     models: [targetModel]
-                // };
                 saveData(draft);
                 break;
             }
