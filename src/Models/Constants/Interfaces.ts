@@ -45,7 +45,8 @@ import {
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName
+    ADTModel_ImgSrc_PropertyName,
+    OatReferenceType
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -868,8 +869,18 @@ export interface IOATGraphCustomNodeProps extends IOATNodeElement {
     isConnectable: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
+export interface IOATGraphCustomEdgeProps {
+    id: string;
+    source: string;
+    sourceHandleId: string;
+    target: string;
+    targetHandleId: string;
+    data: {
+        '@id': string;
+        '@type': OatReferenceType | 'Untargeted';
+        name: string;
+    };
+}
 
 export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;

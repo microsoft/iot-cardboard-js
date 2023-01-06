@@ -35,7 +35,8 @@ import {
     addUntargetedRelationship,
     getModelIndexById,
     getModelById,
-    getReferenceIndexByName
+    getReferenceIndexByName,
+    deleteReferenceFromState
 } from './OatPageContextUtils';
 
 const debugLogging = false;
@@ -217,6 +218,32 @@ export const OatPageContextReducer: (
                     actionType: 'Delete',
                     models: [targetModel]
                 };
+                saveData(draft);
+                break;
+            }
+            case OatPageContextActionType.DELETE_REFERENCE: {
+                const { modelId, nameOrTarget, referenceType } = action.payload;
+                const targetModel = draft.currentOntologyModels.find(
+                    (x) => x['@id'] === modelId
+                );
+                if (!targetModel) {
+                    logDebugConsole(
+                        'warn',
+                        `Could not find model (id: ${modelId}) to modify.`
+                    );
+                    break;
+                }
+                setSelectedModel(null, draft);
+                deleteReferenceFromState({
+                    state: draft,
+                    modelId: modelId,
+                    referenceType: referenceType,
+                    nameOrTarget: nameOrTarget
+                });
+                // draft.graphUpdatesToSync = {
+                //     actionType: 'Delete',
+                //     models: [targetModel]
+                // };
                 saveData(draft);
                 break;
             }
