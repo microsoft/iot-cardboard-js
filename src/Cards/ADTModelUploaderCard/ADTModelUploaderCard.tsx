@@ -41,7 +41,7 @@ function ADTModelUploaderCard(props: ADTModelUploaderCardProps, ref) {
 
     const pushModelsState = useAdapter({
         adapterMethod: (models: Array<DTDLModel>) =>
-            adapter.createModels(models),
+            adapter.createModels(models as any),
         refetchDependencies: [],
         isAdapterCalledOnMount: false
     });
