@@ -865,7 +865,7 @@
             "adtInstanceMissingPermissionMessage": "You have missing permissions. You will need access as a 'Azure Digital Twins Data Reader' (at a minimum).",
             "storageAccountMissingPermissionMessage": "You have missing permissions. You will need access as a 'Reader' (at a minimum).",
             "storageContainerMissingPermissionMessage": "You have missing permissions. You will need access as a 'Reader' (at a minimum) and either 'Storage Blob Data Owner' or 'Storage Blob Data Contributor'.",
-            "resourceNotFound": "There is no Azure resource found with the entered value.",
+            "resourceNotFound": "There is no Azure resource found with the entered value in the selected directory.",
             "resourceNotVerified": "We can not verify that this resource exists."
         }
     },
