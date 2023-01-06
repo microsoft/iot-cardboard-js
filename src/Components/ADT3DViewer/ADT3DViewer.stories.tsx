@@ -14,6 +14,7 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import { Checkbox, Dropdown, IDropdownOption } from '@fluentui/react';
+import { ComponentStoryFn } from '@storybook/react';
 
 export default {
     title: '3DV/ADT3DViewer',
@@ -22,7 +23,10 @@ export default {
 
 const mockSceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
 
-export const Engine = (_args, { globals: { theme, locale } }) => {
+export const Engine: ComponentStoryFn<typeof ADT3DViewer> = (
+    _args,
+    { globals: { theme, locale } }
+) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
     return !authenticationParameters ? (
@@ -40,6 +44,10 @@ export const Engine = (_args, { globals: { theme, locale } }) => {
             />
         </div>
     );
+};
+Engine.play = async ({ _canvasElement }) => {
+    //👇 This sets a timeout of 2s
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 };
 
 export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
