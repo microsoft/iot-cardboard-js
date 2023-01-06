@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import {
     Callout,
     DefaultButton,
@@ -9,16 +15,15 @@ import { useId } from '@fluentui/react-hooks';
 import {
     getEdgeCenter,
     useStoreState,
-    getBezierPath,
     Position as FlowPosition,
     Node,
-    Edge
+    Edge,
+    getSmoothStepPath
 } from 'react-flow-renderer';
+
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
-    OAT_RELATIONSHIP_HANDLE_NAME,
-    OAT_COMPONENT_HANDLE_NAME,
     OAT_EXTEND_HANDLE_NAME
 } from '../../../Models/Constants/Constants';
 import { getDisplayName } from '../../OATPropertyEditor/Utils';
@@ -29,6 +34,7 @@ import { OatPageContextActionType } from '../../../Models/Context/OatPageContext
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
 import { IOATGraphCustomEdgeProps } from './OATGraphCustomEdge.types';
+import { DTDLType } from '../../../Models/Classes/DTDL';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
@@ -171,9 +177,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const { id: edgeId, target: edgeTarget, data: edgeData } = props;
 
     const isExtendEdge = edgeData['@type'] === OAT_EXTEND_HANDLE_NAME;
-    const isRelationshipEdge =
-        edgeData['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
-    const isComponentEdge = edgeData['@type'] === OAT_COMPONENT_HANDLE_NAME;
+    const isRelationshipEdge = edgeData['@type'] === DTDLType.Relationship;
+    const isComponentEdge = edgeData['@type'] === DTDLType.Component;
     const isUntargetedEdge =
         edgeData['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME;
 
@@ -244,6 +249,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     // styles
     const graphViewerStyles = getGraphViewerStyles();
 
+    // callbacks
     const getSourceComponents = (
         betaAngle: number,
         sourceBase: number,
@@ -408,6 +414,57 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         };
     };
 
+    const onDelete = useCallback(() => {
+        const deletion = () => {
+            const dispatchDelete = () => {
+                const nameOrTarget = props.data.name || edgeTarget; // use name, if empty, then it's an extends, so use the target
+                logDebugConsole(
+                    'info',
+                    `Delete reference of type ${edgeData['@type']} with name/target ${nameOrTarget} for model ${source.id}`
+                );
+                oatPageDispatch({
+                    type: OatPageContextActionType.DELETE_REFERENCE,
+                    payload: {
+                        modelId: source.id,
+                        nameOrTarget: nameOrTarget,
+                        referenceType: edgeData['@type']
+                    }
+                });
+            };
+
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
+                payload: { open: true, callback: dispatchDelete }
+            });
+        };
+
+        const undoDeletion = () => {
+            oatPageDispatch({
+                type: OatPageContextActionType.GENERAL_UNDO,
+                payload: {
+                    models: oatPageState.currentOntologyModels,
+                    positions: oatPageState.currentOntologyModelPositions,
+                    selection: oatPageState.selection
+                }
+            });
+        };
+
+        if (!oatPageState.modified) {
+            execute(deletion, undoDeletion);
+        }
+    }, [
+        edgeData,
+        edgeTarget,
+        execute,
+        oatPageDispatch,
+        oatPageState.currentOntologyModelPositions,
+        oatPageState.currentOntologyModels,
+        oatPageState.modified,
+        oatPageState.selection,
+        props.data.name,
+        source.id
+    ]);
+
     const polygons = useMemo(() => {
         // With this Memo function the values for Polygons Points are calculated
         let adjustedSourceY = sourceY;
@@ -487,6 +544,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 adjustmentTargetX = targetX - adjustedTargetX;
                 adjustmentTargetY = targetY - adjustedTargetY;
             }
+            if (edge.source === edge.target) {
+                console.log('***Self referencing adjust');
+                // adjustedTargetX = adjustedTargetX - 20;
+                // adjustedTargetY = adjustedTargetY - 50;
+            }
             // Using source size to triangulate connection with target edge
             const targetHeight = targetNodeSizeY / 2;
             const targetBase = targetNodeSizeX / 2;
@@ -526,7 +588,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         } = polygons;
         const path =
             sourceX < targetX
-                ? getBezierPath({
+                ? getSmoothStepPath({
                       sourceX: edgePathSourceX,
                       sourceY: edgePathSourceY,
                       sourcePosition: orientation
@@ -538,7 +600,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                           ? FlowPosition.Top
                           : FlowPosition.Right
                   })
-                : getBezierPath({
+                : getSmoothStepPath({
                       sourceX: edgePathTargetX,
                       sourceY: edgePathTargetY,
                       sourcePosition: orientation
@@ -560,105 +622,55 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         targetY
     });
 
-    const onDelete = () => {
-        const deletion = () => {
-            const dispatchDelete = () => {
-                const nameOrTarget = props.data.name || edgeTarget; // use name, if empty, then it's an extends, so use the target
-                logDebugConsole(
-                    'info',
-                    `Delete reference of type ${edgeData['@type']} with name/target ${nameOrTarget} for model ${source.id}`
-                );
-                oatPageDispatch({
-                    type: OatPageContextActionType.DELETE_REFERENCE,
-                    payload: {
-                        modelId: source.id,
-                        nameOrTarget: nameOrTarget,
-                        referenceType: edgeData['@type']
-                    }
-                });
-            };
+    const showEdge =
+        (isExtendEdge && showInheritances) ||
+        ((isRelationshipEdge || isUntargetedEdge) && showRelationships) ||
+        (isComponentEdge && showComponents);
+    let edgeClassName = '';
+    let shapeClassName = '';
+    let shapePoints = '';
+    if (isComponentEdge) {
+        edgeClassName = isSelected
+            ? graphViewerStyles.selectedComponentPath
+            : graphViewerStyles.componentPath;
+        shapeClassName = graphViewerStyles.componentShape;
+        shapePoints = polygons.componentPolygon;
+    } else if (isExtendEdge) {
+        edgeClassName = isSelected
+            ? graphViewerStyles.selectedInheritancePath
+            : graphViewerStyles.inheritancePath;
+        shapeClassName = graphViewerStyles.inheritanceShape;
+        shapePoints = polygons.inheritancePolygon;
+    } else if (isUntargetedEdge || isRelationshipEdge) {
+        edgeClassName = isSelected
+            ? graphViewerStyles.selectedEdgePath
+            : graphViewerStyles.edgePath;
+        shapeClassName = graphViewerStyles.edgePath;
+        shapePoints = polygons.relationshipPolygon;
+    }
 
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_CONFIRM_DELETE_OPEN,
-                payload: { open: true, callback: dispatchDelete }
-            });
-        };
-
-        const undoDeletion = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.GENERAL_UNDO,
-                payload: {
-                    models: oatPageState.currentOntologyModels,
-                    positions: oatPageState.currentOntologyModelPositions,
-                    selection: oatPageState.selection
-                }
-            });
-        };
-
-        if (!oatPageState.modified) {
-            execute(deletion, undoDeletion);
-        }
-    };
-
+    console.log(
+        '***' + props.id + ' Data {polygons, edgePath}',
+        polygons,
+        edgePath
+    );
     logDebugConsole('debug', 'Render {props, nodes}', props, nodes);
+    if (!showEdge) {
+        return null;
+    }
     return (
         <>
-            <path
-                id={edgeId}
-                className={graphViewerStyles.widthPath}
-                d={edgePath}
-            />
-            {isExtendEdge && showInheritances && (
-                <path
-                    id={edgeId}
-                    className={
-                        isSelected
-                            ? graphViewerStyles.selectedInheritancePath
-                            : graphViewerStyles.inheritancePath
-                    }
-                    d={edgePath}
-                    // markerEnd={markerEnd}
-                />
-            )}
-            {(isRelationshipEdge || isUntargetedEdge) && showRelationships && (
-                <path
-                    id={edgeId}
-                    className={
-                        isSelected
-                            ? graphViewerStyles.selectedEdgePath
-                            : graphViewerStyles.edgePath
-                    }
-                    d={edgePath}
-                    // markerEnd={markerEnd}
-                />
-            )}
-            {isComponentEdge && showComponents && (
-                <path
-                    id={edgeId}
-                    className={
-                        isSelected
-                            ? graphViewerStyles.selectedComponentPath
-                            : graphViewerStyles.componentPath
-                    }
-                    d={edgePath}
-                    // markerEnd={markerEnd}
-                />
-            )}
-            {((isExtendEdge && showInheritances) ||
-                (isComponentEdge && showComponents) ||
-                ((isRelationshipEdge || isUntargetedEdge) &&
-                    showRelationships)) && (
-                <text>
-                    <textPath
-                        href={`#${edgeId}`}
-                        className={graphViewerStyles.textPath}
-                        startOffset="50%"
-                        textAnchor="middle"
-                    >
-                        {getDisplayName(edgeData.name)}
-                    </textPath>
-                </text>
-            )}
+            <path id={edgeId} className={edgeClassName} d={edgePath} />
+            <text>
+                <textPath
+                    href={`#${edgeId}`}
+                    className={graphViewerStyles.textPath}
+                    startOffset="50%"
+                    textAnchor="middle"
+                >
+                    {getDisplayName(edgeData.name)}
+                </textPath>
+            </text>
             {isMenuVisible && (
                 <foreignObject
                     width={foreignObjectSize}
@@ -703,36 +715,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </div>
                 </foreignObject>
             )}
-            {isExtendEdge && showInheritances && (
-                <polygon
-                    points={polygons.inheritancePolygon}
-                    cx={polygons.polygonTargetX}
-                    cy={polygons.polygonTargetY}
-                    r={3}
-                    strokeWidth={1.5}
-                    className={graphViewerStyles.inheritanceShape}
-                />
-            )}
-            {(isRelationshipEdge || isUntargetedEdge) && showRelationships && (
-                <polygon
-                    points={polygons.relationshipPolygon}
-                    cx={polygons.polygonTargetX}
-                    cy={polygons.polygonTargetY}
-                    r={3}
-                    strokeWidth={1.5}
-                    className={graphViewerStyles.edgePath}
-                />
-            )}
-            {isComponentEdge && showComponents && (
-                <polygon
-                    points={polygons.componentPolygon}
-                    cx={polygons.polygonSourceX}
-                    cy={polygons.polygonSourceY}
-                    r={3}
-                    strokeWidth={1.5}
-                    className={graphViewerStyles.componentShape}
-                />
-            )}
+            <polygon
+                points={shapePoints}
+                cx={polygons.polygonTargetX}
+                cy={polygons.polygonTargetY}
+                r={3}
+                strokeWidth={1.5}
+                className={shapeClassName}
+            />
         </>
     );
 };
