@@ -45,7 +45,7 @@ const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
 const separation = 20;
-const SELF_REFERENCING_RADIUS_RADIUS = 40;
+const SELF_REFERENCING_RADIUS_RADIUS = 30;
 const SELF_REFERENCING_RADIUS_OFFSET = 16;
 const ASSUMED_NODE_HEIGHT = 118;
 
@@ -620,7 +620,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const computeSelfReferencingPath = useCallback((): string => {
         const nodeX = sourceX;
         const nodeY = sourceY;
-        const verticalOffset = (ASSUMED_NODE_HEIGHT / 2) * 0.8;
+        const verticalOffset = (ASSUMED_NODE_HEIGHT / 2) * 0.5;
         let radius = SELF_REFERENCING_RADIUS_RADIUS;
 
         // if there are other relationships, offset this one by the index in the set so each line has a different radius
@@ -632,8 +632,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
         // create the path
         const context = d3Path();
-        context.moveTo(nodeX, nodeY);
-        context.arc(nodeX, nodeY - verticalOffset, radius, -10, 10);
+        // context.moveTo(nodeX, nodeY);
+        context.arc(nodeX, nodeY - verticalOffset, radius, Math.PI, 0, false);
         return context.toString();
     }, [edgeId, getParallelEdges, sourceX, sourceY]);
 
