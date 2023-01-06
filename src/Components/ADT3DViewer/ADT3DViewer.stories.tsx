@@ -6,7 +6,8 @@ import mockVConfig from '../../Adapters/__mockData__/3DScenesConfiguration.json'
 import {
     ADT3DAddInEventData,
     ADT3DAddInEventTypes,
-    IADT3DAddInProps
+    IADT3DAddInProps,
+    IADT3DViewerProps
 } from '../../Models/Constants';
 import {
     I3DScenesConfig,
@@ -14,40 +15,46 @@ import {
 } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { CustomMeshItem } from '../../Models/Classes/SceneView.types';
 import { Checkbox, Dropdown, IDropdownOption } from '@fluentui/react';
-import { ComponentStoryFn } from '@storybook/react';
+import { ComponentStory } from '@storybook/react';
+import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
+
+const wrapperStyle = {
+    width: '100%',
+    height: '600px'
+};
 
 export default {
     title: '3DV/ADT3DViewer',
-    component: ADT3DViewer
+    component: ADT3DViewer,
+    decorators: [getDefaultStoryDecorator<IADT3DViewerProps>(wrapperStyle)]
 };
 
 const mockSceneId = 'f7053e7537048e03be4d1e6f8f93aa8a';
 
-export const Engine: ComponentStoryFn<typeof ADT3DViewer> = (
-    _args,
-    { globals: { theme, locale } }
-) => {
+type ADT3DViewerStory = ComponentStory<typeof ADT3DViewer>;
+
+const Template: ADT3DViewerStory = (args) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
+
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <div style={{ width: '100%', height: '600px' }}>
-            <ADT3DViewer
-                title="3D Viewer"
-                theme={theme}
-                locale={locale}
-                adapter={new MockAdapter()}
-                scenesConfig={scenesConfig}
-                sceneId={mockSceneId}
-                connectionLineColor="#000"
-            />
-        </div>
+        <ADT3DViewer scenesConfig={scenesConfig} {...args} />
     );
 };
+
+export const Engine = Template.bind({});
+Engine.args = {
+    title: '3D Viewer',
+    adapter: new MockAdapter(),
+    sceneId: { mockSceneId },
+    connectionLineColor: '#000'
+};
+
 Engine.play = async ({ _canvasElement }) => {
-    //👇 This sets a timeout of 2s
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // If model changes this time may need to be extended or reduced
+    await new Promise((resolve) => setTimeout(resolve, 4000));
 };
 
 export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
