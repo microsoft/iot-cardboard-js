@@ -4,9 +4,15 @@ import {
     ICalloutContentStyles
 } from '@fluentui/react';
 import { SimulationNodeDatum } from 'd3-force';
+import { OatReferenceType } from '../../Models/Constants';
 import { IExtendedTheme } from '../../Theming/Theme.types';
 import { ElementNode } from './Internal/Classes/ElementNode';
 
+export interface IOATNodeData {
+    '@id': string;
+    '@type': OatReferenceType | 'Untargeted';
+    name: string;
+}
 export type IOatGraphNode = SimulationNodeDatum & {
     id: string;
 };

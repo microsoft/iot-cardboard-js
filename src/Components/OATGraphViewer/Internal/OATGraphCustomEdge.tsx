@@ -22,15 +22,13 @@ import {
     OAT_EXTEND_HANDLE_NAME
 } from '../../../Models/Constants/Constants';
 import { getDisplayName } from '../../OATPropertyEditor/Utils';
-import {
-    IOATGraphCustomEdgeProps,
-    IOATNodePosition
-} from '../../../Models/Constants';
+import { IOATNodePosition } from '../../../Models/Constants';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { getDebugLogger } from '../../../Models/Services/Utils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
+import { IOATGraphCustomEdgeProps } from './OATGraphCustomEdge.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
@@ -689,6 +687,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                                 onClick={onDelete}
                                 styles={{
                                     root: {
+                                        fontSize: FontSizes.small
+                                    },
+                                    icon: {
                                         fontSize: FontSizes.small
                                     }
                                 }}

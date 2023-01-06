@@ -1,8 +1,5 @@
-import {
-    DtdlInterfaceContent,
-    DtdlRelationship,
-    IOATRelationshipElement
-} from '../../../../Models/Constants';
+import { IOATRelationshipElement } from '../../../../Models/Constants';
+import { IOATNodeData } from '../../OATGraphViewer.types';
 
 export class ElementEdge implements IOATRelationshipElement {
     public id: string;
@@ -13,7 +10,7 @@ export class ElementEdge implements IOATRelationshipElement {
     public sourceHandle: string;
     public target: string;
     public targetHandle: string;
-    public data: DtdlRelationship | DtdlInterfaceContent;
+    public data: IOATNodeData;
 
     constructor(
         id: string,
@@ -24,7 +21,7 @@ export class ElementEdge implements IOATRelationshipElement {
         sourceHandle: string,
         target: string,
         targetHandle: string,
-        data: DtdlRelationship | DtdlInterfaceContent
+        data: IOATNodeData
     ) {
         this.id = id;
         this.label = label;

@@ -53,7 +53,11 @@ import {
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
 import { GraphViewerConnectionEvent } from './Internal/Interfaces';
-import { DtdlInterface, DtdlRelationship } from '../../Models/Constants';
+import {
+    DtdlComponent,
+    DtdlInterface,
+    DtdlRelationship
+} from '../../Models/Constants';
 import { IOATModelPosition } from '../../Pages/OATEditorPage/OATEditorPage.types';
 import {
     addComponentRelationship,
@@ -147,6 +151,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     input.contents.forEach((content) => {
                         switch (content['@type']) {
                             case OAT_COMPONENT_HANDLE_NAME: {
+                                const component = content as DtdlComponent;
                                 const foundComponentTarget = models.find(
                                     (model) => model['@id'] === content.schema
                                 );
@@ -154,8 +159,7 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                                 if (foundComponentTarget) {
                                     addComponentRelationship(
                                         input['@id'],
-                                        content,
-                                        foundComponentTarget.displayName,
+                                        component,
                                         elements
                                     );
                                 }
