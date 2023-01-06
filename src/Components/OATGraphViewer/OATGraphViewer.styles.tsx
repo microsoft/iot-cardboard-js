@@ -522,14 +522,3 @@ export const getGraphViewerWarningStyles = () => {
         }
     } as IStyleFunctionOrObject<ILabelStyleProps, ILabelStyles>;
 };
-
-export const getRelationshipTextFieldStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            fontSize: FontSizes.size12,
-            color: theme.semanticColors.bodyText,
-            background: theme.semanticColors.bodyBackground
-        }
-    } as Partial<ITextFieldStyles>;
-};

@@ -2,6 +2,7 @@ import {
     DtdlInterface,
     DtdlInterfaceContent,
     IOATNodePosition,
+    OatGraphReferenceType,
     OatReferenceType
 } from '../../Constants';
 import {
@@ -96,6 +97,8 @@ export enum OatPageContextActionType {
     SWITCH_CURRENT_PROJECT = 'SWITCH_PROJECT',
     /** removes the model and all references to that model from the state */
     DELETE_MODEL = 'DELETE_MODEL',
+    /** removes the reference betwseen  */
+    DELETE_REFERENCE = 'DELETE_REFERENCE',
     /** reverts the Models, positions & selection to the provided value */
     GENERAL_UNDO = 'GENERAL_UNDO',
     /** replaces the models data in the current project with the provided value */
@@ -169,6 +172,14 @@ export type OatPageContextAction =
           type: OatPageContextActionType.DELETE_MODEL;
           payload: {
               id: string;
+          };
+      }
+    | {
+          type: OatPageContextActionType.DELETE_REFERENCE;
+          payload: {
+              modelId: string;
+              referenceType: OatGraphReferenceType;
+              nameOrTarget: string;
           };
       }
     | {

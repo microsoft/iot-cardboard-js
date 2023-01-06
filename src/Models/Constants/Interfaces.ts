@@ -45,7 +45,8 @@ import {
 } from './Types';
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
-    ADTModel_ImgSrc_PropertyName
+    ADTModel_ImgSrc_PropertyName,
+    OatReferenceType
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -88,6 +89,7 @@ import { BaseComponentProps } from '../../Components/BaseComponent/BaseComponent
 import ADTAdapter from '../../Adapters/ADTAdapter';
 import ADTInstanceTimeSeriesConnectionData from '../Classes/AdapterDataClasses/ADTInstanceTimeSeriesConnectionData';
 import ADXTimeSeriesData from '../Classes/AdapterDataClasses/ADXTimeSeriesData';
+import { IOATNodeData } from '../../Components/OATGraphViewer/OATGraphViewer.types';
 
 export interface IAction {
     type: string;
@@ -864,13 +866,6 @@ export interface IStorageBlob {
     Properties: Record<string, any>;
 }
 
-export interface IOATGraphCustomNodeProps extends IOATNodeElement {
-    isConnectable: boolean;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface IOATGraphCustomEdgeProps extends IOATRelationshipElement {}
-
 export interface IAliasedTwinProperty {
     alias: 'PrimaryTwin' | string;
     property: string;
@@ -918,7 +913,7 @@ export interface IOATRelationshipElement {
     target: string;
     targetHandle?: string;
     type?: string;
-    data?: DtdlRelationship | DtdlInterfaceContent;
+    data?: IOATNodeData;
 }
 
 export interface IOATLastPropertyFocused {

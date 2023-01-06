@@ -138,7 +138,7 @@ export function getAvailableLanguages(i18n: i18n) {
 }
 
 export function ensureIsArray(property: string | string[]): string[] {
-    return Array.isArray(property) ? property : [property] || [];
+    return property ? (Array.isArray(property) ? property : [property]) : [];
 }
 
 /** does some cleanup on the entities to make them properly shaped for DTDL since we need some extra stuff to manage the lifecycle within the app */

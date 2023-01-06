@@ -57,7 +57,7 @@ const GraphLegend: React.FC<IGraphLegendProps> = (props) => {
                         onChange={() => {
                             oatGraphDispatch({
                                 type:
-                                    OatGraphContextActionType.SHOW_COMPONENTS_TOGGLE
+                                    OatGraphContextActionType.SHOW_RELATIONSHIPS_TOGGLE
                             });
                         }}
                         label={t('OATGraphViewer.relationships')}

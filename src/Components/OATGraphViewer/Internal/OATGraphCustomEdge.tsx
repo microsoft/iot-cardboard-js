@@ -1,5 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { useTheme, Icon, FontSizes, ActionButton } from '@fluentui/react';
+import {
+    Callout,
+    DefaultButton,
+    DirectionalHint,
+    FontSizes
+} from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import {
     getEdgeCenter,
     useStoreState,
@@ -8,10 +14,7 @@ import {
     Node,
     Edge
 } from 'react-flow-renderer';
-import {
-    getGraphViewerStyles,
-    getRelationshipTextFieldStyles
-} from '../OATGraphViewer.styles';
+import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_RELATIONSHIP_HANDLE_NAME,
@@ -19,19 +22,18 @@ import {
     OAT_EXTEND_HANDLE_NAME
 } from '../../../Models/Constants/Constants';
 import { getDisplayName } from '../../OATPropertyEditor/Utils';
-import {
-    IOATGraphCustomEdgeProps,
-    IOATNodePosition
-} from '../../../Models/Constants';
-import OATTextFieldName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldName';
+import { IOATNodePosition } from '../../../Models/Constants';
 import { CommandHistoryContext } from '../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { deepCopy } from '../../../Models/Services/Utils';
+import { getDebugLogger } from '../../../Models/Services/Utils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
+import { IOATGraphCustomEdgeProps } from './OATGraphCustomEdge.types';
 
-const foreignObjectSize = 180;
-const foreignObjectSizeExtendRelation = 20;
+const debugLogging = false;
+const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
+
+const foreignObjectSize = 20;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
@@ -166,15 +168,17 @@ const getMidPointForNode = (node: Node<any>): number[] => {
 };
 
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
-    const { id, data, markerEnd } = props;
+    const { id: edgeId, target: edgeTarget, data: edgeData } = props;
 
-    const isExtendEdge = data['@type'] === OAT_EXTEND_HANDLE_NAME;
-    const isRelationshipEdge = data['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
-    const isComponentEdge = data['@type'] === OAT_COMPONENT_HANDLE_NAME;
-    const isUntargetedEdge = data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME;
+    const isExtendEdge = edgeData['@type'] === OAT_EXTEND_HANDLE_NAME;
+    const isRelationshipEdge =
+        edgeData['@type'] === OAT_RELATIONSHIP_HANDLE_NAME;
+    const isComponentEdge = edgeData['@type'] === OAT_COMPONENT_HANDLE_NAME;
+    const isUntargetedEdge =
+        edgeData['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME;
 
     // hooks
-    const theme = useTheme();
+    const calloutTargetId = useId('callout-target');
     const nodes = useStoreState(
         (state) => state.nodes,
         (l, r) =>
@@ -198,8 +202,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const { oatGraphState } = useOatGraphContext();
 
     // state
-    const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(getDisplayName(data.name));
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
     const {
         showRelationships,
         showInheritances,
@@ -207,7 +210,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     } = oatGraphState;
 
     // data
-    const edge = useMemo(() => edges.find((x) => x.id === id), [edges, id]);
+    const edge = useMemo(() => edges.find((x) => x.id === edgeId), [
+        edges,
+        edgeId
+    ]);
     const [source, sourceX, sourceY] = useMemo(() => {
         const source = nodes.find((x) => x.id === edge.source);
         return [source, ...getMidPointForNode(source)];
@@ -222,28 +228,21 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             oatPageState.selection &&
             oatPageState.selection.modelId === source.id &&
             ((isExtendEdge &&
-                oatPageState.selection.contentId === data['@id']) ||
+                oatPageState.selection.contentId === edgeData['@id']) ||
                 (!isExtendEdge &&
-                    oatPageState.selection.contentId === data.name)),
-        [data, isExtendEdge, oatPageState.selection, source.id]
+                    oatPageState.selection.contentId === edgeData.name)),
+        [edgeData, isExtendEdge, oatPageState.selection, source.id]
     );
 
     // side effects
     useEffect(() => {
-        if (nameEditor && !isSelected) {
-            setNameEditor(false);
-        }
-    }, [isSelected, nameEditor]);
-
-    useEffect(() => {
-        if (data.name) {
-            setNameText(data.name);
-        }
-    }, [data]);
+        // if (isMenuVisible && !isSelected) {
+        setIsMenuVisible(isSelected);
+        // }
+    }, [isSelected]);
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
-    const relationshipTextFieldStyles = getRelationshipTextFieldStyles();
 
     const getSourceComponents = (
         betaAngle: number,
@@ -440,7 +439,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 const sourceRange = (separation * (parallels.length - 1)) / 2;
                 adjustedSourceX = adjustedSourceX - sourceRange;
                 adjustedSourceY = adjustedSourceY + sourceRange * baseVector;
-                const indexX = parallels.findIndex((x) => x.id === id);
+                const indexX = parallels.findIndex((x) => x.id === edgeId);
                 adjustedSourceX = indexX * separation + adjustedSourceX;
                 adjustedSourceY =
                     adjustedSourceY - indexX * separation * baseVector;
@@ -482,7 +481,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 const targetRange = (separation * (parallels.length - 1)) / 2;
                 adjustedTargetX = adjustedTargetX - targetRange;
                 adjustedTargetY = adjustedTargetY - targetRange;
-                const indexX = parallels.findIndex((x) => x.id === id);
+                const indexX = parallels.findIndex((x) => x.id === edgeId);
                 adjustedTargetX = indexX * separation + adjustedTargetX;
                 adjustedTargetY = indexX * separation + adjustedTargetY;
                 adjustmentTargetX = targetX - adjustedTargetX;
@@ -515,11 +514,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             };
         }
         return polygons;
-    }, [id, source, sourceX, sourceY, targetX, targetY]);
-
-    const onNameDoubleClick = () => {
-        setNameEditor(true);
-    };
+    }, [edgeId, source, sourceX, sourceY, targetX, targetY]);
 
     const edgePath = useMemo(() => {
         const {
@@ -568,27 +563,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const onDelete = () => {
         const deletion = () => {
             const dispatchDelete = () => {
-                // Create models copy
-                const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-                // Find relationship in models copy
-                const model = modelsCopy.find(
-                    (model) => model['@id'] === source.id
+                const nameOrTarget = props.data.name || edgeTarget; // use name, if empty, then it's an extends, so use the target
+                logDebugConsole(
+                    'info',
+                    `Delete reference of type ${edgeData['@type']} with name/target ${nameOrTarget} for model ${source.id}`
                 );
-                if (model) {
-                    // Remove edge from model
-                    model.contents = model.contents.filter(
-                        (link) => link['@id'] !== id
-                    );
-                    oatPageDispatch({
-                        type: OatPageContextActionType.SET_CURRENT_MODELS,
-                        payload: { models: modelsCopy }
-                    });
-                    // Dispatch selected model to null
-                    oatPageDispatch({
-                        type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                        payload: { selection: null }
-                    });
-                }
+                oatPageDispatch({
+                    type: OatPageContextActionType.DELETE_REFERENCE,
+                    payload: {
+                        modelId: source.id,
+                        nameOrTarget: nameOrTarget,
+                        referenceType: edgeData['@type']
+                    }
+                });
             };
 
             oatPageDispatch({
@@ -599,12 +586,12 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
         const undoDeletion = () => {
             oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
+                type: OatPageContextActionType.GENERAL_UNDO,
+                payload: {
+                    models: oatPageState.currentOntologyModels,
+                    positions: oatPageState.currentOntologyModelPositions,
+                    selection: oatPageState.selection
+                }
             });
         };
 
@@ -613,105 +600,68 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         }
     };
 
-    const onNameCommit = (value: string) => {
-        const commit = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            const model = modelsCopy.find(
-                (model) => model['@id'] === source.id
-            );
-            const link =
-                model &&
-                model.contents.find(
-                    (link) =>
-                        link['@type'] === data['@type'] &&
-                        link.name === nameText
-                );
-            if (link) {
-                link.name = value;
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
-                });
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                    payload: {
-                        selection: { modelId: source.id, contentId: value }
-                    }
-                });
-            }
-
-            setNameText(value);
-            setNameEditor(false);
-        };
-
-        const undoCommit = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
-            });
-        };
-
-        execute(commit, undoCommit);
-    };
-
+    logDebugConsole('debug', 'Render {props, nodes}', props, nodes);
     return (
         <>
             <path
-                id={id}
+                id={edgeId}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
-                onDoubleClick={onNameDoubleClick}
             />
             {isExtendEdge && showInheritances && (
                 <path
-                    id={id}
+                    id={edgeId}
                     className={
                         isSelected
                             ? graphViewerStyles.selectedInheritancePath
                             : graphViewerStyles.inheritancePath
                     }
                     d={edgePath}
-                    onDoubleClick={onNameDoubleClick}
-                    markerEnd={markerEnd}
+                    // markerEnd={markerEnd}
                 />
             )}
             {(isRelationshipEdge || isUntargetedEdge) && showRelationships && (
                 <path
-                    id={id}
+                    id={edgeId}
                     className={
                         isSelected
                             ? graphViewerStyles.selectedEdgePath
                             : graphViewerStyles.edgePath
                     }
                     d={edgePath}
-                    onDoubleClick={onNameDoubleClick}
-                    markerEnd={markerEnd}
+                    // markerEnd={markerEnd}
                 />
             )}
             {isComponentEdge && showComponents && (
                 <path
-                    id={id}
+                    id={edgeId}
                     className={
                         isSelected
                             ? graphViewerStyles.selectedComponentPath
                             : graphViewerStyles.componentPath
                     }
                     d={edgePath}
-                    onDoubleClick={onNameDoubleClick}
-                    markerEnd={markerEnd}
+                    // markerEnd={markerEnd}
                 />
             )}
-            {nameEditor && (
+            {((isExtendEdge && showInheritances) ||
+                (isComponentEdge && showComponents) ||
+                ((isRelationshipEdge || isUntargetedEdge) &&
+                    showRelationships)) && (
+                <text>
+                    <textPath
+                        href={`#${edgeId}`}
+                        className={graphViewerStyles.textPath}
+                        startOffset="50%"
+                        textAnchor="middle"
+                    >
+                        {getDisplayName(edgeData.name)}
+                    </textPath>
+                </text>
+            )}
+            {isMenuVisible && (
                 <foreignObject
-                    width={
-                        isExtendEdge
-                            ? foreignObjectSizeExtendRelation
-                            : foreignObjectSize
-                    }
+                    width={foreignObjectSize}
                     height={foreignObjectSize}
                     x={
                         !isExtendEdge
@@ -723,60 +673,36 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 >
                     <div
                         className={graphViewerStyles.relationshipNameEditorBody}
+                        id={calloutTargetId}
                     >
-                        {!isExtendEdge && (
-                            <OATTextFieldName
-                                styles={relationshipTextFieldStyles}
-                                value={nameText}
-                                model={data}
-                                models={oatPageState.currentOntologyModels}
-                                onCommit={onNameCommit}
-                                autoFocus
-                            />
-                        )}
-                        <div
-                            className={graphViewerStyles.relationshipCTASection}
+                        <Callout
+                            directionalHint={DirectionalHint.rightCenter}
+                            isBeakVisible={false}
+                            gapSpace={8}
+                            target={`#${calloutTargetId}`}
                         >
-                            <ActionButton
-                                className={
-                                    !isExtendEdge
-                                        ? graphViewerStyles.edgeCancel
-                                        : graphViewerStyles.extendCancel
-                                }
-                                onMouseDown={onDelete}
-                            >
-                                <Icon
-                                    iconName="Trash"
-                                    styles={{
-                                        root: {
-                                            fontSize: FontSizes.size10,
-                                            color:
-                                                theme.semanticColors.actionLink
-                                        }
-                                    }}
-                                />
-                            </ActionButton>
-                        </div>
+                            <DefaultButton
+                                text={'Delete'}
+                                iconProps={{ iconName: 'Delete' }}
+                                onClick={onDelete}
+                                styles={{
+                                    root: {
+                                        fontSize: FontSizes.small,
+                                        height: 28,
+                                        padding: 4
+                                    },
+                                    icon: {
+                                        fontSize: FontSizes.small
+                                    },
+                                    label: {
+                                        marginLeft: 0
+                                    }
+                                }}
+                            />
+                        </Callout>
                     </div>
                 </foreignObject>
             )}
-            {!nameEditor &&
-                ((isExtendEdge && showInheritances) ||
-                    (isComponentEdge && showComponents) ||
-                    ((isRelationshipEdge || isUntargetedEdge) &&
-                        showRelationships)) && (
-                    <text>
-                        <textPath
-                            href={`#${id}`}
-                            className={graphViewerStyles.textPath}
-                            startOffset="50%"
-                            textAnchor="middle"
-                            onDoubleClick={onNameDoubleClick}
-                        >
-                            {getDisplayName(data.name || data.displayName)}
-                        </textPath>
-                    </text>
-                )}
             {isExtendEdge && showInheritances && (
                 <polygon
                     points={polygons.inheritancePolygon}

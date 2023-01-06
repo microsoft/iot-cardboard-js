@@ -1,4 +1,5 @@
 import { Node, Edge } from 'react-flow-renderer';
+import { DTDLType } from '../../../Models/Classes/DTDL';
 import {
     IOATNodePosition,
     OAT_COMPONENT_HANDLE_NAME,
@@ -9,6 +10,7 @@ import {
     OAT_UNTARGETED_RELATIONSHIP_NAME
 } from '../../../Models/Constants';
 import {
+    DtdlComponent,
     DtdlInterface,
     DtdlInterfaceContent,
     DtdlRelationship
@@ -19,6 +21,7 @@ import {
     IOATModelPosition,
     IOATSelection
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
+import { IOATNodeData } from '../OATGraphViewer.types';
 import { ElementEdge } from './Classes/ElementEdge';
 import { ElementNode } from './Classes/ElementNode';
 import { ElementPosition } from './Classes/ElementPosition';
@@ -33,7 +36,7 @@ export const DEFAULT_NODE_POSITION = 25;
 
 export const addTargetedRelationship = (
     sourceId: string,
-    relationship: DtdlInterfaceContent,
+    relationship: DtdlRelationship,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     // logDebugConsole(
@@ -55,8 +58,8 @@ export const addTargetedRelationship = (
         relationship['target'],
         OAT_RELATIONSHIP_HANDLE_NAME,
         {
-            ...relationship,
-            '@type': OAT_RELATIONSHIP_HANDLE_NAME,
+            '@type': DTDLType.Relationship,
+            '@id': relationship['@id'],
             name
         }
     );
@@ -72,7 +75,7 @@ export const addTargetedRelationship = (
 
 export const addUntargetedRelationship = (
     sourceModel: DtdlInterface,
-    relationship: DtdlInterfaceContent,
+    relationship: DtdlRelationship,
     modelPositions: IOATModelPosition[],
     elements: (ElementNode | ElementEdge)[]
 ) => {
@@ -111,15 +114,14 @@ export const addUntargetedRelationship = (
         OAT_GRAPH_REFERENCE_TYPE, // type
         '', // marker end
         sourceModel['@id'], // source
-        OAT_UNTARGETED_RELATIONSHIP_NAME,
-        id,
-        OAT_UNTARGETED_RELATIONSHIP_NAME,
+        OAT_UNTARGETED_RELATIONSHIP_NAME, // source handle
+        id, // target
+        OAT_UNTARGETED_RELATIONSHIP_NAME, // target handle
         {
-            ...relationship,
             '@id': id,
             '@type': OAT_UNTARGETED_RELATIONSHIP_NAME,
             name: name
-        }
+        } // data
     );
 
     elements.push(newNode);
@@ -136,8 +138,7 @@ export const addUntargetedRelationship = (
 
 export const addComponentRelationship = (
     sourceId: string,
-    component: DtdlInterfaceContent,
-    targetName: string,
+    component: DtdlComponent,
     elements: (ElementNode | ElementEdge)[]
 ) => {
     // logDebugConsole(
@@ -159,8 +160,8 @@ export const addComponentRelationship = (
         component.schema as string,
         OAT_COMPONENT_HANDLE_NAME,
         {
-            ...component,
-            '@type': OAT_COMPONENT_HANDLE_NAME,
+            '@id': component['@id'],
+            '@type': DTDLType.Component,
             name
         }
     );
@@ -341,9 +342,7 @@ export const getNewNodePosition = (
     return getNewNodePosition(newCoordinates, positions);
 };
 
-export const getSelectionIdentifier = (
-    data: DtdlRelationship | DtdlInterfaceContent
-) => {
+export const getSelectionIdentifier = (data: IOATNodeData) => {
     switch (data['@type']) {
         case OAT_EXTEND_HANDLE_NAME:
             return data['@id'];

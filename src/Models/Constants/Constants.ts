@@ -306,6 +306,11 @@ export type OatReferenceType =
     | DTDLType.Component
     | DTDLType.Relationship
     | 'Extend';
+export type OatGraphReferenceType =
+    | DTDLType.Component
+    | DTDLType.Relationship
+    | 'Extend'
+    | 'Untargeted';
 export const OAT_UNTARGETED_RELATIONSHIP_ID_PREFIX = 'untargeted';
 export const OAT_INTERFACE_TYPE = 'Interface';
 export const OAT_GRAPH_REFERENCE_TYPE = 'Relationship';

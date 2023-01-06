@@ -16,6 +16,7 @@ import {
     DtdlInterfaceContent,
     DtdlRelationship,
     IOATNodePosition,
+    OatGraphReferenceType,
     OatReferenceType,
     OAT_GRAPH_REFERENCE_TYPE,
     OAT_INTERFACE_TYPE,
@@ -24,6 +25,7 @@ import {
 import {
     buildModelId,
     convertDtdlInterfacesToModels,
+    ensureIsArray,
     getUntargetedRelationshipNodeId,
     isUntargeted,
     storeLastUsedProjectId,
@@ -37,7 +39,13 @@ import {
 import { isOatContextStorageEnabled, logDebugConsole } from './OatPageContext';
 import { IOatPageContextState } from './OatPageContext.types';
 import { CONTEXT_CLASS_BASE } from '../../../Components/OATGraphViewer/Internal/Utils';
-import { isDTDLProperty, isDTDLReference } from '../../Services/DtdlUtils';
+import {
+    isDTDLComponentReference,
+    isDTDLProperty,
+    isDTDLReference,
+    isDTDLRelationshipReference
+} from '../../Services/DtdlUtils';
+import { current } from 'immer';
 
 //#region Add/remove models
 
@@ -158,6 +166,61 @@ export const deleteModelFromState = (
     positions.splice(index, 1);
 
     return { models: models, positions: positions };
+};
+
+type DeleteReferenceArgs = {
+    state: IOatPageContextState;
+    modelId: string;
+    referenceType: OatGraphReferenceType;
+    nameOrTarget: string;
+};
+
+/** deletes all references of a model from the graph including relationships */
+export const deleteReferenceFromState = (args: DeleteReferenceArgs) => {
+    const { state, modelId } = args;
+
+    const model = getModelById(state.currentOntologyModels, modelId);
+    // console.log(
+    //     '[START] Remove reference. {args, model}',
+    //     args,
+    //     current(model)
+    // );
+    if (!model) {
+        console.error('Could not find model to delete');
+        return false;
+    }
+
+    switch (args.referenceType) {
+        case 'Untargeted':
+        case DTDLType.Relationship:
+            model.contents = model.contents?.filter(
+                (x) =>
+                    !isDTDLRelationshipReference(x) ||
+                    (isDTDLRelationshipReference(x) &&
+                        x.name !== args.nameOrTarget)
+            );
+            break;
+        case DTDLType.Component:
+            model.contents = model.contents?.filter(
+                (x) =>
+                    !isDTDLComponentReference(x) ||
+                    (isDTDLComponentReference(x) &&
+                        x.name !== args.nameOrTarget)
+            );
+            break;
+        case 'Extend':
+            model.extends = ensureIsArray(model.extends).filter(
+                (x) => x !== args.nameOrTarget
+            );
+            break;
+    }
+
+    // if(args.referenceType === 'Relationship' || args.referenceType === 'Component'){
+    //     const newContents =
+    // }else if(args.referenceType)
+    // console.log('[END] Remove reference. {model}', current(model));
+
+    return true;
 };
 
 //#endregion
