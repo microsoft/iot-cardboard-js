@@ -4,12 +4,13 @@ import { IHighChartSeriesData } from '../../Components/HighChartsWrapper/HighCha
 import { QuickTimeSpans } from '../Constants/Constants';
 import { QuickTimeSpanKey } from '../Constants/Enums';
 import { IDataHistoryTimeSeriesTwin } from '../Constants/Interfaces';
+import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
 import { ADXTimeSeries } from '../Constants/Types';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const getHighChartColor = (idx: number): ColorString =>
     idx === 1 // that particular color of Highcharts is not visible in our dark themes, override it
-        ? '#d781fc'
+        ? CUSTOM_HIGHCHARTS_COLOR_IDX_1
         : (Highcharts.getOptions().colors[idx] as ColorString);
 
 /** Gets fetched adx time series data and data history widget time series to twin mapping information

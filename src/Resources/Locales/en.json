@@ -1301,6 +1301,7 @@
             "title": "Twin properties",
             "description": "To compare historized properties within this twin or with other twins, add them below.",
             "timeSeriesTwin": {
+                "add": "Add time series twin",
                 "edit": "Edit time series twin",
                 "remove": "Remove time series twin",
                 "property": "Property",

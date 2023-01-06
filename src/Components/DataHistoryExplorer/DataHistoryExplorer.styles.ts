@@ -23,7 +23,7 @@ export const getStyles = (
         titleWrapper: [
             classNames.titleWrapper,
             {
-                fontWeight: FontWeights.bold,
+                fontWeight: FontWeights.semibold,
                 overflow: 'hidden',
                 display: 'flex',
                 alignItems: 'baseline',

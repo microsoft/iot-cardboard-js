@@ -1,5 +1,4 @@
 import React from 'react';
-import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import DataHistoryExplorer from './DataHistoryExplorer';
 import { IDataHistoryExplorerProps } from './DataHistoryExplorer.types';
@@ -17,14 +16,13 @@ export default {
     ]
 };
 
-type DataHistoryExplorerStory = ComponentStory<typeof DataHistoryExplorer>;
-
-const Template: DataHistoryExplorerStory = (args) => {
+export const ADT = (args) => {
     const authenticationParameters = useAuthParams();
     return !authenticationParameters ? (
         <div></div>
     ) : (
         <DataHistoryExplorer
+            {...args}
             adapter={
                 new ADTDataHistoryAdapter(
                     new MsalAuthService(
@@ -33,10 +31,6 @@ const Template: DataHistoryExplorerStory = (args) => {
                     authenticationParameters.adt.hostUrl
                 )
             }
-            {...args}
         />
     );
 };
-
-export const ADTDataHistory = Template.bind({}) as DataHistoryExplorerStory;
-ADTDataHistory.args = {} as IDataHistoryExplorerProps;

@@ -14,7 +14,9 @@ import {
     Stack,
     PrimaryButton,
     TextField,
-    Toggle
+    Toggle,
+    DefaultButton,
+    StackItem
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { IDataHistoryTimeSeriesTwin } from '../../../../Models/Constants/Interfaces';
@@ -132,85 +134,103 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         target={`#${target}`}
                         styles={classNames.subComponentStyles.callout}
                         onDismiss={onDismiss}
-                        directionalHint={DirectionalHint.bottomCenter}
-                        isBeakVisible={false}
+                        directionalHint={DirectionalHint.rightCenter}
                     >
                         <Stack tokens={{ childrenGap: 12 }}>
-                            <Stack tokens={{ childrenGap: 4 }}>
-                                <TwinSearch
-                                    adapter={adapter}
-                                    onSelectTwinId={handleTwinIdChange}
-                                    isInspectorDisabled={
-                                        !timeSeriesTwinToEdit.twinId
-                                    }
-                                    twinId={timeSeriesTwinToEdit.twinId}
-                                    initialSelectedValue={
-                                        timeSeriesTwinToEdit.twinId
-                                    }
-                                    disableDropdownDescription
-                                    dropdownLabel={t('twinId')}
-                                />
-                                <ModelledPropertyBuilder
-                                    customLabel={t(
-                                        'dataHistoryExplorer.builder.timeSeriesTwin.property'
-                                    )}
-                                    adapter={adapter}
-                                    twinIdParams={{
-                                        primaryTwinIds: [
+                            <Stack tokens={{ childrenGap: 8 }}>
+                                <StackItem>
+                                    <TwinSearch
+                                        adapter={adapter}
+                                        onSelectTwinId={handleTwinIdChange}
+                                        isInspectorDisabled={
+                                            !timeSeriesTwinToEdit.twinId
+                                        }
+                                        twinId={timeSeriesTwinToEdit.twinId}
+                                        initialSelectedValue={
                                             timeSeriesTwinToEdit.twinId
-                                        ]
-                                    }}
-                                    mode={
-                                        ModelledPropertyBuilderMode.PROPERTY_SELECT
-                                    }
-                                    propertyExpression={{
-                                        expression: timeSeriesTwinToEdit.twinPropertyName
-                                            ? `${PRIMARY_TWIN_NAME}.${timeSeriesTwinToEdit.twinPropertyName}`
-                                            : ''
-                                    }}
-                                    onChange={handleTwinPropertyChange}
-                                    isDisabled={!timeSeriesTwinToEdit.twinId}
-                                    required
-                                />
-                                {timeSeriesTwinToEdit.twinPropertyType &&
-                                    !isNumericType(
-                                        timeSeriesTwinToEdit.twinPropertyType
-                                    ) && (
-                                        <Toggle
-                                            styles={
-                                                classNames.subComponentStyles
-                                                    .typeCastToggle
-                                            }
-                                            defaultChecked={
-                                                timeSeriesTwinToEdit.chartProps
-                                                    .isTwinPropertyTypeCastedToNumber
-                                            }
-                                            label={t(
-                                                'dataHistoryExplorer.builder.timeSeriesTwin.propertyTypeCastLabel'
-                                            )}
-                                            onChange={
-                                                handleTwinPropertyCastingChange
-                                            }
-                                        />
-                                    )}
-                                <TextField
-                                    placeholder={t(
-                                        'widgets.dataHistory.form.timeSeries.labelPlaceholder'
-                                    )}
-                                    label={t(
-                                        'widgets.dataHistory.form.timeSeries.label'
-                                    )}
-                                    value={timeSeriesTwinToEdit?.label}
-                                    onChange={handleLabelChange}
-                                />
+                                        }
+                                        disableDropdownDescription
+                                        dropdownLabel={t('twinId')}
+                                    />
+                                </StackItem>
+                                <StackItem>
+                                    <ModelledPropertyBuilder
+                                        customLabel={t(
+                                            'dataHistoryExplorer.builder.timeSeriesTwin.property'
+                                        )}
+                                        adapter={adapter}
+                                        twinIdParams={{
+                                            primaryTwinIds: [
+                                                timeSeriesTwinToEdit.twinId
+                                            ]
+                                        }}
+                                        mode={
+                                            ModelledPropertyBuilderMode.PROPERTY_SELECT
+                                        }
+                                        propertyExpression={{
+                                            expression: timeSeriesTwinToEdit.twinPropertyName
+                                                ? `${PRIMARY_TWIN_NAME}.${timeSeriesTwinToEdit.twinPropertyName}`
+                                                : ''
+                                        }}
+                                        onChange={handleTwinPropertyChange}
+                                        isDisabled={
+                                            !timeSeriesTwinToEdit.twinId
+                                        }
+                                        required
+                                    />
+
+                                    {timeSeriesTwinToEdit.twinPropertyType &&
+                                        !isNumericType(
+                                            timeSeriesTwinToEdit.twinPropertyType
+                                        ) && (
+                                            <Toggle
+                                                styles={
+                                                    classNames
+                                                        .subComponentStyles
+                                                        .typeCastToggle
+                                                }
+                                                defaultChecked={
+                                                    timeSeriesTwinToEdit
+                                                        .chartProps
+                                                        ?.isTwinPropertyTypeCastedToNumber
+                                                }
+                                                label={t(
+                                                    'dataHistoryExplorer.builder.timeSeriesTwin.propertyTypeCastLabel'
+                                                )}
+                                                onChange={
+                                                    handleTwinPropertyCastingChange
+                                                }
+                                            />
+                                        )}
+                                </StackItem>
+                                <StackItem>
+                                    <TextField
+                                        placeholder={t(
+                                            'widgets.dataHistory.form.timeSeries.labelPlaceholder'
+                                        )}
+                                        label={t(
+                                            'widgets.dataHistory.form.timeSeries.label'
+                                        )}
+                                        value={timeSeriesTwinToEdit?.label}
+                                        onChange={handleLabelChange}
+                                    />
+                                </StackItem>
                             </Stack>
                             <Stack
                                 horizontal
                                 horizontalAlign={'end'}
                                 tokens={{ childrenGap: 8 }}
                             >
+                                <DefaultButton
+                                    text={t('cancel')}
+                                    onClick={onDismiss}
+                                />
                                 <PrimaryButton
-                                    text={t('add')}
+                                    text={
+                                        timeSeriesTwin
+                                            ? t('update')
+                                            : t('create')
+                                    }
                                     onClick={() =>
                                         onPrimaryActionClick(
                                             timeSeriesTwinToEdit

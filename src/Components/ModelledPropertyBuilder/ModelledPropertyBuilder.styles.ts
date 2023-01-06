@@ -52,12 +52,7 @@ export const getStyles = memoizeFunction(() => {
                 alignItems: 'center'
             } as IStyle
         ],
-        root: [
-            classNames.root,
-            {
-                paddingTop: 4
-            } as IStyle
-        ],
+        root: [classNames.root],
         toggleContainer: [
             classNames.toggleContainer,
             {

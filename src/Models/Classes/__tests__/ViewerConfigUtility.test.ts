@@ -4,8 +4,11 @@ import {
     DEFAULT_REFRESH_RATE_IN_MILLISECONDS,
     PRIMARY_TWIN_NAME
 } from '../../Constants';
+import { deepCopy } from '../../Services/Utils';
 import {
     I3DScenesConfig,
+    IBehavior,
+    ILayer,
     IPollingConfiguration,
     IScene
 } from '../../Types/Generated/3DScenesConfiguration-v1.0.0';
@@ -28,42 +31,47 @@ import {
 afterEach(cleanup);
 
 describe('ViewerConfigUtility', () => {
-    describe('Scene Visuals', () => {
-        const MOCK_SCENE_ID = 'SceneId1';
-        /**
-         * Has 3 behaviors, only 2 are used in the scene (1,2)
-         * Has 3 elements, 2 are real and one is custom so we should ignore it
-         * @returns mock data for the default scene
-         */
-        const getMockConfig = (): I3DScenesConfig => {
-            return {
-                $schema: {} as any,
-                configuration: {
-                    behaviors: [
-                        MOCK_BEHAVIOR_1,
-                        MOCK_BEHAVIOR_2,
-                        MOCK_BEHAVIOR_3
-                    ],
-                    layers: [],
-                    scenes: [
-                        {
-                            id: MOCK_SCENE_ID,
-                            displayName: 'Mock display name',
-                            behaviorIDs: [
-                                MOCK_BEHAVIOR_1.id,
-                                MOCK_BEHAVIOR_2.id
-                            ],
-                            elements: [
-                                MOCK_ELEMENT_1,
-                                MOCK_ELEMENT_3_WITH_ALIASES,
-                                CUSTOM_ELEMENT
-                            ],
-                            assets: []
-                        }
-                    ]
-                }
-            };
+    const MOCK_SCENE_ID = 'SceneId1';
+    /**
+     * Has 3 behaviors, only 2 are used in the scene (1,2)
+     * Has 3 elements, 2 are real and one is custom so we should ignore it
+     * @returns mock data for the default scene
+     */
+    const getMockConfig = (): I3DScenesConfig => {
+        return {
+            $schema: {} as any,
+            configuration: {
+                behaviors: [MOCK_BEHAVIOR_1, MOCK_BEHAVIOR_2, MOCK_BEHAVIOR_3],
+                layers: [],
+                scenes: [
+                    {
+                        id: MOCK_SCENE_ID,
+                        displayName: 'Mock display name',
+                        behaviorIDs: [MOCK_BEHAVIOR_1.id, MOCK_BEHAVIOR_2.id],
+                        elements: [
+                            MOCK_ELEMENT_1,
+                            MOCK_ELEMENT_3_WITH_ALIASES,
+                            CUSTOM_ELEMENT
+                        ],
+                        assets: []
+                    }
+                ]
+            }
         };
+    };
+
+    const getMockConfigWithLayers = (): I3DScenesConfig => {
+        const config = deepCopy(getMockConfig());
+        const mockLayer = {
+            id: 'MockLayer',
+            displayName: 'Mock Layer',
+            behaviorIDs: [MOCK_BEHAVIOR_1.id]
+        };
+        config.configuration.layers = [mockLayer];
+        return config;
+    };
+
+    describe('Scene Visuals', () => {
         /** create twin data for 3 elements, the 3rd has aliases which get data for the same properties as element 1 */
         const getMockTwinData = (): Map<string, DTwin> => {
             const data = new Map<string, DTwin>();
@@ -365,6 +373,331 @@ describe('ViewerConfigUtility', () => {
                     newPollingRate
                 );
             });
+        });
+    });
+
+    describe('Scene methods get, add, edit, delete', () => {
+        test('getSceneById', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.getSceneById(
+                config,
+                MOCK_SCENE_ID
+            );
+            // ASSERT
+            expect(result).toEqual(config.configuration.scenes[0]);
+        });
+
+        test('addScene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newSceneId = 'SceneId2';
+            const newScene = {
+                id: newSceneId,
+                displayName: 'Mock new name',
+                behaviorIDs: [MOCK_BEHAVIOR_2.id],
+                elements: [MOCK_ELEMENT_1],
+                assets: []
+            };
+            // ACT
+            const result = ViewerConfigUtility.addScene(config, newScene);
+            // ASSERT
+            expect(result.configuration.scenes).toHaveLength(2);
+            expect(result.configuration.scenes[1]).toEqual(newScene);
+        });
+
+        test('editScene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newSceneId = 'SceneId2';
+            const newScene = {
+                id: newSceneId,
+                displayName: 'Mock new name',
+                behaviorIDs: [MOCK_BEHAVIOR_2.id],
+                elements: [MOCK_ELEMENT_1],
+                assets: []
+            };
+            // ACT
+            const result = ViewerConfigUtility.editScene(
+                config,
+                MOCK_SCENE_ID,
+                newScene
+            );
+            // ASSERT
+            expect(result.configuration.scenes[0]).toEqual(newScene);
+        });
+
+        test('deleteScene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.deleteScene(
+                config,
+                MOCK_SCENE_ID
+            );
+            // ASSERT
+            expect(result.configuration.scenes).toHaveLength(0);
+        });
+    });
+
+    describe('Layer methods, create, edit, delete', () => {
+        test('createNewLayer', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newLayer = {
+                id: 'NewLayer',
+                displayName: 'New layer',
+                behaviorIDs: [MOCK_BEHAVIOR_1.id]
+            };
+            // ACT
+            const result = ViewerConfigUtility.createNewLayer(config, newLayer);
+            // ASSERT
+            expect(result.configuration.layers).toHaveLength(1);
+            expect(result.configuration.layers[0]).toEqual(newLayer);
+        });
+
+        test('editLayer', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newLayer = {
+                id: 'NewLayer',
+                displayName: 'New layer',
+                behaviorIDs: [MOCK_BEHAVIOR_1.id]
+            };
+            const configWithLayer = ViewerConfigUtility.createNewLayer(
+                config,
+                newLayer
+            );
+            const anotherLayer = {
+                id: 'NewLayer',
+                displayName: 'Another layer',
+                behaviorIDs: [MOCK_BEHAVIOR_2.id]
+            };
+            // ACT
+            const result = ViewerConfigUtility.editLayer(
+                configWithLayer,
+                anotherLayer
+            );
+            // ASSERT
+            expect(result.configuration.layers[0]).toEqual(anotherLayer);
+        });
+
+        test('deleteLayer', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newLayer = {
+                id: 'NewLayer',
+                displayName: 'New layer',
+                behaviorIDs: [MOCK_BEHAVIOR_1.id]
+            };
+            const configWithLayer = ViewerConfigUtility.createNewLayer(
+                config,
+                newLayer
+            );
+            // ACT
+            const result = ViewerConfigUtility.deleteLayer(
+                configWithLayer,
+                newLayer
+            );
+            // ASSERT
+            expect(result.configuration.layers).toHaveLength(0);
+        });
+    });
+
+    describe('Layers in behavior', () => {
+        test('getActiveLayersForBehavior', () => {
+            // ARRANGE
+            const config = getMockConfigWithLayers();
+            // ACT
+            const result = ViewerConfigUtility.getActiveLayersForBehavior(
+                config,
+                MOCK_BEHAVIOR_1.id
+            );
+            // ASSERT
+            expect(result).toEqual(['MockLayer']);
+        });
+
+        test('setLayersForBehavior', () => {
+            // ARRANGE
+            const configWithLayerSelection = deepCopy(getMockConfig());
+            // Create selected layer to add behavior id to it
+            const selectedLayer: ILayer = {
+                id: 'SelectedLayer',
+                displayName: 'Selected Layer',
+                behaviorIDs: []
+            };
+            // Create un-selected layer to remove behavior id from it
+            const unselectedLayer: ILayer = {
+                id: 'UnselectedLayer',
+                displayName: 'Unselected Layer',
+                behaviorIDs: [MOCK_BEHAVIOR_1.id]
+            };
+            configWithLayerSelection.configuration.layers.push(selectedLayer);
+            configWithLayerSelection.configuration.layers.push(unselectedLayer);
+            // ACT
+            // Have only valid layer in selected layers id parameter
+            ViewerConfigUtility.setLayersForBehavior(
+                configWithLayerSelection,
+                MOCK_BEHAVIOR_1.id,
+                ['SelectedLayer']
+            );
+            // ASSERT
+            // Check if selected layer had behavior id added to it
+            expect(
+                configWithLayerSelection.configuration.layers[0].behaviorIDs
+            ).toContain(MOCK_BEHAVIOR_1.id);
+            // Check if unselected layer had behavior id removed from it
+            expect(
+                configWithLayerSelection.configuration.layers[1].behaviorIDs
+            ).toHaveLength(0);
+        });
+    });
+
+    describe('Behavior methods, get, create, edit, delete', () => {
+        test('getBehaviorById', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.getBehaviorById(
+                config,
+                MOCK_BEHAVIOR_1.id
+            );
+            // ASSERT
+            expect(result).toEqual(MOCK_BEHAVIOR_1);
+        });
+
+        test('addBehavior', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newBehavior: IBehavior = {
+                id: 'newBehavior',
+                displayName: 'New behavior',
+                datasources: [
+                    {
+                        elementIDs: [MOCK_ELEMENT_1.id],
+                        type: 'ElementTwinToObjectMappingDataSource'
+                    }
+                ],
+                visuals: []
+            };
+            const selectedLayerIds = [];
+            // ACT
+            const result = ViewerConfigUtility.addBehavior(
+                config,
+                MOCK_SCENE_ID,
+                newBehavior,
+                selectedLayerIds
+            );
+            // ASSERT
+            expect(result.configuration.behaviors[3]).toEqual(newBehavior);
+        });
+
+        test('editBehavior', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const updatedBehavior: IBehavior = {
+                id: MOCK_BEHAVIOR_1.id,
+                displayName: 'Updated behavior',
+                datasources: [
+                    {
+                        elementIDs: [MOCK_ELEMENT_1.id],
+                        type: 'ElementTwinToObjectMappingDataSource'
+                    }
+                ],
+                visuals: []
+            };
+            // ACT
+            const result = ViewerConfigUtility.editBehavior(
+                config,
+                updatedBehavior
+            );
+            // ASSERT
+            expect(result.configuration.behaviors[0]).toEqual(updatedBehavior);
+        });
+
+        test('addBehaviorToScene add if not in Scene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.addBehaviorToScene(
+                config,
+                MOCK_SCENE_ID,
+                MOCK_BEHAVIOR_3
+            );
+            // ASSERT
+            expect(result.configuration.scenes[0].behaviorIDs).toHaveLength(3);
+        });
+
+        test('addBehaviorToScene ignore if already in Scene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.addBehaviorToScene(
+                config,
+                MOCK_SCENE_ID,
+                MOCK_BEHAVIOR_1
+            );
+            // ASSERT
+            expect(result.configuration.scenes[0].behaviorIDs).toHaveLength(2);
+        });
+
+        test('deleteBehavior current Scene', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.deleteBehavior(
+                config,
+                MOCK_SCENE_ID,
+                MOCK_BEHAVIOR_1.id,
+                false
+            );
+            // ASSERT
+            expect(result.configuration.scenes[0].behaviorIDs).toHaveLength(1);
+            expect(result.configuration.behaviors[0]).toEqual(MOCK_BEHAVIOR_1);
+        });
+
+        test('deleteBehavior all Scenes', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            const newLayer = {
+                id: 'NewLayer',
+                displayName: 'New layer',
+                behaviorIDs: [MOCK_BEHAVIOR_1.id]
+            };
+            // Adding a layer that contains behavior to be deleted
+            const configWithLayer = ViewerConfigUtility.createNewLayer(
+                config,
+                newLayer
+            );
+            // ACT
+            const result = ViewerConfigUtility.deleteBehavior(
+                configWithLayer,
+                MOCK_SCENE_ID,
+                MOCK_BEHAVIOR_1.id,
+                true
+            );
+            // ASSERT
+            // Verify behavior is no longer on scene
+            expect(result.configuration.scenes[0].behaviorIDs).toHaveLength(1);
+            // Verify behavior is no longer on behaviors array
+            expect(result.configuration.behaviors).toHaveLength(2);
+            // Verify behavior is no longer on layers
+            expect(result.configuration.layers[0].behaviorIDs).toHaveLength(0);
+        });
+    });
+
+    describe('Element methods', () => {
+        test('getElementById', () => {
+            // ARRANGE
+            const config = getMockConfig();
+            // ACT
+            const result = ViewerConfigUtility.getElementById(
+                config,
+                MOCK_ELEMENT_1.id
+            );
+            // ASSERT
+            expect(result).toEqual(MOCK_ELEMENT_1);
         });
     });
 });

@@ -20,13 +20,14 @@ export const getStyles = (
             {
                 borderRight: `1px solid ${props.theme.palette.neutralLight}`,
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                height: '100%'
             }
         ],
         header: [
             classNames.header,
             {
-                fontWeight: FontWeights.bold,
+                fontWeight: FontWeights.semibold,
                 fontSize: FontSizes.size16,
                 marginTop: '0 !important'
             }
