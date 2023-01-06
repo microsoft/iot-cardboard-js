@@ -687,37 +687,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                                 onClick={onDelete}
                                 styles={{
                                     root: {
-                                        fontSize: FontSizes.small
+                                        fontSize: FontSizes.small,
+                                        height: 28,
+                                        padding: 4
                                     },
                                     icon: {
                                         fontSize: FontSizes.small
+                                    },
+                                    label: {
+                                        marginLeft: 0
                                     }
                                 }}
                             />
                         </Callout>
-                        {/* <div
-                            className={graphViewerStyles.relationshipCTASection}
-                        >
-                            <ActionButton
-                                className={
-                                    !isExtendEdge
-                                        ? graphViewerStyles.edgeCancel
-                                        : graphViewerStyles.extendCancel
-                                }
-                                onMouseDown={onDelete}
-                            >
-                                <Icon
-                                    iconName="Trash"
-                                    styles={{
-                                        root: {
-                                            fontSize: FontSizes.size10,
-                                            color:
-                                                theme.semanticColors.actionLink
-                                        }
-                                    }}
-                                />
-                            </ActionButton>
-                        </div> */}
                     </div>
                 </foreignObject>
             )}
