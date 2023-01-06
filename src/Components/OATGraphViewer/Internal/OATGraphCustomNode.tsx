@@ -28,14 +28,12 @@ import {
     isDisplayNameDefined
 } from '../../OATPropertyEditor/Utils';
 import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
-import OATTextFieldId from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldId';
 import IconRelationship from '../../../Resources/Static/relationshipTargeted.svg';
 import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg';
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
 import { deepCopy } from '../../../Models/Services/Utils';
-import { updateModelId } from '../../../Models/Services/OatUtils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 
@@ -56,8 +54,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     ] = useBoolean(false);
     const [nameEditor, setNameEditor] = useState(false);
     const [nameText, setNameText] = useState(getDisplayName(data.displayName));
-    const [idEditor, setIdEditor] = useState(false);
-    const [idText, setIdText] = useState(data['@id']);
     const [handleHoverRelationship, setHandleHoverRelationship] = useState(
         false
     );
@@ -73,19 +69,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
             !oatPageState.selection.contentId,
         [id, oatPageState.selection]
     );
-
-    const onNameClick = () => {
-        if (!oatPageState.modified) {
-            setNameText(getDisplayName(data.displayName));
-            setNameEditor(true);
-        }
-    };
-
-    const onIdClick = () => {
-        if (!oatPageState.modified) {
-            setIdEditor(true);
-        }
-    };
 
     const onDelete = () => {
         const deletion = () => {
@@ -142,57 +125,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         execute(update, undoUpdate);
     };
 
-    const onIdCommit = (value: string) => {
-        const commit = () => {
-            const {
-                models: modelsCopy,
-                positions: modelPositionsCopy
-            } = updateModelId(
-                id,
-                value,
-                oatPageState.currentOntologyModels,
-                oatPageState.currentOntologyModelPositions
-            );
-
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                payload: { positions: modelPositionsCopy }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: modelsCopy }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: { modelId: value } }
-            });
-        };
-
-        const undoCommit = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                payload: {
-                    positions: oatPageState.currentOntologyModelPositions
-                }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_OAT_SELECTED_MODEL,
-                payload: { selection: oatPageState.selection }
-            });
-        };
-
-        if (value) {
-            execute(commit, undoCommit);
-        }
-
-        setIdText(value);
-        setIdEditor(false);
-    };
-
     // styles
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
@@ -231,22 +163,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         <>
                             <div className={graphViewerStyles.nodeContainer}>
                                 <span>{t('OATGraphViewer.id')}:</span>
-                                {!idEditor && (
-                                    <Label onDoubleClick={onIdClick}>
-                                        {data['@id']}
-                                    </Label>
-                                )}
-                                {idEditor && (
-                                    <OATTextFieldId
-                                        value={idText}
-                                        model={data}
-                                        models={
-                                            oatPageState.currentOntologyModels
-                                        }
-                                        onCommit={onIdCommit}
-                                        autoFocus
-                                    />
-                                )}
+                                <Label>{data['@id']}</Label>
                             </div>
                             <div className={graphViewerStyles.nodeContainer}>
                                 <span>{t('OATGraphViewer.name')}:</span>
@@ -259,7 +176,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                                                 ? ''
                                                 : graphViewerStyles.placeholderText
                                         }
-                                        onDoubleClick={onNameClick}
                                     >
                                         {isDisplayNameDefined(data.displayName)
                                             ? getDisplayName(data.displayName)

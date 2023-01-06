@@ -20,6 +20,7 @@ import {
     Edge,
     getSmoothStepPath
 } from 'react-flow-renderer';
+import { path as d3Path } from 'd3-path';
 
 import { getGraphViewerStyles } from '../OATGraphViewer.styles';
 import {
@@ -44,6 +45,9 @@ const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
 const separation = 20;
+const SELF_REFERENCING_RADIUS_RADIUS = 40;
+const SELF_REFERENCING_RADIUS_OFFSET = 16;
+const ASSUMED_NODE_HEIGHT = 118;
 
 const getPolygon = (vertexes: IOATNodePosition[]): string =>
     vertexes.map((v) => `${v.x},${v.y}`).join(' ');
@@ -238,6 +242,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     oatPageState.selection.contentId === edgeData.name)),
         [edgeData, isExtendEdge, oatPageState.selection, source.id]
     );
+    const isSelfReferencing = edge.source === edge.target;
+
+    // If a valid element we get size based on positioning
+    const sourceNodeSizeX = source.__rf.width;
+    const sourceNodeSizeY = source.__rf.height;
+    const targetNodeSizeX = target.__rf.width;
+    const targetNodeSizeY = target.__rf.height;
 
     // side effects
     useEffect(() => {
@@ -250,170 +261,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const graphViewerStyles = getGraphViewerStyles();
 
     // callbacks
-    const getSourceComponents = (
-        betaAngle: number,
-        sourceBase: number,
-        sourceBetaAngle: number,
-        sourceHeight: number,
-        alphaAngle: number,
-        adjustedSourceY: number,
-        adjustedSourceX: number,
-        baseVector: number,
-        heightVector: number,
-        adjustmentSourceX: number,
-        adjustmentSourceY: number
-    ): IPolygonSource => {
-        // Using triangulated connection position to create componentPolygon and angles to define orientation
-        let newHeight = 0;
-        let newBase = 0;
-        let componentPolygon = '';
-        let polygonSourceX = 0;
-        let polygonSourceY = 0;
-        let edgePathSourceX = 0;
-        let edgePathSourceY = 0;
-        let orientation = false;
-        if (betaAngle < sourceBetaAngle) {
-            orientation = true;
-            newHeight = sourceHeight + adjustmentSourceY * heightVector;
-            const newHypotenuse = newHeight / Math.sin(alphaAngle);
-            newBase = Math.sqrt(
-                newHypotenuse * newHypotenuse - newHeight * newHeight
-            );
-            polygonSourceX = adjustedSourceX + newBase * baseVector;
-            polygonSourceY = adjustedSourceY + newHeight * heightVector;
-            componentPolygon = getComponentPolygon(
-                polygonSourceX,
-                polygonSourceY,
-                baseVector,
-                heightVector,
-                orientation
-            );
-            edgePathSourceX = polygonSourceX;
-            edgePathSourceY = isComponentEdge
-                ? polygonSourceY + offsetMedium * (sourceY > targetY ? -1 : 1)
-                : polygonSourceY;
-        } else {
-            newBase = sourceBase + adjustmentSourceX * baseVector;
-            const newHypotenuse = newBase / Math.sin(betaAngle);
-            newHeight = Math.sqrt(
-                newHypotenuse * newHypotenuse - newBase * newBase
-            );
-            polygonSourceX = adjustedSourceX + newBase * baseVector;
-            polygonSourceY = sourceY + newHeight * heightVector;
-            componentPolygon = getComponentPolygon(
-                polygonSourceX,
-                polygonSourceY,
-                baseVector,
-                heightVector,
-                orientation
-            );
-            edgePathSourceX = isComponentEdge
-                ? polygonSourceX +
-                  offsetMedium * (adjustedSourceX > targetX ? -1 : 1)
-                : polygonSourceX;
-            edgePathSourceY = polygonSourceY;
-        }
-        return {
-            componentPolygon: componentPolygon,
-            polygonSourceX: polygonSourceX,
-            polygonSourceY: polygonSourceY,
-            edgePathSourceX: edgePathSourceX,
-            edgePathSourceY: edgePathSourceY,
-            orientation: orientation
-        };
-    };
-
-    const getTargetComponents = (
-        betaAngle: number,
-        targetBase: number,
-        targetBetaAngle: number,
-        targetHeight: number,
-        alphaAngle: number,
-        adjustedTargetX: number,
-        adjustedTargetY: number,
-        baseVector: number,
-        heightVector: number,
-        adjustmentTargetX: number,
-        adjustmentTargetY: number
-    ): IPolygonTarget => {
-        let newHeight = 0;
-        let newBase = 0;
-        let polygonTargetX = 0;
-        let polygonTargetY = 0;
-        let inheritancePolygon = '';
-        let relationshipPolygon = '';
-        let edgePathTargetX = 0;
-        let edgePathTargetY = 0;
-
-        // Using triangulated connection position to create inheritance and relationship polygons and angles to define orientation
-        if (betaAngle < targetBetaAngle) {
-            newHeight = targetHeight + adjustmentTargetY * heightVector;
-            const newHypotenuse = newHeight / Math.sin(alphaAngle);
-            newBase = Math.sqrt(
-                newHypotenuse * newHypotenuse - newHeight * newHeight
-            );
-            polygonTargetX = adjustedTargetX + newBase * baseVector;
-            polygonTargetY = adjustedTargetY + newHeight * heightVector;
-            inheritancePolygon = getInheritancePolygon(
-                polygonTargetX,
-                polygonTargetY,
-                baseVector,
-                heightVector,
-                true
-            );
-            relationshipPolygon = getRelationshipPolygon(
-                polygonTargetX,
-                polygonTargetY,
-                baseVector,
-                heightVector,
-                true
-            );
-            edgePathTargetX = polygonTargetX;
-            edgePathTargetY =
-                isExtendEdge || isRelationshipEdge || isUntargetedEdge
-                    ? polygonTargetY +
-                      offsetMedium * (sourceY < targetY ? -1 : 1)
-                    : polygonTargetY;
-        } else {
-            newBase = targetBase + adjustmentTargetX * baseVector;
-            const newHypotenuse = newBase / Math.sin(betaAngle);
-            newHeight = Math.sqrt(
-                newHypotenuse * newHypotenuse - newBase * newBase
-            );
-            polygonTargetX = adjustedTargetX + newBase * baseVector;
-            polygonTargetY = adjustedTargetY + newHeight * heightVector;
-            inheritancePolygon = getInheritancePolygon(
-                polygonTargetX,
-                polygonTargetY,
-                baseVector,
-                heightVector,
-                false
-            );
-            relationshipPolygon = getRelationshipPolygon(
-                polygonTargetX,
-                polygonTargetY,
-                baseVector,
-                heightVector,
-                false
-            );
-
-            edgePathTargetX =
-                isExtendEdge || isRelationshipEdge || isUntargetedEdge
-                    ? polygonTargetX +
-                      offsetMedium * (sourceX < targetX ? -1 : 1)
-                    : polygonTargetX;
-            edgePathTargetY = polygonTargetY;
-        }
-        return {
-            inheritancePolygon: inheritancePolygon,
-            relationshipPolygon: relationshipPolygon,
-            polygonTargetX: polygonTargetX,
-            polygonTargetY: polygonTargetY,
-            edgePathTargetX: edgePathTargetX,
-            edgePathTargetY: edgePathTargetY
-        };
-    };
-
     const onDelete = useCallback(() => {
         const deletion = () => {
             const dispatchDelete = () => {
@@ -465,6 +312,196 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         source.id
     ]);
 
+    // data
+    const getSourceComponents = useCallback(
+        (
+            betaAngle: number,
+            sourceBase: number,
+            sourceBetaAngle: number,
+            sourceHeight: number,
+            alphaAngle: number,
+            adjustedSourceY: number,
+            adjustedSourceX: number,
+            baseVector: number,
+            heightVector: number,
+            adjustmentSourceX: number,
+            adjustmentSourceY: number
+        ): IPolygonSource => {
+            // Using triangulated connection position to create componentPolygon and angles to define orientation
+            let newHeight = 0;
+            let newBase = 0;
+            let componentPolygon = '';
+            let polygonSourceX = 0;
+            let polygonSourceY = 0;
+            let edgePathSourceX = 0;
+            let edgePathSourceY = 0;
+            let orientation = false;
+            if (betaAngle < sourceBetaAngle) {
+                orientation = true;
+                newHeight = sourceHeight + adjustmentSourceY * heightVector;
+                const newHypotenuse = newHeight / Math.sin(alphaAngle);
+                newBase = Math.sqrt(
+                    newHypotenuse * newHypotenuse - newHeight * newHeight
+                );
+                polygonSourceX = adjustedSourceX + newBase * baseVector;
+                polygonSourceY = adjustedSourceY + newHeight * heightVector;
+                componentPolygon = getComponentPolygon(
+                    polygonSourceX,
+                    polygonSourceY,
+                    baseVector,
+                    heightVector,
+                    orientation
+                );
+                edgePathSourceX = polygonSourceX;
+                edgePathSourceY = isComponentEdge
+                    ? polygonSourceY +
+                      offsetMedium * (sourceY > targetY ? -1 : 1)
+                    : polygonSourceY;
+            } else {
+                newBase = sourceBase + adjustmentSourceX * baseVector;
+                const newHypotenuse = newBase / Math.sin(betaAngle);
+                newHeight = Math.sqrt(
+                    newHypotenuse * newHypotenuse - newBase * newBase
+                );
+                polygonSourceX = adjustedSourceX + newBase * baseVector;
+                polygonSourceY = sourceY + newHeight * heightVector;
+                componentPolygon = getComponentPolygon(
+                    polygonSourceX,
+                    polygonSourceY,
+                    baseVector,
+                    heightVector,
+                    orientation
+                );
+                edgePathSourceX = isComponentEdge
+                    ? polygonSourceX +
+                      offsetMedium * (adjustedSourceX > targetX ? -1 : 1)
+                    : polygonSourceX;
+                edgePathSourceY = polygonSourceY;
+            }
+            return {
+                componentPolygon: componentPolygon,
+                polygonSourceX: polygonSourceX,
+                polygonSourceY: polygonSourceY,
+                edgePathSourceX: edgePathSourceX,
+                edgePathSourceY: edgePathSourceY,
+                orientation: orientation
+            };
+        },
+        [isComponentEdge, sourceY, targetX, targetY]
+    );
+
+    const getTargetComponents = useCallback(
+        (
+            betaAngle: number,
+            targetBase: number,
+            targetBetaAngle: number,
+            targetHeight: number,
+            alphaAngle: number,
+            adjustedTargetX: number,
+            adjustedTargetY: number,
+            baseVector: number,
+            heightVector: number,
+            adjustmentTargetX: number,
+            adjustmentTargetY: number
+        ): IPolygonTarget => {
+            let newHeight = 0;
+            let newBase = 0;
+            let polygonTargetX = 0;
+            let polygonTargetY = 0;
+            let inheritancePolygon = '';
+            let relationshipPolygon = '';
+            let edgePathTargetX = 0;
+            let edgePathTargetY = 0;
+
+            // Using triangulated connection position to create inheritance and relationship polygons and angles to define orientation
+            if (betaAngle < targetBetaAngle) {
+                newHeight = targetHeight + adjustmentTargetY * heightVector;
+                const newHypotenuse = newHeight / Math.sin(alphaAngle);
+                newBase = Math.sqrt(
+                    newHypotenuse * newHypotenuse - newHeight * newHeight
+                );
+                polygonTargetX = adjustedTargetX + newBase * baseVector;
+                polygonTargetY = adjustedTargetY + newHeight * heightVector;
+                inheritancePolygon = getInheritancePolygon(
+                    polygonTargetX,
+                    polygonTargetY,
+                    baseVector,
+                    heightVector,
+                    true
+                );
+                relationshipPolygon = getRelationshipPolygon(
+                    polygonTargetX,
+                    polygonTargetY,
+                    baseVector,
+                    heightVector,
+                    true
+                );
+                edgePathTargetX = polygonTargetX;
+                edgePathTargetY =
+                    isExtendEdge || isRelationshipEdge || isUntargetedEdge
+                        ? polygonTargetY +
+                          offsetMedium * (sourceY < targetY ? -1 : 1)
+                        : polygonTargetY;
+            } else {
+                newBase = targetBase + adjustmentTargetX * baseVector;
+                const newHypotenuse = newBase / Math.sin(betaAngle);
+                newHeight = Math.sqrt(
+                    newHypotenuse * newHypotenuse - newBase * newBase
+                );
+                polygonTargetX = adjustedTargetX + newBase * baseVector;
+                polygonTargetY = adjustedTargetY + newHeight * heightVector;
+                inheritancePolygon = getInheritancePolygon(
+                    polygonTargetX,
+                    polygonTargetY,
+                    baseVector,
+                    heightVector,
+                    false
+                );
+                relationshipPolygon = getRelationshipPolygon(
+                    polygonTargetX,
+                    polygonTargetY,
+                    baseVector,
+                    heightVector,
+                    false
+                );
+
+                edgePathTargetX =
+                    isExtendEdge || isRelationshipEdge || isUntargetedEdge
+                        ? polygonTargetX +
+                          offsetMedium * (sourceX < targetX ? -1 : 1)
+                        : polygonTargetX;
+                edgePathTargetY = polygonTargetY;
+            }
+            return {
+                inheritancePolygon: inheritancePolygon,
+                relationshipPolygon: relationshipPolygon,
+                polygonTargetX: polygonTargetX,
+                polygonTargetY: polygonTargetY,
+                edgePathTargetX: edgePathTargetX,
+                edgePathTargetY: edgePathTargetY
+            };
+        },
+        [
+            isExtendEdge,
+            isRelationshipEdge,
+            isUntargetedEdge,
+            sourceX,
+            sourceY,
+            targetX,
+            targetY
+        ]
+    );
+
+    const getParallelEdges = useCallback(() => {
+        if (edges && edge) {
+            return edges.filter(
+                (x) => x.source === edge.source && x.target === edge.target
+            );
+        } else {
+            return [];
+        }
+    }, [edge, edges]);
+
     const polygons = useMemo(() => {
         // With this Memo function the values for Polygons Points are calculated
         let adjustedSourceY = sourceY;
@@ -481,17 +518,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             const polygonElement: IPolygonElement = {
                 element: edge
             };
-            // If a valid element we get size based in positioning
-            const sourceNodeSizeX = source.__rf.width;
-            const sourceNodeSizeY = source.__rf.height;
-            const targetNodeSizeX = target.__rf.width;
-            const targetNodeSizeY = target.__rf.height;
             // Getting vectors to adjust angle from source to target
             let heightVector = targetY > sourceY ? 1 : -1;
             let baseVector = targetX > sourceX ? 1 : -1;
-            const parallels = edges.filter(
-                (x) => x.source === edge.source && x.target === edge.target
-            );
+            const parallels = getParallelEdges();
             if (parallels.length > 1) {
                 const sourceRange = (separation * (parallels.length - 1)) / 2;
                 adjustedSourceX = adjustedSourceX - sourceRange;
@@ -544,11 +574,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 adjustmentTargetX = targetX - adjustedTargetX;
                 adjustmentTargetY = targetY - adjustedTargetY;
             }
-            if (edge.source === edge.target) {
-                console.log('***Self referencing adjust');
-                // adjustedTargetX = adjustedTargetX - 20;
-                // adjustedTargetY = adjustedTargetY - 50;
-            }
             // Using source size to triangulate connection with target edge
             const targetHeight = targetNodeSizeY / 2;
             const targetBase = targetNodeSizeX / 2;
@@ -576,7 +601,41 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             };
         }
         return polygons;
-    }, [edgeId, source, sourceX, sourceY, targetX, targetY]);
+    }, [
+        edge,
+        edgeId,
+        getParallelEdges,
+        getSourceComponents,
+        getTargetComponents,
+        sourceNodeSizeX,
+        sourceNodeSizeY,
+        sourceX,
+        sourceY,
+        targetNodeSizeX,
+        targetNodeSizeY,
+        targetX,
+        targetY
+    ]);
+
+    const computeSelfReferencingPath = useCallback((): string => {
+        const nodeX = sourceX;
+        const nodeY = sourceY;
+        const verticalOffset = (ASSUMED_NODE_HEIGHT / 2) * 0.8;
+        let radius = SELF_REFERENCING_RADIUS_RADIUS;
+
+        // if there are other relationships, offset this one by the index in the set so each line has a different radius
+        const parallelEdges = getParallelEdges();
+        if (parallelEdges.length > 1) {
+            const index = parallelEdges.findIndex((x) => x.id === edgeId);
+            radius += index * SELF_REFERENCING_RADIUS_OFFSET;
+        }
+
+        // create the path
+        const context = d3Path();
+        context.moveTo(nodeX, nodeY);
+        context.arc(nodeX, nodeY - verticalOffset, radius, -10, 10);
+        return context.toString();
+    }, [edgeId, getParallelEdges, sourceX, sourceY]);
 
     const edgePath = useMemo(() => {
         const {
@@ -586,34 +645,46 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             edgePathTargetY,
             orientation
         } = polygons;
-        const path =
-            sourceX < targetX
-                ? getSmoothStepPath({
-                      sourceX: edgePathSourceX,
-                      sourceY: edgePathSourceY,
-                      sourcePosition: orientation
-                          ? FlowPosition.Bottom
-                          : FlowPosition.Left,
-                      targetX: edgePathTargetX,
-                      targetY: edgePathTargetY,
-                      targetPosition: orientation
-                          ? FlowPosition.Top
-                          : FlowPosition.Right
-                  })
-                : getSmoothStepPath({
-                      sourceX: edgePathTargetX,
-                      sourceY: edgePathTargetY,
-                      sourcePosition: orientation
-                          ? FlowPosition.Top
-                          : FlowPosition.Right,
-                      targetX: edgePathSourceX,
-                      targetY: edgePathSourceY,
-                      targetPosition: orientation
-                          ? FlowPosition.Bottom
-                          : FlowPosition.Left
-                  });
+        let path = '';
+        if (isSelfReferencing) {
+            path = computeSelfReferencingPath();
+        } else {
+            path =
+                sourceX < targetX
+                    ? getSmoothStepPath({
+                          sourceX: edgePathSourceX,
+                          sourceY: edgePathSourceY,
+                          sourcePosition: orientation
+                              ? FlowPosition.Bottom
+                              : FlowPosition.Left,
+                          targetX: edgePathTargetX,
+                          targetY: edgePathTargetY,
+                          targetPosition: orientation
+                              ? FlowPosition.Top
+                              : FlowPosition.Right
+                      })
+                    : getSmoothStepPath({
+                          sourceX: edgePathTargetX,
+                          sourceY: edgePathTargetY,
+                          sourcePosition: orientation
+                              ? FlowPosition.Top
+                              : FlowPosition.Right,
+                          targetX: edgePathSourceX,
+                          targetY: edgePathSourceY,
+                          targetPosition: orientation
+                              ? FlowPosition.Bottom
+                              : FlowPosition.Left
+                      });
+        }
+
         return path;
-    }, [polygons, sourceX, targetX]);
+    }, [
+        polygons,
+        isSelfReferencing,
+        computeSelfReferencingPath,
+        sourceX,
+        targetX
+    ]);
 
     const [edgeCenterX, edgeCenterY] = getEdgeCenter({
         sourceX,
@@ -649,12 +720,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         shapePoints = polygons.relationshipPolygon;
     }
 
-    console.log(
-        '***' + props.id + ' Data {polygons, edgePath}',
-        polygons,
-        edgePath
-    );
-    logDebugConsole('debug', 'Render {props, nodes}', props, nodes);
+    logDebugConsole('debug', 'Render {props, nodes}', props, nodes, edgePath);
     if (!showEdge) {
         return null;
     }
@@ -715,14 +781,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </div>
                 </foreignObject>
             )}
-            <polygon
-                points={shapePoints}
-                cx={polygons.polygonTargetX}
-                cy={polygons.polygonTargetY}
-                r={3}
-                strokeWidth={1.5}
-                className={shapeClassName}
-            />
+            {/* Hide the indicators for self referencing ones, cause the math is wayyy too hard for V1 */}
+            {!isSelfReferencing && (
+                <polygon
+                    points={shapePoints}
+                    cx={polygons.polygonTargetX}
+                    cy={polygons.polygonTargetY}
+                    r={3}
+                    strokeWidth={1.5}
+                    className={shapeClassName}
+                />
+            )}
         </>
     );
 };
