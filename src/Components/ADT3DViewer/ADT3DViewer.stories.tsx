@@ -36,19 +36,19 @@ type ADT3DViewerStory = ComponentStory<typeof ADT3DViewer>;
 const Template: ADT3DViewerStory = (args) => {
     const authenticationParameters = useAuthParams();
     const scenesConfig = mockVConfig as I3DScenesConfig;
+    const adapter = new MockAdapter();
 
     return !authenticationParameters ? (
         <div></div>
     ) : (
-        <ADT3DViewer scenesConfig={scenesConfig} {...args} />
+        <ADT3DViewer adapter={adapter} scenesConfig={scenesConfig} {...args} />
     );
 };
 
 export const Engine = Template.bind({});
 Engine.args = {
     title: '3D Viewer',
-    adapter: new MockAdapter(),
-    sceneId: { mockSceneId },
+    sceneId: mockSceneId,
     connectionLineColor: '#000'
 };
 
