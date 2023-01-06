@@ -678,7 +678,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         <Callout
                             directionalHint={DirectionalHint.rightCenter}
                             isBeakVisible={false}
-                            gapSpace={16}
+                            gapSpace={8}
                             target={`#${calloutTargetId}`}
                         >
                             <DefaultButton
