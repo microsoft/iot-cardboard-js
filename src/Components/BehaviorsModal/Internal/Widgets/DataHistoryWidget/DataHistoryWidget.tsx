@@ -27,7 +27,10 @@ import {
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
 import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
-import { getQuickTimeSpanKeyByValue } from '../../../../../Models/SharedUtils/DataHistoryUtils';
+import {
+    getDefaultSeriesLabel,
+    getQuickTimeSpanKeyByValue
+} from '../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IDataHistoryTimeSeries,
     IDataHistoryWidgetConfiguration
@@ -292,7 +295,8 @@ const transformADXTimeSeriesToHighChartsSeries = (
                               (map) =>
                                   map.twinId === series.id &&
                                   map.twinPropertyName === series.key
-                          )?.label || series.id + ' ' + series.key, // this is the label for series to show in chart
+                          )?.label ||
+                          getDefaultSeriesLabel(series.id, series.key), // this is the label for series to show in chart
                       data: series.data
                   } as IHighChartSeriesData)
           )

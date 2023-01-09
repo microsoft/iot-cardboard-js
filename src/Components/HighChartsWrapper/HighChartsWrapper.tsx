@@ -198,7 +198,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             useHTML: true,
             style: tooltipStyles?.root,
             valueDecimals: 2,
-            xDateFormat: '%A, %b %e, %Y %H:%M:%S %p'
+            xDateFormat: '%A, %b %e, %Y %I:%M:%S %p'
         },
         loading: {
             hideDuration: 1000,

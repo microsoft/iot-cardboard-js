@@ -1310,7 +1310,12 @@
         },
         "viewer": {
             "chart": "Chart",
-            "table": "Table",
+            "table": {
+                "title": "Table",
+                "timestamp": "TimeStamp",
+                "property": "Property",
+                "value": "Value"
+            },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
         }
     }

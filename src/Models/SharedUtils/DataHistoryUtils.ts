@@ -5,7 +5,8 @@ import { QuickTimeSpans } from '../Constants/Constants';
 import { QuickTimeSpanKey } from '../Constants/Enums';
 import { IDataHistoryTimeSeriesTwin } from '../Constants/Interfaces';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
-import { ADXTimeSeries } from '../Constants/Types';
+import { ADXTimeSeries, ADXTimeSeriesTableRow } from '../Constants/Types';
+import { sortAscendingOrDescending } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const getHighChartColor = (idx: number): ColorString =>
@@ -13,7 +14,40 @@ export const getHighChartColor = (idx: number): ColorString =>
         ? CUSTOM_HIGHCHARTS_COLOR_IDX_1
         : (Highcharts.getOptions().colors[idx] as ColorString);
 
-/** Gets fetched adx time series data and data history widget time series to twin mapping information
+/**
+ * Gets ADX time series table row and transform it into ADX time series object keyed by id and key fields
+ * with reduced data field
+ */
+export const transformADXTableRowToTimeSeriesData = (
+    adxTableRows: Array<ADXTimeSeriesTableRow>
+): Array<ADXTimeSeries> => {
+    const timeSeries: Array<ADXTimeSeries> = [];
+    adxTableRows.sort(sortAscendingOrDescending('timestamp')).forEach((row) => {
+        const existingTimeSeries = timeSeries.find(
+            (ts) => ts.id === row.id && ts.key === row.key
+        );
+        if (existingTimeSeries) {
+            existingTimeSeries.data.push({
+                timestamp: row.timestamp, // note that date is in UTC
+                value: row.value
+            });
+        } else {
+            timeSeries.push({
+                id: row.id,
+                key: row.key,
+                data: [
+                    {
+                        timestamp: row.timestamp, // note that date is in UTC
+                        value: row.value
+                    }
+                ]
+            });
+        }
+    });
+    return timeSeries;
+};
+
+/** Gets fetched adx time series data and time series to twin mapping information
  * to get the labels if defined for each series, and converts it into high chart series data to render in chart
  */
 export const transformADXTimeSeriesToHighChartsSeries = (
@@ -28,12 +62,30 @@ export const transformADXTimeSeriesToHighChartsSeries = (
                       map.twinPropertyName === series.key
               );
               return {
-                  name: timeSeriesTwin?.label || series.id + ' ' + series.key, // this is the label for series to show in chart
+                  name:
+                      timeSeriesTwin?.label ||
+                      getDefaultSeriesLabel(series.id, series.key), // this is the label for series to show in chart
                   data: series.data,
                   color: timeSeriesTwin?.chartProps?.color
               } as IHighChartSeriesData;
           })
         : [];
+
+/**
+ * Gets a single ADX time series and transform it into a shape to view in raw data table
+ */
+export const transformADXTimeSeriesToTableData = (
+    adxTimeSeries: ADXTimeSeries
+): Array<ADXTimeSeriesTableRow> =>
+    adxTimeSeries?.data?.map(
+        (tsData) =>
+            ({
+                timestamp: tsData.timestamp,
+                id: adxTimeSeries.id,
+                key: adxTimeSeries.key,
+                value: tsData.value
+            } as ADXTimeSeriesTableRow)
+    ) || [];
 
 export const getYAxisTypeOptions = (t: TFunction) => {
     return [
@@ -62,4 +114,12 @@ export const getQuickTimeSpanKeyByValue = (
         key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
     }
     return key;
+};
+
+/** The default formatter for a time series label */
+export const getDefaultSeriesLabel = (
+    twinId: string,
+    propertyName: string // can be nested
+): string => {
+    return `${twinId} ${propertyName}`;
 };

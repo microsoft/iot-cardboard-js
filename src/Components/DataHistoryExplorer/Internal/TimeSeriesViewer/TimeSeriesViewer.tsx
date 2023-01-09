@@ -49,6 +49,8 @@ import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import produce from 'immer';
 import GenericErrorImg from '../../../../Resources/Static/noResults.svg';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
+import TimeSeriesTable from './Internal/Table/TimeSeriesTable';
+import { TimeStampFormat } from './Internal/Table/TimeSeriesTable.types';
 
 enum ViewerPivot {
     Chart = 'Chart',
@@ -291,10 +293,14 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     )}
                 </PivotItem>
                 <PivotItem
-                    headerText={t('dataHistoryExplorer.viewer.table')}
+                    headerText={t('dataHistoryExplorer.viewer.table.title')}
                     itemKey={ViewerPivot.Table}
                 >
-                    <>TBD</>
+                    <TimeSeriesTable
+                        styles={classNames.subComponentStyles.table}
+                        adxTimeSeries={data}
+                        timeStampFormat={TimeStampFormat.date}
+                    />
                 </PivotItem>
             </Pivot>
         </div>

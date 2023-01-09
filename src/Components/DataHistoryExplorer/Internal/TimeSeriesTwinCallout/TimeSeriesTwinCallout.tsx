@@ -31,6 +31,7 @@ import { PRIMARY_TWIN_NAME } from '../../../../Models/Constants/Constants';
 import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 import { deepCopy } from '../../../../Models/Services/Utils';
 import { isNumericType } from '../../../../Models/Classes/3DVConfig';
+import { getDefaultSeriesLabel } from '../../../../Models/SharedUtils/DataHistoryUtils';
 
 const defaultTimeSeriesTwin: IDataHistoryTimeSeriesTwin = {
     twinId: '',
@@ -94,7 +95,10 @@ const TimeSeriesTwinCallout: React.FC<ITimeSeriesTwinCalloutProps> = (
                         newPropertyExpression.property.propertyType;
 
                     if (!draft.label) {
-                        draft.label = `${draft.twinId} ${newPropertyExpression.property.localPath}`; // auto populate the label with selected twin and its property name if it is empty
+                        draft.label = getDefaultSeriesLabel(
+                            draft.twinId,
+                            newPropertyExpression.property.localPath
+                        ); // auto populate the label with selected twin and its property name if it is empty
                         isLabelAutoPopulated.current = true;
                     }
                 })
