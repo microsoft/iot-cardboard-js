@@ -54,7 +54,7 @@ Engine.args = {
 
 Engine.play = async ({ _canvasElement }) => {
     // If model changes this time may need to be extended or reduced
-    await new Promise((resolve) => setTimeout(resolve, 15000));
+    await new Promise((resolve) => setTimeout(resolve, 14000));
 };
 
 export const EngineWithHover = (_args, { globals: { theme, locale } }) => {
