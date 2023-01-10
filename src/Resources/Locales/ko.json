@@ -1310,10 +1310,10 @@
         "property": "재산",
         "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
         "add": "시계열 추가",
-        "editd": "시계열 편집",
-        "remove": "시계열 제거"
+        "remove": "시계열 제거",
+        "edit": "시계열 편집"
       },
-      "descriptiond": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
+      "description": "히스토라이즈된 속성의 과거 값을 비교하려면 아래에 시계열을 추가합니다."
     },
     "viewer": {
       "chart": "차트",

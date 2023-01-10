@@ -1310,10 +1310,10 @@
         "property": "Mülk",
         "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
-        "editd": "Zaman serilerini düzenleme",
-        "remove": "Zaman serilerini kaldırma"
+        "remove": "Zaman serilerini kaldırma",
+        "edit": "Zaman serilerini düzenleme"
       },
-      "descriptiond": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
+      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
     "viewer": {
       "chart": "Grafik",

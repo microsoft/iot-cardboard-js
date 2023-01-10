@@ -1310,10 +1310,10 @@
         "property": "Eigentum",
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
         "add": "Zeitreihen hinzufügen",
-        "editd": "Zeitreihen bearbeiten",
-        "remove": "Zeitreihen entfernen"
+        "remove": "Zeitreihen entfernen",
+        "edit": "Zeitreihen bearbeiten"
       },
-      "descriptiond": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
     "viewer": {
       "chart": "Diagramm",

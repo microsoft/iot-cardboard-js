@@ -1310,10 +1310,10 @@
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
         "add": "Přidat časovou řadu",
-        "editd": "Úprava časové řady",
-        "remove": "Odebrání časové řady"
+        "remove": "Odebrání časové řady",
+        "edit": "Úprava časové řady"
       },
-      "descriptiond": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
+      "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
       "chart": "Graf",

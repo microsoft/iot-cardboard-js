@@ -1310,10 +1310,10 @@
         "property": "Eigenschap",
         "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
         "add": "Tijdreeksen toevoegen",
-        "editd": "Tijdreeksen bewerken",
-        "remove": "Tijdreeksen verwijderen"
+        "remove": "Tijdreeksen verwijderen",
+        "edit": "Tijdreeksen bewerken"
       },
-      "descriptiond": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
+      "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
     "viewer": {
       "chart": "Zeekaart",

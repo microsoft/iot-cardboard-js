@@ -1310,10 +1310,10 @@
         "property": "财产",
         "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
-        "editd": "编辑时间序列",
-        "remove": "删除时间序列"
+        "remove": "删除时间序列",
+        "edit": "编辑时间序列"
       },
-      "descriptiond": "要比较历史化属性的过去值，请在下面添加时间序列。"
+      "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
     "viewer": {
       "chart": "图表",

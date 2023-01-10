@@ -1310,10 +1310,10 @@
         "property": "Propriedade",
         "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
         "add": "Adicionar séries de tempo",
-        "editd": "Editar séries tempor feiras",
-        "remove": "Remover séries de tempo"
+        "remove": "Remover séries de tempo",
+        "edit": "Editar séries tempor feiras"
       },
-      "descriptiond": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries de tempo abaixo."
     },
     "viewer": {
       "chart": "Gráfico",

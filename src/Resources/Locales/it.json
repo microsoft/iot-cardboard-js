@@ -1310,10 +1310,10 @@
         "property": "Proprietà",
         "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
         "add": "Aggiungere serie temporali",
-        "editd": "Modificare le serie temporali",
-        "remove": "Rimuovere serie temporali"
+        "remove": "Rimuovere serie temporali",
+        "edit": "Modificare le serie temporali"
       },
-      "descriptiond": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
+      "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
     },
     "viewer": {
       "chart": "Tabella",

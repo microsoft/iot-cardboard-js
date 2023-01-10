@@ -1310,10 +1310,10 @@
         "property": "Propriedade",
         "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
         "add": "Adicionar séries temporais",
-        "editd": "Editar séries temporais",
-        "remove": "Remover séries temporais"
+        "remove": "Remover séries temporais",
+        "edit": "Editar séries temporais"
       },
-      "descriptiond": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },
     "viewer": {
       "chart": "Gráfico",
