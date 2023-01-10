@@ -1,4 +1,9 @@
-import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
+import {
+    ISpinnerStyles,
+    IStyle,
+    IStyleFunctionOrObject,
+    ITheme
+} from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
 import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants/Interfaces';
@@ -39,6 +44,7 @@ export interface IDataHistoryExplorerSubComponentStyles {
     modal?: Partial<ICardboardModalStyles>;
     builder?: ITimeSeriesBuilderStyles;
     viewer?: ITimeSeriesViewerStyles;
+    loadingSpinner?: Partial<ISpinnerStyles>;
 }
 
 export interface IDataHistoryExplorerContext {

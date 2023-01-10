@@ -31,7 +31,6 @@ export const getStyles = (
         ],
         subComponentStyles: {
             pivot: {
-                root: {},
                 itemContainer: {
                     height: 'calc(100% - 36px)',
                     '> div': {

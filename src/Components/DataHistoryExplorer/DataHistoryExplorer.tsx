@@ -109,7 +109,9 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                     />
                     {updateConnectionAdapterData.isLoading ? (
                         <Spinner
-                            styles={{ root: { flexGrow: 1 } }}
+                            styles={
+                                classNames.subComponentStyles.loadingSpinner
+                            }
                             size={SpinnerSize.large}
                             label={t(
                                 'dataHistoryExplorer.loadingConnectionLabel'
