@@ -169,7 +169,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
     }, [selectedQuickTimeSpanInMillis]);
     const highChartSeriesData: Array<IHighChartSeriesData> = useMemo(
         () =>
-            timeSeriesTwinList.length
+            timeSeriesTwinList?.length
                 ? transformADXTimeSeriesToHighChartsSeries(
                       data,
                       timeSeriesTwinList
@@ -202,7 +202,7 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     headerText={t('dataHistoryExplorer.viewer.chart')}
                     itemKey={ViewerPivot.Chart}
                 >
-                    {timeSeriesTwinList.length === 0 ? (
+                    {!timeSeriesTwinList || timeSeriesTwinList.length === 0 ? (
                         <IllustrationMessage
                             descriptionText={t(
                                 'dataHistoryExplorer.viewer.noSeriesDescription'

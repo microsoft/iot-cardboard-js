@@ -9,7 +9,7 @@ import { DataHistoryExplorerContext } from '../../DataHistoryExplorer';
 const wrapperStyle = { width: '600px', height: '400px' };
 
 export default {
-    title: 'Components/TimeSeriesViewer',
+    title: 'Components/DataHistoryExplorer/Internal/TimeSeriesViewer',
     component: TimeSeriesViewer,
     decorators: [getDefaultStoryDecorator<ITimeSeriesViewerProps>(wrapperStyle)]
 };
@@ -39,4 +39,9 @@ Mock.args = {
             twinPropertyName: 'Inflow'
         }
     ]
+} as ITimeSeriesViewerProps;
+
+export const Empty = Template.bind({}) as TimeSeriesViewerStory;
+Empty.args = {
+    timeSeriesTwinList: []
 } as ITimeSeriesViewerProps;

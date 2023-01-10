@@ -1,6 +1,7 @@
 import { IStyle, IStyleFunctionOrObject, ITheme } from '@fluentui/react';
 import { MockAdapter } from '../../Adapters';
 import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
+import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants/Interfaces';
 import { ICardboardModalStyles } from '../CardboardModal/CardboardModal.types';
 import { ITimeSeriesBuilderStyles } from './Internal/TimeSeriesBuilder/TimeSeriesBuilder.types';
 import { ITimeSeriesViewerStyles } from './Internal/TimeSeriesViewer/TimeSeriesViewer.types';
@@ -8,6 +9,7 @@ import { ITimeSeriesViewerStyles } from './Internal/TimeSeriesViewer/TimeSeriesV
 export interface IDataHistoryExplorerProps {
     adapter: ADTDataHistoryAdapter | MockAdapter;
     hasTitle?: boolean;
+    timeSeriesTwins?: Array<IDataHistoryTimeSeriesTwin>;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
      */
