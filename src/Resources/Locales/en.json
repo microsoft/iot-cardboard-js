@@ -1303,7 +1303,7 @@
             "timeSeriesTwin": {
                 "add": "Add time series",
                 "edit": "Edit time series",
-                "remov": "Remove time series",
+                "remove": "Remove time series",
                 "property": "Property",
                 "propertyTypeCastLabel": "Cast property type to number"
             }
