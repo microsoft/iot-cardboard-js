@@ -1309,10 +1309,10 @@
       "description": "Para comparar propriedades historizadas dentro deste gémeo ou com outros gémeos, adicione-as abaixo.",
       "timeSeriesTwin": {
         "edit": "Editar série de tempo gémea",
-        "remove": "Remover série de tempo gémea",
         "property": "Propriedade",
         "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
-        "add": "Adicionar séries de tempo"
+        "add": "Adicionar séries de tempo",
+        "remov": "Remover séries de tempo"
       }
     },
     "viewer": {

@@ -1309,10 +1309,10 @@
       "description": "Um historisierte Eigenschaften innerhalb dieses Zwillings oder mit anderen Zwillingen zu vergleichen, fügen Sie sie unten hinzu.",
       "timeSeriesTwin": {
         "edit": "Zeitreihen-Zwilling bearbeiten",
-        "remove": "Zeitreihen-Zwilling entfernen",
         "property": "Eigentum",
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
-        "add": "Zeitreihen hinzufügen"
+        "add": "Zeitreihen hinzufügen",
+        "remov": "Zeitreihen entfernen"
       }
     },
     "viewer": {

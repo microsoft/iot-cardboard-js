@@ -1309,10 +1309,10 @@
       "description": "이 쌍둥이 또는 다른 쌍둥이 내에서 역사화된 속성을 비교하려면 아래에 추가하십시오.",
       "timeSeriesTwin": {
         "edit": "시계열 쌍둥이 편집",
-        "remove": "시계열 쌍 제거",
         "property": "재산",
         "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
-        "add": "시계열 추가"
+        "add": "시계열 추가",
+        "remov": "시계열 제거"
       }
     },
     "viewer": {
