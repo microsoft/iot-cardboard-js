@@ -1312,7 +1312,7 @@
         "remove": "Verwijder tijdreeks tweeling",
         "property": "Eigenschap",
         "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
-        "addt": "Tijdreeksen toevoegen"
+        "add": "Tijdreeksen toevoegen"
       }
     },
     "viewer": {

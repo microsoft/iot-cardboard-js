@@ -1312,7 +1312,7 @@
         "remove": "Iker idősor eltávolítása",
         "property": "Ingatlan",
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
-        "addt": "Idősorok hozzáadása"
+        "add": "Idősorok hozzáadása"
       }
     },
     "viewer": {

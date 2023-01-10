@@ -1312,7 +1312,7 @@
         "remove": "Zeitreihen-Zwilling entfernen",
         "property": "Eigentum",
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
-        "addt": "Zeitreihen hinzufügen"
+        "add": "Zeitreihen hinzufügen"
       }
     },
     "viewer": {

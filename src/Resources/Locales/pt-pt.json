@@ -1312,7 +1312,7 @@
         "remove": "Remover série de tempo gémea",
         "property": "Propriedade",
         "propertyTypeCastLabel": "Tipo de propriedade de elenco para número",
-        "addt": "Adicionar séries de tempo"
+        "add": "Adicionar séries de tempo"
       }
     },
     "viewer": {
