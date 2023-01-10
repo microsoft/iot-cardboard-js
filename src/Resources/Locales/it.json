@@ -1309,10 +1309,10 @@
       "description": "Per confrontare le proprietà storiche all'interno di questo gemello o con altri gemelli, aggiungili di seguito.",
       "timeSeriesTwin": {
         "edit": "Modifica serie temporali gemella",
-        "remove": "Rimuovere la serie temporale gemella",
         "property": "Proprietà",
         "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
-        "add": "Aggiungere serie temporali"
+        "add": "Aggiungere serie temporali",
+        "remov": "Rimuovere serie temporali"
       }
     },
     "viewer": {

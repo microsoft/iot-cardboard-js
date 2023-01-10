@@ -1309,10 +1309,10 @@
       "description": "Ha össze szeretné hasonlítani a historizált tulajdonságokat ezen az ikeren belül vagy más ikrekkel, adja hozzá őket alább.",
       "timeSeriesTwin": {
         "edit": "Iker idősor szerkesztése",
-        "remove": "Iker idősor eltávolítása",
         "property": "Ingatlan",
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
-        "add": "Idősorok hozzáadása"
+        "add": "Idősorok hozzáadása",
+        "remov": "Idősorok eltávolítása"
       }
     },
     "viewer": {

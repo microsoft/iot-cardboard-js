@@ -1309,10 +1309,10 @@
       "description": "Chcete-li porovnat historizované vlastnosti v rámci tohoto dvojčete nebo s jinými dvojčaty, přidejte je níže.",
       "timeSeriesTwin": {
         "edit": "Úprava dvojčete časové řady",
-        "remove": "Odebrání dvojčete časové řady",
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
-        "add": "Přidat časovou řadu"
+        "add": "Přidat časovou řadu",
+        "remov": "Odebrání časové řady"
       }
     },
     "viewer": {
