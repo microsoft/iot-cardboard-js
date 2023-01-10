@@ -1067,25 +1067,27 @@ export default class ADTAdapter implements IADTAdapter {
                             behaviorId
                         );
 
-                        // skip if we don't find the behavior OR if it's not in a visible layer
-                        const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
-                            config,
-                            visibleLayerIds,
-                            sceneId
-                        );
-                        if (
-                            !behavior ||
-                            (visibleLayerIds &&
-                                behaviorIdsInSelectedLayers &&
-                                !behaviorIdsInSelectedLayers.includes(
-                                    behaviorId
-                                ))
-                        ) {
-                            logDebugConsole(
-                                'debug',
-                                `Not refreshing twins for behavior (id: ${behavior.id}, name: ${behavior.displayName}) that is not in the selected layers`
+                        if (visibleLayerIds?.length > 0) {
+                            // skip if we don't find the behavior OR if it's not in a visible layer
+                            const behaviorIdsInSelectedLayers = ViewerConfigUtility.getBehaviorIdsInSelectedLayers(
+                                config,
+                                visibleLayerIds,
+                                sceneId
                             );
-                            continue;
+                            if (
+                                !behavior ||
+                                (visibleLayerIds &&
+                                    behaviorIdsInSelectedLayers &&
+                                    !behaviorIdsInSelectedLayers.includes(
+                                        behaviorId
+                                    ))
+                            ) {
+                                logDebugConsole(
+                                    'debug',
+                                    `Not refreshing twins for behavior (id: ${behavior.id}, name: ${behavior.displayName}) that is not in the selected layers`
+                                );
+                                continue;
+                            }
                         }
                         const {
                             primaryTwinIds,
