@@ -1312,7 +1312,7 @@
         "remove": "시계열 쌍 제거",
         "property": "재산",
         "propertyTypeCastLabel": "속성 유형을 번호로 캐스트",
-        "add": "시계열 쌍 추가"
+        "addt": "시계열 추가"
       }
     },
     "viewer": {

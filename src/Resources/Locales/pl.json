@@ -1312,7 +1312,7 @@
         "remove": "Usuwanie bliźniaczej serii czasowej",
         "property": "Własność",
         "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
-        "add": "Dodawanie bliźniaczej serii czasowej"
+        "addt": "Dodawanie szeregów czasowych"
       }
     },
     "viewer": {

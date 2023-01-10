@@ -1312,7 +1312,7 @@
         "remove": "Supprimer le jumeau de série chronologique",
         "property": "Propriété",
         "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
-        "add": "Ajouter un jumeau de série chronologique"
+        "addt": "Ajouter des séries chronologiques"
       }
     },
     "viewer": {

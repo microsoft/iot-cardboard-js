@@ -1312,7 +1312,7 @@
         "remove": "Remover gêmeos de séries temporais",
         "property": "Propriedade",
         "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
-        "add": "Adicionar gêmeo de série temporal"
+        "addt": "Adicionar séries temporais"
       }
     },
     "viewer": {

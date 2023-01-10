@@ -1312,7 +1312,7 @@
         "remove": "Quitar gemelo de serie temporal",
         "property": "Propiedad",
         "propertyTypeCastLabel": "Convertir el tipo de propiedad en número",
-        "add": "Agregar gemelo de serie temporal"
+        "addt": "Agregar series temporales"
       }
     },
     "viewer": {
