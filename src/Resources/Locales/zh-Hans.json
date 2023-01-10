@@ -1312,7 +1312,7 @@
         "remove": "删除时序孪生体",
         "property": "财产",
         "propertyTypeCastLabel": "将属性类型转换为数字",
-        "addt": "添加时间序列"
+        "add": "添加时间序列"
       }
     },
     "viewer": {

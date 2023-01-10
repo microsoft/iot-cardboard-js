@@ -1312,7 +1312,7 @@
         "remove": "Odebrání dvojčete časové řady",
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
-        "addt": "Přidat časovou řadu"
+        "add": "Přidat časovou řadu"
       }
     },
     "viewer": {
