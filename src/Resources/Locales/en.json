@@ -1299,10 +1299,10 @@
         "loadingConnectionLabel": "Loading time series connection information...",
         "builder": {
             "title": "Twin properties",
-            "descriptiond": "To compare past values for historized properties, add time series below.",
+            "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
                 "add": "Add time series",
-                "editd": "Edit time series",
+                "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
                 "propertyTypeCastLabel": "Cast property type to number"
