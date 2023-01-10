@@ -28,7 +28,7 @@ const getClassNames = classNamesFunction<
 const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
     props
 ) => {
-    const { adapter, isOpen, onDismiss, styles } = props;
+    const { adapter, isOpen, onDismiss, timeSeriesTwins, styles } = props;
 
     // hooks
     const { t } = useTranslation();
@@ -47,8 +47,15 @@ const DataHistoryExplorerModal: React.FC<IDataHistoryExplorerModalProps> = (
                 styles={classNames.subComponentStyles.modal}
                 title={t('dataHistoryExplorer.title')}
                 titleIconName={'Chart'}
+                footerDefaultButtonProps={{
+                    text: t('close')
+                }}
             >
-                <DataHistoryExplorer adapter={adapter} hasTitle={false} />
+                <DataHistoryExplorer
+                    adapter={adapter}
+                    hasTitle={false}
+                    timeSeriesTwins={timeSeriesTwins}
+                />
             </CardboardModal>
         </div>
     );

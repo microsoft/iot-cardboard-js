@@ -1306,18 +1306,20 @@
     "title": "数据历史记录浏览器",
     "builder": {
       "title": "孪生属性",
-      "description": "若要比较此孪生体中或与其他孪生体中的历史化属性，请在下面添加它们。",
       "timeSeriesTwin": {
-        "edit": "编辑时序孪生体",
-        "remove": "删除时序孪生体",
         "property": "财产",
         "propertyTypeCastLabel": "将属性类型转换为数字",
-        "add": "添加时序孪生体"
-      }
+        "add": "添加时间序列",
+        "remove": "删除时间序列",
+        "edit": "编辑时间序列"
+      },
+      "description": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
     "viewer": {
       "chart": "图表",
-      "table": "桌子"
-    }
+      "table": "桌子",
+      "noSeriesDescription": "若要查看此孪生体的数据历史记录，请选择要查看的属性。"
+    },
+    "loadingConnectionLabel": "正在加载时间序列连接信息..."
   }
 }

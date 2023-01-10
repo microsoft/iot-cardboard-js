@@ -1306,18 +1306,20 @@
     "title": "Explorador del historial de datos",
     "builder": {
       "title": "Propiedades gemelas",
-      "description": "Para comparar propiedades históricas dentro de este gemelo o con otros gemelos, agréguelos a continuación.",
       "timeSeriesTwin": {
-        "edit": "Editar serie temporal gemela",
-        "remove": "Quitar gemelo de serie temporal",
         "property": "Propiedad",
         "propertyTypeCastLabel": "Convertir el tipo de propiedad en número",
-        "add": "Agregar gemelo de serie temporal"
-      }
+        "add": "Agregar series temporales",
+        "remove": "Quitar series temporales",
+        "edit": "Editar series temporales"
+      },
+      "description": "Para comparar los valores pasados de las propiedades históricas, agregue las series temporales a continuación."
     },
     "viewer": {
       "chart": "Gráfico",
-      "table": "Mesa"
-    }
+      "table": "Mesa",
+      "noSeriesDescription": "Para ver el historial de datos de este gemelo, seleccione una propiedad para ver."
+    },
+    "loadingConnectionLabel": "Cargando información de conexión de series temporales..."
   }
 }

@@ -1306,18 +1306,20 @@
     "title": "Gegevensgeschiedenisverkenner",
     "builder": {
       "title": "Dubbele eigenschappen",
-      "description": "Om historized eigenschappen binnen deze tweeling of met andere tweelingen te vergelijken, voegt u ze hieronder toe.",
       "timeSeriesTwin": {
-        "edit": "Tijdreeks tweeling bewerken",
-        "remove": "Verwijder tijdreeks tweeling",
         "property": "Eigenschap",
         "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
-        "add": "Tijdreekstweeling toevoegen"
-      }
+        "add": "Tijdreeksen toevoegen",
+        "remove": "Tijdreeksen verwijderen",
+        "edit": "Tijdreeksen bewerken"
+      },
+      "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
     "viewer": {
       "chart": "Zeekaart",
-      "table": "Tafel"
-    }
+      "table": "Tafel",
+      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
+    },
+    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
   }
 }

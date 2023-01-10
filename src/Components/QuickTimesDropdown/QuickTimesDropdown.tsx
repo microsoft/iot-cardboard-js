@@ -2,9 +2,7 @@ import React from 'react';
 import {
     IQuickTimesDropdownProps,
     IQuickTimesDropdownStyleProps,
-    IQuickTimesDropdownStyles,
-    QuickTimeSpanKey,
-    QuickTimeSpans
+    IQuickTimesDropdownStyles
 } from './QuickTimesDropdown.types';
 import { getStyles } from './QuickTimesDropdown.styles';
 import {
@@ -16,6 +14,7 @@ import {
 } from '@fluentui/react';
 import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { QuickTimeSpans } from '../../Models/Constants/Constants';
 
 const getClassNames = classNamesFunction<
     IQuickTimesDropdownStyleProps,
@@ -66,18 +65,6 @@ const getQuickTimeSpanOptions = (t: TFunction): Array<IDropdownOption> => {
         text: t(`quickTimesDropdown.options.${timeSpan}`),
         data: QuickTimeSpans[timeSpan]
     }));
-};
-
-/** Returns QuickTimeSpanKey from given millisecond */
-export const getQuickTimeSpanKeyByValue = (
-    millis: number
-): QuickTimeSpanKey => {
-    let key: QuickTimeSpanKey;
-    const idx = Object.values(QuickTimeSpans).indexOf(millis);
-    if (idx !== -1) {
-        key = Object.keys(QuickTimeSpans)[idx] as QuickTimeSpanKey;
-    }
-    return key;
 };
 
 export default styled<

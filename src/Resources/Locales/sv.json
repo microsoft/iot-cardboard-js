@@ -1306,18 +1306,20 @@
     "title": "Utforskaren för datahistorik",
     "builder": {
       "title": "Tvillingegenskaper",
-      "description": "För att jämföra historiserade egenskaper inom denna tvilling eller med andra tvillingar, lägg till dem nedan.",
       "timeSeriesTwin": {
-        "edit": "Redigera tidsserietvilling",
-        "remove": "Ta bort tidsserietvilling",
         "property": "Egenskap",
         "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
-        "add": "Lägga till tidsserietvilling"
-      }
+        "add": "Lägg till tidsserier",
+        "remove": "Ta bort tidsserier",
+        "edit": "Redigera tidsserier"
+      },
+      "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
     "viewer": {
       "chart": "Diagram",
-      "table": "Bord"
-    }
+      "table": "Bord",
+      "noSeriesDescription": "Om du vill visa datahistorik för den här tvillingen väljer du en egenskap som ska visas."
+    },
+    "loadingConnectionLabel": "Laddar anslutningsinformation för tidsserier..."
   }
 }

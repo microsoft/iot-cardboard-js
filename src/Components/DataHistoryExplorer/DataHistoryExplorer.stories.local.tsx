@@ -6,7 +6,7 @@ import useAuthParams from '../../../.storybook/useAuthParams';
 import MsalAuthService from '../../Models/Services/MsalAuthService';
 import ADTDataHistoryAdapter from '../../Adapters/ADTDataHistoryAdapter';
 
-const wrapperStyle = { width: '100%', height: '500px', padding: 8 };
+const wrapperStyle = { width: '100%', height: '500px' };
 
 export default {
     title: 'Components/DataHistoryExplorer',
