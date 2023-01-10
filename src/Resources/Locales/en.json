@@ -1301,7 +1301,7 @@
             "title": "Twin properties",
             "description": "To compare past values for historized properties, add time series below.",
             "timeSeriesTwin": {
-                "addt": "Add time series",
+                "add": "Add time series",
                 "edit": "Edit time series",
                 "remove": "Remove time series",
                 "property": "Property",
