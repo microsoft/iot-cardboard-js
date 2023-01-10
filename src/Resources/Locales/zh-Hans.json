@@ -1306,14 +1306,14 @@
     "title": "数据历史记录浏览器",
     "builder": {
       "title": "孪生属性",
-      "description": "若要比较此孪生体中或与其他孪生体中的历史化属性，请在下面添加它们。",
       "timeSeriesTwin": {
-        "edit": "编辑时序孪生体",
         "property": "财产",
         "propertyTypeCastLabel": "将属性类型转换为数字",
         "add": "添加时间序列",
-        "remov": "删除时间序列"
-      }
+        "editd": "编辑时间序列",
+        "remove": "删除时间序列"
+      },
+      "descriptiond": "要比较历史化属性的过去值，请在下面添加时间序列。"
     },
     "viewer": {
       "chart": "图表",

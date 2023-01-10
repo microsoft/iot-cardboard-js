@@ -1306,14 +1306,14 @@
     "title": "Eksplorator historii danych",
     "builder": {
       "title": "Bliźniacze właściwości",
-      "description": "Aby porównać historyczne właściwości w obrębie tego bliźniaka lub z innymi bliźniakami, dodaj je poniżej.",
       "timeSeriesTwin": {
-        "edit": "Edytuj bliźniacze szeregi czasowe",
         "property": "Własność",
         "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
         "add": "Dodawanie szeregów czasowych",
-        "remov": "Usuwanie szeregów czasowych"
-      }
+        "editd": "Edytowanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych"
+      },
+      "descriptiond": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
     "viewer": {
       "chart": "Wykres",

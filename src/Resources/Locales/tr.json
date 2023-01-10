@@ -1306,14 +1306,14 @@
     "title": "Veri geçmişi gezgini",
     "builder": {
       "title": "İkiz özellikler",
-      "description": "Bu ikizdeki veya diğer ikizlerdeki geçmiş mülkleri karşılaştırmak için bunları aşağıya ekleyin.",
       "timeSeriesTwin": {
-        "edit": "Zaman serisi ikizini düzenle",
         "property": "Mülk",
         "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
         "add": "Zaman serisi ekleme",
-        "remov": "Zaman serilerini kaldırma"
-      }
+        "editd": "Zaman serilerini düzenleme",
+        "remove": "Zaman serilerini kaldırma"
+      },
+      "descriptiond": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
     "viewer": {
       "chart": "Grafik",

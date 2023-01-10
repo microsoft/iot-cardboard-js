@@ -1306,14 +1306,14 @@
     "title": "Explorador de histórico de dados",
     "builder": {
       "title": "Propriedades Twin",
-      "description": "Para comparar propriedades historizadas dentro deste gêmeo ou com outros gêmeos, adicione-as abaixo.",
       "timeSeriesTwin": {
-        "edit": "Editar série temporal gêmea",
         "property": "Propriedade",
         "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
         "add": "Adicionar séries temporais",
-        "remov": "Remover séries temporais"
-      }
+        "editd": "Editar séries temporais",
+        "remove": "Remover séries temporais"
+      },
+      "descriptiond": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
     },
     "viewer": {
       "chart": "Gráfico",

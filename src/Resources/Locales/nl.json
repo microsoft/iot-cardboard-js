@@ -1306,14 +1306,14 @@
     "title": "Gegevensgeschiedenisverkenner",
     "builder": {
       "title": "Dubbele eigenschappen",
-      "description": "Om historized eigenschappen binnen deze tweeling of met andere tweelingen te vergelijken, voegt u ze hieronder toe.",
       "timeSeriesTwin": {
-        "edit": "Tijdreeks tweeling bewerken",
         "property": "Eigenschap",
         "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
         "add": "Tijdreeksen toevoegen",
-        "remov": "Tijdreeksen verwijderen"
-      }
+        "editd": "Tijdreeksen bewerken",
+        "remove": "Tijdreeksen verwijderen"
+      },
+      "descriptiond": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
     },
     "viewer": {
       "chart": "Zeekaart",

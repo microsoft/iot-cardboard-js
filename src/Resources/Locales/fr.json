@@ -1306,14 +1306,14 @@
     "title": "Explorateur d’historique des données",
     "builder": {
       "title": "Propriétés jumelles",
-      "description": "Pour comparer les propriétés historiques au sein de ce jumeau ou avec d’autres jumeaux, ajoutez-les ci-dessous.",
       "timeSeriesTwin": {
-        "edit": "Modifier les séries chronologiques jumelles",
         "property": "Propriété",
         "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
         "add": "Ajouter des séries chronologiques",
-        "remov": "Supprimer des séries chronologiques"
-      }
+        "editd": "Modifier des séries chronologiques",
+        "remove": "Supprimer des séries chronologiques"
+      },
+      "descriptiond": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
     },
     "viewer": {
       "chart": "Graphique",

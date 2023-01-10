@@ -1306,14 +1306,14 @@
     "title": "Průzkumník historie dat",
     "builder": {
       "title": "Vlastnosti dvojčat",
-      "description": "Chcete-li porovnat historizované vlastnosti v rámci tohoto dvojčete nebo s jinými dvojčaty, přidejte je níže.",
       "timeSeriesTwin": {
-        "edit": "Úprava dvojčete časové řady",
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
         "add": "Přidat časovou řadu",
-        "remov": "Odebrání časové řady"
-      }
+        "editd": "Úprava časové řady",
+        "remove": "Odebrání časové řady"
+      },
+      "descriptiond": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
       "chart": "Graf",

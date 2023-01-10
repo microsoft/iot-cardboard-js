@@ -1306,14 +1306,14 @@
     "title": "Adatelőzmény-kezelő",
     "builder": {
       "title": "Iker tulajdonságok",
-      "description": "Ha össze szeretné hasonlítani a historizált tulajdonságokat ezen az ikeren belül vagy más ikrekkel, adja hozzá őket alább.",
       "timeSeriesTwin": {
-        "edit": "Iker idősor szerkesztése",
         "property": "Ingatlan",
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
         "add": "Idősorok hozzáadása",
-        "remov": "Idősorok eltávolítása"
-      }
+        "editd": "Idősorok szerkesztése",
+        "remove": "Idősorok eltávolítása"
+      },
+      "descriptiond": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
     "viewer": {
       "chart": "Diagram",
