@@ -48,13 +48,12 @@ const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
 
 const foreignObjectSize = 20;
-const STACKED_EDGE_NUMBER_SIZE = 50;
+const STACKED_EDGE_NUMBER_OBJECT_SIZE = 50;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
 const separation = 20;
-const SELF_REFERENCING_RADIUS_RADIUS = 45;
-const SELF_REFERENCING_RADIUS_OFFSET = 16;
+const SELF_REFERENCING_RADIUS = 45;
 const ASSUMED_NODE_HEIGHT = 118;
 
 const getPolygon = (vertexes: IOATNodePosition[]): string =>
@@ -683,25 +682,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         edgeTargetY
     ]);
 
-    const computeSelfReferencingPath = useCallback((): string => {
-        const nodeX = edgeSourceX;
-        const nodeY = edgeSourceY;
-        const verticalOffset = (ASSUMED_NODE_HEIGHT / 2) * 0.5;
-        let radius = SELF_REFERENCING_RADIUS_RADIUS;
-
-        // if there are other relationships, offset this one by the index in the set so each line has a different radius
-        if (stackedEdges.length > 1) {
-            const index = stackedEdges.findIndex((x) => x.id === edgeId);
-            radius += index * SELF_REFERENCING_RADIUS_OFFSET;
-        }
-
-        // create the path
-        const context = d3Path();
-        // context.moveTo(nodeX, nodeY);
-        context.arc(nodeX, nodeY - verticalOffset, radius, Math.PI, 0, false);
-        return context.toString();
-    }, [edgeId, stackedEdges, edgeSourceX, edgeSourceY]);
-
     const edgePath = useMemo(() => {
         const {
             edgePathSourceX,
@@ -712,6 +692,20 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         } = polygons;
         let path = '';
         if (isSelfReferencing) {
+            const computeSelfReferencingPath = () => {
+                // create the path
+                const verticalOffset = (ASSUMED_NODE_HEIGHT / 2) * 0.5;
+                const context = d3Path();
+                context.arc(
+                    edgeSourceX,
+                    edgeSourceY - verticalOffset,
+                    SELF_REFERENCING_RADIUS,
+                    Math.PI,
+                    0,
+                    false
+                );
+                return context.toString();
+            };
             path = computeSelfReferencingPath();
         } else {
             path =
@@ -743,19 +737,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         }
 
         return path;
-    }, [
-        polygons,
-        isSelfReferencing,
-        computeSelfReferencingPath,
-        edgeSourceX,
-        edgeTargetX
-    ]);
+    }, [polygons, isSelfReferencing, edgeSourceX, edgeSourceY, edgeTargetX]);
 
     const stackedEdgeLabelPosition = useMemo(() => {
         if (isSelfReferencing) {
             return {
-                x: 10,
-                y: 10
+                x: edgeSourceX - STACKED_EDGE_NUMBER_OBJECT_SIZE / 2,
+                y:
+                    edgeSourceY -
+                    edgeSourceNode.__rf.height -
+                    SELF_REFERENCING_RADIUS
             };
         } else {
             const [edgeCenterX, edgeCenterY] = getEdgeCenter({
@@ -765,16 +756,16 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 targetY: polygons.edgePathTargetY
             });
             return {
-                x: edgeCenterX - STACKED_EDGE_NUMBER_SIZE / 2,
-                y: edgeCenterY - STACKED_EDGE_NUMBER_SIZE / 2
+                x: edgeCenterX - STACKED_EDGE_NUMBER_OBJECT_SIZE / 2,
+                y: edgeCenterY - STACKED_EDGE_NUMBER_OBJECT_SIZE / 2
             };
         }
     }, [
+        edgeSourceNode.__rf.height,
+        edgeSourceX,
+        edgeSourceY,
         isSelfReferencing,
-        polygons.edgePathSourceX,
-        polygons.edgePathSourceY,
-        polygons.edgePathTargetX,
-        polygons.edgePathTargetY
+        polygons
     ]);
 
     const hasStackedReferences = stackedEdges.length > 1;
@@ -842,7 +833,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         shapePoints = polygons.relationshipPolygon;
     }
 
-    logDebugConsole('debug', 'Render {props, nodes}', props, nodes, edgePath);
+    logDebugConsole(
+        'debug',
+        'Render {edgeId, showEdge, hasStackedReferences, isSelfReferencing}',
+        edgeId,
+        showEdge,
+        hasStackedReferences,
+        isSelfReferencing
+    );
     if (!showEdge) {
         return null;
     }
@@ -872,8 +870,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 //     </textPath>
                 // </text>
                 <foreignObject
-                    width={STACKED_EDGE_NUMBER_SIZE}
-                    height={STACKED_EDGE_NUMBER_SIZE}
+                    width={STACKED_EDGE_NUMBER_OBJECT_SIZE}
+                    height={STACKED_EDGE_NUMBER_OBJECT_SIZE}
                     x={stackedEdgeLabelPosition.x}
                     y={stackedEdgeLabelPosition.y}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
