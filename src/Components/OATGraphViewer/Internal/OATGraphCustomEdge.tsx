@@ -255,7 +255,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         const target = nodes.find((x) => x.id === edge.target);
         return [target, ...getMidPointForNode(target)];
     }, [edge, nodes]);
-    const isSelfReferencing = edge.source === edge.target;
 
     const parallelEdges = useMemo(() => {
         if (edges && edge) {
@@ -283,6 +282,13 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         () => stackedEdges.findIndex((x) => x.id === edgeId) === 0,
         [edgeId, stackedEdges]
     );
+    const isSelfReferencing = edge.source === edge.target;
+
+    // If a valid element we get size based on positioning
+    const sourceNodeSizeX = edgeSourceNode.__rf.width;
+    const sourceNodeSizeY = edgeSourceNode.__rf.height;
+    const targetNodeSizeX = edgeTargetNode.__rf.width;
+    const targetNodeSizeY = edgeTargetNode.__rf.height;
 
     const isSelected = useMemo(() => {
         console.log(
@@ -325,12 +331,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         edgeSourceNode,
         isExtendEdge
     ]);
-
-    // If a valid element we get size based on positioning
-    const sourceNodeSizeX = edgeSourceNode.__rf.width;
-    const sourceNodeSizeY = edgeSourceNode.__rf.height;
-    const targetNodeSizeX = edgeTargetNode.__rf.width;
-    const targetNodeSizeY = edgeTargetNode.__rf.height;
 
     // side effects
 
