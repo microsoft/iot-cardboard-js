@@ -52,7 +52,7 @@ const STACKED_EDGE_NUMBER_OBJECT_SIZE = 50;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
-const separation = 20;
+const EDGE_SPACING = 25;
 const SELF_REFERENCING_RADIUS = 45;
 const ASSUMED_NODE_HEIGHT = 118;
 
@@ -278,6 +278,11 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             return [];
         }
     }, [edge, edges]);
+    const parallelTypes = useMemo(() => {
+        return Array.from(
+            new Set(parallelEdges.map((x) => (x.data as IOATNodeData)['@type']))
+        );
+    }, [parallelEdges]);
     const isPrimaryEdge = useMemo(
         () => stackedEdges.findIndex((x) => x.id === edgeId) === 0,
         [edgeId, stackedEdges]
@@ -578,21 +583,26 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
         let polygons: IPolygon = {} as IPolygon;
         if (edge) {
+            // offset based on the type of reference
+            const offsetIndex = parallelTypes.findIndex(
+                (x) => x === edgeData['@type']
+            );
+            const typeOffset = EDGE_SPACING * offsetIndex;
+
             const polygonElement: IPolygonElement = {
                 element: edge
             };
             // Getting vectors to adjust angle from source to target
             let heightVector = edgeTargetY > edgeSourceY ? 1 : -1;
             let baseVector = edgeTargetX > edgeSourceX ? 1 : -1;
-            if (parallelEdges.length > 1) {
+            // space out edges going between the same nodes
+            if (parallelTypes.length > 1) {
                 const sourceRange =
-                    (separation * (parallelEdges.length - 1)) / 2;
+                    (EDGE_SPACING * (parallelTypes.length - 1)) / 2;
                 adjustedSourceX = adjustedSourceX - sourceRange;
                 adjustedSourceY = adjustedSourceY + sourceRange * baseVector;
-                const indexX = parallelEdges.findIndex((x) => x.id === edgeId);
-                adjustedSourceX = indexX * separation + adjustedSourceX;
-                adjustedSourceY =
-                    adjustedSourceY - indexX * separation * baseVector;
+                adjustedSourceX = typeOffset + adjustedSourceX;
+                adjustedSourceY = adjustedSourceY - typeOffset * baseVector;
                 adjustmentSourceX = edgeSourceX - adjustedSourceX;
                 adjustmentSourceY = edgeSourceY - adjustedSourceY;
             }
@@ -628,14 +638,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             // Getting vectors to adjust angle from target to source
             heightVector = edgeTargetY < edgeSourceY ? 1 : -1;
             baseVector = edgeTargetX < edgeSourceX ? 1 : -1;
-            if (parallelEdges.length > 1) {
+            // space out edges going between the same nodes
+            if (parallelTypes.length > 1) {
                 const targetRange =
-                    (separation * (parallelEdges.length - 1)) / 2;
+                    (EDGE_SPACING * (parallelTypes.length - 1)) / 2;
                 adjustedTargetX = adjustedTargetX - targetRange;
                 adjustedTargetY = adjustedTargetY - targetRange;
-                const indexX = parallelEdges.findIndex((x) => x.id === edgeId);
-                adjustedTargetX = indexX * separation + adjustedTargetX;
-                adjustedTargetY = indexX * separation + adjustedTargetY;
+                adjustedTargetX = typeOffset + adjustedTargetX;
+                adjustedTargetY = typeOffset + adjustedTargetY;
                 adjustmentTargetX = edgeTargetX - adjustedTargetX;
                 adjustmentTargetY = edgeTargetY - adjustedTargetY;
             }
@@ -667,19 +677,19 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         }
         return polygons;
     }, [
-        edge,
-        edgeId,
-        parallelEdges,
-        getSourceComponents,
-        getTargetComponents,
-        sourceNodeSizeX,
-        sourceNodeSizeY,
-        edgeSourceX,
         edgeSourceY,
-        targetNodeSizeX,
-        targetNodeSizeY,
+        edgeSourceX,
+        edgeTargetY,
         edgeTargetX,
-        edgeTargetY
+        edge,
+        parallelTypes,
+        sourceNodeSizeY,
+        sourceNodeSizeX,
+        getSourceComponents,
+        targetNodeSizeY,
+        targetNodeSizeX,
+        getTargetComponents,
+        edgeData
     ]);
 
     const edgePath = useMemo(() => {
