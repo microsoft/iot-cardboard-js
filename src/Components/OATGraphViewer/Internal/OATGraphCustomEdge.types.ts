@@ -16,6 +16,7 @@ export interface IOATGraphCustomEdgeStyleProps {
     theme: IExtendedTheme;
 }
 export interface IOATGraphCustomEdgeStyles {
+    stackedReferenceCountLabelRoot: IStyle;
     stackedReferenceCountLabel: IStyle;
     stackedReferencesList: IStyle;
 

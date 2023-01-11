@@ -48,6 +48,7 @@ const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
 
 const foreignObjectSize = 20;
+const STACKED_EDGE_NUMBER_SIZE = 50;
 const offsetSmall = 5;
 const offsetMedium = 10;
 const rightAngleValue = 1.5708;
@@ -291,13 +292,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     const targetNodeSizeY = edgeTargetNode.__rf.height;
 
     const isSelected = useMemo(() => {
-        console.log(
-            `[${props.id}] ` + '***Selection',
-            props,
-            oatPageState.selection,
-            stackedEdges,
-            isExtendEdge
-        );
         if (!oatPageState.selection) {
             return false;
         }
@@ -308,29 +302,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 (x) =>
                     getIdentifier(x.data) === oatPageState.selection.contentId
             );
-        // if (isExtendEdge) {
-        //     console.log(`[${props.id}] before isSelected: ` + isSelected);
-        //     isSelected =
-        //         isSelected &&
-        //         ;
-        //     console.log(`[${props.id}] after isSelected: ` + isSelected);
-        // } else {
-        //     isSelected =
-        //         isSelected &&
-        //         stackedEdges.some(
-        //             (x) =>
-        //                 (x.data as IOATNodeData).name ===
-        //                 oatPageState.selection.contentId
-        //         );
-        // }
         return isSelected;
-    }, [
-        props,
-        oatPageState.selection,
-        stackedEdges,
-        edgeSourceNode,
-        isExtendEdge
-    ]);
+    }, [oatPageState.selection, stackedEdges, edgeSourceNode]);
 
     // side effects
 
@@ -778,12 +751,31 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         edgeTargetX
     ]);
 
-    const [edgeCenterX, edgeCenterY] = getEdgeCenter({
-        sourceX: edgeSourceX,
-        sourceY: edgeSourceY,
-        targetX: edgeTargetX,
-        targetY: edgeTargetY
-    });
+    const stackedEdgeLabelPosition = useMemo(() => {
+        if (isSelfReferencing) {
+            return {
+                x: 10,
+                y: 10
+            };
+        } else {
+            const [edgeCenterX, edgeCenterY] = getEdgeCenter({
+                sourceX: polygons.edgePathSourceX,
+                sourceY: polygons.edgePathSourceY,
+                targetX: polygons.edgePathTargetX,
+                targetY: polygons.edgePathTargetY
+            });
+            return {
+                x: edgeCenterX - STACKED_EDGE_NUMBER_SIZE / 2,
+                y: edgeCenterY - STACKED_EDGE_NUMBER_SIZE / 2
+            };
+        }
+    }, [
+        isSelfReferencing,
+        polygons.edgePathSourceX,
+        polygons.edgePathSourceY,
+        polygons.edgePathTargetX,
+        polygons.edgePathTargetY
+    ]);
 
     const hasStackedReferences = stackedEdges.length > 1;
     const stackedEdgeListItems: ICardboardListItem<Edge>[] = useMemo(() => {
@@ -812,7 +804,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     }
                 ]
             };
-            console.log('***building menu item ', x, item);
             return item;
         });
     }, [
@@ -858,7 +849,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     return (
         <>
             <path id={edgeId} className={edgeClassName} d={edgePath} />
-            {!hasStackedReferences && (
+            {!hasStackedReferences ? (
                 <text>
                     <textPath
                         href={`#${edgeId}`}
@@ -869,59 +860,37 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         {getDisplayName(edgeData.name)}
                     </textPath>
                 </text>
-            )}
-            {hasStackedReferences && (
-                <text>
-                    <textPath
-                        href={`#${edgeId}`}
-                        className={classNames.stackedReferenceCountLabel}
-                        startOffset="50%"
-                        textAnchor="middle"
-                    >
-                        {String(stackedEdges.length)}
-                    </textPath>
-                </text>
-                // <foreignObject
-                //     width={50}
-                //     height={50}
-                //     x={
-                //         !isExtendEdge
-                //             ? edgeCenterX - foreignObjectSize / 2
-                //             : edgeCenterX
-                //     }
-                //     y={edgeCenterY}
-                //     requiredExtensions="http://www.w3.org/1999/xhtml"
-                // >
-                //     <DefaultButton
-                //         componentRef={menuRef}
-                //         text={String(stackedEdges.length)}
-                //         menuProps={{
-                //             items: [
-                //                 {
-                //                     key: 'something',
-                //                     text: 'something'
-                //                 }
-                //             ]
-                //         }}
-                //         styles={{
-                //             root: {
-                //                 minWidth: 'unset',
-                //                 padding: '0 4px',
-                //                 fontSize: FontSizes.small
-                //             },
-                //             icon: {
-                //                 fontSize: FontSizes.small
-                //             }
-                //         }}
-                //     />
-                // </foreignObject>
+            ) : (
+                // <text>
+                //     <textPath
+                //         href={`#${edgeId}`}
+                //         className={classNames.stackedReferenceCountLabel}
+                //         startOffset="50%"
+                //         textAnchor="middle"
+                //     >
+                //         {String(stackedEdges.length)}
+                //     </textPath>
+                // </text>
+                <foreignObject
+                    width={STACKED_EDGE_NUMBER_SIZE}
+                    height={STACKED_EDGE_NUMBER_SIZE}
+                    x={stackedEdgeLabelPosition.x}
+                    y={stackedEdgeLabelPosition.y}
+                    requiredExtensions="http://www.w3.org/1999/xhtml"
+                >
+                    <div className={classNames.stackedReferenceCountLabelRoot}>
+                        <div className={classNames.stackedReferenceCountLabel}>
+                            {String(stackedEdges.length)}
+                        </div>
+                    </div>
+                </foreignObject>
             )}
             {isSelected && (
                 <foreignObject
                     width={foreignObjectSize}
                     height={foreignObjectSize}
-                    x={edgeCenterX + 10}
-                    y={edgeCenterY}
+                    x={stackedEdgeLabelPosition.x + 20}
+                    y={stackedEdgeLabelPosition.y}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                     id={edgeCalloutTargetId}
                 >
