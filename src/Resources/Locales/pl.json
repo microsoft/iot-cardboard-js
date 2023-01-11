@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
     "runLayout": "Uruchom układ",
-    "loadingText": "Pozycje układu obliczeniowego"
+    "loadingText": "Pozycje układu obliczeniowego",
+    "extends": "Rozszerza"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",

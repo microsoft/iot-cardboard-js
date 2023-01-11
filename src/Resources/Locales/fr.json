@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "Le nom d’affichage ne doit pas dépasser 64 caractères",
     "errorRepeatedEdgeName": "Une relation portant le même nom existe déjà",
     "runLayout": "Exécuter la mise en page",
-    "loadingText": "Calcul des positions de mise en page"
+    "loadingText": "Calcul des positions de mise en page",
+    "extends": "S' étend"
   },
   "OATPropertyEditor": {
     "displayName": "Nom d’affichage",
