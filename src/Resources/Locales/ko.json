@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "표시 이름은 64자를 초과할 수 없습니다.",
     "errorRepeatedEdgeName": "같은 이름의 관계가 이미 존재합니다.",
     "runLayout": "실행 레이아웃",
-    "loadingText": "레이아웃 위치 계산"
+    "loadingText": "레이아웃 위치 계산",
+    "extends": "확장"
   },
   "OATPropertyEditor": {
     "displayName": "표시 이름",

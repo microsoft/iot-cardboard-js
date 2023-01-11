@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
     "runLayout": "Executar layout",
-    "loadingText": "Posições de layout de computação"
+    "loadingText": "Posições de layout de computação",
+    "extends": "Estende"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",

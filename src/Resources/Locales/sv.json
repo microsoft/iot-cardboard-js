@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "Visningsnamn får inte överstiga 64 tecken",
     "errorRepeatedEdgeName": "En relation med samma namn finns redan",
     "runLayout": "Kör layout",
-    "loadingText": "Positioner för datorlayout"
+    "loadingText": "Positioner för datorlayout",
+    "extends": "Sträcker sig"
   },
   "OATPropertyEditor": {
     "displayName": "Visningsnamn",

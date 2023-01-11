@@ -992,7 +992,8 @@
     "errorIdValidDTMI": "ID musí být platné DTMI",
     "errorName": "Název může obsahovat pouze znaky a-z, A-Z, 0-9 a podtržítko",
     "errorNameLength": "Název nesmí přesáhnout 64 znaků",
-    "loadingText": "Výpočetní pozice rozvržení"
+    "loadingText": "Výpočetní pozice rozvržení",
+    "extends": "Rozšiřuje"
   },
   "OATPropertyEditor": {
     "addEnumValue": "Přidat hodnotu výčtu",
