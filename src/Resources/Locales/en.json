@@ -1007,6 +1007,7 @@
         "description": "Description",
         "relationships": "Relationships",
         "inheritances": "Inheritances",
+        "extends": "Extends",
         "components": "Components",
         "runLayout": "Run Layout",
         "errorRepeatedId": "A model with the same ID already exists",
