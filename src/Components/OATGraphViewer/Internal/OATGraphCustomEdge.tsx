@@ -1,9 +1,11 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import {
     Callout,
+    classNamesFunction,
     DefaultButton,
     DirectionalHint,
-    FontSizes
+    FontSizes,
+    styled
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
 import {
@@ -28,15 +30,19 @@ import { getDebugLogger } from '../../../Models/Services/Utils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
-import { IOATGraphCustomEdgeProps } from './OATGraphCustomEdge.types';
+import {
+    IOATGraphCustomEdgeProps,
+    IOATGraphCustomEdgeStyleProps,
+    IOATGraphCustomEdgeStyles
+} from './OATGraphCustomEdge.types';
 import { DTDLType } from '../../../Models/Classes/DTDL';
 import { useTranslation } from 'react-i18next';
 import { IOATNodeData } from '../OATGraphViewer.types';
 import { getSelectionFromNode } from './Utils';
 import { CardboardList } from '../../CardboardList';
 import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
-import { getCustomEdgeStyles } from './OATGraphCustomEdge.styles';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
+import { getStyles } from './OATGraphCustomEdge.styles';
 
 const debugLogging = true;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
@@ -185,8 +191,18 @@ const getIdentifier = (data: IOATNodeData): string => {
     }
 };
 
+const getClassNames = classNamesFunction<
+    IOATGraphCustomEdgeStyleProps,
+    IOATGraphCustomEdgeStyles
+>();
+
 const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
-    const { id: edgeId, target: edgeTargetName, data: edgeData } = props;
+    const {
+        id: edgeId,
+        target: edgeTargetName,
+        data: edgeData,
+        styles
+    } = props;
 
     const isExtendEdge = edgeData['@type'] === OAT_EXTEND_HANDLE_NAME;
     const isRelationshipEdge = edgeData['@type'] === DTDLType.Relationship;
@@ -320,7 +336,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
     // styles
     const graphViewerStyles = getGraphViewerStyles();
-    const classNames = getCustomEdgeStyles(useExtendedTheme());
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
     // callbacks
     const onDelete = useCallback(() => {
@@ -898,21 +916,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 //     />
                 // </foreignObject>
             )}
-            {/* {isSelected && hasStackedReferences && (
-                <foreignObject
-                    width={200}
-                    height={100}
-                    x={edgeCenterX + 50}
-                    y={edgeCenterY}
-                    requiredExtensions="http://www.w3.org/1999/xhtml"
-                >
-                    <CardboardList
-                        className={classNames.stackedReferencesList}
-                        items={stackedEdgeListItems}
-                        listKey={'stacked-items-' + edge.id}
-                    />
-                </foreignObject>
-            )} */}
             {isSelected && (
                 <foreignObject
                     width={foreignObjectSize}
@@ -920,43 +923,42 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     x={edgeCenterX + 10}
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
+                    id={edgeCalloutTargetId}
                 >
-                    <div id={edgeCalloutTargetId}>
-                        <Callout
-                            directionalHint={DirectionalHint.rightCenter}
-                            isBeakVisible={false}
-                            gapSpace={8}
-                            setInitialFocus
-                            target={`#${edgeCalloutTargetId}`}
-                        >
-                            {hasStackedReferences ? (
-                                <CardboardList
-                                    className={classNames.stackedReferencesList}
-                                    items={stackedEdgeListItems}
-                                    listKey={'stacked-items-' + edge.id}
-                                />
-                            ) : (
-                                <DefaultButton
-                                    text={'Delete'}
-                                    iconProps={{ iconName: 'Delete' }}
-                                    onClick={onDelete}
-                                    styles={{
-                                        root: {
-                                            fontSize: FontSizes.small,
-                                            height: 28,
-                                            padding: 4
-                                        },
-                                        icon: {
-                                            fontSize: FontSizes.small
-                                        },
-                                        label: {
-                                            marginLeft: 0
-                                        }
-                                    }}
-                                />
-                            )}
-                        </Callout>
-                    </div>
+                    <Callout
+                        directionalHint={DirectionalHint.rightCenter}
+                        isBeakVisible={false}
+                        gapSpace={8}
+                        setInitialFocus
+                        target={`#${edgeCalloutTargetId}`}
+                    >
+                        {hasStackedReferences ? (
+                            <CardboardList
+                                className={classNames.stackedReferencesList}
+                                items={stackedEdgeListItems}
+                                listKey={'stacked-items-' + edge.id}
+                            />
+                        ) : (
+                            <DefaultButton
+                                text={'Delete'}
+                                iconProps={{ iconName: 'Delete' }}
+                                onClick={onDelete}
+                                styles={{
+                                    root: {
+                                        fontSize: FontSizes.small,
+                                        height: 28,
+                                        padding: 4
+                                    },
+                                    icon: {
+                                        fontSize: FontSizes.small
+                                    },
+                                    label: {
+                                        marginLeft: 0
+                                    }
+                                }}
+                            />
+                        )}
+                    </Callout>
                 </foreignObject>
             )}
             {/* Hide the indicators for self referencing ones, cause the math is wayyy too hard for V1 */}
@@ -974,4 +976,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     );
 };
 
-export default OATGraphCustomEdge;
+export default styled<
+    IOATGraphCustomEdgeProps,
+    IOATGraphCustomEdgeStyleProps,
+    IOATGraphCustomEdgeStyles
+>(OATGraphCustomEdge, getStyles);

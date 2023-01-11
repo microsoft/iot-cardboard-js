@@ -14,7 +14,7 @@ import {
 import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
-export const classNames = {
+export const CARDBOARD_LIST_ITEM_CLASS_NAMES = {
     alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
@@ -37,7 +37,7 @@ export const getStyles = memoizeFunction(
         };
         return mergeStyleSets({
             alertDot: [
-                classNames.alertDot,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.alertDot,
                 {
                     backgroundColor: theme.semanticColors.errorText,
                     borderRadius: 6,
@@ -47,30 +47,39 @@ export const getStyles = memoizeFunction(
                     width: 6
                 } as IStyle
             ],
-            checkbox: [classNames.checkbox, { marginRight: 8 } as IStyle],
-            endIcon: [classNames.endIcon, { marginLeft: 8 } as IStyle],
+            checkbox: [
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.checkbox,
+                { marginRight: 8 } as IStyle
+            ],
+            endIcon: [
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.endIcon,
+                { marginLeft: 8 } as IStyle
+            ],
             icon: [
-                classNames.icon,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.icon,
                 {
                     marginRight: 8,
                     fontSize: StyleConstants.icons.size16
                 } as IStyle
             ],
             iconButton: [
-                classNames.menuIcon,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.menuIcon,
                 {
                     color: theme.semanticColors.bodyText,
                     position: 'absolute',
                     right: 12
                 } as IStyle
             ],
-            menuIcon: [classNames.menuIcon, { opacity: 0 } as IStyle],
+            menuIcon: [
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.menuIcon,
+                { opacity: 0 } as IStyle
+            ],
             menuPlaceholder: [
-                classNames.menuPlaceholder,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.menuPlaceholder,
                 { minWidth: 32 } as IStyle
             ],
             textContainer: [
-                classNames.textContainer,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.textContainer,
                 {
                     display: 'flex',
                     flexDirection: 'column',
@@ -80,7 +89,7 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             primaryText: [
-                classNames.primaryText,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.primaryText,
                 {
                     color: theme.palette.black,
                     fontSize: FontSizes.size14,
@@ -88,7 +97,7 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             root: [
-                classNames.root,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.root,
                 {
                     alignItems: 'center',
                     display: 'flex',
@@ -106,7 +115,7 @@ export const getStyles = memoizeFunction(
                 }
             ],
             secondaryText: [
-                classNames.secondaryText,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.secondaryText,
                 {
                     color: theme.palette.neutralSecondary,
                     fontSize: FontSizes.size12,
@@ -114,7 +123,7 @@ export const getStyles = memoizeFunction(
                 } as IStyle
             ],
             separator: [
-                classNames.separator,
+                CARDBOARD_LIST_ITEM_CLASS_NAMES.separator,
                 {
                     backgroundColor: 'transparent',
                     padding: 0,
