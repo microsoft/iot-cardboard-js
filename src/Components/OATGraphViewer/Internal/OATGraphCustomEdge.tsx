@@ -44,7 +44,7 @@ import { ICardboardListItem } from '../../CardboardList/CardboardList.types';
 import { useExtendedTheme } from '../../../Models/Hooks/useExtendedTheme';
 import { getStyles } from './OATGraphCustomEdge.styles';
 
-const debugLogging = true;
+const debugLogging = false;
 const logDebugConsole = getDebugLogger('OATGraphCustomEdge', debugLogging);
 
 const foreignObjectSize = 20;
