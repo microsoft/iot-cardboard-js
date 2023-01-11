@@ -196,8 +196,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
 
     // hooks
     const { t } = useTranslation();
-    const deleteCalloutTargetId = useId('callout-target');
-    const nameListTargetId = useId('callout-stacked-references');
+    const edgeCalloutTargetId = useId('callout-stacked-references');
     const nodes = useStoreState(
         (state) => state.nodes,
         (l, r) =>
@@ -865,8 +864,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </textPath>
                 </text>
                 // <foreignObject
-                //     width={foreignObjectSize}
-                //     height={foreignObjectSize}
+                //     width={50}
+                //     height={50}
                 //     x={
                 //         !isExtendEdge
                 //             ? edgeCenterX - foreignObjectSize / 2
@@ -875,7 +874,28 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 //     y={edgeCenterY}
                 //     requiredExtensions="http://www.w3.org/1999/xhtml"
                 // >
-
+                //     <DefaultButton
+                //         componentRef={menuRef}
+                //         text={String(stackedEdges.length)}
+                //         menuProps={{
+                //             items: [
+                //                 {
+                //                     key: 'something',
+                //                     text: 'something'
+                //                 }
+                //             ]
+                //         }}
+                //         styles={{
+                //             root: {
+                //                 minWidth: 'unset',
+                //                 padding: '0 4px',
+                //                 fontSize: FontSizes.small
+                //             },
+                //             icon: {
+                //                 fontSize: FontSizes.small
+                //             }
+                //         }}
+                //     />
                 // </foreignObject>
             )}
             {/* {isSelected && hasStackedReferences && (
@@ -901,30 +921,21 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     y={edgeCenterY}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
                 >
-                    {hasStackedReferences ? (
-                        <div id={nameListTargetId}>
-                            <Callout
-                                directionalHint={DirectionalHint.rightCenter}
-                                isBeakVisible={false}
-                                gapSpace={8}
-                                setInitialFocus
-                                target={`#${nameListTargetId}`}
-                            >
+                    <div id={edgeCalloutTargetId}>
+                        <Callout
+                            directionalHint={DirectionalHint.rightCenter}
+                            isBeakVisible={false}
+                            gapSpace={8}
+                            setInitialFocus
+                            target={`#${edgeCalloutTargetId}`}
+                        >
+                            {hasStackedReferences ? (
                                 <CardboardList
                                     className={classNames.stackedReferencesList}
                                     items={stackedEdgeListItems}
                                     listKey={'stacked-items-' + edge.id}
                                 />
-                            </Callout>
-                        </div>
-                    ) : (
-                        <div id={deleteCalloutTargetId}>
-                            <Callout
-                                directionalHint={DirectionalHint.rightCenter}
-                                isBeakVisible={false}
-                                gapSpace={8}
-                                target={`#${deleteCalloutTargetId}`}
-                            >
+                            ) : (
                                 <DefaultButton
                                     text={'Delete'}
                                     iconProps={{ iconName: 'Delete' }}
@@ -943,9 +954,9 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                                         }
                                     }}
                                 />
-                            </Callout>
-                        </div>
-                    )}
+                            )}
+                        </Callout>
+                    </div>
                 </foreignObject>
             )}
             {/* Hide the indicators for self referencing ones, cause the math is wayyy too hard for V1 */}
