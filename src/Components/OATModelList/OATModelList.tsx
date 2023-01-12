@@ -27,6 +27,7 @@ import {
 } from './OATModelList.types';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
 import { TFunction } from 'i18next';
+import { parseModelId } from '../../Models/Services/OatUtils';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('OatModelList', debugLogging);
@@ -165,10 +166,10 @@ function getListItems(
     };
 
     const getDisplayNameText = (item: DtdlInterface) => {
-        const displayName = getModelPropertyListItemName(item.displayName);
-        return displayName.length > 0
-            ? displayName
-            : t('OATPropertyEditor.displayName');
+        return (
+            parseModelId(item['@id'])?.name ??
+            t('OATPropertyEditor.displayName')
+        );
     };
 
     const onModelDelete = (item: DtdlInterface) => {
