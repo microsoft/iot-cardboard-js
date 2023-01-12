@@ -944,6 +944,7 @@
     "deleteAll": "Usuń wszystko",
     "folderUpload": "Przesyłanie folderu",
     "fileUpload": "Przesyłanie plików",
+    "files": "Pliki",
     "selectFile": "Wybierz plik",
     "errorSingleFileHoldsRelationships": "Problem z {{fileName}}: Model przechowuje relacje, które nie są importowane",
     "errorImportedModelAlreadyExists": "Problem z {{modelId}}: Model z tym samym @id już istnieje",
@@ -953,24 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Wybierz ontologię"
-    },
-    "configure": "Konfigurować",
-    "importFile": "Importuj plik",
-    "importFolder": "Folder importu",
-    "ontology": "Ontologia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Usuń ontologię",
-      "modalTitleCreate": "Nowa ontologia",
-      "modalTitleEdit": "Edytuj ontologię",
-      "modalSubTitleCreate": "Stwórz nową ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-      "modalSubTitleEdit": "Edytuj swoją ontologię, aby nadać strukturę swojemu cyfrowemu bliźniakowi.",
-      "modalSubTitleLinkText": "Dowiedz się więcej o ontologiach",
-      "nameLabel": "Nazwa",
-      "namePlaceholder": "Wprowadź nazwę ontologii",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Przykładowa nazwa modelu: {{modelName}}",
-      "namespacePlaceholder": "Wprowadzanie przestrzeni nazw",
-      "sampleModel": "przykładowy model"
     }
   },
   "cameraControls": {
@@ -1112,8 +1095,8 @@
     "errorDisplayNameLength": "Nazwa wyświetlana nie może przekraczać 64 znaków",
     "errorRepeatedEdgeName": "Relacja o tej samej nazwie już istnieje",
     "runLayout": "Uruchom układ",
-    "loadingText": "Pozycje układu obliczeniowego",
-    "extends": "Rozszerza"
+    "errorReachedInheritanceLimit": "Osiągnięty limit dziedziczenia",
+    "errorInheritance": "Nie może dziedziczyć z więcej niż dwóch interfejsów"
   },
   "OATPropertyEditor": {
     "displayName": "Nazwa wyświetlana",
@@ -1200,39 +1183,7 @@
     "addToPropertyList": "Dodaj do listy właściwości",
     "moveDown": "Przechodzenie w dół",
     "moveUp": "Przenieś się w górę",
-    "valueSchema": "Schemat wartości",
-    "modelId": "Identyfikator modelu",
-    "path": "Ścieżka",
-    "uniqueModelName": "Unikalna nazwa modelu",
-    "version": "Wersja",
-    "commentPlaceholder": "Komentarz dla autorów modeli",
-    "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
-    "details": "Szczegóły",
-    "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
-    "maxMultiplicityLabel": "Maksymalna wielokrotność",
-    "minMultiplicityLabel": "Minimalna wielokrotność",
-    "minMultiplicityMessage": "DTDL V2 obsługuje tylko minimalną wielokrotność 0",
-    "date": "data",
-    "expand": "Rozszerzać",
-    "PropertyListItem": {
-      "arrayItemLabel": "Elementy",
-      "enumKeyPlaceholder": "Wprowadź klucz",
-      "enumValuePlaceholder": "Wprowadź wartość",
-      "ContextMenu": {
-        "changePropertyTypeLabel": "Edytuj typ właściwości",
-        "changeChildTypeLabelForArray": "Zmienianie typu elementu tablicy",
-        "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
-        "editMetadataLabel": "Edytowanie metadanych"
-      }
-    },
-    "defaultPropertyName": "nowa właściwość {{index}}",
-    "SchemaDefaults": {
-      "defaultEnumName": "enum_key_{{index}}",
-      "defaultMapName": "enum_key_{{index}}",
-      "defaultObjectPropertyName": "field_name_{{index}}",
-      "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
-    }
+    "valueSchema": "Schemat wartości"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",
@@ -1351,27 +1302,6 @@
   "colorPills": {
     "unlabeled": "Bez etykiety"
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiować",
-    "defaultFileName": "Nowa ontologia",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Szukaj modeli",
-    "noDataMessage": "Brak modeli",
-    "noMatchingItemsMessage": "Żaden model nie spełnia tych kryteriów",
-    "removeModelButtonText": "Usuń model",
-    "modelListToggleAriaLabelShow": "Pokaż listę modeli",
-    "modelListToggleAriaLabelHide": "Ukryj listę modeli"
-  },
-  "clear": "Jasny",
-  "increaseBy1": "Zwiększ wartość o 1",
-  "decreaseBy1": "Zmniejsz wartość o 1",
-  "duplicate": "Duplikat",
-  "moveUp": "Przejdź w górę",
-  "moveDown": "Przenieś w dół"
-=======
   "dataHistoryExplorer": {
     "title": "Eksplorator historii danych",
     "builder": {
@@ -1392,5 +1322,4 @@
     },
     "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
   }
->>>>>>> origin/main
 }

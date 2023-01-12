@@ -944,6 +944,7 @@
     "deleteAll": "Удалить все",
     "folderUpload": "Загрузка папки",
     "fileUpload": "Загрузка файла",
+    "files": "Файлы",
     "selectFile": "Выберите файл",
     "errorSingleFileHoldsRelationships": "Проблема с {{имя_файла}}: модель содержит связи, которые не импортируются",
     "errorImportedModelAlreadyExists": "Проблема с {{modelId}}: модель с тем же @id уже существует",
@@ -953,24 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Онтология",
       "dropdownPlaceholder": "Выберите онтологию"
-    },
-    "configure": "Настроить",
-    "importFile": "Импорт файла",
-    "importFolder": "Папка импорта",
-    "ontology": "Онтология",
-    "manageOntologyModal": {
-      "deleteButtonText": "Удалить онтологию",
-      "modalTitleCreate": "Новая онтология",
-      "modalTitleEdit": "Редактирование онтологии",
-      "modalSubTitleCreate": "Создайте новую онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleEdit": "Отредактируйте свою онтологию, чтобы придать структуру вашему цифровому близнецу.",
-      "modalSubTitleLinkText": "Подробнее об онтологиях",
-      "nameLabel": "Имя",
-      "namePlaceholder": "Введите имя онтологии",
-      "namespaceLabel": "Пространство имен",
-      "namespaceDescription": "Пример имени модели: {{имя_модели}}",
-      "namespacePlaceholder": "Ввод пространства имен",
-      "sampleModel": "Образец модели"
     }
   },
   "cameraControls": {
@@ -1112,8 +1095,8 @@
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
-    "loadingText": "Вычислительные позиции макета",
-    "extends": "Расширяет"
+    "errorReachedInheritanceLimit": "Достигнут лимит наследования",
+    "errorInheritance": "Не может наследовать от более чем двух интерфейсов"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
@@ -1200,39 +1183,7 @@
     "addToPropertyList": "Добавить в список свойств",
     "moveDown": "Перемещение вниз",
     "moveUp": "Придвигаться",
-    "valueSchema": "Схема значений",
-    "modelId": "Идентификатор модели",
-    "path": "Путь",
-    "uniqueModelName": "Уникальное название модели",
-    "version": "Версия",
-    "commentPlaceholder": "Комментарий для авторов моделей",
-    "descriptionPlaceholder": "Локализуемое описание для отображения",
-    "details": "Подробности",
-    "displayNamePlaceholder": "Локализуемое имя для отображения",
-    "maxMultiplicityLabel": "Максимальная кратность",
-    "minMultiplicityLabel": "Минимальная кратность",
-    "minMultiplicityMessage": "DTDL V2 поддерживает только минимальную кратность 0",
-    "date": "дата",
-    "expand": "Расширять",
-    "PropertyListItem": {
-      "arrayItemLabel": "Элементы",
-      "enumKeyPlaceholder": "Введите ключ",
-      "enumValuePlaceholder": "Введите значение",
-      "ContextMenu": {
-        "changePropertyTypeLabel": "Изменение типа свойства",
-        "changeChildTypeLabelForArray": "Изменение типа элемента массива",
-        "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
-        "editMetadataLabel": "Редактирование метаданных"
-      }
-    },
-    "defaultPropertyName": "новое свойство {{index}}",
-    "SchemaDefaults": {
-      "defaultEnumName": "enum_key_{{индекс}}",
-      "defaultMapName": "enum_key_{{индекс}}",
-      "defaultObjectPropertyName": "field_name_{{индекс}}",
-      "defaultMapKeyName": "map_key_{{индекс}}",
-      "defaultMapValueName": "map_value_{{индекс}}"
-    }
+    "valueSchema": "Схема значений"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",
@@ -1351,27 +1302,6 @@
   "colorPills": {
     "unlabeled": "Без маркировки"
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "копировать",
-    "defaultFileName": "Новая онтология",
-    "defaultModelNamePrefix": "Модель"
-  },
-  "OATModelList": {
-    "searchModels": "Поиск моделей",
-    "noDataMessage": "Нет моделей",
-    "noMatchingItemsMessage": "Ни одна модель не соответствует этим критериям",
-    "removeModelButtonText": "Удалить модель",
-    "modelListToggleAriaLabelShow": "Показать список моделей",
-    "modelListToggleAriaLabelHide": "Скрыть список моделей"
-  },
-  "clear": "Ясный",
-  "increaseBy1": "Увеличение значения на 1",
-  "decreaseBy1": "Уменьшение значения на 1",
-  "duplicate": "Дублировать",
-  "moveUp": "Придвигаться",
-  "moveDown": "Перемещение вниз"
-=======
   "dataHistoryExplorer": {
     "title": "Обозреватель истории данных",
     "builder": {
@@ -1392,5 +1322,4 @@
     },
     "loadingConnectionLabel": "Загрузка информации о подключении временных рядов..."
   }
->>>>>>> origin/main
 }

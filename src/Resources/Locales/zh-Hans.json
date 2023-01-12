@@ -944,6 +944,7 @@
     "deleteAll": "全部删除",
     "folderUpload": "文件夹上传",
     "fileUpload": "文件上传",
+    "files": "文件",
     "selectFile": "选择文件",
     "errorSingleFileHoldsRelationships": "{{文件名}} 的问题：模型保留未导入的关系",
     "errorImportedModelAlreadyExists": "{{modelId}} 的问题：具有相同@id的模型已存在",
@@ -953,24 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "本体",
       "dropdownPlaceholder": "选择本体"
-    },
-    "configure": "配置",
-    "importFile": "导入文件",
-    "importFolder": "导入文件夹",
-    "ontology": "本体",
-    "manageOntologyModal": {
-      "deleteButtonText": "删除本体",
-      "modalTitleCreate": "新本体",
-      "modalTitleEdit": "编辑本体",
-      "modalSubTitleCreate": "创建一个新的本体，为数字孪生体提供结构。",
-      "modalSubTitleEdit": "编辑本体，为数字孪生提供结构。",
-      "modalSubTitleLinkText": "了解有关本体的更多信息",
-      "nameLabel": "名字",
-      "namePlaceholder": "输入本体名称",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "示例模型名称：{{模型名称}}",
-      "namespacePlaceholder": "输入命名空间",
-      "sampleModel": "示例模型"
     }
   },
   "cameraControls": {
@@ -1112,8 +1095,8 @@
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
-    "loadingText": "计算布局位置",
-    "extends": "延伸"
+    "errorReachedInheritanceLimit": "已达到继承限制",
+    "errorInheritance": "不能从两个以上的接口继承"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",
@@ -1200,39 +1183,7 @@
     "addToPropertyList": "添加到属性列表",
     "moveDown": "下移",
     "moveUp": "上升",
-    "valueSchema": "值架构",
-    "modelId": "型号编号",
-    "path": "路径",
-    "uniqueModelName": "唯一的型号名称",
-    "version": "版本",
-    "commentPlaceholder": "模型作者注释",
-    "descriptionPlaceholder": "要显示的可本地化说明",
-    "details": "详",
-    "displayNamePlaceholder": "要显示的可本地化名称",
-    "maxMultiplicityLabel": "最大多重性",
-    "minMultiplicityLabel": "最小多重性",
-    "minMultiplicityMessage": "DTDL V2 仅支持最小多重性 0",
-    "date": "日期",
-    "expand": "扩大",
-    "PropertyListItem": {
-      "arrayItemLabel": "项目",
-      "enumKeyPlaceholder": "回车键",
-      "enumValuePlaceholder": "输入值",
-      "ContextMenu": {
-        "changePropertyTypeLabel": "编辑属性类型",
-        "changeChildTypeLabelForArray": "更改数组项类型",
-        "changeChildTypeLabelForEnum": "更改枚举值类型",
-        "editMetadataLabel": "编辑元数据"
-      }
-    },
-    "defaultPropertyName": "新属性 {{索引}}",
-    "SchemaDefaults": {
-      "defaultEnumName": "enum_key_{{索引}}",
-      "defaultMapName": "enum_key_{{索引}}",
-      "defaultObjectPropertyName": "field_name_{{索引}}",
-      "defaultMapKeyName": "map_key_{{索引}}",
-      "defaultMapValueName": "map_value_{{索引}}"
-    }
+    "valueSchema": "值架构"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
@@ -1351,27 +1302,6 @@
   "colorPills": {
     "unlabeled": "未标记"
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "复制",
-    "defaultFileName": "新本体",
-    "defaultModelNamePrefix": "型"
-  },
-  "OATModelList": {
-    "searchModels": "搜索型号",
-    "noDataMessage": "无型号",
-    "noMatchingItemsMessage": "没有符合该标准的模型",
-    "removeModelButtonText": "删除模型",
-    "modelListToggleAriaLabelShow": "显示型号列表",
-    "modelListToggleAriaLabelHide": "隐藏模型列表"
-  },
-  "clear": "清楚",
-  "increaseBy1": "将值增加 1",
-  "decreaseBy1": "将值减少 1",
-  "duplicate": "重复",
-  "moveUp": "上升",
-  "moveDown": "下移"
-=======
   "dataHistoryExplorer": {
     "title": "数据历史记录浏览器",
     "builder": {
@@ -1392,5 +1322,4 @@
     },
     "loadingConnectionLabel": "正在加载时间序列连接信息..."
   }
->>>>>>> origin/main
 }

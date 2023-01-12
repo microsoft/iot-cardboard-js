@@ -944,6 +944,7 @@
     "deleteAll": "Alles verwijderen",
     "folderUpload": "Map uploaden",
     "fileUpload": "Bestand uploaden",
+    "files": "Archief",
     "selectFile": "Selecteer bestand",
     "errorSingleFileHoldsRelationships": "Probleem met {{bestandsnaam}}: model bevat relaties die niet worden geïmporteerd",
     "errorImportedModelAlreadyExists": "Probleem met {{modelId}}: model met dezelfde @id bestaat al",
@@ -953,24 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologie",
       "dropdownPlaceholder": "Selecteer een ontologie"
-    },
-    "configure": "Configureren",
-    "importFile": "Bestand importeren",
-    "importFolder": "Map importeren",
-    "ontology": "Ontologie",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontologie verwijderen",
-      "modalTitleCreate": "Nieuwe ontologie",
-      "modalTitleEdit": "Ontologie bewerken",
-      "modalSubTitleCreate": "Creëer een nieuwe ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleEdit": "Bewerk je ontologie om structuur te geven aan je digitial twin.",
-      "modalSubTitleLinkText": "Meer informatie over ontologieën",
-      "nameLabel": "Naam",
-      "namePlaceholder": "Voer een ontologienaam in",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Voorbeeld modelnaam: {{modelName}}",
-      "namespacePlaceholder": "Een naamruimte invoeren",
-      "sampleModel": "voorbeeldmodel"
     }
   },
   "cameraControls": {
@@ -1112,8 +1095,8 @@
     "errorDisplayNameLength": "Weergavenaam mag niet meer dan 64 tekens bevatten",
     "errorRepeatedEdgeName": "Er bestaat al een relatie met dezelfde naam",
     "runLayout": "Lay-out uitvoeren",
-    "loadingText": "Lay-outposities berekenen",
-    "extends": "Breidt"
+    "errorReachedInheritanceLimit": "Overervingslimiet bereikt",
+    "errorInheritance": "Mag niet van meer dan twee interfaces overnemen"
   },
   "OATPropertyEditor": {
     "displayName": "Weergegeven naam",
@@ -1200,39 +1183,7 @@
     "addToPropertyList": "Toevoegen aan lijst met accommodaties",
     "moveDown": "Naar beneden gaan",
     "moveUp": "Overgaan",
-    "valueSchema": "Waardenschema",
-    "modelId": "Model-id",
-    "path": "Pad",
-    "uniqueModelName": "Unieke modelnaam",
-    "version": "Versie",
-    "commentPlaceholder": "Opmerking voor modelauteurs",
-    "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
-    "details": "Bijzonderheden",
-    "displayNamePlaceholder": "Een localiseerbare naam om weer te geven",
-    "maxMultiplicityLabel": "Maximale multipliciteit",
-    "minMultiplicityLabel": "Minimale veelheid",
-    "minMultiplicityMessage": "DTDL V2 ondersteunt alleen een minimale multipliciteit van 0",
-    "date": "datum",
-    "expand": "Uitbreiden",
-    "PropertyListItem": {
-      "arrayItemLabel": "Items",
-      "enumKeyPlaceholder": "Enter-toets",
-      "enumValuePlaceholder": "Waarde invoeren",
-      "ContextMenu": {
-        "changePropertyTypeLabel": "Type eigenschap bewerken",
-        "changeChildTypeLabelForArray": "Type array-item wijzigen",
-        "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
-        "editMetadataLabel": "Metagegevens bewerken"
-      }
-    },
-    "defaultPropertyName": "nieuwe eigenschap {{index}}",
-    "SchemaDefaults": {
-      "defaultEnumName": "enum_key_{{index}}",
-      "defaultMapName": "enum_key_{{index}}",
-      "defaultObjectPropertyName": "field_name_{{index}}",
-      "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
-    }
+    "valueSchema": "Waardenschema"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",
@@ -1351,27 +1302,6 @@
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "kopiëren",
-    "defaultFileName": "Nieuwe ontologie",
-    "defaultModelNamePrefix": "Model"
-  },
-  "OATModelList": {
-    "searchModels": "Modellen zoeken",
-    "noDataMessage": "Geen modellen",
-    "noMatchingItemsMessage": "Geen enkel model voldoet aan die criteria",
-    "removeModelButtonText": "Model verwijderen",
-    "modelListToggleAriaLabelShow": "Modellenlijst weergeven",
-    "modelListToggleAriaLabelHide": "Modellenlijst verbergen"
-  },
-  "clear": "Duidelijk",
-  "increaseBy1": "Waarde verhogen met 1",
-  "decreaseBy1": "Waarde verlagen met 1",
-  "duplicate": "Duplicaat",
-  "moveUp": "Overgaan",
-  "moveDown": "Naar beneden gaan"
-=======
   "dataHistoryExplorer": {
     "title": "Gegevensgeschiedenisverkenner",
     "builder": {
@@ -1392,5 +1322,4 @@
     },
     "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
   }
->>>>>>> origin/main
 }

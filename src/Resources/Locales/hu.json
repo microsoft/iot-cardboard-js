@@ -944,6 +944,7 @@
     "deleteAll": "Összes törlése",
     "folderUpload": "Mappa feltöltése",
     "fileUpload": "Fájlfeltöltés",
+    "files": "Fájlokat",
     "selectFile": "Fájl kiválasztása",
     "errorSingleFileHoldsRelationships": "Probléma a {{fájlnév}} sablonnal: A modell olyan kapcsolatokat tartalmaz, amelyek importálása nem történik meg",
     "errorImportedModelAlreadyExists": "Probléma a {{modelId}} sablonnal: Az azonos @id rendelkező modell már létezik",
@@ -953,24 +954,6 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontológia",
       "dropdownPlaceholder": "Válasszon ki egy ontológiát"
-    },
-    "configure": "Konfigurál",
-    "importFile": "Fájl importálása",
-    "importFolder": "Mappa importálása",
-    "ontology": "Ontológia",
-    "manageOntologyModal": {
-      "deleteButtonText": "Ontológia törlése",
-      "modalTitleCreate": "Új ontológia",
-      "modalTitleEdit": "Ontológia szerkesztése",
-      "modalSubTitleCreate": "Hozzon létre egy új ontológiát, hogy struktúrát adjon a digitiális ikertestvérének.",
-      "modalSubTitleEdit": "Szerkeszd az ontológiádat, hogy struktúrát adj a digitális ikertestvérednek.",
-      "modalSubTitleLinkText": "Tudjon meg többet az ontológiákról",
-      "nameLabel": "Név",
-      "namePlaceholder": "Adjon meg egy ontológiai nevet",
-      "namespaceLabel": "Namespace",
-      "namespaceDescription": "Példa modellnévre: {{modelName}}",
-      "namespacePlaceholder": "Névtér megadása",
-      "sampleModel": "minta modell"
     }
   },
   "cameraControls": {
@@ -1112,8 +1095,8 @@
     "errorDisplayNameLength": "A megjelenítendő név nem haladhatja meg a 64 karaktert",
     "errorRepeatedEdgeName": "Az azonos nevű kapcsolat már létezik",
     "runLayout": "Elrendezés futtatása",
-    "loadingText": "Elrendezési pozíciók számítása",
-    "extends": "Kiterjeszti"
+    "errorReachedInheritanceLimit": "Elérte az öröklési korlátot",
+    "errorInheritance": "Kettőnél több interfésztől nem örökölhet"
   },
   "OATPropertyEditor": {
     "displayName": "Megjelenítendő név",
@@ -1200,39 +1183,7 @@
     "addToPropertyList": "Hozzáadás a tulajdonlistához",
     "moveDown": "Lejjebb lépés",
     "moveUp": "Feljebb lépés",
-    "valueSchema": "Értékséma",
-    "modelId": "Modell azonosítója",
-    "path": "Ösvény",
-    "uniqueModelName": "Egyedi modellnév",
-    "version": "Verzió",
-    "commentPlaceholder": "Megjegyzés a modell szerzőinek",
-    "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
-    "details": "Részletek",
-    "displayNamePlaceholder": "Megjelenítendő honosítható név",
-    "maxMultiplicityLabel": "Maximális sokaság",
-    "minMultiplicityLabel": "Minimális szorzás",
-    "minMultiplicityMessage": "A DTDL V2 csak a 0 minimális szorzást támogatja",
-    "date": "dátum",
-    "expand": "Kibővít",
-    "PropertyListItem": {
-      "arrayItemLabel": "Elemek",
-      "enumKeyPlaceholder": "Enter billentyű",
-      "enumValuePlaceholder": "Érték megadása",
-      "ContextMenu": {
-        "changePropertyTypeLabel": "Tulajdonságtípus szerkesztése",
-        "changeChildTypeLabelForArray": "Tömbelem típusának módosítása",
-        "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
-        "editMetadataLabel": "Metaadatok szerkesztése"
-      }
-    },
-    "defaultPropertyName": "új tulajdonság {{index}}",
-    "SchemaDefaults": {
-      "defaultEnumName": "enum_key_{{index}}",
-      "defaultMapName": "enum_key_{{index}}",
-      "defaultObjectPropertyName": "field_name_{{index}}",
-      "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
-    }
+    "valueSchema": "Értékséma"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",
@@ -1351,27 +1302,6 @@
   "colorPills": {
     "unlabeled": "Címkézetlen"
   },
-<<<<<<< HEAD
-  "OATCommon": {
-    "duplicateFileNameSuffix": "másolat",
-    "defaultFileName": "Új ontológia",
-    "defaultModelNamePrefix": "Modell"
-  },
-  "OATModelList": {
-    "searchModels": "Keresési modellek",
-    "noDataMessage": "Nincs modell",
-    "noMatchingItemsMessage": "Egyetlen modell sem felel meg ennek a feltételnek",
-    "removeModelButtonText": "Modell eltávolítása",
-    "modelListToggleAriaLabelShow": "Modelllista megjelenítése",
-    "modelListToggleAriaLabelHide": "Modelllista elrejtése"
-  },
-  "clear": "Világos",
-  "increaseBy1": "Növelje az értéket 1-gyel",
-  "decreaseBy1": "Érték csökkentése 1-gyel",
-  "duplicate": "Ismétlődő",
-  "moveUp": "Feljebb lépés",
-  "moveDown": "Lejjebb lépés"
-=======
   "dataHistoryExplorer": {
     "title": "Adatelőzmény-kezelő",
     "builder": {
@@ -1392,5 +1322,4 @@
     },
     "loadingConnectionLabel": "Idősoros kapcsolati információk betöltése..."
   }
->>>>>>> origin/main
 }
