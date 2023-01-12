@@ -856,7 +856,15 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     }
     return (
         <>
+            {/* add a wider path to make the click target bigger */}
+            <path
+                id={edgeId}
+                className={graphViewerStyles.widthPath}
+                d={edgePath}
+            />
+            {/* actual colored lined */}
             <path id={edgeId} className={edgeClassName} d={edgePath} />
+            {/* text label */}
             {!hasStackedReferences ? (
                 <text>
                     <textPath
@@ -869,16 +877,6 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </textPath>
                 </text>
             ) : (
-                // <text>
-                //     <textPath
-                //         href={`#${edgeId}`}
-                //         className={classNames.stackedReferenceCountLabel}
-                //         startOffset="50%"
-                //         textAnchor="middle"
-                //     >
-                //         {String(stackedEdges.length)}
-                //     </textPath>
-                // </text>
                 <foreignObject
                     width={STACKED_EDGE_NUMBER_OBJECT_SIZE}
                     height={STACKED_EDGE_NUMBER_OBJECT_SIZE}
@@ -893,6 +891,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </div>
                 </foreignObject>
             )}
+            {/* the callout with the menu or list of stacked edges */}
             {isSelected && (
                 <foreignObject
                     width={foreignObjectSize}
@@ -938,7 +937,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     </Callout>
                 </foreignObject>
             )}
-            {/* Hide the indicators for self referencing ones, cause the math is wayyy too hard for V1 */}
+            {/* Hide the indicators for self referencing ones, because the math is wayyy too hard for V1 */}
             {!isSelfReferencing && (
                 <polygon
                     points={shapePoints}
