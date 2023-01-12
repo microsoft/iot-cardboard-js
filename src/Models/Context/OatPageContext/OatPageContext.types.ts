@@ -77,7 +77,6 @@ export interface IOatPageContextState {
     isJsonUploaderOpen?: boolean;
     modified?: boolean;
     ontologyFiles: IOATFile[];
-    selectedModelTarget: DtdlInterface | DtdlInterfaceContent;
     selection?: IOATSelection;
     templatesActive?: boolean;
 }

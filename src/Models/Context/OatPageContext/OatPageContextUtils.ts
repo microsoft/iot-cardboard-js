@@ -322,14 +322,6 @@ export const setSelectedModel = (
     draft: IOatPageContextState
 ): void => {
     draft.selection = selection;
-    if (draft.currentOntologyModels && draft.selection) {
-        draft.selectedModelTarget = getTargetFromSelection(
-            draft.currentOntologyModels,
-            draft.selection
-        );
-    } else {
-        draft.selectedModelTarget = null;
-    }
 };
 
 /** looks up all references of an existing model id and replaces it with the new id */

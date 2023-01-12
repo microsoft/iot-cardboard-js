@@ -8,7 +8,6 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
-import { DtdlInterfaceContent, OatReferenceType } from '../../Constants';
 import {
     buildModelId,
     getAvailableLanguages,
@@ -46,18 +45,6 @@ export const getMockModelItem = (id: string): DTDLModel => {
         [], // components
         [] // extends
     );
-};
-
-export const getMockReference = (
-    id: string,
-    type: OatReferenceType,
-    partial?: Partial<DtdlInterfaceContent>
-): DtdlInterfaceContent => {
-    return {
-        '@type': type,
-        name: 'mock_relationship_' + id,
-        ...partial
-    };
 };
 
 const getMockTemplateItem = (id: string): DTDLProperty => {
@@ -122,13 +109,12 @@ export const GET_MOCK_OAT_CONTEXT_STATE = (): IOatPageContextState => {
         currentOntologyTemplates: currentFile.templates,
         languageOptions: getAvailableLanguages(i18n),
         triggerGraphLayout: false,
-        error: null,
+        error: undefined,
         graphUpdatesToSync: { actionType: 'None' },
         isJsonUploaderOpen: false,
         modified: false,
         ontologyFiles: files,
-        selectedModelTarget: null,
-        selection: null,
+        selection: undefined,
         templatesActive: false
     };
 };
