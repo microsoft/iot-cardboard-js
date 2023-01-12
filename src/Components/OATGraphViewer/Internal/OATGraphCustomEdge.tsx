@@ -7,7 +7,7 @@ import {
     FontSizes,
     styled
 } from '@fluentui/react';
-import { useId } from '@fluentui/react-hooks';
+import { useId, useBoolean } from '@fluentui/react-hooks';
 import {
     getEdgeCenter,
     useStoreState,
@@ -183,7 +183,8 @@ const getMidPointForNode = (node: Node<any>): number[] => {
 
     return [x, y];
 };
-const getIdentifier = (data: IOATNodeData): string => {
+
+const getEdgeIdentifier = (data: IOATNodeData): string => {
     if (data['@type'] === 'Extend') {
         return data['@id'];
     } else {
@@ -241,6 +242,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
         showInheritances,
         showComponents
     } = oatGraphState;
+    const [
+        isHovered,
+        { setTrue: setHoveredTrue, setFalse: setHoveredFalse }
+    ] = useBoolean(false);
 
     // data
     const edge = useMemo(() => edges.find((x) => x.id === edgeId), [
@@ -304,7 +309,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             oatPageState.selection.modelId === edgeSourceNode.id &&
             stackedEdges.some(
                 (x) =>
-                    getIdentifier(x.data) === oatPageState.selection.contentId
+                    getEdgeIdentifier(x.data) ===
+                    oatPageState.selection.contentId
             );
         return isSelected;
     }, [oatPageState.selection, stackedEdges, edgeSourceNode]);
@@ -792,7 +798,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             const item: ICardboardListItem<Edge> = {
                 ariaLabel: '',
                 isSelected:
-                    oatPageState.selection?.contentId === getIdentifier(x.data),
+                    oatPageState.selection?.contentId ===
+                    getEdgeIdentifier(x.data),
                 item: x,
                 textPrimary: name,
                 onClick: () => onSelectEdge(x),
@@ -861,9 +868,17 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 id={edgeId}
                 className={graphViewerStyles.widthPath}
                 d={edgePath}
+                onMouseEnter={setHoveredTrue}
+                onMouseLeave={setHoveredFalse}
             />
             {/* actual colored lined */}
-            <path id={edgeId} className={edgeClassName} d={edgePath} />
+            <path
+                id={edgeId}
+                className={edgeClassName}
+                d={edgePath}
+                onMouseEnter={setHoveredTrue}
+                onMouseLeave={setHoveredFalse}
+            />
             {/* text label */}
             {!hasStackedReferences ? (
                 <text>
@@ -872,6 +887,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                         className={graphViewerStyles.textPath}
                         startOffset="50%"
                         textAnchor="middle"
+                        onMouseEnter={setHoveredTrue}
+                        onMouseLeave={setHoveredFalse}
                     >
                         {getDisplayName(edgeData.name)}
                     </textPath>
@@ -883,6 +900,8 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                     x={stackedEdgeLabelPosition.x}
                     y={stackedEdgeLabelPosition.y}
                     requiredExtensions="http://www.w3.org/1999/xhtml"
+                    onMouseEnter={setHoveredTrue}
+                    onMouseLeave={setHoveredFalse}
                 >
                     <div className={classNames.stackedReferenceCountLabelRoot}>
                         <div className={classNames.stackedReferenceCountLabel}>
@@ -892,7 +911,7 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
                 </foreignObject>
             )}
             {/* the callout with the menu or list of stacked edges */}
-            {isSelected && (
+            {(isSelected || (isHovered && hasStackedReferences)) && (
                 <foreignObject
                     width={foreignObjectSize}
                     height={foreignObjectSize}
@@ -940,12 +959,14 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
             {/* Hide the indicators for self referencing ones, because the math is wayyy too hard for V1 */}
             {!isSelfReferencing && (
                 <polygon
-                    points={shapePoints}
+                    className={shapeClassName}
                     cx={polygons.polygonTargetX}
                     cy={polygons.polygonTargetY}
+                    onMouseEnter={setHoveredTrue}
+                    onMouseLeave={setHoveredFalse}
+                    points={shapePoints}
                     r={3}
                     strokeWidth={1.5}
-                    className={shapeClassName}
                 />
             )}
         </>
