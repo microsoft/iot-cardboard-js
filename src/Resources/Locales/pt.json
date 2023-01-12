@@ -944,7 +944,6 @@
     "deleteAll": "Excluir tudo",
     "folderUpload": "Upload de pasta",
     "fileUpload": "Upload de arquivo",
-    "files": "Limas",
     "selectFile": "Selecione arquivo",
     "errorSingleFileHoldsRelationships": "Problema com {{fileName}}: O modelo mantém relacionamentos que não estão sendo importados",
     "errorImportedModelAlreadyExists": "Problema com {{modelId}}: Modelo com o mesmo @id já existe",
@@ -954,6 +953,24 @@
     "fileOpenModal": {
       "dropdownLabel": "Ontologia",
       "dropdownPlaceholder": "Selecione uma ontologia"
+    },
+    "configure": "Configurar",
+    "importFile": "Importar arquivo",
+    "importFolder": "Importar pasta",
+    "ontology": "Ontologia",
+    "manageOntologyModal": {
+      "deleteButtonText": "Excluir ontologia",
+      "modalTitleCreate": "Nova ontologia",
+      "modalTitleEdit": "Editar ontologia",
+      "modalSubTitleCreate": "Crie uma nova ontologia para dar estrutura ao seu gêmeo digital.",
+      "modalSubTitleEdit": "Edite sua ontologia para dar estrutura ao seu gêmeo digital.",
+      "modalSubTitleLinkText": "Saiba mais sobre ontologias",
+      "nameLabel": "Nome",
+      "namePlaceholder": "Digite um nome de ontologia",
+      "namespaceLabel": "Namespace",
+      "namespaceDescription": "Nome do modelo de exemplo: {{modelName}}",
+      "namespacePlaceholder": "Inserir um namespace",
+      "sampleModel": "modelo de exemplo"
     }
   },
   "cameraControls": {
@@ -1095,8 +1112,8 @@
     "errorDisplayNameLength": "O nome do display não pode exceder 64 chars",
     "errorRepeatedEdgeName": "Uma relação com o mesmo nome já existe",
     "runLayout": "Executar layout",
-    "errorReachedInheritanceLimit": "Limite de herança alcançado",
-    "errorInheritance": "Não pode herdar de mais de duas interfaces"
+    "extends": "Estende",
+    "loadingText": "Posições de layout de computação"
   },
   "OATPropertyEditor": {
     "displayName": "Nome de exibição",
@@ -1183,7 +1200,39 @@
     "addToPropertyList": "Adicionar à lista de propriedades",
     "moveDown": "Abaixe-se",
     "moveUp": "Mova-se para cima",
-    "valueSchema": "Esquema de valor"
+    "valueSchema": "Esquema de valor",
+    "commentPlaceholder": "Comentário para autores de modelos",
+    "date": "data",
+    "defaultPropertyName": "nova propriedade {{index}}",
+    "descriptionPlaceholder": "Uma descrição localizável a ser exibida",
+    "details": "Detalhes",
+    "displayNamePlaceholder": "Um nome localizável para exibição",
+    "expand": "Expandir",
+    "maxMultiplicityLabel": "Multiplicidade máxima",
+    "minMultiplicityLabel": "Multiplicidade mínima",
+    "minMultiplicityMessage": "DTDL V2 suporta apenas uma multiplicidade mínima de 0",
+    "modelId": "ID do modelo",
+    "path": "Caminho",
+    "uniqueModelName": "Nome exclusivo do modelo",
+    "version": "Versão",
+    "SchemaDefaults": {
+      "defaultEnumName": "enum_key_{{índice}}",
+      "defaultMapName": "enum_key_{{índice}}",
+      "defaultObjectPropertyName": "field_name_{{índice}}",
+      "defaultMapKeyName": "map_key_{{índice}}",
+      "defaultMapValueName": "map_value_{{índice}}"
+    },
+    "PropertyListItem": {
+      "arrayItemLabel": "Itens",
+      "enumKeyPlaceholder": "Digite a chave",
+      "enumValuePlaceholder": "Insira o valor",
+      "ContextMenu": {
+        "changePropertyTypeLabel": "Editar tipo de propriedade",
+        "changeChildTypeLabelForArray": "Alterar o tipo de item de matriz",
+        "changeChildTypeLabelForEnum": "Alterar o tipo de valor de enum",
+        "editMetadataLabel": "Editar metadados"
+      }
+    }
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensagem de erro",
@@ -1321,5 +1370,24 @@
       "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
     },
     "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
+  },
+  "clear": "Claro",
+  "duplicate": "Duplicar",
+  "moveUp": "Mover para cima",
+  "moveDown": "Mover para baixo",
+  "increaseBy1": "Aumentar o valor em 1",
+  "decreaseBy1": "Diminuir o valor em 1",
+  "OATCommon": {
+    "duplicateFileNameSuffix": "copiar",
+    "defaultFileName": "Nova ontologia",
+    "defaultModelNamePrefix": "Modelo"
+  },
+  "OATModelList": {
+    "searchModels": "Pesquisar modelos",
+    "noDataMessage": "Sem modelos",
+    "noMatchingItemsMessage": "Nenhum modelo corresponde a esse critério",
+    "removeModelButtonText": "Remover modelo",
+    "modelListToggleAriaLabelShow": "Mostrar lista de modelos",
+    "modelListToggleAriaLabelHide": "Ocultar lista de modelos"
   }
 }
