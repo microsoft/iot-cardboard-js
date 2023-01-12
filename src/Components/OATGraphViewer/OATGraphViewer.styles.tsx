@@ -469,10 +469,6 @@ export const getGraphViewerStyles = () => {
                 right: '2px'
             } as IStyle
         ],
-        relationshipNameEditorBody: [
-            classNames.relationshipNameEditorBody,
-            { position: 'relative' } as IStyle
-        ],
         untargetedNodeContainer: [
             classNames.untargetedNodeContainer,
             {

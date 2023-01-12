@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "显示名称不得超过 64 个字符",
     "errorRepeatedEdgeName": "具有相同名称的关系已存在",
     "runLayout": "运行布局",
-    "loadingText": "计算布局位置"
+    "loadingText": "计算布局位置",
+    "extends": "延伸"
   },
   "OATPropertyEditor": {
     "displayName": "显示名称",

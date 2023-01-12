@@ -14,7 +14,7 @@ import {
 import { CardboardGroupedListItemType } from './CardboardGroupedList.types';
 
 const classPrefix = `${CardboardClassNamePrefix}-list-item`;
-export const classNames = {
+const classNames = {
     alertDot: `${classPrefix}-alert-dot`,
     checkbox: `${classPrefix}-checkbox`,
     endIcon: `${classPrefix}-end-icon`,
@@ -28,6 +28,7 @@ export const classNames = {
     secondaryText: `${classPrefix}-secondary-text`,
     separator: `${classPrefix}-separator`
 };
+export const CARDBOARD_LIST_ITEM_CLASS_NAMES = classNames;
 export const getStyles = memoizeFunction(
     (theme: Theme, isMenuOpen: boolean) => {
         const ellipseStyles = {

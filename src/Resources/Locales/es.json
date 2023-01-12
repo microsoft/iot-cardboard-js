@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "El nombre para mostrar no puede exceder los 64 caracteres",
     "errorRepeatedEdgeName": "Ya existe una relación con el mismo nombre",
     "runLayout": "Ejecutar diseño",
-    "loadingText": "Posiciones de diseño de cálculo"
+    "loadingText": "Posiciones de diseño de cálculo",
+    "extends": "Extiende"
   },
   "OATPropertyEditor": {
     "displayName": "Nombre para mostrar",

@@ -1112,7 +1112,8 @@
     "errorDisplayNameLength": "Отображаемое имя не должно превышать 64 символов",
     "errorRepeatedEdgeName": "Связь с таким же именем уже существует",
     "runLayout": "Макет запуска",
-    "loadingText": "Вычислительные позиции макета"
+    "loadingText": "Вычислительные позиции макета",
+    "extends": "Расширяет"
   },
   "OATPropertyEditor": {
     "displayName": "Отображаемое имя",
