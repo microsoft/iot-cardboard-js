@@ -521,7 +521,6 @@ const emptyState: IOatPageContextState = {
     graphUpdatesToSync: { actionType: 'None' },
     isJsonUploaderOpen: false,
     modified: false,
-    selectedModelTarget: null,
     selection: null,
     templatesActive: false
 };
