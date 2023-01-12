@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
       "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
       "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
-      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı.",
-      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz."
+      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz.",
+      "resourceNotFound": "Seçilen dizinde girilen değerle Azure kaynağı bulunamadı."
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "Etiketlenmemiş"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopya etmek",
     "defaultFileName": "Yeni ontoloji",
@@ -1370,4 +1371,26 @@
   "duplicate": "Yinelenen",
   "moveUp": "Yukarı taşı",
   "moveDown": "Aşağı taşı"
+=======
+  "dataHistoryExplorer": {
+    "title": "Veri geçmişi gezgini",
+    "builder": {
+      "title": "İkiz özellikler",
+      "timeSeriesTwin": {
+        "property": "Mülk",
+        "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
+        "add": "Zaman serisi ekleme",
+        "remove": "Zaman serilerini kaldırma",
+        "edit": "Zaman serilerini düzenleme"
+      },
+      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
+    },
+    "viewer": {
+      "chart": "Grafik",
+      "table": "Masa",
+      "noSeriesDescription": "Bu ikizin veri geçmişini görüntülemek için görüntülenecek bir özellik seçin."
+    },
+    "loadingConnectionLabel": "Zaman serisi bağlantı bilgileri yükleniyor..."
+  }
+>>>>>>> origin/main
 }

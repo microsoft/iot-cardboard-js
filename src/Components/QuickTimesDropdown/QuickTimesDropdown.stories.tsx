@@ -2,11 +2,9 @@ import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { getDefaultStoryDecorator } from '../../Models/Services/StoryUtilities';
 import QuickTimesDropdown from './QuickTimesDropdown';
-import {
-    IQuickTimesDropdownProps,
-    QuickTimeSpanKey
-} from './QuickTimesDropdown.types';
+import { IQuickTimesDropdownProps } from './QuickTimesDropdown.types';
 import { Icon, IDropdownOption } from '@fluentui/react';
+import { QuickTimeSpanKey } from '../../Models/Constants/Enums';
 
 const wrapperStyle = { width: '200px', height: '600px', padding: 8 };
 

@@ -89,7 +89,13 @@ export const CardboardListItem = <T extends unknown>(
     );
 
     const theme = useTheme();
-    const classNames = getStyles(theme, isMenuOpen);
+    const classNames = getStyles(
+        theme,
+        isMenuOpen,
+        iconStart && typeof iconStart !== 'function'
+            ? iconStart.color
+            : undefined
+    );
     const buttonStyles = getButtonStyles(
         itemType,
         theme,
@@ -120,16 +126,17 @@ export const CardboardListItem = <T extends unknown>(
                             />
                         </>
                     )}
-                    {typeof iconStart === 'function' && iconStart(item)}
-                    {showStartIcon &&
-                        (typeof iconStart.name === 'string' ? (
-                            <FontIcon
-                                iconName={iconStart.name}
-                                className={classNames.icon}
-                            />
-                        ) : (
-                            iconStart.name
-                        ))}
+                    {typeof iconStart === 'function'
+                        ? iconStart(item)
+                        : showStartIcon &&
+                          (typeof iconStart.name === 'string' ? (
+                              <FontIcon
+                                  iconName={iconStart.name}
+                                  className={classNames.icon}
+                              />
+                          ) : (
+                              iconStart.name
+                          ))}
                     <div className={classNames.textContainer}>
                         <div
                             className={classNames.primaryText}

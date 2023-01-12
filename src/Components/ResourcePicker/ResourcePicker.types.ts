@@ -27,7 +27,8 @@ export interface IResourcePickerProps {
     loadingLabel?: string;
     onChange?: (
         resource: IAzureResource | string,
-        resources?: Array<IAzureResource | string>
+        resources?: Array<IAzureResource | string>,
+        inputError?: string // to expose internal input error
     ) => void; // callback function to expose the selected resource and optionally list of resources in dropdown when it is changed in the combobox
     onLoaded?: (resources: Array<IAzureResource>) => void; // callback function to expose resources when they are fetched with useAdapter method on mount
     resourceType: AzureResourceTypes;
@@ -65,6 +66,7 @@ export const isResourceOption = (
 export type ResourcePickerError = {
     message: string;
     isCatastrophic: boolean;
+    isInternal?: boolean;
 };
 
 export interface IResourcePickerStyleProps {

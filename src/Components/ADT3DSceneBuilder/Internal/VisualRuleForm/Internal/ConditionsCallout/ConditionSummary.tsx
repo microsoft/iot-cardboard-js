@@ -17,8 +17,8 @@ import {
 import { BoundaryType } from './BoundaryInput.types';
 import { getStyles } from './ConditionSummary.styles';
 import i18n from '../../../../../../i18n';
-import { isNumericType } from '../../VisualRuleFormUtility';
 import { useExtendedTheme } from '../../../../../../Models/Hooks/useExtendedTheme';
+import { isNumericType } from '../../../../../../Models/Classes/3DVConfig';
 
 const ROOT_LOC = '3dSceneBuilder.visualRuleForm';
 const LOC_KEYS = {

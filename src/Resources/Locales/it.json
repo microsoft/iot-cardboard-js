@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"lettore di dati Gemelli digitali di Azure\" (come minimo).",
       "storageAccountMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Avrai bisogno di accedere come \"Lettore\" (come minimo).",
       "storageContainerMissingPermissionMessage": "Non si dispone di autorizzazioni mancanti. Sarà necessario accedere come \"Lettore\" (come minimo) e \"Proprietario dei dati BLOB di archiviazione\" o \"Collaboratore dei dati BLOB di archiviazione\".",
-      "resourceNotFound": "Non è stata trovata alcuna risorsa di Azure con il valore immesso.",
-      "resourceNotVerified": "Non possiamo verificare che questa risorsa esista."
+      "resourceNotVerified": "Non possiamo verificare che questa risorsa esista.",
+      "resourceNotFound": "Non è stata trovata alcuna risorsa di Azure con il valore immesso nella directory selezionata."
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "Senza etichetta"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copiare",
     "defaultFileName": "Nuova ontologia",
@@ -1370,4 +1371,26 @@
   "duplicate": "Duplicare",
   "moveUp": "Promuovere",
   "moveDown": "Retrocedere"
+=======
+  "dataHistoryExplorer": {
+    "title": "Esplora cronologia dati",
+    "builder": {
+      "title": "Proprietà gemelle",
+      "timeSeriesTwin": {
+        "property": "Proprietà",
+        "propertyTypeCastLabel": "Eseguire il cast della proprietà dal tipo al numero",
+        "add": "Aggiungere serie temporali",
+        "remove": "Rimuovere serie temporali",
+        "edit": "Modificare le serie temporali"
+      },
+      "description": "Per confrontare i valori passati per le proprietà cronologizzate, aggiungere le serie temporali riportate di seguito."
+    },
+    "viewer": {
+      "chart": "Tabella",
+      "table": "Tavolo",
+      "noSeriesDescription": "Per visualizzare la cronologia dei dati per questo gemello, selezionare una proprietà da visualizzare."
+    },
+    "loadingConnectionLabel": "Caricamento delle informazioni di connessione delle serie temporali..."
+  }
+>>>>>>> origin/main
 }

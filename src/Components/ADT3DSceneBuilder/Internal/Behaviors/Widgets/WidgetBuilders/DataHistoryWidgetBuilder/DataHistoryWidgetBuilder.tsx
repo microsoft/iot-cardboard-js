@@ -16,8 +16,15 @@ import { useBoolean, useId } from '@fluentui/react-hooks';
 import produce from 'immer';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DOCUMENTATION_LINKS } from '../../../../../../../Models/Constants/Constants';
+import {
+    AggregationTypeDropdownOptions,
+    DOCUMENTATION_LINKS
+} from '../../../../../../../Models/Constants/Constants';
 import { isValidADXClusterUrl } from '../../../../../../../Models/Services/Utils';
+import {
+    getQuickTimeSpanKeyByValue,
+    getYAxisTypeOptions
+} from '../../../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IADXTimeSeriesConnection,
     IDataHistoryAggregationType,
@@ -26,20 +33,16 @@ import {
 } from '../../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { ADT3DScenePageContext } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage';
 import { ADXConnectionInformationLoadingState } from '../../../../../../../Pages/ADT3DScenePage/ADT3DScenePage.types';
-import QuickTimesDropdown, {
-    getQuickTimeSpanKeyByValue
-} from '../../../../../../QuickTimesDropdown/QuickTimesDropdown';
+import QuickTimesDropdown from '../../../../../../QuickTimesDropdown/QuickTimesDropdown';
 import TooltipCallout from '../../../../../../TooltipCallout/TooltipCallout';
 import { getActionButtonStyles } from '../../../../Shared/LeftPanel.styles';
 import { getWidgetFormStyles } from '../../WidgetForm/WidgetForm.styles';
 import { getStyles } from './DataHistoryWidgetBuilder.styles';
 import {
-    AggregationTypeOptions,
     ChartOptionKeys,
     IDataHistoryWidgetBuilderProps,
     MAX_NUMBER_OF_TIME_SERIES,
     SERIES_LIST_ITEM_ID_PREFIX,
-    getYAxisTypeOptions,
     IDataHistoryWidgetBuilderStyleProps,
     IDataHistoryWidgetBuilderStyles
 } from './DataHistoryWidgetBuilder.types';
@@ -393,7 +396,7 @@ const DataHistoryWidgetBuilder: React.FC<IDataHistoryWidgetBuilderProps> = ({
                             option.key as IDataHistoryAggregationType
                         )
                     }
-                    options={AggregationTypeOptions}
+                    options={AggregationTypeDropdownOptions}
                     onRenderLabel={handleOnRenderAggregationMethodLabel}
                 />
             </Stack>

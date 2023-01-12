@@ -14,12 +14,12 @@ export type IllustrationMessageType = 'error' | 'info';
 export type IllustrationMessageWidth = 'wide' | 'compact';
 
 export interface IllustrationMessageProps {
-    /** Required: Text for the header of the message */
-    headerText: string;
     /** Required: Type of message either info or error */
     type: IllustrationMessageType;
     /** Required: Type of message either info or error */
     width: IllustrationMessageWidth;
+    /** Text for the header of the message */
+    headerText?: string;
     /** Text for the description of the message */
     descriptionText?: string;
     /** Text for link shown after description */

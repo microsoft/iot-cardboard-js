@@ -46,6 +46,7 @@ export interface IAutoCompleteProps {
     ) => string;
     required?: boolean;
     isLoading?: boolean;
+    isDisabled?: boolean;
 }
 
 export function sleep(ms: number) {
@@ -65,7 +66,8 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
     getItems,
     onSelected,
     required = false,
-    isLoading = false
+    isLoading = false,
+    isDisabled = false
 }) => {
     const [selectedItemIndex, setSelectedItemIndex] = useState(-1);
     const [calloutVisible, setCalloutVisible] = useState(false);
@@ -250,7 +252,7 @@ export const AutoComplete: React.FC<IAutoCompleteProps> = ({
                 validateOnFocusOut={true}
                 required={required}
                 componentRef={textFieldRef}
-                disabled={isLoading}
+                disabled={isDisabled || isLoading}
             />
             <Callout
                 styles={{ root: { marginTop: topRef.current } }}

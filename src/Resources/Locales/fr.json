@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur de données Azure Digital Twins » (au minimum).",
       "storageAccountMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « lecteur » (au minimum).",
       "storageContainerMissingPermissionMessage": "Il vous manque des autorisations. Vous aurez besoin d'un accès en tant que « Lecteur » (au minimum) et « Propriétaire des données d'objets blob de stockage » ou « Contributeur de données d'objets blob de stockage ».",
-      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée.",
-      "resourceNotVerified": "Nous ne pouvons pas vérifier que cette ressource existe."
+      "resourceNotVerified": "Nous ne pouvons pas vérifier que cette ressource existe.",
+      "resourceNotFound": "Aucune ressource Azure n’est trouvée avec la valeur entrée dans le répertoire sélectionné."
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "Sans étiquette"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "copier",
     "defaultFileName": "Nouvelle ontologie",
@@ -1370,4 +1371,26 @@
   "duplicate": "Dupliquer",
   "moveUp": "Monter",
   "moveDown": "Descendre"
+=======
+  "dataHistoryExplorer": {
+    "title": "Explorateur d’historique des données",
+    "builder": {
+      "title": "Propriétés jumelles",
+      "timeSeriesTwin": {
+        "property": "Propriété",
+        "propertyTypeCastLabel": "Convertir le type de propriété en nombre",
+        "add": "Ajouter des séries chronologiques",
+        "remove": "Supprimer des séries chronologiques",
+        "edit": "Modifier des séries chronologiques"
+      },
+      "description": "Pour comparer les valeurs antérieures des propriétés historisées, ajoutez des séries chronologiques ci-dessous."
+    },
+    "viewer": {
+      "chart": "Graphique",
+      "table": "Table",
+      "noSeriesDescription": "Pour afficher l’historique des données de ce jumeau, sélectionnez une propriété à afficher."
+    },
+    "loadingConnectionLabel": "Chargement des informations de connexion de séries chronologiques..."
+  }
+>>>>>>> origin/main
 }

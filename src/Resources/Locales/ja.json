@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "アクセス許可がありません。(少なくとも) \"Azure Digital Twins Data Reader\" としてアクセスする必要があります。",
       "storageAccountMissingPermissionMessage": "アクセス許可がありません。「リーダー」として(少なくとも)アクセスする必要があります。",
       "storageContainerMissingPermissionMessage": "アクセス許可がありません。\"閲覧者\" (少なくとも) および \"ストレージ BLOB データ所有者\" または \"ストレージ BLOB データ共同作成者\" としてアクセスする必要があります。",
-      "resourceNotFound": "入力された値を持つ Azure リソースが見つかりません。",
-      "resourceNotVerified": "このリソースが存在することを確認できません。"
+      "resourceNotVerified": "このリソースが存在することを確認できません。",
+      "resourceNotFound": "選択したディレクトリに、入力した値を持つ Azure リソースが見つかりません。"
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "ラベル"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "写し",
     "defaultFileName": "新しいオントロジー",
@@ -1370,4 +1371,26 @@
   "duplicate": "デュプリケート",
   "moveUp": "上へ移動",
   "moveDown": "下へ移動"
+=======
+  "dataHistoryExplorer": {
+    "title": "データ履歴エクスプローラー",
+    "builder": {
+      "title": "ツインプロパティ",
+      "timeSeriesTwin": {
+        "property": "財産",
+        "propertyTypeCastLabel": "プロパティの型を数値にキャスト",
+        "add": "時系列の追加",
+        "remove": "時系列を削除する",
+        "edit": "時系列の編集"
+      },
+      "description": "履歴化されたプロパティの過去の値を比較するには、以下に時系列を追加します。"
+    },
+    "viewer": {
+      "chart": "チャート",
+      "table": "テーブル",
+      "noSeriesDescription": "このツインのデータ履歴を表示するには、表示するプロパティを選択します。"
+    },
+    "loadingConnectionLabel": "時系列接続情報を読み込んでいます..."
+  }
+>>>>>>> origin/main
 }

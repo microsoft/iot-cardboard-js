@@ -46,7 +46,7 @@ import {
 import {
     ADTModel_ImgPropertyPositions_PropertyName,
     ADTModel_ImgSrc_PropertyName,
-    OatReferenceType
+    PropertyValueType
 } from './Constants';
 import ExpandedADTModelData from '../Classes/AdapterDataClasses/ExpandedADTModelData';
 import { AzureResourcesData } from '../Classes/AdapterDataClasses/AzureManagementData';
@@ -69,12 +69,7 @@ import {
 import ADT3DSceneAdapter from '../../Adapters/ADT3DSceneAdapter';
 import { WrapperMode } from '../../Components/3DV/SceneView.types';
 import MockAdapter from '../../Adapters/MockAdapter';
-import {
-    DtdlInterface,
-    DtdlInterfaceContent,
-    DtdlProperty,
-    DtdlRelationship
-} from './dtdlInterfaces';
+import { DtdlInterface, DtdlProperty } from './dtdlInterfaces';
 import { IStyleFunctionOrObject } from '@fluentui/react';
 import { ISceneViewWrapperStyles } from '../../Components/3DV/SceneViewWrapper.types';
 import {
@@ -934,8 +929,13 @@ export interface IBlobServiceCorsRule {
     MaxAgeInSeconds: number;
 }
 
-export interface IDataHistoryWidgetTimeSeriesTwin {
+export interface IDataHistoryTimeSeriesTwin {
     label?: string;
     twinId: string;
     twinPropertyName: string;
+    twinPropertyType: PropertyValueType;
+    chartProps?: {
+        color?: string;
+        isTwinPropertyTypeCastedToNumber?: boolean;
+    };
 }

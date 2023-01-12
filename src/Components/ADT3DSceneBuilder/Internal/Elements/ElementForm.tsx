@@ -299,7 +299,7 @@ const SceneElementForm: React.FC<IADT3DSceneBuilderElementFormProps> = ({
                             <Stack tokens={{ childrenGap: 8 }}>
                                 <TwinSearch
                                     adapter={adapter}
-                                    handleSelectTwinId={handleSelectTwinId}
+                                    onSelectTwinId={handleSelectTwinId}
                                     initialSelectedValue={
                                         elementFormState.elementToEdit
                                             ?.primaryTwinID

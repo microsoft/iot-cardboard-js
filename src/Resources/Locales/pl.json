@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Masz brakujące uprawnienia. Dostęp będzie potrzebny jako \"Azure Digital Twins Data Reader\" (co najmniej).",
       "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
       "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
-      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością.",
-      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje."
+      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje.",
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością w wybranym katalogu."
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "Bez etykiety"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopiować",
     "defaultFileName": "Nowa ontologia",
@@ -1370,4 +1371,26 @@
   "duplicate": "Duplikat",
   "moveUp": "Przejdź w górę",
   "moveDown": "Przenieś w dół"
+=======
+  "dataHistoryExplorer": {
+    "title": "Eksplorator historii danych",
+    "builder": {
+      "title": "Bliźniacze właściwości",
+      "timeSeriesTwin": {
+        "property": "Własność",
+        "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
+        "add": "Dodawanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych",
+        "edit": "Edytowanie szeregów czasowych"
+      },
+      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
+    },
+    "viewer": {
+      "chart": "Wykres",
+      "table": "Stół",
+      "noSeriesDescription": "Aby wyświetlić historię danych dla tej bliźniaczej płaszczyzny, wybierz właściwość do wyświetlenia."
+    },
+    "loadingConnectionLabel": "Czas ładowania szeregów informacji o połączeniu..."
+  }
+>>>>>>> origin/main
 }

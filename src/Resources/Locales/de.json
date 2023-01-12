@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Azure Digital Twins-Datenleser\" (mindestens).",
       "storageAccountMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Leser\" (mindestens).",
       "storageContainerMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als \"Reader\" (mindestens) und entweder \"Storage Blob Data Owner\" oder \"Storage Blob Data Contributor\".",
-      "resourceNotFound": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden.",
-      "resourceNotVerified": "Wir können nicht überprüfen, ob diese Ressource existiert."
+      "resourceNotVerified": "Wir können nicht überprüfen, ob diese Ressource existiert.",
+      "resourceNotFound": "Es wurde keine Azure-Ressource mit dem eingegebenen Wert im ausgewählten Verzeichnis gefunden."
     }
   },
   "behaviorsModal": {
@@ -1351,6 +1351,7 @@
   "colorPills": {
     "unlabeled": "Unbeschriftet"
   },
+<<<<<<< HEAD
   "OATCommon": {
     "duplicateFileNameSuffix": "kopieren",
     "defaultFileName": "Neue Ontologie",
@@ -1370,4 +1371,26 @@
   "duplicate": "Duplikat",
   "moveUp": "Aufrücken",
   "moveDown": "Nach unten"
+=======
+  "dataHistoryExplorer": {
+    "title": "Datenverlaufs-Explorer",
+    "builder": {
+      "title": "Twin-Immobilien",
+      "timeSeriesTwin": {
+        "property": "Eigentum",
+        "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
+        "add": "Zeitreihen hinzufügen",
+        "remove": "Zeitreihen entfernen",
+        "edit": "Zeitreihen bearbeiten"
+      },
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
+    },
+    "viewer": {
+      "chart": "Diagramm",
+      "table": "Tisch",
+      "noSeriesDescription": "Um den Datenverlauf für diesen Zwilling anzuzeigen, wählen Sie eine anzuzeigende Eigenschaft aus."
+    },
+    "loadingConnectionLabel": "Zeitreihen-Verbindungsinformationen werden geladen..."
+  }
+>>>>>>> origin/main
 }

@@ -9,7 +9,6 @@ import { getStyles } from './HighChartsWrapper.styles';
 import { classNamesFunction, useTheme, styled } from '@fluentui/react';
 import {
     AlignValue,
-    ColorString,
     DataGroupingApproximationValue,
     OptionsLayoutValue,
     SeriesOptionsType
@@ -21,6 +20,7 @@ import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { useTranslation } from 'react-i18next';
 import { deepCopy } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
+import { getHighChartColor } from '../../Models/SharedUtils/DataHistoryUtils';
 NoDataToDisplay(Highcharts);
 HighchartsAccessibility(Highcharts);
 
@@ -43,12 +43,6 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     const { t } = useTranslation();
     const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
 
-    // callbacks
-    const highChartColor = (idx: number): ColorString =>
-        idx === 1 // that particular color of Highcharts is not visible in our dark themes, override it
-            ? '#d781fc'
-            : (Highcharts.getOptions().colors[idx] as ColorString);
-
     const highChartSeries: Array<SeriesOptionsType> = useMemo(
         () =>
             deepCopy(seriesData)
@@ -66,7 +60,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                                 ])
                                 .sort((a, b) => a[0] - b[0]), // sort in case the timestamps are not in ascending order
                             type: 'line', // by default, show series in line chart type
-                            color: highChartColor(idx), // by default, set color to use it for labels in legend to match series color
+                            color: sD.color || getHighChartColor(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
                                 enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
@@ -89,7 +83,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                             }
                         } as SeriesOptionsType)
                 ) || [],
-        [seriesData]
+        [seriesData, chartOptions]
     );
 
     // styles
@@ -112,7 +106,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     };
 
     const multipleYAxisProps: Array<Highcharts.YAxisOptions> = highChartSeries.map(
-        (_hcS, idx) => {
+        (hcS, idx) => {
             const isOnOppositeSide =
                 idx > 0 && idx >= Math.floor(highChartSeries.length / 2)
                     ? true
@@ -123,7 +117,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                 title: undefined, // by default, do not show any labels in y axis, only numeric range
                 labels: {
                     x: isOnOppositeSide ? 8 : -8, // to make label space less to make up more space for plot
-                    style: { color: highChartColor(idx) }
+                    style: {
+                        color: (hcS.color as string) || getHighChartColor(idx)
+                    }
                 }
             };
         }

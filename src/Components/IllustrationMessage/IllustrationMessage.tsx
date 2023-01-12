@@ -73,9 +73,11 @@ const IllustrationMessage: React.FunctionComponent<IllustrationMessageProps> = (
                     {...imageProps}
                 />
             ) : null}
-            <Text styles={classNames.subComponentStyles.header}>
-                {headerText}
-            </Text>
+            {headerText && (
+                <Text styles={classNames.subComponentStyles.header}>
+                    {headerText}
+                </Text>
+            )}
             {getFullDescription}
             {buttonProps ? <PrimaryButton {...buttonProps} /> : null}
         </div>

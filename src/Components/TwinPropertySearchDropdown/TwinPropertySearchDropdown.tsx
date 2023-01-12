@@ -20,7 +20,12 @@ import {
     useTheme
 } from '@fluentui/react';
 import { useId } from '@fluentui/react-hooks';
-import { components, MenuProps } from 'react-select';
+import {
+    components,
+    MenuListProps,
+    MenuProps,
+    mergeStyles
+} from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 import useAdapter from '../../Models/Hooks/useAdapter';
 import { AdapterMethodParamsForSearchADTTwins } from '../../Models/Constants/Types';
@@ -98,7 +103,18 @@ const TwinPropertySearchDropdown = (
         menuWidth: dropdownWidth
     });
     const selectStyles = useMemo(
-        () => inputStyles || getReactSelectStyles(theme),
+        () =>
+            mergeStyles(
+                getReactSelectStyles(theme, {
+                    menu: {
+                        position: 'relative',
+                        top: '0',
+                        marginBottom: 0,
+                        height: '100%'
+                    }
+                }),
+                inputStyles
+            ),
         [theme, inputStyles]
     );
 
@@ -193,6 +209,21 @@ const TwinPropertySearchDropdown = (
     };
 
     const Menu = (props: MenuProps) => {
+        return (
+            <Callout
+                directionalHintFixed
+                directionalHint={DirectionalHint.bottomCenter}
+                gapSpace={-1}
+                isBeakVisible={false}
+                styles={classNames.subComponentStyles.callout}
+                target={`#${selectId}`}
+            >
+                <components.Menu {...(props as any)} />
+            </Callout>
+        );
+    };
+
+    const MenuList = (props: MenuListProps) => {
         const twinSuggestionListWrapperRef = useRef<HTMLDivElement>(null);
 
         // register onscroll event to the original menuList component
@@ -204,22 +235,15 @@ const TwinPropertySearchDropdown = (
                 twinSuggestionListRef.current.onscroll = handleOnScroll;
             }
         }, [twinSuggestionListWrapperRef]);
+
         return (
-            <Callout
-                directionalHintFixed
-                directionalHint={DirectionalHint.bottomCenter}
-                gapSpace={-1}
-                isBeakVisible={false}
-                styles={classNames.subComponentStyles.callout}
-                target={`#${selectId}`}
+            <div
+                style={{ height: '100%' }}
+                ref={twinSuggestionListWrapperRef}
+                onScroll={handleOnScroll}
             >
-                <div
-                    ref={twinSuggestionListWrapperRef}
-                    onScroll={handleOnScroll}
-                >
-                    <components.MenuList {...(props as any)} />
-                </div>
-            </Callout>
+                <components.MenuList {...(props as any)} />
+            </div>
         );
     };
 
@@ -274,7 +298,8 @@ const TwinPropertySearchDropdown = (
                     value={selectedOption}
                     components={{
                         Option: CustomOption,
-                        Menu: Menu
+                        Menu: Menu,
+                        MenuList: MenuList
                     }}
                     onInputChange={(inputValue, actionMeta) => {
                         logDebugConsole(
