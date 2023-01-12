@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { cleanup } from '@testing-library/react-hooks';
 import { DTDLType } from '../../../Classes/DTDL';
 import {
@@ -54,7 +55,8 @@ describe('OatPageContextUtils', () => {
             const beforeCount = getModelById(
                 sourceModelId,
                 contextState
-            ).contents.filter((x) => x['@type'] === DTDLType.Component).length;
+            )!.contents!.filter((x) => x['@type'] === DTDLType.Component)
+                .length;
 
             // ACT
             addTargetedRelationship(
@@ -66,12 +68,12 @@ describe('OatPageContextUtils', () => {
             const updatedModel = getModelById(sourceModelId, contextState);
 
             // ASSERT
-            const afterCount = updatedModel.contents.filter(
+            const afterCount = updatedModel!.contents!.filter(
                 (x) => x['@type'] === DTDLType.Component
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop() as DtdlComponent;
+            const lastComponent = updatedModel!.contents!.pop() as DtdlComponent;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual('mock_name_targetId1_0');
             expect(lastComponent.schema).toEqual(targetModelId);
@@ -92,7 +94,8 @@ describe('OatPageContextUtils', () => {
             const beforeCount = getModelById(
                 sourceModelId,
                 contextState
-            ).contents.filter((x) => x['@type'] === DTDLType.Component).length;
+            )!.contents!.filter((x) => x['@type'] === DTDLType.Component)
+                .length;
 
             // ACT
             addTargetedRelationship(
@@ -101,15 +104,15 @@ describe('OatPageContextUtils', () => {
                 targetModelId,
                 DTDLType.Component
             );
-            const updatedModel = getModelById(sourceModelId, contextState);
+            const updatedModel = getModelById(sourceModelId, contextState)!;
 
             // ASSERT
-            const afterCount = updatedModel.contents.filter(
+            const afterCount = updatedModel.contents!.filter(
                 (x) => x['@type'] === DTDLType.Component
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop() as DtdlComponent;
+            const lastComponent = updatedModel.contents!.pop() as DtdlComponent;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual('mock_name_targetId1_1');
             expect(lastComponent.schema).toEqual(targetModelId);
@@ -127,7 +130,7 @@ describe('OatPageContextUtils', () => {
             const beforeCount = getModelById(
                 sourceModelId,
                 contextState
-            ).contents.filter((x) => x['@type'] === DTDLType.Relationship)
+            )!.contents!.filter((x) => x['@type'] === DTDLType.Relationship)
                 .length;
 
             // ACT
@@ -137,15 +140,15 @@ describe('OatPageContextUtils', () => {
                 targetModelId,
                 DTDLType.Relationship
             );
-            const updatedModel = getModelById(sourceModelId, contextState);
+            const updatedModel = getModelById(sourceModelId, contextState)!;
 
             // ASSERT
-            const afterCount = updatedModel.contents.filter(
+            const afterCount = updatedModel.contents!.filter(
                 (x) => x['@type'] === DTDLType.Relationship
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastRelationship = updatedModel.contents.pop() as DtdlRelationship;
+            const lastRelationship = updatedModel.contents!.pop() as DtdlRelationship;
             expect(lastRelationship).toBeDefined();
             expect(lastRelationship.name).toEqual(
                 OAT_RELATIONSHIP_HANDLE_NAME + '_0'
@@ -171,7 +174,7 @@ describe('OatPageContextUtils', () => {
             const beforeCount = getModelById(
                 sourceModelId,
                 contextState
-            ).contents.filter((x) => x['@type'] === DTDLType.Relationship)
+            )!.contents!.filter((x) => x['@type'] === DTDLType.Relationship)
                 .length;
 
             // ACT
@@ -181,15 +184,15 @@ describe('OatPageContextUtils', () => {
                 targetModelId,
                 DTDLType.Relationship
             );
-            const updatedModel = getModelById(sourceModelId, contextState);
+            const updatedModel = getModelById(sourceModelId, contextState)!;
 
             // ASSERT
-            const afterCount = updatedModel.contents.filter(
+            const afterCount = updatedModel.contents!.filter(
                 (x) => x['@type'] === DTDLType.Relationship
             ).length;
             expect(beforeCount).not.toEqual(afterCount);
 
-            const lastComponent = updatedModel.contents.pop() as DtdlRelationship;
+            const lastComponent = updatedModel.contents!.pop() as DtdlRelationship;
             expect(lastComponent).toBeDefined();
             expect(lastComponent.name).toEqual(
                 OAT_RELATIONSHIP_HANDLE_NAME + '_1'
