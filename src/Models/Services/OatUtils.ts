@@ -98,7 +98,7 @@ export const convertDtdlInterfaceToModel = (
         model.contents?.filter((x) => x['@type'] === 'Property'),
         model.contents?.filter((x) => x['@type'] === 'Relationship'),
         model.contents?.filter((x) => x['@type'] === 'Component'),
-        model.extends as string[] // we know it's an array since we only ever set it to array
+        ensureIsArray(model.extends)
     );
 };
 
