@@ -380,7 +380,6 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModels = newModels;
                 }
                 saveData(draft);
-                draft.triggerGraphLayout = true; // force a layout of the graph
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
@@ -432,6 +431,10 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {
                 draft.graphUpdatesToSync = action.payload;
+                break;
+            }
+            case OatPageContextActionType.CLEAR_GRAPH_LAYOUT: {
+                draft.triggerGraphLayout = false;
                 break;
             }
             case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
