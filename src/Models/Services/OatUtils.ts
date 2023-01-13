@@ -127,7 +127,7 @@ export function getUniqueModelName(model: DtdlInterface): string {
 }
 
 export function getAvailableLanguages(i18n: i18n) {
-    if (i18n.options.resources) {
+    if (i18n?.options?.resources) {
         return Object.keys(i18n.options.resources).map((language) => {
             return {
                 key: (i18n.options.resources[language].translation as any)
