@@ -1,8 +1,5 @@
 import i18n from '../../../i18n';
-import {
-    getDisplayName,
-    getTargetFromSelection
-} from '../../../Components/OATPropertyEditor/Utils';
+import { getDisplayName } from '../../../Components/OATPropertyEditor/Utils';
 import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
@@ -45,7 +42,6 @@ import {
     isDTDLReference,
     isDTDLRelationshipReference
 } from '../../Services/DtdlUtils';
-import { current } from 'immer';
 
 //#region Add/remove models
 
