@@ -244,120 +244,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
     const modelListButtonId = useId('model-list-button');
 
     // callbacks
-    const applyLayoutToElements = useCallback(
-        (inputElements: IOatElementNode[]) => {
-            logDebugConsole(
-                'debug',
-                '[START] Apply layout {elements}',
-                inputElements
-            );
-            oatGraphDispatch({
-                type: OatGraphContextActionType.LOADING_TOGGLE,
-                payload: { value: true }
-            });
-            const nodes: IOatGraphNode[] = inputElements.reduce(
-                (collection: IOatGraphNode[], element: IOatElementNode) => {
-                    if (!element.source) {
-                        collection.push({
-                            id: element.id,
-                            x: element.position.x + nodeWidth / 2,
-                            y: element.position.y + nodeHeight / 2
-                        });
-                    }
-                    return collection;
-                },
-                []
-            );
-            // console.log('***NODES:', nodes);
-
-            const links = inputElements.reduce((collection: any[], element) => {
-                if (element.source) {
-                    collection.push({
-                        source: element.source,
-                        target: element.target
-                    });
-                }
-                return collection;
-            }, []);
-            // console.log('***LINKS:', links);
-
-            forceSimulation(nodes)
-                .force(
-                    'link',
-                    forceLink(links)
-                        .id((d) => (d as any).id)
-                        .distance(nodeWidth)
-                        .strength(1)
-                )
-                .force(
-                    'collide',
-                    forceCollide()
-                        .radius(nodeWidth / 2)
-                        .strength(1)
-                )
-                .force('x', forceX())
-                .force('y', forceY())
-                .force('center', forceCenter())
-                .on('end', () => {
-                    const newElements = inputElements.map((element) => {
-                        const node = nodes.find(
-                            (node) => !element.source && node.id === element.id
-                        );
-
-                        // assign positions to model nodes
-                        const newElement = { ...element };
-                        if (node) {
-                            // console.log(
-                            //     '***[START] position node. {node, element}',
-                            //     node,
-                            //     newElement
-                            // );
-                            newElement.position = {
-                                x:
-                                    node.x -
-                                    nodeWidth / 2 +
-                                    Math.random() / 1000,
-                                y: node.y - nodeHeight / 2
-                            };
-                            // console.log(
-                            //     '***[END] position node. {element}',
-                            //     newElement
-                            // );
-                        }
-
-                        return newElement;
-                    });
-                    // console.log(
-                    //     '*** END. {original, newEls, nodes, links}',
-                    //     inputElements,
-                    //     newElements,
-                    //     nodes,
-                    //     links
-                    // );
-
-                    const application = () => {
-                        setElements(newElements);
-                        oatGraphDispatch({
-                            type: OatGraphContextActionType.LOADING_TOGGLE,
-                            payload: { value: false }
-                        });
-                    };
-
-                    const undoApplication = () => {
-                        setElements(inputElements);
-                    };
-
-                    execute(application, undoApplication);
-                    rfInstance.fitView();
-                });
-            logDebugConsole(
-                'debug',
-                '[END] Apply layout {elements}',
-                inputElements
-            );
-        },
-        [execute, oatGraphDispatch, rfInstance]
-    );
 
     const nodeTypes = useMemo(() => ({ Interface: OATGraphCustomNode }), []);
 
@@ -371,11 +257,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         instance.zoomOut();
         setRfInstance(instance);
     }, []);
-
-    /** Forces the auto layout of the current elements on the graph */
-    const forceGraphLayout = useCallback(() => {
-        applyLayoutToElements(elements);
-    }, [applyLayoutToElements, elements]);
 
     const onConnectStart = (
         _: React.MouseEvent<Element, MouseEvent>,
@@ -464,35 +345,6 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         execute(addition, undoAddition);
     };
 
-    const storeElementPositions = useCallback(
-        (currentElements) => {
-            // Save the session data into the local storage
-            const nodePositions: IOATModelPosition[] = currentElements.reduce(
-                (collection: IOATModelPosition[], element: IOatElementNode) => {
-                    if (!element.source) {
-                        collection.push({
-                            '@id': element.id,
-                            position: element.position
-                        });
-                    }
-                    return collection;
-                },
-                []
-            );
-
-            logDebugConsole(
-                'debug',
-                '[storeElementPositions] Storing the positions to context. {positions}',
-                nodePositions
-            );
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
-                payload: { positions: nodePositions }
-            });
-        },
-        [oatPageDispatch]
-    );
-
     const onElementClick = (
         _: React.MouseEvent<Element, MouseEvent>,
         node: Node<any> | Edge<any>
@@ -556,6 +408,133 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         }
         storeElementPositions(elements);
     };
+
+    const storeElementPositions = useCallback(
+        (currentElements: IOatElementNode[]) => {
+            // Save the session data into the local storage
+            const nodePositions: IOATModelPosition[] = currentElements.reduce(
+                (collection: IOATModelPosition[], element: IOatElementNode) => {
+                    if (!element.source) {
+                        collection.push({
+                            '@id': element.id,
+                            position: element.position
+                        });
+                    }
+                    return collection;
+                },
+                []
+            );
+
+            logDebugConsole(
+                'debug',
+                '[storeElementPositions] Storing the positions to context. {positions}',
+                nodePositions
+            );
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_CURRENT_MODELS_POSITIONS,
+                payload: { positions: nodePositions }
+            });
+        },
+        [oatPageDispatch]
+    );
+
+    const applyLayoutToElements = useCallback(
+        (inputElements: IOatElementNode[]) => {
+            logDebugConsole(
+                'debug',
+                '[START] Apply layout {elements}',
+                inputElements
+            );
+            oatGraphDispatch({
+                type: OatGraphContextActionType.LOADING_TOGGLE,
+                payload: { value: true }
+            });
+            const nodes: IOatGraphNode[] = inputElements.reduce(
+                (collection: IOatGraphNode[], element: IOatElementNode) => {
+                    if (!element.source) {
+                        collection.push({
+                            id: element.id,
+                            x: element.position.x + nodeWidth / 2,
+                            y: element.position.y + nodeHeight / 2
+                        });
+                    }
+                    return collection;
+                },
+                []
+            );
+            // console.log('***NODES:', nodes);
+
+            const links = inputElements.reduce((collection: any[], element) => {
+                if (element.source) {
+                    collection.push({
+                        source: element.source,
+                        target: element.target
+                    });
+                }
+                return collection;
+            }, []);
+            // console.log('***LINKS:', links);
+
+            forceSimulation(nodes)
+                .force(
+                    'link',
+                    forceLink(links)
+                        .id((d) => (d as any).id)
+                        .distance(nodeWidth)
+                        .strength(1)
+                )
+                .force(
+                    'collide',
+                    forceCollide()
+                        .radius(nodeWidth / 2)
+                        .strength(1)
+                )
+                .force('x', forceX())
+                .force('y', forceY())
+                .force('center', forceCenter())
+                .on('end', () => {
+                    // map the updated positions from the nodes collection onto the position data
+                    const positions: IOatElementNode[] = [];
+                    inputElements.forEach((element) => {
+                        const node = nodes.find(
+                            (node) => !element.source && node.id === element.id
+                        );
+
+                        if (node) {
+                            positions.push({
+                                ...element,
+                                position: {
+                                    x:
+                                        node.x -
+                                        nodeWidth / 2 +
+                                        Math.random() / 1000,
+                                    y: node.y - nodeHeight / 2
+                                }
+                            });
+                        }
+                    });
+
+                    storeElementPositions(positions);
+                    oatGraphDispatch({
+                        type: OatGraphContextActionType.LOADING_TOGGLE,
+                        payload: { value: false }
+                    });
+
+                    rfInstance.fitView();
+                });
+            logDebugConsole(
+                'debug',
+                '[END] Apply layout {elements}',
+                inputElements
+            );
+        },
+        [oatGraphDispatch, rfInstance, storeElementPositions]
+    );
+
+    /** Forces the auto layout of the current elements on the graph */
+    const forceGraphLayout = useCallback(() => {
+        applyLayoutToElements(elements);
+    }, [applyLayoutToElements, elements]);
 
     const clearSelectedModel = () => {
         logDebugConsole('info', 'Clearing selected model');
