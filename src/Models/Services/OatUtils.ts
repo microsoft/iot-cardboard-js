@@ -127,14 +127,18 @@ export function getUniqueModelName(model: DtdlInterface): string {
 }
 
 export function getAvailableLanguages(i18n: i18n) {
-    return Object.keys(i18n.options.resources).map((language) => {
-        return {
-            key: (i18n.options.resources[language].translation as any)
-                .languageCode,
-            text: (i18n.options.resources[language].translation as any)
-                .languageName
-        };
-    });
+    if (i18n?.options?.resources) {
+        return Object.keys(i18n.options.resources).map((language) => {
+            return {
+                key: (i18n.options.resources[language].translation as any)
+                    .languageCode,
+                text: (i18n.options.resources[language].translation as any)
+                    .languageName
+            };
+        });
+    } else {
+        return [];
+    }
 }
 
 export function ensureIsArray(property: string | string[]): string[] {
