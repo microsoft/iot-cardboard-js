@@ -4,7 +4,10 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import i18n from '../../../i18n';
-import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import {
+    IOatProjectData,
+    ProjectData
+} from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
@@ -540,7 +543,7 @@ const getInitialState = (
         ? initialState.currentOntologyId
         : getLastUsedProjectId();
 
-    let project: ProjectData;
+    let project: IOatProjectData;
     let projectIdToUse = '';
     if (files.length > 0 && lastProjectId) {
         if (files.some((x) => x.id === lastProjectId)) {
