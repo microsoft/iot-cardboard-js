@@ -1,6 +1,5 @@
 import { i18n } from 'i18next';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { DTDLModel } from '../Classes/DTDL';
 import {
     DtdlInterface,
     OAT_FILES_STORAGE_KEY,
@@ -75,31 +74,6 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
         // Scheme - replace ":" with "\"
         return directoryPath.replace(':', '\\');
     }
-};
-
-/**
- * takes in a group of dtdl interfaces and builds the models objects.
- * since the properties overlap, we simply map them between objects
- */
-export const convertDtdlInterfacesToModels = (
-    dtdlInterfaces: DtdlInterface[]
-): DTDLModel[] => {
-    return dtdlInterfaces.map(convertDtdlInterfaceToModel);
-};
-export const convertDtdlInterfaceToModel = (
-    dtdlInterface: DtdlInterface
-): DTDLModel => {
-    const model = deepCopy(dtdlInterface);
-    return new DTDLModel(
-        model['@id'],
-        model.displayName,
-        model.description,
-        model.comment,
-        model.contents?.filter((x) => x['@type'] === 'Property'),
-        model.contents?.filter((x) => x['@type'] === 'Relationship'),
-        model.contents?.filter((x) => x['@type'] === 'Component'),
-        ensureIsArray(model.extends)
-    );
 };
 
 /**

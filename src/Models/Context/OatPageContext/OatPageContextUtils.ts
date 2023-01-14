@@ -1,6 +1,9 @@
 import i18n from '../../../i18n';
 import { getDisplayName } from '../../../Components/OATPropertyEditor/Utils';
-import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes';
+import {
+    IOatProjectData,
+    ProjectData
+} from '../../../Pages/OATEditorPage/Internal/Classes';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
     IOATModelPosition,
@@ -21,7 +24,6 @@ import {
 } from '../../Constants';
 import {
     buildModelId,
-    convertDtdlInterfacesToModels,
     ensureIsArray,
     getUntargetedRelationshipNodeId,
     isUntargeted,
@@ -605,7 +607,7 @@ export function switchCurrentProject(
         const projectToOpen = new ProjectData(
             data.projectName,
             data.namespace,
-            convertDtdlInterfacesToModels(data.models),
+            data.models,
             data.modelPositions,
             data.modelsMetadata,
             data.templates
@@ -627,23 +629,24 @@ export function switchCurrentProject(
 /** TODO: remove this helper when we move the project data into a sub object on the state */
 export function convertStateToProject(
     draft: IOatPageContextState
-): ProjectData {
-    // NOTE: need to recreate the arrays to break proxy links that were causing issues downstream
-    const project = new ProjectData(
-        draft.currentOntologyProjectName || '',
-        draft.currentOntologyNamespace,
-        convertDtdlInterfacesToModels(draft.currentOntologyModels),
-        Array.from(draft.currentOntologyModelPositions),
-        Array.from(draft.currentOntologyModelMetadata),
-        Array.from(draft.currentOntologyTemplates)
-    );
+): IOatProjectData {
+    // NOTE: not using constructor as it causes proxy errors on saving to JSON
+    const project: IOatProjectData = {
+        modelPositions: draft.currentOntologyModelPositions ?? [],
+        models: draft.currentOntologyModels ?? [],
+        modelsMetadata: draft.currentOntologyModelMetadata ?? [],
+        namespace: draft.currentOntologyNamespace || '',
+        projectDescription: '',
+        projectName: draft.currentOntologyProjectName || '',
+        templates: draft.currentOntologyTemplates ?? []
+    };
 
     return project;
 }
 
 export function mapProjectOntoState(
     draft: IOatPageContextState,
-    projectToOpen: ProjectData
+    projectToOpen: IOatProjectData
 ) {
     draft.currentOntologyModelPositions = projectToOpen.modelPositions;
     draft.currentOntologyModels = projectToOpen.models;

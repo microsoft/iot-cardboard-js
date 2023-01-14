@@ -1,11 +1,20 @@
-import { DTDLModel } from '../../../../Models/Classes/DTDL';
+import { DtdlInterface } from '../../../../Models/Constants';
 import {
     IOATModelPosition,
     IOATModelsMetadata
 } from '../../OATEditorPage.types';
 
-export class ProjectData {
-    models: DTDLModel[];
+export interface IOatProjectData {
+    models: DtdlInterface[];
+    modelPositions: IOATModelPosition[];
+    modelsMetadata: IOATModelsMetadata[];
+    namespace: string;
+    projectDescription: string;
+    projectName: string;
+    templates: any[];
+}
+export class ProjectData implements IOatProjectData {
+    models: DtdlInterface[];
     modelPositions: IOATModelPosition[];
     modelsMetadata: IOATModelsMetadata[];
     namespace: string;
@@ -16,7 +25,7 @@ export class ProjectData {
     constructor(
         projectName: string,
         namespace: string,
-        models?: DTDLModel[],
+        models?: DtdlInterface[],
         modelPositions?: IOATModelPosition[],
         modelsMetadata?: IOATModelsMetadata[],
         templates?: any[]
