@@ -43,10 +43,65 @@ const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
 
 /** Parse DTDL models via model parser */
 export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
-    const modelDict = await parser.parse(
-        dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
-    );
+    let modelDict = null;
+    try {
+        modelDict = await parser.parse(
+            dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+        );
+    } catch (e) {
+        /* Some models failed to parse, we will try to remove them and parse the rest of the models */
+        logDtdlParserError(e);
+        try {
+            const parsingErrorCauses = e?._parsingErrors.map(
+                (pe) => pe?.cause
+            ) as Array<string>;
+
+            /* The parsing error cause is not a model ID, but it contains a model ID 
+               so we remove the a model if its ID is contained in the cause */
+            const modelsWithoutParserErrors = dtdlInterfaces.filter((intf) => {
+                const modelId = intf['@id'];
+                return !parsingErrorCauses.filter((parseError) =>
+                    parseError.includes(modelId)
+                ).length;
+            });
+
+            // Recursively parse models if we successfully removed some models, and there are still some left
+            if (
+                modelsWithoutParserErrors.length < dtdlInterfaces.length &&
+                modelsWithoutParserErrors.length > 0
+            ) {
+                console.log('Removing model that failed to parse and retrying');
+                return await parseDTDLModelsAsync(modelsWithoutParserErrors);
+            }
+        } catch (e) {
+            console.warn('Could not remove models with parser errors');
+            console.log(e);
+        }
+    }
     return modelDict;
+};
+
+/* Pretty prints parser errors to the console to aid customer debugging */
+export const logDtdlParserError = (parserErrors) => {
+    try {
+        console.group('DTDL Parser Errors');
+        console.group('Raw Errors');
+        console.table(JSON.stringify(parserErrors?._parsingErrors));
+        console.group('Specific Errors');
+        const consoleStyle = 'background: #0274bf; color: #fff; padding: 2px;';
+        parserErrors?._parsingErrors?.forEach((pe) => {
+            console.group(pe?.primaryId);
+            console.log(`%cModelID: ${pe?.primaryId}`, consoleStyle);
+            console.log(`%cValidationId: ${pe?.validationId}`, consoleStyle);
+            console.log(`%cCause: ${pe?.cause}`, consoleStyle);
+            console.groupEnd();
+        });
+        console.groupEnd();
+        console.groupEnd();
+        console.groupEnd();
+    } catch (e) {
+        return;
+    }
 };
 
 /** Validates input data with JSON schema */
