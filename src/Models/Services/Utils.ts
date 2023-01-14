@@ -95,6 +95,9 @@ export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
                 );
                 previousInterfaces = interfacesWithoutParserErrors;
                 failedModelCount++;
+            } else {
+                console.warn('Could not remove models with parser errors');
+                return null;
             }
         } catch (e) {
             console.warn('Could not remove models with parser errors');
