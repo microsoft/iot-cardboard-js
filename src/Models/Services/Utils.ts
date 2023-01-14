@@ -89,7 +89,9 @@ export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
                     previousInterfaces.length &&
                 interfacesWithoutParserErrors.length > 0
             ) {
-                console.log('Removing models that failed to parse and retrying');
+                console.log(
+                    'Removing models that failed to parse and retrying'
+                );
                 modelDict = await tryParseWorkerFunction(
                     interfacesWithoutParserErrors
                 );
