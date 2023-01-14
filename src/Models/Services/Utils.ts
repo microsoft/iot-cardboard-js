@@ -44,40 +44,65 @@ const parser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
 /** Parse DTDL models via model parser */
 export const parseDTDLModelsAsync = async (dtdlInterfaces: DtdlInterface[]) => {
     let modelDict = null;
-    try {
-        modelDict = await parser.parse(
-            dtdlInterfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
-        );
-    } catch (e) {
-        /* Some models failed to parse, we will try to remove them and parse the rest of the models */
-        logDtdlParserError(e);
+
+    /* We loop over this function to attempt to parse models, and remove models that fail */
+    const tryParseWorkerFunction = async (interfaces: DtdlInterface[]) => {
         try {
-            const parsingErrorCauses = e?._parsingErrors.map(
+            return await parser.parse(
+                interfaces.map((dtdlInterface) => JSON.stringify(dtdlInterface))
+            );
+        } catch (e) {
+            logDtdlParserError(e);
+            return e;
+        }
+    };
+
+    modelDict = await tryParseWorkerFunction(dtdlInterfaces);
+
+    /* If some models failed to parse, we will try to remove them and parse the rest of the models */
+    let previousInterfaces = dtdlInterfaces;
+    let failedModelCount = 0;
+    const maxFailedModelCount = 20;
+    while (
+        modelDict?._parsingErrors &&
+        failedModelCount < maxFailedModelCount
+    ) {
+        try {
+            const parsingErrorCauses = modelDict?._parsingErrors?.map(
                 (pe) => pe?.cause
             ) as Array<string>;
 
             /* The parsing error cause is not a model ID, but it contains a model ID 
-               so we remove the a model if its ID is contained in the cause */
-            const modelsWithoutParserErrors = dtdlInterfaces.filter((intf) => {
-                const modelId = intf['@id'];
-                return !parsingErrorCauses.filter((parseError) =>
-                    parseError.includes(modelId)
-                ).length;
-            });
+            so we remove the a model if its ID is contained in the cause */
+            const interfacesWithoutParserErrors = previousInterfaces.filter(
+                (intf) => {
+                    const modelId = intf['@id'];
+                    return !parsingErrorCauses?.filter((parseError) =>
+                        parseError.includes(modelId)
+                    ).length;
+                }
+            );
 
-            // Recursively parse models if we successfully removed some models, and there are still some left
+            /* Recursively parse models if we successfully removed some models, and there are still some left */
             if (
-                modelsWithoutParserErrors.length < dtdlInterfaces.length &&
-                modelsWithoutParserErrors.length > 0
+                interfacesWithoutParserErrors.length <
+                    previousInterfaces.length &&
+                interfacesWithoutParserErrors.length > 0
             ) {
                 console.log('Removing model that failed to parse and retrying');
-                return await parseDTDLModelsAsync(modelsWithoutParserErrors);
+                modelDict = await tryParseWorkerFunction(
+                    interfacesWithoutParserErrors
+                );
+                previousInterfaces = interfacesWithoutParserErrors;
+                failedModelCount++;
             }
         } catch (e) {
             console.warn('Could not remove models with parser errors');
             console.log(e);
+            return null;
         }
     }
+
     return modelDict;
 };
 
