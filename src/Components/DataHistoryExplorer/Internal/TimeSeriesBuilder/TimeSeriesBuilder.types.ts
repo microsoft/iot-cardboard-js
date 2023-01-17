@@ -28,6 +28,7 @@ export interface ITimeSeriesBuilderStyles {
     header?: IStyle;
     description?: IStyle;
     twinPropertyList?: IStyle;
+    addNewButton?: IStyle;
     /**
      * SubComponent styles.
      */

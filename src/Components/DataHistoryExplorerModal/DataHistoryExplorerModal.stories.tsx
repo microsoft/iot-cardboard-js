@@ -4,6 +4,7 @@ import DataHistoryExplorerModal from './DataHistoryExplorerModal';
 import { IDataHistoryExplorerModalProps } from './DataHistoryExplorerModal.types';
 import MockAdapter from '../../Adapters/MockAdapter';
 import { ComponentStory } from '@storybook/react';
+import { getHighChartColorByIdx } from '../../Models/SharedUtils/DataHistoryUtils';
 
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
@@ -40,7 +41,23 @@ WithSeries.args = {
             twinPropertyName: 'Temperature',
             twinPropertyType: 'double',
             chartProps: {
-                color: 'yellow'
+                color: getHighChartColorByIdx(0)
+            }
+        },
+        {
+            twinId: 'SaltMachine_C1',
+            twinPropertyName: 'Temperature',
+            twinPropertyType: 'double',
+            chartProps: {
+                color: getHighChartColorByIdx(1)
+            }
+        },
+        {
+            twinId: 'SaltMachine_C2',
+            twinPropertyName: 'InFlow',
+            twinPropertyType: 'double',
+            chartProps: {
+                color: getHighChartColorByIdx(2)
             }
         }
     ]

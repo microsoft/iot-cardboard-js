@@ -4,7 +4,7 @@ import { ADXTimeSeries, IDataHistoryTimeSeriesTwin } from '../../Constants';
 import { QuickTimeSpanKey } from '../../Constants/Enums';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../../Constants/StyleConstants';
 import {
-    getHighChartColor,
+    getHighChartColorByIdx,
     getQuickTimeSpanKeyByValue,
     transformADXTimeSeriesToHighChartsSeries
 } from '../../SharedUtils/DataHistoryUtils';
@@ -25,12 +25,12 @@ describe('DataHistoryUtils', () => {
             expect(result).toEqual(QuickTimeSpanKey.Last15Mins);
         });
     });
-    describe('getHighChartColor', () => {
+    describe('getHighChartColorByIdx', () => {
         test('for a given index, returns HighCharts default color', () => {
             // ACT
-            const result0 = getHighChartColor(0);
-            const result1 = getHighChartColor(1);
-            const result2 = getHighChartColor(2);
+            const result0 = getHighChartColorByIdx(0);
+            const result1 = getHighChartColorByIdx(1);
+            const result2 = getHighChartColorByIdx(2);
 
             // ASSERT
             expect(result0).toEqual('#7cb5ec');
@@ -56,6 +56,7 @@ describe('DataHistoryUtils', () => {
             ];
             const timeSeries: Array<IDataHistoryTimeSeriesTwin> = [
                 {
+                    seriesId: '',
                     twinId: 'SaltMachine_C0',
                     twinPropertyName: 'InFlow',
                     twinPropertyType: 'double',

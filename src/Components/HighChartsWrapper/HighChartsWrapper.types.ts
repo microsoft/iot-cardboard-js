@@ -38,6 +38,8 @@ export interface IHighChartsWrapperProps {
         dataGrouping?: IDataHistoryAggregationType;
         xMinInMillis?: number;
         xMaxInMillis?: number;
+        hasLimitedSeries?: boolean;
+        maxLegendHeight?: number;
     };
 
     /**
@@ -69,7 +71,7 @@ export interface IHighChartsWrapperSubComponentStyles {
     tooltip?: {
         root: CSSObject;
     };
-    legend?: { root: CSSObject; hover: CSSObject };
+    legend?: { root: CSSObject; hover: CSSObject; navigation: CSSObject };
     loadingText?: { root: CSSObject };
     noDataText?: { root: CSSObject };
 }
