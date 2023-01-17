@@ -286,6 +286,13 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             targetModelId = targetModelId.dataset.id;
         }
 
+        console.log(
+            '****Connect stop {source, target, evt}',
+            sourceModelId,
+            targetModelId,
+            evt
+        );
+
         const addition = () => {
             const type = typeMapping.get(currentHandleIdRef.current);
             if (
