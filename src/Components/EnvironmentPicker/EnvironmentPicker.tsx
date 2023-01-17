@@ -502,10 +502,12 @@ const EnvironmentPicker = ({
 
     const handleOnAdtInstanceResourceChange = async (
         resource: IADTInstance | string,
-        resources: Array<IADTInstance | string>
+        resources: Array<IADTInstance | string>,
+        inputError?: string // internal input error from the resource picker component
     ) => {
         if (
             resource &&
+            !inputError &&
             (!areResourceValuesEqual(
                 getResourceUrl(
                     environmentPickerState.adtInstanceInfo.adtInstanceToEdit,
@@ -524,11 +526,25 @@ const EnvironmentPicker = ({
                     draft.adt = null;
                 })
             ); // set the error state for permissions to null for default state before checking permission for the next changed resource
+
             checkPermissionsForResource(
                 resource,
                 AzureResourceTypes.DigitalTwinInstance
             );
         }
+
+        if (inputError) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.adt = {
+                        message: inputError,
+                        isCatastrophic: false,
+                        isInternal: true
+                    };
+                })
+            );
+        }
+
         environmentPickerDispatch({
             type: EnvironmentPickerActionType.SET_ADT_INSTANCE_INFO,
             payload: {
@@ -542,10 +558,12 @@ const EnvironmentPicker = ({
 
     const handleOnStorageAccountResourceChange = async (
         resource: IAzureStorageAccount | string,
-        resources: Array<IAzureStorageAccount | string>
+        resources: Array<IAzureStorageAccount | string>,
+        inputError?: string // internal input error from the resource picker component
     ) => {
         if (
             resource &&
+            !inputError &&
             (!areResourceValuesEqual(
                 getResourceUrl(
                     environmentPickerState.storageAccountInfo
@@ -565,6 +583,18 @@ const EnvironmentPicker = ({
             checkPermissionsForResource(
                 resource,
                 AzureResourceTypes.StorageAccount
+            );
+        }
+
+        if (inputError) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.storageAccount = {
+                        message: inputError,
+                        isCatastrophic: false,
+                        isInternal: true
+                    };
+                })
             );
         }
 
@@ -626,10 +656,12 @@ const EnvironmentPicker = ({
 
     const handleOnStorageContainerResourceChange = async (
         resource: IAzureStorageBlobContainer | string,
-        resources: Array<IAzureStorageBlobContainer | string>
+        resources: Array<IAzureStorageBlobContainer | string>,
+        inputError?: string // internal input error from the resource picker component
     ) => {
         if (
             resource &&
+            !inputError &&
             (!areResourceValuesEqual(
                 getNameOfResource(
                     environmentPickerState.containerInfo.containerToEdit,
@@ -652,6 +684,18 @@ const EnvironmentPicker = ({
                 resource,
                 AzureResourceTypes.StorageBlobContainer,
                 environmentPickerState.storageAccountInfo.storageAccountToEdit
+            );
+        }
+
+        if (inputError) {
+            setResourcePickerErrors(
+                produce((draft) => {
+                    draft.storageContainer = {
+                        message: inputError,
+                        isCatastrophic: false,
+                        isInternal: true
+                    };
+                })
             );
         }
 
@@ -753,7 +797,6 @@ const EnvironmentPicker = ({
                             onLoaded={(_resources) => {
                                 hasFetchedResources.current.adtInstances = true;
                             }}
-                            error={resourcePickerErrors.adt}
                         />
                         {storage && (
                             <>
@@ -793,7 +836,6 @@ const EnvironmentPicker = ({
                                     onLoaded={
                                         handleOnStorageAccountResourcesLoaded
                                     }
-                                    error={resourcePickerErrors.storageAccount}
                                 />
 
                                 <ResourcePicker
@@ -863,9 +905,6 @@ const EnvironmentPicker = ({
                                     onLoaded={(_resources) => {
                                         hasFetchedResources.current.storageBlobContainers = true;
                                     }}
-                                    error={
-                                        resourcePickerErrors.storageContainer
-                                    }
                                 />
                             </>
                         )}
@@ -900,7 +939,12 @@ const EnvironmentPicker = ({
                                           .storageAccountToEdit &&
                                       environmentPickerState.containerInfo
                                           .containerToEdit
-                                  )
+                                  ) ||
+                                  resourcePickerErrors.adt?.isInternal ||
+                                  resourcePickerErrors.storageAccount
+                                      ?.isInternal ||
+                                  resourcePickerErrors.storageContainer
+                                      ?.isInternal
                                 : !environmentPickerState.adtInstanceInfo
                                       .adtInstanceToEdit
                         }

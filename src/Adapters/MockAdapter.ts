@@ -113,7 +113,12 @@ export default class MockAdapter
         'mockADTInstanceResourceName.api.wcus.digitaltwins.azure.net';
     private mockContainerUrl =
         'https://mockStorageAccountName.blob.core.windows.net/mockContainerName';
-    private mockADXConnectionInformation: IADXConnection;
+    private mockADXConnectionInformation: IADXConnection = {
+        kustoClusterUrl:
+            'https://mockKustoClusterName.westus2.kusto.windows.net',
+        kustoDatabaseName: 'mockKustoDatabaseName',
+        kustoTableName: 'mockKustoTableName'
+    };
     private seededRng = seedRandom('cardboard seed');
     private mockTwinPropertiesMap: {
         [id: string]: Record<string, unknown>;
@@ -1116,7 +1121,7 @@ export default class MockAdapter
                         .split(' and Key == '); // get the part of the query where there is twin id and property information
                     const twinId = idAndPropertyPart[0].replace(/'/g, ''); // get the id and replace the single quote characters around the string
                     const twinProperty = idAndPropertyPart[1]
-                        .split(' | order by')[0]
+                        .split(' | ')[0]
                         .replace(/'/g, ''); // get the twin property and replace the single quote characters around the string
 
                     mockData.push({
@@ -1145,6 +1150,31 @@ export default class MockAdapter
             });
         } catch (err) {
             return new AdapterResult<ADXTimeSeriesData>({
+                result: null,
+                errorInfo: { catastrophicError: err, errors: [err] }
+            });
+        }
+    }
+
+    async updateADXConnectionInformation() {
+        try {
+            await this.mockNetwork();
+            const mockConnectionInformation: IADXConnection = {
+                kustoClusterUrl:
+                    'https://mockKustoClusterName.westus2.kusto.windows.net',
+                kustoDatabaseName: 'mockKustoDatabaseName',
+                kustoTableName: 'mockKustoTableName'
+            };
+            this.setADXConnectionInformation(mockConnectionInformation);
+
+            return new AdapterResult({
+                result: new ADTInstanceTimeSeriesConnectionData(
+                    mockConnectionInformation
+                ),
+                errorInfo: null
+            });
+        } catch (err) {
+            return new AdapterResult({
                 result: null,
                 errorInfo: { catastrophicError: err, errors: [err] }
             });

@@ -38,6 +38,7 @@ type IListItemBaseProps<T> = {
     iconStart?:
         | {
               name: IIconNames;
+              color?: string;
           }
         | ((item: T) => React.ReactElement);
     /** id attribute to attach to the list item button */

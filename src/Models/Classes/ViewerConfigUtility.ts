@@ -188,7 +188,7 @@ abstract class ViewerConfigUtility {
         return updatedConfig;
     }
 
-    /** Delete existing layer */
+    /** Get active layers in a behavior */
     static getActiveLayersForBehavior(
         config: I3DScenesConfig,
         behaviorId: string
@@ -239,28 +239,6 @@ abstract class ViewerConfigUtility {
         return config?.configuration?.behaviors?.find(
             (x) => x.id === behaviorId
         );
-    }
-
-    /** Gets a given element from the config */
-    static getElementById(
-        config: I3DScenesConfig,
-        elementId: string
-    ): ITwinToObjectMapping | undefined {
-        if (!config || !elementId) return undefined;
-        let element: ITwinToObjectMapping = undefined;
-
-        config?.configuration?.scenes?.forEach((scene) => {
-            element = scene.elements
-                .filter(this.isTwinToObjectMappingElement)
-                .find((element) => element.id === elementId);
-
-            // return as soon as we find one
-            if (element) {
-                return element;
-            }
-        });
-
-        return element;
     }
 
     /** Add behavior to target scene */
@@ -454,6 +432,28 @@ abstract class ViewerConfigUtility {
             });
         }
         return updatedConfig;
+    }
+
+    /** Gets a given element from the config */
+    static getElementById(
+        config: I3DScenesConfig,
+        elementId: string
+    ): ITwinToObjectMapping | undefined {
+        if (!config || !elementId) return undefined;
+        let element: ITwinToObjectMapping = undefined;
+
+        config?.configuration?.scenes?.forEach((scene) => {
+            element = scene.elements
+                .filter(this.isTwinToObjectMappingElement)
+                .find((element) => element.id === elementId);
+
+            // return as soon as we find one
+            if (element) {
+                return element;
+            }
+        });
+
+        return element;
     }
 
     /**

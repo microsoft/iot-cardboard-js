@@ -277,7 +277,7 @@ const BehaviorTwinAliasForm: React.FC<{
                                             disableDropdownDescription={true}
                                             dropdownLabel={element.displayName}
                                             dropdownLabelIconName={'Shapes'}
-                                            handleSelectTwinId={(
+                                            onSelectTwinId={(
                                                 selectedTwinId: string
                                             ) => {
                                                 handleTwinSelect(

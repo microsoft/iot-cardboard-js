@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Azure Digital Twins Data Reader' (minimaal).",
       "storageAccountMissingPermissionMessage": "U hebt ontbrekende machtigingen. Je hebt toegang nodig als 'Reader' (minimaal).",
       "storageContainerMissingPermissionMessage": "U hebt ontbrekende machtigingen. U hebt toegang nodig als 'Reader' (minimaal) en 'Storage Blob Data Owner' of 'Storage Blob Data Contributor'.",
-      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde.",
-      "resourceNotVerified": "We kunnen niet controleren of deze bron bestaat."
+      "resourceNotVerified": "We kunnen niet controleren of deze bron bestaat.",
+      "resourceNotFound": "Er is geen Azure-resource gevonden met de ingevoerde waarde in de geselecteerde map."
     }
   },
   "behaviorsModal": {
@@ -1301,5 +1301,25 @@
   "hideDetails": "Details verbergen",
   "colorPills": {
     "unlabeled": "Niet-gelabeld"
+  },
+  "dataHistoryExplorer": {
+    "title": "Gegevensgeschiedenisverkenner",
+    "builder": {
+      "title": "Dubbele eigenschappen",
+      "timeSeriesTwin": {
+        "property": "Eigenschap",
+        "propertyTypeCastLabel": "Eigenschapstype casten naar nummer",
+        "add": "Tijdreeksen toevoegen",
+        "remove": "Tijdreeksen verwijderen",
+        "edit": "Tijdreeksen bewerken"
+      },
+      "description": "Als u eerdere waarden voor geïrtoriseerde eigenschappen wilt vergelijken, voegt u hieronder tijdreeksen toe."
+    },
+    "viewer": {
+      "chart": "Zeekaart",
+      "table": "Tafel",
+      "noSeriesDescription": "Als u de gegevensgeschiedenis voor deze tweeling wilt weergeven, selecteert u een eigenschap die u wilt weergeven."
+    },
+    "loadingConnectionLabel": "Tijdreeksverbindingsinformatie laden..."
   }
 }

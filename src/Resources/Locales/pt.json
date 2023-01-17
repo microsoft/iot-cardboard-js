@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Azure Digital Twins Data Reader' (no mínimo).",
       "storageAccountMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo).",
       "storageContainerMissingPermissionMessage": "Você tem permissões perdidas. Você precisará de acesso como 'Leitor' (no mínimo) e 'Storage Blob Data Owner' ou 'Storage Blob Data Contributor'.",
-      "resourceNotFound": "Não há nenhum recurso do Azure encontrado com o valor inserido.",
-      "resourceNotVerified": "Não podemos verificar se esse recurso existe."
+      "resourceNotVerified": "Não podemos verificar se esse recurso existe.",
+      "resourceNotFound": "Não há nenhum recurso do Azure encontrado com o valor inserido no diretório selecionado."
     }
   },
   "behaviorsModal": {
@@ -1301,5 +1301,25 @@
   "hideDetails": "Ocultar detalhes",
   "colorPills": {
     "unlabeled": "Unlabeled"
+  },
+  "dataHistoryExplorer": {
+    "title": "Explorador de histórico de dados",
+    "builder": {
+      "title": "Propriedades Twin",
+      "timeSeriesTwin": {
+        "property": "Propriedade",
+        "propertyTypeCastLabel": "Transmitir o tipo de propriedade para o número",
+        "add": "Adicionar séries temporais",
+        "remove": "Remover séries temporais",
+        "edit": "Editar séries temporais"
+      },
+      "description": "Para comparar valores passados para propriedades historizadas, adicione séries temporais abaixo."
+    },
+    "viewer": {
+      "chart": "Gráfico",
+      "table": "Mesa",
+      "noSeriesDescription": "Para exibir o histórico de dados desse gêmeo, selecione uma propriedade a ser exibida."
+    },
+    "loadingConnectionLabel": "Carregando informações de conexão de série temporal..."
   }
 }

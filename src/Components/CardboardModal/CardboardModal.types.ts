@@ -24,7 +24,8 @@ export interface ICardboardModalProps {
         linkProps?: ILinkProps;
     };
     /** click handle for the primary footer button */
-    footerPrimaryButtonProps: IButtonProps;
+    footerPrimaryButtonProps?: IButtonProps;
+    footerDefaultButtonProps?: IButtonProps;
     /** is the modal open */
     isOpen: boolean;
     /** additional props to pass to the modal for customization */

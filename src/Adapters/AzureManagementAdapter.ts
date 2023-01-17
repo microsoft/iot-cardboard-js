@@ -264,7 +264,7 @@ export default class AzureManagementAdapter implements IAzureManagementAdapter {
                 const urlObj = getUrlFromString(urlString);
                 switch (type.toLowerCase()) {
                     case AzureResourceTypes.DigitalTwinInstance.toLowerCase(): {
-                        query = `properties.hostName == '${urlObj.hostname}'`;
+                        query = `properties.hostName =~ '${urlObj.hostname}'`;
                         break;
                     }
                     case AzureResourceTypes.StorageAccount.toLowerCase():

@@ -1,4 +1,4 @@
-import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
+import { isNumericType } from '../Classes/3DVConfig';
 import ViewerConfigUtility from '../Classes/ViewerConfigUtility';
 import { DTwin } from '../Constants/Interfaces';
 import { parseLinkedTwinExpression } from '../Services/Utils';

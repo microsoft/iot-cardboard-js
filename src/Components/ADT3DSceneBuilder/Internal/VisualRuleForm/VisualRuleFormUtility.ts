@@ -95,17 +95,6 @@ export const getValuesFromMap = (
     }
 };
 
-/** Check if property type is numeric */
-export const isNumericType = (type: IDTDLPropertyType): boolean => {
-    const numericTypes: IDTDLPropertyType[] = [
-        'double',
-        'float',
-        'integer',
-        'long'
-    ];
-    return numericTypes.includes(type);
-};
-
 /** Get color for new condition */
 export const getNextColor = (
     valueRanges: IValueRange[],

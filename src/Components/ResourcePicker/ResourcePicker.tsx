@@ -396,9 +396,13 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
      */
     useEffect(() => {
         if (onChange) {
-            onChange(selectedOption?.value, getResourcesFromOptions(options));
+            onChange(
+                selectedOption?.value,
+                getResourcesFromOptions(options),
+                !errorProp?.message ? inputError : undefined // only expose the internal input error message if exist
+            );
         }
-    }, [selectedOption?.value, options.length]);
+    }, [selectedOption?.value, options.length, inputError]);
 
     const handleOnChange = useCallback(
         (
@@ -641,6 +645,8 @@ const ResourcePicker: React.FC<IResourcePickerProps> = ({
                     options={resourcesState.isLoading ? [] : options}
                     value={selectedOption}
                     defaultValue={selectedOption ?? undefined}
+                    defaultInputValue={searchValue ?? ''}
+                    inputValue={searchValue}
                     placeholder={placeholder()}
                     formatCreateLabel={formatCreateLabel}
                     noOptionsMessage={noOptionsMessage}

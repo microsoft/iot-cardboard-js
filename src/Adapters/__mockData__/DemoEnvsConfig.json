@@ -752,6 +752,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Health score",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.HealthScore",
                         "valueRanges": [
@@ -795,6 +796,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Maintenance time alert",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.HealthScore > 5",
                         "valueRanges": [
@@ -927,6 +929,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "CO2 levels",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.CO2Level",
                         "valueRanges": [
@@ -981,6 +984,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "CO2 warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.CO2Level > 40",
                         "valueRanges": [
@@ -1074,6 +1078,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Humidity levels",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.Humidity",
                         "valueRanges": [
@@ -1106,6 +1111,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Humidity warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.Temperature > 75 && PrimaryTwin.Humidity > 80",
                         "valueRanges": [
@@ -1152,6 +1158,7 @@
                         "type": "ExpressionRangeVisual",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.Wattage",
+                        "displayName": "Wattage levels",
                         "valueRanges": [
                             {
                                 "values": [
@@ -1204,6 +1211,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Wattage warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.Wattage < 300",
                         "valueRanges": [
@@ -1292,6 +1300,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Water quality levels",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.CopperCorrosion",
                         "valueRanges": [
@@ -1324,6 +1333,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Water quality warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.CopperCorrosion < 85",
                         "valueRanges": [
@@ -1450,6 +1460,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Tank level warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.TankLevel > 90",
                         "valueRanges": [
@@ -1471,6 +1482,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Tank levels",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.TankLevel",
                         "valueRanges": [
@@ -1587,6 +1599,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Flow rate levels",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.FlowRate",
                         "valueRanges": [
@@ -1628,6 +1641,7 @@
                 "visuals": [
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Fuel consumption",
                         "expressionType": "NumericRange",
                         "valueExpression": "PrimaryTwin.SpecificFuelConsumption",
                         "valueRanges": [
@@ -1671,6 +1685,7 @@
                     },
                     {
                         "type": "ExpressionRangeVisual",
+                        "displayName": "Methane production warning",
                         "expressionType": "CategoricalValues",
                         "valueExpression": "PrimaryTwin.SpecificFuelConsumption > 7100",
                         "valueRanges": [

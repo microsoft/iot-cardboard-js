@@ -6,7 +6,7 @@ import { ITwinPropertySearchDropdownStyles } from '../TwinPropertySearchDropdown
 
 export interface ITwinSearchProps {
     adapter: ADTAdapter | MockAdapter;
-    handleSelectTwinId: (selectedTwinId: string) => void;
+    onSelectTwinId: (selectedTwinId: string) => void;
     initialSelectedValue: string;
     isInspectorDisabled: boolean;
     twinId: string;

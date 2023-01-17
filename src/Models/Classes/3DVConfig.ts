@@ -1,4 +1,3 @@
-import { isNumericType } from '../../Components/ADT3DSceneBuilder/Internal/VisualRuleForm/VisualRuleFormUtility';
 import { createGUID } from '../Services/Utils';
 import {
     IBehavior,
@@ -91,6 +90,17 @@ export const defaultOnClickPopover: IPopoverVisual = {
     objectIDs: {
         expression: 'meshIDs'
     }
+};
+
+/** Check if property type is numeric */
+export const isNumericType = (type: IDTDLPropertyType): boolean => {
+    const numericTypes: IDTDLPropertyType[] = [
+        'double',
+        'float',
+        'integer',
+        'long'
+    ];
+    return numericTypes.includes(type);
 };
 
 export const getDefaultVisualRule = (): IExpressionRangeVisual => ({
