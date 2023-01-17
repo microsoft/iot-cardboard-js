@@ -4,7 +4,10 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import i18n from '../../../i18n';
-import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import {
+    IOatProjectData,
+    ProjectData
+} from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import {
     OAT_MODEL_ID_PREFIX,
     OAT_NAMESPACE_DEFAULT_VALUE
@@ -380,7 +383,6 @@ export const OatPageContextReducer: (
                     draft.currentOntologyModels = newModels;
                 }
                 saveData(draft);
-                draft.triggerGraphLayout = true; // force a layout of the graph
                 break;
             }
             case OatPageContextActionType.ADD_NEW_MODEL: {
@@ -432,6 +434,10 @@ export const OatPageContextReducer: (
             }
             case OatPageContextActionType.GRAPH_SET_MODELS_TO_SYNC: {
                 draft.graphUpdatesToSync = action.payload;
+                break;
+            }
+            case OatPageContextActionType.CLEAR_GRAPH_LAYOUT: {
+                draft.triggerGraphLayout = false;
                 break;
             }
             case OatPageContextActionType.GRAPH_CLEAR_MODELS_TO_SYNC: {
@@ -537,7 +543,7 @@ const getInitialState = (
         ? initialState.currentOntologyId
         : getLastUsedProjectId();
 
-    let project: ProjectData;
+    let project: IOatProjectData;
     let projectIdToUse = '';
     if (files.length > 0 && lastProjectId) {
         if (files.some((x) => x.id === lastProjectId)) {

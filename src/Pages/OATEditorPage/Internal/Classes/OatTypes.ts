@@ -1,10 +1,10 @@
 import { FitViewFunc, Node, XYPosition } from 'react-flow-renderer';
 
-import { ProjectData } from './ProjectData';
+import { IOatProjectData } from './ProjectData';
 
 export interface IOATFile {
     id: string;
-    data: ProjectData;
+    data: IOatProjectData;
 }
 
 interface ViewportHelperFunctionOptions {

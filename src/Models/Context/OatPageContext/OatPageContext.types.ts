@@ -13,7 +13,7 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLProperty } from '../../Classes/DTDL';
-import { ProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
+import { IOatProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
 import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IDropdownOption } from '@fluentui/react';
 
@@ -215,7 +215,7 @@ export type OatPageContextAction =
       }
     | {
           type: OatPageContextActionType.SET_CURRENT_PROJECT;
-          payload: ProjectData;
+          payload: IOatProjectData;
       }
     | {
           type: OatPageContextActionType.CLEAR_GRAPH_LAYOUT;

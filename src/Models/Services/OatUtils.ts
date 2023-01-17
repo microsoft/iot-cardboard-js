@@ -1,6 +1,5 @@
 import { i18n } from 'i18next';
 import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
-import { DTDLModel } from '../Classes/DTDL';
 import {
     DtdlInterface,
     OAT_FILES_STORAGE_KEY,
@@ -78,31 +77,6 @@ export const getDirectoryPathFromDTMI = (dtmi: string) => {
 };
 
 /**
- * takes in a group of dtdl interfaces and builds the models objects.
- * since the properties overlap, we simply map them between objects
- */
-export const convertDtdlInterfacesToModels = (
-    dtdlInterfaces: DtdlInterface[]
-): DTDLModel[] => {
-    return dtdlInterfaces.map(convertDtdlInterfaceToModel);
-};
-export const convertDtdlInterfaceToModel = (
-    dtdlInterface: DtdlInterface
-): DTDLModel => {
-    const model = deepCopy(dtdlInterface);
-    return new DTDLModel(
-        model['@id'],
-        model.displayName,
-        model.description,
-        model.comment,
-        model.contents?.filter((x) => x['@type'] === 'Property'),
-        model.contents?.filter((x) => x['@type'] === 'Relationship'),
-        model.contents?.filter((x) => x['@type'] === 'Component'),
-        ensureIsArray(model.extends)
-    );
-};
-
-/**
  * Tries to parse a string to an object of type `T`. Returns null and eats any exception thrown in case of an error.
  * @param value string value to parse
  * @returns an object
@@ -127,14 +101,18 @@ export function getUniqueModelName(model: DtdlInterface): string {
 }
 
 export function getAvailableLanguages(i18n: i18n) {
-    return Object.keys(i18n.options.resources).map((language) => {
-        return {
-            key: (i18n.options.resources[language].translation as any)
-                .languageCode,
-            text: (i18n.options.resources[language].translation as any)
-                .languageName
-        };
-    });
+    if (i18n?.options?.resources) {
+        return Object.keys(i18n.options.resources).map((language) => {
+            return {
+                key: (i18n.options.resources[language].translation as any)
+                    .languageCode,
+                text: (i18n.options.resources[language].translation as any)
+                    .languageName
+            };
+        });
+    } else {
+        return [];
+    }
 }
 
 export function ensureIsArray(property: string | string[]): string[] {
