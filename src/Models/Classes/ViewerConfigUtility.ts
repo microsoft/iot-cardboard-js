@@ -999,129 +999,131 @@ abstract class ViewerConfigUtility {
         return value >= Number(values[0]) && value < Number(values[1]);
     }
 
-    static getMatchingRangeFromValue(
-        ranges: IValueRange[],
-        value: number
-    ): IValueRange | null {
-        let targetRange: IValueRange = null;
-        if (ranges) {
-            for (const range of ranges) {
-                if (
-                    value >= Number(range.values[0]) &&
-                    value < Number(range.values[1])
-                ) {
-                    targetRange = range;
-                }
-            }
-        }
-
-        return targetRange;
-    }
+    /**
+     * Function that determines the lengths of the gauge arcs, the color for the arcs
+     * and the scaled location of where the gauge's needle points
+     * @param valueRanges
+     * @param currentValue
+     * @returns an object that has percent (scaled location of needle point),
+     * array of colors, and array of arcs length
+     */
     static getGaugeWidgetConfiguration(
-        ranges: IValueRange[],
-        value: number
+        valueRanges: IValueRange[],
+        currentValue: number
     ): {
-        domainMin: number;
-        domainMax: number;
         percent: number;
         colors: string[];
-        nrOfLevels: number;
+        arcsLength: number[];
     } {
-        const defaultMinGaugeDomain = -100;
-        const defaultMaxGaugeDomain = 100;
-        let domainMin = Number('Infinity');
-        let domainMax = Number('-Infinity');
-        let nrOfLevels = ranges.length;
-
-        for (const valueRange of ranges) {
-            const numericValueRangeMin = Number(valueRange.values[0]);
-            const numericValueRangeMax = Number(valueRange.values[1]);
-
-            // Find minimum range value
-            if (numericValueRangeMin < domainMin) {
-                domainMin = numericValueRangeMin;
-            }
-
-            // Find maximum range value
-            if (numericValueRangeMax > domainMax) {
-                domainMax = numericValueRangeMax;
-            }
-        }
-
-        // If minimum is not finite -- snap to default min
-        if (!isFinite(domainMin)) {
-            domainMin = defaultMinGaugeDomain;
-        }
-
-        // If maximum is not finite -- snap to default max
-        if (!isFinite(domainMin)) {
-            domainMin = defaultMaxGaugeDomain;
-        }
-
-        const targetRange = ViewerConfigUtility.getMatchingRangeFromValue(
-            ranges,
-            value
+        //put all the range values into one, flat array
+        const flattenValues = [];
+        valueRanges.forEach((range) => flattenValues.push(...range.values));
+        //filter out -INF && INF, if any
+        const numericValues = flattenValues.filter(
+            (v) => v !== '-Infinity' && v !== 'Infinity'
         );
-        const isOutOfValueRange = targetRange === null;
+        //sort the values
+        numericValues.sort();
+        //calculate overall range
+        const totalRange =
+            numericValues[numericValues.length - 1] - numericValues[0];
+        //replace the -infinity and infinity with values that are 10% less and 10% more than numeric min and max
+        const infiniteRangePercentage = 0.1;
+        const newGaugeRanges: number[][] = valueRanges.map((range) => {
+            if (
+                range.values[0] === '-Infinity' &&
+                range.values[1] !== 'Infinity'
+            ) {
+                return [
+                    Number(range.values[1]) -
+                        totalRange * infiniteRangePercentage,
+                    Number(range.values[1])
+                ];
+            } else if (
+                range.values[0] !== '-Infinity' &&
+                range.values[1] === 'Infinity'
+            ) {
+                return [
+                    Number(range.values[0]),
+                    Number(range.values[0]) +
+                        totalRange * infiniteRangePercentage
+                ];
+            } else {
+                return [Number(range.values[0]), Number(range.values[1])];
+            }
+        });
 
-        const sortedRanges = ranges.sort(
-            (a, b) => Number(a.values[0]) - Number(b.values[1])
-        );
-        let outOfRangeColorInsertionIndex = sortedRanges.length;
+        const updatedFlattenValues = [];
+        newGaugeRanges.forEach((range) => updatedFlattenValues.push(...range));
+        updatedFlattenValues.sort();
 
-        const gaugeRanges = sortedRanges.map((vr) => ({
+        const updatedTotalRange =
+            updatedFlattenValues[updatedFlattenValues.length - 1] -
+            updatedFlattenValues[0];
+
+        //determine arc colors
+        const arcColors = valueRanges.map((vr) => ({
             color: vr.visual.color,
             id: vr.id
         }));
-
-        if (isOutOfValueRange) {
-            for (let i = 0; i < sortedRanges.length; i++) {
-                if (value < Number(sortedRanges[i].values[0])) {
-                    outOfRangeColorInsertionIndex = i;
-                    break;
-                }
-            }
-            gaugeRanges.splice(outOfRangeColorInsertionIndex, 0, {
-                color: 'var(--cb-color-bg-canvas-inset)',
-                id: 'OUT_OF_RANGE_ID'
-            });
-            nrOfLevels++;
-        }
-
-        let percent = (value - domainMin) / (domainMax - domainMin);
-
-        if (percent > 1) {
-            percent = 1;
-        } else if (percent < 0) {
-            percent = 0;
+        //have to fill in the gaps if necessary
+        const {
+            filledGaugeRanges,
+            updatedColors
+        } = ViewerConfigUtility.fillRangeGaps(newGaugeRanges, arcColors);
+        //determine arc length
+        const arcsLength: number[] = [];
+        filledGaugeRanges.forEach((range) =>
+            arcsLength.push((range[1] - range[0]) / updatedTotalRange)
+        );
+        //calculate needle direction
+        let needlePercent;
+        if (currentValue < updatedFlattenValues[0]) {
+            needlePercent = 0;
+        } else if (
+            currentValue > updatedFlattenValues[updatedFlattenValues.length - 1]
+        ) {
+            needlePercent = 1;
         } else {
-            const targetId = isOutOfValueRange
-                ? 'OUT_OF_RANGE_ID'
-                : targetRange.id;
-
-            // Find index into gauge colors to target
-            const rangeIdx =
-                gaugeRanges.findIndex((gr) => gr.id === targetId) || 0;
-
-            // Snap percent to center of color range
-            const rangeAnchors = [];
-            const increment = 1 / nrOfLevels;
-            let currentAnchor = increment / 2;
-            while (currentAnchor < 1) {
-                rangeAnchors.push(currentAnchor);
-                currentAnchor += increment;
-            }
-
-            percent = rangeAnchors[rangeIdx];
+            needlePercent =
+                (currentValue - updatedFlattenValues[0]) / updatedTotalRange;
         }
-
         return {
-            domainMin,
-            domainMax,
-            percent,
-            colors: gaugeRanges.map((gr) => gr.color),
-            nrOfLevels
+            arcsLength,
+            colors: updatedColors.map((gr) => gr.color),
+            percent: needlePercent
         };
+    }
+
+    /**
+     * Fills in the gaps, if any, in the ranges and also, updates the arc colors with outOfRange colors
+     * @param gaugeRanges
+     * @param arcColors
+     * @returns an object that has filledGaugeRanges (an array of number arrays)
+     * and  updatedColor (an object of color and id strings)
+     */
+    static fillRangeGaps(
+        gaugeRanges,
+        arcColors
+    ): { filledGaugeRanges: number[][]; updatedColors } {
+        const filledGaugeRanges = [[gaugeRanges[0][0], gaugeRanges[0][1]]];
+        const updatedColors = JSON.parse(JSON.stringify(arcColors));
+
+        let i = 0;
+        let j = 1;
+        while (i <= gaugeRanges.length - 2 && j <= gaugeRanges.length - 1) {
+            if (gaugeRanges[j][0] - gaugeRanges[i][1] > 1) {
+                filledGaugeRanges.push([gaugeRanges[i][1], gaugeRanges[j][0]]);
+                arcColors.splice(j, 0, {
+                    color: 'var(--cb-color-bg-canvas-inset)',
+                    id: 'OUT_OF_RANGE_ID'
+                });
+            }
+            filledGaugeRanges.push([gaugeRanges[j][0], gaugeRanges[j][1]]);
+            i++;
+            j++;
+        }
+        return { filledGaugeRanges, updatedColors };
     }
 
     static getElementIdsForBehavior(behavior: IBehavior) {
