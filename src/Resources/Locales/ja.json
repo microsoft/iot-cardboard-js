@@ -1203,7 +1203,6 @@
     "valueSchema": "値スキーマ",
     "commentPlaceholder": "モデル作成者へのコメント",
     "date": "日付",
-    "defaultPropertyName": "新しいプロパティ {{インデックス}}",
     "descriptionPlaceholder": "表示するローカライズ可能な説明",
     "details": "細部",
     "displayNamePlaceholder": "表示するローカライズ可能な名前",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "メタデータの編集"
       }
     },
-    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する"
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する",
+    "defaultPropertyName1": "new_property_{{インデックス}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

@@ -1083,7 +1083,6 @@
     "writable": "Zapisovatelný",
     "commentPlaceholder": "Komentář pro autory modelů",
     "date": "rande",
-    "defaultPropertyName": "nová vlastnost {{index}}",
     "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
     "details": "Podrobnosti",
     "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit",
@@ -1113,7 +1112,8 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
-    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností"
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
+    "defaultPropertyName1": "new_property_{{index}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

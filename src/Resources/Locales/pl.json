@@ -1203,7 +1203,6 @@
     "valueSchema": "Schemat wartości",
     "commentPlaceholder": "Komentarz dla autorów modeli",
     "date": "data",
-    "defaultPropertyName": "nowa właściwość {{index}}",
     "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
     "details": "Szczegóły",
     "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "Edytowanie metadanych"
       }
     },
-    "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły"
+    "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły",
+    "defaultPropertyName1": "new_property_{{index}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

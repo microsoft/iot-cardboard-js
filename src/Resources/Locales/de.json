@@ -1203,7 +1203,6 @@
     "valueSchema": "Wertschema",
     "commentPlaceholder": "Kommentar für Modellautoren",
     "date": "Datum",
-    "defaultPropertyName": "Neue Eigenschaft {{index}}",
     "descriptionPlaceholder": "Eine lokalisierbare Beschreibung zum Anzeigen",
     "details": "Details",
     "displayNamePlaceholder": "Ein lokalisierbarer Name, der angezeigt werden soll",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "Metadaten bearbeiten"
       }
     },
-    "noSelectionMessage": "Wählen Sie ein Modell oder eine Beziehung aus, um Details anzuzeigen"
+    "noSelectionMessage": "Wählen Sie ein Modell oder eine Beziehung aus, um Details anzuzeigen",
+    "defaultPropertyName1": "new_property_{{index}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",
