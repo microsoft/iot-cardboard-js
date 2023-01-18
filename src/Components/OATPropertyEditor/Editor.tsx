@@ -1,29 +1,31 @@
 import React, { useCallback, useRef } from 'react';
-import { Pivot, PivotItem } from '@fluentui/react';
+import { classNamesFunction, Pivot, PivotItem, styled } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/noResults.svg';
-import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import TemplateColumn from './Internal/TemplateColumn';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
-import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
-import { IEditorProps } from './Editor.types';
+import { IEditorProps, IEditorStyleProps, IEditorStyles } from './Editor.types';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
-import EditorJsonTab from './Internal/EditorJsonTab/EditorJsonTab';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import EditorPropertiesTab from './Internal/EditorPropertiesTab/EditorPropertiesTab';
+import EditorJsonTab from './Internal/EditorJsonTab/EditorJsonTab';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import { PROPERTY_EDITOR_VERTICAL_SPACING } from '../../Models/Constants/OatStyleConstants';
 import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
+import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
+import { getStyles } from './Editor.styles';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
+
+const getClassNames = classNamesFunction<IEditorStyleProps, IEditorStyles>();
 
 const Editor: React.FC<IEditorProps> = (props) => {
     const {
@@ -31,7 +33,8 @@ const Editor: React.FC<IEditorProps> = (props) => {
         selectedItem,
         editorState,
         selectedThemeName,
-        parentModelId
+        parentModelId,
+        styles
     } = props;
 
     // hooks
@@ -41,7 +44,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const { oatPageState, oatPageDispatch } = useOatPageContext();
 
     // styles
-    const propertyInspectorStyles = getPropertyInspectorStyles();
+    const classNames = getClassNames(styles, {
+        theme: useExtendedTheme()
+    });
 
     // state
     const enteredTemplateRef = useRef(null);
@@ -81,13 +86,6 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         state={editorState}
                     />
                 );
-            case FormBody.enum:
-                return (
-                    <FormAddEnumItem
-                        onClose={onModalClose}
-                        state={editorState}
-                    />
-                );
             default:
                 <></>;
         }
@@ -96,7 +94,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
     if (!selectedItem) {
         return (
-            <div className={propertyInspectorStyles.root}>
+            <div className={classNames.root}>
                 <IllustrationMessage
                     type={'info'}
                     width={'compact'}
@@ -124,9 +122,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
     }
     return (
         <>
-            <div className={propertyInspectorStyles.root}>
+            <div className={classNames.root}>
                 <Pivot
-                    className={propertyInspectorStyles.pivot}
+                    className={classNames.pivot}
                     selectedKey={oatPageState.selectedPropertyEditorTab}
                     onLinkClick={onTabClick}
                 >
@@ -135,7 +133,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                             disabled: oatPageState.modified
                         }}
                         headerText={t('OATPropertyEditor.properties')}
-                        className={propertyInspectorStyles.pivotItem}
+                        className={classNames.pivotItem}
                         itemKey={IOatPropertyEditorTabKey.Properties}
                     >
                         <EditorPropertiesTab
@@ -145,7 +143,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     </PivotItem>
                     <PivotItem
                         headerText={t('OATPropertyEditor.json')}
-                        className={propertyInspectorStyles.pivotItem}
+                        className={classNames.pivotItem}
                         itemKey={IOatPropertyEditorTabKey.Json}
                         // remove pivot height - padding
                         style={{
@@ -169,7 +167,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
             </div>
             <OATModal
                 isOpen={editorState.modalOpen}
-                className={propertyInspectorStyles.modal}
+                className={classNames.modal}
             >
                 {getModalBody()}
             </OATModal>
@@ -177,4 +175,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     );
 };
 
-export default Editor;
+export default styled<IEditorProps, IEditorStyleProps, IEditorStyles>(
+    Editor,
+    getStyles
+);
