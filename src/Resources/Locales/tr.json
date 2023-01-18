@@ -1219,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "eşya",
@@ -1232,8 +1233,7 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
-    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
-    "defaultPropertyName1": "new_property_{{index}}"
+    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",

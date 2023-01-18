@@ -1219,7 +1219,8 @@
       "defaultMapName": "enum_key_{{색인}}",
       "defaultObjectPropertyName": "field_name_{{색인}}",
       "defaultMapKeyName": "map_key_{{색인}}",
-      "defaultMapValueName": "map_value_{{색인}}"
+      "defaultMapValueName": "map_value_{{색인}}",
+      "defaultPropertyName": "new_property_{{색인}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "항목",
@@ -1232,8 +1233,7 @@
         "editMetadataLabel": "메타데이터 편집"
       }
     },
-    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
-    "defaultPropertyName1": "new_property_{{색인}}"
+    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",
