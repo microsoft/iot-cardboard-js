@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory } from '@storybook/react';
 import { within, userEvent, screen } from '@storybook/testing-library';
-import OATEditorPage from './OATEditorPage';
+import OatEditorPage from './OATEditorPage';
 import {
     getDefaultStoryDecorator,
     IStoryContext,
@@ -14,7 +14,7 @@ const wrapperStyle: React.CSSProperties = {
 };
 export default {
     title: 'Pages/OATEditorPage/Interactions',
-    component: OATEditorPage,
+    component: OatEditorPage,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
@@ -24,7 +24,7 @@ const Template: SceneBuilderStory = (
     context: IStoryContext<any>
 ) => {
     return (
-        <OATEditorPage
+        <OatEditorPage
             selectedThemeName={
                 context?.parameters?.theme || context?.globals?.theme
             }

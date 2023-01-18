@@ -15,21 +15,15 @@ import { DTDLModel } from '../../../Models/Classes/DTDL';
 import { getTargetFromSelection, replaceTargetFromSelection } from '../Utils';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
+import { APP_BACKGROUND_KRAKEN } from '../../../Models/Constants/StyleConstants';
 
 function setEditorTheme(monaco: any) {
     monaco.editor.defineTheme('kraken', {
         base: 'vs-dark',
         inherit: true,
-        rules: [
-            {
-                token: 'comment',
-                foreground: '#5d7988',
-                fontStyle: 'italic'
-            },
-            { token: 'constant', foreground: '#e06c75' }
-        ],
+        rules: [],
         colors: {
-            'editor.background': '#16203b'
+            'editor.background': APP_BACKGROUND_KRAKEN
         }
     });
 }

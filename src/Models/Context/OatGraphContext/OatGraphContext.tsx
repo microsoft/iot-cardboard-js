@@ -25,7 +25,8 @@ const defaultState: IOatGraphContextState = {
     isModelListVisible: true,
     showComponents: true,
     showInheritances: true,
-    showRelationships: true
+    showRelationships: true,
+    isEdgeDragging: false
 };
 
 export const OatGraphContextReducer: (
@@ -79,6 +80,10 @@ export const OatGraphContextReducer: (
                 draft.showRelationships = isDefined(action.payload?.enabled)
                     ? action.payload?.enabled
                     : !draft.showRelationships;
+                break;
+            }
+            case OatGraphContextActionType.SET_IS_EDGE_DRAGGING: {
+                draft.isEdgeDragging = action.payload.isDragging;
                 break;
             }
         }

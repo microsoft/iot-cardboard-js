@@ -10,7 +10,6 @@ import {
 import { useBoolean } from '@fluentui/react-hooks';
 import { Handle, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
-import { IOATGraphCustomNodeProps } from '../../../Models/Constants/Interfaces';
 import {
     getGraphViewerStyles,
     getGraphViewerIconStyles,
@@ -23,19 +22,17 @@ import {
     OAT_UNTARGETED_RELATIONSHIP_NAME,
     OAT_INTERFACE_TYPE
 } from '../../../Models/Constants/Constants';
-import {
-    getDisplayName,
-    isDisplayNameDefined
-} from '../../OATPropertyEditor/Utils';
-import OATTextFieldDisplayName from '../../../Pages/OATEditorPage/Internal/Components/OATTextFieldDisplayName';
+import { getDisplayName } from '../../OATPropertyEditor/Utils';
 import IconRelationship from '../../../Resources/Static/relationshipTargeted.svg';
 import IconUntargeted from '../../../Resources/Static/relationshipUntargeted.svg';
 import IconInheritance from '../../../Resources/Static/relationshipInheritance.svg';
 import IconComponent from '../../../Resources/Static/relationshipComponent.svg';
 import Svg from 'react-inlinesvg';
-import { deepCopy } from '../../../Models/Services/Utils';
 import { OatPageContextActionType } from '../../../Models/Context/OatPageContext/OatPageContext.types';
 import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPageContext';
+import { IOATGraphCustomNodeProps } from './OATGraphCustomNode.types';
+import { parseModelId } from '../../../Models/Services/OatUtils';
+import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const { id, data, isConnectable } = props;
@@ -46,14 +43,13 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     // contexts
     const { execute } = useContext(CommandHistoryContext);
     const { oatPageDispatch, oatPageState } = useOatPageContext();
+    const { oatGraphState } = useOatGraphContext();
 
     // state
     const [
         isHovered,
         { setTrue: setIsHoveredTrue, setFalse: setIsHoveredFalse }
     ] = useBoolean(false);
-    const [nameEditor, setNameEditor] = useState(false);
-    const [nameText, setNameText] = useState(getDisplayName(data.displayName));
     const [handleHoverRelationship, setHandleHoverRelationship] = useState(
         false
     );
@@ -100,31 +96,6 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
         }
     };
 
-    const onDisplayNameCommit = (value: string) => {
-        const update = () => {
-            const modelsCopy = deepCopy(oatPageState.currentOntologyModels);
-            const model = modelsCopy.find((model) => model['@id'] === id);
-            if (model) {
-                model.displayName = value;
-                oatPageDispatch({
-                    type: OatPageContextActionType.SET_CURRENT_MODELS,
-                    payload: { models: modelsCopy }
-                });
-            }
-            setNameText(value);
-            setNameEditor(false);
-        };
-
-        const undoUpdate = () => {
-            oatPageDispatch({
-                type: OatPageContextActionType.SET_CURRENT_MODELS,
-                payload: { models: oatPageState.currentOntologyModels }
-            });
-        };
-
-        execute(update, undoUpdate);
-    };
-
     // styles
     const graphViewerStyles = getGraphViewerStyles();
     const iconStyles = getGraphViewerIconStyles();
@@ -145,6 +116,17 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                         className={graphViewerStyles.handle}
                         isConnectable={isConnectable}
                     />
+                )}
+                {oatGraphState.isEdgeDragging && (
+                    <div
+                        data-targetid={id}
+                        style={{
+                            height: '100%',
+                            width: '100%',
+                            position: 'absolute',
+                            zIndex: 10
+                        }}
+                    ></div>
                 )}
                 <div
                     className={
@@ -167,34 +149,16 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             </div>
                             <div className={graphViewerStyles.nodeContainer}>
                                 <span>{t('OATGraphViewer.name')}:</span>
-                                {!nameEditor && (
-                                    <Label
-                                        className={
-                                            isDisplayNameDefined(
-                                                data.displayName
-                                            )
-                                                ? ''
-                                                : graphViewerStyles.placeholderText
-                                        }
-                                    >
-                                        {isDisplayNameDefined(data.displayName)
-                                            ? getDisplayName(data.displayName)
-                                            : t(
-                                                  'OATPropertyEditor.displayName'
-                                              )}
-                                    </Label>
-                                )}
-                                {nameEditor && (
-                                    <OATTextFieldDisplayName
-                                        value={nameText}
-                                        model={data}
-                                        onCommit={onDisplayNameCommit}
-                                        autoFocus
-                                        placeholder={t(
-                                            'OATPropertyEditor.displayName'
-                                        )}
-                                    />
-                                )}
+                                <Label
+                                    className={
+                                        id
+                                            ? ''
+                                            : graphViewerStyles.placeholderText
+                                    }
+                                >
+                                    {parseModelId(id)?.name ??
+                                        t('OATPropertyEditor.displayName')}
+                                </Label>
                             </div>
                         </>
                     )}

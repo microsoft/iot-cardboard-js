@@ -8,6 +8,7 @@ import {
     IOATModelsMetadata
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLModel, DTDLProperty } from '../../Classes/DTDL';
+import { DtdlInterfaceContent, OatReferenceType } from '../../Constants';
 import {
     buildModelId,
     getAvailableLanguages,
@@ -45,6 +46,17 @@ export const getMockModelItem = (id: string): DTDLModel => {
         [], // components
         [] // extends
     );
+};
+
+export const getMockReference = (
+    id: string,
+    type: OatReferenceType
+): DtdlInterfaceContent => {
+    return {
+        '@type': type,
+        name: 'mock_relationship_' + id,
+        schema: 'boolean'
+    };
 };
 
 const getMockTemplateItem = (id: string): DTDLProperty => {

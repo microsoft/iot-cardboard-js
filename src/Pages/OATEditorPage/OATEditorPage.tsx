@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import OATHeader from '../../Components/OATHeader/OATHeader';
-import OATGraphViewerContent from '../../Components/OATGraphViewer/OATGraphViewer';
+import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.styles';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
@@ -68,7 +68,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                 <OATHeader />
                 <div className={editorPageStyles.component}>
                     <div className={editorPageStyles.viewerContainer}>
-                        <OATGraphViewerContent />
+                        <OATGraphViewer />
                     </div>
                     {showPropertyEditor && (
                         <div
@@ -93,7 +93,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     );
 };
 
-const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
+const OatEditorPage: React.FC<IOATEditorPageProps> = (props) => {
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
             <OatPageContextProvider disableLocalStorage={props.disableStorage}>
@@ -105,4 +105,4 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
     );
 };
 
-export default React.memo(OATEditorPage);
+export default React.memo(OatEditorPage);

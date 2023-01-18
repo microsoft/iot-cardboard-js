@@ -52,7 +52,6 @@ import {
     forceCollide
 } from 'd3-force';
 import { ConnectionParams } from './Internal/Classes/ConnectionParams';
-import { GraphViewerConnectionEvent } from './Internal/Interfaces';
 import {
     DtdlComponent,
     DtdlInterface,
@@ -266,25 +265,29 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
         // Stores values before connection is created
         currentNodeIdRef.current = params.nodeId ? params.nodeId : null;
         currentHandleIdRef.current = params.handleId ? params.handleId : null;
+        oatGraphDispatch({
+            type: OatGraphContextActionType.SET_IS_EDGE_DRAGGING,
+            payload: {
+                isDragging: true
+            }
+        });
     };
 
-    const onConnectStop = (evt: GraphViewerConnectionEvent) => {
+    const onConnectStop = (evt: MouseEvent) => {
         const elementsCopy = deepCopy(elements);
         const sourceModelId = currentNodeIdRef.current;
+        const targetModelId =
+            document
+                .elementFromPoint(evt.clientX, evt.clientY)
+                ?.getAttribute('data-targetid') ?? ''; // custom defined attribute on the node
         logDebugConsole(
             'debug',
-            '[END] Connection stopped. {event, elements, source}',
+            '[END] Connection stopped. {event, elements, source, target}',
             evt,
             elementsCopy,
-            sourceModelId
+            sourceModelId,
+            targetModelId
         );
-
-        let targetModelId = (evt.path || []).find(
-            (element) => element.dataset && element.dataset.id
-        );
-        if (targetModelId) {
-            targetModelId = targetModelId.dataset.id;
-        }
 
         const addition = () => {
             const type = typeMapping.get(currentHandleIdRef.current);
@@ -336,6 +339,12 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
                     }
                 });
             }
+            oatGraphDispatch({
+                type: OatGraphContextActionType.SET_IS_EDGE_DRAGGING,
+                payload: {
+                    isDragging: false
+                }
+            });
         };
 
         const undoAddition = () => {
