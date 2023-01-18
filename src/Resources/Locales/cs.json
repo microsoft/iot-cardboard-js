@@ -1099,7 +1099,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "položky",
@@ -1112,8 +1113,7 @@
         "editMetadataLabel": "Upravit metadata"
       }
     },
-    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností",
-    "defaultPropertyName1": "new_property_{{index}}"
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

@@ -1219,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Items",
@@ -1232,8 +1233,7 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
-    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
-    "defaultPropertyName1": "new_property_{{index}}"
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

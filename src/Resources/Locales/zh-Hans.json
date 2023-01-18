@@ -1219,7 +1219,8 @@
       "defaultMapName": "enum_key_{{索引}}",
       "defaultObjectPropertyName": "field_name_{{索引}}",
       "defaultMapKeyName": "map_key_{{索引}}",
-      "defaultMapValueName": "map_value_{{索引}}"
+      "defaultMapValueName": "map_value_{{索引}}",
+      "defaultPropertyName": "new_property_{{索引}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "项目",
@@ -1232,8 +1233,7 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
-    "noSelectionMessage": "选择模型或关系以查看详细信息",
-    "defaultPropertyName1": "new_property_{{索引}}"
+    "noSelectionMessage": "选择模型或关系以查看详细信息"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
