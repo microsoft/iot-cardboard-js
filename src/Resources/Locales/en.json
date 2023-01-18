@@ -1037,7 +1037,7 @@
         "data": "data",
         "date": "date",
         "dateTime": "dateTime",
-        "defaultPropertyName": "new property {{index}}",
+        "defaultPropertyName1": "new_property_{{index}}",
         "delete": "Delete",
         "description": "Description",
         "descriptionPlaceholder": "A localizable description to display",
