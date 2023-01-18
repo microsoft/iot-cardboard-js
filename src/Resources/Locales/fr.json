@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Modifier le type de valeur énumération",
         "editMetadataLabel": "Modifier les métadonnées"
       }
-    }
+    },
+    "noSelectionMessage": "Sélectionnez un modèle ou une relation pour afficher les détails"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Message d'erreur",

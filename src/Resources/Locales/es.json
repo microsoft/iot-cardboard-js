@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Cambiar el tipo de valor de enumeración",
         "editMetadataLabel": "Editar metadatos"
       }
-    }
+    },
+    "noSelectionMessage": "Seleccionar un modelo o relación para ver los detalles"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

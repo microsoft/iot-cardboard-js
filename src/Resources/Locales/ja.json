@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "列挙値の型を変更する",
         "editMetadataLabel": "メタデータの編集"
       }
-    }
+    },
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

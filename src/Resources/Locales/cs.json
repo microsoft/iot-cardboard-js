@@ -1112,7 +1112,8 @@
         "changeChildTypeLabelForEnum": "Změna typu výčtu",
         "editMetadataLabel": "Upravit metadata"
       }
-    }
+    },
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

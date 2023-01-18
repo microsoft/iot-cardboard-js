@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Ändra uppräkningsvärdetyp",
         "editMetadataLabel": "Redigera metadata"
       }
-    }
+    },
+    "noSelectionMessage": "Välj en modell eller relation för att visa information"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Felmeddelande",

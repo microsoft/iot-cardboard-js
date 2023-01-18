@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
         "editMetadataLabel": "Metagegevens bewerken"
       }
-    }
+    },
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

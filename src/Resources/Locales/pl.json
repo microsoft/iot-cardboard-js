@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
         "editMetadataLabel": "Edytowanie metadanych"
       }
-    }
+    },
+    "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

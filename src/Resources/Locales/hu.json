@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
-    }
+    },
+    "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

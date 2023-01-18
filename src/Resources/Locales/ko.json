@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "열거형 값 형식 변경",
         "editMetadataLabel": "메타데이터 편집"
       }
-    }
+    },
+    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

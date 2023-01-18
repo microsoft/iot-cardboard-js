@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Изменение типа значения перечисления",
         "editMetadataLabel": "Редактирование метаданных"
       }
-    }
+    },
+    "noSelectionMessage": "Выбор модели или связи для просмотра сведений"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

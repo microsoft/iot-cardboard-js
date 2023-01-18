@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "更改枚举值类型",
         "editMetadataLabel": "编辑元数据"
       }
-    }
+    },
+    "noSelectionMessage": "选择模型或关系以查看详细信息"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",
