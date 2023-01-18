@@ -1203,7 +1203,6 @@
     "valueSchema": "Waardenschema",
     "commentPlaceholder": "Opmerking voor modelauteurs",
     "date": "datum",
-    "defaultPropertyName": "nieuwe eigenschap {{index}}",
     "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
     "details": "Bijzonderheden",
     "displayNamePlaceholder": "Een localiseerbare naam om weer te geven",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "Metagegevens bewerken"
       }
     },
-    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven"
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven",
+    "defaultPropertyName1": "new_property_{{index}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

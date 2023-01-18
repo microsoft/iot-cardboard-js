@@ -1203,7 +1203,6 @@
     "valueSchema": "Схема значений",
     "commentPlaceholder": "Комментарий для авторов моделей",
     "date": "дата",
-    "defaultPropertyName": "новое свойство {{index}}",
     "descriptionPlaceholder": "Локализуемое описание для отображения",
     "details": "Подробности",
     "displayNamePlaceholder": "Локализуемое имя для отображения",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "Редактирование метаданных"
       }
     },
-    "noSelectionMessage": "Выбор модели или связи для просмотра сведений"
+    "noSelectionMessage": "Выбор модели или связи для просмотра сведений",
+    "defaultPropertyName1": "new_property_{{индекс}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Сообщение об ошибке",

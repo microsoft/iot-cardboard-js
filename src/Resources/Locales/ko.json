@@ -1203,7 +1203,6 @@
     "valueSchema": "값 스키마",
     "commentPlaceholder": "모델 작성자를 위한 설명",
     "date": "날짜",
-    "defaultPropertyName": "새 속성 {{인덱스}}",
     "descriptionPlaceholder": "표시할 지역화 가능한 설명",
     "details": "세부 정보",
     "displayNamePlaceholder": "표시할 지역화 가능한 이름",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "메타데이터 편집"
       }
     },
-    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택"
+    "noSelectionMessage": "세부 정보를 볼 모델 또는 관계 선택",
+    "defaultPropertyName1": "new_property_{{색인}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "오류 메시지",

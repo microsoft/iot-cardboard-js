@@ -1203,7 +1203,6 @@
     "valueSchema": "值架构",
     "commentPlaceholder": "模型作者注释",
     "date": "日期",
-    "defaultPropertyName": "新属性 {{索引}}",
     "descriptionPlaceholder": "要显示的可本地化说明",
     "details": "详",
     "displayNamePlaceholder": "要显示的可本地化名称",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "编辑元数据"
       }
     },
-    "noSelectionMessage": "选择模型或关系以查看详细信息"
+    "noSelectionMessage": "选择模型或关系以查看详细信息",
+    "defaultPropertyName1": "new_property_{{索引}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "错误信息",

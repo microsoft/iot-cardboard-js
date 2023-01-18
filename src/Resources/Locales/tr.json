@@ -1203,7 +1203,6 @@
     "valueSchema": "Değer Şeması",
     "commentPlaceholder": "Model yazarları için yorum",
     "date": "tarih",
-    "defaultPropertyName": "new property {{index}}",
     "descriptionPlaceholder": "Görüntülenecek yerelleştirilebilir bir açıklama",
     "details": "Şey",
     "displayNamePlaceholder": "Görüntülenecek yerelleştirilebilir bir ad",
@@ -1233,7 +1232,8 @@
         "editMetadataLabel": "Meta verileri düzenleme"
       }
     },
-    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin"
+    "noSelectionMessage": "Ayrıntıları görüntülemek için bir model veya ilişki seçin",
+    "defaultPropertyName1": "new_property_{{index}}"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hata mesajı",
