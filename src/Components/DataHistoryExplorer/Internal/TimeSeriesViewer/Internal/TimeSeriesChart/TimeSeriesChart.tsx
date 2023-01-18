@@ -23,6 +23,7 @@ import { usePrevious } from '@fluentui/react-hooks';
 import { IDataHistoryChartOptions } from '../../../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 import { QuickTimeSpanKey } from '../../../../../../Models/Constants/Enums';
 import { QuickTimeSpans } from '../../../../../../Models/Constants/Constants';
+import { TimeSeriesViewerContext } from '../../TimeSeriesViewer';
 
 const getClassNames = classNamesFunction<
     ITimeSeriesChartStyleProps,
@@ -30,7 +31,7 @@ const getClassNames = classNamesFunction<
 >();
 
 const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
-    const { timeSeriesTwinList, styles } = props;
+    const { onChartOptionsChange, styles } = props;
 
     // state
     const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>({
@@ -40,8 +41,11 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
         aggregationType: 'avg'
     });
 
-    // hooks
+    // contexts
     const { adapter } = useContext(DataHistoryExplorerContext);
+    const { timeSeriesTwinList } = useContext(TimeSeriesViewerContext);
+
+    // hooks
     const xMinDateInMillisRef = useRef<number>(null);
     const xMaxDateInMillisRef = useRef<number>(null);
     const {
@@ -83,6 +87,11 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
             updateXMinAndMax();
         }
     }, [query]);
+    useEffect(() => {
+        if (onChartOptionsChange) {
+            onChartOptionsChange(chartOptions);
+        }
+    }, [chartOptions]);
 
     // styles
     const classNames = getClassNames(styles, {

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import {
+    ITimeSeriesViewerContext,
     ITimeSeriesViewerProps,
     ITimeSeriesViewerStyleProps,
-    ITimeSeriesViewerStyles
+    ITimeSeriesViewerStyles,
+    ViewerPivot
 } from './TimeSeriesViewer.types';
 import { getStyles } from './TimeSeriesViewer.styles';
 import {
@@ -16,13 +18,13 @@ import { useTranslation } from 'react-i18next';
 import GenericErrorImg from '../../../../Resources/Static/noResults.svg';
 import IllustrationMessage from '../../../IllustrationMessage/IllustrationMessage';
 import TimeSeriesChart from './Internal/TimeSeriesChart/TimeSeriesChart';
-import TimeSeriesTable from './Internal/Table/TimeSeriesTable';
-import { TimeStampFormat } from './Internal/Table/TimeSeriesTable.types';
+import TimeSeriesTable from './Internal/TimeSeriesTable/TimeSeriesTable';
+import { TimeStampFormat } from './Internal/TimeSeriesTable/TimeSeriesTable.types';
+import { IDataHistoryChartOptions } from '../../../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
 
-enum ViewerPivot {
-    Chart = 'Chart',
-    Table = 'Table'
-}
+export const TimeSeriesViewerContext = createContext<ITimeSeriesViewerContext>(
+    null
+);
 
 const getClassNames = classNamesFunction<
     ITimeSeriesViewerStyleProps,
@@ -31,6 +33,11 @@ const getClassNames = classNamesFunction<
 
 const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
     const { timeSeriesTwinList, styles } = props;
+
+    //state
+    const [chartOptions, setChartOptions] = useState<IDataHistoryChartOptions>(
+        null
+    );
 
     // hooks
     const { t } = useTranslation();
@@ -56,28 +63,39 @@ const TimeSeriesViewer: React.FC<ITimeSeriesViewerProps> = (props) => {
                     styles={{ container: { flexGrow: 1 } }}
                 />
             ) : (
-                <Pivot
-                    overflowBehavior={'menu'}
-                    styles={classNames.subComponentStyles.pivot}
+                <TimeSeriesViewerContext.Provider
+                    value={{
+                        timeSeriesTwinList
+                    }}
                 >
-                    <PivotItem
-                        headerText={t('dataHistoryExplorer.viewer.chart')}
-                        itemKey={ViewerPivot.Chart}
+                    <Pivot
+                        overflowBehavior={'menu'}
+                        styles={classNames.subComponentStyles.pivot}
                     >
-                        <TimeSeriesChart
-                            timeSeriesTwinList={timeSeriesTwinList}
-                        />
-                    </PivotItem>
-                    <PivotItem
-                        headerText={t('dataHistoryExplorer.viewer.table')}
-                        itemKey={ViewerPivot.Table}
-                    >
-                        <TimeSeriesTable
-                            adxTimeSeries={[]}
-                            timeStampFormat={TimeStampFormat.date}
-                        />
-                    </PivotItem>
-                </Pivot>
+                        <PivotItem
+                            headerText={t('dataHistoryExplorer.viewer.chart')}
+                            itemKey={ViewerPivot.Chart}
+                        >
+                            <TimeSeriesChart
+                                onChartOptionsChange={setChartOptions}
+                            />
+                        </PivotItem>
+                        <PivotItem
+                            headerText={t(
+                                'dataHistoryExplorer.viewer.table.title'
+                            )}
+                            itemKey={ViewerPivot.Table}
+                        >
+                            <TimeSeriesTable
+                                adxTimeSeries={[]}
+                                quickTimeSpanInMillis={
+                                    chartOptions?.defaultQuickTimeSpanInMillis
+                                }
+                                timeStampFormat={TimeStampFormat.date}
+                            />
+                        </PivotItem>
+                    </Pivot>
+                </TimeSeriesViewerContext.Provider>
             )}
         </div>
     );

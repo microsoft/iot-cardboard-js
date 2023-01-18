@@ -1312,9 +1312,13 @@
             "chart": "Chart",
             "table": {
                 "title": "Table",
+                "color": "Color",
+                "noColor": "Not set",
                 "timestamp": "TimeStamp",
                 "property": "Property",
-                "value": "Value"
+                "value": "Value",
+                "loadingMessage": "Loading historized data...",
+                "noSeriesMessage": "No twin selected to query, please add twin properties to view historized data."
             },
             "noSeriesDescription": "To view data history for this twin, select a property to view."
         }

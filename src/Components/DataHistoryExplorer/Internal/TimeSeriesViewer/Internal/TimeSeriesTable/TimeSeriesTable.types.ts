@@ -1,6 +1,8 @@
 import {
     IDetailsListStyles,
     IDropdownStyles,
+    IProcessedStyleSet,
+    ISpinnerStyles,
     IStyle,
     IStyleFunctionOrObject,
     ITheme
@@ -8,7 +10,8 @@ import {
 import { ADXTimeSeries } from '../../../../../../Models/Constants/Types';
 
 export interface ITimeSeriesTableProps {
-    adxTimeSeries: Array<ADXTimeSeries>;
+    quickTimeSpanInMillis: number;
+    adxTimeSeries?: Array<ADXTimeSeries>;
     timeStampFormat?: TimeStampFormat;
     /**
      * Call to provide customized styling that will layer on top of the variant rules.
@@ -24,6 +27,7 @@ export interface ITimeSeriesTableStyleProps {
 }
 export interface ITimeSeriesTableStyles {
     root: IStyle;
+    notSetCell: IStyle;
 
     /**
      * SubComponent styles.
@@ -32,11 +36,24 @@ export interface ITimeSeriesTableStyles {
 }
 
 export interface ITimeSeriesTableSubComponentStyles {
+    loadingSpinner?: Partial<ISpinnerStyles>;
     detailsList?: Partial<IDetailsListStyles>;
     seriesDropdown?: Partial<IDropdownStyles>;
+    colorCellStyles?: IColorCellSubComponentStyles;
 }
 
 export enum TimeStampFormat {
     'date',
     'iso'
+}
+
+interface ColorPillStyles {
+    root: IStyle;
+}
+
+export interface IColorCellSubComponentStyles {
+    pillStyles?: IStyleFunctionOrObject<
+        { color: string },
+        IProcessedStyleSet<ColorPillStyles>
+    >;
 }

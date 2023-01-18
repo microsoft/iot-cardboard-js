@@ -33,7 +33,11 @@ export default class ADXAdapter
         this.adxAuthService.login();
     }
 
-    async getTimeSeriesData(query: string, connection?: IADXConnection) {
+    async getTimeSeriesData(
+        seriesIds: Array<string>,
+        query: string,
+        connection?: IADXConnection
+    ) {
         const adapterMethodSandbox = new AdapterMethodSandbox(
             this.adxAuthService
         );
@@ -78,7 +82,7 @@ export default class ADXAdapter
                     const primaryResultTables: Array<ADXTable> = adxDataHistoryResults.data.filter(
                         (frame) => frame.TableKind === 'PrimaryResult'
                     );
-                    primaryResultTables.forEach((table) => {
+                    primaryResultTables.forEach((table, idx) => {
                         const timeStampColumnIndex = table.Columns.findIndex(
                             (c) => c.ColumnName === ADXTableColumns.TimeStamp
                         );
@@ -105,6 +109,7 @@ export default class ADXAdapter
                         if (tableTimeSeriesData.length) {
                             // each table has same id and key in current design of querying for data history for twin id and property
                             resultTimeSeriesData.push({
+                                seriesId: seriesIds[idx],
                                 id: tableTimeSeriesData[0].id,
                                 key: tableTimeSeriesData[0].key,
                                 data: tableTimeSeriesData.reduce(

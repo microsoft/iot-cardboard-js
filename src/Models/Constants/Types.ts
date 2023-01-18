@@ -81,6 +81,7 @@ export type ADXTimeSeriesTableRow = {
 export type TimeSeriesData = { timestamp: string | number; value: number };
 
 export type ADXTimeSeries = {
+    seriesId: string;
     id: string;
     key: string; // ADX "Key" column for property name, can be nested
     data: Array<TimeSeriesData>;

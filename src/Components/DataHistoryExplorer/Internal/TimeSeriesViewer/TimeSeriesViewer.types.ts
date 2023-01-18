@@ -33,3 +33,12 @@ export interface ITimeSeriesViewerStyles {
 export interface ITimeSeriesViewerSubComponentStyles {
     pivot?: Partial<IPivotStyles>;
 }
+
+export enum ViewerPivot {
+    Chart = 'Chart',
+    Table = 'Table'
+}
+
+export interface ITimeSeriesViewerContext {
+    timeSeriesTwinList: Array<IDataHistoryTimeSeriesTwin>;
+}

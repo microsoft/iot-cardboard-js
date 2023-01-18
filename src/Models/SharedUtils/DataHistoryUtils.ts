@@ -9,10 +9,7 @@ import {
 } from '../Constants/Interfaces';
 import { CUSTOM_HIGHCHARTS_COLOR_IDX_1 } from '../Constants/StyleConstants';
 import { ADXTimeSeries, ADXTimeSeriesTableRow } from '../Constants/Types';
-import {
-    objectHasOwnProperty,
-    sortAscendingOrDescending
-} from '../Services/Utils';
+import { objectHasOwnProperty } from '../Services/Utils';
 import { IDataHistoryChartYAxisType } from '../Types/Generated/3DScenesConfiguration-v1.0.0';
 
 export const getHighChartColorByIdx = (idx: number): ColorString =>
@@ -45,26 +42,18 @@ export const getRandomHighChartColor = (
 
 /** Gets fetched adx time series data and data history widget time series to twin mapping information
  * to get the labels if defined for each series, and converts it into high chart series data to render in chart.
- * Make sure there is one-to-one relationship between the parameters and are in order
+ * Make sure there is one-to-one relationship between the parameters
  */
 export const transformADXTimeSeriesToHighChartsSeries = (
     adxTimeSeries: Array<ADXTimeSeries>,
     twinIdPropertyMap: Array<IDataHistoryTimeSeriesTwin>
 ): Array<IHighChartSeriesData> =>
     adxTimeSeries && twinIdPropertyMap
-        ? adxTimeSeries.map((series, idx) => {
-              let timeSeriesTwin = twinIdPropertyMap[idx];
-              if (
-                  timeSeriesTwin?.twinId !== series.id ||
-                  timeSeriesTwin?.twinPropertyName !== series.key
-              ) {
-                  // make sure if the twin mapping is in correct order by checking id and key
-                  timeSeriesTwin = twinIdPropertyMap.find(
-                      (map) =>
-                          map.twinId === series.id &&
-                          map.twinPropertyName === series.key
-                  );
-              }
+        ? adxTimeSeries.map((series) => {
+              const timeSeriesTwin = twinIdPropertyMap.find(
+                  (map) => map.seriesId === series.seriesId
+              );
+
               return {
                   name: getSeriesName(timeSeriesTwin) || getSeriesName(series), // this is the label for series to show in chart
                   data: series.data,
@@ -72,39 +61,6 @@ export const transformADXTimeSeriesToHighChartsSeries = (
               } as IHighChartSeriesData;
           })
         : [];
-
-/**
- * Gets ADX time series table row and transform it into ADX time series object keyed by id and key fields
- * with reduced data field
- */
-export const transformADXTableRowToTimeSeriesData = (
-    adxTableRows: Array<ADXTimeSeriesTableRow>
-): Array<ADXTimeSeries> => {
-    const timeSeries: Array<ADXTimeSeries> = [];
-    adxTableRows.sort(sortAscendingOrDescending('timestamp')).forEach((row) => {
-        const existingTimeSeries = timeSeries.find(
-            (ts) => ts.id === row.id && ts.key === row.key
-        );
-        if (existingTimeSeries) {
-            existingTimeSeries.data.push({
-                timestamp: row.timestamp, // note that date is in UTC
-                value: row.value
-            });
-        } else {
-            timeSeries.push({
-                id: row.id,
-                key: row.key,
-                data: [
-                    {
-                        timestamp: row.timestamp, // note that date is in UTC
-                        value: row.value
-                    }
-                ]
-            });
-        }
-    });
-    return timeSeries;
-};
 
 /**
  * Gets a single ADX time series and transform it into a shape to view in raw data table
