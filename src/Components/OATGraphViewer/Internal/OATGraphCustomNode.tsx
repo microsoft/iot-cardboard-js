@@ -375,4 +375,4 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     );
 };
 
-export default OATGraphCustomNode;
+export default React.memo(OATGraphCustomNode);
