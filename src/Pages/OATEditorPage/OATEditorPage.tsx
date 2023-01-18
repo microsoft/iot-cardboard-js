@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import OATHeader from '../../Components/OATHeader/OATHeader';
-import OATGraphViewerContent from '../../Components/OATGraphViewer/OATGraphViewer';
+import OATGraphViewer from '../../Components/OATGraphViewer/OATGraphViewer';
 import OATPropertyEditor from '../../Components/OATPropertyEditor/OATPropertyEditor';
 import { getEditorPageStyles } from './OATEditorPage.styles';
 import OATErrorHandlingModal from './Internal/OATErrorHandlingModal';
@@ -68,7 +68,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                 <OATHeader />
                 <div className={editorPageStyles.component}>
                     <div className={editorPageStyles.viewerContainer}>
-                        <OATGraphViewerContent />
+                        <OATGraphViewer />
                     </div>
                     {showPropertyEditor && (
                         <div
