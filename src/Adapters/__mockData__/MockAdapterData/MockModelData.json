@@ -2,11 +2,21 @@
     {
         "@id": "dtmi:assetGen:PasteurizationMachine;1",
         "@type": "Interface",
-        "@context": ["dtmi:dtdl:context;2"],
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ],
         "displayName": "PasteurizationMachine",
         "contents": [
-            { "@type": "Property", "name": "InFlow", "schema": "double" },
-            { "@type": "Property", "name": "OutFlow", "schema": "double" },
+            {
+                "@type": "Property",
+                "name": "InFlow",
+                "schema": "double"
+            },
+            {
+                "@type": "Property",
+                "name": "OutFlow",
+                "schema": "double"
+            },
             {
                 "@type": "Property",
                 "name": "Temperature",
@@ -34,11 +44,21 @@
     {
         "@id": "dtmi:assetGen:SaltMachine;1",
         "@type": "Interface",
-        "@context": ["dtmi:dtdl:context;2"],
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ],
         "displayName": "SaltMachine",
         "contents": [
-            { "@type": "Property", "name": "InFlow", "schema": "double" },
-            { "@type": "Property", "name": "OutFlow", "schema": "double" },
+            {
+                "@type": "Property",
+                "name": "InFlow",
+                "schema": "double"
+            },
+            {
+                "@type": "Property",
+                "name": "OutFlow",
+                "schema": "double"
+            },
             {
                 "@type": "Property",
                 "name": "Temperature",
@@ -49,7 +69,9 @@
     {
         "@id": "dtmi:assetGen:MaintenancePersonnel;1",
         "@type": "Interface",
-        "@context": ["dtmi:dtdl:context;2"],
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ],
         "displayName": "MaintenancePersonnel",
         "contents": [
             {
@@ -68,7 +90,9 @@
     {
         "@id": "dtmi:assetGen:Factory;1",
         "@type": "Interface",
-        "@context": ["dtmi:dtdl:context;2"],
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ],
         "displayName": "Factory",
         "contents": [
             {
@@ -99,7 +123,9 @@
     {
         "@id": "dtmi:assetGen:Country;1",
         "@type": "Interface",
-        "@context": ["dtmi:dtdl:context;2"],
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ],
         "displayName": "Country",
         "contents": [
             {
@@ -195,7 +221,10 @@
                 "writable": true
             },
             {
-                "@type": ["Property", "Energy"],
+                "@type": [
+                    "Property",
+                    "Energy"
+                ],
                 "@id": "dtmi:com:cocrowle:batterycapacity;1",
                 "name": "BatteryCapacity",
                 "schema": "float",
@@ -206,7 +235,10 @@
                 "writable": true
             },
             {
-                "@type": ["Property", "Distance"],
+                "@type": [
+                    "Property",
+                    "Distance"
+                ],
                 "@id": "dtmi:com:cocrowle:mileage;1",
                 "name": "Mileage",
                 "schema": "integer",
@@ -458,7 +490,9 @@
                 "schema": "dtmi:digitaltwins:ngsi_ld:city:geoLocation;1"
             }
         ],
-        "@context": ["dtmi:dtdl:context;2"]
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ]
     },
     {
         "@id": "dtmi:digitaltwins:ngsi_ld:city:Address;1",
@@ -502,7 +536,9 @@
                 "writable": true
             }
         ],
-        "@context": ["dtmi:dtdl:context;2"]
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ]
     },
     {
         "@id": "dtmi:digitaltwins:ngsi_ld:city:geoLocation;1",
@@ -562,6 +598,58 @@
                 "writable": true
             }
         ],
-        "@context": ["dtmi:dtdl:context;2"]
+        "@context": [
+            "dtmi:dtdl:context;2"
+        ]
+    },
+    {
+        "@id": "dtmi:com:matdar:dupedProperty;1",
+        "@type": "Interface",
+        "displayName": "DupedProperty1",
+        "@context": "dtmi:dtdl:context;2",
+        "contents": [
+            {
+                "@type": "Property",
+                "name": "configurations",
+                "schema": {
+                    "@type": "Object",
+                    "fields": [
+                        {
+                            "name": "dupedProperty",
+                            "schema": "integer"
+                        },
+                        {
+                            "name": "dupedProperty",
+                            "schema": "integer"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "@id": "dtmi:com:matdar:otherDupedProperty;1",
+        "@type": "Interface",
+        "displayName": "DupedProperty2",
+        "@context": "dtmi:dtdl:context;2",
+        "contents": [
+            {
+                "@type": "Property",
+                "name": "configurations",
+                "schema": {
+                    "@type": "Object",
+                    "fields": [
+                        {
+                            "name": "otherDupedProperty",
+                            "schema": "integer"
+                        },
+                        {
+                            "name": "otherDupedProperty",
+                            "schema": "integer"
+                        }
+                    ]
+                }
+            }
+        ]
     }
 ]
