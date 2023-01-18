@@ -25,11 +25,11 @@ export const getHighChartColorByIdx = (idx: number): ColorString =>
 export const getRandomHighChartColor = (
     usedColors: Array<ColorString> = []
 ): ColorString => {
-    const PALLETTE_SIZE = 10; // HighCharts has 10 different colors
-    let nextColorIdx = usedColors.length % PALLETTE_SIZE;
+    const PALETTE_SIZE = 10; // HighCharts has 10 different colors
+    let nextColorIdx = usedColors.length % PALETTE_SIZE;
     if (usedColors.includes(getHighChartColorByIdx(nextColorIdx))) {
         Highcharts.getOptions().colors.forEach((_c: ColorString, idx) => {
-            // first try to use an available one between 0 and PALLETTE_SIZE
+            // first try to use an available one between 0 and PALETTE_SIZE
             if (!usedColors.includes(getHighChartColorByIdx(idx))) {
                 nextColorIdx = idx;
             }

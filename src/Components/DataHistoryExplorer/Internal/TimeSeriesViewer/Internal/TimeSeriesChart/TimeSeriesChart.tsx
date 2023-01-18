@@ -102,7 +102,7 @@ const TimeSeriesChart: React.FC<ITimeSeriesChartProps> = (props) => {
                     isLoading={isLoading}
                     chartOptions={{
                         titleAlign: 'left',
-                        legendLayout: 'vertical',
+                        legendLayout: 'horizontal',
                         legendPadding: 0,
                         hasMultipleAxes:
                             chartOptions.yAxisType === 'independent',
