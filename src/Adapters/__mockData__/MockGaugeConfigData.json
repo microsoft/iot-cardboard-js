@@ -1,0 +1,111 @@
+[
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            "-Infinity",
+            9
+          ],
+          "visual": {
+            "color": "#33A1FD"
+          }
+        },
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf161",
+          "values": [
+            10,
+            100
+          ],
+          "visual": {
+            "color": "#26C485"
+          }
+        },
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf162",
+          "values": [
+            100,
+            "Infinity"
+          ],
+          "visual": {
+            "color": "#F79824"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            "-Infinity",
+            9
+          ],
+          "visual": {
+            "color": "#33A1FD"
+          }
+        },
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf161",
+          "values": [
+            20,
+            60
+          ],
+          "visual": {
+            "color": "#26C485"
+          }
+        },
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf162",
+          "values": [
+            100,
+            "Infinity"
+          ],
+          "visual": {
+            "color": "#F79824"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  },
+  {
+    "type": "Gauge",
+    "id": "3dbbbde93325c334c93e47d077b93995",
+    "groupID": "8bf489e804884596afe8abb7e803d5c5",
+    "valueExpression": "PrimaryTwin.Outflow",
+    "widgetConfiguration": {
+      "units": "PSI",
+      "label": "Outflow",
+      "valueRanges": [
+        {
+          "id": "0278cd377adbc30253b0fdb6b5fcf160",
+          "values": [
+            "-Infinity",
+            "Infinity"
+          ],
+          "visual": {
+            "color": "#33A1FD"
+          }
+        }
+      ]
+    },
+    "extensionProperties": {}
+  }
+]

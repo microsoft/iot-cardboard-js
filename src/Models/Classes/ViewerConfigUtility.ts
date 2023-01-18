@@ -1018,81 +1018,91 @@ abstract class ViewerConfigUtility {
         //put all the range values into one, flat array
         const flattenValues = [];
         valueRanges.forEach((range) => flattenValues.push(...range.values));
+
         //filter out -INF && INF, if any
         const numericValues = flattenValues.filter(
             (v) => v !== '-Infinity' && v !== 'Infinity'
         );
-        //sort the values
-        numericValues.sort();
-        //calculate overall range
-        const totalRange =
-            numericValues[numericValues.length - 1] - numericValues[0];
-        //replace the -infinity and infinity with values that are 10% less and 10% more than numeric min and max
-        const infiniteRangePercentage = 0.1;
-        const newGaugeRanges: number[][] = valueRanges.map((range) => {
-            if (
-                range.values[0] === '-Infinity' &&
-                range.values[1] !== 'Infinity'
-            ) {
-                return [
-                    Number(range.values[1]) -
-                        totalRange * infiniteRangePercentage,
-                    Number(range.values[1])
-                ];
-            } else if (
-                range.values[0] !== '-Infinity' &&
-                range.values[1] === 'Infinity'
-            ) {
-                return [
-                    Number(range.values[0]),
-                    Number(range.values[0]) +
-                        totalRange * infiniteRangePercentage
-                ];
-            } else {
-                return [Number(range.values[0]), Number(range.values[1])];
-            }
-        });
-
-        const updatedFlattenValues = [];
-        newGaugeRanges.forEach((range) => updatedFlattenValues.push(...range));
-        updatedFlattenValues.sort();
-
-        const updatedTotalRange =
-            updatedFlattenValues[updatedFlattenValues.length - 1] -
-            updatedFlattenValues[0];
-
         //determine arc colors
         const arcColors = valueRanges.map((vr) => ({
             color: vr.visual.color,
             id: vr.id
         }));
-        //have to fill in the gaps if necessary
-        const {
-            filledGaugeRanges,
-            updatedColors
-        } = ViewerConfigUtility.fillRangeGaps(newGaugeRanges, arcColors);
-        //determine arc length
-        const arcsLength: number[] = [];
-        filledGaugeRanges.forEach((range) =>
-            arcsLength.push((range[1] - range[0]) / updatedTotalRange)
-        );
-        //calculate needle direction
-        let needlePercent;
-        if (currentValue < updatedFlattenValues[0]) {
-            needlePercent = 0;
-        } else if (
-            currentValue > updatedFlattenValues[updatedFlattenValues.length - 1]
-        ) {
-            needlePercent = 1;
+        //if it's just a single range value [-inf, inf], [0, inf], [-inf, 0]
+        if (numericValues.length <= 1) {
+            return {
+                percent: 0,
+                colors: arcColors.map((gr) => gr.color),
+                arcsLength: [1]
+            };
         } else {
-            needlePercent =
-                (currentValue - updatedFlattenValues[0]) / updatedTotalRange;
+            //calculate overall range
+            const totalRange =
+                numericValues[numericValues.length - 1] - numericValues[0];
+            //replace the -infinity and infinity with values that are 10% less and 10% more than numeric min and max
+            const infiniteRangePercentage = 0.1;
+            const newGaugeRanges: number[][] = valueRanges.map((range) => {
+                if (
+                    range.values[0] === '-Infinity' &&
+                    range.values[1] !== 'Infinity'
+                ) {
+                    return [
+                        Number(range.values[1]) -
+                            totalRange * infiniteRangePercentage,
+                        Number(range.values[1])
+                    ];
+                } else if (
+                    range.values[0] !== '-Infinity' &&
+                    range.values[1] === 'Infinity'
+                ) {
+                    return [
+                        Number(range.values[0]),
+                        Number(range.values[0]) +
+                            totalRange * infiniteRangePercentage
+                    ];
+                } else {
+                    return [Number(range.values[0]), Number(range.values[1])];
+                }
+            });
+
+            const updatedFlattenValues = [];
+            newGaugeRanges.forEach((range) =>
+                updatedFlattenValues.push(...range)
+            );
+            const updatedTotalRange =
+                updatedFlattenValues[updatedFlattenValues.length - 1] -
+                updatedFlattenValues[0];
+
+            //have to fill in the gaps if necessary
+            const {
+                filledGaugeRanges,
+                updatedColors
+            } = ViewerConfigUtility.fillRangeGaps(newGaugeRanges, arcColors);
+            //determine arc length
+            const arcsLength: number[] = [];
+            filledGaugeRanges.forEach((range) =>
+                arcsLength.push((range[1] - range[0]) / updatedTotalRange)
+            );
+            //calculate needle direction
+            let needlePercent;
+            if (currentValue < updatedFlattenValues[0]) {
+                needlePercent = 0;
+            } else if (
+                currentValue >
+                updatedFlattenValues[updatedFlattenValues.length - 1]
+            ) {
+                needlePercent = 1;
+            } else {
+                needlePercent =
+                    (currentValue - updatedFlattenValues[0]) /
+                    updatedTotalRange;
+            }
+            return {
+                arcsLength,
+                colors: updatedColors.map((gr) => gr.color),
+                percent: needlePercent
+            };
         }
-        return {
-            arcsLength,
-            colors: updatedColors.map((gr) => gr.color),
-            percent: needlePercent
-        };
     }
 
     /**
@@ -1111,13 +1121,15 @@ abstract class ViewerConfigUtility {
 
         let i = 0;
         let j = 1;
+        let offset = 0;
         while (i <= gaugeRanges.length - 2 && j <= gaugeRanges.length - 1) {
             if (gaugeRanges[j][0] - gaugeRanges[i][1] > 1) {
                 filledGaugeRanges.push([gaugeRanges[i][1], gaugeRanges[j][0]]);
-                arcColors.splice(j, 0, {
+                updatedColors.splice(j + offset, 0, {
                     color: 'var(--cb-color-bg-canvas-inset)',
                     id: 'OUT_OF_RANGE_ID'
                 });
+                offset++;
             }
             filledGaugeRanges.push([gaugeRanges[j][0], gaugeRanges[j][1]]);
             i++;

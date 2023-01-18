@@ -11,7 +11,7 @@ import { useTheme } from '@fluentui/react';
 const wrapperStyle = { width: '100%', height: '600px', padding: 8 };
 
 export default {
-    title: 'Components/GaugeWidget',
+    title: 'Components/GaugeWidget/Values',
     component: GaugeWidget,
     decorators: [
         getDefaultStoryDecorator<{ widget: IGaugeWidget }>(wrapperStyle)
