@@ -18,6 +18,7 @@ import {
     CONTROLS_Z_INDEX,
     getControlBackgroundColor,
     LOADING_Z_INDEX,
+    PANEL_VERTICAL_SPACING,
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
@@ -76,7 +77,7 @@ export const getStyles = (
             },
             modelsListCallout: {
                 root: {
-                    height: '75vh !important',
+                    height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px) !important`,
                     minHeight: '300px !important',
                     width: '30vw',
                     minWidth: 200,

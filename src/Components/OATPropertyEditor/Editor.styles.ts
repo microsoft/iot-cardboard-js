@@ -1,7 +1,7 @@
 import { CardboardClassNamePrefix } from '../..';
 import {
     getControlBackgroundColor,
-    PROPERTY_EDITOR_VERTICAL_SPACING,
+    PANEL_VERTICAL_SPACING,
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { IEditorStyleProps, IEditorStyles } from './Editor.types';
@@ -27,7 +27,7 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
                 borderRadius: theme.effects.roundedCorner2,
                 display: 'flex',
                 flexDirection: 'row',
-                height: `calc(100vh - ${PROPERTY_EDITOR_VERTICAL_SPACING}px)`,
+                height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px)`,
                 padding: 16,
                 width: PROPERTY_EDITOR_WIDTH,
                 justifyContent: 'center'

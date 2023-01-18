@@ -9,7 +9,6 @@ import {
 } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from './OATModelList.styles';
-import { getModelPropertyListItemName } from '../OATPropertyEditor/Utils';
 import { CommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
 import { DtdlInterface } from '../../Models/Constants/dtdlInterfaces';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
