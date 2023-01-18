@@ -1,5 +1,5 @@
 import React from 'react';
-import OATEditorPage from './OATEditorPage';
+import OatEditorPage from './OATEditorPage';
 import {
     getDefaultStoryDecorator,
     IStoryContext
@@ -14,7 +14,7 @@ const wrapperStyle: React.CSSProperties = {
 };
 export default {
     title: 'Pages/OATEditorPage',
-    component: OATEditorPage,
+    component: OatEditorPage,
     decorators: [getDefaultStoryDecorator(wrapperStyle)]
 };
 
@@ -24,7 +24,7 @@ const Template: SceneBuilderStory = (
     context: IStoryContext<any>
 ) => {
     return (
-        <OATEditorPage
+        <OatEditorPage
             selectedThemeName={
                 context.parameters.theme || context.globals.theme
             }

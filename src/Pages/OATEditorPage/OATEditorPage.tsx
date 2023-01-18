@@ -93,7 +93,7 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     );
 };
 
-const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
+const OatEditorPage: React.FC<IOATEditorPageProps> = (props) => {
     return (
         <ErrorBoundary FallbackComponent={OATErrorPage}>
             <OatPageContextProvider disableLocalStorage={props.disableStorage}>
@@ -105,4 +105,4 @@ const OATEditorPage: React.FC<IOATEditorPageProps> = (props) => {
     );
 };
 
-export default React.memo(OATEditorPage);
+export default React.memo(OatEditorPage);
