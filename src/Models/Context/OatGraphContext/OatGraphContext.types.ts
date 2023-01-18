@@ -21,6 +21,7 @@ export interface IOatGraphContextState {
     showRelationships: boolean;
     showInheritances: boolean;
     showComponents: boolean;
+    isEdgeDragging: boolean;
 }
 
 /**
@@ -33,7 +34,8 @@ export enum OatGraphContextActionType {
     MODEL_LIST_VISIBLE_TOGGLE = 'MODEL_LIST_VISIBLE_TOGGLE',
     SHOW_COMPONENTS_TOGGLE = 'SHOW_COMPONENTS_SET',
     SHOW_INHERITANCES_TOGGLE = 'SHOW_INHERITANCES_SET',
-    SHOW_RELATIONSHIPS_TOGGLE = 'SHOW_RELATIONSHIPS_SET'
+    SHOW_RELATIONSHIPS_TOGGLE = 'SHOW_RELATIONSHIPS_SET',
+    SET_IS_EDGE_DRAGGING = 'SET_IS_EDGE_DRAGGING'
 }
 
 /** The actions to update the state */
@@ -72,4 +74,8 @@ export type OatGraphContextAction =
           type: OatGraphContextActionType.SHOW_INHERITANCES_TOGGLE;
           /** optional payload to force a specific value */
           payload?: { enabled: boolean };
+      }
+    | {
+          type: OatGraphContextActionType.SET_IS_EDGE_DRAGGING;
+          payload: { isDragging: boolean };
       };
