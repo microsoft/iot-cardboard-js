@@ -473,15 +473,18 @@ const OATGraphViewerContent: React.FC<IOATGraphViewerProps> = (props) => {
             );
             // console.log('***NODES:', nodes);
 
-            const links = inputElements.reduce((collection: any[], element) => {
-                if (element.source) {
-                    collection.push({
-                        source: element.source,
-                        target: element.target
-                    });
-                }
-                return collection;
-            }, []);
+            const links = inputElements.reduce(
+                (collection: { source: string; target: string }[], element) => {
+                    if (element.source) {
+                        collection.push({
+                            source: element.source,
+                            target: element.target
+                        });
+                    }
+                    return collection;
+                },
+                []
+            );
             // console.log('***LINKS:', links);
 
             forceSimulation(nodes)

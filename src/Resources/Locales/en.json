@@ -1093,6 +1093,7 @@
         "multiPoint": "multipoint",
         "multiPolygon": "multi Polygon",
         "name": "Name",
+        "noSelectionMessage": "Select a model or relationship to view details",
         "object": "object",
         "path": "Path",
         "pivotLink": "Pivot link",

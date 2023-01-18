@@ -4,12 +4,12 @@ import {
     useTheme,
     FontSizes,
     IButtonStyles,
-    ISeparatorStyles,
-    IStackStyles
+    ISeparatorStyles
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     getControlBackgroundColor,
+    PROPERTY_EDITOR_OFFSET,
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
@@ -91,10 +91,10 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: theme.effects.roundedCorner2,
                 display: 'flex',
                 flexDirection: 'row',
-                height: '100%',
-                maxHeight: '70vh',
+                height: `calc(100vh - ${PROPERTY_EDITOR_OFFSET}px)`,
                 padding: 16,
-                width: PROPERTY_EDITOR_WIDTH
+                width: PROPERTY_EDITOR_WIDTH,
+                justifyContent: 'center'
             } as IStyle
         ],
         pivot: [
@@ -772,86 +772,6 @@ export const getPropertySelectorSeparatorStyles = () => {
             }
         }
     } as Partial<ISeparatorStyles>;
-};
-
-/* Property List */
-
-export const getPropertyListPivotColumnContentStyles = () => {
-    return {
-        root: {
-            height: '100%'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getPropertyListStackItemStyles = () => {
-    return {
-        root: {
-            // marginLeft: 8,
-            overflowY: 'auto',
-            '::-webkit-scrollbar': {
-                width: '0px',
-                opacity: '0'
-            }
-        }
-    } as Partial<IButtonStyles>;
-};
-
-/* Property List Item */
-
-export const getPropertyListItemIconWrapStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            color: theme.semanticColors.menuIcon,
-            width: '100%'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getPropertyListItemIconWrapMoreStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            color: theme.semanticColors.menuIcon,
-            position: 'relative',
-            width: '100%'
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getMapItemStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            width: '100%',
-            padding: '12px 8px',
-            borderBottom: `1px solid ${theme.semanticColors.buttonBackgroundPressed}'`
-        }
-    } as Partial<IStackStyles>;
-};
-
-export const getIconMoreSubMenuItemStyles = () => {
-    const theme = useTheme();
-    return {
-        root: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            minWidth: 'max-content',
-            width: '100%',
-            padding: '8px',
-            ':hover': {
-                backgroundColor: theme.semanticColors.primaryButtonTextDisabled
-            }
-        }
-    } as Partial<IButtonStyles>;
-};
-
-export const getListMapItemTextStyles = () => {
-    return {
-        root: { padding: '0px 8px' }
-    } as Partial<IButtonStyles>;
 };
 
 /* Template Column */

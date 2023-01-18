@@ -30,6 +30,7 @@ import { getTargetFromSelection } from '../../Utils';
 import { getSelectionIdentifier } from '../../../OATGraphViewer/Internal/Utils';
 import { userEvent, within } from '@storybook/testing-library';
 import { CommandHistoryContextProvider } from '../../../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
+import { IOATNodeData } from '../../../OATGraphViewer/OATGraphViewer.types';
 
 const wrapperStyle = { width: '500px', height: '1000px', padding: 8 };
 
@@ -82,7 +83,9 @@ const Template = (args: StoryArgs) => {
     const selection = isDTDLReference(args.selectedItem)
         ? {
               modelId: selectedItem['@id'],
-              contentId: getSelectionIdentifier(args.selectedItem)
+              contentId: getSelectionIdentifier(
+                  args.selectedItem as IOATNodeData
+              )
           }
         : { modelId: selectedItem['@id'] };
 

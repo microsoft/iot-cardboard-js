@@ -18,9 +18,10 @@ import { IOATFile } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { userEvent, within } from '@storybook/testing-library';
 import {
     DtdlInterfaceContent,
+    DtdlRelationship,
     OAT_RELATIONSHIP_HANDLE_NAME
 } from '../../Models/Constants';
-import { DTDLProperty } from '../../Models/Classes/DTDL';
+import { DTDLProperty, DTDLType } from '../../Models/Classes/DTDL';
 import {
     OatPageContextProvider,
     useOatPageContext
@@ -87,6 +88,7 @@ const ComponentRenderer: React.FC<IRendererProps> = (props) => {
     console.log('Test: rendering with selected item', selectedModel);
     return (
         <OATPropertyEditor
+            parentModelId={selectedModel['@id']}
             selectedItem={selectedModel}
             selectedThemeName={
                 storyContext.parameters.theme || storyContext.globals.theme
@@ -110,8 +112,8 @@ const getMockModel = () => {
     });
     const model = getMockModelItem(modelId);
 
-    const relationship: DtdlInterfaceContent = {
-        '@type': 'Relationship',
+    const relationship: DtdlRelationship = {
+        '@type': DTDLType.Relationship,
         '@id': modelId + '_Relationship_0',
         name: 'Relationship_0',
         target: 'dtmi:testNamespace:model1;1',

@@ -16,11 +16,7 @@ import {
 } from '../../Models/Context/OatPageContext/OatPageContext';
 import BaseComponent from '../../Components/BaseComponent/BaseComponent';
 import { getTargetFromSelection } from '../../Components/OATPropertyEditor/Utils';
-import {
-    isDTDLComponentReference,
-    isDTDLExtendReference,
-    isDTDLReference
-} from '../../Models/Services/DtdlUtils';
+import { isDTDLReference } from '../../Models/Services/DtdlUtils';
 
 const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
     const { locale, localeStrings, selectedThemeName } = props;
@@ -41,18 +37,6 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
         );
     }, [oatPageState.currentOntologyModels, oatPageState.selection]);
 
-    const showPropertyEditor = useMemo(() => {
-        if (selectedItem) {
-            if (
-                isDTDLComponentReference(selectedItem) ||
-                isDTDLExtendReference(selectedItem)
-            ) {
-                return false;
-            }
-        }
-        return !!selectedItem;
-    }, [selectedItem]);
-
     // styles
     const editorPageStyles = getEditorPageStyles();
 
@@ -70,21 +54,17 @@ const OATEditorPageContent: React.FC<IOATEditorPageProps> = (props) => {
                     <div className={editorPageStyles.viewerContainer}>
                         <OATGraphViewer />
                     </div>
-                    {showPropertyEditor && (
-                        <div
-                            className={editorPageStyles.propertyEditorContainer}
-                        >
-                            <OATPropertyEditor
-                                selectedItem={selectedItem}
-                                selectedThemeName={selectedThemeName}
-                                parentModelId={
-                                    isDTDLReference(selectedItem)
-                                        ? oatPageState.selection.modelId
-                                        : undefined
-                                }
-                            />
-                        </div>
-                    )}
+                    <div className={editorPageStyles.propertyEditorContainer}>
+                        <OATPropertyEditor
+                            selectedItem={selectedItem}
+                            selectedThemeName={selectedThemeName}
+                            parentModelId={
+                                isDTDLReference(selectedItem)
+                                    ? oatPageState.selection.modelId
+                                    : undefined
+                            }
+                        />
+                    </div>
                 </div>
                 <OATErrorHandlingModal />
                 <OATConfirmDeleteModal />

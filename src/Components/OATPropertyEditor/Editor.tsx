@@ -1,40 +1,23 @@
-import React, { useRef, useMemo, useCallback } from 'react';
-import { Stack, Pivot, PivotItem, Label } from '@fluentui/react';
+import React, { useRef } from 'react';
+import { Pivot, PivotItem } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import {
-    getPropertyInspectorStyles,
-    getPropertyListPivotColumnContentStyles,
-    getPropertyListStackItemStyles
-} from './OATPropertyEditor.styles';
-import PropertyList from './Internal/PropertyList/PropertyList';
-import JSONEditor from './Internal/JSONEditor';
+import NoResultImg from '../../Resources/Static/noResults.svg';
+import { getPropertyInspectorStyles } from './OATPropertyEditor.styles';
 import TemplateColumn from './Internal/TemplateColumn';
-import PropertiesModelSummary from './Internal/PropertiesModelSummary';
 import {
     SET_OAT_PROPERTY_MODAL_BODY,
     SET_OAT_PROPERTY_MODAL_OPEN
 } from '../../Models/Constants/ActionTypes';
-import { getModelPropertyCollectionName } from './Utils';
 import OATModal from '../../Pages/OATEditorPage/Internal/Components/OATModal';
 import FormAddEnumItem from './Internal/FormAddEnumItem';
 import { FormBody } from './Shared/Constants';
 import { IEditorProps } from './Editor.types';
-import { OAT_INTERFACE_TYPE } from '../../Models/Constants/Constants';
 import { useOatPageContext } from '../../Models/Context/OatPageContext/OatPageContext';
 import FormUpdateProperty from './Internal/FormUpdateProperty';
-import { deepCopy, getDebugLogger } from '../../Models/Services/Utils';
-import PropertyTypePicker from './Internal/PropertyTypePicker/PropertyTypePicker';
-import { DTDLProperty, DTDLSchemaTypes } from '../../Models/Classes/DTDL';
-import {
-    getDefaultProperty,
-    isDTDLModel,
-    isDTDLProperty,
-    isDTDLReference,
-    isDTDLRelationshipReference
-} from '../../Models/Services/DtdlUtils';
-import { useCommandHistoryContext } from '../../Pages/OATEditorPage/Internal/Context/CommandHistoryContext';
-import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
-import { DtdlProperty } from '../../Models/Constants';
+import EditorJsonTab from './Internal/EditorJsonTab/EditorJsonTab';
+import { getDebugLogger } from '../../Models/Services/Utils';
+import EditorPropertiesTab from './Internal/EditorPropertiesTab/EditorPropertiesTab';
+import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -52,53 +35,14 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageDispatch, oatPageState } = useOatPageContext();
-    const { execute } = useCommandHistoryContext();
+    const { oatPageState } = useOatPageContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
-    const propertyListPivotColumnContent = getPropertyListPivotColumnContentStyles();
-    const propertyListStackItem = getPropertyListStackItemStyles();
 
     // state
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
-
-    // data
-    const propertiesKeyName = getModelPropertyCollectionName(
-        selectedItem ? selectedItem['@type'] : OAT_INTERFACE_TYPE
-    );
-
-    const propertyList = useMemo(() => {
-        // Get contents excluding relationship items
-        let propertyItems: DTDLProperty[] = [];
-        if (
-            selectedItem &&
-            selectedItem[propertiesKeyName] &&
-            selectedItem[propertiesKeyName].length > 0
-        ) {
-            // Exclude relationships from propertyList. Handle DTDL V3 where type can be an array for Semantic types
-            propertyItems = selectedItem[
-                propertiesKeyName
-            ].filter((property: DTDLProperty) => isDTDLProperty(property));
-        }
-        return propertyItems;
-    }, [selectedItem, propertiesKeyName]);
-
-    const isSupportedModelType = useMemo(
-        () =>
-            isDTDLModel(selectedItem) ||
-            isDTDLRelationshipReference(selectedItem),
-        [selectedItem]
-    );
-
-    // callbacks
-    // const onToggleTemplatesActive = () => {
-    //     oatPageDispatch({
-    //         type: OatPageContextActionType.SET_OAT_TEMPLATES_ACTIVE,
-    //         payload: { isActive: !oatPageState.templatesActive }
-    //     });
-    // };
 
     const onModalClose = () => {
         editorDispatch({
@@ -133,88 +77,35 @@ const Editor: React.FC<IEditorProps> = (props) => {
         }
     };
 
-    const onAddType = useCallback(
-        (data: { schema: DTDLSchemaTypes }) => {
-            logDebugConsole(
-                'info',
-                'Updating schema with data. {selectedItem, property, data}',
-                selectedItem,
-                data
-            );
-
-            const selectedItemCopy = deepCopy(selectedItem);
-            if (!selectedItemCopy[propertiesKeyName]) {
-                selectedItemCopy[propertiesKeyName] = [];
-            }
-            (selectedItemCopy[propertiesKeyName] as DtdlProperty[]).push(
-                getDefaultProperty(
-                    data.schema,
-                    selectedItemCopy[propertiesKeyName].length
-                )
-            );
-
-            if (isDTDLModel(selectedItemCopy)) {
-                const updateModel = () => {
-                    oatPageDispatch({
-                        type: OatPageContextActionType.UPDATE_MODEL,
-                        payload: {
-                            model: selectedItemCopy
-                        }
-                    });
-                };
-
-                const undoUpdate = () => {
-                    oatPageDispatch({
-                        type: OatPageContextActionType.GENERAL_UNDO,
-                        payload: {
-                            models: oatPageState.currentOntologyModels,
-                            positions:
-                                oatPageState.currentOntologyModelPositions,
-                            selection: oatPageState.selection
-                        }
-                    });
-                };
-
-                execute(updateModel, undoUpdate);
-            } else if (isDTDLReference(selectedItemCopy)) {
-                const updateModel = () => {
-                    oatPageDispatch({
-                        type: OatPageContextActionType.UPDATE_REFERENCE,
-                        payload: {
-                            modelId: parentModelId,
-                            reference: selectedItemCopy
-                        }
-                    });
-                };
-
-                const undoUpdate = () => {
-                    oatPageDispatch({
-                        type: OatPageContextActionType.GENERAL_UNDO,
-                        payload: {
-                            models: oatPageState.currentOntologyModels,
-                            positions:
-                                oatPageState.currentOntologyModelPositions,
-                            selection: oatPageState.selection
-                        }
-                    });
-                };
-
-                execute(updateModel, undoUpdate);
-            }
-        },
-        [
-            execute,
-            oatPageDispatch,
-            oatPageState.currentOntologyModelPositions,
-            oatPageState.currentOntologyModels,
-            oatPageState.selection,
-            parentModelId,
-            propertiesKeyName,
-            selectedItem
-        ]
-    );
-
     logDebugConsole('debug', 'Render. {selectedItem}', selectedItem);
+    if (!selectedItem) {
+        return (
+            <div className={propertyInspectorStyles.root}>
+                <IllustrationMessage
+                    type={'info'}
+                    width={'compact'}
+                    descriptionText={t('OATPropertyEditor.noSelectionMessage')}
+                    imageProps={{
+                        height: 100,
+                        src: NoResultImg
+                    }}
+                    styles={{
+                        container: {
+                            alignItems: 'unset'
+                        },
+                        subComponentStyles: {
+                            image: {
+                                root: {
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }
+                            }
+                        }
+                    }}
+                />
+            </div>
+        );
+    }
     return (
         <>
             <div className={propertyInspectorStyles.root}>
@@ -226,71 +117,10 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         headerText={t('OATPropertyEditor.properties')}
                         className={propertyInspectorStyles.pivotItem}
                     >
-                        <Stack styles={propertyListPivotColumnContent}>
-                            <Stack.Item>
-                                <PropertiesModelSummary
-                                    isSupportedModelType={isSupportedModelType}
-                                    selectedItem={selectedItem}
-                                />
-                            </Stack.Item>
-                            <Stack.Item>
-                                <div
-                                    className={
-                                        propertyInspectorStyles.propertyListHeaderWrap
-                                    }
-                                >
-                                    <Stack
-                                        className={
-                                            propertyInspectorStyles.rowSpaceBetween
-                                        }
-                                    >
-                                        <Label>{`${t(
-                                            'OATPropertyEditor.properties'
-                                        )} ${
-                                            propertyList.length > 0
-                                                ? `(${propertyList.length})`
-                                                : ''
-                                        }`}</Label>
-                                        {isSupportedModelType && (
-                                            <PropertyTypePicker
-                                                onSelect={onAddType}
-                                            />
-                                        )}
-                                        {/* <ActionButton
-                                            onClick={onToggleTemplatesActive}
-                                            className={
-                                                propertyInspectorStyles.viewTemplatesCta
-                                            }
-                                        >
-                                            <FontIcon
-                                                className={
-                                                    propertyInspectorStyles.propertyHeadingIcon
-                                                }
-                                                iconName={'Library'}
-                                            />
-                                            <Text>
-                                                {t(
-                                                    'OATPropertyEditor.viewTemplates'
-                                                )}
-                                            </Text>
-                                        </ActionButton> */}
-                                    </Stack>
-                                </div>
-                            </Stack.Item>
-
-                            <Stack.Item grow styles={propertyListStackItem}>
-                                {isDTDLReference(selectedItem) ||
-                                isDTDLModel(selectedItem) ? (
-                                    <PropertyList
-                                        selectedItem={selectedItem}
-                                        properties={propertyList}
-                                        parentModelId={parentModelId}
-                                    />
-                                ) : (
-                                    'Property list not supported'
-                                )}
-                            </Stack.Item>
-                        </Stack>
+                        <EditorPropertiesTab
+                            parentModelId={parentModelId}
+                            selectedItem={selectedItem}
+                        />
                     </PivotItem>
                     <PivotItem
                         headerText={t('OATPropertyEditor.json')}
@@ -298,9 +128,10 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         // remove pivot height - padding
                         style={{ height: 'calc(70vh - 36px - 32px)' }}
                     >
-                        {isSupportedModelType && (
-                            <JSONEditor theme={selectedThemeName} />
-                        )}
+                        <EditorJsonTab
+                            selectedItem={selectedItem}
+                            selectedThemeName={selectedThemeName}
+                        />
                     </PivotItem>
                 </Pivot>
                 {oatPageState.templatesActive && (
