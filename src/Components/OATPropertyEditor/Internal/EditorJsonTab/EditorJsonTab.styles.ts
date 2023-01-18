@@ -14,7 +14,12 @@ export const getStyles = (
     _props: IEditorJsonTabStyleProps
 ): IEditorJsonTabStyles => {
     return {
-        root: [classNames.root],
+        root: [
+            classNames.root,
+            {
+                height: '100%'
+            }
+        ],
         subComponentStyles: {}
     };
 };

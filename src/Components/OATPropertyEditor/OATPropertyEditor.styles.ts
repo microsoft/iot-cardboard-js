@@ -9,7 +9,7 @@ import {
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     getControlBackgroundColor,
-    PROPERTY_EDITOR_OFFSET,
+    PROPERTY_EDITOR_VERTICAL_SPACING,
     PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
@@ -91,7 +91,7 @@ export const getPropertyInspectorStyles = () => {
                 borderRadius: theme.effects.roundedCorner2,
                 display: 'flex',
                 flexDirection: 'row',
-                height: `calc(100vh - ${PROPERTY_EDITOR_OFFSET}px)`,
+                height: `calc(100vh - ${PROPERTY_EDITOR_VERTICAL_SPACING}px)`,
                 padding: 16,
                 width: PROPERTY_EDITOR_WIDTH,
                 justifyContent: 'center'

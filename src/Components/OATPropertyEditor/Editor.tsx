@@ -18,6 +18,7 @@ import EditorJsonTab from './Internal/EditorJsonTab/EditorJsonTab';
 import { getDebugLogger } from '../../Models/Services/Utils';
 import EditorPropertiesTab from './Internal/EditorPropertiesTab/EditorPropertiesTab';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
+import { PROPERTY_EDITOR_VERTICAL_SPACING } from '../../Models/Constants/OatStyleConstants';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -126,7 +127,9 @@ const Editor: React.FC<IEditorProps> = (props) => {
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
                         // remove pivot height - padding
-                        style={{ height: 'calc(70vh - 36px - 32px)' }}
+                        style={{
+                            height: `calc(100vh - ${PROPERTY_EDITOR_VERTICAL_SPACING}px - 32px - 36px)` // 32px=padding, 36px=tab headers
+                        }}
                     >
                         <EditorJsonTab
                             selectedItem={selectedItem}
