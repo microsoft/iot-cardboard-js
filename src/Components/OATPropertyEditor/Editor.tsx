@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Pivot, PivotItem } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import NoResultImg from '../../Resources/Static/noResults.svg';
@@ -19,6 +19,8 @@ import { getDebugLogger } from '../../Models/Services/Utils';
 import EditorPropertiesTab from './Internal/EditorPropertiesTab/EditorPropertiesTab';
 import IllustrationMessage from '../IllustrationMessage/IllustrationMessage';
 import { PROPERTY_EDITOR_VERTICAL_SPACING } from '../../Models/Constants/OatStyleConstants';
+import { IOatPropertyEditorTabKey } from '../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import { OatPageContextActionType } from '../../Models/Context/OatPageContext/OatPageContext.types';
 
 const debugLogging = false;
 const logDebugConsole = getDebugLogger('Editor', debugLogging);
@@ -36,7 +38,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const { t } = useTranslation();
 
     // contexts
-    const { oatPageState } = useOatPageContext();
+    const { oatPageState, oatPageDispatch } = useOatPageContext();
 
     // styles
     const propertyInspectorStyles = getPropertyInspectorStyles();
@@ -45,6 +47,19 @@ const Editor: React.FC<IEditorProps> = (props) => {
     const enteredTemplateRef = useRef(null);
     const enteredPropertyRef = useRef(null);
 
+    // callbacks
+    const onTabClick = useCallback(
+        (item: PivotItem) => {
+            oatPageDispatch({
+                type: OatPageContextActionType.SET_SELECTED_PROPERTY_EDITOR_TAB,
+                payload: {
+                    selectedTabKey: item.props
+                        .itemKey as IOatPropertyEditorTabKey
+                }
+            });
+        },
+        [oatPageDispatch]
+    );
     const onModalClose = () => {
         editorDispatch({
             type: SET_OAT_PROPERTY_MODAL_OPEN,
@@ -110,13 +125,18 @@ const Editor: React.FC<IEditorProps> = (props) => {
     return (
         <>
             <div className={propertyInspectorStyles.root}>
-                <Pivot className={propertyInspectorStyles.pivot}>
+                <Pivot
+                    className={propertyInspectorStyles.pivot}
+                    selectedKey={oatPageState.selectedPropertyEditorTab}
+                    onLinkClick={onTabClick}
+                >
                     <PivotItem
                         headerButtonProps={{
                             disabled: oatPageState.modified
                         }}
                         headerText={t('OATPropertyEditor.properties')}
                         className={propertyInspectorStyles.pivotItem}
+                        itemKey={IOatPropertyEditorTabKey.Properties}
                     >
                         <EditorPropertiesTab
                             parentModelId={parentModelId}
@@ -126,6 +146,7 @@ const Editor: React.FC<IEditorProps> = (props) => {
                     <PivotItem
                         headerText={t('OATPropertyEditor.json')}
                         className={propertyInspectorStyles.pivotItem}
+                        itemKey={IOatPropertyEditorTabKey.Json}
                         // remove pivot height - padding
                         style={{
                             height: `calc(100vh - ${PROPERTY_EDITOR_VERTICAL_SPACING}px - 32px - 36px)` // 32px=padding, 36px=tab headers

@@ -4,6 +4,7 @@
 import produce from 'immer';
 import React, { useContext, useReducer } from 'react';
 import i18n from '../../../i18n';
+import { IOatPropertyEditorTabKey } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
     IOatProjectData,
     ProjectData
@@ -444,6 +445,10 @@ export const OatPageContextReducer: (
                 draft.graphUpdatesToSync = { actionType: 'None' };
                 break;
             }
+            case OatPageContextActionType.SET_SELECTED_PROPERTY_EDITOR_TAB: {
+                draft.selectedPropertyEditorTab = action.payload.selectedTabKey;
+                break;
+            }
             case OatPageContextActionType.SET_OAT_ERROR: {
                 draft.error = action.payload;
                 break;
@@ -528,7 +533,8 @@ const emptyState: IOatPageContextState = {
     isJsonUploaderOpen: false,
     modified: false,
     selection: null,
-    templatesActive: false
+    templatesActive: false,
+    selectedPropertyEditorTab: IOatPropertyEditorTabKey.Properties
 };
 
 const getInitialState = (

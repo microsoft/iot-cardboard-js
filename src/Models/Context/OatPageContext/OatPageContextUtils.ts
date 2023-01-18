@@ -4,7 +4,10 @@ import {
     IOatProjectData,
     ProjectData
 } from '../../../Pages/OATEditorPage/Internal/Classes';
-import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import {
+    IOATFile,
+    IOatPropertyEditorTabKey
+} from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import {
     IOATModelPosition,
     IOATSelection
@@ -320,6 +323,7 @@ export const setSelectedModel = (
     draft: IOatPageContextState
 ): void => {
     draft.selection = selection;
+    draft.selectedPropertyEditorTab = IOatPropertyEditorTabKey.Properties;
 };
 
 /** looks up all references of an existing model id and replaces it with the new id */
