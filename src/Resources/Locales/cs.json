@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Chybí vám oprávnění. Přístup budete potřebovat jako čtečku dat digitálních vláken Azure (minimálně).",
       "storageAccountMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako \"čtenář\" (minimálně).",
       "storageContainerMissingPermissionMessage": "Chybí vám oprávnění. Budete potřebovat přístup jako čtenář (minimálně) a buď vlastník dat objektů blob úložiště, nebo přispěvatel dat objektů blob úložiště.",
-      "resourceNotFound": "Se zadanou hodnotou nebyl nalezen žádný prostředek Azure.",
-      "resourceNotVerified": "Nemůžeme ověřit, zda tento zdroj existuje."
+      "resourceNotVerified": "Nemůžeme ověřit, zda tento zdroj existuje.",
+      "resourceNotFound": "Nebyl nalezen žádný prostředek Azure se zadanou hodnotou ve vybraném adresáři."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Průzkumník historie dat",
     "builder": {
       "title": "Vlastnosti dvojčat",
-      "description": "Chcete-li porovnat historizované vlastnosti v rámci tohoto dvojčete nebo s jinými dvojčaty, přidejte je níže.",
       "timeSeriesTwin": {
-        "edit": "Úprava dvojčete časové řady",
-        "remove": "Odebrání dvojčete časové řady",
         "property": "Vlastnost",
         "propertyTypeCastLabel": "Přetypování typu vlastnosti na číslo",
-        "add": "Přidání dvojčete časové řady"
-      }
+        "add": "Přidat časovou řadu",
+        "remove": "Odebrání časové řady",
+        "edit": "Úprava časové řady"
+      },
+      "description": "Chcete-li porovnat minulé hodnoty pro historizované vlastnosti, přidejte níže časovou řadu."
     },
     "viewer": {
       "chart": "Graf",

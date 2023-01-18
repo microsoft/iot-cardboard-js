@@ -18,7 +18,6 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    ADXTimeSeries,
     BehaviorModalMode,
     DTwin,
     IADXConnection,
@@ -26,10 +25,13 @@ import {
     TimeSeriesData
 } from '../../../../../Models/Constants';
 import { useTimeSeriesData } from '../../../../../Models/Hooks/useTimeSeriesData';
-import { getMockTimeSeriesDataArrayInLocalTime } from '../../../../../Models/Services/Utils';
 import {
-    getDefaultSeriesLabel,
-    getQuickTimeSpanKeyByValue
+    createGUID,
+    getMockTimeSeriesDataArrayInLocalTime
+} from '../../../../../Models/Services/Utils';
+import {
+    getQuickTimeSpanKeyByValue,
+    transformADXTimeSeriesToHighChartsSeries
 } from '../../../../../Models/SharedUtils/DataHistoryUtils';
 import {
     IDataHistoryTimeSeries,
@@ -269,6 +271,7 @@ const getTwinIdPropertyMap = (
                   const [alias, ...propertyPath] = splittedArray;
                   if (twins && alias?.length && propertyPath?.length) {
                       return {
+                          seriesId: createGUID(),
                           label: ts.label,
                           twinId: twins[alias]?.$dtId,
                           twinPropertyName: propertyPath.join('.'),
@@ -278,29 +281,6 @@ const getTwinIdPropertyMap = (
               }
           })
         : null;
-
-/** Gets fetched adx time series data and data history widget time series to twin mapping information
- * to get the labels if defined for each series, and converts it into high chart series data to render in chart
- */
-const transformADXTimeSeriesToHighChartsSeries = (
-    adxTimeSeries: Array<ADXTimeSeries>,
-    twinIdPropertyMap: Array<IDataHistoryTimeSeriesTwin>
-): Array<IHighChartSeriesData> =>
-    adxTimeSeries && twinIdPropertyMap
-        ? adxTimeSeries.map(
-              (series) =>
-                  ({
-                      name:
-                          twinIdPropertyMap.find(
-                              (map) =>
-                                  map.twinId === series.id &&
-                                  map.twinPropertyName === series.key
-                          )?.label ||
-                          getDefaultSeriesLabel(series.id, series.key), // this is the label for series to show in chart
-                      data: series.data
-                  } as IHighChartSeriesData)
-          )
-        : [];
 
 /** Generate placeholder mock data for timeseries to show in chart in preview mode
  */

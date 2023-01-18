@@ -40,3 +40,8 @@ Mock.args = {
         }
     ]
 } as ITimeSeriesViewerProps;
+
+export const Empty = Template.bind({}) as TimeSeriesViewerStory;
+Empty.args = {
+    timeSeriesTwinList: []
+} as ITimeSeriesViewerProps;

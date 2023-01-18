@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"Azure Digital Twins dataläsare\" (minst).",
       "storageAccountMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som en \"läsare\" (åtminstone).",
       "storageContainerMissingPermissionMessage": "Du har saknade behörigheter. Du behöver åtkomst som \"läsare\" (minst) och antingen \"Storage Blob Data Owner\" eller \"Storage Blob Data Contributor\".",
-      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet.",
-      "resourceNotVerified": "Vi kan inte verifiera att den här resursen finns."
+      "resourceNotVerified": "Vi kan inte verifiera att den här resursen finns.",
+      "resourceNotFound": "Det finns ingen Azure-resurs med det angivna värdet i den valda katalogen."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Utforskaren för datahistorik",
     "builder": {
       "title": "Tvillingegenskaper",
-      "description": "För att jämföra historiserade egenskaper inom denna tvilling eller med andra tvillingar, lägg till dem nedan.",
       "timeSeriesTwin": {
-        "edit": "Redigera tidsserietvilling",
-        "remove": "Ta bort tidsserietvilling",
         "property": "Egenskap",
         "propertyTypeCastLabel": "Gjuten egenskapstyp till nummer",
-        "add": "Lägga till tidsserietvilling"
-      }
+        "add": "Lägg till tidsserier",
+        "remove": "Ta bort tidsserier",
+        "edit": "Redigera tidsserier"
+      },
+      "description": "Om du vill jämföra tidigare värden för historiserade egenskaper lägger du till tidsserier nedan."
     },
     "viewer": {
       "chart": "Diagram",

@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Eksik izinleriniz var. 'Azure Digital Twins Veri Okuyucusu' olarak erişime ihtiyacınız olacaktır (en azından).",
       "storageAccountMissingPermissionMessage": "Eksik izinleriniz var. Bir 'Okuyucu' olarak erişime ihtiyacınız olacak (en azından).",
       "storageContainerMissingPermissionMessage": "Eksik izinleriniz var. 'Okuyucu' (en azından) ve 'Depolama Blobu Veri Sahibi' veya 'Depolama Blobu Veri Katılımcısı' olarak erişime ihtiyacınız olacaktır.",
-      "resourceNotFound": "Girilen değerle Azure kaynağı bulunamadı.",
-      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz."
+      "resourceNotVerified": "Bu kaynağın var olduğunu doğrulayamıyoruz.",
+      "resourceNotFound": "Seçilen dizinde girilen değerle Azure kaynağı bulunamadı."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Veri geçmişi gezgini",
     "builder": {
       "title": "İkiz özellikler",
-      "description": "Bu ikizdeki veya diğer ikizlerdeki geçmiş mülkleri karşılaştırmak için bunları aşağıya ekleyin.",
       "timeSeriesTwin": {
-        "edit": "Zaman serisi ikizini düzenle",
-        "remove": "Zaman serisi ikizini kaldır",
         "property": "Mülk",
         "propertyTypeCastLabel": "Özellik türünü sayıya yayınla",
-        "add": "İkiz zaman serisi ekleme"
-      }
+        "add": "Zaman serisi ekleme",
+        "remove": "Zaman serilerini kaldırma",
+        "edit": "Zaman serilerini düzenleme"
+      },
+      "description": "Geçmişi geçmiş özelliklerin geçmiş değerlerini karşılaştırmak için aşağıya zaman serileri ekleyin."
     },
     "viewer": {
       "chart": "Grafik",

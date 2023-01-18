@@ -18,9 +18,8 @@ import HighchartsReact from 'highcharts-react-official';
 import HighchartsAccessibility from 'highcharts/modules/accessibility';
 import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { useTranslation } from 'react-i18next';
-import { deepCopy } from '../../Models/Services/Utils';
 import { IDataHistoryAggregationType } from '../../Models/Types/Generated/3DScenesConfiguration-v1.0.0';
-import { getHighChartColor } from '../../Models/SharedUtils/DataHistoryUtils';
+import { getHighChartColorByIdx } from '../../Models/SharedUtils/DataHistoryUtils';
 NoDataToDisplay(Highcharts);
 HighchartsAccessibility(Highcharts);
 
@@ -36,6 +35,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
         legendLayout: 'horizontal' as OptionsLayoutValue,
         hasMultipleAxes: false,
         dataGrouping: 'avg' as IDataHistoryAggregationType,
+        hasLimitedSeries: false,
         ...props.chartOptions
     };
 
@@ -45,8 +45,13 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
 
     const highChartSeries: Array<SeriesOptionsType> = useMemo(
         () =>
-            deepCopy(seriesData)
-                ?.splice(0, MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS)
+            seriesData
+                ?.slice(
+                    0,
+                    chartOptions.hasLimitedSeries
+                        ? MAX_NUMBER_OF_SERIES_IN_HIGH_CHARTS
+                        : undefined
+                )
                 ?.map(
                     (sD, idx) =>
                         ({
@@ -60,7 +65,7 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                                 ])
                                 .sort((a, b) => a[0] - b[0]), // sort in case the timestamps are not in ascending order
                             type: 'line', // by default, show series in line chart type
-                            color: sD.color || getHighChartColor(idx), // by default, set color to use it for labels in legend to match series color
+                            color: sD.color || getHighChartColorByIdx(idx), // by default, set color to use it for labels in legend to match series color
                             marker: {
                                 enabled: sD.data.length === 1 // by default, do not mark data points if there is more than 1, only show on hover
                             },
@@ -87,14 +92,16 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
     );
 
     // styles
+    const theme = useTheme();
     const classNames = getClassNames(styles, {
-        theme: useTheme()
+        theme
     });
 
     //side-effects
     useEffect(() => {
         if (!isLoading) {
             chartComponentRef.current?.chart?.hideLoading();
+            chartComponentRef.current?.chart?.reflow();
         }
     }, [isLoading]);
 
@@ -118,7 +125,8 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
                 labels: {
                     x: isOnOppositeSide ? 8 : -8, // to make label space less to make up more space for plot
                     style: {
-                        color: (hcS.color as string) || getHighChartColor(idx)
+                        color:
+                            (hcS.color as string) || getHighChartColorByIdx(idx)
                     }
                 }
             };
@@ -187,7 +195,15 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             margin: 0,
             y: 12,
             itemHoverStyle: legendStyles.hover,
-            itemStyle: legendStyles.root
+            itemStyle: legendStyles.root,
+            ...(chartOptions?.maxLegendHeight && {
+                maxHeight: chartOptions?.maxLegendHeight
+            }),
+            navigation: {
+                activeColor: theme.palette.black,
+                inactiveColor: theme.palette.accent,
+                style: legendStyles.navigation
+            }
         },
         lang: {
             noData: t('highcharts.noDataDescription'),
@@ -207,11 +223,9 @@ const HighChartsWrapper: React.FC<IHighChartsWrapperProps> = (props) => {
             },
             labelStyle: classNames.subComponentStyles.loadingText().root
         },
-        noData: isLoading
-            ? null
-            : {
-                  style: classNames.subComponentStyles.noDataText().root
-              },
+        noData: {
+            style: classNames.subComponentStyles.noDataText().root
+        },
         plotOptions: {
             series: {
                 dataGrouping: {

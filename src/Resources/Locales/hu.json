@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Hiányoznak az engedélyei. \"Legalább Azure Digital Twins adatolvasóként\" kell hozzáférnie.",
       "storageAccountMissingPermissionMessage": "Hiányoznak az engedélyei. \"Olvasóként\" kell hozzáférnie (legalább).",
       "storageContainerMissingPermissionMessage": "Hiányoznak az engedélyei. Hozzáférésre lesz szüksége \"Olvasóként\" (legalább), valamint \"Storage blobadatok tulajdonosaként\" vagy \"Storage blobadatok közreműködőjeként\".",
-      "resourceNotFound": "A megadott értékkel nem található Azure-erőforrás.",
-      "resourceNotVerified": "Nem tudjuk ellenőrizni, hogy ez az erőforrás létezik-e."
+      "resourceNotVerified": "Nem tudjuk ellenőrizni, hogy ez az erőforrás létezik-e.",
+      "resourceNotFound": "Nem található Azure-erőforrás a megadott értékkel a kiválasztott címtárban."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Adatelőzmény-kezelő",
     "builder": {
       "title": "Iker tulajdonságok",
-      "description": "Ha össze szeretné hasonlítani a historizált tulajdonságokat ezen az ikeren belül vagy más ikrekkel, adja hozzá őket alább.",
       "timeSeriesTwin": {
-        "edit": "Iker idősor szerkesztése",
-        "remove": "Iker idősor eltávolítása",
         "property": "Ingatlan",
         "propertyTypeCastLabel": "Öntött tulajdonság típusa számra",
-        "add": "Iker idősor hozzáadása"
-      }
+        "add": "Idősorok hozzáadása",
+        "remove": "Idősorok eltávolítása",
+        "edit": "Idősorok szerkesztése"
+      },
+      "description": "A historizált tulajdonságok múltbeli értékeinek összehasonlításához adja hozzá az alábbi idősorokat."
     },
     "viewer": {
       "chart": "Diagram",

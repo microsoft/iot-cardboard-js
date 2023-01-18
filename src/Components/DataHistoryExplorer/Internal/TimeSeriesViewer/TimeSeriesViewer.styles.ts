@@ -31,23 +31,12 @@ export const getStyles = (
         ],
         subComponentStyles: {
             pivot: {
-                root: {},
                 itemContainer: {
                     height: 'calc(100% - 36px)',
                     '> div': {
                         height: '100%',
                         display: 'flex',
                         flexDirection: 'column'
-                    }
-                }
-            },
-            chartWrapper: { root: { overflow: 'hidden', padding: '12px 0' } },
-            table: {
-                subComponentStyles: {
-                    seriesDropdown: {
-                        root: {
-                            paddingTop: 20
-                        }
                     }
                 }
             }

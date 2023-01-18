@@ -9,12 +9,10 @@ import {
     classNamesFunction,
     useTheme,
     styled,
-    IDropdownOption,
     Dropdown
 } from '@fluentui/react';
-import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { QuickTimeSpans } from '../../Models/Constants/Constants';
+import { getQuickTimeSpanOptions } from '../../Models/SharedUtils/DataHistoryUtils';
 
 const getClassNames = classNamesFunction<
     IQuickTimesDropdownStyleProps,
@@ -57,14 +55,6 @@ const QuickTimesDropdown: React.FC<IQuickTimesDropdownProps> = (props) => {
             dropdownWidth={'auto'}
         />
     );
-};
-
-const getQuickTimeSpanOptions = (t: TFunction): Array<IDropdownOption> => {
-    return Object.keys(QuickTimeSpans).map((timeSpan) => ({
-        key: timeSpan,
-        text: t(`quickTimesDropdown.options.${timeSpan}`),
-        data: QuickTimeSpans[timeSpan]
-    }));
 };
 
 export default styled<

@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Masz brakujące uprawnienia. Dostęp będzie potrzebny jako \"Azure Digital Twins Data Reader\" (co najmniej).",
       "storageAccountMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebował dostępu jako \"Czytelnik\" (co najmniej).",
       "storageContainerMissingPermissionMessage": "Masz brakujące uprawnienia. Będziesz potrzebować dostępu jako \"Czytelnik\" (co najmniej) i \"Właściciel danych obiektów blob magazynu\" lub \"Dostawca danych obiektów blob magazynu\".",
-      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością.",
-      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje."
+      "resourceNotVerified": "Nie możemy zweryfikować, czy ten zasób istnieje.",
+      "resourceNotFound": "Nie znaleziono zasobu platformy Azure z wprowadzoną wartością w wybranym katalogu."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Eksplorator historii danych",
     "builder": {
       "title": "Bliźniacze właściwości",
-      "description": "Aby porównać historyczne właściwości w obrębie tego bliźniaka lub z innymi bliźniakami, dodaj je poniżej.",
       "timeSeriesTwin": {
-        "edit": "Edytuj bliźniacze szeregi czasowe",
-        "remove": "Usuwanie bliźniaczej serii czasowej",
         "property": "Własność",
         "propertyTypeCastLabel": "Typ właściwości rzutowania na numer",
-        "add": "Dodawanie bliźniaczej serii czasowej"
-      }
+        "add": "Dodawanie szeregów czasowych",
+        "remove": "Usuwanie szeregów czasowych",
+        "edit": "Edytowanie szeregów czasowych"
+      },
+      "description": "Aby porównać wcześniejsze wartości historycznych właściwości, dodaj poniżej szereg czasowy."
     },
     "viewer": {
       "chart": "Wykres",

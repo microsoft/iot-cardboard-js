@@ -267,7 +267,7 @@ const ADT3DScenePageBase: React.FC<IADT3DScenePageProps> = ({
                 // TODO: instead should we expose a prop in ConsumerDeepLinkContext like "onAdtUrlChange" and
                 // do this update in the consumer side not to rely on environmentPickerOptions local storage key?
                 environmentPickerOptions.adt.selectedItemLocalStorageKey,
-                deeplinkState.adtUrl
+                JSON.stringify({ appAdtUrl: deeplinkState.adtUrl })
             );
         }
     }, [adapter, deeplinkState.adtUrl]);

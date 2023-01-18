@@ -860,8 +860,8 @@
       "adtInstanceMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Azure Digital Twins-Datenleser\" (mindestens).",
       "storageAccountMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen den Zugriff als \"Leser\" (mindestens).",
       "storageContainerMissingPermissionMessage": "Sie haben fehlende Berechtigungen. Sie benötigen Zugriff als \"Reader\" (mindestens) und entweder \"Storage Blob Data Owner\" oder \"Storage Blob Data Contributor\".",
-      "resourceNotFound": "Mit dem eingegebenen Wert wurde keine Azure-Ressource gefunden.",
-      "resourceNotVerified": "Wir können nicht überprüfen, ob diese Ressource existiert."
+      "resourceNotVerified": "Wir können nicht überprüfen, ob diese Ressource existiert.",
+      "resourceNotFound": "Es wurde keine Azure-Ressource mit dem eingegebenen Wert im ausgewählten Verzeichnis gefunden."
     }
   },
   "behaviorsModal": {
@@ -1306,14 +1306,14 @@
     "title": "Datenverlaufs-Explorer",
     "builder": {
       "title": "Twin-Immobilien",
-      "description": "Um historisierte Eigenschaften innerhalb dieses Zwillings oder mit anderen Zwillingen zu vergleichen, fügen Sie sie unten hinzu.",
       "timeSeriesTwin": {
-        "edit": "Zeitreihen-Zwilling bearbeiten",
-        "remove": "Zeitreihen-Zwilling entfernen",
         "property": "Eigentum",
         "propertyTypeCastLabel": "Eigenschaftstyp in Zahl umwandeln",
-        "add": "Zeitreihen-Zwilling hinzufügen"
-      }
+        "add": "Zeitreihen hinzufügen",
+        "remove": "Zeitreihen entfernen",
+        "edit": "Zeitreihen bearbeiten"
+      },
+      "description": "Um vergangene Werte für historisierte Eigenschaften zu vergleichen, fügen Sie unten Zeitreihen hinzu."
     },
     "viewer": {
       "chart": "Diagramm",

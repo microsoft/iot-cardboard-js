@@ -20,6 +20,7 @@ import { IDataHistoryTimeSeriesTwin } from '../../Models/Constants';
 import { useTranslation } from 'react-i18next';
 import TimeSeriesViewer from './Internal/TimeSeriesViewer/TimeSeriesViewer';
 import useAdapter from '../../Models/Hooks/useAdapter';
+import { createGUID } from '../../Models/Services/Utils';
 
 export const DataHistoryExplorerContext = React.createContext<IDataHistoryExplorerContext>(
     null
@@ -31,12 +32,17 @@ const getClassNames = classNamesFunction<
 >();
 
 const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
-    const { adapter, hasTitle = true, styles } = props;
+    const {
+        adapter,
+        hasTitle = true,
+        timeSeriesTwins: timeSeriesTwinsProp = [],
+        styles
+    } = props;
 
     // state
     const [timeSeriesTwins, setTimeSeriesTwins] = useState<
         Array<IDataHistoryTimeSeriesTwin>
-    >([]);
+    >(timeSeriesTwinsProp.map((t) => ({ seriesId: createGUID(), ...t })));
     const [, setConnection] = useState(adapter.getADXConnectionInformation());
 
     // hooks
@@ -100,10 +106,13 @@ const DataHistoryExplorer: React.FC<IDataHistoryExplorerProps> = (props) => {
                             setTimeSeriesTwins(twins)
                         }
                         styles={classNames.subComponentStyles.builder}
+                        timeSeriesTwins={timeSeriesTwinsProp}
                     />
                     {updateConnectionAdapterData.isLoading ? (
                         <Spinner
-                            styles={{ root: { flexGrow: 1 } }}
+                            styles={
+                                classNames.subComponentStyles.loadingSpinner
+                            }
                             size={SpinnerSize.large}
                             label={t(
                                 'dataHistoryExplorer.loadingConnectionLabel'
