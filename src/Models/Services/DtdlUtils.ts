@@ -313,9 +313,12 @@ export const getDefaultProperty = (
     schemaType: DTDLSchemaTypes,
     index: number
 ): DTDLProperty => {
-    const name = i18n.t('OATPropertyEditor.defaultPropertyName', {
-        index: index
-    });
+    const name = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultPropertyName',
+        {
+            index: index
+        }
+    );
     return new DTDLProperty(name, getDefaultSchemaByType(schemaType));
 };
 
