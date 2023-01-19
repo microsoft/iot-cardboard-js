@@ -8,7 +8,6 @@ import {
     ILabelStyles,
     IButtonProps,
     IIconStyles,
-    ITextFieldStyles,
     FontWeights
 } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
