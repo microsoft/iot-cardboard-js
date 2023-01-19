@@ -5,8 +5,10 @@ import {
     ActionButton,
     Label,
     TooltipHost,
-    FocusZone
+    FocusZone,
+    Text
 } from '@fluentui/react';
+import { useId } from '@fluentui/react-hooks';
 import { useBoolean } from '@fluentui/react-hooks';
 import { Handle, Position } from 'react-flow-renderer';
 import { useTranslation } from 'react-i18next';
@@ -33,12 +35,19 @@ import { useOatPageContext } from '../../../Models/Context/OatPageContext/OatPag
 import { IOATGraphCustomNodeProps } from './OATGraphCustomNode.types';
 import { parseModelId } from '../../../Models/Services/OatUtils';
 import { useOatGraphContext } from '../../../Models/Context/OatGraphContext/OatGraphContext';
+import { GRAPH_NODE_WIDTH } from '../OATGraphViewer';
 
 const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
     const { id, data, isConnectable } = props;
 
     // hooks
     const { t } = useTranslation();
+    const nameLabelId = useId('name-label');
+    const idLabelId = useId('id-label');
+    const componentTooltipTargetId = useId('component-anchor');
+    const untargetedTooltipTargetId = useId('untargeted-anchor');
+    const relationshipTooltipTargetId = useId('relationship-anchor');
+    const extendTooltipTargetId = useId('extend-anchor');
 
     // contexts
     const { execute } = useContext(CommandHistoryContext);
@@ -108,6 +117,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                 onFocus={setIsHoveredTrue}
                 onMouseLeave={setIsHoveredFalse}
                 onBlur={setIsHoveredFalse}
+                style={{ maxWidth: GRAPH_NODE_WIDTH }}
             >
                 {data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME && (
                     <Handle
@@ -135,44 +145,52 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             : graphViewerStyles.node
                     }
                 >
+                    {data['@type'] !== OAT_UNTARGETED_RELATIONSHIP_NAME ? (
+                        <div className={graphViewerStyles.nodeContainer}>
+                            <div className={graphViewerStyles.nodeRow}>
+                                <Label
+                                    id={nameLabelId}
+                                    className={graphViewerStyles.nodeLabel}
+                                >
+                                    {t('OATGraphViewer.name')}:
+                                </Label>
+                                <Text
+                                    className={graphViewerStyles.nodeNameValue}
+                                    aria-labelledby={nameLabelId}
+                                >
+                                    {parseModelId(id)?.name ?? ''}
+                                </Text>
+                            </div>
+                            <div className={graphViewerStyles.nodeRow}>
+                                <Label
+                                    id={idLabelId}
+                                    className={graphViewerStyles.nodeLabel}
+                                >
+                                    {t('OATGraphViewer.id')}:
+                                </Label>
+                                <Text
+                                    aria-labelledby={idLabelId}
+                                    className={graphViewerStyles.nodeIdValue}
+                                >
+                                    {data['@id']}
+                                </Text>
+                            </div>
+                        </div>
+                    ) : (
+                        <div
+                            className={
+                                graphViewerStyles.untargetedNodeContainer
+                            }
+                        >
+                            <Label>{data['@type']}</Label>
+                        </div>
+                    )}
                     <ActionButton
                         styles={actionButtonStyles}
                         onClick={onDelete}
                     >
                         <Icon iconName="Delete" styles={iconStyles} />
                     </ActionButton>
-                    {data['@type'] !== OAT_UNTARGETED_RELATIONSHIP_NAME && (
-                        <>
-                            <div className={graphViewerStyles.nodeContainer}>
-                                <span>{t('OATGraphViewer.id')}:</span>
-                                <Label>{data['@id']}</Label>
-                            </div>
-                            <div className={graphViewerStyles.nodeContainer}>
-                                <span>{t('OATGraphViewer.name')}:</span>
-                                <Label
-                                    className={
-                                        id
-                                            ? ''
-                                            : graphViewerStyles.placeholderText
-                                    }
-                                >
-                                    {parseModelId(id)?.name ??
-                                        t('OATPropertyEditor.displayName')}
-                                </Label>
-                            </div>
-                        </>
-                    )}
-                    {data['@type'] === OAT_UNTARGETED_RELATIONSHIP_NAME && (
-                        <>
-                            <div
-                                className={
-                                    graphViewerStyles.untargetedNodeContainer
-                                }
-                            >
-                                <Label>{data['@type']}</Label>
-                            </div>
-                        </>
-                    )}
                 </div>
                 {data['@type'] === OAT_INTERFACE_TYPE && (
                     <>
@@ -181,9 +199,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_COMPONENT_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${getDisplayName(
-                                    data.displayName
-                                )}${OAT_COMPONENT_HANDLE_NAME}`
+                                target: `#${componentTooltipTargetId}`
                             }}
                         >
                             <Handle
@@ -213,9 +229,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
 
                                 <Svg
                                     src={IconComponent}
-                                    id={`${getDisplayName(
-                                        data.displayName
-                                    )}${OAT_COMPONENT_HANDLE_NAME}`}
+                                    id={componentTooltipTargetId}
                                     className={
                                         handleHoverComponent
                                             ? graphViewerStyles.handleContentIcon
@@ -229,9 +243,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_RELATIONSHIP_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${getDisplayName(
-                                    data.displayName
-                                )}${OAT_RELATIONSHIP_HANDLE_NAME}`
+                                target: `#${relationshipTooltipTargetId}`
                             }}
                         >
                             <Handle
@@ -277,9 +289,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_UNTARGETED_RELATIONSHIP_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${getDisplayName(
-                                    data.displayName
-                                )}${OAT_UNTARGETED_RELATIONSHIP_NAME}`
+                                target: `#${untargetedTooltipTargetId}`
                             }}
                         >
                             <Handle
@@ -325,9 +335,7 @@ const OATGraphCustomNode: React.FC<IOATGraphCustomNodeProps> = (props) => {
                             id={`${OAT_EXTEND_HANDLE_NAME}ToolTip`}
                             calloutProps={{
                                 gapSpace: 6,
-                                target: `#${getDisplayName(
-                                    data.displayName
-                                )}${OAT_EXTEND_HANDLE_NAME}`
+                                target: `#${extendTooltipTargetId}`
                             }}
                         >
                             <Handle

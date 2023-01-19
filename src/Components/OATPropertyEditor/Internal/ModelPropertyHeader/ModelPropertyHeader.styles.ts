@@ -3,7 +3,7 @@ import {
     IModelPropertyHeaderStyles
 } from './ModelPropertyHeader.types';
 import { CardboardClassNamePrefix } from '../../../../Models/Constants/Constants';
-import { FontSizes, FontWeights } from '@fluentui/react';
+import { FontSizes, FontWeights, IStyle } from '@fluentui/react';
 
 export const classPrefix = `${CardboardClassNamePrefix}-modelpropertyheader`;
 const classNames = {
@@ -17,6 +17,12 @@ export const getStyles = (
     props: IModelPropertyHeaderStyleProps
 ): IModelPropertyHeaderStyles => {
     const { theme } = props;
+    const ellipseStart: IStyle = {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        direction: 'RTL',
+        textAlign: 'left'
+    };
     return {
         root: [classNames.root],
         sectionHeaderRoot: [
@@ -41,9 +47,7 @@ export const getStyles = (
                 margin: 0,
                 padding: 0,
                 fontSize: FontSizes.size16,
-                fontWeight: FontWeights.semibold,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                fontWeight: FontWeights.semibold
             }
         ],
         sectionSubtitle: [
@@ -51,8 +55,7 @@ export const getStyles = (
             {
                 fontSize: FontSizes.size12,
                 color: theme.semanticColors.disabledText,
-                overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                ...ellipseStart
             }
         ],
         subComponentStyles: {
