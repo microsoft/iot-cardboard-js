@@ -25,12 +25,13 @@ export const getStyles = (props: IEditorStyleProps): IEditorStyles => {
             {
                 backgroundColor: getControlBackgroundColor(theme),
                 borderRadius: theme.effects.roundedCorner2,
+                boxShadow: theme.effects.elevation16,
                 display: 'flex',
                 flexDirection: 'row',
                 height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px)`,
+                justifyContent: 'center',
                 padding: 16,
-                width: PROPERTY_EDITOR_WIDTH,
-                justifyContent: 'center'
+                width: PROPERTY_EDITOR_WIDTH
             }
         ],
         modal: [
