@@ -17,9 +17,12 @@ export const getStyles = (
     props: IModelPropertyHeaderStyleProps
 ): IModelPropertyHeaderStyles => {
     const { theme } = props;
-    const ellipseStart: IStyle = {
+    const ellipseText: IStyle = {
         overflow: 'hidden',
-        textOverflow: 'ellipsis',
+        textOverflow: 'ellipsis'
+    };
+    const ellipseStart: IStyle = {
+        ...ellipseText,
         direction: 'RTL',
         textAlign: 'left'
     };
@@ -47,7 +50,8 @@ export const getStyles = (
                 margin: 0,
                 padding: 0,
                 fontSize: FontSizes.size16,
-                fontWeight: FontWeights.semibold
+                fontWeight: FontWeights.semibold,
+                ...ellipseText
             }
         ],
         sectionSubtitle: [
