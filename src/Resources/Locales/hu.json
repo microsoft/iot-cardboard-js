@@ -1203,7 +1203,6 @@
     "valueSchema": "Értékséma",
     "commentPlaceholder": "Megjegyzés a modell szerzőinek",
     "date": "dátum",
-    "defaultPropertyName": "új tulajdonság {{index}}",
     "descriptionPlaceholder": "Megjelenítendő lokalizálható leírás",
     "details": "Részletek",
     "displayNamePlaceholder": "Megjelenítendő honosítható név",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Elemek",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "A felsorolás értéktípusának módosítása",
         "editMetadataLabel": "Metaadatok szerkesztése"
       }
-    }
+    },
+    "noSelectionMessage": "Válasszon ki egy modellt vagy kapcsolatot a részletek megtekintéséhez"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Hibaüzenet",

@@ -14,9 +14,12 @@ import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
     CONTROLS_CALLOUT_OFFSET,
+    CONTROLS_SIDE_OFFSET,
     CONTROLS_Z_INDEX,
     getControlBackgroundColor,
-    LOADING_Z_INDEX
+    LOADING_Z_INDEX,
+    PANEL_VERTICAL_SPACING,
+    PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
 import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 import { useExtendedTheme } from '../../Models/Hooks/useExtendedTheme';
@@ -48,7 +51,7 @@ export const getStyles = (
                     CONTROLS_CALLOUT_OFFSET -
                     10,
                 position: 'absolute',
-                right: 0,
+                right: PROPERTY_EDITOR_WIDTH + CONTROLS_SIDE_OFFSET,
                 '.react-flow__minimap': {
                     background: theme.semanticColors.bodyBackground,
                     left: 'unset',
@@ -74,7 +77,7 @@ export const getStyles = (
             },
             modelsListCallout: {
                 root: {
-                    height: '75vh !important',
+                    height: `calc(100vh - ${PANEL_VERTICAL_SPACING}px) !important`,
                     minHeight: '300px !important',
                     width: '30vw',
                     minWidth: 200,

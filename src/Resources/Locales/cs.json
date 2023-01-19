@@ -1083,7 +1083,6 @@
     "writable": "Zapisovatelný",
     "commentPlaceholder": "Komentář pro autory modelů",
     "date": "rande",
-    "defaultPropertyName": "nová vlastnost {{index}}",
     "descriptionPlaceholder": "Lokalizovatelný popis, který se má zobrazit",
     "details": "Podrobnosti",
     "displayNamePlaceholder": "Lokalizovatelný název, který se má zobrazit",
@@ -1100,7 +1099,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "položky",
@@ -1112,7 +1112,8 @@
         "changeChildTypeLabelForEnum": "Změna typu výčtu",
         "editMetadataLabel": "Upravit metadata"
       }
-    }
+    },
+    "noSelectionMessage": "Výběr modelu nebo vztahu pro zobrazení podrobností"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Zpráva o chybě",

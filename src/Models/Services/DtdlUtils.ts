@@ -63,30 +63,45 @@ export const isDTDLExtendReference = (
 export const isDTDLRelationshipReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DTDLRelationship => {
+    if (!object) {
+        return false;
+    }
     return object['@type'] === DTDLType.Relationship;
 };
 
 export const isDTDLComponentReference = (
     object: DtdlRelationship | DtdlInterface | DtdlInterfaceContent | string
 ): object is DtdlComponent => {
+    if (!object) {
+        return false;
+    }
     return object['@type'] === DTDLType.Component;
 };
 
 export const isComplexSchemaProperty = (
     property: DTDLProperty
 ): property is DTDLProperty & { schema: DTDLComplexSchema } => {
+    if (!property) {
+        return false;
+    }
     return isComplexSchemaType(property.schema);
 };
 
 export const hasComplexSchemaType = <T extends { schema: DTDLSchema }>(
     property: T
 ): property is T & { schema: DTDLComplexSchema } => {
+    if (!property) {
+        return false;
+    }
     return isComplexSchemaType(property.schema);
 };
 
 export const hasArraySchemaType = <T extends { schema: DTDLSchema }>(
     property: T
 ): property is T & { schema: DTDLArray } => {
+    if (!property) {
+        return false;
+    }
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Array
@@ -96,6 +111,9 @@ export const hasArraySchemaType = <T extends { schema: DTDLSchema }>(
 export const hasMapSchemaType = <T extends { schema: DTDLSchema }>(
     property: T
 ): property is T & { schema: DTDLMap } => {
+    if (!property) {
+        return false;
+    }
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Map
@@ -105,6 +123,9 @@ export const hasMapSchemaType = <T extends { schema: DTDLSchema }>(
 export const hasObjectSchemaType = <T extends { schema: DTDLSchema }>(
     property: T
 ): property is T & { schema: DTDLObject } => {
+    if (!property) {
+        return false;
+    }
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Object
@@ -114,6 +135,9 @@ export const hasObjectSchemaType = <T extends { schema: DTDLSchema }>(
 export const hasEnumSchemaType = <T extends { schema: DTDLSchema }>(
     property: T
 ): property is T & { schema: DTDLEnum } => {
+    if (!property) {
+        return false;
+    }
     return (
         hasComplexSchemaType(property) &&
         property.schema['@type'] === DTDLSchemaType.Enum
@@ -289,9 +313,12 @@ export const getDefaultProperty = (
     schemaType: DTDLSchemaTypes,
     index: number
 ): DTDLProperty => {
-    const name = i18n.t('OATPropertyEditor.defaultPropertyName', {
-        index: index
-    });
+    const name = i18n.t(
+        'OATPropertyEditor.SchemaDefaults.defaultPropertyName',
+        {
+            index: index
+        }
+    );
     return new DTDLProperty(name, getDefaultSchemaByType(schemaType));
 };
 

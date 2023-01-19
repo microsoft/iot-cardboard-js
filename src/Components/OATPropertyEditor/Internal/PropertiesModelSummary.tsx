@@ -54,7 +54,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     const { selectedItem, styles } = props;
     const isModelSelected = isDTDLModel(selectedItem);
     const isReferenceSelected = isDTDLReference(selectedItem);
-    const parsedId = useMemo(() => parseModelId(selectedItem['@id']), [
+    const parsedId = useMemo(() => parseModelId(selectedItem?.['@id']), [
         selectedItem
     ]);
 
@@ -87,7 +87,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     // callbacks
     const commitModelIdChange = useCallback(
         (newId: string) => {
-            if (newId === selectedItem['@id']) {
+            if (newId === selectedItem?.['@id']) {
                 logDebugConsole(
                     'warn',
                     'Aborting model id update, values are the same'
@@ -95,7 +95,7 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
                 return;
             }
             const commit = () => {
-                const existingId = selectedItem['@id'];
+                const existingId = selectedItem?.['@id'];
                 logDebugConsole(
                     'debug',
                     '[START] Committing changes to id. {existingId, newId, initial models, initial positions}',
@@ -214,12 +214,12 @@ export const PropertiesModelSummary: React.FC<IPropertiesModelSummaryProps> = (
     // side effects
     // when selected item changes, update all the states
     useEffect(() => {
-        const parsedId = parseModelId(selectedItem['@id']);
+        const parsedId = parseModelId(selectedItem?.['@id']);
         setModelUniqueName(parsedId.name);
         setModelPath(parsedId.path);
         setModelVersion(parsedId.version);
         setRelationshipName(
-            isDTDLReference(selectedItem) ? selectedItem.name : ''
+            isDTDLReference(selectedItem) ? selectedItem?.name : ''
         );
     }, [selectedItem]);
 

@@ -1037,7 +1037,6 @@
         "data": "data",
         "date": "date",
         "dateTime": "dateTime",
-        "defaultPropertyName": "new property {{index}}",
         "delete": "Delete",
         "description": "Description",
         "descriptionPlaceholder": "A localizable description to display",
@@ -1093,6 +1092,7 @@
         "multiPoint": "multipoint",
         "multiPolygon": "multi Polygon",
         "name": "Name",
+        "noSelectionMessage": "Select a model or relationship to view details",
         "object": "object",
         "path": "Path",
         "pivotLink": "Pivot link",
@@ -1120,6 +1120,7 @@
         "viewTemplates": "View Templates",
         "writable": "Writable",
         "SchemaDefaults": {
+            "defaultPropertyName": "new_property_{{index}}",
             "defaultEnumName": "enum_key_{{index}}",
             "defaultMapName": "enum_key_{{index}}",
             "defaultObjectPropertyName": "field_name_{{index}}",

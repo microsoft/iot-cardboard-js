@@ -1203,7 +1203,6 @@
     "valueSchema": "Schemat wartości",
     "commentPlaceholder": "Komentarz dla autorów modeli",
     "date": "data",
-    "defaultPropertyName": "nowa właściwość {{index}}",
     "descriptionPlaceholder": "Lokalizowalny opis do wyświetlenia",
     "details": "Szczegóły",
     "displayNamePlaceholder": "Lokalizowalna nazwa do wyświetlenia",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Elementy",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Zmienianie typu wartości wyliczenia",
         "editMetadataLabel": "Edytowanie metadanych"
       }
-    }
+    },
+    "noSelectionMessage": "Wybierz model lub relację, aby wyświetlić szczegóły"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Komunikat o błędzie",

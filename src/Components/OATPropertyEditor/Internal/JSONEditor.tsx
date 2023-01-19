@@ -186,7 +186,7 @@ const JSONEditor: React.FC<JSONEditorProps> = (props) => {
                         : themeToUse
                 }
                 beforeMount={setEditorTheme}
-                height={'95%'}
+                height={'100%'}
                 options={{
                     minimap: {
                         enabled: false

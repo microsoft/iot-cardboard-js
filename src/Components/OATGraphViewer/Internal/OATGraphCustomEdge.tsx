@@ -973,8 +973,10 @@ const OATGraphCustomEdge: React.FC<IOATGraphCustomEdgeProps> = (props) => {
     );
 };
 
-export default styled<
-    IOATGraphCustomEdgeProps,
-    IOATGraphCustomEdgeStyleProps,
-    IOATGraphCustomEdgeStyles
->(OATGraphCustomEdge, getStyles);
+export default React.memo(
+    styled<
+        IOATGraphCustomEdgeProps,
+        IOATGraphCustomEdgeStyleProps,
+        IOATGraphCustomEdgeStyles
+    >(OATGraphCustomEdge, getStyles)
+);

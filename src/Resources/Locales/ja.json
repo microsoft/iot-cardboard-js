@@ -1203,7 +1203,6 @@
     "valueSchema": "値スキーマ",
     "commentPlaceholder": "モデル作成者へのコメント",
     "date": "日付",
-    "defaultPropertyName": "新しいプロパティ {{インデックス}}",
     "descriptionPlaceholder": "表示するローカライズ可能な説明",
     "details": "細部",
     "displayNamePlaceholder": "表示するローカライズ可能な名前",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{インデックス}}",
       "defaultObjectPropertyName": "field_name_{{インデックス}}",
       "defaultMapKeyName": "map_key_{{インデックス}}",
-      "defaultMapValueName": "map_value_{{インデックス}}"
+      "defaultMapValueName": "map_value_{{インデックス}}",
+      "defaultPropertyName": "new_property_{{インデックス}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "項目",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "列挙値の型を変更する",
         "editMetadataLabel": "メタデータの編集"
       }
-    }
+    },
+    "noSelectionMessage": "詳細を表示するモデルまたはリレーションシップを選択する"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "エラーメッセージ",

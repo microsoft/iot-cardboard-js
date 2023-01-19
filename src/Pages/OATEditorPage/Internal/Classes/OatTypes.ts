@@ -6,6 +6,10 @@ export interface IOATFile {
     id: string;
     data: IOatProjectData;
 }
+export enum IOatPropertyEditorTabKey {
+    Properties = 'PROPERTIES',
+    Json = 'JSON'
+}
 
 interface ViewportHelperFunctionOptions {
     duration?: number;

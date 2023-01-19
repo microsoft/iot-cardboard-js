@@ -1203,7 +1203,6 @@
     "valueSchema": "Esquema de valores",
     "commentPlaceholder": "Comentario para autores de modelos",
     "date": "fecha",
-    "defaultPropertyName": "Nueva propiedad {{index}}",
     "descriptionPlaceholder": "Una descripción localizable para mostrar",
     "details": "Detalles",
     "displayNamePlaceholder": "Un nombre localizable para mostrar",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{índice}}",
       "defaultObjectPropertyName": "field_name_{{índice}}",
       "defaultMapKeyName": "map_key_{{índice}}",
-      "defaultMapValueName": "map_value_{{índice}}"
+      "defaultMapValueName": "map_value_{{índice}}",
+      "defaultPropertyName": "new_property_{{índice}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Artículos",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Cambiar el tipo de valor de enumeración",
         "editMetadataLabel": "Editar metadatos"
       }
-    }
+    },
+    "noSelectionMessage": "Seleccionar un modelo o relación para ver los detalles"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Mensaje de error",

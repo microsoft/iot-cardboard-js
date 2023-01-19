@@ -2,10 +2,13 @@ import { IStyle, mergeStyleSets, useTheme } from '@fluentui/react';
 import { CardboardClassNamePrefix } from '../../Models/Constants';
 import {
     CONTROLS_BOTTOM_OFFSET,
+    CONTROLS_CALLOUT_OFFSET,
     CONTROLS_SIDE_OFFSET,
     CONTROLS_Z_INDEX,
-    OAT_HEADER_HEIGHT
+    OAT_HEADER_HEIGHT,
+    PROPERTY_EDITOR_WIDTH
 } from '../../Models/Constants/OatStyleConstants';
+import { HEADER_BUTTON_HEIGHT } from '../../Models/Constants/StyleConstants';
 
 const classPrefix = `${CardboardClassNamePrefix}-oat-body`;
 const classNames = {
@@ -58,7 +61,10 @@ export const getEditorPageStyles = () => {
         propertyEditorContainer: {
             position: 'absolute',
             right: CONTROLS_SIDE_OFFSET,
-            top: CONTROLS_BOTTOM_OFFSET,
+            bottom:
+                CONTROLS_BOTTOM_OFFSET +
+                HEADER_BUTTON_HEIGHT +
+                CONTROLS_CALLOUT_OFFSET,
             zIndex: CONTROLS_Z_INDEX
         },
         errorHandlingWrapper: [

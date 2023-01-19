@@ -1203,7 +1203,6 @@
     "valueSchema": "Wertschema",
     "commentPlaceholder": "Kommentar für Modellautoren",
     "date": "Datum",
-    "defaultPropertyName": "Neue Eigenschaft {{index}}",
     "descriptionPlaceholder": "Eine lokalisierbare Beschreibung zum Anzeigen",
     "details": "Details",
     "displayNamePlaceholder": "Ein lokalisierbarer Name, der angezeigt werden soll",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Artikel",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Ändern des Enumerationswerttyps",
         "editMetadataLabel": "Metadaten bearbeiten"
       }
-    }
+    },
+    "noSelectionMessage": "Wählen Sie ein Modell oder eine Beziehung aus, um Details anzuzeigen"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Fehlermeldung",

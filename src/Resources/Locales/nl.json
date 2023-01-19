@@ -1203,7 +1203,6 @@
     "valueSchema": "Waardenschema",
     "commentPlaceholder": "Opmerking voor modelauteurs",
     "date": "datum",
-    "defaultPropertyName": "nieuwe eigenschap {{index}}",
     "descriptionPlaceholder": "Een lokale beschrijving om weer te geven",
     "details": "Bijzonderheden",
     "displayNamePlaceholder": "Een localiseerbare naam om weer te geven",
@@ -1220,7 +1219,8 @@
       "defaultMapName": "enum_key_{{index}}",
       "defaultObjectPropertyName": "field_name_{{index}}",
       "defaultMapKeyName": "map_key_{{index}}",
-      "defaultMapValueName": "map_value_{{index}}"
+      "defaultMapValueName": "map_value_{{index}}",
+      "defaultPropertyName": "new_property_{{index}}"
     },
     "PropertyListItem": {
       "arrayItemLabel": "Items",
@@ -1232,7 +1232,8 @@
         "changeChildTypeLabelForEnum": "Type opsommingswaarde wijzigen",
         "editMetadataLabel": "Metagegevens bewerken"
       }
-    }
+    },
+    "noSelectionMessage": "Een model of relatie selecteren om details weer te geven"
   },
   "ErrorHandlingWrapper": {
     "errorMessage": "Foutmelding",

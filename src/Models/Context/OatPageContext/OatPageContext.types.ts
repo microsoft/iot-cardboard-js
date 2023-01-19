@@ -14,7 +14,10 @@ import {
 } from '../../../Pages/OATEditorPage/OATEditorPage.types';
 import { DTDLProperty } from '../../Classes/DTDL';
 import { IOatProjectData } from '../../../Pages/OATEditorPage/Internal/Classes/ProjectData';
-import { IOATFile } from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
+import {
+    IOATFile,
+    IOatPropertyEditorTabKey
+} from '../../../Pages/OATEditorPage/Internal/Classes/OatTypes';
 import { IDropdownOption } from '@fluentui/react';
 
 export interface IOatPageContextProviderProps {
@@ -79,6 +82,7 @@ export interface IOatPageContextState {
     ontologyFiles: IOATFile[];
     selection?: IOATSelection;
     templatesActive?: boolean;
+    selectedPropertyEditorTab: IOatPropertyEditorTabKey;
 }
 
 /**
@@ -126,6 +130,7 @@ export enum OatPageContextActionType {
 
     CLEAR_GRAPH_LAYOUT = 'CLEAR_GRAPH_LAYOUT',
     SET_CURRENT_PROJECT = 'SET_OAT_PROJECT',
+    SET_SELECTED_PROPERTY_EDITOR_TAB = 'SET_SELECTED_PROPERTY_EDITOR_TAB',
     /** models that should get changed on the graph */
     GRAPH_SET_MODELS_TO_SYNC = 'GRAPH_SET_MODELS_TO_SYNC',
     /** clear out the models that need to be reflected on the graph */
@@ -323,4 +328,10 @@ export type OatPageContextAction =
     | {
           type: OatPageContextActionType.UPDATE_MODEL_POSTIONS;
           payload: { models: IOATModelPosition[] };
+      }
+    | {
+          type: OatPageContextActionType.SET_SELECTED_PROPERTY_EDITOR_TAB;
+          payload: {
+              selectedTabKey: IOatPropertyEditorTabKey;
+          };
       };
